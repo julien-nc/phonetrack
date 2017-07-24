@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<info>
+    <id>gpsphonetracking</id>
+    <name>GpsPhoneTracking</name>
+    <description>
+# GpsPhoneTracking Owncloud application
+# GpsPhoneTracking Nextcloud application
+
+If you want to help to translate this app in your language, take the english=>french files in "l10n" directory as examples.
+
+This app is tested on Owncloud 9 with Firefox and Chromium.
+This app is tested on Nextcloud 11 and 12 with Firefox and Chromium.
+
+This app is under development.
+
+Link to Owncloud application website :
+
+Link to Nextcloud application website : https://apps.nextcloud.com/apps/gpsphonetracking
+
+## Donation
+
+I develop this app during my free time. You can make a donation to me on Paypal. [There is a donation link HERE](https://gitlab.com/eneiluj/gpsphonetracking-oc#donation) (you don't need a paypal account)
+
+## Install
+
+See the [AdminDoc](https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/admindoc) for more details.
+
+Put gpsphonetracking directory in the Nextcloud apps to install.
+Put gpsphonetracking directory in the Owncloud apps to install.
+There are several ways to do that :
+
+### Clone the git repository
+
+```
+cd /path/to/owncloud/apps
+git clone https://gitlab.com/eneiluj/gpsphonetracking-oc.git gpsphonetracking
+```
+
+### Download from https://apps.owncloud.com
+### Download from https://apps.nextcloud.com
+
+Extract gpsphonetracking archive you just downloaded from the website :
+```
+cd /path/to/owncloud/apps
+tar xvf gpsphonetracking-x.x.x.tar.gz
+```
+
+## Known issues
+
+Any feedback will be appreciated.
+
+    </description>
+    <licence>AGPL</licence>
+    <summary>Display phones position in real time</summary>
+    <author>Julien Veyssier</author>
+    <author>Slipeer</author>
+    <version>0.0.1</version>
+    <namespace>GpsPhoneTracking</namespace>
+    <documentation>
+        <user>https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/userdoc</user>
+        <admin>https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/admindoc</admin>
+        <developer>https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/devdoc</developer>
+    </documentation>
+    <category>tool</category>
+    <category>multimedia</category>
+    <website>https://gitlab.com/eneiluj/gpsphonetracking-oc</website>
+    <bugs>https://gitlab.com/eneiluj/gpsphonetracking-oc/issues</bugs>
+    <screenshot></screenshot>
+    <dependencies>
+        <database min-version="9.4">pgsql</database>
+        <database>sqlite</database>
+        <database min-version="5.5">mysql</database>
+        <php min-version="5.6"/>
+        <owncloud min-version="9.0" max-version="10.9" />
+        <nextcloud min-version="9.0" max-version="12.9"/>
+    </dependencies>
+</info>
