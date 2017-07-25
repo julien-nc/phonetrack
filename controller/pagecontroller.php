@@ -181,4 +181,130 @@ class PageController extends Controller {
         return $response;
     }
 
+    /**
+     * @NoAdminRequired
+     */
+    public function getSessions($name) {
+        $sessions = array();
+        // check if session name is not already used
+        $sqlget = 'SELECT name, token FROM *PREFIX*gpsphonetracking_sessions ';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $dbtoken = $row['token'];
+            array_push($sessions, array($dbname, $dbtoken));
+        }
+        $req->closeCursor();
+
+        $response = new DataResponse(
+            [
+                'sessions'=>$sessions
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function createSession($name) {
+        $token = '';
+        // check if session name is not already used
+        $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND name='.$this->db_quote_escape_string($name).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname === null) {
+            // determine token
+            $token = md5($this->userId.$name);
+
+            // insert
+            $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessions';
+            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token) ';
+            $sql .= 'VALUES (\''.$this->userId.'\',';
+            $sql .= $this->db_quote_escape_string($name).',';
+            $sql .= $this->db_quote_escape_string($token).');';
+            $req = $this->dbconnection->prepare($sql);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+                'token'=>$token
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteSession($name, $token) {
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND name='.$this->db_quote_escape_string($name).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            $sqldel = 'DELETE FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqldel .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' AND name=';
+            $sqldel .= $this->db_quote_escape_string($name).' AND token='.$this->db_quote_escape_string($token).';';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
 }

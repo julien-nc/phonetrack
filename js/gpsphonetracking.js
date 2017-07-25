@@ -699,6 +699,107 @@
         updateWaypointStyle('Pin, Blue');
     }
 
+    //////////////// SESSIONS ///////////////////
+
+    function createSession() {
+        var sessionName = $('#sessionnameinput').val();
+        if (!sessionName) {
+            OC.Notification.showTemporary(t('gpsphonetracking', 'Session name should not be empty'));
+            return;
+        }
+        var req = {
+            name: sessionName
+        };
+        var url = OC.generateUrl('/apps/gpsphonetracking/createSession');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                addSession(response.token, sessionName);
+            }
+            else if (response.done === 2) {
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Session name already used'));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to create session'));
+        });
+    }
+
+    function addSession(token, name) {
+        var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
+        divtxt = divtxt + '<h3>' + name + '</h3>';
+        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger URL') + ' :</label>';
+        divtxt = divtxt + '<input role="gpsloggerurl" type="text" value="plop"></input>'; 
+        divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
+            t('gpxmotion', 'Remove session') + '</button>';
+        divtxt = divtxt + '<button class="watchSession"><i class="fa fa-eye" aria-hidden="true"></i> ' +
+            t('gpxmotion', 'Watch this session') + '</button>';
+        divtxt = divtxt + '</div>';
+
+        $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true );
+    }
+    
+    function deleteSession(token, name) {
+        var div = $('div.session[token='+token+']');
+        console.log('del');
+
+        var req = {
+            name: name,
+            token: token
+        };
+        var url = OC.generateUrl('/apps/gpsphonetracking/deleteSession');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                console.log('DONE');
+                removeSession(div);
+            }
+            else if (response.done === 2) {
+                OC.Notification.showTemporary(t('gpsphonetracking', 'The session you want to delete does not exist'));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to delete session'));
+        });
+    }
+
+    function removeSession(div) {
+        div.fadeOut('slow', function() {
+            div.remove();
+        });
+    }
+
+    function getSessions() {
+        var req = {
+        };
+        var url = OC.generateUrl('/apps/gpsphonetracking/getSessions');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            var s;
+            console.log(response);
+            if (response.sessions.length > 0) {
+                for (s in response.sessions) {
+                    addSession(response.sessions[s][1], response.sessions[s][0]);
+                }
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to get sessions'));
+        });
+    }
+
     //////////////// MAIN /////////////////////
 
     $(document).ready(function() {
@@ -780,6 +881,18 @@
                 $('#optiontoggle').animate({'left': offset}, 'slow');
             }
         });
+
+        $('#newsession').click(function() {
+            createSession();
+        });
+
+        $('body').on('click','.removeSession', function(e) {
+            var token = $(this).parent().attr('token');
+            var name = $(this).parent().attr('name');
+            deleteSession(token, name);
+        });
+
+        getSessions();
 
     }
 

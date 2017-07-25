@@ -48,7 +48,18 @@ p($_['gpsphonetracking_version']);
     </div>
     <div style="clear:both"></div>
     <hr/>
+    <div id="newsessiondiv">
+        <label for="sessionnameinput">Session name :</label>
+        <input type="text" id="sessionnameinput"/>
+        <button id="newsession">
+            <i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Create session')); ?>
+        </button>
+    </div>
+    <hr/>
     <h3 id="ticv" class="sectiontitle"><?php p($l->t('Tracking sessions')); ?></h3>
+    <div id="sessions">
+    </div>
     <div id="loading"><p>
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         <?php p($l->t('loading positions')); ?>&nbsp;<b id="loadinpos"></b></p>

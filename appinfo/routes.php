@@ -20,6 +20,9 @@
 return [
     'routes' => [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+        ['name' => 'page#createSession', 'url' => '/createSession', 'verb' => 'POST'],
+        ['name' => 'page#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],
+        ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
         ['name' => 'utils#addTileServer', 'url' => '/addTileServer', 'verb' => 'POST'],
         ['name' => 'utils#deleteTileServer', 'url' => '/deleteTileServer', 'verb' => 'POST'],
         ['name' => 'utils#getOptionsValues', 'url' => '/getOptionsValues', 'verb' => 'POST'],
