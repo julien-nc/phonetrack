@@ -125,7 +125,7 @@ class PageController extends Controller {
 
     private function getUserTileServers($type){
         // custom tile servers management
-        $sqlts = 'SELECT servername, type, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution FROM *PREFIX*gpsphonetracking_version_tile_servers ';
+        $sqlts = 'SELECT servername, type, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution FROM *PREFIX*gpsphonetracking_tile_servers ';
         $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlts .= 'AND type='.$this->db_quote_escape_string($type).';';
         $req = $this->dbconnection->prepare($sqlts);
@@ -161,6 +161,7 @@ class PageController extends Controller {
         require_once('tileservers.php');
         $params = [
             'username'=>$this->userId,
+            'token'=>'',
 			'basetileservers'=>$baseTileServers,
 			'usertileservers'=>$tss,
 			'useroverlayservers'=>$oss,

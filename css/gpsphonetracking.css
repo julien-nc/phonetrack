@@ -18,22 +18,6 @@ div#map {
     width:100%;
 }
 
-div.trackcol{
-    width:100px;
-}
-
-div.durationcol{
-    max-width:50px;
-}
-
-#gpxtable a.permalink , #gpxtable a.csrtm , #gpxtable a.csrtms,
-#gpxtable a.editlink, #gpxtable a.motionviewlink, #gpxtable .deletetrack {
-    float: right;
-    font-size: 11px;
-    margin-left: 2px;
-    margin-right: 2px;
-}
-
 div#logo, div#logo img {
     height:80px;
 }
@@ -56,40 +40,37 @@ div#logo p{
     margin-bottom: 0px;
 }
 div#logo {
-    background-image: url('images/gpxpod.png');
+    background-image: url('images/gpsphonetracking.png');
     width: 65px;
     background-size: 65px 65px;
     background-repeat: no-repeat;
 }
+#optiontitle{
+    width:100%;
+    float:left;
+    cursor: pointer;
+}
 
+#optionscontent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 
-#optionbuttonsdiv,
-#lastlegend{
+#optionbuttonsdiv
+{
     float:right;
     display:block;
 }
 
-#removeelevation, #comparebutton, #optionbuttonsdiv{
+#optionbuttonsdiv{
     font-size: 11px;
 }
-#removeelevation {
-    width: 100%;
-}
-
-#optionbuttonsdiv{
-    max-width: 60%;
-}
 #optioncheckdiv{
-    max-width: 40%;
     font-size: 11px;
 }
 #optioncheckdiv .ui-spinner{
     width: 50px;
 }
-#tzselect{
-    max-width:100%;
-}
-
 #optioncheckdiv{
     float:left;
     display:block;
@@ -106,7 +87,7 @@ h3.sectiontitle{
     font-size: 16px;
     font-weight: bold;
 }
-div#gpxpodsettings h1, div#help h1{
+div#gpsphonetrackingsettings h1, div#help h1{
     /*margin-left:30px;*/
     text-align:center;
 }
@@ -129,73 +110,7 @@ h3 {
     height : 28px;
 }
 
-#filterlist li input{
-    margin-bottom: 10px;
-    width:100px;
-}
-
-#filterlist li b{
-    margin-bottom: 10px;
-}
-
-#filterlist li .ui-spinner {
-    height:28px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-}
-
-#clearfilter{
-    margin-left:10px;
-}
-.filterbutton{
-    float:right;
-}
-
-#filtertabtitle h1{
-    float:left;
-    margin-left:30px;
-}
-#filtertabtitle h3{
-    float:left;
-}
-
-#gpxtable{
-    word-wrap: break-word;
-    border-radius: 7px;
-}
-#gpxtable tr:first-child th:first-child
-{
-    border-top-left-radius: 7px;
-}
-#gpxtable tr:first-child th:last-child
-{
-    border-top-right-radius: 7px;
-}
-#gpxtable tr:last-child td:first-child
-{
-    border-bottom-left-radius: 7px;
-}
-#gpxtable tr:last-child td:last-child
-{
-    border-bottom-right-radius: 7px;
-}
-
-#gpxtable th, #gpxtable td {
-    border: 1px solid grey;
-}
-#gpxtable td {
-    background-color: white;
-}
-
-.activeArea{
-    position: absolute;
-    top: 10px;
-    left: 450px;
-    right: 10px;
-    bottom: 10px;
-}
-
-#gpxpodsettings{
+#gpsphonetrackingsettings{
     color:black;
 }
 .disclist{
@@ -206,7 +121,7 @@ h3 {
     margin-left:20px;
     list-style-type:circle;
 }
-#loading, #loadingmarkers, #deleting, #correcting {
+#loading {
     /*width: 330px;*/
     padding-left: 5px;
     /*height: 35px;*/
@@ -226,37 +141,16 @@ h3 {
     display:none;
     /*z-index: 1000;*/
 }
-#loading .fa, #loadingmarkers .fa, #deleting .fa, #correcting .fa {
+#loading .fa {
     font-size: 22px;
 }
 
-#loadingmarkers {
-    background-color: green;
-}
-
-#loading p, #loadingmarkers p, #deleting p, #correcting p{
+#loading p {
     padding: 6px 6px 6px 6px;
 }
 .clear {
     clear:both;
 }
-#nofolder {
-    font-size: 16px;
-    font-weight: bold;
-    color:red;
-}
-#nofoldertext ,#nofolder {
-    float:left;
-    clear:both;
-}
-#nofoldertext{
-    color:blue;
-}
-#subfolderselect, #tablecriteriasel {
-    max-width:200px;
-    text-overflow:ellipsis;
-}
-
 .spinning {
     -moz-animation:spin 0.7s linear infinite;
     -webkit-animation:spin 0.7s linear infinite;
@@ -283,67 +177,13 @@ h3 {
     color: green;
     text-decoration: underline;
 }
-#clean_results{
-    word-wrap:break-word;
-}
-#clean_results ul{
-    list-style-type:disc;
-}
-
-#gpxtable thead i.bigfa{
-    width: 100%;
-    text-align: center;
-    font-size:19px;
-}
-.permalink:link {
-    color: black;
-    text-decoration: underline;
-}
-.permalink:visited {
-    color: black;
-    text-decoration: underline;
-}
-.permalink:hover {
-    color: hotpink;
-    text-decoration: underline;
-}
-.permalink:active {
-    color: green;
-    text-decoration: underline;
-}
-#logofolder .permalink{
-    font-size:16px;
-}
-.popuptable{
-    font-size: 10px;
-    border-collapse: collapse;
-    word-wrap: break-word;
-    white-space: normal;
-    width: 250px;
-    margin: auto;
-}
-.popuptable td{
-    border: 1px solid black;
-    padding: 0px 5px 0px 5px;
-}
-.popuptable tr:nth-child(even){background-color: #f2f2f2;}
-.popuptable tr:hover {background-color: #ddd;}
-
-#linkinput {
-    width:98%;
-}
-#optiontitle{
-    width:100%;
-    float:left;
-    cursor: pointer;
-}
 
 /* adapt right leaflet controls when sidebar pushes them */
 @media screen and (max-width: 767px) {
     .leaflet-right { right:40px; }
 }
 
-div#options input[type=checkbox], table#gpxtable input[type=checkbox] {
+div#options input[type=checkbox] {
     /* Double-sized Checkboxes */
     -ms-transform: scale(1.5); /* IE */
     -moz-transform: scale(1.5); /* FF */
@@ -356,353 +196,10 @@ div#options input {
     padding: 5px;
     min-height: 0px;
 }
-#distmin, #distmax, #cegmin, #cegmax {
-    padding: 1px 1px;
-    min-height: 0px;
-}
 div#options button {
     padding: 7px 4px;
 }
 
-.leaflet-div-icon2
-{
-    background-image: url('images/pinblue.png');
-    width: 21px !important;
-    height: 30px !important;
-}
-
-.leaflet-marker-red
-{
-    background-image: url('images/marker-icon-red.png');
-    width: 25px !important;
-    height: 41px !important;
-}
-
-.leaflet-marker-blue
-{
-    background-image: url('images/marker-icon.png') !important;
-    background-repeat: no-repeat !important;
-    width: 25px !important;
-    height: 41px !important;
-}
-.marker-select{
-    background: url('images/marker-icon.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-    background-size: 12px 20px;
-}
-.dot-select{
-    background: url('images/symbols/dot.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.dot-select,
-.flag-blue-select,
-.flag-red-select,
-.flag-blue-select,
-.flag-red-select,
-.flag-green-select,
-.diamond-blue-select,
-.diamond-green-select,
-.diamond-red-select,
-.block-blue-select,
-.block-green-select,
-.block-red-select,
-.pin-blue-select,
-.pin-green-select,
-.pin-red-select,
-.medical-select,
-.residence-select,
-.drinking-water-select,
-.campground-select,
-.hike-select,
-.bike-trail-select,
-.bar-select,
-.skullcross-select,
-.geocache-select,
-.geocache-open-select,
-.contact-alien-select,
-.contact-bigears-select,
-.contact-female3-select,
-.contact-cat-select,
-.contact-dog-select{
-    background-size: contain;
-}
-
-.leaflet-marker-red
-{
-    background-image: url('images/marker-icon-red.png') !important;
-    background-repeat: no-repeat !important;
-    width: 25px !important;
-    height: 41px !important;
-}
-.flag-blue, .flag-red, .flag-green{
-    background-repeat: no-repeat !important;
-    width: 18px !important;
-    height: 25px !important;
-}
-.flag-blue{
-    background-image: url('images/symbols/flag-blue.png') !important;
-}
-.flag-blue-select{
-    background: url('images/symbols/flag-blue.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.flag-red{
-    background-image: url('images/symbols/flag-red.png') !important;
-}
-.flag-red-select{
-    background: url('images/symbols/flag-red.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.flag-green{
-    background-image: url('images/symbols/flag-green.png') !important;
-}
-.flag-green-select{
-    background: url('images/symbols/flag-green.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.diamond-blue, .diamond-red, .diamond-green{
-    background-size: 18px 18px !important;
-    background-repeat: no-repeat !important;
-    width: 18px !important;
-    height: 18px !important;
-}
-.diamond-blue{
-    background-image: url('images/symbols/diamond-blue.png') !important;
-}
-.diamond-blue-select{
-    background: url('images/symbols/diamond-blue.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.diamond-green{
-    background-image: url('images/symbols/diamond-green.png') !important;
-}
-.diamond-green-select{
-    background: url('images/symbols/diamond-green.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.diamond-red{
-    background-image: url('images/symbols/diamond-red.png') !important;
-}
-.diamond-red-select{
-    background: url('images/symbols/diamond-red.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.block-blue, .block-red, .block-green{
-    background-size: 16px 16px !important;
-    background-repeat: no-repeat !important;
-    width: 16px !important;
-    height: 16px !important;
-}
-.block-blue{
-    background-image: url('images/symbols/block-blue.png') !important;
-}
-.block-blue-select{
-    background: url('images/symbols/block-blue.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.block-green{
-    background-image: url('images/symbols/block-green.png') !important;
-}
-.block-green-select{
-    background: url('images/symbols/block-green.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.block-red{
-    background-image: url('images/symbols/block-red.png') !important;
-}
-.block-red-select{
-    background: url('images/symbols/block-red.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.pin-blue, .pin-red, .pin-green{
-    background-size: 21px 30px !important;
-    background-repeat: no-repeat !important;
-    width: 21px !important;
-    height: 30px !important;
-}
-.pin-blue{
-    background-image: url('images/symbols/pin-blue.png') !important;
-}
-.pin-blue-select{
-    background: url('images/symbols/pin-blue.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.pin-green{
-    background-image: url('images/symbols/pin-green.png') !important;
-}
-.pin-green-select{
-    background: url('images/symbols/pin-green.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.pin-red{
-    background-image: url('images/symbols/pin-red.png') !important;
-}
-.pin-red-select{
-    background: url('images/symbols/pin-red.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.medical{
-    background-image: url('images/symbols/medical.png') !important;
-    background-size: 26px 22px !important;
-    background-repeat: no-repeat !important;
-    width: 26px !important;
-    height: 22px !important;
-}
-.medical-select{
-    background: url('images/symbols/medical.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.residence{
-    background-image: url('images/symbols/residence.png') !important;
-    background-size: 24px 24px !important;
-    background-repeat: no-repeat !important;
-    width: 24px !important;
-    height: 24px !important;
-}
-.residence-select{
-    background: url('images/symbols/residence.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.drinking-water{
-    background-image: url('images/symbols/drinking-water.png') !important;
-    background-size: 24px 24px !important;
-    background-repeat: no-repeat !important;
-    width: 24px !important;
-    height: 24px !important;
-}
-.drinking-water-select{
-    background: url('images/symbols/drinking-water.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.campground{
-    background-image: url('images/symbols/campground.png') !important;
-    background-size: 24px 24px !important;
-    background-repeat: no-repeat !important;
-    width: 24px !important;
-    height: 24px !important;
-}
-.campground-select{
-    background: url('images/symbols/campground.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.hike{
-    background-image: url('images/symbols/hike.png') !important;
-    background-size: 24px 24px !important;
-    background-repeat: no-repeat !important;
-    width: 24px !important;
-    height: 24px !important;
-}
-.hike-select{
-    background: url('images/symbols/hike.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.bike-trail{
-    background-image: url('images/symbols/bike-trail.png') !important;
-    background-size: 24px 24px !important;
-    background-repeat: no-repeat !important;
-    width: 24px !important;
-    height: 24px !important;
-}
-.bike-trail-select{
-    background: url('images/symbols/bike-trail.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.bar{
-    background-image: url('images/symbols/bar.png') !important;
-    background-size: 20px 24px !important;
-    background-repeat: no-repeat !important;
-    width: 20px !important;
-    height: 24px !important;
-}
-.bar-select{
-    background: url('images/symbols/bar.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.skullcross{
-    background-image: url('images/symbols/skullcross.png') !important;
-    background-size: 25px 25px !important;
-    background-repeat: no-repeat !important;
-    width: 25px !important;
-    height: 25px !important;
-}
-.skullcross-select{
-    background: url('images/symbols/skullcross.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.geocache{
-    background-image: url('images/symbols/geocache.png') !important;
-    background-size: 22px 20px !important;
-    background-repeat: no-repeat !important;
-    width: 22px !important;
-    height: 20px !important;
-}
-.geocache-select{
-    background: url('images/symbols/geocache.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.geocache-open{
-    background-image: url('images/symbols/geocache-open.png') !important;
-    background-size: 22px 20px !important;
-    background-repeat: no-repeat !important;
-    width: 22px !important;
-    height: 20px !important;
-}
-.geocache-open-select{
-    background: url('images/symbols/geocache-open.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-
-.contact-alien, .contact-bigears, .contact-female3, .contact-cat, .contact-dog, .unknown{
-    background-size: 24px 24px !important;
-    background-repeat: no-repeat !important;
-    width: 24px !important;
-    height: 24px !important;
-}
-.contact-alien{
-    background-image: url('images/symbols/contact-alien.png') !important;
-}
-.unknown{
-    background-image: url('images/symbols/unknown.png') !important;
-}
-.contact-alien-select{
-    background: url('images/symbols/contact-alien.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.contact-bigears{
-    background-image: url('images/symbols/contact-bigears.png') !important;
-}
-.contact-bigears-select{
-    background: url('images/symbols/contact-bigears.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.contact-female3{
-    background-image: url('images/symbols/contact-female3.png') !important;
-}
-.contact-female3-select{
-    background: url('images/symbols/contact-female3.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.contact-cat{
-    background-image: url('images/symbols/contact-cat.png') !important;
-}
-.contact-cat-select{
-    background: url('images/symbols/contact-cat.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.contact-dog{
-    background-image: url('images/symbols/contact-dog.png') !important;
-}
-.contact-dog-select{
-    background: url('images/symbols/contact-dog.png') no-repeat right 2px center rgba(240, 240, 240, 0.90);
-}
-.popupImage{
-    width: 60px;
-    height: 60px;
-}
-.picPopup{
-    font-size:9px;
-}
-
-.leaflet-popup-content{
-    margin: 4px 4px;
-}
-
-.smallRedMarker{
-    background: rgba(255,0,0,1);
-    border: 1px solid black;
-}
-.trackNamesList{
-    list-style-type:disc;
-    text-align: center;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-#lineweight{
-    width: 32px;
-    padding: 2px 2px;
-}
-table#gpxtable td i.fa-spinner{
-    font-size: 16px;
-}
-h3.popupTitle{
-    text-align:center;
-    margin-top:14px;
-}
-td.colortd{
-    cursor: pointer;
-}
 #optiontoggle{
     position: relative;
 }
@@ -713,26 +210,12 @@ td.colortd{
 .smallbutton {
     font-size:10px;
 }
-#tablebuttons button {
-    min-height: 0px;
-    padding: 3px 3px;
-}
 .leaflet-control-layers-selector, button.ui-button {
     min-height: 0px;
 }
 div#logofolder {
     display: grid;
     grid-template: 50% 50% / 80px 1fr 2fr;
-}
-label[for=subfolderselect] {
-    grid-column: 2;
-    grid-row: 1/3;
-}
-#subfolderselect {
-    grid-column: 3;
-    grid-row: 1/3;
-    margin-top: auto;
-    margin-bottom: auto;
 }
 div#logo{
     grid-column: 1;
@@ -743,42 +226,6 @@ div#logofolder label{
     text-align: right;
     margin-top: auto;
     margin-bottom: auto;
-}
-#pubtitle {
-    grid-column: 2/4;
-    grid-row: 1/3;
-}
-#tablebuttons, #tablecriteria {
-    display: grid;
-    grid-template: 50% 50% / 1fr 1fr;
-}
-label[for=tablecriteriasel] {
-    grid-column: 1;
-    grid-row: 1/3;
-    margin-top: auto;
-    margin-bottom: auto;
-    text-align: center;
-}
-#tablecriteriasel {
-    grid-column: 2;
-    grid-row: 1/3;
-    width: 100%;
-}
-#selectall {
-    grid-column: 1;
-    grid-row: 1;
-}
-#deselectallv {
-    grid-column: 2;
-    grid-row: 2;
-}
-#deselectall {
-    grid-column: 2;
-    grid-row: 1;
-}
-#deleteselected {
-    grid-column: 1;
-    grid-row: 2;
 }
 #optionbuttonsdiv {
     display: grid;
@@ -791,12 +238,6 @@ label[for=tablecriteriasel] {
 #optionbuttonsdiv label{
     margin-top: auto;
     margin-bottom: auto;
-}
-#tzselect {
-    grid-column: 1/3;
-}
-#comparebutton {
-    grid-column: 1/3;
 }
 #lastlegend {
     grid-column: 1/3;
@@ -827,9 +268,6 @@ label[for=tablecriteriasel] {
 .metadatalink {
     display: block;
     text-align: center;
-}
-.getGpx {
-    word-wrap: break-word;
 }
 #tileserverdiv, #tilewmsserverdiv,
 #overlayserverdiv, #overlaywmsserverdiv {

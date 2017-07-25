@@ -29,6 +29,13 @@ p($_['gpsphonetracking_version']);
         </div>
         <div style="clear:both"></div>
         <div id="optionscontent" style="display:none;">
+        <div id="optioncheckdiv">
+            <div>
+                <input id="displayclusters" type="checkbox" checked="checked">
+                <label for="displayclusters"><i class="fa fa-map-marker" aria-hidden="true" style="color:blue;"></i>
+                <?php p($l->t('Display markers'));?></label>
+            </div>
+        </div>
         <div id="optionbuttonsdiv">
             <label for="trackwaypointdisplayselect">* <?php p($l->t('Draw')); ?> :</label>
             <select id="trackwaypointdisplayselect">
@@ -37,25 +44,14 @@ p($_['gpsphonetracking_version']);
             <option value="w"><?php p($l->t('waypoints')); ?></option>
             </select>
         </div>
-        <div id="optioncheckdiv">
-            <div>
-                <input id="displayclusters" type="checkbox" checked="checked">
-                <label for="displayclusters"><i class="fa fa-map-marker" aria-hidden="true" style="color:blue;"></i>
-                <?php p($l->t('Display markers'));?></label>
-            </div>
-        </div>
         </div>
     </div>
     <div style="clear:both"></div>
     <hr/>
-    <h3 id="ticv" class="sectiontitle"><?php p($l->t('Tracks from current view')); ?></h3>
+    <h3 id="ticv" class="sectiontitle"><?php p($l->t('Tracking sessions')); ?></h3>
     <div id="loading"><p>
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         <?php p($l->t('loading positions')); ?>&nbsp;<b id="loadinpos"></b></p>
-    </div>
-    <div id="correcting"><p>
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-        <?php p($l->t('correcting elevations')); ?>&nbsp;</p>
     </div>
 <?php
 

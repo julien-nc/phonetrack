@@ -18,6 +18,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
 use OCA\GpsPhoneTracking\Controller\PageController;
+use OCA\GpsPhoneTracking\Controller\UtilsController;
 
 /**
  * Class Application
@@ -52,6 +53,22 @@ class Application extends App {
                 );
             }
         );
+
+		$container->registerService(
+            'UtilsController', function (IAppContainer $c) {
+                return new UtilsController(
+                    $c->query('AppName'),
+                    $c->query('Request'),
+                    $c->query('UserId'),
+                    //$c->getServer()->getUserFolder($c->query('UserId')),
+                    //$c->query('OCP\IConfig'),
+                    $c->query('ServerContainer')->getUserFolder($c->query('UserId')),
+                    $c->query('ServerContainer')->getConfig(),
+                    $c->getServer()->getAppManager()
+                );
+            }
+        );
+
     }
 
 }

@@ -31,7 +31,7 @@ git clone https://gitlab.com/eneiluj/gpsphonetracking-oc.git gpsphonetracking
 
 ### Download from https://apps.owncloud.com or https://apps.nextcloud.com
 
-Extract gpxpod archive you just downloaded from the website :
+Extract gpsphonetracking archive you just downloaded from the website :
 ```
 cd /path/to/owncloud/apps
 tar xvf gpsphonetracking-x.x.x.tar.gz
