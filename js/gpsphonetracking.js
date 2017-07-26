@@ -28,9 +28,9 @@
         baseLayers: null,
         overlayLayers: null,
         restoredTileLayer: null,
-        // layers currently displayed, indexed by track name
-        deviceLayers: {},
-        currentSession: null,
+        // indexed by session name, contains dict indexed by deviceid
+        sessionLineLayers: {},
+        sessionMarkerLayers: {},
 		currentTimer: null,
         lastTime: {}
     };
@@ -878,9 +878,21 @@
     }
 
     function displayNewPoints(sessions) {
-        var s, i, d, entry, device, timestamp;
+        var s, i, d, entry, device, timestamp, mom;
+        var perm = $('#showtime').is(':checked');
         for (s in sessions) {
+            if (! gpsphonetracking.sessionLineLayers.hasOwnProperty(s)) {
+                gpsphonetracking.sessionLineLayers[s] = {};
+            }
+            if (! gpsphonetracking.sessionMarkerLayers.hasOwnProperty(s)) {
+                gpsphonetracking.sessionMarkerLayers[s] = {};
+            }
+            // for all devices
             for (d in sessions[s]) {
+                // add line and marker if necessary
+                if (! gpsphonetracking.sessionLineLayers[s].hasOwnProperty(d)) {
+                    gpsphonetracking.sessionLineLayers[s][d] = L.polyline([]);
+                }
                 // for all new entries of this session
                 for (i in sessions[s][d]) {
                     entry = sessions[s][d][i];
@@ -894,7 +906,88 @@
                     {
                         gpsphonetracking.lastTime[s][device] = timestamp;
                     }
+                    // increment lines
+                    gpsphonetracking.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon]);
                 }
+                // move/create marker
+                // entry is the last point for the current device
+                if (! gpsphonetracking.sessionMarkerLayers[s].hasOwnProperty(d)) {
+                    gpsphonetracking.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon]);
+                }
+                else {
+                    gpsphonetracking.sessionMarkerLayers[s][d].setLatLng([entry.lat, entry.lon]);
+                }
+                mom = moment.unix(timestamp);
+                gpsphonetracking.sessionMarkerLayers[s][d].unbindTooltip();
+                gpsphonetracking.sessionMarkerLayers[s][d].bindTooltip(mom.format('YYYY-MM-DD HH:mm:ss (Z)'), {permanent: perm});
+            }
+        }
+        // in case user click is between ajax request and response
+        showHideSelectedSessions();
+    }
+
+    function showHideSelectedSessions() {
+        var sessionName, d;
+        var displayedMarkers = [];
+        var viewLines = $('#viewmove').is(':checked');
+        $('.watchSession').each(function() {
+            sessionName = $(this).attr('sessionname');
+            if ($(this).is(':checked')) {
+                for (d in gpsphonetracking.sessionLineLayers[sessionName]) {
+                    if (viewLines) {
+                        if (!gpsphonetracking.map.hasLayer(gpsphonetracking.sessionLineLayers[sessionName][d])) {
+                            gpsphonetracking.map.addLayer(gpsphonetracking.sessionLineLayers[sessionName][d]);
+                        }
+                    }
+                    else {
+                        if (gpsphonetracking.map.hasLayer(gpsphonetracking.sessionLineLayers[sessionName][d])) {
+                            gpsphonetracking.map.removeLayer(gpsphonetracking.sessionLineLayers[sessionName][d]);
+                        }
+                    }
+                }
+                for (d in gpsphonetracking.sessionMarkerLayers[sessionName]) {
+                    displayedMarkers.push(gpsphonetracking.sessionMarkerLayers[sessionName][d].getLatLng());
+                    if (!gpsphonetracking.map.hasLayer(gpsphonetracking.sessionMarkerLayers[sessionName][d])) {
+                        gpsphonetracking.map.addLayer(gpsphonetracking.sessionMarkerLayers[sessionName][d]);
+                    }
+                }
+            }
+            else {
+                if (gpsphonetracking.sessionLineLayers.hasOwnProperty(sessionName)) {
+                    for (d in gpsphonetracking.sessionLineLayers[sessionName]) {
+                        if (gpsphonetracking.map.hasLayer(gpsphonetracking.sessionLineLayers[sessionName][d])) {
+                            gpsphonetracking.map.removeLayer(gpsphonetracking.sessionLineLayers[sessionName][d]);
+                        }
+                    }
+                }
+                if (gpsphonetracking.sessionMarkerLayers.hasOwnProperty(sessionName)) {
+                    for (d in gpsphonetracking.sessionMarkerLayers[sessionName]) {
+                        if (gpsphonetracking.map.hasLayer(gpsphonetracking.sessionMarkerLayers[sessionName][d])) {
+                            gpsphonetracking.map.removeLayer(gpsphonetracking.sessionMarkerLayers[sessionName][d]);
+                        }
+                    }
+                }
+            }
+
+            // ZOOM
+            if ($('#autozoom').is(':checked') && displayedMarkers.length > 0) {
+                gpsphonetracking.map.fitBounds(displayedMarkers,
+                    {animate: true, paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
+                );
+            }
+
+        });
+    }
+
+    function changeTooltipStyle() {
+        var perm = $('#showtime').is(':checked');
+        var s, d, m, t;
+        for (s in gpsphonetracking.sessionMarkerLayers) {
+            for (d in gpsphonetracking.sessionMarkerLayers[s]) {
+                m = gpsphonetracking.sessionMarkerLayers[s][d];
+                t = m.getTooltip();
+                m.unbindTooltip();
+                m.bindTooltip(t, {permanent: perm});
             }
         }
     }
@@ -1001,6 +1094,18 @@
             var token = $(this).parent().attr('token');
             var name = $(this).parent().attr('name');
             deleteSession(token, name);
+        });
+
+        $('body').on('click','.watchSession', function(e) {
+            showHideSelectedSessions();
+        });
+
+        $('#showtime').click(function() {
+            changeTooltipStyle();
+        });
+
+        $('#viewmove').click(function() {
+            showHideSelectedSessions();
         });
 
         getSessions();
