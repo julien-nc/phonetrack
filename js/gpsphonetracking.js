@@ -873,21 +873,26 @@
             sessionsToWatch.push([token, name, lastTimes]);
         });
 
-        var req = {
-            sessions: sessionsToWatch
-        };
-        var url = OC.generateUrl('/apps/gpsphonetracking/track');
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: req,
-            async: true
-        }).done(function (response) {
-            displayNewPoints(response.sessions);
-        }).always(function() {
-        }).fail(function() {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to refresh sessions'));
-        });
+        if (sessionsToWatch.length > 0) {
+            var req = {
+                sessions: sessionsToWatch
+            };
+            var url = OC.generateUrl('/apps/gpsphonetracking/track');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                displayNewPoints(response.sessions);
+            }).always(function() {
+            }).fail(function() {
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to refresh sessions'));
+            });
+        }
+        else {
+            showHideSelectedSessions();
+        }
 
         // launch refresh again
         var updateinterval = parseInt($('#updateinterval').val()) * 1000;

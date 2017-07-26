@@ -53,12 +53,6 @@ p($_['gpsphonetracking_version']);
             </div>
         </div>
         <div id="optionbuttonsdiv">
-            <label for="trackwaypointdisplayselect">* <?php p($l->t('Draw')); ?> :</label>
-            <select id="trackwaypointdisplayselect">
-            <option value="tw" selected="selected"><?php p($l->t('track+waypoints')); ?></option>
-            <option value="t"><?php p($l->t('track')); ?></option>
-            <option value="w"><?php p($l->t('waypoints')); ?></option>
-            </select>
         </div>
         </div>
     </div>
