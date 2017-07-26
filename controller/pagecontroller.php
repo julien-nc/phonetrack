@@ -384,21 +384,46 @@ class PageController extends Controller {
 
             // session exists
             if ($dbtoken !== null) {
-                $result[$name] = array();
-
-                $sqlget = 'SELECT * FROM *PREFIX*gpsphonetracking_sessionpoints ';
-                $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastTime).' ';
-                $req = $this->dbconnection->prepare($sqlget);
+                // get list of devices
+                $devices = array();
+                $sqldev = 'SELECT deviceid FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqldev .= 'GROUP BY deviceid;';
+                $req = $this->dbconnection->prepare($sqldev);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    $entry = array();
-                    foreach ($row as $k => $v) {
-                        $entry[$k] = $v;
-                    }
-                    array_push($result[$name], $entry);
+                    array_push($devices, $row['deviceid']);
                 }
                 $req->closeCursor();
+
+                // get the coords for each device
+                $result[$name] = array();
+
+                foreach ($devices as $devname) {
+                    $resultDevArray = array();
+                    $lastDeviceTime = 0;
+                    if (array_key_exists('d'.$devname, $lastTime)) {
+                        $lastDeviceTime = $lastTime['d'.$devname];
+                    }
+
+                    $sqlget = 'SELECT * FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                    $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                    $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
+                    $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
+                    $req = $this->dbconnection->prepare($sqlget);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $entry = array();
+                        foreach ($row as $k => $v) {
+                            $entry[$k] = $v;
+                        }
+                        array_push($resultDevArray, $entry);
+                    }
+                    $req->closeCursor();
+                    if (count($resultDevArray) > 0) {
+                        $result[$name][$devname] = $resultDevArray;
+                    }
+                }
             }
         }
 

@@ -850,8 +850,8 @@
         $('.watchSession:checked').each(function() {
             var token = $(this).attr('token');
             var name = $(this).attr('sessionname');
-            var lastTime = gpsphonetracking.lastTime[name] || 0;
-            sessionsToWatch.push([token, name, lastTime]);
+            var lastTimes = gpsphonetracking.lastTime[name] || {};
+            sessionsToWatch.push([token, name, lastTimes]);
         });
 
         var req = {
@@ -864,7 +864,6 @@
             data: req,
             async: true
         }).done(function (response) {
-            console.log(response.sessions);
             displayNewPoints(response.sessions);
         }).always(function() {
         }).fail(function() {
@@ -879,15 +878,22 @@
     }
 
     function displayNewPoints(sessions) {
-        var s, i, entry, timestamp;
+        var s, i, d, entry, device, timestamp;
         for (s in sessions) {
-            // for all new entries of this session
-            for (i = 0; i < sessions[s].length; i++) {
-                entry = sessions[s][i];
-                timestamp = parseInt(entry.timestamp);
-                if ((!gpsphonetracking.lastTime.hasOwnProperty(s)) || timestamp > gpsphonetracking.lastTime[s]) {
-                    gpsphonetracking.lastTime[s] = timestamp;
-                    console.log('lala : '+timestamp);
+            for (d in sessions[s]) {
+                // for all new entries of this session
+                for (i in sessions[s][d]) {
+                    entry = sessions[s][d][i];
+                    timestamp = parseInt(entry.timestamp);
+                    device = 'd' + entry.deviceid;
+                    if (!gpsphonetracking.lastTime.hasOwnProperty(s)) {
+                        gpsphonetracking.lastTime[s] = {};
+                    }
+                    if ((!gpsphonetracking.lastTime[s].hasOwnProperty(device)) ||
+                        timestamp > gpsphonetracking.lastTime[s][device])
+                    {
+                        gpsphonetracking.lastTime[s][device] = timestamp;
+                    }
                 }
             }
         }
