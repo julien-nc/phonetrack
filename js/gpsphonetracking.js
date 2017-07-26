@@ -662,12 +662,18 @@
             optionsValues = response.values;
             optionsValues = $.parseJSON(optionsValues);
             if (optionsValues) {
-                //if (optionsValues.tooltipstyle !== undefined) {
-                //    $('#tooltipstyleselect').val(optionsValues.tooltipstyle);
-                //}
-                //if (optionsValues.displayclusters !== undefined) {
-                //    $('#displayclusters').prop('checked', optionsValues.displayclusters);
-                //}
+                if (optionsValues.updateinterval !== undefined) {
+                    $('#updateinterval').val(optionsValues.updateinterval);
+                }
+                if (optionsValues.showtime !== undefined) {
+                    $('#showtime').prop('checked', optionsValues.showtime);
+                }
+                if (optionsValues.autozoom !== undefined) {
+                    $('#autozoom').prop('checked', optionsValues.autozoom);
+                }
+                if (optionsValues.viewmove !== undefined) {
+                    $('#viewmove').prop('checked', optionsValues.viewmove);
+                }
                 if (optionsValues.tilelayer !== undefined) {
                     gpsphonetracking.restoredTileLayer = optionsValues.tilelayer;
                 }
@@ -686,8 +692,10 @@
 
     function saveOptions() {
         var optionsValues = {};
-        //optionsValues.igctrack = $('#igctrackselect').val();
-        //optionsValues.arrow = $('#arrowcheck').is(':checked');
+        optionsValues.updateinterval = $('#updateinterval').val();
+        optionsValues.viewmove = $('#viewmove').is(':checked');
+        optionsValues.autozoom = $('#autozoom').is(':checked');
+        optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.tilelayer = gpsphonetracking.activeLayers.getActiveBaseLayer().name;
         //alert('to save : '+JSON.stringify(optionsValues));
 
@@ -1110,12 +1118,30 @@
             showHideSelectedSessions();
         });
 
+        $('#autozoom').click(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
         $('#showtime').click(function() {
             changeTooltipStyle();
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('#viewmove').click(function() {
             showHideSelectedSessions();
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
+        $('body').on('change', '#updateinterval', function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         getSessions();
