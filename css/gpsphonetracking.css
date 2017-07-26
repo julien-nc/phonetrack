@@ -313,3 +313,13 @@ div.session label,
     display: grid;
     grid-template-columns: 90% 10%;
 }
+.numberMarker, .numberBeginMarker {
+    text-align: center;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50%;
+    line-height:12px;
+}
+.numberMarker {
+    background-color: rgba(0, 255, 0, 0.6);
+}

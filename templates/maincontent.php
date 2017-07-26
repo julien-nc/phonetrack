@@ -39,13 +39,13 @@ p($_['gpsphonetracking_version']);
                 <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('View movement lines'));?></label>
                 <br/>
-                <input id="showtime" type="checkbox" checked="checked"/>
+                <input id="showtime" type="checkbox"/>
                 <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('Show time tooltips'));?></label>
                 <br/>
                 <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('Refresh each (sec)'));?></label>
-                <input id="updateinterval" value="10"/>
+                <input id="updateinterval" value="5"/>
             </div>
         </div>
         <div id="optionbuttonsdiv">

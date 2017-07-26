@@ -35,6 +35,8 @@
         lastTime: {}
     };
 
+    var offset = L.point(-7, 0);
+
     var hoverStyle = {
         weight: 12,
         opacity: 0.7,
@@ -878,7 +880,7 @@
     }
 
     function displayNewPoints(sessions) {
-        var s, i, d, entry, device, timestamp, mom;
+        var s, i, d, entry, device, timestamp, mom, icon;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
             if (! gpsphonetracking.sessionLineLayers.hasOwnProperty(s)) {
@@ -912,14 +914,22 @@
                 // move/create marker
                 // entry is the last point for the current device
                 if (! gpsphonetracking.sessionMarkerLayers[s].hasOwnProperty(d)) {
-                    gpsphonetracking.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon]);
+                    icon = L.divIcon({
+                        iconAnchor: [6, 6],
+                        className: 'numberMarker',
+                        html: '<b>' + d + '</b>'
+                    });
+
+                    gpsphonetracking.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon], {icon: icon});
                 }
                 else {
                     gpsphonetracking.sessionMarkerLayers[s][d].setLatLng([entry.lat, entry.lon]);
                 }
                 mom = moment.unix(timestamp);
                 gpsphonetracking.sessionMarkerLayers[s][d].unbindTooltip();
-                gpsphonetracking.sessionMarkerLayers[s][d].bindTooltip(mom.format('YYYY-MM-DD HH:mm:ss (Z)'), {permanent: perm});
+                gpsphonetracking.sessionMarkerLayers[s][d].bindTooltip(
+                    mom.format('YYYY-MM-DD HH:mm:ss (Z)'), {permanent: perm, offset: offset, opacity: 0.6}
+                );
             }
         }
         // in case user click is between ajax request and response
@@ -987,7 +997,7 @@
                 m = gpsphonetracking.sessionMarkerLayers[s][d];
                 t = m.getTooltip();
                 m.unbindTooltip();
-                m.bindTooltip(t, {permanent: perm});
+                m.bindTooltip(t, {permanent: perm, offset: offset, opacity: 0.6});
             }
         }
     }
