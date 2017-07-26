@@ -486,7 +486,7 @@
     //////////////// PUBLIC DIR/FILE /////////////////////
 
     function pageIsPublic() {
-        return (document.URL.indexOf('/live') !== -1);
+        return (document.URL.indexOf('/track') !== -1);
     }
 
     //////////////// USER TILE SERVERS /////////////////////
@@ -730,10 +730,35 @@
     }
 
     function addSession(token, name) {
+        var gpsloggerurl = OC.generateUrl('/apps/gpsphonetracking/log?');
+        var gpsloggerurlparams = {
+            sessionid: token,
+            deviceid: '1'
+        };
+        gpsloggerurl = gpsloggerurl +
+            'lat=%LAT&' +
+            'lon=%LON&' +
+            'sat=%SAT&' +
+            'alt=%ALT&' +
+            'prec=%ACC&' +
+            'time=%TIMESTAMP&' +
+            'bat=%BATT&' +
+            $.param(gpsloggerurlparams);
+        gpsloggerurl = window.location.origin + gpsloggerurl;
+
+        var publicurl = OC.generateUrl('/apps/gpsphonetracking/track?');
+        var publicurlparams = {
+            sessionid: token
+        };
+        publicurl = publicurl + $.param(publicurlparams);
+        publicurl = window.location.origin + publicurl;
+
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
         divtxt = divtxt + '<h3>' + name + '</h3>';
         divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger URL') + ' :</label>';
-        divtxt = divtxt + '<input role="gpsloggerurl" type="text" value="plop"></input>'; 
+        divtxt = divtxt + '<input role="gpsloggerurl" type="text" value="' + gpsloggerurl + '"></input>'; 
+        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'Public URL') + ' :</label>';
+        divtxt = divtxt + '<input role="publicurl" type="text" value="' + publicurl + '"></input>'; 
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
             t('gpxmotion', 'Remove session') + '</button>';
         divtxt = divtxt + '<button class="watchSession"><i class="fa fa-eye" aria-hidden="true"></i> ' +
@@ -745,7 +770,6 @@
     
     function deleteSession(token, name) {
         var div = $('div.session[token='+token+']');
-        console.log('del');
 
         var req = {
             name: name,
@@ -759,7 +783,6 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                console.log('DONE');
                 removeSession(div);
             }
             else if (response.done === 2) {
@@ -788,7 +811,6 @@
             async: true
         }).done(function (response) {
             var s;
-            console.log(response);
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
                     addSession(response.sessions[s][1], response.sessions[s][0]);

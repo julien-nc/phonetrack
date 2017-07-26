@@ -289,6 +289,12 @@ class PageController extends Controller {
             $req->execute();
             $req->closeCursor();
 
+            $sqldel = 'DELETE FROM *PREFIX*gpsphonetracking_sessionpoints ';
+            $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).';';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
             $ok = 1;
         }
         else {
@@ -306,5 +312,50 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    /**
+     * Ajax gpx retrieval
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     **/
+    public function log() {
+        if (isset($_GET['sessionid']) &&
+            isset($_GET['deviceid']) &&
+            isset($_GET['lat']) &&
+            isset($_GET['lon']) &&
+            isset($_GET['time'])
+        ) {
+            // check if session exists
+            $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($_GET['sessionid']).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbname = null;
+            while ($row = $req->fetch()){
+                $dbname = $row['name'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbname !== null) {
+                $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessionpoints';
+                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($_GET['sessionid']).',';
+                $sql .= $this->db_quote_escape_string($_GET['deviceid']).',';
+                $sql .= $this->db_quote_escape_string($_GET['lat']).',';
+                $sql .= $this->db_quote_escape_string($_GET['lon']).',';
+                $sql .= $this->db_quote_escape_string($_GET['time']).',';
+                $sql .= $this->db_quote_escape_string($_GET['prec']).',';
+                $sql .= $this->db_quote_escape_string($_GET['sat']).',';
+                $sql .= $this->db_quote_escape_string($_GET['alt']).',';
+                $sql .= $this->db_quote_escape_string($_GET['bat']).');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+            }
+        }
     }
 }
