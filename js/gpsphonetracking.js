@@ -507,7 +507,7 @@
     //////////////// PUBLIC DIR/FILE /////////////////////
 
     function pageIsPublic() {
-        return (document.URL.indexOf('/track') !== -1);
+        return (document.URL.indexOf('/public') !== -1);
     }
 
     //////////////// USER TILE SERVERS /////////////////////
@@ -668,6 +668,9 @@
                 if (optionsValues.showtime !== undefined) {
                     $('#showtime').prop('checked', optionsValues.showtime);
                 }
+                if (optionsValues.animatedmarkers !== undefined) {
+                    $('#animatedmarkers').prop('checked', optionsValues.animatedmarkers);
+                }
                 if (optionsValues.autozoom !== undefined) {
                     $('#autozoom').prop('checked', optionsValues.autozoom);
                 }
@@ -694,6 +697,7 @@
         var optionsValues = {};
         optionsValues.updateinterval = $('#updateinterval').val();
         optionsValues.viewmove = $('#viewmove').is(':checked');
+        optionsValues.animatedmarkers = $('#animatedmarkers').is(':checked');
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.tilelayer = gpsphonetracking.activeLayers.getActiveBaseLayer().name;
@@ -758,7 +762,11 @@
         });
     }
 
-    function addSession(token, name) {
+    function addSession(token, name, selected=false) {
+        var selhtml = '';
+        if (selected) {
+            selhtml = ' checked="checked"';
+        }
         var gpsloggerurl = OC.generateUrl('/apps/gpsphonetracking/log?');
         var gpsloggerurlparams = {
             sessionid: token,
@@ -775,9 +783,10 @@
             $.param(gpsloggerurlparams);
         gpsloggerurl = window.location.origin + gpsloggerurl;
 
-        var publicurl = OC.generateUrl('/apps/gpsphonetracking/track?');
+        var publicurl = OC.generateUrl('/apps/gpsphonetracking/public?');
         var publicurlparams = {
-            sessionid: token
+            sessionid: token,
+            sessionname: name
         };
         publicurl = publicurl + $.param(publicurlparams);
         publicurl = window.location.origin + publicurl;
@@ -794,7 +803,7 @@
             '<i class="fa fa-eye" aria-hidden="true" style="color:blue;"></i> ' +
             t('gpxmotion', 'Watch this session') + '</label>' +
             '<input type="checkbox" class="watchSession" id="watch' + token + '" '+
-            'token="' + token + '" sessionname="' + name + '"/></div>';
+            'token="' + token + '" sessionname="' + name + '"' + selhtml + '/></div>';
         divtxt = divtxt + '</div>';
 
         $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true );
@@ -1115,7 +1124,15 @@
         });
 
         $('body').on('click','.watchSession', function(e) {
-            showHideSelectedSessions();
+            gpsphonetracking.currentTimer.pause();
+            gpsphonetracking.currentTimer = null;
+            refresh();
+        });
+
+        $('#animatedmarkers').click(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('#autozoom').click(function() {
@@ -1144,7 +1161,19 @@
             }
         });
 
-        getSessions();
+        if (!pageIsPublic()) {
+            getSessions();
+        }
+        // public page
+        else {
+            var token = getUrlParameter('sessionid');
+            var name = getUrlParameter('sessionname');
+            addSession(token, name, true);
+            $('.removeSession').remove();
+            $('.watchSession').prop('disabled', true);
+            $('#customtilediv').remove();
+            $('#newsessiondiv').remove();
+        }
 
         refresh();
 

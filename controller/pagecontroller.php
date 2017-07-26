@@ -161,7 +161,6 @@ class PageController extends Controller {
         require_once('tileservers.php');
         $params = [
             'username'=>$this->userId,
-            'token'=>'',
 			'basetileservers'=>$baseTileServers,
 			'usertileservers'=>$tss,
 			'useroverlayservers'=>$oss,
@@ -315,7 +314,6 @@ class PageController extends Controller {
     }
 
     /**
-     * Ajax gpx retrieval
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
@@ -435,6 +433,58 @@ class PageController extends Controller {
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     **/
+    public function public() {
+        if (isset($_GET['sessionid'])) {
+            $sessionid = $_GET['sessionid'];
+            // check if session exists
+            $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($_GET['sessionid']).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbname = null;
+            while ($row = $req->fetch()){
+                $dbname = $row['name'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbname !== null) {
+            }
+            else {
+                return 'There is no such session';
+            }
+        }
+        else {
+            return 'There is no such session';
+        }
+
+        require_once('tileservers.php');
+        $params = [
+            'username'=>'',
+			'basetileservers'=>$baseTileServers,
+			'usertileservers'=>'',
+			'useroverlayservers'=>'',
+			'usertileserverswms'=>'',
+			'useroverlayserverswms'=>'',
+            'gpsphonetracking_version'=>$this->appVersion
+        ];
+        $response = new TemplateResponse('gpsphonetracking', 'main', $params);
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedChildSrcDomain('*')
+            ->addAllowedObjectDomain('*')
+            ->addAllowedScriptDomain('*')
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
