@@ -358,4 +358,61 @@ class PageController extends Controller {
             }
         }
     }
+
+    /**
+     * @NoAdminRequired
+     * @PublicPage
+     */
+    public function track($sessions) {
+        $result = array();
+        foreach ($sessions as $session) {
+            $name = $session[1];
+            $token = $session[0];
+            $lastTime = $session[2];
+
+            // check if session exists
+            $dbtoken = null;
+            $sqlget = 'SELECT token FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlget .= 'WHERE name='.$this->db_quote_escape_string($name).' ';
+            $sqlget .= 'AND token='.$this->db_quote_escape_string($token).' ';
+            $req = $this->dbconnection->prepare($sqlget);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbtoken = $row['token'];
+            }
+            $req->closeCursor();
+
+            // session exists
+            if ($dbtoken !== null) {
+                $result[$name] = array();
+
+                $sqlget = 'SELECT * FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastTime).' ';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $entry = array();
+                    foreach ($row as $k => $v) {
+                        $entry[$k] = $v;
+                    }
+                    array_push($result[$name], $entry);
+                }
+                $req->closeCursor();
+            }
+        }
+
+        $response = new DataResponse(
+            [
+                'sessions'=>$result
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
 }

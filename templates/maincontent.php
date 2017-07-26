@@ -31,9 +31,17 @@ p($_['gpsphonetracking_version']);
         <div id="optionscontent" style="display:none;">
         <div id="optioncheckdiv">
             <div>
-                <input id="displayclusters" type="checkbox" checked="checked">
-                <label for="displayclusters"><i class="fa fa-map-marker" aria-hidden="true" style="color:blue;"></i>
-                <?php p($l->t('Display markers'));?></label>
+                <input id="viewmove" type="checkbox" checked="checked"/>
+                <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true" style="color:blue;"></i>
+                <?php p($l->t('View movement lines'));?></label>
+                <br/>
+                <input id="showtime" type="checkbox" checked="checked"/>
+                <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true" style="color:blue;"></i>
+                <?php p($l->t('Show time tooltips'));?></label>
+                <br/>
+                <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true" style="color:blue;"></i>
+                <?php p($l->t('Refresh each (sec)'));?></label>
+                <input id="updateinterval" value="10"/>
             </div>
         </div>
         <div id="optionbuttonsdiv">

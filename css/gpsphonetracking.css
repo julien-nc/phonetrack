@@ -294,7 +294,8 @@ div#logofolder label{
 div.session input[type=text]{
     width: 100%;
 }
-div.session label{
+div.session label,
+.watchlabel {
     margin-top: auto;
     margin-bottom: auto;
     text-align: center;
@@ -304,4 +305,11 @@ div.session label{
 }
 .removeSession i{
     color: red;
+}
+#updateinterval {
+    width: 40px;
+}
+.watchlabeldiv {
+    display: grid;
+    grid-template-columns: 90% 10%;
 }

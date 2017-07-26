@@ -31,6 +31,8 @@
         // layers currently displayed, indexed by track name
         deviceLayers: {},
         currentSession: null,
+		currentTimer: null,
+        lastTime: {}
     };
 
     var hoverStyle = {
@@ -229,6 +231,23 @@
         }
         res += toAdd;
         return res;
+    }
+
+	function Timer(callback, delay) {
+        var timerId, start, remaining = delay;
+
+        this.pause = function() {
+            window.clearTimeout(timerId);
+            remaining -= new Date() - start;
+        };
+
+        this.resume = function() {
+            start = new Date();
+            window.clearTimeout(timerId);
+            timerId = window.setTimeout(callback, remaining);
+        };
+
+        this.resume();
     }
 
     //////////////// MAP /////////////////////
@@ -761,8 +780,11 @@
         divtxt = divtxt + '<input role="publicurl" type="text" value="' + publicurl + '"></input>'; 
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
             t('gpxmotion', 'Remove session') + '</button>';
-        divtxt = divtxt + '<button class="watchSession"><i class="fa fa-eye" aria-hidden="true"></i> ' +
-            t('gpxmotion', 'Watch this session') + '</button>';
+        divtxt = divtxt + '<div class="watchlabeldiv"><label class="watchlabel" for="watch'+token+'">' +
+            '<i class="fa fa-eye" aria-hidden="true" style="color:blue;"></i> ' +
+            t('gpxmotion', 'Watch this session') + '</label>' +
+            '<input type="checkbox" class="watchSession" id="watch' + token + '" '+
+            'token="' + token + '" sessionname="' + name + '"/></div>';
         divtxt = divtxt + '</div>';
 
         $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true );
@@ -820,6 +842,55 @@
         }).fail(function() {
             OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to get sessions'));
         });
+    }
+
+    function refresh() {
+        var sessionsToWatch = [];
+        // get new positions for all watched sessions
+        $('.watchSession:checked').each(function() {
+            var token = $(this).attr('token');
+            var name = $(this).attr('sessionname');
+            var lastTime = gpsphonetracking.lastTime[name] || 0;
+            sessionsToWatch.push([token, name, lastTime]);
+        });
+
+        var req = {
+            sessions: sessionsToWatch
+        };
+        var url = OC.generateUrl('/apps/gpsphonetracking/track');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            console.log(response.sessions);
+            displayNewPoints(response.sessions);
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to refresh sessions'));
+        });
+
+        // launch refresh again
+        var updateinterval = parseInt($('#updateinterval').val()) * 1000;
+        gpsphonetracking.currentTimer = new Timer(function() {
+            refresh();
+        }, updateinterval);
+    }
+
+    function displayNewPoints(sessions) {
+        var s, i, entry, timestamp;
+        for (s in sessions) {
+            // for all new entries of this session
+            for (i = 0; i < sessions[s].length; i++) {
+                entry = sessions[s][i];
+                timestamp = parseInt(entry.timestamp);
+                if ((!gpsphonetracking.lastTime.hasOwnProperty(s)) || timestamp > gpsphonetracking.lastTime[s]) {
+                    gpsphonetracking.lastTime[s] = timestamp;
+                    console.log('lala : '+timestamp);
+                }
+            }
+        }
     }
 
     //////////////// MAIN /////////////////////
@@ -880,6 +951,18 @@
             addTileServer('overlaywms');
         });
 
+        $('body').on('click','h3.customtiletitle', function(e) {
+            var forAttr = $(this).attr('for');
+            if ($('#'+forAttr).is(':visible')) {
+                $('#'+forAttr).slideUp();
+                $(this).find('i').removeClass('fa-angle-double-up').addClass('fa-angle-double-down');
+            }
+            else{
+                $('#'+forAttr).slideDown();
+                $(this).find('i').removeClass('fa-angle-double-down').addClass('fa-angle-double-up');
+            }
+        });
+
         // in public link and public folder link :
         // hide compare button and custom tiles server management
         if (pageIsPublic()) {
@@ -915,6 +998,8 @@
         });
 
         getSessions();
+
+        refresh();
 
     }
 
