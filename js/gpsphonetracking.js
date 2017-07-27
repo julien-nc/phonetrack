@@ -804,6 +804,10 @@
             t('gpxmotion', 'Watch this session') + '</label>' +
             '<input type="checkbox" class="watchSession" id="watch' + token + '" '+
             'token="' + token + '" sessionname="' + name + '"' + selhtml + '/></div>';
+        if (!pageIsPublic()) {
+            divtxt = divtxt + '<button class="export"><i class="fa fa-floppy-o" aria-hidden="true" style="color:blue;"></i> ' + t('gpsphonetracking', 'Export to gpx') +
+                '</button>';
+        }
         divtxt = divtxt + '</div>';
 
         $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true );
@@ -902,7 +906,7 @@
     }
 
     function displayNewPoints(sessions) {
-        var s, i, d, entry, device, timestamp, mom, icon;
+        var s, i, d, entry, device, timestamp, mom, icon, linetooltip, markertoolip;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
             if (! gpsphonetracking.sessionLineLayers.hasOwnProperty(s)) {
@@ -916,6 +920,14 @@
                 // add line and marker if necessary
                 if (! gpsphonetracking.sessionLineLayers[s].hasOwnProperty(d)) {
                     gpsphonetracking.sessionLineLayers[s][d] = L.polyline([]);
+                    linetooltip = 'Session ' + s + ' ; device ' + d;
+                    gpsphonetracking.sessionLineLayers[s][d].bindTooltip(
+                        linetooltip,
+                        {
+                            permanent: false,
+                            sticky: true
+                        }
+                    );
                 }
                 // for all new entries of this session
                 for (i in sessions[s][d]) {
@@ -1022,6 +1034,31 @@
                 m.bindTooltip(t, {permanent: perm, offset: offset, opacity: 0.6});
             }
         }
+    }
+
+    function saveAction(name, token, targetPath) {
+        var req = {
+            name: name,
+            token: token,
+            target: targetPath
+        };
+        var url = OC.generateUrl('/apps/gpsphonetracking/export');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done) {
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Successfully exported session in ') + targetPath + '/' + name + '.gpx');
+            }
+            else {
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to export session'));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to contact server to export session'));
+        });
     }
 
     //////////////// MAIN /////////////////////
@@ -1164,6 +1201,20 @@
             if (!pageIsPublic()) {
                 saveOptions();
             }
+        });
+
+        $('body').on('click', '.export', function() {
+            var name = $(this).parent().attr('name');
+            var token = $(this).parent().attr('token');
+            var filename = name + '.gpx';
+            OC.dialogs.filepicker(
+                t('gpsphonetracking', 'Where to save') +
+                    ' <b>' + filename + '</b>',
+                function(targetPath) {
+                    saveAction(name, token, targetPath);
+                },
+                false, 'httpd/unix-directory', true
+            );
         });
 
         if (!pageIsPublic()) {

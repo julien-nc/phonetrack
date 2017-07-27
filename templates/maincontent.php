@@ -79,9 +79,6 @@ p($_['gpsphonetracking_version']);
 echo '<p id="username" style="display:none">';
 p($_['username']);
 echo '</p>'."\n";
-echo '<p id="token" style="display:none">';
-p($_['token']);
-echo '</p>'."\n";
 echo '<ul id="basetileservers" style="display:none">';
 foreach($_['basetileservers'] as $ts){
     echo '<li';

@@ -490,4 +490,158 @@ class PageController extends Controller {
         return $response;
     }
 
+    /**
+     * @NoAdminRequired
+     */
+    public function export($name, $token, $target) {
+        date_default_timezone_set('UTC');
+        $done = false;
+        $userFolder = \OC::$server->getUserFolder();
+        $path = $target.'/'.$name.'.gpx';
+        $cleanpath = str_replace(array('../', '..\\'), '',  $path);
+
+        $file = null;
+        $filePossible = false;
+        if ($userFolder->nodeExists($cleanpath)){
+            $file = $userFolder->get($cleanpath);
+            if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
+                $file->isUpdateable()){
+                $filePossible = true;
+            }
+            else{
+                $filePossible = false;
+            }
+        }
+        else{
+            $dirpath = dirname($cleanpath);
+            $newFileName = basename($cleanpath);
+            if ($userFolder->nodeExists($dirpath)){
+                $dir = $userFolder->get($dirpath);
+                if ($dir->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
+                    $dir->isCreatable()){
+                    $dir->newFile($newFileName);
+                    $file = $dir->get($newFileName);
+                    $filePossible = true;
+                }
+                else{
+                    $filePossible = false;
+                }
+            }
+            else{
+                $filePossible = false;
+            }
+        }
+
+        if ($filePossible) {
+            // check if session exists
+            $dbtoken = null;
+            $sqlget = 'SELECT token FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlget .= 'WHERE name='.$this->db_quote_escape_string($name).' ';
+            $sqlget .= 'AND token='.$this->db_quote_escape_string($token).' ';
+            $req = $this->dbconnection->prepare($sqlget);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbtoken = $row['token'];
+            }
+            $req->closeCursor();
+
+            // session exists
+            if ($dbtoken !== null) {
+                // indexed by track name
+                $coords = array();
+                // get list of devices
+                $devices = array();
+                $sqldev = 'SELECT deviceid FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqldev .= 'GROUP BY deviceid;';
+                $req = $this->dbconnection->prepare($sqldev);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    array_push($devices, $row['deviceid']);
+                }
+                $req->closeCursor();
+
+                // get the coords for each device
+                $result[$name] = array();
+
+                foreach ($devices as $devname) {
+                    $coords[$devname] = array();
+                    $sqlget = 'SELECT * FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                    $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                    $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
+                    $req = $this->dbconnection->prepare($sqlget);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $epoch = $row['timestamp'];
+                        $dt = new \DateTime("@$epoch");
+                        $date = $dt->format('Y-m-d\TH:i:s\Z');
+                        $lat = $row['lat'];
+                        $lon = $row['lon'];
+                        $alt = $row['altitude'];
+
+                        $point = array($lat, $lon, $date, $alt);
+                        array_push($coords[$devname], $point);
+                    }
+                    $req->closeCursor();
+                }
+                $gpxContent = $this->generateGpx($name, $coords);
+                $file->putContent($gpxContent);
+                $done = true;
+            }
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$done
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    private function generateGpx($name, $coords) {
+        $dt = new \DateTime();
+        $date = $dt->format('Y-m-d\TH:i:s\Z');
+        $gpxText = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>' . "\n";
+        $gpxText .= '<gpx xmlns="http://www.topografix.com/GPX/1/1"' .
+            ' xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3"' .
+            ' xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1"' .
+            ' xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"' .
+            ' creator="GpsPhoneTracking Owncloud/Nextcloud app ' .
+            $this->appVersion. '" version="1.1"' .
+            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
+            ' xsi:schemaLocation="http://www.topografix.com/GPX/1/1' .
+            ' http://www.topografix.com/GPX/1/1/gpx.xsd' .
+            ' http://www.garmin.com/xmlschemas/GpxExtensions/v3' .
+            ' http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd' .
+            ' http://www.garmin.com/xmlschemas/WaypointExtension/v1' .
+            ' http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd' .
+            ' http://www.garmin.com/xmlschemas/TrackPointExtension/v1' .
+            ' http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">' . "\n";
+        $gpxText .= '<metadata>' . "\n" . ' <time>' . $date . '</time>' . "\n";
+        $gpxText .= ' <name>' . $name . '</name>' . "\n";
+        $gpxText .= ' <desc>' . count($coords) . ' devices</desc>' . "\n";
+        $gpxText .= '</metadata>' . "\n";
+        foreach ($coords as $device => $points) {
+            $gpxText .= '<trk>' . "\n" . ' <name>' . $device . '</name>' . "\n";
+            $gpxText .= ' <trkseg>' . "\n";
+            foreach ($points as $point) {
+                $gpxText .= '  <trkpt lat="'.$point[0].'" lon="'.$point[1].'">' . "\n";
+                $gpxText .= '   <time>' . $point[2] . '</time>' . "\n";
+                if ($point[3] !== '') {
+                    $gpxText .= '   <ele>' . $point[3] . '</ele>' . "\n";
+                }
+                $gpxText .= '  </trkpt>' . "\n";
+            }
+            $gpxText .= ' </trkseg>' . "\n";
+            $gpxText .= '</trk>' . "\n";
+        }
+        $gpxText .= '</gpx>';
+        return $gpxText;
+    }
+
 }
