@@ -311,7 +311,7 @@ div.session label,
 }
 .watchlabeldiv {
     display: grid;
-    grid-template-columns: 90% 10%;
+    grid-template-columns: 80% 20%;
 }
 .numberMarker, .numberBeginMarker {
     text-align: center;
@@ -322,4 +322,7 @@ div.session label,
 }
 .numberMarker {
     background-color: rgba(0, 255, 0, 0.6);
+}
+#sessionnameinput {
+    width: 100px;
 }

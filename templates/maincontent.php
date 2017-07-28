@@ -37,7 +37,7 @@ p($_['gpsphonetracking_version']);
                 <br/>
                 <input id="viewmove" type="checkbox" checked="checked"/>
                 <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true" style="color:blue;"></i>
-                <?php p($l->t('View movement lines'));?></label>
+                <?php p($l->t('View movement paths'));?></label>
                 <br/>
                 <input id="showtime" type="checkbox"/>
                 <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true" style="color:blue;"></i>
@@ -59,7 +59,7 @@ p($_['gpsphonetracking_version']);
     <div style="clear:both"></div>
     <hr/>
     <div id="newsessiondiv">
-        <label for="sessionnameinput">Session name :</label>
+        <label for="sessionnameinput"><?php p($l->t('Session name'));?></label>
         <input type="text" id="sessionnameinput"/>
         <button id="newsession">
             <i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i>

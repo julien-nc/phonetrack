@@ -878,6 +878,7 @@
         });
 
         if (sessionsToWatch.length > 0) {
+            showLoadingAnimation();
             var req = {
                 sessions: sessionsToWatch
             };
@@ -890,6 +891,7 @@
             }).done(function (response) {
                 displayNewPoints(response.sessions);
             }).always(function() {
+                hideLoadingAnimation();
             }).fail(function() {
                 OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to refresh sessions'));
             });
@@ -1050,7 +1052,8 @@
             async: true
         }).done(function (response) {
             if (response.done) {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Successfully exported session in ') + targetPath + '/' + name + '.gpx');
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Successfully exported session in ') +
+                    targetPath + '/' + name + '.gpx');
             }
             else {
                 OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to export session'));
