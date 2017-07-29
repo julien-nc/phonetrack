@@ -18,7 +18,7 @@ style('gpsphonetracking', 'leaflet-sidebar.min');
 style('gpsphonetracking', 'jquery-ui.min');
 style('gpsphonetracking', 'font-awesome.min');
 style('gpsphonetracking', 'gpsphonetracking');
-style('gpsphonetracking', 'L.Control.Locate.min');
+style('gpsphonetracking', 'L.Control.Locate');
 style('gpsphonetracking', 'Leaflet.LinearMeasurement');
 
 ?>

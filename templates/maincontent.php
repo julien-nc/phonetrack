@@ -66,6 +66,14 @@ p($_['gpsphonetracking_version']);
             <?php p($l->t('Create session')); ?>
         </button>
     </div>
+    <div id="logmediv">
+    <div id="logmesubdiv">
+        <label for="logmedeviceinput"><?php p($l->t('Device name'));?></label>
+        <input type="text" id="logmedeviceinput" value="1"/>
+        <label for="logme"><?php p($l->t('Log my position in this session'));?></label>
+        <input type="checkbox" id="logme"/>
+    </div>
+    </div>
     <hr/>
     <h3 id="ticv" class="sectiontitle"><?php p($l->t('Tracking sessions')); ?></h3>
     <div id="sessions">

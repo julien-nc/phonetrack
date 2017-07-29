@@ -318,6 +318,56 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
+    public function logpost($deviceid, $token, $lat, $lon, $alt, $prec, $timestamp) {
+        if ($deviceid !== '' and
+            $token !== '' and
+            $lat !== '' and
+            $lon !== '' and
+            $timestamp !== ''
+        ) {
+            // check if session exists
+            $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbname = null;
+            while ($row = $req->fetch()){
+                $dbname = $row['name'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbname !== null) {
+                // correct timestamp if needed
+                $time = $timestamp;
+                if (is_numeric($time) and (int)$time > 10000000000) {
+                    $time = (int)((int)$time / 1000);
+                }
+
+                $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessionpoints';
+                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($token).',';
+                $sql .= $this->db_quote_escape_string($deviceid).',';
+                $sql .= $this->db_quote_escape_string($lat).',';
+                $sql .= $this->db_quote_escape_string($lon).',';
+                $sql .= $this->db_quote_escape_string($time).',';
+                $sql .= $this->db_quote_escape_string($prec).',';
+                $sql .= $this->db_quote_escape_string('').',';
+                $sql .= $this->db_quote_escape_string($alt).',';
+                $sql .= $this->db_quote_escape_string('').');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+            }
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     **/
     public function log() {
         if (isset($_GET['sessionid']) &&
             isset($_GET['deviceid']) &&

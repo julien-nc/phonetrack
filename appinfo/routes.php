@@ -25,6 +25,7 @@ return [
         ['name' => 'page#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
         ['name' => 'page#log', 'url' => '/log', 'verb' => 'GET'],
+        ['name' => 'page#logpost', 'url' => '/logpost', 'verb' => 'POST'],
         ['name' => 'page#track', 'url' => '/track', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'utils#addTileServer', 'url' => '/addTileServer', 'verb' => 'POST'],

@@ -411,8 +411,11 @@
         .addTo(gpsphonetracking.map);
 
         L.control.mousePosition().addTo(gpsphonetracking.map);
-        gpsphonetracking.locateControl = L.control.locate({follow: true});
+        gpsphonetracking.locateControl = L.control.locate({setView: false});
         gpsphonetracking.locateControl.addTo(gpsphonetracking.map);
+        gpsphonetracking.map.on('locationfound', function(e) {
+            locationFound(e);
+        });
         gpsphonetracking.map.addControl(new L.Control.LinearMeasurement({
             unitSystem: 'metric',
             color: '#FF0080',
@@ -916,7 +919,11 @@
         }
 
         // launch refresh again
-        var updateinterval = parseInt($('#updateinterval').val()) * 1000;
+        var uiVal = $('#updateinterval').val();
+        var updateinterval = 5000;
+        if (uiVal !== '' && !isNaN(uiVal) && parseInt(uiVal) > 1) {
+            var updateinterval = parseInt(uiVal) * 1000;
+        }
         gpsphonetracking.currentTimer = new Timer(function() {
             refresh();
         }, updateinterval);
@@ -1077,6 +1084,39 @@
         }).fail(function() {
             OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to contact server to export session'));
         });
+    }
+
+    function locationFound(e) {
+        if (pageIsPublic() && $('#logme').is(':checked')) {
+            var deviceid = $('#logmedeviceinput').val();
+            var lat, lon, alt, prec, timestamp;
+            lat = e.latitude;
+            lon = e.longitude;
+            alt = e.altitude;
+            prec = e.accuracy;
+            timestamp = e.timestamp;
+            var req = {
+                deviceid: deviceid,
+                token: gpsphonetracking.publicToken,
+                lat: lat,
+                lon: lon,
+                alt: alt,
+                prec: prec,
+                timestamp: timestamp
+            };
+            var url = OC.generateUrl('/apps/gpsphonetracking/logpost');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                //console.log(response);
+            }).always(function() {
+            }).fail(function() {
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to contact server to log position'));
+            });
+        }
     }
 
     //////////////// MAIN /////////////////////
@@ -1241,12 +1281,15 @@
         // public page
         else {
             var token = getUrlParameter('sessionid');
+            gpsphonetracking.publicToken = token;
             var name = getUrlParameter('sessionname');
+            gpsphonetracking.publicName = name;
             addSession(token, name, true);
             $('.removeSession').remove();
             $('.watchSession').prop('disabled', true);
             $('#customtilediv').remove();
             $('#newsessiondiv').remove();
+            $('#logmediv').show();
         }
 
         refresh();

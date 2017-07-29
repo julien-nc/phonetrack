@@ -326,3 +326,10 @@ div.session label,
 #sessionnameinput {
     width: 100px;
 }
+#logmediv {
+    display: none;
+}
+#logmesubdiv {
+    display: grid;
+    grid-template-columns: 65% 35%;
+}
