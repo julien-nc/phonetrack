@@ -338,6 +338,12 @@ class PageController extends Controller {
             $req->closeCursor();
 
             if ($dbname !== null) {
+                // correct timestamp if needed
+                $time = $_GET['time'];
+                if (is_numeric($time) and (int)$time > 10000000000) {
+                    $time = (int)$time / 1000;
+                }
+
                 $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessionpoints';
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
@@ -345,7 +351,7 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string($_GET['deviceid']).',';
                 $sql .= $this->db_quote_escape_string($_GET['lat']).',';
                 $sql .= $this->db_quote_escape_string($_GET['lon']).',';
-                $sql .= $this->db_quote_escape_string($_GET['time']).',';
+                $sql .= $this->db_quote_escape_string($time).',';
                 $sql .= $this->db_quote_escape_string($_GET['prec']).',';
                 $sql .= $this->db_quote_escape_string($_GET['sat']).',';
                 $sql .= $this->db_quote_escape_string($_GET['alt']).',';
