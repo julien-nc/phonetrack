@@ -782,6 +782,19 @@
             'bat=%BATT&' +
             $.param(gpsloggerurlparams);
         gpsloggerurl = window.location.origin + gpsloggerurl;
+        var osmandurl = OC.generateUrl('/apps/gpsphonetracking/log?');
+        var osmandurlparams = {
+            sessionid: token,
+            deviceid: '1'
+        };
+        osmandurl = osmandurl +
+            'lat={1}&' +
+            'lon={2}&' +
+            'alt={4}&' +
+            'prec={3}&' +
+            'time={2}&' +
+            $.param(osmandurlparams);
+        osmandurl = window.location.origin + osmandurl;
 
         var publicurl = OC.generateUrl('/apps/gpsphonetracking/public?');
         var publicurlparams = {
@@ -793,15 +806,17 @@
 
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
         divtxt = divtxt + '<h3>' + name + '</h3>';
+        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'OsmAnd URL') + ' :</label>';
+        divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>'; 
         divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger URL') + ' :</label>';
         divtxt = divtxt + '<input role="gpsloggerurl" type="text" value="' + gpsloggerurl + '"></input>'; 
         divtxt = divtxt + '<label>' + t('gpsphonetracking', 'Public URL') + ' :</label>';
         divtxt = divtxt + '<input role="publicurl" type="text" value="' + publicurl + '"></input>'; 
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
-            t('gpxmotion', 'Remove session') + '</button>';
+            t('gpsphonetracking', 'Delete session') + '</button>';
         divtxt = divtxt + '<div class="watchlabeldiv"><label class="watchlabel" for="watch'+token+'">' +
             '<i class="fa fa-eye" aria-hidden="true" style="color:blue;"></i> ' +
-            t('gpxmotion', 'Watch this session') + '</label>' +
+            t('gpsphonetracking', 'Watch this session') + '</label>' +
             '<input type="checkbox" class="watchSession" id="watch' + token + '" '+
             'token="' + token + '" sessionname="' + name + '"' + selhtml + '/></div>';
         if (!pageIsPublic()) {
@@ -1052,8 +1067,8 @@
             async: true
         }).done(function (response) {
             if (response.done) {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Successfully exported session in ') +
-                    targetPath + '/' + name + '.gpx');
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Successfully exported session in') +
+                    ' ' + targetPath + '/' + name + '.gpx');
             }
             else {
                 OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to export session'));
