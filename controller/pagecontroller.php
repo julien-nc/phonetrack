@@ -341,7 +341,7 @@ class PageController extends Controller {
                 // correct timestamp if needed
                 $time = $_GET['time'];
                 if (is_numeric($time) and (int)$time > 10000000000) {
-                    $time = (int)$time / 1000;
+                    $time = (int)((int)$time / 1000);
                 }
 
                 $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessionpoints';
