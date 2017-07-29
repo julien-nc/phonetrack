@@ -579,8 +579,12 @@ class PageController extends Controller {
                     $req->execute();
                     while ($row = $req->fetch()){
                         $epoch = $row['timestamp'];
-                        $dt = new \DateTime("@$epoch");
-                        $date = $dt->format('Y-m-d\TH:i:s\Z');
+                        $date = '';
+                        if (is_numeric($epoch)) {
+                            $epoch = (int)$epoch;
+                            $dt = new \DateTime("@$epoch");
+                            $date = $dt->format('Y-m-d\TH:i:s\Z');
+                        }
                         $lat = $row['lat'];
                         $lon = $row['lon'];
                         $alt = $row['altitude'];
