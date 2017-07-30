@@ -955,10 +955,10 @@
                         'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.6);' +
                         'color: ' + textcolor + '; font-weight: bold;' +
                         'text-align: center;' +
-                        'width: 12px !important;' +
-                        'height: 12px !important;' +
+                        'width: 14px !important;' +
+                        'height: 14px !important;' +
                         'border-radius: 50%;' +
-                        'line-height:12px;' +
+                        'line-height:14px;' +
                         ' }</style>').appendTo('body');
                     coloredMarkerClass = 'color' + colorn;
 
@@ -992,7 +992,7 @@
                 // entry is the last point for the current device
                 if (! gpsphonetracking.sessionMarkerLayers[s].hasOwnProperty(d)) {
                     icon = L.divIcon({
-                        iconAnchor: [6, 6],
+                        iconAnchor: [7, 7],
                         className: 'color'+colorn,
                         html: '<b>' + d + '</b>'
                     });

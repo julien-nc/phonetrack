@@ -221,7 +221,7 @@ div#logo{
     grid-column: 1;
     grid-row: 1/3;
 }
-div#logofolder label{
+div#logofolder label {
     padding: 0px 5px 0px 5px;
     text-align: right;
     margin-top: auto;
@@ -295,7 +295,8 @@ div.session input[type=text]{
     width: 100%;
 }
 div.session label,
-.watchlabel {
+.watchlabel,
+#logmediv label {
     margin-top: auto;
     margin-bottom: auto;
     text-align: center;
