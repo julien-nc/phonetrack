@@ -31,7 +31,7 @@
         // indexed by session name, contains dict indexed by deviceid
         sessionLineLayers: {},
         sessionMarkerLayers: {},
-		currentTimer: null,
+        currentTimer: null,
         lastTime: {}
     };
 
@@ -1273,6 +1273,15 @@
                 },
                 false, 'httpd/unix-directory', true
             );
+        });
+
+        $('#logme').click(function (e) {
+            if ($('#logme').is(':checked')) {
+                gpsphonetracking.locateControl.start();
+            }
+            else {
+                gpsphonetracking.locateControl.stop();
+            }
         });
 
         if (!pageIsPublic()) {
