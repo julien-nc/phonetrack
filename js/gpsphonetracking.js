@@ -930,7 +930,9 @@
     }
 
     function displayNewPoints(sessions) {
-        var s, i, d, entry, device, timestamp, mom, icon, linetooltip, markertoolip, colorn, rgbc, coloredMarkerClass;
+        var s, i, d, entry, device, timestamp, mom, icon,
+            linetooltip, markertoolip, colorn, rgbc,
+            textcolor, coloredMarkerClass;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
             if (! gpsphonetracking.sessionLineLayers.hasOwnProperty(s)) {
@@ -945,9 +947,13 @@
                 if (! gpsphonetracking.sessionLineLayers[s].hasOwnProperty(d)) {
                     colorn = ++lastColorUsed;
                     rgbc = hexToRgb(colorCode[colorn]);
+                    textcolor = 'black';
+                    if (rgbc.r + rgbc.g + rgbc.b < 3 * 125) {
+                    textcolor = 'white';
+                    } 
                     $('<style track="' + d + '">.color' + colorn + ' { ' +
-                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.4);' +
-                        'color: black; font-weight: bold;' +
+                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.6);' +
+                        'color: ' + textcolor + '; font-weight: bold;' +
                         'text-align: center;' +
                         'width: 12px !important;' +
                         'height: 12px !important;' +
