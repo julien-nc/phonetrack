@@ -8,20 +8,20 @@
         'orange', 'blue', 'brown', 'Chartreuse',
         'Crimson', 'DeepPink', 'Gold'
     ];
-    var colorCode = {
-        'red': '#ff0000',
-        'cyan': '#00ffff',
-        'purple': '#800080',
-        'Lime': '#00ff00',
-        'yellow': '#ffff00',
-        'orange': '#ffa500',
-        'blue': '#0000ff',
-        'brown': '#a52a2a',
-        'Chartreuse': '#7fff00',
-        'Crimson': '#dc143c',
-        'DeepPink': '#ff1493',
-        'Gold': '#ffd700'
-    };
+    var colorCode = [
+        '#ff0000',
+        '#00ffff',
+        '#800080',
+        '#00ff00',
+        '#ffff00',
+        '#ffa500',
+        '#0000ff',
+        '#a52a2a',
+        '#7fff00',
+        '#dc143c',
+        '#ff1493',
+        '#ffd700'
+    ];
     var lastColorUsed = -1;
     var gpsphonetracking = {
         map: {},
@@ -930,7 +930,7 @@
     }
 
     function displayNewPoints(sessions) {
-        var s, i, d, entry, device, timestamp, mom, icon, linetooltip, markertoolip;
+        var s, i, d, entry, device, timestamp, mom, icon, linetooltip, markertoolip, colorn, rgbc, coloredMarkerClass;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
             if (! gpsphonetracking.sessionLineLayers.hasOwnProperty(s)) {
@@ -943,7 +943,20 @@
             for (d in sessions[s]) {
                 // add line and marker if necessary
                 if (! gpsphonetracking.sessionLineLayers[s].hasOwnProperty(d)) {
-                    gpsphonetracking.sessionLineLayers[s][d] = L.polyline([]);
+                    colorn = ++lastColorUsed;
+                    rgbc = hexToRgb(colorCode[colorn]);
+                    $('<style track="' + d + '">.color' + colorn + ' { ' +
+                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.4);' +
+                        'color: black; font-weight: bold;' +
+                        'text-align: center;' +
+                        'width: 12px !important;' +
+                        'height: 12px !important;' +
+                        'border-radius: 50%;' +
+                        'line-height:12px;' +
+                        ' }</style>').appendTo('body');
+                    coloredMarkerClass = 'color' + colorn;
+
+                    gpsphonetracking.sessionLineLayers[s][d] = L.polyline([], {color: colorCode[colorn]});
                     linetooltip = 'Session ' + s + ' ; device ' + d;
                     gpsphonetracking.sessionLineLayers[s][d].bindTooltip(
                         linetooltip,
@@ -974,7 +987,7 @@
                 if (! gpsphonetracking.sessionMarkerLayers[s].hasOwnProperty(d)) {
                     icon = L.divIcon({
                         iconAnchor: [6, 6],
-                        className: 'numberMarker',
+                        className: 'color'+colorn,
                         html: '<b>' + d + '</b>'
                     });
 
