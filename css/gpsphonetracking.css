@@ -308,7 +308,9 @@ div.session label,
     color: red;
 }
 #updateinterval {
-    width: 40px;
+    width: 80px;
+    -moz-appearance: number-input;
+    -webkit-appearance: initial;
 }
 .watchlabeldiv {
     display: grid;

@@ -49,7 +49,7 @@ p($_['gpsphonetracking_version']);
                 <br/>
                 <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('Refresh each (sec)'));?></label>
-                <input id="updateinterval" value="5"/>
+                <input id="updateinterval" type="number" min="0" max="1000" step="1" value="5"/>
             </div>
         </div>
         <div id="optionbuttonsdiv">
