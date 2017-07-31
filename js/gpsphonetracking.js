@@ -817,16 +817,16 @@
         divtxt = divtxt + '<input role="publicurl" type="text" value="' + publicurl + '"></input>'; 
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
             t('gpsphonetracking', 'Delete session') + '</button>';
+        if (!pageIsPublic()) {
+            divtxt = divtxt + '<button class="export"><i class="fa fa-floppy-o" aria-hidden="true" style="color:blue;"></i> ' + t('gpsphonetracking', 'Export to gpx') +
+                '</button>';
+        }
         divtxt = divtxt + '<div class="watchlabeldiv"><label class="watchlabel" for="watch'+token+'">' +
             '<i class="fa fa-eye" aria-hidden="true" style="color:blue;"></i> ' +
             t('gpsphonetracking', 'Watch this session') + '</label>' +
             '<input type="checkbox" class="watchSession" id="watch' + token + '" '+
             'token="' + token + '" sessionname="' + name + '"' + selhtml + '/></div>';
-        if (!pageIsPublic()) {
-            divtxt = divtxt + '<button class="export"><i class="fa fa-floppy-o" aria-hidden="true" style="color:blue;"></i> ' + t('gpsphonetracking', 'Export to gpx') +
-                '</button>';
-        }
-        divtxt = divtxt + '</div>';
+        divtxt = divtxt + '<ul class="devicelist"></ul></div>';
 
         $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true );
     }
@@ -961,6 +961,9 @@
                         'line-height:14px;' +
                         ' }</style>').appendTo('body');
                     coloredMarkerClass = 'color' + colorn;
+                    $('div.session[name="' + s + '"] ul.devicelist').append(
+                        '<li style="font-weight: bold; color: ' + textcolor + ';' +
+                        'background-color:' + colorCode[colorn] + ';">device ' + d + '</li>');
 
                     gpsphonetracking.sessionLineLayers[s][d] = L.polyline([], {color: colorCode[colorn]});
                     linetooltip = 'Session ' + s + ' ; device ' + d;

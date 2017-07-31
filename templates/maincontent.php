@@ -35,7 +35,7 @@ p($_['gpsphonetracking_version']);
                 <label for="autozoom"><i class="fa fa-search-plus" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('Auto zoom'));?></label>
                 <br/>
-                <input id="viewmove" type="checkbox" checked="checked"/>
+                <input id="viewmove" type="checkbox"/>
                 <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('View movement paths'));?></label>
                 <br/>
