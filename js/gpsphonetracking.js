@@ -411,7 +411,7 @@
         .addTo(gpsphonetracking.map);
 
         L.control.mousePosition().addTo(gpsphonetracking.map);
-        gpsphonetracking.locateControl = L.control.locate({setView: false, enableHighAccuracy: true});
+        gpsphonetracking.locateControl = L.control.locate({setView: false, locateOptions: {enableHighAccuracy: true}});
         gpsphonetracking.locateControl.addTo(gpsphonetracking.map);
         gpsphonetracking.map.on('locationfound', function(e) {
             locationFound(e);
