@@ -411,7 +411,7 @@
         .addTo(gpsphonetracking.map);
 
         L.control.mousePosition().addTo(gpsphonetracking.map);
-        gpsphonetracking.locateControl = L.control.locate({setView: false});
+        gpsphonetracking.locateControl = L.control.locate({setView: false, enableHighAccuracy: true});
         gpsphonetracking.locateControl.addTo(gpsphonetracking.map);
         gpsphonetracking.map.on('locationfound', function(e) {
             locationFound(e);
@@ -931,7 +931,7 @@
 
     function displayNewPoints(sessions) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            linetooltip, markertoolip, colorn, rgbc,
+            linetooltip, markertooltip, colorn, rgbc,
             textcolor, coloredMarkerClass;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
@@ -948,7 +948,7 @@
                     colorn = ++lastColorUsed;
                     rgbc = hexToRgb(colorCode[colorn]);
                     textcolor = 'black';
-                    if (rgbc.r + rgbc.g + rgbc.b < 3 * 125) {
+                    if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
                     textcolor = 'white';
                     } 
                     $('<style track="' + d + '">.color' + colorn + ' { ' +
@@ -959,7 +959,11 @@
                         'height: 16px !important;' +
                         'border-radius: 50%;' +
                         'line-height:16px;' +
-                        ' }</style>').appendTo('body');
+                        ' }' +
+                        '.tooltip'+colorn+' {' +
+                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.7);' +
+                        'color: ' + textcolor + '; font-weight: bold;' +
+                        '}</style>').appendTo('body');
                     coloredMarkerClass = 'color' + colorn;
                     $('div.session[name="' + s + '"] ul.devicelist').append(
                         '<li device="' + d + '" style="font-weight: bold; color: ' + textcolor + ';' +
@@ -967,13 +971,14 @@
                         ' title="' + t('gpsphonetracking', 'Center map on device') + ' ' +
                         d + '">device ' + d + '</li>');
 
-                    gpsphonetracking.sessionLineLayers[s][d] = L.polyline([], {color: colorCode[colorn]});
+                    gpsphonetracking.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
                     linetooltip = 'Session ' + s + ' ; device ' + d;
                     gpsphonetracking.sessionLineLayers[s][d].bindTooltip(
                         linetooltip,
                         {
                             permanent: false,
-                            sticky: true
+                            sticky: true,
+                            className: 'tooltip'+colorn
                         }
                     );
                 }
@@ -1009,8 +1014,10 @@
                 }
                 mom = moment.unix(timestamp);
                 gpsphonetracking.sessionMarkerLayers[s][d].unbindTooltip();
+                markertooltip = 'Session ' + s + ' ; device ' + d + '<br/>';
                 gpsphonetracking.sessionMarkerLayers[s][d].bindTooltip(
-                    mom.format('YYYY-MM-DD HH:mm:ss (Z)'), {permanent: perm, offset: offset, opacity: 0.6}
+                    markertooltip + mom.format('YYYY-MM-DD HH:mm:ss (Z)'),
+                    {permanent: perm, offset: offset, className: 'tooltip'+colorn}
                 );
             }
         }
