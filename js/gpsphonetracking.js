@@ -826,7 +826,7 @@
             t('gpsphonetracking', 'Watch this session') + '</label>' +
             '<input type="checkbox" class="watchSession" id="watch' + token + '" '+
             'token="' + token + '" sessionname="' + name + '"' + selhtml + '/></div>';
-        divtxt = divtxt + '<ul class="devicelist"></ul></div>';
+        divtxt = divtxt + '<ul class="devicelist" session="' + name + '"></ul></div>';
 
         $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true );
     }
@@ -955,15 +955,17 @@
                         'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.6);' +
                         'color: ' + textcolor + '; font-weight: bold;' +
                         'text-align: center;' +
-                        'width: 14px !important;' +
-                        'height: 14px !important;' +
+                        'width: 16px !important;' +
+                        'height: 16px !important;' +
                         'border-radius: 50%;' +
-                        'line-height:14px;' +
+                        'line-height:16px;' +
                         ' }</style>').appendTo('body');
                     coloredMarkerClass = 'color' + colorn;
                     $('div.session[name="' + s + '"] ul.devicelist').append(
-                        '<li style="font-weight: bold; color: ' + textcolor + ';' +
-                        'background-color:' + colorCode[colorn] + ';">device ' + d + '</li>');
+                        '<li device="' + d + '" style="font-weight: bold; color: ' + textcolor + ';' +
+                        'background-color:' + colorCode[colorn] + ';"' +
+                        ' title="' + t('gpsphonetracking', 'Center map on device') + ' ' +
+                        d + '">device ' + d + '</li>');
 
                     gpsphonetracking.sessionLineLayers[s][d] = L.polyline([], {color: colorCode[colorn]});
                     linetooltip = 'Session ' + s + ' ; device ' + d;
@@ -995,9 +997,9 @@
                 // entry is the last point for the current device
                 if (! gpsphonetracking.sessionMarkerLayers[s].hasOwnProperty(d)) {
                     icon = L.divIcon({
-                        iconAnchor: [7, 7],
+                        iconAnchor: [8, 8],
                         className: 'color'+colorn,
-                        html: '<b>' + d + '</b>'
+                        html: '<b>' + d[0] + '</b>'
                     });
 
                     gpsphonetracking.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon], {icon: icon});
@@ -1139,6 +1141,13 @@
                 OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to contact server to log position'));
             });
         }
+    }
+
+    function zoomOnDevice(elem) {
+        var d = elem.attr('device');
+        var s = elem.parent().attr('session');
+        var m = gpsphonetracking.sessionMarkerLayers[s][d];
+        gpsphonetracking.map.panTo(m.getLatLng());
     }
 
     //////////////// MAIN /////////////////////
@@ -1304,6 +1313,10 @@
             else {
                 gpsphonetracking.locateControl.stop();
             }
+        });
+
+        $('body').on('click', 'ul.devicelist li', function(e) {
+            zoomOnDevice($(this));
         });
 
         if (!pageIsPublic()) {

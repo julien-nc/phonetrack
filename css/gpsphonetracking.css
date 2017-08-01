@@ -336,6 +336,9 @@ div.session label,
     display: grid;
     grid-template-columns: 65% 35%;
 }
+ul.devicelist li{
+    cursor: pointer;
+}
 ul.devicelist {
     text-align: center;
 }
