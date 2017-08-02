@@ -53,9 +53,9 @@ p($_['gpsphonetracking_version']);
             </div>
         </div>
         <div id="optionbuttonsdiv">
-            <button id="zoombutton">
+            <button id="zoomallbutton">
                 <i class="fa fa-search-plus" style="color:blue;"></i>
-                <?php p($l->t('Zoom on markers')); ?>
+                <?php p($l->t('Zoom on all markers')); ?>
             </button>
         </div>
         </div>

@@ -787,7 +787,8 @@
         publicurl = window.location.origin + publicurl;
 
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
-        divtxt = divtxt + '<h3>' + name + '</h3>';
+        divtxt = divtxt + '<h3>' + name + ' <button class="zoomsession">' +
+            '<i class="fa fa-search-plus" style="color:blue;"></i></button></h3>';
         divtxt = divtxt + '<label>' + t('gpsphonetracking', 'OsmAnd URL') + ' :</label>';
         divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>'; 
         divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger URL') + ' :</label>';
@@ -1057,12 +1058,12 @@
         }
     }
 
-    function zoomOnDisplayedMarkers() {
+    function zoomOnDisplayedMarkers(selectedName='') {
         var sessionName, d;
         var displayedMarkers = [];
         $('.watchSession').each(function() {
             sessionName = $(this).attr('sessionname');
-            if ($(this).is(':checked')) {
+            if ($(this).is(':checked') && (selectedName === '' || sessionName === selectedName)) {
                 for (d in gpsphonetracking.sessionMarkerLayers[sessionName]) {
                     displayedMarkers.push(gpsphonetracking.sessionMarkerLayers[sessionName][d].getLatLng());
                 }
@@ -1313,8 +1314,13 @@
             );
         });
 
-        $('#zoombutton').click(function (e) {
+        $('#zoomallbutton').click(function (e) {
             zoomOnDisplayedMarkers();
+        });
+
+        $('body').on('click', 'button.zoomsession', function(e) {
+            var sessionName = $(this).parent().parent().attr('name');
+            zoomOnDisplayedMarkers(sessionName);
         });
 
         $('#logme').click(function (e) {
