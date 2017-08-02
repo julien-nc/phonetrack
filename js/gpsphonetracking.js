@@ -32,7 +32,8 @@
         sessionLineLayers: {},
         sessionMarkerLayers: {},
         currentTimer: null,
-        lastTime: {}
+        lastTime: {},
+        lastZindex: 1000
     };
 
     var offset = L.point(-7, 0);
@@ -952,7 +953,7 @@
                     textcolor = 'white';
                     } 
                     $('<style track="' + d + '">.color' + colorn + ' { ' +
-                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.6);' +
+                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.8);' +
                         'color: ' + textcolor + '; font-weight: bold;' +
                         'text-align: center;' +
                         'width: 16px !important;' +
@@ -1155,6 +1156,7 @@
         var s = elem.parent().attr('session');
         var m = gpsphonetracking.sessionMarkerLayers[s][d];
         gpsphonetracking.map.panTo(m.getLatLng());
+        m.setZIndexOffset(gpsphonetracking.lastZindex++);
     }
 
     //////////////// MAIN /////////////////////
