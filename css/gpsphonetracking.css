@@ -232,10 +232,14 @@ div#logofolder label {
     grid-template-columns: 1fr 1fr;
     text-align: right;
 }
-#optionbuttonsdiv select{
+#optionbuttonsdiv button {
+    grid-column: 1/3;
+    height: 20px;
+}
+#optionbuttonsdiv select {
     width: 100%
 }
-#optionbuttonsdiv label{
+#optionbuttonsdiv label {
     margin-top: auto;
     margin-bottom: auto;
 }

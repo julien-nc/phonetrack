@@ -446,28 +446,6 @@
         }
     }
 
-    function zoomOnAllDeviceTracks() {
-        var b;
-        // get bounds of first layer
-        for (var l in gpsphonetracking.deviceLayers) {
-            b = L.latLngBounds(
-                gpsphonetracking.deviceLayers[l].layer.getBounds().getSouthWest(),
-                gpsphonetracking.deviceLayers[l].layer.getBounds().getNorthEast()
-            );
-            break;
-        }
-        // then extend to other bounds
-        for (var k in gpsphonetracking.deviceLayers) {
-            b.extend(gpsphonetracking.deviceLayers[k].layer.getBounds());
-        }
-        // zoom
-        if (b.isValid()) {
-            gpsphonetracking.map.fitBounds(b,
-                    {animate: true, paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
-            );
-        }
-    }
-
     /*
      * get key events
      */
@@ -946,7 +924,7 @@
             for (d in sessions[s]) {
                 // add line and marker if necessary
                 if (! gpsphonetracking.sessionLineLayers[s].hasOwnProperty(d)) {
-                    colorn = ++lastColorUsed;
+                    colorn = ++lastColorUsed % colorCode.length;
                     rgbc = hexToRgb(colorCode[colorn]);
                     textcolor = 'black';
                     if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
@@ -962,7 +940,7 @@
                         'line-height:16px;' +
                         ' }' +
                         '.tooltip'+colorn+' {' +
-                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.7);' +
+                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.75);' +
                         'color: ' + textcolor + '; font-weight: bold;' +
                         '}</style>').appendTo('body');
                     coloredMarkerClass = 'color' + colorn;
@@ -1069,14 +1047,34 @@
                 }
             }
 
-            // ZOOM
-            if ($('#autozoom').is(':checked') && displayedMarkers.length > 0) {
-                gpsphonetracking.map.fitBounds(displayedMarkers,
-                    {animate: true, paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
-                );
-            }
-
         });
+
+        // ZOOM
+        if ($('#autozoom').is(':checked') && displayedMarkers.length > 0) {
+            gpsphonetracking.map.fitBounds(displayedMarkers,
+                {animate: true, paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
+            );
+        }
+    }
+
+    function zoomOnDisplayedMarkers() {
+        var sessionName, d;
+        var displayedMarkers = [];
+        $('.watchSession').each(function() {
+            sessionName = $(this).attr('sessionname');
+            if ($(this).is(':checked')) {
+                for (d in gpsphonetracking.sessionMarkerLayers[sessionName]) {
+                    displayedMarkers.push(gpsphonetracking.sessionMarkerLayers[sessionName][d].getLatLng());
+                }
+            }
+        });
+
+        // ZOOM
+        if (displayedMarkers.length > 0) {
+            gpsphonetracking.map.fitBounds(displayedMarkers,
+                {animate: true, paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
+            );
+        }
     }
 
     function changeTooltipStyle() {
@@ -1313,6 +1311,10 @@
                 },
                 false, 'httpd/unix-directory', true
             );
+        });
+
+        $('#zoombutton').click(function (e) {
+            zoomOnDisplayedMarkers();
         });
 
         $('#logme').click(function (e) {

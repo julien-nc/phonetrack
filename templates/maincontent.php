@@ -31,7 +31,7 @@ p($_['gpsphonetracking_version']);
         <div id="optionscontent" style="display:none;">
         <div id="optioncheckdiv">
             <div>
-                <input id="autozoom" type="checkbox" checked="checked"/>
+                <input id="autozoom" type="checkbox"/>
                 <label for="autozoom"><i class="fa fa-search-plus" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('Auto zoom'));?></label>
                 <br/>
@@ -53,6 +53,10 @@ p($_['gpsphonetracking_version']);
             </div>
         </div>
         <div id="optionbuttonsdiv">
+            <button id="zoombutton">
+                <i class="fa fa-search-plus" style="color:blue;"></i>
+                <?php p($l->t('Zoom on markers')); ?>
+            </button>
         </div>
         </div>
     </div>
