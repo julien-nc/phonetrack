@@ -749,32 +749,32 @@
         if (selected) {
             selhtml = ' checked="checked"';
         }
-        var gpsloggerurl = OC.generateUrl('/apps/gpsphonetracking/log?');
+        var gpsloggerurl = OC.generateUrl('/apps/gpsphonetracking/logpost?');
         var gpsloggerurlparams = {
-            sessionid: token,
-            deviceid: '1'
+            token: token,
+            deviceid: 'yourname'
         };
         gpsloggerurl = gpsloggerurl +
             'lat=%LAT&' +
             'lon=%LON&' +
             'sat=%SAT&' +
             'alt=%ALT&' +
-            'prec=%ACC&' +
-            'time=%TIMESTAMP&' +
+            'acc=%ACC&' +
+            'timestamp=%TIMESTAMP&' +
             'bat=%BATT&' +
             $.param(gpsloggerurlparams);
         gpsloggerurl = window.location.origin + gpsloggerurl;
         var osmandurl = OC.generateUrl('/apps/gpsphonetracking/log?');
         var osmandurlparams = {
-            sessionid: token,
-            deviceid: '1'
+            token: token,
+            deviceid: 'yourname'
         };
         osmandurl = osmandurl +
             'lat={1}&' +
             'lon={2}&' +
             'alt={4}&' +
-            'prec={3}&' +
-            'time={2}&' +
+            'acc={3}&' +
+            'timestamp={2}&' +
             $.param(osmandurlparams);
         osmandurl = window.location.origin + osmandurl;
 
@@ -1120,11 +1120,11 @@
     function locationFound(e) {
         if (pageIsPublic() && $('#logme').is(':checked')) {
             var deviceid = $('#logmedeviceinput').val();
-            var lat, lon, alt, prec, timestamp;
+            var lat, lon, alt, acc, timestamp;
             lat = e.latitude;
             lon = e.longitude;
             alt = e.altitude;
-            prec = e.accuracy;
+            acc = e.accuracy;
             timestamp = e.timestamp;
             var req = {
                 deviceid: deviceid,
@@ -1132,7 +1132,7 @@
                 lat: lat,
                 lon: lon,
                 alt: alt,
-                prec: prec,
+                acc: acc,
                 timestamp: timestamp
             };
             var url = OC.generateUrl('/apps/gpsphonetracking/logpost');

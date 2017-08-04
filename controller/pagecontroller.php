@@ -318,7 +318,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
-    public function logpost($deviceid, $token, $lat, $lon, $alt, $prec, $timestamp) {
+    public function logpost($deviceid, $token, $lat, $lon, $alt, $timestamp, $acc, $batt, $sat) {
         if ($deviceid !== '' and
             $token !== '' and
             $lat !== '' and
@@ -352,10 +352,10 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string($lat).',';
                 $sql .= $this->db_quote_escape_string($lon).',';
                 $sql .= $this->db_quote_escape_string($time).',';
-                $sql .= $this->db_quote_escape_string($prec).',';
-                $sql .= $this->db_quote_escape_string('').',';
+                $sql .= $this->db_quote_escape_string($acc).',';
+                $sql .= $this->db_quote_escape_string($sat).',';
                 $sql .= $this->db_quote_escape_string($alt).',';
-                $sql .= $this->db_quote_escape_string('').');';
+                $sql .= $this->db_quote_escape_string($batt).');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
@@ -369,15 +369,15 @@ class PageController extends Controller {
      * @PublicPage
      **/
     public function log() {
-        if (isset($_GET['sessionid']) &&
+        if (isset($_GET['token']) &&
             isset($_GET['deviceid']) &&
             isset($_GET['lat']) &&
             isset($_GET['lon']) &&
-            isset($_GET['time'])
+            isset($_GET['timestamp'])
         ) {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
-            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($_GET['sessionid']).' ';
+            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($_GET['token']).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
             $dbname = null;
@@ -389,7 +389,7 @@ class PageController extends Controller {
 
             if ($dbname !== null) {
                 // correct timestamp if needed
-                $time = $_GET['time'];
+                $time = $_GET['timestamp'];
                 if (is_numeric($time) and (int)$time > 10000000000) {
                     $time = (int)((int)$time / 1000);
                 }
@@ -397,12 +397,12 @@ class PageController extends Controller {
                 $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessionpoints';
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
-                $sql .= $this->db_quote_escape_string($_GET['sessionid']).',';
+                $sql .= $this->db_quote_escape_string($_GET['token']).',';
                 $sql .= $this->db_quote_escape_string($_GET['deviceid']).',';
                 $sql .= $this->db_quote_escape_string($_GET['lat']).',';
                 $sql .= $this->db_quote_escape_string($_GET['lon']).',';
                 $sql .= $this->db_quote_escape_string($time).',';
-                $sql .= $this->db_quote_escape_string($_GET['prec']).',';
+                $sql .= $this->db_quote_escape_string($_GET['acc']).',';
                 $sql .= $this->db_quote_escape_string($_GET['sat']).',';
                 $sql .= $this->db_quote_escape_string($_GET['alt']).',';
                 $sql .= $this->db_quote_escape_string($_GET['bat']).');';
