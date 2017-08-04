@@ -342,6 +342,7 @@ div.session label,
 }
 ul.devicelist li{
     cursor: pointer;
+    border-radius: 5px;
 }
 ul.devicelist {
     text-align: center;
