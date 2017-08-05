@@ -31,6 +31,7 @@
         // indexed by session name, contains dict indexed by deviceid
         sessionLineLayers: {},
         sessionMarkerLayers: {},
+        sessionColors: {},
         currentTimer: null,
         lastTime: {},
         lastZindex: 1000
@@ -926,6 +927,7 @@
                 // add line and marker if necessary
                 if (! gpsphonetracking.sessionLineLayers[s].hasOwnProperty(d)) {
                     colorn = ++lastColorUsed % colorCode.length;
+                    gpsphonetracking.sessionColors[s + d] = colorn;
                     rgbc = hexToRgb(colorCode[colorn]);
                     textcolor = 'black';
                     if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
@@ -940,7 +942,7 @@
                         'border-radius: 50%;' +
                         'line-height:16px;' +
                         ' }' +
-                        '.tooltip'+colorn+' {' +
+                        '.tooltip' + colorn + ' {' +
                         'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.75);' +
                         'color: ' + textcolor + '; font-weight: bold;' +
                         '}</style>').appendTo('body');
@@ -958,7 +960,7 @@
                         {
                             permanent: false,
                             sticky: true,
-                            className: 'tooltip'+colorn
+                            className: 'tooltip' + colorn
                         }
                     );
                 }
@@ -983,7 +985,7 @@
                 if (! gpsphonetracking.sessionMarkerLayers[s].hasOwnProperty(d)) {
                     icon = L.divIcon({
                         iconAnchor: [8, 8],
-                        className: 'color'+colorn,
+                        className: 'color' + gpsphonetracking.sessionColors[s + d],
                         html: '<b>' + d[0] + '</b>'
                     });
 
@@ -997,7 +999,7 @@
                 markertooltip = 'Session ' + s + ' ; device ' + d + '<br/>';
                 gpsphonetracking.sessionMarkerLayers[s][d].bindTooltip(
                     markertooltip + mom.format('YYYY-MM-DD HH:mm:ss (Z)'),
-                    {permanent: perm, offset: offset, className: 'tooltip'+colorn}
+                    {permanent: perm, offset: offset, className: 'tooltip' + gpsphonetracking.sessionColors[s + d]}
                 );
             }
         }
