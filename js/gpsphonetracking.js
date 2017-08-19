@@ -1353,6 +1353,7 @@
             $('#customtilediv').remove();
             $('#newsessiondiv').remove();
             $('#logmediv').show();
+            $('#autozoom').prop('checked', true);
         }
 
         refresh();
