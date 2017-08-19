@@ -535,6 +535,7 @@ class PageController extends Controller {
             'gpsphonetracking_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('gpsphonetracking', 'main', $params);
+        $response->setHeaders(Array('X-Frame-Options'=>''));
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
