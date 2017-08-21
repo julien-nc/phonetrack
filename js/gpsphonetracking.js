@@ -446,7 +446,7 @@
             gpsphonetracking.map.on('baselayerchange', saveOptions);
         }
 
-		gpsphonetracking.moveButton = L.easyButton({
+        gpsphonetracking.moveButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'nomove',
@@ -478,7 +478,7 @@
             $(gpsphonetracking.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
         }
 
-		gpsphonetracking.zoomButton = L.easyButton({
+        gpsphonetracking.zoomButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'nozoom',
@@ -510,7 +510,7 @@
             $(gpsphonetracking.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
         }
 
-		gpsphonetracking.timeButton = L.easyButton({
+        gpsphonetracking.timeButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'noshowtime',
@@ -541,6 +541,19 @@
             gpsphonetracking.timeButton.state('noshowtime');
             $(gpsphonetracking.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
         }
+
+        gpsphonetracking.doZoomButton = L.easyButton({
+            position: 'bottomright',
+            states: [{
+                stateName: 'no-importa',
+                icon:      'fa-search',
+                title:     t('gpsphonetracking', 'Zoom on all markers'),
+                onClick: function(btn, map) {
+                    $('#zoomallbutton').click();
+                }
+            }]
+        });
+        gpsphonetracking.doZoomButton.addTo(gpsphonetracking.map);
     }
 
     /*
