@@ -36,9 +36,11 @@
     "Main tab" : "Onglet principal",
     "Options" : "Options",
     "View movement paths" : "Voir les mouvements",
-    "Animate markers" : "Animer les marqueurs",
     "Server url" : "URL du serveur",
     "Session name" : "Nom de session",
+    "Log my position in this session" : "Enregistrer ma position dans cette session",
+    "Device name" : "Nom d'appareil",
+    "Zoom on all markers" : "Zoomer sur tous les marqueurs",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

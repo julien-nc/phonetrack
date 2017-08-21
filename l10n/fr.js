@@ -29,6 +29,16 @@ OC.L10N.register(
         "OsmAnd URL" : "URL pour OsmAnd",
         "Delete session" : "Supprimer la session",
         "Watch this session" : "Voir cette session",
+        "Click to show time" : "Cliquez pour montrer le temps",
+        "Center map on device" : "Centrer la carte sur l'appareil",
+        "Click to hide movements" : "Cliquer pour cacher les mouvements",
+        "Click to show movements" : "Cliquer pour montrer les mouvements",
+        "Zoom on all markers" : "Zoomer sur tous les marqueurs",
+        "Failed to contact server to log position" : "Impossible de contacter le serveur pour enregistrer la position",
+        "Click to hide time" : "Cliquer pour cacher le temps",
+        "Click to activate automatic zoom" : "Cliquer pour activer le zoom automatique",
+        "Click to disable automatic zoom" : "Cliquer pour désactiver le zoom automatique",
+        "Follow this device" : "Suivre cet appareil",
         "GpsLogger URL" : "URL pour GpsLogger"
     },
 "nplurals=2; plural=(n > 1);");

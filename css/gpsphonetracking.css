@@ -361,3 +361,10 @@ ul.devicelist {
     margin-top: auto;
     margin-bottom: auto;
 }
+.followdevice {
+    height: 16px !important;
+    min-height: 16px !important;
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    line-height: 16px !important;
+}

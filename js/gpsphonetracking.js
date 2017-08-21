@@ -1056,7 +1056,9 @@
                         '<li device="' + d + '" style="font-weight: bold; color: ' + textcolor + ';' +
                         'background-color:' + colorCode[colorn] + ';"' +
                         ' title="' + t('gpsphonetracking', 'Center map on device') + ' ' +
-                        d + '">device ' + d + '</li>');
+                        d + '"><label>' + d + '</label> <input class="followdevice" type="checkbox" ' +
+                        'title="' + t('gpsphonetracking', 'Follow this device') +
+                        '"/></li>');
 
                     gpsphonetracking.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
                     linetooltip = 'Session ' + s + ' ; device ' + d;
@@ -1159,28 +1161,47 @@
 
         // ZOOM
         if ($('#autozoom').is(':checked') && displayedMarkers.length > 0) {
-            gpsphonetracking.map.fitBounds(displayedMarkers,
-                {animate: true, paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
-            );
+            zoomOnDisplayedMarkers();
         }
     }
 
     function zoomOnDisplayedMarkers(selectedName='') {
         var sessionName, d;
-        var displayedMarkers = [];
+        var markersToZoomOn = [];
+
+        // first we check if there are devices selected for zoom
+        var devicesToFollow = {};
+        var nbDevicesToFollow = $('.followdevice:checked').length;
+        $('.followdevice:checked').each(function() {
+            var session = $(this).parent().parent().attr('session');
+            var device = $(this).parent().attr('device');
+            if (!devicesToFollow.hasOwnProperty(session)) {
+                devicesToFollow[session] = [];
+            }
+            devicesToFollow[session].push(device);
+        });
+
         $('.watchSession').each(function() {
             sessionName = $(this).attr('sessionname');
             if ($(this).is(':checked') && (selectedName === '' || sessionName === selectedName)) {
                 for (d in gpsphonetracking.sessionMarkerLayers[sessionName]) {
-                    displayedMarkers.push(gpsphonetracking.sessionMarkerLayers[sessionName][d].getLatLng());
+                    // if no device is followed => all devices are taken
+                    // if some devices are followed, just take them
+                    if (nbDevicesToFollow === 0
+                        || (devicesToFollow.hasOwnProperty(sessionName) && devicesToFollow[sessionName].indexOf(d) !== -1)
+                    ) {
+                        markersToZoomOn.push(gpsphonetracking.sessionMarkerLayers[sessionName][d].getLatLng());
+                    }
                 }
             }
         });
 
         // ZOOM
-        if (displayedMarkers.length > 0) {
-            gpsphonetracking.map.fitBounds(displayedMarkers,
-                {animate: true, paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
+        if (markersToZoomOn.length > 0) {
+            gpsphonetracking.map.fitBounds(markersToZoomOn, {
+                animate: true,
+                maxZoom: 16,
+                paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
             );
         }
     }
@@ -1465,7 +1486,9 @@
         });
 
         $('body').on('click', 'ul.devicelist li', function(e) {
-            zoomOnDevice($(this));
+            if (e.target.tagName === 'LI') {
+                zoomOnDevice($(this));
+            }
         });
 
         if (!pageIsPublic()) {
@@ -1484,6 +1507,8 @@
             $('#newsessiondiv').remove();
             $('#logmediv').show();
             $('#autozoom').prop('checked', true);
+            gpsphonetracking.zoomButton.state('zoom');
+            $(gpsphonetracking.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
         }
 
         refresh();
