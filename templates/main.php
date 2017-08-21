@@ -9,6 +9,7 @@ script('gpsphonetracking', 'leaflet-sidebar.min');
 script('gpsphonetracking', 'jquery-ui.min');
 script('gpsphonetracking', 'moment-timezone-with-data.min');
 script('gpsphonetracking', 'Leaflet.LinearMeasurement');
+script('gpsphonetracking', 'easy-button');
 script('gpsphonetracking', 'gpsphonetracking');
 
 style('gpsphonetracking', 'style');
@@ -20,6 +21,7 @@ style('gpsphonetracking', 'font-awesome.min');
 style('gpsphonetracking', 'gpsphonetracking');
 style('gpsphonetracking', 'L.Control.Locate');
 style('gpsphonetracking', 'Leaflet.LinearMeasurement');
+style('gpsphonetracking', 'easy-button');
 
 ?>
 

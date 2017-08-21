@@ -445,6 +445,36 @@
         if (! pageIsPublic()) {
             gpsphonetracking.map.on('baselayerchange', saveOptions);
         }
+
+		gpsphonetracking.timeButton = L.easyButton({
+            position: 'bottomright',
+            states: [{
+                stateName: 'noshowtime',
+                //icon:      'fa-spinner',
+                icon:      'fa-circle-o',
+                title:     t('gpsphonetracking', 'Click to show time'),
+                onClick: function(btn, map) {
+                    $('#showtime').click();
+                    btn.state('showtime');
+                }
+            },{
+                stateName: 'showtime',
+                icon:      'fa-clock-o',
+                title:     t('gpsphonetracking', 'Click to hide time'),
+                onClick: function(btn, map) {
+                    $('#showtime').click();
+                    btn.state('noshowtime');
+                }
+            }]
+        });
+        gpsphonetracking.timeButton.addTo(gpsphonetracking.map);
+
+        if ($('#showtime').is(':checked')) {
+            gpsphonetracking.timeButton.state('showtime');
+        }
+        else {
+            gpsphonetracking.timeButton.state('noshowtime');
+        }
     }
 
     /*
@@ -1286,6 +1316,12 @@
             changeTooltipStyle();
             if (!pageIsPublic()) {
                 saveOptions();
+            }
+            if ($(this).is(':checked')) {
+                gpsphonetracking.timeButton.state('showtime');
+            }
+            else {
+                gpsphonetracking.timeButton.state('noshowtime');
             }
         });
 

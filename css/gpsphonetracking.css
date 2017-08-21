@@ -347,3 +347,14 @@ ul.devicelist li{
 ul.devicelist {
     text-align: center;
 }
+.easy-button-button{
+    background-color: lightcoral !important;
+}
+.easy-button-button {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.easy-button-button span.fa{
+    margin-top: auto;
+    margin-bottom: auto;
+}
