@@ -446,6 +446,70 @@
             gpsphonetracking.map.on('baselayerchange', saveOptions);
         }
 
+		gpsphonetracking.moveButton = L.easyButton({
+            position: 'bottomright',
+            states: [{
+                stateName: 'nomove',
+                //icon:      'fa-spinner',
+                icon:      'fa-line-chart',
+                title:     t('gpsphonetracking', 'Click to show movements'),
+                onClick: function(btn, map) {
+                    $('#viewmove').click();
+                    btn.state('move');
+                }
+            },{
+                stateName: 'move',
+                icon:      'fa-line-chart',
+                title:     t('gpsphonetracking', 'Click to hide movements'),
+                onClick: function(btn, map) {
+                    $('#viewmove').click();
+                    btn.state('nomove');
+                }
+            }]
+        });
+        gpsphonetracking.moveButton.addTo(gpsphonetracking.map);
+
+        if ($('#viewmove').is(':checked')) {
+            gpsphonetracking.moveButton.state('move');
+            $(gpsphonetracking.moveButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+        }
+        else {
+            gpsphonetracking.moveButton.state('nomove');
+            $(gpsphonetracking.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+        }
+
+		gpsphonetracking.zoomButton = L.easyButton({
+            position: 'bottomright',
+            states: [{
+                stateName: 'nozoom',
+                //icon:      'fa-spinner',
+                icon:      'fa-search',
+                title:     t('gpsphonetracking', 'Click to activate automatic zoom'),
+                onClick: function(btn, map) {
+                    $('#autozoom').click();
+                    btn.state('zoom');
+                }
+            },{
+                stateName: 'zoom',
+                icon:      'fa-search-plus',
+                title:     t('gpsphonetracking', 'Click to disable automatic zoom'),
+                onClick: function(btn, map) {
+                    $('#autozoom').click();
+                    btn.state('nozoom');
+                }
+            }]
+        });
+        gpsphonetracking.zoomButton.addTo(gpsphonetracking.map);
+
+        if ($('#autozoom').is(':checked')) {
+            gpsphonetracking.zoomButton.state('zoom');
+            $(gpsphonetracking.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+        }
+        else {
+            gpsphonetracking.zoomButton.state('nozoom');
+            $(gpsphonetracking.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+        }
+
 		gpsphonetracking.timeButton = L.easyButton({
             position: 'bottomright',
             states: [{
@@ -471,9 +535,11 @@
 
         if ($('#showtime').is(':checked')) {
             gpsphonetracking.timeButton.state('showtime');
+            $(gpsphonetracking.timeButton.button).addClass('easy-button-green').removeClass('easy-button-red');
         }
         else {
             gpsphonetracking.timeButton.state('noshowtime');
+            $(gpsphonetracking.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
         }
     }
 
@@ -681,9 +747,6 @@
                 if (optionsValues.showtime !== undefined) {
                     $('#showtime').prop('checked', optionsValues.showtime);
                 }
-                if (optionsValues.animatedmarkers !== undefined) {
-                    $('#animatedmarkers').prop('checked', optionsValues.animatedmarkers);
-                }
                 if (optionsValues.autozoom !== undefined) {
                     $('#autozoom').prop('checked', optionsValues.autozoom);
                 }
@@ -710,7 +773,6 @@
         var optionsValues = {};
         optionsValues.updateinterval = $('#updateinterval').val();
         optionsValues.viewmove = $('#viewmove').is(':checked');
-        optionsValues.animatedmarkers = $('#animatedmarkers').is(':checked');
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.tilelayer = gpsphonetracking.activeLayers.getActiveBaseLayer().name;
@@ -1186,7 +1248,14 @@
         var d = elem.attr('device');
         var s = elem.parent().attr('session');
         var m = gpsphonetracking.sessionMarkerLayers[s][d];
-        gpsphonetracking.map.panTo(m.getLatLng());
+
+        var b = L.latLngBounds(m.getLatLng(), m.getLatLng);
+        gpsphonetracking.map.fitBounds(b, {
+            animate: true,
+            maxZoom: 16,
+            paddingTopLeft: [parseInt($('#sidebar').css('width')),0]
+        });
+
         m.setZIndexOffset(gpsphonetracking.lastZindex++);
     }
 
@@ -1300,15 +1369,17 @@
             refresh();
         });
 
-        $('#animatedmarkers').click(function() {
-            if (!pageIsPublic()) {
-                saveOptions();
-            }
-        });
-
         $('#autozoom').click(function() {
             if (!pageIsPublic()) {
                 saveOptions();
+            }
+            if ($(this).is(':checked')) {
+                gpsphonetracking.zoomButton.state('zoom');
+                $(gpsphonetracking.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            }
+            else {
+                gpsphonetracking.zoomButton.state('nozoom');
+                $(gpsphonetracking.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
             }
         });
 
@@ -1319,9 +1390,11 @@
             }
             if ($(this).is(':checked')) {
                 gpsphonetracking.timeButton.state('showtime');
+                $(gpsphonetracking.timeButton.button).addClass('easy-button-green').removeClass('easy-button-red');
             }
             else {
                 gpsphonetracking.timeButton.state('noshowtime');
+                $(gpsphonetracking.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
             }
         });
 
@@ -1329,6 +1402,14 @@
             showHideSelectedSessions();
             if (!pageIsPublic()) {
                 saveOptions();
+            }
+            if ($(this).is(':checked')) {
+                gpsphonetracking.moveButton.state('move');
+                $(gpsphonetracking.moveButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            }
+            else {
+                gpsphonetracking.moveButton.state('nomove');
+                $(gpsphonetracking.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
             }
         });
 

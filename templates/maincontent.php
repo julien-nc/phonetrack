@@ -43,10 +43,6 @@ p($_['gpsphonetracking_version']);
                 <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('Show time tooltips'));?></label>
                 <br/>
-                <input id="animatedmarkers" type="checkbox"/>
-                <label for="animatedmarkers"><i class="fa fa-map-marker fa-spin fa-3x fa-fw" aria-hidden="true" style="color:blue;font-size:11px;"></i>
-                <?php p($l->t('Animate markers'));?></label>
-                <br/>
                 <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true" style="color:blue;"></i>
                 <?php p($l->t('Refresh each (sec)'));?></label>
                 <input id="updateinterval" type="number" min="0" max="1000" step="1" value="5"/>

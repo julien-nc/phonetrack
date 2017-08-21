@@ -347,7 +347,10 @@ ul.devicelist li{
 ul.devicelist {
     text-align: center;
 }
-.easy-button-button{
+.easy-button-green{
+    background-color: lightgreen !important;
+}
+.easy-button-red{
     background-color: lightcoral !important;
 }
 .easy-button-button {
