@@ -1179,14 +1179,19 @@
 
         // first we check if there are devices selected for zoom
         var devicesToFollow = {};
-        var nbDevicesToFollow = $('.followdevice:checked').length;
+        var nbDevicesToFollow = 0
         $('.followdevice:checked').each(function() {
-            var session = $(this).parent().parent().attr('session');
-            var device = $(this).parent().attr('device');
-            if (!devicesToFollow.hasOwnProperty(session)) {
-                devicesToFollow[session] = [];
+            // we only take those for session which are watched
+            var viewSessionCheck = $(this).parent().parent().parent().find('.watchSession');
+            if (viewSessionCheck.is(':checked')) {
+                var session = $(this).parent().parent().attr('session');
+                var device = $(this).parent().attr('device');
+                if (!devicesToFollow.hasOwnProperty(session)) {
+                    devicesToFollow[session] = [];
+                }
+                devicesToFollow[session].push(device);
+                nbDevicesToFollow++;
             }
-            devicesToFollow[session].push(device);
         });
 
         $('.watchSession').each(function() {
