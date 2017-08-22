@@ -295,6 +295,23 @@ div#logofolder label {
     grid-column: 1/3;
     text-align: center;
 }
+.session .moreUrls,
+.session .moreUrlsButton {
+    grid-column: 1/3;
+}
+.moreUrls {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+}
+.moreUrlsButton {
+    text-align: center;
+    height: 25px;
+    min-height: 25px;
+    line-height: 25px;
+    cursor: pointer;
+    background-color: #F7F7F7;
+    border: solid 1px lightgrey;
+}
 div.session input[type=text]{
     width: 100%;
 }

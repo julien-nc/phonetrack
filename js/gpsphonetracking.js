@@ -855,21 +855,23 @@
         if (selected) {
             selhtml = ' checked="checked"';
         }
-        var gpsloggerurl = OC.generateUrl('/apps/gpsphonetracking/logpost?');
-        var gpsloggerurlparams = {
+        var gpsloggerPostUrl = OC.generateUrl('/apps/gpsphonetracking/logpost?');
+        var gpsloggerGetUrl = OC.generateUrl('/apps/gpsphonetracking/log?');
+        var gpsloggerSessionParams = {
             token: token,
             deviceid: 'yourname'
         };
-        gpsloggerurl = gpsloggerurl +
-            'lat=%LAT&' +
+        var gpsloggerParams = 'lat=%LAT&' +
             'lon=%LON&' +
             'sat=%SAT&' +
             'alt=%ALT&' +
             'acc=%ACC&' +
             'timestamp=%TIMESTAMP&' +
             'bat=%BATT&' +
-            $.param(gpsloggerurlparams);
-        gpsloggerurl = window.location.origin + gpsloggerurl;
+            $.param(gpsloggerSessionParams);
+        gpsloggerPostUrl = window.location.origin + gpsloggerPostUrl + gpsloggerParams;
+        gpsloggerGetUrl = window.location.origin + gpsloggerGetUrl + gpsloggerParams;
+
         var osmandurl = OC.generateUrl('/apps/gpsphonetracking/log?');
         var osmandurlparams = {
             token: token,
@@ -895,12 +897,18 @@
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
         divtxt = divtxt + '<h3>' + name + ' <button class="zoomsession">' +
             '<i class="fa fa-search-plus" style="color:blue;"></i></button></h3>';
-        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'OsmAnd URL') + ' :</label>';
-        divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>'; 
-        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger URL') + ' :</label>';
-        divtxt = divtxt + '<input role="gpsloggerurl" type="text" value="' + gpsloggerurl + '"></input>'; 
         divtxt = divtxt + '<label>' + t('gpsphonetracking', 'Public URL') + ' :</label>';
         divtxt = divtxt + '<input role="publicurl" type="text" value="' + publicurl + '"></input>'; 
+        divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('gpsphonetracking', 'More URLs') +
+            '</label> <i class="fa fa-angle-double-down"></i></p>';
+        divtxt = divtxt + '<div class="moreUrls">';
+        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'OsmAnd URL') + ' :</label>';
+        divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>';
+        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger GET URL') + ' :</label>';
+        divtxt = divtxt + '<input role="gpsloggergeturl" type="text" value="' + gpsloggerGetUrl + '"></input>';
+        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger POST URL') + ' :</label>';
+        divtxt = divtxt + '<input role="gpsloggerposturl" type="text" value="' + gpsloggerPostUrl + '"></input>';
+        divtxt = divtxt + '</div>';
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
             t('gpsphonetracking', 'Delete session') + '</button>';
         if (!pageIsPublic()) {
@@ -1488,6 +1496,18 @@
         $('body').on('click', 'ul.devicelist li', function(e) {
             if (e.target.tagName === 'LI') {
                 zoomOnDevice($(this));
+            }
+        });
+
+        $('body').on('click','.moreUrlsButton', function(e) {
+            var urlDiv = $(this).parent().find('.moreUrls');
+            if (urlDiv.is(':visible')) {
+                urlDiv.slideUp('slow');
+                $(this).find('i').removeClass('fa-angle-double-up').addClass('fa-angle-double-down');
+            }
+            else{
+                urlDiv.slideDown('slow').css('display', 'grid');
+                $(this).find('i').removeClass('fa-angle-double-down').addClass('fa-angle-double-up');
             }
         });
 
