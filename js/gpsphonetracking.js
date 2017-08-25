@@ -985,7 +985,7 @@
         $('.watchSession:checked').each(function() {
             var token = $(this).attr('token');
             var name = $(this).attr('sessionname');
-            var lastTimes = gpsphonetracking.lastTime[name] || {};
+            var lastTimes = gpsphonetracking.lastTime[name] || '';
             sessionsToWatch.push([token, name, lastTimes]);
         });
 

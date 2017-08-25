@@ -456,7 +456,7 @@ class PageController extends Controller {
                 foreach ($devices as $devname) {
                     $resultDevArray = array();
                     $lastDeviceTime = 0;
-                    if (array_key_exists('d'.$devname, $lastTime)) {
+                    if (is_array($lastTime) && array_key_exists('d'.$devname, $lastTime)) {
                         $lastDeviceTime = $lastTime['d'.$devname];
                     }
 

@@ -39,7 +39,9 @@ OC.L10N.register(
         "Click to activate automatic zoom" : "Cliquer pour activer le zoom automatique",
         "Click to disable automatic zoom" : "Cliquer pour désactiver le zoom automatique",
         "Follow this device" : "Suivre cet appareil",
-        "GpsLogger URL" : "URL pour GpsLogger"
+        "More URLs" : "Plus d'URLs",
+        "GpsLogger GET URL" : "URL GET pour GpsLogger",
+        "GpsLogger POST URL" : "URL POST pour GpsLogger"
     },
 "nplurals=2; plural=(n > 1);");
 
