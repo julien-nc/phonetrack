@@ -1056,7 +1056,7 @@
                         'line-height:16px;' +
                         ' }' +
                         '.tooltip' + colorn + ' {' +
-                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.75);' +
+                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
                         'color: ' + textcolor + '; font-weight: bold;' +
                         '}</style>').appendTo('body');
                     coloredMarkerClass = 'color' + colorn;
@@ -1220,6 +1220,7 @@
     }
 
     function changeTooltipStyle() {
+        console.log('changeTooltipStyle');
         var perm = $('#showtime').is(':checked');
         var s, d, m, t;
         for (s in gpsphonetracking.sessionMarkerLayers) {
@@ -1227,7 +1228,7 @@
                 m = gpsphonetracking.sessionMarkerLayers[s][d];
                 t = m.getTooltip();
                 m.unbindTooltip();
-                m.bindTooltip(t, {permanent: perm, offset: offset, opacity: 0.6});
+                m.bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + gpsphonetracking.sessionColors[s + d]});
             }
         }
     }
@@ -1499,7 +1500,7 @@
         });
 
         $('body').on('click', 'ul.devicelist li', function(e) {
-            if (e.target.tagName === 'LI') {
+            if (e.target.tagName === 'LI' || e.target.tagName === 'LABEL') {
                 zoomOnDevice($(this));
             }
         });
