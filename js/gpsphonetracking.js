@@ -951,6 +951,43 @@
         });
     }
 
+    function deleteDevice(session, device) {
+        var req = {
+            session: session,
+            device: device
+        };
+        var url = OC.generateUrl('/apps/gpsphonetracking/deleteDevice');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                removeDevice(session, device);
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: device, s: session}));
+            }
+            else if (response.done === 2) {
+                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: device, s: session}));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to contact server to delete device'));
+        });
+    }
+
+    function removeDevice(session, device) {
+        // remove devicelist line
+        $('.devicelist li[session="' + session + '"][device="' + device + '"]').fadeOut('slow', function() {
+            $(this).remove();
+        });
+        // remove marker, line and tooltips
+        gpsphonetracking.sessionMarkerLayers[session][device].unbindTooltip().remove();
+        delete gpsphonetracking.sessionMarkerLayers[session][device];
+        gpsphonetracking.sessionLineLayers[session][device].unbindTooltip().remove();
+        delete gpsphonetracking.sessionLineLayers[session][device];
+    }
+
     function removeSession(div) {
         div.fadeOut('slow', function() {
             div.remove();
@@ -1060,13 +1097,20 @@
                         'color: ' + textcolor + '; font-weight: bold;' +
                         '}</style>').appendTo('body');
                     coloredMarkerClass = 'color' + colorn;
+                    var deleteLink = '';
+                    if (!pageIsPublic()) {
+                        deleteLink = ' <i class="fa fa-trash deleteDevice" session="' + s + '" aria-hidden="true" title="' +
+                        t('gpsphonetracking', 'Delete this device') +
+                        '" device="' + d + '"></i>';
+                    }
                     $('div.session[name="' + s + '"] ul.devicelist').append(
-                        '<li device="' + d + '" style="font-weight: bold; color: ' + textcolor + ';' +
+                        '<li device="' + d + '" session="' + s + '" style="font-weight: bold; color: ' + textcolor + ';' +
                         'background-color:' + colorCode[colorn] + ';"' +
                         ' title="' + t('gpsphonetracking', 'Center map on device') + ' ' +
-                        d + '"><label>' + d + '</label> <input class="followdevice" type="checkbox" ' +
-                        'title="' + t('gpsphonetracking', 'Follow this device') +
-                        '"/></li>');
+                        d + '"><input class="followdevice" type="checkbox" ' +
+                        'title="' + t('gpsphonetracking', 'Follow this device (autozoom)') +
+                        '"/><label class="deviceLabel">' + d + '</label> ' + deleteLink +
+                        '</li>');
 
                     gpsphonetracking.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
                     linetooltip = 'Session ' + s + ' ; device ' + d;
@@ -1515,6 +1559,12 @@
                 urlDiv.slideDown('slow').css('display', 'grid');
                 $(this).find('i').removeClass('fa-angle-double-down').addClass('fa-angle-double-up');
             }
+        });
+
+        $('body').on('click','.deleteDevice', function(e) {
+            var session = $(this).attr('session');
+            var device = $(this).attr('device');
+            deleteDevice(session, device);
         });
 
         if (!pageIsPublic()) {

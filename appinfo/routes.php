@@ -28,6 +28,7 @@ return [
         ['name' => 'page#logpost', 'url' => '/logpost', 'verb' => 'POST'],
         ['name' => 'page#track', 'url' => '/track', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
+        ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],
         ['name' => 'utils#addTileServer', 'url' => '/addTileServer', 'verb' => 'POST'],
         ['name' => 'utils#deleteTileServer', 'url' => '/deleteTileServer', 'verb' => 'POST'],
         ['name' => 'utils#getOptionsValues', 'url' => '/getOptionsValues', 'verb' => 'POST'],

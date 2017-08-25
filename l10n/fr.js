@@ -38,9 +38,13 @@ OC.L10N.register(
         "Click to hide time" : "Cliquer pour cacher le temps",
         "Click to activate automatic zoom" : "Cliquer pour activer le zoom automatique",
         "Click to disable automatic zoom" : "Cliquer pour désactiver le zoom automatique",
-        "Follow this device" : "Suivre cet appareil",
+        "Follow this device (autozoom)" : "Suivre cet appareil (zoom auto)",
         "More URLs" : "Plus d'URLs",
         "GpsLogger GET URL" : "URL GET pour GpsLogger",
+        "Device '{d}' of session '{s}' has been deleted" : "L'appareil '{d}' de la session '{s}' a été supprimé",
+        "Failed to delete device '{d}' of session '{s}'" : "Échec à la suppression de l'appareil '{d}' de la session '{s}'",
+        "Failed to contact server to delete device" : "Impossible de contacter le serveur pour supprimer l'appareil",
+        "Delete this device" : "Supprimer cet appareil",
         "GpsLogger POST URL" : "URL POST pour GpsLogger"
     },
 "nplurals=2; plural=(n > 1);");

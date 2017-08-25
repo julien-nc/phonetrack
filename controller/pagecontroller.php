@@ -315,6 +315,67 @@ class PageController extends Controller {
 
     /**
      * @NoAdminRequired
+     */
+    public function deleteDevice($session, $device) {
+        // check if session exists
+        $sqlchk = 'SELECT name, token FROM *PREFIX*gpsphonetracking_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND name='.$this->db_quote_escape_string($session).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        $token = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $token = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if device exists
+            $sqlchk = 'SELECT count(*) as c FROM *PREFIX*gpsphonetracking_sessionpoints ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $c = 0;
+            while ($row = $req->fetch()){
+                $c = (int)$row['c'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($c > 0) {
+                $sqldel = 'DELETE FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqldel .= 'AND deviceid='.$this->db_quote_escape_string($device).' ';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+            }
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
      **/

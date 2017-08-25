@@ -384,4 +384,14 @@ ul.devicelist {
     padding: 0px 0px 0px 0px !important;
     margin: 0px 0px 0px 0px !important;
     line-height: 16px !important;
+    float: left;
+    margin-left: 4px !important;
+}
+.deleteDevice {
+    line-height: 20px;
+    margin-right: 4px;
+    float: right;
+    color: blue;
+}
+.deviceLabel {
 }

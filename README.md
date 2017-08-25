@@ -5,9 +5,9 @@ and display them dynamically on a Leaflet map. Principle is simple :
 
 * create a tracking session
 * give the tracking URL to the mobile devices. 3 methods :
-    * OsmAnd gpx recording plugin is able to log to a custom URL with GET method
-    * GpsLogger (Options -> Logging details -> Log to custom URL)
-    * With a web browser, on the session public page, check "Log my position in this session"
+    * [OsmAnd gpx recording plugin](https://osmand.net/features?id=trip-recording-plugin#Online_tracking) is able to log to a custom URL with GET method
+    * [GpsLogger](http://code.mendhak.com/gpslogger/#features) (Options -> Logging details -> Log to custom URL)
+    * With a web browser, on the session public page, check "Log my position in this session" (works better on Android than on IOS...)
     * Does anyone know an IOS app which can log position to custom URL in background ? Create an issue if you do !
 * Watch the session's devices positions in real time (or not) in GpsPhoneTracking normal or public page
 
