@@ -1,6 +1,6 @@
-# GpsPhoneTracking ownCloud/Nextcloud application
+# PhoneTrack ownCloud/Nextcloud application
 
-GpsPhoneTracking is an app to get tracking information from mobile devices
+PhoneTrack is an app to get tracking information from mobile devices
 and display them dynamically on a Leaflet map. Principle is simple :
 
 * create a tracking session
@@ -9,9 +9,9 @@ and display them dynamically on a Leaflet map. Principle is simple :
     * [GpsLogger](http://code.mendhak.com/gpslogger/#features) (Options -> Logging details -> Log to custom URL)
     * With a web browser, on the session public page, check "Log my position in this session" (works better on Android than on IOS...)
     * Does anyone know an IOS app which can log position to custom URL in background ? Create an issue if you do !
-* Watch the session's devices positions in real time (or not) in GpsPhoneTracking normal or public page
+* Watch the session's devices positions in real time (or not) in PhoneTrack normal or public page
 
-On GpsPhoneTracking main page, while watching a session, you can select some devices to make the automatic zoom
+On PhoneTrack main page, while watching a session, you can select some devices to make the automatic zoom
 work only with those devices. Sessions can be exported in GPX format (one subtrack by device) and
 saved in Nextcloud/ownCloud files.
 
@@ -23,9 +23,9 @@ This app is tested under Owncloud 9.0/Nextcloud 11 with Firefox and Chromium.
 
 This app is under development.
 
-Link to Owncloud application website : https://marketplace.owncloud.com/apps/gpsphonetracking
+Link to Owncloud application website : https://marketplace.owncloud.com/apps/phonetrack
 
-Link to Nextcloud application website : https://apps.nextcloud.com/apps/gpsphonetracking
+Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack
 
 ## Donation
 
@@ -33,24 +33,24 @@ I develop this app during my free time. You can make a donation to me on Paypal.
 
 ## Install
 
-See the [AdminDoc](https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/admindoc) for more details.
+See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for more details.
 
-Put gpsphonetracking directory in Owncloud/Nextcloud apps directory to install.
+Put phonetrack directory in Owncloud/Nextcloud apps directory to install.
 There are several ways to do that :
 
 ### Clone the git repository
 
 ```
 cd /path/to/owncloud/apps
-git clone https://gitlab.com/eneiluj/gpsphonetracking-oc.git gpsphonetracking
+git clone https://gitlab.com/eneiluj/phonetrack-oc.git phonetrack
 ```
 
 ### Download from https://apps.owncloud.com or https://apps.nextcloud.com
 
-Extract gpsphonetracking archive you just downloaded from the website :
+Extract phonetrack archive you just downloaded from the website :
 ```
 cd /path/to/owncloud/apps
-tar xvf gpsphonetracking-x.x.x.tar.gz
+tar xvf phonetrack-x.x.x.tar.gz
 ```
 
 ## Known issues

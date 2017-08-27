@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud/Nextcloud - gpsphonetracking
+ * ownCloud/Nextcloud - phonetrack
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,7 +9,7 @@
  * @copyright Julien Veyssier 2017
  */
 
-namespace OCA\GpsPhoneTracking\Controller;
+namespace OCA\PhoneTrack\Controller;
 
 use OCP\App\IAppManager;
 
@@ -73,12 +73,12 @@ class UtilsController extends Controller {
         // the first case : Nextcloud
         // else : Owncloud
         if (method_exists($appManager, 'getAppPath')){
-            $this->appPath = $appManager->getAppPath('gpsphonetracking');
+            $this->appPath = $appManager->getAppPath('phonetrack');
         }
         else {
-            $this->appPath = \OC_App::getAppPath('gpsphonetracking');
+            $this->appPath = \OC_App::getAppPath('phonetrack');
             // even dirtier
-            //$this->appPath = getcwd().'/apps/gpsphonetracking';
+            //$this->appPath = getcwd().'/apps/phonetrack';
         }
         $this->userId = $UserId;
         $this->dbtype = $config->getSystemValue('dbtype');
@@ -117,7 +117,7 @@ class UtilsController extends Controller {
                     $layers, $version, $tformat, $opacity, $transparent,
                     $minzoom, $maxzoom, $attribution) {
         // first we check it does not already exist
-        $sqlts = 'SELECT servername FROM *PREFIX*gpsphonetracking_tile_servers ';
+        $sqlts = 'SELECT servername FROM *PREFIX*phonetrack_tile_servers ';
         $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $sqlts .= 'AND servername='.$this->db_quote_escape_string($servername).' AND type='.$this->db_quote_escape_string($type).' ';
         $req = $this->dbconnection->prepare($sqlts);
@@ -131,7 +131,7 @@ class UtilsController extends Controller {
 
         // then if not, we insert it
         if ($ts === null){
-            $sql = 'INSERT INTO *PREFIX*gpsphonetracking_tile_servers';
+            $sql = 'INSERT INTO *PREFIX*phonetrack_tile_servers';
             $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', type, servername, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution) ';
             $sql .= 'VALUES (\''.$this->userId.'\',';
             $sql .= $this->db_quote_escape_string($type).',';
@@ -172,7 +172,7 @@ class UtilsController extends Controller {
      * @NoAdminRequired
      */
     public function deleteTileServer($servername, $type) {
-        $sqldel = 'DELETE FROM *PREFIX*gpsphonetracking_tile_servers ';
+        $sqldel = 'DELETE FROM *PREFIX*phonetrack_tile_servers ';
         $sqldel .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' AND servername=';
         $sqldel .= $this->db_quote_escape_string($servername).' AND type='.$this->db_quote_escape_string($type).';';
         $req = $this->dbconnection->prepare($sqldel);
@@ -198,7 +198,7 @@ class UtilsController extends Controller {
      */
     public function saveOptionsValues($optionsValues) {
         // first we check if user already has options values in DB
-        $sqlts = 'SELECT jsonvalues FROM *PREFIX*gpsphonetracking_options_values ';
+        $sqlts = 'SELECT jsonvalues FROM *PREFIX*phonetrack_options_values ';
         $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $req = $this->dbconnection->prepare($sqlts);
         $req->execute();
@@ -211,7 +211,7 @@ class UtilsController extends Controller {
 
         // if nothing is there, we insert
         if ($check === null){
-            $sql = 'INSERT INTO *PREFIX*gpsphonetracking_options_values';
+            $sql = 'INSERT INTO *PREFIX*phonetrack_options_values';
             $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', jsonvalues) ';
             $sql .= 'VALUES ('.$this->db_quote_escape_string($this->userId).',';
             $sql .= ''.$this->db_quote_escape_string($optionsValues).');';
@@ -221,7 +221,7 @@ class UtilsController extends Controller {
         }
         // else we update the values
         else{
-            $sqlupd = 'UPDATE *PREFIX*gpsphonetracking_options_values ';
+            $sqlupd = 'UPDATE *PREFIX*phonetrack_options_values ';
             $sqlupd .= 'SET jsonvalues='.$this->db_quote_escape_string($optionsValues).' ';
             $sqlupd .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ; ';
             $req = $this->dbconnection->prepare($sqlupd);
@@ -247,7 +247,7 @@ class UtilsController extends Controller {
      * @NoAdminRequired
      */
     public function getOptionsValues($optionsValues) {
-        $sqlov = 'SELECT jsonvalues FROM *PREFIX*gpsphonetracking_options_values ';
+        $sqlov = 'SELECT jsonvalues FROM *PREFIX*phonetrack_options_values ';
         $sqlov .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlov);
         $req->execute();

@@ -2,19 +2,19 @@
 <!-- Nav tabs -->
 <ul class="sidebar-tabs" role="tablist">
 <li class="active" title="<?php p($l->t('Main tab')); ?>"><a href="#ho" role="tab"><i class="fa fa-bars"></i></a></li>
-<li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#gpsphonetrackingsettings" role="tab"><i class="fa fa-gear"></i></a></li>
-<li title="<?php p($l->t('About GpsPhoneTracking')); ?>"><a href="#help" role="tab"><i class="fa fa-question"></i></a></li>
+<li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-gear"></i></a></li>
+<li title="<?php p($l->t('About PhoneTrack')); ?>"><a href="#help" role="tab"><i class="fa fa-question"></i></a></li>
 </ul>
 <!-- Tab panes -->
 <div class="sidebar-content active">
 <div class="sidebar-pane active" id="ho">
     <div id="logofolder">
         <div id="logo">
-            <!--p align="center"><img src="gpsphonetracking.png"/></p-->
+            <!--p align="center"><img src="phonetrack.png"/></p-->
             <div>
             <p>v
 <?php
-p($_['gpsphonetracking_version']);
+p($_['phonetrack_version']);
 ?>
             </p>
             </div>
@@ -103,7 +103,7 @@ echo '</ul>'."\n";
 
 ?>
 </div>
-<div class="sidebar-pane" id="gpsphonetrackingsettings">
+<div class="sidebar-pane" id="phonetracksettings">
 <h1 class="sectiontitle"><?php p($l->t('Settings and extra actions')); ?></h1>
 <hr/>
 <br/>
@@ -290,7 +290,7 @@ if (count($_['useroverlayserverswms']) > 0){
 
 </div>
 <div class="sidebar-pane" id="help">
-    <h1 class="sectiontitle"><?php p($l->t('About GpsPhoneTracking')); ?></h1>
+    <h1 class="sectiontitle"><?php p($l->t('About PhoneTrack')); ?></h1>
     <hr/><br/>
     <h3 class="sectiontitle"><?php p($l->t('Shortcuts')); ?> :</h3>
     <ul class="disclist">
@@ -299,7 +299,7 @@ if (count($_['useroverlayserverswms']) > 0){
 
     <br/><hr/><br/>
     <h3 class="sectiontitle"><?php p($l->t('Documentation')); ?></h3>
-    <a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/home">
+    <a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/wikis/home">
     <i class="fa fa-gitlab" aria-hidden="true"></i>
     Project wiki
     </a>
@@ -308,10 +308,10 @@ if (count($_['useroverlayserverswms']) > 0){
     <br/><hr/><br/>
     <h3 class="sectiontitle"><?php p($l->t('Source management')); ?></h3>
     <ul class="disclist">
-        <li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/gpsphonetracking-oc">
+        <li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc">
         <i class="fa fa-gitlab" aria-hidden="true"></i>
         Gitlab project main page</a></li>
-        <li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/gpsphonetracking-oc/issues">
+        <li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/issues">
         <i class="fa fa-gitlab" aria-hidden="true"></i>
         Gitlab project issue tracker</a></li>
     </ul>

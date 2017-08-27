@@ -23,7 +23,7 @@
         '#ffd700'
     ];
     var lastColorUsed = -1;
-    var gpsphonetracking = {
+    var phonetrack = {
         map: {},
         baseLayers: null,
         overlayLayers: null,
@@ -263,8 +263,8 @@
 
         var layer = getUrlParameter('layer');
         var default_layer = 'OpenStreetMap';
-        if (gpsphonetracking.restoredTileLayer !== null) {
-            default_layer = gpsphonetracking.restoredTileLayer;
+        if (phonetrack.restoredTileLayer !== null) {
+            default_layer = phonetrack.restoredTileLayer;
         }
         else if (typeof layer !== 'undefined') {
             default_layer = layer;
@@ -328,7 +328,7 @@
             baseLayers[sname] = new L.tileLayer.wms(surl,
                     {format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: sattrib});
         });
-        gpsphonetracking.baseLayers = baseLayers;
+        phonetrack.baseLayers = baseLayers;
 
         var baseOverlays = {};
 
@@ -403,56 +403,56 @@
             var sattrib = $(this).attr('attribution') || '';
             baseOverlays[sname] = new L.tileLayer.wms(surl, {layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: sattrib, minZoom: sminzoom, maxZoom: smaxzoom});
         });
-        gpsphonetracking.overlayLayers = baseOverlays;
+        phonetrack.overlayLayers = baseOverlays;
 
-        gpsphonetracking.map = new L.Map('map', {
+        phonetrack.map = new L.Map('map', {
             zoomControl: true,
         });
 
         L.control.scale({metric: true, imperial: true, position: 'topleft'})
-        .addTo(gpsphonetracking.map);
+        .addTo(phonetrack.map);
 
-        L.control.mousePosition().addTo(gpsphonetracking.map);
-        gpsphonetracking.locateControl = L.control.locate({setView: false, locateOptions: {enableHighAccuracy: true}});
-        gpsphonetracking.locateControl.addTo(gpsphonetracking.map);
-        gpsphonetracking.map.on('locationfound', function(e) {
+        L.control.mousePosition().addTo(phonetrack.map);
+        phonetrack.locateControl = L.control.locate({setView: false, locateOptions: {enableHighAccuracy: true}});
+        phonetrack.locateControl.addTo(phonetrack.map);
+        phonetrack.map.on('locationfound', function(e) {
             locationFound(e);
         });
-        gpsphonetracking.map.addControl(new L.Control.LinearMeasurement({
+        phonetrack.map.addControl(new L.Control.LinearMeasurement({
             unitSystem: 'metric',
             color: '#FF0080',
             type: 'line'
         }));
-        L.control.sidebar('sidebar').addTo(gpsphonetracking.map);
+        L.control.sidebar('sidebar').addTo(phonetrack.map);
 
-        gpsphonetracking.map.setView(new L.LatLng(27, 5), 3);
+        phonetrack.map.setView(new L.LatLng(27, 5), 3);
 
         if (! baseLayers.hasOwnProperty(default_layer)) {
             default_layer = 'OpenStreetMap';
         }
-        gpsphonetracking.map.addLayer(baseLayers[default_layer]);
+        phonetrack.map.addLayer(baseLayers[default_layer]);
 
-        gpsphonetracking.activeLayers = L.control.activeLayers(baseLayers, baseOverlays);
-        gpsphonetracking.activeLayers.addTo(gpsphonetracking.map);
+        phonetrack.activeLayers = L.control.activeLayers(baseLayers, baseOverlays);
+        phonetrack.activeLayers.addTo(phonetrack.map);
 
-        //gpsphonetracking.map.on('contextmenu',rightClick);
-        //gpsphonetracking.map.on('popupclose',function() {});
-        //gpsphonetracking.map.on('viewreset',updateTrackListFromBounds);
-        //gpsphonetracking.map.on('dragend',updateTrackListFromBounds);
-        //gpsphonetracking.map.on('moveend', updateTrackListFromBounds);
-        //gpsphonetracking.map.on('zoomend', updateTrackListFromBounds);
-        //gpsphonetracking.map.on('baselayerchange', updateTrackListFromBounds);
+        //phonetrack.map.on('contextmenu',rightClick);
+        //phonetrack.map.on('popupclose',function() {});
+        //phonetrack.map.on('viewreset',updateTrackListFromBounds);
+        //phonetrack.map.on('dragend',updateTrackListFromBounds);
+        //phonetrack.map.on('moveend', updateTrackListFromBounds);
+        //phonetrack.map.on('zoomend', updateTrackListFromBounds);
+        //phonetrack.map.on('baselayerchange', updateTrackListFromBounds);
         if (! pageIsPublic()) {
-            gpsphonetracking.map.on('baselayerchange', saveOptions);
+            phonetrack.map.on('baselayerchange', saveOptions);
         }
 
-        gpsphonetracking.moveButton = L.easyButton({
+        phonetrack.moveButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'nomove',
                 //icon:      'fa-spinner',
                 icon:      'fa-line-chart',
-                title:     t('gpsphonetracking', 'Click to show movements'),
+                title:     t('phonetrack', 'Click to show movements'),
                 onClick: function(btn, map) {
                     $('#viewmove').click();
                     btn.state('move');
@@ -460,31 +460,31 @@
             },{
                 stateName: 'move',
                 icon:      'fa-line-chart',
-                title:     t('gpsphonetracking', 'Click to hide movements'),
+                title:     t('phonetrack', 'Click to hide movements'),
                 onClick: function(btn, map) {
                     $('#viewmove').click();
                     btn.state('nomove');
                 }
             }]
         });
-        gpsphonetracking.moveButton.addTo(gpsphonetracking.map);
+        phonetrack.moveButton.addTo(phonetrack.map);
 
         if ($('#viewmove').is(':checked')) {
-            gpsphonetracking.moveButton.state('move');
-            $(gpsphonetracking.moveButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            phonetrack.moveButton.state('move');
+            $(phonetrack.moveButton.button).addClass('easy-button-green').removeClass('easy-button-red');
         }
         else {
-            gpsphonetracking.moveButton.state('nomove');
-            $(gpsphonetracking.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+            phonetrack.moveButton.state('nomove');
+            $(phonetrack.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
         }
 
-        gpsphonetracking.zoomButton = L.easyButton({
+        phonetrack.zoomButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'nozoom',
                 //icon:      'fa-spinner',
                 icon:      'fa-search',
-                title:     t('gpsphonetracking', 'Click to activate automatic zoom'),
+                title:     t('phonetrack', 'Click to activate automatic zoom'),
                 onClick: function(btn, map) {
                     $('#autozoom').click();
                     btn.state('zoom');
@@ -492,31 +492,31 @@
             },{
                 stateName: 'zoom',
                 icon:      'fa-search-plus',
-                title:     t('gpsphonetracking', 'Click to disable automatic zoom'),
+                title:     t('phonetrack', 'Click to disable automatic zoom'),
                 onClick: function(btn, map) {
                     $('#autozoom').click();
                     btn.state('nozoom');
                 }
             }]
         });
-        gpsphonetracking.zoomButton.addTo(gpsphonetracking.map);
+        phonetrack.zoomButton.addTo(phonetrack.map);
 
         if ($('#autozoom').is(':checked')) {
-            gpsphonetracking.zoomButton.state('zoom');
-            $(gpsphonetracking.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            phonetrack.zoomButton.state('zoom');
+            $(phonetrack.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
         }
         else {
-            gpsphonetracking.zoomButton.state('nozoom');
-            $(gpsphonetracking.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+            phonetrack.zoomButton.state('nozoom');
+            $(phonetrack.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
         }
 
-        gpsphonetracking.timeButton = L.easyButton({
+        phonetrack.timeButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'noshowtime',
                 //icon:      'fa-spinner',
                 icon:      'fa-circle-o',
-                title:     t('gpsphonetracking', 'Click to show time'),
+                title:     t('phonetrack', 'Click to show time'),
                 onClick: function(btn, map) {
                     $('#showtime').click();
                     btn.state('showtime');
@@ -524,36 +524,36 @@
             },{
                 stateName: 'showtime',
                 icon:      'fa-clock-o',
-                title:     t('gpsphonetracking', 'Click to hide time'),
+                title:     t('phonetrack', 'Click to hide time'),
                 onClick: function(btn, map) {
                     $('#showtime').click();
                     btn.state('noshowtime');
                 }
             }]
         });
-        gpsphonetracking.timeButton.addTo(gpsphonetracking.map);
+        phonetrack.timeButton.addTo(phonetrack.map);
 
         if ($('#showtime').is(':checked')) {
-            gpsphonetracking.timeButton.state('showtime');
-            $(gpsphonetracking.timeButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            phonetrack.timeButton.state('showtime');
+            $(phonetrack.timeButton.button).addClass('easy-button-green').removeClass('easy-button-red');
         }
         else {
-            gpsphonetracking.timeButton.state('noshowtime');
-            $(gpsphonetracking.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+            phonetrack.timeButton.state('noshowtime');
+            $(phonetrack.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
         }
 
-        gpsphonetracking.doZoomButton = L.easyButton({
+        phonetrack.doZoomButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'no-importa',
                 icon:      'fa-search',
-                title:     t('gpsphonetracking', 'Zoom on all markers'),
+                title:     t('phonetrack', 'Zoom on all markers'),
                 onClick: function(btn, map) {
                     $('#zoomallbutton').click();
                 }
             }]
         });
-        gpsphonetracking.doZoomButton.addTo(gpsphonetracking.map);
+        phonetrack.doZoomButton.addTo(phonetrack.map);
     }
 
     /*
@@ -615,13 +615,13 @@
         var sversion = $('#'+type+'version').val() || '';
         var slayers = $('#'+type+'layers').val() || '';
         if (sname === '' || surl === '') {
-            OC.dialogs.alert(t('gpsphonetracking', 'Server name or server url should not be empty'),
-                             t('gpsphonetracking', 'Impossible to add tile server'));
+            OC.dialogs.alert(t('phonetrack', 'Server name or server url should not be empty'),
+                             t('phonetrack', 'Impossible to add tile server'));
             return;
         }
         if ($('#'+type+'serverlist ul li[servername="' + sname + '"]').length > 0) {
-            OC.dialogs.alert(t('gpsphonetracking', 'A server with this name already exists'),
-                             t('gpsphonetracking', 'Impossible to add tile server'));
+            OC.dialogs.alert(t('phonetrack', 'A server with this name already exists'),
+                             t('phonetrack', 'Impossible to add tile server'));
             return;
         }
         $('#'+type+'servername').val('');
@@ -640,7 +640,7 @@
             maxzoom: smaxzoom,
             attribution: ''
         };
-        var url = OC.generateUrl('/apps/gpsphonetracking/addTileServer');
+        var url = OC.generateUrl('/apps/phonetrack/addTileServer');
         $.ajax({
             type: 'POST',
             url: url,
@@ -653,7 +653,7 @@
                     '" title="' + escapeHTML(surl) + '">' +
                     escapeHTML(sname) + ' <button>' +
                     '<i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' +
-                    t('gpsphonetracking', 'Delete') +
+                    t('phonetrack', 'Delete') +
                     '</button></li>'
                 );
                 $('#'+type+'serverlist ul li[servername="' + sname + '"]').fadeIn('slow');
@@ -662,38 +662,38 @@
                     // add tile server in leaflet control
                     var newlayer = new L.TileLayer(surl,
                         {minZoom: sminzoom, maxZoom: smaxzoom, attribution: ''});
-                    gpsphonetracking.activeLayers.addBaseLayer(newlayer, sname);
-                    gpsphonetracking.baseLayers[sname] = newlayer;
+                    phonetrack.activeLayers.addBaseLayer(newlayer, sname);
+                    phonetrack.baseLayers[sname] = newlayer;
                 }
                 else if (type === 'tilewms'){
                     // add tile server in leaflet control
                     var newlayer = new L.tileLayer.wms(surl,
                         {format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: ''});
-                    gpsphonetracking.activeLayers.addBaseLayer(newlayer, sname);
-                    gpsphonetracking.overlayLayers[sname] = newlayer;
+                    phonetrack.activeLayers.addBaseLayer(newlayer, sname);
+                    phonetrack.overlayLayers[sname] = newlayer;
                 }
                 if (type === 'overlay') {
                     // add tile server in leaflet control
                     var newlayer = new L.TileLayer(surl,
                         {minZoom: sminzoom, maxZoom: smaxzoom, transparent: stransparent, opcacity: sopacity, attribution: ''});
-                    gpsphonetracking.activeLayers.addOverlay(newlayer, sname);
-                    gpsphonetracking.baseLayers[sname] = newlayer;
+                    phonetrack.activeLayers.addOverlay(newlayer, sname);
+                    phonetrack.baseLayers[sname] = newlayer;
                 }
                 else if (type === 'overlaywms'){
                     // add tile server in leaflet control
                     var newlayer = new L.tileLayer.wms(surl,
                         {layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: '', minZoom: sminzoom, maxZoom: smaxzoom});
-                    gpsphonetracking.activeLayers.addOverlay(newlayer, sname);
-                    gpsphonetracking.overlayLayers[sname] = newlayer;
+                    phonetrack.activeLayers.addOverlay(newlayer, sname);
+                    phonetrack.overlayLayers[sname] = newlayer;
                 }
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Tile server "{ts}" has been added', {ts: sname}));
+                OC.Notification.showTemporary(t('phonetrack', 'Tile server "{ts}" has been added', {ts: sname}));
             }
             else{
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to add tile server "{ts}"', {ts: sname}));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to add tile server "{ts}"', {ts: sname}));
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to add tile server "{ts}"', {ts: sname}));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to add tile server "{ts}"', {ts: sname}));
         });
     }
 
@@ -703,7 +703,7 @@
             servername: sname,
             type: type
         };
-        var url = OC.generateUrl('/apps/gpsphonetracking/deleteTileServer');
+        var url = OC.generateUrl('/apps/phonetrack/deleteTileServer');
         $.ajax({
             type: 'POST',
             url: url,
@@ -715,33 +715,33 @@
                     li.remove();
                 });
                 if (type === 'tile') {
-                    var activeLayerName = gpsphonetracking.activeLayers.getActiveBaseLayer().name;
+                    var activeLayerName = phonetrack.activeLayers.getActiveBaseLayer().name;
                     // if we delete the active layer, first select another
                     if (activeLayerName === sname) {
                         $('input.leaflet-control-layers-selector').first().click();
                     }
-                    gpsphonetracking.activeLayers.removeLayer(gpsphonetracking.baseLayers[sname]);
-                    delete gpsphonetracking.baseLayers[sname];
+                    phonetrack.activeLayers.removeLayer(phonetrack.baseLayers[sname]);
+                    delete phonetrack.baseLayers[sname];
                 }
                 else {
-                    gpsphonetracking.activeLayers.removeLayer(gpsphonetracking.overlayLayers[sname]);
-                    delete gpsphonetracking.overlayLayers[sname];
+                    phonetrack.activeLayers.removeLayer(phonetrack.overlayLayers[sname]);
+                    delete phonetrack.overlayLayers[sname];
                 }
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Tile server "{ts}" has been deleted', {ts: sname}));
+                OC.Notification.showTemporary(t('phonetrack', 'Tile server "{ts}" has been deleted', {ts: sname}));
             }
             else{
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to delete tile server "{ts}"', {ts: sname}));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete tile server "{ts}"', {ts: sname}));
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to delete tile server "{ts}"', {ts: sname}));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to delete tile server "{ts}"', {ts: sname}));
         });
     }
 
     //////////////// SAVE/RESTORE OPTIONS /////////////////////
 
     function restoreOptions() {
-        var url = OC.generateUrl('/apps/gpsphonetracking/getOptionsValues');
+        var url = OC.generateUrl('/apps/phonetrack/getOptionsValues');
         var req = {
         };
         var optionsValues = '{}';
@@ -767,17 +767,17 @@
                     $('#viewmove').prop('checked', optionsValues.viewmove);
                 }
                 if (optionsValues.tilelayer !== undefined) {
-                    gpsphonetracking.restoredTileLayer = optionsValues.tilelayer;
+                    phonetrack.restoredTileLayer = optionsValues.tilelayer;
                 }
             }
             // quite important ;-)
             main();
         }).fail(function() {
             OC.dialogs.alert(
-                t('gpsphonetracking', 'Failed to restore options values') + '. ' +
-                t('gpsphonetracking', 'Reload this page')
+                t('phonetrack', 'Failed to restore options values') + '. ' +
+                t('phonetrack', 'Reload this page')
                 ,
-                t('gpsphonetracking', 'Error')
+                t('phonetrack', 'Error')
             );
         });
     }
@@ -788,13 +788,13 @@
         optionsValues.viewmove = $('#viewmove').is(':checked');
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
-        optionsValues.tilelayer = gpsphonetracking.activeLayers.getActiveBaseLayer().name;
+        optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
         //alert('to save : '+JSON.stringify(optionsValues));
 
         var req = {
             optionsValues: JSON.stringify(optionsValues),
         };
-        var url = OC.generateUrl('/apps/gpsphonetracking/saveOptionsValues');
+        var url = OC.generateUrl('/apps/phonetrack/saveOptionsValues');
         $.ajax({
             type: 'POST',
             url: url,
@@ -804,8 +804,8 @@
             //alert(response);
         }).fail(function() {
             OC.dialogs.alert(
-                t('gpsphonetracking', 'Failed to save options values'),
-                t('gpsphonetracking', 'Error')
+                t('phonetrack', 'Failed to save options values'),
+                t('phonetrack', 'Error')
             );
         });
     }
@@ -825,13 +825,13 @@
     function createSession() {
         var sessionName = $('#sessionnameinput').val();
         if (!sessionName) {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Session name should not be empty'));
+            OC.Notification.showTemporary(t('phonetrack', 'Session name should not be empty'));
             return;
         }
         var req = {
             name: sessionName
         };
-        var url = OC.generateUrl('/apps/gpsphonetracking/createSession');
+        var url = OC.generateUrl('/apps/phonetrack/createSession');
         $.ajax({
             type: 'POST',
             url: url,
@@ -842,11 +842,11 @@
                 addSession(response.token, sessionName);
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Session name already used'));
+                OC.Notification.showTemporary(t('phonetrack', 'Session name already used'));
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to create session'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to create session'));
         });
     }
 
@@ -855,8 +855,8 @@
         if (selected) {
             selhtml = ' checked="checked"';
         }
-        var gpsloggerPostUrl = OC.generateUrl('/apps/gpsphonetracking/logpost?');
-        var gpsloggerGetUrl = OC.generateUrl('/apps/gpsphonetracking/log?');
+        var gpsloggerPostUrl = OC.generateUrl('/apps/phonetrack/logpost?');
+        var gpsloggerGetUrl = OC.generateUrl('/apps/phonetrack/log?');
         var gpsloggerSessionParams = {
             token: token,
             deviceid: 'yourname'
@@ -872,7 +872,7 @@
         gpsloggerPostUrl = window.location.origin + gpsloggerPostUrl + gpsloggerParams;
         gpsloggerGetUrl = window.location.origin + gpsloggerGetUrl + gpsloggerParams;
 
-        var osmandurl = OC.generateUrl('/apps/gpsphonetracking/log?');
+        var osmandurl = OC.generateUrl('/apps/phonetrack/log?');
         var osmandurlparams = {
             token: token,
             deviceid: 'yourname'
@@ -886,7 +886,7 @@
             $.param(osmandurlparams);
         osmandurl = window.location.origin + osmandurl;
 
-        var publicurl = OC.generateUrl('/apps/gpsphonetracking/publicSession?');
+        var publicurl = OC.generateUrl('/apps/phonetrack/publicSession?');
         var publicurlparams = {
             sessionid: token,
             sessionname: name
@@ -897,27 +897,27 @@
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
         divtxt = divtxt + '<h3>' + name + ' <button class="zoomsession">' +
             '<i class="fa fa-search-plus" style="color:blue;"></i></button></h3>';
-        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'Public URL') + ' :</label>';
+        divtxt = divtxt + '<label>' + t('phonetrack', 'Public URL') + ' :</label>';
         divtxt = divtxt + '<input role="publicurl" type="text" value="' + publicurl + '"></input>'; 
-        divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('gpsphonetracking', 'More URLs') +
+        divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('phonetrack', 'More URLs') +
             '</label> <i class="fa fa-angle-double-down"></i></p>';
         divtxt = divtxt + '<div class="moreUrls">';
-        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'OsmAnd URL') + ' :</label>';
+        divtxt = divtxt + '<label>' + t('phonetrack', 'OsmAnd URL') + ' :</label>';
         divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>';
-        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger GET URL') + ' :</label>';
+        divtxt = divtxt + '<label>' + t('phonetrack', 'GpsLogger GET URL') + ' :</label>';
         divtxt = divtxt + '<input role="gpsloggergeturl" type="text" value="' + gpsloggerGetUrl + '"></input>';
-        divtxt = divtxt + '<label>' + t('gpsphonetracking', 'GpsLogger POST URL') + ' :</label>';
+        divtxt = divtxt + '<label>' + t('phonetrack', 'GpsLogger POST URL') + ' :</label>';
         divtxt = divtxt + '<input role="gpsloggerposturl" type="text" value="' + gpsloggerPostUrl + '"></input>';
         divtxt = divtxt + '</div>';
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
-            t('gpsphonetracking', 'Delete session') + '</button>';
+            t('phonetrack', 'Delete session') + '</button>';
         if (!pageIsPublic()) {
-            divtxt = divtxt + '<button class="export"><i class="fa fa-floppy-o" aria-hidden="true" style="color:blue;"></i> ' + t('gpsphonetracking', 'Export to gpx') +
+            divtxt = divtxt + '<button class="export"><i class="fa fa-floppy-o" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Export to gpx') +
                 '</button>';
         }
         divtxt = divtxt + '<div class="watchlabeldiv"><label class="watchlabel" for="watch'+token+'">' +
             '<i class="fa fa-eye" aria-hidden="true" style="color:blue;"></i> ' +
-            t('gpsphonetracking', 'Watch this session') + '</label>' +
+            t('phonetrack', 'Watch this session') + '</label>' +
             '<input type="checkbox" class="watchSession" id="watch' + token + '" '+
             'token="' + token + '" sessionname="' + name + '"' + selhtml + '/></div>';
         divtxt = divtxt + '<ul class="devicelist" session="' + name + '"></ul></div>';
@@ -932,7 +932,7 @@
             name: name,
             token: token
         };
-        var url = OC.generateUrl('/apps/gpsphonetracking/deleteSession');
+        var url = OC.generateUrl('/apps/phonetrack/deleteSession');
         $.ajax({
             type: 'POST',
             url: url,
@@ -943,11 +943,11 @@
                 removeSession(div);
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'The session you want to delete does not exist'));
+                OC.Notification.showTemporary(t('phonetrack', 'The session you want to delete does not exist'));
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to delete session'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to delete session'));
         });
     }
 
@@ -956,7 +956,7 @@
             session: session,
             device: device
         };
-        var url = OC.generateUrl('/apps/gpsphonetracking/deleteDevice');
+        var url = OC.generateUrl('/apps/phonetrack/deleteDevice');
         $.ajax({
             type: 'POST',
             url: url,
@@ -965,14 +965,14 @@
         }).done(function (response) {
             if (response.done === 1) {
                 removeDevice(session, device);
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: device, s: session}));
+                OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: device, s: session}));
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: device, s: session}));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: device, s: session}));
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to contact server to delete device'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete device'));
         });
     }
 
@@ -982,10 +982,10 @@
             $(this).remove();
         });
         // remove marker, line and tooltips
-        gpsphonetracking.sessionMarkerLayers[session][device].unbindTooltip().remove();
-        delete gpsphonetracking.sessionMarkerLayers[session][device];
-        gpsphonetracking.sessionLineLayers[session][device].unbindTooltip().remove();
-        delete gpsphonetracking.sessionLineLayers[session][device];
+        phonetrack.sessionMarkerLayers[session][device].unbindTooltip().remove();
+        delete phonetrack.sessionMarkerLayers[session][device];
+        phonetrack.sessionLineLayers[session][device].unbindTooltip().remove();
+        delete phonetrack.sessionLineLayers[session][device];
     }
 
     function removeSession(div) {
@@ -997,7 +997,7 @@
     function getSessions() {
         var req = {
         };
-        var url = OC.generateUrl('/apps/gpsphonetracking/getSessions');
+        var url = OC.generateUrl('/apps/phonetrack/getSessions');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1012,7 +1012,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to get sessions'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to get sessions'));
         });
     }
 
@@ -1022,7 +1022,7 @@
         $('.watchSession:checked').each(function() {
             var token = $(this).attr('token');
             var name = $(this).attr('sessionname');
-            var lastTimes = gpsphonetracking.lastTime[name] || '';
+            var lastTimes = phonetrack.lastTime[name] || '';
             sessionsToWatch.push([token, name, lastTimes]);
         });
 
@@ -1031,7 +1031,7 @@
             var req = {
                 sessions: sessionsToWatch
             };
-            var url = OC.generateUrl('/apps/gpsphonetracking/track');
+            var url = OC.generateUrl('/apps/phonetrack/track');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1042,7 +1042,7 @@
             }).always(function() {
                 hideLoadingAnimation();
             }).fail(function() {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to refresh sessions'));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to refresh sessions'));
             });
         }
         else {
@@ -1055,7 +1055,7 @@
         if (uiVal !== '' && !isNaN(uiVal) && parseInt(uiVal) > 1) {
             var updateinterval = parseInt(uiVal) * 1000;
         }
-        gpsphonetracking.currentTimer = new Timer(function() {
+        phonetrack.currentTimer = new Timer(function() {
             refresh();
         }, updateinterval);
     }
@@ -1066,18 +1066,18 @@
             textcolor, coloredMarkerClass;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
-            if (! gpsphonetracking.sessionLineLayers.hasOwnProperty(s)) {
-                gpsphonetracking.sessionLineLayers[s] = {};
+            if (! phonetrack.sessionLineLayers.hasOwnProperty(s)) {
+                phonetrack.sessionLineLayers[s] = {};
             }
-            if (! gpsphonetracking.sessionMarkerLayers.hasOwnProperty(s)) {
-                gpsphonetracking.sessionMarkerLayers[s] = {};
+            if (! phonetrack.sessionMarkerLayers.hasOwnProperty(s)) {
+                phonetrack.sessionMarkerLayers[s] = {};
             }
             // for all devices
             for (d in sessions[s]) {
                 // add line and marker if necessary
-                if (! gpsphonetracking.sessionLineLayers[s].hasOwnProperty(d)) {
+                if (! phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
                     colorn = ++lastColorUsed % colorCode.length;
-                    gpsphonetracking.sessionColors[s + d] = colorn;
+                    phonetrack.sessionColors[s + d] = colorn;
                     rgbc = hexToRgb(colorCode[colorn]);
                     textcolor = 'black';
                     if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
@@ -1103,21 +1103,21 @@
                     var deleteLink = '';
                     if (!pageIsPublic()) {
                         deleteLink = ' <i class="fa fa-trash deleteDevice" session="' + s + '" aria-hidden="true" title="' +
-                        t('gpsphonetracking', 'Delete this device') +
+                        t('phonetrack', 'Delete this device') +
                         '" device="' + d + '"></i>';
                     }
                     $('div.session[name="' + s + '"] ul.devicelist').append(
                         '<li device="' + d + '" session="' + s + '" style="font-weight: bold; color: ' + textcolor + ';' +
                         'background-color:' + colorCode[colorn] + ';"' +
-                        ' title="' + t('gpsphonetracking', 'Center map on device') + ' ' +
+                        ' title="' + t('phonetrack', 'Center map on device') + ' ' +
                         d + '"><input class="followdevice" type="checkbox" ' +
-                        'title="' + t('gpsphonetracking', 'Follow this device (autozoom)') +
+                        'title="' + t('phonetrack', 'Follow this device (autozoom)') +
                         '"/><label class="deviceLabel">' + d + '</label> ' + deleteLink +
                         '</li>');
 
-                    gpsphonetracking.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
+                    phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
                     linetooltip = 'Session ' + s + ' ; device ' + d;
-                    gpsphonetracking.sessionLineLayers[s][d].bindTooltip(
+                    phonetrack.sessionLineLayers[s][d].bindTooltip(
                         linetooltip,
                         {
                             permanent: false,
@@ -1131,37 +1131,37 @@
                     entry = sessions[s][d][i];
                     timestamp = parseInt(entry.timestamp);
                     device = 'd' + entry.deviceid;
-                    if (!gpsphonetracking.lastTime.hasOwnProperty(s)) {
-                        gpsphonetracking.lastTime[s] = {};
+                    if (!phonetrack.lastTime.hasOwnProperty(s)) {
+                        phonetrack.lastTime[s] = {};
                     }
-                    if ((!gpsphonetracking.lastTime[s].hasOwnProperty(device)) ||
-                        timestamp > gpsphonetracking.lastTime[s][device])
+                    if ((!phonetrack.lastTime[s].hasOwnProperty(device)) ||
+                        timestamp > phonetrack.lastTime[s][device])
                     {
-                        gpsphonetracking.lastTime[s][device] = timestamp;
+                        phonetrack.lastTime[s][device] = timestamp;
                     }
                     // increment lines
-                    gpsphonetracking.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon]);
+                    phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon]);
                 }
                 // move/create marker
                 // entry is the last point for the current device
-                if (! gpsphonetracking.sessionMarkerLayers[s].hasOwnProperty(d)) {
+                if (! phonetrack.sessionMarkerLayers[s].hasOwnProperty(d)) {
                     icon = L.divIcon({
                         iconAnchor: [8, 8],
-                        className: 'color' + gpsphonetracking.sessionColors[s + d],
+                        className: 'color' + phonetrack.sessionColors[s + d],
                         html: '<b>' + d[0] + '</b>'
                     });
 
-                    gpsphonetracking.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon], {icon: icon});
+                    phonetrack.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon], {icon: icon});
                 }
                 else {
-                    gpsphonetracking.sessionMarkerLayers[s][d].setLatLng([entry.lat, entry.lon]);
+                    phonetrack.sessionMarkerLayers[s][d].setLatLng([entry.lat, entry.lon]);
                 }
                 mom = moment.unix(timestamp);
-                gpsphonetracking.sessionMarkerLayers[s][d].unbindTooltip();
+                phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
                 markertooltip = 'Session ' + s + ' ; device ' + d + '<br/>';
-                gpsphonetracking.sessionMarkerLayers[s][d].bindTooltip(
+                phonetrack.sessionMarkerLayers[s][d].bindTooltip(
                     markertooltip + mom.format('YYYY-MM-DD HH:mm:ss (Z)'),
-                    {permanent: perm, offset: offset, className: 'tooltip' + gpsphonetracking.sessionColors[s + d]}
+                    {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
                 );
             }
         }
@@ -1176,37 +1176,37 @@
         $('.watchSession').each(function() {
             sessionName = $(this).attr('sessionname');
             if ($(this).is(':checked')) {
-                for (d in gpsphonetracking.sessionLineLayers[sessionName]) {
+                for (d in phonetrack.sessionLineLayers[sessionName]) {
                     if (viewLines) {
-                        if (!gpsphonetracking.map.hasLayer(gpsphonetracking.sessionLineLayers[sessionName][d])) {
-                            gpsphonetracking.map.addLayer(gpsphonetracking.sessionLineLayers[sessionName][d]);
+                        if (!phonetrack.map.hasLayer(phonetrack.sessionLineLayers[sessionName][d])) {
+                            phonetrack.map.addLayer(phonetrack.sessionLineLayers[sessionName][d]);
                         }
                     }
                     else {
-                        if (gpsphonetracking.map.hasLayer(gpsphonetracking.sessionLineLayers[sessionName][d])) {
-                            gpsphonetracking.map.removeLayer(gpsphonetracking.sessionLineLayers[sessionName][d]);
+                        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[sessionName][d])) {
+                            phonetrack.map.removeLayer(phonetrack.sessionLineLayers[sessionName][d]);
                         }
                     }
                 }
-                for (d in gpsphonetracking.sessionMarkerLayers[sessionName]) {
-                    displayedMarkers.push(gpsphonetracking.sessionMarkerLayers[sessionName][d].getLatLng());
-                    if (!gpsphonetracking.map.hasLayer(gpsphonetracking.sessionMarkerLayers[sessionName][d])) {
-                        gpsphonetracking.map.addLayer(gpsphonetracking.sessionMarkerLayers[sessionName][d]);
+                for (d in phonetrack.sessionMarkerLayers[sessionName]) {
+                    displayedMarkers.push(phonetrack.sessionMarkerLayers[sessionName][d].getLatLng());
+                    if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[sessionName][d])) {
+                        phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[sessionName][d]);
                     }
                 }
             }
             else {
-                if (gpsphonetracking.sessionLineLayers.hasOwnProperty(sessionName)) {
-                    for (d in gpsphonetracking.sessionLineLayers[sessionName]) {
-                        if (gpsphonetracking.map.hasLayer(gpsphonetracking.sessionLineLayers[sessionName][d])) {
-                            gpsphonetracking.map.removeLayer(gpsphonetracking.sessionLineLayers[sessionName][d]);
+                if (phonetrack.sessionLineLayers.hasOwnProperty(sessionName)) {
+                    for (d in phonetrack.sessionLineLayers[sessionName]) {
+                        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[sessionName][d])) {
+                            phonetrack.map.removeLayer(phonetrack.sessionLineLayers[sessionName][d]);
                         }
                     }
                 }
-                if (gpsphonetracking.sessionMarkerLayers.hasOwnProperty(sessionName)) {
-                    for (d in gpsphonetracking.sessionMarkerLayers[sessionName]) {
-                        if (gpsphonetracking.map.hasLayer(gpsphonetracking.sessionMarkerLayers[sessionName][d])) {
-                            gpsphonetracking.map.removeLayer(gpsphonetracking.sessionMarkerLayers[sessionName][d]);
+                if (phonetrack.sessionMarkerLayers.hasOwnProperty(sessionName)) {
+                    for (d in phonetrack.sessionMarkerLayers[sessionName]) {
+                        if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[sessionName][d])) {
+                            phonetrack.map.removeLayer(phonetrack.sessionMarkerLayers[sessionName][d]);
                         }
                     }
                 }
@@ -1244,13 +1244,13 @@
         $('.watchSession').each(function() {
             sessionName = $(this).attr('sessionname');
             if ($(this).is(':checked') && (selectedName === '' || sessionName === selectedName)) {
-                for (d in gpsphonetracking.sessionMarkerLayers[sessionName]) {
+                for (d in phonetrack.sessionMarkerLayers[sessionName]) {
                     // if no device is followed => all devices are taken
                     // if some devices are followed, just take them
                     if (nbDevicesToFollow === 0
                         || (devicesToFollow.hasOwnProperty(sessionName) && devicesToFollow[sessionName].indexOf(d) !== -1)
                     ) {
-                        markersToZoomOn.push(gpsphonetracking.sessionMarkerLayers[sessionName][d].getLatLng());
+                        markersToZoomOn.push(phonetrack.sessionMarkerLayers[sessionName][d].getLatLng());
                     }
                 }
             }
@@ -1258,7 +1258,7 @@
 
         // ZOOM
         if (markersToZoomOn.length > 0) {
-            gpsphonetracking.map.fitBounds(markersToZoomOn, {
+            phonetrack.map.fitBounds(markersToZoomOn, {
                 animate: true,
                 maxZoom: 16,
                 paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
@@ -1269,12 +1269,12 @@
     function changeTooltipStyle() {
         var perm = $('#showtime').is(':checked');
         var s, d, m, t;
-        for (s in gpsphonetracking.sessionMarkerLayers) {
-            for (d in gpsphonetracking.sessionMarkerLayers[s]) {
-                m = gpsphonetracking.sessionMarkerLayers[s][d];
+        for (s in phonetrack.sessionMarkerLayers) {
+            for (d in phonetrack.sessionMarkerLayers[s]) {
+                m = phonetrack.sessionMarkerLayers[s][d];
                 t = m.getTooltip()._content;
                 m.unbindTooltip();
-                m.bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + gpsphonetracking.sessionColors[s + d]});
+                m.bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]});
             }
         }
     }
@@ -1285,7 +1285,7 @@
             token: token,
             target: targetPath
         };
-        var url = OC.generateUrl('/apps/gpsphonetracking/export');
+        var url = OC.generateUrl('/apps/phonetrack/export');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1293,15 +1293,15 @@
             async: true
         }).done(function (response) {
             if (response.done) {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Successfully exported session in') +
+                OC.Notification.showTemporary(t('phonetrack', 'Successfully exported session in') +
                     ' ' + targetPath + '/' + name + '.gpx');
             }
             else {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to export session'));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to export session'));
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to contact server to export session'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to export session'));
         });
     }
 
@@ -1316,14 +1316,14 @@
             timestamp = e.timestamp;
             var req = {
                 deviceid: deviceid,
-                token: gpsphonetracking.publicToken,
+                token: phonetrack.publicToken,
                 lat: lat,
                 lon: lon,
                 alt: alt,
                 acc: acc,
                 timestamp: timestamp
             };
-            var url = OC.generateUrl('/apps/gpsphonetracking/logpost');
+            var url = OC.generateUrl('/apps/phonetrack/logpost');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1333,7 +1333,7 @@
                 //console.log(response);
             }).always(function() {
             }).fail(function() {
-                OC.Notification.showTemporary(t('gpsphonetracking', 'Failed to contact server to log position'));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to log position'));
             });
         }
     }
@@ -1343,19 +1343,19 @@
         var perm = $('#showtime').is(':checked');
         var d = elem.attr('device');
         var s = elem.parent().attr('session');
-        var m = gpsphonetracking.sessionMarkerLayers[s][d];
+        var m = phonetrack.sessionMarkerLayers[s][d];
 
         var b = L.latLngBounds(m.getLatLng(), m.getLatLng);
-        gpsphonetracking.map.fitBounds(b, {
+        phonetrack.map.fitBounds(b, {
             animate: true,
             maxZoom: 16,
             paddingTopLeft: [parseInt($('#sidebar').css('width')),0]
         });
 
-        m.setZIndexOffset(gpsphonetracking.lastZindex++);
+        m.setZIndexOffset(phonetrack.lastZindex++);
         t = m.getTooltip()._content;
         m.unbindTooltip();
-        m.bindTooltip(t, {permanent: perm, offset: offset, className: 'opaquetooltip' + gpsphonetracking.sessionColors[s + d], opacity: 1});
+        m.bindTooltip(t, {permanent: perm, offset: offset, className: 'opaquetooltip' + phonetrack.sessionColors[s + d], opacity: 1});
     }
 
     //////////////// MAIN /////////////////////
@@ -1371,8 +1371,8 @@
 
     function main() {
 
-        gpsphonetracking.username = $('p#username').html();
-        gpsphonetracking.token = $('p#token').html();
+        phonetrack.username = $('p#username').html();
+        phonetrack.token = $('p#token').html();
         load_map();
 
         $('body').on('change', '#autozoomcheck', function() {
@@ -1463,8 +1463,8 @@
         });
 
         $('body').on('click','.watchSession', function(e) {
-            gpsphonetracking.currentTimer.pause();
-            gpsphonetracking.currentTimer = null;
+            phonetrack.currentTimer.pause();
+            phonetrack.currentTimer = null;
             refresh();
         });
 
@@ -1473,12 +1473,12 @@
                 saveOptions();
             }
             if ($(this).is(':checked')) {
-                gpsphonetracking.zoomButton.state('zoom');
-                $(gpsphonetracking.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+                phonetrack.zoomButton.state('zoom');
+                $(phonetrack.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
             }
             else {
-                gpsphonetracking.zoomButton.state('nozoom');
-                $(gpsphonetracking.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+                phonetrack.zoomButton.state('nozoom');
+                $(phonetrack.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
             }
         });
 
@@ -1488,12 +1488,12 @@
                 saveOptions();
             }
             if ($(this).is(':checked')) {
-                gpsphonetracking.timeButton.state('showtime');
-                $(gpsphonetracking.timeButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+                phonetrack.timeButton.state('showtime');
+                $(phonetrack.timeButton.button).addClass('easy-button-green').removeClass('easy-button-red');
             }
             else {
-                gpsphonetracking.timeButton.state('noshowtime');
-                $(gpsphonetracking.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+                phonetrack.timeButton.state('noshowtime');
+                $(phonetrack.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
             }
         });
 
@@ -1503,12 +1503,12 @@
                 saveOptions();
             }
             if ($(this).is(':checked')) {
-                gpsphonetracking.moveButton.state('move');
-                $(gpsphonetracking.moveButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+                phonetrack.moveButton.state('move');
+                $(phonetrack.moveButton.button).addClass('easy-button-green').removeClass('easy-button-red');
             }
             else {
-                gpsphonetracking.moveButton.state('nomove');
-                $(gpsphonetracking.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+                phonetrack.moveButton.state('nomove');
+                $(phonetrack.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
             }
         });
 
@@ -1523,7 +1523,7 @@
             var token = $(this).parent().attr('token');
             var filename = name + '.gpx';
             OC.dialogs.filepicker(
-                t('gpsphonetracking', 'Where to save') +
+                t('phonetrack', 'Where to save') +
                     ' <b>' + filename + '</b>',
                 function(targetPath) {
                     saveAction(name, token, targetPath);
@@ -1543,10 +1543,10 @@
 
         $('#logme').click(function (e) {
             if ($('#logme').is(':checked')) {
-                gpsphonetracking.locateControl.start();
+                phonetrack.locateControl.start();
             }
             else {
-                gpsphonetracking.locateControl.stop();
+                phonetrack.locateControl.stop();
             }
         });
 
@@ -1580,9 +1580,9 @@
         // public page
         else {
             var token = getUrlParameter('sessionid');
-            gpsphonetracking.publicToken = token;
+            phonetrack.publicToken = token;
             var name = getUrlParameter('sessionname');
-            gpsphonetracking.publicName = name;
+            phonetrack.publicName = name;
             addSession(token, name, true);
             $('.removeSession').remove();
             $('.watchSession').prop('disabled', true);
@@ -1590,8 +1590,8 @@
             $('#newsessiondiv').remove();
             $('#logmediv').show();
             $('#autozoom').prop('checked', true);
-            gpsphonetracking.zoomButton.state('zoom');
-            $(gpsphonetracking.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            phonetrack.zoomButton.state('zoom');
+            $(phonetrack.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
         }
 
         refresh();

@@ -40,7 +40,7 @@ div#logo p{
     margin-bottom: 0px;
 }
 div#logo {
-    background-image: url('images/gpsphonetracking.png');
+    background-image: url('images/phonetrack.png');
     width: 65px;
     background-size: 65px 65px;
     background-repeat: no-repeat;
@@ -87,7 +87,7 @@ h3.sectiontitle{
     font-size: 16px;
     font-weight: bold;
 }
-div#gpsphonetrackingsettings h1, div#help h1{
+div#phonetracksettings h1, div#help h1{
     /*margin-left:30px;*/
     text-align:center;
 }
@@ -110,7 +110,7 @@ h3 {
     height : 28px;
 }
 
-#gpsphonetrackingsettings{
+#phonetracksettings{
     color:black;
 }
 .disclist{

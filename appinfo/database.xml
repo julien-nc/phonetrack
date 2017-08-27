@@ -5,7 +5,7 @@
  <overwrite>false</overwrite>
  <charset>utf8</charset>
  <table>
-  <name>*dbprefix*gpsphonetracking_sessions</name>
+  <name>*dbprefix*phonetrack_sessions</name>
   <declaration>
     <field>
       <name>id</name>
@@ -37,7 +37,7 @@
   </declaration>
 </table>
  <table>
-  <name>*dbprefix*gpsphonetracking_sessionpoints</name>
+  <name>*dbprefix*phonetrack_sessionpoints</name>
   <declaration>
     <field>
       <name>id</name>
@@ -100,7 +100,7 @@
   </declaration>
 </table>
  <table>
-  <name>*dbprefix*gpsphonetracking_tile_servers</name>
+  <name>*dbprefix*phonetrack_tile_servers</name>
   <declaration>
     <field>
       <name>id</name>
@@ -194,7 +194,7 @@
   </declaration>
 </table>
  <table>
-  <name>*dbprefix*gpsphonetracking_options_values</name>
+  <name>*dbprefix*phonetrack_options_values</name>
   <declaration>
     <field>
       <name>id</name>

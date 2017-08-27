@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - gpsphonetracking
+ * ownCloud - phonetrack
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,7 +9,7 @@
  * @copyright Julien Veyssier 2017
  */
 
-namespace OCA\GpsPhoneTracking\Controller;
+namespace OCA\PhoneTrack\Controller;
 
 use OCP\App\IAppManager;
 
@@ -80,17 +80,17 @@ class PageController extends Controller {
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager, IAppManager $appManager){
         parent::__construct($AppName, $request);
-        $this->appVersion = $config->getAppValue('gpsphonetracking', 'installed_version');
+        $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
         // just to keep Owncloud compatibility
         // the first case : Nextcloud
         // else : Owncloud
         if (method_exists($appManager, 'getAppPath')){
-            $this->appPath = $appManager->getAppPath('gpsphonetracking');
+            $this->appPath = $appManager->getAppPath('phonetrack');
         }
         else {
-            $this->appPath = \OC_App::getAppPath('gpsphonetracking');
+            $this->appPath = \OC_App::getAppPath('phonetrack');
             // even dirtier
-            //$this->appPath = getcwd().'/apps/gpsphonetracking';
+            //$this->appPath = getcwd().'/apps/phonetrack';
         }
         $this->userId = $UserId;
         $this->dbtype = $config->getSystemValue('dbtype');
@@ -125,7 +125,7 @@ class PageController extends Controller {
 
     private function getUserTileServers($type){
         // custom tile servers management
-        $sqlts = 'SELECT servername, type, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution FROM *PREFIX*gpsphonetracking_tile_servers ';
+        $sqlts = 'SELECT servername, type, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution FROM *PREFIX*phonetrack_tile_servers ';
         $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlts .= 'AND type='.$this->db_quote_escape_string($type).';';
         $req = $this->dbconnection->prepare($sqlts);
@@ -166,9 +166,9 @@ class PageController extends Controller {
 			'useroverlayservers'=>$oss,
 			'usertileserverswms'=>$tssw,
 			'useroverlayserverswms'=>$ossw,
-            'gpsphonetracking_version'=>$this->appVersion
+            'phonetrack_version'=>$this->appVersion
         ];
-        $response = new TemplateResponse('gpsphonetracking', 'main', $params);
+        $response = new TemplateResponse('phonetrack', 'main', $params);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
@@ -186,7 +186,7 @@ class PageController extends Controller {
     public function getSessions($name) {
         $sessions = array();
         // check if session name is not already used
-        $sqlget = 'SELECT name, token FROM *PREFIX*gpsphonetracking_sessions ';
+        $sqlget = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
         $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
@@ -216,7 +216,7 @@ class PageController extends Controller {
     public function createSession($name) {
         $token = '';
         // check if session name is not already used
-        $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $sqlchk .= 'AND name='.$this->db_quote_escape_string($name).' ';
         $req = $this->dbconnection->prepare($sqlchk);
@@ -233,7 +233,7 @@ class PageController extends Controller {
             $token = md5($this->userId.$name);
 
             // insert
-            $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessions';
+            $sql = 'INSERT INTO *PREFIX*phonetrack_sessions';
             $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token) ';
             $sql .= 'VALUES (\''.$this->userId.'\',';
             $sql .= $this->db_quote_escape_string($name).',';
@@ -267,7 +267,7 @@ class PageController extends Controller {
      */
     public function deleteSession($name, $token) {
         // check if session exists
-        $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $sqlchk .= 'AND name='.$this->db_quote_escape_string($name).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
@@ -281,14 +281,14 @@ class PageController extends Controller {
         $req->closeCursor();
 
         if ($dbname !== null) {
-            $sqldel = 'DELETE FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqldel = 'DELETE FROM *PREFIX*phonetrack_sessions ';
             $sqldel .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' AND name=';
             $sqldel .= $this->db_quote_escape_string($name).' AND token='.$this->db_quote_escape_string($token).';';
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
             $req->closeCursor();
 
-            $sqldel = 'DELETE FROM *PREFIX*gpsphonetracking_sessionpoints ';
+            $sqldel = 'DELETE FROM *PREFIX*phonetrack_sessionpoints ';
             $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).';';
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
@@ -318,7 +318,7 @@ class PageController extends Controller {
      */
     public function deleteDevice($session, $device) {
         // check if session exists
-        $sqlchk = 'SELECT name, token FROM *PREFIX*gpsphonetracking_sessions ';
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $sqlchk .= 'AND name='.$this->db_quote_escape_string($session).' ';
         $req = $this->dbconnection->prepare($sqlchk);
@@ -334,7 +334,7 @@ class PageController extends Controller {
 
         if ($dbname !== null) {
             // check if device exists
-            $sqlchk = 'SELECT count(*) as c FROM *PREFIX*gpsphonetracking_sessionpoints ';
+            $sqlchk = 'SELECT count(*) as c FROM *PREFIX*phonetrack_sessionpoints ';
             $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
             $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ';
             $req = $this->dbconnection->prepare($sqlchk);
@@ -347,7 +347,7 @@ class PageController extends Controller {
             $req->closeCursor();
 
             if ($c > 0) {
-                $sqldel = 'DELETE FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_sessionpoints ';
                 $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                 $sqldel .= 'AND deviceid='.$this->db_quote_escape_string($device).' ';
                 $req = $this->dbconnection->prepare($sqldel);
@@ -387,7 +387,7 @@ class PageController extends Controller {
             $timestamp !== ''
         ) {
             // check if session exists
-            $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
             $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
@@ -405,7 +405,7 @@ class PageController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
-                $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessionpoints';
+                $sql = 'INSERT INTO *PREFIX*phonetrack_sessionpoints';
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($token).',';
@@ -437,7 +437,7 @@ class PageController extends Controller {
             isset($_GET['timestamp'])
         ) {
             // check if session exists
-            $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
             $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($_GET['token']).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
@@ -455,7 +455,7 @@ class PageController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
-                $sql = 'INSERT INTO *PREFIX*gpsphonetracking_sessionpoints';
+                $sql = 'INSERT INTO *PREFIX*phonetrack_sessionpoints';
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($_GET['token']).',';
@@ -487,7 +487,7 @@ class PageController extends Controller {
 
             // check if session exists
             $dbtoken = null;
-            $sqlget = 'SELECT token FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
             $sqlget .= 'WHERE name='.$this->db_quote_escape_string($name).' ';
             $sqlget .= 'AND token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlget);
@@ -501,7 +501,7 @@ class PageController extends Controller {
             if ($dbtoken !== null) {
                 // get list of devices
                 $devices = array();
-                $sqldev = 'SELECT deviceid FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_sessionpoints ';
                 $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                 $sqldev .= 'GROUP BY deviceid;';
                 $req = $this->dbconnection->prepare($sqldev);
@@ -521,7 +521,7 @@ class PageController extends Controller {
                         $lastDeviceTime = $lastTime['d'.$devname];
                     }
 
-                    $sqlget = 'SELECT * FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                    $sqlget = 'SELECT * FROM *PREFIX*phonetrack_sessionpoints ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
@@ -564,7 +564,7 @@ class PageController extends Controller {
         if (isset($_GET['sessionid'])) {
             $sessionid = $_GET['sessionid'];
             // check if session exists
-            $sqlchk = 'SELECT name FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
             $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($_GET['sessionid']).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
@@ -593,9 +593,9 @@ class PageController extends Controller {
 			'useroverlayservers'=>'',
 			'usertileserverswms'=>'',
 			'useroverlayserverswms'=>'',
-            'gpsphonetracking_version'=>$this->appVersion
+            'phonetrack_version'=>$this->appVersion
         ];
-        $response = new TemplateResponse('gpsphonetracking', 'main', $params);
+        $response = new TemplateResponse('phonetrack', 'main', $params);
         $response->setHeaders(Array('X-Frame-Options'=>''));
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
@@ -653,7 +653,7 @@ class PageController extends Controller {
         if ($filePossible) {
             // check if session exists
             $dbtoken = null;
-            $sqlget = 'SELECT token FROM *PREFIX*gpsphonetracking_sessions ';
+            $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
             $sqlget .= 'WHERE name='.$this->db_quote_escape_string($name).' ';
             $sqlget .= 'AND token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlget);
@@ -669,7 +669,7 @@ class PageController extends Controller {
                 $coords = array();
                 // get list of devices
                 $devices = array();
-                $sqldev = 'SELECT deviceid FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_sessionpoints ';
                 $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                 $sqldev .= 'GROUP BY deviceid;';
                 $req = $this->dbconnection->prepare($sqldev);
@@ -684,7 +684,7 @@ class PageController extends Controller {
 
                 foreach ($devices as $devname) {
                     $coords[$devname] = array();
-                    $sqlget = 'SELECT * FROM *PREFIX*gpsphonetracking_sessionpoints ';
+                    $sqlget = 'SELECT * FROM *PREFIX*phonetrack_sessionpoints ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $req = $this->dbconnection->prepare($sqlget);
@@ -733,7 +733,7 @@ class PageController extends Controller {
             ' xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3"' .
             ' xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1"' .
             ' xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"' .
-            ' creator="GpsPhoneTracking Owncloud/Nextcloud app ' .
+            ' creator="PhoneTrack Owncloud/Nextcloud app ' .
             $this->appVersion. '" version="1.1"' .
             ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
             ' xsi:schemaLocation="http://www.topografix.com/GPX/1/1' .

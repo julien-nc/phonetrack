@@ -1,5 +1,5 @@
 { "translations": {
-    "GpsPhoneTracking" : "GpsPhoneTracking",
+    "PhoneTrack" : "PhoneTrack",
     "Opacity (0.0-1.0)" : "Opacité (0.0-1.0)",
     "Shortcuts" : "Raccourcis",
     "Format" : "Format",
@@ -8,7 +8,7 @@
     "Tracking sessions" : "Sessions de tracking",
     "Server name" : "Nom du serveur",
     "Refresh each (sec)" : "Rafraichir tous les",
-    "About GpsPhoneTracking" : "Au sujet de GpsPhoneTracking",
+    "About PhoneTrack" : "Au sujet de PhoneTrack",
     "Show time tooltips" : "Montrer les temps",
     "Max zoom (1-20)" : "Zoom max (1-20)",
     "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png" : "Par exemple : http://overlay.server.org/cycle/{z}/{x}/{y}.png",

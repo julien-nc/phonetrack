@@ -1,4 +1,4 @@
-app_name=gpsphonetracking
+app_name=phonetrack
 app_version=$(version)
 project_dir=$(CURDIR)/../$(app_name)
 build_dir=/tmp/build

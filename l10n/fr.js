@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "gpsphonetracking",
+    "phonetrack",
     {
         "Failed to delete session" : "Echec de la suppression de la session",
         "Failed to create session" : "Echec de la création de la session",

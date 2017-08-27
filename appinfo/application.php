@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - gpsphonetracking
+ * ownCloud - phonetrack
  *
  *
  * @author
@@ -8,7 +8,7 @@
  * @copyright
  */
 
-namespace OCA\GpsPhoneTracking\AppInfo;
+namespace OCA\PhoneTrack\AppInfo;
 
 
 
@@ -17,13 +17,13 @@ use OCP\IContainer;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
-use OCA\GpsPhoneTracking\Controller\PageController;
-use OCA\GpsPhoneTracking\Controller\UtilsController;
+use OCA\PhoneTrack\Controller\PageController;
+use OCA\PhoneTrack\Controller\UtilsController;
 
 /**
  * Class Application
  *
- * @package OCA\GpsPhoneTracking\AppInfo
+ * @package OCA\PhoneTrack\AppInfo
  */
 class Application extends App {
 
@@ -33,7 +33,7 @@ class Application extends App {
      * @param array $urlParams
      */
     public function __construct(array $urlParams = []) {
-        parent::__construct('gpsphonetracking', $urlParams);
+        parent::__construct('phonetrack', $urlParams);
 
         $container = $this->getContainer();
 

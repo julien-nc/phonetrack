@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud - gpsphonetracking
+ * ownCloud - phonetrack
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -9,7 +9,7 @@
  * @copyright Julien Veyssier 2015
  */
 
-namespace OCA\GpsPhoneTracking\AppInfo;
+namespace OCA\PhoneTrack\AppInfo;
 
 use OCP\AppFramework\App;
 
@@ -21,21 +21,21 @@ $container->query('OCP\INavigationManager')->add(function () use ($container) {
     $l10n = $container->query('OCP\IL10N');
     return [
         // the string under which your app will be referenced in owncloud
-        'id' => 'gpsphonetracking',
+        'id' => 'phonetrack',
 
         // sorting weight for the navigation. The higher the number, the higher
         // will it be listed in the navigation
         'order' => 10,
 
         // the route that will be shown on startup
-        'href' => $urlGenerator->linkToRoute('gpsphonetracking.page.index'),
+        'href' => $urlGenerator->linkToRoute('phonetrack.page.index'),
 
         // the icon that will be shown in the navigation
         // this file needs to exist in img/
-        'icon' => $urlGenerator->imagePath('gpsphonetracking', 'app.svg'),
+        'icon' => $urlGenerator->imagePath('phonetrack', 'app.svg'),
 
         // the title of your application. This will be used in the
         // navigation or on the settings page of your app
-        'name' => $l10n->t('GpsPhoneTracking'),
+        'name' => $l10n->t('PhoneTrack'),
     ];
 });

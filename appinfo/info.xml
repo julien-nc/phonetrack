@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <info>
-    <id>gpsphonetracking</id>
-    <name>GpsPhoneTracking</name>
+    <id>phonetrack</id>
+    <name>PhoneTrack</name>
     <description>
-# GpsPhoneTracking Owncloud application
-# GpsPhoneTracking Nextcloud application
+# PhoneTrack Owncloud application
+# PhoneTrack Nextcloud application
 
-GpsPhoneTracking is an app to get tracking information from mobile devices
+PhoneTrack is an app to get tracking information from mobile devices
 and display them dynamically on a Leaflet map. Principle is simple :
 
 * create a tracking session
@@ -15,9 +15,9 @@ and display them dynamically on a Leaflet map. Principle is simple :
     * [GpsLogger](http://code.mendhak.com/gpslogger/#features) (Options -> Logging details -> Log to custom URL)
     * With a web browser, on the session public page, check "Log my position in this session"
     * Does anyone know an IOS app which can log position to custom URL in background ? Create an issue if you do !
-* Watch the session's devices positions in real time (or not) in GpsPhoneTracking normal or public page
+* Watch the session's devices positions in real time (or not) in PhoneTrack normal or public page
 
-On GpsPhoneTracking main page, while watching a session, you can select some devices to make the automatic zoom
+On PhoneTrack main page, while watching a session, you can select some devices to make the automatic zoom
 work only with those devices. Sessions can be exported in GPX format (one subtrack by device) and
 saved in ownCloud files.
 saved in Nextcloud files.
@@ -31,36 +31,36 @@ This app is tested on 12 with Firefox and Chromium.
 
 This app is under development.
 
-Link to Owncloud application website : https://marketplace.owncloud.com/apps/gpsphonetracking
+Link to Owncloud application website : https://marketplace.owncloud.com/apps/phonetrack
 
-Link to Nextcloud application website : https://apps.nextcloud.com/apps/gpsphonetracking
+Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack
 
 ## Donation
 
-I develop this app during my free time. You can make a donation to me on Paypal. [There is a donation link HERE](https://gitlab.com/eneiluj/gpsphonetracking-oc#donation) (you don't need a paypal account)
+I develop this app during my free time. You can make a donation to me on Paypal. [There is a donation link HERE](https://gitlab.com/eneiluj/phonetrack-oc#donation) (you don't need a paypal account)
 
 ## Install
 
-See the [AdminDoc](https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/admindoc) for more details.
+See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for more details.
 
-Put gpsphonetracking directory in the Nextcloud apps to install.
-Put gpsphonetracking directory in the Owncloud apps to install.
+Put phonetrack directory in the Nextcloud apps to install.
+Put phonetrack directory in the Owncloud apps to install.
 There are several ways to do that :
 
 ### Clone the git repository
 
 ```
 cd /path/to/owncloud/apps
-git clone https://gitlab.com/eneiluj/gpsphonetracking-oc.git gpsphonetracking
+git clone https://gitlab.com/eneiluj/phonetrack-oc.git phonetrack
 ```
 
 ### Download from https://apps.owncloud.com
 ### Download from https://apps.nextcloud.com
 
-Extract gpsphonetracking archive you just downloaded from the website :
+Extract phonetrack archive you just downloaded from the website :
 ```
 cd /path/to/owncloud/apps
-tar xvf gpsphonetracking-x.x.x.tar.gz
+tar xvf phonetrack-x.x.x.tar.gz
 ```
 
 ## Known issues
@@ -72,16 +72,16 @@ Any feedback will be appreciated.
     <summary>Display phones position in real time</summary>
     <author>Julien Veyssier</author>
     <version>0.0.1</version>
-    <namespace>GpsPhoneTracking</namespace>
+    <namespace>PhoneTrack</namespace>
     <documentation>
-        <user>https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/userdoc</user>
-        <admin>https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/admindoc</admin>
-        <developer>https://gitlab.com/eneiluj/gpsphonetracking-oc/wikis/devdoc</developer>
+        <user>https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc</user>
+        <admin>https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc</admin>
+        <developer>https://gitlab.com/eneiluj/phonetrack-oc/wikis/devdoc</developer>
     </documentation>
     <category>tool</category>
     <category>multimedia</category>
-    <website>https://gitlab.com/eneiluj/gpsphonetracking-oc</website>
-    <bugs>https://gitlab.com/eneiluj/gpsphonetracking-oc/issues</bugs>
+    <website>https://gitlab.com/eneiluj/phonetrack-oc</website>
+    <bugs>https://gitlab.com/eneiluj/phonetrack-oc/issues</bugs>
     <screenshot></screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>

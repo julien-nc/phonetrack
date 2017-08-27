@@ -1,27 +1,27 @@
 <?php
-script('gpsphonetracking', 'leaflet');
-script('gpsphonetracking', 'leaflet.polylineDecorator');
-script('gpsphonetracking', 'L.Control.MousePosition');
-script('gpsphonetracking', 'ActiveLayers');
-script('gpsphonetracking', 'L.Control.Locate.min');
-script('gpsphonetracking', 'MovingMarker');
-script('gpsphonetracking', 'leaflet-sidebar.min');
-script('gpsphonetracking', 'jquery-ui.min');
-script('gpsphonetracking', 'moment-timezone-with-data.min');
-script('gpsphonetracking', 'Leaflet.LinearMeasurement');
-script('gpsphonetracking', 'easy-button');
-script('gpsphonetracking', 'gpsphonetracking');
+script('phonetrack', 'leaflet');
+script('phonetrack', 'leaflet.polylineDecorator');
+script('phonetrack', 'L.Control.MousePosition');
+script('phonetrack', 'ActiveLayers');
+script('phonetrack', 'L.Control.Locate.min');
+script('phonetrack', 'MovingMarker');
+script('phonetrack', 'leaflet-sidebar.min');
+script('phonetrack', 'jquery-ui.min');
+script('phonetrack', 'moment-timezone-with-data.min');
+script('phonetrack', 'Leaflet.LinearMeasurement');
+script('phonetrack', 'easy-button');
+script('phonetrack', 'phonetrack');
 
-style('gpsphonetracking', 'style');
-style('gpsphonetracking', 'leaflet');
-style('gpsphonetracking', 'L.Control.MousePosition');
-style('gpsphonetracking', 'leaflet-sidebar.min');
-style('gpsphonetracking', 'jquery-ui.min');
-style('gpsphonetracking', 'font-awesome.min');
-style('gpsphonetracking', 'gpsphonetracking');
-style('gpsphonetracking', 'L.Control.Locate');
-style('gpsphonetracking', 'Leaflet.LinearMeasurement');
-style('gpsphonetracking', 'easy-button');
+style('phonetrack', 'style');
+style('phonetrack', 'leaflet');
+style('phonetrack', 'L.Control.MousePosition');
+style('phonetrack', 'leaflet-sidebar.min');
+style('phonetrack', 'jquery-ui.min');
+style('phonetrack', 'font-awesome.min');
+style('phonetrack', 'phonetrack');
+style('phonetrack', 'L.Control.Locate');
+style('phonetrack', 'Leaflet.LinearMeasurement');
+style('phonetrack', 'easy-button');
 
 ?>
 
