@@ -560,7 +560,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
-    public function public() {
+    public function publicSession() {
         if (isset($_GET['sessionid'])) {
             $sessionid = $_GET['sessionid'];
             // check if session exists

@@ -599,7 +599,7 @@
     //////////////// PUBLIC DIR/FILE /////////////////////
 
     function pageIsPublic() {
-        return (document.URL.indexOf('/public') !== -1);
+        return (document.URL.indexOf('/publicSession') !== -1);
     }
 
     //////////////// USER TILE SERVERS /////////////////////
@@ -886,7 +886,7 @@
             $.param(osmandurlparams);
         osmandurl = window.location.origin + osmandurl;
 
-        var publicurl = OC.generateUrl('/apps/gpsphonetracking/public?');
+        var publicurl = OC.generateUrl('/apps/gpsphonetracking/publicSession?');
         var publicurlparams = {
             sessionid: token,
             sessionname: name

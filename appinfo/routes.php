@@ -20,7 +20,7 @@
 return [
     'routes' => [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-        ['name' => 'page#public', 'url' => '/public', 'verb' => 'GET'],
+        ['name' => 'page#publicSession', 'url' => '/publicSession', 'verb' => 'GET'],
         ['name' => 'page#createSession', 'url' => '/createSession', 'verb' => 'POST'],
         ['name' => 'page#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
