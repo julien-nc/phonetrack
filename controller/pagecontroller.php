@@ -125,7 +125,7 @@ class PageController extends Controller {
 
     private function getUserTileServers($type){
         // custom tile servers management
-        $sqlts = 'SELECT servername, type, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution FROM *PREFIX*phonetrack_tile_servers ';
+        $sqlts = 'SELECT servername, type, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution FROM *PREFIX*phonetrack_tileserver ';
         $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlts .= 'AND type='.$this->db_quote_escape_string($type).';';
         $req = $this->dbconnection->prepare($sqlts);
@@ -288,7 +288,7 @@ class PageController extends Controller {
             $req->execute();
             $req->closeCursor();
 
-            $sqldel = 'DELETE FROM *PREFIX*phonetrack_sessionpoints ';
+            $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
             $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).';';
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
@@ -334,7 +334,7 @@ class PageController extends Controller {
 
         if ($dbname !== null) {
             // check if device exists
-            $sqlchk = 'SELECT count(*) as c FROM *PREFIX*phonetrack_sessionpoints ';
+            $sqlchk = 'SELECT count(*) as c FROM *PREFIX*phonetrack_points ';
             $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
             $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ';
             $req = $this->dbconnection->prepare($sqlchk);
@@ -347,7 +347,7 @@ class PageController extends Controller {
             $req->closeCursor();
 
             if ($c > 0) {
-                $sqldel = 'DELETE FROM *PREFIX*phonetrack_sessionpoints ';
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
                 $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                 $sqldel .= 'AND deviceid='.$this->db_quote_escape_string($device).' ';
                 $req = $this->dbconnection->prepare($sqldel);
@@ -405,7 +405,7 @@ class PageController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
-                $sql = 'INSERT INTO *PREFIX*phonetrack_sessionpoints';
+                $sql = 'INSERT INTO *PREFIX*phonetrack_points';
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($token).',';
@@ -455,7 +455,7 @@ class PageController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
-                $sql = 'INSERT INTO *PREFIX*phonetrack_sessionpoints';
+                $sql = 'INSERT INTO *PREFIX*phonetrack_points';
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($_GET['token']).',';
@@ -501,7 +501,7 @@ class PageController extends Controller {
             if ($dbtoken !== null) {
                 // get list of devices
                 $devices = array();
-                $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_sessionpoints ';
+                $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_points ';
                 $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                 $sqldev .= 'GROUP BY deviceid;';
                 $req = $this->dbconnection->prepare($sqldev);
@@ -521,7 +521,7 @@ class PageController extends Controller {
                         $lastDeviceTime = $lastTime['d'.$devname];
                     }
 
-                    $sqlget = 'SELECT * FROM *PREFIX*phonetrack_sessionpoints ';
+                    $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
@@ -669,7 +669,7 @@ class PageController extends Controller {
                 $coords = array();
                 // get list of devices
                 $devices = array();
-                $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_sessionpoints ';
+                $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_points ';
                 $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                 $sqldev .= 'GROUP BY deviceid;';
                 $req = $this->dbconnection->prepare($sqldev);
@@ -684,7 +684,7 @@ class PageController extends Controller {
 
                 foreach ($devices as $devname) {
                     $coords[$devname] = array();
-                    $sqlget = 'SELECT * FROM *PREFIX*phonetrack_sessionpoints ';
+                    $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $req = $this->dbconnection->prepare($sqlget);
