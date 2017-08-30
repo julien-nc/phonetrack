@@ -895,18 +895,19 @@
         publicurl = window.location.origin + publicurl;
 
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
-        divtxt = divtxt + '<h3>' + name + ' <button class="zoomsession">' +
+        divtxt = divtxt + '<h3 class="sessionTitle">' + name + ' <button class="zoomsession" ' +
+            'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search-plus" style="color:blue;"></i></button></h3>';
-        divtxt = divtxt + '<label>' + t('phonetrack', 'Public URL') + ' :</label>';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'Public URL') + ' :</p>';
         divtxt = divtxt + '<input role="publicurl" type="text" value="' + publicurl + '"></input>'; 
         divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('phonetrack', 'More URLs') +
             '</label> <i class="fa fa-angle-double-down"></i></p>';
         divtxt = divtxt + '<div class="moreUrls">';
-        divtxt = divtxt + '<label>' + t('phonetrack', 'OsmAnd URL') + ' :</label>';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
         divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>';
-        divtxt = divtxt + '<label>' + t('phonetrack', 'GpsLogger GET URL') + ' :</label>';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET URL') + ' :</p>';
         divtxt = divtxt + '<input role="gpsloggergeturl" type="text" value="' + gpsloggerGetUrl + '"></input>';
-        divtxt = divtxt + '<label>' + t('phonetrack', 'GpsLogger POST URL') + ' :</label>';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger POST URL') + ' :</p>';
         divtxt = divtxt + '<input role="gpsloggerposturl" type="text" value="' + gpsloggerPostUrl + '"></input>';
         divtxt = divtxt + '</div>';
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
@@ -923,6 +924,7 @@
         divtxt = divtxt + '<ul class="devicelist" session="' + name + '"></ul></div>';
 
         $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true );
+        $('.session[name="'+name+'"]').find('.moreUrls').hide();
     }
     
     function deleteSession(token, name) {

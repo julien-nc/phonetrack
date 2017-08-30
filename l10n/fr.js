@@ -45,6 +45,7 @@ OC.L10N.register(
         "Failed to delete device '{d}' of session '{s}'" : "Échec à la suppression de l'appareil '{d}' de la session '{s}'",
         "Failed to contact server to delete device" : "Impossible de contacter le serveur pour supprimer l'appareil",
         "Delete this device" : "Supprimer cet appareil",
+        "Zoom on this session" : "Zoomer sur cette session",
         "GpsLogger POST URL" : "URL POST pour GpsLogger"
     },
 "nplurals=2; plural=(n > 1);");
