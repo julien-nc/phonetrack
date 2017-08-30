@@ -400,3 +400,6 @@ ul.devicelist {
     font-size: 20px;
     font-weight: bold;
 }
+#zoomallbutton {
+    height: 50px !important;
+}
