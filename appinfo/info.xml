@@ -22,7 +22,7 @@ work only with those devices. Sessions can be exported in GPX format (one subtra
 saved in ownCloud files.
 saved in Nextcloud files.
 
-Public page works like main page except there is only one session displayed.
+Public page works like main page except there is only one session displayed and there is no need to be logged in.
 
 If you want to help to translate this app in your language, take the english=>french files in "l10n" directory as examples.
 
@@ -54,7 +54,7 @@ cd /path/to/owncloud/apps
 git clone https://gitlab.com/eneiluj/phonetrack-oc.git phonetrack
 ```
 
-### Download from https://apps.owncloud.com
+### Download from https://marketplace.owncloud.com
 ### Download from https://apps.nextcloud.com
 
 Extract phonetrack archive you just downloaded from the website :
@@ -69,7 +69,7 @@ Any feedback will be appreciated.
 
     </description>
     <licence>AGPL</licence>
-    <summary>Display phones position in real time</summary>
+    <summary>Display phones positions in real time</summary>
     <author>Julien Veyssier</author>
     <version>0.0.1</version>
     <namespace>PhoneTrack</namespace>
@@ -82,7 +82,9 @@ Any feedback will be appreciated.
     <category>multimedia</category>
     <website>https://gitlab.com/eneiluj/phonetrack-oc</website>
     <bugs>https://gitlab.com/eneiluj/phonetrack-oc/issues</bugs>
-    <screenshot></screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/9f938f4b8948cbb8e574da02867a818e/pt1.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/e3a1fca943cd23071a3fb22b77703cbd/pt2.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/97b3e41c3fa49ddebee52c3d9de540c7/pt3.jpeg</screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>

@@ -15,7 +15,7 @@ On PhoneTrack main page, while watching a session, you can select some devices t
 work only with those devices. Sessions can be exported in GPX format (one subtrack by device) and
 saved in Nextcloud/ownCloud files.
 
-Public page works like main page except there is only one session displayed.
+Public page works like main page except there is only one session displayed and there is no need to be logged in.
 
 If you want to help to translate this app in your language, take the english=>french files in "l10n" directory as examples.
 
@@ -45,7 +45,7 @@ cd /path/to/owncloud/apps
 git clone https://gitlab.com/eneiluj/phonetrack-oc.git phonetrack
 ```
 
-### Download from https://apps.owncloud.com or https://apps.nextcloud.com
+### Download from https://marketplace.owncloud.com or https://apps.nextcloud.com
 
 Extract phonetrack archive you just downloaded from the website :
 ```
