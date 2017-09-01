@@ -49,15 +49,15 @@
     </field>
     <field>
       <name>sessionid</name>
-      <type>integer</type>
+      <type>text</type>
       <notnull>true</notnull>
-      <length>4</length>
+      <length>300</length>
     </field>
     <field>
       <name>deviceid</name>
-      <type>integer</type>
+      <type>text</type>
       <notnull>true</notnull>
-      <length>4</length>
+      <length>100</length>
     </field>
     <field>
       <name>lat</name>
