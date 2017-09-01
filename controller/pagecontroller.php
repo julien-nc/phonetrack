@@ -406,7 +406,7 @@ class PageController extends Controller {
                 }
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
+                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($token).',';
                 $sql .= $this->db_quote_escape_string($deviceid).',';
@@ -473,7 +473,7 @@ class PageController extends Controller {
                 }
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
+                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($_GET['token']).',';
                 $sql .= $this->db_quote_escape_string($_GET['deviceid']).',';

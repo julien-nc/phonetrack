@@ -78,8 +78,8 @@
       <length>10</length>
     </field>
     <field>
-      <name>precision</name>
-      <type>integer</type>
+      <name>accuracy</name>
+      <type>float</type>
       <length>4</length>
     </field>
     <field>
@@ -89,7 +89,7 @@
     </field>
     <field>
       <name>altitude</name>
-      <type>integer</type>
+      <type>float</type>
       <length>4</length>
     </field>
     <field>
