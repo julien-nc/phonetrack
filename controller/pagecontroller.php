@@ -455,6 +455,23 @@ class PageController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
+                $bat = '-1';
+                if (isset($_GET['bat'])) {
+                    $bat = $_GET['bat'];
+                }
+                $sat = '-1';
+                if (isset($_GET['sat'])) {
+                    $sat = $_GET['sat'];
+                }
+                $acc = '-1';
+                if (isset($_GET['acc'])) {
+                    $acc = $_GET['acc'];
+                }
+                $alt = '-1';
+                if (isset($_GET['alt'])) {
+                    $alt = $_GET['alt'];
+                }
+
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, precision, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
@@ -463,10 +480,10 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string($_GET['lat']).',';
                 $sql .= $this->db_quote_escape_string($_GET['lon']).',';
                 $sql .= $this->db_quote_escape_string($time).',';
-                $sql .= $this->db_quote_escape_string($_GET['acc']).',';
-                $sql .= $this->db_quote_escape_string($_GET['sat']).',';
-                $sql .= $this->db_quote_escape_string($_GET['alt']).',';
-                $sql .= $this->db_quote_escape_string($_GET['bat']).');';
+                $sql .= $this->db_quote_escape_string($acc).',';
+                $sql .= $this->db_quote_escape_string($sat).',';
+                $sql .= $this->db_quote_escape_string($alt).',';
+                $sql .= $this->db_quote_escape_string($bat).');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
