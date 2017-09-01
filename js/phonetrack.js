@@ -878,8 +878,8 @@
             deviceid: 'yourname'
         };
         osmandurl = osmandurl +
-            'lat={1}&' +
-            'lon={2}&' +
+            'lat={0}&' +
+            'lon={1}&' +
             'alt={4}&' +
             'acc={3}&' +
             'timestamp={2}&' +
