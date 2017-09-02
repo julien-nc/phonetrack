@@ -503,6 +503,18 @@ class PageController extends Controller {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     **/
+    public function logUlogger($token, $trackid, $deviceid, $lat, $lon, $time, $accuracy, $pass, $user, $action) {
+        if ($action === 'addpos') {
+            $this->logpost($deviceid, $token, $lat, $lon, -1, $time, $accuracy, -1, -1);
+        }
+        return array("error" => false, "trackid" => 1);
+    }
+
+    /**
+     * @NoAdminRequired
      * @PublicPage
      */
     public function track($sessions) {
