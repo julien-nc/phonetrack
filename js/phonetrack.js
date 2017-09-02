@@ -872,6 +872,9 @@
         gpsloggerPostUrl = window.location.origin + gpsloggerPostUrl + gpsloggerParams;
         gpsloggerGetUrl = window.location.origin + gpsloggerGetUrl + gpsloggerParams;
 
+        var owntracksurl = OC.generateUrl('/apps/phonetrack/log/owntracks/' + token);
+        owntracksurl = window.location.origin + owntracksurl;
+
         var osmandurl = OC.generateUrl('/apps/phonetrack/log?');
         var osmandurlparams = {
             token: token,
@@ -909,6 +912,8 @@
         divtxt = divtxt + '<input role="gpsloggergeturl" type="text" value="' + gpsloggerGetUrl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger POST URL') + ' :</p>';
         divtxt = divtxt + '<input role="gpsloggerposturl" type="text" value="' + gpsloggerPostUrl + '"></input>';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) URL') + ' :</p>';
+        divtxt = divtxt + '<input role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
         divtxt = divtxt + '</div>';
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
             t('phonetrack', 'Delete session') + '</button>';

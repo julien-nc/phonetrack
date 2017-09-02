@@ -26,6 +26,7 @@ return [
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
         ['name' => 'page#log', 'url' => '/log', 'verb' => 'GET'],
         ['name' => 'page#logpost', 'url' => '/logpost', 'verb' => 'POST'],
+        ['name' => 'page#logOwntracks', 'url' => '/log/owntracks/{token}', 'verb' => 'POST'],
         ['name' => 'page#track', 'url' => '/track', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],

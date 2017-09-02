@@ -41,6 +41,7 @@ OC.L10N.register(
         "Follow this device (autozoom)" : "Suivre cet appareil (zoom auto)",
         "More URLs" : "Plus d'URLs",
         "GpsLogger GET URL" : "URL GET pour GpsLogger",
+        "Owntracks (HTTP mode) URL" : "URL (mode HTTP) pour Owntracks",
         "Device '{d}' of session '{s}' has been deleted" : "L'appareil '{d}' de la session '{s}' a été supprimé",
         "Failed to delete device '{d}' of session '{s}'" : "Échec à la suppression de l'appareil '{d}' de la session '{s}'",
         "Failed to contact server to delete device" : "Impossible de contacter le serveur pour supprimer l'appareil",

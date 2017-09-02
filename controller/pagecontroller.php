@@ -493,6 +493,16 @@ class PageController extends Controller {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     **/
+    public function logOwntracks($tid, $token, $lat, $lon, $alt, $tst, $acc, $batt) {
+        $this->logpost($tid, $token, $lat, $lon, $alt, $tst, $acc, $batt, -1);
+        return array();
+    }
+
+    /**
+     * @NoAdminRequired
      * @PublicPage
      */
     public function track($sessions) {
