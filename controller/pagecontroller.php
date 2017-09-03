@@ -542,6 +542,7 @@ class PageController extends Controller {
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
+                    $sqlget .= 'ORDER BY timestamp ASC';
                     $req = $this->dbconnection->prepare($sqlget);
                     $req->execute();
                     while ($row = $req->fetch()){
