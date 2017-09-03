@@ -166,6 +166,7 @@ class PageController extends Controller {
 			'useroverlayservers'=>$oss,
 			'usertileserverswms'=>$tssw,
 			'useroverlayserverswms'=>$ossw,
+            'publicsessionname'=>'',
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);
@@ -502,7 +503,7 @@ class PageController extends Controller {
      *
      * Ulogger Android
      **/
-    public function logUlogger($token, $trackid, $deviceid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
+    public function logUlogger($token, $deviceid, $trackid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
         if ($action === 'addpos') {
             $this->logPost($token, $deviceid, $lat, $lon, $altitude, $time, $accuracy, -1, -1);
         }
@@ -606,7 +607,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
-    public function publicSession($token, $sessionname) {
+    public function publicSession($token) {
         if ($token !== '') {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
@@ -638,6 +639,7 @@ class PageController extends Controller {
 			'useroverlayservers'=>'',
 			'usertileserverswms'=>'',
 			'useroverlayserverswms'=>'',
+            'publicsessionname'=>$dbname,
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);

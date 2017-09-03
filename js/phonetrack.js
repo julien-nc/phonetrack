@@ -883,7 +883,7 @@
             'timestamp={2}';
         osmandurl = window.location.origin + osmandurl;
 
-        var publicurl = OC.generateUrl('/apps/phonetrack/publicSession/' + token + '/' + name);
+        var publicurl = OC.generateUrl('/apps/phonetrack/publicSession/' + token);
         publicurl = window.location.origin + publicurl;
 
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
@@ -1575,10 +1575,9 @@
         }
         // public page
         else {
-            var params = window.location.href.split('publicSession/')[1].split('/');
-            var token = params[0];
+            var token = window.location.href.split('publicSession/')[1];
             phonetrack.publicToken = token;
-            var name = params[1];
+            var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
             addSession(token, name, true);
             $('.removeSession').remove();
