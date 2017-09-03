@@ -855,49 +855,37 @@
         if (selected) {
             selhtml = ' checked="checked"';
         }
-        var gpsloggerPostUrl = OC.generateUrl('/apps/phonetrack/logpost?');
-        var gpsloggerGetUrl = OC.generateUrl('/apps/phonetrack/log?');
-        var gpsloggerSessionParams = {
-            token: token,
-            deviceid: 'yourname'
-        };
+        var gpsloggerPostUrl = OC.generateUrl('/apps/phonetrack/logPost/' + token + '/yourname?');
+        var gpsloggerGetUrl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/yourname?');
         var gpsloggerParams = 'lat=%LAT&' +
             'lon=%LON&' +
             'sat=%SAT&' +
             'alt=%ALT&' +
             'acc=%ACC&' +
             'timestamp=%TIMESTAMP&' +
-            'bat=%BATT&' +
-            $.param(gpsloggerSessionParams);
+            'bat=%BATT';
         gpsloggerPostUrl = window.location.origin + gpsloggerPostUrl + gpsloggerParams;
         gpsloggerGetUrl = window.location.origin + gpsloggerGetUrl + gpsloggerParams;
 
-        var owntracksurl = OC.generateUrl('/apps/phonetrack/log/owntracks/' + token);
+        var owntracksurl = OC.generateUrl('/apps/phonetrack/log/owntracks/' + token + '/yourname');
         owntracksurl = window.location.origin + owntracksurl;
 
         var uloggerurl = OC.generateUrl('/apps/phonetrack/log/ulogger/' + token + '/yourname');
         uloggerurl = window.location.origin + uloggerurl;
 
-        var osmandurl = OC.generateUrl('/apps/phonetrack/log?');
-        var osmandurlparams = {
-            token: token,
-            deviceid: 'yourname'
-        };
+        var traccarurl = OC.generateUrl('/apps/phonetrack/log/traccar/' + token + '/yourname');
+        traccarurl = window.location.origin + traccarurl;
+
+        var osmandurl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/yourname?');
         osmandurl = osmandurl +
             'lat={0}&' +
             'lon={1}&' +
             'alt={4}&' +
             'acc={3}&' +
-            'timestamp={2}&' +
-            $.param(osmandurlparams);
+            'timestamp={2}';
         osmandurl = window.location.origin + osmandurl;
 
-        var publicurl = OC.generateUrl('/apps/phonetrack/publicSession?');
-        var publicurlparams = {
-            sessionid: token,
-            sessionname: name
-        };
-        publicurl = publicurl + $.param(publicurlparams);
+        var publicurl = OC.generateUrl('/apps/phonetrack/publicSession/' + token + '/' + name);
         publicurl = window.location.origin + publicurl;
 
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
@@ -919,6 +907,8 @@
         divtxt = divtxt + '<input role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger URL') + ' :</p>';
         divtxt = divtxt + '<input role="uloggerurl" type="text" value="' + uloggerurl + '"></input>';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar URL') + ' :</p>';
+        divtxt = divtxt + '<input role="traccarurl" type="text" value="' + traccarurl + '"></input>';
         divtxt = divtxt + '</div>';
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
             t('phonetrack', 'Delete session') + '</button>';
@@ -1327,15 +1317,13 @@
             acc = e.accuracy;
             timestamp = e.timestamp;
             var req = {
-                deviceid: deviceid,
-                token: phonetrack.publicToken,
                 lat: lat,
                 lon: lon,
                 alt: alt,
                 acc: acc,
                 timestamp: timestamp
             };
-            var url = OC.generateUrl('/apps/phonetrack/logpost');
+            var url = OC.generateUrl('/apps/phonetrack/logPost/' + phonetrack.publicToken + '/' + deviceid);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1591,9 +1579,10 @@
         }
         // public page
         else {
-            var token = getUrlParameter('sessionid');
+            var params = window.location.href.split('publicSession/')[1].split('/');
+            var token = params[0];
             phonetrack.publicToken = token;
-            var name = getUrlParameter('sessionname');
+            var name = params[1];
             phonetrack.publicName = name;
             addSession(token, name, true);
             $('.removeSession').remove();

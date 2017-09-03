@@ -378,8 +378,10 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     *
+     * function for GpsLogger (POST) and indirectly every other app
      **/
-    public function logpost($deviceid, $token, $lat, $lon, $alt, $timestamp, $acc, $batt, $sat) {
+    public function logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
         if ($deviceid !== '' and
             $token !== '' and
             $lat !== '' and
@@ -405,6 +407,19 @@ class PageController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
+                if ($bat === '' or is_null($bat)) {
+                    $bat = '-1';
+                }
+                if ($sat === '' or is_null($sat)) {
+                    $sat = '-1';
+                }
+                if ($acc === '' or is_null($acc)) {
+                    $acc = '-1';
+                }
+                if ($alt === '' or is_null($alt)) {
+                    $alt = '-1';
+                }
+
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel) ';
                 $sql .= 'VALUES (';
@@ -412,73 +427,6 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string($deviceid).',';
                 $sql .= $this->db_quote_escape_string($lat).',';
                 $sql .= $this->db_quote_escape_string($lon).',';
-                $sql .= $this->db_quote_escape_string($time).',';
-                $sql .= $this->db_quote_escape_string($acc).',';
-                $sql .= $this->db_quote_escape_string($sat).',';
-                $sql .= $this->db_quote_escape_string($alt).',';
-                $sql .= $this->db_quote_escape_string($batt).');';
-                $req = $this->dbconnection->prepare($sql);
-                $req->execute();
-                $req->closeCursor();
-            }
-        }
-    }
-
-    /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     * @PublicPage
-     **/
-    public function log() {
-        if (isset($_GET['token']) &&
-            isset($_GET['deviceid']) &&
-            isset($_GET['lat']) &&
-            isset($_GET['lon']) &&
-            isset($_GET['timestamp'])
-        ) {
-            // check if session exists
-            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($_GET['token']).' ';
-            $req = $this->dbconnection->prepare($sqlchk);
-            $req->execute();
-            $dbname = null;
-            while ($row = $req->fetch()){
-                $dbname = $row['name'];
-                break;
-            }
-            $req->closeCursor();
-
-            if ($dbname !== null) {
-                // correct timestamp if needed
-                $time = $_GET['timestamp'];
-                if (is_numeric($time) and (int)$time > 10000000000) {
-                    $time = (int)((int)$time / 1000);
-                }
-
-                $bat = '-1';
-                if (isset($_GET['bat'])) {
-                    $bat = $_GET['bat'];
-                }
-                $sat = '-1';
-                if (isset($_GET['sat'])) {
-                    $sat = $_GET['sat'];
-                }
-                $acc = '-1';
-                if (isset($_GET['acc'])) {
-                    $acc = $_GET['acc'];
-                }
-                $alt = '-1';
-                if (isset($_GET['alt'])) {
-                    $alt = $_GET['alt'];
-                }
-
-                $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel) ';
-                $sql .= 'VALUES (';
-                $sql .= $this->db_quote_escape_string($_GET['token']).',';
-                $sql .= $this->db_quote_escape_string($_GET['deviceid']).',';
-                $sql .= $this->db_quote_escape_string($_GET['lat']).',';
-                $sql .= $this->db_quote_escape_string($_GET['lon']).',';
                 $sql .= $this->db_quote_escape_string($time).',';
                 $sql .= $this->db_quote_escape_string($acc).',';
                 $sql .= $this->db_quote_escape_string($sat).',';
@@ -495,9 +443,22 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     *
+     * function for GpsLogger (GET) and OsmAnd
      **/
-    public function logOwntracks($tid, $token, $lat, $lon, $alt, $tst, $acc, $batt) {
-        $this->logpost($tid, $token, $lat, $lon, $alt, $tst, $acc, $batt, -1);
+    public function logGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
+     * Owntracks IOS
+     **/
+    public function logOwntracks($token, $deviceid, $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $tst, $acc, $batt, -1);
         return array();
     }
 
@@ -505,10 +466,12 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     *
+     * Ulogger Android
      **/
     public function logUlogger($token, $trackid, $deviceid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
         if ($action === 'addpos') {
-            $this->logpost($deviceid, $token, $lat, $lon, $altitude, $time, $accuracy, -1, -1);
+            $this->logPost($token, $deviceid, $lat, $lon, $altitude, $time, $accuracy, -1, -1);
         }
         return array("error" => false, "trackid" => 1);
     }
@@ -517,9 +480,11 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     *
+     * traccar Android/IOS
      **/
-    public function logTraccar($token, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
-        $this->logpost($id, $token, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
+    public function logTraccar($token, $deviceid, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
+        $this->logPost($token, $deviceid, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
     }
 
     /**
@@ -608,12 +573,11 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
-    public function publicSession() {
-        if (isset($_GET['sessionid'])) {
-            $sessionid = $_GET['sessionid'];
+    public function publicSession($token, $sessionname) {
+        if ($token !== '') {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($_GET['sessionid']).' ';
+            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
             $dbname = null;
