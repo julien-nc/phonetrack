@@ -855,8 +855,7 @@
         if (selected) {
             selhtml = ' checked="checked"';
         }
-        var gpsloggerPostUrl = OC.generateUrl('/apps/phonetrack/logPost/' + token + '/yourname?');
-        var gpsloggerGetUrl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/yourname?');
+        var gpsloggerUrl = OC.generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/yourname?');
         var gpsloggerParams = 'lat=%LAT&' +
             'lon=%LON&' +
             'sat=%SAT&' +
@@ -864,8 +863,7 @@
             'acc=%ACC&' +
             'timestamp=%TIMESTAMP&' +
             'bat=%BATT';
-        gpsloggerPostUrl = window.location.origin + gpsloggerPostUrl + gpsloggerParams;
-        gpsloggerGetUrl = window.location.origin + gpsloggerGetUrl + gpsloggerParams;
+        gpsloggerUrl = window.location.origin + gpsloggerUrl + gpsloggerParams;
 
         var owntracksurl = OC.generateUrl('/apps/phonetrack/log/owntracks/' + token + '/yourname');
         owntracksurl = window.location.origin + owntracksurl;
@@ -876,7 +874,7 @@
         var traccarurl = OC.generateUrl('/apps/phonetrack/log/traccar/' + token + '/yourname');
         traccarurl = window.location.origin + traccarurl;
 
-        var osmandurl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/yourname?');
+        var osmandurl = OC.generateUrl('/apps/phonetrack/log/osmand/' + token + '/yourname?');
         osmandurl = osmandurl +
             'lat={0}&' +
             'lon={1}&' +
@@ -899,10 +897,8 @@
         divtxt = divtxt + '<div class="moreUrls">';
         divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
         divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET URL') + ' :</p>';
-        divtxt = divtxt + '<input role="gpsloggergeturl" type="text" value="' + gpsloggerGetUrl + '"></input>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger POST URL') + ' :</p>';
-        divtxt = divtxt + '<input role="gpsloggerposturl" type="text" value="' + gpsloggerPostUrl + '"></input>';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' :</p>';
+        divtxt = divtxt + '<input role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) URL') + ' :</p>';
         divtxt = divtxt + '<input role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger URL') + ' :</p>';

@@ -444,9 +444,42 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      *
+     * function for GpsLogger (POST) and indirectly every other app
+     **/
+    public function logGpsloggerPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
      * function for GpsLogger (GET) and OsmAnd
      **/
     public function logGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
+     * function for GpsLogger (GET) and OsmAnd
+     **/
+    public function logOsmand($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
+     * function for GpsLogger (GET) and OsmAnd
+     **/
+    public function logGpsloggerGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
         $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
     }
 
