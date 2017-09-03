@@ -40,13 +40,15 @@ OC.L10N.register(
         "Click to disable automatic zoom" : "Cliquer pour désactiver le zoom automatique",
         "Follow this device (autozoom)" : "Suivre cet appareil (zoom auto)",
         "More URLs" : "Plus d'URLs",
-        "GpsLogger GET URL" : "URL GET pour GpsLogger",
+        "GpsLogger GET and POST URL" : "URL GET ou POST pour GpsLogger",
+        "Ulogger URL" : "URL pour Ulogger",
+        "Traccar URL" : "URL pour Traccar",
+        "Owntracks (HTTP mode) URL" : "URL (mode HTTP) pour Owntracks",
         "Device '{d}' of session '{s}' has been deleted" : "L'appareil '{d}' de la session '{s}' a été supprimé",
         "Failed to delete device '{d}' of session '{s}'" : "Échec à la suppression de l'appareil '{d}' de la session '{s}'",
         "Failed to contact server to delete device" : "Impossible de contacter le serveur pour supprimer l'appareil",
         "Delete this device" : "Supprimer cet appareil",
-        "Zoom on this session" : "Zoomer sur cette session",
-        "GpsLogger POST URL" : "URL POST pour GpsLogger"
+        "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");
 
