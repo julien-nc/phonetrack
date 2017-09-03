@@ -28,6 +28,7 @@ return [
         ['name' => 'page#logpost', 'url' => '/logpost', 'verb' => 'POST'],
         ['name' => 'page#logOwntracks', 'url' => '/log/owntracks/{token}', 'verb' => 'POST'],
         ['name' => 'page#logUlogger', 'url' => '/log/ulogger/{token}/{deviceid}/client/index.php', 'verb' => 'POST'],
+        ['name' => 'page#logTraccar', 'url' => '/log/traccar/{token}', 'verb' => 'POST'],
         ['name' => 'page#track', 'url' => '/track', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],

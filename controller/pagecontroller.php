@@ -506,11 +506,20 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
-    public function logUlogger($token, $trackid, $deviceid, $lat, $lon, $time, $accuracy, $pass, $user, $action) {
+    public function logUlogger($token, $trackid, $deviceid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
         if ($action === 'addpos') {
-            $this->logpost($deviceid, $token, $lat, $lon, -1, $time, $accuracy, -1, -1);
+            $this->logpost($deviceid, $token, $lat, $lon, $altitude, $time, $accuracy, -1, -1);
         }
         return array("error" => false, "trackid" => 1);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     **/
+    public function logTraccar($token, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
+        $this->logpost($id, $token, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
     }
 
     /**
