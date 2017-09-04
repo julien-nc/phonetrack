@@ -129,7 +129,7 @@ class PageController extends Controller {
         }
         //$this->shareManager = \OC::$server->getShareManager();
         $this->shareManager = $shareManager;
-        $this->defaultDeviceId = 'yourname';
+        $this->defaultDeviceId = ['yourname', 'deviceid'];
     }
 
     /*
@@ -392,6 +392,26 @@ class PageController extends Controller {
     }
 
     /**
+     * if deviceid is not set to default value, we take it
+     * else
+     */
+    private function chooseDeviceId($deviceid, $tid) {
+        if ( (!in_array($deviceid, $this->defaultDeviceId)) and
+             $deviceid !== '' and
+             (!is_null($deviceid))
+        ) {
+            $did = $deviceid;
+        }
+        else if ($tid !== '' and !is_null($tid)){
+            $did = $tid;
+        }
+        else {
+            $did = 'unknown';
+        }
+        return $did;
+    }
+
+    /**
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
@@ -462,7 +482,8 @@ class PageController extends Controller {
      *
      **/
     public function logGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+        $did = $this->chooseDeviceId($deviceid, null);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
     }
 
     /**
@@ -472,7 +493,8 @@ class PageController extends Controller {
      *
      **/
     public function logOsmand($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+        $did = $this->chooseDeviceId($deviceid, null);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
     }
 
     /**
@@ -482,7 +504,8 @@ class PageController extends Controller {
      *
      **/
     public function logGpsloggerGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+        $did = $this->chooseDeviceId($deviceid, null);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
     }
 
     /**
@@ -492,7 +515,8 @@ class PageController extends Controller {
      *
      **/
     public function logGpsloggerPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
-        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+        $did = $this->chooseDeviceId($deviceid, null);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
     }
 
     /**
@@ -503,13 +527,7 @@ class PageController extends Controller {
      * Owntracks IOS
      **/
     public function logOwntracks($token, $deviceid, $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
-        $did = $tid;
-        if ($deviceid !== $this->defaultDeviceId) {
-            $did = $deviceid;
-        }
-        if ($did === '' or is_null($did)) {
-            $did = 'unknown';
-        }
+        $did = $this->chooseDeviceId($deviceid, $tid);
         $this->logPost($token, $did, $lat, $lon, $alt, $tst, $acc, $batt, -1);
         return array();
     }
@@ -523,7 +541,8 @@ class PageController extends Controller {
      **/
     public function logUlogger($token, $deviceid, $trackid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
         if ($action === 'addpos') {
-            $this->logPost($token, $deviceid, $lat, $lon, $altitude, $time, $accuracy, -1, -1);
+            $did = $this->chooseDeviceId($deviceid, null);
+            $this->logPost($token, $did, $lat, $lon, $altitude, $time, $accuracy, -1, -1);
         }
         return array("error" => false, "trackid" => 1);
     }
@@ -536,13 +555,7 @@ class PageController extends Controller {
      * traccar Android/IOS
      **/
     public function logTraccar($token, $deviceid, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
-        $did = $id;
-        if ($deviceid !== $this->defaultDeviceId) {
-            $did = $deviceid;
-        }
-        if ($did === '' or is_null($did)) {
-            $did = 'unknown';
-        }
+        $did = $this->chooseDeviceId($deviceid, $id);
         $this->logPost($token, $did, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
     }
 
@@ -554,14 +567,7 @@ class PageController extends Controller {
      * any Opengts-compliant app
      **/
     public function logOpengts($token, $deviceid, $id, $dev, $acct, $alt, $batt, $gprmc) {
-        $did = $id;
-        if ($deviceid !== $this->defaultDeviceId) {
-            $did = $deviceid;
-        }
-        if ($did === '' or is_null($did)) {
-            $did = 'unknown';
-        }
-
+        $did = $this->chooseDeviceId($deviceid, $id);
         $gprmca = explode(',', $gprmc);
         $time = $gprmca[1];
         $date = $gprmca[9];
