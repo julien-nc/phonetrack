@@ -905,13 +905,13 @@
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search-plus" style="color:blue;"></i></button>';
         if (!pageIsPublic()) {
-            divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Edit session name') + '">' +
+            divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
                 '<i class="fa fa-edit" style="color:blue;"></i></button>';
         }
         divtxt = divtxt + '</h3>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<div class="editsessiondiv">' +
-                '<input role="editsessioninput" type="text" value="newname"/>' +
+                '<input role="editsessioninput" type="text" value="' + name + '"/>' +
                 '<button class="editsessionok"><i class="fa fa-check" style="color:green;"></i> ' +
                 t('phonetrack', 'Rename') + '</button>' +
                 '<button class="editsessioncancel"><i class="fa fa-undo" style="color:red;"></i> ' +
@@ -1050,7 +1050,27 @@
     }
 
     function renameSessionSuccess(token, oldname, newname) {
-        $('.session[token='+token+'] .sessionTitle b').text(newname)
+        var perm = $('#showtime').is(':checked');
+        var d, t;
+        $('.session[token='+token+'] .sessionTitle b').text(newname);
+        for (d in phonetrack.sessionMarkerLayers[token]) {
+            t = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
+            t = t.replace('Session '+oldname, 'Session '+newname);
+            phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
+            phonetrack.sessionMarkerLayers[token][d].bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
+
+            t = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
+            t = t.replace('Session '+oldname, 'Session '+newname);
+            phonetrack.sessionLineLayers[token][d].unbindTooltip();
+            phonetrack.sessionLineLayers[token][d].bindTooltip(
+                t,
+                {
+                    permanent: false,
+                    sticky: true,
+                    className: 'tooltip' + phonetrack.sessionColors[token + d]
+                }
+            );
+        }
     }
 
     function getSessions() {

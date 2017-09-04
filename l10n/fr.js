@@ -49,6 +49,12 @@ OC.L10N.register(
         "Failed to delete device '{d}' of session '{s}'" : "Échec à la suppression de l'appareil '{d}' de la session '{s}'",
         "Failed to contact server to delete device" : "Impossible de contacter le serveur pour supprimer l'appareil",
         "Delete this device" : "Supprimer cet appareil",
+        "Rename session" : "Renommer la session",
+        "Rename" : "Renommer",
+        "OpenGTS URL" : "URL pour OpenGTS",
+        "Impossible to rename session" : "Impossible de renommer la session",
+        "Failed to rename session" : "Échec pour renommer la session",
+        "Cancel" : "Annuler",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");
