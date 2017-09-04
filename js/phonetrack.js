@@ -903,7 +903,19 @@
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
         divtxt = divtxt + '<h3 class="sessionTitle">' + name + ' <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
-            '<i class="fa fa-search-plus" style="color:blue;"></i></button></h3>';
+            '<i class="fa fa-search-plus" style="color:blue;"></i></button>';
+        if (!pageIsPublic()) {
+            divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Edit session name') + '">' +
+                '<i class="fa fa-edit" style="color:blue;"></i></button>';
+        }
+        divtxt = divtxt + '</h3>';
+        if (!pageIsPublic()) {
+            divtxt = divtxt + '<div class="editsessiondiv">' +
+                '<input role="editsessioninput" type="text" value="newname"/>' +
+                '<button class="editsessionok">' + t('phonetrack', 'Rename') + '</button>' +
+                '<button class="editsessioncancel">' + t('phonetrack', 'Cancel') + '</button>' +
+                '</div>';
+        }
         divtxt = divtxt + '<p>' + t('phonetrack', 'Public watch URL') + ' :</p>';
         divtxt = divtxt + '<input role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
         divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('phonetrack', 'More URLs') +
@@ -937,8 +949,9 @@
             'token="' + token + '" sessionname="' + name + '"' + selhtml + '/></div>';
         divtxt = divtxt + '<ul class="devicelist" session="' + name + '"></ul></div>';
 
-        $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true );
+        $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true);
         $('.session[name="'+name+'"]').find('.moreUrls').hide();
+        $('.session[name="'+name+'"]').find('.editsessiondiv').hide().find('input[type=text]').prop('readonly', false);
     }
     
     function deleteSession(token, name) {
@@ -1586,6 +1599,19 @@
             var session = $(this).attr('session');
             var device = $(this).attr('device');
             deleteDevice(session, device);
+        });
+
+        $('body').on('click','.editsessionbutton', function(e) {
+            var editdiv = $(this).parent().parent().find('.editsessiondiv');
+            editdiv.slideDown('slow');
+        });
+
+        $('body').on('click','.editsessionok', function(e) {
+        });
+
+        $('body').on('click','.editsessioncancel', function(e) {
+            var editdiv = $(this).parent().parent().find('.editsessiondiv');
+            editdiv.slideUp('slow');
         });
 
         if (!pageIsPublic()) {

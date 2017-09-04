@@ -403,3 +403,9 @@ ul.devicelist {
 #zoomallbutton {
     height: 50px !important;
 }
+.editsessiondiv input{
+    width: 50% !important;
+}
+.editsessiondiv {
+    grid-column: 1/3;
+}
