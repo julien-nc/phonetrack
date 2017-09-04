@@ -882,6 +882,9 @@
         var traccarurl = OC.generateUrl('/apps/phonetrack/log/traccar/' + token + '/yourname');
         traccarurl = window.location.origin + traccarurl;
 
+        var opengtsurl = OC.generateUrl('/apps/phonetrack/log/opengts/' + token + '/yourname');
+        opengtsurl = window.location.origin + opengtsurl;
+
         var osmandurl = OC.generateUrl('/apps/phonetrack/log/osmand/' + token + '/yourname?');
         osmandurl = osmandurl +
             'lat={0}&' +
@@ -918,6 +921,8 @@
         divtxt = divtxt + '<input role="uloggerurl" type="text" value="' + uloggerurl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar URL') + ' :</p>';
         divtxt = divtxt + '<input role="traccarurl" type="text" value="' + traccarurl + '"></input>';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' :</p>';
+        divtxt = divtxt + '<input role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
         divtxt = divtxt + '</div>';
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
             t('phonetrack', 'Delete session') + '</button>';
