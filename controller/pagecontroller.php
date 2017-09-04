@@ -693,10 +693,10 @@ class PageController extends Controller {
         $params = [
             'username'=>'',
 			'basetileservers'=>$baseTileServers,
-			'usertileservers'=>'',
-			'useroverlayservers'=>'',
-			'usertileserverswms'=>'',
-			'useroverlayserverswms'=>'',
+			'usertileservers'=>[],
+			'useroverlayservers'=>[],
+			'usertileserverswms'=>[],
+			'useroverlayserverswms'=>[],
             'publicsessionname'=>$dbname,
             'phonetrack_version'=>$this->appVersion
         ];
