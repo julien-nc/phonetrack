@@ -90,6 +90,7 @@ class PageController extends Controller {
     private $dbtype;
     private $dbdblquotes;
     private $appPath;
+    private $defaultDeviceId;
 
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager, IAppManager $appManager){
@@ -128,6 +129,7 @@ class PageController extends Controller {
         }
         //$this->shareManager = \OC::$server->getShareManager();
         $this->shareManager = $shareManager;
+        $this->defaultDeviceId = 'yourname';
     }
 
     /*
@@ -394,7 +396,6 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      *
-     * function for GpsLogger (POST) and indirectly every other app
      **/
     public function logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
         if ($deviceid !== '' and
@@ -502,7 +503,14 @@ class PageController extends Controller {
      * Owntracks IOS
      **/
     public function logOwntracks($token, $deviceid, $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
-        $this->logPost($token, $deviceid, $lat, $lon, $alt, $tst, $acc, $batt, -1);
+        $did = $tid;
+        if ($deviceid !== $this->defaultDeviceId) {
+            $did = $deviceid;
+        }
+        if ($did === '' or is_null($did)) {
+            $did = 'unknown';
+        }
+        $this->logPost($token, $did, $lat, $lon, $alt, $tst, $acc, $batt, -1);
         return array();
     }
 
@@ -528,7 +536,14 @@ class PageController extends Controller {
      * traccar Android/IOS
      **/
     public function logTraccar($token, $deviceid, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
-        $this->logPost($token, $deviceid, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
+        $did = $id;
+        if ($deviceid !== $this->defaultDeviceId) {
+            $did = $deviceid;
+        }
+        if ($did === '' or is_null($did)) {
+            $did = 'unknown';
+        }
+        $this->logPost($token, $did, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
     }
 
     /**
@@ -539,6 +554,14 @@ class PageController extends Controller {
      * any Opengts-compliant app
      **/
     public function logOpengts($token, $deviceid, $id, $dev, $acct, $alt, $batt, $gprmc) {
+        $did = $id;
+        if ($deviceid !== $this->defaultDeviceId) {
+            $did = $deviceid;
+        }
+        if ($did === '' or is_null($did)) {
+            $did = 'unknown';
+        }
+
         $gprmca = explode(',', $gprmc);
         $time = $gprmca[1];
         $date = $gprmca[9];
@@ -546,7 +569,7 @@ class PageController extends Controller {
         $timestamp = $datetime->getTimestamp();
         $lat = DMStoDEC($gprmca[3], 'latitude');
         $lon = DMStoDEC($gprmca[5], 'longitude');
-        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, -1, $batt, -1);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, -1, $batt, -1);
     }
 
     /**
