@@ -71,8 +71,8 @@ function DMStoDEC($dms, $longlat) {
         $sec = '';
     }
     if ($longlat == 'longitude') {
-        $deg = substr($dms, 0, 1);
-        $min = substr($dms, 1, 8);
+        $deg = substr($dms, 0, 3);
+        $min = substr($dms, 3, 8);
         $sec='';
     }
     return $deg+((($min*60)+($sec))/3600);
@@ -569,13 +569,25 @@ class PageController extends Controller {
     public function logOpengts($token, $deviceid, $id, $dev, $acct, $alt, $batt, $gprmc) {
         $did = $this->chooseDeviceId($deviceid, $id);
         $gprmca = explode(',', $gprmc);
-        $time = $gprmca[1];
-        $date = $gprmca[9];
+        $time = (int)$gprmca[1];
+        $date = (int)$gprmca[9];
         $datetime = \DateTime::createFromFormat('dmy His', $date.' '.$time);
         $timestamp = $datetime->getTimestamp();
         $lat = DMStoDEC($gprmca[3], 'latitude');
-        $lon = DMStoDEC($gprmca[5], 'longitude');
+        $lon = DMStoDEC(sprintf('%010.4f', (float)$gprmca[5]), 'longitude');
         $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, -1, $batt, -1);
+        return true;
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
+     * in case there is a POST request (like celltrackGTS does)
+     **/
+    public function logOpengtsPost($token, $deviceid, $id, $dev, $acct, $alt, $batt, $gprmc) {
+        return [];
     }
 
     /**

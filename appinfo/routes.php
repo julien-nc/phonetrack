@@ -34,6 +34,7 @@ return [
         ['name' => 'page#logUlogger', 'url' => '/log/ulogger/{token}/{deviceid}/client/index.php', 'verb' => 'POST'],
         ['name' => 'page#logTraccar', 'url' => '/log/traccar/{token}/{deviceid}', 'verb' => 'POST'],
         ['name' => 'page#logOpengts', 'url' => '/log/opengts/{token}/{deviceid}', 'verb' => 'GET'],
+        ['name' => 'page#logOpengtsPost', 'url' => '/log/opengts/{token}/{deviceid}', 'verb' => 'POST'],
         ['name' => 'page#track', 'url' => '/track', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],
