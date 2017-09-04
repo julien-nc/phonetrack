@@ -25,6 +25,7 @@ return [
         ['name' => 'page#createSession', 'url' => '/createSession', 'verb' => 'POST'],
         ['name' => 'page#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
+        ['name' => 'page#renameSession', 'url' => '/renameSession', 'verb' => 'POST'],
         ['name' => 'page#logGet', 'url' => '/logGet/{token}/{deviceid}', 'verb' => 'GET'],
         ['name' => 'page#logPost', 'url' => '/logPost/{token}/{deviceid}', 'verb' => 'POST'],
         ['name' => 'page#logOsmand', 'url' => '/log/osmand/{token}/{deviceid}', 'verb' => 'GET'],

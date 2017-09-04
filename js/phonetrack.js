@@ -900,8 +900,8 @@
         var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + token);
         publicWatchUrl = window.location.origin + publicWatchUrl;
 
-        var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
-        divtxt = divtxt + '<h3 class="sessionTitle">' + name + ' <button class="zoomsession" ' +
+        var divtxt = '<div class="session" token="' + token + '">';
+        divtxt = divtxt + '<h3 class="sessionTitle"><b>' + name + '</b> <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search-plus" style="color:blue;"></i></button>';
         if (!pageIsPublic()) {
@@ -912,29 +912,31 @@
         if (!pageIsPublic()) {
             divtxt = divtxt + '<div class="editsessiondiv">' +
                 '<input role="editsessioninput" type="text" value="newname"/>' +
-                '<button class="editsessionok">' + t('phonetrack', 'Rename') + '</button>' +
-                '<button class="editsessioncancel">' + t('phonetrack', 'Cancel') + '</button>' +
+                '<button class="editsessionok"><i class="fa fa-check" style="color:green;"></i> ' +
+                t('phonetrack', 'Rename') + '</button>' +
+                '<button class="editsessioncancel"><i class="fa fa-undo" style="color:red;"></i> ' +
+                t('phonetrack', 'Cancel') + '</button>' +
                 '</div>';
         }
         divtxt = divtxt + '<p>' + t('phonetrack', 'Public watch URL') + ' :</p>';
-        divtxt = divtxt + '<input role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
+        divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
         divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('phonetrack', 'More URLs') +
             '</label> <i class="fa fa-angle-double-down"></i></p>';
         divtxt = divtxt + '<div class="moreUrls">';
         divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser tracking URL') + ' :</p>';
-        divtxt = divtxt + '<input role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
+        divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
-        divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>';
+        divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' :</p>';
-        divtxt = divtxt + '<input role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input>';
+        divtxt = divtxt + '<input class="ro" role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) URL') + ' :</p>';
-        divtxt = divtxt + '<input role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
+        divtxt = divtxt + '<input class="ro" role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger URL') + ' :</p>';
-        divtxt = divtxt + '<input role="uloggerurl" type="text" value="' + uloggerurl + '"></input>';
+        divtxt = divtxt + '<input class="ro" role="uloggerurl" type="text" value="' + uloggerurl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar URL') + ' :</p>';
-        divtxt = divtxt + '<input role="traccarurl" type="text" value="' + traccarurl + '"></input>';
+        divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' :</p>';
-        divtxt = divtxt + '<input role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
+        divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
         divtxt = divtxt + '</div>';
         divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
             t('phonetrack', 'Delete session') + '</button>';
@@ -942,23 +944,23 @@
             divtxt = divtxt + '<button class="export"><i class="fa fa-floppy-o" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Export to gpx') +
                 '</button>';
         }
-        divtxt = divtxt + '<div class="watchlabeldiv"><label class="watchlabel" for="watch'+token+'">' +
+        divtxt = divtxt + '<div class="watchlabeldiv"><label class="watchlabel" for="watch' + token + '">' +
             '<i class="fa fa-eye" aria-hidden="true" style="color:blue;"></i> ' +
             t('phonetrack', 'Watch this session') + '</label>' +
             '<input type="checkbox" class="watchSession" id="watch' + token + '" '+
-            'token="' + token + '" sessionname="' + name + '"' + selhtml + '/></div>';
-        divtxt = divtxt + '<ul class="devicelist" session="' + name + '"></ul></div>';
+            'token="' + token + '"' + selhtml + '/></div>';
+        divtxt = divtxt + '<ul class="devicelist" token="' + token + '"></ul></div>';
 
-        $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input[type=text]').prop('readonly', true);
-        $('.session[name="'+name+'"]').find('.moreUrls').hide();
-        $('.session[name="'+name+'"]').find('.editsessiondiv').hide().find('input[type=text]').prop('readonly', false);
+        $('div#sessions').append($(divtxt).fadeIn('slow').css('display', 'grid')).find('input.ro[type=text]').prop('readonly', true);
+        $('.session[token="' + token + '"]').find('.moreUrls').hide();
+        $('.session[token="' + token + '"]').find('.editsessiondiv').hide();
+            //.find('input[type=text]').prop('readonly', false);
     }
     
-    function deleteSession(token, name) {
+    function deleteSession(token) {
         var div = $('div.session[token='+token+']');
 
         var req = {
-            name: name,
             token: token
         };
         var url = OC.generateUrl('/apps/phonetrack/deleteSession');
@@ -980,9 +982,9 @@
         });
     }
 
-    function deleteDevice(session, device) {
+    function deleteDevice(token, device, sessionName) {
         var req = {
-            session: session,
+            token: token,
             device: device
         };
         var url = OC.generateUrl('/apps/phonetrack/deleteDevice');
@@ -993,11 +995,11 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                removeDevice(session, device);
-                OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: device, s: session}));
+                removeDevice(token, device);
+                OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: device, s: sessionName}));
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: device, s: session}));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: device, s: sessionName}));
             }
         }).always(function() {
         }).fail(function() {
@@ -1005,22 +1007,50 @@
         });
     }
 
-    function removeDevice(session, device) {
+    function removeDevice(token, device) {
         // remove devicelist line
-        $('.devicelist li[session="' + session + '"][device="' + device + '"]').fadeOut('slow', function() {
+        $('.devicelist li[token="' + token + '"][device="' + device + '"]').fadeOut('slow', function() {
             $(this).remove();
         });
         // remove marker, line and tooltips
-        phonetrack.sessionMarkerLayers[session][device].unbindTooltip().remove();
-        delete phonetrack.sessionMarkerLayers[session][device];
-        phonetrack.sessionLineLayers[session][device].unbindTooltip().remove();
-        delete phonetrack.sessionLineLayers[session][device];
+        phonetrack.sessionMarkerLayers[token][device].unbindTooltip().remove();
+        delete phonetrack.sessionMarkerLayers[token][device];
+        phonetrack.sessionLineLayers[token][device].unbindTooltip().remove();
+        delete phonetrack.sessionLineLayers[token][device];
     }
 
     function removeSession(div) {
         div.fadeOut('slow', function() {
             div.remove();
         });
+    }
+
+    function renameSession(token, oldname, newname) {
+        var req = {
+            token: token,
+            newname: newname
+        };
+        var url = OC.generateUrl('/apps/phonetrack/renameSession');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                renameSessionSuccess(token, oldname, newname);
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Impossible to rename session') + ' ' + oldname);
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to rename session') + ' ' + oldname);
+        });
+    }
+
+    function renameSessionSuccess(token, oldname, newname) {
+        $('.session[token='+token+'] .sessionTitle b').text(newname)
     }
 
     function getSessions() {
@@ -1050,9 +1080,8 @@
         // get new positions for all watched sessions
         $('.watchSession:checked').each(function() {
             var token = $(this).attr('token');
-            var name = $(this).attr('sessionname');
-            var lastTimes = phonetrack.lastTime[name] || '';
-            sessionsToWatch.push([token, name, lastTimes]);
+            var lastTimes = phonetrack.lastTime[token] || '';
+            sessionsToWatch.push([token, lastTimes]);
         });
 
         if (sessionsToWatch.length > 0) {
@@ -1092,9 +1121,10 @@
     function displayNewPoints(sessions) {
         var s, i, d, entry, device, timestamp, mom, icon,
             linetooltip, markertooltip, colorn, rgbc,
-            textcolor, coloredMarkerClass;
+            textcolor, coloredMarkerClass, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
+            sessionname = $('div.session[token="' + s + '"] .sessionTitle b').text()
             if (! phonetrack.sessionLineLayers.hasOwnProperty(s)) {
                 phonetrack.sessionLineLayers[s] = {};
             }
@@ -1131,12 +1161,12 @@
                     coloredMarkerClass = 'color' + colorn;
                     var deleteLink = '';
                     if (!pageIsPublic()) {
-                        deleteLink = ' <i class="fa fa-trash deleteDevice" session="' + s + '" aria-hidden="true" title="' +
+                        deleteLink = ' <i class="fa fa-trash deleteDevice" token="' + s + '" aria-hidden="true" title="' +
                         t('phonetrack', 'Delete this device') +
                         '" device="' + d + '"></i>';
                     }
-                    $('div.session[name="' + s + '"] ul.devicelist').append(
-                        '<li device="' + d + '" session="' + s + '" style="font-weight: bold; color: ' + textcolor + ';' +
+                    $('div.session[token="' + s + '"] ul.devicelist').append(
+                        '<li device="' + d + '" token="' + s + '" style="font-weight: bold; color: ' + textcolor + ';' +
                         'background-color:' + colorCode[colorn] + ';"' +
                         ' title="' + t('phonetrack', 'Center map on device') + ' ' +
                         d + '"><input class="followdevice" type="checkbox" ' +
@@ -1145,7 +1175,7 @@
                         '</li>');
 
                     phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
-                    linetooltip = 'Session ' + s + ' ; device ' + d;
+                    linetooltip = 'Session ' + sessionname + ' ; device ' + d;
                     phonetrack.sessionLineLayers[s][d].bindTooltip(
                         linetooltip,
                         {
@@ -1187,7 +1217,7 @@
                 }
                 mom = moment.unix(timestamp);
                 phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
-                markertooltip = 'Session ' + s + ' ; device ' + d + '<br/>';
+                markertooltip = 'Session ' + sessionname + ' ; device ' + d + '<br/>';
                 phonetrack.sessionMarkerLayers[s][d].bindTooltip(
                     markertooltip + mom.format('YYYY-MM-DD HH:mm:ss (Z)'),
                     {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
@@ -1199,43 +1229,43 @@
     }
 
     function showHideSelectedSessions() {
-        var sessionName, d;
+        var token, d;
         var displayedMarkers = [];
         var viewLines = $('#viewmove').is(':checked');
         $('.watchSession').each(function() {
-            sessionName = $(this).attr('sessionname');
+            token = $(this).attr('token');
             if ($(this).is(':checked')) {
-                for (d in phonetrack.sessionLineLayers[sessionName]) {
+                for (d in phonetrack.sessionLineLayers[token]) {
                     if (viewLines) {
-                        if (!phonetrack.map.hasLayer(phonetrack.sessionLineLayers[sessionName][d])) {
-                            phonetrack.map.addLayer(phonetrack.sessionLineLayers[sessionName][d]);
+                        if (!phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
+                            phonetrack.map.addLayer(phonetrack.sessionLineLayers[token][d]);
                         }
                     }
                     else {
-                        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[sessionName][d])) {
-                            phonetrack.map.removeLayer(phonetrack.sessionLineLayers[sessionName][d]);
+                        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
+                            phonetrack.map.removeLayer(phonetrack.sessionLineLayers[token][d]);
                         }
                     }
                 }
-                for (d in phonetrack.sessionMarkerLayers[sessionName]) {
-                    displayedMarkers.push(phonetrack.sessionMarkerLayers[sessionName][d].getLatLng());
-                    if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[sessionName][d])) {
-                        phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[sessionName][d]);
+                for (d in phonetrack.sessionMarkerLayers[token]) {
+                    displayedMarkers.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
+                    if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
+                        phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[token][d]);
                     }
                 }
             }
             else {
-                if (phonetrack.sessionLineLayers.hasOwnProperty(sessionName)) {
-                    for (d in phonetrack.sessionLineLayers[sessionName]) {
-                        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[sessionName][d])) {
-                            phonetrack.map.removeLayer(phonetrack.sessionLineLayers[sessionName][d]);
+                if (phonetrack.sessionLineLayers.hasOwnProperty(token)) {
+                    for (d in phonetrack.sessionLineLayers[token]) {
+                        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
+                            phonetrack.map.removeLayer(phonetrack.sessionLineLayers[token][d]);
                         }
                     }
                 }
-                if (phonetrack.sessionMarkerLayers.hasOwnProperty(sessionName)) {
-                    for (d in phonetrack.sessionMarkerLayers[sessionName]) {
-                        if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[sessionName][d])) {
-                            phonetrack.map.removeLayer(phonetrack.sessionMarkerLayers[sessionName][d]);
+                if (phonetrack.sessionMarkerLayers.hasOwnProperty(token)) {
+                    for (d in phonetrack.sessionMarkerLayers[token]) {
+                        if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
+                            phonetrack.map.removeLayer(phonetrack.sessionMarkerLayers[token][d]);
                         }
                     }
                 }
@@ -1249,8 +1279,8 @@
         }
     }
 
-    function zoomOnDisplayedMarkers(selectedName='') {
-        var sessionName, d;
+    function zoomOnDisplayedMarkers(selectedSessionToken='') {
+        var token, d;
         var markersToZoomOn = [];
 
         // first we check if there are devices selected for zoom
@@ -1260,26 +1290,26 @@
             // we only take those for session which are watched
             var viewSessionCheck = $(this).parent().parent().parent().find('.watchSession');
             if (viewSessionCheck.is(':checked')) {
-                var session = $(this).parent().parent().attr('session');
+                var token = $(this).parent().parent().attr('token');
                 var device = $(this).parent().attr('device');
-                if (!devicesToFollow.hasOwnProperty(session)) {
-                    devicesToFollow[session] = [];
+                if (!devicesToFollow.hasOwnProperty(token)) {
+                    devicesToFollow[token] = [];
                 }
-                devicesToFollow[session].push(device);
+                devicesToFollow[token].push(device);
                 nbDevicesToFollow++;
             }
         });
 
         $('.watchSession').each(function() {
-            sessionName = $(this).attr('sessionname');
-            if ($(this).is(':checked') && (selectedName === '' || sessionName === selectedName)) {
-                for (d in phonetrack.sessionMarkerLayers[sessionName]) {
+            token = $(this).attr('token');
+            if ($(this).is(':checked') && (selectedSessionToken === '' || token === selectedSessionToken)) {
+                for (d in phonetrack.sessionMarkerLayers[token]) {
                     // if no device is followed => all devices are taken
                     // if some devices are followed, just take them
                     if (nbDevicesToFollow === 0
-                        || (devicesToFollow.hasOwnProperty(sessionName) && devicesToFollow[sessionName].indexOf(d) !== -1)
+                        || (devicesToFollow.hasOwnProperty(token) && devicesToFollow[token].indexOf(d) !== -1)
                     ) {
-                        markersToZoomOn.push(phonetrack.sessionMarkerLayers[sessionName][d].getLatLng());
+                        markersToZoomOn.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
                     }
                 }
             }
@@ -1369,7 +1399,7 @@
         var t;
         var perm = $('#showtime').is(':checked');
         var d = elem.attr('device');
-        var s = elem.parent().attr('session');
+        var s = elem.parent().attr('token');
         var m = phonetrack.sessionMarkerLayers[s][d];
 
         var b = L.latLngBounds(m.getLatLng(), m.getLatLng);
@@ -1485,8 +1515,7 @@
 
         $('body').on('click','.removeSession', function(e) {
             var token = $(this).parent().attr('token');
-            var name = $(this).parent().attr('name');
-            deleteSession(token, name);
+            deleteSession(token);
         });
 
         $('body').on('click','.watchSession', function(e) {
@@ -1546,7 +1575,7 @@
         });
 
         $('body').on('click', '.export', function() {
-            var name = $(this).parent().attr('name');
+            var name = $(this).parent().find('.sessionTitle b').text();
             var token = $(this).parent().attr('token');
             var filename = name + '.gpx';
             OC.dialogs.filepicker(
@@ -1564,8 +1593,8 @@
         });
 
         $('body').on('click', 'button.zoomsession', function(e) {
-            var sessionName = $(this).parent().parent().attr('name');
-            zoomOnDisplayedMarkers(sessionName);
+            var sessionName = $(this).parent().parent().attr('token');
+            zoomOnDisplayedMarkers(token);
         });
 
         $('#logme').click(function (e) {
@@ -1596,9 +1625,10 @@
         });
 
         $('body').on('click','.deleteDevice', function(e) {
-            var session = $(this).attr('session');
+            var sessionName = $(this).parent().parent().parent().find('.sessionTitle b').text();
+            var token = $(this).attr('token');
             var device = $(this).attr('device');
-            deleteDevice(session, device);
+            deleteDevice(token, device, sessionName);
         });
 
         $('body').on('click','.editsessionbutton', function(e) {
@@ -1607,6 +1637,12 @@
         });
 
         $('body').on('click','.editsessionok', function(e) {
+            var token = $(this).parent().parent().attr('token');
+            var oldname = $(this).parent().parent().find('.sessionTitle b').text();
+            var newname = $(this).parent().find('input[role=editsessioninput]').val();
+            renameSession(token, oldname, newname);
+            var editdiv = $(this).parent().parent().find('.editsessiondiv');
+            editdiv.slideUp('slow');
         });
 
         $('body').on('click','.editsessioncancel', function(e) {

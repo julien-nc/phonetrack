@@ -403,8 +403,11 @@ ul.devicelist {
 #zoomallbutton {
     height: 50px !important;
 }
+.editsessionok , .editsessioncancel{
+    width: 32% !important;
+}
 .editsessiondiv input{
-    width: 50% !important;
+    width: 32% !important;
 }
 .editsessiondiv {
     grid-column: 1/3;

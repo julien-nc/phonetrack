@@ -200,7 +200,7 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function getSessions($name) {
+    public function getSessions() {
         $sessions = array();
         // check if session name is not already used
         $sqlget = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
@@ -282,11 +282,10 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function deleteSession($name, $token) {
+    public function deleteSession($token) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
-        $sqlchk .= 'AND name='.$this->db_quote_escape_string($name).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -299,8 +298,8 @@ class PageController extends Controller {
 
         if ($dbname !== null) {
             $sqldel = 'DELETE FROM *PREFIX*phonetrack_sessions ';
-            $sqldel .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' AND name=';
-            $sqldel .= $this->db_quote_escape_string($name).' AND token='.$this->db_quote_escape_string($token).';';
+            $sqldel .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+            $sqldel .= 'AND token='.$this->db_quote_escape_string($token).';';
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
             $req->closeCursor();
@@ -333,18 +332,61 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function deleteDevice($session, $device) {
+    public function renameSession($token, $newname) {
         // check if session exists
-        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
-        $sqlchk .= 'AND name='.$this->db_quote_escape_string($session).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
         $dbname = null;
-        $token = null;
         while ($row = $req->fetch()){
             $dbname = $row['name'];
-            $token = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            $sqlren = 'UPDATE *PREFIX*phonetrack_sessions ';
+            $sqlren .= 'SET name='.$this->db_quote_escape_string($newname).' ';
+            $sqlren .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+            $sqlren .= 'AND token='.$this->db_quote_escape_string($token).';';
+            $req = $this->dbconnection->prepare($sqlren);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteDevice($token, $device) {
+        // check if session exists
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
             break;
         }
         $req->closeCursor();
@@ -597,15 +639,13 @@ class PageController extends Controller {
     public function track($sessions) {
         $result = array();
         foreach ($sessions as $session) {
-            $name = $session[1];
             $token = $session[0];
-            $lastTime = $session[2];
+            $lastTime = $session[1];
 
             // check if session exists
             $dbtoken = null;
             $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
-            $sqlget .= 'WHERE name='.$this->db_quote_escape_string($name).' ';
-            $sqlget .= 'AND token='.$this->db_quote_escape_string($token).' ';
+            $sqlget .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlget);
             $req->execute();
             while ($row = $req->fetch()){
@@ -628,7 +668,7 @@ class PageController extends Controller {
                 $req->closeCursor();
 
                 // get the coords for each device
-                $result[$name] = array();
+                $result[$token] = array();
 
                 foreach ($devices as $devname) {
                     $resultDevArray = array();
@@ -653,7 +693,7 @@ class PageController extends Controller {
                     }
                     $req->closeCursor();
                     if (count($resultDevArray) > 0) {
-                        $result[$name][$devname] = $resultDevArray;
+                        $result[$token][$devname] = $resultDevArray;
                     }
                 }
             }
