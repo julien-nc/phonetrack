@@ -64,6 +64,20 @@ function endswith($string, $test) {
     return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
 }
 
+function DMStoDEC($dms, $longlat) {
+    if ($longlat == 'latitude') {
+        $deg = substr($dms, 0, 2);
+        $min = substr($dms, 2, 8);
+        $sec = '';
+    }
+    if ($longlat == 'longitude') {
+        $deg = substr($dms, 0, 1);
+        $min = substr($dms, 1, 8);
+        $sec='';
+    }
+    return $deg+((($min*60)+($sec))/3600);
+}
+
 class PageController extends Controller {
 
     private $userId;
@@ -445,18 +459,6 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      *
-     * function for GpsLogger (POST) and indirectly every other app
-     **/
-    public function logGpsloggerPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
-        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
-    }
-
-    /**
-     * @NoAdminRequired
-     * @NoCSRFRequired
-     * @PublicPage
-     *
-     * function for GpsLogger (GET) and OsmAnd
      **/
     public function logGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
         $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
@@ -467,7 +469,6 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      *
-     * function for GpsLogger (GET) and OsmAnd
      **/
     public function logOsmand($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
         $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
@@ -478,9 +479,18 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      *
-     * function for GpsLogger (GET) and OsmAnd
      **/
     public function logGpsloggerGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
+     **/
+    public function logGpsloggerPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
         $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
     }
 
@@ -519,6 +529,24 @@ class PageController extends Controller {
      **/
     public function logTraccar($token, $deviceid, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
         $this->logPost($token, $deviceid, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
+     * any Opengts-compliant app
+     **/
+    public function logOpengts($token, $deviceid, $id, $dev, $acct, $alt, $batt, $gprmc) {
+        $gprmca = explode(',', $gprmc);
+        $time = $gprmca[1];
+        $date = $gprmca[9];
+        $datetime = \DateTime::createFromFormat('dmy His', $date.' '.$time);
+        $timestamp = $datetime->getTimestamp();
+        $lat = DMStoDEC($gprmca[3], 'latitude');
+        $lon = DMStoDEC($gprmca[5], 'longitude');
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, -1, $batt, -1);
     }
 
     /**
