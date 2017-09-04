@@ -665,7 +665,16 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
-    public function publicSession($token) {
+    public function publicSessionWatch($token) {
+        return $this->publicWebTrack($token, '');
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     **/
+    public function publicWebTrack($token, $deviceid) {
         if ($token !== '') {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';

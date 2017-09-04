@@ -20,7 +20,8 @@
 return [
     'routes' => [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-        ['name' => 'page#publicSession', 'url' => '/publicSession/{token}', 'verb' => 'GET'],
+        ['name' => 'page#publicWebTrack', 'url' => '/publicWebTrack/{token}/{deviceid}', 'verb' => 'GET'],
+        ['name' => 'page#publicSessionWatch', 'url' => '/publicSessionWatch/{token}', 'verb' => 'GET'],
         ['name' => 'page#createSession', 'url' => '/createSession', 'verb' => 'POST'],
         ['name' => 'page#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],

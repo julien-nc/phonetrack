@@ -598,8 +598,16 @@
 
     //////////////// PUBLIC DIR/FILE /////////////////////
 
+    function pageIsPublicWebTrack() {
+        return (document.URL.indexOf('/publicWebTrack') !== -1);
+    }
+
+    function pageIsPublicSessionWatch() {
+        return (document.URL.indexOf('/publicSessionWatch') !== -1);
+    }
+
     function pageIsPublic() {
-        return (document.URL.indexOf('/publicSession') !== -1);
+        return (pageIsPublicWebTrack() || pageIsPublicSessionWatch());
     }
 
     //////////////// USER TILE SERVERS /////////////////////
@@ -883,18 +891,23 @@
             'timestamp={2}';
         osmandurl = window.location.origin + osmandurl;
 
-        var publicurl = OC.generateUrl('/apps/phonetrack/publicSession/' + token);
-        publicurl = window.location.origin + publicurl;
+        var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebTrack/' + token + '/yourname');
+        publicTrackUrl = window.location.origin + publicTrackUrl;
+
+        var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + token);
+        publicWatchUrl = window.location.origin + publicWatchUrl;
 
         var divtxt = '<div class="session" name="' + name + '" token="' + token + '">';
         divtxt = divtxt + '<h3 class="sessionTitle">' + name + ' <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search-plus" style="color:blue;"></i></button></h3>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'Public URL') + ' :</p>';
-        divtxt = divtxt + '<input role="publicurl" type="text" value="' + publicurl + '"></input>'; 
+        divtxt = divtxt + '<p>' + t('phonetrack', 'Public watch URL') + ' :</p>';
+        divtxt = divtxt + '<input role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
         divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('phonetrack', 'More URLs') +
             '</label> <i class="fa fa-angle-double-down"></i></p>';
         divtxt = divtxt + '<div class="moreUrls">';
+        divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser tracking URL') + ' :</p>';
+        divtxt = divtxt + '<input role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
         divtxt = divtxt + '<input role="osmandurl" type="text" value="' + osmandurl + '"></input>';
         divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' :</p>';
@@ -1304,7 +1317,7 @@
     }
 
     function locationFound(e) {
-        if (pageIsPublic() && $('#logme').is(':checked')) {
+        if (pageIsPublicWebTrack() && $('#logme').is(':checked')) {
             var deviceid = $('#logmedeviceinput').val();
             var lat, lon, alt, acc, timestamp;
             lat = e.latitude;
@@ -1575,7 +1588,15 @@
         }
         // public page
         else {
-            var token = window.location.href.split('publicSession/')[1];
+            var params, token, deviceid;
+            if (pageIsPublicWebTrack()) {
+                params = window.location.href.split('publicWebTrack/')[1].split('/');
+                token = params[0];
+                deviceid = params[1];
+            }
+            else {
+                token = window.location.href.split('publicSessionWatch/')[1];
+            }
             phonetrack.publicToken = token;
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
@@ -1584,10 +1605,19 @@
             $('.watchSession').prop('disabled', true);
             $('#customtilediv').remove();
             $('#newsessiondiv').remove();
-            $('#logmediv').show();
+            if (pageIsPublicWebTrack()) {
+                $('#logmediv').show();
+                $('#logmedeviceinput').val(deviceid);
+            }
             $('#autozoom').prop('checked', true);
             phonetrack.zoomButton.state('zoom');
             $(phonetrack.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+
+            if (pageIsPublicSessionWatch()) {
+                $('#sidebar').toggleClass('collapsed');
+                $('div#header').hide();
+                $('div#content-wrapper').css('padding-top', '0px');
+            }
         }
 
         refresh();
