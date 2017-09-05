@@ -5,15 +5,23 @@ and display them dynamically on a Leaflet map. Principle is simple :
 
 * create a tracking session
 * give the tracking URL to the mobile devices. 3 methods :
-    * [OsmAnd gpx recording plugin](https://osmand.net/features?id=trip-recording-plugin#Online_tracking) is able to log to a custom URL with GET method
-    * [GpsLogger](http://code.mendhak.com/gpslogger/#features) (Options -> Logging details -> Log to custom URL)
-    * With a web browser, on the session public page, check "Log my position in this session" (works better on Android than on IOS...)
-    * Does anyone know an IOS app which can log position to custom URL in background ? Create an issue if you do !
+    * With a web browser, on the session public track page, check "Log my position in this session" (works better on Android than on IOS...)
+    * [OsmAnd gpx recording plugin](https://osmand.net/features?id=trip-recording-plugin#Online_tracking) (Android) is able to log to a custom URL with GET method. IOS version does not include recording plugin.
+    * [GpsLogger](http://code.mendhak.com/gpslogger/#features) (Android) Perfect ! Setup in : Options -> Logging details -> Log to custom URL
+    * [Owntracks](http://owntracks.org/) (IOS/Android) IOS version works, Android version does not show HTTP mode...
+    * [µlogger](https://f-droid.org/packages/net.fabiszewski.ulogger/) (Android) The best IMHO. Bufferize positions when device looses connectivity and sends everything when back online.
+    * [Traccar](https://www.traccar.org/client/) (IOS/Android)
+    * [OpenGTS](http://opengts.org/) which is more a standard than an app. I successfully used [GpsLogger](http://code.mendhak.com/gpslogger/#features) (OpenGTS mode) and [CelltrackGTS/Free](http://www.geotelematic.com/CelltracGTS/Free.html).
+    * Does anyone know good and free ([as in "free speech"](https://www.gnu.org/philosophy/free-sw.en.html)) app which can log position to custom URL in background ? Create an issue if you do !
 * Watch the session's devices positions in real time (or not) in PhoneTrack normal or public page
 
-On PhoneTrack main page, while watching a session, you can select some devices to make the automatic zoom
-work only with those devices. Sessions can be exported in GPX format (one subtrack by device) and
-saved in Nextcloud/ownCloud files.
+On PhoneTrack main page, while watching a session, you can :
+
+* select some devices to make the automatic zoom work only with those devices
+* toggle position history display (path lines)
+* toggle devices last point date display
+* rename a session
+* export sessions in GPX format (one subtrack by device). They are saved in Nextcloud/ownCloud files.
 
 Public page works like main page except there is only one session displayed and there is no need to be logged in.
 
