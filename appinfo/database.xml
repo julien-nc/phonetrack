@@ -41,6 +41,12 @@
       <notnull>true</notnull>
       <length>300</length>
     </field>
+    <field>
+      <name>public</name>
+      <type>integer</type>
+      <default>1</default>
+      <length>1</length>
+    </field>
   </declaration>
 </table>
  <table>

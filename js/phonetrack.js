@@ -847,7 +847,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                addSession(response.token, sessionName, response.publicviewtoken);
+                addSession(response.token, sessionName, response.publicviewtoken, true);
             }
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'Session name already used'));
@@ -858,7 +858,7 @@
         });
     }
 
-    function addSession(token, name, publicviewtoken, selected=false) {
+    function addSession(token, name, publicviewtoken, isPublic, selected=false) {
         var selhtml = '';
         if (selected) {
             selhtml = ' checked="checked"';
@@ -926,7 +926,7 @@
             divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('phonetrack', 'More URLs') +
                 '</label> <i class="fa fa-angle-double-down"></i></p>';
             divtxt = divtxt + '<div class="moreUrls">';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser tracking URL') + ' :</p>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser logging URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input>';
@@ -941,10 +941,19 @@
             divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
             divtxt = divtxt + '</div>';
-            divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
-                t('phonetrack', 'Delete session') + '</button>';
         }
         if (!pageIsPublic()) {
+            var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
+            divtxt = divtxt + '<label for="publicsessioncheck'+token+'" title="' + titlePublic + '">' +
+                t('phonetrack', 'Public session') +'</label>';
+            var checked = '';
+            if (parseInt(isPublic) === 1) {
+                checked = ' checked="checked"';
+            }
+            divtxt = divtxt + '<input type="checkbox"' + checked + ' title="' + titlePublic +
+                '" id="publicsessioncheck' + token + '" class="publicsessioncheck"/>';
+            divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
+                t('phonetrack', 'Delete session') + '</button>';
             divtxt = divtxt + '<button class="export"><i class="fa fa-floppy-o" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Export to gpx') +
                 '</button>';
         }
@@ -1090,7 +1099,7 @@
             var s;
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
-                    addSession(response.sessions[s][1], response.sessions[s][0], response.sessions[s][2]);
+                    addSession(response.sessions[s][1], response.sessions[s][0], response.sessions[s][2], response.sessions[s][3]);
                 }
             }
         }).always(function() {
@@ -1116,6 +1125,9 @@
             };
             if (pageIsPublicSessionWatch()) {
                 url = OC.generateUrl('/apps/phonetrack/publicViewTrack');
+            }
+            else if (pageIsPublicWebLog()) {
+                url = OC.generateUrl('/apps/phonetrack/publicWebLogTrack');
             }
             else {
                 url = OC.generateUrl('/apps/phonetrack/track');
@@ -1680,6 +1692,32 @@
             editdiv.slideUp('slow');
         });
 
+        $('body').on('click','.publicsessioncheck', function(e) {
+            var pub = $(this).is(':checked');
+            var token = $(this).parent().attr('token');
+            var isPublic = 0;
+            if (pub) {
+                isPublic = 1;
+            }
+            var req = {
+                token: token,
+                public: isPublic
+            };
+            var url = OC.generateUrl('/apps/phonetrack/setSessionPublic');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                if (response.done === 2) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public, session does not exist'));
+                }
+            }).fail(function() {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public'));
+            });
+        });
+
         if (!pageIsPublic()) {
             getSessions();
         }
@@ -1699,7 +1737,7 @@
             phonetrack.token = token;
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
-            addSession(token, name, publicviewtoken, true);
+            addSession(token, name, publicviewtoken, null, true);
             $('.removeSession').remove();
             $('.watchSession').prop('disabled', true);
             $('#customtilediv').remove();

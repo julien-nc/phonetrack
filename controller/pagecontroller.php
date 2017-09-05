@@ -203,7 +203,7 @@ class PageController extends Controller {
     public function getSessions() {
         $sessions = array();
         // check if session name is not already used
-        $sqlget = 'SELECT name, token, publicviewtoken FROM *PREFIX*phonetrack_sessions ';
+        $sqlget = 'SELECT name, token, publicviewtoken, public FROM *PREFIX*phonetrack_sessions ';
         $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
@@ -211,7 +211,8 @@ class PageController extends Controller {
             $dbname = $row['name'];
             $dbtoken = $row['token'];
             $dbpublicviewtoken = $row['publicviewtoken'];
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken));
+            $dbpublic = $row['public'];
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic));
         }
         $req->closeCursor();
 
@@ -253,11 +254,12 @@ class PageController extends Controller {
 
             // insert
             $sql = 'INSERT INTO *PREFIX*phonetrack_sessions';
-            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token, publicviewtoken) ';
+            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token, publicviewtoken, public) ';
             $sql .= 'VALUES (\''.$this->userId.'\',';
             $sql .= $this->db_quote_escape_string($name).',';
             $sql .= $this->db_quote_escape_string($token).',';
-            $sql .= $this->db_quote_escape_string($publicviewtoken).');';
+            $sql .= $this->db_quote_escape_string($publicviewtoken).',';
+            $sql .= $this->db_quote_escape_string('1').');';
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
             $req->closeCursor();
@@ -311,6 +313,51 @@ class PageController extends Controller {
             $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
             $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).';';
             $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function setSessionPublic($token, $public) {
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            $sqlren = 'UPDATE *PREFIX*phonetrack_sessions ';
+            $sqlren .= 'SET public='.$this->db_quote_escape_string($public).' ';
+            $sqlren .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+            $sqlren .= 'AND token='.$this->db_quote_escape_string($token).';';
+            $req = $this->dbconnection->prepare($sqlren);
             $req->execute();
             $req->closeCursor();
 
@@ -638,7 +685,8 @@ class PageController extends Controller {
 
     /**
      * @NoAdminRequired
-     * @PublicPage
+     *
+     * called by normal (logged) page
      */
     public function track($sessions) {
         $result = array();
@@ -716,9 +764,110 @@ class PageController extends Controller {
         return $response;
     }
 
+    private function isSessionPublic($token) {
+        $dbpublic = '';
+        $sqlget = 'SELECT token, public FROM *PREFIX*phonetrack_sessions ';
+        $sqlget .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbtoken = $row['token'];
+            $dbpublic = $row['public'];
+        }
+        $req->closeCursor();
+
+        return ($dbpublic === '1' or $dbpublic === 1);
+    }
+
     /**
      * @NoAdminRequired
      * @PublicPage
+     *
+     * called by publicWebLog page
+     */
+    public function publicWebLogTrack($sessions) {
+        $result = array();
+        foreach ($sessions as $session) {
+            $token = $session[0];
+            if ($this->isSessionPublic($token)) {
+                $lastTime = $session[1];
+
+                // check if session exists
+                $dbtoken = null;
+                $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
+                $sqlget .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbtoken = $row['token'];
+                }
+                $req->closeCursor();
+
+                // session exists
+                if ($dbtoken !== null) {
+                    // get list of devices
+                    $devices = array();
+                    $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_points ';
+                    $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                    $sqldev .= 'GROUP BY deviceid;';
+                    $req = $this->dbconnection->prepare($sqldev);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        array_push($devices, $row['deviceid']);
+                    }
+                    $req->closeCursor();
+
+                    // get the coords for each device
+                    $result[$token] = array();
+
+                    foreach ($devices as $devname) {
+                        $resultDevArray = array();
+                        $lastDeviceTime = 0;
+                        if (is_array($lastTime) && array_key_exists('d'.$devname, $lastTime)) {
+                            $lastDeviceTime = $lastTime['d'.$devname];
+                        }
+
+                        $sqlget = 'SELECT deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
+                        $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                        $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
+                        $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
+                        $sqlget .= 'ORDER BY timestamp ASC';
+                        $req = $this->dbconnection->prepare($sqlget);
+                        $req->execute();
+                        while ($row = $req->fetch()){
+                            $entry = array();
+                            foreach ($row as $k => $v) {
+                                $entry[$k] = $v;
+                            }
+                            array_push($resultDevArray, $entry);
+                        }
+                        $req->closeCursor();
+                        if (count($resultDevArray) > 0) {
+                            $result[$token][$devname] = $resultDevArray;
+                        }
+                    }
+                }
+            }
+        }
+
+        $response = new DataResponse(
+            [
+                'sessions'=>$result
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     * @PublicPage
+     *
+     * called by publicSessionView page
      */
     public function publicViewTrack($sessions) {
         $result = array();

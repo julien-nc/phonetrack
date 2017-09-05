@@ -19,7 +19,7 @@ OC.L10N.register(
         "Reload this page" : "Rechargez cette page",
         "Failed to get sessions" : "Echec de la récupération des sessions",
         "Public watch URL" : "URL publique de vue",
-        "Public browser tracking URL" : "URL publique de tracking dans le navigateur",
+        "Public browser logging URL" : "URL publique de logging dans le navigateur",
         "Failed to restore options values" : "Impossible de restaurer les valeurs des options",
         "Successfully exported session in" : "Succès de l'export de session dans",
         "Delete" : "Supprimer",
@@ -55,6 +55,10 @@ OC.L10N.register(
         "Impossible to rename session" : "Impossible de renommer la session",
         "Failed to rename session" : "Échec pour renommer la session",
         "Cancel" : "Annuler",
+        "Failed to toggle session public, session does not exist" : "Impossible de modifier la session, elle n'existe pas",
+        "If session is not public, position are not showed in public browser logging page" : "Si la session n'est pas publique, les positions ne sont pas visibles dans la page publique de logging dans le navigateur",
+        "Public session" : "Session publique",
+        "Failed to toggle session public" : "Impossible de modifier la session",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");
