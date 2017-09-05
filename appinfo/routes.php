@@ -20,8 +20,8 @@
 return [
     'routes' => [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-        ['name' => 'page#publicWebTrack', 'url' => '/publicWebTrack/{token}/{deviceid}', 'verb' => 'GET'],
-        ['name' => 'page#publicSessionWatch', 'url' => '/publicSessionWatch/{token}', 'verb' => 'GET'],
+        ['name' => 'page#publicWebLog', 'url' => '/publicWebLog/{token}/{deviceid}', 'verb' => 'GET'],
+        ['name' => 'page#publicSessionWatch', 'url' => '/publicSessionWatch/{publicviewtoken}', 'verb' => 'GET'],
         ['name' => 'page#createSession', 'url' => '/createSession', 'verb' => 'POST'],
         ['name' => 'page#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
@@ -37,6 +37,7 @@ return [
         ['name' => 'page#logOpengts', 'url' => '/log/opengts/{token}/{deviceid}', 'verb' => 'GET', 'defaults' => array('deviceid' => '')],
         ['name' => 'page#logOpengtsPost', 'url' => '/log/opengts/{token}/{deviceid}', 'verb' => 'POST'],
         ['name' => 'page#track', 'url' => '/track', 'verb' => 'POST'],
+        ['name' => 'page#publicViewTrack', 'url' => '/publicViewTrack', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],
         ['name' => 'utils#addTileServer', 'url' => '/addTileServer', 'verb' => 'POST'],

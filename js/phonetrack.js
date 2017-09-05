@@ -598,8 +598,8 @@
 
     //////////////// PUBLIC DIR/FILE /////////////////////
 
-    function pageIsPublicWebTrack() {
-        return (document.URL.indexOf('/publicWebTrack') !== -1);
+    function pageIsPublicWebLog() {
+        return (document.URL.indexOf('/publicWebLog') !== -1);
     }
 
     function pageIsPublicSessionWatch() {
@@ -607,7 +607,7 @@
     }
 
     function pageIsPublic() {
-        return (pageIsPublicWebTrack() || pageIsPublicSessionWatch());
+        return (pageIsPublicWebLog() || pageIsPublicSessionWatch());
     }
 
     //////////////// USER TILE SERVERS /////////////////////
@@ -847,7 +847,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                addSession(response.token, sessionName);
+                addSession(response.token, sessionName, response.publicviewtoken);
             }
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'Session name already used'));
@@ -858,7 +858,7 @@
         });
     }
 
-    function addSession(token, name, selected=false) {
+    function addSession(token, name, publicviewtoken, selected=false) {
         var selhtml = '';
         if (selected) {
             selhtml = ' checked="checked"';
@@ -894,13 +894,13 @@
             'timestamp={2}';
         osmandurl = window.location.origin + osmandurl;
 
-        var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebTrack/' + token + '/yourname');
+        var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/yourname');
         publicTrackUrl = window.location.origin + publicTrackUrl;
 
-        var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + token);
+        var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken);
         publicWatchUrl = window.location.origin + publicWatchUrl;
 
-        var divtxt = '<div class="session" token="' + token + '">';
+        var divtxt = '<div class="session" token="' + token + '" publicviewtoken="' + publicviewtoken + '">';
         divtxt = divtxt + '<h3 class="sessionTitle"><b>' + name + '</b> <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search-plus" style="color:blue;"></i></button>';
@@ -918,28 +918,32 @@
                 t('phonetrack', 'Cancel') + '</button>' +
                 '</div>';
         }
-        divtxt = divtxt + '<p>' + t('phonetrack', 'Public watch URL') + ' :</p>';
-        divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
-        divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('phonetrack', 'More URLs') +
-            '</label> <i class="fa fa-angle-double-down"></i></p>';
-        divtxt = divtxt + '<div class="moreUrls">';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser tracking URL') + ' :</p>';
-        divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
-        divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' :</p>';
-        divtxt = divtxt + '<input class="ro" role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) URL') + ' :</p>';
-        divtxt = divtxt + '<input class="ro" role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger URL') + ' :</p>';
-        divtxt = divtxt + '<input class="ro" role="uloggerurl" type="text" value="' + uloggerurl + '"></input>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar URL') + ' :</p>';
-        divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input>';
-        divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' :</p>';
-        divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
-        divtxt = divtxt + '</div>';
-        divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
-            t('phonetrack', 'Delete session') + '</button>';
+        if (!pageIsPublicWebLog()) {
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Public watch URL') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
+        }
+        if (!pageIsPublicSessionWatch()) {
+            divtxt = divtxt + '<p class="moreUrlsButton"><label>' + t('phonetrack', 'More URLs') +
+                '</label> <i class="fa fa-angle-double-down"></i></p>';
+            divtxt = divtxt + '<div class="moreUrls">';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser tracking URL') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) URL') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger URL') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="uloggerurl" type="text" value="' + uloggerurl + '"></input>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar URL') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
+            divtxt = divtxt + '</div>';
+            divtxt = divtxt + '<button class="removeSession"><i class="fa fa-trash" aria-hidden="true"></i> ' +
+                t('phonetrack', 'Delete session') + '</button>';
+        }
         if (!pageIsPublic()) {
             divtxt = divtxt + '<button class="export"><i class="fa fa-floppy-o" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Export to gpx') +
                 '</button>';
@@ -1086,7 +1090,7 @@
             var s;
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
-                    addSession(response.sessions[s][1], response.sessions[s][0]);
+                    addSession(response.sessions[s][1], response.sessions[s][0], response.sessions[s][2]);
                 }
             }
         }).always(function() {
@@ -1096,6 +1100,7 @@
     }
 
     function refresh() {
+        var url;
         var sessionsToWatch = [];
         // get new positions for all watched sessions
         $('.watchSession:checked').each(function() {
@@ -1109,7 +1114,12 @@
             var req = {
                 sessions: sessionsToWatch
             };
-            var url = OC.generateUrl('/apps/phonetrack/track');
+            if (pageIsPublicSessionWatch()) {
+                url = OC.generateUrl('/apps/phonetrack/publicViewTrack');
+            }
+            else {
+                url = OC.generateUrl('/apps/phonetrack/track');
+            }
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1385,7 +1395,7 @@
     }
 
     function locationFound(e) {
-        if (pageIsPublicWebTrack() && $('#logme').is(':checked')) {
+        if (pageIsPublicWebLog() && $('#logme').is(':checked')) {
             var deviceid = $('#logmedeviceinput').val();
             var lat, lon, alt, acc, timestamp;
             lat = e.latitude;
@@ -1400,7 +1410,7 @@
                 acc: acc,
                 timestamp: timestamp
             };
-            var url = OC.generateUrl('/apps/phonetrack/logPost/' + phonetrack.publicToken + '/' + deviceid);
+            var url = OC.generateUrl('/apps/phonetrack/logPost/' + phonetrack.token + '/' + deviceid);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1675,24 +1685,26 @@
         }
         // public page
         else {
-            var params, token, deviceid;
-            if (pageIsPublicWebTrack()) {
-                params = window.location.href.split('publicWebTrack/')[1].split('/');
+            var params, token, deviceid, publicviewtoken;
+            if (pageIsPublicWebLog()) {
+                params = window.location.href.split('publicWebLog/')[1].split('/');
                 token = params[0];
+                publicviewtoken = '';
                 deviceid = params[1];
             }
             else {
-                token = window.location.href.split('publicSessionWatch/')[1];
+                publicviewtoken = window.location.href.split('publicSessionWatch/')[1];
+                token = publicviewtoken;
             }
-            phonetrack.publicToken = token;
+            phonetrack.token = token;
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
-            addSession(token, name, true);
+            addSession(token, name, publicviewtoken, true);
             $('.removeSession').remove();
             $('.watchSession').prop('disabled', true);
             $('#customtilediv').remove();
             $('#newsessiondiv').remove();
-            if (pageIsPublicWebTrack()) {
+            if (pageIsPublicWebLog()) {
                 $('#logmediv').show();
                 $('#logmedeviceinput').val(deviceid);
             }

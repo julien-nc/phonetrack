@@ -34,6 +34,13 @@
       <notnull>true</notnull>
       <length>300</length>
     </field>
+    <field>
+      <name>publicviewtoken</name>
+      <type>text</type>
+      <default></default>
+      <notnull>true</notnull>
+      <length>300</length>
+    </field>
   </declaration>
 </table>
  <table>

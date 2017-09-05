@@ -203,14 +203,15 @@ class PageController extends Controller {
     public function getSessions() {
         $sessions = array();
         // check if session name is not already used
-        $sqlget = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlget = 'SELECT name, token, publicviewtoken FROM *PREFIX*phonetrack_sessions ';
         $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
             $dbname = $row['name'];
             $dbtoken = $row['token'];
-            array_push($sessions, array($dbname, $dbtoken));
+            $dbpublicviewtoken = $row['publicviewtoken'];
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken));
         }
         $req->closeCursor();
 
@@ -247,14 +248,16 @@ class PageController extends Controller {
 
         if ($dbname === null) {
             // determine token
-            $token = md5($this->userId.$name);
+            $token = md5($this->userId.$name.rand());
+            $publicviewtoken = md5($this->userId.$name.rand());
 
             // insert
             $sql = 'INSERT INTO *PREFIX*phonetrack_sessions';
-            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token) ';
+            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token, publicviewtoken) ';
             $sql .= 'VALUES (\''.$this->userId.'\',';
             $sql .= $this->db_quote_escape_string($name).',';
-            $sql .= $this->db_quote_escape_string($token).');';
+            $sql .= $this->db_quote_escape_string($token).',';
+            $sql .= $this->db_quote_escape_string($publicviewtoken).');';
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
             $req->closeCursor();
@@ -268,7 +271,8 @@ class PageController extends Controller {
         $response = new DataResponse(
             [
                 'done'=>$ok,
-                'token'=>$token
+                'token'=>$token,
+                'publicviewtoken'=>$publicviewtoken
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -677,7 +681,7 @@ class PageController extends Controller {
                         $lastDeviceTime = $lastTime['d'.$devname];
                     }
 
-                    $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
+                    $sqlget = 'SELECT deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
@@ -714,11 +718,83 @@ class PageController extends Controller {
 
     /**
      * @NoAdminRequired
-     * @NoCSRFRequired
      * @PublicPage
-     **/
-    public function publicSessionWatch($token) {
-        return $this->publicWebTrack($token, '');
+     */
+    public function publicViewTrack($sessions) {
+        $result = array();
+        foreach ($sessions as $session) {
+            $publicviewtoken = $session[0];
+            $lastTime = $session[1];
+
+            // check if session exists
+            $dbpublicviewtoken = null;
+            $sqlget = 'SELECT publicviewtoken, token FROM *PREFIX*phonetrack_sessions ';
+            $sqlget .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
+            $req = $this->dbconnection->prepare($sqlget);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbpublicviewtoken = $row['publicviewtoken'];
+                $dbtoken = $row['token'];
+            }
+            $req->closeCursor();
+
+            // session exists
+            if ($dbpublicviewtoken !== null) {
+                // get list of devices
+                $devices = array();
+                $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_points ';
+                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqldev .= 'GROUP BY deviceid;';
+                $req = $this->dbconnection->prepare($sqldev);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    array_push($devices, $row['deviceid']);
+                }
+                $req->closeCursor();
+
+                // get the coords for each device
+                $result[$dbpublicviewtoken] = array();
+
+                foreach ($devices as $devname) {
+                    $resultDevArray = array();
+                    $lastDeviceTime = 0;
+                    if (is_array($lastTime) && array_key_exists('d'.$devname, $lastTime)) {
+                        $lastDeviceTime = $lastTime['d'.$devname];
+                    }
+
+                    $sqlget = 'SELECT deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
+                    $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                    $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
+                    $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
+                    $sqlget .= 'ORDER BY timestamp ASC';
+                    $req = $this->dbconnection->prepare($sqlget);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $entry = array();
+                        foreach ($row as $k => $v) {
+                            $entry[$k] = $v;
+                        }
+                        array_push($resultDevArray, $entry);
+                    }
+                    $req->closeCursor();
+                    if (count($resultDevArray) > 0) {
+                        $result[$dbpublicviewtoken][$devname] = $resultDevArray;
+                    }
+                }
+            }
+        }
+
+        $response = new DataResponse(
+            [
+                'sessions'=>$result
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
     }
 
     /**
@@ -726,7 +802,38 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
-    public function publicWebTrack($token, $deviceid) {
+    public function publicSessionWatch($publicviewtoken) {
+        if ($publicviewtoken !== '') {
+            // check if session exists
+            $sqlchk = 'SELECT token  FROM *PREFIX*phonetrack_sessions ';
+            $sqlchk .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbtoken = null;
+            while ($row = $req->fetch()){
+                $dbtoken = $row['token'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbtoken !== null) {
+                return $this->publicWebLog($dbtoken, '');
+            }
+            else {
+                return 'There is no such session';
+            }
+        }
+        else {
+            return 'There is no such session';
+        }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     **/
+    public function publicWebLog($token, $deviceid) {
         if ($token !== '') {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
