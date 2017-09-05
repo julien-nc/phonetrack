@@ -568,7 +568,7 @@ class PageController extends Controller {
      *
      * Owntracks IOS
      **/
-    public function logOwntracks($token, $deviceid, $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
+    public function logOwntracks($token, $deviceid='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
         $did = $this->chooseDeviceId($deviceid, $tid);
         $this->logPost($token, $did, $lat, $lon, $alt, $tst, $acc, $batt, -1);
         return array();
@@ -596,7 +596,7 @@ class PageController extends Controller {
      *
      * traccar Android/IOS
      **/
-    public function logTraccar($token, $deviceid, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
+    public function logTraccar($token, $deviceid='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
         $did = $this->chooseDeviceId($deviceid, $id);
         $this->logPost($token, $did, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
     }
@@ -608,11 +608,11 @@ class PageController extends Controller {
      *
      * any Opengts-compliant app
      **/
-    public function logOpengts($token, $deviceid, $id, $dev, $acct, $alt, $batt, $gprmc) {
+    public function logOpengts($token, $deviceid='', $id, $dev, $acct, $alt, $batt, $gprmc) {
         $did = $this->chooseDeviceId($deviceid, $id);
         $gprmca = explode(',', $gprmc);
-        $time = (int)$gprmca[1];
-        $date = (int)$gprmca[9];
+        $time = sprintf("%06d", (int)$gprmca[1]);
+        $date = sprintf("%06d", (int)$gprmca[9]);
         $datetime = \DateTime::createFromFormat('dmy His', $date.' '.$time);
         $timestamp = $datetime->getTimestamp();
         $lat = DMStoDEC($gprmca[3], 'latitude');
