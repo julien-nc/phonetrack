@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 0.0.2 – 2017-09-05
+## 0.0.3 – 2017-09-07
 ### Added
 - compatibility with Owntracks and Traccar
 [#3](https://gitlab.com/eneiluj/phonetrack-oc/issues/3) @escoand
@@ -14,12 +14,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - take URL deviceid if it's not default or empty, else take app user/deviceid if it's not empty, else 'unknown'
 - make two public pages : one to watch, one to track
 - able to rename sessions
+- add option to make session public. if not, position are not showed in publicWebLog page
+[#5](https://gitlab.com/eneiluj/phonetrack-oc/issues/5) @escoand
 
 ### Changed
 - change 'precision' table field name to 'accuracy', make accuracy and altitude float
 [#2](https://gitlab.com/eneiluj/phonetrack-oc/issues/2) @tcitworld
 - for logging URLs : put token and device in URL path instead of a parameter
 [#3](https://gitlab.com/eneiluj/phonetrack-oc/issues/3) @escoand
+- use a different token for publicSessionWatch to avoid viewers to be able to deduce log URLs
+[#5](https://gitlab.com/eneiluj/phonetrack-oc/issues/5) @escoand
 
 ### Fixed
 - bad osmand parameters
