@@ -847,7 +847,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                addSession(response.token, sessionName, response.publicviewtoken, true);
+                addSession(response.token, sessionName, response.publicviewtoken, 1);
             }
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'Session name already used'));
@@ -903,10 +903,10 @@
         var divtxt = '<div class="session" token="' + token + '" publicviewtoken="' + publicviewtoken + '">';
         divtxt = divtxt + '<h3 class="sessionTitle"><b>' + name + '</b> <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
-            '<i class="fa fa-search-plus" style="color:blue;"></i></button>';
+            '<i class="fa fa-search" style="color:blue; font-size:18px"></i></button>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
-                '<i class="fa fa-edit" style="color:blue;"></i></button>';
+                '<i class="fa fa-edit" style="color:blue; font-size:18px"></i></button>';
         }
         divtxt = divtxt + '</h3>';
         if (!pageIsPublic()) {
