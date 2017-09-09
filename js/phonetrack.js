@@ -1072,14 +1072,21 @@
 
     function renameSessionSuccess(token, oldname, newname) {
         var perm = $('#showtime').is(':checked');
-        var d, t;
+        var d, t, p;
         $('.session[token='+token+'] .sessionTitle b').text(newname);
         for (d in phonetrack.sessionMarkerLayers[token]) {
+            // marker tooltip
             t = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
             t = t.replace('Session '+oldname, 'Session '+newname);
             phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
             phonetrack.sessionMarkerLayers[token][d].bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
+            // marker popup
+            p = phonetrack.sessionMarkerLayers[token][d].getPopup().getContent();
+            phonetrack.sessionMarkerLayers[token][d].unbindPopup();
+            p = p.replace('sessionname="' + oldname + '"', 'sessionname="' + newname + '"');
+            phonetrack.sessionMarkerLayers[token][d].bindPopup(p, {closeOnClick: false});
 
+            // line tooltip
             t = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
             t = t.replace('Session '+oldname, 'Session '+newname);
             phonetrack.sessionLineLayers[token][d].unbindTooltip();
@@ -1091,6 +1098,19 @@
                     className: 'tooltip' + phonetrack.sessionColors[token + d]
                 }
             );
+            phonetrack.sessionPointsLayers[token][d].eachLayer(function(l) {
+                // line points tooltips
+                t = l.getTooltip()._content;
+                t = t.replace('Session '+oldname, 'Session '+newname);
+                l.unbindTooltip();
+                l.bindTooltip(t, {permanent: false, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
+
+                // line points popups
+                p = l.getPopup().getContent();
+                l.unbindPopup();
+                p = p.replace('sessionname="' + oldname + '"', 'sessionname="' + newname + '"');
+                l.bindPopup(p, {closeOnClick: false});
+            });
         }
     }
 
