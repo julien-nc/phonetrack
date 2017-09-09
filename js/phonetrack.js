@@ -30,8 +30,11 @@
         restoredTileLayer: null,
         // indexed by session name, contains dict indexed by deviceid
         sessionLineLayers: {},
-        // the line points
+        // the featureGroups of line points
         sessionPointsLayers: {},
+        // the same line points but indexed by their ID
+        sessionPointsLayersById: {},
+        sessionPointsEntriesById: {},
         // the last position markers
         sessionMarkerLayers: {},
         sessionColors: {},
@@ -1176,6 +1179,8 @@
             if (! phonetrack.sessionLineLayers.hasOwnProperty(s)) {
                 phonetrack.sessionLineLayers[s] = {};
                 phonetrack.sessionPointsLayers[s] = {};
+                phonetrack.sessionPointsLayersById[s] = {};
+                phonetrack.sessionPointsEntriesById[s] = {};
             }
             if (! phonetrack.sessionMarkerLayers.hasOwnProperty(s)) {
                 phonetrack.sessionMarkerLayers[s] = {};
@@ -1224,6 +1229,8 @@
                         '</li>');
 
                     phonetrack.sessionPointsLayers[s][d] = L.featureGroup();
+                    phonetrack.sessionPointsLayersById[s][d] = {};
+                    phonetrack.sessionPointsEntriesById[s][d] = {};
                     phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
                     linetooltip = 'Session ' + sessionname + ' ; device ' + d;
                     phonetrack.sessionLineLayers[s][d].bindTooltip(
@@ -1250,10 +1257,15 @@
                         phonetrack.lastTime[s][device] = timestamp;
                     }
                     // increment lines
-                    phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon]);
+                    phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon, entry.id]);
                     var m = L.circleMarker([entry.lat, entry.lon], {radius: 6, fillOpacity: 1, color: colorCode[colorn]});
                     m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[s + d]});
+                    phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
+                    phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
                     phonetrack.sessionPointsLayers[s][d].addLayer(m);
+                    if (!pageIsPublic()) {
+                        m.bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});
+                    }
                 }
                 // move/create marker
                 // entry is the last point for the current device
@@ -1275,10 +1287,137 @@
                     markertooltip,
                     {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
                 );
+                if (!pageIsPublic()) {
+                    phonetrack.sessionMarkerLayers[s][d].unbindPopup();
+                    phonetrack.sessionMarkerLayers[s][d].bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});
+                }
             }
         }
         // in case user click is between ajax request and response
         showHideSelectedSessions();
+    }
+
+    function deletePointDB(but) {
+        var tab = but.parent().find('table');
+        var token = tab.attr('token');
+        var deviceid = tab.attr('deviceid');
+        var pointid = tab.attr('pid');
+        var req = {
+            token: token,
+            deviceid: deviceid,
+            pointid: pointid
+        };
+        var url = OC.generateUrl('/apps/phonetrack/deletePoint');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                deletePointMap(but);
+            }
+            else if (response.done === 2) {
+                OC.Notification.showTemporary(t('phonetrack', 'The point you want to delete does not exist'));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to delete point'));
+        });
+    }
+
+    function deletePointMap(but) {
+        var perm = $('#showtime').is(':checked');
+        var i, lat, lng, p;
+        var tab = but.parent().find('table');
+        var s = tab.attr('token');
+        var d = tab.attr('deviceid');
+        var sn = tab.attr('sessionname');
+        var pid = tab.attr('pid');
+        var intpid = parseInt(pid);
+        var entry = phonetrack.sessionPointsEntriesById[s][d][pid];
+        // remove associated point from sessionPointsLayers
+        var m = phonetrack.sessionPointsLayersById[s][d][pid];
+        phonetrack.sessionPointsLayers[s][d].removeLayer(m);
+
+        // remove point in the line
+        var latlngs = phonetrack.sessionLineLayers[s][d].getLatLngs();
+        var newlatlngs = [];
+        i = 0;
+        while (latlngs[i].alt !== intpid) {
+            newlatlngs.push([latlngs[i].lat, latlngs[i].lng, latlngs[i].alt]);
+            i++;
+        }
+        i++;
+        // if it was the last point, move marker
+        if (i === latlngs.length) {
+            lat = newlatlngs[i-2][0];
+            lng = newlatlngs[i-2][1];
+            p = newlatlngs[i-2][2]
+            phonetrack.sessionMarkerLayers[s][d].setLatLng([lat, lng]);
+            phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
+            phonetrack.sessionMarkerLayers[s][d].unbindPopup();
+            phonetrack.sessionMarkerLayers[s][d].bindPopup(
+                getPointPopup(s, d, phonetrack.sessionPointsEntriesById[s][d][p], sn),
+                {closeOnClick: false}
+            );
+            phonetrack.sessionMarkerLayers[s][d].bindTooltip(
+                getPointTooltipContent(phonetrack.sessionPointsEntriesById[s][d][p], sn),
+                {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
+            );
+        }
+        // else we continue to copy the positions
+        else {
+            while (i < latlngs.length) {
+                newlatlngs.push([latlngs[i].lat, latlngs[i].lng, latlngs[i].alt]);
+                i++;
+            }
+        }
+        phonetrack.sessionLineLayers[s][d].setLatLngs(newlatlngs);
+
+        phonetrack.map.closePopup();
+    }
+
+    function getPointPopup(s, d, entry, sn) {
+        var dateval = '';
+        var hourval = '';
+        var minval = '';
+        var secval = '';
+        if (entry.timestamp) {
+            var mom = moment.unix(parseInt(entry.timestamp));
+            dateval = mom.format('YYYY-MM-DD');
+            hourval = mom.format('HH');
+            minval = mom.format('mm');
+            secval = mom.format('ss');
+        }
+        var res = '<table class="editPoint" pid="' + entry.id + '"' +
+           ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
+        res = res + '<tr>';
+        res = res + '<td>Date</td>';
+        res = res + '<td><input type="date" value="' + dateval + '"/></td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>Time</td>';
+        res = res + '<td><input role="hour" type="number" value="' + hourval + '" min="0" max="23"/>h' +
+            '<input role="minute" type="number" value="' + minval + '" min="0" max="59"/>' +
+            'min<input role="second" type="number" value="' + secval + '" min="0" max="59"/>sec</td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>Altitude</td>';
+        res = res + '<td><input role="altitude" type="number" value="' + entry.altitude + '" min="-1"/></td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>Precision</td>';
+        res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/></td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>Satellites</td>';
+        res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>Battery level</td>';
+        res = res + '<td><input role="battery" type="number"/ value="' + entry.batterylevel + '" min="-1" max="100"></td>';
+        res = res + '</tr>';
+        res = res + '</table>';
+        res = res + '<button class="valideditpoint">Save</button>';
+        res = res + '<button class="deletepoint">Delete</button>';
+        res = res + '<button class="canceleditpoint">Cancel</button>';
+        return res;
     }
 
     function getPointTooltipContent(entry, sn) {
@@ -1771,6 +1910,17 @@
             }).fail(function() {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public'));
             });
+        });
+
+        $('body').on('click','.canceleditpoint', function(e) {
+            phonetrack.map.closePopup();
+        });
+
+        $('body').on('click','.valideditpoint', function(e) {
+        });
+
+        $('body').on('click','.deletepoint', function(e) {
+            deletePointDB($(this));
         });
 
         if (!pageIsPublic()) {

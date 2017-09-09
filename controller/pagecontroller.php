@@ -338,6 +338,68 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function deletePoint($token, $deviceid, $pointid) {
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if point exists
+            $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_points ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
+            $sqlchk .= 'AND id='.$this->db_quote_escape_string($pointid).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbid = null;
+            while ($row = $req->fetch()){
+                $dbid = $row['id'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbid !== null) {
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
+                $sqldel .= 'WHERE id='.$this->db_quote_escape_string($dbid).';';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            else {
+                $ok = 2;
+            }
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function setSessionPublic($token, $public) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
@@ -729,7 +791,7 @@ class PageController extends Controller {
                         $lastDeviceTime = $lastTime['d'.$devname];
                     }
 
-                    $sqlget = 'SELECT deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
+                    $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';

@@ -334,6 +334,25 @@ div.session p,
     -moz-appearance: number-input;
     -webkit-appearance: initial;
 }
+.editPoint input[role=altitude],
+.editPoint input[role=satellites],
+.editPoint input[role=battery],
+.editPoint input[role=precision] {
+    width: 50px !important;
+    height: 15px !important;
+}
+.editPoint input[role=minute],
+.editPoint input[role=hour],
+.editPoint input[role=second] {
+    width: 34px !important;
+    height: 15px !important;
+}
+.editPoint input[type=number] {
+    -moz-appearance: number-input !important;
+    -webkit-appearance: initial !important;
+    padding: 5px !important;
+    min-height: 0px !important;
+}
 .watchlabeldiv {
     display: grid;
     grid-template-columns: 80% 20%;
