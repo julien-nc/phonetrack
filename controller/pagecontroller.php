@@ -400,6 +400,78 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function updatePoint($token, $deviceid, $pointid,
+        $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if point exists
+            $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_points ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
+            $sqlchk .= 'AND id='.$this->db_quote_escape_string($pointid).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbid = null;
+            while ($row = $req->fetch()){
+                $dbid = $row['id'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbid !== null) {
+                $sqlupd = 'UPDATE *PREFIX*phonetrack_points SET';
+                //$sqlupd .= 'lat='.$this->db_quote_escape_string($lat).' ';
+                //$sqlupd .= ', lon='.$this->db_quote_escape_string($lon).' ';
+                $sqlupd .= ' altitude='.$this->db_quote_escape_string($alt).' ';
+                $sqlupd .= ', timestamp='.$this->db_quote_escape_string($timestamp).' ';
+                $sqlupd .= ', accuracy='.$this->db_quote_escape_string($acc).' ';
+                $sqlupd .= ', batterylevel='.$this->db_quote_escape_string($bat).' ';
+                $sqlupd .= ', satellites='.$this->db_quote_escape_string($sat).' ';
+                $sqlupd .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqlupd .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
+                $sqlupd .= 'AND id='.$this->db_quote_escape_string($pointid).';';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            else {
+                $ok = 2;
+            }
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function setSessionPublic($token, $public) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';

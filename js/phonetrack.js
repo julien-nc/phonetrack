@@ -206,6 +206,10 @@
 
     //////////////// UTILS /////////////////////
 
+    function pad(n) {
+        return (n < 10) ? ('0' + n) : n;
+    }
+
     function basename(str) {
         var base = new String(str).substring(str.lastIndexOf('/') + 1);
         if (base.lastIndexOf(".") !== -1) {
@@ -1296,10 +1300,10 @@
                         html: '<b>' + d[0] + '</b>'
                     });
 
-                    phonetrack.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon], {icon: icon});
+                    phonetrack.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon, entry.id], {icon: icon});
                 }
                 else {
-                    phonetrack.sessionMarkerLayers[s][d].setLatLng([entry.lat, entry.lon]);
+                    phonetrack.sessionMarkerLayers[s][d].setLatLng([entry.lat, entry.lon, entry.id]);
                 }
                 phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
                 markertooltip = getPointTooltipContent(entry, sessionname);
@@ -1315,6 +1319,103 @@
         }
         // in case user click is between ajax request and response
         showHideSelectedSessions();
+    }
+
+    function editPointDB(but) {
+        var tab = but.parent().find('table');
+        var token = tab.attr('token');
+        var deviceid = tab.attr('deviceid');
+        var pointid = tab.attr('pid');
+        var alt = tab.find('input[role=altitude]').val();
+        var acc = tab.find('input[role=precision]').val();
+        var sat = tab.find('input[role=satellites]').val();
+        var bat = tab.find('input[role=battery]').val();
+        var datestr = tab.find('input[role=date]').val();
+        var hourstr = parseInt(tab.find('input[role=hour]').val());
+        var minstr = parseInt(tab.find('input[role=minute]').val());
+        var secstr = parseInt(tab.find('input[role=second]').val());
+        var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
+        var mom = moment(completeDateStr);
+        var timestamp = mom.unix();
+        var req = {
+            token: token,
+            deviceid: deviceid,
+            pointid: pointid,
+            timestamp: timestamp,
+            alt: alt,
+            acc: acc,
+            bat: bat,
+            sat: sat
+        };
+        var url = OC.generateUrl('/apps/phonetrack/updatePoint');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                updatePointMap(but);
+            }
+            else if (response.done === 2) {
+                OC.Notification.showTemporary(t('phonetrack', 'The point you want to edit does not exist'));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to edit point'));
+        });
+    }
+
+    function updatePointMap(but) {
+        var tab = but.parent().find('table');
+        var token = tab.attr('token');
+        var deviceid = tab.attr('deviceid');
+        var pointid = tab.attr('pid');
+        var sessionname = tab.attr('sessionname');
+        var alt = tab.find('input[role=altitude]').val();
+        var acc = tab.find('input[role=precision]').val();
+        var sat = tab.find('input[role=satellites]').val();
+        var bat = tab.find('input[role=battery]').val();
+        var datestr = tab.find('input[role=date]').val();
+        var hourstr = parseInt(tab.find('input[role=hour]').val());
+        var minstr = parseInt(tab.find('input[role=minute]').val());
+        var secstr = parseInt(tab.find('input[role=second]').val());
+        var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
+        var mom = moment(completeDateStr);
+        var timestamp = mom.unix();
+
+        var entry = phonetrack.sessionPointsEntriesById[token][deviceid][pointid];
+        entry.timestamp = timestamp;
+        entry.altitude = alt;
+        entry.batterylevel = bat;
+        entry.satellites = sat;
+        entry.accuracy = acc;
+
+        // update line point tooltip
+        phonetrack.sessionPointsLayersById[token][deviceid][pointid].unbindTooltip();
+        phonetrack.sessionPointsLayersById[token][deviceid][pointid].bindTooltip(
+            getPointTooltipContent(entry, sessionname),
+            {permanent: false, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
+        );
+
+        // update line point popup
+        phonetrack.sessionPointsLayersById[token][deviceid][pointid].unbindPopup();
+        phonetrack.sessionPointsLayersById[token][deviceid][pointid].bindPopup(
+            getPointPopup(token, deviceid, entry, sessionname),
+            {closeOnClick: false}
+        );
+
+        // if this is the last point, update marker tooltip and popup
+        if (phonetrack.sessionMarkerLayers[token][deviceid].getLatLng().alt === parseInt(pointid)) {
+            var perm = $('#showtime').is(':checked');
+            phonetrack.sessionMarkerLayers[token][deviceid].unbindTooltip();
+            phonetrack.sessionMarkerLayers[token][deviceid].bindTooltip(
+                getPointTooltipContent(entry, sessionname),
+                {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
+            );
+        }
+
+        phonetrack.map.closePopup();
     }
 
     function deletePointDB(but) {
@@ -1374,7 +1475,7 @@
             lat = newlatlngs[i-2][0];
             lng = newlatlngs[i-2][1];
             p = newlatlngs[i-2][2]
-            phonetrack.sessionMarkerLayers[s][d].setLatLng([lat, lng]);
+            phonetrack.sessionMarkerLayers[s][d].setLatLng([lat, lng, p]);
             phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
             phonetrack.sessionMarkerLayers[s][d].unbindPopup();
             phonetrack.sessionMarkerLayers[s][d].bindPopup(
@@ -1414,7 +1515,7 @@
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
         res = res + '<tr>';
         res = res + '<td>Date</td>';
-        res = res + '<td><input type="date" value="' + dateval + '"/></td>';
+        res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>';
         res = res + '</tr><tr>';
         res = res + '<td>Time</td>';
         res = res + '<td><input role="hour" type="number" value="' + hourval + '" min="0" max="23"/>h' +
@@ -1937,6 +2038,7 @@
         });
 
         $('body').on('click','.valideditpoint', function(e) {
+            editPointDB($(this));
         });
 
         $('body').on('click','.deletepoint', function(e) {
