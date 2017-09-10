@@ -347,6 +347,14 @@ div.session p,
     width: 34px !important;
     height: 15px !important;
 }
+.editPoint input[role=date] {
+    height: 15px;
+    padding: 0px;
+}
+.valideditpoint, .deletepoint, .canceleditpoint {
+    height: 15px;
+    padding: 1px 8px 1px 8px;
+}
 .editPoint input[type=number] {
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;

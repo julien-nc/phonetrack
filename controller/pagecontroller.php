@@ -432,9 +432,9 @@ class PageController extends Controller {
 
             if ($dbid !== null) {
                 $sqlupd = 'UPDATE *PREFIX*phonetrack_points SET';
-                //$sqlupd .= 'lat='.$this->db_quote_escape_string($lat).' ';
-                //$sqlupd .= ', lon='.$this->db_quote_escape_string($lon).' ';
-                $sqlupd .= ' altitude='.$this->db_quote_escape_string($alt).' ';
+                $sqlupd .= ' lat='.$this->db_quote_escape_string($lat).' ';
+                $sqlupd .= ', lon='.$this->db_quote_escape_string($lon).' ';
+                $sqlupd .= ', altitude='.$this->db_quote_escape_string($alt).' ';
                 $sqlupd .= ', timestamp='.$this->db_quote_escape_string($timestamp).' ';
                 $sqlupd .= ', accuracy='.$this->db_quote_escape_string($acc).' ';
                 $sqlupd .= ', batterylevel='.$this->db_quote_escape_string($bat).' ';
@@ -859,8 +859,8 @@ class PageController extends Controller {
                 foreach ($devices as $devname) {
                     $resultDevArray = array();
                     $lastDeviceTime = 0;
-                    if (is_array($lastTime) && array_key_exists('d'.$devname, $lastTime)) {
-                        $lastDeviceTime = $lastTime['d'.$devname];
+                    if (is_array($lastTime) && array_key_exists($devname, $lastTime)) {
+                        $lastDeviceTime = $lastTime[$devname];
                     }
 
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
@@ -957,8 +957,8 @@ class PageController extends Controller {
                     foreach ($devices as $devname) {
                         $resultDevArray = array();
                         $lastDeviceTime = 0;
-                        if (is_array($lastTime) && array_key_exists('d'.$devname, $lastTime)) {
-                            $lastDeviceTime = $lastTime['d'.$devname];
+                        if (is_array($lastTime) && array_key_exists($devname, $lastTime)) {
+                            $lastDeviceTime = $lastTime[$devname];
                         }
 
                         $sqlget = 'SELECT deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
@@ -1041,8 +1041,8 @@ class PageController extends Controller {
                 foreach ($devices as $devname) {
                     $resultDevArray = array();
                     $lastDeviceTime = 0;
-                    if (is_array($lastTime) && array_key_exists('d'.$devname, $lastTime)) {
-                        $lastDeviceTime = $lastTime['d'.$devname];
+                    if (is_array($lastTime) && array_key_exists($devname, $lastTime)) {
+                        $lastDeviceTime = $lastTime[$devname];
                     }
 
                     $sqlget = 'SELECT deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';

@@ -1270,7 +1270,7 @@
                 for (i in sessions[s][d]) {
                     entry = sessions[s][d][i];
                     timestamp = parseInt(entry.timestamp);
-                    device = 'd' + entry.deviceid;
+                    device = entry.deviceid;
                     pointtooltip = getPointTooltipContent(entry, sessionname);
                     if (!phonetrack.lastTime.hasOwnProperty(s)) {
                         phonetrack.lastTime[s] = {};
@@ -1282,7 +1282,7 @@
                     }
                     // increment lines
                     phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon, entry.id]);
-                    var m = L.circleMarker([entry.lat, entry.lon], {radius: 6, fillOpacity: 1, color: colorCode[colorn]});
+                    var m = L.circleMarker([entry.lat, entry.lon], {radius: 6, fillOpacity: 1, color: colorCode[phonetrack.sessionColors[s + d]]});
                     m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[s + d]});
                     phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
                     phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
@@ -1326,6 +1326,8 @@
         var token = tab.attr('token');
         var deviceid = tab.attr('deviceid');
         var pointid = tab.attr('pid');
+        var lat = tab.find('input[role=lat]').val();
+        var lon = tab.find('input[role=lon]').val();
         var alt = tab.find('input[role=altitude]').val();
         var acc = tab.find('input[role=precision]').val();
         var sat = tab.find('input[role=satellites]').val();
@@ -1342,6 +1344,8 @@
             deviceid: deviceid,
             pointid: pointid,
             timestamp: timestamp,
+            lat: lat,
+            lon: lon,
             alt: alt,
             acc: acc,
             bat: bat,
@@ -1367,11 +1371,14 @@
     }
 
     function updatePointMap(but) {
+        var perm = $('#showtime').is(':checked');
         var tab = but.parent().find('table');
         var token = tab.attr('token');
         var deviceid = tab.attr('deviceid');
-        var pointid = tab.attr('pid');
+        var pointid = parseInt(tab.attr('pid'));
         var sessionname = tab.attr('sessionname');
+        var lat = parseFloat(tab.find('input[role=lat]').val());
+        var lon = parseFloat(tab.find('input[role=lon]').val());
         var alt = tab.find('input[role=altitude]').val();
         var acc = tab.find('input[role=precision]').val();
         var sat = tab.find('input[role=satellites]').val();
@@ -1383,9 +1390,19 @@
         var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
         var mom = moment(completeDateStr);
         var timestamp = mom.unix();
+        var i;
 
         var entry = phonetrack.sessionPointsEntriesById[token][deviceid][pointid];
+        // point needs to be moved ?
+        var oldlat = parseFloat(entry.lat);
+        var oldlon = parseFloat(entry.lon);
+        var move = (oldlat !== lat || oldlon !== lon);
+        var oldtimestamp = timestamp;
+        var dateChanged = (oldtimestamp !== parseInt(entry.timestamp));
+        var markerIsNotAnymore = false;
         entry.timestamp = timestamp;
+        entry.lat = lat;
+        entry.lon = lon;
         entry.altitude = alt;
         entry.batterylevel = bat;
         entry.satellites = sat;
@@ -1404,15 +1421,92 @@
             getPointPopup(token, deviceid, entry, sessionname),
             {closeOnClick: false}
         );
+        // move line point
+        if (move) {
+            phonetrack.sessionPointsLayersById[token][deviceid][pointid].setLatLng([lat, lon, pointid]);
+        }
+        // set new line latlngs if moved or date was modified
+        if (move || dateChanged) {
+            var latlngs = phonetrack.sessionLineLayers[token][deviceid].getLatLngs();
+            var newlatlngs = [];
+            i = 0;
+            // we copy until we get to the right place to insert moved point
+            while (i < latlngs.length
+                   && ( (parseInt(pointid) === parseInt(latlngs[i].alt))
+                         || (timestamp > parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][latlngs[i].alt].timestamp))
+                      )
+            ) {
+                // we don't copy the edited point
+                if (parseInt(pointid) !== parseInt(latlngs[i].alt)) {
+                    // copy
+                    newlatlngs.push([latlngs[i].lat, latlngs[i].lng, latlngs[i].alt]);
+                }
+                i++;
+            }
+            // put the edited point
+            newlatlngs.push([lat, lon, pointid]);
+            // if we are moving the marker and now it's not the last point anymore
+            if (phonetrack.sessionMarkerLayers[token][deviceid].getLatLng().alt === parseInt(pointid)
+                && i !== latlngs.length) {
+                    markerIsNotAnymore = true;
+            }
+            // if this is now the last point, update marker and last time
+            if (i === latlngs.length) {
+                phonetrack.sessionMarkerLayers[token][deviceid].setLatLng([lat, lon, pointid]);
+                phonetrack.lastTime[token][deviceid] = timestamp;
+            }
+            // finish the copy
+            while (i < latlngs.length) {
+                if (parseInt(pointid) !== parseInt(latlngs[i].alt)) {
+                    // copy
+                    newlatlngs.push([latlngs[i].lat, latlngs[i].lng, latlngs[i].alt]);
+                }
+                i++;
+            }
+            // modify line
+            phonetrack.sessionLineLayers[token][deviceid].setLatLngs(newlatlngs);
 
-        // if this is the last point, update marker tooltip and popup
+            // if the marker was changed : move marker, adapt tooltip and popup
+            if (markerIsNotAnymore) {
+                var mla, mln, mid, mentry;
+                mla = newlatlngs[newlatlngs.length - 1][0];
+                mln = newlatlngs[newlatlngs.length - 1][1];
+                mid = newlatlngs[newlatlngs.length - 1][2];
+                mentry = phonetrack.sessionPointsEntriesById[token][deviceid][mid];
+                phonetrack.lastTime[token][deviceid] = mentry.timestamp;
+                phonetrack.sessionMarkerLayers[token][deviceid].setLatLng([mla, mln, mid]);
+
+                // tooltip
+                phonetrack.sessionMarkerLayers[token][deviceid].unbindTooltip();
+                phonetrack.sessionMarkerLayers[token][deviceid].bindTooltip(
+                    getPointTooltipContent(mentry, sessionname),
+                    {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
+                );
+                // popup
+                phonetrack.sessionMarkerLayers[token][deviceid].bindPopup(
+                    getPointPopup(token, deviceid, mentry, sessionname),
+                    {closeOnClick: false}
+                );
+            }
+        }
+
+        // if edited point is now the last point, update marker tooltip and popup
         if (phonetrack.sessionMarkerLayers[token][deviceid].getLatLng().alt === parseInt(pointid)) {
-            var perm = $('#showtime').is(':checked');
+            // tooltip
             phonetrack.sessionMarkerLayers[token][deviceid].unbindTooltip();
             phonetrack.sessionMarkerLayers[token][deviceid].bindTooltip(
                 getPointTooltipContent(entry, sessionname),
                 {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
             );
+            // popup
+            phonetrack.sessionMarkerLayers[token][deviceid].bindPopup(
+                getPointPopup(token, deviceid, entry, sessionname),
+                {closeOnClick: false}
+            );
+            // move
+            if (move) {
+                phonetrack.sessionMarkerLayers[token][deviceid].setLatLng([lat, lon, pointid]);
+            }
         }
 
         phonetrack.map.closePopup();
@@ -1470,7 +1564,7 @@
             i++;
         }
         i++;
-        // if it was the last point, move marker
+        // if it was the last point, move marker and update lasttime
         if (i === latlngs.length) {
             lat = newlatlngs[i-2][0];
             lng = newlatlngs[i-2][1];
@@ -1486,6 +1580,8 @@
                 getPointTooltipContent(phonetrack.sessionPointsEntriesById[s][d][p], sn),
                 {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
             );
+            // update lasttime : new last point time
+            phonetrack.lastTime[s][d] = phonetrack.sessionPointsEntriesById[s][d][p].timestamp;
         }
         // else we continue to copy the positions
         else {
@@ -1514,6 +1610,12 @@
         var res = '<table class="editPoint" pid="' + entry.id + '"' +
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
         res = res + '<tr>';
+        res = res + '<td>Latitude</td>';
+        res = res + '<td><input role="lat" type="number" value="' + entry.lat + '" min="-500" max="500" step="0.00001"/></td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>Longitude</td>';
+        res = res + '<td><input role="lon" type="number" value="' + entry.lon + '" min="-500" max="500" step="0.00001"/></td>';
+        res = res + '</tr><tr>';
         res = res + '<td>Date</td>';
         res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>';
         res = res + '</tr><tr>';
@@ -1535,9 +1637,9 @@
         res = res + '<td><input role="battery" type="number"/ value="' + entry.batterylevel + '" min="-1" max="100"></td>';
         res = res + '</tr>';
         res = res + '</table>';
-        res = res + '<button class="valideditpoint">Save</button>';
-        res = res + '<button class="deletepoint">Delete</button>';
-        res = res + '<button class="canceleditpoint">Cancel</button>';
+        res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> Save</button>';
+        res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> Delete</button>';
+        res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> Cancel</button>';
         return res;
     }
 
