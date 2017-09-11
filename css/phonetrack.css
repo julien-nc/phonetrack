@@ -183,7 +183,8 @@ h3 {
     .leaflet-right { right:40px; }
 }
 
-div#options input[type=checkbox] {
+div#options input[type=checkbox],
+div#filterDiv input[type=checkbox] {
     /* Double-sized Checkboxes */
     -ms-transform: scale(1.5); /* IE */
     -moz-transform: scale(1.5); /* FF */
@@ -341,6 +342,7 @@ input[role=precision] {
     width: 70px !important;
     height: 15px !important;
 }
+#filterPointsTable input[type=number],
 #addPointTable input[role=minute],
 #addPointTable input[role=hour],
 #addPointTable input[role=second] {
@@ -360,6 +362,7 @@ input[role=date] {
     height: 15px;
     padding: 1px 8px 1px 8px;
 }
+#filterPointsTable input[type=number],
 .editPoint input[type=number],
 #addPointTable input[type=number] {
     -moz-appearance: number-input !important;

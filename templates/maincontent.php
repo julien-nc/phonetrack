@@ -332,6 +332,37 @@ if (count($_['useroverlayserverswms']) > 0){
 <button id="validaddpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Save')); ?></button>
 </div>
 
+<div id="filterDiv">
+<hr/>
+<h3><?php p($l->t('Filter points')); ?></h3>
+<br/>
+<label for="applydatemin"><?php p($l->t('Apply date min filter')); ?></label>
+<input type="checkbox" id="applydatemin"/>
+<br/>
+<label for="applydatemax"><?php p($l->t('Apply date max filter')); ?></label>
+<input type="checkbox" id="applydatemax"/>
+<table id="filterPointsTable">
+<tr>
+    <td><?php p($l->t('Date min')); ?></td>
+    <td><input role="datemin" type="date"/></td>
+</tr><tr>
+    <td><?php p($l->t('Time min')); ?></td>
+    <td><input role="hourmin" type="number" min="0" max="23"/>h
+        <input role="minutemin" type="number" min="0" max="59"/>
+        min<input role="secondmin" type="number" min="0" max="59"/>sec</td>
+</tr>
+<tr>
+    <td><?php p($l->t('Date max')); ?></td>
+    <td><input role="datemax" type="date"/></td>
+</tr><tr>
+    <td><?php p($l->t('Time max')); ?></td>
+    <td><input role="hourmax" type="number" min="0" max="23"/>h
+        <input role="minutemax" type="number" min="0" max="59"/>
+        min<input role="secondmax" type="number" min="0" max="59"/>sec</td>
+</tr>
+</table>
+</div>
+
 </div>
 <div class="sidebar-pane" id="help">
     <h1 class="sectiontitle"><?php p($l->t('About PhoneTrack')); ?></h1>
