@@ -291,6 +291,47 @@ if (count($_['useroverlayserverswms']) > 0){
 
 </div>
 
+<div id="addPointDiv">
+<hr/>
+<h3><?php p($l->t('Manually add a point')); ?></h3>
+<br/>
+<label for="addPointSession">Session</label>
+<select id="addPointSession">
+</select>
+<label for="addPointDevice">Device</label>
+<input id="addPointDevice" value="deviceName"/>
+<table id="addPointTable">
+<tr>
+    <td>Latitude</td>
+    <td><input role="lat" type="number" min="-500" max="500" step="0.00001"/></td>
+</tr><tr>
+    <td>Longitude</td>
+    <td><input role="lon" type="number" min="-500" max="500" step="0.00001"/></td>
+</tr><tr>
+    <td>Date</td>
+    <td><input role="date" type="date"/></td>
+</tr><tr>
+    <td>Time</td>
+    <td><input role="hour" type="number" min="0" max="23"/>h
+        <input role="minute" type="number" min="0" max="59"/>
+        min<input role="second" type="number" min="0" max="59"/>sec</td>
+</tr><tr>
+    <td>Altitude</td>
+    <td><input role="altitude" type="number" value="-1" min="-1"/></td>
+</tr><tr>
+    <td>Precision</td>
+    <td><input role="precision" type="number" value="-1" min="-1"/></td>
+</tr><tr>
+    <td>Satellites</td>
+    <td><input role="satellites" type="number" value="-1" min="-1"/></td>
+</tr><tr>
+    <td>Battery level</td>
+    <td><input role="battery" type="number" value="-1" min="-1" max="100"></td>
+</tr>
+</table>
+<button id="validaddpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> Save</button>
+</div>
+
 </div>
 <div class="sidebar-pane" id="help">
     <h1 class="sectiontitle"><?php p($l->t('About PhoneTrack')); ?></h1>

@@ -640,6 +640,40 @@ class PageController extends Controller {
 
     /**
      * @NoAdminRequired
+     */
+    public function addPoint($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+
+        $sqlchk = 'SELECT MAX(id) as maxid FROM *PREFIX*phonetrack_points ';
+        $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+        $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
+        $sqlchk .= 'AND lat='.$this->db_quote_escape_string($lat).' ';
+        $sqlchk .= 'AND lon='.$this->db_quote_escape_string($lon).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbid = null;
+        while ($row = $req->fetch()){
+            $dbid = $row['maxid'];
+            break;
+        }
+        $req->closeCursor();
+
+        $response = new DataResponse(
+            [
+                'done'=>1,
+                'id'=>$dbid
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
      *

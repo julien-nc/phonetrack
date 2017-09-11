@@ -869,6 +869,7 @@
     }
 
     function addSession(token, name, publicviewtoken, isPublic, selected=false) {
+        $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
         var selhtml = '';
         if (selected) {
             selhtml = ' checked="checked"';
@@ -1045,6 +1046,8 @@
     }
 
     function removeSession(div) {
+        var token = div.attr('token');
+        $('#addPointSession option[token=' + token + ']').remove();
         div.fadeOut('slow', function() {
             div.remove();
         });
@@ -1075,6 +1078,8 @@
     }
 
     function renameSessionSuccess(token, oldname, newname) {
+        $('#addPointSession option[token=' + token + ']').attr('value', newname);
+        $('#addPointSession option[token=' + token + ']').text(newname);
         var perm = $('#showtime').is(':checked');
         var d, t, p;
         $('.session[token='+token+'] .sessionTitle b').text(newname);
@@ -1194,9 +1199,8 @@
 
     function displayNewPoints(sessions) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            linetooltip, markertooltip, colorn, rgbc,
-            textcolor, coloredMarkerClass, sessionname,
-            pointtooltip;
+            markertooltip, colorn, rgbc,
+            textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
             sessionname = $('div.session[token="' + s + '"] .sessionTitle b').text()
@@ -1213,83 +1217,12 @@
             for (d in sessions[s]) {
                 // add line and marker if necessary
                 if (! phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
-                    colorn = ++lastColorUsed % colorCode.length;
-                    phonetrack.sessionColors[s + d] = colorn;
-                    rgbc = hexToRgb(colorCode[colorn]);
-                    textcolor = 'black';
-                    if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
-                    textcolor = 'white';
-                    } 
-                    $('<style track="' + d + '">.color' + colorn + ' { ' +
-                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.8);' +
-                        'color: ' + textcolor + '; font-weight: bold;' +
-                        'text-align: center;' +
-                        'width: 16px !important;' +
-                        'height: 16px !important;' +
-                        'border-radius: 50%;' +
-                        'line-height:16px;' +
-                        ' }' +
-                        '.tooltip' + colorn + ' {' +
-                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
-                        'color: ' + textcolor + '; font-weight: bold; }' +
-                        '.opaquetooltip' + colorn + ' {' +
-                        'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 1);' +
-                        'color: ' + textcolor + '; font-weight: bold;' +
-                        '}</style>').appendTo('body');
-                    coloredMarkerClass = 'color' + colorn;
-                    var deleteLink = '';
-                    if (!pageIsPublic()) {
-                        deleteLink = ' <i class="fa fa-trash deleteDevice" token="' + s + '" aria-hidden="true" title="' +
-                        t('phonetrack', 'Delete this device') +
-                        '" device="' + d + '"></i>';
-                    }
-                    $('div.session[token="' + s + '"] ul.devicelist').append(
-                        '<li device="' + d + '" token="' + s + '" style="font-weight: bold; color: ' + textcolor + ';' +
-                        'background-color:' + colorCode[colorn] + ';"' +
-                        ' title="' + t('phonetrack', 'Center map on device') + ' ' +
-                        d + '"><input class="followdevice" type="checkbox" ' +
-                        'title="' + t('phonetrack', 'Follow this device (autozoom)') +
-                        '"/><label class="deviceLabel">' + d + '</label> ' + deleteLink +
-                        '</li>');
-
-                    phonetrack.sessionPointsLayers[s][d] = L.featureGroup();
-                    phonetrack.sessionPointsLayersById[s][d] = {};
-                    phonetrack.sessionPointsEntriesById[s][d] = {};
-                    phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
-                    linetooltip = 'Session ' + sessionname + ' ; device ' + d;
-                    phonetrack.sessionLineLayers[s][d].bindTooltip(
-                        linetooltip,
-                        {
-                            permanent: false,
-                            sticky: true,
-                            className: 'tooltip' + colorn
-                        }
-                    );
+                    addDevice(s, d, sessionname);
                 }
                 // for all new entries of this session
                 for (i in sessions[s][d]) {
                     entry = sessions[s][d][i];
-                    timestamp = parseInt(entry.timestamp);
-                    device = entry.deviceid;
-                    pointtooltip = getPointTooltipContent(entry, sessionname);
-                    if (!phonetrack.lastTime.hasOwnProperty(s)) {
-                        phonetrack.lastTime[s] = {};
-                    }
-                    if ((!phonetrack.lastTime[s].hasOwnProperty(device)) ||
-                        timestamp > phonetrack.lastTime[s][device])
-                    {
-                        phonetrack.lastTime[s][device] = timestamp;
-                    }
-                    // increment lines
-                    phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon, entry.id]);
-                    var m = L.circleMarker([entry.lat, entry.lon], {radius: 6, fillOpacity: 1, color: colorCode[phonetrack.sessionColors[s + d]]});
-                    m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[s + d]});
-                    phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
-                    phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
-                    phonetrack.sessionPointsLayers[s][d].addLayer(m);
-                    if (!pageIsPublic()) {
-                        m.bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});
-                    }
+                    appendEntryToDevice(s, d, entry, sessionname);
                 }
                 // move/create marker
                 // entry is the last point for the current device
@@ -1319,6 +1252,86 @@
         }
         // in case user click is between ajax request and response
         showHideSelectedSessions();
+    }
+
+    function addDevice(s, d, sessionname) {
+        var colorn, textcolor, rgbc, linetooltip;
+        colorn = ++lastColorUsed % colorCode.length;
+        phonetrack.sessionColors[s + d] = colorn;
+        rgbc = hexToRgb(colorCode[colorn]);
+        textcolor = 'black';
+        if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
+            textcolor = 'white';
+        } 
+        $('<style track="' + d + '">.color' + colorn + ' { ' +
+            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.8);' +
+                'color: ' + textcolor + '; font-weight: bold;' +
+                'text-align: center;' +
+                'width: 16px !important;' +
+                'height: 16px !important;' +
+                'border-radius: 50%;' +
+                'line-height:16px;' +
+                ' }' +
+                '.tooltip' + colorn + ' {' +
+                'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
+                'color: ' + textcolor + '; font-weight: bold; }' +
+                '.opaquetooltip' + colorn + ' {' +
+                'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 1);' +
+                'color: ' + textcolor + '; font-weight: bold;' +
+                '}</style>').appendTo('body');
+        var deleteLink = '';
+        if (!pageIsPublic()) {
+            deleteLink = ' <i class="fa fa-trash deleteDevice" token="' + s + '" aria-hidden="true" title="' +
+                t('phonetrack', 'Delete this device') +
+                '" device="' + d + '"></i>';
+        }
+        $('div.session[token="' + s + '"] ul.devicelist').append(
+            '<li device="' + d + '" token="' + s + '" style="font-weight: bold; color: ' + textcolor + ';' +
+                'background-color:' + colorCode[colorn] + ';"' +
+                ' title="' + t('phonetrack', 'Center map on device') + ' ' +
+                d + '"><input class="followdevice" type="checkbox" ' +
+                'title="' + t('phonetrack', 'Follow this device (autozoom)') +
+                '"/><label class="deviceLabel">' + d + '</label> ' + deleteLink +
+                '</li>');
+
+        phonetrack.sessionPointsLayers[s][d] = L.featureGroup();
+        phonetrack.sessionPointsLayersById[s][d] = {};
+        phonetrack.sessionPointsEntriesById[s][d] = {};
+        phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
+        linetooltip = 'Session ' + sessionname + ' ; device ' + d;
+        phonetrack.sessionLineLayers[s][d].bindTooltip(
+            linetooltip,
+            {
+                permanent: false,
+                sticky: true,
+                className: 'tooltip' + colorn
+            }
+        );
+    }
+
+    function appendEntryToDevice(s, d, entry, sessionname) {
+        var timestamp, device, pointtooltip;
+        timestamp = parseInt(entry.timestamp);
+        device = entry.deviceid;
+        pointtooltip = getPointTooltipContent(entry, sessionname);
+        if (!phonetrack.lastTime.hasOwnProperty(s)) {
+            phonetrack.lastTime[s] = {};
+        }
+        if ((!phonetrack.lastTime[s].hasOwnProperty(device)) ||
+            timestamp > phonetrack.lastTime[s][device])
+        {
+            phonetrack.lastTime[s][device] = timestamp;
+        }
+        // increment lines
+        phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon, entry.id]);
+        var m = L.circleMarker([entry.lat, entry.lon], {radius: 6, fillOpacity: 1, color: colorCode[phonetrack.sessionColors[s + d]]});
+        m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[s + d]});
+        phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
+        phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
+        phonetrack.sessionPointsLayers[s][d].addLayer(m);
+        if (!pageIsPublic()) {
+            m.bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});
+        }
     }
 
     function editPointDB(but) {
@@ -1595,6 +1608,155 @@
         phonetrack.map.closePopup();
     }
 
+    function addPointDB() {
+        var tab = $('#addPointTable');
+        var token = $('#addPointSession option:selected').attr('token');
+        var deviceid = $('#addPointDevice').val();
+        var lat = tab.find('input[role=lat]').val();
+        var lon = tab.find('input[role=lon]').val();
+        var alt = tab.find('input[role=altitude]').val();
+        var acc = tab.find('input[role=precision]').val();
+        var sat = tab.find('input[role=satellites]').val();
+        var bat = tab.find('input[role=battery]').val();
+        var datestr = tab.find('input[role=date]').val();
+        var hourstr = parseInt(tab.find('input[role=hour]').val());
+        var minstr = parseInt(tab.find('input[role=minute]').val());
+        var secstr = parseInt(tab.find('input[role=second]').val());
+        var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
+        var mom = moment(completeDateStr);
+        var timestamp = mom.unix();
+        var req = {
+            token: token,
+            deviceid: deviceid,
+            timestamp: timestamp,
+            lat: lat,
+            lon: lon,
+            alt: alt,
+            acc: acc,
+            bat: bat,
+            sat: sat
+        };
+        var url = OC.generateUrl('/apps/phonetrack/addPoint');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                addPointMap(response.id);
+            }
+            else if (response.done === 2) {
+                OC.Notification.showTemporary(t('phonetrack', 'Impossible to add this point'));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to add point'));
+        });
+    }
+
+    function addPointMap(id) {
+        var perm = $('#showtime').is(':checked');
+        var tab = $('#addPointTable');
+        var token = $('#addPointSession option:selected').attr('token');
+        var deviceid = $('#addPointDevice').val();
+        var lat = tab.find('input[role=lat]').val();
+        var lon = tab.find('input[role=lon]').val();
+        var alt = tab.find('input[role=altitude]').val();
+        var acc = tab.find('input[role=precision]').val();
+        var sat = tab.find('input[role=satellites]').val();
+        var bat = tab.find('input[role=battery]').val();
+        var datestr = tab.find('input[role=date]').val();
+        var hourstr = parseInt(tab.find('input[role=hour]').val());
+        var minstr = parseInt(tab.find('input[role=minute]').val());
+        var secstr = parseInt(tab.find('input[role=second]').val());
+        var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
+        var mom = moment(completeDateStr);
+        var timestamp = mom.unix();
+
+        var entry = {id: id};
+        entry.deviceid = deviceid;
+        entry.timestamp = timestamp;
+        entry.lat = lat;
+        entry.lon = lon;
+        entry.altitude = alt;
+        entry.batterylevel = bat;
+        entry.satellites = sat;
+        entry.accuracy = acc;
+
+        var sessionname = $('div.session[token="' + token + '"] .sessionTitle b').text()
+        
+        // add device if it does not exist
+        if (! phonetrack.sessionLineLayers[token].hasOwnProperty(deviceid)) {
+            addDevice(token, deviceid, sessionname);
+            appendEntryToDevice(token, deviceid, entry, sessionname);
+            var icon = L.divIcon({
+                iconAnchor: [8, 8],
+                className: 'color' + phonetrack.sessionColors[token + deviceid],
+                html: '<b>' + deviceid[0] + '</b>'
+            });
+
+            phonetrack.sessionMarkerLayers[token][deviceid] = L.marker([entry.lat, entry.lon, entry.id], {icon: icon});
+        }
+        // insert entry correctly ;)
+        else {
+            // add line point
+            var pointtooltip = getPointTooltipContent(entry, sessionname);
+            var m = L.circleMarker(
+                [entry.lat, entry.lon],
+                {radius: 6, fillOpacity: 1, color: colorCode[phonetrack.sessionColors[token + deviceid]]}
+            );
+            m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[token + deviceid]});
+            phonetrack.sessionPointsEntriesById[token][deviceid][entry.id] = entry;
+            phonetrack.sessionPointsLayersById[token][deviceid][entry.id] = m;
+            phonetrack.sessionPointsLayers[token][deviceid].addLayer(m);
+            if (!pageIsPublic()) {
+                m.bindPopup(getPointPopup(token, deviceid, entry, sessionname), {closeOnClick: false});
+            }
+
+            // update line
+
+            var latlngs = phonetrack.sessionLineLayers[token][deviceid].getLatLngs();
+            var newlatlngs = [];
+            var i = 0;
+            // we copy until we get to the right place to insert new point
+            while (i < latlngs.length
+                   && timestamp > parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][latlngs[i].alt].timestamp)
+            ) {
+                // copy
+                newlatlngs.push([latlngs[i].lat, latlngs[i].lng, latlngs[i].alt]);
+                i++;
+            }
+            // put the edited point
+            newlatlngs.push([lat, lon, id]);
+            // if new point is the last point, update marker and last time
+            if (i === latlngs.length) {
+                // move marker
+                phonetrack.sessionMarkerLayers[token][deviceid].setLatLng([lat, lon, id]);
+                phonetrack.lastTime[token][deviceid] = timestamp;
+                // tooltip
+                phonetrack.sessionMarkerLayers[token][deviceid].unbindTooltip();
+                phonetrack.sessionMarkerLayers[token][deviceid].bindTooltip(
+                    getPointTooltipContent(entry, sessionname),
+                    {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
+                );
+                // popup
+                phonetrack.sessionMarkerLayers[token][deviceid].bindPopup(
+                    getPointPopup(token, deviceid, entry, sessionname),
+                    {closeOnClick: false}
+                );
+            }
+            // finish the copy
+            while (i < latlngs.length) {
+                // copy
+                newlatlngs.push([latlngs[i].lat, latlngs[i].lng, latlngs[i].alt]);
+                i++;
+            }
+            // modify line
+            phonetrack.sessionLineLayers[token][deviceid].setLatLngs(newlatlngs);
+        }
+    }
+
     function getPointPopup(s, d, entry, sn) {
         var dateval = '';
         var hourval = '';
@@ -1634,7 +1796,7 @@
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
         res = res + '</tr><tr>';
         res = res + '<td>Battery level</td>';
-        res = res + '<td><input role="battery" type="number"/ value="' + entry.batterylevel + '" min="-1" max="100"></td>';
+        res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/></td>';
         res = res + '</tr>';
         res = res + '</table>';
         res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> Save</button>';
@@ -2147,6 +2309,10 @@
             deletePointDB($(this));
         });
 
+        $('#validaddpoint').click(function(e) {
+            addPointDB();
+        });
+
         if (!pageIsPublic()) {
             getSessions();
         }
@@ -2167,6 +2333,7 @@
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
             addSession(token, name, publicviewtoken, null, true);
+            $('#addPointDiv').remove();
             $('.removeSession').remove();
             $('.watchSession').prop('disabled', true);
             $('#customtilediv').remove();

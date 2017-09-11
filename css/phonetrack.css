@@ -334,12 +334,17 @@ div.session p,
     -moz-appearance: number-input;
     -webkit-appearance: initial;
 }
-.editPoint input[role=altitude],
-.editPoint input[role=satellites],
-.editPoint input[role=battery],
-.editPoint input[role=precision] {
-    width: 50px !important;
+input[role=altitude],
+input[role=satellites],
+input[role=battery],
+input[role=precision] {
+    width: 70px !important;
     height: 15px !important;
+}
+#addPointTable input[role=minute],
+#addPointTable input[role=hour],
+#addPointTable input[role=second] {
+    width: 44px !important;
 }
 .editPoint input[role=minute],
 .editPoint input[role=hour],
@@ -347,18 +352,21 @@ div.session p,
     width: 34px !important;
     height: 15px !important;
 }
-.editPoint input[role=date] {
+input[role=date] {
     height: 15px;
     padding: 0px;
 }
-.valideditpoint, .deletepoint, .canceleditpoint {
+.valideditpoint, .deletepoint, .canceleditpoint, #validaddpoint {
     height: 15px;
     padding: 1px 8px 1px 8px;
 }
-.editPoint input[type=number] {
+.editPoint input[type=number],
+#addPointTable input[type=number] {
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;
     padding: 5px !important;
+}
+.editPoint input[type=number] {
     min-height: 0px !important;
 }
 .watchlabeldiv {
