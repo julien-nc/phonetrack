@@ -329,7 +329,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input role="battery" type="number" value="-1" min="-1" max="100"></td>
 </tr>
 </table>
-<button id="validaddpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> Save</button>
+<button id="validaddpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Save')); ?></button>
 </div>
 
 </div>

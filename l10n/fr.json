@@ -41,6 +41,18 @@
     "Log my position in this session" : "Enregistrer ma position dans cette session",
     "Device name" : "Nom d'appareil",
     "Zoom on all markers" : "Zoomer sur tous les marqueurs",
+    "Save" : "Enregistrer",
+    "Session" : "Session",
+    "Device" : "Appareil",
+    "Latitude" : "Latitude",
+    "Longitude" : "Longitude",
+    "Satellites" : "Satellites",
+    "Battery level" : "Niveau de batterie",
+    "Altitude" : "Altitude",
+    "Date" : "Date",
+    "Time" : "Heure",
+    "Precision" : "Précision",
+    "Manually add a point" : "Ajouter un point manuellement",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
