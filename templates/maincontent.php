@@ -295,37 +295,37 @@ if (count($_['useroverlayserverswms']) > 0){
 <hr/>
 <h3><?php p($l->t('Manually add a point')); ?></h3>
 <br/>
-<label for="addPointSession">Session</label>
+<label for="addPointSession"><?php p($l->t('Session')); ?></label>
 <select id="addPointSession">
 </select>
-<label for="addPointDevice">Device</label>
+<label for="addPointDevice"><?php p($l->t('Device')); ?></label>
 <input id="addPointDevice" value="deviceName"/>
 <table id="addPointTable">
 <tr>
-    <td>Latitude</td>
+    <td><?php p($l->t('Latitude')); ?></td>
     <td><input role="lat" type="number" min="-500" max="500" step="0.00001"/></td>
 </tr><tr>
-    <td>Longitude</td>
+    <td><?php p($l->t('Longitude')); ?></td>
     <td><input role="lon" type="number" min="-500" max="500" step="0.00001"/></td>
 </tr><tr>
-    <td>Date</td>
+    <td><?php p($l->t('Date')); ?></td>
     <td><input role="date" type="date"/></td>
 </tr><tr>
-    <td>Time</td>
+    <td><?php p($l->t('Time')); ?></td>
     <td><input role="hour" type="number" min="0" max="23"/>h
         <input role="minute" type="number" min="0" max="59"/>
         min<input role="second" type="number" min="0" max="59"/>sec</td>
 </tr><tr>
-    <td>Altitude</td>
+    <td><?php p($l->t('Altitude')); ?></td>
     <td><input role="altitude" type="number" value="-1" min="-1"/></td>
 </tr><tr>
-    <td>Precision</td>
+    <td><?php p($l->t('Precision')); ?></td>
     <td><input role="precision" type="number" value="-1" min="-1"/></td>
 </tr><tr>
-    <td>Satellites</td>
+    <td><?php p($l->t('Satellites')); ?></td>
     <td><input role="satellites" type="number" value="-1" min="-1"/></td>
 </tr><tr>
-    <td>Battery level</td>
+    <td><?php p($l->t('Battery level')); ?></td>
     <td><input role="battery" type="number" value="-1" min="-1" max="100"></td>
 </tr>
 </table>

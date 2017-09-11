@@ -1081,14 +1081,17 @@
         $('#addPointSession option[token=' + token + ']').attr('value', newname);
         $('#addPointSession option[token=' + token + ']').text(newname);
         var perm = $('#showtime').is(':checked');
-        var d, t, p;
+        var d, to, p;
         $('.session[token='+token+'] .sessionTitle b').text(newname);
         for (d in phonetrack.sessionMarkerLayers[token]) {
             // marker tooltip
-            t = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
-            t = t.replace('Session '+oldname, 'Session '+newname);
+            to = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
+            to = to.replace(
+                t('phonetrack', 'session') + ' ' + oldname,
+                t('phonetrack', 'session') + ' ' + newname
+            );
             phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
-            phonetrack.sessionMarkerLayers[token][d].bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
+            phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
             // marker popup
             p = phonetrack.sessionMarkerLayers[token][d].getPopup().getContent();
             phonetrack.sessionMarkerLayers[token][d].unbindPopup();
@@ -1096,11 +1099,14 @@
             phonetrack.sessionMarkerLayers[token][d].bindPopup(p, {closeOnClick: false});
 
             // line tooltip
-            t = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
-            t = t.replace('Session '+oldname, 'Session '+newname);
+            to = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
+            to = to.replace(
+                t('phonetrack', 'session') + ' ' + oldname,
+                t('phonetrack', 'session') + ' ' + newname
+            );
             phonetrack.sessionLineLayers[token][d].unbindTooltip();
             phonetrack.sessionLineLayers[token][d].bindTooltip(
-                t,
+                to,
                 {
                     permanent: false,
                     sticky: true,
@@ -1109,10 +1115,13 @@
             );
             phonetrack.sessionPointsLayers[token][d].eachLayer(function(l) {
                 // line points tooltips
-                t = l.getTooltip()._content;
-                t = t.replace('Session '+oldname, 'Session '+newname);
+                to = l.getTooltip()._content;
+                to = to.replace(
+                    t('phonetrack', 'session') + ' ' + oldname,
+                    t('phonetrack', 'session') + ' ' + newname
+                );
                 l.unbindTooltip();
-                l.bindTooltip(t, {permanent: false, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
+                l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
 
                 // line points popups
                 p = l.getPopup().getContent();
@@ -1298,7 +1307,8 @@
         phonetrack.sessionPointsLayersById[s][d] = {};
         phonetrack.sessionPointsEntriesById[s][d] = {};
         phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
-        linetooltip = 'Session ' + sessionname + ' ; device ' + d;
+        linetooltip = t('phonetrack', 'session') + ' ' + sessionname + ' | ' +
+            t('phonetrack', 'device') + ' ' + d;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
             linetooltip,
             {
@@ -1772,57 +1782,63 @@
         var res = '<table class="editPoint" pid="' + entry.id + '"' +
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
         res = res + '<tr>';
-        res = res + '<td>Latitude</td>';
+        res = res + '<td>' + t('phonetrack', 'Latitude') + '</td>';
         res = res + '<td><input role="lat" type="number" value="' + entry.lat + '" min="-500" max="500" step="0.00001"/></td>';
         res = res + '</tr><tr>';
-        res = res + '<td>Longitude</td>';
+        res = res + '<td>' + t('phonetrack', 'Longitude') + '</td>';
         res = res + '<td><input role="lon" type="number" value="' + entry.lon + '" min="-500" max="500" step="0.00001"/></td>';
         res = res + '</tr><tr>';
-        res = res + '<td>Date</td>';
+        res = res + '<td>' + t('phonetrack', 'Date') + '</td>';
         res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>';
         res = res + '</tr><tr>';
-        res = res + '<td>Time</td>';
+        res = res + '<td>' + t('phonetrack', 'Time') + '</td>';
         res = res + '<td><input role="hour" type="number" value="' + hourval + '" min="0" max="23"/>h' +
             '<input role="minute" type="number" value="' + minval + '" min="0" max="59"/>' +
             'min<input role="second" type="number" value="' + secval + '" min="0" max="59"/>sec</td>';
         res = res + '</tr><tr>';
-        res = res + '<td>Altitude</td>';
+        res = res + '<td>' + t('phonetrack', 'Altitude') + '</td>';
         res = res + '<td><input role="altitude" type="number" value="' + entry.altitude + '" min="-1"/></td>';
         res = res + '</tr><tr>';
-        res = res + '<td>Precision</td>';
+        res = res + '<td>' + t('phonetrack', 'Precision') + '</td>';
         res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/></td>';
         res = res + '</tr><tr>';
-        res = res + '<td>Satellites</td>';
+        res = res + '<td>' + t('phonetrack', 'Satellites') + '</td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
         res = res + '</tr><tr>';
-        res = res + '<td>Battery level</td>';
+        res = res + '<td>' + t('phonetrack', 'Battery level') + '</td>';
         res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/></td>';
         res = res + '</tr>';
         res = res + '</table>';
-        res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> Save</button>';
-        res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> Delete</button>';
-        res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> Cancel</button>';
+        res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Save') + '</button>';
+        res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Delete point') + '</button>';
+        res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Cancel') + '</button>';
         return res;
     }
 
     function getPointTooltipContent(entry, sn) {
         var mom;
-        var pointtooltip = 'Session ' + sn + ' | Device <b>' + entry.deviceid + '</b>';
+        var pointtooltip = t('phonetrack', 'session') + ' ' + sn +
+            ' | ' + t('phonetrack', 'device') + ' ' + entry.deviceid + '';
         if (entry.timestamp) {
             mom = moment.unix(parseInt(entry.timestamp));
-            pointtooltip = pointtooltip + '<br/>Date : ' + mom.format('YYYY-MM-DD HH:mm:ss (Z)');
+            pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Date') +
+                ' : ' + mom.format('YYYY-MM-DD HH:mm:ss (Z)');
         }
         if (entry.altitude && parseInt(entry.altitude) !== -1) {
-            pointtooltip = pointtooltip + '<br/>Altitude : ' + entry.altitude;
+            pointtooltip = pointtooltip + '<br/>' +
+                t('phonetrack', 'Altitude') + ' : ' + entry.altitude;
         }
         if (entry.accuracy && parseInt(entry.accuracy) !== -1) {
-            pointtooltip = pointtooltip + '<br/>Precision : ' + entry.accuracy;
+            pointtooltip = pointtooltip + '<br/>' +
+                t('phonetrack', 'Precision') + ' : ' + entry.accuracy;
         }
         if (entry.satellites && parseInt(entry.satellites) !== -1) {
-            pointtooltip = pointtooltip + '<br/>Satellites : ' + entry.satellites;
+            pointtooltip = pointtooltip + '<br/>' +
+                t('phonetrack', 'Satellites') + ' : ' + entry.satellites;
         }
         if (entry.batterylevel && parseInt(entry.batterylevel) !== -1) {
-            pointtooltip = pointtooltip + '<br/>Battery level : ' + entry.batterylevel;
+            pointtooltip = pointtooltip + '<br/>' +
+                t('phonetrack', 'Battery level') + ' : ' + entry.batterylevel;
         }
 
         return pointtooltip;
