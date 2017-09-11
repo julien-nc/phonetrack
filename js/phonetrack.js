@@ -1654,7 +1654,10 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                addPointMap(response.id);
+                // add the point on the map only if the session was displayed at least once
+                if (phonetrack.sessionLineLayers.hasOwnProperty(token)) {
+                    addPointMap(response.id);
+                }
             }
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'Impossible to add this point'));
