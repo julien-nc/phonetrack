@@ -41,7 +41,7 @@
     "Log my position in this session" : "Enregistrer ma position dans cette session",
     "Device name" : "Nom d'appareil",
     "Zoom on all markers" : "Zoomer sur tous les marqueurs",
-    "Save" : "Enregistrer",
+    "Add point" : "Ajouter le point",
     "Session" : "Session",
     "Device" : "Appareil",
     "Latitude" : "Latitude",
@@ -53,6 +53,13 @@
     "Time" : "Heure",
     "Precision" : "Précision",
     "Manually add a point" : "Ajouter un point manuellement",
+    "Max date" : "Date max",
+    "Max time" : "Heure max",
+    "Filter points" : "Filtrer les points",
+    "Apply min date filter" : "Appliquer le filtre de date min",
+    "Apply max date filter" : "Appliquer le filtre de date max",
+    "Min time" : "Heure min",
+    "Min date" : "Date min",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

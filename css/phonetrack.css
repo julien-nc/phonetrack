@@ -183,6 +183,9 @@ h3 {
     .leaflet-right { right:40px; }
 }
 
+div#filterDiv input[type=checkbox] {
+    margin-left: 5px;
+}
 div#options input[type=checkbox],
 div#filterDiv input[type=checkbox] {
     /* Double-sized Checkboxes */
@@ -341,6 +344,9 @@ input[role=battery],
 input[role=precision] {
     width: 70px !important;
     height: 15px !important;
+}
+#addPointTable, #filterPointsTable {
+    width: 100%;
 }
 #filterPointsTable input[type=number],
 #addPointTable input[role=minute],

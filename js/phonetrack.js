@@ -2467,6 +2467,7 @@
         $('#applydatemin, #applydatemax').click(function(e) {
             changeApplyFilter();
         });
+        changeApplyFilter();
 
         if (!pageIsPublic()) {
             getSessions();

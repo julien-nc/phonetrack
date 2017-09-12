@@ -312,9 +312,9 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input role="date" type="date"/></td>
 </tr><tr>
     <td><?php p($l->t('Time')); ?></td>
-    <td><input role="hour" type="number" min="0" max="23"/>h
-        <input role="minute" type="number" min="0" max="59"/>
-        min<input role="second" type="number" min="0" max="59"/>sec</td>
+    <td><input role="hour" type="number" min="0" max="23"/>:
+        <input role="minute" type="number" min="0" max="59"/>:
+        <input role="second" type="number" min="0" max="59"/></td>
 </tr><tr>
     <td><?php p($l->t('Altitude')); ?></td>
     <td><input role="altitude" type="number" value="-1" min="-1"/></td>
@@ -329,36 +329,36 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input role="battery" type="number" value="-1" min="-1" max="100"></td>
 </tr>
 </table>
-<button id="validaddpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Save')); ?></button>
+<button id="validaddpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Add point')); ?></button>
 </div>
 
 <div id="filterDiv">
 <hr/>
 <h3><?php p($l->t('Filter points')); ?></h3>
 <br/>
-<label for="applydatemin"><?php p($l->t('Apply date min filter')); ?></label>
+<label for="applydatemin"><?php p($l->t('Apply min date filter')); ?></label>
 <input type="checkbox" id="applydatemin"/>
 <br/>
-<label for="applydatemax"><?php p($l->t('Apply date max filter')); ?></label>
+<label for="applydatemax"><?php p($l->t('Apply max date filter')); ?></label>
 <input type="checkbox" id="applydatemax"/>
 <table id="filterPointsTable">
 <tr>
-    <td><?php p($l->t('Date min')); ?></td>
+    <td><?php p($l->t('Min date')); ?></td>
     <td><input role="datemin" type="date"/></td>
 </tr><tr>
-    <td><?php p($l->t('Time min')); ?></td>
-    <td><input role="hourmin" type="number" min="0" max="23"/>h
-        <input role="minutemin" type="number" min="0" max="59"/>
-        min<input role="secondmin" type="number" min="0" max="59"/>sec</td>
+    <td><?php p($l->t('Min time')); ?></td>
+    <td><input role="hourmin" type="number" min="0" max="23"/>:
+        <input role="minutemin" type="number" min="0" max="59"/>:
+        <input role="secondmin" type="number" min="0" max="59"/></td>
 </tr>
 <tr>
-    <td><?php p($l->t('Date max')); ?></td>
+    <td><?php p($l->t('Max date')); ?></td>
     <td><input role="datemax" type="date"/></td>
 </tr><tr>
-    <td><?php p($l->t('Time max')); ?></td>
-    <td><input role="hourmax" type="number" min="0" max="23"/>h
-        <input role="minutemax" type="number" min="0" max="59"/>
-        min<input role="secondmax" type="number" min="0" max="59"/>sec</td>
+    <td><?php p($l->t('Max time')); ?></td>
+    <td><input role="hourmax" type="number" min="0" max="23"/>:
+        <input role="minutemax" type="number" min="0" max="59"/>:
+        <input role="secondmax" type="number" min="0" max="59"/></td>
 </tr>
 </table>
 </div>
