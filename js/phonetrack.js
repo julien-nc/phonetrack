@@ -1353,8 +1353,9 @@
 
     function updateMarker(s, d, sessionname) {
         var perm = $('#showtime').is(':checked');
-        var mla, mln, mid, mentry, displayedLatlngs;
+        var mla, mln, mid, mentry, displayedLatlngs, oldlatlng;
         displayedLatlngs = phonetrack.sessionLineLayers[s][d].getLatLngs();
+        // if session is not watched or if there is no points to see
         if (!$('.watchSession[token='+s+']').is(':checked') || displayedLatlngs.length === 0) {
             if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
                 phonetrack.sessionMarkerLayers[s][d].remove();
@@ -1365,29 +1366,38 @@
             mln = displayedLatlngs[displayedLatlngs.length - 1].lng;
             mid = displayedLatlngs[displayedLatlngs.length - 1].alt;
             mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
-            phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid]);
+            oldlatlng = phonetrack.sessionMarkerLayers[s][d].getLatLng();
+            // move and update tooltip/popup only if needed (marker has changed)
+            if (oldlatlng === null || parseInt(oldlatlng.alt) !== parseInt(mid)) {
+                // move
+                phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid]);
+
+                // tooltip
+                phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
+                phonetrack.sessionMarkerLayers[s][d].bindTooltip(
+                    getPointTooltipContent(mentry, sessionname),
+                    {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
+                );
+                // popup
+                if (!pageIsPublic()) {
+                    phonetrack.sessionMarkerLayers[s][d].unbindPopup();
+                    phonetrack.sessionMarkerLayers[s][d].bindPopup(
+                        getPointPopup(s, d, mentry, sessionname),
+                        {closeOnClick: false}
+                    );
+                }
+            }
+            // if marker was not already displayed
             if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
                 phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
             }
-
-            // tooltip
-            phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
-            phonetrack.sessionMarkerLayers[s][d].bindTooltip(
-                getPointTooltipContent(mentry, sessionname),
-                {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
-            );
-            // popup
-            phonetrack.sessionMarkerLayers[s][d].bindPopup(
-                getPointPopup(s, d, mentry, sessionname),
-                {closeOnClick: false}
-            );
         }
     }
 
 
     function displayNewPoints(sessions) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            markertooltip, colorn, rgbc, markerEntry,
+            markertooltip, colorn, rgbc,
             textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
@@ -1404,7 +1414,6 @@
             }
             // for all devices
             for (d in sessions[s]) {
-                markerEntry = null;
                 // add line and marker if necessary
                 if (! phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
                     addDevice(s, d, sessionname);
@@ -1413,36 +1422,6 @@
                 for (i in sessions[s][d]) {
                     entry = sessions[s][d][i];
                     appendEntryToDevice(s, d, entry, sessionname);
-                    if (filterEntry(entry)) {
-                        markerEntry = entry;
-                    }
-                }
-                // if there was at least one entry accepted by filters
-                if (markerEntry) {
-                    // move/create marker
-                    // entry is the last point for the current device
-                    if (! phonetrack.sessionMarkerLayers[s].hasOwnProperty(d)) {
-                        icon = L.divIcon({
-                            iconAnchor: [8, 8],
-                            className: 'color' + phonetrack.sessionColors[s + d],
-                            html: '<b>' + d[0] + '</b>'
-                        });
-
-                        phonetrack.sessionMarkerLayers[s][d] = L.marker([entry.lat, entry.lon, entry.id], {icon: icon});
-                    }
-                    else {
-                        phonetrack.sessionMarkerLayers[s][d].setLatLng([entry.lat, entry.lon, entry.id]);
-                    }
-                    phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
-                    markertooltip = getPointTooltipContent(entry, sessionname);
-                    phonetrack.sessionMarkerLayers[s][d].bindTooltip(
-                        markertooltip,
-                        {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
-                    );
-                    if (!pageIsPublic()) {
-                        phonetrack.sessionMarkerLayers[s][d].unbindPopup();
-                        phonetrack.sessionMarkerLayers[s][d].bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});
-                    }
                 }
             }
         }
@@ -1505,6 +1484,13 @@
                 className: 'tooltip' + colorn
             }
         );
+        var icon = L.divIcon({
+            iconAnchor: [8, 8],
+            className: 'color' + phonetrack.sessionColors[s + d],
+            html: '<b>' + d[0] + '</b>'
+        });
+
+        phonetrack.sessionMarkerLayers[s][d] = L.marker([], {icon: icon});
     }
 
     function appendEntryToDevice(s, d, entry, sessionname) {
@@ -1854,15 +1840,6 @@
         if (! phonetrack.sessionLineLayers[token].hasOwnProperty(deviceid)) {
             addDevice(token, deviceid, sessionname);
             appendEntryToDevice(token, deviceid, entry, sessionname);
-            var icon = L.divIcon({
-                iconAnchor: [8, 8],
-                className: 'color' + phonetrack.sessionColors[token + deviceid],
-                html: '<b>' + deviceid[0] + '</b>'
-            });
-
-            if (filter) {
-                phonetrack.sessionMarkerLayers[token][deviceid] = L.marker([entry.lat, entry.lon, entry.id], {icon: icon});
-            }
         }
         // insert entry correctly ;)
         else {
@@ -1909,12 +1886,11 @@
             var filteredlatlngs = filterList(newlatlngs, token, deviceid);
             phonetrack.sessionLineLayers[token][deviceid].setLatLngs(filteredlatlngs);
 
-            updateMarker(token, deviceid, sessionname);
-
             // update lasttime
             phonetrack.lastTime[token][deviceid] =
                 phonetrack.sessionPointsEntriesById[token][deviceid][newlatlngs[newlatlngs.length - 1][2]].timestamp;
         }
+        updateMarker(token, deviceid, sessionname);
     }
 
     function getPointPopup(s, d, entry, sn) {
@@ -1995,11 +1971,12 @@
     }
 
     function showHideSelectedSessions() {
-        var token, d, displayedLatlngs;
+        var token, d, displayedLatlngs, sessionname;
         var displayedMarkers = [];
         var viewLines = $('#viewmove').is(':checked');
         $('.watchSession').each(function() {
             token = $(this).attr('token');
+            sessionname = $('div.session[token="' + token + '"] .sessionTitle b').text()
             if ($(this).is(':checked')) {
                 for (d in phonetrack.sessionLineLayers[token]) {
                     if (viewLines) {
@@ -2015,13 +1992,10 @@
                     }
                 }
                 for (d in phonetrack.sessionMarkerLayers[token]) {
-                    // we don't display markers for session without points (or filtered)
+                    updateMarker(token, d, sessionname);
                     displayedLatlngs = phonetrack.sessionLineLayers[token][d].getLatLngs();
                     if (displayedLatlngs.length !== 0) {
                         displayedMarkers.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
-                        if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
-                            phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[token][d]);
-                        }
                     }
                 }
             }
