@@ -1210,6 +1210,181 @@
         }, updateinterval);
     }
 
+    function filterEntry(entry) {
+        var dateMinEnabled = $('#applydatemin').is(':checked');
+        var dateMaxEnabled = $('#applydatemax').is(':checked');
+        var timestampMin, timestampMax;
+
+        if (dateMinEnabled) {
+            var tab = $('#filterPointsTable');
+            var dateminstr = tab.find('input[role=datemin]').val();
+            var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
+            var minminstr = parseInt(tab.find('input[role=minutemin]').val());
+            var secminstr = parseInt(tab.find('input[role=secondmin]').val());
+            var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
+            var momMin = moment(completeDateMinStr);
+            timestampMin = momMin.unix();
+        }
+        if (dateMaxEnabled) {
+            var tab = $('#filterPointsTable');
+            var datemaxstr = tab.find('input[role=datemax]').val();
+            var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
+            var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
+            var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
+            var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
+            var momMax = moment(completeDateMaxStr);
+            timestampMax = momMax.unix();
+        }
+        return (
+            (!dateMinEnabled || parseInt(entry.timestamp) > timestampMin)
+            && (!dateMaxEnabled || parseInt(entry.timestamp) < timestampMax)
+        );
+    }
+
+    function filterList(list, token, deviceid) {
+        var dateMinEnabled = $('#applydatemin').is(':checked');
+        var dateMaxEnabled = $('#applydatemax').is(':checked');
+        var timestampMin, timestampMax, resList;
+
+        if (dateMinEnabled) {
+            var tab = $('#filterPointsTable');
+            var dateminstr = tab.find('input[role=datemin]').val();
+            var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
+            var minminstr = parseInt(tab.find('input[role=minutemin]').val());
+            var secminstr = parseInt(tab.find('input[role=secondmin]').val());
+            var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
+            var momMin = moment(completeDateMinStr);
+            timestampMin = momMin.unix();
+        }
+        if (dateMaxEnabled) {
+            var tab = $('#filterPointsTable');
+            var datemaxstr = tab.find('input[role=datemax]').val();
+            var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
+            var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
+            var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
+            var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
+            var momMax = moment(completeDateMaxStr);
+            timestampMax = momMax.unix();
+        }
+        if (dateMinEnabled || dateMaxEnabled) {
+            resList = [];
+            var i = 0;
+            // we avoid everything under the min
+            while (i < list.length
+                   && dateMinEnabled
+                   && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMin)
+            ) {
+                i++;
+            }
+            // then we copy everything under the max
+            while (i < list.length
+                   && (!dateMaxEnabled
+                       || (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMax)
+                      )
+            ) {
+                resList.push(list[i]);
+                i++;
+            }
+        }
+        else {
+            resList = list;
+        }
+        return resList;
+    }
+
+    function changeApplyFilter() {
+        var dateMinEnabled = $('#applydatemin').is(':checked');
+        var dateMaxEnabled = $('#applydatemax').is(':checked');
+        $('#filterPointsTable input[role=datemin], #filterPointsTable input[role=hourmin],#filterPointsTable input[role=minutemin], #filterPointsTable input[role=secondmin]').prop('disabled', dateMinEnabled);
+        $('#filterPointsTable input[role=datemax], #filterPointsTable input[role=hourmax],#filterPointsTable input[role=minutemax], #filterPointsTable input[role=secondmax]').prop('disabled', dateMaxEnabled);
+        var s, d, id, i, displayedLatlngs;
+
+        // simpler case : no filter
+        if (!dateMinEnabled && !dateMaxEnabled) {
+            for (s in phonetrack.sessionLineLayers) {
+                for (d in phonetrack.sessionLineLayers[s]) {
+                    // put all coordinates in lines
+                    phonetrack.sessionLineLayers[s][d].setLatLngs(
+                        phonetrack.sessionLatlngs[s][d]
+                    );
+
+                    // add line points from sessionPointsLayersById in sessionPointsLayers
+                    for (id in phonetrack.sessionPointsLayersById[s][d]) {
+                        if (!phonetrack.sessionPointsLayers[s][d].hasLayer(phonetrack.sessionPointsLayersById[s][d][id])) {
+                            phonetrack.sessionPointsLayers[s][d].addLayer(phonetrack.sessionPointsLayersById[s][d][id]);
+                        }
+                    }
+                }
+            }
+        }
+        // there is at least a filter
+        else {
+            for (s in phonetrack.sessionLineLayers) {
+                for (d in phonetrack.sessionLineLayers[s]) {
+                    // put filtered coordinates in lines
+                    displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
+                    phonetrack.sessionLineLayers[s][d].setLatLngs(displayedLatlngs);
+
+                    // filter sessionPointsLayers
+                    phonetrack.sessionPointsLayers[s][d].clearLayers();
+                    for (i = 0; i < displayedLatlngs.length; i++) {
+                        id = displayedLatlngs[i][2];
+                        phonetrack.sessionPointsLayers[s][d].addLayer(phonetrack.sessionPointsLayersById[s][d][id]);
+                    }
+                }
+            }
+        }
+
+        // hide all line points
+        for (s in phonetrack.sessionLineLayers) {
+            for (d in phonetrack.sessionLineLayers[s]) {
+                phonetrack.sessionPointsLayers[s][d].remove();
+            }
+        }
+
+        // anyway, filter or not, we adapt the markers
+        for (s in phonetrack.sessionLineLayers) {
+            var sessionname = $('div.session[token="' + s + '"] .sessionTitle b').text()
+            for (d in phonetrack.sessionLineLayers[s]) {
+                updateMarker(s, d, sessionname);
+            }
+        }
+    }
+
+    function updateMarker(s, d, sessionname) {
+        var perm = $('#showtime').is(':checked');
+        var mla, mln, mid, mentry, displayedLatlngs;
+        displayedLatlngs = phonetrack.sessionLineLayers[s][d].getLatLngs();
+        if (!$('.watchSession[token='+s+']').is(':checked') || displayedLatlngs.length === 0) {
+            if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
+                phonetrack.sessionMarkerLayers[s][d].remove();
+            }
+        }
+        else {
+            mla = displayedLatlngs[displayedLatlngs.length - 1].lat;
+            mln = displayedLatlngs[displayedLatlngs.length - 1].lng;
+            mid = displayedLatlngs[displayedLatlngs.length - 1].alt;
+            mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
+            phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid]);
+            if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
+                phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
+            }
+
+            // tooltip
+            phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
+            phonetrack.sessionMarkerLayers[s][d].bindTooltip(
+                getPointTooltipContent(mentry, sessionname),
+                {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
+            );
+            // popup
+            phonetrack.sessionMarkerLayers[s][d].bindPopup(
+                getPointPopup(s, d, mentry, sessionname),
+                {closeOnClick: false}
+            );
+        }
+    }
+
+
     function displayNewPoints(sessions) {
         var s, i, d, entry, device, timestamp, mom, icon,
             markertooltip, colorn, rgbc, markerEntry,
@@ -1238,8 +1413,7 @@
                 for (i in sessions[s][d]) {
                     entry = sessions[s][d][i];
                     appendEntryToDevice(s, d, entry, sessionname);
-                    // TODO if no filter or filter compliant
-                    if (true) {
+                    if (filterEntry(entry)) {
                         markerEntry = entry;
                     }
                 }
@@ -1335,6 +1509,7 @@
 
     function appendEntryToDevice(s, d, entry, sessionname) {
         var timestamp, device, pointtooltip;
+        var filter = filterEntry(entry);
         timestamp = parseInt(entry.timestamp);
         device = entry.deviceid;
         pointtooltip = getPointTooltipContent(entry, sessionname);
@@ -1347,8 +1522,7 @@
             phonetrack.lastTime[s][device] = timestamp;
         }
         // increment lines
-        // TODO if not filtered or if filter compliant
-        if (true) {
+        if (filter) {
             phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon, entry.id]);
         }
         phonetrack.sessionLatlngs[s][d].push([entry.lat, entry.lon, entry.id]);
@@ -1356,8 +1530,7 @@
         m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[s + d]});
         phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
         phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
-        // TODO if not filtered or if filter compliant
-        if (true) {
+        if (filter) {
             phonetrack.sessionPointsLayers[s][d].addLayer(m);
         }
         if (!pageIsPublic()) {
@@ -1452,6 +1625,8 @@
         entry.satellites = sat;
         entry.accuracy = acc;
 
+        var filter = filterEntry(entry);
+
         // update line point tooltip
         phonetrack.sessionPointsLayersById[token][deviceid][pointid].unbindTooltip();
         phonetrack.sessionPointsLayersById[token][deviceid][pointid].bindTooltip(
@@ -1467,11 +1642,11 @@
         );
         // move line point
         if (move) {
-            if (true) {
-                phonetrack.sessionPointsLayersById[token][deviceid][pointid].setLatLng([lat, lon, pointid]);
-            }
-            else {
-                // TODO check if this point is still in filter rules, if not : remove it from featgroup
+            phonetrack.sessionPointsLayersById[token][deviceid][pointid].setLatLng([lat, lon, pointid]);
+            if (!filter) {
+                phonetrack.sessionPointsLayers[token][deviceid].removeLayer(
+                    phonetrack.sessionPointsLayersById[token][deviceid][pointid]
+                );
             }
         }
         // set new line latlngs if moved or date was modified
@@ -1506,56 +1681,14 @@
             }
             phonetrack.sessionLatlngs[token][deviceid] = newlatlngs;
             // modify line
-            if (true) {
-                phonetrack.sessionLineLayers[token][deviceid].setLatLngs(newlatlngs);
-            }
-            else {
-                // TODO display according to filter
-                // verify again if edited point is the marker
-            }
+            var filteredlatlngs = filterList(newlatlngs, token, deviceid);
+            phonetrack.sessionLineLayers[token][deviceid].setLatLngs(filteredlatlngs);
 
-            // move marker, adapt tooltip and popup
-            var mla, mln, mid, mentry, displayedLatlngs;
-            displayedLatlngs = phonetrack.sessionLineLayers[token][deviceid].getLatLngs();
-            mla = displayedLatlngs[displayedLatlngs.length - 1].lat;
-            mln = displayedLatlngs[displayedLatlngs.length - 1].lng;
-            mid = displayedLatlngs[displayedLatlngs.length - 1].alt;
-            mentry = phonetrack.sessionPointsEntriesById[token][deviceid][mid];
-            phonetrack.sessionMarkerLayers[token][deviceid].setLatLng([mla, mln, mid]);
+            updateMarker(token, deviceid, sessionname);
 
-            // tooltip
-            phonetrack.sessionMarkerLayers[token][deviceid].unbindTooltip();
-            phonetrack.sessionMarkerLayers[token][deviceid].bindTooltip(
-                getPointTooltipContent(mentry, sessionname),
-                {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
-            );
-            // popup
-            phonetrack.sessionMarkerLayers[token][deviceid].bindPopup(
-                getPointPopup(token, deviceid, mentry, sessionname),
-                {closeOnClick: false}
-            );
             // lasttime is independent from filters
             phonetrack.lastTime[token][deviceid] =
                 phonetrack.sessionPointsEntriesById[token][deviceid][newlatlngs[newlatlngs.length - 1][2]].timestamp;
-        }
-
-        // if edited point is now the last point, update marker tooltip and popup
-        if (phonetrack.sessionMarkerLayers[token][deviceid].getLatLng().alt === parseInt(pointid)) {
-            // tooltip
-            phonetrack.sessionMarkerLayers[token][deviceid].unbindTooltip();
-            phonetrack.sessionMarkerLayers[token][deviceid].bindTooltip(
-                getPointTooltipContent(entry, sessionname),
-                {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
-            );
-            // popup
-            phonetrack.sessionMarkerLayers[token][deviceid].bindPopup(
-                getPointPopup(token, deviceid, entry, sessionname),
-                {closeOnClick: false}
-            );
-            // move
-            if (move) {
-                phonetrack.sessionMarkerLayers[token][deviceid].setLatLng([lat, lon, pointid]);
-            }
         }
 
         phonetrack.map.closePopup();
@@ -1622,29 +1755,11 @@
         }
 
         phonetrack.sessionLatlngs[s][d] = newlatlngs;
-        if (true) {
-            phonetrack.sessionLineLayers[s][d].setLatLngs(newlatlngs);
-        }
-        else {
-            // TODO display according to filter
-        }
+        var filteredlatlngs = filterList(newlatlngs, s, d);
+        phonetrack.sessionLineLayers[s][d].setLatLngs(filteredlatlngs);
 
-        // we move marker and update lasttime
-        var displayedLatlngs = phonetrack.sessionLineLayers[s][d].getLatLngs();
-        lat = displayedLatlngs[displayedLatlngs.length - 1].lat;
-        lng = displayedLatlngs[displayedLatlngs.length - 1].lng;
-        p = displayedLatlngs[displayedLatlngs.length - 1].alt;
-        phonetrack.sessionMarkerLayers[s][d].setLatLng([lat, lng, p]);
-        phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
-        phonetrack.sessionMarkerLayers[s][d].unbindPopup();
-        phonetrack.sessionMarkerLayers[s][d].bindPopup(
-            getPointPopup(s, d, phonetrack.sessionPointsEntriesById[s][d][p], sn),
-            {closeOnClick: false}
-        );
-        phonetrack.sessionMarkerLayers[s][d].bindTooltip(
-            getPointTooltipContent(phonetrack.sessionPointsEntriesById[s][d][p], sn),
-            {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
-        );
+        updateMarker(s, d, sn);
+
         // update lasttime : new last point time (independent from filter)
         phonetrack.lastTime[s][d] =
             phonetrack.sessionPointsEntriesById[s][d][newlatlngs[newlatlngs.length - 1][2]].timestamp;
@@ -1731,6 +1846,8 @@
         entry.satellites = sat;
         entry.accuracy = acc;
 
+        var filter = filterEntry(entry);
+
         var sessionname = $('div.session[token="' + token + '"] .sessionTitle b').text()
         
         // add device if it does not exist
@@ -1743,8 +1860,7 @@
                 html: '<b>' + deviceid[0] + '</b>'
             });
 
-            // TODO if no filter or filter compliant
-            if (true) {
+            if (filter) {
                 phonetrack.sessionMarkerLayers[token][deviceid] = L.marker([entry.lat, entry.lon, entry.id], {icon: icon});
             }
         }
@@ -1759,8 +1875,7 @@
             m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[token + deviceid]});
             phonetrack.sessionPointsEntriesById[token][deviceid][entry.id] = entry;
             phonetrack.sessionPointsLayersById[token][deviceid][entry.id] = m;
-            // TODO if no filter or filter compliant
-            if (true) {
+            if (filter) {
                 phonetrack.sessionPointsLayers[token][deviceid].addLayer(m);
             }
             if (!pageIsPublic()) {
@@ -1791,32 +1906,11 @@
             }
             // modify line
             phonetrack.sessionLatlngs[token][deviceid] = newlatlngs;
-            if (true) {
-                phonetrack.sessionLineLayers[token][deviceid].setLatLngs(newlatlngs);
-            }
-            else {
-                // TODO display according to filter
-            }
+            var filteredlatlngs = filterList(newlatlngs, token, deviceid);
+            phonetrack.sessionLineLayers[token][deviceid].setLatLngs(filteredlatlngs);
 
-            // update marker
-            var displayedLatlngs = phonetrack.sessionLineLayers[token][deviceid].getLatLngs();
-            var mlat = displayedLatlngs[displayedLatlngs.length - 1].lat;
-            var mlng = displayedLatlngs[displayedLatlngs.length - 1].lng;
-            var mp = displayedLatlngs[displayedLatlngs.length - 1].alt;
-            var mentry = phonetrack.sessionPointsEntriesById[token][deviceid][mp];
-            // move marker
-            phonetrack.sessionMarkerLayers[token][deviceid].setLatLng([mlat, mlng, mp]);
-            // tooltip
-            phonetrack.sessionMarkerLayers[token][deviceid].unbindTooltip();
-            phonetrack.sessionMarkerLayers[token][deviceid].bindTooltip(
-                getPointTooltipContent(mentry, sessionname),
-                {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
-            );
-            // popup
-            phonetrack.sessionMarkerLayers[token][deviceid].bindPopup(
-                getPointPopup(token, deviceid, mentry, sessionname),
-                {closeOnClick: false}
-            );
+            updateMarker(token, deviceid, sessionname);
+
             // update lasttime
             phonetrack.lastTime[token][deviceid] =
                 phonetrack.sessionPointsEntriesById[token][deviceid][newlatlngs[newlatlngs.length - 1][2]].timestamp;
@@ -1901,7 +1995,7 @@
     }
 
     function showHideSelectedSessions() {
-        var token, d;
+        var token, d, displayedLatlngs;
         var displayedMarkers = [];
         var viewLines = $('#viewmove').is(':checked');
         $('.watchSession').each(function() {
@@ -1921,9 +2015,13 @@
                     }
                 }
                 for (d in phonetrack.sessionMarkerLayers[token]) {
-                    displayedMarkers.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
-                    if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
-                        phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[token][d]);
+                    // we don't display markers for session without points (or filtered)
+                    displayedLatlngs = phonetrack.sessionLineLayers[token][d].getLatLngs();
+                    if (displayedLatlngs.length !== 0) {
+                        displayedMarkers.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
+                        if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
+                            phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[token][d]);
+                        }
                     }
                 }
             }
@@ -2383,6 +2481,10 @@
 
         $('#validaddpoint').click(function(e) {
             addPointDB();
+        });
+
+        $('#applydatemin, #applydatemax').click(function(e) {
+            changeApplyFilter();
         });
 
         if (!pageIsPublic()) {
