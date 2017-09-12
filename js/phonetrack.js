@@ -1641,7 +1641,7 @@
             {closeOnClick: false}
         );
         // move line point
-        if (move) {
+        if (move || dateChanged) {
             phonetrack.sessionPointsLayersById[token][deviceid][pointid].setLatLng([lat, lon, pointid]);
             if (!filter) {
                 phonetrack.sessionPointsLayers[token][deviceid].removeLayer(
