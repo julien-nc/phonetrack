@@ -995,7 +995,7 @@ class PageController extends Controller {
                             $lastDeviceTime = $lastTime[$devname];
                         }
 
-                        $sqlget = 'SELECT deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
+                        $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
                         $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                         $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                         $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
@@ -1079,7 +1079,7 @@ class PageController extends Controller {
                         $lastDeviceTime = $lastTime[$devname];
                     }
 
-                    $sqlget = 'SELECT deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
+                    $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
