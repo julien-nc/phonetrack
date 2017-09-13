@@ -78,6 +78,97 @@ function DMStoDEC($dms, $longlat) {
     return $deg+((($min*60)+($sec))/3600);
 }
 
+function getBrowser() {
+    $u_agent = $_SERVER['HTTP_USER_AGENT'];
+    $bname = 'Unknown';
+    $platform = 'Unknown';
+    $version = '';
+
+    //First get the platform?
+    if (preg_match('/linux/i', $u_agent)) {
+        $platform = 'Linux';
+    }
+    elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+        $platform = 'Mac';
+    }
+    elseif (preg_match('/windows|win32/i', $u_agent)) {
+        $platform = 'Windows';
+    }
+
+    // Next get the name of the useragent yes seperately and for good reason
+    if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
+    {
+        $bname = 'Internet Explorer';
+        $ub = "MSIE";
+    }
+    elseif(preg_match('/Trident/i',$u_agent))
+    { // this condition is for IE11
+        $bname = 'Internet Explorer';
+        $ub = "rv";
+    }
+    elseif(preg_match('/Firefox/i',$u_agent))
+    {
+        $bname = 'Mozilla Firefox';
+        $ub = "Firefox";
+    }
+    elseif(preg_match('/Chrome/i',$u_agent))
+    {
+        $bname = 'Google Chrome';
+        $ub = "Chrome";
+    }
+    elseif(preg_match('/Safari/i',$u_agent))
+    {
+        $bname = 'Apple Safari';
+        $ub = "Safari";
+    }
+    elseif(preg_match('/Opera/i',$u_agent))
+    {
+        $bname = 'Opera';
+        $ub = "Opera";
+    }
+    elseif(preg_match('/Netscape/i',$u_agent))
+    {
+        $bname = 'Netscape';
+        $ub = "Netscape";
+    }
+
+    // finally get the correct version number
+    // Added "|:"
+    $known = array('Version', $ub, 'other');
+    $pattern = '#(?<browser>' . join('|', $known) .
+        ')[/|: ]+(?<version>[0-9.|a-zA-Z.]*)#';
+    if (!preg_match_all($pattern, $u_agent, $matches)) {
+        // we have no matching number just continue
+    }
+
+    // see how many we have
+    $i = count($matches['browser']);
+    if ($i != 1) {
+        //we will have two since we are not using 'other' argument yet
+        //see if version is before or after the name
+        if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
+            $version= $matches['version'][0];
+        }
+        else {
+            $version= $matches['version'][1];
+        }
+    }
+    else {
+        $version= $matches['version'][0];
+    }
+
+    // check if we have a number
+    if ($version==null || $version=="") {$version="?";}
+
+    return array(
+        'userAgent' => $u_agent,
+        'name'      => $bname,
+        'version'   => $version,
+        'platform'  => $platform,
+        'pattern'    => $pattern
+    );
+}
+
 class PageController extends Controller {
 
     private $userId;
@@ -401,7 +492,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      */
     public function updatePoint($token, $deviceid, $pointid,
-        $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
+        $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
@@ -439,6 +530,7 @@ class PageController extends Controller {
                 $sqlupd .= ', accuracy='.$this->db_quote_escape_string($acc).' ';
                 $sqlupd .= ', batterylevel='.$this->db_quote_escape_string($bat).' ';
                 $sqlupd .= ', satellites='.$this->db_quote_escape_string($sat).' ';
+                $sqlupd .= ', useragent='.$this->db_quote_escape_string($useragent).' ';
                 $sqlupd .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                 $sqlupd .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
                 $sqlupd .= 'AND id='.$this->db_quote_escape_string($pointid).';';
@@ -641,14 +733,15 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function addPoint($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
-        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+    public function addPoint($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
+        $this->logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent);
 
         $sqlchk = 'SELECT MAX(id) as maxid FROM *PREFIX*phonetrack_points ';
         $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
         $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
         $sqlchk .= 'AND lat='.$this->db_quote_escape_string($lat).' ';
         $sqlchk .= 'AND lon='.$this->db_quote_escape_string($lon).' ';
+        $sqlchk .= 'AND timestamp='.$this->db_quote_escape_string($timestamp).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
         $dbid = null;
@@ -678,7 +771,7 @@ class PageController extends Controller {
      * @PublicPage
      *
      **/
-    public function logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
+    public function logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
         if ($deviceid !== '' and
             $token !== '' and
             $lat !== '' and
@@ -716,9 +809,22 @@ class PageController extends Controller {
                 if ($alt === '' or is_null($alt)) {
                     $alt = '-1';
                 }
+                if ($useragent === '' or is_null($useragent)) {
+                    $useragent = '';
+                }
+                else if ($useragent === 'browser') {
+                    $bi = getBrowser();
+                    $useragent = '';
+                    foreach(['name', 'version', 'platform'] as $k) {
+                        if (array_key_exists($k, $bi)) {
+                            $useragent .= $bi[$k] . ' ';
+                        }
+                    }
+                    $useragent = rtrim($useragent);
+                }
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel) ';
+                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($token).',';
                 $sql .= $this->db_quote_escape_string($deviceid).',';
@@ -728,7 +834,8 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string($acc).',';
                 $sql .= $this->db_quote_escape_string($sat).',';
                 $sql .= $this->db_quote_escape_string($alt).',';
-                $sql .= $this->db_quote_escape_string($bat).');';
+                $sql .= $this->db_quote_escape_string($bat).',';
+                $sql .= $this->db_quote_escape_string($useragent).');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
@@ -744,7 +851,7 @@ class PageController extends Controller {
      **/
     public function logGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
         $did = $this->chooseDeviceId($deviceid, null);
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger');
     }
 
     /**
@@ -755,7 +862,7 @@ class PageController extends Controller {
      **/
     public function logOsmand($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
         $did = $this->chooseDeviceId($deviceid, null);
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd');
     }
 
     /**
@@ -766,7 +873,7 @@ class PageController extends Controller {
      **/
     public function logGpsloggerGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
         $did = $this->chooseDeviceId($deviceid, null);
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET');
     }
 
     /**
@@ -777,7 +884,7 @@ class PageController extends Controller {
      **/
     public function logGpsloggerPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
         $did = $this->chooseDeviceId($deviceid, null);
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST');
     }
 
     /**
@@ -789,7 +896,7 @@ class PageController extends Controller {
      **/
     public function logOwntracks($token, $deviceid='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
         $did = $this->chooseDeviceId($deviceid, $tid);
-        $this->logPost($token, $did, $lat, $lon, $alt, $tst, $acc, $batt, -1);
+        $this->logPost($token, $did, $lat, $lon, $alt, $tst, $acc, $batt, -1, 'Owntracks');
         return array();
     }
 
@@ -803,7 +910,7 @@ class PageController extends Controller {
     public function logUlogger($token, $deviceid, $trackid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
         if ($action === 'addpos') {
             $did = $this->chooseDeviceId($deviceid, null);
-            $this->logPost($token, $did, $lat, $lon, $altitude, $time, $accuracy, -1, -1);
+            $this->logPost($token, $did, $lat, $lon, $altitude, $time, $accuracy, -1, -1, 'Ulogger');
         }
         return array("error" => false, "trackid" => 1);
     }
@@ -817,7 +924,7 @@ class PageController extends Controller {
      **/
     public function logTraccar($token, $deviceid='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
         $did = $this->chooseDeviceId($deviceid, $id);
-        $this->logPost($token, $did, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1);
+        $this->logPost($token, $did, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar');
     }
 
     /**
@@ -836,7 +943,7 @@ class PageController extends Controller {
         $timestamp = $datetime->getTimestamp();
         $lat = DMStoDEC($gprmca[3], 'latitude');
         $lon = DMStoDEC(sprintf('%010.4f', (float)$gprmca[5]), 'longitude');
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, -1, $batt, -1);
+        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, -1, $batt, -1, 'OpenGTS client');
         return true;
     }
 
@@ -897,7 +1004,8 @@ class PageController extends Controller {
                         $lastDeviceTime = $lastTime[$devname];
                     }
 
-                    $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
+                    $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, ';
+                    $sqlget .= 'batterylevel, useragent FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
@@ -995,7 +1103,8 @@ class PageController extends Controller {
                             $lastDeviceTime = $lastTime[$devname];
                         }
 
-                        $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
+                        $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
+                        $sqlget .= ' altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
                         $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                         $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                         $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
@@ -1079,7 +1188,8 @@ class PageController extends Controller {
                         $lastDeviceTime = $lastTime[$devname];
                     }
 
-                    $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel FROM *PREFIX*phonetrack_points ';
+                    $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, ';
+                    $sqlget .= 'altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';

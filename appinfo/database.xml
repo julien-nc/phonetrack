@@ -110,6 +110,13 @@
       <type>float</type>
       <length>4</length>
     </field>
+    <field>
+      <name>useragent</name>
+      <type>text</type>
+      <notnull>true</notnull>
+      <default>nothing</default>
+      <length>100</length>
+    </field>
   </declaration>
 </table>
  <table>

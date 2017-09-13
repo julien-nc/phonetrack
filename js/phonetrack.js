@@ -1536,6 +1536,7 @@
         var acc = tab.find('input[role=precision]').val();
         var sat = tab.find('input[role=satellites]').val();
         var bat = tab.find('input[role=battery]').val();
+        var useragent = tab.find('input[role=useragent]').val();
         var datestr = tab.find('input[role=date]').val();
         var hourstr = parseInt(tab.find('input[role=hour]').val());
         var minstr = parseInt(tab.find('input[role=minute]').val());
@@ -1553,7 +1554,8 @@
             alt: alt,
             acc: acc,
             bat: bat,
-            sat: sat
+            sat: sat,
+            useragent: useragent
         };
         var url = OC.generateUrl('/apps/phonetrack/updatePoint');
         $.ajax({
@@ -1587,6 +1589,7 @@
         var acc = tab.find('input[role=precision]').val();
         var sat = tab.find('input[role=satellites]').val();
         var bat = tab.find('input[role=battery]').val();
+        var useragent = tab.find('input[role=useragent]').val();
         var datestr = tab.find('input[role=date]').val();
         var hourstr = parseInt(tab.find('input[role=hour]').val());
         var minstr = parseInt(tab.find('input[role=minute]').val());
@@ -1611,6 +1614,7 @@
         entry.batterylevel = bat;
         entry.satellites = sat;
         entry.accuracy = acc;
+        entry.useragent = useragent;
 
         var filter = filterEntry(entry);
 
@@ -1786,7 +1790,8 @@
             alt: alt,
             acc: acc,
             bat: bat,
-            sat: sat
+            sat: sat,
+            useragent: 'Manually added'
         };
         var url = OC.generateUrl('/apps/phonetrack/addPoint');
         $.ajax({
@@ -1821,6 +1826,7 @@
         var acc = tab.find('input[role=precision]').val();
         var sat = tab.find('input[role=satellites]').val();
         var bat = tab.find('input[role=battery]').val();
+        var useragent = 'Manually added';
         var datestr = tab.find('input[role=date]').val();
         var hourstr = parseInt(tab.find('input[role=hour]').val());
         var minstr = parseInt(tab.find('input[role=minute]').val());
@@ -1838,6 +1844,7 @@
         entry.batterylevel = bat;
         entry.satellites = sat;
         entry.accuracy = acc;
+        entry.useragent = useragent;
 
         var filter = filterEntry(entry);
 
@@ -1940,6 +1947,9 @@
         res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'Battery level') + '</td>';
         res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/></td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>' + t('phonetrack', 'User agent') + '</td>';
+        res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '" min="-1" max="100"/></td>';
         res = res + '</tr>';
         res = res + '</table>';
         res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Save') + '</button>';
@@ -1972,6 +1982,10 @@
         if (entry.batterylevel && parseInt(entry.batterylevel) !== -1) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Battery level') + ' : ' + entry.batterylevel;
+        }
+        if (entry.useragent && entry.useragent !== '' && entry.useragent !== 'nothing') {
+            pointtooltip = pointtooltip + '<br/>' +
+                t('phonetrack', 'User agent') + ' : ' + entry.useragent;
         }
 
         return pointtooltip;
@@ -2131,7 +2145,8 @@
                 lon: lon,
                 alt: alt,
                 acc: acc,
-                timestamp: timestamp
+                timestamp: timestamp,
+                useragent: 'browser'
             };
             var url = OC.generateUrl('/apps/phonetrack/logPost/' + phonetrack.token + '/' + deviceid);
             $.ajax({

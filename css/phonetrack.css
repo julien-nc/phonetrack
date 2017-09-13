@@ -360,6 +360,10 @@ input[role=precision] {
     width: 34px !important;
     height: 15px !important;
 }
+input[role=useragent] {
+    height: 15px;
+    padding: 0px 3px 0px 3px;
+}
 input[role=date] {
     height: 15px;
     padding: 0px;
