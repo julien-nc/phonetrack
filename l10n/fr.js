@@ -77,6 +77,14 @@ OC.L10N.register(
         "Save" : "Enregistrer",
         "The point you want to delete does not exist" : "Le point que vous voulez supprimer n'existe pas",
         "Failed to delete point" : "Échec à la suppression du point",
+        "Failed to create imported session" : "Impossible de créer la session importée",
+        "Import gpx session file" : "Importer un fichier gpx de session",
+        "Failed to import session" : "Impossible d'importer la session",
+        "User agent" : "User agent",
+        "File is not readable" : "Ce fichier n'est pas lisible",
+        "File extension must be '.gpx' to be imported" : "L'extension du fichier doit être '.gpx' pour être importé",
+        "File does not exist" : "Ce fichier n'existe pas",
+        "Failed to contact server to import session" : "Impossible de contacter le serveur pour importer la session",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");

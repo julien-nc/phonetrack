@@ -60,6 +60,7 @@
     "Apply max date filter" : "Appliquer le filtre de date max",
     "Min time" : "Heure min",
     "Min date" : "Date min",
+    "Import session" : "Importer une session",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

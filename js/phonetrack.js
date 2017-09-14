@@ -2117,7 +2117,7 @@
 
     function importSession(path) {
         if (! endsWith(path, '.gpx')) {
-            OC.Notification.showTemporary(t('phonetrack', 'File must be .gpx to be imported'));
+            OC.Notification.showTemporary(t('phonetrack', 'File extension must be \'.gpx\' to be imported'));
         }
         else {
             var req = {
@@ -2533,7 +2533,7 @@
 
         $('#importsession').click(function(e) {
             OC.dialogs.filepicker(
-                t('gpxedit', 'Import gpx session file'),
+                t('phonetrack', 'Import gpx session file'),
                 function(targetPath) {
                     importSession(targetPath);
                 },
