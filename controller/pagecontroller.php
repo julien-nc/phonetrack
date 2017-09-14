@@ -1340,7 +1340,10 @@ class PageController extends Controller {
             $done = 4;
         }
 
-        // TODO if done is not 1, 3 or 4 : delete session
+        // if done is not 1, 3 or 4 : delete session
+        if ($done !== 1 && $done !== 3 && $done !== 4) {
+            $this->deleteSession($token);
+        }
 
         $response = new DataResponse(
             [
