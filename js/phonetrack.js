@@ -1054,7 +1054,13 @@
     }
 
     function removeSession(div) {
+        var d;
         var token = div.attr('token');
+        // remove all devices
+        for (d in phonetrack.sessionMarkerLayers[token]) {
+            removeDevice(token, d);
+        }
+        // remove things in sidebar
         $('#addPointSession option[token=' + token + ']').remove();
         div.fadeOut('slow', function() {
             div.remove();
