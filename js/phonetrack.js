@@ -212,6 +212,10 @@
         return (n < 10) ? ('0' + n) : n;
     }
 
+    function endsWith(str, suffix) {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+
     function basename(str) {
         var base = new String(str).substring(str.lastIndexOf('/') + 1);
         if (base.lastIndexOf(".") !== -1) {
@@ -2105,6 +2109,48 @@
         }
     }
 
+    function importSession(path) {
+        if (! endsWith(path, '.gpx')) {
+            OC.Notification.showTemporary(t('phonetrack', 'File must be .gpx to be imported'));
+        }
+        else {
+            var req = {
+                path: path
+            };
+            var url = OC.generateUrl('/apps/phonetrack/importSession');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                if (response.done === 1) {
+                    addSession(response.token, response.sessionName, response.publicviewtoken, 1);
+                }
+                else if (response.done === 2) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Failed to create imported session'));
+                }
+                else if (response.done === 3) {
+                    OC.Notification.showTemporary(
+                        t('phonetrack', 'Failed to import session') + '. ' +
+                        t('phonetrack', 'File is not readable')
+                    );
+                }
+                else if (response.done === 4) {
+                    OC.Notification.showTemporary(
+                        t('phonetrack', 'Failed to import session') + '. ' +
+                        t('phonetrack', 'File does not exist')
+                    );
+                }
+                // TODO 5 : error in gpx parsing
+                // 6 : no trk in gpx
+            }).always(function() {
+            }).fail(function() {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to import session'));
+            });
+        }
+    }
+
     function saveAction(name, token, targetPath) {
         var req = {
             name: name,
@@ -2477,6 +2523,18 @@
 
         $('#validaddpoint').click(function(e) {
             addPointDB();
+        });
+
+        $('#importsession').click(function(e) {
+            OC.dialogs.filepicker(
+                t('gpxedit', 'Import gpx session file'),
+                function(targetPath) {
+                    importSession(targetPath);
+                },
+                false,
+                null,
+                true
+            );
         });
 
         $('#applydatemin, #applydatemax').click(function(e) {

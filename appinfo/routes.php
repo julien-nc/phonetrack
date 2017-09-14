@@ -28,6 +28,7 @@ return [
         ['name' => 'page#updatePoint', 'url' => '/updatePoint', 'verb' => 'POST'],
         ['name' => 'page#addPoint', 'url' => '/addPoint', 'verb' => 'POST'],
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
+        ['name' => 'page#importSession', 'url' => '/importSession', 'verb' => 'POST'],
         ['name' => 'page#renameSession', 'url' => '/renameSession', 'verb' => 'POST'],
         ['name' => 'page#logGet', 'url' => '/logGet/{token}/{deviceid}', 'verb' => 'GET'],
         ['name' => 'page#logPost', 'url' => '/logPost/{token}/{deviceid}', 'verb' => 'POST'],

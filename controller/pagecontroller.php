@@ -293,7 +293,6 @@ class PageController extends Controller {
      */
     public function getSessions() {
         $sessions = array();
-        // check if session name is not already used
         $sqlget = 'SELECT name, token, publicviewtoken, public FROM *PREFIX*phonetrack_sessions ';
         $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $req = $this->dbconnection->prepare($sqlget);
@@ -1306,6 +1305,106 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function importSession($path) {
+        $done = 1;
+        $userFolder = \OC::$server->getUserFolder();
+        $cleanpath = str_replace(array('../', '..\\'), '',  $path);
+
+        $file = null;
+        if ($userFolder->nodeExists($cleanpath)){
+            $file = $userFolder->get($cleanpath);
+            if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
+                $file->isReadable()){
+                $sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
+                $res = $this->createSession($sessionName);
+                $response = $res->getData();
+                if ($response['done']) {
+                    $token = $response['token'];
+                    $publicviewtoken = $response['publicviewtoken'];
+                    $done = $this->parseGpxImportPoints($file, $token);
+                }
+                else {
+                    $done = 2;
+                }
+            }
+            else {
+                $done = 3;
+            }
+        }
+        else {
+            $done = 4;
+        }
+
+        // TODO if done is not 1, 3 or 4 : delete session
+
+        $response = new DataResponse(
+            [
+                'done'=>$done,
+                'token'=>$token,
+                'sessionName'=>$sessionName,
+                'publicviewtoken'=>$publicviewtoken
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    private function parseGpxImportPoints($file, $token) {
+        $gpx_content = $file->getContent();
+        try{
+            $gpx = new \SimpleXMLElement($gpx_content);
+        }
+        catch (\Exception $e) {
+            error_log("Exception in ".$file->getName()." gpx parsing : ".$e->getMessage());
+            return 5;
+        }
+
+        if (count($gpx->trk) === 0){
+            error_log('Nothing to parse in '.$file->getName().' gpx file');
+            return 6;
+        }
+
+        $trackIndex = 1;
+        foreach($gpx->trk as $track){
+            $deviceid = str_replace("\n", '', $track->name);
+            if (empty($deviceid)){
+                $deviceid = 'device '.$trackIndex;
+            }
+            $deviceid = str_replace('"', "'", $deviceid);
+
+            foreach($track->trkseg as $segment) {
+                foreach($segment->trkpt as $point) {
+                    $lat = (float)$point['lat'];
+                    $lon = (float)$point['lon'];
+                    if (empty($point->time)) {
+                        $timestamp = 0;
+                    }
+                    else{
+                        $time = new \DateTime($point->time);
+                        $timestamp = $time->getTimestamp();
+                    }
+                    if (empty($point->ele)) {
+                        $ele = null;
+                    }
+                    else{
+                        $ele = (float)$point->ele;
+                    }
+                    $this->logPost($token, $deviceid, $lat, $lon, $ele, $timestamp, -1, -1, -1, 'imported');
+                }
+            }
+            $trackIndex++;
+        }
+
+        return 1;
     }
 
     /**

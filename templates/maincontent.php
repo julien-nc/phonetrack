@@ -66,6 +66,13 @@ p($_['phonetrack_version']);
             <?php p($l->t('Create session')); ?>
         </button>
     </div>
+    <div id="importsessiondiv">
+        <hr/>
+        <button id="importsession">
+            <i class="fa fa-folder-open-o" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Import session')); ?>
+        </button>
+    </div>
     <div id="logmediv">
     <div id="logmesubdiv">
         <label for="logmedeviceinput"><?php p($l->t('Device name'));?></label>
