@@ -2357,7 +2357,20 @@
 
         $('body').on('click','.removeSession', function(e) {
             var token = $(this).parent().parent().attr('token');
-            deleteSession(token);
+            var sessionname = $('div.session[token="' + token + '"] .sessionTitle b').text()
+            OC.dialogs.confirm(
+                t('phonetrack',
+                    'Are you sure you want to delete the session {session} ?',
+                    {session: sessionname}
+                ),
+                t('phonetrack','Confirm session deletion'),
+                function (result) {
+                    if (result) {
+                        deleteSession(token);
+                    }
+                },
+                true
+            );
         });
 
         $('body').on('click','.watchbutton', function(e) {
@@ -2487,7 +2500,19 @@
             var sessionName = $(this).parent().parent().parent().find('.sessionTitle b').text();
             var token = $(this).attr('token');
             var device = $(this).attr('device');
-            deleteDevice(token, device, sessionName);
+            OC.dialogs.confirm(
+                t('phonetrack',
+                    'Are you sure you want to delete the device {device} ?',
+                    {device: device}
+                ),
+                t('phonetrack','Confirm device deletion'),
+                function (result) {
+                    if (result) {
+                        deleteDevice(token, device, sessionName);
+                    }
+                },
+                true
+            );
         });
 
         $('body').on('click','.editsessionbutton', function(e) {
