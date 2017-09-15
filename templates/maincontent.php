@@ -57,20 +57,23 @@ p($_['phonetrack_version']);
         </div>
     </div>
     <div style="clear:both"></div>
-    <hr/>
+    <div id="createimportsessiondiv">
+        <hr/>
+        <button id="showcreatesession">
+            <i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Create session')); ?>
+        </button>
+        <button id="importsession">
+            <i class="fa fa-folder-open-o" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Import session')); ?>
+        </button>
+    </div>
     <div id="newsessiondiv">
         <label for="sessionnameinput"><?php p($l->t('Session name'));?></label>
         <input type="text" id="sessionnameinput"/>
         <button id="newsession">
-            <i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i>
-            <?php p($l->t('Create session')); ?>
-        </button>
-    </div>
-    <div id="importsessiondiv">
-        <hr/>
-        <button id="importsession">
-            <i class="fa fa-folder-open-o" aria-hidden="true" style="color:blue;"></i>
-            <?php p($l->t('Import session')); ?>
+            <i class="fa fa-check" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Ok')); ?>
         </button>
     </div>
     <div id="logmediv">

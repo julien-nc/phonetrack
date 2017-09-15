@@ -2351,8 +2351,19 @@
             }
         });
 
+        $('#showcreatesession').click(function() {
+            var newsessiondiv = $('#newsessiondiv');
+            if (newsessiondiv.is(':visible')) {
+                newsessiondiv.slideUp('slow');
+            }
+            else {
+                newsessiondiv.slideDown('slow');
+            }
+        });
+
         $('#newsession').click(function() {
             createSession();
+            $('#newsessiondiv').slideUp('slow');
         });
 
         $('body').on('click','.removeSession', function(e) {
@@ -2493,7 +2504,13 @@
         });
 
         $('body').on('click','.sharesession', function(e) {
-            $(this).parent().parent().find('.publicwatchurldiv').slideDown('slow');
+            var sharediv = $(this).parent().parent().find('.publicwatchurldiv')
+            if (sharediv.is(':visible')) {
+                sharediv.slideUp('slow');
+            }
+            else {
+                sharediv.slideDown('slow');
+            }
         });
 
         $('body').on('click','.deleteDevice', function(e) {
@@ -2517,7 +2534,12 @@
 
         $('body').on('click','.editsessionbutton', function(e) {
             var editdiv = $(this).parent().parent().find('.editsessiondiv');
-            editdiv.slideDown('slow');
+            if (editdiv.is(':visible')) {
+                editdiv.slideUp('slow');
+            }
+            else {
+                editdiv.slideDown('slow');
+            }
         });
 
         $('body').on('click','.editsessionok', function(e) {
@@ -2626,7 +2648,7 @@
             $('.removeSession').remove();
             $('#customtilediv').remove();
             $('#newsessiondiv').remove();
-            $('#importsessiondiv').remove();
+            $('#createimportsessiondiv').remove();
             if (pageIsPublicWebLog()) {
                 $('#logmediv').show();
                 $('#logmedeviceinput').val(deviceid);
