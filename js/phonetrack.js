@@ -1470,17 +1470,17 @@
                 '}</style>').appendTo('body');
         var deleteLink = '';
         if (!pageIsPublic()) {
-            deleteLink = ' <i class="fa fa-trash deleteDevice" token="' + s + '" aria-hidden="true" title="' +
-                t('phonetrack', 'Delete this device') +
-                '" device="' + d + '"></i>';
+            deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '" ' +
+                'title="' + t('phonetrack', 'Delete this device') + '">' +
+                '<i class="fa fa-trash" aria-hidden="true"></i></button>';
         }
         $('div.session[token="' + s + '"] ul.devicelist').append(
-            '<li device="' + d + '" token="' + s + '" style="font-weight: bold; color: ' + textcolor + ';' +
-                'background-color:' + colorCode[colorn] + ';"' +
-                ' title="' + t('phonetrack', 'Center map on device') + ' ' +
-                d + '"><input class="followdevice" type="checkbox" ' +
-                'title="' + t('phonetrack', 'Follow this device (autozoom)') +
-                '"/><label class="deviceLabel">' + d + '</label> ' + deleteLink +
+            '<li device="' + d + '" token="' + s + '"' +
+                ' title="' + t('phonetrack', 'Center map on device') + ' ' + d + '">' +
+                '<div class="devicecolor" style="background-color:' + colorCode[colorn] + ';"></div> ' +
+                '<label class="deviceLabel">' + d + '</label> ' + deleteLink +
+                '<button class="zoomdevicebutton"><i class="fa fa-search" aria-hidden="true"></i></button>' +
+                '<input class="followdevice" type="checkbox" ' + 'title="' + t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
                 '</li>');
 
         phonetrack.sessionPointsLayers[s][d] = L.featureGroup();
@@ -2222,7 +2222,7 @@
         var dd, t, b, l;
         var perm = $('#showtime').is(':checked');
         var viewmove = $('#viewmove').is(':checked');
-        var d = elem.attr('device');
+        var d = elem.parent().attr('device');
         var s = elem.parent().attr('token');
         var m = phonetrack.sessionMarkerLayers[s][d];
 
@@ -2483,10 +2483,8 @@
             }
         });
 
-        $('body').on('click', 'ul.devicelist li', function(e) {
-            if (e.target.tagName === 'LI' || e.target.tagName === 'LABEL') {
-                zoomOnDevice($(this));
-            }
+        $('body').on('click', 'ul.devicelist li .zoomdevicebutton, ul.devicelist li .deviceLabel', function(e) {
+            zoomOnDevice($(this));
         });
 
         $('body').on('click','.moreUrlsButton', function(e) {

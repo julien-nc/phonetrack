@@ -435,12 +435,15 @@ input[role=date] {
     display: grid;
     grid-template-columns: 65% 35%;
 }
-ul.devicelist li{
+ul.devicelist li .deviceLabel{
     cursor: pointer;
+}
+ul.devicelist li {
     border-radius: 5px;
+    height: 40px;
 }
 ul.devicelist {
-    text-align: center;
+    margin-left: 60px;
 }
 .easy-button-green{
     background-color: lightgreen !important;
@@ -460,18 +463,27 @@ ul.devicelist {
     height: 16px !important;
     min-height: 16px !important;
     padding: 0px 0px 0px 0px !important;
-    margin: 0px 0px 0px 0px !important;
+    margin: 5px 5px 5px 5px !important;
     line-height: 16px !important;
-    float: left;
+    float: right;
     margin-left: 4px !important;
 }
+.zoomdevicebutton,
 .deleteDevice {
-    line-height: 20px;
+    padding: 0;
+    margin: 0;
+    width: 25px;
+    height: 25px;
+    min-height: 0px;
     margin-right: 4px;
     float: right;
+}
+.zoomdevicebutton i,
+.deleteDevice i {
     color: blue;
 }
 .deviceLabel {
+    margin: 5px 5px 5px 5px !important;
 }
 .sessionTitle {
     font-size: 14px;
@@ -493,7 +505,9 @@ ul.devicelist {
     display: none;
 }
 .devicecolor {
+    float: left;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
+    margin: 5px 0px 5px 0px;
 }
