@@ -401,6 +401,9 @@ input[role=date] {
     height: 15px;
     padding: 1px 8px 1px 8px;
 }
+input[type=date] {
+    width: 150px;
+}
 #filterPointsTable input[type=number],
 .editPoint input[type=number],
 #addPointTable input[type=number] {
@@ -507,6 +510,7 @@ ul.devicelist {
 .devicecolor {
     float: left;
     border-radius: 50%;
+    border: solid 1px grey;
     width: 15px;
     height: 15px;
     margin: 5px 0px 5px 0px;
