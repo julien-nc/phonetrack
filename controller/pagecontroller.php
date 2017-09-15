@@ -805,6 +805,9 @@ class PageController extends Controller {
                 if ($acc === '' or is_null($acc)) {
                     $acc = '-1';
                 }
+                else {
+                    $acc = sprintf('%.2f', (float)$acc);
+                }
                 if ($alt === '' or is_null($alt)) {
                     $alt = '-1';
                 }
