@@ -771,11 +771,11 @@ class PageController extends Controller {
      *
      **/
     public function logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
-        if ($deviceid !== '' and
-            $token !== '' and
-            $lat !== '' and
-            $lon !== '' and
-            $timestamp !== ''
+        if (!is_null($deviceid) and $deviceid !== '' and
+            !is_null($token) and $token !== '' and
+            !is_null($lat) and $lat !== '' and
+            !is_null($lon) and $lon !== '' and
+            !is_null($timestamp) and $timestamp !== ''
         ) {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
