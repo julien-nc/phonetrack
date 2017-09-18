@@ -931,8 +931,6 @@
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search"></i></button>';
         if (!pageIsPublic()) {
-            divtxt = divtxt + '<button class="removeSession" title="'+t('phonetrack', 'Delete session')+'">' +
-                '<i class="fa fa-trash" aria-hidden="true"></i></button>';
             divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Show link to share session')+'">' +
                 '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
         }
@@ -944,6 +942,8 @@
         if (!pageIsPublic()) {
             divtxt = divtxt + '<div class="dropdown-content">';
 
+            divtxt = divtxt + '<button class="removeSession">' +
+                '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete session') + '</button>';
             var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
             var icon = 'fa-eye-slash';
             var pubtext = t('phonetrack', 'Make session public');
