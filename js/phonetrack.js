@@ -922,32 +922,44 @@
         divtxt = divtxt + '<button class="watchbutton" title="' + t('phonetrack', 'Watch this session') + '">' +
             '<i class="fa ' + watchicon + '" aria-hidden="true"></i></button>';
 
+        if (!pageIsPublic()) {
+            divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
+                '<i class="fa fa-bars" aria-hidden="true"></i></button>';
+        }
+
         divtxt = divtxt + '<b>' + name + '</b> <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search"></i></button>';
         if (!pageIsPublic()) {
-            var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
-            var icon = 'fa-eye-slash';
-            if (parseInt(isPublic) === 1) {
-                icon = 'fa-eye';
-            }
-            divtxt = divtxt + '<button class="publicsessionbutton" title="' + titlePublic + '">';
-            divtxt = divtxt + '<i class="fa ' + icon + '"></i></button>';
-            divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
-                '<i class="fa fa-edit"></i></button>';
             divtxt = divtxt + '<button class="removeSession" title="'+t('phonetrack', 'Delete session')+'">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i></button>';
-            divtxt = divtxt + '<button class="export" title="'+t('phonetrack', 'Export to gpx')+'">' +
-                '<i class="fa fa-floppy-o" aria-hidden="true"></i></button>';
             divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Show link to share session')+'">' +
                 '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
         }
         if (!pageIsPublicSessionWatch()) {
-            divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Tracking URLs') + '">' +
+            divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Show URLs for logging apps') + '">' +
                 '<i class="fa fa-link"></i></button>';
         }
         divtxt = divtxt + '</h3>';
         if (!pageIsPublic()) {
+            divtxt = divtxt + '<div class="dropdown-content">';
+
+            var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
+            var icon = 'fa-eye-slash';
+            var pubtext = t('phonetrack', 'Make session public');
+            if (parseInt(isPublic) === 1) {
+                icon = 'fa-eye';
+                pubtext = t('phonetrack', 'Make session private');
+            }
+            divtxt = divtxt + '<button class="publicsessionbutton" title="' + titlePublic + '">';
+            divtxt = divtxt + '<i class="fa ' + icon + '"></i> <b>' + pubtext + '</b></button>';
+            divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
+                '<i class="fa fa-edit"></i> ' + t('phonetrack', 'Rename session') + '</button>';
+            divtxt = divtxt + '<button class="export" title="' + t('phonetrack', 'Export to gpx') + '">' +
+                '<i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
+
+            divtxt = divtxt + '</div>';
+
             divtxt = divtxt + '<div class="editsessiondiv">' +
                 '<input role="editsessioninput" type="text" value="' + name + '"/>' +
                 '<button class="editsessionok"><i class="fa fa-check" style="color:green;"></i> ' +
@@ -2257,6 +2269,18 @@
         m.bindTooltip(t, {permanent: perm, offset: offset, className: 'opaquetooltip' + phonetrack.sessionColors[s + d], opacity: 1});
     }
 
+    function hideAllDropDowns() {
+        var dropdowns = document.getElementsByClassName('dropdown-content');
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+
+
     //////////////// MAIN /////////////////////
 
     $(document).ready(function() {
@@ -2555,6 +2579,7 @@
         });
 
         $('body').on('click','.publicsessionbutton', function(e) {
+            var buttext = $(this).find('b');
             var icon = $(this).find('i');
             var pub = icon.hasClass('fa-eye-slash');
             var token = $(this).parent().parent().attr('token');
@@ -2576,9 +2601,11 @@
                 if (response.done === 1) {
                     if (pub) {
                         icon.addClass('fa-eye').removeClass('fa-eye-slash');
+                        buttext.text(t('phonetrack', 'Make session private'));
                     }
                     else {
                         icon.addClass('fa-eye-slash').removeClass('fa-eye');
+                        buttext.text(t('phonetrack', 'Make session public'));
                     }
                 }
                 else if (response.done === 2) {
@@ -2621,6 +2648,27 @@
             changeApplyFilter();
         });
         changeApplyFilter();
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdownbutton') && !event.target.matches('.dropdownbutton i')) {
+                hideAllDropDowns();
+            }
+        }
+
+        $('body').on('click','.dropdownbutton', function(e) {
+            var dcontent;
+            if (e.target.nodeName === 'BUTTON') {
+                dcontent = $(e.target).parent().parent().find('.dropdown-content');
+            }
+            else {
+                dcontent = $(e.target).parent().parent().parent().find('.dropdown-content');
+            }
+            var isVisible = dcontent.hasClass('show');
+            hideAllDropDowns();
+            if (!isVisible) {
+                dcontent.toggleClass('show');
+            }
+        });
 
         if (!pageIsPublic()) {
             getSessions();

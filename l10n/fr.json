@@ -61,6 +61,7 @@
     "Min time" : "Heure min",
     "Min date" : "Date min",
     "Import session" : "Importer une session",
+    "Ok" : "Ok",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -326,7 +326,7 @@ div.session p,
     float: left;
     line-height: 40px;
 }
-.sessionTitle button {
+.sessionTitle > button {
     float: right;
 }
 .watchbutton {
@@ -343,6 +343,7 @@ div.session p,
 .publicsessionbutton i,
 .sharesession i,
 .zoomsession i,
+.dropdownbutton i,
 .publicwatchurldiv i,
 .editsessionbutton i{
     color: blue;
@@ -481,9 +482,11 @@ ul.devicelist {
     margin-right: 4px;
     float: right;
 }
-.zoomdevicebutton i,
-.deleteDevice i {
+.zoomdevicebutton i {
     color: blue;
+}
+.deleteDevice i {
+    color: red;
 }
 .deviceLabel {
     margin: 5px 5px 5px 5px !important;
@@ -515,3 +518,22 @@ ul.devicelist {
     height: 15px;
     margin: 5px 0px 5px 0px;
 }
+
+.dropdownbutton:hover, .dropdownbutton:focus {
+    background-color: #dddddd;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background-color: #f9f9f9;
+    width: 250px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.dropdown-content button {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+.show {display:block;}

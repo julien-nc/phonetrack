@@ -89,7 +89,10 @@ OC.L10N.register(
         "Are you sure you want to delete the device {device} ?" : "Êtes-vous sur de vouloir supprimer l'appareil {device} ?",
         "Are you sure you want to delete the session {session} ?" : "Êtes-vous sur de vouloir supprimer la session {session} ?",
         "Close" : "Fermer",
-        "Tracking URLs" : "URLs de tracking",
+        "Show URLs for logging apps" : "Montrer les URLs pour les applications de logging",
+        "More actions" : "Plus d'actions",
+        "Make session public" : "Rendre la session publique",
+        "Make session private" : "Rendre la session privée",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");
