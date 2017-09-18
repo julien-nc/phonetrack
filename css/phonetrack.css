@@ -322,11 +322,11 @@ div.session p,
 .watchSession i{
     color: blue;
 }
-.sessionTitle b {
+.sessionBar b {
     float: left;
     line-height: 40px;
 }
-.sessionTitle > button {
+.sessionBar > button {
     float: right;
 }
 .watchbutton {
@@ -358,7 +358,7 @@ div.session p,
     margin-right: auto;
 }
 .closepublicwatchurldiv, 
-.sessionTitle button {
+.sessionBar button {
     padding: 0;
     width: 25px;
     height: 25px;
@@ -491,9 +491,18 @@ ul.devicelist {
 .deviceLabel {
     margin: 5px 5px 5px 5px !important;
 }
-.sessionTitle {
+.sessionBar {
     font-size: 14px;
     height: 40px;
+}
+.sessionName {
+    width: 30%;
+    line-height: 40px;
+    height: 40px;
+    float: left;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
 }
 #zoomallbutton {
     height: 50px !important;

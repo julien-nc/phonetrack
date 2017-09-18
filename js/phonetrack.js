@@ -874,6 +874,10 @@
         });
     }
 
+    function getSessionName(token) {
+        return $('div.session[token="' + token + '"] .sessionBar .sessionName').text();
+    }
+
     function addSession(token, name, publicviewtoken, isPublic, selected=false) {
         $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
         var gpsloggerUrl = OC.generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/yourname?');
@@ -918,16 +922,16 @@
             watchicon = 'fa-eye';
         }
         var divtxt = '<div class="session" token="' + token + '" publicviewtoken="' + publicviewtoken + '">';
-        divtxt = divtxt + '<h3 class="sessionTitle">';
+        divtxt = divtxt + '<div class="sessionBar">';
         divtxt = divtxt + '<button class="watchbutton" title="' + t('phonetrack', 'Watch this session') + '">' +
             '<i class="fa ' + watchicon + '" aria-hidden="true"></i></button>';
 
+        divtxt = divtxt + '<div class="sessionName">' + name + '</div>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
                 '<i class="fa fa-bars" aria-hidden="true"></i></button>';
         }
-
-        divtxt = divtxt + '<b>' + name + '</b> <button class="zoomsession" ' +
+        divtxt = divtxt + ' <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search"></i></button>';
         if (!pageIsPublic()) {
@@ -938,7 +942,7 @@
             divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Show URLs for logging apps') + '">' +
                 '<i class="fa fa-link"></i></button>';
         }
-        divtxt = divtxt + '</h3>';
+        divtxt = divtxt + '</div>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<div class="dropdown-content">';
 
@@ -1111,7 +1115,7 @@
         $('#addPointSession option[token=' + token + ']').text(newname);
         var perm = $('#showtime').is(':checked');
         var d, to, p, l, id;
-        $('.session[token='+token+'] .sessionTitle b').text(newname);
+        $('.session[token='+token+'] .sessionBar .sessionName').text(newname);
         for (d in phonetrack.sessionMarkerLayers[token]) {
             // marker tooltip
             to = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
@@ -1370,7 +1374,7 @@
 
         // anyway, filter or not, we adapt the markers
         for (s in phonetrack.sessionLineLayers) {
-            var sessionname = $('div.session[token="' + s + '"] .sessionTitle b').text()
+            var sessionname = getSessionName(s);
             for (d in phonetrack.sessionLineLayers[s]) {
                 updateMarker(s, d, sessionname);
             }
@@ -1427,7 +1431,7 @@
             textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
-            sessionname = $('div.session[token="' + s + '"] .sessionTitle b').text()
+            sessionname = getSessionName(s);
             if (! phonetrack.sessionLineLayers.hasOwnProperty(s)) {
                 phonetrack.sessionLineLayers[s] = {};
                 phonetrack.sessionLatlngs[s] = {};
@@ -1873,7 +1877,7 @@
 
         var filter = filterEntry(entry);
 
-        var sessionname = $('div.session[token="' + token + '"] .sessionTitle b').text()
+        var sessionname = getSessionName(token);
         
         // add device if it does not exist
         if (! phonetrack.sessionLineLayers[token].hasOwnProperty(deviceid)) {
@@ -2022,7 +2026,7 @@
         var viewLines = $('#viewmove').is(':checked');
         $('.watchbutton i').each(function() {
             token = $(this).parent().parent().parent().attr('token');
-            sessionname = $('div.session[token="' + token + '"] .sessionTitle b').text()
+            sessionname = getSessionName(token);
             if ($(this).hasClass('fa-eye')) {
                 for (d in phonetrack.sessionLineLayers[token]) {
                     if (viewLines) {
@@ -2392,7 +2396,7 @@
 
         $('body').on('click','.removeSession', function(e) {
             var token = $(this).parent().parent().attr('token');
-            var sessionname = $('div.session[token="' + token + '"] .sessionTitle b').text()
+            var sessionname = getSessionName(token);
             OC.dialogs.confirm(
                 t('phonetrack',
                     'Are you sure you want to delete the session {session} ?',
@@ -2476,7 +2480,7 @@
         });
 
         $('body').on('click', '.export', function() {
-            var name = $(this).parent().parent().find('.sessionTitle b').text();
+            var name = $(this).parent().parent().find('.sessionBar .sessionName').text();
             var token = $(this).parent().parent().attr('token');
             var filename = name + '.gpx';
             OC.dialogs.filepicker(
@@ -2536,7 +2540,7 @@
         });
 
         $('body').on('click','.deleteDevice', function(e) {
-            var sessionName = $(this).parent().parent().parent().find('.sessionTitle b').text();
+            var sessionName = $(this).parent().parent().parent().find('.sessionBar .sessionName').text();
             var token = $(this).attr('token');
             var device = $(this).attr('device');
             OC.dialogs.confirm(
@@ -2566,7 +2570,7 @@
 
         $('body').on('click','.editsessionok', function(e) {
             var token = $(this).parent().parent().attr('token');
-            var oldname = $(this).parent().parent().find('.sessionTitle b').text();
+            var oldname = $(this).parent().parent().find('.sessionBar .sessionName').text();
             var newname = $(this).parent().find('input[role=editsessioninput]').val();
             renameSession(token, oldname, newname);
             var editdiv = $(this).parent().parent().find('.editsessiondiv');
