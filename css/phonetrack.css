@@ -187,6 +187,7 @@ div#filterDiv input[type=checkbox] {
     margin-left: 5px;
 }
 div#options input[type=checkbox],
+.followdevice,
 div#filterDiv input[type=checkbox] {
     /* Double-sized Checkboxes */
     -ms-transform: scale(1.5); /* IE */
@@ -338,19 +339,21 @@ div.session p,
 .watchbutton i.fa-eye {
     color: blue;
 }
-.export i,
+.watchbutton:hover i,
+.zoomdevicebutton:hover i,
+.moreUrlsButton:hover i,
+.sharesession:hover i,
+.zoomsession:hover i,
+.dropdownbutton:hover i,
+.publicwatchurldiv:hover i {
+    color: black;
+}
 .moreUrlsButton i,
-.publicsessionbutton i,
 .sharesession i,
 .zoomsession i,
 .dropdownbutton i,
-.publicwatchurldiv i,
-.editsessionbutton i{
-    color: blue;
-    font-size: 16px;
-}
-.removeSession i{
-    color: red;
+.publicwatchurldiv i {
+    color: grey;
     font-size: 16px;
 }
 .closepublicwatchurldiv {
@@ -362,6 +365,8 @@ div.session p,
     padding: 0;
     width: 25px;
     height: 25px;
+    border: 0px;
+    background: none;
 }
 #updateinterval {
     width: 80px;
@@ -481,9 +486,11 @@ ul.devicelist {
     min-height: 0px;
     margin-right: 4px;
     float: right;
+    border: 0px;
+    background: none;
 }
 .zoomdevicebutton i {
-    color: blue;
+    color: grey;
 }
 .deleteDevice i {
     color: red;
@@ -529,7 +536,8 @@ ul.devicelist {
     margin: 5px 0px 5px 0px;
 }
 
-.dropdownbutton:hover, .dropdownbutton:focus {
+/*.dropdownbutton:hover,*/
+.dropdownbutton:focus {
     background-color: #dddddd;
 }
 .dropdown-content {
@@ -540,10 +548,16 @@ ul.devicelist {
     width: 250px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    border-radius: 10px;
+}
+.dropdown-content button i {
+    color: black;
+    font-size: 16px;
 }
 .dropdown-content button {
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    text-align: left;
     display: block;
+    border: 0px;
 }
 .show {display:block;}

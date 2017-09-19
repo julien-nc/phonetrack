@@ -1491,12 +1491,16 @@
                 '<i class="fa fa-trash" aria-hidden="true"></i></button>';
         }
         $('div.session[token="' + s + '"] ul.devicelist').append(
-            '<li device="' + d + '" token="' + s + '"' +
-                ' title="' + t('phonetrack', 'Center map on device') + ' ' + d + '">' +
+            '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor" style="background-color:' + colorCode[colorn] + ';"></div> ' +
-                '<label class="deviceLabel">' + d + '</label> ' + deleteLink +
-                '<button class="zoomdevicebutton"><i class="fa fa-search" aria-hidden="true"></i></button>' +
-                '<input class="followdevice" type="checkbox" ' + 'title="' + t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
+                '<label class="deviceLabel" title="' +
+                t('phonetrack', 'Center map on device') + ' ' + d + '">' + d + '</label> ' +
+                deleteLink +
+                '<button class="zoomdevicebutton" title="' +
+                t('phonetrack', 'Center map on device') + ' ' + d + '">' +
+                '<i class="fa fa-search" aria-hidden="true"></i></button>' +
+                '<input class="followdevice" type="checkbox" ' + 'title="' +
+                t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
                 '</li>');
 
         phonetrack.sessionPointsLayers[s][d] = L.featureGroup();
