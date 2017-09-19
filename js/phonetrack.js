@@ -926,7 +926,7 @@
         divtxt = divtxt + '<button class="watchbutton" title="' + t('phonetrack', 'Watch this session') + '">' +
             '<i class="fa ' + watchicon + '" aria-hidden="true"></i></button>';
 
-        divtxt = divtxt + '<div class="sessionName">' + name + '</div>';
+        divtxt = divtxt + '<div class="sessionName" title="' + name + '">' + name + '</div>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
                 '<i class="fa fa-bars" aria-hidden="true"></i></button>';

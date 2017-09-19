@@ -503,6 +503,7 @@ ul.devicelist {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
+    text-overflow: ellipsis;
 }
 #zoomallbutton {
     height: 50px !important;
