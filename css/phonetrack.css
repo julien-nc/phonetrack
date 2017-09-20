@@ -452,7 +452,7 @@ ul.devicelist li {
     height: 40px;
 }
 ul.devicelist {
-    margin-left: 20px;
+    margin-left: 30px;
 }
 .easy-button-green{
     background-color: lightgreen !important;
@@ -507,7 +507,7 @@ ul.devicelist {
     padding-top: 8px;
     height: 40px;
     float: left;
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
 }

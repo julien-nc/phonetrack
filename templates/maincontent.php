@@ -77,6 +77,7 @@ p($_['phonetrack_version']);
         </button>
     </div>
     <div id="logmediv">
+    <hr/>
     <div id="logmesubdiv">
         <label for="logmedeviceinput"><?php p($l->t('Device name'));?></label>
         <input type="text" id="logmedeviceinput" value="1"/>
