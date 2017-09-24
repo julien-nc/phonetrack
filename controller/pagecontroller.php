@@ -295,6 +295,7 @@ class PageController extends Controller {
      */
     public function getSessions() {
         $sessions = array();
+        // sessions owned by current user
         $sqlget = 'SELECT name, token, publicviewtoken, public FROM *PREFIX*phonetrack_sessions ';
         $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
         $req = $this->dbconnection->prepare($sqlget);
@@ -306,6 +307,19 @@ class PageController extends Controller {
             $dbpublicviewtoken = $row['publicviewtoken'];
             $dbpublic = $row['public'];
             array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith));
+        }
+        $req->closeCursor();
+
+        // sessions shared with current user
+        $sqlgetshares = 'SELECT sessionid, sharetoken FROM *PREFIX*phonetrack_shares ';
+        $sqlgetshares .= 'WHERE username=\''.$this->userId.'\' ';
+        $req = $this->dbconnection->prepare($sqlgetshares);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbsessionid = $row['sessionid'];
+            $dbsharetoken = $row['sharetoken'];
+            $dbname = $this->getSessionName($dbsessionid);
+            array_push($sessions, array($dbname, $dbsharetoken));
         }
         $req->closeCursor();
 
@@ -321,6 +335,22 @@ class PageController extends Controller {
         $response->setContentSecurityPolicy($csp);
         return $response;
     }
+
+    private function getSessionName($sessionid) {
+        $dbname = null;
+        $sqlget = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlget .= 'WHERE token='.$this->db_quote_escape_string($sessionid).';';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+        }
+        $req->closeCursor();
+
+        return $dbname;
+    }
+
+
 
     private function getSessionShares($sessionid) {
         $sharedWith = [];

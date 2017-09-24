@@ -1199,6 +1199,7 @@
             var s;
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
+                    // TODO adapt to shared sessions
                     addSession(
                         response.sessions[s][1],
                         response.sessions[s][0],
