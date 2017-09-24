@@ -1036,12 +1036,25 @@ class PageController extends Controller {
             }
             $req->closeCursor();
 
+            // if not, check it is a shared session
+            if ($dbtoken === null) {
+                $sqlget = 'SELECT sessionid FROM *PREFIX*phonetrack_shares ';
+                $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($token).' ';
+                $sqlget .= 'AND username='.$this->db_quote_escape_string($this->userId).';';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbtoken = $row['sessionid'];
+                }
+                $req->closeCursor();
+            }
+
             // session exists
             if ($dbtoken !== null) {
                 // get list of devices
                 $devices = array();
                 $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_points ';
-                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                 $sqldev .= 'GROUP BY deviceid;';
                 $req = $this->dbconnection->prepare($sqldev);
                 $req->execute();
@@ -1062,7 +1075,7 @@ class PageController extends Controller {
 
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, ';
                     $sqlget .= 'batterylevel, useragent FROM *PREFIX*phonetrack_points ';
-                    $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                    $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
                     $sqlget .= 'ORDER BY timestamp ASC';
@@ -1525,6 +1538,19 @@ class PageController extends Controller {
             }
             $req->closeCursor();
 
+            // if not, check it is a shared session
+            if ($dbtoken === null) {
+                $sqlget = 'SELECT sessionid FROM *PREFIX*phonetrack_shares ';
+                $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($token).' ';
+                $sqlget .= 'AND username='.$this->db_quote_escape_string($this->userId).';';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbtoken = $row['sessionid'];
+                }
+                $req->closeCursor();
+            }
+
             // session exists
             if ($dbtoken !== null) {
                 // indexed by track name
@@ -1532,7 +1558,7 @@ class PageController extends Controller {
                 // get list of devices
                 $devices = array();
                 $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_points ';
-                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                 $sqldev .= 'GROUP BY deviceid;';
                 $req = $this->dbconnection->prepare($sqldev);
                 $req->execute();
@@ -1547,7 +1573,7 @@ class PageController extends Controller {
                 foreach ($devices as $devname) {
                     $coords[$devname] = array();
                     $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
-                    $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                    $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                     $sqlget .= 'AND deviceid='.$this->db_quote_escape_string($devname).' ';
                     $req = $this->dbconnection->prepare($sqlget);
                     $req->execute();

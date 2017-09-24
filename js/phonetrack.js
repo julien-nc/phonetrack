@@ -878,8 +878,7 @@
         return $('div.session[token="' + token + '"] .sessionBar .sessionName').text();
     }
 
-    function addSession(token, name, publicviewtoken, isPublic, sharedWith=[], selected=false) {
-        console.log(sharedWith);
+    function addSession(token, name, publicviewtoken, isPublic, sharedWith=[], selected=false, isFromShare=false) {
         $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
         var gpsloggerUrl = OC.generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/yourname?');
         var gpsloggerParams = 'lat=%LAT&' +
@@ -935,11 +934,11 @@
         divtxt = divtxt + ' <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search"></i></button>';
-        if (!pageIsPublic()) {
+        if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Show link to share session')+'">' +
                 '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
         }
-        if (!pageIsPublicSessionWatch()) {
+        if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Show URLs for logging apps') + '">' +
                 '<i class="fa fa-link"></i></button>';
         }
@@ -947,24 +946,28 @@
         if (!pageIsPublic()) {
             divtxt = divtxt + '<div class="dropdown-content">';
 
-            divtxt = divtxt + '<button class="removeSession">' +
-                '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete session') + '</button>';
-            divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
-                '<i class="fa fa-edit"></i> ' + t('phonetrack', 'Rename session') + '</button>';
+            if (!isFromShare) {
+                divtxt = divtxt + '<button class="removeSession">' +
+                    '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete session') + '</button>';
+                divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
+                    '<i class="fa fa-edit"></i> ' + t('phonetrack', 'Rename session') + '</button>';
+            }
             divtxt = divtxt + '<button class="export" title="' + t('phonetrack', 'Export to gpx') + '">' +
                 '<i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
 
             divtxt = divtxt + '</div>';
 
-            divtxt = divtxt + '<div class="editsessiondiv">' +
-                '<input role="editsessioninput" type="text" value="' + name + '"/>' +
-                '<button class="editsessionok"><i class="fa fa-check" style="color:green;"></i> ' +
-                t('phonetrack', 'Rename') + '</button>' +
-                '<button class="editsessioncancel"><i class="fa fa-undo" style="color:red;"></i> ' +
-                t('phonetrack', 'Cancel') + '</button>' +
-                '</div>';
+            if (!isFromShare) {
+                divtxt = divtxt + '<div class="editsessiondiv">' +
+                    '<input role="editsessioninput" type="text" value="' + name + '"/>' +
+                    '<button class="editsessionok"><i class="fa fa-check" style="color:green;"></i> ' +
+                    t('phonetrack', 'Rename') + '</button>' +
+                    '<button class="editsessioncancel"><i class="fa fa-undo" style="color:red;"></i> ' +
+                    t('phonetrack', 'Cancel') + '</button>' +
+                    '</div>';
+            }
         }
-        if (!pageIsPublic()) {
+        if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<div class="sharediv">';
 
             divtxt = divtxt + '<div class="usersharediv">';
@@ -996,7 +999,7 @@
             divtxt = divtxt + '</div>';
             divtxt = divtxt + '</div>';
         }
-        if (!pageIsPublicSessionWatch()) {
+        if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<div class="moreUrls">';
             divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser logging URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
@@ -1200,13 +1203,26 @@
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
                     // TODO adapt to shared sessions
-                    addSession(
-                        response.sessions[s][1],
-                        response.sessions[s][0],
-                        response.sessions[s][2],
-                        response.sessions[s][3],
-                        response.sessions[s][4]
-                    );
+                    if (response.sessions[s].length < 3) {
+                        addSession(
+                            response.sessions[s][1],
+                            response.sessions[s][0],
+                            '',
+                            0,
+                            [],
+                            false,
+                            true
+                        );
+                    }
+                    else {
+                        addSession(
+                            response.sessions[s][1],
+                            response.sessions[s][0],
+                            response.sessions[s][2],
+                            response.sessions[s][3],
+                            response.sessions[s][4]
+                        );
+                    }
                 }
             }
         }).always(function() {
