@@ -2620,21 +2620,25 @@
 
         $('body').on('click','.moreUrlsButton', function(e) {
             var urlDiv = $(this).parent().parent().find('.moreUrls');
+            var sharediv = $(this).parent().parent().find('.sharediv')
             if (urlDiv.is(':visible')) {
                 urlDiv.slideUp('slow');
             }
             else{
                 urlDiv.slideDown('slow').css('display', 'grid');
+                sharediv.slideUp('slow');
             }
         });
 
         $('body').on('click','.sharesession', function(e) {
             var sharediv = $(this).parent().parent().find('.sharediv')
+            var moreurldiv = $(this).parent().parent().find('.moreUrls')
             if (sharediv.is(':visible')) {
                 sharediv.slideUp('slow');
             }
             else {
                 sharediv.slideDown('slow');
+                moreurldiv.slideUp('slow');
             }
         });
 
