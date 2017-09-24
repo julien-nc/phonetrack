@@ -424,6 +424,12 @@ class PageController extends Controller {
             $req->execute();
             $req->closeCursor();
 
+            $sqldel = 'DELETE FROM *PREFIX*phonetrack_shares ';
+            $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).';';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
             $ok = 1;
         }
         else {
