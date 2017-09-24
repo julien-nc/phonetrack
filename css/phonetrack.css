@@ -288,10 +288,12 @@ div#logofolder label {
 .sidebar {
     z-index: 1990;
 }
-.publicwatchurldiv {
+.sharediv {
     width: 100%;
+}
+.publicWatchUrlDiv {
     display: grid;
-    grid-template-columns: 45% 45% 10%;
+    grid-template-columns: 48% 48%;
 }
 .session {
     border: 2px solid grey;
@@ -345,22 +347,17 @@ div.session p,
 .sharesession:hover i,
 .zoomsession:hover i,
 .dropdownbutton:hover i,
-.publicwatchurldiv:hover i {
+.sharediv:hover i {
     color: black;
 }
 .moreUrlsButton i,
 .sharesession i,
 .zoomsession i,
 .dropdownbutton i,
-.publicwatchurldiv i {
+.sharediv i {
     color: grey;
     font-size: 16px;
 }
-.closepublicwatchurldiv {
-    margin-left: auto;
-    margin-right: auto;
-}
-.closepublicwatchurldiv, 
 .sessionBar button {
     padding: 0;
     width: 25px;
@@ -553,6 +550,7 @@ ul.devicelist {
     color: black;
     font-size: 16px;
 }
+.publicsessionbutton,
 .dropdown-content button {
     width: 100%;
     text-align: left;

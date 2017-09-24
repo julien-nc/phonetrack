@@ -948,15 +948,6 @@
 
             divtxt = divtxt + '<button class="removeSession">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete session') + '</button>';
-            var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
-            var icon = 'fa-eye-slash';
-            var pubtext = t('phonetrack', 'Make session public');
-            if (parseInt(isPublic) === 1) {
-                icon = 'fa-eye';
-                pubtext = t('phonetrack', 'Make session private');
-            }
-            divtxt = divtxt + '<button class="publicsessionbutton" title="' + titlePublic + '">';
-            divtxt = divtxt + '<i class="fa ' + icon + '"></i> <b>' + pubtext + '</b></button>';
             divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
                 '<i class="fa fa-edit"></i> ' + t('phonetrack', 'Rename session') + '</button>';
             divtxt = divtxt + '<button class="export" title="' + t('phonetrack', 'Export to gpx') + '">' +
@@ -972,12 +963,21 @@
                 t('phonetrack', 'Cancel') + '</button>' +
                 '</div>';
         }
-        if (!pageIsPublicWebLog()) {
-            divtxt = divtxt + '<div class="publicwatchurldiv">';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Public watch URL') + ' :</p>';
+        if (!pageIsPublic()) {
+            divtxt = divtxt + '<div class="sharediv">';
+            var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
+            var icon = 'fa-eye-slash';
+            var pubtext = t('phonetrack', 'Make session public');
+            if (parseInt(isPublic) === 1) {
+                icon = 'fa-eye';
+                pubtext = t('phonetrack', 'Make session private');
+            }
+            divtxt = divtxt + '<button class="publicsessionbutton" title="' + titlePublic + '">';
+            divtxt = divtxt + '<i class="fa ' + icon + '"></i> <b>' + pubtext + '</b></button>';
+            divtxt = divtxt + '<div class="publicWatchUrlDiv">';
+            divtxt = divtxt + '<p class="publicWatchUrlLabel">' + t('phonetrack', 'Public watch URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
-            divtxt = divtxt + '<button class="closepublicwatchurldiv" title="' + t('phonetrack', 'Close') + '">' +
-                '<i class="fa fa-close" aria-hidden="true"></i></button></div>';
+            divtxt = divtxt + '</div>';
         }
         if (!pageIsPublicSessionWatch()) {
             divtxt = divtxt + '<div class="moreUrls">';
@@ -1000,9 +1000,12 @@
         divtxt = divtxt + '<ul class="devicelist" token="' + token + '"></ul></div>';
 
         $('div#sessions').append($(divtxt).fadeIn('slow')).find('input.ro[type=text]').prop('readonly', true);
-        $('.session[token="' + token + '"]').find('.publicwatchurldiv').hide();
+        $('.session[token="' + token + '"]').find('.sharediv').hide();
         $('.session[token="' + token + '"]').find('.moreUrls').hide();
         $('.session[token="' + token + '"]').find('.editsessiondiv').hide();
+        if (parseInt(isPublic) === 0) {
+            $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').hide();
+        }
             //.find('input[type=text]').prop('readonly', false);
     }
     
@@ -2529,12 +2532,8 @@
             }
         });
 
-        $('body').on('click','.closepublicwatchurldiv', function(e) {
-            $(this).parent().slideUp('slow');
-        });
-
         $('body').on('click','.sharesession', function(e) {
-            var sharediv = $(this).parent().parent().find('.publicwatchurldiv')
+            var sharediv = $(this).parent().parent().find('.sharediv')
             if (sharediv.is(':visible')) {
                 sharediv.slideUp('slow');
             }
@@ -2610,10 +2609,12 @@
                     if (pub) {
                         icon.addClass('fa-eye').removeClass('fa-eye-slash');
                         buttext.text(t('phonetrack', 'Make session private'));
+                        $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideDown();
                     }
                     else {
                         icon.addClass('fa-eye-slash').removeClass('fa-eye');
                         buttext.text(t('phonetrack', 'Make session public'));
+                        $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideUp();
                     }
                 }
                 else if (response.done === 2) {
