@@ -1649,25 +1649,43 @@ class PageController extends Controller {
         $req->closeCursor();
 
         if ($dbname !== null) {
-            // determine share token
-            $sharetoken = md5('share'.$this->userId.$dbname.rand());
-
-            // insert
-            $sql = 'INSERT INTO *PREFIX*phonetrack_shares';
-            $sql .= ' (sessionid, username, sharetoken) ';
-            $sql .= 'VALUES (';
-            $sql .= $this->db_quote_escape_string($dbtoken).',';
-            $sql .= $this->db_quote_escape_string($username).',';
-            $sql .= $this->db_quote_escape_string($sharetoken);
-            $sql .= ');';
-            $req = $this->dbconnection->prepare($sql);
+            // check if user share exists
+            $sqlchk = 'SELECT username, sessionid FROM *PREFIX*phonetrack_shares ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+            $sqlchk .= 'AND username='.$this->db_quote_escape_string($username).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
+            $dbusername = null;
+            while ($row = $req->fetch()){
+                $dbusername = $row['username'];
+                break;
+            }
             $req->closeCursor();
 
-            $ok = 1;
+            if ($dbusername === null) {
+                // determine share token
+                $sharetoken = md5('share'.$this->userId.$dbname.rand());
+
+                // insert
+                $sql = 'INSERT INTO *PREFIX*phonetrack_shares';
+                $sql .= ' (sessionid, username, sharetoken) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($dbtoken).',';
+                $sql .= $this->db_quote_escape_string($username).',';
+                $sql .= $this->db_quote_escape_string($sharetoken);
+                $sql .= ');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            else {
+                $ok = 2;
+            }
         }
         else {
-            $ok = 2;
+            $ok = 3;
         }
 
         $response = new DataResponse(
@@ -1717,7 +1735,7 @@ class PageController extends Controller {
             }
             $req->closeCursor();
 
-            if ($dbname !== null) {
+            if ($dbusername !== null) {
                 // delete
                 $sqldel = 'DELETE FROM *PREFIX*phonetrack_shares ';
                 $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';

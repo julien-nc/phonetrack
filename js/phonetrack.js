@@ -2343,6 +2343,7 @@
             t('phonetrack', 'Shared with {u}', {'u': username}) + '</label>' +
             '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
         $('.session[token="' + token + '"]').find('.usersharelist').append(li);
+        $('.session[token="' + token + '"]').find('.addusershare').val('');
     }
 
     function deleteUserShareDb(token, username) {
@@ -2358,7 +2359,10 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                $('.session[token="' + token + '"]').find('.usersharelist li[username=' + username + ']').remove();
+                var li = $('.session[token="' + token + '"]').find('.usersharelist li[username=' + username + ']');
+                li.fadeOut('slow', function() {
+                    li.remove();
+                });
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to delete user share'));
