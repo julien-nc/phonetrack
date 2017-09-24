@@ -1156,18 +1156,19 @@ class PageController extends Controller {
 
             // check if session exists
             $dbpublicviewtoken = null;
-            $sqlget = 'SELECT publicviewtoken, token FROM *PREFIX*phonetrack_sessions ';
+            $sqlget = 'SELECT publicviewtoken, token, public FROM *PREFIX*phonetrack_sessions ';
             $sqlget .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
             $req = $this->dbconnection->prepare($sqlget);
             $req->execute();
             while ($row = $req->fetch()){
                 $dbpublicviewtoken = $row['publicviewtoken'];
                 $dbtoken = $row['token'];
+                $dbpublic = (int)$row['public'];
             }
             $req->closeCursor();
 
             // session exists
-            if ($dbpublicviewtoken !== null) {
+            if ($dbpublicviewtoken !== null and $dbpublic === 1) {
                 // get list of devices
                 $devices = array();
                 $sqldev = 'SELECT deviceid FROM *PREFIX*phonetrack_points ';
@@ -1234,22 +1235,24 @@ class PageController extends Controller {
     public function publicSessionWatch($publicviewtoken) {
         if ($publicviewtoken !== '') {
             // check if session exists
-            $sqlchk = 'SELECT token  FROM *PREFIX*phonetrack_sessions ';
+            $sqlchk = 'SELECT token, public  FROM *PREFIX*phonetrack_sessions ';
             $sqlchk .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
             $dbtoken = null;
+            $dbpublic = null;
             while ($row = $req->fetch()){
                 $dbtoken = $row['token'];
+                $dbpublic = (int)$row['public'];
                 break;
             }
             $req->closeCursor();
 
-            if ($dbtoken !== null) {
+            if ($dbtoken !== null and $dbpublic === 1) {
                 return $this->publicWebLog($dbtoken, '');
             }
             else {
-                return 'There is no such session';
+                return 'Session does not exist or is not public';
             }
         }
         else {
