@@ -44,6 +44,8 @@ return [
         ['name' => 'page#publicWebLogTrack', 'url' => '/publicWebLogTrack', 'verb' => 'POST'],
         ['name' => 'page#publicViewTrack', 'url' => '/publicViewTrack', 'verb' => 'POST'],
         ['name' => 'page#setSessionPublic', 'url' => '/setSessionPublic', 'verb' => 'POST'],
+        ['name' => 'page#addUserShare', 'url' => '/addUserShare', 'verb' => 'POST'],
+        ['name' => 'page#deleteUserShare', 'url' => '/deleteUserShare', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],
         ['name' => 'utils#addTileServer', 'url' => '/addTileServer', 'verb' => 'POST'],

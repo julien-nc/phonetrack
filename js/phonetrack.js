@@ -965,6 +965,15 @@
         }
         if (!pageIsPublic()) {
             divtxt = divtxt + '<div class="sharediv">';
+
+            divtxt = divtxt + '<div class="usersharediv">';
+            divtxt = divtxt + '<p class="addusershareLabel">' + t('phonetrack', 'Share with user') + ' :</p>';
+            divtxt = divtxt + '<input class="addusershare" type="text" title="' +
+                t('phonetrack', 'Type user name and press enter') + '"></input>';
+            divtxt = divtxt + '<ul class="usersharelist">';
+            divtxt = divtxt + '</ul>';
+            divtxt = divtxt + '</div>';
+
             var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
             var icon = 'fa-eye-slash';
             var pubtext = t('phonetrack', 'Make session public');
@@ -2291,6 +2300,58 @@
         }
     }
 
+    function addUserShareDb(token, username) {
+        var req = {
+            token: token,
+            username: username
+        };
+        var url = OC.generateUrl('/apps/phonetrack/addUserShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                addUserShare(token, username);
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to add user share'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to add user share'));
+        });
+    }
+
+    function addUserShare(token, username) {
+        var li = '<li username="' + username + '"><label>' +
+            t('phonetrack', 'Shared with {u}', {'u': username}) + '</label>' +
+            '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
+        $('.session[token="' + token + '"]').find('.usersharelist').append(li);
+    }
+
+    function deleteUserShareDb(token, username) {
+        var req = {
+            token: token,
+            username: username
+        };
+        var url = OC.generateUrl('/apps/phonetrack/deleteUserShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                $('.session[token="' + token + '"]').find('.usersharelist li[username=' + username + ']').remove();
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete user share'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to delete user share'));
+        });
+    }
 
     //////////////// MAIN /////////////////////
 
@@ -2677,6 +2738,20 @@
             if (!isVisible) {
                 dcontent.toggleClass('show');
             }
+        });
+
+        $('body').on('keypress','.addusershare', function(e) {
+            if (e.key === 'Enter') {
+                var token = $(this).parent().parent().parent().attr('token');
+                var username = $(this).val();
+                addUserShareDb(token, username);
+            }
+        });
+
+        $('body').on('click','.deleteusershare', function(e) {
+            var token = $(this).parent().parent().parent().parent().parent().attr('token');
+            var username = $(this).parent().attr('username');
+            deleteUserShareDb(token, username);
         });
 
         if (!pageIsPublic()) {

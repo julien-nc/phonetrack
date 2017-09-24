@@ -291,6 +291,10 @@ div#logofolder label {
 .sharediv {
     width: 100%;
 }
+.usersharelist {
+    grid-column: 1/3;
+}
+.usersharediv,
 .publicWatchUrlDiv {
     display: grid;
     grid-template-columns: 48% 48%;
@@ -341,23 +345,27 @@ div.session p,
 .watchbutton i.fa-eye {
     color: blue;
 }
+.deleteusershare:hover i,
 .watchbutton:hover i,
 .zoomdevicebutton:hover i,
 .moreUrlsButton:hover i,
 .sharesession:hover i,
 .zoomsession:hover i,
-.dropdownbutton:hover i,
-.sharediv:hover i {
+.publicsessionbutton:hover i,
+.dropdownbutton:hover i {
     color: black;
 }
+.deleteusershare i,
 .moreUrlsButton i,
 .sharesession i,
 .zoomsession i,
+.publicsessionbutton i,
 .dropdownbutton i,
 .sharediv i {
     color: grey;
     font-size: 16px;
 }
+.deleteusershare,
 .sessionBar button {
     padding: 0;
     width: 25px;

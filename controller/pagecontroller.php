@@ -1574,4 +1574,125 @@ class PageController extends Controller {
         return $gpxText;
     }
 
+    /**
+     * @NoAdminRequired
+     */
+    public function addUserShare($token, $username) {
+        $ok = 0;
+        // check if session exists and owned by current user
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // determine share token
+            $sharetoken = md5('share'.$this->userId.$dbname.rand());
+
+            // insert
+            $sql = 'INSERT INTO *PREFIX*phonetrack_shares';
+            $sql .= ' (sessionid, username, sharetoken) ';
+            $sql .= 'VALUES (';
+            $sql .= $this->db_quote_escape_string($dbtoken).',';
+            $sql .= $this->db_quote_escape_string($username).',';
+            $sql .= $this->db_quote_escape_string($sharetoken);
+            $sql .= ');';
+            $req = $this->dbconnection->prepare($sql);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteUserShare($token, $username) {
+        $ok = 0;
+        // check if session exists
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if user share exists
+            $sqlchk = 'SELECT username, sessionid FROM *PREFIX*phonetrack_shares ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+            $sqlchk .= 'AND username='.$this->db_quote_escape_string($username).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbusername = null;
+            while ($row = $req->fetch()){
+                $dbusername = $row['username'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbname !== null) {
+                // delete
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_shares ';
+                $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).';';
+                $sqldel .= 'AND username='.$this->db_quote_escape_string($username).';';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            else {
+                $ok = 2;
+            }
+        }
+        else {
+            $ok = 3;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
 }
