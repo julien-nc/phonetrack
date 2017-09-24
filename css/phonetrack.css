@@ -291,6 +291,9 @@ div#logofolder label {
 .sharediv {
     width: 100%;
 }
+.usersharelist li {
+    text-align: right;
+}
 .usersharelist {
     grid-column: 1/3;
 }

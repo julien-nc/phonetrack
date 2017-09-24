@@ -290,6 +290,8 @@ class PageController extends Controller {
 
     /**
      * @NoAdminRequired
+     *
+     * get sessions owned by and shared with current user
      */
     public function getSessions() {
         $sessions = array();
@@ -300,9 +302,10 @@ class PageController extends Controller {
         while ($row = $req->fetch()){
             $dbname = $row['name'];
             $dbtoken = $row['token'];
+            $sharedWith = $this->getSessionShares($dbtoken);
             $dbpublicviewtoken = $row['publicviewtoken'];
             $dbpublic = $row['public'];
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic));
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith));
         }
         $req->closeCursor();
 
@@ -317,6 +320,21 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    private function getSessionShares($sessionid) {
+        $sharedWith = [];
+        $sqlchk = 'SELECT username FROM *PREFIX*phonetrack_shares ';
+        $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($sessionid).';';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbusername = null;
+        while ($row = $req->fetch()){
+            array_push($sharedWith, $row['username']);
+        }
+        $req->closeCursor();
+
+        return $sharedWith;
     }
 
     /**
@@ -1666,7 +1684,7 @@ class PageController extends Controller {
             if ($dbname !== null) {
                 // delete
                 $sqldel = 'DELETE FROM *PREFIX*phonetrack_shares ';
-                $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).';';
+                $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                 $sqldel .= 'AND username='.$this->db_quote_escape_string($username).';';
                 $req = $this->dbconnection->prepare($sqldel);
                 $req->execute();

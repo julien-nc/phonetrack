@@ -863,7 +863,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                addSession(response.token, sessionName, response.publicviewtoken, 1);
+                addSession(response.token, sessionName, response.publicviewtoken, [], 1);
             }
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'Session name already used'));
@@ -878,7 +878,8 @@
         return $('div.session[token="' + token + '"] .sessionBar .sessionName').text();
     }
 
-    function addSession(token, name, publicviewtoken, isPublic, selected=false) {
+    function addSession(token, name, publicviewtoken, isPublic, sharedWith=[], selected=false) {
+        console.log(sharedWith);
         $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
         var gpsloggerUrl = OC.generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/yourname?');
         var gpsloggerParams = 'lat=%LAT&' +
@@ -971,6 +972,12 @@
             divtxt = divtxt + '<input class="addusershare" type="text" title="' +
                 t('phonetrack', 'Type user name and press enter') + '"></input>';
             divtxt = divtxt + '<ul class="usersharelist">';
+            var i;
+            for (i = 0; i < sharedWith.length; i++) {
+                divtxt = divtxt + '<li username="' + escapeHTML(sharedWith[i]) + '"><label>' +
+                    t('phonetrack', 'Shared with {u}', {'u': sharedWith[i]}) + '</label>' +
+                    '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
+            }
             divtxt = divtxt + '</ul>';
             divtxt = divtxt + '</div>';
 
@@ -986,6 +993,7 @@
             divtxt = divtxt + '<div class="publicWatchUrlDiv">';
             divtxt = divtxt + '<p class="publicWatchUrlLabel">' + t('phonetrack', 'Public watch URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
+            divtxt = divtxt + '</div>';
             divtxt = divtxt + '</div>';
         }
         if (!pageIsPublicSessionWatch()) {
@@ -1191,7 +1199,13 @@
             var s;
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
-                    addSession(response.sessions[s][1], response.sessions[s][0], response.sessions[s][2], response.sessions[s][3]);
+                    addSession(
+                        response.sessions[s][1],
+                        response.sessions[s][0],
+                        response.sessions[s][2],
+                        response.sessions[s][3],
+                        response.sessions[s][4]
+                    );
                 }
             }
         }).always(function() {
@@ -2166,7 +2180,7 @@
                 async: true
             }).done(function (response) {
                 if (response.done === 1) {
-                    addSession(response.token, response.sessionName, response.publicviewtoken, 1);
+                    addSession(response.token, response.sessionName, response.publicviewtoken, [], 1);
                 }
                 else if (response.done === 2) {
                     OC.Notification.showTemporary(t('phonetrack', 'Failed to create imported session'));
@@ -2324,7 +2338,7 @@
     }
 
     function addUserShare(token, username) {
-        var li = '<li username="' + username + '"><label>' +
+        var li = '<li username="' + escapeHTML(username) + '"><label>' +
             t('phonetrack', 'Shared with {u}', {'u': username}) + '</label>' +
             '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
         $('.session[token="' + token + '"]').find('.usersharelist').append(li);
@@ -2773,7 +2787,7 @@
             phonetrack.token = token;
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
-            addSession(token, name, publicviewtoken, null, true);
+            addSession(token, name, publicviewtoken, null, [], true);
             $('#addPointDiv').remove();
             $('.removeSession').remove();
             $('#customtilediv').remove();
