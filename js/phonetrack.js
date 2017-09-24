@@ -973,7 +973,7 @@
             divtxt = divtxt + '<div class="usersharediv">';
             divtxt = divtxt + '<p class="addusershareLabel">' + t('phonetrack', 'Share with user') + ' :</p>';
             divtxt = divtxt + '<input class="addusershare" type="text" title="' +
-                t('phonetrack', 'Type user name and press enter') + '"></input>';
+                t('phonetrack', 'Type user name and press \'Enter\'') + '"></input>';
             divtxt = divtxt + '<ul class="usersharelist">';
             var i;
             for (i = 0; i < sharedWith.length; i++) {
@@ -1644,7 +1644,7 @@
                 updatePointMap(but);
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('phonetrack', 'The point you want to edit does not exist'));
+                OC.Notification.showTemporary(t('phonetrack', 'The point you want to edit does not exist or you\'re not allowed to edit it'));
             }
         }).always(function() {
         }).fail(function() {
@@ -1782,7 +1782,7 @@
                 deletePointMap(but);
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('phonetrack', 'The point you want to delete does not exist'));
+                OC.Notification.showTemporary(t('phonetrack', 'The point you want to delete does not exist or you\'re not allowed to delete it'));
             }
         }).always(function() {
         }).fail(function() {
