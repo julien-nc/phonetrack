@@ -291,6 +291,9 @@ div#logofolder label {
 .sharediv {
     width: 100%;
 }
+.usersharelist label {
+    cursor: default;
+}
 .usersharelist li {
     text-align: right;
 }

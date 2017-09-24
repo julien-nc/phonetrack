@@ -982,7 +982,7 @@
                     '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
             }
             divtxt = divtxt + '</ul>';
-            divtxt = divtxt + '</div>';
+            divtxt = divtxt + '</div><hr/>';
 
             var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
             var icon = 'fa-eye-slash';
