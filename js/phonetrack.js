@@ -981,7 +981,7 @@
 
             divtxt = divtxt + '<div class="usersharediv">';
             divtxt = divtxt + '<p class="addusershareLabel">' + t('phonetrack', 'Share with user') + ' :</p>';
-            divtxt = divtxt + '<input class="addusershare" type="text" title="' +
+            divtxt = divtxt + '<input class="addusershare shareWithField ui-autocomplete-input" type="text" title="' +
                 t('phonetrack', 'Type user name and press \'Enter\'') + '"></input>';
             divtxt = divtxt + '<ul class="usersharelist">';
             var i;

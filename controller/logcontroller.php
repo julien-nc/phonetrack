@@ -27,17 +27,17 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
 function DMStoDEC($dms, $longlat) {
-    if ($longlat == 'latitude') {
+    if ($longlat === 'latitude') {
         $deg = substr($dms, 0, 2);
         $min = substr($dms, 2, 8);
         $sec = '';
     }
-    if ($longlat == 'longitude') {
+    if ($longlat === 'longitude') {
         $deg = substr($dms, 0, 3);
         $min = substr($dms, 3, 8);
-        $sec='';
+        $sec = '';
     }
-    return $deg+((($min*60)+($sec))/3600);
+    return $deg + ((($min * 60) + ($sec)) / 3600);
 }
 
 function getBrowser() {
@@ -105,7 +105,7 @@ function getBrowser() {
 
     // see how many we have
     $i = count($matches['browser']);
-    if ($i != 1) {
+    if ($i !== 1) {
         //we will have two since we are not using 'other' argument yet
         //see if version is before or after the name
         if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
@@ -120,14 +120,16 @@ function getBrowser() {
     }
 
     // check if we have a number
-    if ($version==null || $version=="") {$version="?";}
+    if ($version === null || $version === "") {
+        $version = "?";
+    }
 
     return array(
         'userAgent' => $u_agent,
         'name'      => $bname,
         'version'   => $version,
         'platform'  => $platform,
-        'pattern'    => $pattern
+        'pattern'   => $pattern
     );
 }
 
