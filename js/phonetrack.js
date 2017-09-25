@@ -921,7 +921,10 @@
         if (selected) {
             watchicon = 'fa-eye';
         }
-        var divtxt = '<div class="session" token="' + token + '" publicviewtoken="' + publicviewtoken + '">';
+        var divtxt = '<div class="session" token="' + token + '"' +
+           ' publicviewtoken="' + publicviewtoken + '"' +
+           ' shared="' + (isFromShare?1:0) + '"' +
+            '>';
         divtxt = divtxt + '<div class="sessionBar">';
         divtxt = divtxt + '<button class="watchbutton" title="' + t('phonetrack', 'Watch this session') + '">' +
             '<i class="fa ' + watchicon + '" aria-hidden="true"></i></button>';
@@ -1504,6 +1507,7 @@
 
     function addDevice(s, d, sessionname) {
         var colorn, textcolor, rgbc, linetooltip;
+        var isSessionShared = ($('div.session[token="' + s + '"]').attr('shared') === '1');
         colorn = ++lastColorUsed % colorCode.length;
         phonetrack.sessionColors[s + d] = colorn;
         rgbc = hexToRgb(colorCode[colorn]);
@@ -1528,7 +1532,7 @@
                 'color: ' + textcolor + '; font-weight: bold;' +
                 '}</style>').appendTo('body');
         var deleteLink = '';
-        if (!pageIsPublic()) {
+        if (!pageIsPublic() && !isSessionShared) {
             deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '" ' +
                 'title="' + t('phonetrack', 'Delete this device') + '">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i></button>';
