@@ -878,7 +878,7 @@
         return $('div.session[token="' + token + '"] .sessionBar .sessionName').text();
     }
 
-    function addSession(token, name, publicviewtoken, isPublic, sharedWith=[], selected=false, isFromShare=false) {
+    function addSession(token, name, publicviewtoken, isPublic, sharedWith=[], selected=false, isFromShare=false, isSharedBy='') {
         $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
         var gpsloggerUrl = OC.generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/yourname?');
         var gpsloggerParams = 'lat=%LAT&' +
@@ -929,7 +929,13 @@
         divtxt = divtxt + '<button class="watchbutton" title="' + t('phonetrack', 'Watch this session') + '">' +
             '<i class="fa ' + watchicon + '" aria-hidden="true"></i></button>';
 
-        divtxt = divtxt + '<div class="sessionName" title="' + name + '">' + name + '</div>';
+        var sharedByText = '';
+        if (isSharedBy !== '') {
+            sharedByText = ' (' +
+                t('phonetrack', 'shared by {u}', {u: isSharedBy}) +
+                ')';
+        }
+        divtxt = divtxt + '<div class="sessionName" title="' + name + sharedByText + '">' + name + '</div>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
                 '<i class="fa fa-bars" aria-hidden="true"></i></button>';
@@ -1206,7 +1212,7 @@
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
                     // TODO adapt to shared sessions
-                    if (response.sessions[s].length < 3) {
+                    if (response.sessions[s].length < 4) {
                         addSession(
                             response.sessions[s][1],
                             response.sessions[s][0],
@@ -1214,7 +1220,8 @@
                             0,
                             [],
                             false,
-                            true
+                            true,
+                            response.sessions[s][2]
                         );
                     }
                     else {

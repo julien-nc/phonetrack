@@ -318,8 +318,10 @@ class PageController extends Controller {
         while ($row = $req->fetch()){
             $dbsessionid = $row['sessionid'];
             $dbsharetoken = $row['sharetoken'];
-            $dbname = $this->getSessionName($dbsessionid);
-            array_push($sessions, array($dbname, $dbsharetoken));
+            $sessionInfo = $this->getSessionInfo($dbsessionid);
+            $dbname = $sessionInfo['name'];
+            $dbuser = $sessionInfo['user'];
+            array_push($sessions, array($dbname, $dbsharetoken, $dbuser));
         }
         $req->closeCursor();
 
@@ -336,18 +338,19 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function getSessionName($sessionid) {
+    private function getSessionInfo($sessionid) {
         $dbname = null;
-        $sqlget = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlget = 'SELECT name, '.$this->dbdblquotes.'user'.$this->dbdblquotes.' FROM *PREFIX*phonetrack_sessions ';
         $sqlget .= 'WHERE token='.$this->db_quote_escape_string($sessionid).';';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
             $dbname = $row['name'];
+            $dbuser = $row['user'];
         }
         $req->closeCursor();
 
-        return $dbname;
+        return ['user'=>$dbuser, 'name'=>$dbname];
     }
 
 

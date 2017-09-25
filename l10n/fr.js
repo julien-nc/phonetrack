@@ -96,6 +96,7 @@ OC.L10N.register(
         "Failed to delete user share" : "Échec de la suppression du partage",
         "Failed to add user share" : "Échec de l'ajout du partage",
         "Shared with {u}" : "Partagé avec {u}",
+        "shared by {u}" : "Partagé par {u}",
         "Share with user" : "Partager avec l'utilisateur",
         "Zoom on this session" : "Zoomer sur cette session"
     },
