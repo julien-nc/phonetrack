@@ -18,6 +18,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
 use OCA\PhoneTrack\Controller\PageController;
+use OCA\PhoneTrack\Controller\LogController;
 use OCA\PhoneTrack\Controller\UtilsController;
 
 /**
@@ -43,6 +44,20 @@ class Application extends App {
         $container->registerService(
             'PageController', function (IAppContainer $c) {
                 return new PageController(
+                    $c->query('AppName'),
+                    $c->query('Request'),
+                    $c->query('UserId'),
+                    $c->query('ServerContainer')->getUserFolder($c->query('UserId')),
+                    $c->query('ServerContainer')->getConfig(),
+                    $c->getServer()->getShareManager(),
+                    $c->getServer()->getAppManager()
+                );
+            }
+        );
+
+        $container->registerService(
+            'LogController', function (IAppContainer $c) {
+                return new LogController(
                     $c->query('AppName'),
                     $c->query('Request'),
                     $c->query('UserId'),
