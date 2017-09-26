@@ -33,7 +33,7 @@ $baseTileServers = [
     Array(
         'name' => 'OpenCycleMap',
         'type' => 'tile',
-        'url' => 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+        'url' => 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png',
         'attribution' => '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         'minzoom' => '1',
         'maxzoom' => '18'

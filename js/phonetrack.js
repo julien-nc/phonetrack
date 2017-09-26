@@ -959,7 +959,7 @@
                 divtxt = divtxt + '<button class="removeSession">' +
                     '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete session') + '</button>';
                 divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
-                    '<i class="fa fa-edit"></i> ' + t('phonetrack', 'Rename session') + '</button>';
+                    '<i class="fa fa-pencil"></i> ' + t('phonetrack', 'Rename session') + '</button>';
             }
             divtxt = divtxt + '<button class="export" title="' + t('phonetrack', 'Export to gpx') + '">' +
                 '<i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
@@ -1549,6 +1549,9 @@
                 'title="' + t('phonetrack', 'Delete this device') + '">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i></button>';
         }
+        var detailLink = ' <button class="toggleDetail" token="' + s + '" device="' + d + '" ' +
+            'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
+            '<i class="fa fa-dot-circle-o" aria-hidden="true"></i></button>';
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor" style="background-color:' + colorCode[colorn] + ';"></div> ' +
@@ -1558,6 +1561,7 @@
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' ' + d + '">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
+                detailLink +
                 '<input class="followdevice" type="checkbox" ' + 'title="' +
                 t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
                 '</li>');
@@ -2301,6 +2305,23 @@
         }
     }
 
+    function toggleDetailDevice(elem) {
+        var viewmove = $('#viewmove').is(':checked');
+        var d = elem.parent().attr('device');
+        var s = elem.parent().attr('token');
+
+        if (viewmove) {
+            if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+                phonetrack.sessionPointsLayers[s][d].remove();
+                elem.addClass('off').removeClass('on');
+            }
+            else{
+                phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
+                elem.addClass('on').removeClass('off');
+            }
+        }
+    }
+
     function zoomOnDevice(elem) {
         var dd, t, b, l;
         var perm = $('#showtime').is(':checked');
@@ -2316,12 +2337,12 @@
             l = phonetrack.sessionLineLayers[s][d];
             l.bringToFront();
 
-            // hide points for the session
-            for (dd in phonetrack.sessionPointsLayers[s]) {
-                phonetrack.sessionPointsLayers[s][dd].remove();
-            }
-            // put the points for this device
-            phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
+            //// hide points for the session
+            //for (dd in phonetrack.sessionPointsLayers[s]) {
+            //    phonetrack.sessionPointsLayers[s][dd].remove();
+            //}
+            //// put the points for this device
+            //phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
 
             b = l.getBounds();
         }
@@ -2564,6 +2585,7 @@
                     $(this).parent().parent().find('.devicelist').slideUp('slow');
                     $(this).parent().parent().find('.sharediv').slideUp('slow');
                     $(this).parent().parent().find('.moreUrls').slideUp('slow');
+                    $(this).parent().parent().find('.toggleDetail').addClass('off').removeClass('on');
                 }
                 else {
                     icon.addClass('fa-eye').removeClass('fa-eye-slash');
@@ -2659,6 +2681,10 @@
 
         $('body').on('click', 'ul.devicelist li .zoomdevicebutton, ul.devicelist li .deviceLabel', function(e) {
             zoomOnDevice($(this));
+        });
+
+        $('body').on('click', 'ul.devicelist li .toggleDetail', function(e) {
+            toggleDetailDevice($(this));
         });
 
         $('body').on('click','.moreUrlsButton', function(e) {

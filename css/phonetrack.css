@@ -355,6 +355,7 @@ div.session p,
     color: red;
 }
 .watchbutton:hover i,
+.off:hover i,
 .zoomdevicebutton:hover i,
 .moreUrlsButton:hover i,
 .sharesession:hover i,
@@ -490,6 +491,7 @@ ul.devicelist {
     float: right;
     margin-left: 4px !important;
 }
+.toggleDetail,
 .zoomdevicebutton,
 .deleteDevice {
     padding: 0;
@@ -502,8 +504,12 @@ ul.devicelist {
     border: 0px;
     background: none;
 }
+.off i,
 .zoomdevicebutton i {
     color: grey;
+}
+.on i {
+    color: blue;
 }
 .deleteDevice i {
     color: grey;
