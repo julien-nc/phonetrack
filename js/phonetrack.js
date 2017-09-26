@@ -1158,10 +1158,15 @@
             phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
             phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
             // marker popup
-            p = phonetrack.sessionMarkerLayers[token][d].getPopup().getContent();
-            phonetrack.sessionMarkerLayers[token][d].unbindPopup();
-            p = p.replace('sessionname="' + oldname + '"', 'sessionname="' + newname + '"');
-            phonetrack.sessionMarkerLayers[token][d].bindPopup(p, {closeOnClick: false});
+            if (!pageIsPublic()
+                && !isSessionShared(token)
+                && $('.session[token='+token+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
+            ) {
+                p = phonetrack.sessionMarkerLayers[token][d].getPopup().getContent();
+                phonetrack.sessionMarkerLayers[token][d].unbindPopup();
+                p = p.replace('sessionname="' + oldname + '"', 'sessionname="' + newname + '"');
+                phonetrack.sessionMarkerLayers[token][d].bindPopup(p, {closeOnClick: false});
+            }
 
             // line tooltip
             to = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
@@ -1468,7 +1473,10 @@
                 {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
             );
             // popup
-            if (!pageIsPublic() && !isSessionShared(s)) {
+            if (!pageIsPublic()
+                && !isSessionShared(s)
+                && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
+            ) {
                 phonetrack.sessionMarkerLayers[s][d].unbindPopup();
                 phonetrack.sessionMarkerLayers[s][d].bindPopup(
                     getPointPopup(s, d, mentry, sessionname),
@@ -2310,6 +2318,7 @@
         var d = elem.parent().attr('device');
         var s = elem.parent().attr('token');
 
+        // line points
         if (viewmove) {
             if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
                 phonetrack.sessionPointsLayers[s][d].remove();
@@ -2318,6 +2327,22 @@
             else{
                 phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
                 elem.addClass('on').removeClass('off');
+            }
+        }
+        // marker
+        if (!pageIsPublic() && !isSessionShared(s)) {
+            if (elem.hasClass('off')) {
+                phonetrack.sessionMarkerLayers[s][d].unbindPopup();
+            }
+            else {
+                var sessionname = getSessionName(s);
+                var mid = phonetrack.sessionMarkerLayers[s][d].getLatLng().alt;
+                var mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
+
+                phonetrack.sessionMarkerLayers[s][d].bindPopup(
+                    getPointPopup(s, d, mentry, sessionname),
+                    {closeOnClick: false}
+                );
             }
         }
     }
