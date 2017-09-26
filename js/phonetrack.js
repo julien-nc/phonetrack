@@ -2554,6 +2554,8 @@
                 if (icon.hasClass('fa-eye')) {
                     icon.addClass('fa-eye-slash').removeClass('fa-eye');
                     $(this).parent().parent().find('.devicelist').slideUp('slow');
+                    $(this).parent().parent().find('.sharediv').slideUp('slow');
+                    $(this).parent().parent().find('.moreUrls').slideUp('slow');
                 }
                 else {
                     icon.addClass('fa-eye').removeClass('fa-eye-slash');

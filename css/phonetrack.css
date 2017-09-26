@@ -351,7 +351,9 @@ div.session p,
 .watchbutton i.fa-eye {
     color: blue;
 }
-.deleteusershare:hover i,
+.deleteusershare:hover i {
+    color: red;
+}
 .watchbutton:hover i,
 .zoomdevicebutton:hover i,
 .moreUrlsButton:hover i,
@@ -504,6 +506,9 @@ ul.devicelist {
     color: grey;
 }
 .deleteDevice i {
+    color: grey;
+}
+.deleteDevice:hover i {
     color: red;
 }
 .deviceLabel {
