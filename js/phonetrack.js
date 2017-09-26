@@ -2412,7 +2412,6 @@
             data: req,
             async: true
         }).done(function (response) {
-            console.log(response.users);
             input.autocomplete({
                 source: response.users
             });
