@@ -34,6 +34,7 @@ class PageController extends Controller {
     private $appVersion;
     private $userAbsoluteDataPath;
     private $shareManager;
+    private $userManager;
     private $dbconnection;
     private $dbtype;
     private $dbdblquotes;
@@ -41,7 +42,7 @@ class PageController extends Controller {
     private $defaultDeviceId;
 
     public function __construct($AppName, IRequest $request, $UserId,
-                                $userfolder, $config, $shareManager, IAppManager $appManager){
+                                $userfolder, $config, $shareManager, IAppManager $appManager, $userManager){
         parent::__construct($AppName, $request);
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
         // just to keep Owncloud compatibility
@@ -56,6 +57,7 @@ class PageController extends Controller {
             //$this->appPath = getcwd().'/apps/phonetrack';
         }
         $this->userId = $UserId;
+        $this->userManager = $userManager;
         $this->dbtype = $config->getSystemValue('dbtype');
         // IConfig object
         $this->config = $config;
@@ -1303,59 +1305,71 @@ class PageController extends Controller {
      */
     public function addUserShare($token, $username) {
         $ok = 0;
-        // check if session exists and owned by current user
-        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
-        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
-        $req = $this->dbconnection->prepare($sqlchk);
-        $req->execute();
-        $dbname = null;
-        $dbtoken = null;
-        while ($row = $req->fetch()){
-            $dbname = $row['name'];
-            $dbtoken = $row['token'];
-            break;
+        // check if username exists
+        $userNames = [];
+        foreach($this->userManager->search('') as $u) {
+            if ($u->getUID() !== $this->userId) {
+                array_push($userNames, $u->getUID());
+            }
         }
-        $req->closeCursor();
-
-        if ($dbname !== null) {
-            // check if user share exists
-            $sqlchk = 'SELECT username, sessionid FROM *PREFIX*phonetrack_shares ';
-            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
-            $sqlchk .= 'AND username='.$this->db_quote_escape_string($username).' ';
+        if (in_array($username, $userNames)) {
+            // check if session exists and owned by current user
+            $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+            $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+            $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
-            $dbusername = null;
+            $dbname = null;
+            $dbtoken = null;
             while ($row = $req->fetch()){
-                $dbusername = $row['username'];
+                $dbname = $row['name'];
+                $dbtoken = $row['token'];
                 break;
             }
             $req->closeCursor();
 
-            if ($dbusername === null) {
-                // determine share token
-                $sharetoken = md5('share'.$this->userId.$dbname.rand());
-
-                // insert
-                $sql = 'INSERT INTO *PREFIX*phonetrack_shares';
-                $sql .= ' (sessionid, username, sharetoken) ';
-                $sql .= 'VALUES (';
-                $sql .= $this->db_quote_escape_string($dbtoken).',';
-                $sql .= $this->db_quote_escape_string($username).',';
-                $sql .= $this->db_quote_escape_string($sharetoken);
-                $sql .= ');';
-                $req = $this->dbconnection->prepare($sql);
+            if ($dbname !== null) {
+                // check if user share exists
+                $sqlchk = 'SELECT username, sessionid FROM *PREFIX*phonetrack_shares ';
+                $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqlchk .= 'AND username='.$this->db_quote_escape_string($username).' ';
+                $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
+                $dbusername = null;
+                while ($row = $req->fetch()){
+                    $dbusername = $row['username'];
+                    break;
+                }
                 $req->closeCursor();
 
-                $ok = 1;
+                if ($dbusername === null) {
+                    // determine share token
+                    $sharetoken = md5('share'.$this->userId.$dbname.rand());
+
+                    // insert
+                    $sql = 'INSERT INTO *PREFIX*phonetrack_shares';
+                    $sql .= ' (sessionid, username, sharetoken) ';
+                    $sql .= 'VALUES (';
+                    $sql .= $this->db_quote_escape_string($dbtoken).',';
+                    $sql .= $this->db_quote_escape_string($username).',';
+                    $sql .= $this->db_quote_escape_string($sharetoken);
+                    $sql .= ');';
+                    $req = $this->dbconnection->prepare($sql);
+                    $req->execute();
+                    $req->closeCursor();
+
+                    $ok = 1;
+                }
+                else {
+                    $ok = 2;
+                }
             }
             else {
-                $ok = 2;
+                $ok = 3;
             }
         }
         else {
-            $ok = 3;
+            $ok = 4;
         }
 
         $response = new DataResponse(
@@ -1427,6 +1441,29 @@ class PageController extends Controller {
         $response = new DataResponse(
             [
                 'done'=>$ok
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function getUserList() {
+        $userNames = [];
+        foreach($this->userManager->search('') as $u) {
+            if ($u->getUID() !== $this->userId) {
+                array_push($userNames, $u->getUID());
+            }
+        }
+        $response = new DataResponse(
+            [
+                'users'=>$userNames
             ]
         );
         $csp = new ContentSecurityPolicy();

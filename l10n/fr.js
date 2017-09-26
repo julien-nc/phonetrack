@@ -98,6 +98,7 @@ OC.L10N.register(
         "Shared with {u}" : "Partagé avec {u}",
         "shared by {u}" : "Partagé par {u}",
         "Share with user" : "Partager avec l'utilisateur",
+        "User does not exist" : "Cet utilisateur n'existe pas",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");

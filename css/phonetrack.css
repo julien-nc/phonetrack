@@ -572,3 +572,6 @@ ul.devicelist {
     border: 0px;
 }
 .show {display:block;}
+.ui-widget {
+    z-index: 9999;
+}

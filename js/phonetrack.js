@@ -981,7 +981,7 @@
 
             divtxt = divtxt + '<div class="usersharediv">';
             divtxt = divtxt + '<p class="addusershareLabel">' + t('phonetrack', 'Share with user') + ' :</p>';
-            divtxt = divtxt + '<input class="addusershare shareWithField ui-autocomplete-input" type="text" title="' +
+            divtxt = divtxt + '<input class="addusershare" type="text" title="' +
                 t('phonetrack', 'Type user name and press \'Enter\'') + '"></input>';
             divtxt = divtxt + '<ul class="usersharelist">';
             var i;
@@ -2357,6 +2357,9 @@
             if (response.done === 1) {
                 addUserShare(token, username);
             }
+            else if (response.done === 4) {
+                OC.Notification.showTemporary(t('phonetrack', 'User does not exist'));
+            }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to add user share'));
             }
@@ -2396,6 +2399,25 @@
             }
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to delete user share'));
+        });
+    }
+
+    function addUserAutocompletion(input) {
+        var req = {
+        };
+        var url = OC.generateUrl('/apps/phonetrack/getUserList');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            console.log(response.users);
+            input.autocomplete({
+                source: response.users
+            });
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to get user list'));
         });
     }
 
@@ -2788,6 +2810,10 @@
             if (!isVisible) {
                 dcontent.toggleClass('show');
             }
+        });
+
+        $('body').on('focus','.addusershare', function(e) {
+            addUserAutocompletion($(this));
         });
 
         $('body').on('keypress','.addusershare', function(e) {

@@ -50,7 +50,8 @@ class Application extends App {
                     $c->query('ServerContainer')->getUserFolder($c->query('UserId')),
                     $c->query('ServerContainer')->getConfig(),
                     $c->getServer()->getShareManager(),
-                    $c->getServer()->getAppManager()
+                    $c->getServer()->getAppManager(),
+                    $c->getServer()->getUserManager()
                 );
             }
         );
