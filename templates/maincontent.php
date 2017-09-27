@@ -323,9 +323,9 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input role="date" type="date"/></td>
 </tr><tr>
     <td><?php p($l->t('Time')); ?></td>
-    <td><input role="hour" type="number" min="0" max="23"/>:
-        <input role="minute" type="number" min="0" max="59"/>:
-        <input role="second" type="number" min="0" max="59"/></td>
+    <td><input role="hour" type="number" value="0" min="0" max="23"/>:
+        <input role="minute" type="number" value="0" min="0" max="59"/>:
+        <input role="second" type="number" value="0" min="0" max="59"/></td>
 </tr><tr>
     <td><?php p($l->t('Altitude')); ?></td>
     <td><input role="altitude" type="number" value="-1" min="-1"/></td>
@@ -358,18 +358,18 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input role="datemin" type="date"/></td>
 </tr><tr>
     <td><?php p($l->t('Min time')); ?></td>
-    <td><input role="hourmin" type="number" min="0" max="23"/>:
-        <input role="minutemin" type="number" min="0" max="59"/>:
-        <input role="secondmin" type="number" min="0" max="59"/></td>
+    <td><input role="hourmin" type="number" value="0" min="0" max="23"/>:
+        <input role="minutemin" type="number" value="0" min="0" max="59"/>:
+        <input role="secondmin" type="number" value="0" min="0" max="59"/></td>
 </tr>
 <tr>
     <td><?php p($l->t('Max date')); ?></td>
     <td><input role="datemax" type="date"/></td>
 </tr><tr>
     <td><?php p($l->t('Max time')); ?></td>
-    <td><input role="hourmax" type="number" min="0" max="23"/>:
-        <input role="minutemax" type="number" min="0" max="59"/>:
-        <input role="secondmax" type="number" min="0" max="59"/></td>
+    <td><input role="hourmax" type="number" value="0" min="0" max="23"/>:
+        <input role="minutemax" type="number" value="0" min="0" max="59"/>:
+        <input role="secondmax" type="number" value="0" min="0" max="59"/></td>
 </tr>
 </table>
 </div>
