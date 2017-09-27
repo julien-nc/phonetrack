@@ -3,6 +3,7 @@
 <ul class="sidebar-tabs" role="tablist">
 <li class="active" title="<?php p($l->t('Main tab')); ?>"><a href="#ho" role="tab"><i class="fa fa-bars"></i></a></li>
 <li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-gear"></i></a></li>
+<li title="<?php p($l->t('Filters')); ?>"><a href="#phonetrackfilters" role="tab"><i class="fa fa-filter"></i></a></li>
 <li title="<?php p($l->t('About PhoneTrack')); ?>"><a href="#help" role="tab"><i class="fa fa-question"></i></a></li>
 </ul>
 <!-- Tab panes -->
@@ -343,8 +344,10 @@ if (count($_['useroverlayserverswms']) > 0){
 <button id="validaddpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Add point')); ?></button>
 </div>
 
+</div>
+<div class="sidebar-pane" id="phonetrackfilters">
+
 <div id="filterDiv">
-<hr/>
 <h3><?php p($l->t('Filter points')); ?></h3>
 <br/>
 <label for="applydatemin"><?php p($l->t('Apply min date filter')); ?></label>
