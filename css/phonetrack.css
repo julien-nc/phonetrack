@@ -394,13 +394,10 @@ input[role=precision] {
     width: 70px !important;
     height: 15px !important;
 }
-#addPointTable, #filterPointsTable {
+#filterPointsTable {
     width: 100%;
 }
-#filterPointsTable input[type=number],
-#addPointTable input[role=minute],
-#addPointTable input[role=hour],
-#addPointTable input[role=second] {
+#filterPointsTable input[type=number] {
     width: 44px !important;
 }
 .editPoint input[role=minute],
@@ -425,8 +422,7 @@ input[type=date] {
     width: 150px;
 }
 #filterPointsTable input[type=number],
-.editPoint input[type=number],
-#addPointTable input[type=number] {
+.editPoint input[type=number] {
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;
     padding: 5px !important;
@@ -585,4 +581,7 @@ ul.devicelist {
 .show {display:block;}
 .ui-widget {
     z-index: 9999;
+}
+#canceladdpoint, #explainaddpoint {
+    display: none;
 }

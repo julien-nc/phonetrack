@@ -1474,4 +1474,82 @@ class PageController extends Controller {
         return $response;
     }
 
+    /**
+     *
+     **/
+    private function logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
+        if (!is_null($deviceid) and $deviceid !== '' and
+            !is_null($token) and $token !== '' and
+            !is_null($lat) and $lat !== '' and
+            !is_null($lon) and $lon !== '' and
+            !is_null($timestamp) and $timestamp !== ''
+        ) {
+            // check if session exists
+            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbname = null;
+            while ($row = $req->fetch()){
+                $dbname = $row['name'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbname !== null) {
+                // correct timestamp if needed
+                $time = $timestamp;
+                if (is_numeric($time) and (int)$time > 10000000000) {
+                    $time = (int)((int)$time / 1000);
+                }
+
+                if ($bat === '' or is_null($bat)) {
+                    $bat = '-1';
+                }
+                if ($sat === '' or is_null($sat)) {
+                    $sat = '-1';
+                }
+                if ($acc === '' or is_null($acc)) {
+                    $acc = '-1';
+                }
+                else {
+                    $acc = sprintf('%.2f', (float)$acc);
+                }
+                if ($alt === '' or is_null($alt)) {
+                    $alt = '-1';
+                }
+                if ($useragent === '' or is_null($useragent)) {
+                    $useragent = '';
+                }
+                else if ($useragent === 'browser') {
+                    $bi = getBrowser();
+                    $useragent = '';
+                    foreach(['name', 'version', 'platform'] as $k) {
+                        if (array_key_exists($k, $bi)) {
+                            $useragent .= $bi[$k] . ' ';
+                        }
+                    }
+                    $useragent = rtrim($useragent);
+                }
+
+                $sql = 'INSERT INTO *PREFIX*phonetrack_points';
+                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($token).',';
+                $sql .= $this->db_quote_escape_string($deviceid).',';
+                $sql .= $this->db_quote_escape_string($lat).',';
+                $sql .= $this->db_quote_escape_string($lon).',';
+                $sql .= $this->db_quote_escape_string($time).',';
+                $sql .= $this->db_quote_escape_string($acc).',';
+                $sql .= $this->db_quote_escape_string($sat).',';
+                $sql .= $this->db_quote_escape_string($alt).',';
+                $sql .= $this->db_quote_escape_string($bat).',';
+                $sql .= $this->db_quote_escape_string($useragent).');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+            }
+        }
+    }
+
 }

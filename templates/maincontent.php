@@ -312,36 +312,9 @@ if (count($_['useroverlayserverswms']) > 0){
 </select>
 <label for="addPointDevice"><?php p($l->t('Device')); ?></label>
 <input id="addPointDevice" value="deviceName"/>
-<table id="addPointTable">
-<tr>
-    <td><?php p($l->t('Latitude')); ?></td>
-    <td><input role="lat" type="number" min="-500" max="500" step="0.000001"/></td>
-</tr><tr>
-    <td><?php p($l->t('Longitude')); ?></td>
-    <td><input role="lon" type="number" min="-500" max="500" step="0.000001"/></td>
-</tr><tr>
-    <td><?php p($l->t('Date')); ?></td>
-    <td><input role="date" type="date"/></td>
-</tr><tr>
-    <td><?php p($l->t('Time')); ?></td>
-    <td><input role="hour" type="number" value="0" min="0" max="23"/>:
-        <input role="minute" type="number" value="0" min="0" max="59"/>:
-        <input role="second" type="number" value="0" min="0" max="59"/></td>
-</tr><tr>
-    <td><?php p($l->t('Altitude')); ?></td>
-    <td><input role="altitude" type="number" value="-1" min="-1"/></td>
-</tr><tr>
-    <td><?php p($l->t('Precision')); ?></td>
-    <td><input role="precision" type="number" value="-1" min="-1"/></td>
-</tr><tr>
-    <td><?php p($l->t('Satellites')); ?></td>
-    <td><input role="satellites" type="number" value="-1" min="-1"/></td>
-</tr><tr>
-    <td><?php p($l->t('Battery level')); ?></td>
-    <td><input role="battery" type="number" value="-1" min="-1" max="100"></td>
-</tr>
-</table>
-<button id="validaddpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Add point')); ?></button>
+<button id="validaddpoint"><i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Add point')); ?></button>
+<p id="explainaddpoint"><?php p($l->t('Now, click on the map to add a point (if session is not activated, you won\'t see added point)')); ?></p>
+<button id="canceladdpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Cancel add point')); ?></button>
 </div>
 
 </div>

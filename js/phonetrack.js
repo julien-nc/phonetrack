@@ -572,6 +572,25 @@
         phonetrack.doZoomButton.addTo(phonetrack.map);
     }
 
+    function enterAddPointMode() {
+        $('.leaflet-container').css('cursor','crosshair');
+        phonetrack.map.on('click', addPointClickMap);
+        $('#canceladdpoint').show();
+        $('#explainaddpoint').show();
+    }
+
+    function leaveAddPointMode() {
+        $('.leaflet-container').css('cursor','grab');
+        phonetrack.map.off('click', addPointClickMap);
+        $('#canceladdpoint').hide();
+        $('#explainaddpoint').hide();
+    }
+
+    function addPointClickMap(e) {
+        addPointDB(e.latlng.lat.toFixed(6), e.latlng.lng.toFixed(6), -1, -1, -1, -1, moment());
+        leaveAddPointMode();
+    }
+
     /*
      * get key events
      */
@@ -1872,22 +1891,36 @@
         phonetrack.map.closePopup();
     }
 
-    function addPointDB() {
+    function addPointDB(plat='', plon='', palt='', pacc='', psat='', pbat='', pmoment='') {
+        var lat, lon, alt, acc, sat, bat, mom;
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
         var deviceid = $('#addPointDevice').val();
-        var lat = tab.find('input[role=lat]').val();
-        var lon = tab.find('input[role=lon]').val();
-        var alt = tab.find('input[role=altitude]').val();
-        var acc = tab.find('input[role=precision]').val();
-        var sat = tab.find('input[role=satellites]').val();
-        var bat = tab.find('input[role=battery]').val();
-        var datestr = tab.find('input[role=date]').val();
-        var hourstr = parseInt(tab.find('input[role=hour]').val());
-        var minstr = parseInt(tab.find('input[role=minute]').val());
-        var secstr = parseInt(tab.find('input[role=second]').val());
-        var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
-        var mom = moment(completeDateStr);
+        // if form was used
+        if (plat === '' && plon === '') {
+            lat = tab.find('input[role=lat]').val();
+            lon = tab.find('input[role=lon]').val();
+            alt = tab.find('input[role=altitude]').val();
+            acc = tab.find('input[role=precision]').val();
+            sat = tab.find('input[role=satellites]').val();
+            bat = tab.find('input[role=battery]').val();
+            var datestr = tab.find('input[role=date]').val();
+            var hourstr = parseInt(tab.find('input[role=hour]').val());
+            var minstr = parseInt(tab.find('input[role=minute]').val());
+            var secstr = parseInt(tab.find('input[role=second]').val());
+            var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
+            mom = moment(completeDateStr);
+        }
+        // if easy button was used
+        else {
+            lat = plat;
+            lon = plon;           
+            alt = palt;
+            acc = pacc;
+            sat = psat;
+            bat = pbat;
+            mom = pmoment;
+        }
         var timestamp = mom.unix();
         var req = {
             token: token,
@@ -1911,7 +1944,7 @@
             if (response.done === 1) {
                 // add the point on the map only if the session was displayed at least once
                 if (phonetrack.sessionLineLayers.hasOwnProperty(token)) {
-                    addPointMap(response.id);
+                    addPointMap(response.id, lat, lon, alt, acc, sat, bat, timestamp);
                 }
             }
             else if (response.done === 2) {
@@ -1923,25 +1956,12 @@
         });
     }
 
-    function addPointMap(id) {
+    function addPointMap(id, lat, lon, alt, acc, sat, bat, timestamp) {
         var perm = $('#showtime').is(':checked');
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
         var deviceid = $('#addPointDevice').val();
-        var lat = tab.find('input[role=lat]').val();
-        var lon = tab.find('input[role=lon]').val();
-        var alt = tab.find('input[role=altitude]').val();
-        var acc = tab.find('input[role=precision]').val();
-        var sat = tab.find('input[role=satellites]').val();
-        var bat = tab.find('input[role=battery]').val();
         var useragent = 'Manually added';
-        var datestr = tab.find('input[role=date]').val();
-        var hourstr = parseInt(tab.find('input[role=hour]').val());
-        var minstr = parseInt(tab.find('input[role=minute]').val());
-        var secstr = parseInt(tab.find('input[role=second]').val());
-        var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
-        var mom = moment(completeDateStr);
-        var timestamp = mom.unix();
 
         var entry = {id: id};
         entry.deviceid = deviceid;
@@ -2832,7 +2852,11 @@
         });
 
         $('#validaddpoint').click(function(e) {
-            addPointDB();
+            enterAddPointMode();
+        });
+
+        $('#canceladdpoint').click(function(e) {
+            leaveAddPointMode();
         });
 
         $('#importsession').click(function(e) {

@@ -44,14 +44,6 @@
     "Add point" : "Ajouter le point",
     "Session" : "Session",
     "Device" : "Appareil",
-    "Latitude" : "Latitude",
-    "Longitude" : "Longitude",
-    "Satellites" : "Satellites",
-    "Battery level" : "Niveau de batterie",
-    "Altitude" : "Altitude",
-    "Date" : "Date",
-    "Time" : "Heure",
-    "Precision" : "Précision",
     "Manually add a point" : "Ajouter un point manuellement",
     "Max date" : "Date max",
     "Max time" : "Heure max",
@@ -63,6 +55,8 @@
     "Import session" : "Importer une session",
     "Ok" : "Ok",
     "Filters" : "Filtres",
+    "Now, click on the map to add a point (if session is not activated, you won't see added point)" : "Vous pouvez maintenant cliquer sur la carte pour ajouter un point (si la session n'est pas activée, vous ne verrez pas le point ajouté)",
+    "Cancel add point" : "Annuler l'ajout de point",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
