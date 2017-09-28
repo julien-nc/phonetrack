@@ -414,7 +414,7 @@ input[role=date] {
     height: 15px;
     padding: 0px;
 }
-.valideditpoint, .deletepoint, .canceleditpoint, #validaddpoint {
+.valideditpoint, .deletepoint, .canceleditpoint, #validaddpoint, .movepoint {
     height: 15px;
     padding: 1px 8px 1px 8px;
 }

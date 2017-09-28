@@ -59,8 +59,6 @@ OC.L10N.register(
         "Failed to toggle session public" : "Impossible de modifier la session",
         "session" : "session",
         "device" : "appareil",
-        "Latitude" : "Latitude",
-        "Longitude" : "Longitude",
         "Satellites" : "Satellites",
         "Battery level" : "Niveau de batterie",
         "Altitude" : "Altitude",
@@ -101,6 +99,7 @@ OC.L10N.register(
         "User does not exist" : "Cet utilisateur n'existe pas",
         "Toggle detail/edition points" : "Activer/désactiver les points de détail/édition",
         "Failed to get user list" : "Impossible d'obtenir la liste des utilisateurs",
+        "Move point" : "Déplacer le point",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");

@@ -572,6 +572,27 @@
         phonetrack.doZoomButton.addTo(phonetrack.map);
     }
 
+    function enterMovePointMode() {
+        $('.leaflet-container').css('cursor','crosshair');
+        phonetrack.map.on('click', movePoint);
+    }
+
+    function leaveMovePointMode() {
+        $('.leaflet-container').css('cursor','grab');
+        phonetrack.map.off('click', movePoint);
+    }
+
+    function movePoint(e) {
+        var lat = e.latlng.lat;
+        var lon = e.latlng.lng;
+        var token = phonetrack.movepointSession;
+        var deviceid = phonetrack.movepointDevice;
+        var pid = phonetrack.movepointId;
+        var entry = phonetrack.sessionPointsEntriesById[token][deviceid][pid];
+        editPointDB(token, deviceid, pid, lat, lon, entry.altitude, entry.accuracy, entry.satellites, entry.batterylevel, entry.timestamp, entry.useragent);
+        leaveMovePointMode();
+    }
+
     function enterAddPointMode() {
         $('.leaflet-container').css('cursor','crosshair');
         phonetrack.map.on('click', addPointClickMap);
@@ -1652,25 +1673,8 @@
         return ($('div.session[token="' + s + '"]').attr('shared') === '1');
     }
 
-    function editPointDB(but) {
-        var tab = but.parent().find('table');
-        var token = tab.attr('token');
-        var deviceid = tab.attr('deviceid');
-        var pointid = tab.attr('pid');
-        var lat = tab.find('input[role=lat]').val();
-        var lon = tab.find('input[role=lon]').val();
-        var alt = tab.find('input[role=altitude]').val();
-        var acc = tab.find('input[role=precision]').val();
-        var sat = tab.find('input[role=satellites]').val();
-        var bat = tab.find('input[role=battery]').val();
-        var useragent = tab.find('input[role=useragent]').val();
-        var datestr = tab.find('input[role=date]').val();
-        var hourstr = parseInt(tab.find('input[role=hour]').val());
-        var minstr = parseInt(tab.find('input[role=minute]').val());
-        var secstr = parseInt(tab.find('input[role=second]').val());
-        var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
-        var mom = moment(completeDateStr);
-        var timestamp = mom.unix();
+    // TODO put values instead of but here
+    function editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent) {
         var req = {
             token: token,
             deviceid: deviceid,
@@ -1692,7 +1696,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                updatePointMap(but);
+                updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent);
             }
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'The point you want to edit does not exist or you\'re not allowed to edit it'));
@@ -1703,29 +1707,11 @@
         });
     }
 
-    function updatePointMap(but) {
+    function updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent) {
         var perm = $('#showtime').is(':checked');
-        var tab = but.parent().find('table');
-        var token = tab.attr('token');
-        var deviceid = tab.attr('deviceid');
-        var pointid = parseInt(tab.attr('pid'));
-        var sessionname = tab.attr('sessionname');
-        var lat = parseFloat(tab.find('input[role=lat]').val());
-        var lon = parseFloat(tab.find('input[role=lon]').val());
-        var alt = tab.find('input[role=altitude]').val();
-        var acc = tab.find('input[role=precision]').val();
-        var sat = tab.find('input[role=satellites]').val();
-        var bat = tab.find('input[role=battery]').val();
-        var useragent = tab.find('input[role=useragent]').val();
-        var datestr = tab.find('input[role=date]').val();
-        var hourstr = parseInt(tab.find('input[role=hour]').val());
-        var minstr = parseInt(tab.find('input[role=minute]').val());
-        var secstr = parseInt(tab.find('input[role=second]').val());
-        var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
-        var mom = moment(completeDateStr);
-        var timestamp = mom.unix();
         var i;
 
+        var sessionname = getSessionName(token);
         var entry = phonetrack.sessionPointsEntriesById[token][deviceid][pointid];
         // point needs to be moved ?
         var oldlat = parseFloat(entry.lat);
@@ -2050,12 +2036,6 @@
         var res = '<table class="editPoint" pid="' + entry.id + '"' +
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
         res = res + '<tr>';
-        res = res + '<td>' + t('phonetrack', 'Latitude') + '</td>';
-        res = res + '<td><input role="lat" type="number" value="' + entry.lat + '" min="-500" max="500" step="0.000001"/></td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'Longitude') + '</td>';
-        res = res + '<td><input role="lon" type="number" value="' + entry.lon + '" min="-500" max="500" step="0.000001"/></td>';
-        res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'Date') + '</td>';
         res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>';
         res = res + '</tr><tr>';
@@ -2082,6 +2062,7 @@
         res = res + '</table>';
         res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Save') + '</button>';
         res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Delete point') + '</button>';
+        res = res + '<button class="movepoint"><i class="fa fa-arrows" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Move point') + '</button>';
         res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Cancel') + '</button>';
         return res;
     }
@@ -2843,8 +2824,41 @@
             phonetrack.map.closePopup();
         });
 
+        $('body').on('click','.movepoint', function(e) {
+            var tab = $(this).parent().find('table');
+            var token = tab.attr('token');
+            var deviceid = tab.attr('deviceid');
+            var pointid = tab.attr('pid');
+            phonetrack.movepointSession = token;
+            phonetrack.movepointDevice = deviceid;
+            phonetrack.movepointId = pointid;
+            enterMovePointMode();
+            phonetrack.map.closePopup();
+        });
+
         $('body').on('click','.valideditpoint', function(e) {
-            editPointDB($(this));
+            // TODO get values of fields
+            // get latlng from dict entry (not changed here)
+            var tab = $(this).parent().find('table');
+            var token = tab.attr('token');
+            var deviceid = tab.attr('deviceid');
+            var pointid = tab.attr('pid');
+            // unchanged latlng
+            var lat = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lat;
+            var lon = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lon;
+            var alt = tab.find('input[role=altitude]').val();
+            var acc = tab.find('input[role=precision]').val();
+            var sat = tab.find('input[role=satellites]').val();
+            var bat = tab.find('input[role=battery]').val();
+            var useragent = tab.find('input[role=useragent]').val();
+            var datestr = tab.find('input[role=date]').val();
+            var hourstr = parseInt(tab.find('input[role=hour]').val());
+            var minstr = parseInt(tab.find('input[role=minute]').val());
+            var secstr = parseInt(tab.find('input[role=second]').val());
+            var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
+            var mom = moment(completeDateStr);
+            var timestamp = mom.unix();
+            editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent);
         });
 
         $('body').on('click','.deletepoint', function(e) {
