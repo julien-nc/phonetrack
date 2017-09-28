@@ -315,10 +315,10 @@ if (count($_['useroverlayserverswms']) > 0){
 <table id="addPointTable">
 <tr>
     <td><?php p($l->t('Latitude')); ?></td>
-    <td><input role="lat" type="number" min="-500" max="500" step="0.00001"/></td>
+    <td><input role="lat" type="number" min="-500" max="500" step="0.000001"/></td>
 </tr><tr>
     <td><?php p($l->t('Longitude')); ?></td>
-    <td><input role="lon" type="number" min="-500" max="500" step="0.00001"/></td>
+    <td><input role="lon" type="number" min="-500" max="500" step="0.000001"/></td>
 </tr><tr>
     <td><?php p($l->t('Date')); ?></td>
     <td><input role="date" type="date"/></td>

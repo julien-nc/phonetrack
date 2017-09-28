@@ -422,7 +422,7 @@
         phonetrack.overlayLayers = baseOverlays;
 
         phonetrack.map = new L.Map('map', {
-            zoomControl: true,
+            zoomControl: true
         });
 
         L.control.scale({metric: true, imperial: true, position: 'topleft'})
@@ -2031,10 +2031,10 @@
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
         res = res + '<tr>';
         res = res + '<td>' + t('phonetrack', 'Latitude') + '</td>';
-        res = res + '<td><input role="lat" type="number" value="' + entry.lat + '" min="-500" max="500" step="0.00001"/></td>';
+        res = res + '<td><input role="lat" type="number" value="' + entry.lat + '" min="-500" max="500" step="0.000001"/></td>';
         res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'Longitude') + '</td>';
-        res = res + '<td><input role="lon" type="number" value="' + entry.lon + '" min="-500" max="500" step="0.00001"/></td>';
+        res = res + '<td><input role="lon" type="number" value="' + entry.lon + '" min="-500" max="500" step="0.000001"/></td>';
         res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'Date') + '</td>';
         res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>';
