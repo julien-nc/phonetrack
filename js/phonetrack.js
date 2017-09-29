@@ -2729,6 +2729,28 @@
             if (!pageIsPublic()) {
                 saveOptions();
             }
+            if (!pageIsPublic()) {
+                var dragcheck = $(this).is(':checked');
+                var id, s, d;
+                $('.toggleDetail.on').each(function() {
+                    if (!isSessionShared(s)) {
+                        s = $(this).attr('token');
+                        d = $(this).attr('device');
+                        if (dragcheck) {
+                            for (id in phonetrack.sessionPointsLayersById[s][d]) {
+                                phonetrack.sessionPointsLayersById[s][d][id].dragging.enable();
+                            }
+                            phonetrack.sessionMarkerLayers[s][d].dragging.enable();
+                        }
+                        else {
+                            for (id in phonetrack.sessionPointsLayersById[s][d]) {
+                                phonetrack.sessionPointsLayersById[s][d][id].dragging.disable();
+                            }
+                            phonetrack.sessionMarkerLayers[s][d].dragging.disable();
+                        }
+                    }
+                });
+            }
         });
 
         $('#viewmove').click(function() {
