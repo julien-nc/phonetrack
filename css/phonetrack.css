@@ -418,6 +418,9 @@ input[role=date] {
     height: 15px;
     padding: 1px 8px 1px 8px;
 }
+#addPointSession, #addPointDevice {
+    max-width: 60%;
+}
 input[type=date] {
     width: 150px;
 }

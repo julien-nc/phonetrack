@@ -310,6 +310,7 @@ if (count($_['useroverlayserverswms']) > 0){
 <label for="addPointSession"><?php p($l->t('Session')); ?></label>
 <select id="addPointSession">
 </select>
+<br/>
 <label for="addPointDevice"><?php p($l->t('Device')); ?></label>
 <input id="addPointDevice" value="deviceName"/>
 <button id="validaddpoint"><i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Add point')); ?></button>
