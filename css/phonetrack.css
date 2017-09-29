@@ -502,11 +502,19 @@ ul.devicelist {
     color: red;
 }
 .deviceLabel {
-    margin: 5px 5px 5px 5px !important;
+    margin: 0 !important;
+    padding-left: 5px;
 }
 .sessionBar {
     font-size: 14px;
     height: 40px;
+}
+.deviceLabel {
+    width: 30%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    float: left;
 }
 .sessionName {
     width: 30%;

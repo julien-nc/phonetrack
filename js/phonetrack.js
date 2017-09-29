@@ -1630,8 +1630,8 @@
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor" style="background-color:' + colorCode[colorn] + ';"></div> ' +
-                '<label class="deviceLabel" title="' +
-                t('phonetrack', 'Center map on device') + ' ' + d + '">' + d + '</label> ' +
+                '<div class="deviceLabel" title="' +
+                t('phonetrack', 'Center map on device') + ' ' + d + '">' + d + '</div> ' +
                 deleteLink +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' ' + d + '">' +
