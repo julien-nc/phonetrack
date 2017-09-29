@@ -2417,7 +2417,7 @@
     }
 
     function zoomOnDevice(elem) {
-        var dd, t, b, l;
+        var id, dd, t, b, l;
         var perm = $('#showtime').is(':checked');
         var viewmove = $('#viewmove').is(':checked');
         var d = elem.parent().attr('device');
@@ -2448,6 +2448,11 @@
             maxZoom: 16,
             paddingTopLeft: [parseInt($('#sidebar').css('width')),0]
         });
+
+        for (id in phonetrack.sessionPointsLayersById[s][d]) {
+            phonetrack.sessionPointsLayersById[s][d][id].setZIndexOffset(phonetrack.lastZindex);
+        }
+        phonetrack.lastZindex++;
 
         m.setZIndexOffset(phonetrack.lastZindex++);
         t = m.getTooltip()._content;
