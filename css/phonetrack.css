@@ -306,6 +306,9 @@ div#logofolder label {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+.urlhint {
+    grid-column: 1/3;
+}
 div.session input[type=text]{
     width: 100%;
 }
