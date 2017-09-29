@@ -100,6 +100,7 @@ OC.L10N.register(
         "Toggle detail/edition points" : "Activer/désactiver les points de détail/édition",
         "Failed to get user list" : "Impossible d'obtenir la liste des utilisateurs",
         "Move point" : "Déplacer le point",
+        "Click on the map to move the point, press ESC to cancel" : "Cliquez sur la carte pour déplacer le point, tapez ESC pour annuler",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");

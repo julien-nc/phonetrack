@@ -42,7 +42,10 @@
         sessionColors: {},
         currentTimer: null,
         lastTime: {},
-        lastZindex: 1000
+        lastZindex: 1000,
+        movepointSession: null,
+        movepointDevice: null,
+        movepointId: null
     };
 
     var offset = L.point(-7, 0);
@@ -575,11 +578,15 @@
     function enterMovePointMode() {
         $('.leaflet-container').css('cursor','crosshair');
         phonetrack.map.on('click', movePoint);
+        OC.Notification.showTemporary(t('phonetrack', 'Click on the map to move the point, press ESC to cancel'));
     }
 
     function leaveMovePointMode() {
         $('.leaflet-container').css('cursor','grab');
         phonetrack.map.off('click', movePoint);
+        phonetrack.movepointSession = null;
+        phonetrack.movepointDevice = null;
+        phonetrack.movepointId = null;
     }
 
     function movePoint(e) {
@@ -623,6 +630,10 @@
         if (kc === 60 || kc === 220) {
             e.preventDefault();
             $('#sidebar').toggleClass('collapsed');
+        }
+
+        if (e.key === 'Escape' && phonetrack.movepointSession !== null) {
+            leaveMovePointMode();
         }
     }
 
