@@ -50,10 +50,9 @@ p($_['phonetrack_version']);
             </div>
         </div>
         <div id="optionbuttonsdiv">
-            <button id="zoomallbutton">
-                <i class="fa fa-search-plus" style="color:blue;"></i>
-                <?php p($l->t('Zoom on all markers')); ?>
-            </button>
+            <input id="dragcheck" type="checkbox" checked/>
+            <label for="dragcheck"><i class="fa fa-hand-paper-o" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Make points draggable in edition mode'));?></label>
         </div>
         </div>
     </div>

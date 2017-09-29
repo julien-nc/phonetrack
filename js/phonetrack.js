@@ -568,7 +568,7 @@
                 icon:      'fa-search',
                 title:     t('phonetrack', 'Zoom on all markers'),
                 onClick: function(btn, map) {
-                    $('#zoomallbutton').click();
+                    zoomOnDisplayedMarkers();
                 }
             }]
         });
@@ -847,6 +847,9 @@
                 if (optionsValues.viewmove !== undefined) {
                     $('#viewmove').prop('checked', optionsValues.viewmove);
                 }
+                if (optionsValues.dragcheck !== undefined) {
+                    $('#dragcheck').prop('checked', optionsValues.dragcheck);
+                }
                 if (optionsValues.tilelayer !== undefined) {
                     phonetrack.restoredTileLayer = optionsValues.tilelayer;
                 }
@@ -869,6 +872,7 @@
         optionsValues.viewmove = $('#viewmove').is(':checked');
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
+        optionsValues.dragcheck = $('#dragcheck').is(':checked');
         optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
         //alert('to save : '+JSON.stringify(optionsValues));
 
@@ -1692,9 +1696,8 @@
             html: ''
         });
 
-        var draggable = (!pageIsPublic());
         var m = L.marker([entry.lat, entry.lon],
-            {draggable: draggable, icon: icon}
+            {icon: icon}
         );
         m.session = s;
         m.device = d;
@@ -2020,10 +2023,9 @@
                 className: 'color' + phonetrack.sessionColors[s + d],
                 html: ''
             });
-            var draggable = (!pageIsPublic());
             var m = L.marker(
                 [entry.lat, entry.lon],
-                {draggable: draggable, icon: icon}
+                {icon: icon}
             );
             m.session = token;
             m.device = deviceid;
@@ -2370,16 +2372,26 @@
         var viewmove = $('#viewmove').is(':checked');
         var d = elem.parent().attr('device');
         var s = elem.parent().attr('token');
+        var id;
 
         // line points
         if (viewmove) {
             if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+                for (id in phonetrack.sessionPointsLayersById[s][d]) {
+                    phonetrack.sessionPointsLayersById[s][d][id].dragging.disable();
+                }
                 phonetrack.sessionPointsLayers[s][d].remove();
                 elem.addClass('off').removeClass('on');
             }
             else{
                 phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
                 elem.addClass('on').removeClass('off');
+                // manage draggable
+                if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
+                    for (id in phonetrack.sessionPointsLayersById[s][d]) {
+                        phonetrack.sessionPointsLayersById[s][d][id].dragging.enable();
+                    }
+                }
             }
         }
         // marker
@@ -2389,7 +2401,9 @@
                 phonetrack.sessionMarkerLayers[s][d].dragging.disable();
             }
             else {
-                phonetrack.sessionMarkerLayers[s][d].dragging.enable();
+                if ($('#dragcheck').is(':checked')) {
+                    phonetrack.sessionMarkerLayers[s][d].dragging.enable();
+                }
                 var sessionname = getSessionName(s);
                 var mid = phonetrack.sessionMarkerLayers[s][d].getLatLng().alt;
                 var mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
@@ -2706,6 +2720,12 @@
             }
         });
 
+        $('#dragcheck').click(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
         $('#viewmove').click(function() {
             showHideSelectedSessions();
             if (!pageIsPublic()) {
@@ -2739,10 +2759,6 @@
                 },
                 false, 'httpd/unix-directory', true
             );
-        });
-
-        $('#zoomallbutton').click(function (e) {
-            zoomOnDisplayedMarkers();
         });
 
         $('body').on('click', 'button.zoomsession', function(e) {

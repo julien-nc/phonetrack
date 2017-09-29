@@ -62,32 +62,33 @@ div#logo {
     display:block;
 }
 
-#optionbuttonsdiv{
+#optionbuttonsdiv {
+    font-size: 11px;
+    padding-left: 5px;
+}
+#optioncheckdiv {
     font-size: 11px;
 }
-#optioncheckdiv{
-    font-size: 11px;
-}
-#optioncheckdiv .ui-spinner{
+#optioncheckdiv .ui-spinner {
     width: 50px;
 }
-#optioncheckdiv{
+#optioncheckdiv {
     float:left;
     display:block;
 }
-#optionbuttonsdiv{
+#optionbuttonsdiv {
     border-left:solid 1px;
 }
 
-h1.sectiontitle{
+h1.sectiontitle {
     font-size: 18px;
     font-weight: bold;
 }
-h3.sectiontitle{
+h3.sectiontitle {
     font-size: 16px;
     font-weight: bold;
 }
-div#phonetracksettings h1, div#help h1{
+div#phonetracksettings h1, div#help h1 {
     /*margin-left:30px;*/
     text-align:center;
 }
@@ -229,22 +230,6 @@ div#logo{
 div#logofolder label {
     padding: 0px 5px 0px 5px;
     text-align: right;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-#optionbuttonsdiv {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    text-align: right;
-}
-#optionbuttonsdiv button {
-    grid-column: 1/3;
-    height: 20px;
-}
-#optionbuttonsdiv select {
-    width: 100%
-}
-#optionbuttonsdiv label {
     margin-top: auto;
     margin-bottom: auto;
 }
