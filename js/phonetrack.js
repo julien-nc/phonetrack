@@ -2814,24 +2814,28 @@
         $('body').on('click','.moreUrlsButton', function(e) {
             var urlDiv = $(this).parent().parent().find('.moreUrls');
             var sharediv = $(this).parent().parent().find('.sharediv')
+            var editdiv = $(this).parent().parent().find('.editsessiondiv')
             if (urlDiv.is(':visible')) {
                 urlDiv.slideUp('slow');
             }
             else{
                 urlDiv.slideDown('slow').css('display', 'grid');
                 sharediv.slideUp('slow');
+                editdiv.slideUp('slow');
             }
         });
 
         $('body').on('click','.sharesession', function(e) {
             var sharediv = $(this).parent().parent().find('.sharediv')
             var moreurldiv = $(this).parent().parent().find('.moreUrls')
+            var editdiv = $(this).parent().parent().find('.editsessiondiv')
             if (sharediv.is(':visible')) {
                 sharediv.slideUp('slow');
             }
             else {
                 sharediv.slideDown('slow');
                 moreurldiv.slideUp('slow');
+                editdiv.slideUp('slow');
             }
         });
 
@@ -2861,6 +2865,14 @@
             }
             else {
                 editdiv.slideDown('slow');
+            }
+            var urldiv = $(this).parent().parent().find('.moreUrls');
+            if (urldiv.is(':visible')) {
+                urldiv.slideUp('slow');
+            }
+            var sharediv = $(this).parent().parent().find('.sharediv');
+            if (sharediv.is(':visible')) {
+                sharediv.slideUp('slow');
             }
         });
 
