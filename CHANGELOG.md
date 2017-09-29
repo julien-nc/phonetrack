@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.0.5 – 2017-09-30
 ### Added
-- point edition, deletion
+- point edition (drag'n'drop), deletion
 [#11](https://gitlab.com/eneiluj/phonetrack-oc/issues/11) @Mamie
 - manually add point
 [#13](https://gitlab.com/eneiluj/phonetrack-oc/issues/13) @Mamie
@@ -15,15 +17,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add 'user agent' point field
 [#11](https://gitlab.com/eneiluj/phonetrack-oc/issues/11) @Mamie
 - import session from gpx file
+- session user share system
+[#10](https://gitlab.com/eneiluj/phonetrack-oc/issues/10) @ksarnelli
 
 ### Changed
 - improve session list and device list style
 [#15](https://gitlab.com/eneiluj/phonetrack-oc/issues/15) @escoand
 - hide device list when session is not followed
+- display public view page only if session is public
 
 ### Fixed
 - update all tooltips and popups after renaming a session
 - remove map objects when deleting a session
+- display long device/session names
 
 ## 0.0.3 – 2017-09-07
 ### Added
