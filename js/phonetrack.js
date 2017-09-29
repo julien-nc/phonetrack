@@ -600,6 +600,12 @@
         leaveMovePointMode();
     }
 
+    function dragPointEnd(e) {
+        var m = e.target;
+        var entry = phonetrack.sessionPointsEntriesById[m.session][m.device][m.pid];
+        editPointDB(m.session, m.device, m.pid, m.getLatLng().lat, m.getLatLng().lng, entry.altitude, entry.accuracy, entry.satellites, entry.batterylevel, entry.timestamp, entry.useragent);
+    }
+
     function enterAddPointMode() {
         $('.leaflet-container').css('cursor','crosshair');
         phonetrack.map.on('click', addPointClickMap);
@@ -1516,6 +1522,12 @@
                 phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid]);
             }
 
+            if (phonetrack.sessionMarkerLayers[s][d].pid === null
+                || parseInt(oldlatlng.alt) !== parseInt(mid)
+            ) {
+                phonetrack.sessionMarkerLayers[s][d].pid = mid;
+            }
+
             // we update tooltip and popup anyway, in case any value has changed
             // tooltip
             phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
@@ -1647,6 +1659,11 @@
         });
 
         phonetrack.sessionMarkerLayers[s][d] = L.marker([], {icon: icon});
+        phonetrack.sessionMarkerLayers[s][d].on('dragend', dragPointEnd);
+        phonetrack.sessionMarkerLayers[s][d].session = s;
+        phonetrack.sessionMarkerLayers[s][d].device = d;
+        phonetrack.sessionMarkerLayers[s][d].pid = null;
+        phonetrack.sessionMarkerLayers[s][d].setZIndexOffset(phonetrack.lastZindex++);
     }
 
     function appendEntryToDevice(s, d, entry, sessionname) {
@@ -1668,7 +1685,21 @@
             phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon, entry.id]);
         }
         phonetrack.sessionLatlngs[s][d].push([entry.lat, entry.lon, entry.id]);
-        var m = L.circleMarker([entry.lat, entry.lon], {radius: 6, fillOpacity: 1, color: colorCode[phonetrack.sessionColors[s + d]]});
+
+        var icon = L.divIcon({
+            iconAnchor: [8, 8],
+            className: 'color' + phonetrack.sessionColors[s + d],
+            html: ''
+        });
+
+        var draggable = (!pageIsPublic());
+        var m = L.marker([entry.lat, entry.lon],
+            {draggable: draggable, icon: icon}
+        );
+        m.session = s;
+        m.device = d;
+        m.pid = entry.id;
+        m.on('dragend', dragPointEnd);
         m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[s + d]});
         phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
         phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
@@ -1984,10 +2015,20 @@
         else {
             // add line point
             var pointtooltip = getPointTooltipContent(entry, sessionname);
-            var m = L.circleMarker(
+            var icon = L.divIcon({
+                iconAnchor: [8, 8],
+                className: 'color' + phonetrack.sessionColors[s + d],
+                html: ''
+            });
+            var draggable = (!pageIsPublic());
+            var m = L.marker(
                 [entry.lat, entry.lon],
-                {radius: 6, fillOpacity: 1, color: colorCode[phonetrack.sessionColors[token + deviceid]]}
+                {draggable: draggable, icon: icon}
             );
+            m.session = token;
+            m.device = deviceid;
+            m.pid = entry.id;
+            m.on('dragend', dragPointEnd);
             m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[token + deviceid]});
             phonetrack.sessionPointsEntriesById[token][deviceid][entry.id] = entry;
             phonetrack.sessionPointsLayersById[token][deviceid][entry.id] = m;
@@ -2345,8 +2386,10 @@
         if (!pageIsPublic() && !isSessionShared(s)) {
             if (elem.hasClass('off')) {
                 phonetrack.sessionMarkerLayers[s][d].unbindPopup();
+                phonetrack.sessionMarkerLayers[s][d].dragging.disable();
             }
             else {
+                phonetrack.sessionMarkerLayers[s][d].dragging.enable();
                 var sessionname = getSessionName(s);
                 var mid = phonetrack.sessionMarkerLayers[s][d].getLatLng().alt;
                 var mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
