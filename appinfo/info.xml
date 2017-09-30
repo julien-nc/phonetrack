@@ -73,6 +73,7 @@ git clone https://gitlab.com/eneiluj/phonetrack-oc.git phonetrack
 Extract phonetrack archive you just downloaded from the website :
 ```
 cd /path/to/owncloud/apps
+cd /path/to/nextcloud/apps
 tar xvf phonetrack-x.x.x.tar.gz
 ```
 
@@ -95,8 +96,8 @@ Any feedback will be appreciated.
     <category>multimedia</category>
     <website>https://gitlab.com/eneiluj/phonetrack-oc</website>
     <bugs>https://gitlab.com/eneiluj/phonetrack-oc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/9f938f4b8948cbb8e574da02867a818e/pt1.jpeg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/e3a1fca943cd23071a3fb22b77703cbd/pt2.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/58881f5d155a91aec3c0db9f051126e0/pt1.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/9ee540e94ca32fce8747f411bbc9149b/pt2.jpeg</screenshot>
     <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/97b3e41c3fa49ddebee52c3d9de540c7/pt3.jpeg</screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>
