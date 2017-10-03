@@ -2180,7 +2180,13 @@
                     else {
                         if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
                             phonetrack.map.removeLayer(phonetrack.sessionLineLayers[token][d]);
-                            phonetrack.map.removeLayer(phonetrack.sessionPointsLayers[token][d]);
+                        }
+                    }
+                }
+                for (d in phonetrack.sessionPointsLayers[token]) {
+                    if (!phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[token][d])) {
+                        if ($('.session[token='+token+'] .devicelist li[device='+d+'] .toggleDetail').hasClass('on')) {
+                            phonetrack.map.addLayer(phonetrack.sessionPointsLayers[token][d]);
                         }
                     }
                 }
