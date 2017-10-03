@@ -3039,6 +3039,10 @@
             deleteUserShareDb(token, username);
         });
 
+        var mom = moment();
+        $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+        $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+
         if (!pageIsPublic()) {
             getSessions();
         }
