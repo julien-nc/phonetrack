@@ -333,6 +333,13 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><?php p($l->t('Min date')); ?></td>
     <td><input role="datemin" type="date"/></td>
 </tr><tr>
+    <td></td>
+    <td>
+        <button role="datemintoday"><i class="fa fa-calendar-o" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
+        <button role="dateminminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></button>
+        <button role="dateminplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
+    </td>
+</tr><tr>
     <td><?php p($l->t('Min time')); ?></td>
     <td><input role="hourmin" type="number" value="0" min="0" max="23"/>:
         <input role="minutemin" type="number" value="0" min="0" max="59"/>:
@@ -341,6 +348,13 @@ if (count($_['useroverlayserverswms']) > 0){
 <tr>
     <td><?php p($l->t('Max date')); ?></td>
     <td><input role="datemax" type="date"/></td>
+</tr><tr>
+    <td></td>
+    <td>
+        <button role="datemaxtoday"><i class="fa fa-calendar-o" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
+        <button role="datemaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></button>
+        <button role="datemaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
+    </td>
 </tr><tr>
     <td><?php p($l->t('Max time')); ?></td>
     <td><input role="hourmax" type="number" value="0" min="0" max="23"/>:
