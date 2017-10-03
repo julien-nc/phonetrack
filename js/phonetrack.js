@@ -1625,9 +1625,12 @@
                 'title="' + t('phonetrack', 'Delete this device') + '">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i></button>';
         }
-        var detailLink = ' <button class="toggleDetail" token="' + s + '" device="' + d + '" ' +
+        var detailLink = ' <button class="toggleDetail off" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
             '<i class="fa fa-dot-circle-o" aria-hidden="true"></i></button>';
+        var lineDeviceLink = ' <button class="toggleLineDevice on" token="' + s + '" device="' + d + '" ' +
+            'title="' + t('phonetrack', 'Toggle lines') + '">' +
+            '<i class="fa fa-line-chart" aria-hidden="true"></i></button>';
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor" style="background-color:' + colorCode[colorn] + ';"></div> ' +
@@ -1638,6 +1641,7 @@
                 t('phonetrack', 'Center map on device') + ' ' + d + '">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
                 detailLink +
+                lineDeviceLink +
                 '<input class="followdevice" type="checkbox" ' + 'title="' +
                 t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
                 '</li>');
@@ -2166,7 +2170,11 @@
                 for (d in phonetrack.sessionLineLayers[token]) {
                     if (viewLines) {
                         if (!phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
-                            phonetrack.map.addLayer(phonetrack.sessionLineLayers[token][d]);
+                            // if linedevice activated
+                            // TODO do the same for points (problem if global lines disabled and re-enabled while points are shown)
+                            if ($('.session[token='+token+'] .devicelist li[device='+d+'] .toggleLineDevice').hasClass('on')) {
+                                phonetrack.map.addLayer(phonetrack.sessionLineLayers[token][d]);
+                            }
                         }
                     }
                     else {
@@ -2189,6 +2197,12 @@
                     for (d in phonetrack.sessionLineLayers[token]) {
                         if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
                             phonetrack.map.removeLayer(phonetrack.sessionLineLayers[token][d]);
+                        }
+                    }
+                }
+                if (phonetrack.sessionPointsLayers.hasOwnProperty(token)) {
+                    for (d in phonetrack.sessionPointsLayers[token]) {
+                        if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[token][d])) {
                             phonetrack.map.removeLayer(phonetrack.sessionPointsLayers[token][d]);
                         }
                     }
@@ -2366,6 +2380,25 @@
             }).fail(function() {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to log position'));
             });
+        }
+    }
+
+    function toggleLineDevice(elem) {
+        var viewmove = $('#viewmove').is(':checked');
+        var d = elem.parent().attr('device');
+        var s = elem.parent().attr('token');
+        var id;
+
+        // line points
+        if (viewmove) {
+            if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[s][d])) {
+                phonetrack.sessionLineLayers[s][d].remove();
+                elem.addClass('off').removeClass('on');
+            }
+            else{
+                phonetrack.sessionLineLayers[s][d].addTo(phonetrack.map);
+                elem.addClass('on').removeClass('off');
+            }
         }
     }
 
@@ -2686,6 +2719,7 @@
                     $(this).parent().parent().find('.sharediv').slideUp('slow');
                     $(this).parent().parent().find('.moreUrls').slideUp('slow');
                     $(this).parent().parent().find('.toggleDetail').addClass('off').removeClass('on');
+                    $(this).parent().parent().find('.toggleLineDevice').addClass('on').removeClass('off');
                 }
                 else {
                     icon.addClass('fa-eye').removeClass('fa-eye-slash');
@@ -2809,6 +2843,10 @@
 
         $('body').on('click', 'ul.devicelist li .toggleDetail', function(e) {
             toggleDetailDevice($(this));
+        });
+
+        $('body').on('click', 'ul.devicelist li .toggleLineDevice', function(e) {
+            toggleLineDevice($(this));
         });
 
         $('body').on('click','.moreUrlsButton', function(e) {
