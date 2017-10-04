@@ -4,6 +4,7 @@
 <li class="active" title="<?php p($l->t('Main tab')); ?>"><a href="#ho" role="tab"><i class="fa fa-bars"></i></a></li>
 <li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-gear"></i></a></li>
 <li title="<?php p($l->t('Filters')); ?>"><a href="#phonetrackfilters" role="tab"><i class="fa fa-filter"></i></a></li>
+<li title="<?php p($l->t('Stats')); ?>"><a href="#phonetrackstats" role="tab"><i class="fa fa-table"></i></a></li>
 <li title="<?php p($l->t('About PhoneTrack')); ?>"><a href="#help" role="tab"><i class="fa fa-question"></i></a></li>
 </ul>
 <!-- Tab panes -->
@@ -321,7 +322,8 @@ if (count($_['useroverlayserverswms']) > 0){
 <div class="sidebar-pane" id="phonetrackfilters">
 
 <div id="filterDiv">
-<h3><?php p($l->t('Filter points')); ?></h3>
+<h1 class="sectiontitle"><?php p($l->t('Filter points')); ?></h1>
+<hr/>
 <br/>
 <label for="applydatemin"><?php p($l->t('Apply min date filter')); ?></label>
 <input type="checkbox" id="applydatemin"/>
@@ -371,6 +373,16 @@ if (count($_['useroverlayserverswms']) > 0){
 </table>
 </div>
 
+</div>
+<div class="sidebar-pane" id="phonetrackstats">
+<h1 class="sectiontitle"><?php p($l->t('Statistic tables')); ?></h1>
+<hr/>
+<br/>
+    <input id="togglestats" type="checkbox"/>
+    <label for="togglestats"><i class="fa fa-table" aria-hidden="true" style="color:blue;"></i>
+        <?php p($l->t('Show tables')); ?>
+    </label>
+    <div id="statdiv"></div>
 </div>
 <div class="sidebar-pane" id="help">
     <h1 class="sectiontitle"><?php p($l->t('About PhoneTrack')); ?></h1>

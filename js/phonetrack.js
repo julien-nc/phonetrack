@@ -1500,6 +1500,9 @@
                 updateMarker(s, d, sessionname);
             }
         }
+        if ($('#togglestats').is(':checked')) {
+            updateStatTable();
+        }
     }
 
     function updateMarker(s, d, sessionname) {
@@ -1590,6 +1593,9 @@
                     appendEntryToDevice(s, d, entry, sessionname);
                 }
             }
+        }
+        if ($('#togglestats').is(':checked')) {
+            updateStatTable();
         }
         // in case user click is between ajax request and response
         showHideSelectedSessions();
@@ -1845,6 +1851,9 @@
         }
 
         updateMarker(token, deviceid, sessionname);
+        if ($('#togglestats').is(':checked')) {
+            updateStatTable();
+        }
 
         phonetrack.map.closePopup();
     }
@@ -1923,6 +1932,9 @@
         else {
             // there is no point left for this device : delete the device
             deleteDevice(s, d, sn);
+        }
+        if ($('#togglestats').is(':checked')) {
+            updateStatTable();
         }
 
         phonetrack.map.closePopup();
@@ -2079,6 +2091,9 @@
                 phonetrack.sessionPointsEntriesById[token][deviceid][newlatlngs[newlatlngs.length - 1][2]].timestamp;
         }
         updateMarker(token, deviceid, sessionname);
+        if ($('#togglestats').is(':checked')) {
+            updateStatTable();
+        }
     }
 
     function getPointPopup(s, d, entry, sn) {
@@ -2172,7 +2187,6 @@
                     if (viewLines) {
                         if (!phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
                             // if linedevice activated
-                            // TODO do the same for points (problem if global lines disabled and re-enabled while points are shown)
                             if ($('.session[token='+token+'] .devicelist li[device='+d+'] .toggleLineDevice').hasClass('on')) {
                                 phonetrack.map.addLayer(phonetrack.sessionLineLayers[token][d]);
                             }
@@ -2581,6 +2595,48 @@
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to get user list'));
         });
+    }
+
+    function updateStatTable() {
+        var s, d, id, dist, time, i, ll, t1, t2;
+        var diff, hours, minutes, seconds;
+        var table = '';
+        for (s in phonetrack.sessionLineLayers) {
+            // if session is watched
+            if ($('div.session[token='+s+'] .watchbutton i').hasClass('fa-eye')) {
+                table = table + '<h3>' + getSessionName(s) + '</h3>';
+                table = table + '<table class="stattable"><tr><th>device name</th><th>distance</th><th>time</th></tr>';
+                for (d in phonetrack.sessionLineLayers[s]) {
+                    ll = phonetrack.sessionLineLayers[s][d].getLatLngs();
+                    dist = 0;
+                    for (i = 1; i < ll.length; i++) {
+                        dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
+                    }
+
+                    if (ll.length > 1) {
+                        t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0].alt].timestamp);
+                        t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1].alt].timestamp);
+                        diff = t2.diff(t1, 'seconds');
+                        hours = Math.floor(diff / 3600);
+                        minutes = Math.floor((diff % 3600) / 60);
+                        seconds = Math.floor(diff % 60);
+                    }
+                    else {
+                        hours = minutes = seconds = 0;
+                    }
+
+                    table = table + '<tr><td class="color' + phonetrack.sessionColors[s + d] +'">'+escapeHTML(d)+'</td>';
+                    table = table + '<td>'+formatDistance(dist)+'</td>';
+                    table = table + '<td>'+pad(hours)+':'+pad(minutes)+':'+pad(seconds)+'</td></tr>';
+                }
+                table = table + '</table>';
+            }
+        }
+        $('#statdiv').html(table);
+    }
+
+    function formatDistance(d) {
+        return (d / 1000).toFixed(2);
     }
 
     //////////////// MAIN /////////////////////
@@ -3144,6 +3200,17 @@
 
             changeApplyFilter();
         });
+
+        $('#togglestats').click(function() {
+            if ($(this).is(':checked')) {
+                $('#statdiv').show();
+                updateStatTable();
+            }
+            else {
+                $('#statdiv').hide();
+            }
+        });
+        $('#togglestats').prop('checked', false);
 
         if (!pageIsPublic()) {
             getSessions();

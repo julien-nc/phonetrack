@@ -88,7 +88,10 @@ h3.sectiontitle {
     font-size: 16px;
     font-weight: bold;
 }
-div#phonetracksettings h1, div#help h1 {
+div#phonetracksettings h1,
+div#phonetrackfilters h1,
+div#phonetrackstats h1,
+div#help h1 {
     /*margin-left:30px;*/
     text-align:center;
 }
@@ -187,6 +190,7 @@ h3 {
 div#filterDiv input[type=checkbox] {
     margin-left: 5px;
 }
+div#phonetrackstats input[type=checkbox],
 div#options input[type=checkbox],
 .followdevice,
 div#filterDiv input[type=checkbox] {
@@ -584,4 +588,17 @@ ul.devicelist {
 }
 #canceladdpoint, #explainaddpoint {
     display: none;
+}
+.stattable {
+    width: 100%;
+}
+.stattable th {
+    text-align: center;
+    font-weight: bold;
+}
+.stattable th,
+.stattable td {
+    border: 1px solid black;
+    padding: 0px 5px 0px 5px;
+    border-radius: 0;
 }
