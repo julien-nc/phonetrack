@@ -1448,6 +1448,7 @@
         $('#filterPointsTable input[role=datemin], #filterPointsTable input[role=hourmin],#filterPointsTable input[role=minutemin], #filterPointsTable input[role=secondmin]').prop('disabled', dateMinEnabled);
         $('#filterPointsTable input[role=datemax], #filterPointsTable input[role=hourmax],#filterPointsTable input[role=minutemax], #filterPointsTable input[role=secondmax]').prop('disabled', dateMaxEnabled);
         var s, d, id, i, displayedLatlngs;
+        var dragenabled = $('#dragcheck').is(':checked');
 
         // simpler case : no filter
         if (!dateMinEnabled && !dateMaxEnabled) {
@@ -1481,14 +1482,14 @@
                         id = displayedLatlngs[i][2];
                         phonetrack.sessionPointsLayers[s][d].addLayer(phonetrack.sessionPointsLayersById[s][d][id]);
                     }
+                    // if device is displayed and dragging is enabled : make it happen
+                    if (dragenabled && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')) {
+                        for (i = 0; i < displayedLatlngs.length; i++) {
+                            id = displayedLatlngs[i][2];
+                            phonetrack.sessionPointsLayersById[s][d][id].dragging.enable();
+                        }
+                    }
                 }
-            }
-        }
-
-        // hide all line points
-        for (s in phonetrack.sessionLineLayers) {
-            for (d in phonetrack.sessionLineLayers[s]) {
-                phonetrack.sessionPointsLayers[s][d].remove();
             }
         }
 
@@ -2417,9 +2418,9 @@
         // line points
         if (viewmove) {
             if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
-                for (id in phonetrack.sessionPointsLayersById[s][d]) {
-                    phonetrack.sessionPointsLayersById[s][d][id].dragging.disable();
-                }
+                phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
+                    l.dragging.disable();
+                });
                 phonetrack.sessionPointsLayers[s][d].remove();
                 elem.addClass('off').removeClass('on');
             }
@@ -2428,9 +2429,9 @@
                 elem.addClass('on').removeClass('off');
                 // manage draggable
                 if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
-                    for (id in phonetrack.sessionPointsLayersById[s][d]) {
-                        phonetrack.sessionPointsLayersById[s][d][id].dragging.enable();
-                    }
+                    phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
+                        l.dragging.enable();
+                    });
                 }
             }
         }
@@ -2470,13 +2471,6 @@
         if (viewmove) {
             l = phonetrack.sessionLineLayers[s][d];
             l.bringToFront();
-
-            //// hide points for the session
-            //for (dd in phonetrack.sessionPointsLayers[s]) {
-            //    phonetrack.sessionPointsLayers[s][dd].remove();
-            //}
-            //// put the points for this device
-            //phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
 
             b = l.getBounds();
         }
@@ -2778,15 +2772,15 @@
                         s = $(this).attr('token');
                         d = $(this).attr('device');
                         if (dragcheck) {
-                            for (id in phonetrack.sessionPointsLayersById[s][d]) {
-                                phonetrack.sessionPointsLayersById[s][d][id].dragging.enable();
-                            }
+                            phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
+                                l.dragging.enable();
+                            });
                             phonetrack.sessionMarkerLayers[s][d].dragging.enable();
                         }
                         else {
-                            for (id in phonetrack.sessionPointsLayersById[s][d]) {
-                                phonetrack.sessionPointsLayersById[s][d][id].dragging.disable();
-                            }
+                            phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
+                                l.dragging.disable();
+                            });
                             phonetrack.sessionMarkerLayers[s][d].dragging.disable();
                         }
                     }
@@ -3124,6 +3118,30 @@
             var mom = moment($('input[role=datemax]').val());
             mom.subtract(1, 'days');
             $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+            changeApplyFilter();
+        });
+
+        $('button[role=dateminmaxplus]').click(function() {
+            var mom = moment($('input[role=datemin]').val());
+            mom.add(1, 'days');
+            $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+
+            mom = moment($('input[role=datemax]').val());
+            mom.add(1, 'days');
+            $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+
+            changeApplyFilter();
+        });
+
+        $('button[role=dateminmaxminus]').click(function() {
+            var mom = moment($('input[role=datemin]').val());
+            mom.subtract(1, 'days');
+            $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+
+            mom = moment($('input[role=datemax]').val());
+            mom.subtract(1, 'days');
+            $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+
             changeApplyFilter();
         });
 
