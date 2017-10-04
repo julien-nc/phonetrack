@@ -357,9 +357,9 @@ if (count($_['useroverlayserverswms']) > 0){
     </td>
 </tr><tr>
     <td><?php p($l->t('Max time')); ?></td>
-    <td><input role="hourmax" type="number" value="0" min="0" max="23"/>:
-        <input role="minutemax" type="number" value="0" min="0" max="59"/>:
-        <input role="secondmax" type="number" value="0" min="0" max="59"/></td>
+    <td><input role="hourmax" type="number" value="23" min="0" max="23"/>:
+        <input role="minutemax" type="number" value="59" min="0" max="59"/>:
+        <input role="secondmax" type="number" value="59" min="0" max="59"/></td>
 </tr>
 </table>
 </div>
