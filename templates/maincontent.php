@@ -380,8 +380,10 @@ if (count($_['useroverlayserverswms']) > 0){
 <br/>
     <input id="togglestats" type="checkbox"/>
     <label for="togglestats"><i class="fa fa-table" aria-hidden="true" style="color:blue;"></i>
-        <?php p($l->t('Show tables')); ?>
+        <?php p($l->t('Show stats')); ?>
     </label>
+    <p id="statlabel">
+    </p>
     <div id="statdiv"></div>
 </div>
 <div class="sidebar-pane" id="help">

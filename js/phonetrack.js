@@ -1467,6 +1467,7 @@
                     }
                 }
             }
+            $('#statlabel').text(t('phonetrack', 'Stats of all points'));
         }
         // there is at least a filter
         else {
@@ -1490,6 +1491,23 @@
                         }
                     }
                 }
+            }
+            var dmin = $('#filterPointsTable input[role=datemin]').val();
+            var dmax = $('#filterPointsTable input[role=datemax]').val();
+            var hmin = pad(parseInt($('#filterPointsTable input[role=hourmin]').val()));
+            hmin += ':' + pad(parseInt($('#filterPointsTable input[role=minutemin]').val()));
+            hmin += ':' + pad(parseInt($('#filterPointsTable input[role=secondmin]').val()));
+            var hmax = pad(parseInt($('#filterPointsTable input[role=hourmax]').val()));
+            hmax += ':' + pad(parseInt($('#filterPointsTable input[role=minutemax]').val()));
+            hmax += ':' + pad(parseInt($('#filterPointsTable input[role=secondmax]').val()));
+            if (dateMinEnabled && dateMaxEnabled) {
+                $('#statlabel').text(t('phonetrack', 'Stats between {dmin} ({hmin}) and {dmax} ({hmax})', {dmin: dmin, dmax: dmax, hmin: hmin, hmax: hmax}));
+            }
+            else if (dateMinEnabled) {
+                $('#statlabel').text(t('phonetrack', 'Stats after {dmin} ({hmin})', {dmin: dmin, hmin: hmin}));
+            }
+            else {
+                $('#statlabel').text(t('phonetrack', 'Stats before {dmax} ({hmax})', {dmax: dmax, hmax: hmax}));
             }
         }
 
@@ -2605,7 +2623,7 @@
             // if session is watched
             if ($('div.session[token='+s+'] .watchbutton i').hasClass('fa-eye')) {
                 table = table + '<h3>' + getSessionName(s) + '</h3>';
-                table = table + '<table class="stattable"><tr><th>device name</th><th>distance</th><th>time</th></tr>';
+                table = table + '<table class="stattable"><tr><th>device name</th><th>distance (km)</th><th>time</th></tr>';
                 for (d in phonetrack.sessionLineLayers[s]) {
                     ll = phonetrack.sessionLineLayers[s][d].getLatLngs();
                     dist = 0;
@@ -3204,10 +3222,12 @@
         $('#togglestats').click(function() {
             if ($(this).is(':checked')) {
                 $('#statdiv').show();
+                $('#statlabel').show();
                 updateStatTable();
             }
             else {
                 $('#statdiv').hide();
+                $('#statlabel').hide();
             }
         });
         $('#togglestats').prop('checked', false);
