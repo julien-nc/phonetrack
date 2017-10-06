@@ -364,10 +364,10 @@ if (count($_['useroverlayserverswms']) > 0){
         <input role="secondmax" type="number" value="59" min="0" max="59"/></td>
 </tr><tr>
     <td>
-        <button role="dateminmaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <?php p($l->t('min and max--')); ?></button>
+        <button role="dateminmaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <?php p($l->t('min-- and max--')); ?></button>
     </td>
     <td>
-        <button role="dateminmaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> <?php p($l->t('min and max++')); ?></button>
+        <button role="dateminmaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> <?php p($l->t('min++ and max++')); ?></button>
     </td>
 </tr>
 </table>

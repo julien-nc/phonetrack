@@ -40,7 +40,6 @@
     "Session name" : "Nom de session",
     "Log my position in this session" : "Enregistrer ma position dans cette session",
     "Device name" : "Nom d'appareil",
-    "Zoom on all markers" : "Zoomer sur tous les marqueurs",
     "Add point" : "Ajouter le point",
     "Session" : "Session",
     "Device" : "Appareil",
@@ -58,6 +57,12 @@
     "Now, click on the map to add a point (if session is not activated, you won't see added point)" : "Vous pouvez maintenant cliquer sur la carte pour ajouter un point (si la session n'est pas activée, vous ne verrez pas le point ajouté)",
     "Cancel add point" : "Annuler l'ajout de point",
     "today" : "auj.",
+    "Make points draggable in edition mode" : "Activer le glisser-déposer pour les points en mode édition",
+    "min-- and max--" : "min-- et max--",
+    "min++ and max++" : "min++ et max++",
+    "Statistic tables" : "Tableaux de statistiques",
+    "Stats" : "Stats",
+    "Show stats" : "Montrer les stats",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -1071,7 +1071,7 @@
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<div class="moreUrls">';
-            divtxt = divtxt + '<p class="urlhint">' + t('phonetrack', 'Replace "yourname" with the desired device name') + '</p>';
+            divtxt = divtxt + '<p class="urlhint">' + t('phonetrack', 'Replace \'yourname\' with the desired device name') + '</p>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser logging URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
