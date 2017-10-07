@@ -58,6 +58,10 @@ p($_['phonetrack_version']);
             <input id="acccirclecheck" type="checkbox" checked/>
             <label for="acccirclecheck"><i class="fa fa-circle-o" aria-hidden="true" style="color:blue;"></i>
             <?php p($l->t('Show accuracy circle on hover'));?></label>
+            <br/>
+            <label for="linewidth"><i class="fa fa-pencil" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Line width'));?></label>
+            <input id="linewidth" type="number" min="1" max="20" step="1" value="4"/>
         </div>
         </div>
     </div>

@@ -856,6 +856,9 @@
                 if (optionsValues.updateinterval !== undefined) {
                     $('#updateinterval').val(optionsValues.updateinterval);
                 }
+                if (optionsValues.linewidth !== undefined) {
+                    $('#linewidth').val(optionsValues.linewidth);
+                }
                 if (optionsValues.showtime !== undefined) {
                     $('#showtime').prop('checked', optionsValues.showtime);
                 }
@@ -890,6 +893,7 @@
     function saveOptions() {
         var optionsValues = {};
         optionsValues.updateinterval = $('#updateinterval').val();
+        optionsValues.linewidth = $('#linewidth').val();
         optionsValues.viewmove = $('#viewmove').is(':checked');
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
@@ -1776,7 +1780,8 @@
         phonetrack.sessionPointsLayersById[s][d] = {};
         phonetrack.sessionPointsEntriesById[s][d] = {};
         phonetrack.sessionLatlngs[s][d] = [];
-        phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, className: 'poly' + s + d});
+        var linewidth = $('#linewidth').val();
+        phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: linewidth, className: 'poly' + s + d});
         linetooltip = t('phonetrack', 'session') + ' ' + sessionname + ' | ' +
             t('phonetrack', 'device') + ' ' + d;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
@@ -2927,6 +2932,21 @@
                 phonetrack.currentTimer.pause();
                 phonetrack.currentTimer = null;
                 refresh();
+            }
+        });
+
+        $('#linewidth').change(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+            var s, d;
+            var w = parseInt($(this).val());
+            for (s in phonetrack.sessionLineLayers) {
+                for (d in phonetrack.sessionLineLayers[s]) {
+                    phonetrack.sessionLineLayers[s][d].setStyle({
+                        weight: w
+                    });
+                }
             }
         });
 

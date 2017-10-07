@@ -47,8 +47,7 @@
     "Max date" : "Date max",
     "Max time" : "Heure max",
     "Filter points" : "Filtrer les points",
-    "Apply min date filter" : "Appliquer le filtre de date min",
-    "Apply max date filter" : "Appliquer le filtre de date max",
+    "Apply filters" : "Appliquer les filtres",
     "Min time" : "Heure min",
     "Min date" : "Date min",
     "Import session" : "Importer une session",
@@ -67,6 +66,15 @@
     "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted." : "Choisissez une session, un appareil et ajustez les filtres. Tous les points affichés pour cet appareil seront supprimés.",
     "Delete points" : "Supprimer les points",
     "Show accuracy circle on hover" : "Montrer un cercle de précision au survol",
+    "Min satellites" : "Satellites min",
+    "Min battery level" : "Niveau de batterie min",
+    "Min elevation" : "Altitude min",
+    "Min accuracy" : "Précision min",
+    "Max satellites" : "Satellites max",
+    "Max battery level" : "Niveau de batterie max",
+    "Max elevation" : "Altitude max",
+    "Max accuracy" : "Précision max",
+    "Line width" : "Largeur de ligne",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

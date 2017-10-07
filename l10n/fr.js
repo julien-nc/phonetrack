@@ -102,11 +102,9 @@ OC.L10N.register(
         "Move point" : "Déplacer le point",
         "Click on the map to move the point, press ESC to cancel" : "Cliquez sur la carte pour déplacer le point, tapez ESC pour annuler",
         "Stats of all points" : "Stats de tous les points",
-        "Stats between {dmin} ({hmin}) and {dmax} ({hmax})" : "Stats entre {dmin} ({hmin}) et {dmax} ({hmax})",
-        "Stats after {dmin} ({hmin})" : "Stats après {dmin} ({hmin})",
-        "Stats before {dmax} ({hmax})" : "Stats avant {dmax} ({hmax})",
         "Replace 'yourname' with the desired device name" : "Remplacez 'yourname' par le nom d'appareil désiré",
         "Toggle lines" : "Activer/désactiver les lignes",
+        "Stats of filtered points" : "Stats des points filtrés",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");

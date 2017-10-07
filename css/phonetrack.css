@@ -374,6 +374,7 @@ div.session p,
     border: 0px;
     background: none;
 }
+#linewidth,
 #updateinterval {
     width: 80px;
     -moz-appearance: number-input;
