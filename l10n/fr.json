@@ -63,6 +63,10 @@
     "Statistic tables" : "Tableaux de statistiques",
     "Stats" : "Stats",
     "Show stats" : "Montrer les stats",
+    "Delete multiple points" : "Supprimer plusieurs points",
+    "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted." : "Choisissez une session, un appareil et ajustez les filtres. Tous les points affichés pour cet appareil seront supprimés.",
+    "Delete points" : "Supprimer les points",
+    "Show accuracy circle on hover" : "Montrer un cercle de précision au survol",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

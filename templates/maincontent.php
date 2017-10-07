@@ -54,6 +54,7 @@ p($_['phonetrack_version']);
             <input id="dragcheck" type="checkbox" checked/>
             <label for="dragcheck"><i class="fa fa-hand-paper-o" aria-hidden="true" style="color:blue;"></i>
             <?php p($l->t('Make points draggable in edition mode'));?></label>
+            <br/>
             <input id="acccirclecheck" type="checkbox" checked/>
             <label for="acccirclecheck"><i class="fa fa-circle-o" aria-hidden="true" style="color:blue;"></i>
             <?php p($l->t('Show accuracy circle on hover'));?></label>
@@ -321,6 +322,22 @@ if (count($_['useroverlayserverswms']) > 0){
 <button id="validaddpoint"><i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Add point')); ?></button>
 <p id="explainaddpoint"><?php p($l->t('Now, click on the map to add a point (if session is not activated, you won\'t see added point)')); ?></p>
 <button id="canceladdpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Cancel add point')); ?></button>
+</div>
+
+<div id="deletePointDiv">
+<hr/>
+<h3><?php p($l->t('Delete multiple points')); ?></h3>
+<br/>
+<p>
+<?php p($l->t('Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted.')); ?>
+</p>
+<label for="deletePointSession"><?php p($l->t('Session')); ?></label>
+<select id="deletePointSession">
+</select>
+<br/>
+<label for="deletePointDevice"><?php p($l->t('Device')); ?></label>
+<input id="deletePointDevice" value="deviceName"/>
+<button id="validdeletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Delete points')); ?></button>
 </div>
 
 </div>
