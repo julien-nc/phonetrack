@@ -1390,11 +1390,10 @@
     }
 
     function filterEntry(entry) {
-        var dateMinEnabled = $('#applydatemin').is(':checked');
-        var dateMaxEnabled = $('#applydatemax').is(':checked');
+        var filtersEnabled = $('#applyfilters').is(':checked');
         var timestampMin, timestampMax;
 
-        if (dateMinEnabled) {
+        if (filtersEnabled) {
             var tab = $('#filterPointsTable');
             var dateminstr = tab.find('input[role=datemin]').val();
             var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
@@ -1403,9 +1402,7 @@
             var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
             var momMin = moment(completeDateMinStr);
             timestampMin = momMin.unix();
-        }
-        if (dateMaxEnabled) {
-            var tab = $('#filterPointsTable');
+
             var datemaxstr = tab.find('input[role=datemax]').val();
             var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
             var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
@@ -1415,17 +1412,16 @@
             timestampMax = momMax.unix();
         }
         return (
-            (!dateMinEnabled || parseInt(entry.timestamp) > timestampMin)
-            && (!dateMaxEnabled || parseInt(entry.timestamp) < timestampMax)
+            !filtersEnabled
+            || (parseInt(entry.timestamp) > timestampMin  && parseInt(entry.timestamp) < timestampMax)
         );
     }
 
     function filterList(list, token, deviceid) {
-        var dateMinEnabled = $('#applydatemin').is(':checked');
-        var dateMaxEnabled = $('#applydatemax').is(':checked');
+        var filtersEnabled = $('#applyfilters').is(':checked');
         var timestampMin, timestampMax, resList;
 
-        if (dateMinEnabled) {
+        if (filtersEnabled) {
             var tab = $('#filterPointsTable');
             var dateminstr = tab.find('input[role=datemin]').val();
             var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
@@ -1434,9 +1430,7 @@
             var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
             var momMin = moment(completeDateMinStr);
             timestampMin = momMin.unix();
-        }
-        if (dateMaxEnabled) {
-            var tab = $('#filterPointsTable');
+
             var datemaxstr = tab.find('input[role=datemax]').val();
             var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
             var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
@@ -1444,22 +1438,18 @@
             var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
             var momMax = moment(completeDateMaxStr);
             timestampMax = momMax.unix();
-        }
-        if (dateMinEnabled || dateMaxEnabled) {
+
             resList = [];
             var i = 0;
             // we avoid everything under the min
             while (i < list.length
-                   && dateMinEnabled
                    && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMin)
             ) {
                 i++;
             }
             // then we copy everything under the max
             while (i < list.length
-                   && (!dateMaxEnabled
-                       || (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMax)
-                      )
+                   && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMax)
             ) {
                 resList.push(list[i]);
                 i++;
@@ -1472,15 +1462,14 @@
     }
 
     function changeApplyFilter() {
-        var dateMinEnabled = $('#applydatemin').is(':checked');
-        var dateMaxEnabled = $('#applydatemax').is(':checked');
-        $('#filterPointsTable input[role=datemin], #filterPointsTable input[role=hourmin],#filterPointsTable input[role=minutemin], #filterPointsTable input[role=secondmin]').prop('disabled', dateMinEnabled);
-        $('#filterPointsTable input[role=datemax], #filterPointsTable input[role=hourmax],#filterPointsTable input[role=minutemax], #filterPointsTable input[role=secondmax]').prop('disabled', dateMaxEnabled);
+        var filtersEnabled = $('#applyfilters').is(':checked');
+        $('#filterPointsTable input[role=datemin], #filterPointsTable input[role=hourmin],#filterPointsTable input[role=minutemin], #filterPointsTable input[role=secondmin]').prop('disabled', filtersEnabled);
+        $('#filterPointsTable input[role=datemax], #filterPointsTable input[role=hourmax],#filterPointsTable input[role=minutemax], #filterPointsTable input[role=secondmax]').prop('disabled', filtersEnabled);
         var s, d, id, i, displayedLatlngs;
         var dragenabled = $('#dragcheck').is(':checked');
 
         // simpler case : no filter
-        if (!dateMinEnabled && !dateMaxEnabled) {
+        if (!filtersEnabled) {
             for (s in phonetrack.sessionLineLayers) {
                 for (d in phonetrack.sessionLineLayers[s]) {
                     // put all coordinates in lines
@@ -1529,14 +1518,8 @@
             var hmax = pad(parseInt($('#filterPointsTable input[role=hourmax]').val()));
             hmax += ':' + pad(parseInt($('#filterPointsTable input[role=minutemax]').val()));
             hmax += ':' + pad(parseInt($('#filterPointsTable input[role=secondmax]').val()));
-            if (dateMinEnabled && dateMaxEnabled) {
+            if (filtersEnabled) {
                 $('#statlabel').text(t('phonetrack', 'Stats between {dmin} ({hmin}) and {dmax} ({hmax})', {dmin: dmin, dmax: dmax, hmin: hmin, hmax: hmax}));
-            }
-            else if (dateMinEnabled) {
-                $('#statlabel').text(t('phonetrack', 'Stats after {dmin} ({hmin})', {dmin: dmin, hmin: hmin}));
-            }
-            else {
-                $('#statlabel').text(t('phonetrack', 'Stats before {dmax} ({hmax})', {dmax: dmax, hmax: hmax}));
             }
         }
 
@@ -3215,7 +3198,7 @@
             );
         });
 
-        $('#applydatemin, #applydatemax').click(function(e) {
+        $('#applyfilters').click(function(e) {
             changeApplyFilter();
         });
         changeApplyFilter();

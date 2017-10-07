@@ -347,11 +347,8 @@ if (count($_['useroverlayserverswms']) > 0){
 <h1 class="sectiontitle"><?php p($l->t('Filter points')); ?></h1>
 <hr/>
 <br/>
-<label for="applydatemin"><?php p($l->t('Apply min date filter')); ?></label>
-<input type="checkbox" id="applydatemin"/>
-<br/>
-<label for="applydatemax"><?php p($l->t('Apply max date filter')); ?></label>
-<input type="checkbox" id="applydatemax"/>
+<label for="applyfilters"><?php p($l->t('Apply filters')); ?></label>
+<input type="checkbox" id="applyfilters"/>
 <table id="filterPointsTable">
 <tr>
     <td><?php p($l->t('Min date')); ?></td>
