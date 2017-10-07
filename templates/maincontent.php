@@ -54,6 +54,9 @@ p($_['phonetrack_version']);
             <input id="dragcheck" type="checkbox" checked/>
             <label for="dragcheck"><i class="fa fa-hand-paper-o" aria-hidden="true" style="color:blue;"></i>
             <?php p($l->t('Make points draggable in edition mode'));?></label>
+            <input id="acccirclecheck" type="checkbox" checked/>
+            <label for="acccirclecheck"><i class="fa fa-circle-o" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Show accuracy circle on hover'));?></label>
         </div>
         </div>
     </div>

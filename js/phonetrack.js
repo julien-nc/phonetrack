@@ -850,6 +850,9 @@
                 if (optionsValues.dragcheck !== undefined) {
                     $('#dragcheck').prop('checked', optionsValues.dragcheck);
                 }
+                if (optionsValues.acccirclecheck !== undefined) {
+                    $('#acccirclecheck').prop('checked', optionsValues.acccirclecheck);
+                }
                 if (optionsValues.tilelayer !== undefined) {
                     phonetrack.restoredTileLayer = optionsValues.tilelayer;
                 }
@@ -873,6 +876,7 @@
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.dragcheck = $('#dragcheck').is(':checked');
+        optionsValues.acccirclecheck = $('#acccirclecheck').is(':checked');
         optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
         //alert('to save : '+JSON.stringify(optionsValues));
 
@@ -1733,6 +1737,12 @@
         phonetrack.sessionMarkerLayers[s][d].device = d;
         phonetrack.sessionMarkerLayers[s][d].pid = null;
         phonetrack.sessionMarkerLayers[s][d].setZIndexOffset(phonetrack.lastZindex++);
+        phonetrack.sessionMarkerLayers[s][d].on('mouseover', function(e) {
+            markerMouseover(e);
+        });
+        phonetrack.sessionMarkerLayers[s][d].on('mouseout', function(e) {
+            markerMouseout(e);
+        });
     }
 
     function appendEntryToDevice(s, d, entry, sessionname) {
@@ -1761,9 +1771,17 @@
             html: ''
         });
 
-        var m = L.marker([entry.lat, entry.lon],
+        var m = L.marker([entry.lat, entry.lon, entry.id],
             {icon: icon}
         );
+        m.session = s;
+        m.device = d;
+        m.on('mouseover', function(e) {
+            markerMouseover(e);
+        });
+        m.on('mouseout', function(e) {
+            markerMouseout(e);
+        });
         m.session = s;
         m.device = d;
         m.pid = entry.id;
@@ -1779,11 +1797,36 @@
         }
     }
 
+    function markerMouseover(e) {
+        if ($('#acccirclecheck').is(':checked')) {
+            var latlng = e.target.getLatLng();
+            var pid = latlng.alt;
+            var d = e.target.device;
+            var s = e.target.session;
+            var acc = parseInt(phonetrack.sessionPointsEntriesById[s][d][pid].accuracy);
+            if (acc !== -1) {
+                phonetrack.currentPrecisionCircle = L.circle(latlng, {radius: acc});
+                phonetrack.map.addLayer(phonetrack.currentPrecisionCircle);
+            }
+            else {
+                phonetrack.currentPrecisionCircle = null;
+            }
+        }
+    }
+
+    function markerMouseout(e) {
+        if (phonetrack.currentPrecisionCircle !== null
+            && phonetrack.map.hasLayer(phonetrack.currentPrecisionCircle)
+        ) {
+            phonetrack.map.removeLayer(phonetrack.currentPrecisionCircle);
+            phonetrack.currentPrecisionCircle = null;
+        }
+    }
+
     function isSessionShared(s) {
         return ($('div.session[token="' + s + '"]').attr('shared') === '1');
     }
 
-    // TODO put values instead of but here
     function editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent) {
         var req = {
             token: token,
@@ -2095,9 +2138,15 @@
                 html: ''
             });
             var m = L.marker(
-                [entry.lat, entry.lon],
+                [entry.lat, entry.lon, deviceid],
                 {icon: icon}
             );
+            m.on('mouseover', function(e) {
+                markerMouseover(e);
+            });
+            m.on('mouseout', function(e) {
+                markerMouseout(e);
+            });
             m.session = token;
             m.device = deviceid;
             m.pid = entry.id;
@@ -2866,6 +2915,12 @@
             else {
                 phonetrack.timeButton.state('noshowtime');
                 $(phonetrack.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+            }
+        });
+
+        $('#acccirclecheck').click(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
             }
         });
 
