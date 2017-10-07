@@ -1410,16 +1410,36 @@
             var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
             var momMax = moment(completeDateMaxStr);
             timestampMax = momMax.unix();
+
+            var satellitesmin = parseInt($('input[role=satellitesmin]').val());
+            var satellitesmax = parseInt($('input[role=satellitesmax]').val());
+            var batterymin    = parseInt($('input[role=batterymin]').val());
+            var batterymax    = parseInt($('input[role=batterymax]').val());
+            var elevationmin  = parseInt($('input[role=elevationmin]').val());
+            var elevationmax  = parseInt($('input[role=elevationmax]').val());
+            var accuracymin   = parseInt($('input[role=accuracymin]').val());
+            var accuracymax   = parseInt($('input[role=accuracymax]').val());
         }
         return (
             !filtersEnabled
-            || (parseInt(entry.timestamp) > timestampMin  && parseInt(entry.timestamp) < timestampMax)
+            || (
+                parseInt(entry.timestamp) > timestampMin
+                && parseInt(entry.timestamp) < timestampMax
+                && entry.altitude >= elevationmax
+                && entry.altitude <= elevationmin
+                && entry.batterylevel >= batterymin
+                && entry.batterylevel <= batterymax
+                && entry.satellites >= satellitesmin
+                && entry.satellites <= satellitesmax
+                && entry.accuracy >= accuracymin
+                && entry.accuracy <= accuracymax
+            )
         );
     }
 
     function filterList(list, token, deviceid) {
         var filtersEnabled = $('#applyfilters').is(':checked');
-        var timestampMin, timestampMax, resList;
+        var timestampMin, timestampMax, resList, resDateList;
 
         if (filtersEnabled) {
             var tab = $('#filterPointsTable');
@@ -1439,8 +1459,19 @@
             var momMax = moment(completeDateMaxStr);
             timestampMax = momMax.unix();
 
+            var satellitesmin = parseInt($('input[role=satellitesmin]').val());
+            var satellitesmax = parseInt($('input[role=satellitesmax]').val());
+            var batterymin    = parseInt($('input[role=batterymin]').val());
+            var batterymax    = parseInt($('input[role=batterymax]').val());
+            var elevationmin  = parseInt($('input[role=elevationmin]').val());
+            var elevationmax  = parseInt($('input[role=elevationmax]').val());
+            var accuracymin   = parseInt($('input[role=accuracymin]').val());
+            var accuracymax   = parseInt($('input[role=accuracymax]').val());
+
+            resDateList = [];
             resList = [];
             var i = 0;
+            ////// DATES
             // we avoid everything under the min
             while (i < list.length
                    && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMin)
@@ -1451,7 +1482,25 @@
             while (i < list.length
                    && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMax)
             ) {
-                resList.push(list[i]);
+                resDateList.push(list[i]);
+                i++;
+            }
+            // filter again with int values
+            i = 0;
+            var entry;
+            while (i < resDateList.length) {
+                entry = phonetrack.sessionPointsEntriesById[token][deviceid][resDateList[i][2]];
+                if (entry.altitude <= elevationmax
+                    && entry.altitude >= elevationmin
+                    && entry.batterylevel >= batterymin
+                    && entry.batterylevel <= batterymax
+                    && entry.satellites >= satellitesmin
+                    && entry.satellites <= satellitesmax
+                    && entry.accuracy >= accuracymin
+                    && entry.accuracy <= accuracymax
+                ){
+                    resList.push(resDateList[i]);
+                }
                 i++;
             }
         }
@@ -1463,8 +1512,8 @@
 
     function changeApplyFilter() {
         var filtersEnabled = $('#applyfilters').is(':checked');
-        $('#filterPointsTable input[role=datemin], #filterPointsTable input[role=hourmin],#filterPointsTable input[role=minutemin], #filterPointsTable input[role=secondmin]').prop('disabled', filtersEnabled);
-        $('#filterPointsTable input[role=datemax], #filterPointsTable input[role=hourmax],#filterPointsTable input[role=minutemax], #filterPointsTable input[role=secondmax]').prop('disabled', filtersEnabled);
+        $('#filterPointsTable input[type=number]').prop('disabled', filtersEnabled);
+        $('#filterPointsTable input[type=date]').prop('disabled', filtersEnabled);
         var s, d, id, i, displayedLatlngs;
         var dragenabled = $('#dragcheck').is(':checked');
 
@@ -1510,16 +1559,11 @@
                     }
                 }
             }
-            var dmin = $('#filterPointsTable input[role=datemin]').val();
-            var dmax = $('#filterPointsTable input[role=datemax]').val();
-            var hmin = pad(parseInt($('#filterPointsTable input[role=hourmin]').val()));
-            hmin += ':' + pad(parseInt($('#filterPointsTable input[role=minutemin]').val()));
-            hmin += ':' + pad(parseInt($('#filterPointsTable input[role=secondmin]').val()));
-            var hmax = pad(parseInt($('#filterPointsTable input[role=hourmax]').val()));
-            hmax += ':' + pad(parseInt($('#filterPointsTable input[role=minutemax]').val()));
-            hmax += ':' + pad(parseInt($('#filterPointsTable input[role=secondmax]').val()));
             if (filtersEnabled) {
-                $('#statlabel').text(t('phonetrack', 'Stats between {dmin} ({hmin}) and {dmax} ({hmax})', {dmin: dmin, dmax: dmax, hmin: hmin, hmax: hmax}));
+                $('#statlabel').text(t('phonetrack', 'Stats of filtered points'));
+            }
+            else {
+                $('#statlabel').text(t('phonetrack', 'Stats of all points'));
             }
         }
 
@@ -1626,6 +1670,10 @@
                 // for all new entries of this session
                 for (i in sessions[s][d]) {
                     entry = sessions[s][d][i];
+                    entry.altitude = parseInt(entry.altitude);
+                    entry.satellites = parseInt(entry.satellites);
+                    entry.accuracy = parseInt(entry.accuracy);
+                    entry.batterylevel = parseInt(entry.batterylevel);
                     appendEntryToDevice(s, d, entry, sessionname);
                 }
             }
@@ -3142,8 +3190,6 @@
         });
 
         $('body').on('click','.valideditpoint', function(e) {
-            // TODO get values of fields
-            // get latlng from dict entry (not changed here)
             var tab = $(this).parent().find('table');
             var token = tab.attr('token');
             var deviceid = tab.attr('deviceid');
@@ -3151,10 +3197,10 @@
             // unchanged latlng
             var lat = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lat;
             var lon = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lon;
-            var alt = tab.find('input[role=altitude]').val();
-            var acc = tab.find('input[role=precision]').val();
-            var sat = tab.find('input[role=satellites]').val();
-            var bat = tab.find('input[role=battery]').val();
+            var alt = parseInt(tab.find('input[role=altitude]').val());
+            var acc = parseInt(tab.find('input[role=precision]').val());
+            var sat = parseInt(tab.find('input[role=satellites]').val());
+            var bat = parseInt(tab.find('input[role=battery]').val());
             var useragent = tab.find('input[role=useragent]').val();
             var datestr = tab.find('input[role=date]').val();
             var hourstr = parseInt(tab.find('input[role=hour]').val());

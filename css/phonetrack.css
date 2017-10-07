@@ -389,7 +389,7 @@ input[role=precision] {
 #filterPointsTable {
     width: 100%;
 }
-#filterPointsTable input[type=number] {
+#filterPointsTable input[type=number].time {
     width: 44px !important;
 }
 .editPoint input[role=minute],
