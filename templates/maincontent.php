@@ -94,6 +94,8 @@ p($_['phonetrack_version']);
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         <?php p($l->t('loading positions')); ?>&nbsp;<b id="loadinpos"></b></p>
     </div>
+    <input id="tracknamecolor" type="text" style="display:none;"></input>
+    <input id="colorinput" type="color" style="display:none;"></input>
 <?php
 
 echo '<p id="username" style="display:none">';

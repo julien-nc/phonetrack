@@ -555,6 +555,7 @@ ul.devicelist {
     width: 15px;
     height: 15px;
     margin: 5px 0px 5px 0px;
+    cursor: pointer;
 }
 
 /*.dropdownbutton:hover,*/
@@ -601,4 +602,11 @@ ul.devicelist {
     border: 1px solid black;
     padding: 0px 5px 0px 5px;
     border-radius: 0;
+}
+.roundmarker {
+    text-align: center;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50%;
+    line-height:16px;
 }

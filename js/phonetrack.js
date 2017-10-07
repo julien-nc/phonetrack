@@ -1218,7 +1218,7 @@
                 t('phonetrack', 'session') + ' ' + newname
             );
             phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
-            phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
+            phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d});
             // marker popup
             if (!pageIsPublic()
                 && !isSessionShared(token)
@@ -1242,7 +1242,7 @@
                 {
                     permanent: false,
                     sticky: true,
-                    className: 'tooltip' + phonetrack.sessionColors[token + d]
+                    className: 'tooltip' + token + d
                 }
             );
             for (id in phonetrack.sessionPointsLayersById[token][d]) {
@@ -1254,7 +1254,7 @@
                     t('phonetrack', 'session') + ' ' + newname
                 );
                 l.unbindTooltip();
-                l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + d]});
+                l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d});
 
                 // line points popups
                 p = l.getPopup().getContent();
@@ -1560,7 +1560,7 @@
             phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
             phonetrack.sessionMarkerLayers[s][d].bindTooltip(
                 getPointTooltipContent(mentry, sessionname),
-                {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]}
+                {permanent: perm, offset: offset, className: 'tooltip' + s + d}
             );
             // popup
             if (!pageIsPublic()
@@ -1619,28 +1619,63 @@
         showHideSelectedSessions();
     }
 
+    function changeDeviceStyle(s, d, colorcode) {
+        var rgbc = hexToRgb(colorcode);
+        var textcolor = 'black';
+        if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
+            textcolor = 'white';
+        }
+        $('style[tokendevice="' + s + d + '"]').html(
+            '.color' + s + d + ' { ' +
+            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.8);' +
+            'color: ' + textcolor + '; font-weight: bold;' +
+            ' }' +
+            '.poly' + s + d + ' {' +
+            'stroke: ' + colorcode + ';}' +
+            '.tooltip' + s + d + ' {' +
+            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
+            'color: ' + textcolor + '; font-weight: bold; }' +
+            '.opaquetooltip' + s + d + ' {' +
+            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 1);' +
+            'color: ' + textcolor + '; font-weight: bold;' +
+            '}'
+        );
+    }
+
+    function showColorPicker(s, d) {
+        $('#tracknamecolor').attr('token', s);
+        $('#tracknamecolor').attr('deviceid', d);
+        var currentColor = phonetrack.sessionColors[s + d];
+        $('#colorinput').val(currentColor);
+        $('#colorinput').click();
+    }
+
+    function okColor() {
+        var color = $('#colorinput').val();
+        var s = $('#tracknamecolor').attr('token');
+        var d = $('#tracknamecolor').attr('deviceid');
+        changeDeviceStyle(s, d, color);
+    }
+
     function addDevice(s, d, sessionname) {
         var colorn, textcolor, rgbc, linetooltip;
         colorn = ++lastColorUsed % colorCode.length;
-        phonetrack.sessionColors[s + d] = colorn;
+        phonetrack.sessionColors[s + d] = colorCode[colorn];
         rgbc = hexToRgb(colorCode[colorn]);
         textcolor = 'black';
         if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
             textcolor = 'white';
         } 
-        $('<style track="' + d + '">.color' + colorn + ' { ' +
+        $('<style tokendevice="' + s + d + '">.color' + s + d + ' { ' +
             'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.8);' +
                 'color: ' + textcolor + '; font-weight: bold;' +
-                'text-align: center;' +
-                'width: 16px !important;' +
-                'height: 16px !important;' +
-                'border-radius: 50%;' +
-                'line-height:16px;' +
                 ' }' +
-                '.tooltip' + colorn + ' {' +
+                '.poly' + s + d + ' {' +
+                'stroke: ' + colorCode[colorn] + ';}' +
+                '.tooltip' + s + d + ' {' +
                 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
                 'color: ' + textcolor + '; font-weight: bold; }' +
-                '.opaquetooltip' + colorn + ' {' +
+                '.opaquetooltip' + s + d + ' {' +
                 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 1);' +
                 'color: ' + textcolor + '; font-weight: bold;' +
                 '}</style>').appendTo('body');
@@ -1658,7 +1693,7 @@
             '<i class="fa fa-line-chart" aria-hidden="true"></i></button>';
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
-                '<div class="devicecolor" style="background-color:' + colorCode[colorn] + ';"></div> ' +
+                '<div class="devicecolor opaquetooltip' + s + d + '"></div> ' +
                 '<div class="deviceLabel" title="' +
                 t('phonetrack', 'Center map on device') + ' ' + d + '">' + d + '</div> ' +
                 deleteLink +
@@ -1675,7 +1710,7 @@
         phonetrack.sessionPointsLayersById[s][d] = {};
         phonetrack.sessionPointsEntriesById[s][d] = {};
         phonetrack.sessionLatlngs[s][d] = [];
-        phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, color: colorCode[colorn]});
+        phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: 4, className: 'poly' + s + d});
         linetooltip = t('phonetrack', 'session') + ' ' + sessionname + ' | ' +
             t('phonetrack', 'device') + ' ' + d;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
@@ -1683,12 +1718,12 @@
             {
                 permanent: false,
                 sticky: true,
-                className: 'tooltip' + colorn
+                className: 'tooltip' + s + d
             }
         );
         var icon = L.divIcon({
             iconAnchor: [8, 8],
-            className: 'color' + phonetrack.sessionColors[s + d],
+            className: 'roundmarker color' + s + d,
             html: '<b>' + d[0] + '</b>'
         });
 
@@ -1722,7 +1757,7 @@
 
         var icon = L.divIcon({
             iconAnchor: [8, 8],
-            className: 'color' + phonetrack.sessionColors[s + d],
+            className: 'roundmarker color' + s + d,
             html: ''
         });
 
@@ -1733,7 +1768,7 @@
         m.device = d;
         m.pid = entry.id;
         m.on('dragend', dragPointEnd);
-        m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[s + d]});
+        m.bindTooltip(pointtooltip, {className: 'tooltip' + s + d});
         phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
         phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
         if (filter) {
@@ -1810,7 +1845,7 @@
         phonetrack.sessionPointsLayersById[token][deviceid][pointid].unbindTooltip();
         phonetrack.sessionPointsLayersById[token][deviceid][pointid].bindTooltip(
             getPointTooltipContent(entry, sessionname),
-            {permanent: false, offset: offset, className: 'tooltip' + phonetrack.sessionColors[token + deviceid]}
+            {permanent: false, offset: offset, className: 'tooltip' + token + deviceid}
         );
 
         // update line point popup
@@ -2056,7 +2091,7 @@
             var pointtooltip = getPointTooltipContent(entry, sessionname);
             var icon = L.divIcon({
                 iconAnchor: [8, 8],
-                className: 'color' + phonetrack.sessionColors[s + d],
+                className: 'roundmarker color' + token + deviceid,
                 html: ''
             });
             var m = L.marker(
@@ -2067,7 +2102,7 @@
             m.device = deviceid;
             m.pid = entry.id;
             m.on('dragend', dragPointEnd);
-            m.bindTooltip(pointtooltip, {className: 'tooltip' + phonetrack.sessionColors[token + deviceid]});
+            m.bindTooltip(pointtooltip, {className: 'markertooltip tooltip' + token + deviceid});
             phonetrack.sessionPointsEntriesById[token][deviceid][entry.id] = entry;
             phonetrack.sessionPointsLayersById[token][deviceid][entry.id] = m;
             if (filter) {
@@ -2317,7 +2352,7 @@
                 m = phonetrack.sessionMarkerLayers[s][d];
                 t = m.getTooltip()._content;
                 m.unbindTooltip();
-                m.bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + phonetrack.sessionColors[s + d]});
+                m.bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + s + d});
             }
         }
     }
@@ -2523,7 +2558,7 @@
         m.setZIndexOffset(phonetrack.lastZindex++);
         t = m.getTooltip()._content;
         m.unbindTooltip();
-        m.bindTooltip(t, {permanent: perm, offset: offset, className: 'opaquetooltip' + phonetrack.sessionColors[s + d], opacity: 1});
+        m.bindTooltip(t, {permanent: perm, offset: offset, className: 'opaquetooltip' + s + d, opacity: 1});
     }
 
     function hideAllDropDowns() {
@@ -2643,7 +2678,7 @@
                         hours = minutes = seconds = 0;
                     }
 
-                    table = table + '<tr><td class="color' + phonetrack.sessionColors[s + d] +'">'+escapeHTML(d)+'</td>';
+                    table = table + '<tr><td class="roundmarker color' + s + d +'">'+escapeHTML(d)+'</td>';
                     table = table + '<td>'+formatDistance(dist)+'</td>';
                     table = table + '<td>'+pad(hours)+':'+pad(minutes)+':'+pad(seconds)+'</td></tr>';
                 }
@@ -3231,6 +3266,15 @@
             }
         });
         $('#togglestats').prop('checked', false);
+
+        $('body').on('change', '#colorinput', function(e) {
+            okColor();
+        });
+        $('body').on('click', '.devicelist .devicecolor', function(e) {
+            var s = $(this).parent().attr('token');
+            var d = $(this).parent().attr('device');
+            showColorPicker(s, d);
+        });
 
         if (!pageIsPublic()) {
             getSessions();
