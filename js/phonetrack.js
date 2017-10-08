@@ -859,6 +859,9 @@
                 if (optionsValues.linewidth !== undefined) {
                     $('#linewidth').val(optionsValues.linewidth);
                 }
+                if (optionsValues.pointlinealpha !== undefined) {
+                    $('#pointlinealpha').val(optionsValues.pointlinealpha);
+                }
                 if (optionsValues.pointradius !== undefined) {
                     $('#pointradius').val(optionsValues.pointradius);
                 }
@@ -897,6 +900,7 @@
         var optionsValues = {};
         optionsValues.updateinterval = $('#updateinterval').val();
         optionsValues.linewidth = $('#linewidth').val();
+        optionsValues.pointlinealpha = $('#pointlinealpha').val();
         optionsValues.pointradius = $('#pointradius').val();
         optionsValues.viewmove = $('#viewmove').is(':checked');
         optionsValues.autozoom = $('#autozoom').is(':checked');
@@ -1699,18 +1703,21 @@
         if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
             textcolor = 'white';
         }
+        var opacity = $('#pointlinealpha').val();
         $('style[tokendevice="' + s + d + '"]').html(
             '.color' + s + d + ' { ' +
-            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.8);' +
+            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');' +
             'color: ' + textcolor + '; font-weight: bold;' +
             ' }' +
             '.poly' + s + d + ' {' +
-            'stroke: ' + colorcode + ';}' +
+            'stroke: ' + colorcode + ';' +
+            'opacity: ' + opacity + ';' +
+            '}' +
             '.tooltip' + s + d + ' {' +
             'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
             'color: ' + textcolor + '; font-weight: bold; }' +
             '.opaquetooltip' + s + d + ' {' +
-            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 1);' +
+            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
             'color: ' + textcolor + '; font-weight: bold;' +
             '}'
         );
@@ -1740,17 +1747,20 @@
         if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
             textcolor = 'white';
         } 
+        var opacity = $('#pointlinealpha').val();
         $('<style tokendevice="' + s + d + '">.color' + s + d + ' { ' +
-            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.8);' +
+            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');' +
                 'color: ' + textcolor + '; font-weight: bold;' +
                 ' }' +
                 '.poly' + s + d + ' {' +
-                'stroke: ' + colorCode[colorn] + ';}' +
+                'stroke: ' + colorCode[colorn] + ';' +
+                'opacity: ' + opacity + ';' +
+                '}' +
                 '.tooltip' + s + d + ' {' +
                 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
                 'color: ' + textcolor + '; font-weight: bold; }' +
                 '.opaquetooltip' + s + d + ' {' +
-                'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 1);' +
+                'background: rgb(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
                 'color: ' + textcolor + '; font-weight: bold;' +
                 '}</style>').appendTo('body');
         var deleteLink = '';
@@ -3445,6 +3455,22 @@
                     for (pid in phonetrack.sessionPointsLayersById[s][d]) {
                         phonetrack.sessionPointsLayersById[s][d][pid].setIcon(icon);
                     }
+                }
+            }
+        });
+
+        $('#pointlinealpha').change(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+            var opacity = $(this).val();
+            var s, d, styletxt;
+            for (s in phonetrack.sessionMarkerLayers) {
+                for (d in phonetrack.sessionMarkerLayers[s]) {
+                    styletxt = $('style[tokendevice="' + s + d + '"]').html();
+                    styletxt = styletxt.replace(/rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'rgba($1, $2, $3, ' + opacity + ')');
+                    styletxt = styletxt.replace(/opacity: (\d+(\.\d+)?);/, 'opacity: ' + opacity + ';');
+                    $('style[tokendevice="' + s + d + '"]').html(styletxt);
                 }
             }
         });

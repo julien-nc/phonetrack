@@ -375,6 +375,7 @@ div.session p,
     background: none;
 }
 #linewidth,
+#pointlinealpha,
 #pointradius,
 #updateinterval {
     width: 80px;

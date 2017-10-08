@@ -76,6 +76,7 @@
     "Max accuracy" : "Précision max",
     "Line width" : "Largeur de ligne",
     "Point radius" : "Rayon des points",
+    "Point and line opacity" : "Transparence des points et lignes",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
