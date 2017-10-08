@@ -859,6 +859,9 @@
                 if (optionsValues.linewidth !== undefined) {
                     $('#linewidth').val(optionsValues.linewidth);
                 }
+                if (optionsValues.pointradius !== undefined) {
+                    $('#pointradius').val(optionsValues.pointradius);
+                }
                 if (optionsValues.showtime !== undefined) {
                     $('#showtime').prop('checked', optionsValues.showtime);
                 }
@@ -894,6 +897,7 @@
         var optionsValues = {};
         optionsValues.updateinterval = $('#updateinterval').val();
         optionsValues.linewidth = $('#linewidth').val();
+        optionsValues.pointradius = $('#pointradius').val();
         optionsValues.viewmove = $('#viewmove').is(':checked');
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
@@ -1792,8 +1796,9 @@
                 className: 'tooltip' + s + d
             }
         );
+        var radius = $('#pointradius').val();
         var icon = L.divIcon({
-            iconAnchor: [8, 8],
+            iconAnchor: [radius, radius],
             className: 'roundmarker color' + s + d,
             html: '<b>' + d[0] + '</b>'
         });
@@ -1832,8 +1837,9 @@
         }
         phonetrack.sessionLatlngs[s][d].push([entry.lat, entry.lon, entry.id]);
 
+        var radius = $('#pointradius').val();
         var icon = L.divIcon({
-            iconAnchor: [8, 8],
+            iconAnchor: [radius, radius],
             className: 'roundmarker color' + s + d,
             html: ''
         });
@@ -2174,8 +2180,9 @@
         else {
             // add line point
             var pointtooltip = getPointTooltipContent(entry, sessionname);
+            var radius = $('#pointradius').val();
             var icon = L.divIcon({
-                iconAnchor: [8, 8],
+                iconAnchor: [radius, radius],
                 className: 'roundmarker color' + token + deviceid,
                 html: ''
             });
@@ -3396,6 +3403,50 @@
             var s = $(this).parent().attr('token');
             var d = $(this).parent().attr('device');
             showColorPicker(s, d);
+        });
+
+        var radius = $('#pointradius').val();
+        var diam = 2 * radius;
+        $('<style role="roundmarker">.roundmarker { ' +
+            'width: ' + diam + 'px !important;' +
+            'height: ' + diam + 'px !important;' +
+            'line-height: ' + diam + 'px;' +
+            '}</style>').appendTo('body');
+
+        $('#pointradius').change(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+            var radius = $(this).val();
+            var diam = 2 * radius;
+            $('style[role=roundmarker]').html(
+                '.roundmarker { ' +
+                'width: ' + diam + 'px !important;' +
+                'height: ' + diam + 'px !important;' +
+                'line-height: ' + diam + 'px;' +
+                '}</style>'
+            );
+            // change iconanchor
+            var s, d, pid, icon, iconMarker;
+            for (s in phonetrack.sessionMarkerLayers) {
+                for (d in phonetrack.sessionMarkerLayers[s]) {
+                    iconMarker = L.divIcon({
+                        iconAnchor: [radius, radius],
+                        className: 'roundmarker color' + s + d,
+                        html: '<b>' + d[0] + '</b>'
+                    });
+                    phonetrack.sessionMarkerLayers[s][d].setIcon(iconMarker);
+
+                    icon = L.divIcon({
+                        iconAnchor: [radius, radius],
+                        className: 'roundmarker color' + s + d,
+                        html: ''
+                    });
+                    for (pid in phonetrack.sessionPointsLayersById[s][d]) {
+                        phonetrack.sessionPointsLayersById[s][d][pid].setIcon(icon);
+                    }
+                }
+            }
         });
 
         if (!pageIsPublic()) {

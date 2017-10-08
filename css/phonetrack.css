@@ -375,6 +375,7 @@ div.session p,
     background: none;
 }
 #linewidth,
+#pointradius,
 #updateinterval {
     width: 80px;
     -moz-appearance: number-input;
@@ -606,8 +607,5 @@ ul.devicelist {
 }
 .roundmarker {
     text-align: center;
-    width: 16px !important;
-    height: 16px !important;
     border-radius: 50%;
-    line-height:16px;
 }

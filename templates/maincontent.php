@@ -62,6 +62,10 @@ p($_['phonetrack_version']);
             <label for="linewidth"><i class="fa fa-pencil" aria-hidden="true" style="color:blue;"></i>
             <?php p($l->t('Line width'));?></label>
             <input id="linewidth" type="number" min="1" max="20" step="1" value="4"/>
+            <br/>
+            <label for="pointradius"><i class="fa fa-dot-circle-o" aria-hidden="true" style="color:blue;"></i>
+            <?php p($l->t('Point radius'));?></label>
+            <input id="pointradius" type="number" min="1" max="20" step="1" value="8"/>
         </div>
         </div>
     </div>

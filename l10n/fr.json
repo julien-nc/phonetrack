@@ -75,6 +75,7 @@
     "Max elevation" : "Altitude max",
     "Max accuracy" : "Précision max",
     "Line width" : "Largeur de ligne",
+    "Point radius" : "Rayon des points",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
