@@ -30,13 +30,13 @@ OC.L10N.register(
         "OsmAnd URL" : "OsmAnd URL",
         "Delete session" : "Session löschen",
         "Watch this session" : "Session ansehen",
-        "Click to show time" : "Klicken um Uhrzeit anzuzeigen",
+        "Click to show time" : "Details zeigen",
         "Center map on device" : "Karte auf dieses Gerät zentrieren",
-        "Click to hide movements" : "Bewegung verbergen",
-        "Click to show movements" : "Bewegung anzeigen",
-        "Zoom on all markers" : "Alle Markierungen anzeigen",
+        "Click to hide movements" : "Bewegungspfade verbergen",
+        "Click to show movements" : "Bewegungspfade anzeigen",
+        "Zoom on all markers" : "Alle Sessions anzeigen",
         "Failed to contact server to log position" : "Server zum aufzeichenen der Position nicht erreichbar",
-        "Click to hide time" : "Klicken im Uhrzeit zu verbergen",
+        "Click to hide time" : "Details verbergen",
         "Click to activate automatic zoom" : "Automatischen Zoom aktivieren",
         "Click to disable automatic zoom" : "Automatischen Zoom deaktivieren",
         "Follow this device (autozoom)" : "Diesem Gerät folgen (Automatischer Zoom)",
@@ -104,4 +104,3 @@ OC.L10N.register(
         "Zoom on this session" : "Auf diese Session zoomen"
     },
 "nplurals=2; plural=(n > 1);");
-
