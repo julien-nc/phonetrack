@@ -34,7 +34,6 @@ OC.L10N.register(
         "Center map on device" : "Karte auf dieses Gerät zentrieren",
         "Click to hide movements" : "Bewegungspfade verbergen",
         "Click to show movements" : "Bewegungspfade anzeigen",
-        "Zoom on all markers" : "Alle Sessions anzeigen",
         "Failed to contact server to log position" : "Server zum aufzeichenen der Position nicht erreichbar",
         "Click to hide time" : "Details verbergen",
         "Click to activate automatic zoom" : "Automatischen Zoom aktivieren",
@@ -101,6 +100,13 @@ OC.L10N.register(
         "Failed to get user list" : "Benutzerliste konnte nicht geladen werden",
         "Move point" : "Datenpunkt verschieben",
         "Click on the map to move the point, press ESC to cancel" : "Karte anklicken um Datenpunkt zu verschieben, ESC zum abbrechen",
-        "Zoom on this session" : "Auf diese Session zoomen"
+        "Zoom on this session" : "Auf diese Session zoomen",
+        "Zoom all markers" : "Alle Geräte anzeigen",
+        "Replace 'yourname' with the desired device name" : "Ersetze 'youname' mit deinem Gerätenamen",
+        "years" : "Jahre",
+        "days" : "Tage",
+        "Toggle lines" : "linien umschalten",
+        "Stats of all points" : "Stats aller Datenpunkte",
+        "Stats of filtered points" : "Stats aller gefilteren Punkte"
     },
 "nplurals=2; plural=(n > 1);");
