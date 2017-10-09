@@ -2764,7 +2764,7 @@
 
     function updateStatTable() {
         var s, d, id, dist, time, i, ll, t1, t2;
-        var diff, hours, minutes, seconds;
+        var diff, years, days, hours, minutes, seconds;
         var table = '';
         for (s in phonetrack.sessionLineLayers) {
             // if session is watched
@@ -2782,17 +2782,34 @@
                         t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0].alt].timestamp);
                         t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1].alt].timestamp);
                         diff = t2.diff(t1, 'seconds');
-                        hours = Math.floor(diff / 3600);
+                        years = 0;
+                        days = 0;
+                        // if more than one year
+                        if (diff >= 31536000) {
+                            years = Math.floor(diff / 31536000);
+                        }
+                        // if more than one day
+                        if (diff >= 86400) {
+                            days = Math.floor((diff % 31536000) / 86400);
+                        }
+                        hours = Math.floor((diff % 86400) / 3600);
                         minutes = Math.floor((diff % 3600) / 60);
                         seconds = Math.floor(diff % 60);
                     }
                     else {
-                        hours = minutes = seconds = 0;
+                        years = days = hours = minutes = seconds = 0;
                     }
 
                     table = table + '<tr><td class="roundmarker color' + s + d +'">'+escapeHTML(d)+'</td>';
                     table = table + '<td>'+formatDistance(dist)+'</td>';
-                    table = table + '<td>'+pad(hours)+':'+pad(minutes)+':'+pad(seconds)+'</td></tr>';
+                    table = table + '<td>';
+                    if (years > 0) {
+                        table = table + years + ' ' + t('phonetrack', 'years') + ' ';
+                    }
+                    if (days > 0) {
+                        table = table + days + ' ' + t('phonetrack', 'days') + ' ';
+                    }
+                    table = table + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds) + '</td></tr>';
                 }
                 table = table + '</table>';
             }
