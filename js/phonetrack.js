@@ -2407,8 +2407,8 @@
         var pointtooltip = sn + ' | ' + entry.deviceid;
         if (entry.timestamp) {
             mom = moment.unix(parseInt(entry.timestamp));
-            pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Date') +
-                ' : ' + mom.format('YYYY-MM-DD HH:mm:ss (Z)');
+            pointtooltip = pointtooltip + '<br/>' +
+                mom.format('YYYY-MM-DD HH:mm:ss (Z)');
         }
         if (entry.altitude && parseInt(entry.altitude) !== -1 && $('#tooltipshowelevation').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
