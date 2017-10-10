@@ -2380,16 +2380,16 @@
             'min<input role="second" type="number" value="' + secval + '" min="0" max="59"/>sec</td>';
         res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'Altitude') + '</td>';
-        res = res + '<td><input role="altitude" type="number" value="' + entry.altitude + '" min="-1"/></td>';
+        res = res + '<td><input role="altitude" type="number" value="' + entry.altitude + '" min="-1"/>m</td>';
         res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'Precision') + '</td>';
-        res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/></td>';
+        res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
         res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'Satellites') + '</td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
         res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'Battery level') + '</td>';
-        res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/></td>';
+        res = res + '<td>' + t('phonetrack', 'Battery') + '</td>';
+        res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/>%</td>';
         res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'User agent') + '</td>';
         res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '" min="-1" max="100"/></td>';
@@ -2412,7 +2412,7 @@
         }
         if (entry.altitude && parseInt(entry.altitude) !== -1 && $('#tooltipshowelevation').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Altitude') + ' : ' + entry.altitude;
+                t('phonetrack', 'Altitude') + ' : ' + parseInt(entry.altitude);
         }
         if (entry.accuracy && parseInt(entry.accuracy) !== -1 && $('#tooltipshowaccuracy').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
@@ -2424,7 +2424,7 @@
         }
         if (entry.batterylevel && parseInt(entry.batterylevel) !== -1 && $('#tooltipshowbattery').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Battery level') + ' : ' + entry.batterylevel;
+                t('phonetrack', 'Battery') + ' : ' + entry.batterylevel + '%';
         }
         if (entry.useragent && entry.useragent !== '' && entry.useragent !== 'nothing' && $('#tooltipshowuseragent').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
