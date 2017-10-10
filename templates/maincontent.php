@@ -350,6 +350,7 @@ if (count($_['useroverlayserverswms']) > 0){
 <label for="deletePointDevice"><?php p($l->t('Device')); ?></label>
 <input id="deletePointDevice" value="deviceName"/>
 <button id="validdeletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Delete points')); ?></button>
+<button id="validdeletevisiblepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Delete only visible points')); ?></button>
 </div>
 
 </div>

@@ -625,7 +625,7 @@
         leaveAddPointMode();
     }
 
-    function deleteMultiplePoints() {
+    function deleteMultiplePoints(bounds=null) {
         var pid;
         var s = $('#deletePointSession option:selected').attr('token');
         var d = $('#deletePointDevice').val();
@@ -634,7 +634,9 @@
             if (phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
                 var pidlist = [];
                 phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                    pidlist.push(l.getLatLng().alt);
+                    if (bounds === null || bounds.contains(l.getLatLng())) {
+                        pidlist.push(l.getLatLng().alt);
+                    }
                 });
                 for (pid in pidlist) {
                     deletePointDB(s, d, pidlist[pid]);
@@ -3302,6 +3304,11 @@
 
         $('#validdeletepoint').click(function(e) {
             deleteMultiplePoints();
+        });
+
+        $('#validdeletevisiblepoint').click(function(e) {
+            var mapbounds = phonetrack.map.getBounds();
+            deleteMultiplePoints(mapbounds);
         });
 
         $('#importsession').click(function(e) {
