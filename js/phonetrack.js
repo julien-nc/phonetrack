@@ -1292,8 +1292,8 @@
             // marker tooltip
             to = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
             to = to.replace(
-                t('phonetrack', 'session') + ' ' + oldname,
-                t('phonetrack', 'session') + ' ' + newname
+                oldname + ' | ',
+                newname + ' | '
             );
             phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
             phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d.replace(' ', '')});
@@ -1311,8 +1311,8 @@
             // line tooltip
             to = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
             to = to.replace(
-                t('phonetrack', 'session') + ' ' + oldname,
-                t('phonetrack', 'session') + ' ' + newname
+                oldname + ' | ',
+                newname + ' | '
             );
             phonetrack.sessionLineLayers[token][d].unbindTooltip();
             phonetrack.sessionLineLayers[token][d].bindTooltip(
@@ -1328,8 +1328,8 @@
                 // line points tooltips
                 to = l.getTooltip()._content;
                 to = to.replace(
-                    t('phonetrack', 'session') + ' ' + oldname,
-                    t('phonetrack', 'session') + ' ' + newname
+                    oldname + ' | ',
+                    newname + ' | '
                 );
                 l.unbindTooltip();
                 l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d.replace(' ', '')});
@@ -1896,8 +1896,7 @@
         phonetrack.sessionLatlngs[s][d] = [];
         var linewidth = $('#linewidth').val();
         phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: linewidth, className: 'poly' + s + d.replace(' ', '')});
-        linetooltip = t('phonetrack', 'session') + ' ' + sessionname + ' | ' +
-            t('phonetrack', 'device') + ' ' + d;
+        linetooltip = sessionname + ' | ' + d;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
             linetooltip,
             {
@@ -2405,8 +2404,7 @@
 
     function getPointTooltipContent(entry, sn) {
         var mom;
-        var pointtooltip = t('phonetrack', 'session') + ' ' + sn +
-            ' | ' + t('phonetrack', 'device') + ' ' + entry.deviceid + '';
+        var pointtooltip = sn + ' | ' + entry.deviceid;
         if (entry.timestamp) {
             mom = moment.unix(parseInt(entry.timestamp));
             pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Date') +
