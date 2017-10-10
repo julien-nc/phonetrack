@@ -105,6 +105,8 @@ OC.L10N.register(
         "Replace 'yourname' with the desired device name" : "Remplacez 'yourname' par le nom d'appareil désiré",
         "Toggle lines" : "Activer/désactiver les lignes",
         "Stats of filtered points" : "Stats des points filtrés",
+        "years" : "ans",
+        "days" : "jours",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");
