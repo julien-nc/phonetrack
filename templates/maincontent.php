@@ -366,7 +366,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input type="checkbox" id="applyfilters"/></td>
 </tr><tr>
     <td><?php p($l->t('Min date')); ?></td>
-    <td><input role="datemin" type="date"/></td>
+    <td><input role="datemin" type="date" value=""/></td>
 </tr><tr>
     <td></td>
     <td>
@@ -376,13 +376,13 @@ if (count($_['useroverlayserverswms']) > 0){
     </td>
 </tr><tr>
     <td><?php p($l->t('Min time')); ?></td>
-    <td><input class="time" role="hourmin" type="number" value="0" min="0" max="23"/>:
-        <input class="time" role="minutemin" type="number" value="0" min="0" max="59"/>:
-        <input class="time" role="secondmin" type="number" value="0" min="0" max="59"/></td>
+    <td><input class="time" role="hourmin" type="number" value="" min="0" max="23"/>:
+        <input class="time" role="minutemin" type="number" value="" min="0" max="59"/>:
+        <input class="time" role="secondmin" type="number" value="" min="0" max="59"/></td>
 </tr>
 <tr>
     <td><?php p($l->t('Max date')); ?></td>
-    <td><input role="datemax" type="date"/></td>
+    <td><input role="datemax" type="date" value=""/></td>
 </tr><tr>
     <td></td>
     <td>
@@ -392,9 +392,9 @@ if (count($_['useroverlayserverswms']) > 0){
     </td>
 </tr><tr>
     <td><?php p($l->t('Max time')); ?></td>
-    <td><input class="time" role="hourmax" type="number" value="23" min="0" max="23"/>:
-        <input class="time" role="minutemax" type="number" value="59" min="0" max="59"/>:
-        <input class="time" role="secondmax" type="number" value="59" min="0" max="59"/></td>
+    <td><input class="time" role="hourmax" type="number" value="" min="0" max="23"/>:
+        <input class="time" role="minutemax" type="number" value="" min="0" max="59"/>:
+        <input class="time" role="secondmax" type="number" value="" min="0" max="59"/></td>
 </tr><tr>
     <td>
         <button role="dateminmaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <?php p($l->t('min-- and max--')); ?></button>
@@ -407,56 +407,56 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="accuracymin"><?php p($l->t('Min accuracy')); ?></label>
     </td>
     <td>
-        <input role="accuracymin" type="number" value="-1" min="-1" max="10000"/>
+        <input role="accuracymin" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
         <label for="accuracymax"><?php p($l->t('Max accuracy')); ?></label>
     </td>
     <td>
-        <input role="accuracymax" type="number" value="10000" min="-1" max="10000"/>
+        <input role="accuracymax" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
         <label for="elevationmin"><?php p($l->t('Min elevation')); ?></label>
     </td>
     <td>
-        <input role="elevationmin" type="number" value="-1" min="-1" max="10000"/>
+        <input role="elevationmin" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
         <label for="elevationmax"><?php p($l->t('Max elevation')); ?></label>
     </td>
     <td>
-        <input role="elevationmax" type="number" value="10000" min="-1" max="10000"/>
+        <input role="elevationmax" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
         <label for="batterymin"><?php p($l->t('Min battery level')); ?></label>
     </td>
     <td>
-        <input role="batterymin" type="number" value="-1" min="-1" max="10000"/>
+        <input role="batterymin" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
         <label for="batterymax"><?php p($l->t('Max battery level')); ?></label>
     </td>
     <td>
-        <input role="batterymax" type="number" value="100" min="-1" max="100"/>
+        <input role="batterymax" type="number" value="" min="-1" max="100"/>
     </td>
 </tr><tr>
     <td>
         <label for="satellitesmin"><?php p($l->t('Min satellites')); ?></label>
     </td>
     <td>
-        <input role="satellitesmin" type="number" value="-1" min="-1" max="10000"/>
+        <input role="satellitesmin" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
         <label for="satellitesmax"><?php p($l->t('Max satellites')); ?></label>
     </td>
     <td>
-        <input role="satellitesmax" type="number" value="1000" min="-1" max="10000"/>
+        <input role="satellitesmax" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr>
 </table>

@@ -1426,9 +1426,9 @@
             var tab = $('#filterPointsTable');
             var dateminstr = tab.find('input[role=datemin]').val();
             if (dateminstr) {
-                var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
-                var minminstr = parseInt(tab.find('input[role=minutemin]').val());
-                var secminstr = parseInt(tab.find('input[role=secondmin]').val());
+                var hourminstr = parseInt(tab.find('input[role=hourmin]').val()) || 0;
+                var minminstr = parseInt(tab.find('input[role=minutemin]').val()) || 0;
+                var secminstr = parseInt(tab.find('input[role=secondmin]').val()) || 0;
                 var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
                 var momMin = moment(completeDateMinStr);
                 timestampMin = momMin.unix();
@@ -1436,9 +1436,9 @@
 
             var datemaxstr = tab.find('input[role=datemax]').val();
             if (datemaxstr) {
-                var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
-                var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
-                var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
+                var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val()) || 23;
+                var minmaxstr = parseInt(tab.find('input[role=minutemax]').val()) || 59;
+                var secmaxstr = parseInt(tab.find('input[role=secondmax]').val()) || 59;
                 var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
                 var momMax = moment(completeDateMaxStr);
                 timestampMax = momMax.unix();
@@ -1478,9 +1478,9 @@
             var tab = $('#filterPointsTable');
             var dateminstr = tab.find('input[role=datemin]').val();
             if (dateminstr) {
-                var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
-                var minminstr = parseInt(tab.find('input[role=minutemin]').val());
-                var secminstr = parseInt(tab.find('input[role=secondmin]').val());
+                var hourminstr = parseInt(tab.find('input[role=hourmin]').val()) || 0;
+                var minminstr = parseInt(tab.find('input[role=minutemin]').val()) || 0;
+                var secminstr = parseInt(tab.find('input[role=secondmin]').val()) || 0;
                 var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
                 var momMin = moment(completeDateMinStr);
                 timestampMin = momMin.unix();
@@ -1488,9 +1488,9 @@
 
             var datemaxstr = tab.find('input[role=datemax]').val();
             if (datemaxstr) {
-                var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
-                var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
-                var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
+                var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val()) || 23;
+                var minmaxstr = parseInt(tab.find('input[role=minutemax]').val()) || 59;
+                var secmaxstr = parseInt(tab.find('input[role=secondmax]').val()) || 59;
                 var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
                 var momMax = moment(completeDateMaxStr);
                 timestampMax = momMax.unix();
@@ -3381,10 +3381,6 @@
             var username = $(this).parent().attr('username');
             deleteUserShareDb(token, username);
         });
-
-        var mom = moment();
-        $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
-        $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
 
         $('button[role=datemintoday]').click(function() {
             var mom = moment();
