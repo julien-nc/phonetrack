@@ -1420,7 +1420,8 @@
 
     function filterEntry(entry) {
         var filtersEnabled = $('#applyfilters').is(':checked');
-        var timestampMin, timestampMax;
+        var timestampMin = null;
+        var timestampMax = null;
 
         if (filtersEnabled) {
             var tab = $('#filterPointsTable');
@@ -1442,6 +1443,27 @@
                 var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
                 var momMax = moment(completeDateMaxStr);
                 timestampMax = momMax.unix();
+            }
+
+            var lastdays = parseInt(tab.find('input[role=lastdays]').val());
+            var lasthours = parseInt(tab.find('input[role=lasthours]').val());
+            var lastmins = parseInt(tab.find('input[role=lastmins]').val());
+            var momlast = moment();
+            if (lastdays) {
+                momlast.subtract(lastdays, 'days');
+            }
+            if (lasthours) {
+                momlast.subtract(lasthours, 'hours');
+            }
+            if (lastmins) {
+                momlast.subtract(lastmins, 'minutes');
+            }
+            if (lastdays || lasthours || lastmins) {
+                var timestampLast = momlast.unix();
+                // if there is no time min or if timelast is more recent than timemin
+                if (!timestampMin || timestampLast > timestampMin) {
+                    timestampMin = timestampLast;
+                }
             }
 
             var satellitesmin = parseInt($('input[role=satellitesmin]').val());
@@ -1456,8 +1478,8 @@
         return (
             !filtersEnabled
             || (
-                   (!dateminstr || parseInt(entry.timestamp) > timestampMin)
-                && (!datemaxstr || parseInt(entry.timestamp) < timestampMax)
+                   (!timestampMin || parseInt(entry.timestamp) > timestampMin)
+                && (!timestampMax || parseInt(entry.timestamp) < timestampMax)
                 && (!elevationmax || entry.altitude >= elevationmax)
                 && (!elevationmin || entry.altitude <= elevationmin)
                 && (!batterymin || entry.batterylevel >= batterymin)
@@ -1472,7 +1494,9 @@
 
     function filterList(list, token, deviceid) {
         var filtersEnabled = $('#applyfilters').is(':checked');
-        var timestampMin, timestampMax, resList, resDateList;
+        var resList, resDateList;
+        var timestampMin = null;
+        var timestampMax = null;
 
         if (filtersEnabled) {
             var tab = $('#filterPointsTable');
@@ -1494,6 +1518,27 @@
                 var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
                 var momMax = moment(completeDateMaxStr);
                 timestampMax = momMax.unix();
+            }
+
+            var lastdays = parseInt(tab.find('input[role=lastdays]').val());
+            var lasthours = parseInt(tab.find('input[role=lasthours]').val());
+            var lastmins = parseInt(tab.find('input[role=lastmins]').val());
+            var momlast = moment();
+            if (lastdays) {
+                momlast.subtract(lastdays, 'days');
+            }
+            if (lasthours) {
+                momlast.subtract(lasthours, 'hours');
+            }
+            if (lastmins) {
+                momlast.subtract(lastmins, 'minutes');
+            }
+            if (lastdays || lasthours || lastmins) {
+                var timestampLast = momlast.unix();
+                // if there is no time min or if timelast is more recent than timemin
+                if (!timestampMin || timestampLast > timestampMin) {
+                    timestampMin = timestampLast;
+                }
             }
 
             var satellitesmin = parseInt($('input[role=satellitesmin]').val());
@@ -1510,7 +1555,7 @@
             var i = 0;
             ////// DATES
             // we avoid everything under the min
-            if (dateminstr) {
+            if (timestampMin) {
                 while (i < list.length
                        && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMin)
                 ) {
@@ -1518,7 +1563,7 @@
                 }
             }
             // then we copy everything under the max
-            if (datemaxstr) {
+            if (timestampMax) {
                 while (i < list.length
                        && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMax)
                 ) {

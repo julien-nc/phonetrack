@@ -78,6 +78,7 @@
     "Point radius" : "Rayon des points",
     "Point and line opacity" : "Transparence des points et lignes",
     "Delete only visible points" : "Supprimer seulement les points visibles",
+    "Last day:hour:min" : "Derniers jour:heure:min",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

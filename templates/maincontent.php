@@ -403,6 +403,11 @@ if (count($_['useroverlayserverswms']) > 0){
         <button role="dateminmaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> <?php p($l->t('min++ and max++')); ?></button>
     </td>
 </tr><tr>
+    <td><?php p($l->t('Last day:hour:min')); ?></td>
+    <td><input class="time" role="lastdays" type="number" value="" min="1" max="100000"/>:
+        <input class="time" role="lasthours" type="number" value="" min="1" max="23"/>:
+        <input class="time" role="lastmins" type="number" value="" min="1" max="59"/></td>
+</tr><tr>
     <td>
         <label for="accuracymin"><?php p($l->t('Min accuracy')); ?></label>
     </td>
