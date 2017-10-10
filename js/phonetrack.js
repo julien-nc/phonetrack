@@ -631,15 +631,30 @@
         var d = $('#deletePointDevice').val();
         // if session is watched, if device exists, for all displayed points
         if ($('.session[token=' + s + '] .watchbutton i').hasClass('fa-eye')) {
-            if (phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
-                var pidlist = [];
-                phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                    if (bounds === null || bounds.contains(l.getLatLng())) {
-                        pidlist.push(l.getLatLng().alt);
+            if (d === '') {
+                for (d in phonetrack.sessionPointsLayers[s]) {
+                    var pidlist = [];
+                    phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
+                        if (bounds === null || bounds.contains(l.getLatLng())) {
+                            pidlist.push(l.getLatLng().alt);
+                        }
+                    });
+                    for (pid in pidlist) {
+                        deletePointDB(s, d, pidlist[pid]);
                     }
-                });
-                for (pid in pidlist) {
-                    deletePointDB(s, d, pidlist[pid]);
+                }
+            }
+            else{
+                if (phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
+                    var pidlist = [];
+                    phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
+                        if (bounds === null || bounds.contains(l.getLatLng())) {
+                            pidlist.push(l.getLatLng().alt);
+                        }
+                    });
+                    for (pid in pidlist) {
+                        deletePointDB(s, d, pidlist[pid]);
+                    }
                 }
             }
         }
@@ -2200,7 +2215,7 @@
         var filter = filterEntry(entry);
 
         var sessionname = getSessionName(token);
-        
+
         // add device if it does not exist
         if (! phonetrack.sessionLineLayers[token].hasOwnProperty(deviceid)) {
             addDevice(token, deviceid, sessionname);
@@ -2217,7 +2232,7 @@
                 html: ''
             });
             var m = L.marker(
-                [entry.lat, entry.lon, deviceid],
+                [entry.lat, entry.lon, entry.id],
                 {icon: icon}
             );
             m.session = token;
