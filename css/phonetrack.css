@@ -340,8 +340,8 @@ div.session p,
 .watchbutton i {
     font-size: 16px;
 }
-.watchbutton i.fa-eye {
-    color: blue;
+.watchbutton i.fa-eye-slash {
+    color: grey;
 }
 .deleteusershare:hover i {
     color: red;
@@ -462,8 +462,8 @@ ul.devicelist li {
 ul.devicelist {
     margin-left: 30px;
 }
-.easy-button-green{
-    background-color: lightgreen !important;
+.easy-button-inactive .fa{
+    color: black !important;
 }
 .easy-button-red{
     background-color: lightcoral !important;
@@ -503,8 +503,8 @@ ul.devicelist {
 .zoomdevicebutton i {
     color: grey;
 }
-.on i {
-    color: blue;
+.off i {
+    color: grey;
 }
 .deleteDevice i {
     color: grey;
@@ -609,4 +609,10 @@ ul.devicelist {
 .roundmarker {
     text-align: center;
     border-radius: 50%;
+}
+.sidebar-tabs > li.active {
+    background-color: lightgrey;
+}
+.leaflet-control-locate .fa {
+    color: black;
 }

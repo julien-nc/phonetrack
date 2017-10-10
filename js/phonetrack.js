@@ -22,7 +22,9 @@
         '#ff1493',
         '#ffd700'
     ];
+
     var lastColorUsed = -1;
+
     var phonetrack = {
         map: {},
         baseLayers: null,
@@ -490,11 +492,11 @@
 
         if ($('#viewmove').is(':checked')) {
             phonetrack.moveButton.state('move');
-            $(phonetrack.moveButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            $(phonetrack.moveButton.button).removeClass('easy-button-inactive');
         }
         else {
             phonetrack.moveButton.state('nomove');
-            $(phonetrack.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+            $(phonetrack.moveButton.button).addClass('easy-button-inactive');
         }
 
         phonetrack.zoomButton = L.easyButton({
@@ -522,11 +524,11 @@
 
         if ($('#autozoom').is(':checked')) {
             phonetrack.zoomButton.state('zoom');
-            $(phonetrack.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            $(phonetrack.zoomButton.button).removeClass('easy-button-inactive');
         }
         else {
             phonetrack.zoomButton.state('nozoom');
-            $(phonetrack.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+            $(phonetrack.zoomButton.button).addClass('easy-button-inactive');
         }
 
         phonetrack.timeButton = L.easyButton({
@@ -554,11 +556,11 @@
 
         if ($('#showtime').is(':checked')) {
             phonetrack.timeButton.state('showtime');
-            $(phonetrack.timeButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            $(phonetrack.timeButton.button).removeClass('easy-button-inactive');
         }
         else {
             phonetrack.timeButton.state('noshowtime');
-            $(phonetrack.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+            $(phonetrack.timeButton.button).addClass('easy-button-inactive');
         }
 
         phonetrack.doZoomButton = L.easyButton({
@@ -573,6 +575,7 @@
             }]
         });
         phonetrack.doZoomButton.addTo(phonetrack.map);
+        $(phonetrack.doZoomButton.button).addClass('easy-button-inactive');
     }
 
     function enterMovePointMode() {
@@ -2395,9 +2398,9 @@
         res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '" min="-1" max="100"/></td>';
         res = res + '</tr>';
         res = res + '</table>';
-        res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Save') + '</button>';
+        res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Save') + '</button>';
         res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Delete point') + '</button>';
-        res = res + '<button class="movepoint"><i class="fa fa-arrows" aria-hidden="true" style="color:blue;"></i> ' + t('phonetrack', 'Move point') + '</button>';
+        res = res + '<button class="movepoint"><i class="fa fa-arrows" aria-hidden="true"></i> ' + t('phonetrack', 'Move point') + '</button>';
         res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Cancel') + '</button>';
         return res;
     }
@@ -3088,11 +3091,11 @@
             }
             if ($(this).is(':checked')) {
                 phonetrack.zoomButton.state('zoom');
-                $(phonetrack.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+                $(phonetrack.zoomButton.button).removeClass('easy-button-inactive');
             }
             else {
                 phonetrack.zoomButton.state('nozoom');
-                $(phonetrack.zoomButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+                $(phonetrack.zoomButton.button).addClass('easy-button-inactive');
             }
         });
 
@@ -3103,11 +3106,11 @@
             }
             if ($(this).is(':checked')) {
                 phonetrack.timeButton.state('showtime');
-                $(phonetrack.timeButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+                $(phonetrack.timeButton.button).removeClass('easy-button-inactive');
             }
             else {
                 phonetrack.timeButton.state('noshowtime');
-                $(phonetrack.timeButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+                $(phonetrack.timeButton.button).addClass('easy-button-inactive');
             }
         });
 
@@ -3158,11 +3161,11 @@
             }
             if ($(this).is(':checked')) {
                 phonetrack.moveButton.state('move');
-                $(phonetrack.moveButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+                $(phonetrack.moveButton.button).removeClass('easy-button-inactive');
             }
             else {
                 phonetrack.moveButton.state('nomove');
-                $(phonetrack.moveButton.button).addClass('easy-button-red').removeClass('easy-button-green');
+                $(phonetrack.moveButton.button).addClass('easy-button-inactive');
             }
         });
 
@@ -3595,6 +3598,14 @@
             }
         });
 
+        var buttonColor = 'blue';
+        if (OCA.Theming) {
+            buttonColor = OCA.Theming.color;
+        }
+
+        $('<style role="buttons">.fa { ' +
+            'color: ' + buttonColor + '; }</style>').appendTo('body');
+
         $('#pointlinealpha').change(function() {
             if (!pageIsPublic()) {
                 saveOptions();
@@ -3643,7 +3654,7 @@
             }
             $('#autozoom').prop('checked', true);
             phonetrack.zoomButton.state('zoom');
-            $(phonetrack.zoomButton.button).addClass('easy-button-green').removeClass('easy-button-red');
+            $(phonetrack.zoomButton.button).removeClass('easy-button-inactive');
 
             if (pageIsPublicSessionWatch()) {
                 $('#sidebar').toggleClass('collapsed');

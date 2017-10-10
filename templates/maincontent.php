@@ -34,39 +34,39 @@ p($_['phonetrack_version']);
         <div id="optioncheckdiv">
             <div>
                 <input id="autozoom" type="checkbox"/>
-                <label for="autozoom"><i class="fa fa-search-plus" aria-hidden="true" style="color:blue;"></i>
+                <label for="autozoom"><i class="fa fa-search-plus" aria-hidden="true"></i>
                 <?php p($l->t('Auto zoom'));?></label>
                 <br/>
                 <input id="viewmove" type="checkbox"/>
-                <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true" style="color:blue;"></i>
+                <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true"></i>
                 <?php p($l->t('View movement paths'));?></label>
                 <br/>
                 <input id="showtime" type="checkbox"/>
-                <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true" style="color:blue;"></i>
+                <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true"></i>
                 <?php p($l->t('Show time tooltips'));?></label>
                 <br/>
-                <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true" style="color:blue;"></i>
+                <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true"></i>
                 <?php p($l->t('Refresh each (sec)'));?></label>
                 <input id="updateinterval" type="number" min="0" max="1000" step="1" value="5"/>
                 <br/>
                 <input id="tooltipshowaccuracy" type="checkbox" checked/>
-                <label for="tooltipshowaccuracy"><i class="fa fa-tachometer" aria-hidden="true" style="color:blue;"></i>
+                <label for="tooltipshowaccuracy"><i class="fa fa-tachometer" aria-hidden="true"></i>
                 <?php p($l->t('Show accuracy in tooltips'));?> *</label>
                 <br/>
                 <input id="tooltipshowsatellites" type="checkbox" checked/>
-                <label for="tooltipshowsatellites"><i class="fa fa-rocket" aria-hidden="true" style="color:blue;"></i>
+                <label for="tooltipshowsatellites"><i class="fa fa-rocket" aria-hidden="true"></i>
                 <?php p($l->t('Show satellites in tooltips'));?> *</label>
                 <br/>
                 <input id="tooltipshowbattery" type="checkbox" checked/>
-                <label for="tooltipshowbattery"><i class="fa fa-battery-2" aria-hidden="true" style="color:blue;"></i>
+                <label for="tooltipshowbattery"><i class="fa fa-battery-2" aria-hidden="true"></i>
                 <?php p($l->t('Show battery level in tooltips'));?> *</label>
                 <br/>
                 <input id="tooltipshowelevation" type="checkbox" checked/>
-                <label for="tooltipshowelevation"><i class="fa fa-arrows-v" aria-hidden="true" style="color:blue;"></i>
+                <label for="tooltipshowelevation"><i class="fa fa-arrows-v" aria-hidden="true"></i>
                 <?php p($l->t('Show elevation in tooltips'));?> *</label>
                 <br/>
                 <input id="tooltipshowuseragent" type="checkbox" checked/>
-                <label for="tooltipshowuseragent"><i class="fa fa-mobile-phone" aria-hidden="true" style="color:blue;"></i>
+                <label for="tooltipshowuseragent"><i class="fa fa-mobile-phone" aria-hidden="true"></i>
                 <?php p($l->t('Show user agent in tooltips'));?> *</label>
                 <br/>
                 <label>(*) <?php p($l->t('reload page to make changes effective'));?></label>
@@ -74,22 +74,22 @@ p($_['phonetrack_version']);
         </div>
         <div id="optionbuttonsdiv">
             <input id="dragcheck" type="checkbox" checked/>
-            <label for="dragcheck"><i class="fa fa-hand-paper-o" aria-hidden="true" style="color:blue;"></i>
+            <label for="dragcheck"><i class="fa fa-hand-paper-o" aria-hidden="true"></i>
             <?php p($l->t('Make points draggable in edition mode'));?></label>
             <br/>
             <input id="acccirclecheck" type="checkbox" checked/>
-            <label for="acccirclecheck"><i class="fa fa-circle-o" aria-hidden="true" style="color:blue;"></i>
+            <label for="acccirclecheck"><i class="fa fa-circle-o" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy circle on hover'));?></label>
             <br/>
-            <label for="linewidth"><i class="fa fa-pencil" aria-hidden="true" style="color:blue;"></i>
+            <label for="linewidth"><i class="fa fa-pencil" aria-hidden="true"></i>
             <?php p($l->t('Line width'));?></label>
             <input id="linewidth" type="number" min="1" max="20" step="1" value="4"/>
             <br/>
-            <label for="pointradius"><i class="fa fa-dot-circle-o" aria-hidden="true" style="color:blue;"></i>
+            <label for="pointradius"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
             <?php p($l->t('Point radius'));?></label>
             <input id="pointradius" type="number" min="1" max="20" step="1" value="8"/>
             <br/>
-            <label for="pointlinealpha"><i class="fa fa-eraser" aria-hidden="true" style="color:blue;"></i>
+            <label for="pointlinealpha"><i class="fa fa-eraser" aria-hidden="true"></i>
             <?php p($l->t('Point and line opacity'));?></label>
             <input id="pointlinealpha" type="number" min="0.1" max="1" step="0.1" value="0.8"/>
         </div>
@@ -99,11 +99,11 @@ p($_['phonetrack_version']);
     <div id="createimportsessiondiv">
         <hr/>
         <button id="showcreatesession">
-            <i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i>
+            <i class="fa fa-plus-circle" aria-hidden="true"></i>
             <?php p($l->t('Create session')); ?>
         </button>
         <button id="importsession">
-            <i class="fa fa-folder-open-o" aria-hidden="true" style="color:blue;"></i>
+            <i class="fa fa-folder-open-o" aria-hidden="true"></i>
             <?php p($l->t('Import session')); ?>
         </button>
     </div>
@@ -111,7 +111,7 @@ p($_['phonetrack_version']);
         <label for="sessionnameinput"><?php p($l->t('Session name'));?></label>
         <input type="text" id="sessionnameinput"/>
         <button id="newsession">
-            <i class="fa fa-check" aria-hidden="true" style="color:blue;"></i>
+            <i class="fa fa-check" aria-hidden="true"></i>
             <?php p($l->t('Ok')); ?>
         </button>
     </div>
@@ -353,7 +353,7 @@ if (count($_['useroverlayserverswms']) > 0){
 <br/>
 <label for="addPointDevice"><?php p($l->t('Device')); ?></label>
 <input id="addPointDevice" value="deviceName"/>
-<button id="validaddpoint"><i class="fa fa-plus-circle" aria-hidden="true" style="color:blue;"></i> <?php p($l->t('Add point')); ?></button>
+<button id="validaddpoint"><i class="fa fa-plus-circle" aria-hidden="true"></i> <?php p($l->t('Add point')); ?></button>
 <p id="explainaddpoint"><?php p($l->t('Now, click on the map to add a point (if session is not activated, you won\'t see added point)')); ?></p>
 <button id="canceladdpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Cancel add point')); ?></button>
 </div>
@@ -495,7 +495,7 @@ if (count($_['useroverlayserverswms']) > 0){
 <hr/>
 <br/>
     <input id="togglestats" type="checkbox"/>
-    <label for="togglestats"><i class="fa fa-table" aria-hidden="true" style="color:blue;"></i>
+    <label for="togglestats"><i class="fa fa-table" aria-hidden="true"></i>
         <?php p($l->t('Show stats')); ?>
     </label>
     <p id="statlabel">
