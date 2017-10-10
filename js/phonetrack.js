@@ -1408,20 +1408,24 @@
         if (filtersEnabled) {
             var tab = $('#filterPointsTable');
             var dateminstr = tab.find('input[role=datemin]').val();
-            var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
-            var minminstr = parseInt(tab.find('input[role=minutemin]').val());
-            var secminstr = parseInt(tab.find('input[role=secondmin]').val());
-            var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
-            var momMin = moment(completeDateMinStr);
-            timestampMin = momMin.unix();
+            if (dateminstr) {
+                var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
+                var minminstr = parseInt(tab.find('input[role=minutemin]').val());
+                var secminstr = parseInt(tab.find('input[role=secondmin]').val());
+                var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
+                var momMin = moment(completeDateMinStr);
+                timestampMin = momMin.unix();
+            }
 
             var datemaxstr = tab.find('input[role=datemax]').val();
-            var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
-            var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
-            var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
-            var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
-            var momMax = moment(completeDateMaxStr);
-            timestampMax = momMax.unix();
+            if (datemaxstr) {
+                var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
+                var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
+                var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
+                var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
+                var momMax = moment(completeDateMaxStr);
+                timestampMax = momMax.unix();
+            }
 
             var satellitesmin = parseInt($('input[role=satellitesmin]').val());
             var satellitesmax = parseInt($('input[role=satellitesmax]').val());
@@ -1435,16 +1439,16 @@
         return (
             !filtersEnabled
             || (
-                parseInt(entry.timestamp) > timestampMin
-                && parseInt(entry.timestamp) < timestampMax
-                && entry.altitude >= elevationmax
-                && entry.altitude <= elevationmin
-                && entry.batterylevel >= batterymin
-                && entry.batterylevel <= batterymax
-                && entry.satellites >= satellitesmin
-                && entry.satellites <= satellitesmax
-                && entry.accuracy >= accuracymin
-                && entry.accuracy <= accuracymax
+                   (!dateminstr || parseInt(entry.timestamp) > timestampMin)
+                && (!datemaxstr || parseInt(entry.timestamp) < timestampMax)
+                && (!elevationmax || entry.altitude >= elevationmax)
+                && (!elevationmin || entry.altitude <= elevationmin)
+                && (!batterymin || entry.batterylevel >= batterymin)
+                && (!batterymax || entry.batterylevel <= batterymax)
+                && (!satellitesmin || entry.satellites >= satellitesmin)
+                && (!satellitesmax || entry.satellites <= satellitesmax)
+                && (!accuracymin || entry.accuracy >= accuracymin)
+                && (!accuracymax || entry.accuracy <= accuracymax)
             )
         );
     }
@@ -1456,20 +1460,24 @@
         if (filtersEnabled) {
             var tab = $('#filterPointsTable');
             var dateminstr = tab.find('input[role=datemin]').val();
-            var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
-            var minminstr = parseInt(tab.find('input[role=minutemin]').val());
-            var secminstr = parseInt(tab.find('input[role=secondmin]').val());
-            var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
-            var momMin = moment(completeDateMinStr);
-            timestampMin = momMin.unix();
+            if (dateminstr) {
+                var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
+                var minminstr = parseInt(tab.find('input[role=minutemin]').val());
+                var secminstr = parseInt(tab.find('input[role=secondmin]').val());
+                var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
+                var momMin = moment(completeDateMinStr);
+                timestampMin = momMin.unix();
+            }
 
             var datemaxstr = tab.find('input[role=datemax]').val();
-            var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
-            var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
-            var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
-            var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
-            var momMax = moment(completeDateMaxStr);
-            timestampMax = momMax.unix();
+            if (datemaxstr) {
+                var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
+                var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
+                var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
+                var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
+                var momMax = moment(completeDateMaxStr);
+                timestampMax = momMax.unix();
+            }
 
             var satellitesmin = parseInt($('input[role=satellitesmin]').val());
             var satellitesmax = parseInt($('input[role=satellitesmax]').val());
@@ -1485,31 +1493,41 @@
             var i = 0;
             ////// DATES
             // we avoid everything under the min
-            while (i < list.length
-                   && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMin)
-            ) {
-                i++;
+            if (dateminstr) {
+                while (i < list.length
+                       && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMin)
+                ) {
+                    i++;
+                }
             }
             // then we copy everything under the max
-            while (i < list.length
-                   && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMax)
-            ) {
-                resDateList.push(list[i]);
-                i++;
+            if (datemaxstr) {
+                while (i < list.length
+                       && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMax)
+                ) {
+                    resDateList.push(list[i]);
+                    i++;
+                }
+            }
+            else {
+                while (i < list.length) {
+                    resDateList.push(list[i]);
+                    i++;
+                }
             }
             // filter again with int values
             i = 0;
             var entry;
             while (i < resDateList.length) {
                 entry = phonetrack.sessionPointsEntriesById[token][deviceid][resDateList[i][2]];
-                if (entry.altitude <= elevationmax
-                    && entry.altitude >= elevationmin
-                    && entry.batterylevel >= batterymin
-                    && entry.batterylevel <= batterymax
-                    && entry.satellites >= satellitesmin
-                    && entry.satellites <= satellitesmax
-                    && entry.accuracy >= accuracymin
-                    && entry.accuracy <= accuracymax
+                if (   (!elevationmax || entry.altitude <= elevationmax)
+                    && (!elevationmin || entry.altitude >= elevationmin)
+                    && (!batterymin || entry.batterylevel >= batterymin)
+                    && (!batterymax || entry.batterylevel <= batterymax)
+                    && (!satellitesmin || entry.satellites >= satellitesmin)
+                    && (!satellitesmax || entry.satellites <= satellitesmax)
+                    && (!accuracymin || entry.accuracy >= accuracymin)
+                    && (!accuracymax || entry.accuracy <= accuracymax)
                 ){
                     resList.push(resDateList[i]);
                 }
