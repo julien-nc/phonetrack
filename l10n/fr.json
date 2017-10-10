@@ -63,7 +63,7 @@
     "Stats" : "Stats",
     "Show stats" : "Montrer les stats",
     "Delete multiple points" : "Supprimer plusieurs points",
-    "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted." : "Choisissez une session, un appareil et ajustez les filtres. Tous les points affichés pour cet appareil seront supprimés.",
+    "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all." : "Choisissez une session, un appareil et ajustez les filtres. Tous les points affichés pour cet appareil seront supprimés. Un nom d'appareil vide les sélectionne tous.",
     "Delete points" : "Supprimer les points",
     "Show accuracy circle on hover" : "Montrer un cercle de précision au survol",
     "Min satellites" : "Satellites min",

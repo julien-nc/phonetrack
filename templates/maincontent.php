@@ -341,7 +341,7 @@ if (count($_['useroverlayserverswms']) > 0){
 <h3><?php p($l->t('Delete multiple points')); ?></h3>
 <br/>
 <p>
-<?php p($l->t('Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted.')); ?>
+<?php p($l->t('Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all.')); ?>
 </p>
 <label for="deletePointSession"><?php p($l->t('Session')); ?></label>
 <select id="deletePointSession">
