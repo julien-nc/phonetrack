@@ -79,6 +79,12 @@
     "Point and line opacity" : "Transparence des points et lignes",
     "Delete only visible points" : "Supprimer seulement les points visibles",
     "Last day:hour:min" : "Derniers jour:heure:min",
+    "Show satellites in tooltips" : "Montrer le nombre de satellites dans les tooltips",
+    "Show accuracy in tooltips" : "Montrer la précision dans les tooltips",
+    "Show battery level in tooltips" : "Montrer le niveau de batterie dans les tooltips",
+    "Show user agent in tooltips" : "Montrer le user agent dans les tooltips",
+    "Show elevation in tooltips" : "Montrer l'altitude dans les tooltips",
+    "reload page to make changes effective" : "rechargez la page pour que les changements prennent effet",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

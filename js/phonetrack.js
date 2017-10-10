@@ -894,6 +894,21 @@
                 if (optionsValues.dragcheck !== undefined) {
                     $('#dragcheck').prop('checked', optionsValues.dragcheck);
                 }
+                if (optionsValues.tooltipshowaccuracy !== undefined) {
+                    $('#tooltipshowaccuracy').prop('checked', optionsValues.tooltipshowaccuracy);
+                }
+                if (optionsValues.tooltipshowsatellites !== undefined) {
+                    $('#tooltipshowsatellites').prop('checked', optionsValues.tooltipshowsatellites);
+                }
+                if (optionsValues.tooltipshowbattery !== undefined) {
+                    $('#tooltipshowbattery').prop('checked', optionsValues.tooltipshowbattery);
+                }
+                if (optionsValues.tooltipshowelevation !== undefined) {
+                    $('#tooltipshowelevation').prop('checked', optionsValues.tooltipshowelevation);
+                }
+                if (optionsValues.tooltipshowuseragent !== undefined) {
+                    $('#tooltipshowuseragent').prop('checked', optionsValues.tooltipshowuseragent);
+                }
                 if (optionsValues.acccirclecheck !== undefined) {
                     $('#acccirclecheck').prop('checked', optionsValues.acccirclecheck);
                 }
@@ -923,6 +938,11 @@
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.dragcheck = $('#dragcheck').is(':checked');
+        optionsValues.tooltipshowaccuracy = $('#tooltipshowaccuracy').is(':checked');
+        optionsValues.tooltipshowsatellites = $('#tooltipshowsatellites').is(':checked');
+        optionsValues.tooltipshowbattery = $('#tooltipshowbattery').is(':checked');
+        optionsValues.tooltipshowelevation = $('#tooltipshowelevation').is(':checked');
+        optionsValues.tooltipshowuseragent = $('#tooltipshowuseragent').is(':checked');
         optionsValues.acccirclecheck = $('#acccirclecheck').is(':checked');
         optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
         //alert('to save : '+JSON.stringify(optionsValues));
@@ -2392,23 +2412,23 @@
             pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Date') +
                 ' : ' + mom.format('YYYY-MM-DD HH:mm:ss (Z)');
         }
-        if (entry.altitude && parseInt(entry.altitude) !== -1) {
+        if (entry.altitude && parseInt(entry.altitude) !== -1 && $('#tooltipshowelevation').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Altitude') + ' : ' + entry.altitude;
         }
-        if (entry.accuracy && parseInt(entry.accuracy) !== -1) {
+        if (entry.accuracy && parseInt(entry.accuracy) !== -1 && $('#tooltipshowaccuracy').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Precision') + ' : ' + entry.accuracy;
         }
-        if (entry.satellites && parseInt(entry.satellites) !== -1) {
+        if (entry.satellites && parseInt(entry.satellites) !== -1 && $('#tooltipshowsatellites').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Satellites') + ' : ' + entry.satellites;
         }
-        if (entry.batterylevel && parseInt(entry.batterylevel) !== -1) {
+        if (entry.batterylevel && parseInt(entry.batterylevel) !== -1 && $('#tooltipshowbattery').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Battery level') + ' : ' + entry.batterylevel;
         }
-        if (entry.useragent && entry.useragent !== '' && entry.useragent !== 'nothing') {
+        if (entry.useragent && entry.useragent !== '' && entry.useragent !== 'nothing' && $('#tooltipshowuseragent').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'User agent') + ' : ' + entry.useragent;
         }
@@ -3094,6 +3114,12 @@
         });
 
         $('#acccirclecheck').click(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
+        $('#tooltipshowaccuracy, #tooltipshowsatellites, #tooltipshowbattery, #tooltipshowelevation, #tooltipshowuseragent').click(function() {
             if (!pageIsPublic()) {
                 saveOptions();
             }
