@@ -609,6 +609,7 @@ ul.devicelist {
 .roundmarker {
     text-align: center;
     border-radius: 50%;
+    font-size: 17px;
 }
 .sidebar-tabs > li.active {
     background-color: lightgrey;
