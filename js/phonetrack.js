@@ -463,9 +463,13 @@
         phonetrack.map.on('locationfound', function(e) {
             locationFound(e);
         });
+        var linearcolor = '#FF0080';
+        if (OCA.Theming) {
+            linearcolor = OCA.Theming.color;
+        }
         phonetrack.map.addControl(new L.Control.LinearMeasurement({
             unitSystem: 'metric',
-            color: '#FF0080',
+            color: linearcolor,
             type: 'line'
         }));
         L.control.sidebar('sidebar').addTo(phonetrack.map);
@@ -2910,7 +2914,10 @@
             // if session is watched
             if ($('div.session[token='+s+'] .watchbutton i').hasClass('fa-eye')) {
                 table = table + '<h3>' + getSessionName(s) + '</h3>';
-                table = table + '<table class="stattable"><tr><th>device name</th><th>distance (km)</th><th>time</th></tr>';
+                table = table + '<table class="stattable"><tr><th>' +
+                    t('phonetrack', 'device name') + '</th><th>' +
+                    t('phonetrack', 'distance (km)') + '</th><th>' +
+                    t('phonetrack', 'duration') + '</th></tr>';
                 for (d in phonetrack.sessionLineLayers[s]) {
                     ll = phonetrack.sessionLineLayers[s][d].getLatLngs();
                     dist = 0;

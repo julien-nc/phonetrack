@@ -105,6 +105,9 @@ OC.L10N.register(
         "Stats of filtered points" : "Stats des points filtrés",
         "years" : "ans",
         "days" : "jours",
+        "distance (km)" : "distance (km)",
+        "duration" : "durée",
+        "device name" : "nom d'appareil",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");
