@@ -3521,15 +3521,21 @@
         });
 
         $('button[role=dateminmaxminus]').click(function() {
-            var mom = moment($('input[role=datemin]').val());
-            mom.subtract(1, 'days');
-            $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+            if ($('input[role=datemin]').val()) {
+                var mom = moment($('input[role=datemin]').val());
+                mom.subtract(1, 'days');
+                $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+            }
 
-            mom = moment($('input[role=datemax]').val());
-            mom.subtract(1, 'days');
-            $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+            if ($('input[role=datemax]').val()) {
+                mom = moment($('input[role=datemax]').val());
+                mom.subtract(1, 'days');
+                $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+            }
 
-            changeApplyFilter();
+            if ($('input[role=datemax]').val() || $('input[role=datemin]').val()) {
+                changeApplyFilter();
+            }
         });
 
         $('#togglestats').click(function() {
