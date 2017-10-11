@@ -85,6 +85,10 @@
     "Show user agent in tooltips" : "Montrer le user agent dans les tooltips",
     "Show elevation in tooltips" : "Montrer l'altitude dans les tooltips",
     "reload page to make changes effective" : "rechargez la page pour que les changements prennent effet",
+    "bright" : "lumineux",
+    "dark" : "sombre",
+    "pastel" : "pastel",
+    "Theme" : "Thème",
     "Custom tile servers" : "Serveurs de tuiles personnels"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

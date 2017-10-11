@@ -3,12 +3,7 @@
 
     //////////////// VAR DEFINITION /////////////////////
 
-    var colors = [
-        'red', 'cyan', 'purple', 'Lime', 'yellow',
-        'orange', 'blue', 'brown', 'Chartreuse',
-        'Crimson', 'DeepPink', 'Gold'
-    ];
-    var colorCode = [
+    var colorCodeBright = [
         '#ff0000',
         '#00ffff',
         '#800080',
@@ -22,6 +17,35 @@
         '#ff1493',
         '#ffd700'
     ];
+    var colorCodePastel = [
+        '#ACD941',
+        '#C5B4CC',
+        '#FFB904',
+        '#FF7679',
+        '#FFBEAF',
+        '#94C6F8',
+        '#EF3F3D',
+        '#6B8200',
+        '#FFA100',
+        '#979cf7',
+        '#fca2ab',
+        '#d8fca2',
+        '#77AFFF',
+        '#a2fcf3',
+        '#857BA7',
+        '#c6a2fc'
+    ];
+    var colorCodeDark = [
+        '#004081',
+        '#634733',
+        '#6D2403',
+        '#3A240A',
+        '#293A2E',
+        '#400D31',
+        '#424437',
+        '#1E0E15'
+    ];
+
 
     var lastColorUsed = -1;
 
@@ -879,6 +903,9 @@
                 if (optionsValues.linewidth !== undefined) {
                     $('#linewidth').val(optionsValues.linewidth);
                 }
+                if (optionsValues.colortheme !== undefined) {
+                    $('#colorthemeselect').val(optionsValues.colortheme);
+                }
                 if (optionsValues.pointlinealpha !== undefined) {
                     $('#pointlinealpha').val(optionsValues.pointlinealpha);
                 }
@@ -935,6 +962,7 @@
         var optionsValues = {};
         optionsValues.updateinterval = $('#updateinterval').val();
         optionsValues.linewidth = $('#linewidth').val();
+        optionsValues.colortheme = $('#colorthemeselect').val();
         optionsValues.pointlinealpha = $('#pointlinealpha').val();
         optionsValues.pointradius = $('#pointradius').val();
         optionsValues.viewmove = $('#viewmove').is(':checked');
@@ -1843,9 +1871,20 @@
 
     function addDevice(s, d, sessionname) {
         var colorn, textcolor, rgbc, linetooltip;
-        colorn = ++lastColorUsed % colorCode.length;
-        phonetrack.sessionColors[s + d] = colorCode[colorn];
-        rgbc = hexToRgb(colorCode[colorn]);
+        var theme = $('#colorthemeselect').val();
+        var colorCodeArray;
+        if (theme === 'dark') {
+            colorCodeArray = colorCodeDark;
+        }
+        else if (theme === 'pastel') {
+            colorCodeArray = colorCodePastel;
+        }
+        else {
+            colorCodeArray = colorCodeBright;
+        }
+        colorn = ++lastColorUsed % colorCodeArray.length;
+        phonetrack.sessionColors[s + d] = colorCodeArray[colorn];
+        rgbc = hexToRgb(colorCodeArray[colorn]);
         textcolor = 'black';
         if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
             textcolor = 'white';
@@ -1856,7 +1895,7 @@
                 'color: ' + textcolor + '; font-weight: bold;' +
                 ' }' +
                 '.poly' + s + d.replace(' ', '') + ' {' +
-                'stroke: ' + colorCode[colorn] + ';' +
+                'stroke: ' + colorCodeArray[colorn] + ';' +
                 'opacity: ' + opacity + ';' +
                 '}' +
                 '.tooltip' + s + d.replace(' ', '') + ' {' +
@@ -3067,6 +3106,12 @@
                 phonetrack.currentTimer.pause();
                 phonetrack.currentTimer = null;
                 refresh();
+            }
+        });
+
+        $('#colorthemeselect').change(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
             }
         });
 

@@ -92,6 +92,14 @@ p($_['phonetrack_version']);
             <label for="pointlinealpha"><i class="fa fa-eraser" aria-hidden="true"></i>
             <?php p($l->t('Point and line opacity'));?></label>
             <input id="pointlinealpha" type="number" min="0.1" max="1" step="0.1" value="0.8"/>
+            <br/>
+            <label for="colorthemeselect"><i class="fa fa-paint-brush" aria-hidden="true"></i>
+            <?php p($l->t('Theme'));?>*</label>
+            <select id="colorthemeselect">
+                <option value="bright"><?php p($l->t('bright'));?></option>
+                <option value="pastel"><?php p($l->t('pastel'));?></option>
+                <option value="dark"><?php p($l->t('dark'));?></option>
+            </select>
         </div>
         </div>
     </div>
