@@ -524,6 +524,77 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function setDeviceColor($session, $device, $color) {
+        $ok = 2;
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($session).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if device exists
+            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_devices ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($session).' ';
+            $sqlchk .= 'AND name='.$this->db_quote_escape_string($device).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbdevname = null;
+            while ($row = $req->fetch()){
+                $dbdevname = $row['name'];
+                break;
+            }
+            $req->closeCursor();
+
+            // for retrocompatibility : create device is it does not exist
+            if ($dbdevname === null) {
+                $sql = 'INSERT INTO *PREFIX*phonetrack_devices';
+                $sql .= ' (name, sessionid, color) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($device).',';
+                $sql .= $this->db_quote_escape_string($session).',';
+                $sql .= $this->db_quote_escape_string($color);
+                $sql .= ');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+            }
+            // update color
+            else {
+                $sqlupd = 'UPDATE *PREFIX*phonetrack_devices ';
+                $sqlupd .= 'SET color='.$this->db_quote_escape_string($color).' ';
+                $sqlupd .= 'WHERE name='.$this->db_quote_escape_string($device).'';
+                $sqlupd .= 'AND sessionid='.$this->db_quote_escape_string($session).';';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+            }
+            $ok = 1;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function renameSession($token, $newname) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
@@ -667,6 +738,7 @@ class PageController extends Controller {
      */
     public function track($sessions) {
         $result = array();
+        $colors = array();
         foreach ($sessions as $session) {
             $token = $session[0];
             $lastTime = $session[1];
@@ -718,6 +790,24 @@ class PageController extends Controller {
                     if (is_array($lastTime) && array_key_exists($devname, $lastTime)) {
                         $lastDeviceTime = $lastTime[$devname];
                     }
+                    // we give color (first point given)
+                    else {
+                        $sqlcolor = 'SELECT color ';
+                        $sqlcolor .= 'FROM *PREFIX*phonetrack_devices ';
+                        $sqlcolor .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                        $sqlcolor .= 'AND name='.$this->db_quote_escape_string($devname).'; ';
+                        $req = $this->dbconnection->prepare($sqlcolor);
+                        $req->execute();
+                        $col = '';
+                        while ($row = $req->fetch()){
+                            $col = $row['color'];
+                        }
+                        $req->closeCursor();
+                        if (!array_key_exists($dbtoken, $colors)) {
+                            $colors[$dbtoken] = array();
+                        }
+                        $colors[$dbtoken][$devname] = $col;
+                    }
 
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, ';
                     $sqlget .= 'batterylevel, useragent FROM *PREFIX*phonetrack_points ';
@@ -744,7 +834,8 @@ class PageController extends Controller {
 
         $response = new DataResponse(
             [
-                'sessions'=>$result
+                'sessions'=>$result,
+                'colors'=>$colors
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -778,6 +869,7 @@ class PageController extends Controller {
      */
     public function publicWebLogTrack($sessions) {
         $result = array();
+        $colors = array();
         foreach ($sessions as $session) {
             $token = $session[0];
             if ($this->isSessionPublic($token)) {
@@ -817,6 +909,25 @@ class PageController extends Controller {
                         if (is_array($lastTime) && array_key_exists($devname, $lastTime)) {
                             $lastDeviceTime = $lastTime[$devname];
                         }
+                        // we give color (first point given)
+                        else {
+                            $sqlcolor = 'SELECT color ';
+                            $sqlcolor .= 'FROM *PREFIX*phonetrack_devices ';
+                            $sqlcolor .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                            $sqlcolor .= 'AND name='.$this->db_quote_escape_string($devname).'; ';
+                            $req = $this->dbconnection->prepare($sqlcolor);
+                            $req->execute();
+                            $col = '';
+                            while ($row = $req->fetch()){
+                                $col = $row['color'];
+                            }
+                            $req->closeCursor();
+                            if (!array_key_exists($dbtoken, $colors)) {
+                                $colors[$dbtoken] = array();
+                            }
+                            $colors[$dbtoken][$devname] = $col;
+                        }
+
 
                         $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
                         $sqlget .= ' altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
@@ -844,7 +955,8 @@ class PageController extends Controller {
 
         $response = new DataResponse(
             [
-                'sessions'=>$result
+                'sessions'=>$result,
+                'colors'=>$colors
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -863,6 +975,7 @@ class PageController extends Controller {
      */
     public function publicViewTrack($sessions) {
         $result = array();
+        $colors = array();
         foreach ($sessions as $session) {
             $publicviewtoken = $session[0];
             $lastTime = $session[1];
@@ -903,6 +1016,25 @@ class PageController extends Controller {
                     if (is_array($lastTime) && array_key_exists($devname, $lastTime)) {
                         $lastDeviceTime = $lastTime[$devname];
                     }
+                    // we give color (first point given)
+                    else {
+                        $sqlcolor = 'SELECT color ';
+                        $sqlcolor .= 'FROM *PREFIX*phonetrack_devices ';
+                        $sqlcolor .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                        $sqlcolor .= 'AND name='.$this->db_quote_escape_string($devname).'; ';
+                        $req = $this->dbconnection->prepare($sqlcolor);
+                        $req->execute();
+                        $col = '';
+                        while ($row = $req->fetch()){
+                            $col = $row['color'];
+                        }
+                        $req->closeCursor();
+                        if (!array_key_exists($dbpublicviewtoken, $colors)) {
+                            $colors[$dbpublicviewtoken] = array();
+                        }
+                        $colors[$dbpublicviewtoken][$devname] = $col;
+                    }
+
 
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, ';
                     $sqlget .= 'altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
@@ -929,7 +1061,8 @@ class PageController extends Controller {
 
         $response = new DataResponse(
             [
-                'sessions'=>$result
+                'sessions'=>$result,
+                'colors'=>$colors
             ]
         );
         $csp = new ContentSecurityPolicy();

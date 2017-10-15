@@ -1451,7 +1451,7 @@
                 data: req,
                 async: true
             }).done(function (response) {
-                displayNewPoints(response.sessions);
+                displayNewPoints(response.sessions, response.colors);
             }).always(function() {
                 hideLoadingAnimation();
             }).fail(function() {
@@ -1790,8 +1790,7 @@
         }
     }
 
-
-    function displayNewPoints(sessions) {
+    function displayNewPoints(sessions, colors) {
         var s, i, d, entry, device, timestamp, mom, icon,
             markertooltip, colorn, rgbc,
             textcolor, sessionname;
@@ -1812,7 +1811,12 @@
             for (d in sessions[s]) {
                 // add line and marker if necessary
                 if (! phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
-                    addDevice(s, d, sessionname);
+                    if (colors.hasOwnProperty(s) && colors[s].hasOwnProperty(d)) {
+                        addDevice(s, d, sessionname, colors[s][d]);
+                    }
+                    else {
+                        addDevice(s, d, sessionname);
+                    }
                 }
                 // for all new entries of this session
                 for (i in sessions[s][d]) {
@@ -1856,6 +1860,31 @@
             'color: ' + textcolor + '; font-weight: bold;' +
             '}'
         );
+        // we apply change in DB
+        if (!pageIsPublic()) {
+            var req = {
+                session: s,
+                device: d,
+                color: colorcode
+            };
+            var url = OC.generateUrl('/apps/phonetrack/setDeviceColor');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                if (response.done === 1) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Device\'s color successfully changed'));
+                }
+                else if (response.done === 2) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Failed to save device\'s color'));
+                }
+            }).always(function() {
+            }).fail(function() {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to change device\'s color'));
+            });
+        }
     }
 
     function showColorPicker(s, d) {
@@ -1873,22 +1902,28 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname) {
+    function addDevice(s, d, sessionname, color='') {
         var colorn, textcolor, rgbc, linetooltip;
-        var theme = $('#colorthemeselect').val();
-        var colorCodeArray;
-        if (theme === 'dark') {
-            colorCodeArray = colorCodeDark;
-        }
-        else if (theme === 'pastel') {
-            colorCodeArray = colorCodePastel;
+        if (color === '' || color === null) {
+            var theme = $('#colorthemeselect').val();
+            var colorCodeArray;
+            if (theme === 'dark') {
+                colorCodeArray = colorCodeDark;
+            }
+            else if (theme === 'pastel') {
+                colorCodeArray = colorCodePastel;
+            }
+            else {
+                colorCodeArray = colorCodeBright;
+            }
+            colorn = ++lastColorUsed % colorCodeArray.length;
+            phonetrack.sessionColors[s + d] = colorCodeArray[colorn];
+            rgbc = hexToRgb(colorCodeArray[colorn]);
         }
         else {
-            colorCodeArray = colorCodeBright;
+            phonetrack.sessionColors[s + d] = color;
+            rgbc = hexToRgb(color);
         }
-        colorn = ++lastColorUsed % colorCodeArray.length;
-        phonetrack.sessionColors[s + d] = colorCodeArray[colorn];
-        rgbc = hexToRgb(colorCodeArray[colorn]);
         textcolor = 'black';
         if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
             textcolor = 'white';
@@ -1899,7 +1934,7 @@
                 'color: ' + textcolor + '; font-weight: bold;' +
                 ' }' +
                 '.poly' + s + d.replace(' ', '') + ' {' +
-                'stroke: ' + colorCodeArray[colorn] + ';' +
+                'stroke: ' + phonetrack.sessionColors[s + d] + ';' +
                 'opacity: ' + opacity + ';' +
                 '}' +
                 '.tooltip' + s + d.replace(' ', '') + ' {' +

@@ -30,6 +30,7 @@ return [
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
         ['name' => 'page#importSession', 'url' => '/importSession', 'verb' => 'POST'],
         ['name' => 'page#renameSession', 'url' => '/renameSession', 'verb' => 'POST'],
+        ['name' => 'page#setDeviceColor', 'url' => '/setDeviceColor', 'verb' => 'POST'],
         ['name' => 'log#logGet', 'url' => '/logGet/{token}/{deviceid}', 'verb' => 'GET'],
         ['name' => 'log#logPost', 'url' => '/logPost/{token}/{deviceid}', 'verb' => 'POST'],
         ['name' => 'log#logOsmand', 'url' => '/log/osmand/{token}/{deviceid}', 'verb' => 'GET'],
