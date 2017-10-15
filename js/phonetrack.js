@@ -1045,7 +1045,9 @@
         return $('div.session[token="' + token + '"] .sessionBar .sessionName').text();
     }
 
-    function addSession(token, name, publicviewtoken, isPublic, sharedWith=[], selected=false, isFromShare=false, isSharedBy='') {
+    function addSession(token, name, publicviewtoken, isPublic, sharedWith=[],
+                        selected=false, isFromShare=false, isSharedBy='',
+                        reservedNames=[]) {
         // if session is not shared (we have write access)
         if (!isFromShare) {
             $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
@@ -1122,6 +1124,10 @@
             divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Show URLs for logging apps') + '">' +
                 '<i class="fa fa-link"></i></button>';
         }
+        if (!pageIsPublic() && !isFromShare) {
+            divtxt = divtxt + '<button class="reservNameButton" title="' + t('phonetrack', 'Lock device names') + '">' +
+                '<i class="fa fa-male"></i></button>';
+        }
         divtxt = divtxt + '</div>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<div class="dropdown-content">';
@@ -1148,6 +1154,21 @@
             }
         }
         if (!pageIsPublic() && !isFromShare) {
+            divtxt = divtxt + '<div class="namereservdiv">';
+
+            divtxt = divtxt + '<p class="addnamereservLabel">' + t('phonetrack', 'Reserve this device name') + ' :</p>';
+            divtxt = divtxt + '<input class="addnamereserv" type="text" title="' +
+                t('phonetrack', 'Type reserved name and press \'Enter\'') + '"></input>';
+            divtxt = divtxt + '<ul class="namereservlist">';
+            var i;
+            for (i = 0; i < reservedNames.length; i++) {
+                divtxt = divtxt + '<li name="' + escapeHTML(reservedNames[i].token) + '"><label>' +
+                    reservedNames[i].name + ' : ' + reservedNames[i].token + '</label>' +
+                    '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
+            }
+            divtxt = divtxt + '</ul>';
+            divtxt = divtxt + '<hr/></div>';
+
             divtxt = divtxt + '<div class="sharediv">';
 
             divtxt = divtxt + '<div class="usersharediv">';
@@ -1177,7 +1198,7 @@
             divtxt = divtxt + '<p class="publicWatchUrlLabel">' + t('phonetrack', 'Public watch URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
             divtxt = divtxt + '</div>';
-            divtxt = divtxt + '</div>';
+            divtxt = divtxt + '<hr/></div>';
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<div class="moreUrls">';
@@ -1203,6 +1224,7 @@
         $('div#sessions').append($(divtxt).fadeIn('slow')).find('input.ro[type=text]').prop('readonly', true);
         $('.session[token="' + token + '"]').find('.sharediv').hide();
         $('.session[token="' + token + '"]').find('.moreUrls').hide();
+        $('.session[token="' + token + '"]').find('.namereservdiv').hide();
         $('.session[token="' + token + '"]').find('.editsessiondiv').hide();
         if (parseInt(isPublic) === 0) {
             $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').hide();
@@ -3302,8 +3324,25 @@
             toggleLineDevice($(this));
         });
 
+        $('body').on('click','.reservNameButton', function(e) {
+            var nameDiv = $(this).parent().parent().find('.namereservdiv');
+            var urlDiv = $(this).parent().parent().find('.moreUrls');
+            var sharediv = $(this).parent().parent().find('.sharediv')
+            var editdiv = $(this).parent().parent().find('.editsessiondiv')
+            if (nameDiv.is(':visible')) {
+                nameDiv.slideUp('slow');
+            }
+            else{
+                nameDiv.slideDown('slow');
+                urlDiv.slideUp('slow');
+                sharediv.slideUp('slow');
+                editdiv.slideUp('slow');
+            }
+        });
+
         $('body').on('click','.moreUrlsButton', function(e) {
             var urlDiv = $(this).parent().parent().find('.moreUrls');
+            var nameDiv = $(this).parent().parent().find('.namereservdiv');
             var sharediv = $(this).parent().parent().find('.sharediv')
             var editdiv = $(this).parent().parent().find('.editsessiondiv')
             if (urlDiv.is(':visible')) {
@@ -3311,6 +3350,7 @@
             }
             else{
                 urlDiv.slideDown('slow').css('display', 'grid');
+                nameDiv.slideUp('slow');
                 sharediv.slideUp('slow');
                 editdiv.slideUp('slow');
             }
@@ -3318,6 +3358,7 @@
 
         $('body').on('click','.sharesession', function(e) {
             var sharediv = $(this).parent().parent().find('.sharediv')
+            var nameDiv = $(this).parent().parent().find('.namereservdiv');
             var moreurldiv = $(this).parent().parent().find('.moreUrls')
             var editdiv = $(this).parent().parent().find('.editsessiondiv')
             if (sharediv.is(':visible')) {
@@ -3325,6 +3366,7 @@
             }
             else {
                 sharediv.slideDown('slow');
+                nameDiv.slideUp('slow');
                 moreurldiv.slideUp('slow');
                 editdiv.slideUp('slow');
             }
