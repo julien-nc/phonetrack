@@ -499,7 +499,7 @@
             position: 'bottomright',
             states: [{
                 stateName: 'nomove',
-                icon:      'fa network',
+                icon:      'fa networkicon',
                 title:     t('phonetrack', 'Click to show movements'),
                 onClick: function(btn, map) {
                     $('#viewmove').click();
@@ -507,7 +507,7 @@
                 }
             },{
                 stateName: 'move',
-                icon:      'fa network nc-theming-main-background',
+                icon:      'fa networkicon nc-theming-main-background',
                 title:     t('phonetrack', 'Click to hide movements'),
                 onClick: function(btn, map) {
                     $('#viewmove').click();
@@ -528,8 +528,7 @@
             position: 'bottomright',
             states: [{
                 stateName: 'nozoom',
-                //icon:      'fa-spinner',
-                icon:      'fa-search',
+                icon:      'fa autozoomicon',
                 title:     t('phonetrack', 'Click to activate automatic zoom'),
                 onClick: function(btn, map) {
                     $('#autozoom').click();
@@ -537,7 +536,7 @@
                 }
             },{
                 stateName: 'zoom',
-                icon:      'fa-search-plus',
+                icon:      'fa autozoomicon nc-theming-main-background',
                 title:     t('phonetrack', 'Click to disable automatic zoom'),
                 onClick: function(btn, map) {
                     $('#autozoom').click();
@@ -549,28 +548,25 @@
 
         if ($('#autozoom').is(':checked')) {
             phonetrack.zoomButton.state('zoom');
-            $(phonetrack.zoomButton.button).removeClass('easy-button-inactive');
         }
         else {
             phonetrack.zoomButton.state('nozoom');
-            $(phonetrack.zoomButton.button).addClass('easy-button-inactive');
         }
 
         phonetrack.timeButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'noshowtime',
-                //icon:      'fa-spinner',
-                icon:      'fa-circle-o',
-                title:     t('phonetrack', 'Click to show time'),
+                icon:      'fa pointtooltipicon',
+                title:     t('phonetrack', 'Click to show last point tooltip'),
                 onClick: function(btn, map) {
                     $('#showtime').click();
                     btn.state('showtime');
                 }
             },{
                 stateName: 'showtime',
-                icon:      'fa-clock-o',
-                title:     t('phonetrack', 'Click to hide time'),
+                icon:      'fa pointtooltipicon nc-theming-main-background',
+                title:     t('phonetrack', 'Click to hide last point tooltip'),
                 onClick: function(btn, map) {
                     $('#showtime').click();
                     btn.state('noshowtime');
@@ -581,18 +577,16 @@
 
         if ($('#showtime').is(':checked')) {
             phonetrack.timeButton.state('showtime');
-            $(phonetrack.timeButton.button).removeClass('easy-button-inactive');
         }
         else {
             phonetrack.timeButton.state('noshowtime');
-            $(phonetrack.timeButton.button).addClass('easy-button-inactive');
         }
 
         phonetrack.doZoomButton = L.easyButton({
             position: 'bottomright',
             states: [{
                 stateName: 'no-importa',
-                icon:      'fa-search',
+                icon:      'fa normalzoomicon',
                 title:     t('phonetrack', 'Zoom on all markers'),
                 onClick: function(btn, map) {
                     zoomOnDisplayedMarkers();
@@ -3197,11 +3191,9 @@
             }
             if ($(this).is(':checked')) {
                 phonetrack.zoomButton.state('zoom');
-                $(phonetrack.zoomButton.button).removeClass('easy-button-inactive');
             }
             else {
                 phonetrack.zoomButton.state('nozoom');
-                $(phonetrack.zoomButton.button).addClass('easy-button-inactive');
             }
         });
 
@@ -3212,11 +3204,9 @@
             }
             if ($(this).is(':checked')) {
                 phonetrack.timeButton.state('showtime');
-                $(phonetrack.timeButton.button).removeClass('easy-button-inactive');
             }
             else {
                 phonetrack.timeButton.state('noshowtime');
-                $(phonetrack.timeButton.button).addClass('easy-button-inactive');
             }
         });
 
@@ -3784,7 +3774,6 @@
             }
             $('#autozoom').prop('checked', true);
             phonetrack.zoomButton.state('zoom');
-            $(phonetrack.zoomButton.button).removeClass('easy-button-inactive');
 
             if (pageIsPublicSessionWatch()) {
                 $('#sidebar').toggleClass('collapsed');

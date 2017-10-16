@@ -616,13 +616,39 @@ ul.devicelist {
 .leaflet-control-locate .fa {
     color: black;
 }
-.network {
-    /*background-image: url("images/network.svg");*/
+.networkicon {
     width: 30px;
     height: 30px;
     margin-top: auto;
     margin-bottom: auto;
     background-color: black;
-    mask: url("images/network.svg") no-repeat 50% 50% !important;
-    -webkit-mask:  url("images/network.svg") no-repeat 50% 50% !important;
+    mask: url('images/network.svg') no-repeat 50% 50% !important;
+    -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
+}
+.normalzoomicon {
+    width: 30px;
+    height: 30px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: black;
+    mask: url('images/normalzoom.svg') no-repeat 50% 50% !important;
+    -webkit-mask:  url('images/normalzoom.svg') no-repeat 50% 50% !important;
+}
+.pointtooltipicon {
+    width: 30px;
+    height: 30px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: black;
+    mask: url('images/pointtooltip.svg') no-repeat 50% 50% !important;
+    -webkit-mask:  url('images/pointtooltip.svg') no-repeat 50% 50% !important;
+}
+.autozoomicon {
+    width: 30px;
+    height: 30px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: black;
+    mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
+    -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
 }
