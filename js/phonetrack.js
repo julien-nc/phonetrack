@@ -499,8 +499,7 @@
             position: 'bottomright',
             states: [{
                 stateName: 'nomove',
-                //icon:      'fa-spinner',
-                icon:      'fa-line-chart',
+                icon:      'fa network',
                 title:     t('phonetrack', 'Click to show movements'),
                 onClick: function(btn, map) {
                     $('#viewmove').click();
@@ -508,7 +507,7 @@
                 }
             },{
                 stateName: 'move',
-                icon:      'fa-line-chart',
+                icon:      'fa network nc-theming-main-background',
                 title:     t('phonetrack', 'Click to hide movements'),
                 onClick: function(btn, map) {
                     $('#viewmove').click();
@@ -520,11 +519,9 @@
 
         if ($('#viewmove').is(':checked')) {
             phonetrack.moveButton.state('move');
-            $(phonetrack.moveButton.button).removeClass('easy-button-inactive');
         }
         else {
             phonetrack.moveButton.state('nomove');
-            $(phonetrack.moveButton.button).addClass('easy-button-inactive');
         }
 
         phonetrack.zoomButton = L.easyButton({
@@ -3270,11 +3267,9 @@
             }
             if ($(this).is(':checked')) {
                 phonetrack.moveButton.state('move');
-                $(phonetrack.moveButton.button).removeClass('easy-button-inactive');
             }
             else {
                 phonetrack.moveButton.state('nomove');
-                $(phonetrack.moveButton.button).addClass('easy-button-inactive');
             }
         });
 

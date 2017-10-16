@@ -464,12 +464,6 @@ ul.devicelist li {
 ul.devicelist {
     margin-left: 30px;
 }
-.easy-button-inactive .fa{
-    color: black !important;
-}
-.easy-button-red{
-    background-color: lightcoral !important;
-}
 .easy-button-button {
     margin: 0 !important;
     padding: 0 !important;
@@ -621,4 +615,14 @@ ul.devicelist {
 }
 .leaflet-control-locate .fa {
     color: black;
+}
+.network {
+    /*background-image: url("images/network.svg");*/
+    width: 30px;
+    height: 30px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: black;
+    mask: url("images/network.svg") no-repeat 50% 50% !important;
+    -webkit-mask:  url("images/network.svg") no-repeat 50% 50% !important;
 }
