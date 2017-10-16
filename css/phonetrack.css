@@ -652,3 +652,16 @@ ul.devicelist {
     mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
 }
+.toggleLineDevice {
+    width: 25px;
+    height: 25px;
+    margin-left: 4px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: grey;
+    mask: url('images/network.svg') no-repeat 50% 50% !important;
+    -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
+}
+.toggleLineDevice.off:hover {
+    background-color: black;
+}

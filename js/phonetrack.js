@@ -1966,9 +1966,9 @@
         var detailLink = ' <button class="toggleDetail off" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
             '<i class="fa fa-dot-circle-o" aria-hidden="true"></i></button>';
-        var lineDeviceLink = ' <button class="toggleLineDevice on" token="' + s + '" device="' + d + '" ' +
+        var lineDeviceLink = ' <button class="toggleLineDevice on nc-theming-main-background" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle lines') + '">' +
-            '<i class="fa fa-line-chart" aria-hidden="true"></i></button>';
+            '</button>';
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
@@ -2767,11 +2767,11 @@
         if (viewmove) {
             if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[s][d])) {
                 phonetrack.sessionLineLayers[s][d].remove();
-                elem.addClass('off').removeClass('on');
+                elem.addClass('off').removeClass('on nc-theming-main-background');
             }
             else{
                 phonetrack.sessionLineLayers[s][d].addTo(phonetrack.map);
-                elem.addClass('on').removeClass('off');
+                elem.addClass('on nc-theming-main-background').removeClass('off');
             }
         }
     }
