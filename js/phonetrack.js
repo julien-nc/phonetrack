@@ -2897,7 +2897,7 @@
                 addNameReservation(token, devicename, response.nametoken);
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('phonetrack', 'Device name \'{n}\' already used', {'n': devicename}));
+                OC.Notification.showTemporary(t('phonetrack', 'Device name \'{n}\' already reserved', {'n': devicename}));
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to reserve name \'{n}\'', {'n': devicename}));
@@ -2933,8 +2933,13 @@
                     li.remove();
                 });
             }
-            else {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name'));
+            else if (response.done === 2) {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name') +
+                '. ' + t('phonetrack', 'There is no such device'));
+            }
+            else if (response.done === 3) {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name') +
+                '. ' + t('phonetrack', 'Device name is not reserved, please reload this page'));
             }
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete reserved name'));

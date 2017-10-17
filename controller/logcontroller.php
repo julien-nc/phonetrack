@@ -240,6 +240,47 @@ class LogController extends Controller {
             $req->closeCursor();
 
             if ($dbname !== null) {
+                // check if this deviceid is reserved
+                $dbdevicename = null;
+                $dbdevicenametoken = null;
+                $sqlgetres = 'SELECT name, nametoken FROM *PREFIX*phonetrack_devices ';
+                $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqlgetres .= 'AND name='.$this->db_quote_escape_string($deviceid).' ;';
+                $req = $this->dbconnection->prepare($sqlgetres);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbdevicename = $row['name'];
+                    $dbdevicenametoken = $row['nametoken'];
+                }
+                $req->closeCursor();
+
+                // this device id reserved => logging refused
+                if ($dbdevicename !== null) {
+                    if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
+                        return;
+                    }
+                }
+                // check if the deviceid corresponds to a nametoken
+                else {
+                    $dbdevicenametoken = null;
+                    $dbdevicename = null;
+                    $sqlgetres = 'SELECT name, nametoken FROM *PREFIX*phonetrack_devices ';
+                    $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                    $sqlgetres .= 'AND nametoken='.$this->db_quote_escape_string($deviceid).' ;';
+                    $req = $this->dbconnection->prepare($sqlgetres);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $dbdevicename = $row['name'];
+                        $dbdevicenametoken = $row['nametoken'];
+                    }
+                    $req->closeCursor();
+
+                    // there is a device which has this nametoken => we log for this device
+                    if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
+                        $deviceid = $dbdevicename;
+                    }
+                }
+
                 // correct timestamp if needed
                 $time = $timestamp;
                 if (is_numeric($time) and (int)$time > 10000000000) {

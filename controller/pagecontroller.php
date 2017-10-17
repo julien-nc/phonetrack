@@ -1662,7 +1662,7 @@ class PageController extends Controller {
             }
             // if there is an entry but no token, name is free to be reserved
             // so we update the entry
-            else if ($dbdevicenametoken === '') {
+            else if ($dbdevicenametoken === '' or $dbdevicenametoken === null) {
                 $nametoken = md5('nametoken'.$this->userId.$dbdevicename.rand());
                 $sqlupd = 'UPDATE *PREFIX*phonetrack_devices ';
                 $sqlupd .= 'SET nametoken='.$this->db_quote_escape_string($nametoken).' ';
@@ -1733,10 +1733,12 @@ class PageController extends Controller {
             }
             $req->closeCursor();
 
+            // there is no such device
             if ($dbdevicename === null) {
                 $ok = 2;
             }
-            else if ($dbdevicenametoken !== '') {
+            // the device exists and is has a nametoken
+            else if ($dbdevicenametoken !== '' and $dbdevicenametoken !== null) {
                 // delete
                 $sqlupd = 'UPDATE *PREFIX*phonetrack_devices ';
                 $sqlupd .= 'SET nametoken='.$this->db_quote_escape_string('').' ';
