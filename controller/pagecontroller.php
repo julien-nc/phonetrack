@@ -147,6 +147,25 @@ class PageController extends Controller {
         return $response;
     }
 
+    private function getReservedNames($token) {
+        $result = array();
+
+        $sqlgetres = 'SELECT name, nametoken FROM *PREFIX*phonetrack_devices ';
+        $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
+        $req = $this->dbconnection->prepare($sqlgetres);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbdevicename = $row['name'];
+            $dbnametoken = $row['nametoken'];
+            if ($dbnametoken !== '' and $dbnametoken !== null) {
+                array_push($result, array('token'=>$dbnametoken, 'name'=>$dbdevicename));
+            }
+        }
+        $req->closeCursor();
+
+        return $result;
+    }
+
     /**
      * @NoAdminRequired
      *
@@ -165,7 +184,8 @@ class PageController extends Controller {
             $sharedWith = $this->getSessionShares($dbtoken);
             $dbpublicviewtoken = $row['publicviewtoken'];
             $dbpublic = $row['public'];
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith));
+            $reservedNames = $this->getReservedNames($dbtoken);
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith, $reservedNames));
         }
         $req->closeCursor();
 
@@ -1569,6 +1589,171 @@ class PageController extends Controller {
         }
         else {
             $ok = 3;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function addNameReservation($token, $devicename) {
+        $ok = 0;
+        $nametoken = null;
+        // check if session exists and owned by current user
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if name reservation exists
+            $sqlchk = 'SELECT name, sessionid, nametoken FROM *PREFIX*phonetrack_devices ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+            $sqlchk .= 'AND name='.$this->db_quote_escape_string($devicename).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbdevicename = null;
+            $dbdevicenametoken = null;
+            while ($row = $req->fetch()){
+                $dbdevicename = $row['name'];
+                $dbdevicenametoken = $row['nametoken'];
+                break;
+            }
+            $req->closeCursor();
+
+            // no entry in DB : we create it
+            if ($dbdevicename === null) {
+                // determine name token
+                $nametoken = md5('nametoken'.$this->userId.$dbdevicename.rand());
+
+                // insert
+                $sql = 'INSERT INTO *PREFIX*phonetrack_devices';
+                $sql .= ' (sessionid, name, nametoken) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($dbtoken).',';
+                $sql .= $this->db_quote_escape_string($devicename).',';
+                $sql .= $this->db_quote_escape_string($nametoken);
+                $sql .= ');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            // if there is an entry but no token, name is free to be reserved
+            // so we update the entry
+            else if ($dbdevicenametoken === '') {
+                $nametoken = md5('nametoken'.$this->userId.$dbdevicename.rand());
+                $sqlupd = 'UPDATE *PREFIX*phonetrack_devices ';
+                $sqlupd .= 'SET nametoken='.$this->db_quote_escape_string($nametoken).' ';
+                $sqlupd .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqlupd .= 'AND name='.$this->db_quote_escape_string($dbdevicename).';';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            // the name is already reserved
+            else {
+                $ok = 2;
+            }
+        }
+        else {
+            $ok = 3;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+                'nametoken'=>$nametoken
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteNameReservation($token, $devicename) {
+        $ok = 0;
+        // check if session exists
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if name reservation exists
+            $sqlchk = 'SELECT name, sessionid, nametoken FROM *PREFIX*phonetrack_devices ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+            $sqlchk .= 'AND name='.$this->db_quote_escape_string($devicename).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbdevicename = null;
+            $dbdevicenametoken = null;
+            while ($row = $req->fetch()){
+                $dbdevicename = $row['name'];
+                $dbdevicenametoken = $row['nametoken'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbdevicename === null) {
+                $ok = 2;
+            }
+            else if ($dbdevicenametoken !== '') {
+                // delete
+                $sqlupd = 'UPDATE *PREFIX*phonetrack_devices ';
+                $sqlupd .= 'SET nametoken='.$this->db_quote_escape_string('').' ';
+                $sqlupd .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqlupd .= 'AND name='.$this->db_quote_escape_string($dbdevicename).';';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            else {
+                $ok = 3;
+            }
+        }
+        else {
+            $ok = 4;
         }
 
         $response = new DataResponse(

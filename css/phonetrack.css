@@ -280,9 +280,11 @@ div#logofolder label {
 .sharediv {
     width: 100%;
 }
+.namereservlist label,
 .usersharelist label {
     cursor: default;
 }
+.namereservlist li,
 .usersharelist li {
     text-align: right;
 }
@@ -316,6 +318,9 @@ div#logofolder label {
 div.session input[type=text]{
     width: 100%;
 }
+input.addnamereserv {
+    width: 50% !important;
+}
 div.session label,
 div.session p,
 .watchlabel,
@@ -343,6 +348,7 @@ div.session p,
 .watchbutton i.fa-eye-slash {
     color: grey;
 }
+.deletereservedname:hover i,
 .deleteusershare:hover i {
     color: red;
 }
@@ -357,6 +363,7 @@ div.session p,
 .dropdownbutton:hover i {
     color: black;
 }
+.deletereservedname i,
 .deleteusershare i,
 .moreUrlsButton i,
 .reservNameButton i,
@@ -368,6 +375,7 @@ div.session p,
     color: grey;
     font-size: 16px;
 }
+.deletereservedname,
 .deleteusershare,
 .sessionBar button {
     padding: 0;

@@ -1147,15 +1147,15 @@
         if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<div class="namereservdiv">';
 
-            divtxt = divtxt + '<p class="addnamereservLabel">' + t('phonetrack', 'Reserve this device name') + ' :</p>';
+            divtxt = divtxt + '<label class="addnamereservLabel">' + t('phonetrack', 'Reserve this device name') + ' :</label>';
             divtxt = divtxt + '<input class="addnamereserv" type="text" title="' +
                 t('phonetrack', 'Type reserved name and press \'Enter\'') + '"></input>';
             divtxt = divtxt + '<ul class="namereservlist">';
             var i;
             for (i = 0; i < reservedNames.length; i++) {
-                divtxt = divtxt + '<li name="' + escapeHTML(reservedNames[i].token) + '"><label>' +
+                divtxt = divtxt + '<li name="' + escapeHTML(reservedNames[i].name) + '"><label>' +
                     reservedNames[i].name + ' : ' + reservedNames[i].token + '</label>' +
-                    '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
+                    '<button class="deletereservedname"><i class="fa fa-trash"></i></li>';
             }
             divtxt = divtxt + '</ul>';
             divtxt = divtxt + '<hr/></div>';
@@ -1414,7 +1414,8 @@
                             [],
                             false,
                             true,
-                            response.sessions[s][2]
+                            response.sessions[s][2],
+                            []
                         );
                     }
                     else {
@@ -1423,7 +1424,11 @@
                             response.sessions[s][0],
                             response.sessions[s][2],
                             response.sessions[s][3],
-                            response.sessions[s][4]
+                            response.sessions[s][4],
+                            false,
+                            false,
+                            '',
+                            response.sessions[s][5]
                         );
                     }
                 }
@@ -2876,6 +2881,66 @@
         }
     }
 
+    function addNameReservationDb(token, devicename) {
+        var req = {
+            token: token,
+            devicename: devicename
+        };
+        var url = OC.generateUrl('/apps/phonetrack/addNameReservation');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                addNameReservation(token, devicename, response.nametoken);
+            }
+            else if (response.done === 2) {
+                OC.Notification.showTemporary(t('phonetrack', 'Device name \'{n}\' already used', {'n': devicename}));
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to reserve name \'{n}\'', {'n': devicename}));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed contact server to add device name reservation'));
+        });
+    }
+
+    function addNameReservation(token, devicename, nametoken) {
+        var li = '<li name="' + escapeHTML(devicename) + '"><label>' +
+            escapeHTML(devicename) + ' : '+ escapeHTML(nametoken) + '</label>' +
+            '<button class="deletereservedname"><i class="fa fa-trash"></i></li>';
+        $('.session[token="' + token + '"]').find('.namereservlist').append(li);
+        $('.session[token="' + token + '"]').find('.addnamereserv').val('');
+    }
+
+    function deleteNameReservationDb(token, devicename) {
+        var req = {
+            token: token,
+            devicename: devicename
+        };
+        var url = OC.generateUrl('/apps/phonetrack/deleteNameReservation');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                var li = $('.session[token="' + token + '"]').find('.namereservlist li[name=' + devicename + ']');
+                li.fadeOut('slow', function() {
+                    li.remove();
+                });
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete reserved name'));
+        });
+    }
+
     function addUserShareDb(token, username) {
         var req = {
             token: token,
@@ -3566,6 +3631,20 @@
             var token = $(this).parent().parent().parent().parent().parent().attr('token');
             var username = $(this).parent().attr('username');
             deleteUserShareDb(token, username);
+        });
+
+        $('body').on('keypress','.addnamereserv', function(e) {
+            if (e.key === 'Enter') {
+                var token = $(this).parent().parent().attr('token');
+                var devicename = $(this).val();
+                addNameReservationDb(token, devicename);
+            }
+        });
+
+        $('body').on('click','.deletereservedname', function(e) {
+            var token = $(this).parent().parent().parent().parent().attr('token');
+            var devicename = $(this).parent().attr('name');
+            deleteNameReservationDb(token, devicename);
         });
 
         $('button[role=datemintoday]').click(function() {

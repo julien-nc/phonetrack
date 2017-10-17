@@ -47,6 +47,8 @@ return [
         ['name' => 'page#setSessionPublic', 'url' => '/setSessionPublic', 'verb' => 'POST'],
         ['name' => 'page#addUserShare', 'url' => '/addUserShare', 'verb' => 'POST'],
         ['name' => 'page#deleteUserShare', 'url' => '/deleteUserShare', 'verb' => 'POST'],
+        ['name' => 'page#addNameReservation', 'url' => '/addNameReservation', 'verb' => 'POST'],
+        ['name' => 'page#deleteNameReservation', 'url' => '/deleteNameReservation', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],
         ['name' => 'page#getUserList', 'url' => '/getUserList', 'verb' => 'POST'],
