@@ -3826,6 +3826,14 @@
             }
         });
 
+        $('body').on('mouseenter', '.reservNameButton', function(e) {
+            $(this).find('i').addClass('fa-female').removeClass('fa-male');
+        });
+
+        $('body').on('mouseleave', '.reservNameButton', function(e) {
+            $(this).find('i').addClass('fa-male').removeClass('fa-female');
+        });
+
         if (!pageIsPublic()) {
             getSessions();
         }
