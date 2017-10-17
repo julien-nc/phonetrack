@@ -1874,7 +1874,7 @@
             'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
             'color: ' + textcolor + '; font-weight: bold; }' +
             '.opaquetooltip' + s + d.replace(' ', '') + ' {' +
-            'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
+            'background: rgb(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
             'color: ' + textcolor + '; font-weight: bold;' +
             '}'
         );
