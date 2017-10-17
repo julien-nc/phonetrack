@@ -39,11 +39,11 @@ p($_['phonetrack_version']);
                 <br/>
                 <input id="viewmove" type="checkbox"/>
                 <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true"></i>
-                <?php p($l->t('View movement paths'));?></label>
+                <?php p($l->t('Show lines'));?></label>
                 <br/>
                 <input id="showtime" type="checkbox"/>
                 <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true"></i>
-                <?php p($l->t('Show time tooltips'));?></label>
+                <?php p($l->t('Show tooltips'));?></label>
                 <br/>
                 <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true"></i>
                 <?php p($l->t('Refresh each (sec)'));?></label>
@@ -67,7 +67,7 @@ p($_['phonetrack_version']);
                 <br/>
                 <input id="tooltipshowuseragent" type="checkbox" checked/>
                 <label for="tooltipshowuseragent"><i class="fa fa-mobile-phone" aria-hidden="true"></i>
-                <?php p($l->t('Show user agent in tooltips'));?> *</label>
+                <?php p($l->t('Show user-agent in tooltips'));?> *</label>
                 <br/>
                 <label>(*) <?php p($l->t('reload page to make changes effective'));?></label>
             </div>
@@ -361,7 +361,7 @@ if (count($_['useroverlayserverswms']) > 0){
 <br/>
 <label for="addPointDevice"><?php p($l->t('Device')); ?></label>
 <input id="addPointDevice" value="deviceName"/>
-<button id="validaddpoint"><i class="fa fa-plus-circle" aria-hidden="true"></i> <?php p($l->t('Add point')); ?></button>
+<button id="validaddpoint"><i class="fa fa-plus-circle" aria-hidden="true"></i> <?php p($l->t('Add a point')); ?></button>
 <p id="explainaddpoint"><?php p($l->t('Now, click on the map to add a point (if session is not activated, you won\'t see added point)')); ?></p>
 <button id="canceladdpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Cancel add point')); ?></button>
 </div>
@@ -499,7 +499,7 @@ if (count($_['useroverlayserverswms']) > 0){
 
 </div>
 <div class="sidebar-pane" id="phonetrackstats">
-<h1 class="sectiontitle"><?php p($l->t('Statistic tables')); ?></h1>
+<h1 class="sectiontitle"><?php p($l->t('Statistics')); ?></h1>
 <hr/>
 <br/>
     <input id="togglestats" type="checkbox"/>

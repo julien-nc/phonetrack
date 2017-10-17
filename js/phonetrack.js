@@ -500,7 +500,7 @@
             states: [{
                 stateName: 'nomove',
                 icon:      'fa networkicon',
-                title:     t('phonetrack', 'Click to show movements'),
+                title:     t('phonetrack', 'Show lines'),
                 onClick: function(btn, map) {
                     $('#viewmove').click();
                     btn.state('move');
@@ -508,7 +508,7 @@
             },{
                 stateName: 'move',
                 icon:      'fa networkicon nc-theming-main-background',
-                title:     t('phonetrack', 'Click to hide movements'),
+                title:     t('phonetrack', 'Hide lines'),
                 onClick: function(btn, map) {
                     $('#viewmove').click();
                     btn.state('nomove');
@@ -529,7 +529,7 @@
             states: [{
                 stateName: 'nozoom',
                 icon:      'fa autozoomicon',
-                title:     t('phonetrack', 'Click to activate automatic zoom'),
+                title:     t('phonetrack', 'Activate automatic zoom'),
                 onClick: function(btn, map) {
                     $('#autozoom').click();
                     btn.state('zoom');
@@ -537,7 +537,7 @@
             },{
                 stateName: 'zoom',
                 icon:      'fa autozoomicon nc-theming-main-background',
-                title:     t('phonetrack', 'Click to disable automatic zoom'),
+                title:     t('phonetrack', 'Disable automatic zoom'),
                 onClick: function(btn, map) {
                     $('#autozoom').click();
                     btn.state('nozoom');
@@ -558,7 +558,7 @@
             states: [{
                 stateName: 'noshowtime',
                 icon:      'fa pointtooltipicon',
-                title:     t('phonetrack', 'Click to show last point tooltip'),
+                title:     t('phonetrack', 'Show last point tooltip'),
                 onClick: function(btn, map) {
                     $('#showtime').click();
                     btn.state('showtime');
@@ -566,7 +566,7 @@
             },{
                 stateName: 'showtime',
                 icon:      'fa pointtooltipicon nc-theming-main-background',
-                title:     t('phonetrack', 'Click to hide last point tooltip'),
+                title:     t('phonetrack', 'Hide last point tooltip'),
                 onClick: function(btn, map) {
                     $('#showtime').click();
                     btn.state('noshowtime');
@@ -1108,15 +1108,15 @@
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search"></i></button>';
         if (!pageIsPublic() && !isFromShare) {
-            divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Show link to share session')+'">' +
+            divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'URL to share session')+'">' +
                 '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
-            divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Show URLs for logging apps') + '">' +
+            divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'URLs for logging apps') + '">' +
                 '<i class="fa fa-link"></i></button>';
         }
         if (!pageIsPublic() && !isFromShare) {
-            divtxt = divtxt + '<button class="reservNameButton" title="' + t('phonetrack', 'Lock device names') + '">' +
+            divtxt = divtxt + '<button class="reservNameButton" title="' + t('phonetrack', 'Reserve device names') + '">' +
                 '<i class="fa fa-male"></i></button>';
         }
         divtxt = divtxt + '</div>';
@@ -2485,7 +2485,7 @@
         res = res + '<td>' + t('phonetrack', 'Battery') + '</td>';
         res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/>%</td>';
         res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'User agent') + '</td>';
+        res = res + '<td>' + t('phonetrack', 'User-agent') + '</td>';
         res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '" min="-1" max="100"/></td>';
         res = res + '</tr>';
         res = res + '</table>';
@@ -2522,7 +2522,7 @@
         }
         if (entry.useragent && entry.useragent !== '' && entry.useragent !== 'nothing' && $('#tooltipshowuseragent').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'User agent') + ' : ' + entry.useragent;
+                t('phonetrack', 'User-agent') + ' : ' + entry.useragent;
         }
 
         return pointtooltip;
