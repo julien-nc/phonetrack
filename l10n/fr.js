@@ -114,6 +114,13 @@ OC.L10N.register(
         "Failed to contact server to change device's color" : "Impossible de contacter le serveur pour changer la couleur de l'appareil",
         "Failed to save device's color" : "Impossible de changer la couleur de l'appareil",
         "Type reserved name and press 'Enter'" : "Entrez le nom et tapez 'Entrée'",
+        "Failed to contact server to reserve device name" : "Impossible de contacter le serveur pour réserver le nom d'appareil",
+        "Failed to contact server to delete reserved name" : "Impossible de contacter le serveur pour supprimer le nom réservé",
+        "There is no such device" : "Cet appareil n'existe pas",
+        "Failed to delete reserved name" : "Impossible de supprimer le nom réservé",
+        "'{n}' is already reserved" : "'{n}' est déjà réservé",
+        "Failed to reserve '{n}'" : "Impossible de réserver '{n}'",
+        "This device name is not reserved, please reload this page" : "Ce nom d'appareil n'est pas réservé, veuillez recharger la page",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");
