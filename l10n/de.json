@@ -59,7 +59,6 @@
     "Max elevation" : "Maximale Höhe",
     "Show stats" : "Stats zeigen",
     "Stats" : "Stats",
-    "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted." : "Wähle eine Session und ein Gerät, und stelle die Filter ein. Alle angezeigten Datenpunkte für das ausgewählte Gerät werden gelöscht.",
     "min-- and max--" : "Min-- und Max--",
     "Min elevation" : "Minimale Höhe",
     "Delete multiple points" : "Datenpunkte löschen",
@@ -77,6 +76,19 @@
     "Apply filters" : "Filter aktivieren",
     "Max satellites" : "Maximale Satellitenzahl",
     "Point and line opacity" : "Durchsichtigkeit von Linien und Punkten",
-    "Line width" : "Linienbreite"
+    "Line width" : "Linienbreite",
+    "Show accuracy in tooltips" : "Genauigkeit in Tooltip anzeigen",
+    "reload page to make changes effective" : "Seite neu laden um Änderungen sichtbar zu machen",
+    "pastel" : "Pastell",
+    "Last day:hour:min" : "Letzter Tag:Stunde:Minute",
+    "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all." : "Wähle eine Session, ein Gerät und stelle die Filter ein. Alle angezeigten Punkte für das Gerät werden gelöscht. Wenn der Grätename leer ist werden alle Punkte ausgewählt.",
+    "Delete only visible points" : "Nur sichtbare Punkte löschen",
+    "bright" : "Hell",
+    "Show user agent in tooltips" : "UserAgent in Tooltips anzeigen",
+    "dark" : "dunkel",
+    "Show elevation in tooltips" : "Höhe in Tooltips anzeigen",
+    "Show battery level in tooltips" : "Batteriestatus in Tooltips anzeigen",
+    "Show satellites in tooltips" : "Satellitenzahl in Tooltips anzeigen",
+    "Theme" : "Thema"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
