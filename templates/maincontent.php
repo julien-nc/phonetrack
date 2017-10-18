@@ -2,9 +2,9 @@
 <!-- Nav tabs -->
 <ul class="sidebar-tabs" role="tablist">
 <li class="active" title="<?php p($l->t('Main tab')); ?>"><a href="#ho" role="tab"><i class="fa fa-bars"></i></a></li>
-<li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-gear"></i></a></li>
 <li title="<?php p($l->t('Filters')); ?>"><a href="#phonetrackfilters" role="tab"><i class="fa fa-filter"></i></a></li>
 <li title="<?php p($l->t('Stats')); ?>"><a href="#phonetrackstats" role="tab"><i class="fa fa-table"></i></a></li>
+<li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-gear"></i></a></li>
 <li title="<?php p($l->t('About PhoneTrack')); ?>"><a href="#help" role="tab"><i class="fa fa-question"></i></a></li>
 </ul>
 <!-- Tab panes -->
