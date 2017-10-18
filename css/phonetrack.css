@@ -51,35 +51,6 @@ div#logo {
     cursor: pointer;
 }
 
-#optionscontent {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-#optionbuttonsdiv
-{
-    float:right;
-    display:block;
-}
-
-#optionbuttonsdiv {
-    font-size: 11px;
-    padding-left: 5px;
-}
-#optioncheckdiv {
-    font-size: 11px;
-}
-#optioncheckdiv .ui-spinner {
-    width: 50px;
-}
-#optioncheckdiv {
-    float:left;
-    display:block;
-}
-#optionbuttonsdiv {
-    border-left:solid 1px;
-}
-
 h1.sectiontitle {
     font-size: 18px;
     font-weight: bold;

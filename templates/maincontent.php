@@ -32,47 +32,43 @@ p($_['phonetrack_version']);
         <div style="clear:both"></div>
         <div id="optionscontent" style="display:none;">
         <div id="optioncheckdiv">
-            <div>
-                <input id="autozoom" type="checkbox"/>
-                <label for="autozoom"><i class="fa fa-search-plus" aria-hidden="true"></i>
-                <?php p($l->t('Auto zoom'));?></label>
-                <br/>
-                <input id="viewmove" type="checkbox"/>
-                <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true"></i>
-                <?php p($l->t('Show lines'));?></label>
-                <br/>
-                <input id="showtime" type="checkbox"/>
-                <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true"></i>
-                <?php p($l->t('Show tooltips'));?></label>
-                <br/>
-                <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true"></i>
-                <?php p($l->t('Refresh each (sec)'));?></label>
-                <input id="updateinterval" type="number" min="0" max="1000" step="1" value="5"/>
-                <br/>
-                <input id="tooltipshowaccuracy" type="checkbox" checked/>
-                <label for="tooltipshowaccuracy"><i class="fa fa-tachometer" aria-hidden="true"></i>
-                <?php p($l->t('Show accuracy in tooltips'));?> *</label>
-                <br/>
-                <input id="tooltipshowsatellites" type="checkbox" checked/>
-                <label for="tooltipshowsatellites"><i class="fa fa-rocket" aria-hidden="true"></i>
-                <?php p($l->t('Show satellites in tooltips'));?> *</label>
-                <br/>
-                <input id="tooltipshowbattery" type="checkbox" checked/>
-                <label for="tooltipshowbattery"><i class="fa fa-battery-2" aria-hidden="true"></i>
-                <?php p($l->t('Show battery level in tooltips'));?> *</label>
-                <br/>
-                <input id="tooltipshowelevation" type="checkbox" checked/>
-                <label for="tooltipshowelevation"><i class="fa fa-arrows-v" aria-hidden="true"></i>
-                <?php p($l->t('Show elevation in tooltips'));?> *</label>
-                <br/>
-                <input id="tooltipshowuseragent" type="checkbox" checked/>
-                <label for="tooltipshowuseragent"><i class="fa fa-mobile-phone" aria-hidden="true"></i>
-                <?php p($l->t('Show user-agent in tooltips'));?> *</label>
-                <br/>
-                <label>(*) <?php p($l->t('reload page to make changes effective'));?></label>
-            </div>
-        </div>
-        <div id="optionbuttonsdiv">
+            <input id="autozoom" type="checkbox"/>
+            <label for="autozoom"><i class="fa fa-search-plus" aria-hidden="true"></i>
+            <?php p($l->t('Auto zoom'));?></label>
+            <br/>
+            <input id="viewmove" type="checkbox"/>
+            <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true"></i>
+            <?php p($l->t('Show lines'));?></label>
+            <br/>
+            <input id="showtime" type="checkbox"/>
+            <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true"></i>
+            <?php p($l->t('Show tooltips'));?></label>
+            <br/>
+            <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true"></i>
+            <?php p($l->t('Refresh each (sec)'));?></label>
+            <input id="updateinterval" type="number" min="0" max="1000" step="1" value="5"/>
+            <br/>
+            <input id="tooltipshowaccuracy" type="checkbox" checked/>
+            <label for="tooltipshowaccuracy"><i class="fa fa-tachometer" aria-hidden="true"></i>
+            <?php p($l->t('Show accuracy in tooltips'));?> *</label>
+            <br/>
+            <input id="tooltipshowsatellites" type="checkbox" checked/>
+            <label for="tooltipshowsatellites"><i class="fa fa-rocket" aria-hidden="true"></i>
+            <?php p($l->t('Show satellites in tooltips'));?> *</label>
+            <br/>
+            <input id="tooltipshowbattery" type="checkbox" checked/>
+            <label for="tooltipshowbattery"><i class="fa fa-battery-2" aria-hidden="true"></i>
+            <?php p($l->t('Show battery level in tooltips'));?> *</label>
+            <br/>
+            <input id="tooltipshowelevation" type="checkbox" checked/>
+            <label for="tooltipshowelevation"><i class="fa fa-arrows-v" aria-hidden="true"></i>
+            <?php p($l->t('Show elevation in tooltips'));?> *</label>
+            <br/>
+            <input id="tooltipshowuseragent" type="checkbox" checked/>
+            <label for="tooltipshowuseragent"><i class="fa fa-mobile-phone" aria-hidden="true"></i>
+            <?php p($l->t('Show user-agent in tooltips'));?> *</label>
+            <br/>
+
             <input id="dragcheck" type="checkbox" checked/>
             <label for="dragcheck"><i class="fa fa-hand-paper-o" aria-hidden="true"></i>
             <?php p($l->t('Make points draggable in edition mode'));?></label>
@@ -100,6 +96,8 @@ p($_['phonetrack_version']);
                 <option value="pastel"><?php p($l->t('pastel'));?></option>
                 <option value="dark"><?php p($l->t('dark'));?></option>
             </select>
+            <br/>
+            <label>(*) <?php p($l->t('reload page to make changes effective'));?></label>
         </div>
         </div>
     </div>
