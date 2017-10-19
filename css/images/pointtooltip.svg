@@ -39,7 +39,7 @@
      id="namedview18"
      showgrid="false"
      inkscape:zoom="0.92187499"
-     inkscape:cx="120.68383"
+     inkscape:cx="72.955016"
      inkscape:cy="271.9267"
      inkscape:window-x="0"
      inkscape:window-y="0"
@@ -65,19 +65,13 @@
        x="146.93073"
        y="204.44377"
        ry="20.263805" />
-    <path
-       style="fill:none;stroke:#000000;stroke-width:14;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 158.04938,392.84185 C 22.456151,542.53677 146.93073,405.04524 146.93073,405.04524"
-       id="path4491"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc" />
     <ellipse
-       style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:14;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:20.41409111;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4493"
-       cx="73.554008"
-       cy="481.74802"
-       rx="27.118645"
-       ry="27.661016" />
+       cx="86.028587"
+       cy="464.93448"
+       rx="35.216682"
+       ry="34.674309" />
     <rect
        style="fill:none;fill-opacity:0;stroke:#000000;stroke-width:14;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4495"
@@ -110,5 +104,11 @@
        x="178.4973"
        y="364.98737"
        ry="1.4341115" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:22.30461121;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 154.31883,395.5347 -42.59359,43.38484"
+       id="path4490"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>
