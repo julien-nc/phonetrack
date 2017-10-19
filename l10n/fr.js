@@ -121,6 +121,9 @@ OC.L10N.register(
         "'{n}' is already reserved" : "'{n}' est déjà réservé",
         "Failed to reserve '{n}'" : "Impossible de réserver '{n}'",
         "This device name is not reserved, please reload this page" : "Ce nom d'appareil n'est pas réservé, veuillez recharger la page",
+        "lat : lng" : "lat : lng",
+        "#points" : "#points",
+        "DMS coords" : "Coords DMS",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");

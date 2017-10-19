@@ -3062,7 +3062,8 @@
                 table = table + '<table class="stattable"><tr><th>' +
                     t('phonetrack', 'device name') + '</th><th>' +
                     t('phonetrack', 'distance (km)') + '</th><th>' +
-                    t('phonetrack', 'duration') + '</th></tr>';
+                    t('phonetrack', 'duration') + '</th><th>' +
+                    t('phonetrack', '#points') + '</th></tr>';
                 for (d in phonetrack.sessionLineLayers[s]) {
                     ll = phonetrack.sessionLineLayers[s][d].getLatLngs();
                     dist = 0;
@@ -3101,7 +3102,8 @@
                     if (days > 0) {
                         table = table + days + ' ' + t('phonetrack', 'days') + ' ';
                     }
-                    table = table + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds) + '</td></tr>';
+                    table = table + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds) + '</td>';
+                    table = table + '<td>' + phonetrack.sessionPointsLayers[s][d].getLayers().length + '</td></tr>';
                 }
                 table = table + '</table>';
             }
