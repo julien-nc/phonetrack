@@ -2522,8 +2522,8 @@
         res = res + '</tr>';
         res = res + '</table>';
         res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Save') + '</button>';
-        res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Delete point') + '</button>';
-        res = res + '<button class="movepoint"><i class="fa fa-arrows" aria-hidden="true"></i> ' + t('phonetrack', 'Move point') + '</button>';
+        res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Delete') + '</button>';
+        res = res + '<button class="movepoint"><i class="fa fa-arrows" aria-hidden="true"></i> ' + t('phonetrack', 'Move') + '</button>';
         res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Cancel') + '</button>';
         return res;
     }
