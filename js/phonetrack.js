@@ -299,6 +299,26 @@
         this.resume();
     }
 
+	function toDegreesMinutesAndSeconds(coordinate) {
+		var absolute = Math.abs(coordinate);
+		var degrees = Math.floor(absolute);
+		var minutesNotTruncated = (absolute - degrees) * 60;
+		var minutes = Math.floor(minutesNotTruncated);
+		var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+
+		return degrees + "°" + minutes + "'" + seconds + escapeHTML('"');
+	}
+
+	function convertDMS(lat, lng) {
+		var latitude = toDegreesMinutesAndSeconds(lat);
+		var latitudeCardinal = Math.sign(lat) >= 0 ? 'N' : 'S';
+
+		var longitude = toDegreesMinutesAndSeconds(lng);
+		var longitudeCardinal = Math.sign(lng) >= 0 ? 'E' : 'W';
+
+		return latitude + ' ' + latitudeCardinal + ' ' + longitude + ' ' + longitudeCardinal;
+	}
+
     //////////////// MAP /////////////////////
 
     function load_map() {
@@ -2491,7 +2511,14 @@
         res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/>%</td>';
         res = res + '</tr><tr>';
         res = res + '<td>' + t('phonetrack', 'User-agent') + '</td>';
-        res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '" min="-1" max="100"/></td>';
+        res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '"/></td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>' + t('phonetrack', 'lat : lng') + '</td>';
+        res = res + '<td><input role="latlng" type="text" value="' +
+            parseFloat(entry.lat).toFixed(5) + ' : ' + parseFloat(entry.lon).toFixed(5) + '" readonly/></td>';
+        res = res + '</tr><tr>';
+        res = res + '<td>' + t('phonetrack', 'DMS coords') + '</td>';
+        res = res + '<td><input role="dms" type="text" value="' + convertDMS(entry.lat, entry.lon) + '" readonly/></td>';
         res = res + '</tr>';
         res = res + '</table>';
         res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Save') + '</button>';

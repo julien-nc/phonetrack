@@ -382,8 +382,9 @@ input[role=precision] {
     width: 34px !important;
     height: 15px !important;
 }
-input[role=useragent] {
+table.editPoint input[type=text] {
     height: 15px;
+    width: 100%;
     padding: 0px 3px 0px 3px;
 }
 input[role=date] {
