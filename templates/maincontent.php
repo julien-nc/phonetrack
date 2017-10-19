@@ -86,7 +86,7 @@ p($_['phonetrack_version']);
             <input id="pointradius" type="number" min="1" max="20" step="1" value="8"/>
             <br/>
             <label for="pointlinealpha"><i class="fa fa-eraser" aria-hidden="true"></i>
-            <?php p($l->t('Point and line opacity'));?></label>
+            <?php p($l->t('Points and lines opacity'));?></label>
             <input id="pointlinealpha" type="number" min="0.1" max="1" step="0.1" value="0.8"/>
             <br/>
             <label for="colorthemeselect"><i class="fa fa-paint-brush" aria-hidden="true"></i>
@@ -393,7 +393,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><label for="applyfilters"><?php p($l->t('Apply filters')); ?></label></td>
     <td><input type="checkbox" id="applyfilters"/></td>
 </tr><tr>
-    <td><?php p($l->t('Min date')); ?></td>
+    <td><?php p($l->t('Minimum date')); ?></td>
     <td><input role="datemin" type="date" value=""/></td>
 </tr><tr>
     <td></td>
@@ -403,13 +403,13 @@ if (count($_['useroverlayserverswms']) > 0){
         <button role="dateminplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
     </td>
 </tr><tr>
-    <td><?php p($l->t('Min time')); ?></td>
+    <td><?php p($l->t('Minimum time')); ?></td>
     <td><input class="time" role="hourmin" type="number" value="" min="0" max="23"/>:
         <input class="time" role="minutemin" type="number" value="" min="0" max="59"/>:
         <input class="time" role="secondmin" type="number" value="" min="0" max="59"/></td>
 </tr>
 <tr>
-    <td><?php p($l->t('Max date')); ?></td>
+    <td><?php p($l->t('Maximum date')); ?></td>
     <td><input role="datemax" type="date" value=""/></td>
 </tr><tr>
     <td></td>
@@ -419,16 +419,16 @@ if (count($_['useroverlayserverswms']) > 0){
         <button role="datemaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
     </td>
 </tr><tr>
-    <td><?php p($l->t('Max time')); ?></td>
+    <td><?php p($l->t('Maximum time')); ?></td>
     <td><input class="time" role="hourmax" type="number" value="" min="0" max="23"/>:
         <input class="time" role="minutemax" type="number" value="" min="0" max="59"/>:
         <input class="time" role="secondmax" type="number" value="" min="0" max="59"/></td>
 </tr><tr>
     <td>
-        <button role="dateminmaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <?php p($l->t('min-- and max--')); ?></button>
+        <button role="dateminmaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <?php p($l->t('Min-- and Max--')); ?></button>
     </td>
     <td>
-        <button role="dateminmaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> <?php p($l->t('min++ and max++')); ?></button>
+        <button role="dateminmaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> <?php p($l->t('Min++ and Max++')); ?></button>
     </td>
 </tr><tr>
     <td><?php p($l->t('Last day:hour:min')); ?></td>
@@ -437,56 +437,56 @@ if (count($_['useroverlayserverswms']) > 0){
         <input class="time" role="lastmins" type="number" value="" min="0" max="59"/></td>
 </tr><tr>
     <td>
-        <label for="accuracymin"><?php p($l->t('Min accuracy')); ?></label>
+        <label for="accuracymin"><?php p($l->t('Minimum accuracy')); ?></label>
     </td>
     <td>
         <input role="accuracymin" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
-        <label for="accuracymax"><?php p($l->t('Max accuracy')); ?></label>
+        <label for="accuracymax"><?php p($l->t('Maximum accuracy')); ?></label>
     </td>
     <td>
         <input role="accuracymax" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
-        <label for="elevationmin"><?php p($l->t('Min elevation')); ?></label>
+        <label for="elevationmin"><?php p($l->t('Minimum elevation')); ?></label>
     </td>
     <td>
         <input role="elevationmin" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
-        <label for="elevationmax"><?php p($l->t('Max elevation')); ?></label>
+        <label for="elevationmax"><?php p($l->t('Maximum elevation')); ?></label>
     </td>
     <td>
         <input role="elevationmax" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
-        <label for="batterymin"><?php p($l->t('Min battery level')); ?></label>
+        <label for="batterymin"><?php p($l->t('Minimum battery level')); ?></label>
     </td>
     <td>
         <input role="batterymin" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
-        <label for="batterymax"><?php p($l->t('Max battery level')); ?></label>
+        <label for="batterymax"><?php p($l->t('Maximum battery level')); ?></label>
     </td>
     <td>
         <input role="batterymax" type="number" value="" min="-1" max="100"/>
     </td>
 </tr><tr>
     <td>
-        <label for="satellitesmin"><?php p($l->t('Min satellites')); ?></label>
+        <label for="satellitesmin"><?php p($l->t('Minimum satellites')); ?></label>
     </td>
     <td>
         <input role="satellitesmin" type="number" value="" min="-1" max="10000"/>
     </td>
 </tr><tr>
     <td>
-        <label for="satellitesmax"><?php p($l->t('Max satellites')); ?></label>
+        <label for="satellitesmax"><?php p($l->t('Maximum satellites')); ?></label>
     </td>
     <td>
         <input role="satellitesmax" type="number" value="" min="-1" max="10000"/>
@@ -513,7 +513,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <hr/><br/>
     <h3 class="sectiontitle"><?php p($l->t('Shortcuts')); ?> :</h3>
     <ul class="disclist">
-        <li><b>&lt;</b> : <?php p($l->t('toggle sidebar')); ?></li>
+        <li><b>&lt;</b> : <?php p($l->t('Toggle sidebar')); ?></li>
     </ul>
 
     <br/><hr/><br/>
