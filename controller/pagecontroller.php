@@ -1189,7 +1189,7 @@ class PageController extends Controller {
                         $sqlcolor = 'SELECT color, name ';
                         $sqlcolor .= 'FROM *PREFIX*phonetrack_devices ';
                         $sqlcolor .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
-                        $sqlcolor .= 'AND name='.$this->db_quote_escape_string($devid).'; ';
+                        $sqlcolor .= 'AND id='.$this->db_quote_escape_string($devid).'; ';
                         $req = $this->dbconnection->prepare($sqlcolor);
                         $req->execute();
                         $col = '';
@@ -1202,16 +1202,16 @@ class PageController extends Controller {
                             $colors[$dbpublicviewtoken] = array();
                         }
                         $colors[$dbpublicviewtoken][$devid] = $col;
-                        if (!array_key_exists($dbtoken, $names)) {
-                            $names[$dbtoken] = array();
+                        if (!array_key_exists($dbpublicviewtoken, $names)) {
+                            $names[$dbpublicviewtoken] = array();
                         }
-                        $names[$dbtoken][$devid] = $name;
+                        $names[$dbpublicviewtoken][$devid] = $name;
                     }
 
 
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, ';
                     $sqlget .= 'altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
-                    $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devname).' ';
+                    $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
                     $sqlget .= 'ORDER BY timestamp ASC';
                     $req = $this->dbconnection->prepare($sqlget);
