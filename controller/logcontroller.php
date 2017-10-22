@@ -246,7 +246,7 @@ class LogController extends Controller {
                 $deviceidToInsert = null;
                 $sqlgetres = 'SELECT id, name, nametoken FROM *PREFIX*phonetrack_devices ';
                 $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                $sqlgetres .= 'AND name='.$this->db_quote_escape_string($deviceid).' ;';
+                $sqlgetres .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
                 $req = $this->dbconnection->prepare($sqlgetres);
                 $req->execute();
                 while ($row = $req->fetch()){
@@ -349,9 +349,8 @@ class LogController extends Controller {
                 }
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
+                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
                 $sql .= 'VALUES (';
-                $sql .= $this->db_quote_escape_string($token).',';
                 $sql .= $this->db_quote_escape_string($deviceidToInsert).',';
                 $sql .= $this->db_quote_escape_string($lat).',';
                 $sql .= $this->db_quote_escape_string($lon).',';

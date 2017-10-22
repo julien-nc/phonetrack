@@ -131,7 +131,6 @@ class PageController extends Controller {
                 $devices = array();
                 // get all devices
                 $token = $s[1];
-                error_log('SESSION '.$token);
                 // we get all potential devices from points
                 $sqlgetdev = 'SELECT deviceid FROM *PREFIX*phonetrack_points ';
                 $sqlgetdev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' GROUP BY deviceid ;';
@@ -182,13 +181,11 @@ class PageController extends Controller {
                 foreach ($alldevices as $d) {
                     $id = $d[0];
                     $dname = $d[1];
-                    error_log('DEVICE '.$dname);
                     // we modify all the points
                     $sqlupd = 'UPDATE *PREFIX*phonetrack_points SET';
                     $sqlupd .= ' deviceid='.$this->db_quote_escape_string($id).' ';
                     $sqlupd .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                     $sqlupd .= 'AND deviceid='.$this->db_quote_escape_string($dname).' ;';
-                    error_log($sqlupd);
                     $req = $this->dbconnection->prepare($sqlupd);
                     $req->execute();
                     $req->closeCursor();
@@ -197,7 +194,6 @@ class PageController extends Controller {
                 $sqlupd = 'UPDATE *PREFIX*phonetrack_sessions SET';
                 $sqlupd .= ' creationversion='.$this->db_quote_escape_string($this->appVersion).' ';
                 $sqlupd .= 'WHERE token='.$this->db_quote_escape_string($token).' ;';
-                error_log($sqlupd);
                 $req = $this->dbconnection->prepare($sqlupd);
                 $req->execute();
                 $req->closeCursor();
@@ -1947,8 +1943,8 @@ class PageController extends Controller {
     /**
      *
      **/
-    private function logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
-        if (!is_null($deviceid) and $deviceid !== '' and
+    private function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
+        if (!is_null($devicename) and $devicename !== '' and
             !is_null($token) and $token !== '' and
             !is_null($lat) and $lat !== '' and
             !is_null($lon) and $lon !== '' and
@@ -1967,6 +1963,43 @@ class PageController extends Controller {
             $req->closeCursor();
 
             if ($dbname !== null) {
+                $dbdeviceid = null;
+                $sqlgetres = 'SELECT id, name FROM *PREFIX*phonetrack_devices ';
+                $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqlgetres .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+                $req = $this->dbconnection->prepare($sqlgetres);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbdeviceid = $row['id'];
+                    $dbdevicename = $row['name'];
+                }
+                $req->closeCursor();
+
+                if ($dbdeviceid === null) {
+                    // device does not exist and there is no reservation corresponding
+                    // => we create it
+                    $sql = 'INSERT INTO *PREFIX*phonetrack_devices';
+                    $sql .= ' (name, sessionid) ';
+                    $sql .= 'VALUES (';
+                    $sql .= $this->db_quote_escape_string($devicename).',';
+                    $sql .= $this->db_quote_escape_string($token);
+                    $sql .= ');';
+                    $req = $this->dbconnection->prepare($sql);
+                    $req->execute();
+                    $req->closeCursor();
+
+                    // get the newly created device id
+                    $sqlgetdid = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+                    $sqlgetdid .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                    $sqlgetdid .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+                    $req = $this->dbconnection->prepare($sqlgetdid);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $dbdeviceid = $row['id'];
+                    }
+                    $req->closeCursor();
+                }
+
                 // correct timestamp if needed
                 $time = $timestamp;
                 if (is_numeric($time) and (int)$time > 10000000000) {
@@ -2003,10 +2036,9 @@ class PageController extends Controller {
                 }
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
+                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
                 $sql .= 'VALUES (';
-                $sql .= $this->db_quote_escape_string($token).',';
-                $sql .= $this->db_quote_escape_string($deviceid).',';
+                $sql .= $this->db_quote_escape_string($dbdeviceid).',';
                 $sql .= $this->db_quote_escape_string($lat).',';
                 $sql .= $this->db_quote_escape_string($lon).',';
                 $sql .= $this->db_quote_escape_string($time).',';

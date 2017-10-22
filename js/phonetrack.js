@@ -2036,7 +2036,7 @@
         var icon = L.divIcon({
             iconAnchor: [radius, radius],
             className: 'roundmarker color' + s + d.replace(' ', ''),
-            html: '<b>' + d[0] + '</b>'
+            html: '<b>' + name[0] + '</b>'
         });
 
         phonetrack.sessionMarkerLayers[s][d] = L.marker([], {icon: icon});
@@ -3801,7 +3801,7 @@
         $('<style role="roundmarker">.roundmarker { ' +
             'width: ' + diam + 'px !important;' +
             'height: ' + diam + 'px !important;' +
-            'line-height: ' + diam + 'px;' +
+            'line-height: ' + (diam - 2) + 'px;' +
             '}</style>').appendTo('body');
 
         $('#pointradius').change(function() {
@@ -3814,17 +3814,18 @@
                 '.roundmarker { ' +
                 'width: ' + diam + 'px !important;' +
                 'height: ' + diam + 'px !important;' +
-                'line-height: ' + diam + 'px;' +
+                'line-height: ' + (diam - 2) + 'px;' +
                 '}</style>'
             );
             // change iconanchor
             var s, d, pid, icon, iconMarker;
             for (s in phonetrack.sessionMarkerLayers) {
                 for (d in phonetrack.sessionMarkerLayers[s]) {
+                    var dname = getDeviceName(s, d);
                     iconMarker = L.divIcon({
                         iconAnchor: [radius, radius],
                         className: 'roundmarker color' + s + d.replace(' ', ''),
-                        html: '<b>' + d[0] + '</b>'
+                        html: '<b>' + dname[0] + '</b>'
                     });
                     phonetrack.sessionMarkerLayers[s][d].setIcon(iconMarker);
 

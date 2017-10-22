@@ -107,7 +107,7 @@
     <field>
       <name>sessionid</name>
       <type>text</type>
-      <notnull>true</notnull>
+      <default></default>
       <length>300</length>
     </field>
     <field>
