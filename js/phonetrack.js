@@ -1060,6 +1060,10 @@
         return $('.devicelist[token="' + sessionid + '"] li[device="' + did + '"] .deviceLabel').text();
     }
 
+    function getDeviceId(sessionid, devicename) {
+        return $('div.session[token="' + sessionid + '"] .deviceLabel[name="' + devicename + '"]').parent().attr('device');
+    }
+
     function addSession(token, name, publicviewtoken, isPublic, sharedWith=[],
                         selected=false, isFromShare=false, isSharedBy='',
                         reservedNames=[]) {
@@ -1272,10 +1276,10 @@
         });
     }
 
-    function deleteDevice(token, device, sessionName) {
+    function deleteDevice(token, deviceid, sessionName) {
         var req = {
             token: token,
-            device: device
+            deviceid: deviceid
         };
         var url = OC.generateUrl('/apps/phonetrack/deleteDevice');
         $.ajax({
@@ -1285,11 +1289,11 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                removeDevice(token, device);
-                OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: device, s: sessionName}));
+                removeDevice(token, deviceid);
+                OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: deviceid, s: sessionName}));
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: device, s: sessionName}));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: deviceid, s: sessionName}));
             }
         }).always(function() {
         }).fail(function() {
@@ -2001,8 +2005,8 @@
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
-                '<div class="deviceLabel" title="' +
-                t('phonetrack', 'Center map on device') + ' ' + name + '">' + name + '</div> ' +
+                '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
+                t('phonetrack', 'Center map on device') + ' ' + escapeHTML(name) + '">' + escapeHTML(name) + '</div> ' +
                 deleteLink +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' ' + d + '">' +
@@ -2338,7 +2342,7 @@
         var lat, lon, alt, acc, sat, bat, mom;
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
-        var deviceid = $('#addPointDevice').val();
+        var devicename = $('#addPointDevice').val();
         lat = plat;
         lon = plon;           
         alt = palt;
@@ -2349,7 +2353,7 @@
         var timestamp = mom.unix();
         var req = {
             token: token,
-            deviceid: deviceid,
+            devicename: devicename,
             timestamp: timestamp,
             lat: lat,
             lon: lon,
@@ -2385,7 +2389,8 @@
         var perm = $('#showtime').is(':checked');
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
-        var deviceid = $('#addPointDevice').val();
+        var devicename = $('#addPointDevice').val();
+        var deviceid = getDeviceId(token, devicename);
         var useragent = 'Manually added';
 
         var entry = {id: id};
@@ -2405,7 +2410,7 @@
 
         // add device if it does not exist
         if (! phonetrack.sessionLineLayers[token].hasOwnProperty(deviceid)) {
-            addDevice(token, deviceid, sessionname);
+            addDevice(token, deviceid, sessionname, devicename);
             appendEntryToDevice(token, deviceid, entry, sessionname);
         }
         // insert entry correctly ;)

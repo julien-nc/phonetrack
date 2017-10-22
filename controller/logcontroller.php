@@ -184,7 +184,7 @@ class LogController extends Controller {
         }
         //$this->shareManager = \OC::$server->getShareManager();
         $this->shareManager = $shareManager;
-        $this->defaultDeviceName = ['yourname', 'deviceid'];
+        $this->defaultDeviceName = ['yourname', 'devicename', 'name'];
     }
 
     /*
@@ -195,7 +195,7 @@ class LogController extends Controller {
     }
 
     /**
-     * if deviceid is not set to default value, we take it
+     * if devicename is not set to default value, we take it
      * else
      */
     private function chooseDeviceName($devicename, $tid) {
@@ -203,15 +203,15 @@ class LogController extends Controller {
              $devicename !== '' and
              (!is_null($devicename))
         ) {
-            $did = $devicename;
+            $dname = $devicename;
         }
         else if ($tid !== '' and !is_null($tid)){
-            $did = $tid;
+            $dname = $tid;
         }
         else {
-            $did = 'unknown';
+            $dname = 'unknown';
         }
-        return $did;
+        return $dname;
     }
 
     /**
@@ -374,9 +374,9 @@ class LogController extends Controller {
      * @PublicPage
      *
      **/
-    public function logGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $did = $this->chooseDeviceName($deviceid, null);
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger');
+    public function logGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
+        $dname = $this->chooseDeviceName($devicename, null);
+        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger');
     }
 
     /**
@@ -385,9 +385,9 @@ class LogController extends Controller {
      * @PublicPage
      *
      **/
-    public function logOsmand($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $did = $this->chooseDeviceName($deviceid, null);
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd');
+    public function logOsmand($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
+        $dname = $this->chooseDeviceName($devicename, null);
+        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd');
     }
 
     /**
@@ -396,9 +396,9 @@ class LogController extends Controller {
      * @PublicPage
      *
      **/
-    public function logGpsloggerGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $did = $this->chooseDeviceName($deviceid, null);
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET');
+    public function logGpsloggerGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
+        $dname = $this->chooseDeviceName($devicename, null);
+        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET');
     }
 
     /**
@@ -407,9 +407,9 @@ class LogController extends Controller {
      * @PublicPage
      *
      **/
-    public function logGpsloggerPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
-        $did = $this->chooseDeviceName($deviceid, null);
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST');
+    public function logGpsloggerPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
+        $dname = $this->chooseDeviceName($devicename, null);
+        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST');
     }
 
     /**
@@ -419,9 +419,9 @@ class LogController extends Controller {
      *
      * Owntracks IOS
      **/
-    public function logOwntracks($token, $deviceid='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
-        $did = $this->chooseDeviceName($deviceid, $tid);
-        $this->logPost($token, $did, $lat, $lon, $alt, $tst, $acc, $batt, -1, 'Owntracks');
+    public function logOwntracks($token, $devicename='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
+        $dname = $this->chooseDeviceName($devicename, $tid);
+        $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, -1, 'Owntracks');
         return array();
     }
 
@@ -432,10 +432,10 @@ class LogController extends Controller {
      *
      * Ulogger Android
      **/
-    public function logUlogger($token, $deviceid, $trackid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
+    public function logUlogger($token, $devicename, $trackid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
         if ($action === 'addpos') {
-            $did = $this->chooseDeviceName($deviceid, null);
-            $this->logPost($token, $did, $lat, $lon, $altitude, $time, $accuracy, -1, -1, 'Ulogger');
+            $dname = $this->chooseDeviceName($devicename, null);
+            $this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, -1, -1, 'Ulogger');
         }
         return array("error" => false, "trackid" => 1);
     }
@@ -447,9 +447,9 @@ class LogController extends Controller {
      *
      * traccar Android/IOS
      **/
-    public function logTraccar($token, $deviceid='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
-        $did = $this->chooseDeviceName($deviceid, $id);
-        $this->logPost($token, $did, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar');
+    public function logTraccar($token, $devicename='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
+        $dname = $this->chooseDeviceName($devicename, $id);
+        $this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar');
     }
 
     /**
@@ -459,8 +459,8 @@ class LogController extends Controller {
      *
      * any Opengts-compliant app
      **/
-    public function logOpengts($token, $deviceid='', $id, $dev, $acct, $alt, $batt, $gprmc) {
-        $did = $this->chooseDeviceName($deviceid, $id);
+    public function logOpengts($token, $devicename='', $id, $dev, $acct, $alt, $batt, $gprmc) {
+        $dname = $this->chooseDeviceName($devicename, $id);
         $gprmca = explode(',', $gprmc);
         $time = sprintf("%06d", (int)$gprmca[1]);
         $date = sprintf("%06d", (int)$gprmca[9]);
@@ -468,7 +468,7 @@ class LogController extends Controller {
         $timestamp = $datetime->getTimestamp();
         $lat = DMStoDEC($gprmca[3], 'latitude');
         $lon = DMStoDEC(sprintf('%010.4f', (float)$gprmca[5]), 'longitude');
-        $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, -1, $batt, -1, 'OpenGTS client');
+        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, -1, $batt, -1, 'OpenGTS client');
         return true;
     }
 
@@ -479,7 +479,7 @@ class LogController extends Controller {
      *
      * in case there is a POST request (like celltrackGTS does)
      **/
-    public function logOpengtsPost($token, $deviceid, $id, $dev, $acct, $alt, $batt, $gprmc) {
+    public function logOpengtsPost($token, $devicename, $id, $dev, $acct, $alt, $batt, $gprmc) {
         return [];
     }
 
