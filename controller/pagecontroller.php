@@ -801,7 +801,7 @@ class PageController extends Controller {
             // check if device exists
             $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
             $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
+            $sqlchk .= 'AND id='.$this->db_quote_escape_string($deviceid).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
             $dbdeviceid = null;
@@ -810,9 +810,15 @@ class PageController extends Controller {
             }
             $req->closeCursor();
 
-            if ($c > 0) {
+            if ($dbdeviceid !== null) {
                 $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
                 $sqldel .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdeviceid).' ;';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_devices ';
+                $sqldel .= 'WHERE id='.$this->db_quote_escape_string($dbdeviceid).' ;';
                 $req = $this->dbconnection->prepare($sqldel);
                 $req->execute();
                 $req->closeCursor();
@@ -872,7 +878,8 @@ class PageController extends Controller {
         $response = new DataResponse(
             [
                 'done'=>1,
-                'id'=>$dbid
+                'pointid'=>$dbid,
+                'deviceid'=>$dbdevid
             ]
         );
         $csp = new ContentSecurityPolicy();

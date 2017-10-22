@@ -1288,12 +1288,13 @@
             data: req,
             async: true
         }).done(function (response) {
+            var devicename = getDeviceName(token, deviceid);
             if (response.done === 1) {
                 removeDevice(token, deviceid);
-                OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: deviceid, s: sessionName}));
+                OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: devicename, s: sessionName}));
             }
             else if (response.done === 2) {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: deviceid, s: sessionName}));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: devicename, s: sessionName}));
             }
         }).always(function() {
         }).fail(function() {
@@ -2373,7 +2374,7 @@
             if (response.done === 1) {
                 // add the point on the map only if the session was displayed at least once
                 if (phonetrack.sessionLineLayers.hasOwnProperty(token)) {
-                    addPointMap(response.id, lat, lon, alt, acc, sat, bat, timestamp);
+                    addPointMap(response.pointid, lat, lon, alt, acc, sat, bat, timestamp, response.deviceid);
                 }
             }
             else if (response.done === 2) {
@@ -2385,12 +2386,11 @@
         });
     }
 
-    function addPointMap(id, lat, lon, alt, acc, sat, bat, timestamp) {
+    function addPointMap(id, lat, lon, alt, acc, sat, bat, timestamp, deviceid) {
         var perm = $('#showtime').is(':checked');
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
         var devicename = $('#addPointDevice').val();
-        var deviceid = getDeviceId(token, devicename);
         var useragent = 'Manually added';
 
         var entry = {id: id};
@@ -2410,7 +2410,7 @@
 
         // add device if it does not exist
         if (! phonetrack.sessionLineLayers[token].hasOwnProperty(deviceid)) {
-            addDevice(token, deviceid, sessionname, devicename);
+            addDevice(token, deviceid, sessionname, '', devicename);
             appendEntryToDevice(token, deviceid, entry, sessionname);
         }
         // insert entry correctly ;)
@@ -3468,16 +3468,17 @@
         $('body').on('click','.deleteDevice', function(e) {
             var sessionName = $(this).parent().parent().parent().find('.sessionBar .sessionName').text();
             var token = $(this).attr('token');
-            var device = $(this).attr('device');
+            var deviceid = $(this).attr('device');
+            var devicename = getDeviceName(token, deviceid);
             OC.dialogs.confirm(
                 t('phonetrack',
                     'Are you sure you want to delete the device {device} ?',
-                    {device: device}
+                    {device: devicename}
                 ),
                 t('phonetrack','Confirm device deletion'),
                 function (result) {
                     if (result) {
-                        deleteDevice(token, device, sessionName);
+                        deleteDevice(token, deviceid, sessionName);
                     }
                 },
                 true
