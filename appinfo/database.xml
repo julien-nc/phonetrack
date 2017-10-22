@@ -47,6 +47,12 @@
       <default>1</default>
       <length>1</length>
     </field>
+    <field>
+      <name>creationversion</name>
+      <type>text</type>
+      <default></default>
+      <length>300</length>
+    </field>
   </declaration>
 </table>
  <table>

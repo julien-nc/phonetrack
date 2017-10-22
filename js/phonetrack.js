@@ -1056,6 +1056,10 @@
         return $('div.session[token="' + token + '"] .sessionBar .sessionName').text();
     }
 
+    function getDeviceName(sessionid, did) {
+        return $('.devicelist[token="' + sessionid + '"] li[device="' + did + '"] .deviceLabel').text();
+    }
+
     function addSession(token, name, publicviewtoken, isPublic, sharedWith=[],
                         selected=false, isFromShare=false, isSharedBy='',
                         reservedNames=[]) {
@@ -1489,7 +1493,7 @@
                 data: req,
                 async: true
             }).done(function (response) {
-                displayNewPoints(response.sessions, response.colors);
+                displayNewPoints(response.sessions, response.colors, response.names);
             }).always(function() {
                 hideLoadingAnimation();
             }).fail(function() {
@@ -1800,7 +1804,7 @@
             // tooltip
             phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
             phonetrack.sessionMarkerLayers[s][d].bindTooltip(
-                getPointTooltipContent(mentry, sessionname),
+                getPointTooltipContent(mentry, sessionname, s),
                 {permanent: perm, offset: offset, className: 'tooltip' + s + d.replace(' ', '')}
             );
             // popup
@@ -1828,7 +1832,7 @@
         }
     }
 
-    function displayNewPoints(sessions, colors) {
+    function displayNewPoints(sessions, colors, names) {
         var s, i, d, entry, device, timestamp, mom, icon,
             markertooltip, colorn, rgbc,
             textcolor, sessionname;
@@ -1850,10 +1854,10 @@
                 // add line and marker if necessary
                 if (! phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
                     if (colors.hasOwnProperty(s) && colors[s].hasOwnProperty(d)) {
-                        addDevice(s, d, sessionname, colors[s][d]);
+                        addDevice(s, d, sessionname, colors[s][d], names[s][d]);
                     }
                     else {
-                        addDevice(s, d, sessionname);
+                        addDevice(s, d, sessionname, '', names[s][d]);
                     }
                 }
                 // for all new entries of this session
@@ -1940,7 +1944,7 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname, color='') {
+    function addDevice(s, d, sessionname, color='', name) {
         var colorn, textcolor, rgbc, linetooltip;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
@@ -1998,7 +2002,7 @@
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
                 '<div class="deviceLabel" title="' +
-                t('phonetrack', 'Center map on device') + ' ' + d + '">' + d + '</div> ' +
+                t('phonetrack', 'Center map on device') + ' ' + name + '">' + name + '</div> ' +
                 deleteLink +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' ' + d + '">' +
@@ -2015,7 +2019,7 @@
         phonetrack.sessionLatlngs[s][d] = [];
         var linewidth = $('#linewidth').val();
         phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: linewidth, className: 'poly' + s + d.replace(' ', '')});
-        linetooltip = sessionname + ' | ' + d;
+        linetooltip = sessionname + ' | ' + name;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
             linetooltip,
             {
@@ -2050,7 +2054,7 @@
         var filter = filterEntry(entry);
         timestamp = parseInt(entry.timestamp);
         device = entry.deviceid;
-        pointtooltip = getPointTooltipContent(entry, sessionname);
+        pointtooltip = getPointTooltipContent(entry, sessionname, s);
         if (!phonetrack.lastTime.hasOwnProperty(s)) {
             phonetrack.lastTime[s] = {};
         }
@@ -2186,7 +2190,7 @@
         // update line point tooltip
         phonetrack.sessionPointsLayersById[token][deviceid][pointid].unbindTooltip();
         phonetrack.sessionPointsLayersById[token][deviceid][pointid].bindTooltip(
-            getPointTooltipContent(entry, sessionname),
+            getPointTooltipContent(entry, sessionname, token),
             {permanent: false, offset: offset, className: 'tooltip' + token + deviceid.replace(' ', '')}
         );
 
@@ -2407,7 +2411,7 @@
         // insert entry correctly ;)
         else {
             // add line point
-            var pointtooltip = getPointTooltipContent(entry, sessionname);
+            var pointtooltip = getPointTooltipContent(entry, sessionname, token);
             var radius = $('#pointradius').val();
             var icon = L.divIcon({
                 iconAnchor: [radius, radius],
@@ -2528,9 +2532,9 @@
         return res;
     }
 
-    function getPointTooltipContent(entry, sn) {
+    function getPointTooltipContent(entry, sn, s) {
         var mom;
-        var pointtooltip = sn + ' | ' + entry.deviceid;
+        var pointtooltip = sn + ' | ' + getDeviceName(s, entry.deviceid);
         if (entry.timestamp) {
             mom = moment.unix(parseInt(entry.timestamp));
             pointtooltip = pointtooltip + '<br/>' +
