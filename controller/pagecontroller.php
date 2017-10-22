@@ -1227,6 +1227,13 @@ class PageController extends Controller {
                     if (count($resultDevArray) > 0) {
                         $result[$dbpublicviewtoken][$devid] = $resultDevArray;
                     }
+                    else {
+                        // if device has no new point and no last time
+                        // it means it was probably reserved : we don't give its name
+                        if (!is_array($lastTime) or !array_key_exists($devid, $lastTime)) {
+                            unset($names[$dbpublicviewtoken][$devid]);
+                        }
+                    }
                 }
             }
         }
