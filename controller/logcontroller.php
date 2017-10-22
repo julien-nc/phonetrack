@@ -145,7 +145,7 @@ class LogController extends Controller {
     private $dbtype;
     private $dbdblquotes;
     private $appPath;
-    private $defaultDeviceId;
+    private $defaultDeviceName;
 
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager, IAppManager $appManager){
@@ -184,7 +184,7 @@ class LogController extends Controller {
         }
         //$this->shareManager = \OC::$server->getShareManager();
         $this->shareManager = $shareManager;
-        $this->defaultDeviceId = ['yourname', 'deviceid'];
+        $this->defaultDeviceName = ['yourname', 'deviceid'];
     }
 
     /*
@@ -198,12 +198,12 @@ class LogController extends Controller {
      * if deviceid is not set to default value, we take it
      * else
      */
-    private function chooseDeviceId($deviceid, $tid) {
-        if ( (!in_array($deviceid, $this->defaultDeviceId)) and
-             $deviceid !== '' and
-             (!is_null($deviceid))
+    private function chooseDeviceName($devicename, $tid) {
+        if ( (!in_array($devicename, $this->defaultDeviceName)) and
+             $devicename !== '' and
+             (!is_null($devicename))
         ) {
-            $did = $deviceid;
+            $did = $devicename;
         }
         else if ($tid !== '' and !is_null($tid)){
             $did = $tid;
@@ -220,8 +220,8 @@ class LogController extends Controller {
      * @PublicPage
      *
      **/
-    public function logPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
-        if (!is_null($deviceid) and $deviceid !== '' and
+    public function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
+        if (!is_null($devicename) and $devicename !== '' and
             !is_null($token) and $token !== '' and
             !is_null($lat) and $lat !== '' and
             !is_null($lon) and $lon !== '' and
@@ -240,36 +240,44 @@ class LogController extends Controller {
             $req->closeCursor();
 
             if ($dbname !== null) {
-                // check if this deviceid is reserved
+                // check if this devicename is reserved or exists
                 $dbdevicename = null;
                 $dbdevicenametoken = null;
-                $sqlgetres = 'SELECT name, nametoken FROM *PREFIX*phonetrack_devices ';
+                $deviceidToInsert = null;
+                $sqlgetres = 'SELECT id, name, nametoken FROM *PREFIX*phonetrack_devices ';
                 $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
                 $sqlgetres .= 'AND name='.$this->db_quote_escape_string($deviceid).' ;';
                 $req = $this->dbconnection->prepare($sqlgetres);
                 $req->execute();
                 while ($row = $req->fetch()){
+                    $dbdeviceid = $row['id'];
                     $dbdevicename = $row['name'];
                     $dbdevicenametoken = $row['nametoken'];
                 }
                 $req->closeCursor();
 
-                // this device id reserved => logging refused
+                // the device exists
                 if ($dbdevicename !== null) {
+                    // this device id reserved => logging refused
                     if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
                         return;
                     }
+                    else {
+                        $deviceidToInsert = $dbdeviceid;
+                    }
                 }
-                // check if the deviceid corresponds to a nametoken
+                // the device with this device name does not exist
                 else {
+                    // check if the device name corresponds to a nametoken
                     $dbdevicenametoken = null;
                     $dbdevicename = null;
-                    $sqlgetres = 'SELECT name, nametoken FROM *PREFIX*phonetrack_devices ';
+                    $sqlgetres = 'SELECT id, name, nametoken FROM *PREFIX*phonetrack_devices ';
                     $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                    $sqlgetres .= 'AND nametoken='.$this->db_quote_escape_string($deviceid).' ;';
+                    $sqlgetres .= 'AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
                     $req = $this->dbconnection->prepare($sqlgetres);
                     $req->execute();
                     while ($row = $req->fetch()){
+                        $dbdeviceid = $row['id'];
                         $dbdevicename = $row['name'];
                         $dbdevicenametoken = $row['nametoken'];
                     }
@@ -277,7 +285,31 @@ class LogController extends Controller {
 
                     // there is a device which has this nametoken => we log for this device
                     if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
-                        $deviceid = $dbdevicename;
+                        $deviceidToInsert = $dbdeviceid;
+                    }
+                    else {
+                        // device does not exist and there is no reservation corresponding
+                        // => we create it
+                        $sql = 'INSERT INTO *PREFIX*phonetrack_devices';
+                        $sql .= ' (name, sessionid) ';
+                        $sql .= 'VALUES (';
+                        $sql .= $this->db_quote_escape_string($devicename).',';
+                        $sql .= $this->db_quote_escape_string($token);
+                        $sql .= ');';
+                        $req = $this->dbconnection->prepare($sql);
+                        $req->execute();
+                        $req->closeCursor();
+
+                        // get the newly created device id
+                        $sqlgetdid = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+                        $sqlgetdid .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                        $sqlgetdid .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+                        $req = $this->dbconnection->prepare($sqlgetdid);
+                        $req->execute();
+                        while ($row = $req->fetch()){
+                            $deviceidToInsert = $row['id'];
+                        }
+                        $req->closeCursor();
                     }
                 }
 
@@ -320,7 +352,7 @@ class LogController extends Controller {
                 $sql .= ' (sessionid, deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($token).',';
-                $sql .= $this->db_quote_escape_string($deviceid).',';
+                $sql .= $this->db_quote_escape_string($deviceidToInsert).',';
                 $sql .= $this->db_quote_escape_string($lat).',';
                 $sql .= $this->db_quote_escape_string($lon).',';
                 $sql .= $this->db_quote_escape_string($time).',';
@@ -343,7 +375,7 @@ class LogController extends Controller {
      *
      **/
     public function logGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $did = $this->chooseDeviceId($deviceid, null);
+        $did = $this->chooseDeviceName($deviceid, null);
         $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger');
     }
 
@@ -354,7 +386,7 @@ class LogController extends Controller {
      *
      **/
     public function logOsmand($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $did = $this->chooseDeviceId($deviceid, null);
+        $did = $this->chooseDeviceName($deviceid, null);
         $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd');
     }
 
@@ -365,7 +397,7 @@ class LogController extends Controller {
      *
      **/
     public function logGpsloggerGet($token, $deviceid, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
-        $did = $this->chooseDeviceId($deviceid, null);
+        $did = $this->chooseDeviceName($deviceid, null);
         $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET');
     }
 
@@ -376,7 +408,7 @@ class LogController extends Controller {
      *
      **/
     public function logGpsloggerPost($token, $deviceid, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat) {
-        $did = $this->chooseDeviceId($deviceid, null);
+        $did = $this->chooseDeviceName($deviceid, null);
         $this->logPost($token, $did, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST');
     }
 
@@ -388,7 +420,7 @@ class LogController extends Controller {
      * Owntracks IOS
      **/
     public function logOwntracks($token, $deviceid='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
-        $did = $this->chooseDeviceId($deviceid, $tid);
+        $did = $this->chooseDeviceName($deviceid, $tid);
         $this->logPost($token, $did, $lat, $lon, $alt, $tst, $acc, $batt, -1, 'Owntracks');
         return array();
     }
@@ -402,7 +434,7 @@ class LogController extends Controller {
      **/
     public function logUlogger($token, $deviceid, $trackid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
         if ($action === 'addpos') {
-            $did = $this->chooseDeviceId($deviceid, null);
+            $did = $this->chooseDeviceName($deviceid, null);
             $this->logPost($token, $did, $lat, $lon, $altitude, $time, $accuracy, -1, -1, 'Ulogger');
         }
         return array("error" => false, "trackid" => 1);
@@ -416,7 +448,7 @@ class LogController extends Controller {
      * traccar Android/IOS
      **/
     public function logTraccar($token, $deviceid='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
-        $did = $this->chooseDeviceId($deviceid, $id);
+        $did = $this->chooseDeviceName($deviceid, $id);
         $this->logPost($token, $did, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar');
     }
 
@@ -428,7 +460,7 @@ class LogController extends Controller {
      * any Opengts-compliant app
      **/
     public function logOpengts($token, $deviceid='', $id, $dev, $acct, $alt, $batt, $gprmc) {
-        $did = $this->chooseDeviceId($deviceid, $id);
+        $did = $this->chooseDeviceName($deviceid, $id);
         $gprmca = explode(',', $gprmc);
         $time = sprintf("%06d", (int)$gprmca[1]);
         $date = sprintf("%06d", (int)$gprmca[9]);

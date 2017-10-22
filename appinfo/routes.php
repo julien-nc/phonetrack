@@ -20,7 +20,7 @@
 return [
     'routes' => [
         ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
-        ['name' => 'page#publicWebLog', 'url' => '/publicWebLog/{token}/{deviceid}', 'verb' => 'GET'],
+        ['name' => 'page#publicWebLog', 'url' => '/publicWebLog/{token}/{devicename}', 'verb' => 'GET'],
         ['name' => 'page#publicSessionWatch', 'url' => '/publicSessionWatch/{publicviewtoken}', 'verb' => 'GET'],
         ['name' => 'page#createSession', 'url' => '/createSession', 'verb' => 'POST'],
         ['name' => 'page#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],

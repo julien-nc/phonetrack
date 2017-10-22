@@ -426,11 +426,25 @@ class PageController extends Controller {
             $req->execute();
             $req->closeCursor();
 
-            $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
-            $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).';';
-            $req = $this->dbconnection->prepare($sqldel);
+            // get all devices
+            $dids = array();
+            $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
+            $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
+            $dbdevid = null;
+            while ($row = $req->fetch()){
+                array_push($dids, $row['id']);
+            }
             $req->closeCursor();
+
+            foreach ($dids as $did) {
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
+                $sqldel .= 'WHERE deviceid='.$this->db_quote_escape_string($did).' ;';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+            }
 
             $sqldel = 'DELETE FROM *PREFIX*phonetrack_shares ';
             $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($token).';';
@@ -475,31 +489,45 @@ class PageController extends Controller {
         $req->closeCursor();
 
         if ($dbname !== null) {
-            // check if point exists
-            $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_points ';
-            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
-            $sqlchk .= 'AND id='.$this->db_quote_escape_string($pointid).' ';
-            $req = $this->dbconnection->prepare($sqlchk);
+            // check if device exists
+            $dbdid = null;
+            $sqldev = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+            $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqldev .= 'AND id='.$this->db_quote_escape_string($deviceid).' ;';
+            $req = $this->dbconnection->prepare($sqldev);
             $req->execute();
-            $dbid = null;
             while ($row = $req->fetch()){
-                $dbid = $row['id'];
-                break;
+                $dbdid =  $row['id'];
             }
             $req->closeCursor();
 
-            if ($dbid !== null) {
-                $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
-                $sqldel .= 'WHERE id='.$this->db_quote_escape_string($dbid).';';
-                $req = $this->dbconnection->prepare($sqldel);
+            if ($dbdid !== null) {
+                // check if point exists
+                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_points ';
+                $sqlchk .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdid).' ';
+                $sqlchk .= 'AND id='.$this->db_quote_escape_string($pointid).' ';
+                $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
+                $dbpid = null;
+                while ($row = $req->fetch()){
+                    $dbpid = $row['id'];
+                    break;
+                }
                 $req->closeCursor();
 
-                $ok = 1;
-            }
-            else {
-                $ok = 2;
+                if ($dbpid !== null) {
+                    $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
+                    $sqldel .= 'WHERE id='.$this->db_quote_escape_string($dbpid).' ';
+                    $sqldel .= 'AND deviceid='.$this->db_quote_escape_string($dbdid).' ;';
+                    $req = $this->dbconnection->prepare($sqldel);
+                    $req->execute();
+                    $req->closeCursor();
+
+                    $ok = 1;
+                }
+                else {
+                    $ok = 2;
+                }
             }
         }
         else {
@@ -538,41 +566,53 @@ class PageController extends Controller {
         $req->closeCursor();
 
         if ($dbname !== null) {
-            // check if point exists
-            $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_points ';
-            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
-            $sqlchk .= 'AND id='.$this->db_quote_escape_string($pointid).' ';
-            $req = $this->dbconnection->prepare($sqlchk);
+            // check if device exists
+            $dbdid = null;
+            $sqldev = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+            $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqldev .= 'AND id='.$this->db_quote_escape_string($deviceid).' ;';
+            $req = $this->dbconnection->prepare($sqldev);
             $req->execute();
-            $dbid = null;
             while ($row = $req->fetch()){
-                $dbid = $row['id'];
-                break;
+                $dbdid =  $row['id'];
             }
             $req->closeCursor();
 
-            if ($dbid !== null) {
-                $sqlupd = 'UPDATE *PREFIX*phonetrack_points SET';
-                $sqlupd .= ' lat='.$this->db_quote_escape_string($lat).' ';
-                $sqlupd .= ', lon='.$this->db_quote_escape_string($lon).' ';
-                $sqlupd .= ', altitude='.$this->db_quote_escape_string($alt).' ';
-                $sqlupd .= ', timestamp='.$this->db_quote_escape_string($timestamp).' ';
-                $sqlupd .= ', accuracy='.$this->db_quote_escape_string($acc).' ';
-                $sqlupd .= ', batterylevel='.$this->db_quote_escape_string($bat).' ';
-                $sqlupd .= ', satellites='.$this->db_quote_escape_string($sat).' ';
-                $sqlupd .= ', useragent='.$this->db_quote_escape_string($useragent).' ';
-                $sqlupd .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                $sqlupd .= 'AND deviceid='.$this->db_quote_escape_string($deviceid).' ';
-                $sqlupd .= 'AND id='.$this->db_quote_escape_string($pointid).';';
-                $req = $this->dbconnection->prepare($sqlupd);
+            if ($dbdid !== null) {
+                // check if point exists
+                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_points ';
+                $sqlchk .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdid).' ';
+                $sqlchk .= 'AND id='.$this->db_quote_escape_string($pointid).' ';
+                $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
+                $dbpid = null;
+                while ($row = $req->fetch()){
+                    $dbpid = $row['id'];
+                    break;
+                }
                 $req->closeCursor();
 
-                $ok = 1;
-            }
-            else {
-                $ok = 2;
+                if ($dbpid !== null) {
+                    $sqlupd = 'UPDATE *PREFIX*phonetrack_points SET';
+                    $sqlupd .= ' lat='.$this->db_quote_escape_string($lat).' ';
+                    $sqlupd .= ', lon='.$this->db_quote_escape_string($lon).' ';
+                    $sqlupd .= ', altitude='.$this->db_quote_escape_string($alt).' ';
+                    $sqlupd .= ', timestamp='.$this->db_quote_escape_string($timestamp).' ';
+                    $sqlupd .= ', accuracy='.$this->db_quote_escape_string($acc).' ';
+                    $sqlupd .= ', batterylevel='.$this->db_quote_escape_string($bat).' ';
+                    $sqlupd .= ', satellites='.$this->db_quote_escape_string($sat).' ';
+                    $sqlupd .= ', useragent='.$this->db_quote_escape_string($useragent).' ';
+                    $sqlupd .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdid).' ';
+                    $sqlupd .= 'AND id='.$this->db_quote_escape_string($dbpid).';';
+                    $req = $this->dbconnection->prepare($sqlupd);
+                    $req->execute();
+                    $req->closeCursor();
+
+                    $ok = 1;
+                }
+                else {
+                    $ok = 2;
+                }
             }
         }
         else {
@@ -1218,7 +1258,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      **/
-    public function publicWebLog($token, $deviceid) {
+    public function publicWebLog($token, $devicename) {
         if ($token !== '') {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
