@@ -2889,29 +2889,26 @@
     }
 
     function toggleDetailDevice(elem) {
-        var viewmove = $('#viewmove').is(':checked');
         var d = elem.parent().attr('device');
         var s = elem.parent().attr('token');
         var id;
 
         // line points
-        if (viewmove) {
-            if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+        if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+            phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
+                l.dragging.disable();
+            });
+            phonetrack.sessionPointsLayers[s][d].remove();
+            elem.addClass('off').removeClass('on');
+        }
+        else{
+            phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
+            elem.addClass('on').removeClass('off');
+            // manage draggable
+            if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
                 phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                    l.dragging.disable();
+                    l.dragging.enable();
                 });
-                phonetrack.sessionPointsLayers[s][d].remove();
-                elem.addClass('off').removeClass('on');
-            }
-            else{
-                phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
-                elem.addClass('on').removeClass('off');
-                // manage draggable
-                if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
-                    phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                        l.dragging.enable();
-                    });
-                }
             }
         }
         // marker
