@@ -1276,7 +1276,8 @@
         });
     }
 
-    function deleteDevice(token, deviceid, sessionName) {
+    function deleteDevice(token, deviceid) {
+        var sessionName = getSessionName(token);
         var req = {
             token: token,
             deviceid: deviceid
@@ -2058,13 +2059,23 @@
                 '}</style>').appendTo('body');
         var deleteLink = '';
         var renameLink = '';
+        var reaffectLink = '';
+        var dropdowndevicebutton = '';
+        var dropdowndevicecontent = '';
         if (!pageIsPublic() && !isSessionShared(s)) {
-            deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '" ' +
-                'title="' + t('phonetrack', 'Delete this device') + '">' +
-                '<i class="fa fa-trash" aria-hidden="true"></i></button>';
-            renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '" ' +
-                'title="' + t('phonetrack', 'Rename this device') + '">' +
-                '<i class="fa fa-pencil" aria-hidden="true"></i></button>';
+            dropdowndevicebutton = '<button class="dropdowndevicebutton" title="'+t('phonetrack', 'More actions')+'">' +
+                '<i class="fa fa-bars" aria-hidden="true"></i></button>';
+            deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '">' +
+                '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete this device') + '</button>';
+            renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">' +
+                '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
+            reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
+                '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Change session') + '</button>';
+            dropdowndevicecontent = '<div class="dropdown-content">' +
+                deleteLink +
+                renameLink +
+                reaffectLink +
+                '</div>';
         }
         var detailLink = ' <button class="toggleDetail off" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
@@ -2078,11 +2089,11 @@
                 '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
                 t('phonetrack', 'Center map on device') + '">' + escapeHTML(name) + '</div> ' +
                 '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ' +
-                deleteLink +
+                dropdowndevicebutton +
+                dropdowndevicecontent +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
-                renameLink +
                 detailLink +
                 lineDeviceLink +
                 '<input class="followdevice" type="checkbox" ' + 'title="' +
@@ -2401,7 +2412,7 @@
         }
         else {
             // there is no point left for this device : delete the device
-            deleteDevice(s, d, sn);
+            deleteDevice(s, d);
         }
         if ($('#togglestats').is(':checked')) {
             updateStatTable();
@@ -3537,9 +3548,9 @@
             var token = $(this).attr('token');
             var deviceid = $(this).attr('device');
             var devicename = getDeviceName(token, deviceid);
-            $(this).parent().find('.deviceLabel').hide();
-            $(this).parent().find('.renameDeviceInput').show();
-            $(this).parent().find('.renameDeviceInput').select();
+            $(this).parent().parent().find('.deviceLabel').hide();
+            $(this).parent().parent().find('.renameDeviceInput').show();
+            $(this).parent().parent().find('.renameDeviceInput').select();
         });
 
         $('body').on('keypress','.renameDeviceInput', function(e) {
@@ -3562,7 +3573,6 @@
         });
 
         $('body').on('click','.deleteDevice', function(e) {
-            var sessionName = $(this).parent().parent().parent().find('.sessionBar .sessionName').text();
             var token = $(this).attr('token');
             var deviceid = $(this).attr('device');
             var devicename = getDeviceName(token, deviceid);
@@ -3574,7 +3584,7 @@
                 t('phonetrack','Confirm device deletion'),
                 function (result) {
                     if (result) {
-                        deleteDevice(token, deviceid, sessionName);
+                        deleteDevice(token, deviceid);
                     }
                 },
                 true
@@ -3735,7 +3745,8 @@
         changeApplyFilter();
 
         window.onclick = function(event) {
-            if (!event.target.matches('.dropdownbutton') && !event.target.matches('.dropdownbutton i')) {
+            if (!event.target.matches('.dropdownbutton') && !event.target.matches('.dropdownbutton i')
+                && !event.target.matches('.dropdowndevicebutton') && !event.target.matches('.dropdowndevicebutton i')) {
                 hideAllDropDowns();
             }
         }
@@ -3743,14 +3754,32 @@
         $('body').on('click','.dropdownbutton', function(e) {
             var dcontent;
             if (e.target.nodeName === 'BUTTON') {
-                dcontent = $(e.target).parent().parent().find('.dropdown-content');
+                dcontent = $(e.target).parent().parent().find('>.dropdown-content');
             }
             else {
-                dcontent = $(e.target).parent().parent().parent().find('.dropdown-content');
+                dcontent = $(e.target).parent().parent().parent().find('>.dropdown-content');
             }
             var isVisible = dcontent.hasClass('show');
             hideAllDropDowns();
             if (!isVisible) {
+                dcontent.toggleClass('show');
+            }
+        });
+
+        $('body').on('click','.dropdowndevicebutton', function(e) {
+            var dcontent;
+            if (e.target.nodeName === 'BUTTON') {
+            console.log('BUT');
+                dcontent = $(e.target).parent().find('.dropdown-content');
+            }
+            else {
+            console.log('ELSE');
+                dcontent = $(e.target).parent().parent().find('.dropdown-content');
+            }
+            var isVisible = dcontent.hasClass('show');
+            hideAllDropDowns();
+            if (!isVisible) {
+                console.log(dcontent);
                 dcontent.toggleClass('show');
             }
         });

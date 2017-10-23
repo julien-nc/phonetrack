@@ -325,13 +325,13 @@ div.session p,
 }
 .watchbutton:hover i,
 .off:hover i,
-.renameDevice:hover i,
 .zoomdevicebutton:hover i,
 .reservNameButton:hover i,
 .moreUrlsButton:hover i,
 .sharesession:hover i,
 .zoomsession:hover i,
 .publicsessionbutton:hover i,
+.dropdowndevicebutton:hover i,
 .dropdownbutton:hover i {
     color: black;
 }
@@ -343,6 +343,7 @@ div.session p,
 .zoomsession i,
 .publicsessionbutton i,
 .dropdownbutton i,
+.dropdowndevicebutton i,
 .sharediv i {
     color: grey;
     font-size: 16px;
@@ -472,8 +473,7 @@ ul.devicelist {
 .toggleLineDevice,
 .toggleDetail,
 .zoomdevicebutton,
-.renameDevice,
-.deleteDevice {
+.dropdowndevicebutton {
     padding: 0;
     margin: 0;
     width: 25px;
@@ -484,16 +484,11 @@ ul.devicelist {
     border: 0px;
     background: none;
 }
-.renameDevice
 .off i,
-.renameDevice i,
 .zoomdevicebutton i {
     color: grey;
 }
 .off i {
-    color: grey;
-}
-.deleteDevice i {
     color: grey;
 }
 .deleteDevice:hover i {
@@ -549,8 +544,12 @@ ul.devicelist {
 }
 
 /*.dropdownbutton:hover,*/
+.dropdowndevicebutton:focus,
 .dropdownbutton:focus {
     background-color: #dddddd;
+}
+.devicelist .dropdown-content {
+    margin-top: 30px;
 }
 .dropdown-content {
     display: none;
