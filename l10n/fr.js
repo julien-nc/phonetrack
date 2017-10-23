@@ -124,6 +124,9 @@ OC.L10N.register(
         "lat : lng" : "lat : lng",
         "#points" : "#points",
         "DMS coords" : "Coords DMS",
+        "Impossible to rename device" : "Impossible de renommer cet appareil",
+        "Failed to contact server to rename device" : "Impossible de contacter le serveur pour renommer cet appareil",
+        "Rename this device" : "Renommer cet appareil",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");

@@ -783,6 +783,63 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function renameDevice($token, $deviceid, $newname) {
+        $ok = 2;
+        // check if session exists
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbtoken !== null) {
+            // check if device exists
+            $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+            $sqlchk .= 'AND id='.$this->db_quote_escape_string($deviceid).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbdeviceid = null;
+            while ($row = $req->fetch()){
+                $dbdeviceid = $row['id'];
+            }
+            $req->closeCursor();
+
+            if ($dbdeviceid !== null) {
+                $sqlren = 'UPDATE *PREFIX*phonetrack_devices ';
+                $sqlren .= 'SET name='.$this->db_quote_escape_string($newname).' ';
+                $sqlren .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqlren .= 'AND id='.$this->db_quote_escape_string($dbdeviceid).' ';
+                $req = $this->dbconnection->prepare($sqlren);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function deleteDevice($token, $deviceid) {
         // check if session exists
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';

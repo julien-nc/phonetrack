@@ -347,6 +347,13 @@ div.session p,
     color: grey;
     font-size: 16px;
 }
+.renameDeviceInput {
+    display: none;
+    width: 30% !important;
+    height: 28px;
+    min-height: 28px;
+    padding: 0 !important;
+}
 .deletereservedname,
 .deleteusershare,
 .sessionBar button {

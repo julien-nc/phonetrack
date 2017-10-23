@@ -1420,6 +1420,71 @@
         }
     }
 
+    function renameDevice(token, deviceid, oldname, newname) {
+        var req = {
+            token: token,
+            deviceid: deviceid,
+            newname: newname
+        };
+        var url = OC.generateUrl('/apps/phonetrack/renameDevice');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                renameDeviceSuccess(token, deviceid, oldname, newname);
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Impossible to rename device') + ' ' + escapeHTML(oldname));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to rename device') + ' ' + escapeHTML(oldname));
+        });
+    }
+
+    function renameDeviceSuccess(token, d, oldname, newname) {
+        var perm = $('#showtime').is(':checked');
+        var to, p, l, id;
+        $('.session[token=' + token + '] .devicelist li[device="' + d + '"] .deviceLabel').text(newname);
+        // marker tooltip
+        to = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
+        to = to.replace(
+            ' | ' + oldname,
+            ' | ' + newname
+        );
+        phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
+        phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d.replace(' ', '')});
+        // line tooltip
+        to = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
+        to = to.replace(
+            ' | ' + oldname,
+            ' | ' + newname
+        );
+        phonetrack.sessionLineLayers[token][d].unbindTooltip();
+        phonetrack.sessionLineLayers[token][d].bindTooltip(
+            to,
+            {
+                permanent: false,
+                sticky: true,
+                className: 'tooltip' + token + d.replace(' ', '')
+            }
+        );
+        for (id in phonetrack.sessionPointsLayersById[token][d]) {
+            l = phonetrack.sessionPointsLayersById[token][d][id];
+            // line points tooltips
+            to = l.getTooltip()._content;
+            to = to.replace(
+                ' | ' + oldname,
+                ' | ' + newname
+            );
+            l.unbindTooltip();
+            l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d.replace(' ', '')});
+        }
+    }
+
     function getSessions() {
         var req = {
         };
@@ -2011,7 +2076,7 @@
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
                 '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
-                t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' + escapeHTML(name) + '</div> ' +
+                t('phonetrack', 'Center map on device') + '">' + escapeHTML(name) + '</div> ' +
                 '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ' +
                 deleteLink +
                 '<button class="zoomdevicebutton" title="' +
@@ -3475,6 +3540,20 @@
             var token = $(this).attr('token');
             var deviceid = $(this).attr('device');
             var devicename = getDeviceName(token, deviceid);
+            $(this).parent().find('.deviceLabel').hide();
+            $(this).parent().find('.renameDeviceInput').show();
+        });
+
+        $('body').on('keypress','.renameDeviceInput', function(e) {
+            if (e.key === 'Enter') {
+                var token = $(this).parent().attr('token');
+                var deviceid = $(this).parent().attr('device');
+                var oldName = getDeviceName(token, deviceid);
+                var newName = $(this).val();
+                renameDevice(token, deviceid, oldName, newName);
+                $(this).parent().find('.deviceLabel').show();
+                $(this).parent().find('.renameDeviceInput').hide();
+            }
         });
 
         $('body').on('click','.deleteDevice', function(e) {
