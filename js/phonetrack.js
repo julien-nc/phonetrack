@@ -2007,10 +2007,10 @@
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
                 '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
-                t('phonetrack', 'Center map on device') + ' ' + escapeHTML(name) + '">' + escapeHTML(name) + '</div> ' +
+                t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' + escapeHTML(name) + '</div> ' +
                 deleteLink +
                 '<button class="zoomdevicebutton" title="' +
-                t('phonetrack', 'Center map on device') + ' ' + d + '">' +
+                t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
                 detailLink +
                 lineDeviceLink +
