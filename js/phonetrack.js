@@ -1992,10 +1992,14 @@
                 'color: ' + textcolor + '; font-weight: bold;' +
                 '}</style>').appendTo('body');
         var deleteLink = '';
+        var renameLink = '';
         if (!pageIsPublic() && !isSessionShared(s)) {
             deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '" ' +
                 'title="' + t('phonetrack', 'Delete this device') + '">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i></button>';
+            renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '" ' +
+                'title="' + t('phonetrack', 'Rename this device') + '">' +
+                '<i class="fa fa-pencil" aria-hidden="true"></i></button>';
         }
         var detailLink = ' <button class="toggleDetail off" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
@@ -2008,10 +2012,12 @@
                 '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
                 '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' + escapeHTML(name) + '</div> ' +
+                '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ' +
                 deleteLink +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
+                renameLink +
                 detailLink +
                 lineDeviceLink +
                 '<input class="followdevice" type="checkbox" ' + 'title="' +
@@ -3463,6 +3469,12 @@
                 moreurldiv.slideUp('slow');
                 editdiv.slideUp('slow');
             }
+        });
+
+        $('body').on('click','.renameDevice', function(e) {
+            var token = $(this).attr('token');
+            var deviceid = $(this).attr('device');
+            var devicename = getDeviceName(token, deviceid);
         });
 
         $('body').on('click','.deleteDevice', function(e) {

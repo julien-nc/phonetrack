@@ -325,6 +325,7 @@ div.session p,
 }
 .watchbutton:hover i,
 .off:hover i,
+.renameDevice:hover i,
 .zoomdevicebutton:hover i,
 .reservNameButton:hover i,
 .moreUrlsButton:hover i,
@@ -464,6 +465,7 @@ ul.devicelist {
 .toggleLineDevice,
 .toggleDetail,
 .zoomdevicebutton,
+.renameDevice,
 .deleteDevice {
     padding: 0;
     margin: 0;
@@ -475,7 +477,9 @@ ul.devicelist {
     border: 0px;
     background: none;
 }
+.renameDevice
 .off i,
+.renameDevice i,
 .zoomdevicebutton i {
     color: grey;
 }
