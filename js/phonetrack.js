@@ -3542,6 +3542,14 @@
             var devicename = getDeviceName(token, deviceid);
             $(this).parent().find('.deviceLabel').hide();
             $(this).parent().find('.renameDeviceInput').show();
+            $(this).parent().find('.renameDeviceInput').select();
+        });
+
+        $('body').on('keypress','.renameDeviceInput', function(e) {
+            if (e.key === 'Escape') {
+                $(this).parent().find('.deviceLabel').show();
+                $(this).parent().find('.renameDeviceInput').hide();
+            }
         });
 
         $('body').on('keypress','.renameDeviceInput', function(e) {
