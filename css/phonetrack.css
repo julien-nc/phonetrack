@@ -348,6 +348,26 @@ div.session p,
     color: grey;
     font-size: 16px;
 }
+.reaffectDeviceDiv i {
+    color: black;
+}
+.reaffectDeviceDiv select {
+    width: 60px;
+}
+.reaffectDeviceDiv button {
+    width: 15px;
+    height: 20px;
+    min-height: 20px;
+}
+.reaffectDeviceDiv * {
+    padding: 0;
+    min-height: 12px;
+    height: 25px;
+}
+.reaffectDeviceDiv {
+    float: left;
+}
+.reaffectDeviceDiv,
 .renameDeviceInput {
     display: none;
     width: 30% !important;

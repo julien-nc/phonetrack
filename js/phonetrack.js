@@ -1486,6 +1486,39 @@
         }
     }
 
+    function reaffectDeviceSession(token, deviceid, newSessionId) {
+        var req = {
+            token: token,
+            deviceid: deviceid,
+            newSessionId: newSessionId
+        };
+        var url = OC.generateUrl('/apps/phonetrack/reaffectDevice');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                reaffectDeviceSessionSuccess(token, deviceid, newSessionId);
+            }
+            else if (response.done === 3) {
+                OC.Notification.showTemporary(t('phonetrack', 'Device already exists in target session'));
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Impossible to reaffect device to another session'));
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to reaffect device'));
+        });
+    }
+
+    function reaffectDeviceSessionSuccess(token, d, newSessionId) {
+        removeDevice(token, d);
+        refresh();
+    }
+
     function getSessions() {
         var req = {
         };
@@ -2059,7 +2092,9 @@
                 '}</style>').appendTo('body');
         var deleteLink = '';
         var renameLink = '';
+        var renameInput = '';
         var reaffectLink = '';
+        var reaffectSelect = '';
         var dropdowndevicebutton = '';
         var dropdowndevicecontent = '';
         if (!pageIsPublic() && !isSessionShared(s)) {
@@ -2069,8 +2104,12 @@
                 '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete this device') + '</button>';
             renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
+            renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
-                '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Change session') + '</button>';
+                '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Change session') + '</button>';
+            reaffectSelect = '<div class="reaffectDeviceDiv"><select class="reaffectDeviceSelect"></select>' +
+                '<button class="reaffectDeviceOk"><i class="fa fa-check" aria-hidden="true"></i></button>' +
+                '<button class="reaffectDeviceCancel"><i class="fa fa-close" aria-hidden="true"></i></button></div>';
             dropdowndevicecontent = '<div class="dropdown-content">' +
                 deleteLink +
                 renameLink +
@@ -2088,7 +2127,8 @@
                 '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
                 '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
                 t('phonetrack', 'Center map on device') + '">' + escapeHTML(name) + '</div> ' +
-                '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ' +
+                renameInput +
+                reaffectSelect +
                 dropdowndevicebutton +
                 dropdowndevicecontent +
                 '<button class="zoomdevicebutton" title="' +
@@ -3544,6 +3584,39 @@
             }
         });
 
+        $('body').on('click','.reaffectDevice', function(e) {
+            var token = $(this).attr('token');
+            var deviceid = $(this).attr('device');
+            var reaffectSelect = '';
+            $('.session').each(function() {
+                if ($(this).attr('token') !== token
+                    && !isSessionShared($(this).attr('token'))
+                ) {
+                    reaffectSelect += '<option value="' + $(this).attr('token') + '">' + $(this).find('.sessionName').text() + '</option>';
+                }
+            });
+            $(this).parent().parent().find('.reaffectDeviceSelect').html(reaffectSelect);
+
+            $(this).parent().parent().find('.deviceLabel').hide();
+            $(this).parent().parent().find('.reaffectDeviceDiv').show();
+            $(this).parent().parent().find('.reaffectDeviceSelect').select();
+        });
+
+        $('body').on('click','.reaffectDeviceOk', function(e) {
+            var token = $(this).parent().parent().attr('token');
+            var deviceid = $(this).parent().parent().attr('device');
+            var newSessionId = $(this).parent().find('.reaffectDeviceSelect').val();
+
+            $(this).parent().parent().find('.deviceLabel').show();
+            $(this).parent().parent().find('.reaffectDeviceDiv').hide();
+            reaffectDeviceSession(token, deviceid, newSessionId);
+        });
+
+        $('body').on('click','.reaffectDeviceCancel', function(e) {
+            $(this).parent().parent().find('.deviceLabel').show();
+            $(this).parent().parent().find('.reaffectDeviceDiv').hide();
+        });
+
         $('body').on('click','.renameDevice', function(e) {
             var token = $(this).attr('token');
             var deviceid = $(this).attr('device');
@@ -3769,17 +3842,14 @@
         $('body').on('click','.dropdowndevicebutton', function(e) {
             var dcontent;
             if (e.target.nodeName === 'BUTTON') {
-            console.log('BUT');
                 dcontent = $(e.target).parent().find('.dropdown-content');
             }
             else {
-            console.log('ELSE');
                 dcontent = $(e.target).parent().parent().find('.dropdown-content');
             }
             var isVisible = dcontent.hasClass('show');
             hideAllDropDowns();
             if (!isVisible) {
-                console.log(dcontent);
                 dcontent.toggleClass('show');
             }
         });

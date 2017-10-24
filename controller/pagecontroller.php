@@ -840,6 +840,97 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function reaffectDevice($token, $deviceid, $newSessionId) {
+        $ok = 2;
+        // check if session exists
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbtoken !== null) {
+            // check if destination session exists
+            $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+            $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+            $sqlchk .= 'AND token='.$this->db_quote_escape_string($newSessionId).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbdesttoken = null;
+            while ($row = $req->fetch()){
+                $dbdesttoken = $row['token'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbdesttoken !== null) {
+                // check if device exists
+                $sqlchk = 'SELECT id, name FROM *PREFIX*phonetrack_devices ';
+                $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqlchk .= 'AND id='.$this->db_quote_escape_string($deviceid).' ';
+                $req = $this->dbconnection->prepare($sqlchk);
+                $req->execute();
+                $dbdeviceid = null;
+                $dbdevicename = null;
+                while ($row = $req->fetch()){
+                    $dbdeviceid = $row['id'];
+                    $dbdevicename = $row['name'];
+                }
+                $req->closeCursor();
+
+                if ($dbdeviceid !== null) {
+                    // check if there is a device with same name in destination session
+                    $sqlchk = 'SELECT id, name FROM *PREFIX*phonetrack_devices ';
+                    $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbdesttoken).' ';
+                    $sqlchk .= 'AND name='.$this->db_quote_escape_string($dbdevicename).' ';
+                    $req = $this->dbconnection->prepare($sqlchk);
+                    $req->execute();
+                    $dbdestname = null;
+                    while ($row = $req->fetch()){
+                        $dbdestname = $row['name'];
+                    }
+                    $req->closeCursor();
+
+                    if ($dbdestname === null) {
+                        $sqlreaff = 'UPDATE *PREFIX*phonetrack_devices ';
+                        $sqlreaff .= 'SET sessionid='.$this->db_quote_escape_string($dbdesttoken).' ';
+                        $sqlreaff .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                        $sqlreaff .= 'AND id='.$this->db_quote_escape_string($dbdeviceid).' ';
+                        $req = $this->dbconnection->prepare($sqlreaff);
+                        $req->execute();
+                        $req->closeCursor();
+
+                        $ok = 1;
+                    }
+                    else {
+                        $ok = 3;
+                    }
+                }
+            }
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function deleteDevice($token, $deviceid) {
         // check if session exists
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
