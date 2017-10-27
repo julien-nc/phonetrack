@@ -965,6 +965,14 @@
                         $(this).val(optionsValues[$(this).attr('role')]);
                     }
                 });
+                if (optionsValues.hasOwnProperty('activeSessions')) {
+                    console.log(optionsValues.activeSessions);
+                    phonetrack.sessionsFromSavedOptions = [];
+                    for (var i in optionsValues.activeSessions) {
+                        phonetrack.sessionsFromSavedOptions.push(optionsValues.activeSessions[i]);
+                    }
+                    console.log(phonetrack.sessionsFromSavedOptions);
+                }
             }
             // quite important ;-)
             main();
@@ -998,6 +1006,13 @@
         optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
         $('#filterPointsTable input[type=number], #filterPointsTable input[type=date]').each(function() {
             optionsValues[$(this).attr('role')] = $(this).val();
+        });
+        optionsValues.activeSessions = [];
+        $('.session').each(function() {
+            var s = $(this).attr('token');
+            if (isSessionActive(s)) {
+                optionsValues.activeSessions.push(s);
+            }
         });
         //alert('to save : '+JSON.stringify(optionsValues));
 
@@ -1528,6 +1543,7 @@
     }
 
     function getSessions() {
+        var selected;
         var req = {
         };
         var url = OC.generateUrl('/apps/phonetrack/getSessions');
@@ -1540,7 +1556,10 @@
             var s;
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
-                    // TODO adapt to shared sessions
+                    selected = false;
+                    if (phonetrack.sessionsFromSavedOptions.indexOf(response.sessions[s][1]) !== -1) {
+                        selected = true;
+                    }
                     if (response.sessions[s].length < 4) {
                         addSession(
                             response.sessions[s][1],
@@ -1548,7 +1567,7 @@
                             '',
                             0,
                             [],
-                            false,
+                            selected,
                             true,
                             response.sessions[s][2],
                             []
@@ -1561,7 +1580,7 @@
                             response.sessions[s][2],
                             response.sessions[s][3],
                             response.sessions[s][4],
-                            false,
+                            selected,
                             false,
                             '',
                             response.sessions[s][5]
@@ -1569,6 +1588,8 @@
                     }
                 }
             }
+            // in case some sessions are selected
+            refresh();
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to get sessions'));
@@ -2259,6 +2280,11 @@
             phonetrack.map.removeLayer(phonetrack.currentPrecisionCircle);
             phonetrack.currentPrecisionCircle = null;
         }
+    }
+
+    function isSessionActive(s) {
+        console.log(s+ ' '+$('.session[token=' + s + '] .watchbutton i').attr('class'));
+        return $('.session[token=' + s + '] .watchbutton i').hasClass('fa-eye');
     }
 
     function isSessionShared(s) {
@@ -3396,6 +3422,7 @@
                 phonetrack.currentTimer.pause();
                 phonetrack.currentTimer = null;
                 refresh();
+                saveOptions();
             }
         });
 
