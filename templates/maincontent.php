@@ -33,15 +33,15 @@ p($_['phonetrack_version']);
         <div id="optionscontent" style="display:none;">
         <div id="optioncheckdiv">
             <input id="autozoom" type="checkbox"/>
-            <label for="autozoom"><i class="fa fa-search-plus" aria-hidden="true"></i>
+            <label for="autozoom"><i class="fa nc-theming-main-background"> </i>
             <?php p($l->t('Auto zoom'));?></label>
             <br/>
             <input id="viewmove" type="checkbox"/>
-            <label for="viewmove"><i class="fa fa-line-chart" aria-hidden="true"></i>
+            <label for="viewmove"><i class="fa nc-theming-main-background"> </i>
             <?php p($l->t('Show lines'));?></label>
             <br/>
             <input id="showtime" type="checkbox"/>
-            <label for="showtime"><i class="fa fa-clock-o" aria-hidden="true"></i>
+            <label for="showtime"><i class="fa nc-theming-main-background"> </i>
             <?php p($l->t('Show tooltips'));?></label>
             <br/>
             <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true"></i>
