@@ -960,6 +960,11 @@
                 if (optionsValues.tilelayer !== undefined) {
                     phonetrack.restoredTileLayer = optionsValues.tilelayer;
                 }
+                $('#filterPointsTable input[type=number], #filterPointsTable input[type=date]').each(function() {
+                    if (optionsValues.hasOwnProperty($(this).attr('role'))) {
+                        $(this).val(optionsValues[$(this).attr('role')]);
+                    }
+                });
             }
             // quite important ;-)
             main();
@@ -991,6 +996,9 @@
         optionsValues.tooltipshowuseragent = $('#tooltipshowuseragent').is(':checked');
         optionsValues.acccirclecheck = $('#acccirclecheck').is(':checked');
         optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
+        $('#filterPointsTable input[type=number], #filterPointsTable input[type=date]').each(function() {
+            optionsValues[$(this).attr('role')] = $(this).val();
+        });
         //alert('to save : '+JSON.stringify(optionsValues));
 
         var req = {
@@ -3496,6 +3504,12 @@
             }
         });
 
+        $('body').on('change', '#filterPointsTable input[type=number], #filterPointsTable input[type=date]', function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
         $('body').on('click', '.export', function() {
             var name = $(this).parent().parent().find('.sessionBar .sessionName').text();
             var token = $(this).parent().parent().attr('token');
@@ -3890,12 +3904,18 @@
             var mom = moment();
             $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
             changeApplyFilter();
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('button[role=datemaxtoday]').click(function() {
             var mom = moment();
             $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
             changeApplyFilter();
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('button[role=dateminplus]').click(function() {
@@ -3904,6 +3924,9 @@
                 mom.add(1, 'days');
                 $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
                 changeApplyFilter();
+            }
+            if (!pageIsPublic()) {
+                saveOptions();
             }
         });
 
@@ -3914,6 +3937,9 @@
                 $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
                 changeApplyFilter();
             }
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('button[role=datemaxplus]').click(function() {
@@ -3923,6 +3949,9 @@
                 $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
                 changeApplyFilter();
             }
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('button[role=datemaxminus]').click(function() {
@@ -3931,6 +3960,9 @@
                 mom.subtract(1, 'days');
                 $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
                 changeApplyFilter();
+            }
+            if (!pageIsPublic()) {
+                saveOptions();
             }
         });
 
@@ -3950,6 +3982,9 @@
             if ($('input[role=datemax]').val() || $('input[role=datemin]').val()) {
                 changeApplyFilter();
             }
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('button[role=dateminmaxminus]').click(function() {
@@ -3967,6 +4002,20 @@
 
             if ($('input[role=datemax]').val() || $('input[role=datemin]').val()) {
                 changeApplyFilter();
+            }
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
+        $('body').on('click','.resetFilterButton', function(e) {
+            if (!$('#togglestats').is(':checked')) {
+                var tr = $(this).parent().parent();
+                tr.find('input[type=date]').val('');
+                tr.find('input[type=number]').val('');
+                if (!pageIsPublic()) {
+                    saveOptions();
+                }
             }
         });
 

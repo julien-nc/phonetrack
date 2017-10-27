@@ -395,6 +395,7 @@ if (count($_['useroverlayserverswms']) > 0){
 </tr><tr>
     <td><?php p($l->t('Minimum date')); ?></td>
     <td><input role="datemin" type="date" value=""/></td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td></td>
     <td>
@@ -407,10 +408,12 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input class="time" role="hourmin" type="number" value="" min="0" max="23"/>:
         <input class="time" role="minutemin" type="number" value="" min="0" max="59"/>:
         <input class="time" role="secondmin" type="number" value="" min="0" max="59"/></td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr>
 <tr>
     <td><?php p($l->t('Maximum date')); ?></td>
     <td><input role="datemax" type="date" value=""/></td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td></td>
     <td>
@@ -423,6 +426,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input class="time" role="hourmax" type="number" value="" min="0" max="23"/>:
         <input class="time" role="minutemax" type="number" value="" min="0" max="59"/>:
         <input class="time" role="secondmax" type="number" value="" min="0" max="59"/></td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <button role="dateminmaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <?php p($l->t('Min-- and Max--')); ?></button>
@@ -435,6 +439,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><input class="time" role="lastdays" type="number" value="" min="0" max="100000"/>:
         <input class="time" role="lasthours" type="number" value="" min="0" max="23"/>:
         <input class="time" role="lastmins" type="number" value="" min="0" max="59"/></td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <label for="accuracymin"><?php p($l->t('Minimum accuracy')); ?></label>
@@ -442,6 +447,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td>
         <input role="accuracymin" type="number" value="" min="-1" max="10000"/>
     </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <label for="accuracymax"><?php p($l->t('Maximum accuracy')); ?></label>
@@ -449,6 +455,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td>
         <input role="accuracymax" type="number" value="" min="-1" max="10000"/>
     </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <label for="elevationmin"><?php p($l->t('Minimum elevation')); ?></label>
@@ -456,6 +463,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td>
         <input role="elevationmin" type="number" value="" min="-1" max="10000"/>
     </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <label for="elevationmax"><?php p($l->t('Maximum elevation')); ?></label>
@@ -463,6 +471,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td>
         <input role="elevationmax" type="number" value="" min="-1" max="10000"/>
     </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <label for="batterymin"><?php p($l->t('Minimum battery level')); ?></label>
@@ -470,6 +479,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td>
         <input role="batterymin" type="number" value="" min="-1" max="10000"/>
     </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <label for="batterymax"><?php p($l->t('Maximum battery level')); ?></label>
@@ -477,6 +487,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td>
         <input role="batterymax" type="number" value="" min="-1" max="100"/>
     </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <label for="satellitesmin"><?php p($l->t('Minimum satellites')); ?></label>
@@ -484,6 +495,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td>
         <input role="satellitesmin" type="number" value="" min="-1" max="10000"/>
     </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
         <label for="satellitesmax"><?php p($l->t('Maximum satellites')); ?></label>
@@ -491,6 +503,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td>
         <input role="satellitesmax" type="number" value="" min="-1" max="10000"/>
     </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr>
 </table>
 </div>

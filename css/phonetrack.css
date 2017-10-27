@@ -708,3 +708,8 @@ label[for=viewmove] i {
 .toggleLineDevice.off:hover {
     background-color: black;
 }
+.resetFilterButton {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+}
