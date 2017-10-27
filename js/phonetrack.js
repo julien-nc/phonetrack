@@ -965,6 +965,9 @@
                         $(this).val(optionsValues[$(this).attr('role')]);
                     }
                 });
+                if (optionsValues.applyfilters !== undefined) {
+                    $('#applyfilters').prop('checked', optionsValues.applyfilters);
+                }
                 if (optionsValues.hasOwnProperty('activeSessions')) {
                     console.log(optionsValues.activeSessions);
                     phonetrack.sessionsFromSavedOptions = [];
@@ -1007,6 +1010,8 @@
         $('#filterPointsTable input[type=number], #filterPointsTable input[type=date]').each(function() {
             optionsValues[$(this).attr('role')] = $(this).val();
         });
+        optionsValues.applyfilters = $('#applyfilters').is(':checked');
+
         optionsValues.activeSessions = [];
         $('.session').each(function() {
             var s = $(this).attr('token');
@@ -3855,6 +3860,9 @@
 
         $('#applyfilters').click(function(e) {
             changeApplyFilter();
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
         changeApplyFilter();
 
