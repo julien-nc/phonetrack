@@ -1594,14 +1594,16 @@
                 }
             }
             // in case some sessions are selected
-            refresh();
+            // refresh but don't loop
+            refresh(false);
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to get sessions'));
         });
     }
 
-    function refresh() {
+    function refresh(loop=true) {
+        console.log('plplplpl');
         var url;
         var sessionsToWatch = [];
         // get new positions for all watched sessions
@@ -1642,15 +1644,17 @@
             showHideSelectedSessions();
         }
 
-        // launch refresh again
-        var uiVal = $('#updateinterval').val();
-        var updateinterval = 5000;
-        if (uiVal !== '' && !isNaN(uiVal) && parseInt(uiVal) > 1) {
-            var updateinterval = parseInt(uiVal) * 1000;
+        if (loop) {
+            // launch refresh again
+            var uiVal = $('#updateinterval').val();
+            var updateinterval = 5000;
+            if (uiVal !== '' && !isNaN(uiVal) && parseInt(uiVal) > 1) {
+                var updateinterval = parseInt(uiVal) * 1000;
+            }
+            phonetrack.currentTimer = new Timer(function() {
+                refresh();
+            }, updateinterval);
         }
-        phonetrack.currentTimer = new Timer(function() {
-            refresh();
-        }, updateinterval);
     }
 
     function filterEntry(entry) {
