@@ -969,12 +969,7 @@
                     $('#applyfilters').prop('checked', optionsValues.applyfilters);
                 }
                 if (optionsValues.hasOwnProperty('activeSessions')) {
-                    console.log(optionsValues.activeSessions);
-                    phonetrack.sessionsFromSavedOptions = [];
-                    for (var i in optionsValues.activeSessions) {
-                        phonetrack.sessionsFromSavedOptions.push(optionsValues.activeSessions[i]);
-                    }
-                    console.log(phonetrack.sessionsFromSavedOptions);
+                    phonetrack.sessionsFromSavedOptions = optionsValues.activeSessions;
                 }
             }
             // quite important ;-)
@@ -1012,11 +1007,23 @@
         });
         optionsValues.applyfilters = $('#applyfilters').is(':checked');
 
-        optionsValues.activeSessions = [];
+        optionsValues.activeSessions = {};
+        var devs, s, d, zoom, line, point;
         $('.session').each(function() {
-            var s = $(this).attr('token');
+            s = $(this).attr('token');
             if (isSessionActive(s)) {
-                optionsValues.activeSessions.push(s);
+                optionsValues.activeSessions[s] = {};
+                $(this).find('.devicelist li').each(function() {
+                    d = $(this).attr('device');
+                    zoom = $(this).find('.followdevice').is(':checked');
+                    line = $(this).find('.toggleLineDevice').hasClass('on');
+                    point = $(this).find('.toggleDetail').hasClass('on');
+                    optionsValues.activeSessions[s][d] = {
+                        zoom: zoom,
+                        line: line,
+                        point: point
+                    }
+                });
             }
         });
         //alert('to save : '+JSON.stringify(optionsValues));
@@ -1562,7 +1569,7 @@
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
                     selected = false;
-                    if (phonetrack.sessionsFromSavedOptions.indexOf(response.sessions[s][1]) !== -1) {
+                    if (phonetrack.sessionsFromSavedOptions.hasOwnProperty(response.sessions[s][1])) {
                         selected = true;
                     }
                     if (response.sessions[s].length < 4) {
@@ -1603,7 +1610,6 @@
     }
 
     function refresh(loop=true) {
-        console.log('plplplpl');
         var url;
         var sessionsToWatch = [];
         // get new positions for all watched sessions
@@ -1976,7 +1982,7 @@
 
     function displayNewPoints(sessions, colors, names) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            markertooltip, colorn, rgbc,
+            markertooltip, colorn, rgbc, devcol,
             textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
@@ -1995,11 +2001,24 @@
             for (d in sessions[s]) {
                 // add line and marker if necessary
                 if (! phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
+                    devcol = '';
                     if (colors.hasOwnProperty(s) && colors[s].hasOwnProperty(d)) {
-                        addDevice(s, d, sessionname, colors[s][d], names[s][d]);
+                        devcol = colors[s][d];
+                    }
+                    if (phonetrack.sessionsFromSavedOptions !== null
+                        && phonetrack.sessionsFromSavedOptions.hasOwnProperty(s)
+                        && phonetrack.sessionsFromSavedOptions[s].hasOwnProperty(d)) {
+                        addDevice(
+                            s, d, sessionname, devcol, names[s][d],
+                            phonetrack.sessionsFromSavedOptions[s][d].zoom,
+                            phonetrack.sessionsFromSavedOptions[s][d].line,
+                            phonetrack.sessionsFromSavedOptions[s][d].point
+                        );
+                        // once restored, get rid of the data
+                        delete phonetrack.sessionsFromSavedOptions[s][d];
                     }
                     else {
-                        addDevice(s, d, sessionname, '', names[s][d]);
+                        addDevice(s, d, sessionname, devcol, names[s][d]);
                     }
                 }
                 // for all new entries of this session
@@ -2086,7 +2105,7 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname, color='', name) {
+    function addDevice(s, d, sessionname, color='', name, zoom=true, line=false, point=false) {
         var colorn, textcolor, rgbc, linetooltip;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
@@ -2154,12 +2173,25 @@
                 reaffectLink +
                 '</div>';
         }
-        var detailLink = ' <button class="toggleDetail off" token="' + s + '" device="' + d + '" ' +
+        var detailOnOff = 'off';
+        if (point) {
+            detailOnOff = 'on';
+        }
+        var detailLink = ' <button class="toggleDetail ' + detailOnOff + '" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
             '<i class="fa fa-circle" aria-hidden="true"></i></button>';
-        var lineDeviceLink = ' <button class="toggleLineDevice on nc-theming-main-background" token="' + s + '" device="' + d + '" ' +
+        var lineOnOff = 'off';
+        if (line) {
+            lineOnOff = 'on nc-theming-main-background';
+        }
+        var lineDeviceLink = ' <button class="toggleLineDevice ' + lineOnOff + '" ' +
+            'token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle lines') + '">' +
             '</button>';
+        var followchecked = '';
+        if (zoom) {
+            followchecked = ' checked';
+        }
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
@@ -2174,7 +2206,7 @@
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
                 detailLink +
                 lineDeviceLink +
-                '<input class="followdevice" type="checkbox" ' + 'title="' +
+                '<input class="followdevice"' + followchecked + ' type="checkbox" ' + 'title="' +
                 t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
                 '</li>');
 
@@ -2292,7 +2324,6 @@
     }
 
     function isSessionActive(s) {
-        console.log(s+ ' '+$('.session[token=' + s + '] .watchbutton i').attr('class'));
         return $('.session[token=' + s + '] .watchbutton i').hasClass('fa-eye');
     }
 
@@ -3421,8 +3452,8 @@
                     $(this).parent().parent().find('.devicelist').slideUp('slow');
                     $(this).parent().parent().find('.sharediv').slideUp('slow');
                     $(this).parent().parent().find('.moreUrls').slideUp('slow');
-                    $(this).parent().parent().find('.toggleDetail').addClass('off').removeClass('on');
-                    $(this).parent().parent().find('.toggleLineDevice').addClass('on').removeClass('off');
+                    //$(this).parent().parent().find('.toggleDetail').addClass('off').removeClass('on');
+                    //$(this).parent().parent().find('.toggleLineDevice').addClass('on').removeClass('off');
                 }
                 else {
                     icon.addClass('fa-eye').removeClass('fa-eye-slash');
@@ -3580,10 +3611,22 @@
 
         $('body').on('click', 'ul.devicelist li .toggleDetail', function(e) {
             toggleDetailDevice($(this));
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('body').on('click', 'ul.devicelist li .toggleLineDevice', function(e) {
             toggleLineDevice($(this));
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
+        $('body').on('click', 'ul.devicelist li .followdevice', function(e) {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
 
         $('body').on('click','.reservNameButton', function(e) {
