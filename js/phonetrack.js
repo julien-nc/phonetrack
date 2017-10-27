@@ -2118,7 +2118,7 @@
         }
         var detailLink = ' <button class="toggleDetail off" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
-            '<i class="fa fa-dot-circle-o" aria-hidden="true"></i></button>';
+            '<i class="fa fa-circle" aria-hidden="true"></i></button>';
         var lineDeviceLink = ' <button class="toggleLineDevice on nc-theming-main-background" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle lines') + '">' +
             '</button>';
@@ -2620,41 +2620,41 @@
         }
         var res = '<table class="editPoint" pid="' + entry.id + '"' +
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
-        res = res + '<tr>';
-        res = res + '<td>' + t('phonetrack', 'Date') + '</td>';
+        res = res + '<tr title="' + t('phonetrack', 'Date') + '">';
+        res = res + '<td><i class="fa fa-calendar" style="font-size: 20px;"></i></td>';
         res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'Time') + '</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'Time') + '">';
+        res = res + '<td><i class="fa fa-clock-o" style="font-size: 20px;"></i></td>';
         res = res + '<td><input role="hour" type="number" value="' + hourval + '" min="0" max="23"/>h' +
             '<input role="minute" type="number" value="' + minval + '" min="0" max="59"/>' +
             'min<input role="second" type="number" value="' + secval + '" min="0" max="59"/>sec</td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'Altitude') + '</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'Altitude') + '">';
+        res = res + '<td><i class="fa fa-area-chart" style="font-size: 20px;"></td>';
         res = res + '<td><input role="altitude" type="number" value="' + entry.altitude + '" min="-1"/>m</td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'Precision') + '</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'Precision') + '">';
+        res = res + '<td><i class="fa fa-dot-circle-o" style="font-size: 20px;"></td>';
         res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'Satellites') + '</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'Satellites') + '">';
+        res = res + '<td><i class="fa fa-space-shuttle" style="font-size: 20px;"></td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'Battery') + '</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'Battery') + '">';
+        res = res + '<td><i class="fa fa-battery-2" style="font-size: 20px;"></i></td>';
         res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/>%</td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'User-agent') + '</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'User-agent') + '">';
+        res = res + '<td><i class="fa fa-mobile" style="font-size: 35px;"></i></td>';
         res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '"/></td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'lat : lng') + '</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'lat : lng') + '">';
+        res = res + '<td><i class="fa fa-map-marker" style="font-size: 20px;"></td>';
         res = res + '<td><input role="latlng" type="text" value="' +
             parseFloat(entry.lat).toFixed(5) + ' : ' + parseFloat(entry.lon).toFixed(5) + '" readonly/></td>';
-        res = res + '</tr><tr>';
-        res = res + '<td>' + t('phonetrack', 'DMS coords') + '</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'DMS coords') + '">';
+        res = res + '<td><i class="fa fa-globe" style="font-size: 20px;"></td>';
         res = res + '<td><input role="dms" type="text" value="' + convertDMS(entry.lat, entry.lon) + '" readonly/></td>';
         res = res + '</tr>';
         res = res + '</table>';
         res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Save') + '</button>';
         res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Delete') + '</button>';
-        res = res + '<button class="movepoint"><i class="fa fa-arrows" aria-hidden="true"></i> ' + t('phonetrack', 'Move') + '</button>';
+        res = res + '<br/><button class="movepoint"><i class="fa fa-arrows" aria-hidden="true"></i> ' + t('phonetrack', 'Move') + '</button>';
         res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Cancel') + '</button>';
         return res;
     }
