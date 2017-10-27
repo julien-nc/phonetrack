@@ -1867,6 +1867,11 @@
                     for (id in phonetrack.sessionPointsLayersById[s][d]) {
                         if (!phonetrack.sessionPointsLayers[s][d].hasLayer(phonetrack.sessionPointsLayersById[s][d][id])) {
                             phonetrack.sessionPointsLayers[s][d].addLayer(phonetrack.sessionPointsLayersById[s][d][id]);
+                            if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')
+                                && phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])
+                            ) {
+                                phonetrack.sessionPointsLayersById[s][d][id].dragging.enable();
+                            }
                         }
                     }
                 }
@@ -2792,6 +2797,12 @@
                     if (!phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[token][d])) {
                         if ($('.session[token='+token+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')) {
                             phonetrack.map.addLayer(phonetrack.sessionPointsLayers[token][d]);
+                            // manage draggable
+                            if (!pageIsPublic() && !isSessionShared(token) && $('#dragcheck').is(':checked')) {
+                                phonetrack.sessionPointsLayers[token][d].eachLayer(function(l) {
+                                    l.dragging.enable();
+                                });
+                            }
                         }
                     }
                 }
