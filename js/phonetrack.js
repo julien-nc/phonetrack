@@ -3086,10 +3086,14 @@
         // if we show movement lines :
         // bring it to front, show/hide points
         // get correct zoom bounds
-        if (viewmove) {
+        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[s][d])) {
             l = phonetrack.sessionLineLayers[s][d];
             l.bringToFront();
-
+            b = l.getBounds();
+        }
+        else if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+            l = phonetrack.sessionPointsLayers[s][d];
+            l.bringToFront();
             b = l.getBounds();
         }
         else {
