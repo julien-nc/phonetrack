@@ -316,7 +316,7 @@ div.session p,
 .watchbutton i {
     font-size: 16px;
 }
-.watchbutton i.fa-eye-slash {
+.watchbutton i.fa-toggle-off {
     color: grey;
 }
 .deletereservedname:hover i,

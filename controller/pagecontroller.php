@@ -1111,14 +1111,14 @@ class PageController extends Controller {
                             $name = $row['name'];
                         }
                         $req->closeCursor();
-                        if (!array_key_exists($dbtoken, $colors)) {
-                            $colors[$dbtoken] = array();
+                        if (!array_key_exists($token, $colors)) {
+                            $colors[$token] = array();
                         }
-                        $colors[$dbtoken][$devid] = $col;
-                        if (!array_key_exists($dbtoken, $names)) {
-                            $names[$dbtoken] = array();
+                        $colors[$token][$devid] = $col;
+                        if (!array_key_exists($token, $names)) {
+                            $names[$token] = array();
                         }
-                        $names[$dbtoken][$devid] = $name;
+                        $names[$token][$devid] = $name;
                     }
 
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';

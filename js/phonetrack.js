@@ -672,7 +672,7 @@
         var s = $('#deletePointSession option:selected').attr('token');
         var d = $('#deletePointDevice').val();
         // if session is watched, if device exists, for all displayed points
-        if ($('.session[token=' + s + '] .watchbutton i').hasClass('fa-eye')) {
+        if ($('.session[token=' + s + '] .watchbutton i').hasClass('fa-toggle-on')) {
             if (d === '') {
                 for (d in phonetrack.sessionPointsLayers[s]) {
                     var pidlist = [];
@@ -1144,9 +1144,9 @@
         var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken);
         publicWatchUrl = window.location.origin + publicWatchUrl;
 
-        var watchicon = 'fa-eye-slash';
+        var watchicon = 'fa-toggle-off';
         if (selected) {
-            watchicon = 'fa-eye';
+            watchicon = 'fa-toggle-on';
         }
         var divtxt = '<div class="session" token="' + token + '"' +
            ' publicviewtoken="' + publicviewtoken + '"' +
@@ -1240,10 +1240,10 @@
             divtxt = divtxt + '</div><hr/>';
 
             var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
-            var icon = 'fa-eye-slash';
+            var icon = 'fa-toggle-off';
             var pubtext = t('phonetrack', 'Make session public');
             if (parseInt(isPublic) === 1) {
-                icon = 'fa-eye';
+                icon = 'fa-toggle-on';
                 pubtext = t('phonetrack', 'Make session private');
             }
             divtxt = divtxt + '<button class="publicsessionbutton" title="' + titlePublic + '">';
@@ -1615,7 +1615,7 @@
         var url;
         var sessionsToWatch = [];
         // get new positions for all watched sessions
-        $('.watchbutton i.fa-eye').each(function() {
+        $('.watchbutton i.fa-toggle-on').each(function() {
             var token = $(this).parent().parent().parent().attr('token');
             var lastTimes = phonetrack.lastTime[token] || '';
             sessionsToWatch.push([token, lastTimes]);
@@ -1935,7 +1935,7 @@
         var mla, mln, mid, mentry, displayedLatlngs, oldlatlng;
         displayedLatlngs = phonetrack.sessionLineLayers[s][d].getLatLngs();
         // if session is not watched or if there is no points to see
-        if (!$('div.session[token='+s+'] .watchbutton i').hasClass('fa-eye') || displayedLatlngs.length === 0) {
+        if (!$('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on') || displayedLatlngs.length === 0) {
             if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
                 phonetrack.sessionMarkerLayers[s][d].remove();
             }
@@ -2119,7 +2119,7 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname, color='', name, zoom=true, line=false, point=false) {
+    function addDevice(s, d, sessionname, color='', name, zoom=false, line=true, point=false) {
         var colorn, textcolor, rgbc, linetooltip;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
@@ -2338,7 +2338,7 @@
     }
 
     function isSessionActive(s) {
-        return $('.session[token=' + s + '] .watchbutton i').hasClass('fa-eye');
+        return $('.session[token=' + s + '] .watchbutton i').hasClass('fa-toggle-on');
     }
 
     function isSessionShared(s) {
@@ -2786,7 +2786,7 @@
         $('.watchbutton i').each(function() {
             token = $(this).parent().parent().parent().attr('token');
             sessionname = getSessionName(token);
-            if ($(this).hasClass('fa-eye')) {
+            if ($(this).hasClass('fa-toggle-on')) {
                 for (d in phonetrack.sessionLineLayers[token]) {
                     if (viewLines) {
                         if (!phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
@@ -2865,7 +2865,7 @@
         $('.followdevice:checked').each(function() {
             // we only take those for session which are watched
             var viewSessionCheck = $(this).parent().parent().parent().find('.watchbutton i');
-            if (viewSessionCheck.hasClass('fa-eye')) {
+            if (viewSessionCheck.hasClass('fa-toggle-on')) {
                 var token = $(this).parent().parent().attr('token');
                 var device = $(this).parent().attr('device');
                 if (!devicesToFollow.hasOwnProperty(token)) {
@@ -2878,7 +2878,7 @@
 
         $('.watchbutton i').each(function() {
             token = $(this).parent().parent().parent().attr('token');
-            if ($(this).hasClass('fa-eye') && (selectedSessionToken === '' || token === selectedSessionToken)) {
+            if ($(this).hasClass('fa-toggle-on') && (selectedSessionToken === '' || token === selectedSessionToken)) {
                 for (d in phonetrack.sessionMarkerLayers[token]) {
                     // if no device is followed => all devices are taken
                     // if some devices are followed, just take them
@@ -3292,7 +3292,7 @@
         var table = '';
         for (s in phonetrack.sessionLineLayers) {
             // if session is watched
-            if ($('div.session[token='+s+'] .watchbutton i').hasClass('fa-eye')) {
+            if ($('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on')) {
                 table = table + '<h3>' + getSessionName(s) + '</h3>';
                 table = table + '<table class="stattable"><tr><th>' +
                     t('phonetrack', 'device name') + '</th><th>' +
@@ -3481,8 +3481,8 @@
         $('body').on('click','.watchbutton', function(e) {
             if (!pageIsPublic()) {
                 var icon = $(this).find('i');
-                if (icon.hasClass('fa-eye')) {
-                    icon.addClass('fa-eye-slash').removeClass('fa-eye');
+                if (icon.hasClass('fa-toggle-on')) {
+                    icon.addClass('fa-toggle-off').removeClass('fa-toggle-on');
                     $(this).parent().parent().find('.devicelist').slideUp('slow');
                     $(this).parent().parent().find('.sharediv').slideUp('slow');
                     $(this).parent().parent().find('.moreUrls').slideUp('slow');
@@ -3490,7 +3490,7 @@
                     //$(this).parent().parent().find('.toggleLineDevice').addClass('on').removeClass('off');
                 }
                 else {
-                    icon.addClass('fa-eye').removeClass('fa-eye-slash');
+                    icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
                     $(this).parent().parent().find('.devicelist').slideDown('slow');
                 }
                 phonetrack.currentTimer.pause();
@@ -3826,7 +3826,7 @@
         $('body').on('click','.publicsessionbutton', function(e) {
             var buttext = $(this).find('b');
             var icon = $(this).find('i');
-            var pub = icon.hasClass('fa-eye-slash');
+            var pub = icon.hasClass('fa-toggle-off');
             var token = $(this).parent().parent().attr('token');
             var isPublic = 0;
             if (pub) {
@@ -3845,12 +3845,12 @@
             }).done(function (response) {
                 if (response.done === 1) {
                     if (pub) {
-                        icon.addClass('fa-eye').removeClass('fa-eye-slash');
+                        icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
                         buttext.text(t('phonetrack', 'Make session private'));
                         $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideDown();
                     }
                     else {
-                        icon.addClass('fa-eye-slash').removeClass('fa-eye');
+                        icon.addClass('fa-toggle-off').removeClass('fa-toggle-on');
                         buttext.text(t('phonetrack', 'Make session public'));
                         $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideUp();
                     }
