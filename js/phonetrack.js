@@ -1856,6 +1856,13 @@
         var s, d, id, i, displayedLatlngs;
         var dragenabled = $('#dragcheck').is(':checked');
 
+        if (filtersEnabled) {
+            $('#sidebarFen').show();
+        }
+        else {
+            $('#sidebarFen').hide();
+        }
+
         // simpler case : no filter
         if (!filtersEnabled) {
             for (s in phonetrack.sessionLineLayers) {
