@@ -3108,7 +3108,7 @@
         for (id in phonetrack.sessionPointsLayersById[s][d]) {
             phonetrack.sessionPointsLayersById[s][d][id].setZIndexOffset(phonetrack.lastZindex);
         }
-        phonetrack.lastZindex++;
+        phonetrack.lastZindex += 10;
 
         m.setZIndexOffset(phonetrack.lastZindex++);
         t = m.getTooltip()._content;
