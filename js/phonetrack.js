@@ -1541,11 +1541,11 @@
                 OC.Notification.showTemporary(t('phonetrack', 'Device already exists in target session'));
             }
             else {
-                OC.Notification.showTemporary(t('phonetrack', 'Impossible to reaffect device to another session'));
+                OC.Notification.showTemporary(t('phonetrack', 'Impossible to move device to another session'));
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to reaffect device'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to move device'));
         });
     }
 
@@ -2177,7 +2177,7 @@
                 '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
             renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
-                '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Change session') + '</button>';
+                '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
             reaffectSelect = '<div class="reaffectDeviceDiv"><select class="reaffectDeviceSelect"></select>' +
                 '<button class="reaffectDeviceOk"><i class="fa fa-check" aria-hidden="true"></i></button>' +
                 '<button class="reaffectDeviceCancel"><i class="fa fa-close" aria-hidden="true"></i></button></div>';

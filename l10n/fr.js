@@ -127,6 +127,10 @@ OC.L10N.register(
         "Impossible to rename device" : "Impossible de renommer cet appareil",
         "Failed to contact server to rename device" : "Impossible de contacter le serveur pour renommer cet appareil",
         "Rename this device" : "Renommer cet appareil",
+        "Device already exists in target session" : "L'appareil existe déjà dans la session de destination",
+        "Failed to contact server to move device" : "Impossible de contacter le serveur pour déplacer l'appareil",
+        "Impossible to move device to another session" : "Impossible de déplacer l'appareil à une autre session",
+        "Move to another session" : "Déplacer vers une autre session",
         "Zoom on this session" : "Zoomer sur cette session"
     },
 "nplurals=2; plural=(n > 1);");

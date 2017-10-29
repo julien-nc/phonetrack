@@ -56,11 +56,11 @@ p($_['phonetrack_version']);
             <input id="updateinterval" type="number" min="0" max="1000" step="1" value="5"/>
             <br/>
             <input id="tooltipshowaccuracy" type="checkbox" checked/>
-            <label for="tooltipshowaccuracy"><i class="fa fa-tachometer" aria-hidden="true"></i>
+            <label for="tooltipshowaccuracy"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowsatellites" type="checkbox" checked/>
-            <label for="tooltipshowsatellites"><i class="fa fa-rocket" aria-hidden="true"></i>
+            <label for="tooltipshowsatellites"><i class="fa fa-signal" aria-hidden="true"></i>
             <?php p($l->t('Show satellites in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowbattery" type="checkbox" checked/>
@@ -68,11 +68,11 @@ p($_['phonetrack_version']);
             <?php p($l->t('Show battery level in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowelevation" type="checkbox" checked/>
-            <label for="tooltipshowelevation"><i class="fa fa-arrows-v" aria-hidden="true"></i>
+            <label for="tooltipshowelevation"><i class="fa fa-area-chart" aria-hidden="true"></i>
             <?php p($l->t('Show elevation in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowuseragent" type="checkbox" checked/>
-            <label for="tooltipshowuseragent"><i class="fa fa-mobile-phone" aria-hidden="true"></i>
+            <label for="tooltipshowuseragent"><i class="fa fa-mobile-phone" aria-hidden="true" style="font-size: 20px"></i>
             <?php p($l->t('Show user-agent in tooltips'));?> *</label>
             <br/>
 
@@ -88,7 +88,7 @@ p($_['phonetrack_version']);
             <?php p($l->t('Line width'));?></label>
             <input id="linewidth" type="number" min="1" max="20" step="1" value="4"/>
             <br/>
-            <label for="pointradius"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+            <label for="pointradius"><i class="fa fa-circle" aria-hidden="true"></i>
             <?php p($l->t('Point radius'));?></label>
             <input id="pointradius" type="number" min="1" max="20" step="1" value="8"/>
             <br/>
