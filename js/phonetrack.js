@@ -3306,7 +3306,8 @@
                         years = days = hours = minutes = seconds = 0;
                     }
 
-                    table = table + '<tr><td class="roundmarker color' + s + d.replace(' ', '') +'">'+escapeHTML(d)+'</td>';
+                    table = table + '<tr><td class="roundmarker color' + s +
+                        d.replace(' ', '') + '">' + getDeviceName(s, d) + '</td>';
                     table = table + '<td>'+formatDistance(dist)+'</td>';
                     table = table + '<td>';
                     if (years > 0) {
