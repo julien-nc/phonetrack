@@ -1569,7 +1569,9 @@
             if (response.sessions.length > 0) {
                 for (s in response.sessions) {
                     selected = false;
-                    if (phonetrack.sessionsFromSavedOptions.hasOwnProperty(response.sessions[s][1])) {
+                    if (phonetrack.sessionsFromSavedOptions
+                        && phonetrack.sessionsFromSavedOptions.hasOwnProperty(response.sessions[s][1])
+                    ) {
                         selected = true;
                     }
                     if (response.sessions[s].length < 4) {
@@ -2010,7 +2012,7 @@
                     if (colors.hasOwnProperty(s) && colors[s].hasOwnProperty(d)) {
                         devcol = colors[s][d];
                     }
-                    if (phonetrack.sessionsFromSavedOptions !== null
+                    if (phonetrack.sessionsFromSavedOptions
                         && phonetrack.sessionsFromSavedOptions.hasOwnProperty(s)
                         && phonetrack.sessionsFromSavedOptions[s].hasOwnProperty(d)) {
                         addDevice(
