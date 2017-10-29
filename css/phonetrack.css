@@ -348,12 +348,6 @@ div.session p,
     color: grey;
     font-size: 16px;
 }
-.reaffectDeviceDiv i {
-    color: black;
-}
-.reaffectDeviceDiv select {
-    width: 60px;
-}
 .reaffectDeviceDiv button {
     width: 15px;
     height: 20px;
@@ -364,10 +358,6 @@ div.session p,
     min-height: 12px;
     height: 25px;
 }
-.reaffectDeviceDiv {
-    float: left;
-}
-.reaffectDeviceDiv,
 .renameDeviceInput {
     display: none;
     width: 30% !important;
@@ -568,9 +558,11 @@ ul.devicelist {
 .dropdownbutton:focus {
     background-color: #dddddd;
 }
+.reaffectDeviceDiv,
 .devicelist .dropdown-content {
     margin-top: 30px;
 }
+.reaffectDeviceDiv,
 .dropdown-content {
     display: none;
     position: absolute;
@@ -581,11 +573,13 @@ ul.devicelist {
     z-index: 1;
     border-radius: 10px;
 }
+.reaffectDeviceDiv button i,
 .dropdown-content button i {
     color: black;
     font-size: 16px;
 }
 .publicsessionbutton,
+.reaffectDeviceDiv button,
 .dropdown-content button {
     width: 100%;
     text-align: left;

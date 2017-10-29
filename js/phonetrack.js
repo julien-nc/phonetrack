@@ -2179,8 +2179,10 @@
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
             reaffectSelect = '<div class="reaffectDeviceDiv"><select class="reaffectDeviceSelect"></select>' +
-                '<button class="reaffectDeviceOk"><i class="fa fa-check" aria-hidden="true"></i></button>' +
-                '<button class="reaffectDeviceCancel"><i class="fa fa-close" aria-hidden="true"></i></button></div>';
+                '<button class="reaffectDeviceOk"><i class="fa fa-check" aria-hidden="true"></i> ' +
+                t('phonetrack', 'Ok') + '</button>' +
+                '<button class="reaffectDeviceCancel"><i class="fa fa-close" aria-hidden="true"></i> ' +
+                t('phonetrack', 'Cancel') + '</button></div>';
             dropdowndevicecontent = '<div class="dropdown-content">' +
                 deleteLink +
                 renameLink +
@@ -2212,9 +2214,9 @@
                 '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
                 t('phonetrack', 'Center map on device') + '">' + escapeHTML(name) + '</div> ' +
                 renameInput +
-                reaffectSelect +
                 dropdowndevicebutton +
                 dropdowndevicecontent +
+                reaffectSelect +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
@@ -3134,9 +3136,10 @@
 
     function hideAllDropDowns() {
         var dropdowns = document.getElementsByClassName('dropdown-content');
+        var openDropdown;
         var i;
         for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
+            openDropdown = dropdowns[i];
             if (openDropdown.classList.contains('show')) {
                 openDropdown.classList.remove('show');
             }
@@ -3724,8 +3727,13 @@
             });
             $(this).parent().parent().find('.reaffectDeviceSelect').html(reaffectSelect);
 
-            $(this).parent().parent().find('.deviceLabel').hide();
-            $(this).parent().parent().find('.reaffectDeviceDiv').show();
+            var dcontent;
+            dcontent = $(e.target).parent().parent().find('.reaffectDeviceDiv');
+            var isVisible = dcontent.hasClass('show');
+            hideAllDropDowns();
+            if (!isVisible) {
+                dcontent.toggleClass('show');
+            }
             $(this).parent().parent().find('.reaffectDeviceSelect').select();
         });
 
@@ -3734,14 +3742,12 @@
             var deviceid = $(this).parent().parent().attr('device');
             var newSessionId = $(this).parent().find('.reaffectDeviceSelect').val();
 
-            $(this).parent().parent().find('.deviceLabel').show();
-            $(this).parent().parent().find('.reaffectDeviceDiv').hide();
+            $(this).parent().parent().find('.reaffectDeviceDiv').removeClass('show');
             reaffectDeviceSession(token, deviceid, newSessionId);
         });
 
         $('body').on('click','.reaffectDeviceCancel', function(e) {
-            $(this).parent().parent().find('.deviceLabel').show();
-            $(this).parent().parent().find('.reaffectDeviceDiv').hide();
+            $(this).parent().parent().find('.reaffectDeviceDiv').removeClass('show');
         });
 
         $('body').on('click','.renameDevice', function(e) {
@@ -3949,6 +3955,7 @@
 
         window.onclick = function(event) {
             if (!event.target.matches('.dropdownbutton') && !event.target.matches('.dropdownbutton i')
+                && !event.target.matches('.reaffectDeviceDiv select') && !event.target.matches('.reaffectDeviceDiv')
                 && !event.target.matches('.dropdowndevicebutton') && !event.target.matches('.dropdowndevicebutton i')) {
                 hideAllDropDowns();
             }
