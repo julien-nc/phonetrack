@@ -2714,7 +2714,7 @@
         res = res + '<td><i class="fa fa-dot-circle-o" style="font-size: 20px;"></td>';
         res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Satellites') + '">';
-        res = res + '<td><i class="fa fa-space-shuttle" style="font-size: 20px;"></td>';
+        res = res + '<td><i class="fa fa-signal" style="font-size: 20px;"></td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Battery') + '">';
         res = res + '<td><i class="fa fa-battery-2" style="font-size: 20px;"></i></td>';
