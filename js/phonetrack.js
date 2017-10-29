@@ -3024,6 +3024,15 @@
                 elem.addClass('on nc-theming-main-background').removeClass('off');
             }
         }
+        else {
+            if (elem.hasClass('on')) {
+                elem.addClass('off').removeClass('on nc-theming-main-background');
+            }
+            else {
+                elem.addClass('on nc-theming-main-background').removeClass('off');
+            }
+        }
+
     }
 
     function toggleDetailDevice(elem) {
