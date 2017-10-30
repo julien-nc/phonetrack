@@ -707,3 +707,15 @@ label[for=viewmove] i {
     height: 25px;
     padding: 0;
 }
+#sidebarFen{
+    color: green;
+}
+#sidebarFdis {
+    color: red;
+}
+#sidebarFen,
+#sidebarFdis {
+    font-size: 10px;
+    float: right;
+    margin-right: 5px;
+}

@@ -5,7 +5,8 @@
 <li title="<?php p($l->t('Filters')); ?>">
 <a href="#phonetrackfilters" role="tab">
     <span class="fa-stack fa-lg">
-        <i id="sidebarFen" class="fa fa-circle-o fa-stack-2x"></i>
+        <i id="sidebarFen" class="fa fa-circle"></i>
+        <i id="sidebarFdis" class="fa fa-circle-o"></i>
         <i class="fa fa-filter fa-stack-1x"></i>
     </span>
 </a>

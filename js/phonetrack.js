@@ -1858,9 +1858,11 @@
 
         if (filtersEnabled) {
             $('#sidebarFen').show();
+            $('#sidebarFdis').hide();
         }
         else {
             $('#sidebarFen').hide();
+            $('#sidebarFdis').show();
         }
 
         // simpler case : no filter
