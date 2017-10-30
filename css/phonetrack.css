@@ -719,3 +719,6 @@ label[for=viewmove] i {
     float: right;
     margin-right: 5px;
 }
+.editPoint td > i {
+    margin-right: 5px
+}
