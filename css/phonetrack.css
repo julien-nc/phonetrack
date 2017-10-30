@@ -717,7 +717,8 @@ label[for=viewmove] i {
 #sidebarFdis {
     font-size: 10px;
     float: right;
-    margin-right: 5px;
+    margin-right: 7px;
+    margin-top: 2px;
 }
 .editPoint td > i {
     margin-right: 5px
