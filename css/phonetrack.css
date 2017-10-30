@@ -348,6 +348,9 @@ div.session p,
     color: grey;
     font-size: 16px;
 }
+.reaffectDeviceDiv select {
+    width: 100%;
+}
 .reaffectDeviceDiv button {
     width: 15px;
     height: 20px;

@@ -2189,8 +2189,7 @@
             reaffectSelect = '<div class="reaffectDeviceDiv"><select class="reaffectDeviceSelect"></select>' +
                 '<button class="reaffectDeviceOk"><i class="fa fa-check" aria-hidden="true"></i> ' +
                 t('phonetrack', 'Ok') + '</button>' +
-                '<button class="reaffectDeviceCancel"><i class="fa fa-close" aria-hidden="true"></i> ' +
-                t('phonetrack', 'Cancel') + '</button></div>';
+                '</div>';
             dropdowndevicecontent = '<div class="dropdown-content">' +
                 deleteLink +
                 renameLink +
@@ -3144,10 +3143,17 @@
 
     function hideAllDropDowns() {
         var dropdowns = document.getElementsByClassName('dropdown-content');
+        var reafdropdowns = document.getElementsByClassName('reaffectDeviceDiv');
         var openDropdown;
         var i;
         for (i = 0; i < dropdowns.length; i++) {
             openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+        for (i = 0; i < reafdropdowns.length; i++) {
+            openDropdown = reafdropdowns[i];
             if (openDropdown.classList.contains('show')) {
                 openDropdown.classList.remove('show');
             }
@@ -3737,8 +3743,8 @@
 
             var dcontent;
             dcontent = $(e.target).parent().parent().find('.reaffectDeviceDiv');
-            var isVisible = dcontent.hasClass('show');
             hideAllDropDowns();
+            var isVisible = dcontent.hasClass('show');
             if (!isVisible) {
                 dcontent.toggleClass('show');
             }
@@ -3752,10 +3758,6 @@
 
             $(this).parent().parent().find('.reaffectDeviceDiv').removeClass('show');
             reaffectDeviceSession(token, deviceid, newSessionId);
-        });
-
-        $('body').on('click','.reaffectDeviceCancel', function(e) {
-            $(this).parent().parent().find('.reaffectDeviceDiv').removeClass('show');
         });
 
         $('body').on('click','.renameDevice', function(e) {
@@ -3963,7 +3965,9 @@
 
         window.onclick = function(event) {
             if (!event.target.matches('.dropdownbutton') && !event.target.matches('.dropdownbutton i')
+                && !event.target.matches('.reaffectDevice') && !event.target.matches('.reaffectDevice i')
                 && !event.target.matches('.reaffectDeviceDiv select') && !event.target.matches('.reaffectDeviceDiv')
+                && !event.target.matches('.reaffectDeviceDiv select *')
                 && !event.target.matches('.dropdowndevicebutton') && !event.target.matches('.dropdowndevicebutton i')) {
                 hideAllDropDowns();
             }
