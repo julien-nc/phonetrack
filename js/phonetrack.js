@@ -4144,7 +4144,7 @@
         });
 
         $('body').on('click','.resetFilterButton', function(e) {
-            if (!$('#togglestats').is(':checked')) {
+            if (!$('#applyfilters').is(':checked')) {
                 var tr = $(this).parent().parent();
                 tr.find('input[type=date]').val('');
                 tr.find('input[type=number]').val('');
