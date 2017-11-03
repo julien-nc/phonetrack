@@ -1,0 +1,89 @@
+PhoneTrack
+Opacity (0.0-1.0)
+Shortcuts
+Format
+Auto zoom
+Create session
+Tracking sessions
+Server name
+Refresh each (sec)
+About PhoneTrack
+Show tooltips
+Max zoom (1-20)
+Your tile servers
+Custom overlay tile servers
+Documentation
+Your WMS tile servers
+WMS version
+Source management
+Custom WMS overlay servers
+Settings and extra actions
+Layers to display
+Add
+Custom WMS tile servers
+Authors
+Your WMS overlay tile servers
+Transparent
+Toggle sidebar
+loading positions
+Delete
+Min zoom (1-20)
+For example : my custom server
+Your overlay tile servers
+Main tab
+Options
+Show lines
+Server url
+Session name
+Log my position in this session
+Device name
+Add a point
+Session
+Device
+Manually add a point
+Maximum date
+Maximum time
+Filter points
+Apply filters
+Minimum time
+Minimum date
+Import session
+Ok
+Filters
+Now, click on the map to add a point (if session is not activated, you won't see added point)
+Cancel add point
+today
+Make points draggable in edition mode
+Min-- and Max--
+Min++ and Max++
+Statistics
+Stats
+Show stats
+Delete multiple points
+Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all.
+Delete points
+Show accuracy circle on hover
+Minimum satellites
+Minimum battery level
+Minimum elevation
+Minimum accuracy
+Maximum satellites
+Maximum battery level
+Maximum elevation
+Maximum accuracy
+Line width
+Point radius
+Points and lines opacity
+Delete only visible points
+Last day:hour:min
+Show satellites in tooltips
+Show accuracy in tooltips
+Show battery level in tooltips
+Show user-agent in tooltips
+Show elevation in tooltips
+reload page to make changes effective
+bright
+dark
+pastel
+Theme
+Custom tile servers
