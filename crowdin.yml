@@ -1,3 +1,5 @@
 files:
-  - source: l10n/terms_*_en.txt
-    translation: l10n/%original_file_name%_%two_letters_code%.txt
+  - source: l10n/en_json.txt
+    translation: l10n/%two_letters_code%_json.txt
+  - source: l10n/en_js.txt
+    translation: l10n/%two_letters_code%_js.txt
