@@ -1,0 +1,3 @@
+files:
+  - source: l10n/terms_*_en.txt
+    translation: l10n/%original_file_name%_%two_letters_code%.txt
