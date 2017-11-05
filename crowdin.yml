@@ -3,3 +3,5 @@ files:
     translation: /l10n/%two_letters_code%/js.po
   - source: /l10n/templates/templates.pot
     translation: /l10n/%two_letters_code%/templates.po
+  - source: /l10n/templates/appinfo.pot
+    translation: /l10n/%two_letters_code%/appinfo.po
