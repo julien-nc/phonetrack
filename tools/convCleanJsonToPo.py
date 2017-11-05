@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import json, sys, codecs
 
 jj = json.load(codecs.open(sys.argv[1], 'r', 'utf-8'))
