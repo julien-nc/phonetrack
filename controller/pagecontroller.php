@@ -371,12 +371,13 @@ class PageController extends Controller {
 
             // insert
             $sql = 'INSERT INTO *PREFIX*phonetrack_sessions';
-            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token, publicviewtoken, public) ';
+            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token, publicviewtoken, public, creationversion) ';
             $sql .= 'VALUES (\''.$this->userId.'\',';
             $sql .= $this->db_quote_escape_string($name).',';
             $sql .= $this->db_quote_escape_string($token).',';
             $sql .= $this->db_quote_escape_string($publicviewtoken).',';
-            $sql .= $this->db_quote_escape_string('1').');';
+            $sql .= $this->db_quote_escape_string('1').',';
+            $sql .= $this->db_quote_escape_string($this->appVersion).');';
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
             $req->closeCursor();
