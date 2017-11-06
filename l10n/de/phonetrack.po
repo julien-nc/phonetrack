@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-05 16:49-0500\n"
+"PO-Revision-Date: 2017-11-06 07:32-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -22,35 +22,35 @@ msgstr "PhoneTrack"
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "links"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "rechts"
 
 #: phonetrack.js:523 maincontent.php:49 maincontent.php:49
 msgid "Show lines"
-msgstr ""
+msgstr "Linien anzeigen"
 
 #: phonetrack.js:531
 msgid "Hide lines"
-msgstr ""
+msgstr "Linien ausblenden"
 
 #: phonetrack.js:552
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "Automatischen Zoom aktivieren"
 
 #: phonetrack.js:560
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "Automatischen Zoom deaktivieren"
 
 #: phonetrack.js:581
 msgid "Show last point tooltip"
-msgstr ""
+msgstr "Tooltip des letzten Datenpunktes anzeigen"
 
 #: phonetrack.js:589
 msgid "Hide last point tooltip"
-msgstr ""
+msgstr "Tooltip des letzten Datenpunktes verbergen"
 
 #: phonetrack.js:610
 msgid "Zoom on all markers"
@@ -140,15 +140,15 @@ msgstr "Auf diese Session zoomen"
 
 #: phonetrack.js:1180
 msgid "URL to share session"
-msgstr ""
+msgstr "URL zur Sitzung teilen"
 
 #: phonetrack.js:1184
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "URL für Datalogger"
 
 #: phonetrack.js:1188
 msgid "Reserve device names"
-msgstr ""
+msgstr "Gerätename reservieren"
 
 #: phonetrack.js:1197
 msgid "Delete session"
@@ -268,23 +268,23 @@ msgstr "Fehler beim umbenennen der Session"
 
 #: phonetrack.js:1482
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Geröt konnte nicht umbenannt werden"
 
 #: phonetrack.js:1486
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Keine Serververbindung zur Umbenennung"
 
 #: phonetrack.js:1547
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Gerät ist in dieser Sitzung bereits vorhanden"
 
 #: phonetrack.js:1550
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Gerät konnte nicht verschoben werden"
 
 #: phonetrack.js:1554
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Keine Serververbindung zum Verschieben"
 
 #: phonetrack.js:1616
 msgid "Failed to get sessions"
@@ -320,11 +320,11 @@ msgstr "Dieses Gerät löschen"
 
 #: phonetrack.js:2185
 msgid "Rename this device"
-msgstr ""
+msgstr "Gerät umbenennen"
 
 #: phonetrack.js:2188
 msgid "Move to another session"
-msgstr ""
+msgstr "Gerät in eine andere Sitzung verschieben"
 
 #: phonetrack.js:2191 maincontent.php:129 maincontent.php:129
 msgid "Ok"
@@ -396,15 +396,15 @@ msgstr "Batterie"
 
 #: phonetrack.js:2740 phonetrack.js:2785
 msgid "User-agent"
-msgstr ""
+msgstr "User-Agent"
 
 #: phonetrack.js:2743
 msgid "lat : lng"
-msgstr ""
+msgstr "Lat: Lng"
 
 #: phonetrack.js:2747
 msgid "DMS coords"
-msgstr ""
+msgstr "DMS-Koordinaten"
 
 #: phonetrack.js:2752
 msgid "Save"
@@ -412,7 +412,7 @@ msgstr "Speichern"
 
 #: phonetrack.js:2754
 msgid "Move"
-msgstr ""
+msgstr "Verschieben"
 
 #: phonetrack.js:2928
 msgid "File extension must be '.gpx' to be imported"
@@ -456,31 +456,31 @@ msgstr "Server zum aufzeichenen der Position nicht erreichbar"
 
 #: phonetrack.js:3179
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' ist bereits reserviert"
 
 #: phonetrack.js:3182
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Fehler beim reservieren von \"{n}\""
 
 #: phonetrack.js:3185
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Keine Serververbindung zum Reservieren"
 
 #: phonetrack.js:3216 phonetrack.js:3220
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Reservierter Name konnte nicht gelöscht werden"
 
 #: phonetrack.js:3217
 msgid "There is no such device"
-msgstr ""
+msgstr "Gerät nicht gefunden"
 
 #: phonetrack.js:3221
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Dieses Gerät ist nicht reserviert, bitte Seite neu laden"
 
 #: phonetrack.js:3224
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Keine Serververbindung zum löschen des reservierten Namen"
 
 #: phonetrack.js:3244
 msgid "User does not exist"
@@ -512,7 +512,7 @@ msgstr "Dauer"
 
 #: phonetrack.js:3318
 msgid "#points"
-msgstr ""
+msgstr "#Datenpunkte"
 
 #: phonetrack.js:3353
 msgid "years"
@@ -586,7 +586,7 @@ msgstr "Auto Zoom"
 
 #: maincontent.php:53 maincontent.php:53
 msgid "Show tooltips"
-msgstr ""
+msgstr "Tooltips anzeigen"
 
 #: maincontent.php:56 maincontent.php:56
 msgid "Refresh each (sec)"
@@ -610,7 +610,7 @@ msgstr "Höhe in Tooltips anzeigen"
 
 #: maincontent.php:77 maincontent.php:77
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "User-Agent in Tooltips anzeigen"
 
 #: maincontent.php:82 maincontent.php:82
 msgid "Make points draggable in edition mode"
@@ -630,7 +630,7 @@ msgstr "Datenpunkt Radius"
 
 #: maincontent.php:97 maincontent.php:97
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Deckkraft von Punkten und Linien"
 
 #: maincontent.php:101 maincontent.php:101
 msgid "Theme"
@@ -799,7 +799,7 @@ msgstr "Gerät"
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
-msgstr ""
+msgstr "Datenpunkt hinzufügen"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
@@ -835,7 +835,7 @@ msgstr "Filter aktivieren"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Minimum date"
-msgstr ""
+msgstr "Minimales Datum"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
@@ -844,23 +844,23 @@ msgstr "heute"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Minimum time"
-msgstr ""
+msgstr "Minimale Zeit"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "Maximum date"
-msgstr ""
+msgstr "Maximales Datum"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "Maximum time"
-msgstr ""
+msgstr "Minimale Zeit"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Min.-- und Max--"
 
 #: maincontent.php:443 maincontent.php:443
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Min++ und Max++"
 
 #: maincontent.php:446 maincontent.php:446
 msgid "Last day:hour:min"
@@ -868,39 +868,39 @@ msgstr "Letzter Tag:Stunde:Minute"
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Minimale Genauigkeit"
 
 #: maincontent.php:461 maincontent.php:461
 msgid "Maximum accuracy"
-msgstr ""
+msgstr "Maximale Genauigkeit"
 
 #: maincontent.php:469 maincontent.php:469
 msgid "Minimum elevation"
-msgstr ""
+msgstr "Minimale Höhe"
 
 #: maincontent.php:477 maincontent.php:477
 msgid "Maximum elevation"
-msgstr ""
+msgstr "Maximale Höhe"
 
 #: maincontent.php:485 maincontent.php:485
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Minimaler Ladezustand"
 
 #: maincontent.php:493 maincontent.php:493
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Maximaler Ladezustand"
 
 #: maincontent.php:501 maincontent.php:501
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Mindestanzahl Satelliten"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Maximalzahl Satelliten"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: maincontent.php:526 maincontent.php:526
 msgid "Show stats"
@@ -912,7 +912,7 @@ msgstr "Abkürzungen"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Seitenleiste anzeigen/ausblenden"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
