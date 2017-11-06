@@ -6,6 +6,64 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.0.8 – 2017-11-06
+### Added
+- button to toggle line for each device
+[#21](https://gitlab.com/eneiluj/phonetrack-oc/issues/21) @Mamie
+- statistics table
+[#25](https://gitlab.com/eneiluj/phonetrack-oc/issues/25) @dbielz
+[#42](https://gitlab.com/eneiluj/phonetrack-oc/issues/42) @Mamie
+- german translations thanks to @oswolf
+- ability to change a device color (saved in DB)
+[#28](https://gitlab.com/eneiluj/phonetrack-oc/issues/28) @Mamie
+- display precision circle around points on hover
+[#26](https://gitlab.com/eneiluj/phonetrack-oc/issues/26) @Mamie
+- ability to delete points
+[#30](https://gitlab.com/eneiluj/phonetrack-oc/issues/30) @Mamie
+- new style options (line width, point radius, line/points opacity)
+[#29](https://gitlab.com/eneiluj/phonetrack-oc/issues/29) @Mamie
+- new filter : last day:hour:min
+[#32](https://gitlab.com/eneiluj/phonetrack-oc/issues/32) @GLLM1
+- option to toggle values display in tooltips
+[#33](https://gitlab.com/eneiluj/phonetrack-oc/issues/33) @GLLM1
+- option theme to change default colors
+[#34](https://gitlab.com/eneiluj/phonetrack-oc/issues/34) @GLLM1
+- ability to reserver device name (associate with a name token)
+[#31](https://gitlab.com/eneiluj/phonetrack-oc/issues/31) @Mamie
+- add latlng and DMS coords in popup
+[#41](https://gitlab.com/eneiluj/phonetrack-oc/issues/41) @GLLM1
+- ability to rename device and reaffect it to another session
+[#49](https://gitlab.com/eneiluj/phonetrack-oc/issues/49) @Mamie
+- translations are now available on https://crowdin.com/project/phonetrack
+
+### Changed
+- improve filters
+[#12](https://gitlab.com/eneiluj/phonetrack-oc/issues/12) @Mamie
+[#27](https://gitlab.com/eneiluj/phonetrack-oc/issues/27) @Mamie
+- tooltip header is now 'sessionname | devicename'
+[#34](https://gitlab.com/eneiluj/phonetrack-oc/issues/34) @GLLM1
+- elevation is now displayed as an integer
+[#34](https://gitlab.com/eneiluj/phonetrack-oc/issues/34) @GLLM1
+- style adapts to theming
+[#34](https://gitlab.com/eneiluj/phonetrack-oc/issues/34) @GLLM1
+- bigger font for marker letter
+[#36](https://gitlab.com/eneiluj/phonetrack-oc/issues/36) @GLLM1
+- home made button icons
+[#39](https://gitlab.com/eneiluj/phonetrack-oc/issues/39) @GLLM1
+- options are in a single column, change sidebar tabs order
+[#38](https://gitlab.com/eneiluj/phonetrack-oc/issues/38) @GLLM1
+- dropdown menu for device
+- put icons in popup
+[#48](https://gitlab.com/eneiluj/phonetrack-oc/issues/48) @GLLM1
+- save/restore filter values, active sessions, devices states, sidebar status
+[#46](https://gitlab.com/eneiluj/phonetrack-oc/issues/46) @GLLM1
+- adapt sidebar filter icon to filter state
+
+### Fixed
+- fix marker not on top of points after device zoom
+- fix impossible to toggle lines for a specific device when global lines disabled
+- fix OC/NC l10n.pl script to produce .pot file and to generate .js and .json files from .po files
+
 ## 0.0.5 – 2017-09-30
 ### Added
 - point edition (drag'n'drop), deletion

@@ -37,7 +37,7 @@ On PhoneTrack main page, while watching a session, you can :
 
 Public page works like main page except there is only one session displayed and there is no need to be logged in.
 
-If you want to help to translate this app in your language, take the english=>french files in "l10n" directory as examples.
+Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if you want to help to translate this app in your language.
 
 This app is tested with Owncloud 10 with Firefox 56+ and Chromium.
 This app is tested with Nextcloud 12 with Firefox 56+ and Chromium.
