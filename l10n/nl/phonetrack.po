@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 16:21-0500\n"
+"PO-Revision-Date: 2017-11-07 16:41-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -618,170 +618,170 @@ msgstr "Punten versleepbaar maken in bewerkmodus"
 
 #: maincontent.php:86 maincontent.php:86
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Toon een nauwkeurigheidscirkel bij zweven"
 
 #: maincontent.php:89 maincontent.php:89
 msgid "Line width"
-msgstr ""
+msgstr "Lijndikte"
 
 #: maincontent.php:93 maincontent.php:93
 msgid "Point radius"
-msgstr ""
+msgstr "Radius van punten"
 
 #: maincontent.php:97 maincontent.php:97
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Doorzichtigheid van punten en lijnen"
 
 #: maincontent.php:101 maincontent.php:101
 msgid "Theme"
-msgstr ""
+msgstr "Thema"
 
 #: maincontent.php:103 maincontent.php:103
 msgid "bright"
-msgstr ""
+msgstr "helder"
 
 #: maincontent.php:104 maincontent.php:104
 msgid "pastel"
-msgstr ""
+msgstr "pastel"
 
 #: maincontent.php:105 maincontent.php:105
 msgid "dark"
-msgstr ""
+msgstr "donker"
 
 #: maincontent.php:108 maincontent.php:108
 msgid "reload page to make changes effective"
-msgstr ""
+msgstr "herlaad de pagina om de wijzigingen door te voeren"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Create session"
-msgstr ""
+msgstr "Sessie aanmaken"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Import session"
-msgstr ""
+msgstr "Sessie importeren"
 
 #: maincontent.php:125 maincontent.php:125
 msgid "Session name"
-msgstr ""
+msgstr "Sessienaam"
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
-msgstr ""
+msgstr "Apparaatnaam"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
-msgstr ""
+msgstr "Log mijn positie in deze sessie"
 
 #: maincontent.php:142 maincontent.php:142
 msgid "Tracking sessions"
-msgstr ""
+msgstr "Tracking sessies"
 
 #: maincontent.php:147 maincontent.php:147
 msgid "loading positions"
-msgstr ""
+msgstr "posities worden geladen"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Custom tile servers"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
 #: maincontent.php:267 maincontent.php:312
 msgid "Server name"
-msgstr ""
+msgstr "Servernaam"
 
 #: maincontent.php:185 maincontent.php:225 maincontent.php:268
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
 #: maincontent.php:268 maincontent.php:313
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Bijvoorbeeld : mijn custom server"
 
 #: maincontent.php:186 maincontent.php:226 maincontent.php:269
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
 #: maincontent.php:269 maincontent.php:314
 msgid "Server url"
-msgstr ""
+msgstr "Server url"
 
 #: maincontent.php:187 maincontent.php:270 maincontent.php:187
 #: maincontent.php:270
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Bijvoorbeeld : http://tile.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:188 maincontent.php:228 maincontent.php:271
 #: maincontent.php:316 maincontent.php:188 maincontent.php:228
 #: maincontent.php:271 maincontent.php:316
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Min zoom (1-20)"
 
 #: maincontent.php:190 maincontent.php:230 maincontent.php:273
 #: maincontent.php:318 maincontent.php:190 maincontent.php:230
 #: maincontent.php:273 maincontent.php:318
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Max zoom (1-20)"
 
 #: maincontent.php:192 maincontent.php:236 maincontent.php:281
 #: maincontent.php:330 maincontent.php:192 maincontent.php:236
 #: maincontent.php:281 maincontent.php:330
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
-msgstr ""
+msgstr "Jouw tile servers"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Custom overlay tile servers"
 
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Bijvoorbeeld : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
 msgid "Transparent"
-msgstr ""
+msgstr "Transparant"
 
 #: maincontent.php:234 maincontent.php:322 maincontent.php:234
 #: maincontent.php:322
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Opaciteit (0.0-1.0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Jouw overlay tile servers"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Custom WMS tile servers"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
 msgid "Format"
-msgstr ""
+msgstr "Formaat"
 
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
 msgid "WMS version"
-msgstr ""
+msgstr "WMS versie"
 
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
 msgid "Layers to display"
-msgstr ""
+msgstr "Te tonen lagen"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Jouw WMS tile servers"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Custom WMS overlay servers"
 
 #: maincontent.php:333 maincontent.php:333
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Jouw WMS overlay tile servers"
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
