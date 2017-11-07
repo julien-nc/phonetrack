@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 15:21-0500\n"
+"PO-Revision-Date: 2017-11-07 15:32-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -516,60 +516,60 @@ msgstr "#punten"
 
 #: phonetrack.js:3353
 msgid "years"
-msgstr ""
+msgstr "jaren"
 
 #: phonetrack.js:3356
 msgid "days"
-msgstr ""
+msgstr "dagen"
 
 #: phonetrack.js:3485
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Weet je zeker dat je sessie {session} wilt verwijderen?"
 
 #: phonetrack.js:3488
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Verwijderen van de sessie bevestigen"
 
 #: phonetrack.js:3636
 msgid "Where to save"
-msgstr ""
+msgstr "Waar opslaan"
 
 #: phonetrack.js:3797
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Weet je zeker dat je apparaat {device} wilt verwijderen?"
 
 #: phonetrack.js:3800
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Verwijderen van apparaat bevestigen"
 
 #: phonetrack.js:3875
 msgid "Failed to toggle session public, session does not exist"
-msgstr ""
+msgstr "Omschakelen naar openbare sessie mislukt, de sessie bestaat niet"
 
 #: phonetrack.js:3878
 msgid "Failed to toggle session public"
-msgstr ""
+msgstr "Omschakelen naar openbare sessie mislukt"
 
 #: phonetrack.js:3948
 msgid "Import gpx session file"
-msgstr ""
+msgstr "GPX bestand van sessie importeren"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Hoofd tab"
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filters"
 
 #: maincontent.php:14 maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Stats"
 
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
 msgid "Settings and extra actions"
-msgstr ""
+msgstr "Instellingen en extra acties"
 
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
