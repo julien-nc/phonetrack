@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 16:49-0500\n"
+"PO-Revision-Date: 2017-11-07 16:52-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -819,23 +819,23 @@ msgstr "Kies een sessie, een apparaat en pas de filters aan. Alle zichtbare punt
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
-msgstr ""
+msgstr "Verwijder punten"
 
 #: maincontent.php:389 maincontent.php:389
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Verwijder enkel zichtbare punten"
 
 #: maincontent.php:396 maincontent.php:396
 msgid "Filter points"
-msgstr ""
+msgstr "Filter punten"
 
 #: maincontent.php:401 maincontent.php:401
 msgid "Apply filters"
-msgstr ""
+msgstr "Filters toepassen"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Minimum date"
-msgstr ""
+msgstr "Minimum datum"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
