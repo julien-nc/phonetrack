@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 15:02-0500\n"
+"PO-Revision-Date: 2017-11-07 15:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -436,7 +436,7 @@ msgstr "Bestand bestaat niet"
 
 #: phonetrack.js:2963
 msgid "Failed to contact server to import session"
-msgstr "Server om sessie te importeren niet te bereiken"
+msgstr "Kon geen contact maken met server om sessie te importeren"
 
 #: phonetrack.js:2982
 msgid "Successfully exported session in"
@@ -448,35 +448,35 @@ msgstr "Sessie exporteren is mislukt"
 
 #: phonetrack.js:2990
 msgid "Failed to contact server to export session"
-msgstr "Server om sessie te exporteren is niet te bereiken"
+msgstr "Kon geen contact maken met server om sessie te exporteren"
 
 #: phonetrack.js:3021
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Kon geen contact maken met server om positie te loggen"
 
 #: phonetrack.js:3179
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' is al gereserveerd"
 
 #: phonetrack.js:3182
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Reserveren van '{n}' is mislukt"
 
 #: phonetrack.js:3185
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Kon geen contact maken met server om apparaatnaam te reserveren"
 
 #: phonetrack.js:3216 phonetrack.js:3220
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Gereserveerde naam verwijderen mislukt"
 
 #: phonetrack.js:3217
 msgid "There is no such device"
-msgstr ""
+msgstr "Dit apparaat bestaat niet"
 
 #: phonetrack.js:3221
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Deze apparaatnaam is niet gereserveerd, aub deze pagina herladen"
 
 #: phonetrack.js:3224
 msgid "Failed to contact server to delete reserved name"
