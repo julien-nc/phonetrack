@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-06 19:59-0500\n"
+"PO-Revision-Date: 2017-11-06 20:20-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Norwegian\n"
 "Language: no_NO\n"
@@ -328,7 +328,7 @@ msgstr ""
 
 #: phonetrack.js:2191 maincontent.php:129 maincontent.php:129
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: phonetrack.js:2204
 msgid "Toggle detail/edition points"
@@ -372,11 +372,11 @@ msgstr ""
 
 #: phonetrack.js:2720
 msgid "Date"
-msgstr ""
+msgstr "Dato"
 
 #: phonetrack.js:2723
 msgid "Time"
-msgstr ""
+msgstr "Tid"
 
 #: phonetrack.js:2728 phonetrack.js:2769
 msgid "Altitude"
@@ -388,11 +388,11 @@ msgstr ""
 
 #: phonetrack.js:2734 phonetrack.js:2777
 msgid "Satellites"
-msgstr ""
+msgstr "Satellitter"
 
 #: phonetrack.js:2737 phonetrack.js:2781
 msgid "Battery"
-msgstr ""
+msgstr "Batteri"
 
 #: phonetrack.js:2740 phonetrack.js:2785
 msgid "User-agent"
@@ -408,11 +408,11 @@ msgstr ""
 
 #: phonetrack.js:2752
 msgid "Save"
-msgstr ""
+msgstr "Lagr"
 
 #: phonetrack.js:2754
 msgid "Move"
-msgstr ""
+msgstr "Flytt"
 
 #: phonetrack.js:2928
 msgid "File extension must be '.gpx' to be imported"
@@ -516,11 +516,11 @@ msgstr ""
 
 #: phonetrack.js:3353
 msgid "years"
-msgstr ""
+msgstr "år"
 
 #: phonetrack.js:3356
 msgid "days"
-msgstr ""
+msgstr "dager"
 
 #: phonetrack.js:3485
 msgid "Are you sure you want to delete the session {session} ?"
@@ -560,11 +560,11 @@ msgstr ""
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filtre"
 
 #: maincontent.php:14 maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Statistikk"
 
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
@@ -574,15 +574,15 @@ msgstr ""
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "Om PhoneTrack"
 
 #: maincontent.php:37 maincontent.php:37
 msgid "Options"
-msgstr ""
+msgstr "Innstillinger"
 
 #: maincontent.php:45 maincontent.php:45
 msgid "Auto zoom"
-msgstr ""
+msgstr "Autozoom"
 
 #: maincontent.php:53 maincontent.php:53
 msgid "Show tooltips"
@@ -622,7 +622,7 @@ msgstr ""
 
 #: maincontent.php:89 maincontent.php:89
 msgid "Line width"
-msgstr ""
+msgstr "Linjebredde"
 
 #: maincontent.php:93 maincontent.php:93
 msgid "Point radius"
@@ -634,19 +634,19 @@ msgstr ""
 
 #: maincontent.php:101 maincontent.php:101
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: maincontent.php:103 maincontent.php:103
 msgid "bright"
-msgstr ""
+msgstr "lyst"
 
 #: maincontent.php:104 maincontent.php:104
 msgid "pastel"
-msgstr ""
+msgstr "pastell"
 
 #: maincontent.php:105 maincontent.php:105
 msgid "dark"
-msgstr ""
+msgstr "mørkt"
 
 #: maincontent.php:108 maincontent.php:108
 msgid "reload page to make changes effective"
@@ -759,7 +759,7 @@ msgstr ""
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
@@ -790,12 +790,12 @@ msgstr ""
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
 msgid "Session"
-msgstr ""
+msgstr "Økt"
 
 #: maincontent.php:368 maincontent.php:386 maincontent.php:368
 #: maincontent.php:386
 msgid "Device"
-msgstr ""
+msgstr "Enhet"
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
@@ -840,7 +840,7 @@ msgstr ""
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
 msgid "today"
-msgstr ""
+msgstr "i dag"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Minimum time"
@@ -924,5 +924,5 @@ msgstr ""
 
 #: maincontent.php:560 maincontent.php:560
 msgid "Authors"
-msgstr ""
+msgstr "Forfattere"
 
