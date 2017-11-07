@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 16:12-0500\n"
+"PO-Revision-Date: 2017-11-07 16:21-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -356,63 +356,63 @@ msgstr "Bewerken van punt is mislukt"
 
 #: phonetrack.js:2504
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Het punt dat je wilt verwijderen bestaat niet of je hebt geen toestemming om het te verwijderen"
 
 #: phonetrack.js:2508
 msgid "Failed to delete point"
-msgstr ""
+msgstr "Verwijderen van punt is mislukt"
 
 #: phonetrack.js:2600
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Toevoegen van dit punt is niet mogelijk"
 
 #: phonetrack.js:2604
 msgid "Failed to add point"
-msgstr ""
+msgstr "Toevoegen van punt is mislukt"
 
 #: phonetrack.js:2720
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: phonetrack.js:2723
 msgid "Time"
-msgstr ""
+msgstr "Tijdstip"
 
 #: phonetrack.js:2728 phonetrack.js:2769
 msgid "Altitude"
-msgstr ""
+msgstr "Hoogte"
 
 #: phonetrack.js:2731 phonetrack.js:2773
 msgid "Precision"
-msgstr ""
+msgstr "Nauwkeurigheid"
 
 #: phonetrack.js:2734 phonetrack.js:2777
 msgid "Satellites"
-msgstr ""
+msgstr "Satellieten"
 
 #: phonetrack.js:2737 phonetrack.js:2781
 msgid "Battery"
-msgstr ""
+msgstr "Accu"
 
 #: phonetrack.js:2740 phonetrack.js:2785
 msgid "User-agent"
-msgstr ""
+msgstr "User-agent"
 
 #: phonetrack.js:2743
 msgid "lat : lng"
-msgstr ""
+msgstr "Lat: Lng"
 
 #: phonetrack.js:2747
 msgid "DMS coords"
-msgstr ""
+msgstr "DMS coords"
 
 #: phonetrack.js:2752
 msgid "Save"
-msgstr ""
+msgstr "Opslaan"
 
 #: phonetrack.js:2754
 msgid "Move"
-msgstr ""
+msgstr "Verplaatsen"
 
 #: phonetrack.js:2928
 msgid "File extension must be '.gpx' to be imported"
