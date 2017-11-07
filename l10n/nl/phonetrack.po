@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 15:11-0500\n"
+"PO-Revision-Date: 2017-11-07 15:21-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -480,39 +480,39 @@ msgstr "Deze apparaatnaam is niet gereserveerd, aub deze pagina herladen"
 
 #: phonetrack.js:3224
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Kon geen contact maken met server om gereserveerde naam te verwijderen"
 
 #: phonetrack.js:3244
 msgid "User does not exist"
-msgstr ""
+msgstr "Gebruiker bestaat niet"
 
 #: phonetrack.js:3247 phonetrack.js:3250
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Toeovoegen van delen met gebruiker is mislukt"
 
 #: phonetrack.js:3281 phonetrack.js:3284
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Verwijderen van delen met gebruiker is mislukt"
 
 #: phonetrack.js:3302
 msgid "Failed to get user list"
-msgstr ""
+msgstr "Ophalen van gebruikerslijst is mislukt"
 
 #: phonetrack.js:3315
 msgid "device name"
-msgstr ""
+msgstr "apparaat naam"
 
 #: phonetrack.js:3316
 msgid "distance (km)"
-msgstr ""
+msgstr "afstand (km)"
 
 #: phonetrack.js:3317
 msgid "duration"
-msgstr ""
+msgstr "duur"
 
 #: phonetrack.js:3318
 msgid "#points"
-msgstr ""
+msgstr "#punten"
 
 #: phonetrack.js:3353
 msgid "years"
