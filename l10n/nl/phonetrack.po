@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 14:24-0500\n"
+"PO-Revision-Date: 2017-11-07 14:33-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -124,23 +124,23 @@ msgstr "Aanmaken van de sessie is mislukt"
 
 #: phonetrack.js:1162
 msgid "Watch this session"
-msgstr ""
+msgstr "Deze sessie bekijken"
 
 #: phonetrack.js:1168
 msgid "shared by {u}"
-msgstr ""
+msgstr "gedeeld door {u}"
 
 #: phonetrack.js:1173 phonetrack.js:2180
 msgid "More actions"
-msgstr ""
+msgstr "Meer acties"
 
 #: phonetrack.js:1177
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Zoom op deze sessie"
 
 #: phonetrack.js:1180
 msgid "URL to share session"
-msgstr ""
+msgstr "URL voor delen van de sessie"
 
 #: phonetrack.js:1184
 msgid "URLs for logging apps"
