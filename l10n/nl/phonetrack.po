@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 14:51-0500\n"
+"PO-Revision-Date: 2017-11-07 15:02-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -204,19 +204,19 @@ msgstr "Maak sessie privé"
 
 #: phonetrack.js:1258
 msgid "Public watch URL"
-msgstr ""
+msgstr "Openbare URL"
 
 #: phonetrack.js:1265
 msgid "Replace 'yourname' with the desired device name"
-msgstr ""
+msgstr "Vervang 'yourname' met jouw gewenste apparaatnaam"
 
 #: phonetrack.js:1266
 msgid "Public browser logging URL"
-msgstr ""
+msgstr "Openbare browser logging URL"
 
 #: phonetrack.js:1268
 msgid "OsmAnd URL"
-msgstr ""
+msgstr "OsmAnd URL"
 
 #: phonetrack.js:1270
 msgid "GpsLogger GET and POST URL"
@@ -416,39 +416,39 @@ msgstr ""
 
 #: phonetrack.js:2928
 msgid "File extension must be '.gpx' to be imported"
-msgstr ""
+msgstr "Om te importeren moet de bestandsextensie '.gpx' zijn"
 
 #: phonetrack.js:2945
 msgid "Failed to create imported session"
-msgstr ""
+msgstr "Aanmaken van de geïmporteerde sessie is mislukt"
 
 #: phonetrack.js:2949 phonetrack.js:2955
 msgid "Failed to import session"
-msgstr ""
+msgstr "Importeren van de sessie is mislukt"
 
 #: phonetrack.js:2950
 msgid "File is not readable"
-msgstr ""
+msgstr "Bestand is niet leesbaar"
 
 #: phonetrack.js:2956
 msgid "File does not exist"
-msgstr ""
+msgstr "Bestand bestaat niet"
 
 #: phonetrack.js:2963
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "Server om sessie te importeren niet te bereiken"
 
 #: phonetrack.js:2982
 msgid "Successfully exported session in"
-msgstr ""
+msgstr "Sessie succesvol geëxporteerd in"
 
 #: phonetrack.js:2986
 msgid "Failed to export session"
-msgstr ""
+msgstr "Sessie exporteren is mislukt"
 
 #: phonetrack.js:2990
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Server om sessie te exporteren is niet te bereiken"
 
 #: phonetrack.js:3021
 msgid "Failed to contact server to log position"
