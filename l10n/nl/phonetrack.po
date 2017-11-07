@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 15:51-0500\n"
+"PO-Revision-Date: 2017-11-07 16:01-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -220,71 +220,71 @@ msgstr "OsmAnd URL"
 
 #: phonetrack.js:1270
 msgid "GpsLogger GET and POST URL"
-msgstr ""
+msgstr "GpsLogger GET en POST URL"
 
 #: phonetrack.js:1272
 msgid "Owntracks (HTTP mode) URL"
-msgstr ""
+msgstr "Owntracks (HTTP mode) URL"
 
 #: phonetrack.js:1274
 msgid "Ulogger URL"
-msgstr ""
+msgstr "Ulogger URL"
 
 #: phonetrack.js:1276
 msgid "Traccar URL"
-msgstr ""
+msgstr "Traccar URL"
 
 #: phonetrack.js:1278
 msgid "OpenGTS URL"
-msgstr ""
+msgstr "OpenGTS URL"
 
 #: phonetrack.js:1312
 msgid "The session you want to delete does not exist"
-msgstr ""
+msgstr "De sessie die je wilt verwijderen bestaat niet"
 
 #: phonetrack.js:1316
 msgid "Failed to delete session"
-msgstr ""
+msgstr "Verwijderen van de sessie is mislukt"
 
 #: phonetrack.js:1336
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "Apparaat '{d}' van sessie '{s}' is verwijderd"
 
 #: phonetrack.js:1339
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "Verwijderen van apparaat '{d}' van sessie '{s}' is mislukt"
 
 #: phonetrack.js:1343
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Kon geen contact maken met server om apparaat te verwijderen"
 
 #: phonetrack.js:1394
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Hernoemen van de sessie is niet mogelijk"
 
 #: phonetrack.js:1398
 msgid "Failed to rename session"
-msgstr ""
+msgstr "Hernoemen van de sessie is mislukt"
 
 #: phonetrack.js:1482
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Hernoemen van het apparaat is niet mogelijk"
 
 #: phonetrack.js:1486
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Kon geen contact maken met server om apparaat te hernoemen"
 
 #: phonetrack.js:1547
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Apparaat bestaat al in doelsessie"
 
 #: phonetrack.js:1550
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Verplaatsen van apparaat naar een andere sessie is niet mogelijk"
 
 #: phonetrack.js:1554
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Kon geen contact maken met server om apparaat te verplaatsen"
 
 #: phonetrack.js:1616
 msgid "Failed to get sessions"
@@ -920,9 +920,9 @@ msgstr "Documentatie"
 
 #: maincontent.php:549 maincontent.php:549
 msgid "Source management"
-msgstr ""
+msgstr "Bron beheer"
 
 #: maincontent.php:560 maincontent.php:560
 msgid "Authors"
-msgstr ""
+msgstr "Auteurs"
 
