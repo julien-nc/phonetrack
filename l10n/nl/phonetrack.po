@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 13:42-0500\n"
+"PO-Revision-Date: 2017-11-07 13:52-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -30,19 +30,19 @@ msgstr "rechts"
 
 #: phonetrack.js:523 maincontent.php:49 maincontent.php:49
 msgid "Show lines"
-msgstr ""
+msgstr "Laat lijnen zien"
 
 #: phonetrack.js:531
 msgid "Hide lines"
-msgstr ""
+msgstr "Verberg lijnen"
 
 #: phonetrack.js:552
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "Automatische zoom activeren"
 
 #: phonetrack.js:560
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "Automatische zoom deactiveren"
 
 #: phonetrack.js:581
 msgid "Show last point tooltip"
