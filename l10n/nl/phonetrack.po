@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 16:01-0500\n"
+"PO-Revision-Date: 2017-11-07 16:12-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -288,71 +288,71 @@ msgstr "Kon geen contact maken met server om apparaat te verplaatsen"
 
 #: phonetrack.js:1616
 msgid "Failed to get sessions"
-msgstr ""
+msgstr "Opvragen van sessies is mislukt"
 
 #: phonetrack.js:1654
 msgid "Failed to refresh sessions"
-msgstr ""
+msgstr "Verversen van sessies is mislukt"
 
 #: phonetrack.js:1896 phonetrack.js:1925
 msgid "Stats of all points"
-msgstr ""
+msgstr "Stats van alle punten"
 
 #: phonetrack.js:1922
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "Stats van gefilterde punten"
 
 #: phonetrack.js:2103
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Veranderen van apparaatkleur succesvol"
 
 #: phonetrack.js:2106
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "Opslaan van apparaatkleur is mislukt"
 
 #: phonetrack.js:2110
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Kon geen contact maken met server om apparaatkleur te veranderen"
 
 #: phonetrack.js:2183
 msgid "Delete this device"
-msgstr ""
+msgstr "Verwijder dit apparaat"
 
 #: phonetrack.js:2185
 msgid "Rename this device"
-msgstr ""
+msgstr "Hernoem dit apparaat"
 
 #: phonetrack.js:2188
 msgid "Move to another session"
-msgstr ""
+msgstr "Verplaats naar een andere sessie"
 
 #: phonetrack.js:2191 maincontent.php:129 maincontent.php:129
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: phonetrack.js:2204
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Omschakelen detail/bewerken"
 
 #: phonetrack.js:2212
 msgid "Toggle lines"
-msgstr ""
+msgstr "Activeren/deactiveren lijnen"
 
 #: phonetrack.js:2222 phonetrack.js:2228
 msgid "Center map on device"
-msgstr ""
+msgstr "Centreer kaart op apparaat"
 
 #: phonetrack.js:2233
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Volg dit apparaat (autozoom)"
 
 #: phonetrack.js:2382
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Het punt dat je wilt bewerken bestaat niet of je hebt geen toestemming om het te bewerken"
 
 #: phonetrack.js:2386
 msgid "Failed to edit point"
-msgstr ""
+msgstr "Bewerken van punt is mislukt"
 
 #: phonetrack.js:2504
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
