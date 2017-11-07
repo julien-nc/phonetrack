@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 14:14-0500\n"
+"PO-Revision-Date: 2017-11-07 14:24-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -92,35 +92,35 @@ msgstr "Tile server \"{ts}\" is verwijderd"
 
 #: phonetrack.js:891 phonetrack.js:895
 msgid "Failed to delete tile server \"{ts}\""
-msgstr ""
+msgstr "Verwijderen tile server \"{ts}\" is niet gelukt"
 
 #: phonetrack.js:984
 msgid "Failed to restore options values"
-msgstr ""
+msgstr "Opties konden niet hersteld worden"
 
 #: phonetrack.js:985
 msgid "Reload this page"
-msgstr ""
+msgstr "Deze pagina herladen"
 
 #: phonetrack.js:987 phonetrack.js:1051
 msgid "Error"
-msgstr ""
+msgstr "Fout"
 
 #: phonetrack.js:1050
 msgid "Failed to save options values"
-msgstr ""
+msgstr "Opties konden niet opgeslagen worden"
 
 #: phonetrack.js:1071
 msgid "Session name should not be empty"
-msgstr ""
+msgstr "Sessie naam mag niet leeg zijn"
 
 #: phonetrack.js:1088
 msgid "Session name already used"
-msgstr ""
+msgstr "Sessienaam wordt al gebruikt"
 
 #: phonetrack.js:1092
 msgid "Failed to create session"
-msgstr ""
+msgstr "Aanmaken van de sessie is mislukt"
 
 #: phonetrack.js:1162
 msgid "Watch this session"
