@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 15:32-0500\n"
+"PO-Revision-Date: 2017-11-07 15:42-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -574,47 +574,47 @@ msgstr "Instellingen en extra acties"
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "Over PhoneTrack"
 
 #: maincontent.php:37 maincontent.php:37
 msgid "Options"
-msgstr ""
+msgstr "Opties"
 
 #: maincontent.php:45 maincontent.php:45
 msgid "Auto zoom"
-msgstr ""
+msgstr "Autozoom"
 
 #: maincontent.php:53 maincontent.php:53
 msgid "Show tooltips"
-msgstr ""
+msgstr "Tooltips weergeven"
 
 #: maincontent.php:56 maincontent.php:56
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Ververs elke (sec)"
 
 #: maincontent.php:61 maincontent.php:61
 msgid "Show accuracy in tooltips"
-msgstr ""
+msgstr "Nauwkeurigheid weergeven in tooltips"
 
 #: maincontent.php:65 maincontent.php:65
 msgid "Show satellites in tooltips"
-msgstr ""
+msgstr "Satellieten weergeven in tooltips"
 
 #: maincontent.php:69 maincontent.php:69
 msgid "Show battery level in tooltips"
-msgstr ""
+msgstr "Accuniveau weergeven in tooltips"
 
 #: maincontent.php:73 maincontent.php:73
 msgid "Show elevation in tooltips"
-msgstr ""
+msgstr "Hoogte weergeven in tooltips"
 
 #: maincontent.php:77 maincontent.php:77
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "User-agent weergeven in tooltips"
 
 #: maincontent.php:82 maincontent.php:82
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Punten versleepbaar maken in bewerkmodus"
 
 #: maincontent.php:86 maincontent.php:86
 msgid "Show accuracy circle on hover"
@@ -840,7 +840,7 @@ msgstr ""
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
 msgid "today"
-msgstr ""
+msgstr "vandaag"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Minimum time"
