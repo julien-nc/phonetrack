@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 14:33-0500\n"
+"PO-Revision-Date: 2017-11-07 14:41-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -144,51 +144,51 @@ msgstr "URL voor delen van de sessie"
 
 #: phonetrack.js:1184
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "URL's voor logging apps"
 
 #: phonetrack.js:1188
 msgid "Reserve device names"
-msgstr ""
+msgstr "Reserveer apparaatnamen"
 
 #: phonetrack.js:1197
 msgid "Delete session"
-msgstr ""
+msgstr "Sessie verwijderen"
 
 #: phonetrack.js:1198 phonetrack.js:1199
 msgid "Rename session"
-msgstr ""
+msgstr "Sessie hernoemen"
 
 #: phonetrack.js:1201 phonetrack.js:1202
 msgid "Export to gpx"
-msgstr ""
+msgstr "Exporteren naar gpx"
 
 #: phonetrack.js:1210
 msgid "Rename"
-msgstr ""
+msgstr "Hernoem"
 
 #: phonetrack.js:1212 phonetrack.js:2755
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleer"
 
 #: phonetrack.js:1219
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Reserveer deze apparaatnaam"
 
 #: phonetrack.js:1221
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Voer gereserveerde naam in en druk 'Enter'"
 
 #: phonetrack.js:1235
 msgid "Share with user"
-msgstr ""
+msgstr "Deel met gebruiker"
 
 #: phonetrack.js:1237
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Voer gebruikersnaam in en druk 'Enter'"
 
 #: phonetrack.js:1242 phonetrack.js:3256
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Gedeeld met {u}"
 
 #: phonetrack.js:1248
 msgid "If session is not public, position are not showed in public browser logging page"
