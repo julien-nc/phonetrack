@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 16:52-0500\n"
+"PO-Revision-Date: 2017-11-07 17:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -192,7 +192,7 @@ msgstr "Gedeeld met {u}"
 
 #: phonetrack.js:1248
 msgid "If session is not public, position are not showed in public browser logging page"
-msgstr ""
+msgstr "Als een sessie niet openbaar is, is de positie niet zichtbaar in de openbare browser logging pagina"
 
 #: phonetrack.js:1250 phonetrack.js:3870
 msgid "Make session public"
