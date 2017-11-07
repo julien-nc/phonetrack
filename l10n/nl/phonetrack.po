@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-07 14:01-0500\n"
+"PO-Revision-Date: 2017-11-07 14:14-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -54,41 +54,41 @@ msgstr "Tooltip van laatste punt verbergen"
 
 #: phonetrack.js:610
 msgid "Zoom on all markers"
-msgstr ""
+msgstr "Zoom op alle apparaten"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Klik op de kaart om een punt te verplaatsen, druk ESC om te annuleren"
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Server naam of server URL mag niet leeg zijn"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "Tile server kon niet worden toegevoegd"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Een server met deze naam bestaat al"
 
 #: phonetrack.js:814 phonetrack.js:2753 maincontent.php:211 maincontent.php:255
 #: maincontent.php:300 maincontent.php:349 maincontent.php:211
 #: maincontent.php:255 maincontent.php:300 maincontent.php:349
 msgid "Delete"
-msgstr ""
+msgstr "Verwijder"
 
 #: phonetrack.js:847
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "Tile server \"{ts}\" is toegevoegd"
 
 #: phonetrack.js:850 phonetrack.js:854
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "Tile server \"{ts}\" kon niet worden toegevoegd"
 
 #: phonetrack.js:888
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr ""
+msgstr "Tile server \"{ts}\" is verwijderd"
 
 #: phonetrack.js:891 phonetrack.js:895
 msgid "Failed to delete tile server \"{ts}\""
