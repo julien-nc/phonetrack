@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-06 20:20-0500\n"
+"POT-Creation-Date: 2017-11-09 10:05+0100\n"
+"PO-Revision-Date: 2017-11-09 04:18-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Norwegian\n"
 "Language: no_NO\n"
@@ -53,7 +53,7 @@ msgid "Hide last point tooltip"
 msgstr ""
 
 #: phonetrack.js:610
-msgid "Zoom on all markers"
+msgid "Zoom on all devices"
 msgstr ""
 
 #: phonetrack.js:623
@@ -191,7 +191,7 @@ msgid "Shared with {u}"
 msgstr ""
 
 #: phonetrack.js:1248
-msgid "If session is not public, position are not showed in public browser logging page"
+msgid "A private session is not visible on public browser logging page"
 msgstr ""
 
 #: phonetrack.js:1250 phonetrack.js:3870
@@ -471,7 +471,7 @@ msgid "Failed to delete reserved name"
 msgstr ""
 
 #: phonetrack.js:3217
-msgid "There is no such device"
+msgid "This device does not exist"
 msgstr ""
 
 #: phonetrack.js:3221
@@ -834,7 +834,7 @@ msgid "Apply filters"
 msgstr ""
 
 #: maincontent.php:404 maincontent.php:404
-msgid "Minimum date"
+msgid "Begin date"
 msgstr ""
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
@@ -843,15 +843,15 @@ msgid "today"
 msgstr "i dag"
 
 #: maincontent.php:415 maincontent.php:415
-msgid "Minimum time"
+msgid "Begin time"
 msgstr ""
 
 #: maincontent.php:422 maincontent.php:422
-msgid "Maximum date"
+msgid "End date"
 msgstr ""
 
 #: maincontent.php:433 maincontent.php:433
-msgid "Maximum time"
+msgid "End time"
 msgstr ""
 
 #: maincontent.php:440 maincontent.php:440
