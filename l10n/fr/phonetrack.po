@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-09 10:05+0100\n"
-"PO-Revision-Date: 2017-11-09 04:16-0500\n"
+"PO-Revision-Date: 2017-11-09 04:35-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -54,7 +54,7 @@ msgstr "Cacher le tooltip du dernier point"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Zoomer sur tous les appareils"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
@@ -192,7 +192,7 @@ msgstr "Partagé avec {u}"
 
 #: phonetrack.js:1248
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Une session privée n'est pas visible sur la page publique de logging dans le navigateur"
 
 #: phonetrack.js:1250 phonetrack.js:3870
 msgid "Make session public"
@@ -472,7 +472,7 @@ msgstr "Impossible de supprimer le nom réservé"
 
 #: phonetrack.js:3217
 msgid "This device does not exist"
-msgstr ""
+msgstr "Cet appareil n'existe pas"
 
 #: phonetrack.js:3221
 msgid "This device name is not reserved, please reload this page"
@@ -835,7 +835,7 @@ msgstr "Appliquer les filtres"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Date de début"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
@@ -844,15 +844,15 @@ msgstr "auj."
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Heure de début"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Date de fin"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Heure de fin"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
