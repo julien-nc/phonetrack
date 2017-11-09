@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-09 13:56+0100\n"
-"PO-Revision-Date: 2017-11-09 13:22-0500\n"
+"PO-Revision-Date: 2017-11-09 13:37-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -460,31 +460,31 @@ msgstr ""
 
 #: phonetrack.js:3182
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "No se pudo reservar '{n}'"
 
 #: phonetrack.js:3185
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "No se pudo contactar con el servidor para reservar el nombre de dispositivo"
 
 #: phonetrack.js:3216 phonetrack.js:3220
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "No se pudo eliminar el nombre reservado"
 
 #: phonetrack.js:3217
 msgid "This device does not exist"
-msgstr ""
+msgstr "El dispositivo no existe"
 
 #: phonetrack.js:3221
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Este nombre de dispositivo no está reservado, por favor, vuelva a cargar esta página"
 
 #: phonetrack.js:3224
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "No se pudo contactar con el servidor para eliminar el nombre reservado"
 
 #: phonetrack.js:3244
 msgid "User does not exist"
-msgstr ""
+msgstr "Usuario no existe"
 
 #: phonetrack.js:3247 phonetrack.js:3250
 msgid "Failed to add user share"
@@ -654,19 +654,19 @@ msgstr ""
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Create session"
-msgstr ""
+msgstr "Crear una sesión"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Import session"
-msgstr ""
+msgstr "Importar una sesión"
 
 #: maincontent.php:125 maincontent.php:125
 msgid "Session name"
-msgstr ""
+msgstr "Nombre de sesión"
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
-msgstr ""
+msgstr "Nombre de dispositivo"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
@@ -674,11 +674,11 @@ msgstr ""
 
 #: maincontent.php:142 maincontent.php:142
 msgid "Tracking sessions"
-msgstr ""
+msgstr "Sesiones de seguimiento"
 
 #: maincontent.php:147 maincontent.php:147
 msgid "loading positions"
-msgstr ""
+msgstr "cargando las posiciones"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
@@ -688,7 +688,7 @@ msgstr ""
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
 #: maincontent.php:267 maincontent.php:312
 msgid "Server name"
-msgstr ""
+msgstr "Nombre del servidor"
 
 #: maincontent.php:185 maincontent.php:225 maincontent.php:268
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
@@ -700,7 +700,7 @@ msgstr ""
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
 #: maincontent.php:269 maincontent.php:314
 msgid "Server url"
-msgstr ""
+msgstr "URL del servidor"
 
 #: maincontent.php:187 maincontent.php:270 maincontent.php:187
 #: maincontent.php:270
@@ -723,11 +723,11 @@ msgstr ""
 #: maincontent.php:330 maincontent.php:192 maincontent.php:236
 #: maincontent.php:281 maincontent.php:330
 msgid "Add"
-msgstr ""
+msgstr "Añadir"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
-msgstr ""
+msgstr "Sus servidores de teja"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
@@ -741,16 +741,16 @@ msgstr ""
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
 msgid "Transparent"
-msgstr ""
+msgstr "Transparente"
 
 #: maincontent.php:234 maincontent.php:322 maincontent.php:234
 #: maincontent.php:322
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Opacidad (0.0-1.0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Sus servidores de teja de superposicion"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
@@ -785,21 +785,21 @@ msgstr ""
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
-msgstr ""
+msgstr "Añadir un punto manualmente"
 
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
 msgid "Session"
-msgstr ""
+msgstr "Sesión"
 
 #: maincontent.php:368 maincontent.php:386 maincontent.php:368
 #: maincontent.php:386
 msgid "Device"
-msgstr ""
+msgstr "Dispositivo"
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
-msgstr ""
+msgstr "Añadir un punto"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
@@ -807,11 +807,11 @@ msgstr ""
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
-msgstr ""
+msgstr "Cancelar añadir el punto"
 
 #: maincontent.php:377 maincontent.php:377
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Eliminar varios puntos"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
@@ -819,40 +819,40 @@ msgstr ""
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
-msgstr ""
+msgstr "Borrar puntos"
 
 #: maincontent.php:389 maincontent.php:389
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Eliminar sólo los puntos visibles"
 
 #: maincontent.php:396 maincontent.php:396
 msgid "Filter points"
-msgstr ""
+msgstr "Filtrar los puntos"
 
 #: maincontent.php:401 maincontent.php:401
 msgid "Apply filters"
-msgstr ""
+msgstr "Aplicar los filtros"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Fecha de inicio"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
 msgid "today"
-msgstr ""
+msgstr "hoy"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Hora de inicio"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Fecha de fin"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Hora de fin"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
@@ -868,7 +868,7 @@ msgstr ""
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Precisión minima"
 
 #: maincontent.php:461 maincontent.php:461
 msgid "Maximum accuracy"
@@ -896,27 +896,27 @@ msgstr "Satelite maximo"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Satelite minimo"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
-msgstr ""
+msgstr "Estadísticas"
 
 #: maincontent.php:526 maincontent.php:526
 msgid "Show stats"
-msgstr ""
+msgstr "Mostrar estadísticas"
 
 #: maincontent.php:535 maincontent.php:535
 msgid "Shortcuts"
-msgstr ""
+msgstr "Accesos rápidos"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Ocultar/mostrar barra lateral"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
-msgstr ""
+msgstr "Documentación"
 
 #: maincontent.php:549 maincontent.php:549
 msgid "Source management"
@@ -924,5 +924,5 @@ msgstr ""
 
 #: maincontent.php:560 maincontent.php:560
 msgid "Authors"
-msgstr ""
+msgstr "Autores"
 
