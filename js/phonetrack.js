@@ -2979,7 +2979,7 @@
             async: true
         }).done(function (response) {
             if (response.done) {
-                OC.Notification.showTemporary(t('phonetrack', 'Successfully exported session in') +
+                OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in') +
                     ' ' + targetPath + '/' + name + '.gpx');
             }
             else {
