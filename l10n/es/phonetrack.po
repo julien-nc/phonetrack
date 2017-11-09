@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-09 13:56+0100\n"
-"PO-Revision-Date: 2017-11-09 13:37-0500\n"
+"PO-Revision-Date: 2017-11-09 13:42-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -500,47 +500,47 @@ msgstr ""
 
 #: phonetrack.js:3315
 msgid "device name"
-msgstr ""
+msgstr "nombre de dispositivo"
 
 #: phonetrack.js:3316
 msgid "distance (km)"
-msgstr ""
+msgstr "distancia (km)"
 
 #: phonetrack.js:3317
 msgid "duration"
-msgstr ""
+msgstr "duración"
 
 #: phonetrack.js:3318
 msgid "#points"
-msgstr ""
+msgstr "#puntos"
 
 #: phonetrack.js:3353
 msgid "years"
-msgstr ""
+msgstr "años"
 
 #: phonetrack.js:3356
 msgid "days"
-msgstr ""
+msgstr "días"
 
 #: phonetrack.js:3485
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "¿Está seguro que desea eliminar la sesión {session}?"
 
 #: phonetrack.js:3488
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Confirmar eliminación de sesion"
 
 #: phonetrack.js:3636
 msgid "Where to save"
-msgstr ""
+msgstr "Donde guardar"
 
 #: phonetrack.js:3797
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "¿Está seguro que desea eliminar el dispositivo {device}?"
 
 #: phonetrack.js:3800
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Confirmar eliminación de dispositivo"
 
 #: phonetrack.js:3875
 msgid "Failed to toggle session public, session does not exist"
