@@ -607,7 +607,7 @@
             states: [{
                 stateName: 'no-importa',
                 icon:      'fa normalzoomicon',
-                title:     t('phonetrack', 'Zoom on all markers'),
+                title:     t('phonetrack', 'Zoom on all devices'),
                 onClick: function(btn, map) {
                     zoomOnDisplayedMarkers();
                 }
@@ -1245,7 +1245,7 @@
             divtxt = divtxt + '</ul>';
             divtxt = divtxt + '</div><hr/>';
 
-            var titlePublic = t('phonetrack', 'If session is not public, position are not showed in public browser logging page');
+            var titlePublic = t('phonetrack', 'A private session is not visible on public browser logging page');
             var icon = 'fa-toggle-off';
             var pubtext = t('phonetrack', 'Make session public');
             if (parseInt(isPublic) === 1) {
@@ -3214,7 +3214,7 @@
             }
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name') +
-                '. ' + t('phonetrack', 'There is no such device'));
+                '. ' + t('phonetrack', 'This device does not exist'));
             }
             else if (response.done === 3) {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name') +

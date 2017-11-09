@@ -401,7 +401,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><label for="applyfilters"><?php p($l->t('Apply filters')); ?></label></td>
     <td><input type="checkbox" id="applyfilters"/></td>
 </tr><tr>
-    <td><?php p($l->t('Minimum date')); ?></td>
+    <td><?php p($l->t('Begin date')); ?></td>
     <td><input role="datemin" type="date" value=""/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -412,14 +412,14 @@ if (count($_['useroverlayserverswms']) > 0){
         <button role="dateminplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
     </td>
 </tr><tr>
-    <td><?php p($l->t('Minimum time')); ?></td>
+    <td><?php p($l->t('Begin time')); ?></td>
     <td><input class="time" role="hourmin" type="number" value="" min="0" max="23"/>:
         <input class="time" role="minutemin" type="number" value="" min="0" max="59"/>:
         <input class="time" role="secondmin" type="number" value="" min="0" max="59"/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr>
 <tr>
-    <td><?php p($l->t('Maximum date')); ?></td>
+    <td><?php p($l->t('End date')); ?></td>
     <td><input role="datemax" type="date" value=""/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -430,7 +430,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <button role="datemaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
     </td>
 </tr><tr>
-    <td><?php p($l->t('Maximum time')); ?></td>
+    <td><?php p($l->t('End time')); ?></td>
     <td><input class="time" role="hourmax" type="number" value="" min="0" max="23"/>:
         <input class="time" role="minutemax" type="number" value="" min="0" max="59"/>:
         <input class="time" role="secondmax" type="number" value="" min="0" max="59"/></td>
