@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-11-05 22:33+0100\n"
-"PO-Revision-Date: 2017-11-05 16:49-0500\n"
+"POT-Creation-Date: 2017-11-09 10:05+0100\n"
+"PO-Revision-Date: 2017-11-09 04:16-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -53,8 +53,8 @@ msgid "Hide last point tooltip"
 msgstr "Cacher le tooltip du dernier point"
 
 #: phonetrack.js:610
-msgid "Zoom on all markers"
-msgstr "Zoomer sur tous les marqueurs"
+msgid "Zoom on all devices"
+msgstr ""
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
@@ -191,8 +191,8 @@ msgid "Shared with {u}"
 msgstr "Partagé avec {u}"
 
 #: phonetrack.js:1248
-msgid "If session is not public, position are not showed in public browser logging page"
-msgstr "Si la session n'est pas publique, les positions ne sont pas visibles dans la page publique de logging dans le navigateur"
+msgid "A private session is not visible on public browser logging page"
+msgstr ""
 
 #: phonetrack.js:1250 phonetrack.js:3870
 msgid "Make session public"
@@ -471,8 +471,8 @@ msgid "Failed to delete reserved name"
 msgstr "Impossible de supprimer le nom réservé"
 
 #: phonetrack.js:3217
-msgid "There is no such device"
-msgstr "Cet appareil n'existe pas"
+msgid "This device does not exist"
+msgstr ""
 
 #: phonetrack.js:3221
 msgid "This device name is not reserved, please reload this page"
@@ -834,8 +834,8 @@ msgid "Apply filters"
 msgstr "Appliquer les filtres"
 
 #: maincontent.php:404 maincontent.php:404
-msgid "Minimum date"
-msgstr "Date minimum"
+msgid "Begin date"
+msgstr ""
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
@@ -843,16 +843,16 @@ msgid "today"
 msgstr "auj."
 
 #: maincontent.php:415 maincontent.php:415
-msgid "Minimum time"
-msgstr "Heure minimum"
+msgid "Begin time"
+msgstr ""
 
 #: maincontent.php:422 maincontent.php:422
-msgid "Maximum date"
-msgstr "Date maximum"
+msgid "End date"
+msgstr ""
 
 #: maincontent.php:433 maincontent.php:433
-msgid "Maximum time"
-msgstr "Heure maximum"
+msgid "End time"
+msgstr ""
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
