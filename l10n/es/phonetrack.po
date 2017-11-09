@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-09 13:56+0100\n"
-"PO-Revision-Date: 2017-11-09 13:42-0500\n"
+"PO-Revision-Date: 2017-11-09 14:23-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -316,7 +316,7 @@ msgstr ""
 
 #: phonetrack.js:2183
 msgid "Delete this device"
-msgstr ""
+msgstr "Eliminar este dispositivo"
 
 #: phonetrack.js:2185
 msgid "Rename this device"
@@ -328,75 +328,75 @@ msgstr "Mover a otra sesión"
 
 #: phonetrack.js:2191 maincontent.php:129 maincontent.php:129
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: phonetrack.js:2204
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Mostrar/ocultar detalle/edición de puntos"
 
 #: phonetrack.js:2212
 msgid "Toggle lines"
-msgstr ""
+msgstr "Mostrar/ocultar lineas"
 
 #: phonetrack.js:2222 phonetrack.js:2228
 msgid "Center map on device"
-msgstr ""
+msgstr "Centrar mapa sobre el dispositivo"
 
 #: phonetrack.js:2233
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Seguir este dispositivo (autozoom)"
 
 #: phonetrack.js:2382
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "El punto que desea editar no existe o no está permitido editarlo"
 
 #: phonetrack.js:2386
 msgid "Failed to edit point"
-msgstr ""
+msgstr "No se pudo editar el punto"
 
 #: phonetrack.js:2504
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "El punto que desea eliminar no existe o no está permitido eliminarlo"
 
 #: phonetrack.js:2508
 msgid "Failed to delete point"
-msgstr ""
+msgstr "No se pudo elminar el punto"
 
 #: phonetrack.js:2600
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Imposible añadir este punto"
 
 #: phonetrack.js:2604
 msgid "Failed to add point"
-msgstr ""
+msgstr "No se pudo añadir el punto"
 
 #: phonetrack.js:2720
 msgid "Date"
-msgstr ""
+msgstr "Fecha"
 
 #: phonetrack.js:2723
 msgid "Time"
-msgstr ""
+msgstr "Hora"
 
 #: phonetrack.js:2728 phonetrack.js:2769
 msgid "Altitude"
-msgstr ""
+msgstr "Altura"
 
 #: phonetrack.js:2731 phonetrack.js:2773
 msgid "Precision"
-msgstr ""
+msgstr "Precisión"
 
 #: phonetrack.js:2734 phonetrack.js:2777
 msgid "Satellites"
-msgstr ""
+msgstr "Satélites"
 
 #: phonetrack.js:2737 phonetrack.js:2781
 msgid "Battery"
-msgstr ""
+msgstr "Batería"
 
 #: phonetrack.js:2740 phonetrack.js:2785
 msgid "User-agent"
-msgstr ""
+msgstr "User-agent"
 
 #: phonetrack.js:2743
 msgid "lat : lng"
@@ -404,27 +404,27 @@ msgstr ""
 
 #: phonetrack.js:2747
 msgid "DMS coords"
-msgstr ""
+msgstr "Coordenadas DMS"
 
 #: phonetrack.js:2752
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: phonetrack.js:2754
 msgid "Move"
-msgstr ""
+msgstr "Mover"
 
 #: phonetrack.js:2928
 msgid "File extension must be '.gpx' to be imported"
-msgstr ""
+msgstr "Extensión de archivo debe ser '.gpx' para importarlo"
 
 #: phonetrack.js:2945
 msgid "Failed to create imported session"
-msgstr ""
+msgstr "No se pudo crear la sesión importada"
 
 #: phonetrack.js:2949 phonetrack.js:2955
 msgid "Failed to import session"
-msgstr ""
+msgstr "No se pudo importar la sesión"
 
 #: phonetrack.js:2950
 msgid "File is not readable"
@@ -440,11 +440,11 @@ msgstr "No se pudo contactar con el servidor para importar la sesión"
 
 #: phonetrack.js:2982
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Sesión exportado con éxito en"
 
 #: phonetrack.js:2986
 msgid "Failed to export session"
-msgstr ""
+msgstr "No se pudo exportar la sesión"
 
 #: phonetrack.js:2990
 msgid "Failed to contact server to export session"
@@ -556,20 +556,20 @@ msgstr ""
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Pestaña principal"
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filtros"
 
 #: maincontent.php:14 maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Estadísticas"
 
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
 msgid "Settings and extra actions"
-msgstr ""
+msgstr "Ajustes y acciones adicionales"
 
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
@@ -646,11 +646,11 @@ msgstr ""
 
 #: maincontent.php:105 maincontent.php:105
 msgid "dark"
-msgstr ""
+msgstr "oscuro"
 
 #: maincontent.php:108 maincontent.php:108
 msgid "reload page to make changes effective"
-msgstr ""
+msgstr "recargar página para realizar cambios"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Create session"
