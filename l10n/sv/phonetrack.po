@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-11-09 10:05+0100\n"
-"PO-Revision-Date: 2017-11-09 04:17-0500\n"
+"POT-Creation-Date: 2017-11-09 13:56+0100\n"
+"PO-Revision-Date: 2017-11-09 08:02-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
@@ -439,7 +439,7 @@ msgid "Failed to contact server to import session"
 msgstr ""
 
 #: phonetrack.js:2982
-msgid "Successfully exported session in"
+msgid "Session successfully exported in"
 msgstr ""
 
 #: phonetrack.js:2986
