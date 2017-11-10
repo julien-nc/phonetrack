@@ -106,7 +106,7 @@ OC.L10N.register(
     "File is not readable" : "Ce fichier n'est pas lisible",
     "File does not exist" : "Ce fichier n'existe pas",
     "Failed to contact server to import session" : "Impossible de contacter le serveur pour importer la session",
-    "Successfully exported session in" : "Session exportée avec succès dans",
+    "Session successfully exported in" : "Session exportée avec succès dans",
     "Failed to export session" : "Echec de l'export de la session",
     "Failed to contact server to export session" : "Echec du contact le serveur pour exporter la session",
     "Failed to contact server to log position" : "Impossible de contacter le serveur pour enregistrer la position",

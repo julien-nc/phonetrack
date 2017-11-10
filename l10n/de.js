@@ -104,7 +104,6 @@ OC.L10N.register(
     "File is not readable" : "Datei konnte nicht gelesen werden",
     "File does not exist" : "Datei nicht gefunden",
     "Failed to contact server to import session" : "Server für Sessionimport nicht erreichbar",
-    "Successfully exported session in" : "Sessions erfolgreich exportiert in",
     "Failed to export session" : "Session konnte nicht exportiert werden",
     "Failed to contact server to export session" : "Keine Verbindung zum Server zum export der Session",
     "Failed to contact server to log position" : "Server zum aufzeichenen der Position nicht erreichbar",

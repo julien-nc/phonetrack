@@ -102,7 +102,6 @@
     "File is not readable" : "Bestand is niet leesbaar",
     "File does not exist" : "Bestand bestaat niet",
     "Failed to contact server to import session" : "Kon geen contact maken met server om sessie te importeren",
-    "Successfully exported session in" : "Sessie succesvol geëxporteerd in",
     "Failed to export session" : "Sessie exporteren is mislukt",
     "Failed to contact server to export session" : "Kon geen contact maken met server om sessie te exporteren",
     "Failed to contact server to log position" : "Kon geen contact maken met server om positie te loggen",
