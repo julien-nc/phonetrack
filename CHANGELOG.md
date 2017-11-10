@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 0.0.8 – 2017-11-06
+## 0.0.8 – 2017-11-10
 ### Added
 - button to toggle line for each device
 [#21](https://gitlab.com/eneiluj/phonetrack-oc/issues/21) @Mamie

@@ -37,7 +37,12 @@ appstore: clean
 	--exclude=composer.json \
 	--exclude=composer.lock \
 	--exclude=composer.phar \
+	--exclude=crowdin.yml \
+	--exclude=tools \
 	--exclude=l10n/.tx \
+	--exclude=l10n/l10n.pl \
+	--exclude=l10n/templates \
+	--exclude=l10n/[a-z][a-z] \
 	--exclude=l10n/no-php \
 	--exclude=makefile \
 	--exclude=screenshots \

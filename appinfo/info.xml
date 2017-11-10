@@ -7,10 +7,14 @@
 # PhoneTrack Nextcloud application
 
 PhoneTrack is an app to get tracking information from mobile devices
-and display them dynamically on a Leaflet map. Principle is simple :
+and display them dynamically on a Leaflet map.
+
+Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if you want to help to translate this app in your language.
+
+How to use PhoneTrack :
 
 * create a tracking session
-* give the tracking URL\* to the mobile devices. Several methods :
+* give the tracking URL\* to the mobile devices. Choose the method you prefer :
     * With a web browser, on the session public logging page, check "Log my position in this session" (works better on Android than on IOS...)
     * [OsmAnd gpx recording plugin](https://osmand.net/features?id=trip-recording-plugin#Online_tracking) (Android) is able to log to a custom URL with GET method. IOS version does not include recording plugin. Tested and approved.
     * [GpsLogger](http://code.mendhak.com/gpslogger/#features) (Android) Very good ! Setup in : Options -> Logging details -> Log to custom URL
@@ -26,18 +30,20 @@ and display them dynamically on a Leaflet map. Principle is simple :
 On PhoneTrack main page, while watching a session, you can :
 
 * edit/add/delete points
-* select some devices to make the automatic zoom work only with those devices
+* restrict autozoom to some devices
 * toggle position history display (path lines)
-* toggle devices last point date display
+* toggle devices last point tooltip display
 * rename a session
-* share a session to a list of users (read-only)
-* make a session public and share it via public link. If session is not public, positions are not visible in web logging page "publicWebLog".
-* export sessions in GPX format (one subtrack by device). They are saved in Nextcloud files.
-* export sessions in GPX format (one subtrack by device). They are saved in ownCloud files.
+* rename a device
+* change a device color
+* move a device to another session
+* share a session to other users (read-only)
+* make a session public and share it via a public link. If the session is not public, positions are not visible in web logging page "publicWebLog".
+* export sessions in GPX format (one subtrack by device). They are saved in Nextcloud/ownCloud files.
+* display session statistics
+* filter points (any criterias combination)
 
 Public page works like main page except there is only one session displayed and there is no need to be logged in.
-
-Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if you want to help to translate this app in your language.
 
 This app is tested with Owncloud 10 with Firefox 56+ and Chromium.
 This app is tested with Nextcloud 12 with Firefox 56+ and Chromium.
@@ -92,13 +98,14 @@ Any feedback will be appreciated.
         <admin>https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc</admin>
         <developer>https://gitlab.com/eneiluj/phonetrack-oc/wikis/devdoc</developer>
     </documentation>
-    <category>tool</category>
+    <category>tools</category>
+    <category>social</category>
     <category>multimedia</category>
     <website>https://gitlab.com/eneiluj/phonetrack-oc</website>
     <bugs>https://gitlab.com/eneiluj/phonetrack-oc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/58881f5d155a91aec3c0db9f051126e0/pt1.jpeg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/9ee540e94ca32fce8747f411bbc9149b/pt2.jpeg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/97b3e41c3fa49ddebee52c3d9de540c7/pt3.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/17ba0aa1f01eb5f09010fb87048d0a6a/ph1.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/55c1a459b1155cf75aba1252388c085a/ph2.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/2c88199e6ce40fcaafbb7c112f9e42f9/ph3.jpeg</screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>

@@ -1,10 +1,14 @@
 # PhoneTrack ownCloud/Nextcloud application
 
 PhoneTrack is an app to get tracking information from mobile devices
-and display them dynamically on a Leaflet map. Principle is simple :
+and display them dynamically on a Leaflet map.
+
+Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if you want to help to translate this app in your language.
+
+How to use PhoneTrack :
 
 * create a tracking session
-* give the tracking URL\* to the mobile devices. Several methods :
+* give the tracking URL\* to the mobile devices. Choose the method you prefer :
     * With a web browser, on the session public logging page, check "Log my position in this session" (works better on Android than on IOS...)
     * [OsmAnd gpx recording plugin](https://osmand.net/features?id=trip-recording-plugin#Online_tracking) (Android) is able to log to a custom URL with GET method. IOS version does not include recording plugin. Tested and approved.
     * [GpsLogger](http://code.mendhak.com/gpslogger/#features) (Android) Very good ! Setup in : Options -> Logging details -> Log to custom URL
@@ -22,15 +26,18 @@ On PhoneTrack main page, while watching a session, you can :
 * edit/add/delete points
 * select some devices to make the automatic zoom work only with those devices
 * toggle position history display (path lines)
-* toggle devices last point date display
+* toggle devices last point tooltip display
 * rename a session
-* share a session to a list of users (read-only)
-* make a session public and share it via public link. If session is not public, positions are not visible in web logging page "publicWebLog".
+* rename a device
+* change a device color
+* move a device to another session
+* share a session to other users (read-only)
+* make a session public and share it via a public link. If the session is not public, positions are not visible in web logging page "publicWebLog".
 * export sessions in GPX format (one subtrack by device). They are saved in Nextcloud/ownCloud files.
+* display session statistics
+* filter points (any criterias combination)
 
 Public page works like main page except there is only one session displayed and there is no need to be logged in.
-
-Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if you want to help to translate this app in your language.
 
 This app is tested with Owncloud 10/Nextcloud 12 with Firefox 56+ and Chromium.
 
