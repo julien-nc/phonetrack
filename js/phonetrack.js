@@ -4227,7 +4227,11 @@
         }
 
         $('<style role="buttons">.fa { ' +
-            'color: ' + buttonColor + '; }</style>').appendTo('body');
+            'color: ' + buttonColor + '; }' +
+            '.dropdown-content button:hover i, ' +
+            '.reaffectDeviceDiv button:hover i ' +
+            '{ color: ' + buttonColor + '; }' +
+            '</style>').appendTo('body');
 
         $('#pointlinealpha').change(function() {
             if (!pageIsPublic()) {
