@@ -24,16 +24,13 @@ How to use PhoneTrack :
 On PhoneTrack main page, while watching a session, you can :
 
 * edit/add/delete points
-* select some devices to make the automatic zoom work only with those devices
-* toggle position history display (path lines)
-* toggle devices last point tooltip display
-* rename a session
-* rename a device
-* change a device color
-* move a device to another session
+* restrict autozoom to some devices
+* display position history display (path lines)
+* rename a session/device
+* change a device color, move it to another session
 * share a session to other users (read-only)
-* make a session public and share it via a public link. If the session is not public, positions are not visible in web logging page "publicWebLog".
-* export sessions in GPX format (one subtrack by device). They are saved in Nextcloud/ownCloud files.
+* make a session public and share it via a public link. Positions are not visible in web logging page "publicWebLog" for private sessions.
+* import/export sessions in GPX format (one subtrack by device).
 * display session statistics
 * filter points (any criterias combination)
 
@@ -49,7 +46,11 @@ Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetra
 
 ## Donation
 
-I develop this app during my free time. You can make a donation to me on Paypal. [Click HERE to make a donation](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
+I develop this app during my free time.
+
+* [Donate on Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
+* Bitcoin : 1FfDVdPK8mZHB84EdN67iVgKCmRa3SwF6r                             
+* Monero : 43moCXnskkeJNf1MezHnjzARNpk2BRvhuRA9vzyuVAkTYH2AE4L4EwJjC3HbDxv9uRBdsYdBPF1jePLeV8TpdnU7F9FN2Ao
 
 ## Install
 
