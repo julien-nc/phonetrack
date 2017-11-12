@@ -98,7 +98,6 @@
     "days" : "días",
     "Are you sure you want to delete the session {session} ?" : "¿Está seguro que desea eliminar la sesión {session}?",
     "Confirm session deletion" : "Confirmar eliminación de sesion",
-    "Where to save" : "Donde guardar",
     "Are you sure you want to delete the device {device} ?" : "¿Está seguro que desea eliminar el dispositivo {device}?",
     "Confirm device deletion" : "Confirmar eliminación de dispositivo",
     "Main tab" : "Pestaña principal",

@@ -129,7 +129,6 @@ OC.L10N.register(
     "days" : "jours",
     "Are you sure you want to delete the session {session} ?" : "Êtes-vous sur de vouloir supprimer la session {session} ?",
     "Confirm session deletion" : "Confirmer la suppression de la session",
-    "Where to save" : "Où sauver",
     "Are you sure you want to delete the device {device} ?" : "Êtes-vous sur de vouloir supprimer l'appareil {device} ?",
     "Confirm device deletion" : "Confirmer la suppression de l'appareil",
     "Failed to toggle session public, session does not exist" : "Impossible de modifier la session, elle n'existe pas",

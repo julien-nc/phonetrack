@@ -123,7 +123,6 @@
     "days" : "Tage",
     "Are you sure you want to delete the session {session} ?" : "Sicher, dass du die Session {session} löschen möchtest?",
     "Confirm session deletion" : "Löschen der Session bestätigen",
-    "Where to save" : "Wo soll gespeichert werden",
     "Are you sure you want to delete the device {device} ?" : "Sicher, dass du das Gerät {device} löschen möchtest?",
     "Confirm device deletion" : "Löschen des Gerätes bestätigen",
     "Failed to toggle session public, session does not exist" : "Session konnte nicht öffentlich gemacht werden, Session existiert nicht",
