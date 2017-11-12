@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-11-09 13:56+0100\n"
-"PO-Revision-Date: 2017-11-09 08:06-0500\n"
+"POT-Creation-Date: 2017-11-12 18:43+0100\n"
+"PO-Revision-Date: 2017-11-12 12:44-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -194,11 +194,11 @@ msgstr "Geteilt mit {u}"
 msgid "A private session is not visible on public browser logging page"
 msgstr ""
 
-#: phonetrack.js:1250 phonetrack.js:3870
+#: phonetrack.js:1250 phonetrack.js:3869
 msgid "Make session public"
 msgstr "Session öffentlich machen"
 
-#: phonetrack.js:1253 phonetrack.js:3865
+#: phonetrack.js:1253 phonetrack.js:3864
 msgid "Make session private"
 msgstr "Session privat machen"
 
@@ -531,26 +531,26 @@ msgid "Confirm session deletion"
 msgstr "Löschen der Session bestätigen"
 
 #: phonetrack.js:3636
-msgid "Where to save"
-msgstr "Wo soll gespeichert werden"
+msgid "Select storage location for '{fname}'"
+msgstr ""
 
-#: phonetrack.js:3797
+#: phonetrack.js:3796
 msgid "Are you sure you want to delete the device {device} ?"
 msgstr "Sicher, dass du das Gerät {device} löschen möchtest?"
 
-#: phonetrack.js:3800
+#: phonetrack.js:3799
 msgid "Confirm device deletion"
 msgstr "Löschen des Gerätes bestätigen"
 
-#: phonetrack.js:3875
+#: phonetrack.js:3874
 msgid "Failed to toggle session public, session does not exist"
 msgstr "Session konnte nicht öffentlich gemacht werden, Session existiert nicht"
 
-#: phonetrack.js:3878
+#: phonetrack.js:3877
 msgid "Failed to toggle session public"
 msgstr "Session konnte nicht umgeschaltet werden"
 
-#: phonetrack.js:3948
+#: phonetrack.js:3947
 msgid "Import gpx session file"
 msgstr "Datei für Sessionimport"
 
@@ -922,7 +922,7 @@ msgstr "Dokumentation"
 msgid "Source management"
 msgstr "Quellmanagement"
 
-#: maincontent.php:560 maincontent.php:560
+#: maincontent.php:563 maincontent.php:563
 msgid "Authors"
 msgstr "Authoren"
 

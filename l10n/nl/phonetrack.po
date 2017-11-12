@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-11-09 13:56+0100\n"
-"PO-Revision-Date: 2017-11-09 08:09-0500\n"
+"POT-Creation-Date: 2017-11-12 18:43+0100\n"
+"PO-Revision-Date: 2017-11-12 12:45-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -54,7 +54,7 @@ msgstr "Tooltip van laatste punt verbergen"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Zoom op alle apparaten"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
@@ -192,13 +192,13 @@ msgstr "Gedeeld met {u}"
 
 #: phonetrack.js:1248
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Een privé sessie is niet zichtbaar op de openbare browser logging pagina"
 
-#: phonetrack.js:1250 phonetrack.js:3870
+#: phonetrack.js:1250 phonetrack.js:3869
 msgid "Make session public"
 msgstr "Maak sessie openbaar"
 
-#: phonetrack.js:1253 phonetrack.js:3865
+#: phonetrack.js:1253 phonetrack.js:3864
 msgid "Make session private"
 msgstr "Maak sessie privé"
 
@@ -440,7 +440,7 @@ msgstr "Kon geen contact maken met server om sessie te importeren"
 
 #: phonetrack.js:2982
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Sessie succesvol geëxporteerd in"
 
 #: phonetrack.js:2986
 msgid "Failed to export session"
@@ -472,7 +472,7 @@ msgstr "Gereserveerde naam verwijderen mislukt"
 
 #: phonetrack.js:3217
 msgid "This device does not exist"
-msgstr ""
+msgstr "Dit apparaat bestaat niet"
 
 #: phonetrack.js:3221
 msgid "This device name is not reserved, please reload this page"
@@ -531,26 +531,26 @@ msgid "Confirm session deletion"
 msgstr "Verwijderen van de sessie bevestigen"
 
 #: phonetrack.js:3636
-msgid "Where to save"
-msgstr "Waar opslaan"
+msgid "Select storage location for '{fname}'"
+msgstr ""
 
-#: phonetrack.js:3797
+#: phonetrack.js:3796
 msgid "Are you sure you want to delete the device {device} ?"
 msgstr "Weet je zeker dat je apparaat {device} wilt verwijderen?"
 
-#: phonetrack.js:3800
+#: phonetrack.js:3799
 msgid "Confirm device deletion"
 msgstr "Verwijderen van apparaat bevestigen"
 
-#: phonetrack.js:3875
+#: phonetrack.js:3874
 msgid "Failed to toggle session public, session does not exist"
 msgstr "Omschakelen naar openbare sessie mislukt, de sessie bestaat niet"
 
-#: phonetrack.js:3878
+#: phonetrack.js:3877
 msgid "Failed to toggle session public"
 msgstr "Omschakelen naar openbare sessie mislukt"
 
-#: phonetrack.js:3948
+#: phonetrack.js:3947
 msgid "Import gpx session file"
 msgstr "GPX bestand van sessie importeren"
 
@@ -835,7 +835,7 @@ msgstr "Filters toepassen"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Begin datum"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
@@ -844,15 +844,15 @@ msgstr "vandaag"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Begin tijdstip"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Eind datum"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Eind tijdstip"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
@@ -922,7 +922,7 @@ msgstr "Documentatie"
 msgid "Source management"
 msgstr "Bron beheer"
 
-#: maincontent.php:560 maincontent.php:560
+#: maincontent.php:563 maincontent.php:563
 msgid "Authors"
 msgstr "Auteurs"
 
