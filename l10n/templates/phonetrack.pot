@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-11-12 18:39+0100\n"
+"POT-Creation-Date: 2017-11-12 18:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -535,7 +535,7 @@ msgid "Confirm session deletion"
 msgstr ""
 
 #: phonetrack.js:3636
-msgid "Where to save '{fname}'"
+msgid "Select storage location for '{fname}'"
 msgstr ""
 
 #: phonetrack.js:3796
