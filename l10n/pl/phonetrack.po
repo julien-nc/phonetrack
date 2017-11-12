@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-11-12 18:39+0100\n"
-"PO-Revision-Date: 2017-11-12 12:41-0500\n"
+"POT-Creation-Date: 2017-11-12 18:43+0100\n"
+"PO-Revision-Date: 2017-11-12 12:44-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -531,7 +531,7 @@ msgid "Confirm session deletion"
 msgstr ""
 
 #: phonetrack.js:3636
-msgid "Where to save '{fname}'"
+msgid "Select storage location for '{fname}'"
 msgstr ""
 
 #: phonetrack.js:3796
