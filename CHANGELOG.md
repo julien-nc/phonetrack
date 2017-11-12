@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Fixed
+- mistake in session export
+[#52](https://gitlab.com/eneiluj/phonetrack-oc/issues/52) @tarator
 
 ## 0.0.8 – 2017-11-10
 ### Added

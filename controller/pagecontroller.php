@@ -1672,7 +1672,7 @@ class PageController extends Controller {
                 $coords = array();
                 // get list of devices
                 $devices = array();
-                $sqldev = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+                $sqldev = 'SELECT id, name FROM *PREFIX*phonetrack_devices ';
                 $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
                 $req = $this->dbconnection->prepare($sqldev);
                 $req->execute();
@@ -1687,7 +1687,7 @@ class PageController extends Controller {
                 foreach ($devices as $d) {
                     $devid = $d[0];
                     $devname = $d[1];
-                    $coords[$devid] = array();
+                    $coords[$devname] = array();
                     $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
                     $req = $this->dbconnection->prepare($sqlget);
