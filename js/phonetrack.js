@@ -3633,8 +3633,7 @@
             var token = $(this).parent().parent().attr('token');
             var filename = name + '.gpx';
             OC.dialogs.filepicker(
-                t('phonetrack', 'Where to save') +
-                    ' <b>' + filename + '</b>',
+                t('phonetrack', 'Where to save \'{fname}\''),
                 function(targetPath) {
                     saveAction(name, token, targetPath);
                 },
