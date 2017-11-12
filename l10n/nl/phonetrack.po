@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-09 13:56+0100\n"
-"PO-Revision-Date: 2017-11-09 08:09-0500\n"
+"PO-Revision-Date: 2017-11-12 12:13-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -54,7 +54,7 @@ msgstr "Tooltip van laatste punt verbergen"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Zoom op alle apparaten"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
