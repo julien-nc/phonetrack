@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-11-09 13:56+0100\n"
-"PO-Revision-Date: 2017-11-12 12:22-0500\n"
+"POT-Creation-Date: 2017-11-12 18:39+0100\n"
+"PO-Revision-Date: 2017-11-12 12:42-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -194,11 +194,11 @@ msgstr "Gedeeld met {u}"
 msgid "A private session is not visible on public browser logging page"
 msgstr "Een privé sessie is niet zichtbaar op de openbare browser logging pagina"
 
-#: phonetrack.js:1250 phonetrack.js:3870
+#: phonetrack.js:1250 phonetrack.js:3869
 msgid "Make session public"
 msgstr "Maak sessie openbaar"
 
-#: phonetrack.js:1253 phonetrack.js:3865
+#: phonetrack.js:1253 phonetrack.js:3864
 msgid "Make session private"
 msgstr "Maak sessie privé"
 
@@ -531,26 +531,26 @@ msgid "Confirm session deletion"
 msgstr "Verwijderen van de sessie bevestigen"
 
 #: phonetrack.js:3636
-msgid "Where to save"
-msgstr "Waar opslaan"
+msgid "Where to save '{fname}'"
+msgstr ""
 
-#: phonetrack.js:3797
+#: phonetrack.js:3796
 msgid "Are you sure you want to delete the device {device} ?"
 msgstr "Weet je zeker dat je apparaat {device} wilt verwijderen?"
 
-#: phonetrack.js:3800
+#: phonetrack.js:3799
 msgid "Confirm device deletion"
 msgstr "Verwijderen van apparaat bevestigen"
 
-#: phonetrack.js:3875
+#: phonetrack.js:3874
 msgid "Failed to toggle session public, session does not exist"
 msgstr "Omschakelen naar openbare sessie mislukt, de sessie bestaat niet"
 
-#: phonetrack.js:3878
+#: phonetrack.js:3877
 msgid "Failed to toggle session public"
 msgstr "Omschakelen naar openbare sessie mislukt"
 
-#: phonetrack.js:3948
+#: phonetrack.js:3947
 msgid "Import gpx session file"
 msgstr "GPX bestand van sessie importeren"
 
@@ -922,7 +922,7 @@ msgstr "Documentatie"
 msgid "Source management"
 msgstr "Bron beheer"
 
-#: maincontent.php:560 maincontent.php:560
+#: maincontent.php:563 maincontent.php:563
 msgid "Authors"
 msgstr "Auteurs"
 
