@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-09 13:56+0100\n"
-"PO-Revision-Date: 2017-11-12 12:13-0500\n"
+"PO-Revision-Date: 2017-11-12 12:22-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -192,7 +192,7 @@ msgstr "Gedeeld met {u}"
 
 #: phonetrack.js:1248
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Een privé sessie is niet zichtbaar op de openbare browser logging pagina"
 
 #: phonetrack.js:1250 phonetrack.js:3870
 msgid "Make session public"
@@ -440,7 +440,7 @@ msgstr "Kon geen contact maken met server om sessie te importeren"
 
 #: phonetrack.js:2982
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Sessie succesvol geëxporteerd in"
 
 #: phonetrack.js:2986
 msgid "Failed to export session"
@@ -472,7 +472,7 @@ msgstr "Gereserveerde naam verwijderen mislukt"
 
 #: phonetrack.js:3217
 msgid "This device does not exist"
-msgstr ""
+msgstr "Dit apparaat bestaat niet"
 
 #: phonetrack.js:3221
 msgid "This device name is not reserved, please reload this page"
@@ -835,7 +835,7 @@ msgstr "Filters toepassen"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Begin datum"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
@@ -844,15 +844,15 @@ msgstr "vandaag"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Begin tijdstip"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Eind datum"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Eind tijdstip"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
