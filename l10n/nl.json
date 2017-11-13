@@ -127,6 +127,7 @@
     "days" : "dagen",
     "Are you sure you want to delete the session {session} ?" : "Weet je zeker dat je sessie {session} wilt verwijderen?",
     "Confirm session deletion" : "Verwijderen van de sessie bevestigen",
+    "Select storage location for '{fname}'" : "Selecteer opslag locatie voor '{fname}'",
     "Are you sure you want to delete the device {device} ?" : "Weet je zeker dat je apparaat {device} wilt verwijderen?",
     "Confirm device deletion" : "Verwijderen van apparaat bevestigen",
     "Failed to toggle session public, session does not exist" : "Omschakelen naar openbare sessie mislukt, de sessie bestaat niet",
