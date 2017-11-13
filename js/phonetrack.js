@@ -2059,6 +2059,11 @@
         }
         // in case user click is between ajax request and response
         showHideSelectedSessions();
+
+        if (phonetrack.sessionsFromSavedOptions) {
+            zoomOnDisplayedMarkers();
+            delete phonetrack.sessionsFromSavedOptions;
+        }
     }
 
     function changeDeviceStyle(s, d, colorcode) {
