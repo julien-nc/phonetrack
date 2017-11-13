@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-12 18:43+0100\n"
-"PO-Revision-Date: 2017-11-12 12:44-0500\n"
+"PO-Revision-Date: 2017-11-13 01:31-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -18,23 +18,23 @@ msgstr ""
 
 #: app.php:39
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "влево"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "вправо"
 
 #: phonetrack.js:523 maincontent.php:49 maincontent.php:49
 msgid "Show lines"
-msgstr ""
+msgstr "Показать линии"
 
 #: phonetrack.js:531
 msgid "Hide lines"
-msgstr ""
+msgstr "Скрыть линии"
 
 #: phonetrack.js:552
 msgid "Activate automatic zoom"
