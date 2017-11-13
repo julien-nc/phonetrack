@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- zoom on normal page load
+[#54](https://gitlab.com/eneiluj/phonetrack-oc/issues/54) @GLLM1
+- dropdown menu style improved
+
 ### Fixed
 - mistake in session export
 [#52](https://gitlab.com/eneiluj/phonetrack-oc/issues/52) @tarator
