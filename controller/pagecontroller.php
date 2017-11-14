@@ -1749,13 +1749,11 @@ class PageController extends Controller {
 
     private function filterPoint($p, $f) {
         if (isset($f->{'datemin'}) and $f->{'datemin'} !== '') {
-            $hourmin = (isset($f->{'hourmin'}) and $f->{'hourmin'} !== '') ? 0 : intval($f->{'hourmin'});
-            $minutemin = (isset($f->{'minutemin'}) and $f->{'minutemin'} !== '') ? 0 : intval($f->{'minutemin'});
-            $secondmin = (isset($f->{'secondmin'}) and $f->{'secondmin'} !== '') ? 0 : intval($f->{'secondmin'});
-            $dateminstr = sprintf('%s %02d:%02d:%02d', $f->{'datemin'}, $hourmin, $minutemin, $secondmin);
-            error_log($dateminstr.' '.date_default_timezone_get());
-            $dateMin = \DateTime::createFromFormat('Y-m-d H:i:s', $dateminstr);
-            error_log('timestamp :: '.$dateMin->getTimestamp());
+            $hourmin = (isset($f->{'hourmin'}) and $f->{'hourmin'} !== '') ? intval($f->{'hourmin'}) : 0;
+            $minutemin = (isset($f->{'minutemin'}) and $f->{'minutemin'} !== '') ? intval($f->{'minutemin'}) : 0;
+            $secondmin = (isset($f->{'secondmin'}) and $f->{'secondmin'} !== '') ? intval($f->{'secondmin'}) : 0;
+            $tsmin = intval($f->{'datemin'}) + 3600*$hourmin + 60*$minutemin + $secondmin;
+            error_log('timestamp :: '.$tsmin);
         }
         return true;
     }

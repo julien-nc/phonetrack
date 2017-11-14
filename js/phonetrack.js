@@ -899,6 +899,7 @@
     //////////////// SAVE/RESTORE OPTIONS /////////////////////
 
     function restoreOptions() {
+        var mom;
         var url = OC.generateUrl('/apps/phonetrack/getOptionsValues');
         var req = {
         };
@@ -965,9 +966,21 @@
                         $('#sidebar').addClass('collapsed');
                     }
                 }
-                $('#filterPointsTable input[type=number], #filterPointsTable input[type=date]').each(function() {
+                $('#filterPointsTable input[type=number]').each(function() {
                     if (optionsValues.hasOwnProperty($(this).attr('role'))) {
                         $(this).val(optionsValues[$(this).attr('role')]);
+                    }
+                });
+                $('#filterPointsTable input[type=date]').each(function() {
+                    if (optionsValues.hasOwnProperty($(this).attr('role'))
+                        && optionsValues[$(this).attr('role')] !== null
+                        && optionsValues[$(this).attr('role')] !== ''
+                    ) {
+                        mom = moment.unix(optionsValues[$(this).attr('role')]);
+                        $(this).val(mom.format('YYYY-MM-DD'));
+                    }
+                    else {
+                        $(this).val('');
                     }
                 });
                 if (optionsValues.applyfilters !== undefined) {
@@ -1008,8 +1021,11 @@
         optionsValues.acccirclecheck = $('#acccirclecheck').is(':checked');
         optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
         optionsValues.showsidebar = !$('#sidebar').hasClass('collapsed');
-        $('#filterPointsTable input[type=number], #filterPointsTable input[type=date]').each(function() {
+        $('#filterPointsTable input[type=number]').each(function() {
             optionsValues[$(this).attr('role')] = $(this).val();
+        });
+        $('#filterPointsTable input[type=date]').each(function() {
+            optionsValues[$(this).attr('role')] = moment($(this).val()).unix();
         });
         optionsValues.applyfilters = $('#applyfilters').is(':checked');
 
