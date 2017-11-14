@@ -976,8 +976,13 @@
                         && optionsValues[$(this).attr('role')] !== null
                         && optionsValues[$(this).attr('role')] !== ''
                     ) {
-                        mom = moment.unix(optionsValues[$(this).attr('role')]);
-                        $(this).val(mom.format('YYYY-MM-DD'));
+                        try {
+                            mom = moment.unix(parseInt(optionsValues[$(this).attr('role')]));
+                            $(this).val(mom.format('YYYY-MM-DD'));
+                        }
+                        catch(err) {
+                            $(this).val('');
+                        }
                     }
                     else {
                         $(this).val('');
@@ -2915,7 +2920,9 @@
                     if (nbDevicesToFollow === 0
                         || (devicesToFollow.hasOwnProperty(token) && devicesToFollow[token].indexOf(d) !== -1)
                     ) {
-                        markersToZoomOn.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
+                        if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
+                            markersToZoomOn.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
+                        }
                     }
                 }
             }
