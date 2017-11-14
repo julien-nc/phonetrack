@@ -976,12 +976,17 @@
                         && optionsValues[$(this).attr('role')] !== null
                         && optionsValues[$(this).attr('role')] !== ''
                     ) {
-                        try {
-                            mom = moment.unix(parseInt(optionsValues[$(this).attr('role')]));
-                            $(this).val(mom.format('YYYY-MM-DD'));
+                        if (optionsValues[$(this).attr('role')].match(/\d\d\d\d-\d\d-\d\d/g) !== null) {
+                            $(this).val(optionsValues[$(this).attr('role')]);
                         }
-                        catch(err) {
-                            $(this).val('');
+                        else {
+                            try {
+                                mom = moment.unix(parseInt(optionsValues[$(this).attr('role')]));
+                                $(this).val(mom.format('YYYY-MM-DD'));
+                            }
+                            catch(err) {
+                                $(this).val('');
+                            }
                         }
                     }
                     else {
