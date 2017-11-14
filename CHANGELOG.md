@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - mistake in session export
 [#52](https://gitlab.com/eneiluj/phonetrack-oc/issues/52) @tarator
+- bad escaping of user id in controllers
 
 ## 0.0.8 – 2017-11-10
 ### Added

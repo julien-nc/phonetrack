@@ -114,7 +114,7 @@ class PageController extends Controller {
         $sessions = array();
         // sessions owned by current user
         $sqlget = 'SELECT name, token, creationversion FROM *PREFIX*phonetrack_sessions ';
-        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -272,7 +272,7 @@ class PageController extends Controller {
         $sessions = array();
         // sessions owned by current user
         $sqlget = 'SELECT name, token, publicviewtoken, public FROM *PREFIX*phonetrack_sessions ';
-        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -353,7 +353,7 @@ class PageController extends Controller {
         $token = '';
         // check if session name is not already used
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND name='.$this->db_quote_escape_string($name).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -409,7 +409,7 @@ class PageController extends Controller {
     public function deleteSession($token) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -479,7 +479,7 @@ class PageController extends Controller {
     public function deletePoint($token, $deviceid, $pointid) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -556,7 +556,7 @@ class PageController extends Controller {
         $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -640,7 +640,7 @@ class PageController extends Controller {
     public function setSessionPublic($token, $public) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -686,7 +686,7 @@ class PageController extends Controller {
         $ok = 2;
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($session).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -742,7 +742,7 @@ class PageController extends Controller {
     public function renameSession($token, $newname) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -788,7 +788,7 @@ class PageController extends Controller {
         $ok = 2;
         // check if session exists
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -845,7 +845,7 @@ class PageController extends Controller {
         $ok = 2;
         // check if session exists
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -859,7 +859,7 @@ class PageController extends Controller {
         if ($dbtoken !== null) {
             // check if destination session exists
             $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-            $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+            $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
             $sqlchk .= 'AND token='.$this->db_quote_escape_string($newSessionId).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
@@ -935,7 +935,7 @@ class PageController extends Controller {
     public function deleteDevice($token, $deviceid) {
         // check if session exists
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -1784,7 +1784,7 @@ class PageController extends Controller {
         if (in_array($username, $userNames)) {
             // check if session exists and owned by current user
             $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-            $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+            $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
             $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
@@ -1861,7 +1861,7 @@ class PageController extends Controller {
         $ok = 0;
         // check if session exists
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -1928,7 +1928,7 @@ class PageController extends Controller {
         $nametoken = null;
         // check if session exists and owned by current user
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -2020,7 +2020,7 @@ class PageController extends Controller {
         $ok = 0;
         // check if session exists
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
-        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
