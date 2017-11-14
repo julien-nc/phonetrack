@@ -976,7 +976,7 @@
                         && optionsValues[$(this).attr('role')] !== null
                         && optionsValues[$(this).attr('role')] !== ''
                     ) {
-                        if (optionsValues[$(this).attr('role')].match(/\d\d\d\d-\d\d-\d\d/g) !== null) {
+                        if (String(optionsValues[$(this).attr('role')]).match(/\d\d\d\d-\d\d-\d\d/g) !== null) {
                             $(this).val(optionsValues[$(this).attr('role')]);
                         }
                         else {
