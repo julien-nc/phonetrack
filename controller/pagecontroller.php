@@ -1695,9 +1695,22 @@ class PageController extends Controller {
                     $optString = $row['jsonvalues'];
                 }
                 if ($optString !== null) {
-                    $optArray = json_decode($optString);
-                    if (isset($optArray->{'applyfilters'}) and $optArray->{'applyfilters'} === true) {
+                    $f = json_decode($optString);
+                    if (isset($f->{'applyfilters'}) and $f->{'applyfilters'} === true) {
                         $filtering = true;
+                        $fDateArray = array();
+                        if (isset($f->{'datemin'}) and $f->{'datemin'} !== '') {
+                            $hourmin = (isset($f->{'hourmin'}) and $f->{'hourmin'} !== '') ? intval($f->{'hourmin'}) : 0;
+                            $minutemin = (isset($f->{'minutemin'}) and $f->{'minutemin'} !== '') ? intval($f->{'minutemin'}) : 0;
+                            $secondmin = (isset($f->{'secondmin'}) and $f->{'secondmin'} !== '') ? intval($f->{'secondmin'}) : 0;
+                            $fArray['tsmin'] = intval($f->{'datemin'}) + 3600*$hourmin + 60*$minutemin + $secondmin;
+                        }
+                        if (isset($f->{'datemax'}) and $f->{'datemax'} !== '') {
+                            $hourmax = (isset($f->{'hourmax'}) and $f->{'hourmax'} !== '') ? intval($f->{'hourmax'}) : 23;
+                            $minutemax = (isset($f->{'minutemax'}) and $f->{'minutemax'} !== '') ? intval($f->{'minutemax'}) : 59;
+                            $secondmax = (isset($f->{'secondmax'}) and $f->{'secondmax'} !== '') ? intval($f->{'secondmax'}) : 59;
+                            $fArray['tsmax'] = intval($f->{'datemax'}) + 3600*$hourmax + 60*$minutemax + $secondmax;
+                        }
                     }
                 }
 
@@ -1721,7 +1734,7 @@ class PageController extends Controller {
                         $lon = $row['lon'];
                         $alt = $row['altitude'];
 
-                        if (!$filtering or $this->filterPoint($row, $optArray)) {
+                        if (!$filtering or $this->filterPoint($row, $f, $fDateArray)) {
                             $point = array($lat, $lon, $date, $alt);
                             array_push($coords[$devname], $point);
                         }
@@ -1747,14 +1760,8 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function filterPoint($p, $f) {
-        if (isset($f->{'datemin'}) and $f->{'datemin'} !== '') {
-            $hourmin = (isset($f->{'hourmin'}) and $f->{'hourmin'} !== '') ? intval($f->{'hourmin'}) : 0;
-            $minutemin = (isset($f->{'minutemin'}) and $f->{'minutemin'} !== '') ? intval($f->{'minutemin'}) : 0;
-            $secondmin = (isset($f->{'secondmin'}) and $f->{'secondmin'} !== '') ? intval($f->{'secondmin'}) : 0;
-            $tsmin = intval($f->{'datemin'}) + 3600*$hourmin + 60*$minutemin + $secondmin;
-            error_log('timestamp :: '.$tsmin);
-        }
+    private function filterPoint($p, $f, $fDateArray) {
+        // TODO
         return true;
     }
 
