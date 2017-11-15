@@ -583,11 +583,18 @@ ul.devicelist {
 }
 .publicsessionbutton,
 .reaffectDeviceDiv button,
-.dropdown-content button {
+.dropdown-content > button {
     width: 100%;
     text-align: left;
     display: block;
     border: 0px;
+}
+.dropdown-content button.export {
+    border: 0px;
+}
+.dropdown-content button.export,
+.dropdown-content input[role=exportname] {
+    width:45% !important;
 }
 .show {display:block;}
 .ui-widget {

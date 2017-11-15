@@ -1605,7 +1605,7 @@ class PageController extends Controller {
         date_default_timezone_set('UTC');
         $done = false;
         $userFolder = \OC::$server->getUserFolder();
-        $path = $target.'/'.$name.'.gpx';
+        $path = $target;
         $cleanpath = str_replace(array('../', '..\\'), '',  $path);
 
         $file = null;

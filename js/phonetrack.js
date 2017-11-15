@@ -1224,8 +1224,9 @@
                 divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
                     '<i class="fa fa-pencil"></i> ' + t('phonetrack', 'Rename session') + '</button>';
             }
-            divtxt = divtxt + '<button class="export" title="' + t('phonetrack', 'Export to gpx') + '">' +
+            divtxt = divtxt + '<div><button class="export" title="' + t('phonetrack', 'Export to gpx') + '">' +
                 '<i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
+            divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHTML(name) + '.gpx"/></div>';
 
             divtxt = divtxt + '</div>';
 
@@ -2998,11 +2999,11 @@
         }
     }
 
-    function saveAction(name, token, targetPath) {
+    function saveAction(name, token, targetPath, filename) {
         var req = {
             name: name,
             token: token,
-            target: targetPath
+            target: targetPath+'/'+filename
         };
         var url = OC.generateUrl('/apps/phonetrack/export');
         $.ajax({
@@ -3013,7 +3014,7 @@
         }).done(function (response) {
             if (response.done) {
                 OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in') +
-                    ' ' + targetPath + '/' + name + '.gpx');
+                    ' ' + targetPath + '/' + filename + '.gpx');
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to export session'));
@@ -3662,13 +3663,13 @@
         });
 
         $('body').on('click', '.export', function() {
-            var name = $(this).parent().parent().find('.sessionBar .sessionName').text();
-            var token = $(this).parent().parent().attr('token');
-            var filename = name + '.gpx';
+            var name = $(this).parent().parent().parent().find('.sessionBar .sessionName').text();
+            var token = $(this).parent().parent().parent().attr('token');
+            var filename = $(this).parent().find('input[role=exportname]').val().replace('.gpx', '') + '.gpx';
             OC.dialogs.filepicker(
                 t('phonetrack', 'Select storage location for \'{fname}\'', {fname: filename}),
                 function(targetPath) {
-                    saveAction(name, token, targetPath);
+                    saveAction(name, token, targetPath, filename);
                 },
                 false, 'httpd/unix-directory', true
             );
@@ -4000,6 +4001,7 @@
                 && !event.target.matches('.reaffectDevice') && !event.target.matches('.reaffectDevice i')
                 && !event.target.matches('.reaffectDeviceDiv select') && !event.target.matches('.reaffectDeviceDiv')
                 && !event.target.matches('.reaffectDeviceDiv select *')
+                && !event.target.matches('input[role=exportname]')
                 && !event.target.matches('.dropdowndevicebutton') && !event.target.matches('.dropdowndevicebutton i')) {
                 hideAllDropDowns();
             }
