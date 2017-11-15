@@ -1757,8 +1757,8 @@
         return (
             !filtersEnabled
             || (
-                   (!timestampMin || parseInt(entry.timestamp) > timestampMin)
-                && (!timestampMax || parseInt(entry.timestamp) < timestampMax)
+                   (!timestampMin || parseInt(entry.timestamp) >= timestampMin)
+                && (!timestampMax || parseInt(entry.timestamp) <= timestampMax)
                 && (!elevationmax || entry.altitude >= elevationmax)
                 && (!elevationmin || entry.altitude <= elevationmin)
                 && (!batterymin || entry.batterylevel >= batterymin)
@@ -1836,7 +1836,7 @@
             // we avoid everything under the min
             if (timestampMin) {
                 while (i < list.length
-                       && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMin)
+                       && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) <= timestampMin)
                 ) {
                     i++;
                 }
@@ -1844,7 +1844,7 @@
             // then we copy everything under the max
             if (timestampMax) {
                 while (i < list.length
-                       && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) < timestampMax)
+                       && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) <= timestampMax)
                 ) {
                     resDateList.push(list[i]);
                     i++;

@@ -1698,7 +1698,7 @@ class PageController extends Controller {
                     $f = json_decode($optString);
                     if (isset($f->{'applyfilters'}) and $f->{'applyfilters'} === true) {
                         $filtering = true;
-                        $fDateArray = array();
+                        $fArray = array();
                         if (isset($f->{'datemin'}) and $f->{'datemin'} !== '') {
                             $hourmin = (isset($f->{'hourmin'}) and $f->{'hourmin'} !== '') ? intval($f->{'hourmin'}) : 0;
                             $minutemin = (isset($f->{'minutemin'}) and $f->{'minutemin'} !== '') ? intval($f->{'minutemin'}) : 0;
@@ -1710,6 +1710,29 @@ class PageController extends Controller {
                             $minutemax = (isset($f->{'minutemax'}) and $f->{'minutemax'} !== '') ? intval($f->{'minutemax'}) : 59;
                             $secondmax = (isset($f->{'secondmax'}) and $f->{'secondmax'} !== '') ? intval($f->{'secondmax'}) : 59;
                             $fArray['tsmax'] = intval($f->{'datemax'}) + 3600*$hourmax + 60*$minutemax + $secondmax;
+                        }
+                        $lastTS = new \DateTime();
+                        $lastTS = $lastTS->getTimestamp();
+                        $lastTSset = false;
+                        if (isset($f->{'lastdays'}) and $f->{'lastdays'} !== '') {
+                            $lastTS = $lastTS - 3600*intval($f->{'lastdays'});
+                            $lastTSset = true;
+                        }
+                        if (isset($f->{'lasthours'}) and $f->{'lasthours'} !== '') {
+                            $lastTS = $lastTS - 60*intval($f->{'lasthours'});
+                            $lastTSset = true;
+                        }
+                        if (isset($f->{'lastmins'}) and $f->{'lastmins'} !== '') {
+                            $lastTS = $lastTS - intval($f->{'lastmins'});
+                            $lastTSset = true;
+                        }
+                        if ($lastTSset and (!isset($fArray['tsmin']) or $lastTS > $fArray['tsmin'])) {
+                            $fArray['tsmin'] = $lastTS;
+                        }
+                        foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax'] as $k) {
+                            if (isset($f->{$k}) and $f->{$k} !== '') {
+                                $fArray[$k] = intval($f->{$k});
+                            }
                         }
                     }
                 }
@@ -1734,7 +1757,7 @@ class PageController extends Controller {
                         $lon = $row['lon'];
                         $alt = $row['altitude'];
 
-                        if (!$filtering or $this->filterPoint($row, $f, $fDateArray)) {
+                        if (!$filtering or $this->filterPoint($row, $fArray)) {
                             $point = array($lat, $lon, $date, $alt);
                             array_push($coords[$devname], $point);
                         }
@@ -1760,9 +1783,19 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function filterPoint($p, $f, $fDateArray) {
-        // TODO
-        return true;
+    private function filterPoint($p, $fArray) {
+        return (
+                (!isset($fArray['tsmin']) or intval($p['timestamp']) >= $fArray['tsmin'])
+            and (!isset($fArray['tsmax']) or intval($p['timestamp']) <= $fArray['tsmax'])
+            and (!isset($fArray['elevationmax']) or intval($p['altitude']) <= $fArray['elevationmax'])
+            and (!isset($fArray['elevationmin']) or intval($p['altitude']) >= $fArray['elevationmin'])
+            and (!isset($fArray['accuracymax']) or intval($p['accuracy']) <= $fArray['accuracymax'])
+            and (!isset($fArray['accuracymin']) or intval($p['accuracy']) >= $fArray['accuracymin'])
+            and (!isset($fArray['satellitesmax']) or intval($p['satellites']) <= $fArray['satellitesmax'])
+            and (!isset($fArray['satellitesmin']) or intval($p['satellites']) >= $fArray['satellitesmin'])
+            and (!isset($fArray['batterymax']) or intval($p['batterylevel']) <= $fArray['batterymax'])
+            and (!isset($fArray['batterymin']) or intval($p['batterylevel']) >= $fArray['batterymin'])
+        );
     }
 
     private function generateGpx($name, $coords) {
