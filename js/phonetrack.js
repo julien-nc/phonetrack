@@ -2897,7 +2897,7 @@
     }
 
     function zoomOnDisplayedMarkers(selectedSessionToken='') {
-        var token, d;
+        var token, d, lls, i;
         var markersToZoomOn = [];
 
         // first we check if there are devices selected for zoom
@@ -2928,6 +2928,17 @@
                     ) {
                         if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
                             markersToZoomOn.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
+                        }
+                        if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[token][d])) {
+                            phonetrack.sessionPointsLayers[token][d].eachLayer(function(l) {
+                                markersToZoomOn.push(l.getLatLng());
+                            });
+                        }
+                        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
+                            lls = phonetrack.sessionLineLayers[token][d].getLatLngs();
+                            for (i=0; i < lls.length; i++) {
+                                markersToZoomOn.push(lls[i]);
+                            }
                         }
                     }
                 }

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - zoom on normal page load
 [#54](https://gitlab.com/eneiluj/phonetrack-oc/issues/54) @GLLM1
 - dropdown menu style improved
+- better session zoom behaviour, zoom on any available displayed content
 
 ### Fixed
 - mistake in session export
