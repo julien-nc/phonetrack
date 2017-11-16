@@ -3810,6 +3810,9 @@
             var devicename = getDeviceName(token, deviceid);
             $(this).parent().parent().find('.deviceLabel').hide();
             $(this).parent().parent().find('.renameDeviceInput').show();
+            $(this).parent().parent().find('.renameDeviceInput').val(
+                $(this).parent().parent().find('.deviceLabel').text()
+            );
             $(this).parent().parent().find('.renameDeviceInput').select();
         });
 
@@ -3818,10 +3821,7 @@
                 $(this).parent().find('.deviceLabel').show();
                 $(this).parent().find('.renameDeviceInput').hide();
             }
-        });
-
-        $('body').on('keypress','.renameDeviceInput', function(e) {
-            if (e.key === 'Enter') {
+            else if (e.key === 'Enter') {
                 var token = $(this).parent().attr('token');
                 var deviceid = $(this).parent().attr('device');
                 var oldName = getDeviceName(token, deviceid);
