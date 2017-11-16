@@ -10,11 +10,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#54](https://gitlab.com/eneiluj/phonetrack-oc/issues/54) @GLLM1
 - dropdown menu style improved
 - better session zoom behaviour, zoom on any available displayed content
+- let user choose export file name
+[#55](https://gitlab.com/eneiluj/phonetrack-oc/issues/55) @Sander8
+- apply current filters when exporting session
+[#55](https://gitlab.com/eneiluj/phonetrack-oc/issues/55) @Sander8
 
 ### Fixed
 - mistake in session export
 [#52](https://gitlab.com/eneiluj/phonetrack-oc/issues/52) @tarator
 - bad escaping of user id in controllers
+- mistake in session zoom, now zooms on currently displayed content
 
 ## 0.0.8 – 2017-11-10
 ### Added
