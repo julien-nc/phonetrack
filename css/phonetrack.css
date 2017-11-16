@@ -196,7 +196,7 @@ div#options button {
 }
 div#logofolder {
     display: grid;
-    grid-template: 50% 50% / 80px 1fr 2fr;
+    grid-template: 50% 50% / 80px 1fr;
 }
 div#logo{
     grid-column: 1;
@@ -733,4 +733,9 @@ label[for=viewmove] i {
 .dropdown-content button:hover,
 .reaffectDeviceDiv button:hover {
     border: 1px solid black;
+}
+div#createimportsessiondiv button {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }

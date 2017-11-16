@@ -29,6 +29,26 @@ p($_['phonetrack_version']);
             </p>
             </div>
         </div>
+        <div id="topbuttons">
+            <div id="createimportsessiondiv">
+                <button id="importsession">
+                    <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+                    <?php p($l->t('Import session')); ?>
+                </button>
+                <button id="showcreatesession">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    <?php p($l->t('Create session')); ?>
+                </button>
+            </div>
+            <div id="newsessiondiv">
+                <label for="sessionnameinput"><?php p($l->t('Session name'));?></label>
+                <input type="text" id="sessionnameinput"/>
+                <button id="newsession">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    <?php p($l->t('Ok')); ?>
+                </button>
+            </div>
+        </div>
     </div>
     <hr/>
     <div id="options">
@@ -109,34 +129,14 @@ p($_['phonetrack_version']);
         </div>
         </div>
     </div>
-    <div style="clear:both"></div>
-    <div id="createimportsessiondiv">
-        <hr/>
-        <button id="showcreatesession">
-            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-            <?php p($l->t('Create session')); ?>
-        </button>
-        <button id="importsession">
-            <i class="fa fa-folder-open-o" aria-hidden="true"></i>
-            <?php p($l->t('Import session')); ?>
-        </button>
-    </div>
-    <div id="newsessiondiv">
-        <label for="sessionnameinput"><?php p($l->t('Session name'));?></label>
-        <input type="text" id="sessionnameinput"/>
-        <button id="newsession">
-            <i class="fa fa-check" aria-hidden="true"></i>
-            <?php p($l->t('Ok')); ?>
-        </button>
-    </div>
     <div id="logmediv">
-    <hr/>
-    <div id="logmesubdiv">
-        <label for="logmedeviceinput"><?php p($l->t('Device name'));?></label>
-        <input type="text" id="logmedeviceinput" value="1"/>
-        <label for="logme"><?php p($l->t('Log my position in this session'));?></label>
-        <input type="checkbox" id="logme"/>
-    </div>
+        <hr/>
+        <div id="logmesubdiv">
+            <label for="logmedeviceinput"><?php p($l->t('Device name'));?></label>
+            <input type="text" id="logmedeviceinput" value="1"/>
+            <label for="logme"><?php p($l->t('Log my position in this session'));?></label>
+            <input type="checkbox" id="logme"/>
+        </div>
     </div>
     <hr/>
     <h3 id="ticv" class="sectiontitle"><?php p($l->t('Tracking sessions')); ?></h3>
