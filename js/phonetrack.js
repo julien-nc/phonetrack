@@ -1194,7 +1194,7 @@
                 t('phonetrack', 'shared by {u}', {u: isSharedBy}) +
                 ')';
         }
-        divtxt = divtxt + '<div class="sessionName" title="' + name + sharedByText + '">' + name + '</div>';
+        divtxt = divtxt + '<div class="sessionName" title="' + name + sharedByText + '">' + name + '</div><input class="renameSessionInput" type="text"/>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
                 '<i class="fa fa-bars" aria-hidden="true"></i></button>';
@@ -1229,16 +1229,6 @@
             divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHTML(name) + '.gpx"/></div>';
 
             divtxt = divtxt + '</div>';
-
-            if (!isFromShare) {
-                divtxt = divtxt + '<div class="editsessiondiv">' +
-                    '<input role="editsessioninput" type="text" value="' + name + '"/>' +
-                    '<button class="editsessionok"><i class="fa fa-check" style="color:green;"></i> ' +
-                    t('phonetrack', 'Rename') + '</button>' +
-                    '<button class="editsessioncancel"><i class="fa fa-undo" style="color:red;"></i> ' +
-                    t('phonetrack', 'Cancel') + '</button>' +
-                    '</div>';
-            }
         }
         if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<div class="namereservdiv">';
@@ -1312,7 +1302,6 @@
         $('.session[token="' + token + '"]').find('.sharediv').hide();
         $('.session[token="' + token + '"]').find('.moreUrls').hide();
         $('.session[token="' + token + '"]').find('.namereservdiv').hide();
-        $('.session[token="' + token + '"]').find('.editsessiondiv').hide();
         if (parseInt(isPublic) === 0) {
             $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').hide();
         }
@@ -3728,7 +3717,6 @@
             var nameDiv = $(this).parent().parent().find('.namereservdiv');
             var urlDiv = $(this).parent().parent().find('.moreUrls');
             var sharediv = $(this).parent().parent().find('.sharediv')
-            var editdiv = $(this).parent().parent().find('.editsessiondiv')
             if (nameDiv.is(':visible')) {
                 nameDiv.slideUp('slow');
             }
@@ -3744,7 +3732,6 @@
             var urlDiv = $(this).parent().parent().find('.moreUrls');
             var nameDiv = $(this).parent().parent().find('.namereservdiv');
             var sharediv = $(this).parent().parent().find('.sharediv')
-            var editdiv = $(this).parent().parent().find('.editsessiondiv')
             if (urlDiv.is(':visible')) {
                 urlDiv.slideUp('slow');
             }
@@ -3760,7 +3747,6 @@
             var sharediv = $(this).parent().parent().find('.sharediv')
             var nameDiv = $(this).parent().parent().find('.namereservdiv');
             var moreurldiv = $(this).parent().parent().find('.moreUrls')
-            var editdiv = $(this).parent().parent().find('.editsessiondiv')
             if (sharediv.is(':visible')) {
                 sharediv.slideUp('slow');
             }
@@ -3852,35 +3838,29 @@
         });
 
         $('body').on('click','.editsessionbutton', function(e) {
-            var editdiv = $(this).parent().parent().find('.editsessiondiv');
-            if (editdiv.is(':visible')) {
-                editdiv.slideUp('slow');
-            }
-            else {
-                editdiv.slideDown('slow');
-            }
-            var urldiv = $(this).parent().parent().find('.moreUrls');
-            if (urldiv.is(':visible')) {
-                urldiv.slideUp('slow');
-            }
-            var sharediv = $(this).parent().parent().find('.sharediv');
-            if (sharediv.is(':visible')) {
-                sharediv.slideUp('slow');
-            }
+            var token = $(this).attr('token');
+            var devicename = getDeviceName(token, deviceid);
+            $(this).parent().parent().find('.sessionName').hide();
+            $(this).parent().parent().find('.renameSessionInput').show();
+            $(this).parent().parent().find('.renameSessionInput').val(
+                $(this).parent().parent().find('.sessionName').text()
+            );
+            $(this).parent().parent().find('.renameSessionInput').select();
         });
 
-        $('body').on('click','.editsessionok', function(e) {
-            var token = $(this).parent().parent().attr('token');
-            var oldname = $(this).parent().parent().find('.sessionBar .sessionName').text();
-            var newname = $(this).parent().find('input[role=editsessioninput]').val();
-            renameSession(token, oldname, newname);
-            var editdiv = $(this).parent().parent().find('.editsessiondiv');
-            editdiv.slideUp('slow');
-        });
-
-        $('body').on('click','.editsessioncancel', function(e) {
-            var editdiv = $(this).parent().parent().find('.editsessiondiv');
-            editdiv.slideUp('slow');
+        $('body').on('keypress','.renameSessionInput', function(e) {
+            if (e.key === 'Escape') {
+                $(this).parent().find('.sessionName').show();
+                $(this).parent().find('.renameSessionInput').hide();
+            }
+            else if (e.key === 'Enter') {
+                var token = $(this).parent().parent().attr('token');
+                var oldname = $(this).parent().find('.sessionName').text();
+                var newname = $(this).val();
+                renameSession(token, oldname, newname);
+                $(this).parent().find('.sessionName').show();
+                $(this).parent().find('.renameSessionInput').hide();
+            }
         });
 
         $('body').on('click','.publicsessionbutton', function(e) {

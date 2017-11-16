@@ -361,6 +361,9 @@ div.session p,
     min-height: 12px;
     height: 25px;
 }
+.renameSessionInput {
+    display: none;
+}
 .renameDeviceInput {
     display: none;
     width: 30% !important;
@@ -522,8 +525,9 @@ ul.devicelist {
     white-space: nowrap;
     float: left;
 }
+.renameSessionInput,
 .sessionName {
-    width: 30%;
+    width: 30% !important;
     padding-top: 8px;
     height: 40px;
     float: left;
@@ -531,17 +535,12 @@ ul.devicelist {
     overflow-y: hidden;
     white-space: nowrap;
 }
+.renameSessionInput {
+    margin: 0px;
+    height: 30px;
+}
 #zoomallbutton {
     height: 50px !important;
-}
-.editsessionok , .editsessioncancel{
-    width: 32% !important;
-}
-.editsessiondiv input{
-    width: 32% !important;
-}
-.editsessiondiv {
-    grid-column: 1/3;
 }
 #newsessiondiv {
     display: none;
