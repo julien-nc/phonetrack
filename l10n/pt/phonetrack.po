@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-14 09:56+0100\n"
-"PO-Revision-Date: 2017-11-17 18:12-0500\n"
+"PO-Revision-Date: 2017-11-17 18:22-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -128,7 +128,7 @@ msgstr "Assista a esta sessão"
 
 #: phonetrack.js:1168
 msgid "shared by {u}"
-msgstr ""
+msgstr "compartilhado por {u}"
 
 #: phonetrack.js:1173 phonetrack.js:2185
 msgid "More actions"
@@ -188,7 +188,7 @@ msgstr "Digite o nome de usuário e pressione 'Enter'"
 
 #: phonetrack.js:1242 phonetrack.js:3261
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Compartilhado com {u}"
 
 #: phonetrack.js:1248
 msgid "A private session is not visible on public browser logging page"
@@ -296,11 +296,11 @@ msgstr "Falha ao atualizar as sessões"
 
 #: phonetrack.js:1896 phonetrack.js:1925
 msgid "Stats of all points"
-msgstr ""
+msgstr "Estatísticas de todos os pontos"
 
 #: phonetrack.js:1922
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "Estatísticas dos pontos filtrados"
 
 #: phonetrack.js:2108
 msgid "Device's color successfully changed"
@@ -364,7 +364,7 @@ msgstr "Falha ao excluir o ponto"
 
 #: phonetrack.js:2605
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Impossível adicionar este ponto"
 
 #: phonetrack.js:2609
 msgid "Failed to add point"
@@ -416,23 +416,23 @@ msgstr "Mover"
 
 #: phonetrack.js:2933
 msgid "File extension must be '.gpx' to be imported"
-msgstr ""
+msgstr "Extensão do arquivo deve ser '.gpx' para ser importado"
 
 #: phonetrack.js:2950
 msgid "Failed to create imported session"
-msgstr ""
+msgstr "Falha ao criar a sessão importada"
 
 #: phonetrack.js:2954 phonetrack.js:2960
 msgid "Failed to import session"
-msgstr ""
+msgstr "Falha ao importar sessão"
 
 #: phonetrack.js:2955
 msgid "File is not readable"
-msgstr ""
+msgstr "Arquivo não é legível"
 
 #: phonetrack.js:2961
 msgid "File does not exist"
-msgstr ""
+msgstr "Arquivo não existe"
 
 #: phonetrack.js:2968
 msgid "Failed to contact server to import session"
@@ -440,7 +440,7 @@ msgstr "Falha ao contatar o servidor para importar sessão"
 
 #: phonetrack.js:2987
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Sessão exportada com sucesso em"
 
 #: phonetrack.js:2991
 msgid "Failed to export session"
@@ -468,15 +468,15 @@ msgstr "Falha ao contatar o servidor para reservar o nome de dispositivo"
 
 #: phonetrack.js:3221 phonetrack.js:3225
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Falha ao excluir o nome reservado"
 
 #: phonetrack.js:3222
 msgid "This device does not exist"
-msgstr ""
+msgstr "Este dispositivo não existir"
 
 #: phonetrack.js:3226
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Esse nome de dispositivo não é reservado, por favor recarregue esta página"
 
 #: phonetrack.js:3229
 msgid "Failed to contact server to delete reserved name"
@@ -484,7 +484,7 @@ msgstr "Falha ao contatar o servidor para excluir nome reservado"
 
 #: phonetrack.js:3249
 msgid "User does not exist"
-msgstr ""
+msgstr "Usuário não existe"
 
 #: phonetrack.js:3252 phonetrack.js:3255
 msgid "Failed to add user share"
@@ -496,11 +496,11 @@ msgstr ""
 
 #: phonetrack.js:3307
 msgid "Failed to get user list"
-msgstr ""
+msgstr "Falha ao obter a lista de usuários"
 
 #: phonetrack.js:3320
 msgid "device name"
-msgstr ""
+msgstr "nome do dispositivo"
 
 #: phonetrack.js:3321
 msgid "distance (km)"
@@ -556,7 +556,7 @@ msgstr ""
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Guia principal"
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
@@ -569,7 +569,7 @@ msgstr "Estatísticas"
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
 msgid "Settings and extra actions"
-msgstr ""
+msgstr "Configurações e ações extras"
 
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
@@ -594,11 +594,11 @@ msgstr "Atualizar a cada (seg)"
 
 #: maincontent.php:61 maincontent.php:61
 msgid "Show accuracy in tooltips"
-msgstr ""
+msgstr "Mostrar precisão em dicas"
 
 #: maincontent.php:65 maincontent.php:65
 msgid "Show satellites in tooltips"
-msgstr ""
+msgstr "Mostrar os satélites em dicas"
 
 #: maincontent.php:69 maincontent.php:69
 msgid "Show battery level in tooltips"
@@ -769,7 +769,7 @@ msgstr "Versão do WMS"
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
 msgid "Layers to display"
-msgstr ""
+msgstr "Camadas para exibir"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
@@ -790,113 +790,113 @@ msgstr ""
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
 msgid "Session"
-msgstr ""
+msgstr "Sessão"
 
 #: maincontent.php:368 maincontent.php:386 maincontent.php:368
 #: maincontent.php:386
 msgid "Device"
-msgstr ""
+msgstr "Dispositivo"
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
-msgstr ""
+msgstr "Adicionar um ponto"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Agora, clique no mapa para adicionar um ponto (se a sessão não estiver ativada, você não vai ver o ponto adicionado)"
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
-msgstr ""
+msgstr "Cancelar adicionar ponto"
 
 #: maincontent.php:377 maincontent.php:377
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Excluir vários pontos"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Escolha uma sessão, um dispositivo e ajuste os filtros. Todos os pontos exibidos para o dispositivo selecionado serão excluídos. Um nome de dispositivo vazio seleciona todos pontos."
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
-msgstr ""
+msgstr "Excluir pontos"
 
 #: maincontent.php:389 maincontent.php:389
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Excluir apenas pontos visíveis"
 
 #: maincontent.php:396 maincontent.php:396
 msgid "Filter points"
-msgstr ""
+msgstr "Filtrar pontos"
 
 #: maincontent.php:401 maincontent.php:401
 msgid "Apply filters"
-msgstr ""
+msgstr "Aplicar filtros"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Data inicial"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
 msgid "today"
-msgstr ""
+msgstr "hoje"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Hora inicial"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Data final"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Hora final"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Mín-- e Máx--"
 
 #: maincontent.php:443 maincontent.php:443
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Mín++ e Máx++"
 
 #: maincontent.php:446 maincontent.php:446
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Último dia:hora:minuto"
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Precisão mínima"
 
 #: maincontent.php:461 maincontent.php:461
 msgid "Maximum accuracy"
-msgstr ""
+msgstr "Precisão máxima"
 
 #: maincontent.php:469 maincontent.php:469
 msgid "Minimum elevation"
-msgstr ""
+msgstr "Elevação mínima"
 
 #: maincontent.php:477 maincontent.php:477
 msgid "Maximum elevation"
-msgstr ""
+msgstr "Elevação máxima"
 
 #: maincontent.php:485 maincontent.php:485
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Nível mínimo da bateria"
 
 #: maincontent.php:493 maincontent.php:493
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Nível máximo da bateria"
 
 #: maincontent.php:501 maincontent.php:501
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Mínimo de satélites"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Máximo de satélites"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
@@ -924,5 +924,5 @@ msgstr "Gerenciamento de fonte"
 
 #: maincontent.php:563 maincontent.php:563
 msgid "Authors"
-msgstr ""
+msgstr "Autores"
 
