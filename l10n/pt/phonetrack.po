@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-14 09:56+0100\n"
-"PO-Revision-Date: 2017-11-17 18:22-0500\n"
+"PO-Revision-Date: 2017-11-17 18:32-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -54,7 +54,7 @@ msgstr ""
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Zoom em todos os dispositivos"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
@@ -144,7 +144,7 @@ msgstr "URL para compartilhar a sessão"
 
 #: phonetrack.js:1184
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "URLs para apps de registro"
 
 #: phonetrack.js:1188
 msgid "Reserve device names"
@@ -172,11 +172,11 @@ msgstr "Cancelar"
 
 #: phonetrack.js:1219
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Reserve este nome de dispositivo"
 
 #: phonetrack.js:1221
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Digite o nome reservado e pressione 'Enter'"
 
 #: phonetrack.js:1235
 msgid "Share with user"
@@ -204,39 +204,39 @@ msgstr "Fazer a sessão privada"
 
 #: phonetrack.js:1258
 msgid "Public watch URL"
-msgstr ""
+msgstr "URL de acompanhamento público"
 
 #: phonetrack.js:1265
 msgid "Replace 'yourname' with the desired device name"
-msgstr ""
+msgstr "Substitua 'seu nome' com o nome de dispositivo desejado"
 
 #: phonetrack.js:1266
 msgid "Public browser logging URL"
-msgstr ""
+msgstr "URL pública de navegador do registro"
 
 #: phonetrack.js:1268
 msgid "OsmAnd URL"
-msgstr ""
+msgstr "URL de OsmAnd"
 
 #: phonetrack.js:1270
 msgid "GpsLogger GET and POST URL"
-msgstr ""
+msgstr "URL de GET e POST do GpsLogger"
 
 #: phonetrack.js:1272
 msgid "Owntracks (HTTP mode) URL"
-msgstr ""
+msgstr "URL de Owntracks (modo HTTP)"
 
 #: phonetrack.js:1274
 msgid "Ulogger URL"
-msgstr ""
+msgstr "URL de Ulogger"
 
 #: phonetrack.js:1276
 msgid "Traccar URL"
-msgstr ""
+msgstr "URL de Traccar"
 
 #: phonetrack.js:1278
 msgid "OpenGTS URL"
-msgstr ""
+msgstr "URL de OpenGTS"
 
 #: phonetrack.js:1312
 msgid "The session you want to delete does not exist"
@@ -244,15 +244,15 @@ msgstr ""
 
 #: phonetrack.js:1316
 msgid "Failed to delete session"
-msgstr ""
+msgstr "Falha ao excluir sessão"
 
 #: phonetrack.js:1336
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "Dispositivo '{d}' da sessão '{s}' foi excluído"
 
 #: phonetrack.js:1339
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "Falha ao excluir o dispositivo '{d}' da sessão '{s}'"
 
 #: phonetrack.js:1343
 msgid "Failed to contact server to delete device"
@@ -260,15 +260,15 @@ msgstr "Falha ao contatar o servidor para excluir o dispositivo"
 
 #: phonetrack.js:1394
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Impossível renomear sessão"
 
 #: phonetrack.js:1398
 msgid "Failed to rename session"
-msgstr ""
+msgstr "Falha ao renomear sessão"
 
 #: phonetrack.js:1482
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Impossível renomear dispositivo"
 
 #: phonetrack.js:1486
 msgid "Failed to contact server to rename device"
@@ -276,7 +276,7 @@ msgstr "Falha ao contatar o servidor para renomear dispositivo"
 
 #: phonetrack.js:1547
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Dispositivo já existe na sessão de destino"
 
 #: phonetrack.js:1550
 msgid "Impossible to move device to another session"
@@ -356,7 +356,7 @@ msgstr "Falha ao editar ponto"
 
 #: phonetrack.js:2509
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "O ponto que você deseja excluir não existe ou você não pode excluí-lo"
 
 #: phonetrack.js:2513
 msgid "Failed to delete point"
@@ -504,7 +504,7 @@ msgstr "nome do dispositivo"
 
 #: phonetrack.js:3321
 msgid "distance (km)"
-msgstr ""
+msgstr "distância (km)"
 
 #: phonetrack.js:3322
 msgid "duration"
@@ -552,7 +552,7 @@ msgstr "Falha ao alternar sessão para pública"
 
 #: phonetrack.js:3952
 msgid "Import gpx session file"
-msgstr ""
+msgstr "Importar arquivo gpx de sessão"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
@@ -574,7 +574,7 @@ msgstr "Configurações e ações extras"
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "Sobre PhoneTrack"
 
 #: maincontent.php:37 maincontent.php:37
 msgid "Options"
@@ -602,23 +602,23 @@ msgstr "Mostrar os satélites em dicas"
 
 #: maincontent.php:69 maincontent.php:69
 msgid "Show battery level in tooltips"
-msgstr ""
+msgstr "Mostrar o nível da bateria em dicas"
 
 #: maincontent.php:73 maincontent.php:73
 msgid "Show elevation in tooltips"
-msgstr ""
+msgstr "Mostrar a elevação em dicas"
 
 #: maincontent.php:77 maincontent.php:77
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "Mostrar o agente de usuário em dicas"
 
 #: maincontent.php:82 maincontent.php:82
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Fazer pontos arrastáveis no modo de edição"
 
 #: maincontent.php:86 maincontent.php:86
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Mostrar o círculo de precisão quando estiver sobre"
 
 #: maincontent.php:89 maincontent.php:89
 msgid "Line width"
@@ -736,7 +736,7 @@ msgstr ""
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Por exemplo: http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
@@ -785,7 +785,7 @@ msgstr ""
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
-msgstr ""
+msgstr "Adicionar um ponto manualmente"
 
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
