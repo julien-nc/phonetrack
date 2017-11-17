@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-14 09:56+0100\n"
-"PO-Revision-Date: 2017-11-17 17:51-0500\n"
+"PO-Revision-Date: 2017-11-17 18:01-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -124,7 +124,7 @@ msgstr "Falha ao criar sessão"
 
 #: phonetrack.js:1162
 msgid "Watch this session"
-msgstr ""
+msgstr "Assista a esta sessão"
 
 #: phonetrack.js:1168
 msgid "shared by {u}"
@@ -132,15 +132,15 @@ msgstr ""
 
 #: phonetrack.js:1173 phonetrack.js:2185
 msgid "More actions"
-msgstr ""
+msgstr "Mais ações"
 
 #: phonetrack.js:1177
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Zoom nesta sessão"
 
 #: phonetrack.js:1180
 msgid "URL to share session"
-msgstr ""
+msgstr "URL para compartilhar a sessão"
 
 #: phonetrack.js:1184
 msgid "URLs for logging apps"
@@ -152,23 +152,23 @@ msgstr ""
 
 #: phonetrack.js:1197
 msgid "Delete session"
-msgstr ""
+msgstr "Excluir a sessão"
 
 #: phonetrack.js:1198 phonetrack.js:1199
 msgid "Rename session"
-msgstr ""
+msgstr "Renomear a sessão"
 
 #: phonetrack.js:1201 phonetrack.js:1202
 msgid "Export to gpx"
-msgstr ""
+msgstr "Exportar para gpx"
 
 #: phonetrack.js:1210
 msgid "Rename"
-msgstr ""
+msgstr "Renomear"
 
 #: phonetrack.js:1212 phonetrack.js:2760
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: phonetrack.js:1219
 msgid "Reserve this device name"
@@ -180,11 +180,11 @@ msgstr ""
 
 #: phonetrack.js:1235
 msgid "Share with user"
-msgstr ""
+msgstr "Compartilhar com usuário"
 
 #: phonetrack.js:1237
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Digite o nome de usuário e pressione 'Enter'"
 
 #: phonetrack.js:1242 phonetrack.js:3261
 msgid "Shared with {u}"
@@ -192,15 +192,15 @@ msgstr ""
 
 #: phonetrack.js:1248
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Uma sessão privada não está visível na página pública de registro no navegador"
 
 #: phonetrack.js:1250 phonetrack.js:3874
 msgid "Make session public"
-msgstr ""
+msgstr "Fazer a sessão pública"
 
 #: phonetrack.js:1253 phonetrack.js:3869
 msgid "Make session private"
-msgstr ""
+msgstr "Fazer a sessão privada"
 
 #: phonetrack.js:1258
 msgid "Public watch URL"
@@ -280,19 +280,19 @@ msgstr ""
 
 #: phonetrack.js:1550
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Impossível mover o dispositivo para outra sessão"
 
 #: phonetrack.js:1554
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Falha ao contatar o servidor para mover o dispositivo"
 
 #: phonetrack.js:1616
 msgid "Failed to get sessions"
-msgstr ""
+msgstr "Falha ao obter de sessões"
 
 #: phonetrack.js:1654
 msgid "Failed to refresh sessions"
-msgstr ""
+msgstr "Falha ao atualizar as sessões"
 
 #: phonetrack.js:1896 phonetrack.js:1925
 msgid "Stats of all points"
@@ -304,31 +304,31 @@ msgstr ""
 
 #: phonetrack.js:2108
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Cor do dispositivo alterado com êxito"
 
 #: phonetrack.js:2111
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "Falha ao salvar a cor do dispositivo"
 
 #: phonetrack.js:2115
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Falha ao contatar o servidor para alterar a cor do dispositivo"
 
 #: phonetrack.js:2188
 msgid "Delete this device"
-msgstr ""
+msgstr "Excluir este dispositivo"
 
 #: phonetrack.js:2190
 msgid "Rename this device"
-msgstr ""
+msgstr "Renomear este dispositivo"
 
 #: phonetrack.js:2193
 msgid "Move to another session"
-msgstr ""
+msgstr "Mover para outra sessão"
 
 #: phonetrack.js:2196 maincontent.php:129 maincontent.php:129
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: phonetrack.js:2209
 msgid "Toggle detail/edition points"
@@ -340,15 +340,15 @@ msgstr ""
 
 #: phonetrack.js:2227 phonetrack.js:2233
 msgid "Center map on device"
-msgstr ""
+msgstr "Centralizar mapa no dispositivo"
 
 #: phonetrack.js:2238
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Seguir este dispositivo (autozoom)"
 
 #: phonetrack.js:2387
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "O ponto que você deseja editar não existe ou você não pode editá-lo"
 
 #: phonetrack.js:2391
 msgid "Failed to edit point"
@@ -372,47 +372,47 @@ msgstr ""
 
 #: phonetrack.js:2725
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: phonetrack.js:2728
 msgid "Time"
-msgstr ""
+msgstr "Hora"
 
 #: phonetrack.js:2733 phonetrack.js:2774
 msgid "Altitude"
-msgstr ""
+msgstr "Altitude"
 
 #: phonetrack.js:2736 phonetrack.js:2778
 msgid "Precision"
-msgstr ""
+msgstr "Precisão"
 
 #: phonetrack.js:2739 phonetrack.js:2782
 msgid "Satellites"
-msgstr ""
+msgstr "Satélites"
 
 #: phonetrack.js:2742 phonetrack.js:2786
 msgid "Battery"
-msgstr ""
+msgstr "Bateria"
 
 #: phonetrack.js:2745 phonetrack.js:2790
 msgid "User-agent"
-msgstr ""
+msgstr "Agente de usuário"
 
 #: phonetrack.js:2748
 msgid "lat : lng"
-msgstr ""
+msgstr "lat : lng"
 
 #: phonetrack.js:2752
 msgid "DMS coords"
-msgstr ""
+msgstr "Coordenadas DMS"
 
 #: phonetrack.js:2757
 msgid "Save"
-msgstr ""
+msgstr "Salvar"
 
 #: phonetrack.js:2759
 msgid "Move"
-msgstr ""
+msgstr "Mover"
 
 #: phonetrack.js:2933
 msgid "File extension must be '.gpx' to be imported"
@@ -444,7 +444,7 @@ msgstr ""
 
 #: phonetrack.js:2991
 msgid "Failed to export session"
-msgstr ""
+msgstr "Falha ao exportar sessão"
 
 #: phonetrack.js:2995
 msgid "Failed to contact server to export session"
@@ -456,11 +456,11 @@ msgstr ""
 
 #: phonetrack.js:3184
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' já está reservado"
 
 #: phonetrack.js:3187
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Falha ao reservar '{n}'"
 
 #: phonetrack.js:3190
 msgid "Failed to contact server to reserve device name"
