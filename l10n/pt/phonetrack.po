@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-14 09:56+0100\n"
-"PO-Revision-Date: 2017-11-17 18:01-0500\n"
+"PO-Revision-Date: 2017-11-17 18:12-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -256,7 +256,7 @@ msgstr ""
 
 #: phonetrack.js:1343
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Falha ao contatar o servidor para excluir o dispositivo"
 
 #: phonetrack.js:1394
 msgid "Impossible to rename session"
@@ -272,7 +272,7 @@ msgstr ""
 
 #: phonetrack.js:1486
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Falha ao contatar o servidor para renomear dispositivo"
 
 #: phonetrack.js:1547
 msgid "Device already exists in target session"
@@ -332,11 +332,11 @@ msgstr "Ok"
 
 #: phonetrack.js:2209
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Ativar/desativar pontos de detalhe/edição"
 
 #: phonetrack.js:2217
 msgid "Toggle lines"
-msgstr ""
+msgstr "Ativar/Desativar linhas"
 
 #: phonetrack.js:2227 phonetrack.js:2233
 msgid "Center map on device"
@@ -352,7 +352,7 @@ msgstr "O ponto que você deseja editar não existe ou você não pode editá-lo
 
 #: phonetrack.js:2391
 msgid "Failed to edit point"
-msgstr ""
+msgstr "Falha ao editar ponto"
 
 #: phonetrack.js:2509
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
@@ -360,7 +360,7 @@ msgstr ""
 
 #: phonetrack.js:2513
 msgid "Failed to delete point"
-msgstr ""
+msgstr "Falha ao excluir o ponto"
 
 #: phonetrack.js:2605
 msgid "Impossible to add this point"
@@ -368,7 +368,7 @@ msgstr ""
 
 #: phonetrack.js:2609
 msgid "Failed to add point"
-msgstr ""
+msgstr "Falha ao adicionar ponto"
 
 #: phonetrack.js:2725
 msgid "Date"
@@ -436,7 +436,7 @@ msgstr ""
 
 #: phonetrack.js:2968
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "Falha ao contatar o servidor para importar sessão"
 
 #: phonetrack.js:2987
 msgid "Session successfully exported in"
@@ -448,11 +448,11 @@ msgstr "Falha ao exportar sessão"
 
 #: phonetrack.js:2995
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Falha ao contatar o servidor para exportar a sessão"
 
 #: phonetrack.js:3026
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Falha ao contatar o servidor para registrar a posição"
 
 #: phonetrack.js:3184
 msgid "'{n}' is already reserved"
@@ -464,7 +464,7 @@ msgstr "Falha ao reservar '{n}'"
 
 #: phonetrack.js:3190
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Falha ao contatar o servidor para reservar o nome de dispositivo"
 
 #: phonetrack.js:3221 phonetrack.js:3225
 msgid "Failed to delete reserved name"
@@ -480,7 +480,7 @@ msgstr ""
 
 #: phonetrack.js:3229
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Falha ao contatar o servidor para excluir nome reservado"
 
 #: phonetrack.js:3249
 msgid "User does not exist"
@@ -508,47 +508,47 @@ msgstr ""
 
 #: phonetrack.js:3322
 msgid "duration"
-msgstr ""
+msgstr "duração"
 
 #: phonetrack.js:3323
 msgid "#points"
-msgstr ""
+msgstr "#pontos"
 
 #: phonetrack.js:3358
 msgid "years"
-msgstr ""
+msgstr "anos"
 
 #: phonetrack.js:3361
 msgid "days"
-msgstr ""
+msgstr "dias"
 
 #: phonetrack.js:3490
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Tem certeza que deseja excluir a sessão {session}?"
 
 #: phonetrack.js:3493
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Confirmar exclusão de sessão"
 
 #: phonetrack.js:3641
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Selecione o local de armazenamento para '{fname}'"
 
 #: phonetrack.js:3801
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Tem certeza que deseja excluir o dispositivo {device}?"
 
 #: phonetrack.js:3804
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Confirmar a exclusão do dispositivo"
 
 #: phonetrack.js:3879
 msgid "Failed to toggle session public, session does not exist"
-msgstr ""
+msgstr "Falha ao trocar a sessão para pública, sessão não existe"
 
 #: phonetrack.js:3882
 msgid "Failed to toggle session public"
-msgstr ""
+msgstr "Falha ao alternar sessão para pública"
 
 #: phonetrack.js:3952
 msgid "Import gpx session file"
@@ -560,11 +560,11 @@ msgstr ""
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filtros"
 
 #: maincontent.php:14 maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Estatísticas"
 
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
@@ -578,19 +578,19 @@ msgstr ""
 
 #: maincontent.php:37 maincontent.php:37
 msgid "Options"
-msgstr ""
+msgstr "Opções"
 
 #: maincontent.php:45 maincontent.php:45
 msgid "Auto zoom"
-msgstr ""
+msgstr "Zoom automático"
 
 #: maincontent.php:53 maincontent.php:53
 msgid "Show tooltips"
-msgstr ""
+msgstr "Mostrar dicas"
 
 #: maincontent.php:56 maincontent.php:56
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Atualizar a cada (seg)"
 
 #: maincontent.php:61 maincontent.php:61
 msgid "Show accuracy in tooltips"
@@ -622,63 +622,63 @@ msgstr ""
 
 #: maincontent.php:89 maincontent.php:89
 msgid "Line width"
-msgstr ""
+msgstr "Largura da linha"
 
 #: maincontent.php:93 maincontent.php:93
 msgid "Point radius"
-msgstr ""
+msgstr "Raio do ponto"
 
 #: maincontent.php:97 maincontent.php:97
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Opacidade de pontos e linhas"
 
 #: maincontent.php:101 maincontent.php:101
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: maincontent.php:103 maincontent.php:103
 msgid "bright"
-msgstr ""
+msgstr "brilho"
 
 #: maincontent.php:104 maincontent.php:104
 msgid "pastel"
-msgstr ""
+msgstr "pastel"
 
 #: maincontent.php:105 maincontent.php:105
 msgid "dark"
-msgstr ""
+msgstr "escuro"
 
 #: maincontent.php:108 maincontent.php:108
 msgid "reload page to make changes effective"
-msgstr ""
+msgstr "recarregar a página para efetivar alterações"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Create session"
-msgstr ""
+msgstr "Criar a sessão"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Import session"
-msgstr ""
+msgstr "Importar sessão"
 
 #: maincontent.php:125 maincontent.php:125
 msgid "Session name"
-msgstr ""
+msgstr "Nome da sessão"
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
-msgstr ""
+msgstr "Nome do dispositivo"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
-msgstr ""
+msgstr "Registrar minha posição nesta sessão"
 
 #: maincontent.php:142 maincontent.php:142
 msgid "Tracking sessions"
-msgstr ""
+msgstr "Sessões de rastreio"
 
 #: maincontent.php:147 maincontent.php:147
 msgid "loading positions"
-msgstr ""
+msgstr "carregando posições"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
@@ -688,42 +688,42 @@ msgstr ""
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
 #: maincontent.php:267 maincontent.php:312
 msgid "Server name"
-msgstr ""
+msgstr "Nome do servidor"
 
 #: maincontent.php:185 maincontent.php:225 maincontent.php:268
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
 #: maincontent.php:268 maincontent.php:313
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Por exemplo: meu servidor personalizado"
 
 #: maincontent.php:186 maincontent.php:226 maincontent.php:269
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
 #: maincontent.php:269 maincontent.php:314
 msgid "Server url"
-msgstr ""
+msgstr "Url do servidor"
 
 #: maincontent.php:187 maincontent.php:270 maincontent.php:187
 #: maincontent.php:270
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Por exemplo: http://tile.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:188 maincontent.php:228 maincontent.php:271
 #: maincontent.php:316 maincontent.php:188 maincontent.php:228
 #: maincontent.php:271 maincontent.php:316
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Zoom mínimo (1-20)"
 
 #: maincontent.php:190 maincontent.php:230 maincontent.php:273
 #: maincontent.php:318 maincontent.php:190 maincontent.php:230
 #: maincontent.php:273 maincontent.php:318
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Zoom máximo (1-20)"
 
 #: maincontent.php:192 maincontent.php:236 maincontent.php:281
 #: maincontent.php:330 maincontent.php:192 maincontent.php:236
 #: maincontent.php:281 maincontent.php:330
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
@@ -741,12 +741,12 @@ msgstr ""
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
 msgid "Transparent"
-msgstr ""
+msgstr "Transparente"
 
 #: maincontent.php:234 maincontent.php:322 maincontent.php:234
 #: maincontent.php:322
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Opacidade (0,0-1,0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
@@ -759,12 +759,12 @@ msgstr ""
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
 msgid "WMS version"
-msgstr ""
+msgstr "Versão do WMS"
 
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
@@ -900,27 +900,27 @@ msgstr ""
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
-msgstr ""
+msgstr "Estatísticas"
 
 #: maincontent.php:526 maincontent.php:526
 msgid "Show stats"
-msgstr ""
+msgstr "Mostrar estatísticas"
 
 #: maincontent.php:535 maincontent.php:535
 msgid "Shortcuts"
-msgstr ""
+msgstr "Atalhos"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Ativar/Desativar barra lateral"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
-msgstr ""
+msgstr "Documentação"
 
 #: maincontent.php:549 maincontent.php:549
 msgid "Source management"
-msgstr ""
+msgstr "Gerenciamento de fonte"
 
 #: maincontent.php:563 maincontent.php:563
 msgid "Authors"
