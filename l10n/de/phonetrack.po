@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-14 09:56+0100\n"
-"PO-Revision-Date: 2017-11-14 04:04-0500\n"
+"PO-Revision-Date: 2017-11-17 07:42-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -54,7 +54,7 @@ msgstr "Tooltip des letzten Datenpunktes verbergen"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Alle Geräte anzeigen"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
@@ -192,7 +192,7 @@ msgstr "Geteilt mit {u}"
 
 #: phonetrack.js:1248
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Eine private Session ist nicht im öffentlichen Browserprotokoll sichtbar"
 
 #: phonetrack.js:1250 phonetrack.js:3874
 msgid "Make session public"
@@ -440,7 +440,7 @@ msgstr "Server für Sessionimport nicht erreichbar"
 
 #: phonetrack.js:2987
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Session erfolgreich exportiert"
 
 #: phonetrack.js:2991
 msgid "Failed to export session"
@@ -472,7 +472,7 @@ msgstr "Reservierter Name konnte nicht gelöscht werden"
 
 #: phonetrack.js:3222
 msgid "This device does not exist"
-msgstr ""
+msgstr "Dieses Gerät existiert nicht"
 
 #: phonetrack.js:3226
 msgid "This device name is not reserved, please reload this page"
@@ -532,7 +532,7 @@ msgstr "Löschen der Session bestätigen"
 
 #: phonetrack.js:3641
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Wählen Sie den Speicherort für '{fname}'"
 
 #: phonetrack.js:3801
 msgid "Are you sure you want to delete the device {device} ?"
@@ -835,7 +835,7 @@ msgstr "Filter aktivieren"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Startdatum"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
@@ -844,15 +844,15 @@ msgstr "heute"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Startzeit"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "End-Datum"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "End-Zeit"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
