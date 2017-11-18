@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-14 09:56+0100\n"
-"PO-Revision-Date: 2017-11-18 17:11-0500\n"
+"PO-Revision-Date: 2017-11-18 17:21-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -400,7 +400,7 @@ msgstr "User-Agent"
 
 #: phonetrack.js:2748
 msgid "lat : lng"
-msgstr "Lat: Lng"
+msgstr "Lat : Lng"
 
 #: phonetrack.js:2752
 msgid "DMS coords"
@@ -440,7 +440,7 @@ msgstr "Server für Sessionimport nicht erreichbar"
 
 #: phonetrack.js:2987
 msgid "Session successfully exported in"
-msgstr "Session erfolgreich exportiert"
+msgstr "Sitzung erfolgreich exportiert"
 
 #: phonetrack.js:2991
 msgid "Failed to export session"
@@ -460,7 +460,7 @@ msgstr "'{n}' ist bereits reserviert"
 
 #: phonetrack.js:3187
 msgid "Failed to reserve '{n}'"
-msgstr "Fehler beim reservieren von \"{n}\""
+msgstr "Fehler beim reservieren von '{n}'"
 
 #: phonetrack.js:3190
 msgid "Failed to contact server to reserve device name"
