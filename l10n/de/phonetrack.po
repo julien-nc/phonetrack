@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-14 09:56+0100\n"
-"PO-Revision-Date: 2017-11-17 07:42-0500\n"
+"PO-Revision-Date: 2017-11-18 17:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -144,7 +144,7 @@ msgstr "URL zur Sitzung teilen"
 
 #: phonetrack.js:1184
 msgid "URLs for logging apps"
-msgstr "URLs für die Protokollierung von Anwendungen"
+msgstr "URL für Datalogger"
 
 #: phonetrack.js:1188
 msgid "Reserve device names"
@@ -268,11 +268,11 @@ msgstr "Fehler beim umbenennen der Session"
 
 #: phonetrack.js:1482
 msgid "Impossible to rename device"
-msgstr "Geröt konnte nicht umbenannt werden"
+msgstr "Gerät konnte nicht umbenannt werden"
 
 #: phonetrack.js:1486
 msgid "Failed to contact server to rename device"
-msgstr "Keine Serververbindung zur Umbenennung"
+msgstr "Verbindung zum Umbenennen fehlgeschlagen"
 
 #: phonetrack.js:1547
 msgid "Device already exists in target session"
