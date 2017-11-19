@@ -3724,7 +3724,6 @@
                 nameDiv.slideDown('slow');
                 urlDiv.slideUp('slow');
                 sharediv.slideUp('slow');
-                editdiv.slideUp('slow');
             }
         });
 
@@ -3739,7 +3738,6 @@
                 urlDiv.slideDown('slow').css('display', 'grid');
                 nameDiv.slideUp('slow');
                 sharediv.slideUp('slow');
-                editdiv.slideUp('slow');
             }
         });
 
@@ -3754,7 +3752,6 @@
                 sharediv.slideDown('slow');
                 nameDiv.slideUp('slow');
                 moreurldiv.slideUp('slow');
-                editdiv.slideUp('slow');
             }
         });
 

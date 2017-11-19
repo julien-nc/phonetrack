@@ -28,14 +28,14 @@ use OCP\AppFramework\Controller;
 
 function DMStoDEC($dms, $longlat) {
     if ($longlat === 'latitude') {
-        $deg = substr($dms, 0, 2);
-        $min = substr($dms, 2, 8);
-        $sec = '';
+        $deg = intval(substr($dms, 0, 3));
+        $min = floatval(substr($dms, 3, 8));
+        $sec = 0;
     }
     if ($longlat === 'longitude') {
-        $deg = substr($dms, 0, 3);
-        $min = substr($dms, 3, 8);
-        $sec = '';
+        $deg = intval(substr($dms, 0, 3));
+        $min = floatval(substr($dms, 3, 8));
+        $sec = 0;
     }
     return $deg + ((($min * 60) + ($sec)) / 3600);
 }
@@ -465,8 +465,14 @@ class LogController extends Controller {
         $date = sprintf("%06d", (int)$gprmca[9]);
         $datetime = \DateTime::createFromFormat('dmy His', $date.' '.$time);
         $timestamp = $datetime->getTimestamp();
-        $lat = DMStoDEC($gprmca[3], 'latitude');
+        $lat = DMStoDEC(sprintf('%010.4f', (float)$gprmca[3]), 'latitude');
+        if ($gprmca[4] === 'S') {
+            $lat = - $lat;
+        }
         $lon = DMStoDEC(sprintf('%010.4f', (float)$gprmca[5]), 'longitude');
+        if ($gprmca[6] === 'W') {
+            $lon = - $lon;
+        }
         $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, -1, $batt, -1, 'OpenGTS client');
         return true;
     }
