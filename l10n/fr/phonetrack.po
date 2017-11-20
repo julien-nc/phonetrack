@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-20 16:46+0100\n"
-"PO-Revision-Date: 2017-11-20 10:54-0500\n"
+"PO-Revision-Date: 2017-11-20 11:25-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -88,7 +88,7 @@ msgstr "Échec de l'ajout du serveur de tuiles \"{ts}\""
 
 #: phonetrack.js:854
 msgid "Failed to contact server to add tile server"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour ajouter le serveur de tuile"
 
 #: phonetrack.js:888
 msgid "Tile server \"{ts}\" has been deleted"
@@ -100,11 +100,11 @@ msgstr "Echec de la suppression du serveur de tuiles \"{ts}\""
 
 #: phonetrack.js:895
 msgid "Failed to contact server to delete tile server"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour supprimer le serveur de tuile"
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour restaurer les valeurs d’options"
 
 #: phonetrack.js:1008
 msgid "Reload this page"
@@ -116,7 +116,7 @@ msgstr "Erreur"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour enregistrer des valeurs d’options"
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
@@ -128,7 +128,7 @@ msgstr "Nom de session déjà utilisé"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour créer la session"
 
 #: phonetrack.js:1188
 msgid "Watch this session"
@@ -248,7 +248,7 @@ msgstr "Echec de la suppression de la session"
 
 #: phonetrack.js:1335
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour supprimer la session"
 
 #: phonetrack.js:1355
 msgid "Device '{d}' of session '{s}' has been deleted"
@@ -268,7 +268,7 @@ msgstr "Impossible de renommer la session"
 
 #: phonetrack.js:1417
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour renommer la session"
 
 #: phonetrack.js:1501
 msgid "Impossible to rename device"
@@ -292,11 +292,11 @@ msgstr "Impossible de contacter le serveur pour déplacer l'appareil"
 
 #: phonetrack.js:1635
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour obtenir les sessions"
 
 #: phonetrack.js:1673
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour actualiser les sessions"
 
 #: phonetrack.js:1915 phonetrack.js:1944
 msgid "Stats of all points"
@@ -356,7 +356,7 @@ msgstr "Le point que vous voulez éditer n'existe pas ou vous n'êtes pas autori
 
 #: phonetrack.js:2410
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour éditer le point"
 
 #: phonetrack.js:2528
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
@@ -364,7 +364,7 @@ msgstr "Le point que vous voulez supprimer n'existe pas ou bien vous n'êtes pas
 
 #: phonetrack.js:2532
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour supprimer le point"
 
 #: phonetrack.js:2624
 msgid "Impossible to add this point"
@@ -372,7 +372,7 @@ msgstr "Impossible d'ajouter ce point"
 
 #: phonetrack.js:2628
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour ajouter le point"
 
 #: phonetrack.js:2744
 msgid "Date"
@@ -500,7 +500,7 @@ msgstr "Échec de l'ajout du partage"
 
 #: phonetrack.js:3287
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour ajouter le partage"
 
 #: phonetrack.js:3318
 msgid "Failed to delete user share"
@@ -508,11 +508,11 @@ msgstr "Échec de la suppression du partage"
 
 #: phonetrack.js:3321
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour supprimer le partage"
 
 #: phonetrack.js:3339
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour obtenir la liste des utilisateurs"
 
 #: phonetrack.js:3352
 msgid "device name"
@@ -560,11 +560,11 @@ msgstr "Confirmer la suppression de l'appareil"
 
 #: phonetrack.js:3899
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Impossible de rendre la session publique/privée, la session n’existe pas"
 
 #: phonetrack.js:3902
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Impossible de contacter le serveur pour rendre la session publique/privée"
 
 #: phonetrack.js:3972
 msgid "Import gpx session file"
