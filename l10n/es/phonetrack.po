@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-20 16:46+0100\n"
-"PO-Revision-Date: 2017-11-20 11:35-0500\n"
+"PO-Revision-Date: 2017-11-20 11:43-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -248,7 +248,7 @@ msgstr "Error al eliminar el período la sesión"
 
 #: phonetrack.js:1335
 msgid "Failed to contact server to delete session"
-msgstr "No se pudo contactar el servidor para eliminar la sesion"
+msgstr "No se pudo contactar el servidor para eliminar la sesión"
 
 #: phonetrack.js:1355
 msgid "Device '{d}' of session '{s}' has been deleted"
@@ -456,7 +456,7 @@ msgstr "No se pudo exportar la sesión"
 
 #: phonetrack.js:3027
 msgid "Failed to contact server to export session"
-msgstr "No se pudo contactar el servidor para exportar la sesion"
+msgstr "No se pudo contactar el servidor para exportar la sesión"
 
 #: phonetrack.js:3058
 msgid "Failed to contact server to log position"
@@ -568,7 +568,7 @@ msgstr ""
 
 #: phonetrack.js:3972
 msgid "Import gpx session file"
-msgstr ""
+msgstr "Importar archivo gpx de sesion"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
@@ -590,7 +590,7 @@ msgstr "Ajustes y acciones adicionales"
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "Acerca de PhoneTrack"
 
 #: maincontent.php:36 maincontent.php:36
 msgid "Import session"
@@ -606,39 +606,39 @@ msgstr "Nombre de sesión"
 
 #: maincontent.php:57 maincontent.php:57
 msgid "Options"
-msgstr ""
+msgstr "Opciones"
 
 #: maincontent.php:65 maincontent.php:65
 msgid "Auto zoom"
-msgstr ""
+msgstr "Zoom automático"
 
 #: maincontent.php:73 maincontent.php:73
 msgid "Show tooltips"
-msgstr ""
+msgstr "Mostrar tooltips"
 
 #: maincontent.php:76 maincontent.php:76
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Actualizar cada (seg)"
 
 #: maincontent.php:81 maincontent.php:81
 msgid "Show accuracy in tooltips"
-msgstr ""
+msgstr "Muestra precisión en los tooltips"
 
 #: maincontent.php:85 maincontent.php:85
 msgid "Show satellites in tooltips"
-msgstr ""
+msgstr "Mostrar satélites en los tooltips"
 
 #: maincontent.php:89 maincontent.php:89
 msgid "Show battery level in tooltips"
-msgstr ""
+msgstr "Mostrar el nivel de batería en los tooltips"
 
 #: maincontent.php:93 maincontent.php:93
 msgid "Show elevation in tooltips"
-msgstr ""
+msgstr "Mostrar la elevacion en los tooltips"
 
 #: maincontent.php:97 maincontent.php:97
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "Mostrar el user-agent en los tooltips"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
@@ -646,31 +646,31 @@ msgstr ""
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Ver círculo de precisión al sobrevuelo"
 
 #: maincontent.php:109 maincontent.php:109
 msgid "Line width"
-msgstr ""
+msgstr "Ancho de línea"
 
 #: maincontent.php:113 maincontent.php:113
 msgid "Point radius"
-msgstr ""
+msgstr "Radio de punto"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Opacidad de puntos y líneas"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
-msgstr ""
+msgstr "Estilo"
 
 #: maincontent.php:123 maincontent.php:123
 msgid "bright"
-msgstr ""
+msgstr "brillante"
 
 #: maincontent.php:124 maincontent.php:124
 msgid "pastel"
-msgstr ""
+msgstr "pastel"
 
 #: maincontent.php:125 maincontent.php:125
 msgid "dark"
@@ -698,7 +698,7 @@ msgstr "cargando las posiciones"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Servidores de azulejo personalizado"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
@@ -710,7 +710,7 @@ msgstr "Nombre del servidor"
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
 #: maincontent.php:268 maincontent.php:313
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Por ejemplo : mi servidor personalizado"
 
 #: maincontent.php:186 maincontent.php:226 maincontent.php:269
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
@@ -775,7 +775,7 @@ msgstr ""
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
@@ -880,7 +880,7 @@ msgstr ""
 
 #: maincontent.php:446 maincontent.php:446
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Último día:hora:minuto"
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
