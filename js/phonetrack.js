@@ -851,7 +851,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to add tile server "{ts}"', {ts: sname}));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add tile server'));
         });
     }
 
@@ -892,7 +892,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to delete tile server "{ts}"', {ts: sname}));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete tile server'));
         });
     }
 
@@ -1004,7 +1004,7 @@
             main();
         }).fail(function() {
             OC.dialogs.alert(
-                t('phonetrack', 'Failed to restore options values') + '. ' +
+                t('phonetrack', 'Failed to contact server to restore options values') + '. ' +
                 t('phonetrack', 'Reload this page')
                 ,
                 t('phonetrack', 'Error')
@@ -1073,7 +1073,7 @@
             //alert(response);
         }).fail(function() {
             OC.dialogs.alert(
-                t('phonetrack', 'Failed to save options values'),
+                t('phonetrack', 'Failed to contact server to save options values'),
                 t('phonetrack', 'Error')
             );
         });
@@ -1115,7 +1115,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to create session'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to create session'));
         });
     }
 
@@ -1327,9 +1327,12 @@
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'The session you want to delete does not exist'));
             }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete session'));
+            }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to delete session'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete session'));
         });
     }
 
@@ -1411,7 +1414,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to rename session') + ' ' + oldname);
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to rename session'));
         });
     }
 
@@ -1499,7 +1502,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to rename device') + ' ' + escapeHTML(oldname));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to rename device'));
         });
     }
 
@@ -1629,7 +1632,7 @@
             refresh(false);
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to get sessions'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get sessions'));
         });
     }
 
@@ -1667,7 +1670,7 @@
             }).always(function() {
                 hideLoadingAnimation();
             }).fail(function() {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to refresh sessions'));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to refresh sessions'));
             });
         }
         else {
@@ -2404,7 +2407,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to edit point'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to edit point'));
         });
     }
 
@@ -2526,7 +2529,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to delete point'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete point'));
         });
     }
 
@@ -2622,7 +2625,7 @@
             }
         }).always(function() {
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to add point'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add point'));
         });
     }
 
@@ -3281,7 +3284,7 @@
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to add user share'));
             }
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to add user share'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add user share'));
         });
     }
 
@@ -3315,7 +3318,7 @@
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to delete user share'));
             }
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to delete user share'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete user share'));
         });
     }
 
@@ -3333,7 +3336,7 @@
                 source: response.users
             });
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to get user list'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get user list'));
         });
     }
 
@@ -3893,10 +3896,10 @@
                     }
                 }
                 else if (response.done === 2) {
-                    OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public, session does not exist'));
+                    OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public status, session does not exist'));
                 }
             }).fail(function() {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public'));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to toggle session public status'));
             });
         });
 
