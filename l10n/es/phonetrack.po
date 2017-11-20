@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-20 16:46+0100\n"
-"PO-Revision-Date: 2017-11-20 11:43-0500\n"
+"PO-Revision-Date: 2017-11-20 11:53-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "Imposible de añadir el servidor de azulejo"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
@@ -368,7 +368,7 @@ msgstr ""
 
 #: phonetrack.js:2624
 msgid "Impossible to add this point"
-msgstr "Imposible añadir este punto"
+msgstr "Imposible de añadir este punto"
 
 #: phonetrack.js:2628
 msgid "Failed to contact server to add point"
