@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-20 16:46+0100\n"
-"PO-Revision-Date: 2017-11-20 14:12-0500\n"
+"PO-Revision-Date: 2017-11-20 14:32-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -104,7 +104,7 @@ msgstr "Kon geen contact maken met server om tile server te verwijderen"
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Kon geen contact maken met server om optiewaarden te herstellen"
 
 #: phonetrack.js:1008
 msgid "Reload this page"
@@ -116,7 +116,7 @@ msgstr "Fout"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Kon geen contact maken met server om optiewaarden op te slaan"
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
@@ -128,7 +128,7 @@ msgstr "Sessienaam wordt al gebruikt"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Kon geen contact maken met server om sessie aan te maken"
 
 #: phonetrack.js:1188
 msgid "Watch this session"
@@ -248,7 +248,7 @@ msgstr "Verwijderen van de sessie is mislukt"
 
 #: phonetrack.js:1335
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "Kon geen contact maken met server om sessie te verwijderen"
 
 #: phonetrack.js:1355
 msgid "Device '{d}' of session '{s}' has been deleted"
@@ -268,7 +268,7 @@ msgstr "Hernoemen van de sessie is niet mogelijk"
 
 #: phonetrack.js:1417
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Kon geen contact maken met server om sessie te hernoemen"
 
 #: phonetrack.js:1501
 msgid "Impossible to rename device"
@@ -292,11 +292,11 @@ msgstr "Kon geen contact maken met server om apparaat te verplaatsen"
 
 #: phonetrack.js:1635
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Kon geen contact maken met server om sessies op te vragen"
 
 #: phonetrack.js:1673
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Kon geen contact maken met server om sessies te verversen"
 
 #: phonetrack.js:1915 phonetrack.js:1944
 msgid "Stats of all points"
@@ -356,7 +356,7 @@ msgstr "Het punt dat je wilt bewerken bestaat niet of je hebt geen toestemming o
 
 #: phonetrack.js:2410
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Kon geen contact maken met server om punt te bewerken"
 
 #: phonetrack.js:2528
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
@@ -364,7 +364,7 @@ msgstr "Het punt dat je wilt verwijderen bestaat niet of je hebt geen toestemmin
 
 #: phonetrack.js:2532
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Kon geen contact maken met server om punt te verwijderen"
 
 #: phonetrack.js:2624
 msgid "Impossible to add this point"
@@ -372,7 +372,7 @@ msgstr "Toevoegen van dit punt is niet mogelijk"
 
 #: phonetrack.js:2628
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Kon geen contact maken met server om punt toe te voegen"
 
 #: phonetrack.js:2744
 msgid "Date"
@@ -500,7 +500,7 @@ msgstr "Toeovoegen van delen met gebruiker is mislukt"
 
 #: phonetrack.js:3287
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Kon geen contact maken met server om share toe te voegen"
 
 #: phonetrack.js:3318
 msgid "Failed to delete user share"
@@ -508,11 +508,11 @@ msgstr "Verwijderen van delen met gebruiker is mislukt"
 
 #: phonetrack.js:3321
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Kon geen contact maken met server om share te verwijderen"
 
 #: phonetrack.js:3339
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Kon geen contact maken met server om gebruikerslijst op te vragen"
 
 #: phonetrack.js:3352
 msgid "device name"
@@ -560,11 +560,11 @@ msgstr "Verwijderen van apparaat bevestigen"
 
 #: phonetrack.js:3899
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Omschakelen van openbare/privé sessie mislukt, de sessie bestaat niet"
 
 #: phonetrack.js:3902
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Kon geen contact maken met server om openbare/privé sessie om te schakelen"
 
 #: phonetrack.js:3972
 msgid "Import gpx session file"
