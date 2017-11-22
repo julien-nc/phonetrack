@@ -1684,58 +1684,8 @@ class PageController extends Controller {
                 // get the coords for each device
                 $result[$name] = array();
 
-                // get saved options
-                $sqlget = 'SELECT * FROM *PREFIX*phonetrack_options ';
-                $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
-                $req = $this->dbconnection->prepare($sqlget);
-                $req->execute();
-                $optString = null;
-                $filtering = false;
-                while ($row = $req->fetch()){
-                    $optString = $row['jsonvalues'];
-                }
-                if ($optString !== null) {
-                    $f = json_decode($optString);
-                    if (isset($f->{'applyfilters'}) and $f->{'applyfilters'} === true) {
-                        $filtering = true;
-                        $fArray = array();
-                        if (isset($f->{'datemin'}) and $f->{'datemin'} !== '') {
-                            $hourmin = (isset($f->{'hourmin'}) and $f->{'hourmin'} !== '') ? intval($f->{'hourmin'}) : 0;
-                            $minutemin = (isset($f->{'minutemin'}) and $f->{'minutemin'} !== '') ? intval($f->{'minutemin'}) : 0;
-                            $secondmin = (isset($f->{'secondmin'}) and $f->{'secondmin'} !== '') ? intval($f->{'secondmin'}) : 0;
-                            $fArray['tsmin'] = intval($f->{'datemin'}) + 3600*$hourmin + 60*$minutemin + $secondmin;
-                        }
-                        if (isset($f->{'datemax'}) and $f->{'datemax'} !== '') {
-                            $hourmax = (isset($f->{'hourmax'}) and $f->{'hourmax'} !== '') ? intval($f->{'hourmax'}) : 23;
-                            $minutemax = (isset($f->{'minutemax'}) and $f->{'minutemax'} !== '') ? intval($f->{'minutemax'}) : 59;
-                            $secondmax = (isset($f->{'secondmax'}) and $f->{'secondmax'} !== '') ? intval($f->{'secondmax'}) : 59;
-                            $fArray['tsmax'] = intval($f->{'datemax'}) + 3600*$hourmax + 60*$minutemax + $secondmax;
-                        }
-                        $lastTS = new \DateTime();
-                        $lastTS = $lastTS->getTimestamp();
-                        $lastTSset = false;
-                        if (isset($f->{'lastdays'}) and $f->{'lastdays'} !== '') {
-                            $lastTS = $lastTS - 3600*intval($f->{'lastdays'});
-                            $lastTSset = true;
-                        }
-                        if (isset($f->{'lasthours'}) and $f->{'lasthours'} !== '') {
-                            $lastTS = $lastTS - 60*intval($f->{'lasthours'});
-                            $lastTSset = true;
-                        }
-                        if (isset($f->{'lastmins'}) and $f->{'lastmins'} !== '') {
-                            $lastTS = $lastTS - intval($f->{'lastmins'});
-                            $lastTSset = true;
-                        }
-                        if ($lastTSset and (!isset($fArray['tsmin']) or $lastTS > $fArray['tsmin'])) {
-                            $fArray['tsmin'] = $lastTS;
-                        }
-                        foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax'] as $k) {
-                            if (isset($f->{$k}) and $f->{$k} !== '') {
-                                $fArray[$k] = intval($f->{$k});
-                            }
-                        }
-                    }
-                }
+                // get filters
+                $filterArray = $this->getCurrentFilters();
 
                 foreach ($devices as $d) {
                     $devid = $d[0];
@@ -1757,7 +1707,7 @@ class PageController extends Controller {
                         $lon = $row['lon'];
                         $alt = $row['altitude'];
 
-                        if (!$filtering or $this->filterPoint($row, $fArray)) {
+                        if ($filterArray === null or $this->filterPoint($row, $filterArray)) {
                             $point = array($lat, $lon, $date, $alt);
                             array_push($coords[$devname], $point);
                         }
@@ -1781,6 +1731,61 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    private function getCurrentFilters() {
+        $fArray = null;
+        $sqlget = 'SELECT * FROM *PREFIX*phonetrack_options ';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        $optString = null;
+        while ($row = $req->fetch()){
+            $optString = $row['jsonvalues'];
+        }
+        if ($optString !== null) {
+            $f = json_decode($optString);
+            if (isset($f->{'applyfilters'}) and $f->{'applyfilters'} === true) {
+                $fArray = array();
+                if (isset($f->{'datemin'}) and $f->{'datemin'} !== '') {
+                    $hourmin = (isset($f->{'hourmin'}) and $f->{'hourmin'} !== '') ? intval($f->{'hourmin'}) : 0;
+                    $minutemin = (isset($f->{'minutemin'}) and $f->{'minutemin'} !== '') ? intval($f->{'minutemin'}) : 0;
+                    $secondmin = (isset($f->{'secondmin'}) and $f->{'secondmin'} !== '') ? intval($f->{'secondmin'}) : 0;
+                    $fArray['tsmin'] = intval($f->{'datemin'}) + 3600*$hourmin + 60*$minutemin + $secondmin;
+                }
+                if (isset($f->{'datemax'}) and $f->{'datemax'} !== '') {
+                    $hourmax = (isset($f->{'hourmax'}) and $f->{'hourmax'} !== '') ? intval($f->{'hourmax'}) : 23;
+                    $minutemax = (isset($f->{'minutemax'}) and $f->{'minutemax'} !== '') ? intval($f->{'minutemax'}) : 59;
+                    $secondmax = (isset($f->{'secondmax'}) and $f->{'secondmax'} !== '') ? intval($f->{'secondmax'}) : 59;
+                    $fArray['tsmax'] = intval($f->{'datemax'}) + 3600*$hourmax + 60*$minutemax + $secondmax;
+                }
+                $lastTS = new \DateTime();
+                $lastTS = $lastTS->getTimestamp();
+                $lastTSset = false;
+                if (isset($f->{'lastdays'}) and $f->{'lastdays'} !== '') {
+                    $lastTS = $lastTS - 24*3600*intval($f->{'lastdays'});
+                    $lastTSset = true;
+                }
+                if (isset($f->{'lasthours'}) and $f->{'lasthours'} !== '') {
+                    $lastTS = $lastTS - 3600*intval($f->{'lasthours'});
+                    $lastTSset = true;
+                }
+                if (isset($f->{'lastmins'}) and $f->{'lastmins'} !== '') {
+                    $lastTS = $lastTS - 60*intval($f->{'lastmins'});
+                    $lastTSset = true;
+                }
+                if ($lastTSset and (!isset($fArray['tsmin']) or $lastTS > $fArray['tsmin'])) {
+                    $fArray['tsmin'] = $lastTS;
+                }
+                foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax'] as $k) {
+                    if (isset($f->{$k}) and $f->{$k} !== '') {
+                        $fArray[$k] = intval($f->{$k});
+                    }
+                }
+            }
+        }
+
+        return $fArray;
     }
 
     private function filterPoint($p, $fArray) {

@@ -105,12 +105,6 @@
       <length>4</length>
     </field>
     <field>
-      <name>sessionid</name>
-      <type>text</type>
-      <default></default>
-      <length>300</length>
-    </field>
-    <field>
       <name>deviceid</name>
       <type>text</type>
       <notnull>true</notnull>
