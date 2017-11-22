@@ -49,6 +49,8 @@ return [
         ['name' => 'page#setSessionPublic', 'url' => '/setSessionPublic', 'verb' => 'POST'],
         ['name' => 'page#addUserShare', 'url' => '/addUserShare', 'verb' => 'POST'],
         ['name' => 'page#deleteUserShare', 'url' => '/deleteUserShare', 'verb' => 'POST'],
+        ['name' => 'page#addPublicShare', 'url' => '/addPublicShare', 'verb' => 'POST'],
+        ['name' => 'page#deletePublicShare', 'url' => '/deletePublicShare', 'verb' => 'POST'],
         ['name' => 'page#addNameReservation', 'url' => '/addNameReservation', 'verb' => 'POST'],
         ['name' => 'page#deleteNameReservation', 'url' => '/deleteNameReservation', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],

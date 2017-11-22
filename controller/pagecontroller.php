@@ -1555,7 +1555,7 @@ class PageController extends Controller {
             $gpx = new \SimpleXMLElement($gpx_content);
         }
         catch (\Exception $e) {
-            error_log("Exception in ".$file->getName()." gpx parsing : ".$e->getMessage());
+            error_log('Exception in '.$file->getName().' gpx parsing : '.$e->getMessage());
             return 5;
         }
 
@@ -1930,6 +1930,74 @@ class PageController extends Controller {
     }
 
     /**
+     * Used to build public tokens with filters (then accessed by publicWatchUrl)
+     * @NoAdminRequired
+     */
+    public function addPublicShare($token) {
+        $ok = 0;
+        // check if session exists and owned by current user
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            $filters = '{}';
+            $filterArray = $this->getCurrentFilters();
+            if ($filterArray !== null) {
+                $filters = json_encode($filterArray);
+            }
+
+            if ($filters !== '{}') {
+                // determine share token
+                $sharetoken = md5('share'.$this->userId.$dbname.rand());
+
+                // insert
+                $sql = 'INSERT INTO *PREFIX*phonetrack_publicshares';
+                $sql .= ' (sessionid, sharetoken, filters) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($dbtoken).',';
+                $sql .= $this->db_quote_escape_string($sharetoken).',';
+                $sql .= $this->db_quote_escape_string($filters);
+                $sql .= ');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            else {
+                $ok = 2;
+            }
+        }
+        else {
+            $ok = 3;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+                'sharetoken'=>$sharetoken
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
      * @NoAdminRequired
      */
     public function deleteUserShare($token, $username) {
@@ -1968,6 +2036,72 @@ class PageController extends Controller {
                 $sqldel = 'DELETE FROM *PREFIX*phonetrack_shares ';
                 $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                 $sqldel .= 'AND username='.$this->db_quote_escape_string($username).';';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            else {
+                $ok = 2;
+            }
+        }
+        else {
+            $ok = 3;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deletePublicShare($token, $sharetoken) {
+        $ok = 0;
+        // check if session exists
+        $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if public share exists
+            $sqlchk = 'SELECT sharetoken, sessionid FROM *PREFIX*phonetrack_publicshares ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+            $sqlchk .= 'AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbsharetoken = null;
+            while ($row = $req->fetch()){
+                $dbsharetoken = $row['sharetoken'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbsharetoken !== null) {
+                // delete
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_publicshares ';
+                $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqldel .= 'AND sharetoken='.$this->db_quote_escape_string($dbsharetoken).';';
                 $req = $this->dbconnection->prepare($sqldel);
                 $req->execute();
                 $req->closeCursor();

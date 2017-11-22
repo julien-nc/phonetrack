@@ -1133,7 +1133,7 @@
 
     function addSession(token, name, publicviewtoken, isPublic, sharedWith=[],
                         selected=false, isFromShare=false, isSharedBy='',
-                        reservedNames=[]) {
+                        reservedNames=[], publicFilteredShares=[]) {
         // if session is not shared (we have write access)
         if (!isFromShare) {
             $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
@@ -1274,7 +1274,21 @@
             divtxt = divtxt + '<div class="publicWatchUrlDiv">';
             divtxt = divtxt + '<p class="publicWatchUrlLabel">' + t('phonetrack', 'Public watch URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
-            divtxt = divtxt + '</div>';
+            divtxt = divtxt + '</div><hr/>';
+
+            divtxt = divtxt + '<div class="publicfilteredsharediv">';
+            divtxt = divtxt + '<button class="addpublicfilteredshareButton"><i class="fa fa-plus-circle" aria-hidden="true"></i> ' +
+                t('phonetrack', 'Add public filtered share') + '</button>';
+            divtxt = divtxt + '<ul class="publicfilteredsharelist">';
+            for (i = 0; i < publicFilteredShares.length; i++) {
+                divtxt = divtxt + '<li filteredToken="' + escapeHTML(publicFilteredShares[i].token) + '" title="' +
+                    publicFilteredShares[i].filters + '">' +
+                    '<input type="text" class="publicFilteredShareUrl" value="' + publicFilteredShares[i].url + '"/>' +
+                    '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></li>';
+            }
+            divtxt = divtxt + '</ul>';
+            divtxt = divtxt + '</div><hr/>';
+
             divtxt = divtxt + '<hr/></div>';
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
@@ -3322,6 +3336,62 @@
         });
     }
 
+    function addPublicSessionShareDb(token) {
+        var req = {
+            token: token,
+        };
+        var url = OC.generateUrl('/apps/phonetrack/addPublicShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                addPublicSessionShare(token, response.sharetoken, response.filters);
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to add public share'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add public share'));
+        });
+    }
+
+    function addPublicSessionShare(token, sharetoken, filters) {
+        var li = '<li filteredToken="' + escapeHTML(sharetoken) + '" title="' +
+            filters + '">' +
+            '<input type="text" class="publicFilteredShareUrl" value="' + sharetoken + '"/>' +
+            '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></li>';
+        $('.session[token="' + token + '"]').find('.publicfilteredsharelist').append(li);
+    }
+
+    function deletePublicSessionShareDb(token, sharetoken) {
+        var req = {
+            token: token,
+            sharetoken: sharetoken
+        };
+        var url = OC.generateUrl('/apps/phonetrack/deletePublicShare');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                var li = $('.session[token="' + token + '"]').find('.publicfilteredsharelist li[filterToken=' + sharetoken + ']');
+                li.fadeOut('slow', function() {
+                    li.remove();
+                });
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete public share'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete public share'));
+        });
+    }
+
     function addUserAutocompletion(input) {
         var req = {
         };
@@ -4044,6 +4114,17 @@
             var token = $(this).parent().parent().parent().parent().parent().attr('token');
             var username = $(this).parent().attr('username');
             deleteUserShareDb(token, username);
+        });
+
+        $('body').on('click','.addpublicfilteredshareButton', function(e) {
+            var token = $(this).parent().parent().parent().attr('token');
+            addPublicSessionShareDb(token);
+        });
+
+        $('body').on('click','.deletePublicFilteredShare', function(e) {
+            var token = $(this).parent().parent().parent().parent().parent().attr('token');
+            var sharetoken = $(this).parent().attr('filteredToken');
+            deletePublicSessionShareDb(token, sharetoken);
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {
