@@ -1277,7 +1277,9 @@
             divtxt = divtxt + '</div><hr/>';
 
             divtxt = divtxt + '<div class="publicfilteredsharediv">';
-            divtxt = divtxt + '<button class="addpublicfilteredshareButton"><i class="fa fa-plus-circle" aria-hidden="true"></i> ' +
+            divtxt = divtxt + '<button class="addpublicfilteredshareButton" ' +
+                'title="' + t('phonetrack', 'Current active filters will be applied on shared view') + '">' +
+                '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' +
                 t('phonetrack', 'Add public filtered share') + '</button>';
             divtxt = divtxt + '<ul class="publicfilteredsharelist">';
             var publicurl;
@@ -1285,12 +1287,12 @@
                 publicurl = window.location.origin +
                     OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicFilteredShares[i].token);
                 divtxt = divtxt + '<li filteredtoken="' + escapeHTML(publicFilteredShares[i].token) + '" title="' +
-                    escapeHTML(publicFilteredShares[i].filters) + '">' +
+                    filtersToTxt(publicFilteredShares[i].filters) + '">' +
                     '<input type="text" class="publicFilteredShareUrl ro" value="' + publicurl + '"/>' +
                     '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></li>';
             }
             divtxt = divtxt + '</ul>';
-            divtxt = divtxt + '</div><hr/>';
+            divtxt = divtxt + '</div>';
 
             divtxt = divtxt + '<hr/></div>';
         }
@@ -3368,10 +3370,25 @@
         var publicurl = window.location.origin +
             OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken);
         var li = '<li filteredtoken="' + escapeHTML(sharetoken) + '" title="' +
-            escapeHTML(filters) + '">' +
+            filtersToTxt(filters) + '">' +
             '<input type="text" class="publicFilteredShareUrl" value="' + publicurl + '"/>' +
             '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></li>';
         $('.session[token="' + token + '"]').find('.publicfilteredsharelist').append(li);
+    }
+
+    function filtersToTxt(fstr) {
+        var fjson = $.parseJSON(fstr);
+        var res = '';
+        var k;
+        for (k in fjson) {
+            if (k === 'tsmin' || k === 'tsmax') {
+                res = res + k + ' : ' + moment.unix(fjson[k]).format('YYYY-MM-DD HH:mm:ss (Z)') + '\n';
+            }
+            else {
+                res = res + k + ' : ' + fjson[k] + '\n';
+            }
+        }
+        return res;
     }
 
     function deletePublicSessionShareDb(token, sharetoken) {

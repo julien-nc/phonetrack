@@ -1328,6 +1328,7 @@ class PageController extends Controller {
             // check if session exists
             $dbpublicviewtoken = null;
             $dbpublic = null;
+            $filters = null;
             $sqlget = 'SELECT publicviewtoken, token, public FROM *PREFIX*phonetrack_sessions ';
             $sqlget .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
             $req = $this->dbconnection->prepare($sqlget);
@@ -1345,13 +1346,14 @@ class PageController extends Controller {
             // there is no session with this publicviewtoken
             // check if there is a public share with the sharetoken
             if ($dbpublicviewtoken === null) {
-                $sqlget = 'SELECT sharetoken, sessionid FROM *PREFIX*phonetrack_pubshares ';
+                $sqlget = 'SELECT sharetoken, sessionid, filters FROM *PREFIX*phonetrack_pubshares ';
                 $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){
                     $dbpublicviewtoken = $row['sharetoken'];
                     $dbtoken = $row['sessionid'];
+                    $filters = json_decode($row['filters'], True);
                 }
                 $req->closeCursor();
             }
@@ -1415,7 +1417,9 @@ class PageController extends Controller {
                         foreach ($row as $k => $v) {
                             $entry[$k] = $v;
                         }
-                        array_push($resultDevArray, $entry);
+                        if ($filters === null or $this->filterPoint($row, $filters)) {
+                            array_push($resultDevArray, $entry);
+                        }
                     }
                     $req->closeCursor();
                     if (count($resultDevArray) > 0) {

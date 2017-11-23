@@ -320,6 +320,7 @@ div.session p,
     color: grey;
 }
 .deletereservedname:hover i,
+.deletePublicFilteredShare:hover i,
 .deleteusershare:hover i {
     color: red;
 }
@@ -740,4 +741,10 @@ div#createimportsessiondiv button {
 }
 .publicFilteredShareUrl {
     width: 80% !important;
+}
+.deletePublicFilteredShare {
+    padding: 5px 5px 5px 5px;
+    margin: 0;
+    border: 0px;
+    background: none;
 }
