@@ -353,7 +353,7 @@ class PageController extends Controller {
      */
     private function getPublicShares($sessionid) {
         $shares = [];
-        $sqlchk = 'SELECT * FROM *PREFIX*phonetrack_publicshares ';
+        $sqlchk = 'SELECT * FROM *PREFIX*phonetrack_pubshares ';
         $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($sessionid).';';
         $req = $this->dbconnection->prepare($sqlchk);
         $req->execute();
@@ -1327,6 +1327,7 @@ class PageController extends Controller {
 
             // check if session exists
             $dbpublicviewtoken = null;
+            $dbpublic = null;
             $sqlget = 'SELECT publicviewtoken, token, public FROM *PREFIX*phonetrack_sessions ';
             $sqlget .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
             $req = $this->dbconnection->prepare($sqlget);
@@ -1334,12 +1335,29 @@ class PageController extends Controller {
             while ($row = $req->fetch()){
                 $dbpublicviewtoken = $row['publicviewtoken'];
                 $dbtoken = $row['token'];
-                $dbpublic = (int)$row['public'];
+                $dbpublic = intval($row['public']);
             }
             $req->closeCursor();
+            if ($dbpublic !== 1) {
+                $dbpublicviewtoken = null;
+            }
 
-            // session exists
-            if ($dbpublicviewtoken !== null and $dbpublic === 1) {
+            // there is no session with this publicviewtoken
+            // check if there is a public share with the sharetoken
+            if ($dbpublicviewtoken === null) {
+                $sqlget = 'SELECT sharetoken, sessionid FROM *PREFIX*phonetrack_pubshares ';
+                $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbpublicviewtoken = $row['sharetoken'];
+                    $dbtoken = $row['sessionid'];
+                }
+                $req->closeCursor();
+            }
+
+            // session exists and is public or shared by public share
+            if ($dbpublicviewtoken !== null) {
                 // get list of devices
                 $devices = array();
                 $sqldev = 'SELECT id FROM *PREFIX*phonetrack_devices ';
@@ -1436,7 +1454,7 @@ class PageController extends Controller {
      **/
     public function publicSessionWatch($publicviewtoken) {
         if ($publicviewtoken !== '') {
-            // check if session exists
+            // check if a public session has this publicviewtoken
             $sqlchk = 'SELECT token, public  FROM *PREFIX*phonetrack_sessions ';
             $sqlchk .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
             $req = $this->dbconnection->prepare($sqlchk);
@@ -1445,16 +1463,36 @@ class PageController extends Controller {
             $dbpublic = null;
             while ($row = $req->fetch()){
                 $dbtoken = $row['token'];
-                $dbpublic = (int)$row['public'];
+                $dbpublic = intval($row['public']);
                 break;
             }
             $req->closeCursor();
 
             if ($dbtoken !== null and $dbpublic === 1) {
+                // we give publicWebLog the real session id but then, the share token is used in the JS
                 return $this->publicWebLog($dbtoken, '');
             }
             else {
-                return 'Session does not exist or is not public';
+                // check if a public session has this publicviewtoken
+                $sqlchk = 'SELECT sessionid, sharetoken  FROM *PREFIX*phonetrack_pubshares ';
+                $sqlchk .= 'WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ';
+                $req = $this->dbconnection->prepare($sqlchk);
+                $req->execute();
+                $dbtoken = null;
+                $dbpublic = null;
+                while ($row = $req->fetch()){
+                    $dbtoken = $row['sessionid'];
+                    break;
+                }
+                $req->closeCursor();
+
+                if ($dbtoken !== null) {
+                    // we give publicWebLog the real session id but then, the share token is used in the JS
+                    return $this->publicWebLog($dbtoken, '');
+                }
+                else {
+                    return 'Session does not exist or is not public';
+                }
             }
         }
         else {
@@ -1494,11 +1532,11 @@ class PageController extends Controller {
         require_once('tileservers.php');
         $params = [
             'username'=>'',
-			'basetileservers'=>$baseTileServers,
-			'usertileservers'=>[],
-			'useroverlayservers'=>[],
-			'usertileserverswms'=>[],
-			'useroverlayserverswms'=>[],
+            'basetileservers'=>$baseTileServers,
+            'usertileservers'=>[],
+            'useroverlayservers'=>[],
+            'usertileserverswms'=>[],
+            'useroverlayserverswms'=>[],
             'publicsessionname'=>$dbname,
             'phonetrack_version'=>$this->appVersion
         ];
@@ -1982,7 +2020,7 @@ class PageController extends Controller {
                 $sharetoken = md5('share'.$this->userId.$dbname.rand());
 
                 // insert
-                $sql = 'INSERT INTO *PREFIX*phonetrack_publicshares';
+                $sql = 'INSERT INTO *PREFIX*phonetrack_pubshares';
                 $sql .= ' (sessionid, sharetoken, filters) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($dbtoken).',';
@@ -2106,7 +2144,7 @@ class PageController extends Controller {
 
         if ($dbname !== null) {
             // check if public share exists
-            $sqlchk = 'SELECT sharetoken, sessionid FROM *PREFIX*phonetrack_publicshares ';
+            $sqlchk = 'SELECT sharetoken, sessionid FROM *PREFIX*phonetrack_pubshares ';
             $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
             $sqlchk .= 'AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ';
             $req = $this->dbconnection->prepare($sqlchk);
@@ -2120,7 +2158,7 @@ class PageController extends Controller {
 
             if ($dbsharetoken !== null) {
                 // delete
-                $sqldel = 'DELETE FROM *PREFIX*phonetrack_publicshares ';
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_pubshares ';
                 $sqldel .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                 $sqldel .= 'AND sharetoken='.$this->db_quote_escape_string($dbsharetoken).';';
                 $req = $this->dbconnection->prepare($sqldel);

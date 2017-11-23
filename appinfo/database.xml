@@ -310,7 +310,7 @@
   </declaration>
 </table>
  <table>
-  <name>*dbprefix*phonetrack_publicshares</name>
+  <name>*dbprefix*phonetrack_pubshares</name>
   <declaration>
     <field>
       <name>id</name>
