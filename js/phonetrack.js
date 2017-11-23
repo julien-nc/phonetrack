@@ -3388,6 +3388,9 @@
                 res = res + k + ' : ' + fjson[k] + '\n';
             }
         }
+        if (res === '') {
+            res = t('phonetrack', 'No filters');
+        }
         return res;
     }
 

@@ -2005,6 +2005,7 @@ class PageController extends Controller {
         $req->execute();
         $dbname = null;
         $dbtoken = null;
+        $sharetoken = null;
         while ($row = $req->fetch()){
             $dbname = $row['name'];
             $dbtoken = $row['token'];
@@ -2019,27 +2020,22 @@ class PageController extends Controller {
                 $filters = json_encode($filterArray);
             }
 
-            if ($filters !== '{}') {
-                // determine share token
-                $sharetoken = md5('share'.$this->userId.$dbname.rand());
+            // determine share token
+            $sharetoken = md5('share'.$this->userId.$dbname.rand());
 
-                // insert
-                $sql = 'INSERT INTO *PREFIX*phonetrack_pubshares';
-                $sql .= ' (sessionid, sharetoken, filters) ';
-                $sql .= 'VALUES (';
-                $sql .= $this->db_quote_escape_string($dbtoken).',';
-                $sql .= $this->db_quote_escape_string($sharetoken).',';
-                $sql .= $this->db_quote_escape_string($filters);
-                $sql .= ');';
-                $req = $this->dbconnection->prepare($sql);
-                $req->execute();
-                $req->closeCursor();
+            // insert
+            $sql = 'INSERT INTO *PREFIX*phonetrack_pubshares';
+            $sql .= ' (sessionid, sharetoken, filters) ';
+            $sql .= 'VALUES (';
+            $sql .= $this->db_quote_escape_string($dbtoken).',';
+            $sql .= $this->db_quote_escape_string($sharetoken).',';
+            $sql .= $this->db_quote_escape_string($filters);
+            $sql .= ');';
+            $req = $this->dbconnection->prepare($sql);
+            $req->execute();
+            $req->closeCursor();
 
-                $ok = 1;
-            }
-            else {
-                $ok = 2;
-            }
+            $ok = 1;
         }
         else {
             $ok = 3;
