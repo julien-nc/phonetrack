@@ -278,11 +278,12 @@ class PageController extends Controller {
         while ($row = $req->fetch()){
             $dbname = $row['name'];
             $dbtoken = $row['token'];
-            $sharedWith = $this->getSessionShares($dbtoken);
+            $sharedWith = $this->getUserShares($dbtoken);
             $dbpublicviewtoken = $row['publicviewtoken'];
             $dbpublic = $row['public'];
             $reservedNames = $this->getReservedNames($dbtoken);
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith, $reservedNames));
+            $publicShares = $this->getPublicShares($dbtoken);
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith, $reservedNames, $publicShares));
         }
         $req->closeCursor();
 
@@ -329,9 +330,10 @@ class PageController extends Controller {
         return ['user'=>$dbuser, 'name'=>$dbname];
     }
 
-
-
-    private function getSessionShares($sessionid) {
+    /**
+     * with whom is this session shared ?
+     */
+    private function getUserShares($sessionid) {
         $sharedWith = [];
         $sqlchk = 'SELECT username FROM *PREFIX*phonetrack_shares ';
         $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($sessionid).';';
@@ -344,6 +346,24 @@ class PageController extends Controller {
         $req->closeCursor();
 
         return $sharedWith;
+    }
+
+    /**
+     * get the public shares for a session
+     */
+    private function getPublicShares($sessionid) {
+        $shares = [];
+        $sqlchk = 'SELECT * FROM *PREFIX*phonetrack_publicshares ';
+        $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($sessionid).';';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbusername = null;
+        while ($row = $req->fetch()){
+            array_push($shares, array('token'=>$row['sharetoken'], 'filters'=>$row['filters']));
+        }
+        $req->closeCursor();
+
+        return $shares;
     }
 
     /**
@@ -1986,7 +2006,8 @@ class PageController extends Controller {
         $response = new DataResponse(
             [
                 'done'=>$ok,
-                'sharetoken'=>$sharetoken
+                'sharetoken'=>$sharetoken,
+                'filters'=>$filters
             ]
         );
         $csp = new ContentSecurityPolicy();

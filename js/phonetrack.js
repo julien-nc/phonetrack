@@ -1280,10 +1280,13 @@
             divtxt = divtxt + '<button class="addpublicfilteredshareButton"><i class="fa fa-plus-circle" aria-hidden="true"></i> ' +
                 t('phonetrack', 'Add public filtered share') + '</button>';
             divtxt = divtxt + '<ul class="publicfilteredsharelist">';
+            var publicurl;
             for (i = 0; i < publicFilteredShares.length; i++) {
-                divtxt = divtxt + '<li filteredToken="' + escapeHTML(publicFilteredShares[i].token) + '" title="' +
-                    publicFilteredShares[i].filters + '">' +
-                    '<input type="text" class="publicFilteredShareUrl" value="' + publicFilteredShares[i].url + '"/>' +
+                publicurl = window.location.origin +
+                    OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicFilteredShares[i].token);
+                divtxt = divtxt + '<li filteredtoken="' + escapeHTML(publicFilteredShares[i].token) + '" title="' +
+                    escapeHTML(publicFilteredShares[i].filters) + '">' +
+                    '<input type="text" class="publicFilteredShareUrl ro" value="' + publicurl + '"/>' +
                     '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></li>';
             }
             divtxt = divtxt + '</ul>';
@@ -1321,7 +1324,7 @@
         }
             //.find('input[type=text]').prop('readonly', false);
     }
-    
+
     function deleteSession(token) {
         var div = $('div.session[token='+token+']');
 
@@ -1613,6 +1616,7 @@
                     ) {
                         selected = true;
                     }
+                    // session is shared by someone else
                     if (response.sessions[s].length < 4) {
                         addSession(
                             response.sessions[s][1],
@@ -1626,6 +1630,7 @@
                             []
                         );
                     }
+                    // session is mine !
                     else {
                         addSession(
                             response.sessions[s][1],
@@ -1636,7 +1641,8 @@
                             selected,
                             false,
                             '',
-                            response.sessions[s][5]
+                            response.sessions[s][5],
+                            response.sessions[s][6]
                         );
                     }
                 }
@@ -3359,9 +3365,11 @@
     }
 
     function addPublicSessionShare(token, sharetoken, filters) {
-        var li = '<li filteredToken="' + escapeHTML(sharetoken) + '" title="' +
-            filters + '">' +
-            '<input type="text" class="publicFilteredShareUrl" value="' + sharetoken + '"/>' +
+        var publicurl = window.location.origin +
+            OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken);
+        var li = '<li filteredtoken="' + escapeHTML(sharetoken) + '" title="' +
+            escapeHTML(filters) + '">' +
+            '<input type="text" class="publicFilteredShareUrl" value="' + publicurl + '"/>' +
             '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></li>';
         $('.session[token="' + token + '"]').find('.publicfilteredsharelist').append(li);
     }
@@ -3379,7 +3387,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                var li = $('.session[token="' + token + '"]').find('.publicfilteredsharelist li[filterToken=' + sharetoken + ']');
+                var li = $('.session[token="' + token + '"]').find('.publicfilteredsharelist li[filteredtoken=' + sharetoken + ']');
                 li.fadeOut('slow', function() {
                     li.remove();
                 });
@@ -4123,7 +4131,7 @@
 
         $('body').on('click','.deletePublicFilteredShare', function(e) {
             var token = $(this).parent().parent().parent().parent().parent().attr('token');
-            var sharetoken = $(this).parent().attr('filteredToken');
+            var sharetoken = $(this).parent().attr('filteredtoken');
             deletePublicSessionShareDb(token, sharetoken);
         });
 

@@ -738,3 +738,6 @@ div#createimportsessiondiv button {
     margin-right: auto;
     display: block;
 }
+.publicFilteredShareUrl {
+    width: 80% !important;
+}
