@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-23 11:01-0500\n"
+"PO-Revision-Date: 2017-11-23 11:08-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -50,19 +50,19 @@ msgstr "Mostra el misatge del darrer punt"
 
 #: phonetrack.js:589
 msgid "Hide last point tooltip"
-msgstr ""
+msgstr "Amaga el misatge del darrer punt"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Zoom de tots els dispositius"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Feu clic al mapa per desplaçar el punt, premeu ESC per anul·lar"
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Nom del servidor o adreça url del servidor no ha de ser buida"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
