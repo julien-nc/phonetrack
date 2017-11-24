@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-24 10:42-0500\n"
+"PO-Revision-Date: 2017-11-24 10:54-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -58,11 +58,11 @@ msgstr "Zoom sobre todos los dispositivos"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Haga clic en el mapa para mover el punto, presione ESC para cancelar"
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Nombre del servidor o dirección del servidor no debe estar vacío"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
@@ -216,7 +216,7 @@ msgstr ""
 
 #: phonetrack.js:1301
 msgid "Replace 'yourname' with the desired device name"
-msgstr ""
+msgstr "Reemplace 'yourname' con el nombre del dispositivo deseado"
 
 #: phonetrack.js:1302
 msgid "Public browser logging URL"
@@ -372,7 +372,7 @@ msgstr "El punto que desea eliminar no existe o no está permitido eliminarlo"
 
 #: phonetrack.js:2554
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "No se pudo contactar el servidor para eliminar el punto"
 
 #: phonetrack.js:2646
 msgid "Impossible to add this point"
@@ -380,7 +380,7 @@ msgstr "Imposible de añadir este punto"
 
 #: phonetrack.js:2650
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "No se pudo contactar el servidor para agregar el punto"
 
 #: phonetrack.js:2766
 msgid "Date"
@@ -540,7 +540,7 @@ msgstr ""
 
 #: phonetrack.js:3437
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "No se pudo contactar el servidor para obtener la lista de usuarios"
 
 #: phonetrack.js:3450
 msgid "device name"
@@ -576,7 +576,7 @@ msgstr "Confirmar eliminación de sesion"
 
 #: phonetrack.js:3771
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Seleccione donde guardar '{fname}'"
 
 #: phonetrack.js:3925
 msgid "Are you sure you want to delete the device {device} ?"
@@ -749,7 +749,7 @@ msgstr "URL del servidor"
 #: maincontent.php:187 maincontent.php:270 maincontent.php:187
 #: maincontent.php:270
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Por ejemplo: http://tile.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:188 maincontent.php:228 maincontent.php:271
 #: maincontent.php:316 maincontent.php:188 maincontent.php:228
@@ -798,7 +798,7 @@ msgstr "Sus servidores de teja de superposicion"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Servidores de azulejo WMS personalizado"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
@@ -808,7 +808,7 @@ msgstr "Formato"
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
 msgid "WMS version"
-msgstr ""
+msgstr "Versión de WMS"
 
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
@@ -817,7 +817,7 @@ msgstr ""
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Sus servidores de azulejo WMS"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
@@ -847,7 +847,7 @@ msgstr "Añadir un punto"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Ahora, haga clic en el mapa para agregar un punto (si la sesión no esta activada, no se verá el punto agregado)"
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
@@ -859,7 +859,7 @@ msgstr "Eliminar varios puntos"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Seleccione una sesión, un dispositivo y ajuste los filtros. Se eliminarán todos los puntos visibles para el dispositivo seleccionado. Un nombre de dispositivo vacío los selecciona todos."
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
@@ -900,11 +900,11 @@ msgstr "Hora de fin"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Min-- y Max--"
 
 #: maincontent.php:443 maincontent.php:443
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Min++ y Max++"
 
 #: maincontent.php:446 maincontent.php:446
 msgid "Last day:hour:min"
