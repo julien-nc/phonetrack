@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-25 15:02-0500\n"
+"PO-Revision-Date: 2017-11-25 15:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -504,7 +504,7 @@ msgstr "Gebruiker bestaat niet"
 
 #: phonetrack.js:3306
 msgid "Failed to add user share"
-msgstr "Toeovoegen van delen met gebruiker is mislukt"
+msgstr "Delen is mislukt"
 
 #: phonetrack.js:3309
 msgid "Failed to contact server to add user share"
@@ -520,11 +520,11 @@ msgstr "Kon geen contact maken met server om share te verwijderen"
 
 #: phonetrack.js:3362
 msgid "Failed to add public share"
-msgstr "Toevoegen van openbare share is mislukt"
+msgstr "Openbaar delen is mislukt"
 
 #: phonetrack.js:3365
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Kon geen contact maken met server om openbare share toe te voegen"
 
 #: phonetrack.js:3392
 msgid "No filters"
@@ -532,11 +532,11 @@ msgstr "Geen filters"
 
 #: phonetrack.js:3416
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Verwijderen van openbaar delen is mislukt"
 
 #: phonetrack.js:3419
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Kon geen contact maken met server om openbare share te verwijderen"
 
 #: phonetrack.js:3437
 msgid "Failed to contact server to get user list"
