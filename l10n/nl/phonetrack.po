@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-25 14:51-0500\n"
+"PO-Revision-Date: 2017-11-25 15:02-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -208,11 +208,11 @@ msgstr "Openbare URL"
 
 #: phonetrack.js:1281
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "De huidige actieve filters zullen worden toegepast op de gedeelde weergave"
 
 #: phonetrack.js:1283
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Voeg een gefilterde openbare share toe"
 
 #: phonetrack.js:1301
 msgid "Replace 'yourname' with the desired device name"
@@ -520,7 +520,7 @@ msgstr "Kon geen contact maken met server om share te verwijderen"
 
 #: phonetrack.js:3362
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Toevoegen van openbare share is mislukt"
 
 #: phonetrack.js:3365
 msgid "Failed to contact server to add public share"
