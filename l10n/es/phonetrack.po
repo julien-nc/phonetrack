@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-27 04:35-0500\n"
+"PO-Revision-Date: 2017-11-27 04:38-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -364,7 +364,7 @@ msgstr "El punto que desea editar no existe o no está permitido editarlo"
 
 #: phonetrack.js:2432
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "No se pudo contactar el servidor para editar el punto"
 
 #: phonetrack.js:2550
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
@@ -468,7 +468,7 @@ msgstr "No se pudo contactar el servidor para exportar la sesión"
 
 #: phonetrack.js:3080
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "No se pudo contactar el servidor para registrar la posición"
 
 #: phonetrack.js:3238
 msgid "'{n}' is already reserved"
@@ -504,15 +504,15 @@ msgstr "Usuario no existe"
 
 #: phonetrack.js:3306
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Impossible de agregar la comparticion con el usuario"
 
 #: phonetrack.js:3309
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "No se pudo contactar el servidor para agregar la comparticion con el usuario"
 
 #: phonetrack.js:3340
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Impossible de eliminar la comparticion con el usuario"
 
 #: phonetrack.js:3343
 msgid "Failed to contact server to delete user share"
