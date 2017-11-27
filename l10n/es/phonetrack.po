@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-27 04:38-0500\n"
+"PO-Revision-Date: 2017-11-27 04:44-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -516,15 +516,15 @@ msgstr "Impossible de eliminar la comparticion con el usuario"
 
 #: phonetrack.js:3343
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "No se pudo contactar el servidor para eliminar la comparticion con el usuario"
 
 #: phonetrack.js:3362
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Impossible de agregar la comparticion publica"
 
 #: phonetrack.js:3365
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "No se pudo contactar el servidor para agregar la comparticion publica"
 
 #: phonetrack.js:3392
 msgid "No filters"
@@ -532,11 +532,11 @@ msgstr "Sin filtros"
 
 #: phonetrack.js:3416
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Impossible de eliminar la comparticion publica"
 
 #: phonetrack.js:3419
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "No se pudo contactar el servidor para eliminar la comparticion publica"
 
 #: phonetrack.js:3437
 msgid "Failed to contact server to get user list"
@@ -588,11 +588,11 @@ msgstr "Confirmar eliminación de dispositivo"
 
 #: phonetrack.js:3997
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Impossible de cambiar el statut de la sesion, ella no existe"
 
 #: phonetrack.js:4000
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "No se pudo contactar el servidor para cambiar el statut de la sesion"
 
 #: phonetrack.js:4070
 msgid "Import gpx session file"
@@ -670,7 +670,7 @@ msgstr "Mostrar el user-agent en los tooltips"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Hacer puntos movibles en modo edición"
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
@@ -714,7 +714,7 @@ msgstr "Nombre de dispositivo"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
-msgstr ""
+msgstr "Registrar mi posición en esta sesion"
 
 #: maincontent.php:142 maincontent.php:142
 msgid "Tracking sessions"
@@ -755,13 +755,13 @@ msgstr "Por ejemplo: http://tile.server.org/cycle/{z}/{x}/{y}.png"
 #: maincontent.php:316 maincontent.php:188 maincontent.php:228
 #: maincontent.php:271 maincontent.php:316
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Zoom mini (1-20)"
 
 #: maincontent.php:190 maincontent.php:230 maincontent.php:273
 #: maincontent.php:318 maincontent.php:190 maincontent.php:230
 #: maincontent.php:273 maincontent.php:318
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Zoom maxi (1-20)"
 
 #: maincontent.php:192 maincontent.php:236 maincontent.php:281
 #: maincontent.php:330 maincontent.php:192 maincontent.php:236
