@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-27 04:44-0500\n"
+"PO-Revision-Date: 2017-11-27 04:56-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -726,7 +726,7 @@ msgstr "cargando las posiciones"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr "Servidores de azulejo personalizado"
+msgstr "Servidores de azulejo personales"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
@@ -738,7 +738,7 @@ msgstr "Nombre del servidor"
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
 #: maincontent.php:268 maincontent.php:313
 msgid "For example : my custom server"
-msgstr "Por ejemplo : mi servidor personalizado"
+msgstr "Por ejemplo : mi servidor personal"
 
 #: maincontent.php:186 maincontent.php:226 maincontent.php:269
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
@@ -775,12 +775,12 @@ msgstr "Sus servidores de teja"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Servidores de teja de superposicion personales"
 
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Por ejemplo: http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
@@ -798,7 +798,7 @@ msgstr "Sus servidores de teja de superposicion"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr "Servidores de azulejo WMS personalizado"
+msgstr "Servidores de azulejo WMS personales"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
@@ -813,7 +813,7 @@ msgstr "Versión de WMS"
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
 msgid "Layers to display"
-msgstr ""
+msgstr "Capas para mostrar"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
@@ -821,11 +821,11 @@ msgstr "Sus servidores de azulejo WMS"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Servidores de azulejo WMS de superposicion personales"
 
 #: maincontent.php:333 maincontent.php:333
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Sus servidores de teja de superposicion WMS"
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
@@ -964,7 +964,7 @@ msgstr "Documentación"
 
 #: maincontent.php:549 maincontent.php:549
 msgid "Source management"
-msgstr ""
+msgstr "Source management"
 
 #: maincontent.php:563 maincontent.php:563
 msgid "Authors"
