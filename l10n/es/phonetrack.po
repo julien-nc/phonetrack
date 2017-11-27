@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-24 10:54-0500\n"
+"PO-Revision-Date: 2017-11-27 04:35-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -152,7 +152,7 @@ msgstr "URL para compartir la sesion"
 
 #: phonetrack.js:1210
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "URL para aplicaciones de logging"
 
 #: phonetrack.js:1214
 msgid "Reserve device names"
@@ -204,15 +204,15 @@ msgstr "Hacer privada la sesión"
 
 #: phonetrack.js:1275
 msgid "Public watch URL"
-msgstr ""
+msgstr "URL publica de observación"
 
 #: phonetrack.js:1281
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Filtros actuales se aplicaran a la vista compartida"
 
 #: phonetrack.js:1283
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Agregar una compartición publica filtrada"
 
 #: phonetrack.js:1301
 msgid "Replace 'yourname' with the desired device name"
@@ -220,7 +220,7 @@ msgstr "Reemplace 'yourname' con el nombre del dispositivo deseado"
 
 #: phonetrack.js:1302
 msgid "Public browser logging URL"
-msgstr ""
+msgstr "URL de logging publica con el navegador"
 
 #: phonetrack.js:1304
 msgid "OsmAnd URL"
@@ -324,7 +324,7 @@ msgstr "No se pudo guardar el color del dispositivo"
 
 #: phonetrack.js:2156
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "No se pudo contactar el servidor para cambiar el color del dispositivo"
 
 #: phonetrack.js:2229
 msgid "Delete this device"
