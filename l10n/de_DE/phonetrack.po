@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-28 13:57-0500\n"
+"PO-Revision-Date: 2017-11-28 14:30-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -58,11 +58,11 @@ msgstr "Alle Geräte anzeigen"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr "Karte anklicken um Datenpunkt zu verschieben, ESC zum abbrechen"
+msgstr "Klicken Sie auf die Karte, um den Datenpunkt zu verschieben, drücken Sie ESC, um den Vorgang abzubrechen."
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr "Server Name oder URL darf nicht leer sein"
+msgstr "Servername oder Server-URL dürfen nicht leer sein"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
@@ -70,7 +70,7 @@ msgstr "Tile Server konnte nicht hinzugefügt werden"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
-msgstr "ein server mit diesem Namen existiert bereits"
+msgstr "Ein Server mit diesem Namen existiert bereits"
 
 #: phonetrack.js:814 phonetrack.js:2799 maincontent.php:211 maincontent.php:255
 #: maincontent.php:300 maincontent.php:349 maincontent.php:211
@@ -80,11 +80,11 @@ msgstr "Löschen"
 
 #: phonetrack.js:847
 msgid "Tile server \"{ts}\" has been added"
-msgstr "Tile Server \"{ts}\" hinzugefügt"
+msgstr "Kachelserver „{ts}” wurde hinzugefügt"
 
 #: phonetrack.js:850
 msgid "Failed to add tile server \"{ts}\""
-msgstr "Tile Server konnte nicht hinzugefügt werden \"{ts}\""
+msgstr "Hinzufügen des Kachelservers „{ts}” fehlgeschlagen"
 
 #: phonetrack.js:854
 msgid "Failed to contact server to add tile server"
@@ -308,11 +308,11 @@ msgstr "Der Server konnte nicht kontaktiert werden, um Sitzungen zu aktualisiere
 
 #: phonetrack.js:1937 phonetrack.js:1966
 msgid "Stats of all points"
-msgstr "Stats aller Datenpunkte"
+msgstr "Statistik aller Datenpunkte"
 
 #: phonetrack.js:1963
 msgid "Stats of filtered points"
-msgstr "Stats aller gefilteren Punkte"
+msgstr "Statistik aller gefilterten Datenpunkte"
 
 #: phonetrack.js:2149
 msgid "Device's color successfully changed"
@@ -344,7 +344,7 @@ msgstr "Ok"
 
 #: phonetrack.js:2250
 msgid "Toggle detail/edition points"
-msgstr "Umschalten Deatils/Editieren"
+msgstr "Detail-/Ausgabepunkte umschalten"
 
 #: phonetrack.js:2258
 msgid "Toggle lines"
@@ -360,19 +360,19 @@ msgstr "Diesem Gerät folgen (Automatischer Zoom)"
 
 #: phonetrack.js:2428
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr "Der Datenpunkt konnte nicht geändert werden, oder du hast keine Berechtigung dafür"
+msgstr "Der Datenpunkt, den Sie bearbeiten möchten, existiert nicht oder Sie dürfen ihn nicht bearbeiten."
 
 #: phonetrack.js:2432
 msgid "Failed to contact server to edit point"
-msgstr "Der Server konnte nicht kontaktiert werden, um den Punkt zu bearbeiten."
+msgstr "Der Server konnte nicht kontaktiert werden, um den Datenpunkt zu bearbeiten."
 
 #: phonetrack.js:2550
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr "Der Datenpunkt konnte nicht gelöscht werden, oder du hast keine Berechtigung dafür"
+msgstr "Der Datenpunkt, den Sie löschen möchten, existiert nicht oder Sie dürfen ihn nicht löschen."
 
 #: phonetrack.js:2554
 msgid "Failed to contact server to delete point"
-msgstr "Der Server konnte nicht kontaktiert werden, um den Punkt zu löschen."
+msgstr "Der Server konnte nicht kontaktiert werden, um den Datenpunkt zu löschen."
 
 #: phonetrack.js:2646
 msgid "Impossible to add this point"
@@ -380,7 +380,7 @@ msgstr "Datenpunkt konnte nicht hinzugefügt werden"
 
 #: phonetrack.js:2650
 msgid "Failed to contact server to add point"
-msgstr "Der Server konnte nicht kontaktiert werden, um den Punkt hinzuzufügen."
+msgstr "Der Server konnte nicht kontaktiert werden, um den Datenpunkt hinzuzufügen."
 
 #: phonetrack.js:2766
 msgid "Date"
@@ -592,7 +592,7 @@ msgstr "Der öffentliche Status der Sitzung konnte nicht umgeschaltet werden, da
 
 #: phonetrack.js:4000
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um den öffentlichen Status der Sitzung zu ändern."
 
 #: phonetrack.js:4070
 msgid "Import gpx session file"
@@ -670,7 +670,7 @@ msgstr "User-Agent in Tooltips anzeigen"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
-msgstr "Punkte beim editieren verschiebbar machen"
+msgstr "Ermöglichen, Datenpunkte im Bearbeitungsmodus verschieben zu können"
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
@@ -682,11 +682,11 @@ msgstr "Linienbreite"
 
 #: maincontent.php:113 maincontent.php:113
 msgid "Point radius"
-msgstr "Datenpunkt Radius"
+msgstr "Datenpunkt-Radius"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
-msgstr "Deckkraft von Punkten und Linien"
+msgstr "Deckkraft von Datenpunkten und Linien"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
@@ -847,11 +847,11 @@ msgstr "Datenpunkt hinzufügen"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr "Jetzt auf die Karte klicken um einen Datenpunkt hinzuzufügen (wenn die Session nicht aktiviert ist, wird der datenpunkt nicht angezeigt)"
+msgstr "Klicken Sie nun auf die Karte, um einen Datenpunkt hinzuzufügen (wenn die Sitzung nicht aktiviert ist, wird der hinzugefügte Datenpunkt nicht angezeigt)."
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
-msgstr "Hinzufügen abbrechen"
+msgstr "„Datenpunkt hinzufügen” abbrechen"
 
 #: maincontent.php:377 maincontent.php:377
 msgid "Delete multiple points"
@@ -859,7 +859,7 @@ msgstr "Datenpunkte löschen"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr "Wähle eine Session, ein Gerät und stelle die Filter ein. Alle angezeigten Punkte für das Gerät werden gelöscht. Wenn der Grätename leer ist werden alle Punkte ausgewählt."
+msgstr "Wählen Sie eine Sitzung, ein Gerät und passen Sie die Filter an. Alle angezeigten Datenpunkte für das ausgewählte Gerät werden gelöscht. Ein leerer Gerätename wählt alle aus."
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
@@ -867,7 +867,7 @@ msgstr "Datenpunkte löschen"
 
 #: maincontent.php:389 maincontent.php:389
 msgid "Delete only visible points"
-msgstr "Nur sichtbare Punkte löschen"
+msgstr "Nur sichtbare Datenpunkte löschen"
 
 #: maincontent.php:396 maincontent.php:396
 msgid "Filter points"
@@ -892,7 +892,7 @@ msgstr "Startzeit"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr "End-Datum"
+msgstr "Enddatum"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
