@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-27 06:06-0500\n"
+"PO-Revision-Date: 2017-11-28 06:56-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Danish\n"
 "Language: da_DK\n"
@@ -30,11 +30,11 @@ msgstr ""
 
 #: phonetrack.js:523 maincontent.php:69 maincontent.php:69
 msgid "Show lines"
-msgstr ""
+msgstr "Vis linjer"
 
 #: phonetrack.js:531
 msgid "Hide lines"
-msgstr ""
+msgstr "Skjule linjer"
 
 #: phonetrack.js:552
 msgid "Activate automatic zoom"
@@ -54,7 +54,7 @@ msgstr ""
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Zoom på alle enheder"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
