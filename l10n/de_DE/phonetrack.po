@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-28 13:54-0500\n"
+"PO-Revision-Date: 2017-11-28 13:57-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -300,7 +300,7 @@ msgstr "Keine Serververbindung zum Verschieben"
 
 #: phonetrack.js:1657
 msgid "Failed to contact server to get sessions"
-msgstr "Der Server konnte nicht kontaktiert werden, um Sitzungen zu starten."
+msgstr "Der Server konnte nicht kontaktiert werden, um Sitzungen abzurufen."
 
 #: phonetrack.js:1695
 msgid "Failed to contact server to refresh sessions"
@@ -540,7 +540,7 @@ msgstr "Der Server konnte nicht kontaktiert werden, um die öffentliche Freigabe
 
 #: phonetrack.js:3437
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um die Benutzerliste abzurufen."
 
 #: phonetrack.js:3450
 msgid "device name"
@@ -588,7 +588,7 @@ msgstr "Löschen des Gerätes bestätigen"
 
 #: phonetrack.js:3997
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Der öffentliche Status der Sitzung konnte nicht umgeschaltet werden, da die Sitzung nicht vorhanden ist."
 
 #: phonetrack.js:4000
 msgid "Failed to contact server to toggle session public status"
