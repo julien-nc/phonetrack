@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-27 06:06-0500\n"
+"PO-Revision-Date: 2017-11-28 13:43-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -88,7 +88,7 @@ msgstr "Tile Server konnte nicht hinzugefügt werden \"{ts}\""
 
 #: phonetrack.js:854
 msgid "Failed to contact server to add tile server"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um den Kachelserver hinzuzufügen."
 
 #: phonetrack.js:888
 msgid "Tile server \"{ts}\" has been deleted"
@@ -100,11 +100,11 @@ msgstr "Tile Server konnte nicht gelöscht werden \"{ts}\""
 
 #: phonetrack.js:895
 msgid "Failed to contact server to delete tile server"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um den Kachelserver zu entfernen."
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um die Werte der Optionen wiederherzustellen."
 
 #: phonetrack.js:1008
 msgid "Reload this page"
@@ -116,7 +116,7 @@ msgstr "Fehler"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um die Werte der Optionen zu speichern."
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
