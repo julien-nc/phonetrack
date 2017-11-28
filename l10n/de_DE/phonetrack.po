@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-28 13:43-0500\n"
+"PO-Revision-Date: 2017-11-28 13:54-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -128,7 +128,7 @@ msgstr "Dieser Session Name wird schon benutzt"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um eine Sitzung zu erstellen."
 
 #: phonetrack.js:1188
 msgid "Watch this session"
@@ -208,11 +208,11 @@ msgstr "Öffentliche URL"
 
 #: phonetrack.js:1281
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Aktuelle aktive Filter werden auf die freigegebene Ansicht angewendet."
 
 #: phonetrack.js:1283
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Öffentliche gefilterte Freigabe hinzufügen"
 
 #: phonetrack.js:1301
 msgid "Replace 'yourname' with the desired device name"
@@ -256,7 +256,7 @@ msgstr "Session konnte nicht gelöscht werden"
 
 #: phonetrack.js:1354
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um die Sitzung zu beenden."
 
 #: phonetrack.js:1374
 msgid "Device '{d}' of session '{s}' has been deleted"
@@ -276,7 +276,7 @@ msgstr "Session konnte nicht umbenannt werden"
 
 #: phonetrack.js:1436
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um die Sitzung umzubenennen."
 
 #: phonetrack.js:1520
 msgid "Impossible to rename device"
@@ -300,11 +300,11 @@ msgstr "Keine Serververbindung zum Verschieben"
 
 #: phonetrack.js:1657
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um Sitzungen zu starten."
 
 #: phonetrack.js:1695
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um Sitzungen zu aktualisieren."
 
 #: phonetrack.js:1937 phonetrack.js:1966
 msgid "Stats of all points"
@@ -364,7 +364,7 @@ msgstr "Der Datenpunkt konnte nicht geändert werden, oder du hast keine Berecht
 
 #: phonetrack.js:2432
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um den Punkt zu bearbeiten."
 
 #: phonetrack.js:2550
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
@@ -372,7 +372,7 @@ msgstr "Der Datenpunkt konnte nicht gelöscht werden, oder du hast keine Berecht
 
 #: phonetrack.js:2554
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um den Punkt zu löschen."
 
 #: phonetrack.js:2646
 msgid "Impossible to add this point"
@@ -380,7 +380,7 @@ msgstr "Datenpunkt konnte nicht hinzugefügt werden"
 
 #: phonetrack.js:2650
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um den Punkt hinzuzufügen."
 
 #: phonetrack.js:2766
 msgid "Date"
@@ -508,7 +508,7 @@ msgstr "Konnte nicht hinzugefügt werden"
 
 #: phonetrack.js:3309
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um Benutzerfreigabe hinzuzufügen."
 
 #: phonetrack.js:3340
 msgid "Failed to delete user share"
@@ -516,27 +516,27 @@ msgstr "Konnte nicht gelöscht werden"
 
 #: phonetrack.js:3343
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um Benutzerfreigabe zu löschen."
 
 #: phonetrack.js:3362
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Öffentliche Freigabe konnte nicht hinzugefügt werden"
 
 #: phonetrack.js:3365
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um eine öffentliche Freigabe hinzuzufügen."
 
 #: phonetrack.js:3392
 msgid "No filters"
-msgstr ""
+msgstr "Keine Filter"
 
 #: phonetrack.js:3416
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Öffentliche Freigabe konnte nicht gelöscht werden"
 
 #: phonetrack.js:3419
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um die öffentliche Freigabe zu löschen."
 
 #: phonetrack.js:3437
 msgid "Failed to contact server to get user list"
