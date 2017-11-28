@@ -33,7 +33,7 @@ appstore: clean
 	--exclude=.gitignore \
 	--exclude=.travis.yml \
 	--exclude=.scrutinizer.yml \
-        --exclude=CONTRIBUTING.md \
+	--exclude=CONTRIBUTING.md \
 	--exclude=composer.json \
 	--exclude=composer.lock \
 	--exclude=composer.phar \
@@ -42,7 +42,9 @@ appstore: clean
 	--exclude=l10n/.tx \
 	--exclude=l10n/l10n.pl \
 	--exclude=l10n/templates \
+	--exclude=l10n/*.sh \
 	--exclude=l10n/[a-z][a-z] \
+	--exclude=l10n/[a-z][a-z]_[A-Z][A-Z] \
 	--exclude=l10n/no-php \
 	--exclude=makefile \
 	--exclude=screenshots \
