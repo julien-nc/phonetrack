@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-30 11:16-0500\n"
+"PO-Revision-Date: 2017-11-30 11:24-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -66,7 +66,7 @@ msgstr "Servername oder Server-URL dürfen nicht leer sein"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr "Tile Server konnte nicht hinzugefügt werden"
+msgstr "Kachelserver konnte nicht hinzugefügt werden"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
@@ -336,7 +336,7 @@ msgstr "Gerät umbenennen"
 
 #: phonetrack.js:2234
 msgid "Move to another session"
-msgstr "Gerät in eine andere Sitzung verschieben"
+msgstr "In eine andere Sitzung wechseln"
 
 #: phonetrack.js:2237 maincontent.php:48 maincontent.php:48
 msgid "Ok"
@@ -432,7 +432,7 @@ msgstr "Abbrechen"
 
 #: phonetrack.js:2987
 msgid "File extension must be '.gpx' to be imported"
-msgstr "Die Dateierweiterung muss „.gpx” lauten, um importiert werden zu können"
+msgstr "Die Dateierweiterung muss „GPX” lauten, um importiert werden zu können"
 
 #: phonetrack.js:3004
 msgid "Failed to create imported session"
@@ -896,7 +896,7 @@ msgstr "Enddatum"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr "End-Zeit"
+msgstr "Endezeit"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
@@ -940,7 +940,7 @@ msgstr "Mindestanzahl Satelliten"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr "Maximalzahl Satelliten"
+msgstr "Maximalanzahl Satelliten"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
@@ -956,7 +956,7 @@ msgstr "Tastaturkürzel"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr "Seitenleiste anzeigen/ausblenden"
+msgstr "Seitenleiste ein-/ausblenden"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
