@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-30 09:34-0500\n"
+"PO-Revision-Date: 2017-11-30 11:05-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -50,7 +50,7 @@ msgstr "Tooltip des letzten Datenpunktes anzeigen"
 
 #: phonetrack.js:589
 msgid "Hide last point tooltip"
-msgstr "Tooltip des letzten Datenpunktes verbergen"
+msgstr "Tooltip des letzten Datenpunkts verbergen"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
@@ -152,7 +152,7 @@ msgstr "URL zur Sitzung teilen"
 
 #: phonetrack.js:1210
 msgid "URLs for logging apps"
-msgstr "URL für Datalogger"
+msgstr "URLs für die Protokollierung von Anwendungen"
 
 #: phonetrack.js:1214
 msgid "Reserve device names"
@@ -192,7 +192,7 @@ msgstr "Geteilt mit {u}"
 
 #: phonetrack.js:1265
 msgid "A private session is not visible on public browser logging page"
-msgstr "Eine private Session ist nicht im öffentlichen Browserprotokoll sichtbar"
+msgstr "Eine private Sitzung ist nicht im öffentlichen Browserprotokoll sichtbar"
 
 #: phonetrack.js:1267 phonetrack.js:3992
 msgid "Make session public"
@@ -296,7 +296,7 @@ msgstr "Gerät kann nicht in eine andere Sitzung verschoben werden"
 
 #: phonetrack.js:1592
 msgid "Failed to contact server to move device"
-msgstr "Keine Serververbindung zum Verschieben"
+msgstr "Der Server konnte nicht kontaktiert werden, um das Gerät zu verschieben."
 
 #: phonetrack.js:1657
 msgid "Failed to contact server to get sessions"
@@ -416,7 +416,7 @@ msgstr "Lat : Lng"
 
 #: phonetrack.js:2793
 msgid "DMS coords"
-msgstr "DMS-Koordinaten"
+msgstr "Grad-, Minuten- und Sekundenkoordinaten"
 
 #: phonetrack.js:2798
 msgid "Save"
