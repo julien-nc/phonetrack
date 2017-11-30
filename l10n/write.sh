@@ -1,3 +1,4 @@
+rm *.js*
 perl l10n.pl write phonetrack
 rename 's/fr_FR/fr/g' *.js*
 rename 's/es_ES/es/g' *.js*
