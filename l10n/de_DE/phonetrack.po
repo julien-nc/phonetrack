@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-30 09:23-0500\n"
+"PO-Revision-Date: 2017-11-30 09:34-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -292,7 +292,7 @@ msgstr "Gerät ist in dieser Sitzung bereits vorhanden"
 
 #: phonetrack.js:1588
 msgid "Impossible to move device to another session"
-msgstr "Gerät konnte nicht verschoben werden"
+msgstr "Gerät kann nicht in eine andere Sitzung verschoben werden"
 
 #: phonetrack.js:1592
 msgid "Failed to contact server to move device"
