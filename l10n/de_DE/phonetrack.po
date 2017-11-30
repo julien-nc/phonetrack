@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-28 16:53-0500\n"
+"PO-Revision-Date: 2017-11-30 09:23-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -22,11 +22,11 @@ msgstr "PhoneTrack"
 
 #: leaflet.js:5
 msgid "left"
-msgstr "links"
+msgstr "Links"
 
 #: leaflet.js:5
 msgid "right"
-msgstr "rechts"
+msgstr "Rechts"
 
 #: phonetrack.js:523 maincontent.php:69 maincontent.php:69
 msgid "Show lines"
@@ -686,7 +686,7 @@ msgstr "Datenpunkt-Radius"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
-msgstr "Deckkraft von Datenpunkten und Linien"
+msgstr "Deckkraft der Punkte und Linien"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
