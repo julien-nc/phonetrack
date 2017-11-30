@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-30 11:05-0500\n"
+"PO-Revision-Date: 2017-11-30 11:14-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -140,7 +140,7 @@ msgstr "Geteilt von {u}"
 
 #: phonetrack.js:1199 phonetrack.js:2226
 msgid "More actions"
-msgstr "Mehr"
+msgstr "Weitere Aktionen"
 
 #: phonetrack.js:1203
 msgid "Zoom on this session"
@@ -284,7 +284,7 @@ msgstr "Gerät konnte nicht umbenannt werden"
 
 #: phonetrack.js:1524
 msgid "Failed to contact server to rename device"
-msgstr "Verbindung zum Umbenennen fehlgeschlagen"
+msgstr "Der Server konnte nicht kontaktiert werden, um das Gerät umzubenennen"
 
 #: phonetrack.js:1585
 msgid "Device already exists in target session"
@@ -472,15 +472,15 @@ msgstr "Der Server konnte nicht kontaktiert werden, um die Position zu ermitteln
 
 #: phonetrack.js:3238
 msgid "'{n}' is already reserved"
-msgstr "'{n}' ist bereits reserviert"
+msgstr "„{n}” ist bereits reserviert"
 
 #: phonetrack.js:3241
 msgid "Failed to reserve '{n}'"
-msgstr "Fehler beim reservieren von '{n}'"
+msgstr "Fehler beim reservieren von „{n}”"
 
 #: phonetrack.js:3244
 msgid "Failed to contact server to reserve device name"
-msgstr "Keine Serververbindung zum Reservieren"
+msgstr "Der Server konnte nicht kontaktiert werden, um den Gerätenamen zu reservieren."
 
 #: phonetrack.js:3275 phonetrack.js:3279
 msgid "Failed to delete reserved name"
@@ -488,15 +488,15 @@ msgstr "Reservierter Name konnte nicht gelöscht werden"
 
 #: phonetrack.js:3276
 msgid "This device does not exist"
-msgstr "Dieses Gerät existiert nicht"
+msgstr "Dieses Gerät ist nicht vorhanden"
 
 #: phonetrack.js:3280
 msgid "This device name is not reserved, please reload this page"
-msgstr "Dieses Gerät ist nicht reserviert, bitte Seite neu laden"
+msgstr "Dieser Gerätename ist nicht reserviert, bitte laden Sie diese Seite neu."
 
 #: phonetrack.js:3283
 msgid "Failed to contact server to delete reserved name"
-msgstr "Keine Serververbindung zum löschen des reservierten Namen"
+msgstr "Der Server konnte nicht kontaktiert werden, um den reservierten Namen zu löschen."
 
 #: phonetrack.js:3303
 msgid "User does not exist"
