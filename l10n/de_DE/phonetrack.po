@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-30 11:14-0500\n"
+"PO-Revision-Date: 2017-11-30 11:16-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -576,7 +576,7 @@ msgstr "Löschen der Sitzung bestätigen"
 
 #: phonetrack.js:3771
 msgid "Select storage location for '{fname}'"
-msgstr "Wählen Sie den Speicherort für '{fname}'"
+msgstr "Speicherort für „{fname}” wählen"
 
 #: phonetrack.js:3925
 msgid "Are you sure you want to delete the device {device} ?"
