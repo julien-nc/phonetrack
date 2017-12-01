@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-30 09:34-0500\n"
+"PO-Revision-Date: 2017-11-30 16:22-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -50,7 +50,7 @@ msgstr "Tooltip des letzten Datenpunktes anzeigen"
 
 #: phonetrack.js:589
 msgid "Hide last point tooltip"
-msgstr "Tooltip des letzten Datenpunktes verbergen"
+msgstr "Tooltip des letzten Datenpunkts verbergen"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
@@ -66,7 +66,7 @@ msgstr "Servername oder Server-URL dürfen nicht leer sein"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr "Tile Server konnte nicht hinzugefügt werden"
+msgstr "Kachelserver konnte nicht hinzugefügt werden"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
@@ -140,7 +140,7 @@ msgstr "Geteilt von {u}"
 
 #: phonetrack.js:1199 phonetrack.js:2226
 msgid "More actions"
-msgstr "Mehr"
+msgstr "Weitere Aktionen"
 
 #: phonetrack.js:1203
 msgid "Zoom on this session"
@@ -152,7 +152,7 @@ msgstr "URL zur Sitzung teilen"
 
 #: phonetrack.js:1210
 msgid "URLs for logging apps"
-msgstr "URL für Datalogger"
+msgstr "URLs für die Protokollierung von Anwendungen"
 
 #: phonetrack.js:1214
 msgid "Reserve device names"
@@ -192,7 +192,7 @@ msgstr "Geteilt mit {u}"
 
 #: phonetrack.js:1265
 msgid "A private session is not visible on public browser logging page"
-msgstr "Eine private Session ist nicht im öffentlichen Browserprotokoll sichtbar"
+msgstr "Eine private Sitzung ist nicht im öffentlichen Browserprotokoll sichtbar"
 
 #: phonetrack.js:1267 phonetrack.js:3992
 msgid "Make session public"
@@ -284,7 +284,7 @@ msgstr "Gerät konnte nicht umbenannt werden"
 
 #: phonetrack.js:1524
 msgid "Failed to contact server to rename device"
-msgstr "Verbindung zum Umbenennen fehlgeschlagen"
+msgstr "Der Server konnte nicht kontaktiert werden, um das Gerät umzubenennen"
 
 #: phonetrack.js:1585
 msgid "Device already exists in target session"
@@ -296,7 +296,7 @@ msgstr "Gerät kann nicht in eine andere Sitzung verschoben werden"
 
 #: phonetrack.js:1592
 msgid "Failed to contact server to move device"
-msgstr "Keine Serververbindung zum Verschieben"
+msgstr "Der Server konnte nicht kontaktiert werden, um das Gerät zu verschieben."
 
 #: phonetrack.js:1657
 msgid "Failed to contact server to get sessions"
@@ -336,7 +336,7 @@ msgstr "Gerät umbenennen"
 
 #: phonetrack.js:2234
 msgid "Move to another session"
-msgstr "Gerät in eine andere Sitzung verschieben"
+msgstr "In eine andere Sitzung wechseln"
 
 #: phonetrack.js:2237 maincontent.php:48 maincontent.php:48
 msgid "Ok"
@@ -412,11 +412,11 @@ msgstr "User-Agent"
 
 #: phonetrack.js:2789
 msgid "lat : lng"
-msgstr "Lat : Lng"
+msgstr "Breite : Länge"
 
 #: phonetrack.js:2793
 msgid "DMS coords"
-msgstr "DMS-Koordinaten"
+msgstr "Grad-, Minuten- und Sekundenkoordinaten"
 
 #: phonetrack.js:2798
 msgid "Save"
@@ -432,7 +432,7 @@ msgstr "Abbrechen"
 
 #: phonetrack.js:2987
 msgid "File extension must be '.gpx' to be imported"
-msgstr "Die Dateierweiterung muss „.gpx” lauten, um importiert werden zu können"
+msgstr "Die Dateierweiterung muss „GPX” lauten, um importiert werden zu können"
 
 #: phonetrack.js:3004
 msgid "Failed to create imported session"
@@ -472,15 +472,15 @@ msgstr "Der Server konnte nicht kontaktiert werden, um die Position zu ermitteln
 
 #: phonetrack.js:3238
 msgid "'{n}' is already reserved"
-msgstr "'{n}' ist bereits reserviert"
+msgstr "„{n}” ist bereits reserviert"
 
 #: phonetrack.js:3241
 msgid "Failed to reserve '{n}'"
-msgstr "Fehler beim reservieren von '{n}'"
+msgstr "Fehler beim reservieren von „{n}”"
 
 #: phonetrack.js:3244
 msgid "Failed to contact server to reserve device name"
-msgstr "Keine Serververbindung zum Reservieren"
+msgstr "Der Server konnte nicht kontaktiert werden, um den Gerätenamen zu reservieren."
 
 #: phonetrack.js:3275 phonetrack.js:3279
 msgid "Failed to delete reserved name"
@@ -488,15 +488,15 @@ msgstr "Reservierter Name konnte nicht gelöscht werden"
 
 #: phonetrack.js:3276
 msgid "This device does not exist"
-msgstr "Dieses Gerät existiert nicht"
+msgstr "Dieses Gerät ist nicht vorhanden"
 
 #: phonetrack.js:3280
 msgid "This device name is not reserved, please reload this page"
-msgstr "Dieses Gerät ist nicht reserviert, bitte Seite neu laden"
+msgstr "Dieser Gerätename ist nicht reserviert, bitte laden Sie diese Seite neu."
 
 #: phonetrack.js:3283
 msgid "Failed to contact server to delete reserved name"
-msgstr "Keine Serververbindung zum löschen des reservierten Namen"
+msgstr "Der Server konnte nicht kontaktiert werden, um den reservierten Namen zu löschen."
 
 #: phonetrack.js:3303
 msgid "User does not exist"
@@ -576,7 +576,7 @@ msgstr "Löschen der Sitzung bestätigen"
 
 #: phonetrack.js:3771
 msgid "Select storage location for '{fname}'"
-msgstr "Wählen Sie den Speicherort für '{fname}'"
+msgstr "Speicherort für „{fname}” wählen"
 
 #: phonetrack.js:3925
 msgid "Are you sure you want to delete the device {device} ?"
@@ -896,7 +896,7 @@ msgstr "Enddatum"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr "End-Zeit"
+msgstr "Endezeit"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
@@ -940,7 +940,7 @@ msgstr "Mindestanzahl Satelliten"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr "Maximalzahl Satelliten"
+msgstr "Maximalanzahl Satelliten"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
@@ -956,7 +956,7 @@ msgstr "Tastaturkürzel"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr "Seitenleiste anzeigen/ausblenden"
+msgstr "Seitenleiste ein-/ausblenden"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
