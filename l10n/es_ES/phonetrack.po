@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-12-03 14:31-0500\n"
+"PO-Revision-Date: 2017-12-03 14:41-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -912,7 +912,7 @@ msgstr "Último día:hora:minuto"
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
-msgstr "Precisión minima"
+msgstr "Precisión mínima"
 
 #: maincontent.php:461 maincontent.php:461
 msgid "Maximum accuracy"
@@ -924,23 +924,23 @@ msgstr "Altura mínima"
 
 #: maincontent.php:477 maincontent.php:477
 msgid "Maximum elevation"
-msgstr "Altura maxima"
+msgstr "Altura máxima"
 
 #: maincontent.php:485 maincontent.php:485
 msgid "Minimum battery level"
-msgstr "Nivel de bateria minimo"
+msgstr "Nivel de batería mínimo"
 
 #: maincontent.php:493 maincontent.php:493
 msgid "Maximum battery level"
-msgstr "Nivel de bateria maximo"
+msgstr "Nivel de batería máximo"
 
 #: maincontent.php:501 maincontent.php:501
 msgid "Minimum satellites"
-msgstr "Satelite maximo"
+msgstr "Satélite máximo"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr "Satelite minimo"
+msgstr "Satélite mínimo"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
