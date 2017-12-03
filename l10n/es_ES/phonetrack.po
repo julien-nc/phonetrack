@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-27 06:05-0500\n"
+"PO-Revision-Date: 2017-12-03 14:31-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -128,11 +128,11 @@ msgstr "Nombre de la sesión ya utilizado"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr "No se pudo contactar el servidor para crear la sesion"
+msgstr "No se pudo contactar el servidor para crear la sesión"
 
 #: phonetrack.js:1188
 msgid "Watch this session"
-msgstr "Seguir esta sesion"
+msgstr "Seguir esta sesión"
 
 #: phonetrack.js:1194
 msgid "shared by {u}"
@@ -148,7 +148,7 @@ msgstr "Zoom en este sesión"
 
 #: phonetrack.js:1206
 msgid "URL to share session"
-msgstr "URL para compartir la sesion"
+msgstr "URL para compartir la sesión"
 
 #: phonetrack.js:1210
 msgid "URLs for logging apps"
@@ -572,7 +572,7 @@ msgstr "¿Está seguro que desea eliminar la sesión {session}?"
 
 #: phonetrack.js:3623
 msgid "Confirm session deletion"
-msgstr "Confirmar eliminación de sesion"
+msgstr "Confirmar eliminación de sesión"
 
 #: phonetrack.js:3771
 msgid "Select storage location for '{fname}'"
@@ -588,15 +588,15 @@ msgstr "Confirmar eliminación de dispositivo"
 
 #: phonetrack.js:3997
 msgid "Failed to toggle session public status, session does not exist"
-msgstr "Impossible de cambiar el statut de la sesion, ella no existe"
+msgstr "Imposible de cambiar el statut de la sesion, ella no existe"
 
 #: phonetrack.js:4000
 msgid "Failed to contact server to toggle session public status"
-msgstr "No se pudo contactar el servidor para cambiar el statut de la sesion"
+msgstr "No se pudo contactar el servidor para cambiar el statut de la sesión"
 
 #: phonetrack.js:4070
 msgid "Import gpx session file"
-msgstr "Importar archivo gpx de sesion"
+msgstr "Importar archivo gpx de sesión"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
@@ -662,7 +662,7 @@ msgstr "Mostrar el nivel de batería en los tooltips"
 
 #: maincontent.php:93 maincontent.php:93
 msgid "Show elevation in tooltips"
-msgstr "Mostrar la elevacion en los tooltips"
+msgstr "Mostrar la elevación en los tooltips"
 
 #: maincontent.php:97 maincontent.php:97
 msgid "Show user-agent in tooltips"
@@ -714,7 +714,7 @@ msgstr "Nombre de dispositivo"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
-msgstr "Registrar mi posición en esta sesion"
+msgstr "Registrar mi posición en esta sesión"
 
 #: maincontent.php:142 maincontent.php:142
 msgid "Tracking sessions"
@@ -775,7 +775,7 @@ msgstr "Sus servidores de teja"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
-msgstr "Servidores de teja de superposicion personales"
+msgstr "Servidores de teja de superposición personales"
 
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
@@ -794,7 +794,7 @@ msgstr "Opacidad (0.0-1.0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
-msgstr "Sus servidores de teja de superposicion"
+msgstr "Sus servidores de teja de superposición"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
@@ -821,11 +821,11 @@ msgstr "Sus servidores de azulejo WMS"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
-msgstr "Servidores de azulejo WMS de superposicion personales"
+msgstr "Servidores de azulejo WMS de superposición personales"
 
 #: maincontent.php:333 maincontent.php:333
 msgid "Your WMS overlay tile servers"
-msgstr "Sus servidores de teja de superposicion WMS"
+msgstr "Sus servidores de teja de superposición WMS"
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
