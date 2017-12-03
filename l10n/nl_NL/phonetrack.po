@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-11-27 06:07-0500\n"
+"PO-Revision-Date: 2017-12-03 14:19-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -412,7 +412,7 @@ msgstr "User-agent"
 
 #: phonetrack.js:2789
 msgid "lat : lng"
-msgstr "Lat: Lng"
+msgstr "lat: lng"
 
 #: phonetrack.js:2793
 msgid "DMS coords"
