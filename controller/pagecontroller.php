@@ -2577,10 +2577,64 @@ class PageController extends Controller {
      */
     public function cronAutoExport() {
         $userNames = [];
+
+        // last day
+        $now = new \DateTime();
+        error_log('plop');
+        $y = intval($now->format('Y'));
+        $m = intval($now->format('m'));
+        $d = intval($now->format('d'));
+        $timestamp = $now->getTimestamp();
+
+        // get begining of today
+        $dateMaxDay = new \DateTime($y.'-'.$m.'-'.$d);
+        $maxDayTimestamp = $dateMaxDay->getTimestamp();
+        $minDayTimestamp = $maxDayTimestamp - 24*60*60;
+
+        // last week
+        $now = new \DateTime();
+        while (intval($now->format('N')) !== 1) {
+            error_log($now->format('N'));
+            $now->modify('-1 day');
+        }
+        $y = intval($now->format('Y'));
+        $m = intval($now->format('m'));
+        $d = intval($now->format('d'));
+        $dateWeekMax = new \DateTime($y.'-'.$m.'-'.$d);
+        $maxWeekTimestamp = $dateWeekMax->getTimestamp();
+        $minWeekTimestamp = $maxWeekTimestamp - 7*24*60*60;
+
+        // last month
+        $now = new \DateTime();
+        while (intval($now->format('d')) !== 1) {
+            $now->modify('-1 day');
+        }
+        $y = intval($now->format('Y'));
+        $m = intval($now->format('m'));
+        $d = intval($now->format('d'));
+        $dateMonthMax = new \DateTime($y.'-'.$m.'-'.$d);
+        $maxMonthTimestamp = $dateMonthMax->getTimestamp();
+        $now->modify('-1 day');
+        while (intval($now->format('d')) !== 1) {
+            $now->modify('-1 day');
+        }
+        $y = intval($now->format('Y'));
+        $m = intval($now->format('m'));
+        $d = intval($now->format('d'));
+        $dateMonthMin = new \DateTime($y.'-'.$m.'-'.$d);
+        $minMonthTimestamp = $dateMonthMin->getTimestamp();
+
+        error_log('day max : '.$dateMaxDay->format('Y-m-d H:i:s'));
+        error_log('week max : '.$dateWeekMax->format('Y-m-d H:i:s'));
+        error_log('month min : '.$dateMonthMin->format('Y-m-d H:i:s'));
+        error_log('month max : '.$dateMonthMax->format('Y-m-d H:i:s'));
+
+        $filterArray = array();
+        $filterArray['tsmin'] = $minWeekTimestamp;
+        $filterArray['tsmax'] = $maxWeekTimestamp;
+
         foreach($this->userManager->search('') as $u) {
             $userName = $u->getUID();
-
-            // TODO create monthly, daily, weekly filter
 
             error_log($userName.' :');
             $sqlget = 'SELECT name, token, creationversion FROM *PREFIX*phonetrack_sessions ';
@@ -2591,12 +2645,11 @@ class PageController extends Controller {
                 $dbname = $row['name'];
                 $dbtoken = $row['token'];
                 // TODO condition to export
-                if ($userName === 'julien') {
+                if ($userName === 'julien' and $dbname === 'juju') {
                     $dir = $this->getOrCreateExportDir($userName);
                     error_log('i want to export '.$dbname);
                     $exportPath = '/PhoneTrack_export/'.$dbname.'.gpx';
-                    // TODO get correct filterArray
-                    $this->export($dbname, $dbtoken, $exportPath, $userName, null);
+                    $this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);
                 }
             }
         }
