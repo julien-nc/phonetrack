@@ -3039,7 +3039,7 @@
         }).done(function (response) {
             if (response.done) {
                 OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in') +
-                    ' ' + targetPath + '/' + filename + '.gpx');
+                    ' ' + targetPath + '/' + filename);
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to export session'));

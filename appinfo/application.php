@@ -70,7 +70,7 @@ class Application extends App {
             }
         );
 
-		$container->registerService(
+        $container->registerService(
             'UtilsController', function (IAppContainer $c) {
                 return new UtilsController(
                     $c->query('AppName'),

@@ -1681,34 +1681,28 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function export($name, $token, $target) {
+    public function export($name, $token, $target, $username='', $filterArray=null) {
         date_default_timezone_set('UTC');
         $done = false;
-        $userFolder = \OC::$server->getUserFolder();
+        $userFolder = null;
+        if ($this->userId !== null and $this->userId !== '') {
+            $userFolder = \OC::$server->getUserFolder();
+            $userId = $this->userId;
+        }
+        else if ($username !== ''){
+            $userFolder = \OC::$server->getUserFolder($username);
+            $userId = $username;
+        }
         $path = $target;
         $cleanpath = str_replace(array('../', '..\\'), '',  $path);
 
-        $file = null;
-        $filePossible = false;
-        if ($userFolder->nodeExists($cleanpath)){
-            $file = $userFolder->get($cleanpath);
-            if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
-                $file->isUpdateable()){
-                $filePossible = true;
-            }
-            else{
-                $filePossible = false;
-            }
-        }
-        else{
-            $dirpath = dirname($cleanpath);
-            $newFileName = basename($cleanpath);
-            if ($userFolder->nodeExists($dirpath)){
-                $dir = $userFolder->get($dirpath);
-                if ($dir->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
-                    $dir->isCreatable()){
-                    $dir->newFile($newFileName);
-                    $file = $dir->get($newFileName);
+        if ($userFolder !== null) {
+            $file = null;
+            $filePossible = false;
+            if ($userFolder->nodeExists($cleanpath)){
+                $file = $userFolder->get($cleanpath);
+                if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
+                    $file->isUpdateable()){
                     $filePossible = true;
                 }
                 else{
@@ -1716,91 +1710,109 @@ class PageController extends Controller {
                 }
             }
             else{
-                $filePossible = false;
+                $dirpath = dirname($cleanpath);
+                $newFileName = basename($cleanpath);
+                if ($userFolder->nodeExists($dirpath)){
+                    $dir = $userFolder->get($dirpath);
+                    if ($dir->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
+                        $dir->isCreatable()){
+                        $dir->newFile($newFileName);
+                        $file = $dir->get($newFileName);
+                        $filePossible = true;
+                    }
+                    else{
+                        $filePossible = false;
+                    }
+                }
+                else{
+                    $filePossible = false;
+                }
             }
-        }
 
-        if ($filePossible) {
-            // check if session exists
-            $dbtoken = null;
-            $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
-            $sqlget .= 'WHERE name='.$this->db_quote_escape_string($name).' ';
-            $sqlget .= 'AND token='.$this->db_quote_escape_string($token).' ';
-            $req = $this->dbconnection->prepare($sqlget);
-            $req->execute();
-            while ($row = $req->fetch()){
-                $dbtoken = $row['token'];
-            }
-            $req->closeCursor();
-
-            // if not, check it is a shared session
-            if ($dbtoken === null) {
-                $sqlget = 'SELECT sessionid FROM *PREFIX*phonetrack_shares ';
-                $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($token).' ';
-                $sqlget .= 'AND username='.$this->db_quote_escape_string($this->userId).';';
+            if ($filePossible) {
+                // check if session exists
+                $dbtoken = null;
+                $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
+                $sqlget .= 'WHERE name='.$this->db_quote_escape_string($name).' ';
+                $sqlget .= 'AND token='.$this->db_quote_escape_string($token).' ';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    $dbtoken = $row['sessionid'];
-                }
-                $req->closeCursor();
-            }
-
-            // session exists
-            if ($dbtoken !== null) {
-                // indexed by track name
-                $coords = array();
-                // get list of devices
-                $devices = array();
-                $sqldev = 'SELECT id, name FROM *PREFIX*phonetrack_devices ';
-                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
-                $req = $this->dbconnection->prepare($sqldev);
-                $req->execute();
-                while ($row = $req->fetch()){
-                    array_push($devices, array($row['id'], $row['name']));
+                    $dbtoken = $row['token'];
                 }
                 $req->closeCursor();
 
-                // get the coords for each device
-                $result[$name] = array();
-
-                // get filters
-                $filterArray = $this->getCurrentFilters();
-
-                foreach ($devices as $d) {
-                    $devid = $d[0];
-                    $devname = $d[1];
-                    $coords[$devname] = array();
-                    $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
-                    $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+                // if not, check it is a shared session
+                if ($dbtoken === null) {
+                    $sqlget = 'SELECT sessionid FROM *PREFIX*phonetrack_shares ';
+                    $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($token).' ';
+                    $sqlget .= 'AND username='.$this->db_quote_escape_string($userId).';';
                     $req = $this->dbconnection->prepare($sqlget);
                     $req->execute();
                     while ($row = $req->fetch()){
-                        $epoch = $row['timestamp'];
-                        $date = '';
-                        if (is_numeric($epoch)) {
-                            $epoch = (int)$epoch;
-                            $dt = new \DateTime("@$epoch");
-                            $date = $dt->format('Y-m-d\TH:i:s\Z');
-                        }
-                        $lat = $row['lat'];
-                        $lon = $row['lon'];
-                        $alt = $row['altitude'];
-                        $acc = $row['accuracy'];
-                        $bat = $row['batterylevel'];
-                        $ua  = $row['useragent'];
-                        $sat = $row['satellites'];
-
-                        if ($filterArray === null or $this->filterPoint($row, $filterArray)) {
-                            $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua);
-                            array_push($coords[$devname], $point);
-                        }
+                        $dbtoken = $row['sessionid'];
                     }
                     $req->closeCursor();
                 }
-                $gpxContent = $this->generateGpx($name, $coords);
-                $file->putContent($gpxContent);
-                $done = true;
+
+                // session exists
+                if ($dbtoken !== null) {
+                    // indexed by track name
+                    $coords = array();
+                    // get list of devices
+                    $devices = array();
+                    $sqldev = 'SELECT id, name FROM *PREFIX*phonetrack_devices ';
+                    $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+                    $req = $this->dbconnection->prepare($sqldev);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        array_push($devices, array($row['id'], $row['name']));
+                    }
+                    $req->closeCursor();
+
+                    // get the coords for each device
+                    $result[$name] = array();
+
+                    // get filters
+                    if ($filterArray === null) {
+                        $filterArray = $this->getCurrentFilters($userId);
+                    }
+
+                    foreach ($devices as $d) {
+                        $devid = $d[0];
+                        $devname = $d[1];
+                        $coords[$devname] = array();
+                        $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
+                        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+                        $req = $this->dbconnection->prepare($sqlget);
+                        $req->execute();
+                        while ($row = $req->fetch()){
+                            $epoch = $row['timestamp'];
+                            $date = '';
+                            if (is_numeric($epoch)) {
+                                $epoch = (int)$epoch;
+                                $dt = new \DateTime("@$epoch");
+                                $date = $dt->format('Y-m-d\TH:i:s\Z');
+                            }
+                            $lat = $row['lat'];
+                            $lon = $row['lon'];
+                            $alt = $row['altitude'];
+                            $acc = $row['accuracy'];
+                            $bat = $row['batterylevel'];
+                            $ua  = $row['useragent'];
+                            $sat = $row['satellites'];
+
+                            if ($filterArray === null or $this->filterPoint($row, $filterArray)) {
+                                $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua);
+                                array_push($coords[$devname], $point);
+                            }
+                        }
+                        $req->closeCursor();
+                    }
+                    $gpxContent = $this->generateGpx($name, $coords);
+                    $file->putContent($gpxContent);
+                    $done = true;
+                }
             }
         }
 
@@ -1817,10 +1829,14 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function getCurrentFilters() {
+    private function getCurrentFilters($username='') {
+        $userId = $this->userId;
+        if ($username !== '') {
+            $userId = $username;
+        }
         $fArray = null;
         $sqlget = 'SELECT * FROM *PREFIX*phonetrack_options ';
-        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userId).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         $optString = null;
@@ -2531,6 +2547,57 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
+            }
+        }
+    }
+
+    private function getOrCreateExportDir($userId) {
+        $dir = null;
+        $userFolder = \OC::$server->getUserFolder($userId);
+        $dirpath = '/PhoneTrack_export';
+        if ($userFolder->nodeExists($dirpath)){
+            $tmp = $userFolder->get($dirpath);
+            if ($tmp->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
+                $tmp->isCreatable()){
+                $dir = $tmp;
+            }
+        }
+        else {
+            $userFolder->newFolder($dirpath);
+            $dir = $userFolder->get($dirpath);
+        }
+        return $dir;
+    }
+
+    /**
+     * auto export
+     * triggered by NC cron job
+     *
+     * export sessions
+     */
+    public function cronAutoExport() {
+        $userNames = [];
+        foreach($this->userManager->search('') as $u) {
+            $userName = $u->getUID();
+
+            // TODO create monthly, daily, weekly filter
+
+            error_log($userName.' :');
+            $sqlget = 'SELECT name, token, creationversion FROM *PREFIX*phonetrack_sessions ';
+            $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userName).' ;';
+            $req = $this->dbconnection->prepare($sqlget);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbname = $row['name'];
+                $dbtoken = $row['token'];
+                // TODO condition to export
+                if ($userName === 'julien') {
+                    $dir = $this->getOrCreateExportDir($userName);
+                    error_log('i want to export '.$dbname);
+                    $exportPath = '/PhoneTrack_export/'.$dbname.'.gpx';
+                    // TODO get correct filterArray
+                    $this->export($dbname, $dbtoken, $exportPath, $userName, null);
+                }
             }
         }
     }
