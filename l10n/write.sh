@@ -18,3 +18,4 @@ rename 's/cs_CZ/cs/g' *.js*
 rename 's/fi_FI/fi/g' *.js*
 rename 's/hu_HU/hu/g' *.js*
 rename 's/pl_PL/pl/g' *.js*
+rename 's/sk_SK/sk/g' *.js*

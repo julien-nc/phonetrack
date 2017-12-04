@@ -99,7 +99,7 @@ OC.L10N.register(
     "Satellites" : "Satellieten",
     "Battery" : "Accu",
     "User-agent" : "User-agent",
-    "lat : lng" : "Lat: Lng",
+    "lat : lng" : "lat: lng",
     "DMS coords" : "DMS coords",
     "Save" : "Opslaan",
     "Move" : "Verplaatsen",

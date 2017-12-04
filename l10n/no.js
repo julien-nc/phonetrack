@@ -9,7 +9,7 @@ OC.L10N.register(
     "Activate automatic zoom" : "Aktivér autozoom",
     "Disable automatic zoom" : "Deaktivér autozoom",
     "Delete" : "Slett",
-    "Ok" : "OK",
+    "Ok" : "Ok",
     "Date" : "Dato",
     "Time" : "Tid",
     "Satellites" : "Satellitter",
