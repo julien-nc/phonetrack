@@ -1636,8 +1636,12 @@ class PageController extends Controller {
 
             foreach($track->trkseg as $segment) {
                 foreach($segment->trkpt as $point) {
-                    $lat = (float)$point['lat'];
-                    $lon = (float)$point['lon'];
+                    $lat = floatval($point['lat']);
+                    $lon = floatval($point['lon']);
+                    $acc = -1;
+                    $bat = -1;
+                    $sat = -1;
+                    $ua  = '';
                     if (empty($point->time)) {
                         $timestamp = 0;
                     }
@@ -1649,9 +1653,23 @@ class PageController extends Controller {
                         $ele = null;
                     }
                     else{
-                        $ele = (float)$point->ele;
+                        $ele = floatval($point->ele);
                     }
-                    $this->logPost($token, $devicename, $lat, $lon, $ele, $timestamp, -1, -1, -1, 'imported');
+                    if (!empty($point->sat)) {
+                        $sat = intval($point->sat);
+                    }
+                    if (!empty($point->extensions)) {
+                        if (!empty($point->extensions->useragent)) {
+                            $ua = $point->extensions->useragent;
+                        }
+                        if (!empty($point->extensions->batterylevel)) {
+                            $bat = floatval($point->extensions->batterylevel);
+                        }
+                        if (!empty($point->extensions->accuracy)) {
+                            $acc = floatval($point->extensions->accuracy);
+                        }
+                    }
+                    $this->logPost($token, $devicename, $lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $useragent);
                 }
             }
             $trackIndex++;
@@ -1768,9 +1786,13 @@ class PageController extends Controller {
                         $lat = $row['lat'];
                         $lon = $row['lon'];
                         $alt = $row['altitude'];
+                        $acc = $row['accuracy'];
+                        $bat = $row['batterylevel'];
+                        $ua  = $row['useragent'];
+                        $sat = $row['satellites'];
 
                         if ($filterArray === null or $this->filterPoint($row, $filterArray)) {
-                            $point = array($lat, $lon, $date, $alt);
+                            $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua);
                             array_push($coords[$devname], $point);
                         }
                     }
@@ -1892,10 +1914,31 @@ class PageController extends Controller {
             $gpxText .= '<trk>' . "\n" . ' <name>' . $device . '</name>' . "\n";
             $gpxText .= ' <trkseg>' . "\n";
             foreach ($points as $point) {
+                $acc = $point[4];
+                $sat = $point[5];
+                $bat = $point[6];
+                $ua = $point[7];
+                $gpxExtension = '';
                 $gpxText .= '  <trkpt lat="'.$point[0].'" lon="'.$point[1].'">' . "\n";
                 $gpxText .= '   <time>' . $point[2] . '</time>' . "\n";
-                if ($point[3] !== '') {
-                    $gpxText .= '   <ele>' . $point[3] . '</ele>' . "\n";
+                if ($point[3] !== '' && floatval($point[3]) !== -1.0) {
+                    $gpxText .= '   <ele>' . sprintf('%.2f', floatval($point[3])) . '</ele>' . "\n";
+                }
+                if ($sat !== '' && intval($sat) !== -1) {
+                    $gpxText .= '   <sat>' . intval($sat) . '</sat>' . "\n";
+                }
+                if ($acc !== '' && intval($acc) !== -1) {
+                    $gpxExtension .= '     <accuracy>' . sprintf('%.2f', floatval($acc)) . '</accuracy>' . "\n";
+                }
+                if ($bat !== '' && intval($bat) !== -1) {
+                    $gpxExtension .= '     <batterylevel>' . sprintf('%.2f', floatval($bat)) . '</batterylevel>' . "\n";
+                }
+                if ($ua !== '') {
+                    $gpxExtension .= '     <useragent>' . $ua . '</useragent>' . "\n";
+                }
+                if ($gpxExtension !== '') {
+                    $gpxText .= '   <extensions>'. "\n" . $gpxExtension;
+                    $gpxText .= '   </extensions>' . "\n";
                 }
                 $gpxText .= '  </trkpt>' . "\n";
             }
@@ -2454,7 +2497,7 @@ class PageController extends Controller {
                     $acc = '-1';
                 }
                 else {
-                    $acc = sprintf('%.2f', (float)$acc);
+                    $acc = sprintf('%.2f', floatval($acc));
                 }
                 if ($alt === '' or is_null($alt)) {
                     $alt = '-1';

@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- all values are now exported/imported
+
 ### Changed
 - zoom on normal page load
 [#54](https://gitlab.com/eneiluj/phonetrack-oc/issues/54) @GLLM1
