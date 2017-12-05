@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-12-05 10:39-0500\n"
+"PO-Revision-Date: 2017-12-05 10:42-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -66,7 +66,7 @@ msgstr "Názov servera alebo adresa url servera nemôže byť prázdna"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "Nedá sa pridať server dlaždíc"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
@@ -132,7 +132,7 @@ msgstr ""
 
 #: phonetrack.js:1188
 msgid "Watch this session"
-msgstr ""
+msgstr "Sledovať túto reláciu"
 
 #: phonetrack.js:1194
 msgid "shared by {u}"
@@ -144,11 +144,11 @@ msgstr "Ďalšie možnosti"
 
 #: phonetrack.js:1203
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Priblíženie tejto relácie"
 
 #: phonetrack.js:1206
 msgid "URL to share session"
-msgstr ""
+msgstr "URL na zdieľanie relácie"
 
 #: phonetrack.js:1210
 msgid "URLs for logging apps"
@@ -308,11 +308,11 @@ msgstr ""
 
 #: phonetrack.js:1937 phonetrack.js:1966
 msgid "Stats of all points"
-msgstr ""
+msgstr "Štatistiky všetkých bodov"
 
 #: phonetrack.js:1963
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "Štatistiky filtrovaných bodov"
 
 #: phonetrack.js:2149
 msgid "Device's color successfully changed"
