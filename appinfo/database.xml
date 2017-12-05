@@ -53,6 +53,13 @@
       <default></default>
       <length>300</length>
     </field>
+    <field>
+      <name>autoexport</name>
+      <type>text</type>
+      <default>no</default>
+      <notnull>true</notnull>
+      <length>10</length>
+    </field>
   </declaration>
 </table>
  <table>

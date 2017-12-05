@@ -2605,37 +2605,40 @@ class PageController extends Controller {
         // last day
         $now = new \DateTime();
         error_log('plop');
-        $y = intval($now->format('Y'));
-        $m = intval($now->format('m'));
-        $d = intval($now->format('d'));
+        $y = $now->format('Y');
+        $m = $now->format('m');
+        $d = $now->format('d');
         $timestamp = $now->getTimestamp();
 
         // get begining of today
         $dateMaxDay = new \DateTime($y.'-'.$m.'-'.$d);
         $maxDayTimestamp = $dateMaxDay->getTimestamp();
         $minDayTimestamp = $maxDayTimestamp - 24*60*60;
+        $dailySuffix = '_daily_'.$y.'-'.$m.'-'.(intval($d)-1);
 
         // last week
         $now = new \DateTime();
         while (intval($now->format('N')) !== 1) {
-            error_log($now->format('N'));
             $now->modify('-1 day');
         }
-        $y = intval($now->format('Y'));
-        $m = intval($now->format('m'));
-        $d = intval($now->format('d'));
+        $y = $now->format('Y');
+        $m = $now->format('m');
+        $d = $now->format('d');
         $dateWeekMax = new \DateTime($y.'-'.$m.'-'.$d);
         $maxWeekTimestamp = $dateWeekMax->getTimestamp();
         $minWeekTimestamp = $maxWeekTimestamp - 7*24*60*60;
+        $dateWeekMin = new \DateTime($y.'-'.$m.'-'.$d);
+        $dateWeekMin->modify('-7 day');
+        $weeklySuffix = '_weekly_'.$dateWeekMin->format('Y-m-d');
 
         // last month
         $now = new \DateTime();
         while (intval($now->format('d')) !== 1) {
             $now->modify('-1 day');
         }
-        $y = intval($now->format('Y'));
-        $m = intval($now->format('m'));
-        $d = intval($now->format('d'));
+        $y = $now->format('Y');
+        $m = $now->format('m');
+        $d = $now->format('d');
         $dateMonthMax = new \DateTime($y.'-'.$m.'-'.$d);
         $maxMonthTimestamp = $dateMonthMax->getTimestamp();
         $now->modify('-1 day');
@@ -2647,15 +2650,25 @@ class PageController extends Controller {
         $d = intval($now->format('d'));
         $dateMonthMin = new \DateTime($y.'-'.$m.'-'.$d);
         $minMonthTimestamp = $dateMonthMin->getTimestamp();
+        $monthlySuffix = '_monthly_'.$dateMonthMin->format('Y-m');
 
         error_log('day max : '.$dateMaxDay->format('Y-m-d H:i:s'));
         error_log('week max : '.$dateWeekMax->format('Y-m-d H:i:s'));
         error_log('month min : '.$dateMonthMin->format('Y-m-d H:i:s'));
         error_log('month max : '.$dateMonthMax->format('Y-m-d H:i:s'));
+        error_log('month prefix : '.$monthlySuffix);
+        error_log('week prefix : '.$weeklySuffix);
+        error_log('day prefix : '.$dailySuffix);
 
-        $filterArray = array();
-        $filterArray['tsmin'] = $minWeekTimestamp;
-        $filterArray['tsmax'] = $maxWeekTimestamp;
+        $weekFilterArray = array();
+        $weekFilterArray['tsmin'] = $minWeekTimestamp;
+        $weekFilterArray['tsmax'] = $maxWeekTimestamp;
+        $dayFilterArray = array();
+        $dayFilterArray['tsmin'] = $minDayTimestamp;
+        $dayFilterArray['tsmax'] = $maxDayTimestamp;
+        $monthFilterArray = array();
+        $monthFilterArray['tsmin'] = $minMonthTimestamp;
+        $monthFilterArray['tsmax'] = $maxMonthTimestamp;
 
         foreach($this->userManager->search('') as $u) {
             $userName = $u->getUID();
@@ -2668,12 +2681,31 @@ class PageController extends Controller {
             while ($row = $req->fetch()){
                 $dbname = $row['name'];
                 $dbtoken = $row['token'];
+                $dbexportType = 'weekly';
                 // TODO condition to export
-                if ($userName === 'julien' and $dbname === 'juju') {
+                if ($userName === 'julien' and $dbname === 'juju' and $dbexportType !== 'no') {
+                    $suffix = $dailySuffix;
+                    $filterArray = $dayFilterArray;
+                    if ($dbexportType === 'weekly') {
+                        $suffix = $weeklySuffix;
+                        $filterArray = $weekFilterArray;
+                    }
+                    else if ($dbexportType === 'monthly') {
+                        $suffix = $monthlySuffix;
+                        $filterArray = $monthFilterArray;
+                    }
                     $dir = $this->getOrCreateExportDir($userName);
-                    error_log('i want to export '.$dbname);
-                    $exportPath = '/PhoneTrack_export/'.$dbname.'.gpx';
-                    $this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);
+                    // check if file already exists
+                    $exportName = $dbname.$suffix.'.gpx';
+                    $exportPath = '/PhoneTrack_export/'.$exportName;
+                    error_log('i want to export '.$exportPath);
+                    if (! $dir->nodeExists($exportName)) {
+                        error_log('let\'s do it '.$exportPath);
+                        $this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);
+                    }
+                    else {
+                        error_log($exportName.' already exists');
+                    }
                 }
             }
         }
