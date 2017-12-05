@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-12-05 11:02-0500\n"
+"PO-Revision-Date: 2017-12-05 11:12-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -216,7 +216,7 @@ msgstr ""
 
 #: phonetrack.js:1301
 msgid "Replace 'yourname' with the desired device name"
-msgstr ""
+msgstr "Nahraďte \"yourname\" zvoleným názvom zariadenia"
 
 #: phonetrack.js:1302
 msgid "Public browser logging URL"
@@ -500,7 +500,7 @@ msgstr ""
 
 #: phonetrack.js:3303
 msgid "User does not exist"
-msgstr ""
+msgstr "Používateľ neexistuje"
 
 #: phonetrack.js:3306
 msgid "Failed to add user share"
@@ -548,7 +548,7 @@ msgstr ""
 
 #: phonetrack.js:3451
 msgid "distance (km)"
-msgstr ""
+msgstr "vzdialenosť (km)"
 
 #: phonetrack.js:3452
 msgid "duration"
@@ -576,7 +576,7 @@ msgstr "Potvrďte vymazanie relácie"
 
 #: phonetrack.js:3771
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Vyberte si miesto uloženia pre '{fname}'"
 
 #: phonetrack.js:3925
 msgid "Are you sure you want to delete the device {device} ?"
