@@ -271,8 +271,8 @@ class PageController extends Controller {
     public function getSessions() {
         $sessions = array();
         // sessions owned by current user
-        $sqlget = 'SELECT name, token, publicviewtoken, public FROM *PREFIX*phonetrack_sessions ';
-        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlget = 'SELECT name, token, publicviewtoken, public, autoexport FROM *PREFIX*phonetrack_sessions ';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -281,15 +281,16 @@ class PageController extends Controller {
             $sharedWith = $this->getUserShares($dbtoken);
             $dbpublicviewtoken = $row['publicviewtoken'];
             $dbpublic = $row['public'];
+            $dbautoexport = $row['autoexport'];
             $reservedNames = $this->getReservedNames($dbtoken);
             $publicShares = $this->getPublicShares($dbtoken);
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith, $reservedNames, $publicShares));
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport));
         }
         $req->closeCursor();
 
         // sessions shared with current user
         $sqlgetshares = 'SELECT sessionid, sharetoken FROM *PREFIX*phonetrack_shares ';
-        $sqlgetshares .= 'WHERE username=\''.$this->userId.'\' ';
+        $sqlgetshares .= 'WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlgetshares);
         $req->execute();
         while ($row = $req->fetch()){
@@ -392,7 +393,7 @@ class PageController extends Controller {
             // insert
             $sql = 'INSERT INTO *PREFIX*phonetrack_sessions';
             $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token, publicviewtoken, public, creationversion) ';
-            $sql .= 'VALUES (\''.$this->userId.'\',';
+            $sql .= 'VALUES ('.$this->db_quote_escape_string($this->userId).',';
             $sql .= $this->db_quote_escape_string($name).',';
             $sql .= $this->db_quote_escape_string($token).',';
             $sql .= $this->db_quote_escape_string($publicviewtoken).',';
@@ -674,6 +675,51 @@ class PageController extends Controller {
         if ($dbname !== null) {
             $sqlren = 'UPDATE *PREFIX*phonetrack_sessions ';
             $sqlren .= 'SET public='.$this->db_quote_escape_string($public).' ';
+            $sqlren .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+            $sqlren .= 'AND token='.$this->db_quote_escape_string($token).';';
+            $req = $this->dbconnection->prepare($sqlren);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function setSessionAutoExport($token, $value) {
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            $sqlren = 'UPDATE *PREFIX*phonetrack_sessions ';
+            $sqlren .= 'SET autoexport='.$this->db_quote_escape_string($value).' ';
             $sqlren .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
             $sqlren .= 'AND token='.$this->db_quote_escape_string($token).';';
             $req = $this->dbconnection->prepare($sqlren);
@@ -2673,17 +2719,16 @@ class PageController extends Controller {
         foreach($this->userManager->search('') as $u) {
             $userName = $u->getUID();
 
-            error_log($userName.' :');
-            $sqlget = 'SELECT name, token, creationversion FROM *PREFIX*phonetrack_sessions ';
+            $sqlget = 'SELECT name, token, autoexport FROM *PREFIX*phonetrack_sessions ';
             $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userName).' ;';
             $req = $this->dbconnection->prepare($sqlget);
             $req->execute();
             while ($row = $req->fetch()){
                 $dbname = $row['name'];
                 $dbtoken = $row['token'];
-                $dbexportType = 'weekly';
-                // TODO condition to export
-                if ($userName === 'julien' and $dbname === 'juju' and $dbexportType !== 'no') {
+                $dbexportType = $row['autoexport'];
+                // export if autoexport is set
+                if ($dbexportType !== 'no') {
                     $suffix = $dailySuffix;
                     $filterArray = $dayFilterArray;
                     if ($dbexportType === 'weekly') {
@@ -2698,7 +2743,7 @@ class PageController extends Controller {
                     // check if file already exists
                     $exportName = $dbname.$suffix.'.gpx';
                     $exportPath = '/PhoneTrack_export/'.$exportName;
-                    error_log('i want to export '.$exportPath);
+                    error_log('i want to export '.$userName.'::'.$exportPath);
                     if (! $dir->nodeExists($exportName)) {
                         error_log('let\'s do it '.$exportPath);
                         $this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);

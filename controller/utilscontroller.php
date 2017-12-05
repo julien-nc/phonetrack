@@ -118,7 +118,7 @@ class UtilsController extends Controller {
                     $minzoom, $maxzoom, $attribution) {
         // first we check it does not already exist
         $sqlts = 'SELECT servername FROM *PREFIX*phonetrack_tileserver ';
-        $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'=\''.$this->userId.'\' ';
+        $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
         $sqlts .= 'AND servername='.$this->db_quote_escape_string($servername).' AND type='.$this->db_quote_escape_string($type).' ';
         $req = $this->dbconnection->prepare($sqlts);
         $req->execute();
@@ -133,7 +133,7 @@ class UtilsController extends Controller {
         if ($ts === null){
             $sql = 'INSERT INTO *PREFIX*phonetrack_tileserver';
             $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', type, servername, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution) ';
-            $sql .= 'VALUES (\''.$this->userId.'\',';
+            $sql .= 'VALUES ('.$this->db_quote_escape_string($this->userId).',';
             $sql .= $this->db_quote_escape_string($type).',';
             $sql .= $this->db_quote_escape_string($servername).',';
             $sql .= $this->db_quote_escape_string($serverurl).',';

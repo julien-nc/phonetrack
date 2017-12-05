@@ -1133,7 +1133,7 @@
 
     function addSession(token, name, publicviewtoken, isPublic, sharedWith=[],
                         selected=false, isFromShare=false, isSharedBy='',
-                        reservedNames=[], publicFilteredShares=[]) {
+                        reservedNames=[], publicFilteredShares=[], autoexport='no') {
         // if session is not shared (we have write access)
         if (!isFromShare) {
             $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
@@ -1333,6 +1333,7 @@
         $('.session[token="' + token + '"]').find('.sharediv').hide();
         $('.session[token="' + token + '"]').find('.moreUrls').hide();
         $('.session[token="' + token + '"]').find('.namereservdiv').hide();
+        $('.session[token="' + token + '"]').find('select[role=autoexport]').val(autoexport);
         if (parseInt(isPublic) === 0) {
             $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').hide();
         }
@@ -1656,7 +1657,8 @@
                             false,
                             '',
                             response.sessions[s][5],
-                            response.sessions[s][6]
+                            response.sessions[s][6],
+                            response.sessions[s][7]
                         );
                     }
                 }
@@ -4010,6 +4012,34 @@
                 }
             }).fail(function() {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to toggle session public status'));
+            });
+        });
+
+        $('body').on('change','select[role=autoexport]', function(e) {
+            var val = $(this).val();
+            var icon = $(this).find('i');
+            var token = $(this).parent().parent().parent().attr('token');
+            var req = {
+                token: token,
+                value: val
+            };
+            var url = OC.generateUrl('/apps/phonetrack/setSessionAutoExport');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                if (response.done === 1) {
+                }
+                else if (response.done === 2) {
+                    OC.Notification.showTemporary(
+                        t('phonetrack', 'Failed to toggle session auto export value') +
+                        '. ' + t('phonetrack', 'session does not exist')
+                    );
+                }
+            }).fail(function() {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set session auto export value'));
             });
         });
 
