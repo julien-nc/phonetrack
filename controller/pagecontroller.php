@@ -1777,13 +1777,18 @@ class PageController extends Controller {
                     if ($filterArray === null) {
                         $filterArray = $this->getCurrentFilters($userId);
                     }
+                    $filterSql = $this->getSqlFilter($filterArray);
 
                     foreach ($devices as $d) {
                         $devid = $d[0];
                         $devname = $d[1];
                         $coords[$devname] = array();
                         $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
-                        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+                        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
+                        if ($filterSql !== '') {
+                            $sqlget .= 'AND '.$filterSql;
+                        }
+                        $sqlget .= ' ORDER BY timestamp ASC ;';
                         $req = $this->dbconnection->prepare($sqlget);
                         $req->execute();
                         while ($row = $req->fetch()){
@@ -1802,10 +1807,8 @@ class PageController extends Controller {
                             $ua  = $row['useragent'];
                             $sat = $row['satellites'];
 
-                            if ($filterArray === null or $this->filterPoint($row, $filterArray)) {
-                                $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua);
-                                array_push($coords[$devname], $point);
-                            }
+                            $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua);
+                            array_push($coords[$devname], $point);
                         }
                         $req->closeCursor();
                     }
@@ -1901,6 +1904,25 @@ class PageController extends Controller {
             and (!isset($fArray['batterymax']) or intval($p['batterylevel']) <= $fArray['batterymax'])
             and (!isset($fArray['batterymin']) or intval($p['batterylevel']) >= $fArray['batterymin'])
         );
+    }
+
+    private function getSqlFilter($fArray) {
+        $sql = '';
+        if ($fArray !== null) {
+            $cond = array();
+            if (isset($fArray['tsmin'])) { array_push($cond, 'timestamp >= '.$this->db_quote_escape_string($fArray['tsmin'])); }
+            if (isset($fArray['tsmax'])) { array_push($cond, 'timestamp <= '.$this->db_quote_escape_string($fArray['tsmax'])); }
+            if (isset($fArray['elevationmax'])) { array_push($cond, 'altitude <= '.$this->db_quote_escape_string($fArray['elevationmax'])); }
+            if (isset($fArray['elevationmin'])) { array_push($cond, 'altitude >= '.$this->db_quote_escape_string($fArray['elvationmin'])); }
+            if (isset($fArray['accuracymax'])) { array_push($cond, 'accuracy <= '.$this->db_quote_escape_string($fArray['accuracymax'])); }
+            if (isset($fArray['accuracymin'])) { array_push($cond, 'accuracy >= '.$this->db_quote_escape_string($fArray['accuracymin'])); }
+            if (isset($fArray['satellitesmax'])) { array_push($cond, 'satellites <= '.$this->db_quote_escape_string($fArray['satellitesmax'])); }
+            if (isset($fArray['satellitesmin'])) { array_push($cond, 'satellites >= '.$this->db_quote_escape_string($fArray['satellitesmin'])); }
+            if (isset($fArray['batterymax'])) { array_push($cond, 'batterylevel <= '.$this->db_quote_escape_string($fArray['batterymax'])); }
+            if (isset($fArray['batterymin'])) { array_push($cond, 'batterylevel >= '.$this->db_quote_escape_string($fArray['batterymin'])); }
+            $sql = implode(' AND ', $cond);
+        }
+        return $sql;
     }
 
     private function generateGpx($name, $coords) {
