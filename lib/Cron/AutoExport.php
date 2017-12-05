@@ -11,13 +11,13 @@ namespace OCA\PhoneTrack\Cron;
 
 use \OCA\PhoneTrack\AppInfo\Application;
 
-#class AutoExport extends \OC\BackgroundJob\TimedJob {
-class AutoExport extends \OC\BackgroundJob\Job {
+class AutoExport extends \OC\BackgroundJob\TimedJob {
+#class AutoExport extends \OC\BackgroundJob\Job {
 
-    #public function __construct() {
-    #    // Run each day
-    #    $this->setInterval(24 * 60 * 60);
-    #}
+    public function __construct() {
+        // Run each day
+        $this->setInterval(24 * 60 * 60);
+    }
 
     protected function run($argument) {
         $d = new \DateTime();
