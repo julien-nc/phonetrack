@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-12-05 10:24-0500\n"
+"PO-Revision-Date: 2017-12-05 10:33-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -536,7 +536,7 @@ msgstr "Nepodarilo sa zmazať verejné zdieľanie"
 
 #: phonetrack.js:3419
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo vymazané verejné zdieľanie"
 
 #: phonetrack.js:3437
 msgid "Failed to contact server to get user list"
@@ -552,27 +552,27 @@ msgstr ""
 
 #: phonetrack.js:3452
 msgid "duration"
-msgstr ""
+msgstr "trvanie"
 
 #: phonetrack.js:3453
 msgid "#points"
-msgstr ""
+msgstr "#body"
 
 #: phonetrack.js:3488
 msgid "years"
-msgstr ""
+msgstr "roky"
 
 #: phonetrack.js:3491
 msgid "days"
-msgstr ""
+msgstr "dní"
 
 #: phonetrack.js:3620
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Ste si naozaj istý/á, že chcete vymazať reláciu {session} ?"
 
 #: phonetrack.js:3623
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Potvrďte vymazanie relácie"
 
 #: phonetrack.js:3771
 msgid "Select storage location for '{fname}'"
@@ -634,39 +634,39 @@ msgstr ""
 
 #: maincontent.php:57 maincontent.php:57
 msgid "Options"
-msgstr ""
+msgstr "Možnosti"
 
 #: maincontent.php:65 maincontent.php:65
 msgid "Auto zoom"
-msgstr ""
+msgstr "Automatické zväčšenie"
 
 #: maincontent.php:73 maincontent.php:73
 msgid "Show tooltips"
-msgstr ""
+msgstr "Zobraziť popisy"
 
 #: maincontent.php:76 maincontent.php:76
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Obnoviť každú (sec)"
 
 #: maincontent.php:81 maincontent.php:81
 msgid "Show accuracy in tooltips"
-msgstr ""
+msgstr "Ukázať presnosť v popisoch"
 
 #: maincontent.php:85 maincontent.php:85
 msgid "Show satellites in tooltips"
-msgstr ""
+msgstr "Zobraziť satelity v popisoch"
 
 #: maincontent.php:89 maincontent.php:89
 msgid "Show battery level in tooltips"
-msgstr ""
+msgstr "Zobraziť úroveň nabitia batérie v popisoch"
 
 #: maincontent.php:93 maincontent.php:93
 msgid "Show elevation in tooltips"
-msgstr ""
+msgstr "Zobraziť výšku v popisoch"
 
 #: maincontent.php:97 maincontent.php:97
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "Zobraziť user-agent v popisoch"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
@@ -678,7 +678,7 @@ msgstr ""
 
 #: maincontent.php:109 maincontent.php:109
 msgid "Line width"
-msgstr ""
+msgstr "Šírka čiary"
 
 #: maincontent.php:113 maincontent.php:113
 msgid "Point radius"
@@ -690,19 +690,19 @@ msgstr ""
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
-msgstr ""
+msgstr "Téma"
 
 #: maincontent.php:123 maincontent.php:123
 msgid "bright"
-msgstr ""
+msgstr "svetlá"
 
 #: maincontent.php:124 maincontent.php:124
 msgid "pastel"
-msgstr ""
+msgstr "pastelová"
 
 #: maincontent.php:125 maincontent.php:125
 msgid "dark"
-msgstr ""
+msgstr "tmavá"
 
 #: maincontent.php:128 maincontent.php:128
 msgid "reload page to make changes effective"
