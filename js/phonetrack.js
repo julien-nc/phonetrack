@@ -1228,6 +1228,18 @@
                 '<i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
             divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHTML(name) + '.gpx"/></div>';
 
+            if (!isFromShare) {
+                divtxt = divtxt + '<div title="' + t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: '/PhoneTrack_export/'}) + '">' +
+                    '<span><i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic export') + '</span>';
+                divtxt = divtxt + '<select role="autoexport">';
+                divtxt = divtxt + '<option value="no">' + t('phonetrack', 'never') + '</option>';
+                divtxt = divtxt + '<option value="daily">' + t('phonetrack', 'daily') + '</option>';
+                divtxt = divtxt + '<option value="weekly">' + t('phonetrack', 'weekly') + '</option>';
+                divtxt = divtxt + '<option value="monthly">' + t('phonetrack', 'monthly') + '</option>';
+                divtxt = divtxt + '</select>';
+                divtxt = divtxt + '</div>';
+            }
+
             divtxt = divtxt + '</div>';
         }
         if (!pageIsPublic() && !isFromShare) {
@@ -4091,6 +4103,8 @@
                 && !event.target.matches('.reaffectDeviceDiv select') && !event.target.matches('.reaffectDeviceDiv')
                 && !event.target.matches('.reaffectDeviceDiv select *')
                 && !event.target.matches('input[role=exportname]')
+                && !event.target.matches('select[role=autoexport]')
+                && !event.target.matches('select[role=autoexport] option')
                 && !event.target.matches('.dropdowndevicebutton') && !event.target.matches('.dropdowndevicebutton i')) {
                 hideAllDropDowns();
             }

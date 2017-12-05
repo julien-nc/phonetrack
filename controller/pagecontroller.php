@@ -1685,10 +1685,12 @@ class PageController extends Controller {
         date_default_timezone_set('UTC');
         $done = false;
         $userFolder = null;
+        // user is logged in
         if ($this->userId !== null and $this->userId !== '') {
             $userFolder = \OC::$server->getUserFolder();
             $userId = $this->userId;
         }
+        // automatic export is done by system, username is manually given
         else if ($username !== ''){
             $userFolder = \OC::$server->getUserFolder($username);
             $userId = $username;
