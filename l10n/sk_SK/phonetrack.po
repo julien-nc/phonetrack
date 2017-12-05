@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-12-05 10:33-0500\n"
+"PO-Revision-Date: 2017-12-05 10:39-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -58,11 +58,11 @@ msgstr "Zobraziť všetkých užívateľov"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Kliknutím na mapu presuniete bod, stlačením klávesu ESC zrušíte"
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Názov servera alebo adresa url servera nemôže byť prázdna"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
