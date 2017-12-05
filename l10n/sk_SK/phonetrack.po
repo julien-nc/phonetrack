@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-11-23 13:48+0100\n"
-"PO-Revision-Date: 2017-12-05 10:42-0500\n"
+"PO-Revision-Date: 2017-12-05 11:02-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -70,7 +70,7 @@ msgstr "Nedá sa pridať server dlaždíc"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Server s týmto názvom už existuje"
 
 #: phonetrack.js:814 phonetrack.js:2799 maincontent.php:211 maincontent.php:255
 #: maincontent.php:300 maincontent.php:349 maincontent.php:211
@@ -120,15 +120,15 @@ msgstr ""
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
-msgstr ""
+msgstr "Názov relácie nemôže byť prázdny"
 
 #: phonetrack.js:1114
 msgid "Session name already used"
-msgstr ""
+msgstr "Názov relácie sa už používa"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola relácia vytvorená"
 
 #: phonetrack.js:1188
 msgid "Watch this session"
@@ -152,7 +152,7 @@ msgstr "URL na zdieľanie relácie"
 
 #: phonetrack.js:1210
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "URL adresy pre aplikácie na sledovanie"
 
 #: phonetrack.js:1214
 msgid "Reserve device names"
@@ -172,11 +172,11 @@ msgstr "Export do gpx"
 
 #: phonetrack.js:1236
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Rezervovať tento názov zariadenia"
 
 #: phonetrack.js:1238
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Napíšte rezervované meno a stlačte \"Enter\""
 
 #: phonetrack.js:1252
 msgid "Share with user"
@@ -184,7 +184,7 @@ msgstr "Zdieľať s používateľom"
 
 #: phonetrack.js:1254
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Napíšte používateľské meno a stlačte \"Enter\""
 
 #: phonetrack.js:1259 phonetrack.js:3315
 msgid "Shared with {u}"
@@ -192,15 +192,15 @@ msgstr "Zdieľané s {u}"
 
 #: phonetrack.js:1265
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Súkromná relácia nie je viditeľná na verejnej sledovacej stránke pre prehliadač"
 
 #: phonetrack.js:1267 phonetrack.js:3992
 msgid "Make session public"
-msgstr ""
+msgstr "Zverejniť reláciu"
 
 #: phonetrack.js:1270 phonetrack.js:3987
 msgid "Make session private"
-msgstr ""
+msgstr "Zmeniť reláciu na súkromnú"
 
 #: phonetrack.js:1275
 msgid "Public watch URL"
@@ -252,11 +252,11 @@ msgstr ""
 
 #: phonetrack.js:1350
 msgid "Failed to delete session"
-msgstr ""
+msgstr "Nepodarilo sa vymazať reláciu"
 
 #: phonetrack.js:1354
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola vymazaná relácia"
 
 #: phonetrack.js:1374
 msgid "Device '{d}' of session '{s}' has been deleted"
@@ -320,15 +320,15 @@ msgstr ""
 
 #: phonetrack.js:2152
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "Nepodarilo sa uložiť farbu zariadenia"
 
 #: phonetrack.js:2156
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola zmenená farba zariadenia"
 
 #: phonetrack.js:2229
 msgid "Delete this device"
-msgstr ""
+msgstr "Vymazať toto zariadenie"
 
 #: phonetrack.js:2231
 msgid "Rename this device"
@@ -336,11 +336,11 @@ msgstr "Premenovať zariadenie"
 
 #: phonetrack.js:2234
 msgid "Move to another session"
-msgstr ""
+msgstr "Presunúť do inej relácie"
 
 #: phonetrack.js:2237 maincontent.php:48 maincontent.php:48
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: phonetrack.js:2250
 msgid "Toggle detail/edition points"
@@ -348,15 +348,15 @@ msgstr ""
 
 #: phonetrack.js:2258
 msgid "Toggle lines"
-msgstr ""
+msgstr "Prepnúť čiary"
 
 #: phonetrack.js:2268 phonetrack.js:2274
 msgid "Center map on device"
-msgstr ""
+msgstr "Centrovať mapu na zariadenie"
 
 #: phonetrack.js:2279
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Sledovať toto zariadenie (zoom)"
 
 #: phonetrack.js:2428
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
@@ -384,43 +384,43 @@ msgstr ""
 
 #: phonetrack.js:2766
 msgid "Date"
-msgstr ""
+msgstr "Dátum"
 
 #: phonetrack.js:2769
 msgid "Time"
-msgstr ""
+msgstr "Čas"
 
 #: phonetrack.js:2774 phonetrack.js:2815
 msgid "Altitude"
-msgstr ""
+msgstr "Nadmorská výška"
 
 #: phonetrack.js:2777 phonetrack.js:2819
 msgid "Precision"
-msgstr ""
+msgstr "Presnosť"
 
 #: phonetrack.js:2780 phonetrack.js:2823
 msgid "Satellites"
-msgstr ""
+msgstr "Satelity"
 
 #: phonetrack.js:2783 phonetrack.js:2827
 msgid "Battery"
-msgstr ""
+msgstr "Batéria"
 
 #: phonetrack.js:2786 phonetrack.js:2831
 msgid "User-agent"
-msgstr ""
+msgstr "Používateľský agent"
 
 #: phonetrack.js:2789
 msgid "lat : lng"
-msgstr ""
+msgstr "lat: lng"
 
 #: phonetrack.js:2793
 msgid "DMS coords"
-msgstr ""
+msgstr "DMS súradnice"
 
 #: phonetrack.js:2798
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 #: phonetrack.js:2800
 msgid "Move"
@@ -436,7 +436,7 @@ msgstr ""
 
 #: phonetrack.js:3004
 msgid "Failed to create imported session"
-msgstr ""
+msgstr "Nepodarilo sa vytvoriť importovanú reláciu"
 
 #: phonetrack.js:3008 phonetrack.js:3014
 msgid "Failed to import session"
