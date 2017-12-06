@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-12-06 14:38+0100\n"
-"PO-Revision-Date: 2017-12-06 08:58-0500\n"
+"POT-Creation-Date: 2017-12-06 15:05+0100\n"
+"PO-Revision-Date: 2017-12-06 09:07-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Hindi\n"
 "Language: hi_IN\n"
@@ -619,7 +619,7 @@ msgid "Failed to contact server to toggle session public status"
 msgstr ""
 
 #: phonetrack.js:4037
-msgid "Failed to toggle session auto export value"
+msgid "Failed to set session auto export value"
 msgstr ""
 
 #: phonetrack.js:4038
