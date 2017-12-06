@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-12-06 14:38+0100\n"
+"POT-Creation-Date: 2017-12-06 15:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -623,7 +623,7 @@ msgid "Failed to contact server to toggle session public status"
 msgstr ""
 
 #: phonetrack.js:4037
-msgid "Failed to toggle session auto export value"
+msgid "Failed to set session auto export value"
 msgstr ""
 
 #: phonetrack.js:4038

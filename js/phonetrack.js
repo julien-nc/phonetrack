@@ -4034,7 +4034,7 @@
                 }
                 else if (response.done === 2) {
                     OC.Notification.showTemporary(
-                        t('phonetrack', 'Failed to toggle session auto export value') +
+                        t('phonetrack', 'Failed to set session auto export value') +
                         '. ' + t('phonetrack', 'session does not exist')
                     );
                 }
