@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-06 09:08-0500\n"
+"PO-Revision-Date: 2017-12-07 10:00-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -172,27 +172,27 @@ msgstr "Nach GPX exportieren"
 
 #: phonetrack.js:1232
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Dateien wurden in „{exdir}” erstellt"
 
 #: phonetrack.js:1233
 msgid "Automatic export"
-msgstr ""
+msgstr "Automatisch exportieren"
 
 #: phonetrack.js:1235
 msgid "never"
-msgstr ""
+msgstr "Nie"
 
 #: phonetrack.js:1236
 msgid "daily"
-msgstr ""
+msgstr "Täglich"
 
 #: phonetrack.js:1237
 msgid "weekly"
-msgstr ""
+msgstr "Wöchentlich"
 
 #: phonetrack.js:1238
 msgid "monthly"
-msgstr ""
+msgstr "Monatlich"
 
 #: phonetrack.js:1248
 msgid "Reserve this device name"
@@ -620,15 +620,15 @@ msgstr "Der Server konnte nicht kontaktiert werden, um den öffentlichen Status 
 
 #: phonetrack.js:4037
 msgid "Failed to set session auto export value"
-msgstr ""
+msgstr "Wert für den automatischen Sitzungsexport konnte nicht festgelegt werden"
 
 #: phonetrack.js:4038
 msgid "session does not exist"
-msgstr ""
+msgstr "Sitzung nicht vorhanden"
 
 #: phonetrack.js:4042
 msgid "Failed to contact server to set session auto export value"
-msgstr ""
+msgstr "Der Server konnte nicht kontaktiert werden, um den Wert für den automatischen Sitzungsexport festzulegen."
 
 #: phonetrack.js:4112
 msgid "Import gpx session file"
