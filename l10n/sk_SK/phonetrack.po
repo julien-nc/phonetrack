@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 16:07-0500\n"
+"PO-Revision-Date: 2017-12-07 16:21-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -284,43 +284,43 @@ msgstr "Nepodarilo sa spojiť so severom, aby bola vymazaná relácia"
 
 #: phonetrack.js:1387
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "Zariadenie '{d}' relácie '{s} bolo odstránené"
 
 #: phonetrack.js:1390
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "Nepodarilo sa odstrániť zariadenie \"{d}\" relácie \"{s}\""
 
 #: phonetrack.js:1394
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie vymazané"
 
 #: phonetrack.js:1445
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Reláciu nie je možné premenovať"
 
 #: phonetrack.js:1449
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola relácia premenovaná"
 
 #: phonetrack.js:1533
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Nemožno premenovať zariadenie"
 
 #: phonetrack.js:1537
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie premenované"
 
 #: phonetrack.js:1598
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Zariadenie v cieľovej relácii už existuje"
 
 #: phonetrack.js:1601
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Nedá sa presunúť zariadenie do inej relácie"
 
 #: phonetrack.js:1605
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie presunuté"
 
 #: phonetrack.js:1671
 msgid "Failed to contact server to get sessions"
@@ -746,7 +746,7 @@ msgstr ""
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
-msgstr ""
+msgstr "Názov zariadenia"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
@@ -768,46 +768,46 @@ msgstr ""
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
 #: maincontent.php:267 maincontent.php:312
 msgid "Server name"
-msgstr ""
+msgstr "Názov servera"
 
 #: maincontent.php:185 maincontent.php:225 maincontent.php:268
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
 #: maincontent.php:268 maincontent.php:313
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Napríklad: môj vlastný server"
 
 #: maincontent.php:186 maincontent.php:226 maincontent.php:269
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
 #: maincontent.php:269 maincontent.php:314
 msgid "Server url"
-msgstr ""
+msgstr "Url servera"
 
 #: maincontent.php:187 maincontent.php:270 maincontent.php:187
 #: maincontent.php:270
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Napríklad : http://tile.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:188 maincontent.php:228 maincontent.php:271
 #: maincontent.php:316 maincontent.php:188 maincontent.php:228
 #: maincontent.php:271 maincontent.php:316
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Min priblíženie (1-20)"
 
 #: maincontent.php:190 maincontent.php:230 maincontent.php:273
 #: maincontent.php:318 maincontent.php:190 maincontent.php:230
 #: maincontent.php:273 maincontent.php:318
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Max priblíženie( 1-20)"
 
 #: maincontent.php:192 maincontent.php:236 maincontent.php:281
 #: maincontent.php:330 maincontent.php:192 maincontent.php:236
 #: maincontent.php:281 maincontent.php:330
 msgid "Add"
-msgstr ""
+msgstr "Pridať"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
-msgstr ""
+msgstr "Váš dlaždicový server"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
@@ -816,17 +816,17 @@ msgstr ""
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Napríklad : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
 msgid "Transparent"
-msgstr ""
+msgstr "Priehľadná"
 
 #: maincontent.php:234 maincontent.php:322 maincontent.php:234
 #: maincontent.php:322
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Nepriehľadnosť (0,0-1,0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
