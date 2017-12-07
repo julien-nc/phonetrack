@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 16:49-0500\n"
+"PO-Revision-Date: 2017-12-07 17:01-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -516,11 +516,11 @@ msgstr "Toto zariadenie neexistuje"
 
 #: phonetrack.js:3294
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Názov tohto zariadenia nie je rezervovaný, prosím, obnovte túto stránku"
 
 #: phonetrack.js:3297
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na vymazanie rezervácie názvu zariadenia"
 
 #: phonetrack.js:3317
 msgid "User does not exist"
@@ -528,27 +528,27 @@ msgstr "Používateľ neexistuje"
 
 #: phonetrack.js:3320
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Nepodarilo sa pridať užívateľské zdieľanie"
 
 #: phonetrack.js:3323
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na pridanie užívateľského zdieľania"
 
 #: phonetrack.js:3354
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Nepodarilo sa zmazať užívateľské zdieľanie"
 
 #: phonetrack.js:3357
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo vymazané užívateľské zdieľanie"
 
 #: phonetrack.js:3376
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Nepodarilo sa pridať verejné zdieľanie"
 
 #: phonetrack.js:3379
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na pridanie verejného zdieľania"
 
 #: phonetrack.js:3406
 msgid "No filters"
@@ -564,7 +564,7 @@ msgstr "Nepodarilo sa spojiť so severom, aby bolo vymazané verejné zdieľanie
 
 #: phonetrack.js:3451
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom pre získanie zoznamu užívateľov"
 
 #: phonetrack.js:3464
 msgid "device name"
@@ -612,7 +612,7 @@ msgstr "Potvrďte odstránenie zariadenia"
 
 #: phonetrack.js:4011
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Nepodarilo sa prepnúť stav verejnej relácie, pretože relácia neexistuje"
 
 #: phonetrack.js:4014
 msgid "Failed to contact server to toggle session public status"
@@ -632,7 +632,7 @@ msgstr ""
 
 #: phonetrack.js:4112
 msgid "Import gpx session file"
-msgstr ""
+msgstr "Importovať gpx súbor relácie"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
@@ -706,7 +706,7 @@ msgstr "Zobraziť user-agent v popisoch"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Umožniť premiestňovanie bodov v móde úprav"
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
@@ -865,7 +865,7 @@ msgstr ""
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
-msgstr ""
+msgstr "Manuálne pridať bod"
 
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
@@ -883,7 +883,7 @@ msgstr "Pridať bod"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Teraz kliknite na mapu pre pridanie bodu (Ak nie je relácia aktivovaná, nebudete vidieť pridaný bod)"
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
