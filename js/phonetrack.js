@@ -1229,7 +1229,7 @@
             divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHTML(name) + '.gpx"/></div>';
 
             if (!isFromShare) {
-                divtxt = divtxt + '<div title="' + t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: '/PhoneTrack_export/'}) + '">' +
+                divtxt = divtxt + '<div class="autoexportdiv" title="' + t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: '/PhoneTrack_export/'}) + '">' +
                     '<span><i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic export') + '</span>';
                 divtxt = divtxt + '<select role="autoexport">';
                 divtxt = divtxt + '<option value="no">' + t('phonetrack', 'never') + '</option>';
