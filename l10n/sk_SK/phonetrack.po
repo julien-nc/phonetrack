@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 15:05-0500\n"
+"PO-Revision-Date: 2017-12-07 16:07-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -236,7 +236,7 @@ msgstr "Aktuálne aktívne filtre budú použité na zdieľané zobrazenie"
 
 #: phonetrack.js:1295
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Pridať verejné filtrované zdieľanie"
 
 #: phonetrack.js:1313
 msgid "Replace 'yourname' with the desired device name"
@@ -272,7 +272,7 @@ msgstr "OpenGTS URL"
 
 #: phonetrack.js:1360
 msgid "The session you want to delete does not exist"
-msgstr ""
+msgstr "Relácia, ktorú chcete vymazať neexistuje"
 
 #: phonetrack.js:1363
 msgid "Failed to delete session"
@@ -464,43 +464,43 @@ msgstr "Nepodarilo sa vytvoriť importovanú reláciu"
 
 #: phonetrack.js:3022 phonetrack.js:3028
 msgid "Failed to import session"
-msgstr ""
+msgstr "Nepodarilo sa importovať reláciu"
 
 #: phonetrack.js:3023
 msgid "File is not readable"
-msgstr ""
+msgstr "Súbor nie je čitateľný"
 
 #: phonetrack.js:3029
 msgid "File does not exist"
-msgstr ""
+msgstr "Súbor neexistuje"
 
 #: phonetrack.js:3036
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola relácia importovaná"
 
 #: phonetrack.js:3055
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Relácia sa úspešne exportovala v"
 
 #: phonetrack.js:3059
 msgid "Failed to export session"
-msgstr ""
+msgstr "Nepodarilo sa exportovať reláciu"
 
 #: phonetrack.js:3063
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola relácia exportovaná"
 
 #: phonetrack.js:3094
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na uloženie pozície"
 
 #: phonetrack.js:3252
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "\"{n}\", je už rezervované"
 
 #: phonetrack.js:3255
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Nepodarilo sa rezervovať '{n}'"
 
 #: phonetrack.js:3258
 msgid "Failed to contact server to reserve device name"
@@ -568,7 +568,7 @@ msgstr ""
 
 #: phonetrack.js:3464
 msgid "device name"
-msgstr ""
+msgstr "názov zariadenia"
 
 #: phonetrack.js:3465
 msgid "distance (km)"
@@ -604,11 +604,11 @@ msgstr "Vyberte si miesto uloženia pre '{fname}'"
 
 #: phonetrack.js:3939
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Naozaj chcete odstrániť zariadenie {device} ?"
 
 #: phonetrack.js:3942
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Potvrďte odstránenie zariadenia"
 
 #: phonetrack.js:4011
 msgid "Failed to toggle session public status, session does not exist"
@@ -624,7 +624,7 @@ msgstr ""
 
 #: phonetrack.js:4038
 msgid "session does not exist"
-msgstr ""
+msgstr "relácia neexistuje"
 
 #: phonetrack.js:4042
 msgid "Failed to contact server to set session auto export value"
@@ -636,37 +636,37 @@ msgstr ""
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Hlavná karta"
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filtre"
 
 #: maincontent.php:14 maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Štatistiky"
 
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
 msgid "Settings and extra actions"
-msgstr ""
+msgstr "Nastavenia a extra akcie"
 
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "O PhoneTrack"
 
 #: maincontent.php:36 maincontent.php:36
 msgid "Import session"
-msgstr ""
+msgstr "Importovať reláciu"
 
 #: maincontent.php:40 maincontent.php:40
 msgid "Create session"
-msgstr ""
+msgstr "Vytvoriť reláciu"
 
 #: maincontent.php:44 maincontent.php:44
 msgid "Session name"
-msgstr ""
+msgstr "Názov relácie"
 
 #: maincontent.php:57 maincontent.php:57
 msgid "Options"
@@ -718,7 +718,7 @@ msgstr "Šírka čiary"
 
 #: maincontent.php:113 maincontent.php:113
 msgid "Point radius"
-msgstr ""
+msgstr "Priemer bodu"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
