@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 17:01-0500\n"
+"PO-Revision-Date: 2017-12-07 17:03-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -616,7 +616,7 @@ msgstr "Nepodarilo sa prepnúť stav verejnej relácie, pretože relácia neexis
 
 #: phonetrack.js:4014
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Nepodarilo sa kontaktovať server na prepnutie stavu verejnej relácie,"
 
 #: phonetrack.js:4037
 msgid "Failed to set session auto export value"
