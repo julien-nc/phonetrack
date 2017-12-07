@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 17:20-0500\n"
+"PO-Revision-Date: 2017-12-07 17:41-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -762,7 +762,7 @@ msgstr "načitávam pozície"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr "Vlastný mapový server"
+msgstr "Vlastné mapové servery"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
@@ -811,7 +811,7 @@ msgstr "Váš mapový server"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Vlastné servery vrstiev máp"
 
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
@@ -830,11 +830,11 @@ msgstr "Nepriehľadnosť (0,0-1,0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Vlastný server vrstiev máp"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Vlastné WMS mapové servery"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
@@ -844,7 +844,7 @@ msgstr "Formát"
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
 msgid "WMS version"
-msgstr ""
+msgstr "Verzia WMS"
 
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
@@ -853,15 +853,15 @@ msgstr "Vrstvy na zobrazenie"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Váš webový mapový server"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Vlastné WMS servery vrstiev"
 
 #: maincontent.php:333 maincontent.php:333
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Vlastný WMS server vrstiev"
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
