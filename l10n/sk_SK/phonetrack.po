@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-06 09:10-0500\n"
+"PO-Revision-Date: 2017-12-07 15:05-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -80,31 +80,31 @@ msgstr "Vymazať"
 
 #: phonetrack.js:847
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "Dlaždicový server \"{ts}\" bol pridaný"
 
 #: phonetrack.js:850
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "Nepodarilo sa pridať dlaždicový server \"{ts}\""
 
 #: phonetrack.js:854
 msgid "Failed to contact server to add tile server"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na pridanie dlaždicového servera"
 
 #: phonetrack.js:888
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr ""
+msgstr "Dlaždicový server \"{ts}\" bol zmazaný"
 
 #: phonetrack.js:891
 msgid "Failed to delete tile server \"{ts}\""
-msgstr ""
+msgstr "Nepodarilo sa vymazať dlaždicový server \"{ts}\""
 
 #: phonetrack.js:895
 msgid "Failed to contact server to delete tile server"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na odstránenie dlaždicového servera"
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby boli obnovené hodnoty nastavení"
 
 #: phonetrack.js:1008
 msgid "Reload this page"
@@ -116,7 +116,7 @@ msgstr "Chyba"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby sa uložili hodnoty nastavení"
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
@@ -172,27 +172,27 @@ msgstr "Export do gpx"
 
 #: phonetrack.js:1232
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Súbory sú vytvorené v \"{exdir}\""
 
 #: phonetrack.js:1233
 msgid "Automatic export"
-msgstr ""
+msgstr "Automatický export"
 
 #: phonetrack.js:1235
 msgid "never"
-msgstr ""
+msgstr "nikdy"
 
 #: phonetrack.js:1236
 msgid "daily"
-msgstr ""
+msgstr "denne"
 
 #: phonetrack.js:1237
 msgid "weekly"
-msgstr ""
+msgstr "týždenne"
 
 #: phonetrack.js:1238
 msgid "monthly"
-msgstr ""
+msgstr "mesačne"
 
 #: phonetrack.js:1248
 msgid "Reserve this device name"
@@ -232,7 +232,7 @@ msgstr "Verejná URL na sledovanie"
 
 #: phonetrack.js:1293
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Aktuálne aktívne filtre budú použité na zdieľané zobrazenie"
 
 #: phonetrack.js:1295
 msgid "Add public filtered share"
@@ -448,11 +448,11 @@ msgstr "Uložiť"
 
 #: phonetrack.js:2814
 msgid "Move"
-msgstr ""
+msgstr "Presunúť"
 
 #: phonetrack.js:2815
 msgid "Cancel"
-msgstr ""
+msgstr "Ukončiť"
 
 #: phonetrack.js:3001
 msgid "File extension must be '.gpx' to be imported"
