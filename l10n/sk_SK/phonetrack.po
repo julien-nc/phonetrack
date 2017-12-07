@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 16:31-0500\n"
+"PO-Revision-Date: 2017-12-07 16:35-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -915,20 +915,20 @@ msgstr "Použiť filtre"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Dátum začiatku"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
 msgid "today"
-msgstr ""
+msgstr "dnes"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Čas začiatku"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Dátum ukončenia"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
@@ -988,21 +988,21 @@ msgstr "Ukázať štatistiky"
 
 #: maincontent.php:535 maincontent.php:535
 msgid "Shortcuts"
-msgstr ""
+msgstr "Skratky"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Prepnúť sidebar"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentácia"
 
 #: maincontent.php:549 maincontent.php:549
 msgid "Source management"
-msgstr ""
+msgstr "Manažovanie zdrojového kódu"
 
 #: maincontent.php:563 maincontent.php:563
 msgid "Authors"
-msgstr ""
+msgstr "Autori"
 
