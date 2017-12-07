@@ -748,8 +748,13 @@ div#createimportsessiondiv button {
     border: 0px;
     background: none;
 }
-.autoexportdiv span {
-    margin: 0px 8px 0px 8px;
+.autoexportdiv div,
+.autoexportdiv select {
+    width: 45%;
+    float: left;
+}
+.autoexportdiv div {
+    padding: 0px 8px 0px 8px;
     font-weight: bold;
     color: grey;
 }
