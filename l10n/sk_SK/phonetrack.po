@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 16:21-0500\n"
+"PO-Revision-Date: 2017-12-07 16:31-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -324,11 +324,11 @@ msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie presunuté"
 
 #: phonetrack.js:1671
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom pre získanie relácií"
 
 #: phonetrack.js:1709
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na obnovenie relácií"
 
 #: phonetrack.js:1951 phonetrack.js:1980
 msgid "Stats of all points"
@@ -340,7 +340,7 @@ msgstr "Štatistiky filtrovaných bodov"
 
 #: phonetrack.js:2163
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Farbu zariadenia úspešne zmenená"
 
 #: phonetrack.js:2166
 msgid "Failed to save device's color"
@@ -368,7 +368,7 @@ msgstr "Ok"
 
 #: phonetrack.js:2264
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Prepnúť detaily/úpravy bodov"
 
 #: phonetrack.js:2272
 msgid "Toggle lines"
@@ -384,15 +384,15 @@ msgstr "Sledovať toto zariadenie (zoom)"
 
 #: phonetrack.js:2442
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Bod, ktorý chcete upraviť neexistuje alebo nemáte dovolené ho upraviť"
 
 #: phonetrack.js:2446
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na úpravu bodu"
 
 #: phonetrack.js:2564
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Bod, ktorý chcete odstrániť neexistuje alebo nemáte dovolené ho vymazať"
 
 #: phonetrack.js:2568
 msgid "Failed to contact server to delete point"
@@ -870,16 +870,16 @@ msgstr ""
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
 msgid "Session"
-msgstr ""
+msgstr "Relácia"
 
 #: maincontent.php:368 maincontent.php:386 maincontent.php:368
 #: maincontent.php:386
 msgid "Device"
-msgstr ""
+msgstr "Zariadenie"
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
-msgstr ""
+msgstr "Pridať bod"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
@@ -911,7 +911,7 @@ msgstr ""
 
 #: maincontent.php:401 maincontent.php:401
 msgid "Apply filters"
-msgstr ""
+msgstr "Použiť filtre"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
@@ -932,59 +932,59 @@ msgstr ""
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Čas ukončenia"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Min--a Max--"
 
 #: maincontent.php:443 maincontent.php:443
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Min-- a Max++"
 
 #: maincontent.php:446 maincontent.php:446
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Posledný deň:hodinu:min"
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Minimálna presnosť"
 
 #: maincontent.php:461 maincontent.php:461
 msgid "Maximum accuracy"
-msgstr ""
+msgstr "Maximálna presnosť"
 
 #: maincontent.php:469 maincontent.php:469
 msgid "Minimum elevation"
-msgstr ""
+msgstr "Minimálna výška"
 
 #: maincontent.php:477 maincontent.php:477
 msgid "Maximum elevation"
-msgstr ""
+msgstr "Maximálna výška"
 
 #: maincontent.php:485 maincontent.php:485
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Stav batérie min"
 
 #: maincontent.php:493 maincontent.php:493
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Stav batérie max"
 
 #: maincontent.php:501 maincontent.php:501
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Minimálne satelitov"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Maximálne satelitov"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
-msgstr ""
+msgstr "Štatistika"
 
 #: maincontent.php:526 maincontent.php:526
 msgid "Show stats"
-msgstr ""
+msgstr "Ukázať štatistiky"
 
 #: maincontent.php:535 maincontent.php:535
 msgid "Shortcuts"
