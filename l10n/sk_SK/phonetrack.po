@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 16:35-0500\n"
+"PO-Revision-Date: 2017-12-07 16:49-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -396,15 +396,15 @@ msgstr "Bod, ktorý chcete odstrániť neexistuje alebo nemáte dovolené ho vym
 
 #: phonetrack.js:2568
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na vymazanie bodu"
 
 #: phonetrack.js:2660
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Tento bod sa nedá pridať"
 
 #: phonetrack.js:2664
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na pridanie bodu"
 
 #: phonetrack.js:2780
 msgid "Date"
@@ -456,7 +456,7 @@ msgstr "Ukončiť"
 
 #: phonetrack.js:3001
 msgid "File extension must be '.gpx' to be imported"
-msgstr ""
+msgstr "Súbor musí mať príponu \"Gpx\" aby sa dal importovať"
 
 #: phonetrack.js:3018
 msgid "Failed to create imported session"
@@ -504,15 +504,15 @@ msgstr "Nepodarilo sa rezervovať '{n}'"
 
 #: phonetrack.js:3258
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na rezerváciu názvu zariadenia"
 
 #: phonetrack.js:3289 phonetrack.js:3293
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Nepodarilo sa vymazať rezervované meno"
 
 #: phonetrack.js:3290
 msgid "This device does not exist"
-msgstr ""
+msgstr "Toto zariadenie neexistuje"
 
 #: phonetrack.js:3294
 msgid "This device name is not reserved, please reload this page"
@@ -839,7 +839,7 @@ msgstr ""
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
 msgid "Format"
-msgstr ""
+msgstr "Formát"
 
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
@@ -887,27 +887,27 @@ msgstr ""
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
-msgstr ""
+msgstr "Zrušiť pridanie bodu"
 
 #: maincontent.php:377 maincontent.php:377
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Vymazanie viacerých bodov"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Vyberte reláciu, zariadenie a upravte si filtre. Odstránia sa všetky zobrazené body pre vybraté zariadenie. Nevyplnený názov zariadenia ich všetky označí."
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
-msgstr ""
+msgstr "Vymazať body"
 
 #: maincontent.php:389 maincontent.php:389
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Vymazať iba viditeľné body"
 
 #: maincontent.php:396 maincontent.php:396
 msgid "Filter points"
-msgstr ""
+msgstr "Filtrovať body"
 
 #: maincontent.php:401 maincontent.php:401
 msgid "Apply filters"
