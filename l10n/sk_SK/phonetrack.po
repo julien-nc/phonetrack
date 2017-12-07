@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 17:03-0500\n"
+"PO-Revision-Date: 2017-12-07 17:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -620,7 +620,7 @@ msgstr "Nepodarilo sa kontaktovať server na prepnutie stavu verejnej relácie,"
 
 #: phonetrack.js:4037
 msgid "Failed to set session auto export value"
-msgstr ""
+msgstr "Nepodarilo sa nastaviť hodnotu automatického exportu relácie"
 
 #: phonetrack.js:4038
 msgid "session does not exist"
@@ -628,7 +628,7 @@ msgstr "relácia neexistuje"
 
 #: phonetrack.js:4042
 msgid "Failed to contact server to set session auto export value"
-msgstr ""
+msgstr "Nepodarilo sa kontaktovať server pre nastavenie hodnoty automatického exportu relácie"
 
 #: phonetrack.js:4112
 msgid "Import gpx session file"
@@ -710,7 +710,7 @@ msgstr "Umožniť premiestňovanie bodov v móde úprav"
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Ukázať oblasť presnosti pri ukázaní myškou"
 
 #: maincontent.php:109 maincontent.php:109
 msgid "Line width"
@@ -722,7 +722,7 @@ msgstr "Priemer bodu"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Nepriehľadnosť bodov a čiar"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
@@ -742,7 +742,7 @@ msgstr "tmavá"
 
 #: maincontent.php:128 maincontent.php:128
 msgid "reload page to make changes effective"
-msgstr ""
+msgstr "aby sa uplatnili zmeny, obnovte stránku"
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
@@ -750,11 +750,11 @@ msgstr "Názov zariadenia"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
-msgstr ""
+msgstr "Zaznamenať moju pozíciu v tejto relácii"
 
 #: maincontent.php:142 maincontent.php:142
 msgid "Tracking sessions"
-msgstr ""
+msgstr "Nahrávané relácie"
 
 #: maincontent.php:147 maincontent.php:147
 msgid "loading positions"
