@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-08 03:41-0500\n"
+"PO-Revision-Date: 2017-12-08 03:48-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -628,7 +628,7 @@ msgstr "la sesión no existe"
 
 #: phonetrack.js:4042
 msgid "Failed to contact server to set session auto export value"
-msgstr "No se pudo contactar el servidor para cambiar el valor de exportación automatica"
+msgstr "No se pudo contactar el servidor para cambiar el valor de exportación automática"
 
 #: phonetrack.js:4112
 msgid "Import gpx session file"
