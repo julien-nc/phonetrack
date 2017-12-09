@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-09 08:39-0500\n"
+"PO-Revision-Date: 2017-12-09 08:51-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -54,15 +54,15 @@ msgstr ""
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Tüm cihazlarda yakınlaştır"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Noktayı hareket ettirmek için haritaya tıklayın, iptal etmek için ESC ye tıklayın"
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Sunucu adı ya da sunucu Url'si boş olmamalı"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
@@ -70,7 +70,7 @@ msgstr ""
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Zaten bu isimle bir sunucu var"
 
 #: phonetrack.js:814 phonetrack.js:2813 maincontent.php:211 maincontent.php:255
 #: maincontent.php:300 maincontent.php:349 maincontent.php:211
@@ -108,7 +108,7 @@ msgstr ""
 
 #: phonetrack.js:1008
 msgid "Reload this page"
-msgstr ""
+msgstr "Sayfayı yeniden yükle"
 
 #: phonetrack.js:1010 phonetrack.js:1077
 msgid "Error"
@@ -132,7 +132,7 @@ msgstr ""
 
 #: phonetrack.js:1188
 msgid "Watch this session"
-msgstr ""
+msgstr "Bu oturumu izle"
 
 #: phonetrack.js:1194
 msgid "shared by {u}"
@@ -144,7 +144,7 @@ msgstr "Diğer işlemler"
 
 #: phonetrack.js:1203
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Bu oturumun üzerinde yakınlaştır"
 
 #: phonetrack.js:1206
 msgid "URL to share session"
@@ -152,11 +152,11 @@ msgstr "Oturum paylaşmak için URL"
 
 #: phonetrack.js:1210
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "Kaydetme uygulamaları için URL'ler"
 
 #: phonetrack.js:1214
 msgid "Reserve device names"
-msgstr ""
+msgstr "Aygıt adlarını rezerve et"
 
 #: phonetrack.js:1223
 msgid "Delete session"
@@ -200,23 +200,23 @@ msgstr "Bu aygıt adını rezerve et"
 
 #: phonetrack.js:1250
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Rezerve edilmiş adı yazın ve 'Enter' e basın"
 
 #: phonetrack.js:1264
 msgid "Share with user"
-msgstr ""
+msgstr "Kullanıcı ile paylaş"
 
 #: phonetrack.js:1266
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Kullanıcı adını yazın ve 'Enter' tuşuna basın"
 
 #: phonetrack.js:1271 phonetrack.js:3329
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Şununla paylaşıldı {u}"
 
 #: phonetrack.js:1277
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Özel oturum tarayıcı giriş sayfasında görünür değil"
 
 #: phonetrack.js:1279 phonetrack.js:4006
 msgid "Make session public"
@@ -228,7 +228,7 @@ msgstr ""
 
 #: phonetrack.js:1287
 msgid "Public watch URL"
-msgstr ""
+msgstr "Genel izleme URL'si"
 
 #: phonetrack.js:1293
 msgid "Current active filters will be applied on shared view"
@@ -268,19 +268,19 @@ msgstr ""
 
 #: phonetrack.js:1326
 msgid "OpenGTS URL"
-msgstr ""
+msgstr "OpenGTS URL"
 
 #: phonetrack.js:1360
 msgid "The session you want to delete does not exist"
-msgstr ""
+msgstr "Silmek istediğiniz oturum bulunmamaktadır"
 
 #: phonetrack.js:1363
 msgid "Failed to delete session"
-msgstr ""
+msgstr "Oturum silme başarısız oldu"
 
 #: phonetrack.js:1367
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "Oturum silmek için sunucu ile bağlantı kurulamadı"
 
 #: phonetrack.js:1387
 msgid "Device '{d}' of session '{s}' has been deleted"
@@ -356,7 +356,7 @@ msgstr ""
 
 #: phonetrack.js:2245
 msgid "Rename this device"
-msgstr ""
+msgstr "Cihazı yeniden adlandır"
 
 #: phonetrack.js:2248
 msgid "Move to another session"
@@ -408,15 +408,15 @@ msgstr ""
 
 #: phonetrack.js:2780
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #: phonetrack.js:2783
 msgid "Time"
-msgstr ""
+msgstr "Saat"
 
 #: phonetrack.js:2788 phonetrack.js:2829
 msgid "Altitude"
-msgstr ""
+msgstr "Yükseklik"
 
 #: phonetrack.js:2791 phonetrack.js:2833
 msgid "Precision"
@@ -424,11 +424,11 @@ msgstr ""
 
 #: phonetrack.js:2794 phonetrack.js:2837
 msgid "Satellites"
-msgstr ""
+msgstr "Uydular"
 
 #: phonetrack.js:2797 phonetrack.js:2841
 msgid "Battery"
-msgstr ""
+msgstr "Pil"
 
 #: phonetrack.js:2800 phonetrack.js:2845
 msgid "User-agent"
@@ -444,15 +444,15 @@ msgstr ""
 
 #: phonetrack.js:2812
 msgid "Save"
-msgstr ""
+msgstr "Kaydet"
 
 #: phonetrack.js:2814
 msgid "Move"
-msgstr ""
+msgstr "Taşı"
 
 #: phonetrack.js:2815
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: phonetrack.js:3001
 msgid "File extension must be '.gpx' to be imported"
