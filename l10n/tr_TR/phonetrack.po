@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-11 14:28-0500\n"
+"PO-Revision-Date: 2017-12-11 15:42-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -220,11 +220,11 @@ msgstr "Özel oturum tarayıcı giriş sayfasında görünür değil"
 
 #: phonetrack.js:1279 phonetrack.js:4006
 msgid "Make session public"
-msgstr ""
+msgstr "Oturumu ortak kullanıma açın"
 
 #: phonetrack.js:1282 phonetrack.js:4001
 msgid "Make session private"
-msgstr ""
+msgstr "Özel oturum yapmak"
 
 #: phonetrack.js:1287
 msgid "Public watch URL"
@@ -340,15 +340,15 @@ msgstr ""
 
 #: phonetrack.js:2163
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Aygıtın rengi başarıyla değiştirildi"
 
 #: phonetrack.js:2166
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "Aygıtın rengi kaydedilemedi"
 
 #: phonetrack.js:2170
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Aygıtın rengini değiştirmek için sunucu ile bağlantı kurulamadı"
 
 #: phonetrack.js:2243
 msgid "Delete this device"
@@ -368,7 +368,7 @@ msgstr "Tamam"
 
 #: phonetrack.js:2264
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Ayrıntı/baskı noktalarına geçiş yap"
 
 #: phonetrack.js:2272
 msgid "Toggle lines"
@@ -376,15 +376,15 @@ msgstr ""
 
 #: phonetrack.js:2282 phonetrack.js:2288
 msgid "Center map on device"
-msgstr ""
+msgstr "Aygıt üzerinde haritayı ortala"
 
 #: phonetrack.js:2293
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Bu aygıtı izle (otomatik yakınlaştırma)"
 
 #: phonetrack.js:2442
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Düzenlemek istediğiniz noktası yok veya düzenlemek için yetkiniz yok"
 
 #: phonetrack.js:2446
 msgid "Failed to contact server to edit point"
@@ -464,7 +464,7 @@ msgstr "İçe aktarılan oturumu yatarma işlemi başarısız"
 
 #: phonetrack.js:3022 phonetrack.js:3028
 msgid "Failed to import session"
-msgstr ""
+msgstr "Oturumu içe aktarma işlemi başarısız oldu"
 
 #: phonetrack.js:3023
 msgid "File is not readable"
@@ -865,7 +865,7 @@ msgstr ""
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
-msgstr ""
+msgstr "El ile bir nokta ekle"
 
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
@@ -992,7 +992,7 @@ msgstr "Kısayollar"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Kenar çubuğunu değiştir"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
