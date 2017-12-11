@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-06 09:07-0500\n"
+"PO-Revision-Date: 2017-12-10 09:03-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -22,19 +22,19 @@ msgstr ""
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "چپ"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "راست"
 
 #: phonetrack.js:523 maincontent.php:69 maincontent.php:69
 msgid "Show lines"
-msgstr ""
+msgstr "خطوط را نمایش بده"
 
 #: phonetrack.js:531
 msgid "Hide lines"
-msgstr ""
+msgstr "خطوط را پنهان کن"
 
 #: phonetrack.js:552
 msgid "Activate automatic zoom"
@@ -58,11 +58,11 @@ msgstr ""
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "برای جابجایی نقطه روی نقطه کلید کنید، دکمه ESC را برای کنسل کردن فشار دهید"
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "نام سرور یا آدرس سرور نباید خالی باشد"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
@@ -70,13 +70,13 @@ msgstr ""
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "سرور با این نام از قبل وجود دارد"
 
 #: phonetrack.js:814 phonetrack.js:2813 maincontent.php:211 maincontent.php:255
 #: maincontent.php:300 maincontent.php:349 maincontent.php:211
 #: maincontent.php:255 maincontent.php:300 maincontent.php:349
 msgid "Delete"
-msgstr ""
+msgstr "حذف"
 
 #: phonetrack.js:847
 msgid "Tile server \"{ts}\" has been added"
@@ -112,31 +112,31 @@ msgstr ""
 
 #: phonetrack.js:1010 phonetrack.js:1077
 msgid "Error"
-msgstr ""
+msgstr "خطا"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "عدم موفقیت در تماس با سرور جهت ذخیره کردن مقادیر"
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
-msgstr ""
+msgstr "نام جلسه نباید خالی باشد"
 
 #: phonetrack.js:1114
 msgid "Session name already used"
-msgstr ""
+msgstr "نام جلسه قبلا استفاده شده است"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "عدم موفقیت در تماس با سرور جهت ایجاد جلسه"
 
 #: phonetrack.js:1188
 msgid "Watch this session"
-msgstr ""
+msgstr "دیدن این جلسه"
 
 #: phonetrack.js:1194
 msgid "shared by {u}"
-msgstr ""
+msgstr "توسط {u} به اشتراک گذاشته شده"
 
 #: phonetrack.js:1199 phonetrack.js:2240
 msgid "More actions"
@@ -160,11 +160,11 @@ msgstr ""
 
 #: phonetrack.js:1223
 msgid "Delete session"
-msgstr ""
+msgstr "حذف جلسه"
 
 #: phonetrack.js:1224 phonetrack.js:1225
 msgid "Rename session"
-msgstr ""
+msgstr "تغییر نام جلسه"
 
 #: phonetrack.js:1227 phonetrack.js:1228
 msgid "Export to gpx"
@@ -172,31 +172,31 @@ msgstr ""
 
 #: phonetrack.js:1232
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "پرونده ها در \"{exdir}\" ایجاد شدند"
 
 #: phonetrack.js:1233
 msgid "Automatic export"
-msgstr ""
+msgstr "صدور خودکار"
 
 #: phonetrack.js:1235
 msgid "never"
-msgstr ""
+msgstr "هرگز"
 
 #: phonetrack.js:1236
 msgid "daily"
-msgstr ""
+msgstr "روزانه"
 
 #: phonetrack.js:1237
 msgid "weekly"
-msgstr ""
+msgstr "هفتگی"
 
 #: phonetrack.js:1238
 msgid "monthly"
-msgstr ""
+msgstr "ماهانه"
 
 #: phonetrack.js:1248
 msgid "Reserve this device name"
-msgstr ""
+msgstr "رزرو نام این دستگاه"
 
 #: phonetrack.js:1250
 msgid "Type reserved name and press 'Enter'"
@@ -204,7 +204,7 @@ msgstr ""
 
 #: phonetrack.js:1264
 msgid "Share with user"
-msgstr ""
+msgstr "با کاربر به اشتراک بگذارید"
 
 #: phonetrack.js:1266
 msgid "Type user name and press 'Enter'"
@@ -212,7 +212,7 @@ msgstr ""
 
 #: phonetrack.js:1271 phonetrack.js:3329
 msgid "Shared with {u}"
-msgstr ""
+msgstr "با {u} به اشتراک گذاشته شده"
 
 #: phonetrack.js:1277
 msgid "A private session is not visible on public browser logging page"
@@ -220,11 +220,11 @@ msgstr ""
 
 #: phonetrack.js:1279 phonetrack.js:4006
 msgid "Make session public"
-msgstr ""
+msgstr "جلسه را عمومی کن"
 
 #: phonetrack.js:1282 phonetrack.js:4001
 msgid "Make session private"
-msgstr ""
+msgstr "جلسه را خصوصی کن"
 
 #: phonetrack.js:1287
 msgid "Public watch URL"

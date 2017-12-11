@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-07 10:00-0500\n"
+"PO-Revision-Date: 2017-12-10 13:24-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -184,15 +184,15 @@ msgstr "Nie"
 
 #: phonetrack.js:1236
 msgid "daily"
-msgstr "Täglich"
+msgstr "täglich"
 
 #: phonetrack.js:1237
 msgid "weekly"
-msgstr "Wöchentlich"
+msgstr "wöchentlich"
 
 #: phonetrack.js:1238
 msgid "monthly"
-msgstr "Monatlich"
+msgstr "monatlich"
 
 #: phonetrack.js:1248
 msgid "Reserve this device name"

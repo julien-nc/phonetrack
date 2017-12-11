@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-06 09:10-0500\n"
+"PO-Revision-Date: 2017-12-07 17:41-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -66,7 +66,7 @@ msgstr "Názov servera alebo adresa url servera nemôže byť prázdna"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr "Nedá sa pridať server dlaždíc"
+msgstr "Nedá sa pridať mapový server"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
@@ -80,31 +80,31 @@ msgstr "Vymazať"
 
 #: phonetrack.js:847
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "Mapový server \"{ts}\" bol pridaný"
 
 #: phonetrack.js:850
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "Nepodarilo sa pridať mapový server \"{ts}\""
 
 #: phonetrack.js:854
 msgid "Failed to contact server to add tile server"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na pridanie mapového servera"
 
 #: phonetrack.js:888
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr ""
+msgstr "Mapový server \"{ts}\" bol zmazaný"
 
 #: phonetrack.js:891
 msgid "Failed to delete tile server \"{ts}\""
-msgstr ""
+msgstr "Nepodarilo sa vymazať mapový server \"{ts}\""
 
 #: phonetrack.js:895
 msgid "Failed to contact server to delete tile server"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na odstránenie mapového servera"
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby boli obnovené hodnoty nastavení"
 
 #: phonetrack.js:1008
 msgid "Reload this page"
@@ -116,7 +116,7 @@ msgstr "Chyba"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby sa uložili hodnoty nastavení"
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
@@ -172,27 +172,27 @@ msgstr "Export do gpx"
 
 #: phonetrack.js:1232
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Súbory sú vytvorené v \"{exdir}\""
 
 #: phonetrack.js:1233
 msgid "Automatic export"
-msgstr ""
+msgstr "Automatický export"
 
 #: phonetrack.js:1235
 msgid "never"
-msgstr ""
+msgstr "nikdy"
 
 #: phonetrack.js:1236
 msgid "daily"
-msgstr ""
+msgstr "denne"
 
 #: phonetrack.js:1237
 msgid "weekly"
-msgstr ""
+msgstr "týždenne"
 
 #: phonetrack.js:1238
 msgid "monthly"
-msgstr ""
+msgstr "mesačne"
 
 #: phonetrack.js:1248
 msgid "Reserve this device name"
@@ -232,11 +232,11 @@ msgstr "Verejná URL na sledovanie"
 
 #: phonetrack.js:1293
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Aktuálne aktívne filtre budú použité na zdieľané zobrazenie"
 
 #: phonetrack.js:1295
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Pridať verejné filtrované zdieľanie"
 
 #: phonetrack.js:1313
 msgid "Replace 'yourname' with the desired device name"
@@ -272,7 +272,7 @@ msgstr "OpenGTS URL"
 
 #: phonetrack.js:1360
 msgid "The session you want to delete does not exist"
-msgstr ""
+msgstr "Relácia, ktorú chcete vymazať neexistuje"
 
 #: phonetrack.js:1363
 msgid "Failed to delete session"
@@ -284,51 +284,51 @@ msgstr "Nepodarilo sa spojiť so severom, aby bola vymazaná relácia"
 
 #: phonetrack.js:1387
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "Zariadenie '{d}' relácie '{s} bolo odstránené"
 
 #: phonetrack.js:1390
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "Nepodarilo sa odstrániť zariadenie \"{d}\" relácie \"{s}\""
 
 #: phonetrack.js:1394
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie vymazané"
 
 #: phonetrack.js:1445
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Reláciu nie je možné premenovať"
 
 #: phonetrack.js:1449
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola relácia premenovaná"
 
 #: phonetrack.js:1533
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Nemožno premenovať zariadenie"
 
 #: phonetrack.js:1537
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie premenované"
 
 #: phonetrack.js:1598
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Zariadenie v cieľovej relácii už existuje"
 
 #: phonetrack.js:1601
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Nedá sa presunúť zariadenie do inej relácie"
 
 #: phonetrack.js:1605
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie presunuté"
 
 #: phonetrack.js:1671
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom pre získanie relácií"
 
 #: phonetrack.js:1709
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na obnovenie relácií"
 
 #: phonetrack.js:1951 phonetrack.js:1980
 msgid "Stats of all points"
@@ -340,7 +340,7 @@ msgstr "Štatistiky filtrovaných bodov"
 
 #: phonetrack.js:2163
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Farbu zariadenia úspešne zmenená"
 
 #: phonetrack.js:2166
 msgid "Failed to save device's color"
@@ -368,7 +368,7 @@ msgstr "Ok"
 
 #: phonetrack.js:2264
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Prepnúť detaily/úpravy bodov"
 
 #: phonetrack.js:2272
 msgid "Toggle lines"
@@ -384,27 +384,27 @@ msgstr "Sledovať toto zariadenie (zoom)"
 
 #: phonetrack.js:2442
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Bod, ktorý chcete upraviť neexistuje alebo nemáte dovolené ho upraviť"
 
 #: phonetrack.js:2446
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na úpravu bodu"
 
 #: phonetrack.js:2564
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Bod, ktorý chcete odstrániť neexistuje alebo nemáte dovolené ho vymazať"
 
 #: phonetrack.js:2568
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na vymazanie bodu"
 
 #: phonetrack.js:2660
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Tento bod sa nedá pridať"
 
 #: phonetrack.js:2664
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na pridanie bodu"
 
 #: phonetrack.js:2780
 msgid "Date"
@@ -448,15 +448,15 @@ msgstr "Uložiť"
 
 #: phonetrack.js:2814
 msgid "Move"
-msgstr ""
+msgstr "Presunúť"
 
 #: phonetrack.js:2815
 msgid "Cancel"
-msgstr ""
+msgstr "Ukončiť"
 
 #: phonetrack.js:3001
 msgid "File extension must be '.gpx' to be imported"
-msgstr ""
+msgstr "Súbor musí mať príponu \"Gpx\" aby sa dal importovať"
 
 #: phonetrack.js:3018
 msgid "Failed to create imported session"
@@ -464,63 +464,63 @@ msgstr "Nepodarilo sa vytvoriť importovanú reláciu"
 
 #: phonetrack.js:3022 phonetrack.js:3028
 msgid "Failed to import session"
-msgstr ""
+msgstr "Nepodarilo sa importovať reláciu"
 
 #: phonetrack.js:3023
 msgid "File is not readable"
-msgstr ""
+msgstr "Súbor nie je čitateľný"
 
 #: phonetrack.js:3029
 msgid "File does not exist"
-msgstr ""
+msgstr "Súbor neexistuje"
 
 #: phonetrack.js:3036
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola relácia importovaná"
 
 #: phonetrack.js:3055
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Relácia sa úspešne exportovala v"
 
 #: phonetrack.js:3059
 msgid "Failed to export session"
-msgstr ""
+msgstr "Nepodarilo sa exportovať reláciu"
 
 #: phonetrack.js:3063
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bola relácia exportovaná"
 
 #: phonetrack.js:3094
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na uloženie pozície"
 
 #: phonetrack.js:3252
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "\"{n}\", je už rezervované"
 
 #: phonetrack.js:3255
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Nepodarilo sa rezervovať '{n}'"
 
 #: phonetrack.js:3258
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na rezerváciu názvu zariadenia"
 
 #: phonetrack.js:3289 phonetrack.js:3293
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Nepodarilo sa vymazať rezervované meno"
 
 #: phonetrack.js:3290
 msgid "This device does not exist"
-msgstr ""
+msgstr "Toto zariadenie neexistuje"
 
 #: phonetrack.js:3294
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Názov tohto zariadenia nie je rezervovaný, prosím, obnovte túto stránku"
 
 #: phonetrack.js:3297
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na vymazanie rezervácie názvu zariadenia"
 
 #: phonetrack.js:3317
 msgid "User does not exist"
@@ -528,27 +528,27 @@ msgstr "Používateľ neexistuje"
 
 #: phonetrack.js:3320
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Nepodarilo sa pridať užívateľské zdieľanie"
 
 #: phonetrack.js:3323
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na pridanie užívateľského zdieľania"
 
 #: phonetrack.js:3354
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Nepodarilo sa zmazať užívateľské zdieľanie"
 
 #: phonetrack.js:3357
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom, aby bolo vymazané užívateľské zdieľanie"
 
 #: phonetrack.js:3376
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Nepodarilo sa pridať verejné zdieľanie"
 
 #: phonetrack.js:3379
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom na pridanie verejného zdieľania"
 
 #: phonetrack.js:3406
 msgid "No filters"
@@ -564,11 +564,11 @@ msgstr "Nepodarilo sa spojiť so severom, aby bolo vymazané verejné zdieľanie
 
 #: phonetrack.js:3451
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Nepodarilo sa spojiť so severom pre získanie zoznamu užívateľov"
 
 #: phonetrack.js:3464
 msgid "device name"
-msgstr ""
+msgstr "názov zariadenia"
 
 #: phonetrack.js:3465
 msgid "distance (km)"
@@ -604,69 +604,69 @@ msgstr "Vyberte si miesto uloženia pre '{fname}'"
 
 #: phonetrack.js:3939
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Naozaj chcete odstrániť zariadenie {device} ?"
 
 #: phonetrack.js:3942
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Potvrďte odstránenie zariadenia"
 
 #: phonetrack.js:4011
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Nepodarilo sa prepnúť stav verejnej relácie, pretože relácia neexistuje"
 
 #: phonetrack.js:4014
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Nepodarilo sa kontaktovať server na prepnutie stavu verejnej relácie,"
 
 #: phonetrack.js:4037
 msgid "Failed to set session auto export value"
-msgstr ""
+msgstr "Nepodarilo sa nastaviť hodnotu automatického exportu relácie"
 
 #: phonetrack.js:4038
 msgid "session does not exist"
-msgstr ""
+msgstr "relácia neexistuje"
 
 #: phonetrack.js:4042
 msgid "Failed to contact server to set session auto export value"
-msgstr ""
+msgstr "Nepodarilo sa kontaktovať server pre nastavenie hodnoty automatického exportu relácie"
 
 #: phonetrack.js:4112
 msgid "Import gpx session file"
-msgstr ""
+msgstr "Importovať gpx súbor relácie"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Hlavná karta"
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filtre"
 
 #: maincontent.php:14 maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Štatistiky"
 
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
 msgid "Settings and extra actions"
-msgstr ""
+msgstr "Nastavenia a extra akcie"
 
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "O PhoneTrack"
 
 #: maincontent.php:36 maincontent.php:36
 msgid "Import session"
-msgstr ""
+msgstr "Importovať reláciu"
 
 #: maincontent.php:40 maincontent.php:40
 msgid "Create session"
-msgstr ""
+msgstr "Vytvoriť reláciu"
 
 #: maincontent.php:44 maincontent.php:44
 msgid "Session name"
-msgstr ""
+msgstr "Názov relácie"
 
 #: maincontent.php:57 maincontent.php:57
 msgid "Options"
@@ -706,11 +706,11 @@ msgstr "Zobraziť user-agent v popisoch"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Umožniť premiestňovanie bodov v móde úprav"
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Ukázať oblasť presnosti pri ukázaní myškou"
 
 #: maincontent.php:109 maincontent.php:109
 msgid "Line width"
@@ -718,11 +718,11 @@ msgstr "Šírka čiary"
 
 #: maincontent.php:113 maincontent.php:113
 msgid "Point radius"
-msgstr ""
+msgstr "Priemer bodu"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Nepriehľadnosť bodov a čiar"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
@@ -742,267 +742,267 @@ msgstr "tmavá"
 
 #: maincontent.php:128 maincontent.php:128
 msgid "reload page to make changes effective"
-msgstr ""
+msgstr "aby sa uplatnili zmeny, obnovte stránku"
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
-msgstr ""
+msgstr "Názov zariadenia"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
-msgstr ""
+msgstr "Zaznamenať moju pozíciu v tejto relácii"
 
 #: maincontent.php:142 maincontent.php:142
 msgid "Tracking sessions"
-msgstr ""
+msgstr "Nahrávané relácie"
 
 #: maincontent.php:147 maincontent.php:147
 msgid "loading positions"
-msgstr ""
+msgstr "načitávam pozície"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Vlastné mapové servery"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
 #: maincontent.php:267 maincontent.php:312
 msgid "Server name"
-msgstr ""
+msgstr "Názov servera"
 
 #: maincontent.php:185 maincontent.php:225 maincontent.php:268
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
 #: maincontent.php:268 maincontent.php:313
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Napríklad: môj vlastný server"
 
 #: maincontent.php:186 maincontent.php:226 maincontent.php:269
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
 #: maincontent.php:269 maincontent.php:314
 msgid "Server url"
-msgstr ""
+msgstr "Url servera"
 
 #: maincontent.php:187 maincontent.php:270 maincontent.php:187
 #: maincontent.php:270
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Napríklad : http://tile.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:188 maincontent.php:228 maincontent.php:271
 #: maincontent.php:316 maincontent.php:188 maincontent.php:228
 #: maincontent.php:271 maincontent.php:316
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Min priblíženie (1-20)"
 
 #: maincontent.php:190 maincontent.php:230 maincontent.php:273
 #: maincontent.php:318 maincontent.php:190 maincontent.php:230
 #: maincontent.php:273 maincontent.php:318
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Max priblíženie( 1-20)"
 
 #: maincontent.php:192 maincontent.php:236 maincontent.php:281
 #: maincontent.php:330 maincontent.php:192 maincontent.php:236
 #: maincontent.php:281 maincontent.php:330
 msgid "Add"
-msgstr ""
+msgstr "Pridať"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
-msgstr ""
+msgstr "Váš mapový server"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Vlastné servery vrstiev máp"
 
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Napríklad : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
 msgid "Transparent"
-msgstr ""
+msgstr "Priehľadná"
 
 #: maincontent.php:234 maincontent.php:322 maincontent.php:234
 #: maincontent.php:322
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Nepriehľadnosť (0,0-1,0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Vlastný server vrstiev máp"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Vlastné WMS mapové servery"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
 msgid "Format"
-msgstr ""
+msgstr "Formát"
 
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
 msgid "WMS version"
-msgstr ""
+msgstr "Verzia WMS"
 
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
 msgid "Layers to display"
-msgstr ""
+msgstr "Vrstvy na zobrazenie"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Váš webový mapový server"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Vlastné WMS servery vrstiev"
 
 #: maincontent.php:333 maincontent.php:333
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Vlastný WMS server vrstiev"
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
-msgstr ""
+msgstr "Manuálne pridať bod"
 
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
 msgid "Session"
-msgstr ""
+msgstr "Relácia"
 
 #: maincontent.php:368 maincontent.php:386 maincontent.php:368
 #: maincontent.php:386
 msgid "Device"
-msgstr ""
+msgstr "Zariadenie"
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
-msgstr ""
+msgstr "Pridať bod"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Teraz kliknite na mapu pre pridanie bodu (Ak nie je relácia aktivovaná, nebudete vidieť pridaný bod)"
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
-msgstr ""
+msgstr "Zrušiť pridanie bodu"
 
 #: maincontent.php:377 maincontent.php:377
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Vymazanie viacerých bodov"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Vyberte reláciu, zariadenie a upravte si filtre. Odstránia sa všetky zobrazené body pre vybraté zariadenie. Nevyplnený názov zariadenia ich všetky označí."
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
-msgstr ""
+msgstr "Vymazať body"
 
 #: maincontent.php:389 maincontent.php:389
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Vymazať iba viditeľné body"
 
 #: maincontent.php:396 maincontent.php:396
 msgid "Filter points"
-msgstr ""
+msgstr "Filtrovať body"
 
 #: maincontent.php:401 maincontent.php:401
 msgid "Apply filters"
-msgstr ""
+msgstr "Použiť filtre"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Dátum začiatku"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
 msgid "today"
-msgstr ""
+msgstr "dnes"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Čas začiatku"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Dátum ukončenia"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Čas ukončenia"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Min--a Max--"
 
 #: maincontent.php:443 maincontent.php:443
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Min-- a Max++"
 
 #: maincontent.php:446 maincontent.php:446
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Posledný deň:hodinu:min"
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Minimálna presnosť"
 
 #: maincontent.php:461 maincontent.php:461
 msgid "Maximum accuracy"
-msgstr ""
+msgstr "Maximálna presnosť"
 
 #: maincontent.php:469 maincontent.php:469
 msgid "Minimum elevation"
-msgstr ""
+msgstr "Minimálna výška"
 
 #: maincontent.php:477 maincontent.php:477
 msgid "Maximum elevation"
-msgstr ""
+msgstr "Maximálna výška"
 
 #: maincontent.php:485 maincontent.php:485
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Stav batérie min"
 
 #: maincontent.php:493 maincontent.php:493
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Stav batérie max"
 
 #: maincontent.php:501 maincontent.php:501
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Minimálne satelitov"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Maximálne satelitov"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
-msgstr ""
+msgstr "Štatistika"
 
 #: maincontent.php:526 maincontent.php:526
 msgid "Show stats"
-msgstr ""
+msgstr "Ukázať štatistiky"
 
 #: maincontent.php:535 maincontent.php:535
 msgid "Shortcuts"
-msgstr ""
+msgstr "Skratky"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Prepnúť sidebar"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentácia"
 
 #: maincontent.php:549 maincontent.php:549
 msgid "Source management"
-msgstr ""
+msgstr "Manažovanie zdrojového kódu"
 
 #: maincontent.php:563 maincontent.php:563
 msgid "Authors"
-msgstr ""
+msgstr "Autori"
 
