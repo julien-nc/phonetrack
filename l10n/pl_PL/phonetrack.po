@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 11:51-0500\n"
+"PO-Revision-Date: 2017-12-15 12:01-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Kliknij na mapie, aby przesunąć punkt, naciśnij klawisz ESC, aby anulować"
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
@@ -464,7 +464,7 @@ msgstr ""
 
 #: phonetrack.js:2820
 msgid "Save"
-msgstr ""
+msgstr "Zapisz"
 
 #: phonetrack.js:2822
 msgid "Move"
@@ -472,7 +472,7 @@ msgstr ""
 
 #: phonetrack.js:2823
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: phonetrack.js:3009
 msgid "File extension must be '.gpx' to be imported"
@@ -580,7 +580,7 @@ msgstr ""
 
 #: phonetrack.js:3441
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć udział publiczny"
 
 #: phonetrack.js:3459
 msgid "Failed to contact server to get user list"
@@ -612,7 +612,7 @@ msgstr ""
 
 #: phonetrack.js:3642
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Czy na pewno chcesz usunąć tą sesje {session}?"
 
 #: phonetrack.js:3645
 msgid "Confirm session deletion"
@@ -624,7 +624,7 @@ msgstr ""
 
 #: phonetrack.js:3947
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Czy na pewno chcesz usunąć to urządzenie {device}?"
 
 #: phonetrack.js:3950
 msgid "Confirm device deletion"
@@ -660,11 +660,11 @@ msgstr ""
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filtry"
 
 #: maincontent.php:14 maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Statystyki"
 
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
@@ -674,27 +674,27 @@ msgstr ""
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "O PhoneTrack"
 
 #: maincontent.php:36 maincontent.php:36
 msgid "Import session"
-msgstr ""
+msgstr "Importuj sesje"
 
 #: maincontent.php:40 maincontent.php:40
 msgid "Create session"
-msgstr ""
+msgstr "Utwórz sesje"
 
 #: maincontent.php:44 maincontent.php:44
 msgid "Session name"
-msgstr ""
+msgstr "Nazwa sesji"
 
 #: maincontent.php:57 maincontent.php:57
 msgid "Options"
-msgstr ""
+msgstr "Opcje"
 
 #: maincontent.php:65 maincontent.php:65
 msgid "Auto zoom"
-msgstr ""
+msgstr "Automatyczne przybliżenie"
 
 #: maincontent.php:73 maincontent.php:73
 msgid "Show tooltips"
@@ -859,7 +859,7 @@ msgstr ""
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
@@ -885,17 +885,17 @@ msgstr ""
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
-msgstr ""
+msgstr "Ręcznie Dodaj punkt"
 
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
 msgid "Session"
-msgstr ""
+msgstr "Sesja"
 
 #: maincontent.php:368 maincontent.php:386 maincontent.php:368
 #: maincontent.php:386
 msgid "Device"
-msgstr ""
+msgstr "Urządzenie"
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
@@ -903,19 +903,19 @@ msgstr "Dodaj punkt"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Teraz, kliknij na mapę, aby dodać punkt (Jeśli sesja nie jest aktywowana, nie zobaczysz dodanego punktu)"
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
-msgstr ""
+msgstr "Anuluj Dodanie punktu"
 
 #: maincontent.php:377 maincontent.php:377
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Dodaj wiele punktów"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Wybierz sesję, urządzenie i ustaw filtry. Wszystkie wyświetlone punkty dla wybranego urządzenia zostaną usunięte. Pusta nazwa urządzenia zaznacza je wszystkie."
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
