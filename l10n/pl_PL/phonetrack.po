@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 13:01-0500\n"
+"PO-Revision-Date: 2017-12-15 13:08-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "Nie udało się dodać kafelka serwera"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
@@ -520,7 +520,7 @@ msgstr ""
 
 #: phonetrack.js:3263
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Nie udało się zarezerwować '{n}'"
 
 #: phonetrack.js:3266
 msgid "Failed to contact server to reserve device name"
@@ -782,7 +782,7 @@ msgstr "wczytywanie pozycji"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Niestandardowy kafelek serwerowy"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
@@ -854,7 +854,7 @@ msgstr ""
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Niestandardowe kafelki serwerowe WMS"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
@@ -873,7 +873,7 @@ msgstr "Warstwy, do wyświetlenia"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
-msgstr "Twoje kafelki WMS serweró∑"
+msgstr "Twoje kafelki WMS serwerów"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
