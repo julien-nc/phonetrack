@@ -283,6 +283,10 @@ div#logofolder label {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+.moreUrls hr {
+    width: 100%;
+}
+.moreUrls hr,
 .urlhint {
     grid-column: 1/3;
 }

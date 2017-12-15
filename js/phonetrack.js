@@ -1315,7 +1315,10 @@
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<div class="moreUrls">';
-            divtxt = divtxt + '<p class="urlhint">' + t('phonetrack', 'Replace \'yourname\' with the desired device name') + '</p>';
+            divtxt = divtxt + '<p class="urlhint information">' +
+                t('phonetrack', 'List of server URLs to configure logging apps.') + '<br/>' +
+                t('phonetrack', 'Replace \'yourname\' with the desired device name or with the name reservation token') +
+                '</p>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser logging URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
@@ -1330,7 +1333,7 @@
             divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
-            divtxt = divtxt + '</div>';
+            divtxt = divtxt + '<hr/></div>';
         }
         divtxt = divtxt + '<ul class="devicelist" token="' + token + '"></ul></div>';
 
