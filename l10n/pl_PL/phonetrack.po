@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 14:01-0500\n"
+"PO-Revision-Date: 2017-12-15 14:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -116,7 +116,7 @@ msgstr "Błąd"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zapisać wartości opcji"
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
@@ -128,7 +128,7 @@ msgstr "Nazwa sesji jest już używana"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby utworzyć sesje"
 
 #: phonetrack.js:1188
 msgid "Watch this session"
@@ -204,11 +204,11 @@ msgstr "Nazwę można ustawić bezpośrednio w adresie URL rejestrowania Jeśli 
 
 #: phonetrack.js:1249
 msgid "To log with a reserved name, use its token in logging URL."
-msgstr ""
+msgstr "Aby zalogować się przy użyciu zarezerwowanej nazwy, należy użyć jego token w adresie URL logowania."
 
 #: phonetrack.js:1250
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr ""
+msgstr "Jeśli nazwa jest zarezerwowana, jedynym sposobem, aby zalogować się za pomocą tej nazwy jest z jego tokenem."
 
 #: phonetrack.js:1253
 msgid "Reserve this device name"
@@ -232,7 +232,7 @@ msgstr "Udostępnione z {u}"
 
 #: phonetrack.js:1282
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Prywatna sesja nie jest widoczna na publicznej stronie logowania"
 
 #: phonetrack.js:1284 phonetrack.js:4014
 msgid "Make session public"
@@ -244,15 +244,15 @@ msgstr "Przekształć sesje na prywatną"
 
 #: phonetrack.js:1292
 msgid "Public watch URL"
-msgstr ""
+msgstr "Publiczny widok URL"
 
 #: phonetrack.js:1298
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Bieżące aktywne filtry zostanie zastosowany w widoku udostępnionym"
 
 #: phonetrack.js:1300
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Dodaj udziały publicznie filtrowane"
 
 #: phonetrack.js:1319
 msgid "List of server URLs to configure logging apps."
@@ -260,7 +260,7 @@ msgstr "Lista adresów URL serwera do skonfigurowanie rejestrowania aplikacji."
 
 #: phonetrack.js:1320
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr ""
+msgstr "Zastąp 'yourname' z nazwą wybranego urządzenia lub z tokenem rezerwacji nazwy"
 
 #: phonetrack.js:1322
 msgid "Public browser logging URL"
@@ -292,15 +292,15 @@ msgstr "OpenGTS URL"
 
 #: phonetrack.js:1368
 msgid "The session you want to delete does not exist"
-msgstr ""
+msgstr "Sesje którą chcesz usunąć nie istnieje"
 
 #: phonetrack.js:1371
 msgid "Failed to delete session"
-msgstr ""
+msgstr "Nie można usunąć sesji"
 
 #: phonetrack.js:1375
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć sesje"
 
 #: phonetrack.js:1395
 msgid "Device '{d}' of session '{s}' has been deleted"
@@ -308,11 +308,11 @@ msgstr "Urządzenia '{d}', sesji '{s}' został usunięte"
 
 #: phonetrack.js:1398
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "Nie można usunąć urządzenia '{d}' sesji '{s}'"
 
 #: phonetrack.js:1402
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć urządzenie"
 
 #: phonetrack.js:1453
 msgid "Impossible to rename session"
@@ -320,7 +320,7 @@ msgstr "Niemożliwe, aby zmienić nazwę sesji"
 
 #: phonetrack.js:1457
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zmienić nazwę sesji"
 
 #: phonetrack.js:1541
 msgid "Impossible to rename device"
@@ -328,7 +328,7 @@ msgstr "Niemożliwe, aby zmienić nazwę urządzenia"
 
 #: phonetrack.js:1545
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zmienić nazwę urządzenia"
 
 #: phonetrack.js:1606
 msgid "Device already exists in target session"
@@ -340,15 +340,15 @@ msgstr "Niemożliwe przenieść urządzenie do innej sesji"
 
 #: phonetrack.js:1613
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby przesunąć urządzenie"
 
 #: phonetrack.js:1679
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby uzyskać sesje"
 
 #: phonetrack.js:1717
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby odświeżyć sesje"
 
 #: phonetrack.js:1959 phonetrack.js:1988
 msgid "Stats of all points"
@@ -368,7 +368,7 @@ msgstr "Nie można zapisać koloru urządzenia"
 
 #: phonetrack.js:2178
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zmienić kolor urządzenia"
 
 #: phonetrack.js:2251
 msgid "Delete this device"
@@ -404,7 +404,7 @@ msgstr "Obserwuj to urządzenie (autozoom)"
 
 #: phonetrack.js:2450
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Punkt, który chcesz usunąć nie edytować lub nie możesz go edytować"
 
 #: phonetrack.js:2454
 msgid "Failed to contact server to edit point"
