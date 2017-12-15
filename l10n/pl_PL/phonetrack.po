@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 13:40-0500\n"
+"PO-Revision-Date: 2017-12-15 13:51-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -104,7 +104,7 @@ msgstr "Nie udało się połączyć do serwera, aby usunąć kafelek serwera"
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby przywrócić wartości opcji"
 
 #: phonetrack.js:1008
 msgid "Reload this page"
@@ -276,7 +276,7 @@ msgstr "GpsLogger GET i POST URL"
 
 #: phonetrack.js:1328
 msgid "Owntracks (HTTP mode) URL"
-msgstr ""
+msgstr "Adres URL Owntracks (tryb HTTP)"
 
 #: phonetrack.js:1330
 msgid "Ulogger URL"
@@ -316,7 +316,7 @@ msgstr ""
 
 #: phonetrack.js:1453
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Niemożliwe, aby zmienić nazwę sesji"
 
 #: phonetrack.js:1457
 msgid "Failed to contact server to rename session"
@@ -324,7 +324,7 @@ msgstr ""
 
 #: phonetrack.js:1541
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Niemożliwe, aby zmienić nazwę urządzenia"
 
 #: phonetrack.js:1545
 msgid "Failed to contact server to rename device"
@@ -336,7 +336,7 @@ msgstr "Urządzenie już istnieje w sesji docelowej"
 
 #: phonetrack.js:1609
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Niemożliwe przenieść urządzenie do innej sesji"
 
 #: phonetrack.js:1613
 msgid "Failed to contact server to move device"
@@ -632,11 +632,11 @@ msgstr "Potwierdź usunięcie urządzenia"
 
 #: phonetrack.js:4019
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Nie udało się pokazać statusu publicznego, sesja nie istnieje"
 
 #: phonetrack.js:4022
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby pokazać status publiczny"
 
 #: phonetrack.js:4045
 msgid "Failed to set session auto export value"
