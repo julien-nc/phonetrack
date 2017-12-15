@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-12-15 15:57+0100\n"
-"PO-Revision-Date: 2017-12-15 10:09-0500\n"
+"POT-Creation-Date: 2017-12-15 16:09+0100\n"
+"PO-Revision-Date: 2017-12-15 10:21-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -199,16 +199,16 @@ msgid "Name reservation is optional."
 msgstr "La réservation de nom est facultative."
 
 #: phonetrack.js:1248
-msgid "Names can be used directly in logging URLs if they are not reserved."
+msgid "Name can be set directly in logging URLs if it is not reserved."
 msgstr ""
 
 #: phonetrack.js:1249
 msgid "To log with a reserved name, use its token in logging URL."
-msgstr ""
+msgstr "Pour logger avec un nom réservé, utilisez son token dans l'URL de logging."
 
 #: phonetrack.js:1250
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr ""
+msgstr "Si un nom est réservé, la seule façon de logger avec ce nom est d'utiliser son token."
 
 #: phonetrack.js:1253
 msgid "Reserve this device name"
@@ -256,11 +256,11 @@ msgstr "Ajouter un partage public filtré"
 
 #: phonetrack.js:1319
 msgid "List of server URLs to configure logging apps."
-msgstr ""
+msgstr "Liste d'URLs de serveurs pour configurer les applications de logging."
 
 #: phonetrack.js:1320
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr ""
+msgstr "Remplacez 'yourname' avec le nom d'appareil souhaité ou avec le token de réservation de nom"
 
 #: phonetrack.js:1322
 msgid "Public browser logging URL"
