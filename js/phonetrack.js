@@ -1245,7 +1245,7 @@
         if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<div class="namereservdiv">';
             divtxt = divtxt + '<p class="information">' + t('phonetrack', 'Name reservation is optional.') + '<br/>' +
-                t('phonetrack', 'Name can be set directly in logging URLs if it is not reserved.') + '<br/>' +
+                t('phonetrack', 'Name can be set directly in logging URL if it is not reserved.') + '<br/>' +
                 t('phonetrack', 'To log with a reserved name, use its token in logging URL.') + '<br/>' +
                 t('phonetrack', 'If a name is reserved, the only way to log with this name is with its token.') +
                 '</p>';
