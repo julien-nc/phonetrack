@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 12:11-0500\n"
+"PO-Revision-Date: 2017-12-15 12:20-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -544,15 +544,15 @@ msgstr ""
 
 #: phonetrack.js:3325
 msgid "User does not exist"
-msgstr ""
+msgstr "Użytkownik nie istnieje"
 
 #: phonetrack.js:3328
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Nie udało się dodać udziału użytkownika"
 
 #: phonetrack.js:3331
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby dodać udział użytkownika"
 
 #: phonetrack.js:3362
 msgid "Failed to delete user share"
@@ -560,7 +560,7 @@ msgstr "Nie udało się usunąć udziału użytkownika"
 
 #: phonetrack.js:3365
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć udział użytkownika"
 
 #: phonetrack.js:3384
 msgid "Failed to add public share"
@@ -572,7 +572,7 @@ msgstr ""
 
 #: phonetrack.js:3414
 msgid "No filters"
-msgstr ""
+msgstr "Brak filtrów"
 
 #: phonetrack.js:3438
 msgid "Failed to delete public share"
@@ -588,11 +588,11 @@ msgstr ""
 
 #: phonetrack.js:3472
 msgid "device name"
-msgstr ""
+msgstr "nazwa urządzenia"
 
 #: phonetrack.js:3473
 msgid "distance (km)"
-msgstr ""
+msgstr "odległość (km)"
 
 #: phonetrack.js:3474
 msgid "duration"
@@ -600,7 +600,7 @@ msgstr "czas trwania"
 
 #: phonetrack.js:3475
 msgid "#points"
-msgstr ""
+msgstr "#punkty"
 
 #: phonetrack.js:3510
 msgid "years"
@@ -616,7 +616,7 @@ msgstr "Czy na pewno chcesz usunąć tą sesje {session}?"
 
 #: phonetrack.js:3645
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Potwierdź usunięcie sesji"
 
 #: phonetrack.js:3793
 msgid "Select storage location for '{fname}'"
@@ -788,19 +788,19 @@ msgstr ""
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
 #: maincontent.php:267 maincontent.php:312
 msgid "Server name"
-msgstr ""
+msgstr "Nazwa serwera"
 
 #: maincontent.php:185 maincontent.php:225 maincontent.php:268
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
 #: maincontent.php:268 maincontent.php:313
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Na przykład: mój niestandardowy serwer"
 
 #: maincontent.php:186 maincontent.php:226 maincontent.php:269
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
 #: maincontent.php:269 maincontent.php:314
 msgid "Server url"
-msgstr ""
+msgstr "Adres Url serwera"
 
 #: maincontent.php:187 maincontent.php:270 maincontent.php:187
 #: maincontent.php:270
@@ -864,7 +864,7 @@ msgstr "Format"
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
 msgid "WMS version"
-msgstr ""
+msgstr "Wersja WMS"
 
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
