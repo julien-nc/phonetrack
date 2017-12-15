@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 12:01-0500\n"
+"PO-Revision-Date: 2017-12-15 12:09-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -468,7 +468,7 @@ msgstr "Zapisz"
 
 #: phonetrack.js:2822
 msgid "Move"
-msgstr ""
+msgstr "Przenieś"
 
 #: phonetrack.js:2823
 msgid "Cancel"
@@ -484,15 +484,15 @@ msgstr ""
 
 #: phonetrack.js:3030 phonetrack.js:3036
 msgid "Failed to import session"
-msgstr ""
+msgstr "Nie udało się zaimportować sesji"
 
 #: phonetrack.js:3031
 msgid "File is not readable"
-msgstr ""
+msgstr "Nie można odczytać pliku"
 
 #: phonetrack.js:3037
 msgid "File does not exist"
-msgstr ""
+msgstr "Plik nie istnieje"
 
 #: phonetrack.js:3044
 msgid "Failed to contact server to import session"
@@ -556,7 +556,7 @@ msgstr ""
 
 #: phonetrack.js:3362
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Nie udało się usunąć udziału użytkownika"
 
 #: phonetrack.js:3365
 msgid "Failed to contact server to delete user share"
@@ -576,7 +576,7 @@ msgstr ""
 
 #: phonetrack.js:3438
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Nie udało się usunąć udziału publicznego"
 
 #: phonetrack.js:3441
 msgid "Failed to contact server to delete public share"
@@ -656,7 +656,7 @@ msgstr ""
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Karta główna"
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
@@ -702,7 +702,7 @@ msgstr ""
 
 #: maincontent.php:76 maincontent.php:76
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Odświeżanie każdego (sek)"
 
 #: maincontent.php:81 maincontent.php:81
 msgid "Show accuracy in tooltips"
@@ -746,19 +746,19 @@ msgstr ""
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
-msgstr ""
+msgstr "Motyw"
 
 #: maincontent.php:123 maincontent.php:123
 msgid "bright"
-msgstr ""
+msgstr "jasny"
 
 #: maincontent.php:124 maincontent.php:124
 msgid "pastel"
-msgstr ""
+msgstr "pastelowy"
 
 #: maincontent.php:125 maincontent.php:125
 msgid "dark"
-msgstr ""
+msgstr "ciemny"
 
 #: maincontent.php:128 maincontent.php:128
 msgid "reload page to make changes effective"
@@ -766,7 +766,7 @@ msgstr ""
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
-msgstr ""
+msgstr "Nazwa urządzenia"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
@@ -778,7 +778,7 @@ msgstr ""
 
 #: maincontent.php:147 maincontent.php:147
 msgid "loading positions"
-msgstr ""
+msgstr "wczytywanie pozycji"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
@@ -811,19 +811,19 @@ msgstr ""
 #: maincontent.php:316 maincontent.php:188 maincontent.php:228
 #: maincontent.php:271 maincontent.php:316
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Powiększenie min (1-20)"
 
 #: maincontent.php:190 maincontent.php:230 maincontent.php:273
 #: maincontent.php:318 maincontent.php:190 maincontent.php:230
 #: maincontent.php:273 maincontent.php:318
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Powiększenie max (1-20)"
 
 #: maincontent.php:192 maincontent.php:236 maincontent.php:281
 #: maincontent.php:330 maincontent.php:192 maincontent.php:236
 #: maincontent.php:281 maincontent.php:330
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
@@ -841,7 +841,7 @@ msgstr ""
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
 msgid "Transparent"
-msgstr ""
+msgstr "Przezroczysty"
 
 #: maincontent.php:234 maincontent.php:322 maincontent.php:234
 #: maincontent.php:322
@@ -869,7 +869,7 @@ msgstr ""
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
 msgid "Layers to display"
-msgstr ""
+msgstr "Warstwy, do wyświetlenia"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
