@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 13:51-0500\n"
+"PO-Revision-Date: 2017-12-15 14:01-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -212,11 +212,11 @@ msgstr ""
 
 #: phonetrack.js:1253
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Zarezerwuj tę nazwę urządzenia"
 
 #: phonetrack.js:1255
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Wpisz zarezerwowaną nazwę użytkownika i naciśnij 'Enter'"
 
 #: phonetrack.js:1269
 msgid "Share with user"
@@ -264,7 +264,7 @@ msgstr ""
 
 #: phonetrack.js:1322
 msgid "Public browser logging URL"
-msgstr ""
+msgstr "Adres URL rejestrowania publicznego przeglądarki"
 
 #: phonetrack.js:1324
 msgid "OsmAnd URL"
@@ -360,11 +360,11 @@ msgstr "Statystyki filtrowanych punktów"
 
 #: phonetrack.js:2171
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Kolor urządzenia pomyślnie zmieniony"
 
 #: phonetrack.js:2174
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "Nie można zapisać koloru urządzenia"
 
 #: phonetrack.js:2178
 msgid "Failed to contact server to change device's color"
@@ -388,7 +388,7 @@ msgstr "Ok"
 
 #: phonetrack.js:2272
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Pokaż detale/edycje punktów"
 
 #: phonetrack.js:2280
 msgid "Toggle lines"
@@ -400,7 +400,7 @@ msgstr "Wyśrodkowanie mapy na urządzeniu"
 
 #: phonetrack.js:2301
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Obserwuj to urządzenie (autozoom)"
 
 #: phonetrack.js:2450
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
@@ -408,15 +408,15 @@ msgstr ""
 
 #: phonetrack.js:2454
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby edytować punkt"
 
 #: phonetrack.js:2572
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Punkt, który chcesz usunąć nie istnieje lub nie możesz go usunąć"
 
 #: phonetrack.js:2576
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć punkt"
 
 #: phonetrack.js:2668
 msgid "Impossible to add this point"
@@ -424,7 +424,7 @@ msgstr "Niemożliwe, aby dodać ten punkt"
 
 #: phonetrack.js:2672
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby dodać punkt"
 
 #: phonetrack.js:2788
 msgid "Date"
@@ -496,11 +496,11 @@ msgstr "Plik nie istnieje"
 
 #: phonetrack.js:3044
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby importować sesje"
 
 #: phonetrack.js:3063
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Sesja pomyślnie wyeksportowana"
 
 #: phonetrack.js:3067
 msgid "Failed to export session"
@@ -524,7 +524,7 @@ msgstr "Nie udało się zarezerwować '{n}'"
 
 #: phonetrack.js:3266
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zarezerwować nazwę urządzenia"
 
 #: phonetrack.js:3297 phonetrack.js:3301
 msgid "Failed to delete reserved name"
@@ -536,11 +536,11 @@ msgstr "To urządzenie nie istnieje"
 
 #: phonetrack.js:3302
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Ta nazwa urządzenia nie jest zarezerwowana, Załaduj ponownie Tę stronę"
 
 #: phonetrack.js:3305
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć zarezerwowana nazwę"
 
 #: phonetrack.js:3325
 msgid "User does not exist"
@@ -584,7 +584,7 @@ msgstr "Nie udało się połączyć do serwera, aby usunąć udział publiczny"
 
 #: phonetrack.js:3459
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zdobyć liste użytkowników"
 
 #: phonetrack.js:3472
 msgid "device name"
