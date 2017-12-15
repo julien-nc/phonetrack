@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 13:21-0500\n"
+"PO-Revision-Date: 2017-12-15 13:35-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -46,11 +46,11 @@ msgstr "Wyłącz automatyczne powiększanie"
 
 #: phonetrack.js:581
 msgid "Show last point tooltip"
-msgstr ""
+msgstr "Pokaż ostatni punkt podpowiedzi"
 
 #: phonetrack.js:589
 msgid "Hide last point tooltip"
-msgstr ""
+msgstr "Ukryj ostatni punkt podpowiedzi"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
@@ -200,7 +200,7 @@ msgstr "Rezerwacja nazwy jest opcjonalna."
 
 #: phonetrack.js:1248
 msgid "Name can be set directly in logging URL if it is not reserved."
-msgstr ""
+msgstr "Nazwę można ustawić bezpośrednio w adresie URL rejestrowania Jeśli nie jest zarezerwowana."
 
 #: phonetrack.js:1249
 msgid "To log with a reserved name, use its token in logging URL."
@@ -304,7 +304,7 @@ msgstr ""
 
 #: phonetrack.js:1395
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "Urządzenia '{d}', sesji '{s}' został usunięte"
 
 #: phonetrack.js:1398
 msgid "Failed to delete device '{d}' of session '{s}'"
@@ -516,7 +516,7 @@ msgstr ""
 
 #: phonetrack.js:3260
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' jest już zarezerwowany"
 
 #: phonetrack.js:3263
 msgid "Failed to reserve '{n}'"
@@ -528,7 +528,7 @@ msgstr ""
 
 #: phonetrack.js:3297 phonetrack.js:3301
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Nie udało się usunąć zarezerwowanej nazwy"
 
 #: phonetrack.js:3298
 msgid "This device does not exist"
@@ -620,7 +620,7 @@ msgstr "Potwierdź usunięcie sesji"
 
 #: phonetrack.js:3793
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Wybierz lokalizację przechowywania dla '{fname}'"
 
 #: phonetrack.js:3947
 msgid "Are you sure you want to delete the device {device} ?"
@@ -628,7 +628,7 @@ msgstr "Czy na pewno chcesz usunąć to urządzenie {device}?"
 
 #: phonetrack.js:3950
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Potwierdź usunięcie urządzenia"
 
 #: phonetrack.js:4019
 msgid "Failed to toggle session public status, session does not exist"
@@ -640,7 +640,7 @@ msgstr ""
 
 #: phonetrack.js:4045
 msgid "Failed to set session auto export value"
-msgstr ""
+msgstr "Nie można ustawić wartości auto-eksportu sesji"
 
 #: phonetrack.js:4046
 msgid "session does not exist"
@@ -652,7 +652,7 @@ msgstr ""
 
 #: phonetrack.js:4120
 msgid "Import gpx session file"
-msgstr ""
+msgstr "Importuj plik sesji gpx"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
@@ -730,7 +730,7 @@ msgstr ""
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Pokaż okrąg dokładność przy aktywowaniu"
 
 #: maincontent.php:109 maincontent.php:109
 msgid "Line width"
@@ -742,7 +742,7 @@ msgstr "Promień punktu"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Punkty i linie krycie"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
@@ -762,7 +762,7 @@ msgstr "ciemny"
 
 #: maincontent.php:128 maincontent.php:128
 msgid "reload page to make changes effective"
-msgstr ""
+msgstr "odśwież stronę aby zmiany stały się efektywne"
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
