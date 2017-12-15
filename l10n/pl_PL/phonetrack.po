@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 12:09-0500\n"
+"PO-Revision-Date: 2017-12-15 12:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: phonetrack.js:1010 phonetrack.js:1077
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
@@ -132,7 +132,7 @@ msgstr ""
 
 #: phonetrack.js:1188
 msgid "Watch this session"
-msgstr ""
+msgstr "Obejrzyj tę sesję"
 
 #: phonetrack.js:1194
 msgid "shared by {u}"
@@ -160,15 +160,15 @@ msgstr ""
 
 #: phonetrack.js:1223
 msgid "Delete session"
-msgstr ""
+msgstr "Usuń sesję"
 
 #: phonetrack.js:1224 phonetrack.js:1225
 msgid "Rename session"
-msgstr ""
+msgstr "Zmień nazwe sesji"
 
 #: phonetrack.js:1227 phonetrack.js:1228
 msgid "Export to gpx"
-msgstr ""
+msgstr "Eksportuj do gpx"
 
 #: phonetrack.js:1232
 msgid "Files are created in '{exdir}'"
@@ -176,23 +176,23 @@ msgstr ""
 
 #: phonetrack.js:1233
 msgid "Automatic export"
-msgstr ""
+msgstr "Automatyczny eksport"
 
 #: phonetrack.js:1235
 msgid "never"
-msgstr ""
+msgstr "nigdy"
 
 #: phonetrack.js:1236
 msgid "daily"
-msgstr ""
+msgstr "dziennie"
 
 #: phonetrack.js:1237
 msgid "weekly"
-msgstr ""
+msgstr "tygodniowo"
 
 #: phonetrack.js:1238
 msgid "monthly"
-msgstr ""
+msgstr "miesięcznie"
 
 #: phonetrack.js:1247
 msgid "Name reservation is optional."
@@ -596,7 +596,7 @@ msgstr ""
 
 #: phonetrack.js:3474
 msgid "duration"
-msgstr ""
+msgstr "czas trwania"
 
 #: phonetrack.js:3475
 msgid "#points"
@@ -604,11 +604,11 @@ msgstr ""
 
 #: phonetrack.js:3510
 msgid "years"
-msgstr ""
+msgstr "lata"
 
 #: phonetrack.js:3513
 msgid "days"
-msgstr ""
+msgstr "dni"
 
 #: phonetrack.js:3642
 msgid "Are you sure you want to delete the session {session} ?"
