@@ -2660,7 +2660,7 @@ class PageController extends Controller {
         $dateMaxDay = new \DateTime($y.'-'.$m.'-'.$d);
         $maxDayTimestamp = $dateMaxDay->getTimestamp();
         $minDayTimestamp = $maxDayTimestamp - 24*60*60;
-        $dailySuffix = '_daily_'.$y.'-'.$m.'-'.(intval($d)-1);
+        $dailySuffix = '_daily_'.$y.'-'.sprintf('%02d', intval($m)).'-'.sprintf('%02d', intval($d)-1);
 
         // last week
         $now = new \DateTime();
