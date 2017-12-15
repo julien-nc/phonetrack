@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-08 03:48-0500\n"
+"PO-Revision-Date: 2017-12-11 09:52-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -66,7 +66,7 @@ msgstr "Nombre del servidor o dirección del servidor no debe estar vacío"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr "Imposible de añadir el servidor de azulejo"
+msgstr "Imposible añadir servidor de mosaico"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
@@ -80,27 +80,27 @@ msgstr "Eliminar"
 
 #: phonetrack.js:847
 msgid "Tile server \"{ts}\" has been added"
-msgstr "Se ha agregado el servidor de azulejo \"{ts}\""
+msgstr "Se ha agregado el servidor de mosaico \"{ts}\""
 
 #: phonetrack.js:850
 msgid "Failed to add tile server \"{ts}\""
-msgstr "No se pudo agregar el servidor de azulejo \"{ts}\""
+msgstr "No se pudo agregar el servidor de mosaico \"{ts}\""
 
 #: phonetrack.js:854
 msgid "Failed to contact server to add tile server"
-msgstr "No se pudo contactar el servidor para agregar el servidor de azulejo"
+msgstr "No se pudo contactar el servidor para agregar el servidor de mosaico"
 
 #: phonetrack.js:888
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr "Servidor de azulejos \"{ts}\" se ha eliminado"
+msgstr "Servidor de mosaico \"{ts}\" se ha eliminado"
 
 #: phonetrack.js:891
 msgid "Failed to delete tile server \"{ts}\""
-msgstr "No se pudo eliminar el servidor de azulejo \"{ts}\""
+msgstr "No se pudo eliminar el servidor de mosaico \"{ts}\""
 
 #: phonetrack.js:895
 msgid "Failed to contact server to delete tile server"
-msgstr "No se pudo contactar el servidor para eliminar el servidor de azulejo"
+msgstr "No se pudo contactar el servidor para eliminar el servidor de mosaico"
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
@@ -762,7 +762,7 @@ msgstr "cargando las posiciones"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr "Servidores de azulejo personales"
+msgstr "Servidores de mosaicos personalizados"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
@@ -807,7 +807,7 @@ msgstr "Añadir"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
-msgstr "Sus servidores de teja"
+msgstr "Sus servidores de mosaico"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
@@ -834,7 +834,7 @@ msgstr "Sus servidores de teja de superposición"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr "Servidores de azulejo WMS personales"
+msgstr "Servidores de mosaico WMS personalizados"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
@@ -853,7 +853,7 @@ msgstr "Capas para mostrar"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
-msgstr "Sus servidores de azulejo WMS"
+msgstr "Sus servidores de mosaico WMS"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
@@ -861,7 +861,7 @@ msgstr "Servidores de azulejo WMS de superposición personales"
 
 #: maincontent.php:333 maincontent.php:333
 msgid "Your WMS overlay tile servers"
-msgstr "Sus servidores de teja de superposición WMS"
+msgstr "Sus servidores de mosaico de superposición WMS"
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
