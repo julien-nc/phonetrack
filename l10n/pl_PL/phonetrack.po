@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 12:55-0500\n"
+"PO-Revision-Date: 2017-12-15 13:01-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -84,7 +84,7 @@ msgstr ""
 
 #: phonetrack.js:850
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "Nie udało się dodać kafelka serwera \"{ts}\""
 
 #: phonetrack.js:854
 msgid "Failed to contact server to add tile server"
@@ -392,7 +392,7 @@ msgstr ""
 
 #: phonetrack.js:2280
 msgid "Toggle lines"
-msgstr ""
+msgstr "Włącz linie"
 
 #: phonetrack.js:2290 phonetrack.js:2296
 msgid "Center map on device"
