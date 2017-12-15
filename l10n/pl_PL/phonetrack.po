@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 13:39-0500\n"
+"PO-Revision-Date: 2017-12-15 13:40-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -62,7 +62,7 @@ msgstr "Kliknij na mapie, aby przesunąć punkt, naciśnij klawisz ESC, aby anul
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Nazwa serwera lub adres url serwera nie powinnny być puste"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
@@ -476,7 +476,7 @@ msgstr "Anuluj"
 
 #: phonetrack.js:3009
 msgid "File extension must be '.gpx' to be imported"
-msgstr ""
+msgstr "Rozszerzenie pliku musi być '.gpx' aby zostało zaimportowane"
 
 #: phonetrack.js:3026
 msgid "Failed to create imported session"
