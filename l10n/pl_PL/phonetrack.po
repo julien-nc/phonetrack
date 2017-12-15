@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 13:35-0500\n"
+"PO-Revision-Date: 2017-12-15 13:39-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -504,15 +504,15 @@ msgstr ""
 
 #: phonetrack.js:3067
 msgid "Failed to export session"
-msgstr ""
+msgstr "Nie udało się eksportować sesji"
 
 #: phonetrack.js:3071
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby eksportować sesje"
 
 #: phonetrack.js:3102
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby rejestrować pozycje"
 
 #: phonetrack.js:3260
 msgid "'{n}' is already reserved"
@@ -648,7 +648,7 @@ msgstr "sesja nie istnieje"
 
 #: phonetrack.js:4050
 msgid "Failed to contact server to set session auto export value"
-msgstr ""
+msgstr "Nie udało połączyć się z serwerem aby ustawić wartości auto-eksportu sesji"
 
 #: phonetrack.js:4120
 msgid "Import gpx session file"
@@ -726,7 +726,7 @@ msgstr "Pokaż user-agent w podpowiedziach"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Spraw aby można było przesunąć punkty w trybie edycji"
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
