@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 11:33-0500\n"
+"PO-Revision-Date: 2017-12-15 11:51-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -18,31 +18,31 @@ msgstr ""
 
 #: app.php:41
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "w lewo"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "w prawo"
 
 #: phonetrack.js:523 maincontent.php:69 maincontent.php:69
 msgid "Show lines"
-msgstr ""
+msgstr "Pokaż linie"
 
 #: phonetrack.js:531
 msgid "Hide lines"
-msgstr ""
+msgstr "Ukryj linie"
 
 #: phonetrack.js:552
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "Włacz automatyczne powiększanie"
 
 #: phonetrack.js:560
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "Wyłącz automatyczne powiększanie"
 
 #: phonetrack.js:581
 msgid "Show last point tooltip"
@@ -70,13 +70,13 @@ msgstr ""
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Serwer o tej nazwie już istnieje"
 
 #: phonetrack.js:814 phonetrack.js:2821 maincontent.php:211 maincontent.php:255
 #: maincontent.php:300 maincontent.php:349 maincontent.php:211
 #: maincontent.php:255 maincontent.php:300 maincontent.php:349
 msgid "Delete"
-msgstr ""
+msgstr "Usuń"
 
 #: phonetrack.js:847
 msgid "Tile server \"{ts}\" has been added"
@@ -899,7 +899,7 @@ msgstr ""
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
-msgstr ""
+msgstr "Dodaj punkt"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
@@ -919,110 +919,110 @@ msgstr ""
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
-msgstr ""
+msgstr "Usuń punkty"
 
 #: maincontent.php:389 maincontent.php:389
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Usuń tylko widoczne punkty"
 
 #: maincontent.php:396 maincontent.php:396
 msgid "Filter points"
-msgstr ""
+msgstr "Punkty filtra"
 
 #: maincontent.php:401 maincontent.php:401
 msgid "Apply filters"
-msgstr ""
+msgstr "Zastosuj filtry"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Data rozpoczęcia"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
 msgid "today"
-msgstr ""
+msgstr "dziś"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Czas rozpoczęcia"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Data zakończenia"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Czas zakończenia"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Min--i Max--"
 
 #: maincontent.php:443 maincontent.php:443
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Min ++ i Max ++"
 
 #: maincontent.php:446 maincontent.php:446
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Ostatni dzień: godzina:min"
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Minimalna dokładność"
 
 #: maincontent.php:461 maincontent.php:461
 msgid "Maximum accuracy"
-msgstr ""
+msgstr "Maksymalna dokładność"
 
 #: maincontent.php:469 maincontent.php:469
 msgid "Minimum elevation"
-msgstr ""
+msgstr "Minimalna Elewacja"
 
 #: maincontent.php:477 maincontent.php:477
 msgid "Maximum elevation"
-msgstr ""
+msgstr "Maksymalna elewacja"
 
 #: maincontent.php:485 maincontent.php:485
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Minimalny poziom baterii"
 
 #: maincontent.php:493 maincontent.php:493
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Maksymalny poziom baterii"
 
 #: maincontent.php:501 maincontent.php:501
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Minimum Satelitów"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Maksimum Satelitów"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
-msgstr ""
+msgstr "Statystyki"
 
 #: maincontent.php:526 maincontent.php:526
 msgid "Show stats"
-msgstr ""
+msgstr "Pokaż statystyki"
 
 #: maincontent.php:535 maincontent.php:535
 msgid "Shortcuts"
-msgstr ""
+msgstr "Skróty"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Rozwiń boczne menu"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacja"
 
 #: maincontent.php:549 maincontent.php:549
 msgid "Source management"
-msgstr ""
+msgstr "Zarządzanie źródłem"
 
 #: maincontent.php:563 maincontent.php:563
 msgid "Authors"
-msgstr ""
+msgstr "Autorzy"
 
