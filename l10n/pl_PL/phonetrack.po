@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 12:20-0500\n"
+"PO-Revision-Date: 2017-12-15 12:31-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -140,11 +140,11 @@ msgstr ""
 
 #: phonetrack.js:1199 phonetrack.js:2248
 msgid "More actions"
-msgstr ""
+msgstr "Więcej akcji"
 
 #: phonetrack.js:1203
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Przybliżenie na tej sesji"
 
 #: phonetrack.js:1206
 msgid "URL to share session"
@@ -220,7 +220,7 @@ msgstr ""
 
 #: phonetrack.js:1269
 msgid "Share with user"
-msgstr ""
+msgstr "Udostępnij z użytkownikiem"
 
 #: phonetrack.js:1271
 msgid "Type user name and press 'Enter'"
@@ -228,7 +228,7 @@ msgstr ""
 
 #: phonetrack.js:1276 phonetrack.js:3337
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Udostępnione z {u}"
 
 #: phonetrack.js:1282
 msgid "A private session is not visible on public browser logging page"
@@ -268,11 +268,11 @@ msgstr ""
 
 #: phonetrack.js:1324
 msgid "OsmAnd URL"
-msgstr ""
+msgstr "OsmAnd URL"
 
 #: phonetrack.js:1326
 msgid "GpsLogger GET and POST URL"
-msgstr ""
+msgstr "GpsLogger GET i POST URL"
 
 #: phonetrack.js:1328
 msgid "Owntracks (HTTP mode) URL"
@@ -280,15 +280,15 @@ msgstr ""
 
 #: phonetrack.js:1330
 msgid "Ulogger URL"
-msgstr ""
+msgstr "Ulogger URL"
 
 #: phonetrack.js:1332
 msgid "Traccar URL"
-msgstr ""
+msgstr "Traccar URL"
 
 #: phonetrack.js:1334
 msgid "OpenGTS URL"
-msgstr ""
+msgstr "OpenGTS URL"
 
 #: phonetrack.js:1368
 msgid "The session you want to delete does not exist"
@@ -352,11 +352,11 @@ msgstr ""
 
 #: phonetrack.js:1959 phonetrack.js:1988
 msgid "Stats of all points"
-msgstr ""
+msgstr "Statystyki wszystkich punktów"
 
 #: phonetrack.js:1985
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "Statystyki filtrowanych punktów"
 
 #: phonetrack.js:2171
 msgid "Device's color successfully changed"
@@ -372,19 +372,19 @@ msgstr ""
 
 #: phonetrack.js:2251
 msgid "Delete this device"
-msgstr ""
+msgstr "Usuń to urządzenie"
 
 #: phonetrack.js:2253
 msgid "Rename this device"
-msgstr ""
+msgstr "Zmień nazwę tego urządzenia"
 
 #: phonetrack.js:2256
 msgid "Move to another session"
-msgstr ""
+msgstr "Przenieść do innej sesji"
 
 #: phonetrack.js:2259 maincontent.php:48 maincontent.php:48
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: phonetrack.js:2272
 msgid "Toggle detail/edition points"
@@ -440,27 +440,27 @@ msgstr ""
 
 #: phonetrack.js:2799 phonetrack.js:2841
 msgid "Precision"
-msgstr ""
+msgstr "Precyzja"
 
 #: phonetrack.js:2802 phonetrack.js:2845
 msgid "Satellites"
-msgstr ""
+msgstr "Satelity"
 
 #: phonetrack.js:2805 phonetrack.js:2849
 msgid "Battery"
-msgstr ""
+msgstr "Bateria"
 
 #: phonetrack.js:2808 phonetrack.js:2853
 msgid "User-agent"
-msgstr ""
+msgstr "User-agent"
 
 #: phonetrack.js:2811
 msgid "lat : lng"
-msgstr ""
+msgstr "lat : lng"
 
 #: phonetrack.js:2815
 msgid "DMS coords"
-msgstr ""
+msgstr "DMS coords"
 
 #: phonetrack.js:2820
 msgid "Save"
@@ -734,11 +734,11 @@ msgstr ""
 
 #: maincontent.php:109 maincontent.php:109
 msgid "Line width"
-msgstr ""
+msgstr "Szerekość linii"
 
 #: maincontent.php:113 maincontent.php:113
 msgid "Point radius"
-msgstr ""
+msgstr "Promień punktu"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
