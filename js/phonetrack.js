@@ -1244,6 +1244,11 @@
         }
         if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<div class="namereservdiv">';
+            divtxt = divtxt + '<p class="information">' + t('phonetrack', 'Name reservation is optional.') + '<br/>' +
+                t('phonetrack', 'Names can be used directly in logging URLs if they are not reserved.') + '<br/>' +
+                t('phonetrack', 'To log with a reserved name, use its token in logging URL.') + '<br/>' +
+                t('phonetrack', 'If a name is reserved, the only way to log with this name is with its token.') +
+                '</p>';
 
             divtxt = divtxt + '<label class="addnamereservLabel">' + t('phonetrack', 'Reserve this device name') + ' :</label>';
             divtxt = divtxt + '<input class="addnamereserv" type="text" title="' +

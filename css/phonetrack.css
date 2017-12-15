@@ -758,3 +758,8 @@ div#createimportsessiondiv button {
     font-weight: bold;
     color: grey;
 }
+.information {
+    text-align: left !important;
+    font-size: 10px;
+    line-height: normal;
+}
