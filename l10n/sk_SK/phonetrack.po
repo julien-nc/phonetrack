@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 11:33-0500\n"
+"PO-Revision-Date: 2017-12-17 09:32-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -196,11 +196,11 @@ msgstr "mesačne"
 
 #: phonetrack.js:1247
 msgid "Name reservation is optional."
-msgstr ""
+msgstr "Rezervovanie názvu zariadenia je voliteľné."
 
 #: phonetrack.js:1248
 msgid "Name can be set directly in logging URL if it is not reserved."
-msgstr ""
+msgstr "Názov môže byť zadaný priamo v URL na sledovanie, ak nieje rezervovaný."
 
 #: phonetrack.js:1249
 msgid "To log with a reserved name, use its token in logging URL."
