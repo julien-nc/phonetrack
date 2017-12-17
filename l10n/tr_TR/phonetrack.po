@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 11:31-0500\n"
+"PO-Revision-Date: 2017-12-17 11:21-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -104,7 +104,7 @@ msgstr "Kiremit sunucu silmek için sunucusu ile bağlantı kurulamadı"
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Seçenekleri geri yüklemek için sunucu ile bağlantı kurulamadı"
 
 #: phonetrack.js:1008
 msgid "Reload this page"
@@ -116,7 +116,7 @@ msgstr "Hata"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Seçenekleri kaydetmek için sunucu ile bağlantı kurulamadı"
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
@@ -128,7 +128,7 @@ msgstr "Oturum adı zaten kullanılıyor"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Oturum açmak için sunucu ile bağlantı kurulamadı"
 
 #: phonetrack.js:1188
 msgid "Watch this session"
@@ -196,7 +196,7 @@ msgstr "aylık"
 
 #: phonetrack.js:1247
 msgid "Name reservation is optional."
-msgstr ""
+msgstr "Ad rezervasyonu isteğe bağlı."
 
 #: phonetrack.js:1248
 msgid "Name can be set directly in logging URL if it is not reserved."
