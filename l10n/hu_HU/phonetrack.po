@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 11:33-0500\n"
+"PO-Revision-Date: 2017-12-17 14:54-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "balra"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "jobbra"
 
 #: phonetrack.js:523 maincontent.php:69 maincontent.php:69
 msgid "Show lines"
@@ -38,7 +38,7 @@ msgstr ""
 
 #: phonetrack.js:552
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "Automatikus közelítés engedélyezése"
 
 #: phonetrack.js:560
 msgid "Disable automatic zoom"
@@ -1024,5 +1024,5 @@ msgstr ""
 
 #: maincontent.php:563 maincontent.php:563
 msgid "Authors"
-msgstr ""
+msgstr "Szerző"
 
