@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-17 11:21-0500\n"
+"PO-Revision-Date: 2017-12-17 11:31-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -208,7 +208,7 @@ msgstr ""
 
 #: phonetrack.js:1250
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr ""
+msgstr "Eğer isim rezerve edilmişse, bu isimle giriş yapmanın tek yolu kendine ait simgedir."
 
 #: phonetrack.js:1253
 msgid "Reserve this device name"
@@ -248,11 +248,11 @@ msgstr "Genel izleme URL'si"
 
 #: phonetrack.js:1298
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Geçerli aktif filtreler paylaşılan görünüme yansıyacaktır"
 
 #: phonetrack.js:1300
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Herkese açık filtreleri paylaş"
 
 #: phonetrack.js:1319
 msgid "List of server URLs to configure logging apps."
@@ -260,7 +260,7 @@ msgstr ""
 
 #: phonetrack.js:1320
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr ""
+msgstr "\"Adınızı\" arzuladığınız cihaz ismi ile veya rezerve edilmiş simge ile değiştirin"
 
 #: phonetrack.js:1322
 msgid "Public browser logging URL"
@@ -324,39 +324,39 @@ msgstr ""
 
 #: phonetrack.js:1541
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Cihazı yeniden adlandırmak imkansız"
 
 #: phonetrack.js:1545
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Cihazı yenilemek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:1606
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Belirlenen oturumda cihaz zaten var"
 
 #: phonetrack.js:1609
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Cihazı başka bir oturuma taşımak imkansız"
 
 #: phonetrack.js:1613
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Cihazı taşımak için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:1679
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Oturumları alabilmek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:1717
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Oturumları yenilemek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:1959 phonetrack.js:1988
 msgid "Stats of all points"
-msgstr ""
+msgstr "Bütün noktaların istatistikleri"
 
 #: phonetrack.js:1985
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "Filtrelenmiş noktaların istatistikleri"
 
 #: phonetrack.js:2171
 msgid "Device's color successfully changed"
@@ -408,7 +408,7 @@ msgstr "Düzenlemek istediğiniz noktası yok veya düzenlemek için yetkiniz yo
 
 #: phonetrack.js:2454
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Noktayı düzenlemek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:2572
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
@@ -420,7 +420,7 @@ msgstr ""
 
 #: phonetrack.js:2668
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Bu noktayı eklemek imkansız"
 
 #: phonetrack.js:2672
 msgid "Failed to contact server to add point"
@@ -620,11 +620,11 @@ msgstr "Oturum silme işlemini onaylayın"
 
 #: phonetrack.js:3793
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "'{fname}' için bir depolama konumu seçin"
 
 #: phonetrack.js:3947
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Cihazı {device} silmek istediğinize eminmisiniz ?"
 
 #: phonetrack.js:3950
 msgid "Confirm device deletion"
@@ -702,7 +702,7 @@ msgstr "İpucularını Göster"
 
 #: maincontent.php:76 maincontent.php:76
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Her (sn) yenileme"
 
 #: maincontent.php:81 maincontent.php:81
 msgid "Show accuracy in tooltips"
@@ -836,7 +836,7 @@ msgstr ""
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Örneğin : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
@@ -903,7 +903,7 @@ msgstr "Yeni nokta Ekle"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Şimdi, harita üzerinde nokta eklemek için tıklayın(Eğer oturum etkinleştirilmemişse, eklenmiş noktayı görmeyeceksiniz)"
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
@@ -915,7 +915,7 @@ msgstr "Birden çok nokta silme"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Bir oturum ve cihaz seçin ve filtreleri ayarlayın. Seçilmiş cihazda bütün gösterilen noktalar silinecektir. Boş cihaz ismi hepsini seçer."
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
