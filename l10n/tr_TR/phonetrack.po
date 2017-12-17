@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-17 11:31-0500\n"
+"PO-Revision-Date: 2017-12-17 11:41-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -412,11 +412,11 @@ msgstr "Noktayı düzenlemek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:2572
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Düzenlemek istediğiniz nokta yok veya düzenlemek için yetkili değilsiniz"
 
 #: phonetrack.js:2576
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Noktayı silmek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:2668
 msgid "Impossible to add this point"
@@ -424,7 +424,7 @@ msgstr "Bu noktayı eklemek imkansız"
 
 #: phonetrack.js:2672
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Noktayı eklemek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:2788
 msgid "Date"
@@ -496,11 +496,11 @@ msgstr "Dosya mevcut değil"
 
 #: phonetrack.js:3044
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "Oturumu içe aktarma için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:3063
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Oturum başarıyla dışarı aktarıldı"
 
 #: phonetrack.js:3067
 msgid "Failed to export session"
