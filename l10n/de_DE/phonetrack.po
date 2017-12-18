@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-16 15:20-0500\n"
+"PO-Revision-Date: 2017-12-18 10:32-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -260,7 +260,7 @@ msgstr "Liste von Serveradressen zur Konfiguration von Protokollierungs-Apps."
 
 #: phonetrack.js:1320
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr "Ersetzen Sie „IhrName” durch den gewünschten Gerätenamen oder durch das Namensreservierungstoken."
+msgstr "Ersetzen Sie „yourname” durch den gewünschten Gerätenamen oder durch das Namensreservierungstoken"
 
 #: phonetrack.js:1322
 msgid "Public browser logging URL"
