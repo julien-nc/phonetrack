@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-17 15:21-0500\n"
+"PO-Revision-Date: 2017-12-18 10:32-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -136,7 +136,7 @@ msgstr ""
 
 #: phonetrack.js:1194
 msgid "shared by {u}"
-msgstr "Megosztva tőle: {u}"
+msgstr "segosztva tőle: {u}"
 
 #: phonetrack.js:1199 phonetrack.js:2248
 msgid "More actions"
