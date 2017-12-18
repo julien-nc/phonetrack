@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-15 11:32-0500\n"
+"PO-Revision-Date: 2017-12-18 18:01-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Hindi\n"
 "Language: hi_IN\n"
@@ -890,7 +890,7 @@ msgstr ""
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
 msgid "Session"
-msgstr ""
+msgstr "सत्र"
 
 #: maincontent.php:368 maincontent.php:386 maincontent.php:368
 #: maincontent.php:386
