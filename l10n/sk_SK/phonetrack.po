@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-18 16:18-0500\n"
+"PO-Revision-Date: 2017-12-18 16:30-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -208,7 +208,7 @@ msgstr "Na zaznamenávanie s rezervovaným názvom použite jeho token v URL na 
 
 #: phonetrack.js:1250
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr ""
+msgstr "Ak je už názov rezervovaný, jediný spôsob zaznamenávania s týmto názvom je s jeho tokenom."
 
 #: phonetrack.js:1253
 msgid "Reserve this device name"
@@ -256,7 +256,7 @@ msgstr "Pridať verejné filtrované zdieľanie"
 
 #: phonetrack.js:1319
 msgid "List of server URLs to configure logging apps."
-msgstr ""
+msgstr "Zoznam adries URL servera na konfiguráciu sledovacích aplikácií."
 
 #: phonetrack.js:1320
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
