@@ -1114,9 +1114,19 @@ class PageController extends Controller {
         $result = array();
         $colors = array();
         $names = array();
+        // manage sql optim filters (time only)
+        $fArray = $this->getCurrentFilters();
+        $settingsTimeFilterSQL = '';
+        if (isset($fArray['tsmin'])) {
+            $settingsTimeFilterSQL .= 'AND timestamp >= '.$this->db_quote_escape_string($fArray['tsmin']).' ';
+        }
+        if (isset($fArray['tsmax'])) {
+            $settingsTimeFilterSQL .= 'AND timestamp <= '.$this->db_quote_escape_string($fArray['tsmax']).' ';
+        }
         foreach ($sessions as $session) {
             $token = $session[0];
             $lastTime = $session[1];
+            $firstTime = $session[2];
 
             // check if session exists
             $dbtoken = null;
@@ -1160,9 +1170,18 @@ class PageController extends Controller {
 
                 foreach ($devices as $devid) {
                     $resultDevArray = array();
+
+                    $firstDeviceTimeSQL = '';
+                    if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
+                        $firstDeviceTime = $firstTime[$devid];
+                        $firstDeviceTimeSQL = 'AND timestamp<'.$this->db_quote_escape_string($firstDeviceTime).' ';
+                    }
+
                     $lastDeviceTime = 0;
+                    $lastDeviceTimeSQL = '';
                     if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
                         $lastDeviceTime = $lastTime[$devid];
+                        $lastDeviceTimeSQL = 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
                     }
                     // we give color (first point given)
                     else {
@@ -1191,7 +1210,9 @@ class PageController extends Controller {
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
                     $sqlget .= ' altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-                    $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
+                    $sqlget .= $firstDeviceTimeSQL;
+                    $sqlget .= $lastDeviceTimeSQL;
+                    $sqlget .= $settingsTimeFilterSQL;
                     $sqlget .= 'ORDER BY timestamp ASC';
                     $req = $this->dbconnection->prepare($sqlget);
                     $req->execute();
