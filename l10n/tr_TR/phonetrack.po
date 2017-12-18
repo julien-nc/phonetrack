@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-17 11:41-0500\n"
+"PO-Revision-Date: 2017-12-18 09:12-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -200,11 +200,11 @@ msgstr "Ad rezervasyonu isteğe bağlı."
 
 #: phonetrack.js:1248
 msgid "Name can be set directly in logging URL if it is not reserved."
-msgstr ""
+msgstr "Ad eğer rezerve edilmemişte direkt olarak giriş adresinde tanımlanabilir."
 
 #: phonetrack.js:1249
 msgid "To log with a reserved name, use its token in logging URL."
-msgstr ""
+msgstr "Rezerve edilmiş isimle girmek için, ona ait simeyi kullanın."
 
 #: phonetrack.js:1250
 msgid "If a name is reserved, the only way to log with this name is with its token."
@@ -256,7 +256,7 @@ msgstr "Herkese açık filtreleri paylaş"
 
 #: phonetrack.js:1319
 msgid "List of server URLs to configure logging apps."
-msgstr ""
+msgstr "Günlük uygulamaları yapılandırmak için sunucu URL'lerinin listesi."
 
 #: phonetrack.js:1320
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
@@ -264,27 +264,27 @@ msgstr "\"Adınızı\" arzuladığınız cihaz ismi ile veya rezerve edilmiş si
 
 #: phonetrack.js:1322
 msgid "Public browser logging URL"
-msgstr ""
+msgstr "Herkese açık tarayıcı için giriş adresi"
 
 #: phonetrack.js:1324
 msgid "OsmAnd URL"
-msgstr ""
+msgstr "Osm ve adres"
 
 #: phonetrack.js:1326
 msgid "GpsLogger GET and POST URL"
-msgstr ""
+msgstr "GpsLogger adres alma ve gönderme"
 
 #: phonetrack.js:1328
 msgid "Owntracks (HTTP mode) URL"
-msgstr ""
+msgstr "Owntracks (HTTP mode) URL"
 
 #: phonetrack.js:1330
 msgid "Ulogger URL"
-msgstr ""
+msgstr "Ulogger adresi"
 
 #: phonetrack.js:1332
 msgid "Traccar URL"
-msgstr ""
+msgstr "Traccar adresi"
 
 #: phonetrack.js:1334
 msgid "OpenGTS URL"
@@ -304,23 +304,23 @@ msgstr "Oturum silmek için sunucu ile bağlantı kurulamadı"
 
 #: phonetrack.js:1395
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "'{s}' cihazının '{d}' oturumu silindi"
 
 #: phonetrack.js:1398
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "'{d}' cihazının '{s}' oturumu silinirken başarısız oldu"
 
 #: phonetrack.js:1402
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Cihazı silmek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:1453
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Oturumu yeniden adlandırmak imkansız"
 
 #: phonetrack.js:1457
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Oturumu yeniden adlandırmak için sunucu ile bağlantı kurulamadı"
 
 #: phonetrack.js:1541
 msgid "Impossible to rename device"
@@ -392,7 +392,7 @@ msgstr "Ayrıntı/baskı noktalarına geçiş yap"
 
 #: phonetrack.js:2280
 msgid "Toggle lines"
-msgstr ""
+msgstr "Satırlar aç/kapat"
 
 #: phonetrack.js:2290 phonetrack.js:2296
 msgid "Center map on device"
@@ -456,7 +456,7 @@ msgstr "Kullanıcı Aracı"
 
 #: phonetrack.js:2811
 msgid "lat : lng"
-msgstr ""
+msgstr "lat: Ing"
 
 #: phonetrack.js:2815
 msgid "DMS coords"
@@ -508,39 +508,39 @@ msgstr "Oturumu dışa aktarmak başarısız oldu"
 
 #: phonetrack.js:3071
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Oturumu dışarı aktarmak için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:3102
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Kayıt pozisyonu için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:3260
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' Zaten rezerve edilmiş"
 
 #: phonetrack.js:3263
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "'{n}'yi rezerve ederken başarısız olundu"
 
 #: phonetrack.js:3266
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Cihaz ismini rezerve etmek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:3297 phonetrack.js:3301
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Rezerve edilmiş ismi silme başarısız"
 
 #: phonetrack.js:3298
 msgid "This device does not exist"
-msgstr ""
+msgstr "Böyle bir cihaz yok"
 
 #: phonetrack.js:3302
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Bu cihaz adı rezerve edilmiş değildir, lütfen bu sayfayı tekrar yükleyin"
 
 #: phonetrack.js:3305
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Rezerve edilmiş adı silmek için sunucuya bağlanılamadı"
 
 #: phonetrack.js:3325
 msgid "User does not exist"
@@ -548,11 +548,11 @@ msgstr "Kullanıcı mevcut değil"
 
 #: phonetrack.js:3328
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Kullanıcı paylaşımı eklenemedi"
 
 #: phonetrack.js:3331
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Kullanıcı paylaşımı eklemek için sunucuya bağlanılamadı"
 
 #: phonetrack.js:3362
 msgid "Failed to delete user share"
