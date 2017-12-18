@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2017-12-15 17:28+0100\n"
-"PO-Revision-Date: 2017-12-18 09:12-0500\n"
+"PO-Revision-Date: 2017-12-18 09:22-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -556,19 +556,19 @@ msgstr "Kullanıcı paylaşımı eklemek için sunucuya bağlanılamadı"
 
 #: phonetrack.js:3362
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Kullanıcı paylaşımı silinemedi"
 
 #: phonetrack.js:3365
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Kullanıcı paylaşımını silmek için sunucuya bağlanılamadı"
 
 #: phonetrack.js:3384
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Herkese açık paylaşım eklenemedi"
 
 #: phonetrack.js:3387
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Herkese açık paylaşım eklemek için sunucuya bağlanılamadı"
 
 #: phonetrack.js:3414
 msgid "No filters"
@@ -576,15 +576,15 @@ msgstr "Filtre yok"
 
 #: phonetrack.js:3438
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Herkese açık paylaşım silinemedi"
 
 #: phonetrack.js:3441
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Herkese açık paylaşımı silmek için sunucuya bağlanılamadı"
 
 #: phonetrack.js:3459
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Kullanıcı listesini almak için sunucuya bağlanılamadı"
 
 #: phonetrack.js:3472
 msgid "device name"
@@ -632,15 +632,15 @@ msgstr "Aygıt silme işlemini onaylayın"
 
 #: phonetrack.js:4019
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Oturum herkese açık durumu değiştirilemedi, oturum mevcut değil"
 
 #: phonetrack.js:4022
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Oturumun herkese açık durumunu değiştirmek için sunucuya bağlanılamadı"
 
 #: phonetrack.js:4045
 msgid "Failed to set session auto export value"
-msgstr ""
+msgstr "Oturumun otomatik dışa aktarma değeri ayarlanamadı"
 
 #: phonetrack.js:4046
 msgid "session does not exist"
@@ -648,11 +648,11 @@ msgstr "oturum yok"
 
 #: phonetrack.js:4050
 msgid "Failed to contact server to set session auto export value"
-msgstr ""
+msgstr "Oturumun otomatik dışa aktarma değerini ayarlamak için sunucuya bağlanılamadı"
 
 #: phonetrack.js:4120
 msgid "Import gpx session file"
-msgstr ""
+msgstr "Gpx oturum dosyasını içe aktar"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
@@ -706,31 +706,31 @@ msgstr "Her (sn) yenileme"
 
 #: maincontent.php:81 maincontent.php:81
 msgid "Show accuracy in tooltips"
-msgstr ""
+msgstr "Araç ipuçlarında doğruluğu göster"
 
 #: maincontent.php:85 maincontent.php:85
 msgid "Show satellites in tooltips"
-msgstr ""
+msgstr "Uyduları araç ipuçlarında göster"
 
 #: maincontent.php:89 maincontent.php:89
 msgid "Show battery level in tooltips"
-msgstr ""
+msgstr "Araç ipuçlarında pil düzeyini göster"
 
 #: maincontent.php:93 maincontent.php:93
 msgid "Show elevation in tooltips"
-msgstr ""
+msgstr "Araç ipuçlarında yüksekliği göster"
 
 #: maincontent.php:97 maincontent.php:97
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "Araç ipuçlarında kullanıcı aracısını göster"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Baskı modunda puanları sürüklenebilme"
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Doğrulu üstüne geldiğinde göster"
 
 #: maincontent.php:109 maincontent.php:109
 msgid "Line width"
@@ -782,7 +782,7 @@ msgstr "konumlar yükleniyor"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Özel tip sunucular"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
@@ -827,11 +827,11 @@ msgstr "Ekle"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
-msgstr ""
+msgstr "Özel tip sunucuların"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Özel kaplama karo sunucular"
 
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
@@ -850,11 +850,11 @@ msgstr "Opaklık (0.0-1.0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Kaplanmış kiremit sunucularınız"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Özel WMS kiremit sunucular"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
@@ -873,15 +873,15 @@ msgstr "Görüntülenecek katmanlar"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Senin WMS kiremit sunucuların"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Özel WMS kaplanmış sunucular"
 
 #: maincontent.php:333 maincontent.php:333
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Senin WMS özel kiremit sunucuların"
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
