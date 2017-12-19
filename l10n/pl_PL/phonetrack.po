@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2017-12-06 15:05+0100\n"
-"PO-Revision-Date: 2017-12-06 09:10-0500\n"
+"POT-Creation-Date: 2017-12-15 17:28+0100\n"
+"PO-Revision-Date: 2017-12-15 14:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -18,991 +18,1011 @@ msgstr ""
 
 #: app.php:41
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "w lewo"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "w prawo"
 
 #: phonetrack.js:523 maincontent.php:69 maincontent.php:69
 msgid "Show lines"
-msgstr ""
+msgstr "Pokaż linie"
 
 #: phonetrack.js:531
 msgid "Hide lines"
-msgstr ""
+msgstr "Ukryj linie"
 
 #: phonetrack.js:552
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "Włacz automatyczne powiększanie"
 
 #: phonetrack.js:560
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "Wyłącz automatyczne powiększanie"
 
 #: phonetrack.js:581
 msgid "Show last point tooltip"
-msgstr ""
+msgstr "Pokaż ostatni punkt podpowiedzi"
 
 #: phonetrack.js:589
 msgid "Hide last point tooltip"
-msgstr ""
+msgstr "Ukryj ostatni punkt podpowiedzi"
 
 #: phonetrack.js:610
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Przybliż na wszystkich urządzeniach"
 
 #: phonetrack.js:623
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Kliknij na mapie, aby przesunąć punkt, naciśnij klawisz ESC, aby anulować"
 
 #: phonetrack.js:776
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Nazwa serwera lub adres url serwera nie powinnny być puste"
 
 #: phonetrack.js:777 phonetrack.js:782
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "Nie udało się dodać kafelka serwera"
 
 #: phonetrack.js:781
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Serwer o tej nazwie już istnieje"
 
-#: phonetrack.js:814 phonetrack.js:2813 maincontent.php:211 maincontent.php:255
+#: phonetrack.js:814 phonetrack.js:2821 maincontent.php:211 maincontent.php:255
 #: maincontent.php:300 maincontent.php:349 maincontent.php:211
 #: maincontent.php:255 maincontent.php:300 maincontent.php:349
 msgid "Delete"
-msgstr ""
+msgstr "Usuń"
 
 #: phonetrack.js:847
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "Kafelek serwera \"{ts}\" został dodany"
 
 #: phonetrack.js:850
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "Nie udało się dodać kafelka serwera \"{ts}\""
 
 #: phonetrack.js:854
 msgid "Failed to contact server to add tile server"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby dodać kafelek serwera"
 
 #: phonetrack.js:888
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr ""
+msgstr "Kafelek serwera \"{ts}\" został usunięty"
 
 #: phonetrack.js:891
 msgid "Failed to delete tile server \"{ts}\""
-msgstr ""
+msgstr "Nie udało się usunąć kafelka serwera \"{ts}\""
 
 #: phonetrack.js:895
 msgid "Failed to contact server to delete tile server"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć kafelek serwera"
 
 #: phonetrack.js:1007
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby przywrócić wartości opcji"
 
 #: phonetrack.js:1008
 msgid "Reload this page"
-msgstr ""
+msgstr "Odśwież stronę"
 
 #: phonetrack.js:1010 phonetrack.js:1077
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: phonetrack.js:1076
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zapisać wartości opcji"
 
 #: phonetrack.js:1097
 msgid "Session name should not be empty"
-msgstr ""
+msgstr "Nazwa sesji nie powinna być pusta"
 
 #: phonetrack.js:1114
 msgid "Session name already used"
-msgstr ""
+msgstr "Nazwa sesji jest już używana"
 
 #: phonetrack.js:1118
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby utworzyć sesje"
 
 #: phonetrack.js:1188
 msgid "Watch this session"
-msgstr ""
+msgstr "Obejrzyj tę sesję"
 
 #: phonetrack.js:1194
 msgid "shared by {u}"
-msgstr ""
+msgstr "udostępnione przez {u}"
 
-#: phonetrack.js:1199 phonetrack.js:2240
+#: phonetrack.js:1199 phonetrack.js:2248
 msgid "More actions"
-msgstr ""
+msgstr "Więcej akcji"
 
 #: phonetrack.js:1203
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Przybliżenie na tej sesji"
 
 #: phonetrack.js:1206
 msgid "URL to share session"
-msgstr ""
+msgstr "Adres URL do udostępniania sesji"
 
 #: phonetrack.js:1210
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "Adresy URL dla rejestrowania aplikacji"
 
 #: phonetrack.js:1214
 msgid "Reserve device names"
-msgstr ""
+msgstr "Zarezerwuj nazwy urządzeń"
 
 #: phonetrack.js:1223
 msgid "Delete session"
-msgstr ""
+msgstr "Usuń sesję"
 
 #: phonetrack.js:1224 phonetrack.js:1225
 msgid "Rename session"
-msgstr ""
+msgstr "Zmień nazwe sesji"
 
 #: phonetrack.js:1227 phonetrack.js:1228
 msgid "Export to gpx"
-msgstr ""
+msgstr "Eksportuj do gpx"
 
 #: phonetrack.js:1232
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Pliki są tworzone w '{exdir}'"
 
 #: phonetrack.js:1233
 msgid "Automatic export"
-msgstr ""
+msgstr "Automatyczny eksport"
 
 #: phonetrack.js:1235
 msgid "never"
-msgstr ""
+msgstr "nigdy"
 
 #: phonetrack.js:1236
 msgid "daily"
-msgstr ""
+msgstr "dziennie"
 
 #: phonetrack.js:1237
 msgid "weekly"
-msgstr ""
+msgstr "tygodniowo"
 
 #: phonetrack.js:1238
 msgid "monthly"
-msgstr ""
+msgstr "miesięcznie"
+
+#: phonetrack.js:1247
+msgid "Name reservation is optional."
+msgstr "Rezerwacja nazwy jest opcjonalna."
 
 #: phonetrack.js:1248
-msgid "Reserve this device name"
-msgstr ""
+msgid "Name can be set directly in logging URL if it is not reserved."
+msgstr "Nazwę można ustawić bezpośrednio w adresie URL rejestrowania Jeśli nie jest zarezerwowana."
+
+#: phonetrack.js:1249
+msgid "To log with a reserved name, use its token in logging URL."
+msgstr "Aby zalogować się przy użyciu zarezerwowanej nazwy, należy użyć jego token w adresie URL logowania."
 
 #: phonetrack.js:1250
+msgid "If a name is reserved, the only way to log with this name is with its token."
+msgstr "Jeśli nazwa jest zarezerwowana, jedynym sposobem, aby zalogować się za pomocą tej nazwy jest z jego tokenem."
+
+#: phonetrack.js:1253
+msgid "Reserve this device name"
+msgstr "Zarezerwuj tę nazwę urządzenia"
+
+#: phonetrack.js:1255
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Wpisz zarezerwowaną nazwę użytkownika i naciśnij 'Enter'"
 
-#: phonetrack.js:1264
+#: phonetrack.js:1269
 msgid "Share with user"
-msgstr ""
+msgstr "Udostępnij z użytkownikiem"
 
-#: phonetrack.js:1266
+#: phonetrack.js:1271
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Wpisz nazwę użytkownika i naciśnij 'Enter'"
 
-#: phonetrack.js:1271 phonetrack.js:3329
+#: phonetrack.js:1276 phonetrack.js:3337
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Udostępnione z {u}"
 
-#: phonetrack.js:1277
+#: phonetrack.js:1282
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Prywatna sesja nie jest widoczna na publicznej stronie logowania"
 
-#: phonetrack.js:1279 phonetrack.js:4006
+#: phonetrack.js:1284 phonetrack.js:4014
 msgid "Make session public"
-msgstr ""
+msgstr "Przekształć sesje na publiczną"
 
-#: phonetrack.js:1282 phonetrack.js:4001
+#: phonetrack.js:1287 phonetrack.js:4009
 msgid "Make session private"
-msgstr ""
+msgstr "Przekształć sesje na prywatną"
 
-#: phonetrack.js:1287
+#: phonetrack.js:1292
 msgid "Public watch URL"
-msgstr ""
+msgstr "Publiczny widok URL"
 
-#: phonetrack.js:1293
+#: phonetrack.js:1298
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Bieżące aktywne filtry zostanie zastosowany w widoku udostępnionym"
 
-#: phonetrack.js:1295
+#: phonetrack.js:1300
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Dodaj udziały publicznie filtrowane"
 
-#: phonetrack.js:1313
-msgid "Replace 'yourname' with the desired device name"
-msgstr ""
-
-#: phonetrack.js:1314
-msgid "Public browser logging URL"
-msgstr ""
-
-#: phonetrack.js:1316
-msgid "OsmAnd URL"
-msgstr ""
-
-#: phonetrack.js:1318
-msgid "GpsLogger GET and POST URL"
-msgstr ""
+#: phonetrack.js:1319
+msgid "List of server URLs to configure logging apps."
+msgstr "Lista adresów URL serwera do skonfigurowanie rejestrowania aplikacji."
 
 #: phonetrack.js:1320
-msgid "Owntracks (HTTP mode) URL"
-msgstr ""
+msgid "Replace 'yourname' with the desired device name or with the name reservation token"
+msgstr "Zastąp 'yourname' z nazwą wybranego urządzenia lub z tokenem rezerwacji nazwy"
 
 #: phonetrack.js:1322
-msgid "Ulogger URL"
-msgstr ""
+msgid "Public browser logging URL"
+msgstr "Adres URL rejestrowania publicznego przeglądarki"
 
 #: phonetrack.js:1324
-msgid "Traccar URL"
-msgstr ""
+msgid "OsmAnd URL"
+msgstr "OsmAnd URL"
 
 #: phonetrack.js:1326
+msgid "GpsLogger GET and POST URL"
+msgstr "GpsLogger GET i POST URL"
+
+#: phonetrack.js:1328
+msgid "Owntracks (HTTP mode) URL"
+msgstr "Adres URL Owntracks (tryb HTTP)"
+
+#: phonetrack.js:1330
+msgid "Ulogger URL"
+msgstr "Ulogger URL"
+
+#: phonetrack.js:1332
+msgid "Traccar URL"
+msgstr "Traccar URL"
+
+#: phonetrack.js:1334
 msgid "OpenGTS URL"
-msgstr ""
+msgstr "OpenGTS URL"
 
-#: phonetrack.js:1360
+#: phonetrack.js:1368
 msgid "The session you want to delete does not exist"
-msgstr ""
+msgstr "Sesje którą chcesz usunąć nie istnieje"
 
-#: phonetrack.js:1363
+#: phonetrack.js:1371
 msgid "Failed to delete session"
-msgstr ""
+msgstr "Nie można usunąć sesji"
 
-#: phonetrack.js:1367
+#: phonetrack.js:1375
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć sesje"
 
-#: phonetrack.js:1387
+#: phonetrack.js:1395
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "Urządzenia '{d}', sesji '{s}' został usunięte"
 
-#: phonetrack.js:1390
+#: phonetrack.js:1398
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "Nie można usunąć urządzenia '{d}' sesji '{s}'"
 
-#: phonetrack.js:1394
+#: phonetrack.js:1402
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć urządzenie"
 
-#: phonetrack.js:1445
+#: phonetrack.js:1453
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Niemożliwe, aby zmienić nazwę sesji"
 
-#: phonetrack.js:1449
+#: phonetrack.js:1457
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zmienić nazwę sesji"
 
-#: phonetrack.js:1533
+#: phonetrack.js:1541
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Niemożliwe, aby zmienić nazwę urządzenia"
 
-#: phonetrack.js:1537
+#: phonetrack.js:1545
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zmienić nazwę urządzenia"
 
-#: phonetrack.js:1598
+#: phonetrack.js:1606
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Urządzenie już istnieje w sesji docelowej"
 
-#: phonetrack.js:1601
+#: phonetrack.js:1609
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Niemożliwe przenieść urządzenie do innej sesji"
 
-#: phonetrack.js:1605
+#: phonetrack.js:1613
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby przesunąć urządzenie"
 
-#: phonetrack.js:1671
+#: phonetrack.js:1679
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby uzyskać sesje"
 
-#: phonetrack.js:1709
+#: phonetrack.js:1717
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby odświeżyć sesje"
 
-#: phonetrack.js:1951 phonetrack.js:1980
+#: phonetrack.js:1959 phonetrack.js:1988
 msgid "Stats of all points"
-msgstr ""
+msgstr "Statystyki wszystkich punktów"
 
-#: phonetrack.js:1977
+#: phonetrack.js:1985
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "Statystyki filtrowanych punktów"
 
-#: phonetrack.js:2163
+#: phonetrack.js:2171
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Kolor urządzenia pomyślnie zmieniony"
 
-#: phonetrack.js:2166
+#: phonetrack.js:2174
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "Nie można zapisać koloru urządzenia"
 
-#: phonetrack.js:2170
+#: phonetrack.js:2178
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zmienić kolor urządzenia"
 
-#: phonetrack.js:2243
+#: phonetrack.js:2251
 msgid "Delete this device"
-msgstr ""
+msgstr "Usuń to urządzenie"
 
-#: phonetrack.js:2245
+#: phonetrack.js:2253
 msgid "Rename this device"
-msgstr ""
+msgstr "Zmień nazwę tego urządzenia"
 
-#: phonetrack.js:2248
+#: phonetrack.js:2256
 msgid "Move to another session"
-msgstr ""
+msgstr "Przenieść do innej sesji"
 
-#: phonetrack.js:2251 maincontent.php:48 maincontent.php:48
+#: phonetrack.js:2259 maincontent.php:48 maincontent.php:48
 msgid "Ok"
-msgstr ""
-
-#: phonetrack.js:2264
-msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Ok"
 
 #: phonetrack.js:2272
+msgid "Toggle detail/edition points"
+msgstr "Pokaż detale/edycje punktów"
+
+#: phonetrack.js:2280
 msgid "Toggle lines"
-msgstr ""
+msgstr "Włącz linie"
 
-#: phonetrack.js:2282 phonetrack.js:2288
+#: phonetrack.js:2290 phonetrack.js:2296
 msgid "Center map on device"
-msgstr ""
+msgstr "Wyśrodkowanie mapy na urządzeniu"
 
-#: phonetrack.js:2293
+#: phonetrack.js:2301
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Obserwuj to urządzenie (autozoom)"
 
-#: phonetrack.js:2442
+#: phonetrack.js:2450
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Punkt, który chcesz usunąć nie edytować lub nie możesz go edytować"
 
-#: phonetrack.js:2446
+#: phonetrack.js:2454
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby edytować punkt"
 
-#: phonetrack.js:2564
+#: phonetrack.js:2572
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Punkt, który chcesz usunąć nie istnieje lub nie możesz go usunąć"
 
-#: phonetrack.js:2568
+#: phonetrack.js:2576
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć punkt"
 
-#: phonetrack.js:2660
+#: phonetrack.js:2668
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Niemożliwe, aby dodać ten punkt"
 
-#: phonetrack.js:2664
+#: phonetrack.js:2672
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby dodać punkt"
 
-#: phonetrack.js:2780
+#: phonetrack.js:2788
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
-#: phonetrack.js:2783
+#: phonetrack.js:2791
 msgid "Time"
-msgstr ""
+msgstr "Czas"
 
-#: phonetrack.js:2788 phonetrack.js:2829
+#: phonetrack.js:2796 phonetrack.js:2837
 msgid "Altitude"
-msgstr ""
+msgstr "Wysokość npm"
 
-#: phonetrack.js:2791 phonetrack.js:2833
+#: phonetrack.js:2799 phonetrack.js:2841
 msgid "Precision"
-msgstr ""
+msgstr "Precyzja"
 
-#: phonetrack.js:2794 phonetrack.js:2837
+#: phonetrack.js:2802 phonetrack.js:2845
 msgid "Satellites"
-msgstr ""
+msgstr "Satelity"
 
-#: phonetrack.js:2797 phonetrack.js:2841
+#: phonetrack.js:2805 phonetrack.js:2849
 msgid "Battery"
-msgstr ""
+msgstr "Bateria"
 
-#: phonetrack.js:2800 phonetrack.js:2845
+#: phonetrack.js:2808 phonetrack.js:2853
 msgid "User-agent"
-msgstr ""
+msgstr "User-agent"
 
-#: phonetrack.js:2803
+#: phonetrack.js:2811
 msgid "lat : lng"
-msgstr ""
-
-#: phonetrack.js:2807
-msgid "DMS coords"
-msgstr ""
-
-#: phonetrack.js:2812
-msgid "Save"
-msgstr ""
-
-#: phonetrack.js:2814
-msgid "Move"
-msgstr ""
+msgstr "lat : lng"
 
 #: phonetrack.js:2815
+msgid "DMS coords"
+msgstr "DMS coords"
+
+#: phonetrack.js:2820
+msgid "Save"
+msgstr "Zapisz"
+
+#: phonetrack.js:2822
+msgid "Move"
+msgstr "Przenieś"
+
+#: phonetrack.js:2823
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
-#: phonetrack.js:3001
+#: phonetrack.js:3009
 msgid "File extension must be '.gpx' to be imported"
-msgstr ""
+msgstr "Rozszerzenie pliku musi być '.gpx' aby zostało zaimportowane"
 
-#: phonetrack.js:3018
+#: phonetrack.js:3026
 msgid "Failed to create imported session"
-msgstr ""
+msgstr "Nie udało się utworzyć zaimportowanej sesji"
 
-#: phonetrack.js:3022 phonetrack.js:3028
+#: phonetrack.js:3030 phonetrack.js:3036
 msgid "Failed to import session"
-msgstr ""
+msgstr "Nie udało się zaimportować sesji"
 
-#: phonetrack.js:3023
+#: phonetrack.js:3031
 msgid "File is not readable"
-msgstr ""
+msgstr "Nie można odczytać pliku"
 
-#: phonetrack.js:3029
+#: phonetrack.js:3037
 msgid "File does not exist"
-msgstr ""
+msgstr "Plik nie istnieje"
 
-#: phonetrack.js:3036
+#: phonetrack.js:3044
 msgid "Failed to contact server to import session"
-msgstr ""
-
-#: phonetrack.js:3055
-msgid "Session successfully exported in"
-msgstr ""
-
-#: phonetrack.js:3059
-msgid "Failed to export session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby importować sesje"
 
 #: phonetrack.js:3063
+msgid "Session successfully exported in"
+msgstr "Sesja pomyślnie wyeksportowana"
+
+#: phonetrack.js:3067
+msgid "Failed to export session"
+msgstr "Nie udało się eksportować sesji"
+
+#: phonetrack.js:3071
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby eksportować sesje"
 
-#: phonetrack.js:3094
+#: phonetrack.js:3102
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby rejestrować pozycje"
 
-#: phonetrack.js:3252
+#: phonetrack.js:3260
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' jest już zarezerwowany"
 
-#: phonetrack.js:3255
+#: phonetrack.js:3263
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Nie udało się zarezerwować '{n}'"
 
-#: phonetrack.js:3258
+#: phonetrack.js:3266
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zarezerwować nazwę urządzenia"
 
-#: phonetrack.js:3289 phonetrack.js:3293
+#: phonetrack.js:3297 phonetrack.js:3301
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Nie udało się usunąć zarezerwowanej nazwy"
 
-#: phonetrack.js:3290
+#: phonetrack.js:3298
 msgid "This device does not exist"
-msgstr ""
+msgstr "To urządzenie nie istnieje"
 
-#: phonetrack.js:3294
+#: phonetrack.js:3302
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Ta nazwa urządzenia nie jest zarezerwowana, Załaduj ponownie Tę stronę"
 
-#: phonetrack.js:3297
+#: phonetrack.js:3305
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć zarezerwowana nazwę"
 
-#: phonetrack.js:3317
+#: phonetrack.js:3325
 msgid "User does not exist"
-msgstr ""
+msgstr "Użytkownik nie istnieje"
 
-#: phonetrack.js:3320
+#: phonetrack.js:3328
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Nie udało się dodać udziału użytkownika"
 
-#: phonetrack.js:3323
+#: phonetrack.js:3331
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby dodać udział użytkownika"
 
-#: phonetrack.js:3354
+#: phonetrack.js:3362
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Nie udało się usunąć udziału użytkownika"
 
-#: phonetrack.js:3357
+#: phonetrack.js:3365
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć udział użytkownika"
 
-#: phonetrack.js:3376
+#: phonetrack.js:3384
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Nie udało się dodać udziału publicznego"
 
-#: phonetrack.js:3379
+#: phonetrack.js:3387
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby dodać udział publiczny"
 
-#: phonetrack.js:3406
+#: phonetrack.js:3414
 msgid "No filters"
-msgstr ""
+msgstr "Brak filtrów"
 
-#: phonetrack.js:3430
+#: phonetrack.js:3438
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Nie udało się usunąć udziału publicznego"
 
-#: phonetrack.js:3433
+#: phonetrack.js:3441
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby usunąć udział publiczny"
 
-#: phonetrack.js:3451
+#: phonetrack.js:3459
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby zdobyć liste użytkowników"
 
-#: phonetrack.js:3464
+#: phonetrack.js:3472
 msgid "device name"
-msgstr ""
+msgstr "nazwa urządzenia"
 
-#: phonetrack.js:3465
+#: phonetrack.js:3473
 msgid "distance (km)"
-msgstr ""
+msgstr "odległość (km)"
 
-#: phonetrack.js:3466
+#: phonetrack.js:3474
 msgid "duration"
-msgstr ""
+msgstr "czas trwania"
 
-#: phonetrack.js:3467
+#: phonetrack.js:3475
 msgid "#points"
-msgstr ""
+msgstr "#punkty"
 
-#: phonetrack.js:3502
+#: phonetrack.js:3510
 msgid "years"
-msgstr ""
+msgstr "lata"
 
-#: phonetrack.js:3505
+#: phonetrack.js:3513
 msgid "days"
-msgstr ""
+msgstr "dni"
 
-#: phonetrack.js:3634
+#: phonetrack.js:3642
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Czy na pewno chcesz usunąć tą sesje {session}?"
 
-#: phonetrack.js:3637
+#: phonetrack.js:3645
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Potwierdź usunięcie sesji"
 
-#: phonetrack.js:3785
+#: phonetrack.js:3793
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Wybierz lokalizację przechowywania dla '{fname}'"
 
-#: phonetrack.js:3939
+#: phonetrack.js:3947
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Czy na pewno chcesz usunąć to urządzenie {device}?"
 
-#: phonetrack.js:3942
+#: phonetrack.js:3950
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Potwierdź usunięcie urządzenia"
 
-#: phonetrack.js:4011
+#: phonetrack.js:4019
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Nie udało się pokazać statusu publicznego, sesja nie istnieje"
 
-#: phonetrack.js:4014
+#: phonetrack.js:4022
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Nie udało się połączyć do serwera, aby pokazać status publiczny"
 
-#: phonetrack.js:4037
+#: phonetrack.js:4045
 msgid "Failed to set session auto export value"
-msgstr ""
+msgstr "Nie można ustawić wartości auto-eksportu sesji"
 
-#: phonetrack.js:4038
+#: phonetrack.js:4046
 msgid "session does not exist"
-msgstr ""
+msgstr "sesja nie istnieje"
 
-#: phonetrack.js:4042
+#: phonetrack.js:4050
 msgid "Failed to contact server to set session auto export value"
-msgstr ""
+msgstr "Nie udało połączyć się z serwerem aby ustawić wartości auto-eksportu sesji"
 
-#: phonetrack.js:4112
+#: phonetrack.js:4120
 msgid "Import gpx session file"
-msgstr ""
+msgstr "Importuj plik sesji gpx"
 
 #: maincontent.php:4 maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Karta główna"
 
 #: maincontent.php:5 maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filtry"
 
 #: maincontent.php:14 maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Statystyki"
 
 #: maincontent.php:15 maincontent.php:176 maincontent.php:15
 #: maincontent.php:176
 msgid "Settings and extra actions"
-msgstr ""
+msgstr "Ustawienia i działania dodatkowe"
 
 #: maincontent.php:16 maincontent.php:533 maincontent.php:16
 #: maincontent.php:533
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "O PhoneTrack"
 
 #: maincontent.php:36 maincontent.php:36
 msgid "Import session"
-msgstr ""
+msgstr "Importuj sesje"
 
 #: maincontent.php:40 maincontent.php:40
 msgid "Create session"
-msgstr ""
+msgstr "Utwórz sesje"
 
 #: maincontent.php:44 maincontent.php:44
 msgid "Session name"
-msgstr ""
+msgstr "Nazwa sesji"
 
 #: maincontent.php:57 maincontent.php:57
 msgid "Options"
-msgstr ""
+msgstr "Opcje"
 
 #: maincontent.php:65 maincontent.php:65
 msgid "Auto zoom"
-msgstr ""
+msgstr "Automatyczne przybliżenie"
 
 #: maincontent.php:73 maincontent.php:73
 msgid "Show tooltips"
-msgstr ""
+msgstr "Pokaż podpowiedzi"
 
 #: maincontent.php:76 maincontent.php:76
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Odświeżanie każdego (sek)"
 
 #: maincontent.php:81 maincontent.php:81
 msgid "Show accuracy in tooltips"
-msgstr ""
+msgstr "Pokaż dokładność w podpowiedziach"
 
 #: maincontent.php:85 maincontent.php:85
 msgid "Show satellites in tooltips"
-msgstr ""
+msgstr "Pokaż satelity w podpowiedziach"
 
 #: maincontent.php:89 maincontent.php:89
 msgid "Show battery level in tooltips"
-msgstr ""
+msgstr "Pokaż poziom baterii w podpowiedziach"
 
 #: maincontent.php:93 maincontent.php:93
 msgid "Show elevation in tooltips"
-msgstr ""
+msgstr "Pokaż elewacje w podpowiedziach"
 
 #: maincontent.php:97 maincontent.php:97
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "Pokaż user-agent w podpowiedziach"
 
 #: maincontent.php:102 maincontent.php:102
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Spraw aby można było przesunąć punkty w trybie edycji"
 
 #: maincontent.php:106 maincontent.php:106
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Pokaż okrąg dokładność przy aktywowaniu"
 
 #: maincontent.php:109 maincontent.php:109
 msgid "Line width"
-msgstr ""
+msgstr "Szerekość linii"
 
 #: maincontent.php:113 maincontent.php:113
 msgid "Point radius"
-msgstr ""
+msgstr "Promień punktu"
 
 #: maincontent.php:117 maincontent.php:117
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Punkty i linie krycie"
 
 #: maincontent.php:121 maincontent.php:121
 msgid "Theme"
-msgstr ""
+msgstr "Motyw"
 
 #: maincontent.php:123 maincontent.php:123
 msgid "bright"
-msgstr ""
+msgstr "jasny"
 
 #: maincontent.php:124 maincontent.php:124
 msgid "pastel"
-msgstr ""
+msgstr "pastelowy"
 
 #: maincontent.php:125 maincontent.php:125
 msgid "dark"
-msgstr ""
+msgstr "ciemny"
 
 #: maincontent.php:128 maincontent.php:128
 msgid "reload page to make changes effective"
-msgstr ""
+msgstr "odśwież stronę aby zmiany stały się efektywne"
 
 #: maincontent.php:135 maincontent.php:135
 msgid "Device name"
-msgstr ""
+msgstr "Nazwa urządzenia"
 
 #: maincontent.php:137 maincontent.php:137
 msgid "Log my position in this session"
-msgstr ""
+msgstr "Rejestruj moją pozycje podczas tej sesji"
 
 #: maincontent.php:142 maincontent.php:142
 msgid "Tracking sessions"
-msgstr ""
+msgstr "Śledzenie sesji"
 
 #: maincontent.php:147 maincontent.php:147
 msgid "loading positions"
-msgstr ""
+msgstr "wczytywanie pozycji"
 
 #: maincontent.php:181 maincontent.php:181
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Niestandardowy kafelek serwerowy"
 
 #: maincontent.php:184 maincontent.php:224 maincontent.php:267
 #: maincontent.php:312 maincontent.php:184 maincontent.php:224
 #: maincontent.php:267 maincontent.php:312
 msgid "Server name"
-msgstr ""
+msgstr "Nazwa serwera"
 
 #: maincontent.php:185 maincontent.php:225 maincontent.php:268
 #: maincontent.php:313 maincontent.php:185 maincontent.php:225
 #: maincontent.php:268 maincontent.php:313
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Na przykład: mój niestandardowy serwer"
 
 #: maincontent.php:186 maincontent.php:226 maincontent.php:269
 #: maincontent.php:314 maincontent.php:186 maincontent.php:226
 #: maincontent.php:269 maincontent.php:314
 msgid "Server url"
-msgstr ""
+msgstr "Adres Url serwera"
 
 #: maincontent.php:187 maincontent.php:270 maincontent.php:187
 #: maincontent.php:270
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Na przykład: http://tile.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:188 maincontent.php:228 maincontent.php:271
 #: maincontent.php:316 maincontent.php:188 maincontent.php:228
 #: maincontent.php:271 maincontent.php:316
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Powiększenie min (1-20)"
 
 #: maincontent.php:190 maincontent.php:230 maincontent.php:273
 #: maincontent.php:318 maincontent.php:190 maincontent.php:230
 #: maincontent.php:273 maincontent.php:318
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Powiększenie max (1-20)"
 
 #: maincontent.php:192 maincontent.php:236 maincontent.php:281
 #: maincontent.php:330 maincontent.php:192 maincontent.php:236
 #: maincontent.php:281 maincontent.php:330
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 #: maincontent.php:195 maincontent.php:195
 msgid "Your tile servers"
-msgstr ""
+msgstr "Twoje kafelki serwerów"
 
 #: maincontent.php:221 maincontent.php:221
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Niestandardowe nakładki kafelek na serwery"
 
 #: maincontent.php:227 maincontent.php:315 maincontent.php:227
 #: maincontent.php:315
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Na przykład: http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:232 maincontent.php:320 maincontent.php:232
 #: maincontent.php:320
 msgid "Transparent"
-msgstr ""
+msgstr "Przezroczysty"
 
 #: maincontent.php:234 maincontent.php:322 maincontent.php:234
 #: maincontent.php:322
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Krycie (0,0-1,0)"
 
 #: maincontent.php:239 maincontent.php:239
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Twoje nakładki kafelków na serwerach"
 
 #: maincontent.php:264 maincontent.php:264
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Niestandardowe kafelki serwerowe WMS"
 
 #: maincontent.php:275 maincontent.php:324 maincontent.php:275
 #: maincontent.php:324
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: maincontent.php:277 maincontent.php:326 maincontent.php:277
 #: maincontent.php:326
 msgid "WMS version"
-msgstr ""
+msgstr "Wersja WMS"
 
 #: maincontent.php:279 maincontent.php:328 maincontent.php:279
 #: maincontent.php:328
 msgid "Layers to display"
-msgstr ""
+msgstr "Warstwy, do wyświetlenia"
 
 #: maincontent.php:284 maincontent.php:284
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Twoje kafelki WMS serwerów"
 
 #: maincontent.php:309 maincontent.php:309
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Niestandardowe kafelki WMS serwerów"
 
 #: maincontent.php:333 maincontent.php:333
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Twoje nakładki kafelków WMS na serwerach"
 
 #: maincontent.php:362 maincontent.php:362
 msgid "Manually add a point"
-msgstr ""
+msgstr "Ręcznie Dodaj punkt"
 
 #: maincontent.php:364 maincontent.php:382 maincontent.php:364
 #: maincontent.php:382
 msgid "Session"
-msgstr ""
+msgstr "Sesja"
 
 #: maincontent.php:368 maincontent.php:386 maincontent.php:368
 #: maincontent.php:386
 msgid "Device"
-msgstr ""
+msgstr "Urządzenie"
 
 #: maincontent.php:370 maincontent.php:370
 msgid "Add a point"
-msgstr ""
+msgstr "Dodaj punkt"
 
 #: maincontent.php:371 maincontent.php:371
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Teraz, kliknij na mapę, aby dodać punkt (Jeśli sesja nie jest aktywowana, nie zobaczysz dodanego punktu)"
 
 #: maincontent.php:372 maincontent.php:372
 msgid "Cancel add point"
-msgstr ""
+msgstr "Anuluj Dodanie punktu"
 
 #: maincontent.php:377 maincontent.php:377
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Dodaj wiele punktów"
 
 #: maincontent.php:380 maincontent.php:380
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Wybierz sesję, urządzenie i ustaw filtry. Wszystkie wyświetlone punkty dla wybranego urządzenia zostaną usunięte. Pusta nazwa urządzenia zaznacza je wszystkie."
 
 #: maincontent.php:388 maincontent.php:388
 msgid "Delete points"
-msgstr ""
+msgstr "Usuń punkty"
 
 #: maincontent.php:389 maincontent.php:389
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Usuń tylko widoczne punkty"
 
 #: maincontent.php:396 maincontent.php:396
 msgid "Filter points"
-msgstr ""
+msgstr "Punkty filtra"
 
 #: maincontent.php:401 maincontent.php:401
 msgid "Apply filters"
-msgstr ""
+msgstr "Zastosuj filtry"
 
 #: maincontent.php:404 maincontent.php:404
 msgid "Begin date"
-msgstr ""
+msgstr "Data rozpoczęcia"
 
 #: maincontent.php:410 maincontent.php:428 maincontent.php:410
 #: maincontent.php:428
 msgid "today"
-msgstr ""
+msgstr "dziś"
 
 #: maincontent.php:415 maincontent.php:415
 msgid "Begin time"
-msgstr ""
+msgstr "Czas rozpoczęcia"
 
 #: maincontent.php:422 maincontent.php:422
 msgid "End date"
-msgstr ""
+msgstr "Data zakończenia"
 
 #: maincontent.php:433 maincontent.php:433
 msgid "End time"
-msgstr ""
+msgstr "Czas zakończenia"
 
 #: maincontent.php:440 maincontent.php:440
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Min--i Max--"
 
 #: maincontent.php:443 maincontent.php:443
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Min ++ i Max ++"
 
 #: maincontent.php:446 maincontent.php:446
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Ostatni dzień: godzina:min"
 
 #: maincontent.php:453 maincontent.php:453
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Minimalna dokładność"
 
 #: maincontent.php:461 maincontent.php:461
 msgid "Maximum accuracy"
-msgstr ""
+msgstr "Maksymalna dokładność"
 
 #: maincontent.php:469 maincontent.php:469
 msgid "Minimum elevation"
-msgstr ""
+msgstr "Minimalna Elewacja"
 
 #: maincontent.php:477 maincontent.php:477
 msgid "Maximum elevation"
-msgstr ""
+msgstr "Maksymalna elewacja"
 
 #: maincontent.php:485 maincontent.php:485
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Minimalny poziom baterii"
 
 #: maincontent.php:493 maincontent.php:493
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Maksymalny poziom baterii"
 
 #: maincontent.php:501 maincontent.php:501
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Minimum Satelitów"
 
 #: maincontent.php:509 maincontent.php:509
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Maksimum Satelitów"
 
 #: maincontent.php:521 maincontent.php:521
 msgid "Statistics"
-msgstr ""
+msgstr "Statystyki"
 
 #: maincontent.php:526 maincontent.php:526
 msgid "Show stats"
-msgstr ""
+msgstr "Pokaż statystyki"
 
 #: maincontent.php:535 maincontent.php:535
 msgid "Shortcuts"
-msgstr ""
+msgstr "Skróty"
 
 #: maincontent.php:537 maincontent.php:537
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Rozwiń boczne menu"
 
 #: maincontent.php:541 maincontent.php:541
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacja"
 
 #: maincontent.php:549 maincontent.php:549
 msgid "Source management"
-msgstr ""
+msgstr "Zarządzanie źródłem"
 
 #: maincontent.php:563 maincontent.php:563
 msgid "Authors"
-msgstr ""
+msgstr "Autorzy"
 
