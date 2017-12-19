@@ -673,6 +673,7 @@
         var pid;
         var s = $('#deletePointSession option:selected').attr('token');
         var d = $('#deletePointDevice').val();
+        var did = getDeviceId(s, d);
         // if session is watched, if device exists, for all displayed points
         if ($('.session[token=' + s + '] .watchbutton i').hasClass('fa-toggle-on')) {
             if (d === '') {
@@ -689,15 +690,16 @@
                 }
             }
             else{
-                if (phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
+                if (phonetrack.sessionLineLayers[s].hasOwnProperty(did)) {
+
                     var pidlist = [];
-                    phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
+                    phonetrack.sessionPointsLayers[s][did].eachLayer(function(l) {
                         if (bounds === null || bounds.contains(l.getLatLng())) {
                             pidlist.push(l.getLatLng().alt);
                         }
                     });
                     for (pid in pidlist) {
-                        deletePointDB(s, d, pidlist[pid]);
+                        deletePointDB(s, did, pidlist[pid]);
                     }
                 }
             }
