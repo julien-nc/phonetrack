@@ -20,3 +20,4 @@ rename 's/hu_HU/hu/g' *.js*
 rename 's/pl_PL/pl/g' *.js*
 rename 's/sk_SK/sk/g' *.js*
 rename 's/fa_IR/fa/g' *.js*
+rename 's/hi_IN/hi/g' *.js*

@@ -35,7 +35,6 @@ OC.L10N.register(
     "Make session public" : "Fazer a sessão pública",
     "Make session private" : "Fazer a sessão privada",
     "Public watch URL" : "URL de acompanhamento público",
-    "Replace 'yourname' with the desired device name" : "Substitua 'seu nome' com o nome de dispositivo desejado",
     "Public browser logging URL" : "URL pública de navegador do registro",
     "OsmAnd URL" : "URL de OsmAnd",
     "GpsLogger GET and POST URL" : "URL de GET e POST do GpsLogger",
