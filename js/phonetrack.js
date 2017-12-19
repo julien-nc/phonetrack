@@ -2116,6 +2116,7 @@
                     entry.altitude = parseInt(entry.altitude);
                     entry.satellites = parseInt(entry.satellites);
                     entry.accuracy = parseInt(entry.accuracy);
+                    entry.timestamp = parseInt(entry.timestamp);
                     entry.batterylevel = parseInt(entry.batterylevel);
                     appendEntryToDevice(s, d, entry, sessionname);
                 }
@@ -2378,7 +2379,7 @@
             i = 0;
             while (i < phonetrack.sessionLatlngs[s][d].length
                 // ouch ;-)
-                && timestamp < phonetrack.sessionPointsEntriesById[s][d][phonetrack.sessionLatlngs[s][d][i][2]].timestamp
+                && timestamp > phonetrack.sessionPointsEntriesById[s][d][phonetrack.sessionLatlngs[s][d][i][2]].timestamp
             ) {
                 i++;
             }
@@ -2400,7 +2401,7 @@
                     i = 0;
                     while (i < ll.length
                         // ouch again ;-)
-                        && timestamp < phonetrack.sessionPointsEntriesById[s][d][ll[i][2]].timestamp
+                        && timestamp > phonetrack.sessionPointsEntriesById[s][d][ll[i].alt].timestamp
                     ) {
                         i++;
                     }
@@ -2435,6 +2436,10 @@
         phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
         if (filter) {
             phonetrack.sessionPointsLayers[s][d].addLayer(m);
+            // dragging
+            //if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
+            //    m.dragging.enable();
+            //}
         }
         if (!pageIsPublic() && !isSessionShared(s)) {
             m.bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});

@@ -1174,14 +1174,27 @@ class PageController extends Controller {
                     $firstDeviceTimeSQL = '';
                     if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
                         $firstDeviceTime = $firstTime[$devid];
-                        $firstDeviceTimeSQL = 'AND timestamp<'.$this->db_quote_escape_string($firstDeviceTime).' ';
+                        $firstDeviceTimeSQL = 'timestamp<'.$this->db_quote_escape_string($firstDeviceTime);
                     }
 
                     $lastDeviceTime = 0;
                     $lastDeviceTimeSQL = '';
                     if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
                         $lastDeviceTime = $lastTime[$devid];
-                        $lastDeviceTimeSQL = 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
+                        $lastDeviceTimeSQL = 'timestamp>'.$this->db_quote_escape_string($lastDeviceTime);
+                    }
+                    // build SQL condition for first/last
+                    $firstLastSQL = '';
+                    if ($firstDeviceTimeSQL !== '') {
+                        if ($lastDeviceTimeSQL !== '') {
+                            $firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
+                        }
+                        else {
+                            $firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';;
+                        }
+                    }
+                    else if ($lastDeviceTimeSQL !== '') {
+                        $firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
                     }
                     // we give color (first point given)
                     else {
@@ -1210,8 +1223,7 @@ class PageController extends Controller {
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
                     $sqlget .= ' altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-                    $sqlget .= $firstDeviceTimeSQL;
-                    $sqlget .= $lastDeviceTimeSQL;
+                    $sqlget .= $firstLastSQL;
                     $sqlget .= $settingsTimeFilterSQL;
                     $sqlget .= 'ORDER BY timestamp ASC';
                     $req = $this->dbconnection->prepare($sqlget);
@@ -2671,7 +2683,6 @@ class PageController extends Controller {
 
         // last day
         $now = new \DateTime();
-        error_log('plop');
         $y = $now->format('Y');
         $m = $now->format('m');
         $d = $now->format('d');
@@ -2719,14 +2730,6 @@ class PageController extends Controller {
         $minMonthTimestamp = $dateMonthMin->getTimestamp();
         $monthlySuffix = '_monthly_'.$dateMonthMin->format('Y-m');
 
-        error_log('day max : '.$dateMaxDay->format('Y-m-d H:i:s'));
-        error_log('week max : '.$dateWeekMax->format('Y-m-d H:i:s'));
-        error_log('month min : '.$dateMonthMin->format('Y-m-d H:i:s'));
-        error_log('month max : '.$dateMonthMax->format('Y-m-d H:i:s'));
-        error_log('month prefix : '.$monthlySuffix);
-        error_log('week prefix : '.$weeklySuffix);
-        error_log('day prefix : '.$dailySuffix);
-
         $weekFilterArray = array();
         $weekFilterArray['tsmin'] = $minWeekTimestamp;
         $weekFilterArray['tsmax'] = $maxWeekTimestamp;
@@ -2764,9 +2767,7 @@ class PageController extends Controller {
                     // check if file already exists
                     $exportName = $dbname.$suffix.'.gpx';
                     $exportPath = '/PhoneTrack_export/'.$exportName;
-                    error_log('i want to export '.$userName.'::'.$exportPath);
                     if (! $dir->nodeExists($exportName)) {
-                        error_log('let\'s do it '.$exportPath);
                         $this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);
                     }
                     else {
