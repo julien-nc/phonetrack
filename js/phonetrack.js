@@ -1014,7 +1014,7 @@
         });
     }
 
-    function saveOptions() {
+    function saveOptions(refreshAfter=false) {
         var optionsValues = {};
         optionsValues.updateinterval = $('#updateinterval').val();
         optionsValues.linewidth = $('#linewidth').val();
@@ -1072,7 +1072,11 @@
             data: req,
             async: true
         }).done(function (response) {
-            //alert(response);
+            if (refreshAfter) {
+                phonetrack.currentTimer.pause();
+                phonetrack.currentTimer = null;
+                refresh();
+            }
         }).fail(function() {
             OC.dialogs.alert(
                 t('phonetrack', 'Failed to contact server to save options values'),
@@ -4194,7 +4198,7 @@
         $('#applyfilters').click(function(e) {
             changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions(true);
             }
         });
         changeApplyFilter();
