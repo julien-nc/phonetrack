@@ -2441,9 +2441,11 @@
         if (filter) {
             phonetrack.sessionPointsLayers[s][d].addLayer(m);
             // dragging
-            //if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
-            //    m.dragging.enable();
-            //}
+            if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
+                if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+                    m.dragging.enable();
+                }
+            }
         }
         if (!pageIsPublic() && !isSessionShared(s)) {
             m.bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});

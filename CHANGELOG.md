@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#52](https://gitlab.com/eneiluj/phonetrack-oc/issues/52) @tarator
 - bad escaping of user id in controllers
 - mistake in session zoom, now zooms on currently displayed content
+- newly added points were not draggable
 
 ## 0.0.8 – 2017-11-10
 ### Added
