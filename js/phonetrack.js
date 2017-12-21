@@ -1930,8 +1930,8 @@
 
     function changeApplyFilter() {
         var filtersEnabled = $('#applyfilters').is(':checked');
-        $('#filterPointsTable input[type=number]').prop('disabled', filtersEnabled);
-        $('#filterPointsTable input[type=date]').prop('disabled', filtersEnabled);
+        //$('#filterPointsTable input[type=number]').prop('disabled', filtersEnabled);
+        //$('#filterPointsTable input[type=date]').prop('disabled', filtersEnabled);
         var s, d, id, i, displayedLatlngs;
         var dragenabled = $('#dragcheck').is(':checked');
 
@@ -3852,8 +3852,9 @@
         });
 
         $('body').on('change', '#filterPointsTable input[type=number], #filterPointsTable input[type=date]', function() {
+            changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
@@ -4298,7 +4299,7 @@
             $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
             changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
@@ -4307,7 +4308,7 @@
             $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
             changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
@@ -4319,7 +4320,7 @@
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
@@ -4331,7 +4332,7 @@
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
@@ -4343,7 +4344,7 @@
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
@@ -4355,7 +4356,7 @@
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
@@ -4376,7 +4377,7 @@
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
@@ -4397,18 +4398,17 @@
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 
         $('body').on('click','.resetFilterButton', function(e) {
-            if (!$('#applyfilters').is(':checked')) {
-                var tr = $(this).parent().parent();
-                tr.find('input[type=date]').val('');
-                tr.find('input[type=number]').val('');
-                if (!pageIsPublic()) {
-                    saveOptions();
-                }
+            var tr = $(this).parent().parent();
+            tr.find('input[type=date]').val('');
+            tr.find('input[type=number]').val('');
+            changeApplyFilter();
+            if (!pageIsPublic()) {
+                saveOptions($('#applyfilters').is(':checked'));
             }
         });
 

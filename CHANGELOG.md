@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#55](https://gitlab.com/eneiluj/phonetrack-oc/issues/55) @Sander8
 - move create/import buttons next to the logo
 - make session renaming look like device renaming
+- allow filters modification when they are activated
+[#55](https://gitlab.com/eneiluj/phonetrack-oc/issues/55) @Sander8
 
 ### Fixed
 - mistake in session export
