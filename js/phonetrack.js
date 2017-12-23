@@ -777,13 +777,21 @@
         var sversion = $('#'+type+'version').val() || '';
         var slayers = $('#'+type+'layers').val() || '';
         if (sname === '' || surl === '') {
-            OC.dialogs.alert(t('phonetrack', 'Server name or server url should not be empty'),
-                             t('phonetrack', 'Impossible to add tile server'));
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Server name or server url should not be empty')
+            );
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Impossible to add tile server')
+            );
             return;
         }
         if ($('#'+type+'serverlist ul li[servername="' + sname + '"]').length > 0) {
-            OC.dialogs.alert(t('phonetrack', 'A server with this name already exists'),
-                             t('phonetrack', 'Impossible to add tile server'));
+            OC.Notification.showTemporary(
+                t('phonetrack', 'A server with this name already exists')
+            );
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Impossible to add tile server')
+            );
             return;
         }
         $('#'+type+'servername').val('');
@@ -1007,11 +1015,11 @@
             // quite important ;-)
             main();
         }).fail(function() {
-            OC.dialogs.alert(
-                t('phonetrack', 'Failed to contact server to restore options values') + '. ' +
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Failed to contact server to restore options values')
+            );
+            OC.Notification.showTemporary(
                 t('phonetrack', 'Reload this page')
-                ,
-                t('phonetrack', 'Error')
             );
         });
     }
@@ -1080,9 +1088,11 @@
                 refresh();
             }
         }).fail(function() {
-            OC.dialogs.alert(
-                t('phonetrack', 'Failed to contact server to save options values'),
-                t('phonetrack', 'Error')
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Failed to contact server to save options values')
+            );
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Reload this page')
             );
         });
     }
