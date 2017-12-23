@@ -767,3 +767,6 @@ div#createimportsessiondiv button {
     font-size: 10px;
     line-height: normal;
 }
+#filterPointsTable {
+    border-radius: 7px;
+}

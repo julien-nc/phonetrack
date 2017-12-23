@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - make session renaming look like device renaming
 - allow filters modification when they are activated
 [#55](https://gitlab.com/eneiluj/phonetrack-oc/issues/55) @Sander8
+- optimization : only load (from server) data in current filter interval
+[#55](https://gitlab.com/eneiluj/phonetrack-oc/issues/55) @Sander8
+- change filters background color when activated
 
 ### Fixed
 - mistake in session export

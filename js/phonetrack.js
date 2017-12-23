@@ -1930,6 +1930,12 @@
 
     function changeApplyFilter() {
         var filtersEnabled = $('#applyfilters').is(':checked');
+        if (filtersEnabled) {
+            $('#filterPointsTable').addClass('activatedFilters');
+        }
+        else {
+            $('#filterPointsTable').removeClass('activatedFilters');
+        }
         //$('#filterPointsTable input[type=number]').prop('disabled', filtersEnabled);
         //$('#filterPointsTable input[type=date]').prop('disabled', filtersEnabled);
         var s, d, id, i, displayedLatlngs;
@@ -4479,7 +4485,7 @@
             }
         });
 
-        var buttonColor = 'blue';
+        var buttonColor = '#0000FF';
         if (OCA.Theming) {
             buttonColor = OCA.Theming.color;
         }
@@ -4489,6 +4495,12 @@
             '.dropdown-content button:hover i, ' +
             '.reaffectDeviceDiv button:hover i ' +
             '{ color: ' + buttonColor + '; }' +
+            '</style>').appendTo('body');
+
+        var rgbTC = hexToRgb(buttonColor);
+
+        $('<style role="filtertable">.activatedFilters { ' +
+            'background: rgba(' + rgbTC.r + ',' + rgbTC.g + ',' + rgbTC.b + ', 0.2); }' +
             '</style>').appendTo('body');
 
         $('#pointlinealpha').change(function() {
