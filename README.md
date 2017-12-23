@@ -30,9 +30,11 @@ On PhoneTrack main page, while watching a session, you can :
 * change a device color, move it to another session
 * share a session to other users (read-only)
 * make a session public and share it via a public link. Positions are not visible in web logging page "publicWebLog" for private sessions.
-* import/export sessions in GPX format (one subtrack by device).
+* import/export a session in GPX format (one file with one track by device).
 * display session statistics
 * filter points (any criterias combination)
+* reserve a device name to make sure only authorized user can log with this name
+* toggle session auto export (daily/weekly/monthly)
 
 Public page works like main page except there is only one session displayed and there is no need to be logged in.
 
@@ -49,7 +51,7 @@ Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetra
 I develop this app during my free time.
 
 * [Donate on Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
-* Bitcoin : 1FfDVdPK8mZHB84EdN67iVgKCmRa3SwF6r                             
+* Bitcoin : 1FfDVdPK8mZHB84EdN67iVgKCmRa3SwF6r
 * Monero : 43moCXnskkeJNf1MezHnjzARNpk2BRvhuRA9vzyuVAkTYH2AE4L4EwJjC3HbDxv9uRBdsYdBPF1jePLeV8TpdnU7F9FN2Ao
 
 ## Install
