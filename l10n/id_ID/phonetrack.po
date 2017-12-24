@@ -3,17 +3,17 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-01-26 19:10+0100\n"
-"PO-Revision-Date: 2018-01-30 06:54-0500\n"
+"PO-Revision-Date: 2018-01-26 13:17-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
-"Language-Team: Romanian\n"
-"Language: ro_RO\n"
+"Language-Team: Indonesian\n"
+"Language: id_ID\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: phonetrack\n"
-"X-Crowdin-Language: ro\n"
+"X-Crowdin-Language: id\n"
 "X-Crowdin-File: /master/l10n/templates/phonetrack.pot\n"
 
 #: app.php:41
@@ -22,268 +22,268 @@ msgstr "PhoneTrack"
 
 #: leaflet.js:5
 msgid "left"
-msgstr "stânga"
+msgstr "kiri"
 
 #: leaflet.js:5
 msgid "right"
-msgstr "dreapta"
+msgstr "kanan"
 
 #: phonetrack.js:525 maincontent.php:69
 msgid "Show lines"
-msgstr "Arată linii"
+msgstr "Tampilkan baris"
 
 #: phonetrack.js:533
 msgid "Hide lines"
-msgstr "Ascunde linii"
+msgstr "Sembunyikan baris"
 
 #: phonetrack.js:554
 msgid "Activate automatic zoom"
-msgstr "Activează auto zoom"
+msgstr "Aktifkan perbesar otomatis"
 
 #: phonetrack.js:562
 msgid "Disable automatic zoom"
-msgstr "Dezactivează auto zoom"
+msgstr "Nonaktifkan perbesar otomatis"
 
 #: phonetrack.js:583
 msgid "Show last point tooltip"
-msgstr "Arată ultimul punct"
+msgstr "Tampilkan tooltip poin terakhir"
 
 #: phonetrack.js:591
 msgid "Hide last point tooltip"
-msgstr "Ascunde ultimul punct"
+msgstr "Sembunyikan tooltip poin terakhir"
 
 #: phonetrack.js:612
 msgid "Zoom on all devices"
-msgstr "Zoom pe toate dispozitivele"
+msgstr "Perbesar di semua perangkat"
 
 #: phonetrack.js:625
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr "Faceţi clic pe hartă pentru a muta punctul, apăsaţi tasta ESC pentru a anula"
+msgstr "Klik pada peta untuk menggerakkan titik, tekan ESC untuk membatalkan"
 
 #: phonetrack.js:781
 msgid "Server name or server url should not be empty"
-msgstr "Numele de server sau URL-ul serverului nu ar trebui să fie gol"
+msgstr "Nama server atau url server tidak boleh kosong"
 
 #: phonetrack.js:784 phonetrack.js:793
 msgid "Impossible to add tile server"
-msgstr "Imposibil de adăugat server hărți"
+msgstr "Tidak mungkin menambahkan tile server"
 
 #: phonetrack.js:790
 msgid "A server with this name already exists"
-msgstr "Un server cu acest nume există deja"
+msgstr "Server dengan nama ini sudah ada"
 
 #: phonetrack.js:826 phonetrack.js:2950 maincontent.php:225 maincontent.php:269
 #: maincontent.php:314 maincontent.php:363
 msgid "Delete"
-msgstr "Şterge"
+msgstr "Hapus"
 
 #: phonetrack.js:859
 msgid "Tile server \"{ts}\" has been added"
-msgstr "S-a adăugat server hărți \"{ts}\""
+msgstr "Tile Server \"{ts}\" telah ditambahkan"
 
 #: phonetrack.js:862
 msgid "Failed to add tile server \"{ts}\""
-msgstr "Nu am reuşit să adaug server hărți \"{ts}\""
+msgstr "Gagal menambahkan tile server \"{ts}\""
 
 #: phonetrack.js:866
 msgid "Failed to contact server to add tile server"
-msgstr "Nu am reuşit să contactez server pentru a adăuga server hărți"
+msgstr "Gagal menghubungi server untuk menambahkan tile server"
 
 #: phonetrack.js:900
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr "Server hărți \"{ts}\" a fost şters"
+msgstr "Tile Server \"{ts}\" telah dihapus"
 
 #: phonetrack.js:903
 msgid "Failed to delete tile server \"{ts}\""
-msgstr "Imposibil de șters server hărți \"{ts}\""
+msgstr "Gagal menghapus tile server \"{ts}\""
 
 #: phonetrack.js:907
 msgid "Failed to contact server to delete tile server"
-msgstr "Nu am reuşit să contactăm serverul pentru a şterge server hartă"
+msgstr "Gagal menghubungi server untuk menghapus tile server"
 
 #: phonetrack.js:1022
 msgid "Failed to contact server to restore options values"
-msgstr "Nu am reuşit să contactez server pentru a restabili opţiunile"
+msgstr "Gagal menghubungi server untuk mengembalikan nilai opsi"
 
 #: phonetrack.js:1025 phonetrack.js:1099 phonetrack.js:4214
 msgid "Reload this page"
-msgstr "Reîncărcați această pagină"
+msgstr "Muat ulang halaman ini"
 
 #: phonetrack.js:1096
 msgid "Failed to contact server to save options values"
-msgstr "Nu am reuşit să contactez server pentru a salva opţiunile"
+msgstr "Gagal menghubungi server untuk menyimpan nilai opsi"
 
 #: phonetrack.js:1119
 msgid "Session name should not be empty"
-msgstr "Nume sesiune nu ar trebui să fie gol"
+msgstr "Nama sesi tidak boleh kosong"
 
 #: phonetrack.js:1136
 msgid "Session name already used"
-msgstr "Nume sesiune deja utilizat"
+msgstr "Nama sesi sudah digunakan"
 
 #: phonetrack.js:1140
 msgid "Failed to contact server to create session"
-msgstr "Nu am reuşit să contactez server pentru a crea sesiune"
+msgstr "Gagal menghubungi server untuk membuat sesi"
 
 #: phonetrack.js:1224
 msgid "Watch this session"
-msgstr "Vezi sesiune"
+msgstr "Saksikan sesi ini"
 
 #: phonetrack.js:1230
 msgid "shared by {u}"
-msgstr "trimis de {u}"
+msgstr "dibagi oleh {u}"
 
 #: phonetrack.js:1235 phonetrack.js:2316
 msgid "More actions"
-msgstr "Mai multe acţiuni"
+msgstr "Tindakan lainnya"
 
 #: phonetrack.js:1239
 msgid "Zoom on this session"
-msgstr "Zoom pe această sesiune"
+msgstr "Perbesar sesi ini"
 
 #: phonetrack.js:1242
 msgid "URL to share session"
-msgstr "URL-ul pentru a partaja sesiune"
+msgstr "Sesi URL untuk berbagi"
 
 #: phonetrack.js:1246
 msgid "URLs for logging apps"
-msgstr "URL-uri pentru logare apps"
+msgstr "URL untuk aplikasi logging"
 
 #: phonetrack.js:1250
 msgid "Reserve device names"
-msgstr "Rezerva nume de dispozitive"
+msgstr "Cadangan nama perangkat"
 
 #: phonetrack.js:1259
 msgid "Delete session"
-msgstr "Ştergeţi sesiune"
+msgstr "Hapus sesi"
 
 #: phonetrack.js:1260 phonetrack.js:1261
 msgid "Rename session"
-msgstr "Redenumiţi sesiune"
+msgstr "Ubah nama sesi"
 
 #: phonetrack.js:1263 phonetrack.js:1264
 msgid "Export to gpx"
-msgstr "Export în gpx"
+msgstr "Ekspor ke gpx"
 
 #: phonetrack.js:1268
 msgid "Files are created in '{exdir}'"
-msgstr "Fişierele sunt create în '{exdir}'"
+msgstr "Berkas dibuat di '{exdir}'"
 
 #: phonetrack.js:1269
 msgid "Automatic export"
-msgstr "Export automat"
+msgstr "Ekspor otomatis"
 
 #: phonetrack.js:1271
 msgid "never"
-msgstr "niciodată"
+msgstr "tak pernah"
 
 #: phonetrack.js:1272
 msgid "daily"
-msgstr "zilnic"
+msgstr "harian"
 
 #: phonetrack.js:1273
 msgid "weekly"
-msgstr "săptămânal"
+msgstr "mingguan"
 
 #: phonetrack.js:1274
 msgid "monthly"
-msgstr "lunar"
+msgstr "bulanan"
 
 #: phonetrack.js:1283
 msgid "Name reservation is optional."
-msgstr "Rezervare nume este opţional."
+msgstr "Pemesanan nama bersifat opsional."
 
 #: phonetrack.js:1284
 msgid "Name can be set directly in logging URL if it is not reserved."
-msgstr "Numele se poate stabili direct în adresa URL-ul în cazul în care nu este rezervat."
+msgstr "Nama dapat diatur secara langsung di URL logging jika tidak dipesan."
 
 #: phonetrack.js:1285
 msgid "To log with a reserved name, use its token in logging URL."
-msgstr "Pentru a te conecta cu un nume rezervat, folosește token-ul în URL."
+msgstr "Untuk login dengan nama yang sudah dipesan, gunakan token-nya di URL logging."
 
 #: phonetrack.js:1286
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr "În cazul în care un nume este rezervat, singura modalitate de a conecta cu acest nume este cu token-ul său."
+msgstr "Jika sebuah nama sudah dipesan, satu-satunya cara untuk masuk dengan nama ini adalah dengan tokennya."
 
 #: phonetrack.js:1289
 msgid "Reserve this device name"
-msgstr "Rezerva acest nume de dispozitiv"
+msgstr "Memesan nama untuk perangkat ini"
 
 #: phonetrack.js:1291
 msgid "Type reserved name and press 'Enter'"
-msgstr "Alege nume rezervat şi apasă \"Enter\""
+msgstr "Ketik nama yang diinginkan dan tekan 'Enter'"
 
 #: phonetrack.js:1305
 msgid "Share with user"
-msgstr "Trimite către utilizatorul"
+msgstr "Berbagi dengan pengguna"
 
 #: phonetrack.js:1307
 msgid "Type user name and press 'Enter'"
-msgstr "Introduceţi numele de utilizator şi apăsaţi \"Enter\""
+msgstr "Ketik nama pengguna dan tekan 'Enter'"
 
 #: phonetrack.js:1312 phonetrack.js:3466
 msgid "Shared with {u}"
-msgstr "În comun cu {u}"
+msgstr "Dibagikan dengan {u}"
 
 #: phonetrack.js:1318
 msgid "A private session is not visible on public browser logging page"
-msgstr "O sesiune privata nu este vizibilă pe pagina de logare publică"
+msgstr "Sesi pribadi tidak terlihat di laman penebangan browser publik"
 
 #: phonetrack.js:1320 phonetrack.js:4223
 msgid "Make session public"
-msgstr "Refă sesiunea publică"
+msgstr "Jadikan sesi publik"
 
 #: phonetrack.js:1323 phonetrack.js:4218
 msgid "Make session private"
-msgstr "Refă sesiunea privată"
+msgstr "Buat sesi pribadi"
 
 #: phonetrack.js:1328
 msgid "Public watch URL"
-msgstr "Link public URL"
+msgstr "URL tontonan publik"
 
 #: phonetrack.js:1330
 msgid "API URL (JSON last positions)"
-msgstr "API URL (JSON ultimele pozitii)"
+msgstr ""
 
 #: phonetrack.js:1336
 msgid "Current active filters will be applied on shared view"
-msgstr "Filtrele active vor fi aplicate pe vizualizarea partajată"
+msgstr "Penyaring aktif saat ini akan diterapkan pada tampilan bersama"
 
 #: phonetrack.js:1338
 msgid "Add public filtered share"
-msgstr "Adaugă partajare publică filtrată"
+msgstr "Tambahkan penyaring bagikan publik"
 
 #: phonetrack.js:1357
 msgid "List of server URLs to configure logging apps."
-msgstr "Listă adrese servere URL pentru a configura aplicațiile de logare."
+msgstr "Daftar URL server untuk mengkonfigurasi aplikasi logging."
 
 #: phonetrack.js:1358 maincontent.php:160
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr "Înlocuiţi \"yourname\" cu numele dispozitivului dorit sau cu simbolul de rezervare nume"
+msgstr "Ganti 'namaAnda' dengan nama perangkat yang diinginkan atau dengan nama reservasi token"
 
 #: phonetrack.js:1360
 msgid "Public browser logging URL"
-msgstr "Adresă URL de logare publică"
+msgstr "URL penebangan browser publik"
 
 #: phonetrack.js:1362
 msgid "OsmAnd URL"
-msgstr "OsmAnd URL"
+msgstr "URL OsmAnd"
 
 #: phonetrack.js:1366
 msgid "GpsLogger GET and POST URL"
-msgstr "GpsLogger URL GET şi POST"
+msgstr "GpsLogger GET dan URL POST"
 
 #: phonetrack.js:1370
 msgid "Owntracks (HTTP mode) URL"
-msgstr "URL-ul Owntracks (modul HTTP)"
+msgstr "URL Owntracks (HTTP mode)"
 
 #: phonetrack.js:1374
 msgid "Ulogger URL"
-msgstr "Ulogger URL"
+msgstr "URL Ulogger"
 
 #: phonetrack.js:1378
 msgid "Traccar URL"
-msgstr "Traccar URL"
+msgstr "URL traccar"
 
 #: phonetrack.js:1382
 msgid "OpenGTS URL"
@@ -291,359 +291,359 @@ msgstr "OpenGTS URL"
 
 #: phonetrack.js:1385
 msgid "HTTP GET URL"
-msgstr "HTTP GET URL"
+msgstr ""
 
 #: phonetrack.js:1421
 msgid "The session you want to delete does not exist"
-msgstr "Nu exista sesiunea pe care doriți s-o ştergeţi"
+msgstr "Sesi yang ingin Anda hapus tidak ada"
 
 #: phonetrack.js:1424
 msgid "Failed to delete session"
-msgstr "Nu am reuşit să șterg sesiune"
+msgstr "Gagal menghapus sesi"
 
 #: phonetrack.js:1428
 msgid "Failed to contact server to delete session"
-msgstr "Nu am reuşit să contactez server pentru a şterge sesiune"
+msgstr "Gagal menghubungi server untuk menghapus sesi"
 
 #: phonetrack.js:1448
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr "Dispozitivul '{d}' din sesiunea '{s}' a fost sters"
+msgstr "Perangkat '{d}' sesi '{s}' telah dihapus"
 
 #: phonetrack.js:1451
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr "Nu pot șterge dispozitiv '{d}' din sesiunea '{s}'"
+msgstr "Gagal menghapus perangkat '{d}' sesi '{s}'"
 
 #: phonetrack.js:1455
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Gagal menghubungi server untuk menghapus perangkat"
 
 #: phonetrack.js:1507
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Tidak mungkin untuk mengganti nama sesi"
 
 #: phonetrack.js:1511
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Gagal menghubungi server untuk mengganti nama sesi"
 
 #: phonetrack.js:1595
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Tidak mungkin mengganti nama perangkat"
 
 #: phonetrack.js:1599
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Gagal menghubungi server untuk mengganti nama perangkat"
 
 #: phonetrack.js:1660
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Perangkat sudah ada di sesi target"
 
 #: phonetrack.js:1663
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Tidak mungkin untuk memindahkan perangkat ke sesi lain"
 
 #: phonetrack.js:1667
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Gagal menghubungi server untuk memindahkan perangkat"
 
 #: phonetrack.js:1733
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Gagal menghubungi server untuk mendapatkan sesi"
 
 #: phonetrack.js:1772
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Gagal menghubungi server untuk menyegarkan sesi"
 
 #: phonetrack.js:2026 phonetrack.js:2055
 msgid "Stats of all points"
-msgstr "Statistici pentru toate punctele"
+msgstr "Statistik dari semua poin"
 
 #: phonetrack.js:2052
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "Statistik dari titik yang disaring"
 
 #: phonetrack.js:2239
 msgid "Device's color successfully changed"
-msgstr "Culoare dispozitiv schimbată cu succes"
+msgstr "Warna perangkat berhasil berubah"
 
 #: phonetrack.js:2242
 msgid "Failed to save device's color"
-msgstr "Nu am reuşit să salvez culoare dispozitiv"
+msgstr "Gagal menyimpan warna perangkat"
 
 #: phonetrack.js:2246
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Gagal menghubungi server untuk mengubah warna perangkat"
 
 #: phonetrack.js:2319
 msgid "Delete this device"
-msgstr "Şterge dispozitivul"
+msgstr "Hapus perangkat ini"
 
 #: phonetrack.js:2321
 msgid "Rename this device"
-msgstr "Redenumiți dispozitivul"
+msgstr "Ganti nama perangkat ini"
 
 #: phonetrack.js:2324
 msgid "Move to another session"
-msgstr "Treci la o altă sesiune"
+msgstr "Pindah ke sesi lain"
 
 #: phonetrack.js:2327 maincontent.php:48
 msgid "Ok"
-msgstr "Ok"
+msgstr "Baik"
 
 #: phonetrack.js:2340
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Toggle detail/edisi poin"
 
 #: phonetrack.js:2348
 msgid "Toggle lines"
-msgstr "Schimbă linii"
+msgstr "Garis Toggle"
 
 #: phonetrack.js:2358 phonetrack.js:2364
 msgid "Center map on device"
-msgstr "Centrează harta pe dispozitiv"
+msgstr "Peta pusat di perangkat"
 
 #: phonetrack.js:2369
 msgid "Follow this device (autozoom)"
-msgstr "Urmaţi acest dispozitiv (autozoom)"
+msgstr "Ikuti perangkat ini (autozoom)"
 
 #: phonetrack.js:2573
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Poin yang ingin Anda edit tidak ada atau Anda tidak diizinkan untuk mengeditnya"
 
 #: phonetrack.js:2577
 msgid "Failed to contact server to edit point"
-msgstr "Nu am reuşit să contactez server pentru a modifica punct"
+msgstr "Gagal menghubungi server untuk mengedit titik"
 
 #: phonetrack.js:2697
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Poin yang ingin Anda hapus tidak ada atau Anda tidak diizinkan untuk menghapusnya"
 
 #: phonetrack.js:2701
 msgid "Failed to contact server to delete point"
-msgstr "Nu am reuşit să contactez server pentru a şterge punct"
+msgstr "Gagal menghubungi server untuk menghapus titik"
 
 #: phonetrack.js:2795
 msgid "Impossible to add this point"
-msgstr "Imposibil de a adăuga acest punct"
+msgstr "Tidak mungkin menambahkan poin ini"
 
 #: phonetrack.js:2799
 msgid "Failed to contact server to add point"
-msgstr "Nu am reuşit să contactez server pentru a adăuga punct"
+msgstr "Gagal menghubungi server untuk menambahkan titik"
 
 #: phonetrack.js:2917
 msgid "Date"
-msgstr "Data"
+msgstr "Tanggal"
 
 #: phonetrack.js:2920
 msgid "Time"
-msgstr "Ora"
+msgstr "Waktu"
 
 #: phonetrack.js:2925 phonetrack.js:2966
 msgid "Altitude"
-msgstr "Altitudine"
+msgstr "Ketinggian"
 
 #: phonetrack.js:2928 phonetrack.js:2970
 msgid "Precision"
-msgstr "Precizie"
+msgstr "Presisi"
 
 #: phonetrack.js:2931 phonetrack.js:2974
 msgid "Satellites"
-msgstr "Sateliţi"
+msgstr "Satelit"
 
 #: phonetrack.js:2934 phonetrack.js:2978
 msgid "Battery"
-msgstr "Baterie"
+msgstr "Baterai"
 
 #: phonetrack.js:2937 phonetrack.js:2982
 msgid "User-agent"
-msgstr "User-agent"
+msgstr "Agen pengguna"
 
 #: phonetrack.js:2940
 msgid "lat : lng"
-msgstr "lat: long"
+msgstr "lat : lng"
 
 #: phonetrack.js:2944
 msgid "DMS coords"
-msgstr "Coordonate DMS"
+msgstr "DMS coords"
 
 #: phonetrack.js:2949
 msgid "Save"
-msgstr "Salvează"
+msgstr "Menyimpan"
 
 #: phonetrack.js:2951
 msgid "Move"
-msgstr "Mută"
+msgstr "Pindah"
 
 #: phonetrack.js:2952
 msgid "Cancel"
-msgstr "Anulează"
+msgstr "Membatalkan"
 
 #: phonetrack.js:3138
 msgid "File extension must be '.gpx' to be imported"
-msgstr "Extensia fișierului trebuie să fie '.gpx' pentru a fi importat"
+msgstr "Ekstensi berkas harus '.gpx' untuk diimpor"
 
 #: phonetrack.js:3155
 msgid "Failed to create imported session"
-msgstr "Nu pot crea sesiunea importată"
+msgstr "Gagal membuat sesi impor"
 
 #: phonetrack.js:3159 phonetrack.js:3165
 msgid "Failed to import session"
-msgstr "Nu am reuşit să import sesiune"
+msgstr "Gagal mengimpor sesi"
 
 #: phonetrack.js:3160
 msgid "File is not readable"
-msgstr "Fişierul nu poate fi citit"
+msgstr "File tidak dapat dibaca"
 
 #: phonetrack.js:3166
 msgid "File does not exist"
-msgstr "Fişierul nu există"
+msgstr "File tidak ada"
 
 #: phonetrack.js:3173
 msgid "Failed to contact server to import session"
-msgstr "Nu am reuşit să contactez server pentru a importa sesiune"
+msgstr "Gagal menghubungi server untuk mengimpor sesi"
 
 #: phonetrack.js:3192
 msgid "Session successfully exported in"
-msgstr "Sesiune exportă cu succes în"
+msgstr "Sesi berhasil diekspor di"
 
 #: phonetrack.js:3196
 msgid "Failed to export session"
-msgstr "Nu am reuşit să export sesiune"
+msgstr "Gagal mengikuti sesi ekspor"
 
 #: phonetrack.js:3200
 msgid "Failed to contact server to export session"
-msgstr "Nu am reuşit să contactez server pentru a exporta sesiune"
+msgstr "Gagal menghubungi server untuk sesi ekspor"
 
 #: phonetrack.js:3231
 msgid "Failed to contact server to log position"
-msgstr "Nu am reuşit să contactez server pentru a salva poziția"
+msgstr "Gagal menghubungi server untuk mencatat posisi"
 
 #: phonetrack.js:3389
 msgid "'{n}' is already reserved"
-msgstr "'{n}' este deja rezervat"
+msgstr "'{n}' sudah dipesan"
 
 #: phonetrack.js:3392
 msgid "Failed to reserve '{n}'"
-msgstr "Nu am reuşit să rezerv '{n}'"
+msgstr "Gagal mencadangkan '{n}'"
 
 #: phonetrack.js:3395
 msgid "Failed to contact server to reserve device name"
-msgstr "Nu am reuşit să contactez server pentru a rezerva numele dispozitivului"
+msgstr "Gagal menghubungi server untuk mencadangkan nama perangkat"
 
 #: phonetrack.js:3426 phonetrack.js:3430
 msgid "Failed to delete reserved name"
-msgstr "Nu pot șterge nume rezervat"
+msgstr "Gagal menghapus nama yang dicadangkan"
 
 #: phonetrack.js:3427
 msgid "This device does not exist"
-msgstr "Acest device nu exista"
+msgstr "Perangkat ini tidak ada"
 
 #: phonetrack.js:3431
 msgid "This device name is not reserved, please reload this page"
-msgstr "Acest nume de dispozitiv nu este rezervat, vă rugăm să reîncărcați această pagină"
+msgstr "Nama perangkat ini tidak dicadangkan, muat ulang halaman ini"
 
 #: phonetrack.js:3434
 msgid "Failed to contact server to delete reserved name"
-msgstr "Nu am reuşit să contactez server pentru a șterge nume rezervat"
+msgstr "Gagal menghubungi server untuk menghapus nama yang dicadangkan"
 
 #: phonetrack.js:3454
 msgid "User does not exist"
-msgstr "Utilizatorul nu exista"
+msgstr "Pengguna tidak ada"
 
 #: phonetrack.js:3457
 msgid "Failed to add user share"
-msgstr "Nu am reuşit să trimit link"
+msgstr "Gagal menambahkan berbagi pengguna"
 
 #: phonetrack.js:3460
 msgid "Failed to contact server to add user share"
-msgstr "Nu am reuşit să contactez server pentru a adăuga link utilizator"
+msgstr "Gagal menghubungi server untuk menambahkan berbagi pengguna"
 
 #: phonetrack.js:3491
 msgid "Failed to delete user share"
-msgstr "Imposibil de șters link utilizator"
+msgstr "Gagal menghapus berbagi pengguna"
 
 #: phonetrack.js:3494
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Gagal menghubungi server untuk menghapus pembagi pengguna"
 
 #: phonetrack.js:3513
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Gagal menambahkan berbagi publik"
 
 #: phonetrack.js:3516
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Gagal menghubungi server untuk menambahkan berbagi publik"
 
 #: phonetrack.js:3543
 msgid "No filters"
-msgstr "Fără filtre"
+msgstr "Tidak ada filter"
 
 #: phonetrack.js:3567
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Gagal menghapus berbagi publik"
 
 #: phonetrack.js:3570
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Gagal menghubungi server untuk menghapus membagi publik"
 
 #: phonetrack.js:3588
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Gagal menghubungi server untuk mendapatkan daftar pengguna"
 
 #: phonetrack.js:3601
 msgid "device name"
-msgstr "nume dispozitiv"
+msgstr "nama perangkat"
 
 #: phonetrack.js:3602
 msgid "distance (km)"
-msgstr "distanta (km)"
+msgstr "jarak (km)"
 
 #: phonetrack.js:3603
 msgid "duration"
-msgstr "durata"
+msgstr "lamanya"
 
 #: phonetrack.js:3604
 msgid "#points"
-msgstr "#puncte"
+msgstr "#poin"
 
 #: phonetrack.js:3639
 msgid "years"
-msgstr "ani"
+msgstr "tahun"
 
 #: phonetrack.js:3642
 msgid "days"
-msgstr "zile"
+msgstr "hari"
 
 #: phonetrack.js:3661
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
-msgstr ""
+msgstr "Di OsmAnd, masuk ke 'Plugins' di menu utama, lalu aktifkan plugin 'Trip recording' dan masuk ke pengaturannya."
 
 #: phonetrack.js:3662
 msgid "Copy the URL below into the 'Online tracking web address' field."
-msgstr ""
+msgstr "Salin URL di bawah ke kolom 'Atribut penelusuran online'."
 
 #: phonetrack.js:3666
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
-msgstr ""
+msgstr "Di GpsLogger, buka 'Logging details' di menu sidebar, lalu aktifkan 'Log to custom URL'."
 
 #: phonetrack.js:3667
 msgid "Copy the URL below into the 'URL' field."
-msgstr ""
+msgstr "Salin URL di bawah ini ke kolom 'URL'."
 
 #: phonetrack.js:3675
 msgid "In Ulogger, go to settings menu and copy the URL below into the 'Server URL' field."
-msgstr ""
+msgstr "Di Ulogger, masuk ke menu pengaturan dan salin URL di bawah ini ke kolom 'Server URL'."
 
 #: phonetrack.js:3676
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
-msgstr ""
+msgstr "Tetapkan 'User name' dan 'Password' field wajib ke nilai apapun karena akan diabaikan oleh PhoneTrack."
 
 #: phonetrack.js:3677
 msgid "Activate 'Live synchronization'."
-msgstr ""
+msgstr "Aktifkan 'Sinkronisasi langsung'."
 
 #: phonetrack.js:3681
 msgid "In Traccar client, copy the URL below into the 'server URL' field."
-msgstr ""
+msgstr "Di klien Traccar, salin URL di bawah ke dalam kolom 'URL server'."
 
 #: phonetrack.js:3685
 msgid "You can log with any other client with a simple HTTP request."
@@ -655,155 +655,155 @@ msgstr ""
 
 #: phonetrack.js:3689
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
-msgstr ""
+msgstr "Konfigurasikan {loggingApp} untuk masuk ke sesi '{sessionName}'"
 
 #: phonetrack.js:3819
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Yakin ingin menghapus sesi {session} ?"
 
 #: phonetrack.js:3822
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Konfirmasi penghapusan sesi"
 
 #: phonetrack.js:3874
 msgid "Choose auto export target path"
-msgstr ""
+msgstr "Pilih jalur target ekspor otomatis"
 
 #: phonetrack.js:3994
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Pilih lokasi penyimpanan untuk '{fname}'"
 
 #: phonetrack.js:4148
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Yakin ingin menghapus perangkat {device} ?"
 
 #: phonetrack.js:4151
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Konfirmasikan penghapusan perangkat"
 
 #: phonetrack.js:4210
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Gagal mengaktifkan status persidangan sesi, sesi tidak ada"
 
 #: phonetrack.js:4213
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Gagal menghubungi server untuk mengaktifkan status publik sesi"
 
 #: phonetrack.js:4247
 msgid "Failed to set session auto export value"
-msgstr ""
+msgstr "Gagal menetapkan nilai ekspor otomatis sesi"
 
 #: phonetrack.js:4248
 msgid "session does not exist"
-msgstr ""
+msgstr "sesi tidak ada"
 
 #: phonetrack.js:4252
 msgid "Failed to contact server to set session auto export value"
-msgstr ""
+msgstr "Gagal menghubungi server untuk mengatur nilai ekspor otomatis sesi"
 
 #: phonetrack.js:4322
 msgid "Import gpx session file"
-msgstr ""
+msgstr "Impor file sesi gpx"
 
 #: maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Tab utama"
 
 #: maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Penyaring"
 
 #: maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Statistik"
 
 #: maincontent.php:15 maincontent.php:190
 msgid "Settings and extra actions"
-msgstr ""
+msgstr "Pengaturan dan tindakan ekstra"
 
 #: maincontent.php:16 maincontent.php:552
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "Tentang PhoneTrack"
 
 #: maincontent.php:36
 msgid "Import session"
-msgstr ""
+msgstr "Sesi impor"
 
 #: maincontent.php:40
 msgid "Create session"
-msgstr ""
+msgstr "Buat sesi"
 
 #: maincontent.php:44
 msgid "Session name"
-msgstr ""
+msgstr "Nama sesi"
 
 #: maincontent.php:57
 msgid "Options"
-msgstr ""
+msgstr "Pilihan"
 
 #: maincontent.php:65
 msgid "Auto zoom"
-msgstr ""
+msgstr "Pembesar otomatis"
 
 #: maincontent.php:73
 msgid "Show tooltips"
-msgstr ""
+msgstr "Tampilkan tooltips"
 
 #: maincontent.php:76
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Refresh setiap (detik)"
 
 #: maincontent.php:79
 msgid "Refresh"
-msgstr ""
+msgstr "Refresh"
 
 #: maincontent.php:83
 msgid "Show accuracy in tooltips"
-msgstr ""
+msgstr "Tunjukkan akurasi di tooltips"
 
 #: maincontent.php:87
 msgid "Show satellites in tooltips"
-msgstr ""
+msgstr "Tampilkan satelit di tooltips"
 
 #: maincontent.php:91
 msgid "Show battery level in tooltips"
-msgstr ""
+msgstr "Tampilkan level baterai di tooltips"
 
 #: maincontent.php:95
 msgid "Show elevation in tooltips"
-msgstr ""
+msgstr "Tunjukkan ketinggian di tooltips"
 
 #: maincontent.php:99
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "Tampilkan agen pengguna di tooltips"
 
 #: maincontent.php:104
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Buat poin draggable dalam mode edisi"
 
 #: maincontent.php:108
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Tampilkan lingkaran akurasi pada hover"
 
 #: maincontent.php:111
 msgid "Line width"
-msgstr ""
+msgstr "Lebar garis"
 
 #: maincontent.php:115
 msgid "Point radius"
-msgstr ""
+msgstr "Titik radius"
 
 #: maincontent.php:119
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Poin dan garis keburaman"
 
 #: maincontent.php:123
 msgid "Theme"
-msgstr " Temă"
+msgstr "Tema"
 
 #: maincontent.php:125
 msgid "bright"
-msgstr "luminos"
+msgstr "terang"
 
 #: maincontent.php:126
 msgid "pastel"
@@ -811,259 +811,259 @@ msgstr "pastel"
 
 #: maincontent.php:127
 msgid "dark"
-msgstr "întunecat"
+msgstr "gelap"
 
 #: maincontent.php:131
 msgid "Auto export path"
-msgstr "Calea de export auto"
+msgstr "Jalur ekspor otomatis"
 
 #: maincontent.php:134
 msgid "reload page to make changes effective"
-msgstr "reîncărcați pagina pentru a face modificările"
+msgstr "reload halaman untuk membuat perubahan yang efektif"
 
 #: maincontent.php:141
 msgid "Device name"
-msgstr "Nume aparat"
+msgstr "Nama perangkat"
 
 #: maincontent.php:143
 msgid "Log my position in this session"
-msgstr ""
+msgstr "Log posisi saya di sesi ini"
 
 #: maincontent.php:148
 msgid "Tracking sessions"
-msgstr ""
+msgstr "Sesi pelacakan"
 
 #: maincontent.php:153
 msgid "loading positions"
-msgstr "poziţii de încărcare"
+msgstr "posisi pemuatan"
 
 #: maincontent.php:195
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Server ubin khusus"
 
 #: maincontent.php:198 maincontent.php:238 maincontent.php:281
 #: maincontent.php:326
 msgid "Server name"
-msgstr ""
+msgstr "Nama server"
 
 #: maincontent.php:199 maincontent.php:239 maincontent.php:282
 #: maincontent.php:327
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Misalnya : server khusus saya"
 
 #: maincontent.php:200 maincontent.php:240 maincontent.php:283
 #: maincontent.php:328
 msgid "Server url"
-msgstr ""
+msgstr "Url server"
 
 #: maincontent.php:201 maincontent.php:284
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Sebagai contoh : http://tile.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:202 maincontent.php:242 maincontent.php:285
 #: maincontent.php:330
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Min perbesar (1-20)"
 
 #: maincontent.php:204 maincontent.php:244 maincontent.php:287
 #: maincontent.php:332
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Max perbesar (1-20)"
 
 #: maincontent.php:206 maincontent.php:250 maincontent.php:295
 #: maincontent.php:344
 msgid "Add"
-msgstr "Adaugă"
+msgstr "Menambahkan"
 
 #: maincontent.php:209
 msgid "Your tile servers"
-msgstr ""
+msgstr "Server genteng anda"
 
 #: maincontent.php:235
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Hamparan khusus genteng server"
 
 #: maincontent.php:241 maincontent.php:329
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Sebagai contoh : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: maincontent.php:246 maincontent.php:334
 msgid "Transparent"
-msgstr "Transparent"
+msgstr "Transparan"
 
 #: maincontent.php:248 maincontent.php:336
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Opacity (0.0-1.0)"
 
 #: maincontent.php:253
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Surver khusus ubin anda"
 
 #: maincontent.php:278
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Surver khusus ubin WMS"
 
 #: maincontent.php:289 maincontent.php:338
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: maincontent.php:291 maincontent.php:340
 msgid "WMS version"
-msgstr ""
+msgstr "Versi WMS"
 
 #: maincontent.php:293 maincontent.php:342
 msgid "Layers to display"
-msgstr ""
+msgstr "Lapisan untuk ditampilkan"
 
 #: maincontent.php:298
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Server genteng WMS anda"
 
 #: maincontent.php:323
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Server hamparan khusus WMS"
 
 #: maincontent.php:347
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Server hamparan WMS Anda"
 
 #: maincontent.php:376
 msgid "Manually add a point"
-msgstr ""
+msgstr "Tambahkan satu poin secara manual"
 
 #: maincontent.php:378 maincontent.php:396
 msgid "Session"
-msgstr "Sesiune"
+msgstr "Sidang"
 
 #: maincontent.php:382 maincontent.php:400
 msgid "Device"
-msgstr "Dispozitiv"
+msgstr "Alat"
 
 #: maincontent.php:384
 msgid "Add a point"
-msgstr "Adaugă punct"
+msgstr "Tambahkan sebuah poin"
 
 #: maincontent.php:385
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Sekarang, klik pada peta untuk menambahkan satu poin (jika sesi tidak diaktifkan, Anda tidak akan melihat titik tambah)"
 
 #: maincontent.php:386
 msgid "Cancel add point"
-msgstr ""
+msgstr "Batalkan penambahan titik"
 
 #: maincontent.php:391
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Hapus beberapa titik"
 
 #: maincontent.php:394
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Pilih sesi, perangkat dan sesuaikan filter. Semua titik yang ditampilkan untuk perangkat yang dipilih akan dihapus. Nama perangkat kosong memilih semuanya."
 
 #: maincontent.php:402
 msgid "Delete points"
-msgstr ""
+msgstr "Hapus poin"
 
 #: maincontent.php:403
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Hapus hanya titik yang terlihat"
 
 #: maincontent.php:410
 msgid "Filter points"
-msgstr ""
+msgstr "Titik penyaring"
 
 #: maincontent.php:415
 msgid "Apply filters"
-msgstr ""
+msgstr "Terapkan penyaring"
 
 #: maincontent.php:419
 msgid "Begin date"
-msgstr ""
+msgstr "Mulai tanggal"
 
 #: maincontent.php:425 maincontent.php:444
 msgid "today"
-msgstr "astăzi"
+msgstr "hari ini"
 
 #: maincontent.php:431
 msgid "Begin time"
-msgstr "Dată de început"
+msgstr "Mulailah waktu"
 
 #: maincontent.php:438
 msgid "End date"
-msgstr "Dată de sfârşit"
+msgstr "Tanggal akhir"
 
 #: maincontent.php:450
 msgid "End time"
-msgstr ""
+msgstr "Akhir waktu"
 
 #: maincontent.php:457
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Min-- dan Max--"
 
 #: maincontent.php:460
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Min++ dan Max++"
 
 #: maincontent.php:464
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Hari terakhir:jam:min"
 
 #: maincontent.php:472
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Ketepatan minimum"
 
 #: maincontent.php:480
 msgid "Maximum accuracy"
-msgstr ""
+msgstr "Keakuratan maksimal"
 
 #: maincontent.php:488
 msgid "Minimum elevation"
-msgstr ""
+msgstr "Elevasi minimum"
 
 #: maincontent.php:496
 msgid "Maximum elevation"
-msgstr ""
+msgstr "Ketinggian maksimum"
 
 #: maincontent.php:504
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Tingkat baterai minimum"
 
 #: maincontent.php:512
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Tingkat baterai maksimum"
 
 #: maincontent.php:520
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Satelit minimum"
 
 #: maincontent.php:528
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Satelit maksimum"
 
 #: maincontent.php:540
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: maincontent.php:545
 msgid "Show stats"
-msgstr ""
+msgstr "Tampilkan statistik"
 
 #: maincontent.php:554
 msgid "Shortcuts"
-msgstr ""
+msgstr "Jalan pintas"
 
 #: maincontent.php:556
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Toggle sidebar"
 
 #: maincontent.php:560
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentasi"
 
 #: maincontent.php:568
 msgid "Source management"
-msgstr ""
+msgstr "Manajemen sumber"
 
 #: maincontent.php:582
 msgid "Authors"
-msgstr "Autori"
+msgstr "Penulis"
 
