@@ -569,9 +569,10 @@ if (count($_['useroverlayserverswms']) > 0){
     <ul class="disclist">
         <li>Julien Veyssier (developer)</li>
         <li>@mjanssens (Dutch translations)</li>
-        <li>@Foss_nitovf9292 (Norwegian translations)</li>
         <li>@AndyKl (German translations)</li>
         <li>@oswolf (German translations)</li>
+        <li>See <a class="toplink" href="https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md"
+        target="_blank">AUTHORS file</a></li>
     </ul>
 
 </div>

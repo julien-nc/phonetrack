@@ -8,7 +8,7 @@ Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if yo
 How to use PhoneTrack :
 
 * create a tracking session
-* give the tracking URL\* to the mobile devices. Choose the method you prefer :
+* give the tracking URL\* to the mobile devices. Choose the logging method you prefer :
     * With a web browser, on the session public logging page, check "Log my position in this session" (works better on Android than on IOS...)
     * [OsmAnd gpx recording plugin](https://osmand.net/features?id=trip-recording-plugin#Online_tracking) (Android) is able to log to a custom URL with GET method. IOS version does not include recording plugin. Tested and approved.
     * [GpsLogger](http://code.mendhak.com/gpslogger/#features) (Android) Very good ! Setup in : Options -> Logging details -> Log to custom URL
@@ -32,8 +32,8 @@ On PhoneTrack main page, while watching a session, you can :
 * make a session public and share it via a public link. Positions are not visible in web logging page "publicWebLog" for private sessions.
 * import/export a session in GPX format (one file with one track by device).
 * display session statistics
-* filter points (any criterias combination)
-* reserve a device name to make sure only authorized user can log with this name
+* filter points
+* [reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 * toggle session auto export (daily/weekly/monthly)
 
 Public page works like main page except there is only one session displayed and there is no need to be logged in.

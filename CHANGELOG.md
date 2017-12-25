@@ -5,8 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.1.0 – 2017-12-25
 ### Added
-- all values are now exported/imported
+- all points values are now exported/imported
+- lots of translations (Polish, Turkish, Slovak, Portuguese Brazilian, Dutch, Spanish) !
+- public shares with filters
+[#45](https://gitlab.com/eneiluj/phonetrack-oc/issues/45) @Mamie
+- daily/weekly/monthly session cron auto export
+[#55](https://gitlab.com/eneiluj/phonetrack-oc/issues/55) @Sander8
 
 ### Changed
 - zoom on normal page load
@@ -26,6 +33,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - change filters background color when activated
 
 ### Fixed
+- fix GPRMC coordinates parsing
+[#58](https://gitlab.com/eneiluj/phonetrack-oc/issues/58) @namekal
 - mistake in session export
 [#52](https://gitlab.com/eneiluj/phonetrack-oc/issues/52) @tarator
 - bad escaping of user id in controllers
