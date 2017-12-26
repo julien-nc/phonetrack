@@ -2770,9 +2770,6 @@ class PageController extends Controller {
                     if (! $dir->nodeExists($exportName)) {
                         $this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);
                     }
-                    else {
-                        error_log($exportName.' already exists');
-                    }
                 }
             }
         }
