@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.1.1 – 2017-12-27
+### Fixed
+- potential bug in data conversion to new database schema
+[#65](https://gitlab.com/eneiluj/phonetrack-oc/issues/65) @kaistian
+
 ## 0.1.0 – 2017-12-25
 ### Added
 - all points values are now exported/imported

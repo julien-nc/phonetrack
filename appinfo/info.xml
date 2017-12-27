@@ -17,7 +17,7 @@ How to use PhoneTrack :
 * give the tracking URL\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
 * Watch the session's devices positions in real time (or not) in PhoneTrack normal or public page
 
-(\*) Don't forget to set the device name in the URL. Replace "yourname" with the desired device name. Setting the device name in logging app only works with Owntracks, Traccar and OpenGTS.
+(\*) Don't forget to set the device name in the URL. Replace "yourname" with the desired device name. Setting the device name in logging app options only works with Owntracks, Traccar and OpenGTS.
 
 On PhoneTrack main page, while watching a session, you can :
 
@@ -65,7 +65,7 @@ Any feedback will be appreciated.
     <licence>AGPL</licence>
     <summary>Display phones positions in real time</summary>
     <author>Julien Veyssier</author>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <namespace>PhoneTrack</namespace>
     <documentation>
         <user>https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc</user>

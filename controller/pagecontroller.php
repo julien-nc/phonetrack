@@ -217,7 +217,7 @@ class PageController extends Controller {
         $ossw = $this->getUserTileServers('overlaywms');
 
         // migrate data
-        $this->adaptData();
+        //$this->adaptData();
 
         // PARAMS to view
 
