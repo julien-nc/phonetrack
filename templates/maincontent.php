@@ -125,6 +125,10 @@ p($_['phonetrack_version']);
                 <option value="dark"><?php p($l->t('dark'));?></option>
             </select>
             <br/>
+            <label for="autoexportpath"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+            <?php p($l->t('Auto export path'));?></label>
+            <input id="autoexportpath" type="text" value="/PhoneTrack_export"/>
+            <br/>
             <label>(*) <?php p($l->t('reload page to make changes effective'));?></label>
         </div>
         </div>

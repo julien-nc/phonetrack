@@ -770,3 +770,6 @@ div#createimportsessiondiv button {
 #filterPointsTable {
     border-radius: 7px;
 }
+label[for=autoexportpath], #autoexportpath {
+    width: 49%;
+}

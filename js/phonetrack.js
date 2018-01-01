@@ -937,6 +937,9 @@
                 if (optionsValues.pointlinealpha !== undefined) {
                     $('#pointlinealpha').val(optionsValues.pointlinealpha);
                 }
+                if (optionsValues.autoexportpath !== undefined) {
+                    $('#autoexportpath').val(optionsValues.autoexportpath);
+                }
                 if (optionsValues.pointradius !== undefined) {
                     $('#pointradius').val(optionsValues.pointradius);
                 }
@@ -1031,6 +1034,7 @@
         optionsValues.colortheme = $('#colorthemeselect').val();
         optionsValues.pointlinealpha = $('#pointlinealpha').val();
         optionsValues.pointradius = $('#pointradius').val();
+        optionsValues.autoexportpath = $('#autoexportpath').val();
         optionsValues.viewmove = $('#viewmove').is(':checked');
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
@@ -3766,6 +3770,23 @@
             if (!pageIsPublic()) {
                 saveOptions();
             }
+        });
+
+        $('#autoexportpath').change(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
+        $('#autoexportpath').focus(function() {
+            OC.dialogs.filepicker(
+                t('gpxedit', 'Choose auto export target path'),
+                function(targetPath) {
+                    $('#autoexportpath').val(targetPath);
+                    $('#autoexportpath').change();
+                },
+                false, "httpd/unix-directory", true
+            );
         });
 
         $('#linewidth').change(function() {

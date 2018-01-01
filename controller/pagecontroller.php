@@ -2657,17 +2657,35 @@ class PageController extends Controller {
     private function getOrCreateExportDir($userId) {
         $dir = null;
         $userFolder = \OC::$server->getUserFolder($userId);
-        $dirpath = '/PhoneTrack_export';
-        if ($userFolder->nodeExists($dirpath)){
-            $tmp = $userFolder->get($dirpath);
-            if ($tmp->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
-                $tmp->isCreatable()){
-                $dir = $tmp;
-            }
+
+        $sqlget = 'SELECT * FROM *PREFIX*phonetrack_options ';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userId).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        $optString = null;
+        while ($row = $req->fetch()){
+            $optString = $row['jsonvalues'];
         }
-        else {
-            $userFolder->newFolder($dirpath);
-            $dir = $userFolder->get($dirpath);
+        if ($optString !== null) {
+            $f = json_decode($optString, True);
+            if (isset($f['autoexportpath'])) {
+                $dirpath = $f['autoexportpath'];
+            }
+            else {
+                $dirpath = '/PhoneTrack_export';
+            }
+
+            if ($userFolder->nodeExists($dirpath)){
+                $tmp = $userFolder->get($dirpath);
+                if ($tmp->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
+                    $tmp->isCreatable()){
+                    $dir = $tmp;
+                }
+            }
+            else {
+                $userFolder->newFolder($dirpath);
+                $dir = $userFolder->get($dirpath);
+            }
         }
         return $dir;
     }
@@ -2692,7 +2710,10 @@ class PageController extends Controller {
         $dateMaxDay = new \DateTime($y.'-'.$m.'-'.$d);
         $maxDayTimestamp = $dateMaxDay->getTimestamp();
         $minDayTimestamp = $maxDayTimestamp - 24*60*60;
-        $dailySuffix = '_daily_'.$y.'-'.sprintf('%02d', intval($m)).'-'.sprintf('%02d', intval($d)-1);
+
+        $dateMaxDay->modify('-1 day');
+        $dailySuffix = '_daily_'.$dateMaxDay->format('Y-m-d');
+        //$dailySuffix = '_daily_'.$y.'-'.sprintf('%02d', intval($m)).'-'.sprintf('%02d', intval($d)-1);
 
         // last week
         $now = new \DateTime();
@@ -2766,7 +2787,10 @@ class PageController extends Controller {
                     $dir = $this->getOrCreateExportDir($userName);
                     // check if file already exists
                     $exportName = $dbname.$suffix.'.gpx';
-                    $exportPath = '/PhoneTrack_export/'.$exportName;
+                    
+                    $rel_path = str_replace(\OC::$server->getUserFolder($userName)->getPath(), '', $dir->getPath());
+                    $exportPath = $rel_path.'/'.$exportName;
+                    echo $exportPath.' PLOP';
                     if (! $dir->nodeExists($exportName)) {
                         $this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);
                     }
