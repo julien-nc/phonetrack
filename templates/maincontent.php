@@ -150,7 +150,7 @@ p($_['phonetrack_version']);
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         <?php p($l->t('loading positions')); ?>&nbsp;<b id="loadinpos"></b></p>
     </div>
-    <div id="trackurldialog" style="display:none;" title="<?php p($l->t('Tracking URL')); ?>">
+    <div id="trackurldialog" style="display:none;">
         <label id="trackurllabel" for="trackurlinput"></label>
         <br/>
         <input id="trackurlinput" type="text"></input>
