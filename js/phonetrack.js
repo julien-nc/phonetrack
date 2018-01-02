@@ -1343,17 +1343,28 @@
                 '</p>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser logging URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'OsmAnd URL') + ' :</p>';
+            divtxt = divtxt + '<p><label>' + t('phonetrack', 'OsmAnd URL') + ' : </label>' +
+                '<button class="urlhelpbutton" logger="osmand"><i class="fa fa-question"></i></button>' +
+                '</p>';
             divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' :</p>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' : ' +
+                '<button class="urlhelpbutton" logger="gpslogger"><i class="fa fa-question"></i></button>' +
+                '</p>';
             divtxt = divtxt + '<input class="ro" role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) URL') + ' :</p>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) URL') + ' : ' +
+                '<button class="urlhelpbutton" logger="owntracks"><i class="fa fa-question"></i></button>' +
+                '</p>';
             divtxt = divtxt + '<input class="ro" role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger URL') + ' :</p>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger URL') + ' : ' +
+                '<button class="urlhelpbutton" logger="ulogger"><i class="fa fa-question"></i></button>' +
+                '</p>';
             divtxt = divtxt + '<input class="ro" role="uloggerurl" type="text" value="' + uloggerurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar URL') + ' :</p>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar URL') + ' : ' +
+                '<button class="urlhelpbutton" logger="traccar"><i class="fa fa-question"></i></button>' +
+                '</p>';
             divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' :</p>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' : ' +
+                '</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
             divtxt = divtxt + '<hr/></div>';
         }
@@ -3617,6 +3628,49 @@
         return (d / 1000).toFixed(2);
     }
 
+    function clickUrlHelp(logger, url, sessionName) {
+        var loggerName, content;
+        if (logger === 'osmand') {
+            loggerName = 'OsmAnd';
+            content = t('phonetrack', 'In OsmAnd, go to \'Plugins\' in the main menu, then activate \'Trip recording\' plugin and go to its settings.') +
+            ' ' + t('phonetrack', 'Copy the URL below into the \'Online tracking web address\' field.');
+        }
+        else if (logger === 'gpslogger') {
+            loggerName = 'GpsLogger';
+            content = t('phonetrack', 'In GpsLogger, go to \'Logging details\' in the sidebar menu, then activate \'Log to custom URL\'.') +
+                ' ' + t('phonetrack', 'Copy the URL below into the \'URL\' field.');
+        }
+        else if (logger === 'owntracks') {
+            loggerName = 'Owntracks';
+            content = 'To be written by a Owntracks user !';
+        }
+        else if (logger === 'ulogger') {
+            loggerName = 'Ulogger';
+            content = t('phonetrack', 'In Ulogger, go to settings menu and copy the URL below into the \'Server URL\' field.') +
+                ' ' + t('phonetrack', 'Set \'User name\' and \'Password\' mandatory fields to any value as they will be ignored by PhoneTrack.') +
+                ' ' + t('phonetrack', 'Activate \'Live synchronization\'.');
+        }
+        else if (logger === 'traccar') {
+            loggerName = 'Traccar';
+            content = t('phonetrack', 'In Traccar client, copy the URL below into the \'server URL\' field.');
+        }
+        var title = t('phonetrack',
+            'Configure {loggingApp} for logging to session \'{sessionName}\'',
+            {sessionName: sessionName, loggingApp: loggerName}
+        );
+
+        $('#trackurlinput').val(url);
+        $('#trackurllabel').text(content);
+
+        $('#trackurldialog').dialog({
+            title: title,
+            closeText: 'show',
+            width: 500,
+            height: 250
+        });
+        $('#trackurlinput').select();
+    }
+
     //////////////// MAIN /////////////////////
 
     $(document).ready(function() {
@@ -4461,6 +4515,12 @@
             }
         });
         $('#togglestats').prop('checked', false);
+
+        $('body').on('click', '.urlhelpbutton', function(e) {
+            var logger = $(this).attr('logger');
+            var sessionName = getSessionName($(this).parent().parent().parent().attr('token'));
+            clickUrlHelp(logger, $(this).parent().parent().find('input[role='+logger+'url]').val(), sessionName);
+        });
 
         $('body').on('change', '#colorinput', function(e) {
             okColor();

@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- help dialogs to configure logging apps
+- add option to set auto export path
+[#66](https://gitlab.com/eneiluj/phonetrack-oc/issues/66) @TMaddox
+
+### Fixed
+- auto export daily file name mistake
 
 ## 0.1.1 – 2017-12-27
 ### Fixed

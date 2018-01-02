@@ -150,6 +150,14 @@ p($_['phonetrack_version']);
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         <?php p($l->t('loading positions')); ?>&nbsp;<b id="loadinpos"></b></p>
     </div>
+    <div id="trackurldialog" style="display:none;" title="<?php p($l->t('Tracking URL')); ?>">
+        <label id="trackurllabel" for="trackurlinput"></label>
+        <br/>
+        <input id="trackurlinput" type="text"></input>
+        <div id="trackurlhint">
+        <?php p($l->t('Replace \'yourname\' with the desired device name or with the name reservation token')); ?>
+        </div>
+    </div>
     <input id="tracknamecolor" type="text" style="display:none;"></input>
     <input id="colorinput" type="color" style="display:none;"></input>
 <?php
