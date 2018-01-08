@@ -2787,7 +2787,7 @@ class PageController extends Controller {
                     $dir = $this->getOrCreateExportDir($userName);
                     // check if file already exists
                     $exportName = $dbname.$suffix.'.gpx';
-                    
+
                     $rel_path = str_replace(\OC::$server->getUserFolder($userName)->getPath(), '', $dir->getPath());
                     $exportPath = $rel_path.'/'.$exportName;
                     echo $exportPath.' PLOP';
@@ -2797,6 +2797,81 @@ class PageController extends Controller {
                 }
             }
         }
+    }
+
+    /**
+     * @NoAdminRequired
+     * @PublicPage
+     * @NoCSRFRequired
+     */
+    public function APIgetLastPositions($sessionid) {
+        $result = array();
+        // check if session exists
+        $dbtoken = null;
+        $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
+        $sqlget .= 'WHERE token='.$this->db_quote_escape_string($sessionid).' ';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbtoken = $row['token'];
+        }
+        $req->closeCursor();
+
+        // session exists
+        if ($dbtoken !== null) {
+            // get list of devices
+            $devices = array();
+            $sqldev = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+            $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+            $req = $this->dbconnection->prepare($sqldev);
+            $req->execute();
+            while ($row = $req->fetch()){
+                array_push($devices, $row['id']);
+            }
+            $req->closeCursor();
+
+            // get the coords for each device
+            $result[$dbtoken] = array();
+
+            foreach ($devices as $devid) {
+                $name = null;
+                $sqlname = 'SELECT name ';
+                $sqlname .= 'FROM *PREFIX*phonetrack_devices ';
+                $sqlname .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqlname .= 'AND id='.$this->db_quote_escape_string($devid).'; ';
+                $req = $this->dbconnection->prepare($sqlname);
+                $req->execute();
+                $col = '';
+                while ($row = $req->fetch()){
+                    $name = $row['name'];
+                }
+                $req->closeCursor();
+
+                $entry = array();
+                $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude';
+                $sqlget .= ' FROM *PREFIX*phonetrack_points ';
+                $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
+                $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    foreach ($row as $k => $v) {
+                        $entry[$k] = floatval($v);
+                    }
+                }
+                $req->closeCursor();
+                if (count($entry) > 0) {
+                    $result[$dbtoken][$name] = $entry;
+                }
+            }
+        }
+        $response = new DataResponse($result);
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
     }
 
 }
