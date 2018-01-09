@@ -1763,6 +1763,12 @@
             if (uiVal !== '' && !isNaN(uiVal) && parseInt(uiVal) > 1) {
                 var updateinterval = parseInt(uiVal) * 1000;
             }
+            // display countdown
+            $('#countdown').countdown('destroy');
+            var t = new Date();
+            t.setSeconds(t.getSeconds() + updateinterval/1000);
+            $('#countdown').countdown({until: t, format: 'HMS', compact: true});
+            // launch timer
             phonetrack.currentTimer = new Timer(function() {
                 refresh();
             }, updateinterval);
@@ -3796,6 +3802,12 @@
                 },
                 true
             );
+        });
+
+        $('body').on('click','#refreshButton', function(e) {
+            phonetrack.currentTimer.pause();
+            phonetrack.currentTimer = null;
+            refresh();
         });
 
         $('body').on('click','.watchbutton', function(e) {

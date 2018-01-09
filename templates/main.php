@@ -10,6 +10,8 @@ script('phonetrack', 'jquery-ui.min');
 script('phonetrack', 'moment-timezone-with-data.min');
 script('phonetrack', 'Leaflet.LinearMeasurement');
 script('phonetrack', 'easy-button');
+script('phonetrack', 'jquery.plugin.min');
+script('phonetrack', 'jquery.countdown.min');
 script('phonetrack', 'phonetrack');
 
 style('phonetrack', 'style');

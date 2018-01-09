@@ -784,3 +784,6 @@ label[for=autoexportpath], #autoexportpath {
 #trackurlinput {
     width: 100%;
 }
+#countdown {
+    display: inline;
+}

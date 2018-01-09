@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - help dialogs to configure logging apps
 - add option to set auto export path
 [#66](https://gitlab.com/eneiluj/phonetrack-oc/issues/66) @TMaddox
+- countdown to see when is next refresh
+- button to manually refresh
 
 ### Fixed
 - auto export daily file name mistake

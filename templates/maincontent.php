@@ -75,6 +75,8 @@ p($_['phonetrack_version']);
             <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true"></i>
             <?php p($l->t('Refresh each (sec)'));?></label>
             <input id="updateinterval" type="number" min="0" max="1000" step="1" value="5"/>
+            <div id="countdown"></div>
+            <button id="refreshButton"><i class="fa fa-refresh" aria-hidden="true"></i> <?php p($l->t('Refresh')); ?></button>
             <br/>
             <input id="tooltipshowaccuracy" type="checkbox" checked/>
             <label for="tooltipshowaccuracy"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
