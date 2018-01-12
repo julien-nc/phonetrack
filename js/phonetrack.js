@@ -1198,6 +1198,9 @@
         var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken);
         publicWatchUrl = window.location.origin + publicWatchUrl;
 
+        var APIUrl = OC.generateUrl('/apps/phonetrack/APIgetLastPositions/' + token);
+        APIUrl = window.location.origin + APIUrl;
+
         var watchicon = 'fa-toggle-off';
         if (selected) {
             watchicon = 'fa-toggle-on';
@@ -1313,6 +1316,8 @@
             divtxt = divtxt + '<div class="publicWatchUrlDiv">';
             divtxt = divtxt + '<p class="publicWatchUrlLabel">' + t('phonetrack', 'Public watch URL') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
+            divtxt = divtxt + '<p class="APIUrlLabel">' + t('phonetrack', 'API URL (JSON last positions)') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="APIUrl" type="text" value="' + APIUrl + '"></input>';
             divtxt = divtxt + '</div><hr/>';
 
             divtxt = divtxt + '<div class="publicfilteredsharediv">';
@@ -4180,23 +4185,24 @@
                 async: true
             }).done(function (response) {
                 if (response.done === 1) {
-                    if (pub) {
-                        icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
-                        buttext.text(t('phonetrack', 'Make session private'));
-                        $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideDown();
-                    }
-                    else {
-                        icon.addClass('fa-toggle-off').removeClass('fa-toggle-on');
-                        buttext.text(t('phonetrack', 'Make session public'));
-                        $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideUp();
-                    }
                 }
                 else if (response.done === 2) {
                     OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public status, session does not exist'));
                 }
             }).fail(function() {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to toggle session public status'));
+                OC.Notification.showTemporary(t('phonetrack', 'Reload this page'));
             });
+            if (pub) {
+                icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
+                buttext.text(t('phonetrack', 'Make session private'));
+                $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideDown();
+            }
+            else {
+                icon.addClass('fa-toggle-off').removeClass('fa-toggle-on');
+                buttext.text(t('phonetrack', 'Make session public'));
+                $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideUp();
+            }
         });
 
         $('body').on('change','select[role=autoexport]', function(e) {

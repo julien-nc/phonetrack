@@ -2810,6 +2810,7 @@ class PageController extends Controller {
         $dbtoken = null;
         $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
         $sqlget .= 'WHERE token='.$this->db_quote_escape_string($sessionid).' ';
+        $sqlget .= 'AND public=1 ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
