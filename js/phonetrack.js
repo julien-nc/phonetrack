@@ -3851,7 +3851,7 @@
 
         $('#autoexportpath').focus(function() {
             OC.dialogs.filepicker(
-                t('gpxedit', 'Choose auto export target path'),
+                t('phonetrack', 'Choose auto export target path'),
                 function(targetPath) {
                     $('#autoexportpath').val(targetPath);
                     $('#autoexportpath').change();

@@ -19,25 +19,25 @@ namespace OCA\PhoneTrack\Controller;
 
 use \OCA\PhoneTrack\AppInfo\Application;
 
-class PageControllerTest extends \PHPUnit_Framework_TestCase {
+class PageControllerTest extends \PHPUnit\Framework\TestCase {
 
-	private $appName;
-	private $request;
-	private $contacts;
+    private $appName;
+    private $request;
+    private $contacts;
 
-	private $container;
-	private $app;
+    private $container;
+    private $app;
 
-	private $controller;
+    private $controller;
 
-	public function setUp() {
-		$this->appName = 'phonetrack';
-		$this->request = $this->getMockBuilder('\OCP\IRequest')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->contacts = $this->getMockBuilder('OCP\Contacts\IManager')
-			->disableOriginalConstructor()
-			->getMock();
+    public function setUp() {
+        $this->appName = 'phonetrack';
+        $this->request = $this->getMockBuilder('\OCP\IRequest')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->contacts = $this->getMockBuilder('OCP\Contacts\IManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->app = new Application();
         $this->container = $this->app->getContainer();
@@ -51,22 +51,22 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
             $this->appName,
             $this->request,
             'test',
-            $c->query('ServerContainer')->getUserFolder($c->query('UserId')),
+            $c->query('ServerContainer')->getUserFolder('test'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager()
         );
-	}
+    }
 
-	public function tearDown() {
+    public function tearDown() {
         $user = $this->container->getServer()->getUserManager()->get('test');
         $user->delete();
         $user = $this->container->getServer()->getUserManager()->get('test2');
         $user->delete();
     }
 
-	public function testSession() {
+    public function testSession() {
         // CREATE SESSION
         $resp = $this->controller->createSession('testSession');
 
@@ -74,7 +74,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
         $token = $data['token'];
         $done = $data['done'];
 
-		$this->assertEquals($done, 1);
+        $this->assertEquals($done, 1);
 
         // SHARE SESSION
         $resp = $this->controller->addUserShare($token, 'test2');
@@ -82,7 +82,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
         $data = $resp->getData();
         $done = $data['done'];
 
-		$this->assertEquals($done, 1);
+        $this->assertEquals($done, 1);
 
         // ADD POINTS
         $resp = $this->controller->addPoint($token, 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
@@ -92,9 +92,9 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
         $pointid = $data['pointid'];
         $deviceid = $data['deviceid'];
 
-		$this->assertEquals($done, 1);
-		$this->assertEquals(intval($pointid) > 0, True);
-		$this->assertEquals(intval($deviceid) > 0, True);
+        $this->assertEquals($done, 1);
+        $this->assertEquals(intval($pointid) > 0, True);
+        $this->assertEquals(intval($deviceid) > 0, True);
 
         $resp = $this->controller->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests');
         $resp = $this->controller->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests');
@@ -105,7 +105,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
         $data = $resp->getData();
         $name = $data['sessions'][0][0];
 
-		$this->assertEquals($name, 'testSession');
+        $this->assertEquals($name, 'testSession');
 
         // TRACK
         $sessions = array(array($token, 400, 1));
@@ -114,7 +114,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
         $respSession = $data['sessions'];
         $pointList = $respSession[$token][$deviceid];
 
-		$this->assertEquals(count($pointList), 3);
+        $this->assertEquals(count($pointList), 3);
 
         //DELETE POINT
         $resp = $this->controller->deletePoint($token, $deviceid, $pointid);
@@ -122,7 +122,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
         $data = $resp->getData();
         $done = $data['done'];
 
-		$this->assertEquals($done, 1);
+        $this->assertEquals($done, 1);
 
         // TRACK AFTER DELETE POINT
         $sessions = array(array($token, 400, 1));
@@ -131,7 +131,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
         $respSession = $data['sessions'];
         $pointList = $respSession[$token][$deviceid];
 
-		$this->assertEquals(count($pointList), 2);
+        $this->assertEquals(count($pointList), 2);
 
         // DELETE SESSION
         $resp = $this->controller->deleteSession($token);
@@ -139,7 +139,7 @@ class PageControllerTest extends \PHPUnit_Framework_TestCase {
         $data = $resp->getData();
         $done = $data['done'];
 
-		$this->assertEquals($done, 1);
-	}
+        $this->assertEquals($done, 1);
+    }
 
 }

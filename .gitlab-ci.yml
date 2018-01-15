@@ -1,0 +1,10 @@
+# Select image from https://hub.docker.com/
+image: nextcloud:latest
+
+before_script:
+# Install dependencies
+- bash ci/docker_install.sh
+
+test:app:
+  script:
+  - phpunit --configuration /var/www/html/custom_apps/phonetrack/phpunit.xml
