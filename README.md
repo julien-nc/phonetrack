@@ -1,5 +1,8 @@
 # PhoneTrack ownCloud/Nextcloud application
 
+[![Build status](https://gitlab.com/eneiluj/phonetrack-oc/badges/master/build.svg)](https://gitlab.com/eneiluj/phonetrack-oc/commits/master)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/phonetrack/localized.svg)](https://crowdin.com/project/phonetrack)
+
 PhoneTrack is an app to get tracking information from mobile devices
 and display them dynamically on a Leaflet map.
 
