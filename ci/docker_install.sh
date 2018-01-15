@@ -18,5 +18,5 @@ sudo -u www-data php /var/www/html/occ maintenance:install --database "sqlite" -
 sudo -u www-data php /var/www/html/occ app:enable phonetrack
 sudo -u www-data php /var/www/html/occ upgrade
 sudo -u www-data php /var/www/html/occ maintenance:mode --off
-sudo -u www-data php /var/www/html/occ app:check-code phonetrack
+#sudo -u www-data php /var/www/html/occ app:check-code phonetrack
 
