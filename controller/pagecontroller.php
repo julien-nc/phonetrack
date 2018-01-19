@@ -2814,13 +2814,14 @@ class PageController extends Controller {
         $result = array();
         // check if session exists
         $dbtoken = null;
-        $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
-        $sqlget .= 'WHERE token='.$this->db_quote_escape_string($sessionid).' ';
+        $sqlget = 'SELECT publicviewtoken, token FROM *PREFIX*phonetrack_sessions ';
+        $sqlget .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($sessionid).' ';
         $sqlget .= 'AND public=1 ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
             $dbtoken = $row['token'];
+            $dbpubtoken = $row['publicviewtoken'];
         }
         $req->closeCursor();
 
@@ -2838,7 +2839,7 @@ class PageController extends Controller {
             $req->closeCursor();
 
             // get the coords for each device
-            $result[$dbtoken] = array();
+            $result[$dbpubtoken] = array();
 
             foreach ($devices as $devid) {
                 $name = null;
@@ -2868,7 +2869,7 @@ class PageController extends Controller {
                 }
                 $req->closeCursor();
                 if (count($entry) > 0) {
-                    $result[$dbtoken][$name] = $entry;
+                    $result[$dbpubtoken][$name] = $entry;
                 }
             }
         }
