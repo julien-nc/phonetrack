@@ -31,6 +31,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
     private $controller;
 
     private $testSessionToken;
+    private $testSessionToken2;
 
     public function setUp() {
         $this->appName = 'phonetrack';
@@ -68,6 +69,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $user->delete();
         // in case there was a failure and session was not deleted
         $this->controller->deleteSession($this->testSessionToken);
+        $this->controller->deleteSession($this->testSessionToken2);
     }
 
     public function testSession() {
@@ -77,6 +79,15 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $token = $data['token'];
         $this->testSessionToken = $token;
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
+        $resp = $this->controller->createSession('otherSession');
+
+        $data = $resp->getData();
+        $token2 = $data['token'];
+        $this->testSessionToken2 = $token2;
         $done = $data['done'];
 
         $this->assertEquals($done, 1);
@@ -178,6 +189,39 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $name = $data['sessions'][0][0];
 
         $this->assertEquals($name, 'renamedTestSession');
+
+        // RENAME DEVICE
+        $resp = $this->controller->renameDevice($token, $deviceid, 'renamedTestDev');
+
+        $data = $resp->getData();
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
+        // get device name
+        $resp = $this->controller->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+
+        $this->assertEquals($respNames[$token][$deviceid], 'renamedTestDev');
+
+        // REAFFECT DEVICE
+        $resp = $this->controller->reaffectDevice($token, $deviceid, $token2);
+
+        $data = $resp->getData();
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
+        // get device name
+        $sessions = array(array($token2, 400, 1));
+        $resp = $this->controller->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+
+        $this->assertEquals($respNames[$token2][$deviceid], 'renamedTestDev');
 
         // DELETE SESSION
         $resp = $this->controller->deleteSession($token);
