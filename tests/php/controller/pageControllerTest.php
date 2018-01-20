@@ -30,6 +30,8 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
 
     private $controller;
 
+    private $testSessionToken;
+
     public function setUp() {
         $this->appName = 'phonetrack';
         $this->request = $this->getMockBuilder('\OCP\IRequest')
@@ -64,6 +66,8 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $user->delete();
         $user = $this->container->getServer()->getUserManager()->get('test2');
         $user->delete();
+        // in case there was a failure and session was not deleted
+        $this->controller->deleteSession($this->testSessionToken);
     }
 
     public function testSession() {
@@ -72,6 +76,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
 
         $data = $resp->getData();
         $token = $data['token'];
+        $this->testSessionToken = $token;
         $done = $data['done'];
 
         $this->assertEquals($done, 1);
@@ -115,6 +120,31 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $pointList = $respSession[$token][$deviceid];
 
         $this->assertEquals(count($pointList), 3);
+        $this->assertEquals($pointList[2]['batterylevel'], 70);
+        $lastPointID = $pointList[2]['id'];
+
+        // UPDATE POINT
+        $resp = $this->controller->updatePoint($token, $deviceid, $lastPointID,
+            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
+
+        $data = $resp->getData();
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
+        // TRACK AGAIN
+        $resp = $this->controller->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $pointList = $respSession[$token][$deviceid];
+
+        $this->assertEquals(count($pointList), 3);
+        $this->assertEquals($pointList[2]['batterylevel'], 65);
+        $this->assertEquals($pointList[2]['useragent'], 'tests_modif');
+        $this->assertEquals($pointList[2]['accuracy'], 99);
+        $this->assertEquals($pointList[2]['timestamp'], 480);
+        $this->assertEquals($pointList[2]['altitude'], 210);
+        $this->assertEquals($pointList[2]['satellites'], 10);
 
         //DELETE POINT
         $resp = $this->controller->deletePoint($token, $deviceid, $pointid);
@@ -132,6 +162,22 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $pointList = $respSession[$token][$deviceid];
 
         $this->assertEquals(count($pointList), 2);
+
+        // RENAME SESSION
+        $resp = $this->controller->renameSession($token, 'renamedTestSession');
+
+        $data = $resp->getData();
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
+        // GET SESSIONS TO CHECK NAME
+        $resp = $this->controller->getSessions();
+
+        $data = $resp->getData();
+        $name = $data['sessions'][0][0];
+
+        $this->assertEquals($name, 'renamedTestSession');
 
         // DELETE SESSION
         $resp = $this->controller->deleteSession($token);
