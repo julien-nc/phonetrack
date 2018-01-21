@@ -19,7 +19,7 @@ namespace OCA\PhoneTrack\Controller;
 
 use \OCA\PhoneTrack\AppInfo\Application;
 
-class PageControllerTest extends \PHPUnit\Framework\TestCase {
+class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
     private $appName;
     private $request;
@@ -86,7 +86,11 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->pageController->deleteSession($this->testSessionToken2);
     }
 
-    public function testSession() {
+    //public function testLog() {
+
+    //}
+
+    public function testPage() {
         // CREATE SESSION
         $resp = $this->pageController->createSession('testSession');
 
@@ -372,6 +376,78 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $pointList = $respSession[$publictoken1][$deviceid];
 
         $this->assertEquals(count($pointList), 2);
+
+        // DELETE DEVICE
+        $resp = $this->pageController->addPoint($token, 'delDev', 25.6, 2.5, 100, 560, 100, 35, 4, 'tests');
+        $data = $resp->getData();
+        $deldeviceid = $data['deviceid'];
+        $resp = $this->pageController->addPoint($token, 'delDev', 25.7, 2.6, 120, 570, 100, 30, 11, 'tests');
+
+        $sessions = array(array($token, 400, 1));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $respColors = $data['colors'];
+
+        $cond = array_key_exists($token, $data['names']) and array_key_exists($deldeviceid, $data['names'][$token]);
+        $this->assertEquals($cond, True);
+        $this->assertEquals($data['names'][$token][$deldeviceid], 'delDev');
+
+        $resp = $this->pageController->deleteDevice($token, $deldeviceid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $sessions = array(array($token, 400, 1));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $respColors = $data['colors'];
+
+        $cond = (!array_key_exists($token, $data['names'])) or (!array_key_exists($deldeviceid, $data['names'][$token]));
+        $this->assertEquals($cond, True);
+
+        // NAME RESERVATION
+        $resp = $this->pageController->addNameReservation($token, 'resName');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->getSessions();
+
+        $data = $resp->getData();
+        $reservedList = null;
+        foreach ($data['sessions'] as $s) {
+            $name = $s[0];
+            if ($name == 'renamedTestSession') {
+                $reservedList = $s[5];
+            }
+        }
+
+        $cond = ($reservedList !== null and count($reservedList) > 0 and $reservedList[0]['name'] === 'resName');
+        $this->assertEquals($cond, True);
+
+        // REMOVE NAME RESERVATION
+        $resp = $this->pageController->deleteNameReservation($token, 'resName');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->getSessions();
+
+        $data = $resp->getData();
+        $reservedList = null;
+        foreach ($data['sessions'] as $s) {
+            $name = $s[0];
+            if ($name == 'renamedTestSession') {
+                $reservedList = $s[5];
+            }
+        }
+
+        $cond = ($reservedList !== null and count($reservedList) === 0);
+        $this->assertEquals($cond, True);
 
         // DELETE SESSION
         $resp = $this->pageController->deleteSession($token);
