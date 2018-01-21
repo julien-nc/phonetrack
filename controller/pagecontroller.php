@@ -372,6 +372,7 @@ class PageController extends Controller {
      */
     public function createSession($name) {
         $token = '';
+        $publicviewtoken = '';
         // check if session name is not already used
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
@@ -385,7 +386,7 @@ class PageController extends Controller {
         }
         $req->closeCursor();
 
-        if ($dbname === null) {
+        if ($dbname === null and $name !== '') {
             // determine token
             $token = md5($this->userId.$name.rand());
             $publicviewtoken = md5($this->userId.$name.rand());

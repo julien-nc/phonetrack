@@ -101,6 +101,16 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals($done, 1);
 
+        // STRESS CREATE SESSION
+        $resp = $this->pageController->createSession('testSession');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+        $resp = $this->pageController->createSession('');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
         $resp = $this->pageController->createSession('otherSession');
 
         $data = $resp->getData();
