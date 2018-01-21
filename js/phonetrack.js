@@ -1432,7 +1432,7 @@
                 removeDevice(token, deviceid);
                 OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', {d: devicename, s: sessionName}));
             }
-            else if (response.done === 2) {
+            else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', {d: devicename, s: sessionName}));
             }
         }).always(function() {
@@ -2223,7 +2223,7 @@
                 if (response.done === 1) {
                     OC.Notification.showTemporary(t('phonetrack', 'Device\'s color successfully changed'));
                 }
-                else if (response.done === 2) {
+                else {
                     OC.Notification.showTemporary(t('phonetrack', 'Failed to save device\'s color'));
                 }
             }).always(function() {
@@ -2554,7 +2554,7 @@
             if (response.done === 1) {
                 updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent);
             }
-            else if (response.done === 2) {
+            else {
                 OC.Notification.showTemporary(t('phonetrack', 'The point you want to edit does not exist or you\'re not allowed to edit it'));
             }
         }).always(function() {
@@ -2678,7 +2678,7 @@
             if (response.done === 1) {
                 deletePointMap(s, d, pid);
             }
-            else if (response.done === 2) {
+            else {
                 OC.Notification.showTemporary(t('phonetrack', 'The point you want to delete does not exist or you\'re not allowed to delete it'));
             }
         }).always(function() {

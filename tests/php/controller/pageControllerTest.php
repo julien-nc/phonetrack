@@ -101,6 +101,15 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals($done, 1);
 
+        $resp = $this->pageController->createSession('otherSession');
+
+        $data = $resp->getData();
+        $token2 = $data['token'];
+        $this->testSessionToken2 = $token2;
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
         // STRESS CREATE SESSION
         $resp = $this->pageController->createSession('testSession');
         $data = $resp->getData();
@@ -111,46 +120,104 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 2);
 
-        $resp = $this->pageController->createSession('otherSession');
-
-        $data = $resp->getData();
-        $token2 = $data['token'];
-        $this->testSessionToken2 = $token2;
-        $done = $data['done'];
-
-        $this->assertEquals($done, 1);
-
         // SHARE SESSION
         $resp = $this->pageController->addUserShare($token, 'test3');
-        $resp = $this->pageController->addUserShare($token, 'test2');
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
+        $resp = $this->pageController->addUserShare($token, 'test2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        // STRESS SHARE SESSION
+        $resp = $this->pageController->addUserShare($token, 'test2doesnotexist');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 4);
+        $resp = $this->pageController->addUserShare($token, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 4);
+        $resp = $this->pageController->addUserShare('dummytoken', 'test2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+        $resp = $this->pageController->addUserShare('', 'test2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+        $resp = $this->pageController->addUserShare(null, 'test2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+        $resp = $this->pageController->addUserShare($token, 'test2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
 
         // UNSHARE SESSION
         $resp = $this->pageController->deleteUserShare($token, 'test3');
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
+
+        // STRESS UNSHARE SESSION
+        $resp = $this->pageController->deleteUserShare($token, 'test3');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+        $resp = $this->pageController->deleteUserShare($token, null);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+        $resp = $this->pageController->deleteUserShare($token, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+        $resp = $this->pageController->deleteUserShare($token, 'dummy');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+        $resp = $this->pageController->deleteUserShare('dummytoken', 'test2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+        $resp = $this->pageController->deleteUserShare(null, 'test2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+        $resp = $this->pageController->deleteUserShare('', 'test2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
 
         // ADD POINTS
         $resp = $this->pageController->addPoint($token, 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
-
         $data = $resp->getData();
         $done = $data['done'];
         $pointid = $data['pointid'];
         $deviceid = $data['deviceid'];
-
         $this->assertEquals($done, 1);
         $this->assertEquals(intval($pointid) > 0, True);
         $this->assertEquals(intval($deviceid) > 0, True);
 
         $resp = $this->pageController->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests');
         $resp = $this->pageController->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests');
+
+        // STRESS ADD POINT
+        $resp = $this->pageController->addPoint($token, '', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+        $resp = $this->pageController->addPoint('', '', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+        $resp = $this->pageController->addPoint('dummytoken', 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
 
         // GET SESSIONS
         $resp = $this->pageController->getSessions();
@@ -166,7 +233,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($cond, True);
 
         // TRACK
-        $sessions = array(array($token, 400, 1));
+        $sessions = array(array($token, array($deviceid => 400), array($deviceid => 1)));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -176,16 +243,66 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($pointList[2]['batterylevel'], 70);
         $lastPointID = $pointList[2]['id'];
 
+        // STRESS TRACK
+        $sessions = null;
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respColors = $data['colors'];
+        $respNames = $data['names'];
+        $this->assertEquals(count($respSession), 0);
+        $this->assertEquals(count($respColors), 0);
+        $this->assertEquals(count($respNames), 0);
+
+        $sessions = array(array('', null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respColors = $data['colors'];
+        $respNames = $data['names'];
+        $this->assertEquals(count($respSession), 0);
+        $this->assertEquals(count($respColors), 0);
+        $this->assertEquals(count($respNames), 0);
+
+        $sessions = array(array($token, array($deviceid => 1000), array($deviceid => 1)));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respColors = $data['colors'];
+        $respNames = $data['names'];
+        $this->assertEquals(count($respSession), 1);
+        $this->assertEquals(count($respColors), 0);
+        $this->assertEquals(count($respNames), 0);
+        $this->assertEquals(count($respSession[$token]), 0);
+
         // UPDATE POINT
         $resp = $this->pageController->updatePoint($token, $deviceid, $lastPointID,
             45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
 
+        // STRESS UPDATE POINT
+        $resp = $this->pageController->updatePoint($token, $deviceid, 666,
+            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->updatePoint($token, 666, $lastPointID,
+            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->updatePoint('dumdum', $deviceid, $lastPointID,
+            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 4);
+
         // TRACK AGAIN
+        $sessions = array(array($token, array($deviceid => 400), array($deviceid => 1)));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -201,14 +318,28 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         //DELETE POINT
         $resp = $this->pageController->deletePoint($token, $deviceid, $pointid);
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
 
+        // STRESS DELETE POINT
+        $resp = $this->pageController->deletePoint($token, $deviceid, 666);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deletePoint($token, 666, $pointid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->deletePoint('dumdum', $deviceid, $pointid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 4);
+
         // TRACK AFTER DELETE POINT
-        $sessions = array(array($token, 400, 1));
+        $sessions = array(array($token, array($deviceid => 400), array($deviceid => 1)));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -218,11 +349,25 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // RENAME SESSION
         $resp = $this->pageController->renameSession($token, 'renamedTestSession');
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
+
+        // STRESS RENAME SESSION
+        $resp = $this->pageController->renameSession('dumdum', 'yeyeah');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->renameSession($token, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->renameSession($token, null);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
 
         // GET SESSIONS TO CHECK NAME
         $resp = $this->pageController->getSessions();
@@ -234,13 +379,28 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // RENAME DEVICE
         $resp = $this->pageController->renameDevice($token, $deviceid, 'renamedTestDev');
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
 
+        // STRESS RENAME DEVICE
+        $resp = $this->pageController->renameDevice($token, 666, 'renamedTestDev');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->renameDevice('dumdum', $deviceid, 'renamedTestDev');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->renameDevice($token, $deviceid, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 4);
+
         // get device name
+        $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -250,14 +410,46 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // REAFFECT DEVICE
         $resp = $this->pageController->reaffectDevice($token, $deviceid, $token2);
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
 
-        // get device name
-        $sessions = array(array($token2, 400, 1));
+        // STRESS REAFFECT DEVICE
+        $resp = $this->pageController->reaffectDevice('dumdum', $deviceid, $token2);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->reaffectDevice($token, 666, $token2);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 4);
+
+        $resp = $this->pageController->reaffectDevice($token, $deviceid, 'dumdum');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 5);
+
+        // create session with a device with same name
+        $resp = $this->pageController->createSession('stressReaffect');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+        $stressReafToken = $data['token'];
+        $resp = $this->pageController->addPoint($stressReafToken, 'renamedTestDev', 25.6, 2.5, 100, 560, 100, 35, 4, 'testsReaf');
+
+        $resp = $this->pageController->reaffectDevice($token2, $deviceid, $stressReafToken);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->deleteSession($stressReafToken);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        // get device name to check reaffect
+        $sessions = array(array($token2, null, null));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -267,14 +459,23 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // SET DEVICE COLOR
         $resp = $this->pageController->setDeviceColor($token2, $deviceid, '#96ff00');
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
 
+        // STRESS SET DEVICE COLOR
+        $resp = $this->pageController->setDeviceColor('dumdum', $deviceid, '#96ff00');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->setDeviceColor($token2, 666, '#96ff00');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
         // get device color
-        $sessions = array(array($token2, 400, 1));
+        $sessions = array(array($token2, null, null));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -299,7 +500,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(($sharetoken2 !== null), True);
 
         // PUBLIC VIEW TRACK
-        $sessions = array(array($sharetoken2, 400, 1));
+        $sessions = array(array($sharetoken2, null, null));
         $resp = $this->pageController->publicViewTrack($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -318,14 +519,23 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // SET SESSION PRIVATE
         $resp = $this->pageController->setSessionPublic($token2, 0);
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
 
+        // STRESS SET SESSION PRIVATE
+        $resp = $this->pageController->setSessionPublic('dumdum', 0);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->setSessionPublic($token2, 33);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
         // CHECK PUBLIC VIEW TRACK ON PRIVATE SESSION
-        $sessions = array(array($sharetoken2, 400, 1));
+        $sessions = array(array($sharetoken2, null, null));
         $resp = $this->pageController->publicViewTrack($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -377,7 +587,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($checkpublictoken === $publictoken1, True);
 
         // PUBLIC VIEW TRACK FOR PUBLIC SHARE
-        $sessions = array(array($publictoken1, 400, 1));
+        $sessions = array(array($publictoken1, null, null));
         $resp = $this->pageController->publicViewTrack($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -388,12 +598,14 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($pointList), 2);
 
         // DELETE DEVICE
+        // create a device
         $resp = $this->pageController->addPoint($token, 'delDev', 25.6, 2.5, 100, 560, 100, 35, 4, 'tests');
         $data = $resp->getData();
         $deldeviceid = $data['deviceid'];
         $resp = $this->pageController->addPoint($token, 'delDev', 25.7, 2.6, 120, 570, 100, 30, 11, 'tests');
 
-        $sessions = array(array($token, 400, 1));
+        // get sessions to check device is there
+        $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -404,12 +616,24 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($cond, True);
         $this->assertEquals($data['names'][$token][$deldeviceid], 'delDev');
 
+        // actually delete
         $resp = $this->pageController->deleteDevice($token, $deldeviceid);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
-        $sessions = array(array($token, 400, 1));
+        // stress delete
+        $resp = $this->pageController->deleteDevice('dumdum', $deldeviceid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+        $resp = $this->pageController->deleteDevice($token, 666);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        // check if the device is gone
+        $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -425,6 +649,23 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
+        // STRESS NAME RESERVATION
+        $resp = $this->pageController->addNameReservation($token, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 4);
+
+        $resp = $this->pageController->addNameReservation('dumdum', 'lala');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->addNameReservation($token, 'resName');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        // CHECK NAME RESERVATION
         $resp = $this->pageController->getSessions();
 
         $data = $resp->getData();
@@ -445,6 +686,28 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
+        // STRESS REMOVE NAME RESERVATION
+        $resp = $this->pageController->deleteNameReservation($token, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 5);
+
+        $resp = $this->pageController->deleteNameReservation('dumdum', 'resName');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 4);
+
+        $resp = $this->pageController->deleteNameReservation($token, 'idontexist');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deleteNameReservation($token, 'resName');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        // CHECK REMOVE NAME RESERVATION
         $resp = $this->pageController->getSessions();
 
         $data = $resp->getData();
@@ -461,11 +724,25 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // DELETE SESSION
         $resp = $this->pageController->deleteSession($token);
-
         $data = $resp->getData();
         $done = $data['done'];
-
         $this->assertEquals($done, 1);
+
+        // STRESS DELETE SESSION
+        $resp = $this->pageController->deleteSession('dumdum');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deleteSession(null);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deleteSession('');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
     }
 
 }
