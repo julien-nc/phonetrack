@@ -28,7 +28,8 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
     private $container;
     private $app;
 
-    private $controller;
+    private $pageController;
+    private $logController;
 
     private $testSessionToken;
     private $testSessionToken2;
@@ -49,8 +50,9 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         // CREATE DUMMY USERS
         $c->getServer()->getUserManager()->createUser('test', 'T0T0T0');
         $c->getServer()->getUserManager()->createUser('test2', 'T0T0T0');
+        $c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
 
-        $this->controller = new PageController(
+        $this->pageController = new PageController(
             $this->appName,
             $this->request,
             'test',
@@ -60,6 +62,16 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager()
         );
+
+        $this->logController = new LogController(
+            $this->appName,
+            $this->request,
+            'test',
+            $c->query('ServerContainer')->getUserFolder('test'),
+            $c->query('ServerContainer')->getConfig(),
+            $c->getServer()->getShareManager(),
+            $c->getServer()->getAppManager()
+        );
     }
 
     public function tearDown() {
@@ -67,14 +79,16 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $user->delete();
         $user = $this->container->getServer()->getUserManager()->get('test2');
         $user->delete();
+        $user = $this->container->getServer()->getUserManager()->get('test3');
+        $user->delete();
         // in case there was a failure and session was not deleted
-        $this->controller->deleteSession($this->testSessionToken);
-        $this->controller->deleteSession($this->testSessionToken2);
+        $this->pageController->deleteSession($this->testSessionToken);
+        $this->pageController->deleteSession($this->testSessionToken2);
     }
 
     public function testSession() {
         // CREATE SESSION
-        $resp = $this->controller->createSession('testSession');
+        $resp = $this->pageController->createSession('testSession');
 
         $data = $resp->getData();
         $token = $data['token'];
@@ -83,7 +97,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals($done, 1);
 
-        $resp = $this->controller->createSession('otherSession');
+        $resp = $this->pageController->createSession('otherSession');
 
         $data = $resp->getData();
         $token2 = $data['token'];
@@ -93,7 +107,16 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 1);
 
         // SHARE SESSION
-        $resp = $this->controller->addUserShare($token, 'test2');
+        $resp = $this->pageController->addUserShare($token, 'test3');
+        $resp = $this->pageController->addUserShare($token, 'test2');
+
+        $data = $resp->getData();
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
+        // UNSHARE SESSION
+        $resp = $this->pageController->deleteUserShare($token, 'test3');
 
         $data = $resp->getData();
         $done = $data['done'];
@@ -101,7 +124,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 1);
 
         // ADD POINTS
-        $resp = $this->controller->addPoint($token, 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $resp = $this->pageController->addPoint($token, 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
 
         $data = $resp->getData();
         $done = $data['done'];
@@ -112,20 +135,25 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(intval($pointid) > 0, True);
         $this->assertEquals(intval($deviceid) > 0, True);
 
-        $resp = $this->controller->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests');
-        $resp = $this->controller->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests');
+        $resp = $this->pageController->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests');
+        $resp = $this->pageController->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests');
 
         // GET SESSIONS
-        $resp = $this->controller->getSessions();
+        $resp = $this->pageController->getSessions();
 
         $data = $resp->getData();
         $name = $data['sessions'][0][0];
 
         $this->assertEquals($name, 'testSession');
 
+        // CHECK SESSION IS SHARED WITH A USER
+        $cond = ($data['sessions'][0][1] === $token and count($data['sessions'][0][4]) > 0 and $data['sessions'][0][4][0] === 'test2') or
+                ($data['sessions'][1][1] === $token and count($data['sessions'][1][4]) > 0 and $data['sessions'][1][4][0] === 'test2');
+        $this->assertEquals($cond, True);
+
         // TRACK
         $sessions = array(array($token, 400, 1));
-        $resp = $this->controller->track($sessions);
+        $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $pointList = $respSession[$token][$deviceid];
@@ -135,7 +163,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $lastPointID = $pointList[2]['id'];
 
         // UPDATE POINT
-        $resp = $this->controller->updatePoint($token, $deviceid, $lastPointID,
+        $resp = $this->pageController->updatePoint($token, $deviceid, $lastPointID,
             45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
 
         $data = $resp->getData();
@@ -144,7 +172,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 1);
 
         // TRACK AGAIN
-        $resp = $this->controller->track($sessions);
+        $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $pointList = $respSession[$token][$deviceid];
@@ -158,7 +186,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($pointList[2]['satellites'], 10);
 
         //DELETE POINT
-        $resp = $this->controller->deletePoint($token, $deviceid, $pointid);
+        $resp = $this->pageController->deletePoint($token, $deviceid, $pointid);
 
         $data = $resp->getData();
         $done = $data['done'];
@@ -167,7 +195,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
 
         // TRACK AFTER DELETE POINT
         $sessions = array(array($token, 400, 1));
-        $resp = $this->controller->track($sessions);
+        $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $pointList = $respSession[$token][$deviceid];
@@ -175,7 +203,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($pointList), 2);
 
         // RENAME SESSION
-        $resp = $this->controller->renameSession($token, 'renamedTestSession');
+        $resp = $this->pageController->renameSession($token, 'renamedTestSession');
 
         $data = $resp->getData();
         $done = $data['done'];
@@ -183,7 +211,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 1);
 
         // GET SESSIONS TO CHECK NAME
-        $resp = $this->controller->getSessions();
+        $resp = $this->pageController->getSessions();
 
         $data = $resp->getData();
         $name = $data['sessions'][0][0];
@@ -191,7 +219,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($name, 'renamedTestSession');
 
         // RENAME DEVICE
-        $resp = $this->controller->renameDevice($token, $deviceid, 'renamedTestDev');
+        $resp = $this->pageController->renameDevice($token, $deviceid, 'renamedTestDev');
 
         $data = $resp->getData();
         $done = $data['done'];
@@ -199,7 +227,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 1);
 
         // get device name
-        $resp = $this->controller->track($sessions);
+        $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $respNames = $data['names'];
@@ -207,7 +235,7 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($respNames[$token][$deviceid], 'renamedTestDev');
 
         // REAFFECT DEVICE
-        $resp = $this->controller->reaffectDevice($token, $deviceid, $token2);
+        $resp = $this->pageController->reaffectDevice($token, $deviceid, $token2);
 
         $data = $resp->getData();
         $done = $data['done'];
@@ -216,15 +244,137 @@ class PageControllerTest extends \PHPUnit\Framework\TestCase {
 
         // get device name
         $sessions = array(array($token2, 400, 1));
-        $resp = $this->controller->track($sessions);
+        $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $respNames = $data['names'];
 
         $this->assertEquals($respNames[$token2][$deviceid], 'renamedTestDev');
 
+        // SET DEVICE COLOR
+        $resp = $this->pageController->setDeviceColor($token2, $deviceid, '#96ff00');
+
+        $data = $resp->getData();
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
+        // get device color
+        $sessions = array(array($token2, 400, 1));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $respColors = $data['colors'];
+
+        $this->assertEquals($respColors[$token2][$deviceid], '#96ff00');
+
+        // TRACK PUBLIC SESSION
+        // get second session's public token
+        $resp = $this->pageController->getSessions();
+
+        $data = $resp->getData();
+        $sharetoken2 = null;
+        foreach ($data['sessions'] as $s) {
+            $name = $s[0];
+            if ($name == 'otherSession') {
+                $sharetoken2 = $s[2];
+            }
+        }
+        
+        $this->assertEquals(($sharetoken2 !== null), True);
+
+        // PUBLIC VIEW TRACK
+        $sessions = array(array($sharetoken2, 400, 1));
+        $resp = $this->pageController->publicViewTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $respColors = $data['colors'];
+        $pointList = $respSession[$sharetoken2][$deviceid];
+
+        $this->assertEquals(count($pointList), 2);
+
+        // API
+        $resp = $this->pageController->APIgetLastPositions($sharetoken2);
+        $data = $resp->getData();
+
+        $this->assertEquals((count($data[$sharetoken2]) > 0), True);
+        $this->assertEquals($data[$sharetoken2]['renamedTestDev']['timestamp'], 480);
+
+        // SET SESSION PRIVATE
+        $resp = $this->pageController->setSessionPublic($token2, 0);
+
+        $data = $resp->getData();
+        $done = $data['done'];
+
+        $this->assertEquals($done, 1);
+
+        // CHECK PUBLIC VIEW TRACK ON PRIVATE SESSION
+        $sessions = array(array($sharetoken2, 400, 1));
+        $resp = $this->pageController->publicViewTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $respColors = $data['colors'];
+
+        $this->assertEquals(count($respSession), 0);
+
+        // API
+        $resp = $this->pageController->APIgetLastPositions($sharetoken2);
+        $data = $resp->getData();
+
+        $this->assertEquals((count($data) === 0), True);
+
+        // ADD PUBLIC SHARE
+        $resp = $this->pageController->addPublicShare($token2);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+        $publictoken1 = $data['sharetoken'];
+        $this->assertEquals(count($publictoken1) > 0, True);
+
+        $resp = $this->pageController->addPublicShare($token2);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+        $publictoken2 = $data['sharetoken'];
+        $this->assertEquals(count($publictoken2) > 0, True);
+
+        // DELETE PUBLIC SHARE
+        $resp = $this->pageController->deletePublicShare($token2, $publictoken2);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        // CHECK PUBLIC SHARE
+        $resp = $this->pageController->getSessions();
+
+        $data = $resp->getData();
+        $checkpublictoken = null;
+        foreach ($data['sessions'] as $s) {
+            $name = $s[0];
+            if ($name == 'otherSession') {
+                if (count($s[6]) > 0) {
+                    $checkpublictoken = $s[6][0]['token'];
+                }
+            }
+        }
+        $this->assertEquals($checkpublictoken === $publictoken1, True);
+
+        // PUBLIC VIEW TRACK FOR PUBLIC SHARE
+        $sessions = array(array($publictoken1, 400, 1));
+        $resp = $this->pageController->publicViewTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $respColors = $data['colors'];
+        $pointList = $respSession[$publictoken1][$deviceid];
+
+        $this->assertEquals(count($pointList), 2);
+
         // DELETE SESSION
-        $resp = $this->controller->deleteSession($token);
+        $resp = $this->pageController->deleteSession($token);
 
         $data = $resp->getData();
         $done = $data['done'];
