@@ -33,6 +33,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
     private $testSessionToken;
     private $testSessionToken2;
+    private $testSessionToken3;
+    private $testSessionToken4;
 
     public function setUp() {
         $this->appName = 'phonetrack';
@@ -84,11 +86,102 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         // in case there was a failure and session was not deleted
         $this->pageController->deleteSession($this->testSessionToken);
         $this->pageController->deleteSession($this->testSessionToken2);
+        $this->pageController->deleteSession($this->testSessionToken3);
+        $this->pageController->deleteSession($this->testSessionToken4);
     }
 
-    //public function testLog() {
+    public function testLog() {
+        // CREATE SESSION
+        $resp = $this->pageController->createSession('logSession');
+        $data = $resp->getData();
+        $token = $data['token'];
+        $this->testSessionToken4 = $token;
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
 
-    //}
+        // LOG
+        $this->logController->logOsmand($token, 'dev1', 44.4, 3.33, 450, 60, 10, 200, 199);
+        $this->logController->logGpsloggerGet($token, 'dev1', 44.5, 3.34, 460, 55, 10, 200, 198);
+        $this->logController->logOwntracks($token, 'dev1', 'dev1', 44.6, 3.35, 197, 470, 200, 50);
+        $this->logController->logUlogger($token, 'dev1', 'tid', 44.7, 3.36, 480, 200, 196, 'pwd', 'user', 'addpos');
+        $this->logController->logTraccar($token, 'dev1', 'id', 44.6, 3.35, 470, 200, 195, 45);
+        $gprmc = '$GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3,E*62';
+        $this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
+
+        // TRACK
+        $sessions = array(array($token, array('dev1' => 400), array('dev1' => 1)));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            $pointList = $v;
+            $this->assertEquals(count($pointList), 6);
+            $this->assertEquals($pointList[0]['batterylevel'], 60);
+        }
+
+        // STRESS LOG
+        // empty sessionid
+        $this->logController->logOsmand('', 'dev1', 44.4, 3.33, 450, 60, 10, 200, 199);
+        $resp = $this->pageController->getSessions();
+        $data = $resp->getData();
+        $this->assertEquals(count($data['sessions']), 1);
+
+        // empty lat
+        $this->logController->logOsmand($token, 'dev1', '', 3.33, 450, 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            $pointList = $v;
+            $this->assertEquals(count($pointList), 6);
+            $this->assertEquals($pointList[0]['batterylevel'], 60);
+        }
+
+        // empty lon
+        $this->logController->logOsmand($token, 'dev1', 4.44, '', 450, 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            $pointList = $v;
+            $this->assertEquals(count($pointList), 6);
+            $this->assertEquals($pointList[0]['batterylevel'], 60);
+        }
+
+        // empty timestamp
+        $this->logController->logOsmand($token, 'dev1', 4.44, 3.33, '', 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            $pointList = $v;
+            $this->assertEquals(count($pointList), 6);
+            $this->assertEquals($pointList[0]['batterylevel'], 60);
+        }
+
+        // wrong session
+        $this->logController->logOsmand($token.'a', 'dev1', 44.4, 3.33, 450, 60, 10, 200, 199);
+        $resp = $this->pageController->getSessions();
+        $data = $resp->getData();
+        $this->assertEquals(count($data['sessions']), 1);
+
+        // empty deviceid
+        $this->logController->logOsmand($token, '', 44.4, 3.33, 450, 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        $this->assertEquals(count($respSession[$token]), 2);
+
+    }
 
     public function testPage() {
         // CREATE SESSION
@@ -436,6 +529,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
         $stressReafToken = $data['token'];
+        $this->testSessionToken3 = $stressReafToken;
         $resp = $this->pageController->addPoint($stressReafToken, 'renamedTestDev', 25.6, 2.5, 100, 560, 100, 35, 4, 'testsReaf');
 
         $resp = $this->pageController->reaffectDevice($token2, $deviceid, $stressReafToken);
