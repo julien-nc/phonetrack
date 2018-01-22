@@ -172,14 +172,37 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $this->assertEquals(count($data['sessions']), 1);
 
-        // empty deviceid
+        // CHECK NAME RESERVATION
+        $resp = $this->pageController->addNameReservation($token, 'resName');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $reservToken = $data['nametoken'];
+        $this->assertEquals($done, 1);
+
+        // then try to log, number of devices should still be 1
+        $this->logController->logOsmand($token, 'resName', 4.44, 3.33, 500, 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession[$token]), 1);
+
+        // then try to log with name token, there should be two devices
+        $this->logController->logOsmand($token, $reservToken, 4.44, 3.33, 500, 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession[$token]), 2);
+
+        // empty deviceid => log works, device name is 'unknown'
         $this->logController->logOsmand($token, '', 44.4, 3.33, 450, 60, 10, 200, 199);
         $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $this->assertEquals(count($respSession), 1);
-        $this->assertEquals(count($respSession[$token]), 2);
+        $this->assertEquals(count($respSession[$token]), 3);
 
     }
 
