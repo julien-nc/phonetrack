@@ -18,4 +18,4 @@ test12:
       - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
       - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
       - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-      - phpunit --configuration /var/www/html/nextcloud/phonetrack/phpunit.xml --coverage-text --color=never
+      - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
