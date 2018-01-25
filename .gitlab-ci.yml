@@ -7,4 +7,4 @@ before_script:
 
 test:app:
   script:
-  - phpunit --configuration /var/www/html/custom_apps/phonetrack/phpunit.xml --coverage-text --color=never
+  - phpunit --configuration /var/www/html/custom_apps/phonetrack/phpunit.xml

@@ -6,7 +6,7 @@
 set -xe
 
 apt-get update -yqq
-apt-get install git sudo php-xdebug -yqq
+apt-get install git sudo -yqq
 
 curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
 chmod +x /usr/local/bin/phpunit
@@ -19,5 +19,3 @@ sudo -u www-data php /var/www/html/occ app:enable phonetrack
 sudo -u www-data php /var/www/html/occ upgrade
 sudo -u www-data php /var/www/html/occ maintenance:mode --off
 #sudo -u www-data php /var/www/html/occ app:check-code phonetrack
-
-php --version
