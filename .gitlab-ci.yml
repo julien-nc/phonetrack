@@ -1,10 +1,21 @@
 # Select image from https://hub.docker.com/
-image: nextcloud:latest
+image: ubuntu:17.10
+
+stages:
+  - test
 
 before_script:
-# Install dependencies
 - bash ci/docker_install.sh
 
-test:app:
+test12:
+  stage: test
   script:
-  - phpunit --configuration /var/www/html/custom_apps/phonetrack/phpunit.xml
+      - mkdir -p /var/www/html ; cd /var/www/html
+      - wget https://download.nextcloud.com/server/releases/nextcloud-12.0.5.zip ; unzip nextcloud-12.0.5.zip ; rm nextcloud-12.0.5.zip
+      - cd nextcloud/apps
+      - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
+      - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+      - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
+      - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
+      - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+      - phpunit --configuration /var/www/html/nextcloud/phonetrack/phpunit.xml --coverage-text --color=never
