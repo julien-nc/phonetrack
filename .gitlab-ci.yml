@@ -12,6 +12,7 @@ test12:
   script:
       - mkdir -p /var/www/html ; cd /var/www/html
       - wget https://download.nextcloud.com/server/releases/nextcloud-12.0.5.zip ; unzip nextcloud-12.0.5.zip ; rm nextcloud-12.0.5.zip
+      - chown -R www-data:www-data nextcloud
       - cd nextcloud/apps
       - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
       - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
