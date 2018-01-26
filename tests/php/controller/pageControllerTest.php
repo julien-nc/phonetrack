@@ -107,6 +107,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->logController->logTraccar($token, 'dev1', 'id', 44.6, 3.35, 470, 200, 195, 45);
         $gprmc = '$GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3,E*62';
         $this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
+        $this->logController->logGpsloggerPost($token, 'dev1', 44.5, 3.34, 200, 490, 35, 10, 199);
 
         // TRACK
         $sessions = array(array($token, array('dev1' => 400), array('dev1' => 1)));
@@ -116,7 +117,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 6);
+            $this->assertEquals(count($pointList), 7);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -136,7 +137,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 6);
+            $this->assertEquals(count($pointList), 7);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -149,7 +150,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 6);
+            $this->assertEquals(count($pointList), 7);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -162,7 +163,33 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 6);
+            $this->assertEquals(count($pointList), 7);
+            $this->assertEquals($pointList[0]['batterylevel'], 60);
+        }
+
+        // empty battery, sat, acc, alt and too big timestamp
+        $this->logController->logOsmand($token, 'dev1', 4.44, 3.33, 10000000001, '', '', '', '');
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            $pointList = $v;
+            $this->assertEquals(count($pointList), 8);
+            $this->assertEquals($pointList[0]['batterylevel'], 60);
+        }
+
+        // empty user agent
+        $this->logController->logPost($token, 'dev1', 4.44, 3.33, 100, 470, 60, 10, 200, '');
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            $pointList = $v;
+            $this->assertEquals(count($pointList), 9);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -203,6 +230,13 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respSession = $data['sessions'];
         $this->assertEquals(count($respSession), 1);
         $this->assertEquals(count($respSession[$token]), 3);
+
+        // no device name but one tid
+        $this->logController->logOwntracks($token, '', 'dev1', 44.6, 3.35, 197, 470, 200, 50);
+
+        // GPRMC
+        $gprmc = '$GPRMC,081839,A,3751.65,S,14507.36,W,000.0,360.0,130998,011.3,E*62';
+        $this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
 
     }
 
