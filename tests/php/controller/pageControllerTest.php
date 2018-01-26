@@ -31,6 +31,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     private $pageController;
     private $pageController2;
     private $logController;
+    private $utilsController;
 
     private $testSessionToken;
     private $testSessionToken2;
@@ -85,6 +86,15 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getUserFolder('test'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
+            $c->getServer()->getAppManager()
+        );
+
+        $this->utilsController = new UtilsController(
+            $this->appName,
+            $this->request,
+            'test',
+            $c->query('ServerContainer')->getUserFolder('test'),
+            $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getAppManager()
         );
     }
@@ -277,6 +287,17 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
 
         $this->assertEquals($done, 1);
+
+        // AUTO EXPORT
+        $resp = $this->pageController->setSessionAutoExport($token, 'monthly');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->setSessionAutoExport($token.'a', 'monthly');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
 
         // STRESS CREATE SESSION
         $resp = $this->pageController->createSession('testSession');
@@ -891,6 +912,46 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $cond = ($reservedList !== null and count($reservedList) === 0);
         $this->assertEquals($cond, True);
 
+        // CREATE SESSION for user2 and share it with user1
+        $resp = $this->pageController2->createSession('super');
+        $data = $resp->getData();
+        $tokenu2 = $data['token'];
+        $this->testSessionToken5 = $tokenu2;
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController2->addUserShare($tokenu2, 'test');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->getSessions();
+        $data = $resp->getData();
+        $this->assertEquals(count($data['sessions']), 3);
+
+        $resp = $this->pageController2->deleteSession($tokenu2);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->getSessions();
+        $data = $resp->getData();
+        $this->assertEquals(count($data['sessions']), 2);
+
+        // OPTIONS
+        $resp = $this->utilsController->saveOptionsValues('{"updateinterval":"45","linewidth":"4","colortheme":"bright","pointlinealpha":"0.8","pointradius":"8","autoexportpath":"/plop","viewmove":true,"autozoom":false,"showtime":false,"dragcheck":true,"tooltipshowaccuracy":true,"tooltipshowsatellites":true,"tooltipshowbattery":true,"tooltipshowelevation":true,"tooltipshowuseragent":true,"acccirclecheck":true,"tilelayer":"OpenStreetMap","showsidebar":true,"hourmin":"","minutemin":"","secondmin":"","hourmax":"","minutemax":"","secondmax":"","lastdays":"3","lasthours":"","lastmins":"","accuracymin":"","accuracymax":"","elevationmin":"","elevationmax":"","batterymin":"","batterymax":"","satellitesmin":"","satellitesmax":"","datemin":null,"datemax":null,"applyfilters":false,"activeSessions":{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}}');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+
+        // TODO TRACK TO COVER FILTER PART line 1193
+
         // DELETE SESSION
         $resp = $this->pageController->deleteSession($token);
         $data = $resp->getData();
@@ -912,28 +973,6 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 2);
-
-        // CREATE SESSION for user2 and share it with user1
-        $resp = $this->pageController2->createSession('super');
-        $data = $resp->getData();
-        $token = $data['token'];
-        $this->testSessionToken5 = $token;
-        $done = $data['done'];
-        $this->assertEquals($done, 1);
-
-        $resp = $this->pageController2->addUserShare($token, 'test');
-        $data = $resp->getData();
-        $done = $data['done'];
-        $this->assertEquals($done, 1);
-
-        $resp = $this->pageController->getSessions();
-        $data = $resp->getData();
-        $this->assertEquals(count($data['sessions']), 2);
-
-        $resp = $this->pageController2->deleteSession($token);
-        $data = $resp->getData();
-        $done = $data['done'];
-        $this->assertEquals($done, 1);
     }
 
 }
