@@ -1192,6 +1192,17 @@
             'timestamp={2}';
         osmandurl = window.location.origin + osmandurl;
 
+        var geturl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/yourname?');
+        geturl = geturl +
+            'lat=LAT&' +
+            'lon=LON&' +
+            'alt=ALT&' +
+            'acc=ACC&' +
+            'bat=BAT&' +
+            'sat=SAT&' +
+            'timestamp=TIME';
+        geturl = window.location.origin + geturl;
+
         var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/yourname');
         publicTrackUrl = window.location.origin + publicTrackUrl;
 
@@ -1371,6 +1382,10 @@
             divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' : ' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'HTTP GET URL') + ' : ' +
+                '<button class="urlhelpbutton" logger="get"><i class="fa fa-question"></i></button>' +
+                '</p>';
+            divtxt = divtxt + '<input class="ro" role="geturl" type="text" value="' + geturl + '"></input>';
             divtxt = divtxt + '<hr/></div>';
         }
         divtxt = divtxt + '<ul class="devicelist" token="' + token + '"></ul></div>';
@@ -3664,6 +3679,11 @@
         else if (logger === 'traccar') {
             loggerName = 'Traccar';
             content = t('phonetrack', 'In Traccar client, copy the URL below into the \'server URL\' field.');
+        }
+        else if (logger === 'get') {
+            loggerName = 'GET logger';
+            content = t('phonetrack', 'You can log with any other client with a simple HTTP request.');
+            content = content + ' ' + t('phonetrack', 'Make sure the logging system sets values for at least \'timestamp\', \'lat\' and \'lon\' GET parameters.');
         }
         var title = t('phonetrack',
             'Configure {loggingApp} for logging to session \'{sessionName}\'',
