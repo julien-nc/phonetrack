@@ -29,12 +29,14 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     private $app;
 
     private $pageController;
+    private $pageController2;
     private $logController;
 
     private $testSessionToken;
     private $testSessionToken2;
     private $testSessionToken3;
     private $testSessionToken4;
+    private $testSessionToken5;
 
     public function setUp() {
         $this->appName = 'phonetrack';
@@ -65,6 +67,17 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getUserManager()
         );
 
+        $this->pageController2 = new PageController(
+            $this->appName,
+            $this->request,
+            'test2',
+            $c->query('ServerContainer')->getUserFolder('test2'),
+            $c->query('ServerContainer')->getConfig(),
+            $c->getServer()->getShareManager(),
+            $c->getServer()->getAppManager(),
+            $c->getServer()->getUserManager()
+        );
+
         $this->logController = new LogController(
             $this->appName,
             $this->request,
@@ -88,6 +101,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->pageController->deleteSession($this->testSessionToken2);
         $this->pageController->deleteSession($this->testSessionToken3);
         $this->pageController->deleteSession($this->testSessionToken4);
+        $this->pageController->deleteSession($this->testSessionToken5);
     }
 
     public function testLog() {
@@ -108,6 +122,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $gprmc = '$GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3,E*62';
         $this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
         $this->logController->logGpsloggerPost($token, 'dev1', 44.5, 3.34, 200, 490, 35, 10, 199);
+        $this->logController->logGet($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200, 198);
 
         // TRACK
         $sessions = array(array($token, array('dev1' => 400), array('dev1' => 1)));
@@ -117,7 +132,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 7);
+            $this->assertEquals(count($pointList), 8);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -137,7 +152,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 7);
+            $this->assertEquals(count($pointList), 8);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -150,7 +165,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 7);
+            $this->assertEquals(count($pointList), 8);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -163,7 +178,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 7);
+            $this->assertEquals(count($pointList), 8);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -176,7 +191,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 8);
+            $this->assertEquals(count($pointList), 9);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
@@ -189,11 +204,11 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
-            $this->assertEquals(count($pointList), 9);
+            $this->assertEquals(count($pointList), 10);
             $this->assertEquals($pointList[0]['batterylevel'], 60);
         }
 
-        // wrong session
+        // wrong session and logGet
         $this->logController->logOsmand($token.'a', 'dev1', 44.4, 3.33, 450, 60, 10, 200, 199);
         $resp = $this->pageController->getSessions();
         $data = $resp->getData();
@@ -233,6 +248,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // no device name but one tid
         $this->logController->logOwntracks($token, '', 'dev1', 44.6, 3.35, 197, 470, 200, 50);
+
+        // no device name but one tid
+        $this->logController->logPost($token, 'dev1', 44.6, 3.35, 197, 470, 200, 50, 10, 'browser');
 
         // GPRMC
         $gprmc = '$GPRMC,081839,A,3751.65,S,14507.36,W,000.0,360.0,130998,011.3,E*62';
@@ -894,6 +912,28 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 2);
+
+        // CREATE SESSION for user2 and share it with user1
+        $resp = $this->pageController2->createSession('super');
+        $data = $resp->getData();
+        $token = $data['token'];
+        $this->testSessionToken5 = $token;
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController2->addUserShare($token, 'test');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->getSessions();
+        $data = $resp->getData();
+        $this->assertEquals(count($data['sessions']), 2);
+
+        $resp = $this->pageController2->deleteSession($token);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
     }
 
 }

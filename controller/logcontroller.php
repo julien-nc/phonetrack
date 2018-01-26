@@ -41,7 +41,12 @@ function DMStoDEC($dms, $longlat) {
 }
 
 function getBrowser() {
-    $u_agent = $_SERVER['HTTP_USER_AGENT'];
+    if (isset($_SERVER['HTTP_USER_AGENT'])) {
+        $u_agent = $_SERVER['HTTP_USER_AGENT'];
+    }
+    else {
+        $u_agent = 'Yeyeah/5.0 (X11; Linux x86_64; rv:0.1) Gecko/20100101 UnknownBrowser/0.1';
+    }
     $bname = 'Unknown';
     $platform = 'Unknown';
     $version = '';
@@ -93,6 +98,11 @@ function getBrowser() {
         $bname = 'Netscape';
         $ub = "Netscape";
     }
+    else
+    {
+        $bname = 'NoBrowser';
+        $ub = "NonoBrowser";
+    }
 
     // finally get the correct version number
     // Added "|:"
@@ -105,7 +115,10 @@ function getBrowser() {
 
     // see how many we have
     $i = count($matches['browser']);
-    if ($i !== 1) {
+    if ($i === 0) {
+        $version = '0.1';
+    }
+    else if ($i !== 1) {
         //we will have two since we are not using 'other' argument yet
         //see if version is before or after the name
         if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
@@ -352,13 +365,13 @@ class LogController extends Controller {
                 $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($deviceidToInsert).',';
-                $sql .= $this->db_quote_escape_string($lat).',';
-                $sql .= $this->db_quote_escape_string($lon).',';
-                $sql .= $this->db_quote_escape_string($time).',';
-                $sql .= $this->db_quote_escape_string($acc).',';
-                $sql .= $this->db_quote_escape_string($sat).',';
-                $sql .= $this->db_quote_escape_string($alt).',';
-                $sql .= $this->db_quote_escape_string($bat).',';
+                $sql .= $this->db_quote_escape_string(floatval($lat)).',';
+                $sql .= $this->db_quote_escape_string(floatval($lon)).',';
+                $sql .= $this->db_quote_escape_string(intval($time)).',';
+                $sql .= $this->db_quote_escape_string(floatval($acc)).',';
+                $sql .= $this->db_quote_escape_string(intval($sat)).',';
+                $sql .= $this->db_quote_escape_string(floatval($alt)).',';
+                $sql .= $this->db_quote_escape_string(floatval($bat)).',';
                 $sql .= $this->db_quote_escape_string($useragent).');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
