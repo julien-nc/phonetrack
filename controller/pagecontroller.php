@@ -2885,7 +2885,6 @@ class PageController extends Controller {
 
                     $rel_path = str_replace(\OC::$server->getUserFolder($userName)->getPath(), '', $dir->getPath());
                     $exportPath = $rel_path.'/'.$exportName;
-                    echo $exportPath.' PLOP';
                     if (! $dir->nodeExists($exportName)) {
                         $this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);
                     }

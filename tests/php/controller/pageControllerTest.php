@@ -115,6 +115,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testLog() {
+        // CLEAR OPTIONS
+        $resp = $this->utilsController->saveOptionsValues('');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // CREATE SESSION
         $resp = $this->pageController->createSession('logSession');
         $data = $resp->getData();
@@ -135,7 +141,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->logController->logGet($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200, 198);
 
         // TRACK
-        $sessions = array(array($token, array('dev1' => 400), array('dev1' => 1)));
+        $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -269,6 +275,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testPage() {
+        // CLEAR OPTIONS
+        $resp = $this->utilsController->saveOptionsValues('');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // CREATE SESSION
         $resp = $this->pageController->createSession('testSession');
 
@@ -431,6 +443,14 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($pointList), 3);
         $this->assertEquals($pointList[2]['batterylevel'], 70);
         $lastPointID = $pointList[2]['id'];
+
+        // no first point
+        $sessions = array(array($token, array($deviceid => 400), null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $pointList = $respSession[$token][$deviceid];
+        $this->assertEquals(count($pointList) > 0, True);
 
         // STRESS TRACK
         $sessions = null;
@@ -929,6 +949,26 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $this->assertEquals(count($data['sessions']), 3);
 
+        // find share token of shared session
+        $sname = '';
+        $stoken = '';
+        foreach ($data['sessions'] as $ses) {
+            if ($ses[0] === 'super') {
+                $sname = $ses[0];
+                $stoken = $ses[1];
+            }
+        }
+        $this->assertEquals($stoken === '', False);
+
+        // TRACK AND FIND SHARED SESSION
+        $sessions = array(array($stoken, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+
+        // DELETE SHARED SESSION
+
         $resp = $this->pageController2->deleteSession($tokenu2);
         $data = $resp->getData();
         $done = $data['done'];
@@ -939,7 +979,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($data['sessions']), 2);
 
         // OPTIONS
-        $resp = $this->utilsController->saveOptionsValues('{"updateinterval":"45","linewidth":"4","colortheme":"bright","pointlinealpha":"0.8","pointradius":"8","autoexportpath":"/plop","viewmove":true,"autozoom":false,"showtime":false,"dragcheck":true,"tooltipshowaccuracy":true,"tooltipshowsatellites":true,"tooltipshowbattery":true,"tooltipshowelevation":true,"tooltipshowuseragent":true,"acccirclecheck":true,"tilelayer":"OpenStreetMap","showsidebar":true,"hourmin":"","minutemin":"","secondmin":"","hourmax":"","minutemax":"","secondmax":"","lastdays":"3","lasthours":"","lastmins":"","accuracymin":"","accuracymax":"","elevationmin":"","elevationmax":"","batterymin":"","batterymax":"","satellitesmin":"","satellitesmax":"","datemin":null,"datemax":null,"applyfilters":false,"activeSessions":{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}}');
+        $resp = $this->utilsController->saveOptionsValues('{"updateinterval":"45","linewidth":"4","colortheme":"bright","pointlinealpha":"0.8","pointradius":"8","autoexportpath":"/plop","viewmove":true,"autozoom":false,"showtime":false,"dragcheck":true,"tooltipshowaccuracy":true,"tooltipshowsatellites":true,"tooltipshowbattery":true,"tooltipshowelevation":true,"tooltipshowuseragent":true,"acccirclecheck":true,"tilelayer":"OpenStreetMap","showsidebar":true,"hourmin":"","minutemin":"","secondmin":"","hourmax":"","minutemax":"","secondmax":"","lastdays":"3","lasthours":"","lastmins":"","accuracymin":"","accuracymax":"","elevationmin":"","elevationmax":"","batterymin":"","batterymax":"","satellitesmin":"","satellitesmax":"","datemin":1515798000,"datemax":1516748400,"applyfilters":true,"activeSessions":{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}}');
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
@@ -949,6 +989,22 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $this->assertEquals(count($respSession), 1);
+
+        $resp = $this->utilsController->saveOptionsValues('{"updateinterval":"45","linewidth":"4","colortheme":"bright","pointlinealpha":"0.8","pointradius":"8","autoexportpath":"/plop","viewmove":true,"autozoom":false,"showtime":false,"dragcheck":true,"tooltipshowaccuracy":true,"tooltipshowsatellites":true,"tooltipshowbattery":true,"tooltipshowelevation":true,"tooltipshowuseragent":true,"acccirclecheck":true,"tilelayer":"OpenStreetMap","showsidebar":true,"hourmin":"","minutemin":"","secondmin":"","hourmax":"","minutemax":"","secondmax":"","lastdays":"","lasthours":"","lastmins":"","accuracymin":"","accuracymax":"","elevationmin":"","elevationmax":"","batterymin":"","batterymax":"","satellitesmin":"","satellitesmax":"","datemin":"","datemax":1516748400,"applyfilters":true,"activeSessions":{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}}');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+
+        $resp = $this->utilsController->saveOptionsValues('');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
 
         // TODO TRACK TO COVER FILTER PART line 1193
 
