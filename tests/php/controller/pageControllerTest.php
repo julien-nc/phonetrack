@@ -1006,7 +1006,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
-        // TODO TRACK TO COVER FILTER PART line 1193
+        // PUBLIC WEB LOG TRACK
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->publicWebLogTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
 
         // DELETE SESSION
         $resp = $this->pageController->deleteSession($token);
