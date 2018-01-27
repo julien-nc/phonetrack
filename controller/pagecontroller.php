@@ -1689,6 +1689,9 @@ class PageController extends Controller {
         }
 
         require_once('tileservers.php');
+        if (!isset($basetileservers) ) {
+            $baseTileServers = '';
+        }
         $params = [
             'username'=>'',
             'basetileservers'=>$baseTileServers,
@@ -1842,7 +1845,7 @@ class PageController extends Controller {
         $userFolder = null;
         // user is logged in
         if ($this->userId !== null and $this->userId !== '') {
-            $userFolder = \OC::$server->getUserFolder();
+            $userFolder = \OC::$server->getUserFolder($this->userId);
             $userId = $this->userId;
         }
         // automatic export is done by system, username is manually given

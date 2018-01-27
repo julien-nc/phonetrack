@@ -781,6 +781,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $publictoken1 = $data['sharetoken'];
         $this->assertEquals(count($publictoken1) > 0, True);
 
+        // watch this public share
+        $resp = $this->pageController->publicSessionWatch($publictoken1);
+
         $resp = $this->pageController->addPublicShare($token2);
         $data = $resp->getData();
         $done = $data['done'];
@@ -1028,6 +1031,18 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
+
+        // PUBLIC VIEW PAGE
+        $resp = $this->pageController->getSessions();
+        $data = $resp->getData();
+        $publicviewtoken = $data['sessions'][0][2];
+
+        $resp = $this->pageController->publicSessionWatch('');
+        $this->assertEquals(is_string($resp), True);
+        $resp = $this->pageController->publicSessionWatch('blabla');
+        $this->assertEquals(is_string($resp), True);
+
+        $resp = $this->pageController->publicSessionWatch($publicviewtoken);
 
         // DELETE SESSION
         $resp = $this->pageController->deleteSession($token);
