@@ -452,6 +452,19 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $pointList = $respSession[$token][$deviceid];
         $this->assertEquals(count($pointList) > 0, True);
 
+        // PUBLIC WEB LOG TRACK
+        $sessions = array(array($token, array($deviceid => 400), null));
+        $resp = $this->pageController->publicWebLogTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->publicWebLogTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+
         // STRESS TRACK
         $sessions = null;
         $resp = $this->pageController->track($sessions);
@@ -859,6 +872,16 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
+        // reserved name should not be given
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->publicWebLogTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $this->assertEquals(count($respSession), 1);
+        $this->assertEquals(array_key_exists($token, $respNames), True);
+        $this->assertEquals(in_array('resName', $respNames[$token]), False);
+
         // STRESS NAME RESERVATION
         $resp = $this->pageController->addNameReservation($token, '');
         $data = $resp->getData();
@@ -1005,13 +1028,6 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
-
-        // PUBLIC WEB LOG TRACK
-        $sessions = array(array($token, null, null));
-        $resp = $this->pageController->publicWebLogTrack($sessions);
-        $data = $resp->getData();
-        $respSession = $data['sessions'];
-        $this->assertEquals(count($respSession), 1);
 
         // DELETE SESSION
         $resp = $this->pageController->deleteSession($token);
