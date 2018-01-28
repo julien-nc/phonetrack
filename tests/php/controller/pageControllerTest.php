@@ -808,6 +808,11 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals((count($data) === 0), True);
 
         // ADD PUBLIC SHARE
+        $resp = $this->pageController->addPublicShare($token2.'a');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
         $resp = $this->pageController->addPublicShare($token2);
         $data = $resp->getData();
         $done = $data['done'];
@@ -830,6 +835,11 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->deletePublicShare($token2.'a', $publictoken2);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
 
         // CHECK PUBLIC SHARE
         $resp = $this->pageController->getSessions();
@@ -1078,6 +1088,13 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->pageController->publicSessionWatch($publicviewtoken);
 
+        // COVERAGE OF addNameReservation
+        $resp = $this->pageController->addPoint($token, 'futurRes', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $resp = $this->pageController->addNameReservation($token, 'futurRes');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // DELETE SESSION
         $resp = $this->pageController->deleteSession($token);
         $data = $resp->getData();
@@ -1117,6 +1134,10 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
+
+        // PUBLIC WEB LOG with non existent session
+        $resp = $this->pageController->publicWebLog('', '');
+        $this->assertEquals(is_string($resp), True);
     }
 
 }

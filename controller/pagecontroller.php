@@ -2238,6 +2238,8 @@ class PageController extends Controller {
      */
     public function addPublicShare($token) {
         $ok = 0;
+        $filters = '';
+        $sharetoken = '';
         // check if session exists and owned by current user
         $sqlchk = 'SELECT name, token FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
