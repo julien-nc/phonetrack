@@ -115,6 +115,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testUtils() {
+        // DELETE OPTIONS VALUES
+        $resp = $this->utilsController->deleteOptionsValues();
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // SET OPTIONS
         $resp = $this->utilsController->saveOptionsValues('{"lala": "lolo"}');
         $data = $resp->getData();
@@ -141,6 +147,15 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
+
+        $resp = $this->utilsController->addTileServer(
+            'serv', 'https://tile.server/x/y/z', 'tile',
+            '', '', '', 0.9, True,
+            10, 16, 'owyeah'
+        );
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 0);
 
         $resp = $this->utilsController->deleteTileServer('serv', 'tile');
         $data = $resp->getData();
@@ -173,6 +188,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
         $this->logController->logGpsloggerPost($token, 'dev1', 44.5, 3.34, 200, 490, 35, 10, 199);
         $this->logController->logGet($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200, 198);
+
+        $this->logController->logOpengtsPost($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200);
 
         // TRACK
         $sessions = array(array($token, null, null));

@@ -163,6 +163,30 @@ class UtilsController extends Controller {
     }
 
     /**
+     * Delete user options
+     * @NoAdminRequired
+     */
+    public function deleteOptionsValues() {
+        $sqldel = 'DELETE FROM *PREFIX*phonetrack_options ';
+        $sqldel .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sqldel);
+        $req->execute();
+        $req->closeCursor();
+
+        $response = new DataResponse(
+            [
+                'done'=>1
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
      * Save options values to the DB for current user
      * @NoAdminRequired
      */
