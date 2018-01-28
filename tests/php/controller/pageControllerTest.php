@@ -114,6 +114,40 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->pageController->deleteSession($this->testSessionToken5);
     }
 
+    public function testUtils() {
+        // SET OPTIONS
+        $resp = $this->utilsController->saveOptionsValues('{"lala": "lolo"}');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        // GET OPTIONS
+        $resp = $this->utilsController->getOptionsValues();
+        $data = $resp->getData();
+        $values = $data['values'];
+        $this->assertEquals($values, '{"lala": "lolo"}');
+
+        // ADD TILE SERVER
+        $resp = $this->utilsController->deleteTileServer('serv', 'tile');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->utilsController->addTileServer(
+            'serv', 'https://tile.server/x/y/z', 'tile',
+            '', '', '', 0.9, True,
+            10, 16, 'owyeah'
+        );
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->utilsController->deleteTileServer('serv', 'tile');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+    }
+
     public function testLog() {
         // CLEAR OPTIONS
         $resp = $this->utilsController->saveOptionsValues('');
@@ -1065,6 +1099,24 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 2);
+
+        // JUST to increase coverage
+        $resp = $this->utilsController->addTileServer(
+            'serv', 'https://tile.server/x/y/z', 'tile',
+            '', '', '', 0.9, True,
+            10, 16, 'owyeah'
+        );
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        // INDEX
+        $resp = $this->pageController->index();
+
+        $resp = $this->utilsController->deleteTileServer('serv', 'tile');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
     }
 
 }

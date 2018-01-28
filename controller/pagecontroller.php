@@ -208,9 +208,6 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function index() {
-        $userFolder = \OC::$server->getUserFolder();
-        $userfolder_path = $userFolder->getPath();
-
         $tss = $this->getUserTileServers('tile');
         $oss = $this->getUserTileServers('overlay');
         $tssw = $this->getUserTileServers('tilewms');
@@ -222,6 +219,9 @@ class PageController extends Controller {
         // PARAMS to view
 
         require_once('tileservers.php');
+        if (!isset($basetileservers) ) {
+            $baseTileServers = '';
+        }
         $params = [
             'username'=>$this->userId,
 			'basetileservers'=>$baseTileServers,

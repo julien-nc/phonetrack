@@ -25,36 +25,6 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
-/**
- * Recursive find files from name pattern
- */
-function globRecursive($path, $find, $recursive=True) {
-    $result = Array();
-    $dh = opendir($path);
-    while (($file = readdir($dh)) !== false) {
-        if (substr($file, 0, 1) === '.') continue;
-        $rfile = "{$path}/{$file}";
-        if (is_dir($rfile) and $recursive) {
-            foreach (globRecursive($rfile, $find) as $ret) {
-                array_push($result, $ret);
-            }
-        } else {
-            if (fnmatch($find, $file)){
-                array_push($result, $rfile);
-            }
-        }
-    }
-    closedir($dh);
-    return $result;
-}
-
-function endswith($string, $test) {
-    $strlen = strlen($string);
-    $testlen = strlen($test);
-    if ($testlen > $strlen) return false;
-    return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
-}
-
 class UtilsController extends Controller {
 
 
@@ -246,7 +216,7 @@ class UtilsController extends Controller {
      * get options values to the DB for current user
      * @NoAdminRequired
      */
-    public function getOptionsValues($optionsValues) {
+    public function getOptionsValues() {
         $sqlov = 'SELECT jsonvalues FROM *PREFIX*phonetrack_options ';
         $sqlov .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlov);
