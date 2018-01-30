@@ -847,6 +847,24 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $publictoken2 = $data['sharetoken'];
         $this->assertEquals(count($publictoken2) > 0, True);
 
+        $resp = $this->utilsController->saveOptionsValues('{"updateinterval":"45","linewidth":"4","colortheme":"bright","pointlinealpha":"0.8","pointradius":"8","autoexportpath":"/plop","viewmove":true,"autozoom":false,"showtime":false,"dragcheck":true,"tooltipshowaccuracy":true,"tooltipshowsatellites":true,"tooltipshowbattery":true,"tooltipshowelevation":true,"tooltipshowuseragent":true,"acccirclecheck":true,"tilelayer":"OpenStreetMap","showsidebar":true,"hourmin":"","minutemin":"","secondmin":"","hourmax":"","minutemax":"","secondmax":"","lastdays":"3","lasthours":"4","lastmins":"3","accuracymin":"","accuracymax":"","elevationmin":"","elevationmax":"","batterymin":"","batterymax":"","satellitesmin":"","satellitesmax":"","datemin":8000,"datemax":1516748400,"applyfilters":true,"activeSessions":{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}}');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        // to improve coverage, add share when there are filters
+        $resp = $this->pageController->addPublicShare($token2);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+        $publictoken3 = $data['sharetoken'];
+        $this->assertEquals(count($publictoken3) > 0, True);
+
+        $resp = $this->utilsController->saveOptionsValues('{}');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // DELETE PUBLIC SHARE
         $resp = $this->pageController->deletePublicShare($token2, $publictoken2);
         $data = $resp->getData();
@@ -873,8 +891,14 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         }
         $this->assertEquals($checkpublictoken === $publictoken1, True);
 
+        // for coverage of publicViewTrack
+        $resp = $this->pageController->addNameReservation($token2, 'plop');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // PUBLIC VIEW TRACK FOR PUBLIC SHARE
-        $sessions = array(array($publictoken1, null, null));
+        $sessions = array(array($publictoken1, array($deviceid=>10), null));
         $resp = $this->pageController->publicViewTrack($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -1106,7 +1130,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->publicSessionWatch($publicviewtoken);
 
         // COVERAGE OF addNameReservation
-        $resp = $this->pageController->addPoint($token, 'futurRes', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $resp = $this->pageController->addPoint($token, 'futurRes', 45.5, 3.4, '', 10000000001, '', '', '', '');
+        $resp = $this->pageController->addPoint($token, 'futurRes', 45.5, 3.4, '', 10000000001, '', '', '', 'browser');
+        $resp = $this->pageController->addPoint($token, 'futurRes', '', 3.4, '', 10000000001, '', '', '', 'browser');
         $resp = $this->pageController->addNameReservation($token, 'futurRes');
         $data = $resp->getData();
         $done = $data['done'];
