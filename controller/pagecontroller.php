@@ -219,7 +219,7 @@ class PageController extends Controller {
         // PARAMS to view
 
         require_once('tileservers.php');
-        if (!isset($basetileservers) ) {
+        if (!isset($baseTileServers) ) {
             $baseTileServers = '';
         }
         $params = [
@@ -1689,7 +1689,7 @@ class PageController extends Controller {
         }
 
         require_once('tileservers.php');
-        if (!isset($basetileservers) ) {
+        if (!isset($baseTileServers) ) {
             $baseTileServers = '';
         }
         $params = [
