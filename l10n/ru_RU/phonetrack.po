@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-01-26 19:10+0100\n"
-"PO-Revision-Date: 2018-01-26 13:15-0500\n"
+"PO-Revision-Date: 2018-02-12 10:51-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -54,7 +54,7 @@ msgstr "Скрыть последнюю точку подсказки"
 
 #: phonetrack.js:612
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Увеличить на всех устройствах"
 
 #: phonetrack.js:625
 msgid "Click on the map to move the point, press ESC to cancel"
@@ -143,11 +143,11 @@ msgstr "Увеличить на этой сессии"
 
 #: phonetrack.js:1242
 msgid "URL to share session"
-msgstr ""
+msgstr "URL-адрес, чтобы поделиться сессией"
 
 #: phonetrack.js:1246
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "URL-адреса для журнала приложений"
 
 #: phonetrack.js:1250
 msgid "Reserve device names"
@@ -191,27 +191,27 @@ msgstr "ежемесячно"
 
 #: phonetrack.js:1283
 msgid "Name reservation is optional."
-msgstr ""
+msgstr "Резервирование имени является необязательным."
 
 #: phonetrack.js:1284
 msgid "Name can be set directly in logging URL if it is not reserved."
-msgstr ""
+msgstr "Имя можно задать непосредственно в адресе URL журнала, если оно не зарезервировано."
 
 #: phonetrack.js:1285
 msgid "To log with a reserved name, use its token in logging URL."
-msgstr ""
+msgstr "Для входа с зарезервированным именем, используйте свой маркер в адресе URL журнала."
 
 #: phonetrack.js:1286
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr ""
+msgstr "Если имя зарезервировано, единственный способ для входа с этим именем связана с ее маркером."
 
 #: phonetrack.js:1289
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Зарезервировать это имя устройства"
 
 #: phonetrack.js:1291
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Введите зарезервированное имя и нажмите «Enter»"
 
 #: phonetrack.js:1305
 msgid "Share with user"
@@ -219,7 +219,7 @@ msgstr "Поделиться с пользователем"
 
 #: phonetrack.js:1307
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Введите имя пользователя и нажмите «Enter»"
 
 #: phonetrack.js:1312 phonetrack.js:3466
 msgid "Shared with {u}"
@@ -227,7 +227,7 @@ msgstr "Поделиться с {u}"
 
 #: phonetrack.js:1318
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Частные сессии не видны на публичных страницах логов"
 
 #: phonetrack.js:1320 phonetrack.js:4223
 msgid "Make session public"
@@ -239,451 +239,451 @@ msgstr "Сделать сессию приватной"
 
 #: phonetrack.js:1328
 msgid "Public watch URL"
-msgstr ""
+msgstr "Ссылки на публичные логи"
 
 #: phonetrack.js:1330
 msgid "API URL (JSON last positions)"
-msgstr ""
+msgstr "API URL (JSON последняя позиция)"
 
 #: phonetrack.js:1336
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Текущие активные фильтры будут применяться на общем представлении"
 
 #: phonetrack.js:1338
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Добавить общественных отфильтрованных ссылок"
 
 #: phonetrack.js:1357
 msgid "List of server URLs to configure logging apps."
-msgstr ""
+msgstr "Список URL-адресов сервера для настройки ведения журнала приложений."
 
 #: phonetrack.js:1358 maincontent.php:160
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr ""
+msgstr "Замените «ВашеИмя» на желаемое имя устройства или маркер бронирования"
 
 #: phonetrack.js:1360
 msgid "Public browser logging URL"
-msgstr ""
+msgstr "Адрес URL журнала общественного браузера"
 
 #: phonetrack.js:1362
 msgid "OsmAnd URL"
-msgstr ""
+msgstr "URL-адрес приложения OsmAnd"
 
 #: phonetrack.js:1366
 msgid "GpsLogger GET and POST URL"
-msgstr ""
+msgstr "GpsLogger GET и POST URL"
 
 #: phonetrack.js:1370
 msgid "Owntracks (HTTP mode) URL"
-msgstr ""
+msgstr "URL-адрес Owntracks (режим HTTP)"
 
 #: phonetrack.js:1374
 msgid "Ulogger URL"
-msgstr ""
+msgstr "URL-адрес Ulogger"
 
 #: phonetrack.js:1378
 msgid "Traccar URL"
-msgstr ""
+msgstr "URL-адрес Traccar"
 
 #: phonetrack.js:1382
 msgid "OpenGTS URL"
-msgstr ""
+msgstr "URL-адрес OpenGTS"
 
 #: phonetrack.js:1385
 msgid "HTTP GET URL"
-msgstr ""
+msgstr "HTTP GET URL"
 
 #: phonetrack.js:1421
 msgid "The session you want to delete does not exist"
-msgstr ""
+msgstr "Сессия, которую вы хотите удалить не существует"
 
 #: phonetrack.js:1424
 msgid "Failed to delete session"
-msgstr ""
+msgstr "Не удалось удалить сессию"
 
 #: phonetrack.js:1428
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы удалить сессии"
 
 #: phonetrack.js:1448
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "Устройство '{d}' сессии '{s}' был удален"
 
 #: phonetrack.js:1451
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "Не удалось удалить устройство '{d}' сессии '{s}»"
 
 #: phonetrack.js:1455
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Не удалось связаться с сервером для удаления устройства"
 
 #: phonetrack.js:1507
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Невозможно переименовать сессию"
 
 #: phonetrack.js:1511
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы переименовать сессию"
 
 #: phonetrack.js:1595
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Невозможно переименовать устройство"
 
 #: phonetrack.js:1599
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы переименовать устройство"
 
 #: phonetrack.js:1660
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "Устройство уже существует в целевом сессии"
 
 #: phonetrack.js:1663
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "Невозможно переместить устройство в другой сеанс"
 
 #: phonetrack.js:1667
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "Не удалось связаться с сервером для перемещения устройства"
 
 #: phonetrack.js:1733
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "Не удалось связаться с сервером для получения сеансов"
 
 #: phonetrack.js:1772
 msgid "Failed to contact server to refresh sessions"
-msgstr ""
+msgstr "Не удалось связаться с сервером для обновления сессий"
 
 #: phonetrack.js:2026 phonetrack.js:2055
 msgid "Stats of all points"
-msgstr ""
+msgstr "Статистика всех точек"
 
 #: phonetrack.js:2052
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "Статистика отфильтрованных точек"
 
 #: phonetrack.js:2239
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Цвет устройства успешно изменен"
 
 #: phonetrack.js:2242
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "Не удалось сохранить цвет устройства"
 
 #: phonetrack.js:2246
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы изменить цвет устройства"
 
 #: phonetrack.js:2319
 msgid "Delete this device"
-msgstr ""
+msgstr "Удалить это устройство"
 
 #: phonetrack.js:2321
 msgid "Rename this device"
-msgstr ""
+msgstr "Переименовать это устройство"
 
 #: phonetrack.js:2324
 msgid "Move to another session"
-msgstr ""
+msgstr "Перейти к другому сеансу"
 
 #: phonetrack.js:2327 maincontent.php:48
 msgid "Ok"
-msgstr ""
+msgstr "Ок"
 
 #: phonetrack.js:2340
 msgid "Toggle detail/edition points"
-msgstr ""
+msgstr "Переключение точки детали/издание"
 
 #: phonetrack.js:2348
 msgid "Toggle lines"
-msgstr ""
+msgstr "Показать линии сетки"
 
 #: phonetrack.js:2358 phonetrack.js:2364
 msgid "Center map on device"
-msgstr ""
+msgstr "Центрировать карту на устройстве"
 
 #: phonetrack.js:2369
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Следовать за это устройством (Автомасштабирование)"
 
 #: phonetrack.js:2573
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Точка, которую вы хотите отредактировать не существует, или у вас нет прав на изменение"
 
 #: phonetrack.js:2577
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Не удалось связаться с сервером для редактирования точки"
 
 #: phonetrack.js:2697
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Точка, которую вы хотите удалить не существует, или вы не можете удалить ее"
 
 #: phonetrack.js:2701
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы удалить точку"
 
 #: phonetrack.js:2795
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Невозможно добавить эту точку"
 
 #: phonetrack.js:2799
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы добавить точку"
 
 #: phonetrack.js:2917
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: phonetrack.js:2920
 msgid "Time"
-msgstr ""
+msgstr "Время"
 
 #: phonetrack.js:2925 phonetrack.js:2966
 msgid "Altitude"
-msgstr ""
+msgstr "Высота"
 
 #: phonetrack.js:2928 phonetrack.js:2970
 msgid "Precision"
-msgstr ""
+msgstr "Точность"
 
 #: phonetrack.js:2931 phonetrack.js:2974
 msgid "Satellites"
-msgstr ""
+msgstr "Спутники"
 
 #: phonetrack.js:2934 phonetrack.js:2978
 msgid "Battery"
-msgstr ""
+msgstr "Батарея"
 
 #: phonetrack.js:2937 phonetrack.js:2982
 msgid "User-agent"
-msgstr ""
+msgstr "Агент пользователя"
 
 #: phonetrack.js:2940
 msgid "lat : lng"
-msgstr ""
+msgstr "широта : долгота"
 
 #: phonetrack.js:2944
 msgid "DMS coords"
-msgstr ""
+msgstr "DMS coords"
 
 #: phonetrack.js:2949
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: phonetrack.js:2951
 msgid "Move"
-msgstr ""
+msgstr "Переместить"
 
 #: phonetrack.js:2952
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: phonetrack.js:3138
 msgid "File extension must be '.gpx' to be imported"
-msgstr ""
+msgstr "Расширение файла должно быть «.gpx» для импорта"
 
 #: phonetrack.js:3155
 msgid "Failed to create imported session"
-msgstr ""
+msgstr "Не удается создать импортированные сессии"
 
 #: phonetrack.js:3159 phonetrack.js:3165
 msgid "Failed to import session"
-msgstr ""
+msgstr "Не удалось импортировать сессии"
 
 #: phonetrack.js:3160
 msgid "File is not readable"
-msgstr ""
+msgstr "Файл не читается"
 
 #: phonetrack.js:3166
 msgid "File does not exist"
-msgstr ""
+msgstr "Файл не существует"
 
 #: phonetrack.js:3173
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "Не удалось связаться с сервером для импорта сессии"
 
 #: phonetrack.js:3192
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Сессия успешно экспортированна в"
 
 #: phonetrack.js:3196
 msgid "Failed to export session"
-msgstr ""
+msgstr "Не удалось экспортировать сессию"
 
 #: phonetrack.js:3200
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Не удалось связаться с сервером для экспорта сессии"
 
 #: phonetrack.js:3231
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Не удалось связаться с сервером для записи позиции"
 
 #: phonetrack.js:3389
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' уже зарезервировано"
 
 #: phonetrack.js:3392
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Не удалось зарезервировать '{n}»"
 
 #: phonetrack.js:3395
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы зарезервировать имя устройства"
 
 #: phonetrack.js:3426 phonetrack.js:3430
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Не удалось удалить зарезервированное имя"
 
 #: phonetrack.js:3427
 msgid "This device does not exist"
-msgstr ""
+msgstr "Это устройство не существует"
 
 #: phonetrack.js:3431
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Это имя устройства не зарезервировано, пожалуйста обновите эту страницу"
 
 #: phonetrack.js:3434
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы удалить зарезервированное имя"
 
 #: phonetrack.js:3454
 msgid "User does not exist"
-msgstr ""
+msgstr "Пользователь не существует"
 
 #: phonetrack.js:3457
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Не удалось добавить доступ пользователю"
 
 #: phonetrack.js:3460
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Не удалось связаться с сервером для добавления доступа пользователю"
 
 #: phonetrack.js:3491
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Не удалось удалить доступ пользователю"
 
 #: phonetrack.js:3494
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Не удалось связаться с сервером для удаления доступа пользователю"
 
 #: phonetrack.js:3513
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Не удалось добавить общий ресурс"
 
 #: phonetrack.js:3516
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы добавить общий ресурс"
 
 #: phonetrack.js:3543
 msgid "No filters"
-msgstr ""
+msgstr "Без фильтров"
 
 #: phonetrack.js:3567
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Не удалось удалить общий ресурс"
 
 #: phonetrack.js:3570
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы удалить общий ресурс"
 
 #: phonetrack.js:3588
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Не удалось связаться с сервером, чтобы получить список пользователей"
 
 #: phonetrack.js:3601
 msgid "device name"
-msgstr ""
+msgstr "имя устройства"
 
 #: phonetrack.js:3602
 msgid "distance (km)"
-msgstr ""
+msgstr "Расстояние (км)"
 
 #: phonetrack.js:3603
 msgid "duration"
-msgstr ""
+msgstr "Продолжительность"
 
 #: phonetrack.js:3604
 msgid "#points"
-msgstr ""
+msgstr "#points"
 
 #: phonetrack.js:3639
 msgid "years"
-msgstr ""
+msgstr "лет"
 
 #: phonetrack.js:3642
 msgid "days"
-msgstr ""
+msgstr "дней"
 
 #: phonetrack.js:3661
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
-msgstr ""
+msgstr "В приложения OsmAnd перейдите на «Плагины» в главном меню, затем активируйте плагин «Запись Путешествия» и перейдите в его параметры."
 
 #: phonetrack.js:3662
 msgid "Copy the URL below into the 'Online tracking web address' field."
-msgstr ""
+msgstr "Скопируйте URL расположенный ниже в поле «Онлайн отслеживание веб-адреса»."
 
 #: phonetrack.js:3666
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
-msgstr ""
+msgstr "В GpsLogger перейдите на «Вход подробности» в меню боковой панели, а затем активировать «Log для пользовательского URL»."
 
 #: phonetrack.js:3667
 msgid "Copy the URL below into the 'URL' field."
-msgstr ""
+msgstr "Скопируйте URL ниже в поле «URL»."
 
 #: phonetrack.js:3675
 msgid "In Ulogger, go to settings menu and copy the URL below into the 'Server URL' field."
-msgstr ""
+msgstr "В Ulogger перейдите в меню настройки и скопируйте URL-адрес ниже в поле «URL-адрес сервера»."
 
 #: phonetrack.js:3676
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
-msgstr ""
+msgstr "Установите «Имя пользователя» и «Пароль» обязательные поля в любое значение, так как они будут игнорироваться PhoneTrack."
 
 #: phonetrack.js:3677
 msgid "Activate 'Live synchronization'."
-msgstr ""
+msgstr "Активируйте «Live синхронизация»."
 
 #: phonetrack.js:3681
 msgid "In Traccar client, copy the URL below into the 'server URL' field."
-msgstr ""
+msgstr "В Traccar клиенте скопируйте URL ниже в поле «URL-адрес сервера»."
 
 #: phonetrack.js:3685
 msgid "You can log with any other client with a simple HTTP request."
-msgstr ""
+msgstr "Вы можете войти с любым другим клиентом, с простым HTTP-запросом."
 
 #: phonetrack.js:3686
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
-msgstr ""
+msgstr "Убедитесь, что система протоколирования, устанавливает значения для по крайней мере 'timestamp', 'lat' и 'lon' GET parameters"
 
 #: phonetrack.js:3689
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
-msgstr ""
+msgstr "Настройка {loggingApp} для ведения журнала сессии '{sessionName}»"
 
 #: phonetrack.js:3819
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить эту сессию {session} ?"
 
 #: phonetrack.js:3822
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Подтверждение удаления сессии"
 
 #: phonetrack.js:3874
 msgid "Choose auto export target path"
-msgstr ""
+msgstr "Выберите путь авто экспорта."
 
 #: phonetrack.js:3994
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Выберите путь хранения для '{fname}'"
 
 #: phonetrack.js:4148
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить это устройство {device} ?"
 
 #: phonetrack.js:4151
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Подтверждение удаления устройства."
 
 #: phonetrack.js:4210
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Не удалось изменить статус сессии, сессия не существует."
 
 #: phonetrack.js:4213
 msgid "Failed to contact server to toggle session public status"
@@ -893,35 +893,35 @@ msgstr ""
 
 #: maincontent.php:248 maincontent.php:336
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Прозрачность (0.0-1.0)"
 
 #: maincontent.php:253
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Ваши серверы плитка оверлея"
 
 #: maincontent.php:278
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Пользовательские плитки для сервера WMS"
 
 #: maincontent.php:289 maincontent.php:338
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #: maincontent.php:291 maincontent.php:340
 msgid "WMS version"
-msgstr ""
+msgstr "WMS версии"
 
 #: maincontent.php:293 maincontent.php:342
 msgid "Layers to display"
-msgstr ""
+msgstr "Слои для отображения"
 
 #: maincontent.php:298
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Ваш WMS плитка серверов"
 
 #: maincontent.php:323
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Пользовательские WMS наложение серверов"
 
 #: maincontent.php:347
 msgid "Your WMS overlay tile servers"

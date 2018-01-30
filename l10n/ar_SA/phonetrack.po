@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-01-26 19:10+0100\n"
-"PO-Revision-Date: 2018-01-26 13:16-0500\n"
+"PO-Revision-Date: 2018-01-31 22:11-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
@@ -18,51 +18,51 @@ msgstr ""
 
 #: app.php:41
 msgid "PhoneTrack"
-msgstr ""
+msgstr "تتبع الهاتف"
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "يسار"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "يمين"
 
 #: phonetrack.js:525 maincontent.php:69
 msgid "Show lines"
-msgstr ""
+msgstr "إظهار الخطوط"
 
 #: phonetrack.js:533
 msgid "Hide lines"
-msgstr ""
+msgstr "إخفاء الخطوط"
 
 #: phonetrack.js:554
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "تنشيط التكبير التلقائي"
 
 #: phonetrack.js:562
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "تعطيل التكبير التلقائي"
 
 #: phonetrack.js:583
 msgid "Show last point tooltip"
-msgstr ""
+msgstr "إظهار تلميح آخر نقطة"
 
 #: phonetrack.js:591
 msgid "Hide last point tooltip"
-msgstr ""
+msgstr "إخفاء تلميح آخر نقطة"
 
 #: phonetrack.js:612
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "تكبير على جميع الأجهزة"
 
 #: phonetrack.js:625
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "انقر على الخريطة لتحريك النقطة، اضغط المفتاح ESC إلغاء الأمر"
 
 #: phonetrack.js:781
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "اسم او عنوان المخدّم يجب أن لا يكون فارغاً"
 
 #: phonetrack.js:784 phonetrack.js:793
 msgid "Impossible to add tile server"
@@ -70,16 +70,16 @@ msgstr ""
 
 #: phonetrack.js:790
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "يوجد مخدّم بنفس الاسم بالفعل"
 
 #: phonetrack.js:826 phonetrack.js:2950 maincontent.php:225 maincontent.php:269
 #: maincontent.php:314 maincontent.php:363
 msgid "Delete"
-msgstr ""
+msgstr "حذف"
 
 #: phonetrack.js:859
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "تم إضافة مخدّم \"{ts}\""
 
 #: phonetrack.js:862
 msgid "Failed to add tile server \"{ts}\""

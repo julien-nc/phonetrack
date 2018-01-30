@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-01-26 19:10+0100\n"
-"PO-Revision-Date: 2018-01-30 17:52-0500\n"
+"PO-Revision-Date: 2018-01-30 18:23-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -66,7 +66,7 @@ msgstr "Nazwa serwera lub adres url serwera nie powinnny być puste"
 
 #: phonetrack.js:784 phonetrack.js:793
 msgid "Impossible to add tile server"
-msgstr "Nie udało się dodać kafelka serwera"
+msgstr "Nie udało się dodać serwera fragmentów mapy"
 
 #: phonetrack.js:790
 msgid "A server with this name already exists"
@@ -79,31 +79,31 @@ msgstr "Usuń"
 
 #: phonetrack.js:859
 msgid "Tile server \"{ts}\" has been added"
-msgstr "Kafelek serwera \"{ts}\" został dodany"
+msgstr "Serwer fragmentów map \"{ts}\" został dodany"
 
 #: phonetrack.js:862
 msgid "Failed to add tile server \"{ts}\""
-msgstr "Nie udało się dodać kafelka serwera \"{ts}\""
+msgstr "Nie udało się dodać serwera fragmentów map \"{ts}\""
 
 #: phonetrack.js:866
 msgid "Failed to contact server to add tile server"
-msgstr "Nie udało się połączyć do serwera, aby dodać kafelek serwera"
+msgstr "Nie udało się połączyć z serwerem, aby dodać serwer fragmentów map"
 
 #: phonetrack.js:900
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr "Kafelek serwera \"{ts}\" został usunięty"
+msgstr "Serwer fragmentów map \"{ts}\" został usunięty"
 
 #: phonetrack.js:903
 msgid "Failed to delete tile server \"{ts}\""
-msgstr "Nie udało się usunąć kafelka serwera \"{ts}\""
+msgstr "Nie udało się usunąć serwera fragmentów map \"{ts}\""
 
 #: phonetrack.js:907
 msgid "Failed to contact server to delete tile server"
-msgstr "Nie udało się połączyć do serwera, aby usunąć kafelek serwera"
+msgstr "Nie udało się połączyć z serwerem, aby usunąć serwer fragmentów map"
 
 #: phonetrack.js:1022
 msgid "Failed to contact server to restore options values"
-msgstr "Nie udało się połączyć do serwera, aby przywrócić wartości opcji"
+msgstr "Nie udało się połączyć z serwerem, aby przywrócić wartości ustawień"
 
 #: phonetrack.js:1025 phonetrack.js:1099 phonetrack.js:4214
 msgid "Reload this page"
@@ -111,7 +111,7 @@ msgstr "Odśwież stronę"
 
 #: phonetrack.js:1096
 msgid "Failed to contact server to save options values"
-msgstr "Nie udało się połączyć do serwera, aby zapisać wartości opcji"
+msgstr "Nie udało się połączyć z serwerem, aby zapisać wartości ustawień"
 
 #: phonetrack.js:1119
 msgid "Session name should not be empty"
@@ -123,7 +123,7 @@ msgstr "Nazwa sesji jest już używana"
 
 #: phonetrack.js:1140
 msgid "Failed to contact server to create session"
-msgstr "Nie udało się połączyć do serwera, aby utworzyć sesje"
+msgstr "Nie udało się połączyć z serwerem, aby utworzyć sesję"
 
 #: phonetrack.js:1224
 msgid "Watch this session"
@@ -139,7 +139,7 @@ msgstr "Więcej akcji"
 
 #: phonetrack.js:1239
 msgid "Zoom on this session"
-msgstr "Przybliżenie na tej sesji"
+msgstr "Zbliżenie na tą sesję"
 
 #: phonetrack.js:1242
 msgid "URL to share session"
@@ -619,43 +619,43 @@ msgstr "W głównym menu OsmAnd przejdź do 'Wtyczki', a następnie aktywuj wtyc
 
 #: phonetrack.js:3662
 msgid "Copy the URL below into the 'Online tracking web address' field."
-msgstr ""
+msgstr "Skopiuj poniższy adres URL do pola 'Adres sieciowy śledzenia online'."
 
 #: phonetrack.js:3666
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
-msgstr ""
+msgstr "W GpsLogger przejdź do 'Rejestrowanie szczegółów' w menu bocznym, a następnie aktywuj 'Rejestruj w niestandardowym URL'."
 
 #: phonetrack.js:3667
 msgid "Copy the URL below into the 'URL' field."
-msgstr ""
+msgstr "Skopiuj poniższy adres URL do pola 'URL'."
 
 #: phonetrack.js:3675
 msgid "In Ulogger, go to settings menu and copy the URL below into the 'Server URL' field."
-msgstr ""
+msgstr "Przejdź do menu Ustawienia w Ulogger i skopiuj poniższy adres URL do pola 'Adres URL serwera'."
 
 #: phonetrack.js:3676
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
-msgstr ""
+msgstr "Ustaw dowolną wartość pól obowiązkowych 'Nazwa użytkownika' i 'Hasło', będą one ignorowane przez PhoneTrack."
 
 #: phonetrack.js:3677
 msgid "Activate 'Live synchronization'."
-msgstr ""
+msgstr "Aktywuj 'Synchronizacja w czasie rzeczywistym'."
 
 #: phonetrack.js:3681
 msgid "In Traccar client, copy the URL below into the 'server URL' field."
-msgstr ""
+msgstr "W kliencie Traccar skopiuj poniższy adres URL do pola 'adres URL serwera'."
 
 #: phonetrack.js:3685
 msgid "You can log with any other client with a simple HTTP request."
-msgstr ""
+msgstr "Możesz rejestrować z innego klienta przy użyciu prostego żądania HTTP."
 
 #: phonetrack.js:3686
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
-msgstr ""
+msgstr "Upewnij się, że system logowania ustawia wartości co najmniej parametrów GET 'timestamp', 'lat' i 'lon'."
 
 #: phonetrack.js:3689
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
-msgstr ""
+msgstr "Skonfiguruj {loggingApp} do logowania się do sesji '{sessionName}'"
 
 #: phonetrack.js:3819
 msgid "Are you sure you want to delete the session {session} ?"
@@ -667,7 +667,7 @@ msgstr "Potwierdź usunięcie sesji"
 
 #: phonetrack.js:3874
 msgid "Choose auto export target path"
-msgstr ""
+msgstr "Wybierz obiekt docelowy ścieżki automatycznego eksportu"
 
 #: phonetrack.js:3994
 msgid "Select storage location for '{fname}'"
@@ -755,7 +755,7 @@ msgstr "Odświeżanie każdego (sek)"
 
 #: maincontent.php:79
 msgid "Refresh"
-msgstr ""
+msgstr "Odśwież"
 
 #: maincontent.php:83
 msgid "Show accuracy in tooltips"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-01-26 19:10+0100\n"
-"PO-Revision-Date: 2018-01-27 13:02-0500\n"
+"PO-Revision-Date: 2018-01-31 03:42-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -647,7 +647,7 @@ msgstr "Dans le client Traccar, copiez l'URL ci-dessous dans le champs 'URL du s
 
 #: phonetrack.js:3685
 msgid "You can log with any other client with a simple HTTP request."
-msgstr "Vous pouvez vous connecter avec n’importe quel autre client avec une simple requête HTTP."
+msgstr "Vous pouvez logger avec n’importe quel autre client avec une simple requête HTTP."
 
 #: phonetrack.js:3686
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."

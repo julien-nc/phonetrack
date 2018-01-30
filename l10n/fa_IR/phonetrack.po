@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-01-26 19:10+0100\n"
-"PO-Revision-Date: 2018-01-26 13:15-0500\n"
+"PO-Revision-Date: 2018-02-17 16:32-0500\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -54,7 +54,7 @@ msgstr ""
 
 #: phonetrack.js:612
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "زوم در همه دستگاه ها"
 
 #: phonetrack.js:625
 msgid "Click on the map to move the point, press ESC to cancel"
@@ -135,7 +135,7 @@ msgstr "توسط {u} به اشتراک گذاشته شده"
 
 #: phonetrack.js:1235 phonetrack.js:2316
 msgid "More actions"
-msgstr ""
+msgstr "امکانات بیشتر"
 
 #: phonetrack.js:1239
 msgid "Zoom on this session"
@@ -299,7 +299,7 @@ msgstr ""
 
 #: phonetrack.js:1424
 msgid "Failed to delete session"
-msgstr ""
+msgstr "عدم موفقیت در حذف جلسه"
 
 #: phonetrack.js:1428
 msgid "Failed to contact server to delete session"
@@ -355,7 +355,7 @@ msgstr ""
 
 #: phonetrack.js:2026 phonetrack.js:2055
 msgid "Stats of all points"
-msgstr ""
+msgstr "آمار از تمام نقاط"
 
 #: phonetrack.js:2052
 msgid "Stats of filtered points"
@@ -387,7 +387,7 @@ msgstr ""
 
 #: phonetrack.js:2327 maincontent.php:48
 msgid "Ok"
-msgstr ""
+msgstr "تایید"
 
 #: phonetrack.js:2340
 msgid "Toggle detail/edition points"
@@ -431,15 +431,15 @@ msgstr ""
 
 #: phonetrack.js:2917
 msgid "Date"
-msgstr ""
+msgstr "تاریخ"
 
 #: phonetrack.js:2920
 msgid "Time"
-msgstr ""
+msgstr "زمان"
 
 #: phonetrack.js:2925 phonetrack.js:2966
 msgid "Altitude"
-msgstr ""
+msgstr "ارتفاع"
 
 #: phonetrack.js:2928 phonetrack.js:2970
 msgid "Precision"
@@ -447,11 +447,11 @@ msgstr ""
 
 #: phonetrack.js:2931 phonetrack.js:2974
 msgid "Satellites"
-msgstr ""
+msgstr "ماهواره ها"
 
 #: phonetrack.js:2934 phonetrack.js:2978
 msgid "Battery"
-msgstr ""
+msgstr "باتری"
 
 #: phonetrack.js:2937 phonetrack.js:2982
 msgid "User-agent"
@@ -467,11 +467,11 @@ msgstr ""
 
 #: phonetrack.js:2949
 msgid "Save"
-msgstr ""
+msgstr "ذخیره"
 
 #: phonetrack.js:2951
 msgid "Move"
-msgstr ""
+msgstr "حرکت"
 
 #: phonetrack.js:2952
 msgid "Cancel"
@@ -607,11 +607,11 @@ msgstr ""
 
 #: phonetrack.js:3639
 msgid "years"
-msgstr ""
+msgstr "سال ها"
 
 #: phonetrack.js:3642
 msgid "days"
-msgstr ""
+msgstr "روز ها"
 
 #: phonetrack.js:3661
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
