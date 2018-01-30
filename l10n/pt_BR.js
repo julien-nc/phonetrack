@@ -14,7 +14,6 @@ OC.L10N.register(
     "A server with this name already exists" : "Um servidor com este nome já existe",
     "Delete" : "Excluir",
     "Reload this page" : "Recarregar esta página",
-    "Error" : "Erro",
     "Session name should not be empty" : "Nome de sessão não deve estar vazio",
     "Session name already used" : "Nome da sessão já usado",
     "Watch this session" : "Assista a esta sessão",

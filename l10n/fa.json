@@ -7,7 +7,6 @@
     "Server name or server url should not be empty" : "نام سرور یا آدرس سرور نباید خالی باشد",
     "A server with this name already exists" : "سرور با این نام از قبل وجود دارد",
     "Delete" : "حذف",
-    "Error" : "خطا",
     "Failed to contact server to save options values" : "عدم موفقیت در تماس با سرور جهت ذخیره کردن مقادیر",
     "Session name should not be empty" : "نام جلسه نباید خالی باشد",
     "Session name already used" : "نام جلسه قبلا استفاده شده است",

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Zoom on all devices" : "Közelítés az összes eszkötön",
     "Delete" : "Törlés",
     "Reload this page" : "Oldal frissítése",
-    "Error" : "Hiba",
     "shared by {u}" : "segosztva tőle: {u}",
     "More actions" : "További műveletek",
     "Delete session" : "Munkamenet törtlése",
