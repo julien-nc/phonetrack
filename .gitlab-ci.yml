@@ -1,4 +1,3 @@
-# Select image from https://hub.docker.com/
 image: ubuntu:17.10
 
 stages:
@@ -9,6 +8,8 @@ before_script:
 
 test12:
   stage: test
+  only:
+      - master
   script:
       - mkdir -p /var/www/html ; cd /var/www/html
       - wget https://download.nextcloud.com/server/releases/nextcloud-12.0.5.zip ; unzip nextcloud-12.0.5.zip ; rm nextcloud-12.0.5.zip
@@ -23,6 +24,8 @@ test12:
 
 test13:
   stage: test
+  only:
+      - master
   script:
       - mkdir -p /var/www/html ; cd /var/www/html
       - wget https://download.nextcloud.com/server/prereleases/nextcloud-13.0.0beta4.zip ; unzip nextcloud-13.0.0beta4.zip ; rm nextcloud-13.0.0beta4.zip
