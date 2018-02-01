@@ -54,7 +54,7 @@ pages:
         - master
     before_script:
         - echo "nothing before script, thanks"
-  artifacts:
+    artifacts:
       paths:
           - public
     script:
