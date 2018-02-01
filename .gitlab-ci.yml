@@ -36,4 +36,9 @@ test13:
       - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
       - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
       - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-      - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
+      - mkdir /builds/eneiluj/phonetrack-oc/public
+      - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html /builds/eneiluj/phonetrack-oc/public/coverage
+  artifacts:
+      paths:
+          - public
+
