@@ -22,7 +22,8 @@ test12:
       - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
       - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
 
-test13:
+# used to be test13
+pages:
   stage: test
   only:
       - master
@@ -41,4 +42,3 @@ test13:
   artifacts:
       paths:
           - public
-
