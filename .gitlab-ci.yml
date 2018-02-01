@@ -2,10 +2,12 @@ image: ubuntu:17.10
 
 stages:
   - test
+  - deploy
 
 before_script:
 - bash ci/docker_install.sh
 
+# test with NC12
 test12:
   stage: test
   only:
@@ -22,11 +24,15 @@ test12:
       - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
       - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
 
-# used to be test13
-pages:
+# test with NC13 and produce coverage report
+test13:
   stage: test
   only:
       - master
+  artifacts:
+      paths:
+          - coverage
+  coverage: '/^\s*Lines:\s*(\d+.\d+)\%/'
   script:
       - mkdir -p /var/www/html ; cd /var/www/html
       - wget https://download.nextcloud.com/server/prereleases/nextcloud-13.0.0beta4.zip ; unzip nextcloud-13.0.0beta4.zip ; rm nextcloud-13.0.0beta4.zip
@@ -37,8 +43,17 @@ pages:
       - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
       - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
       - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-      - mkdir /builds/eneiluj/phonetrack-oc/public
-      - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html /builds/eneiluj/phonetrack-oc/public/coverage
-  artifacts:
-      paths:
-          - public
+      - mkdir /builds/eneiluj/phonetrack-oc/coverage
+      - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html /builds/eneiluj/phonetrack-oc/coverage
+
+pages:
+    stage: deploy
+    dependencies:
+        - test13
+    only:
+        - master
+    before_script:
+        - echo "nothing before script, thanks"
+    script:
+        - mkdir public
+        - mv coverage public/
