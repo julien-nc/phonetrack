@@ -56,4 +56,6 @@ See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for 
 
 ## Known issues
 
+**Warning** : PhoneTrack does not work with group restriction on it. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#warning).
+
 Any feedback will be appreciated.
