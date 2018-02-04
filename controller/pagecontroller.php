@@ -360,11 +360,74 @@ class PageController extends Controller {
         $req->execute();
         $dbusername = null;
         while ($row = $req->fetch()){
-            array_push($shares, array('token'=>$row['sharetoken'], 'filters'=>$row['filters']));
+            array_push($shares, array('token'=>$row['sharetoken'], 'filters'=>$row['filters'], 'devicename'=>$row['devicename']));
         }
         $req->closeCursor();
 
         return $shares;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function setPublicShareDevice($token, $sharetoken, $devicename) {
+        $done = 0;
+        // check if sessions exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if sharetoken exists
+            $sqlchk = 'SELECT * FROM *PREFIX*phonetrack_pubshares ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqlchk .= 'AND sharetoken='.$this->db_quote_escape_string($sharetoken).';';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbshareid = null;
+            while ($row = $req->fetch()){
+                $dbshareid = $row['id'];
+            }
+            $req->closeCursor();
+
+            if ($dbshareid !== null) {
+                // set device name
+                $sqlupd = 'UPDATE *PREFIX*phonetrack_pubshares SET';
+                $sqlupd .= ' devicename='.$this->db_quote_escape_string($devicename).' ';
+                $sqlupd .= 'WHERE id='.$this->db_quote_escape_string($dbshareid).';';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+
+                $done = 1;
+            }
+            else {
+                $done = 3;
+            }
+        }
+        else {
+            $done = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$done
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
     }
 
     /**
@@ -1484,6 +1547,7 @@ class PageController extends Controller {
             $dbpublicviewtoken = null;
             $dbpublic = null;
             $filters = null;
+            $deviceNameRestriction = '';
             $sqlget = 'SELECT publicviewtoken, token, public FROM *PREFIX*phonetrack_sessions ';
             $sqlget .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
             $req = $this->dbconnection->prepare($sqlget);
@@ -1501,7 +1565,7 @@ class PageController extends Controller {
             // there is no session with this publicviewtoken
             // check if there is a public share with the sharetoken
             if ($dbpublicviewtoken === null) {
-                $sqlget = 'SELECT sharetoken, sessionid, filters FROM *PREFIX*phonetrack_pubshares ';
+                $sqlget = 'SELECT sharetoken, sessionid, filters, devicename FROM *PREFIX*phonetrack_pubshares ';
                 $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
@@ -1509,6 +1573,9 @@ class PageController extends Controller {
                     $dbpublicviewtoken = $row['sharetoken'];
                     $dbtoken = $row['sessionid'];
                     $filters = json_decode($row['filters'], True);
+                    if ($row['devicename'] !== null and $row['devicename'] !== '') {
+                        $deviceNameRestriction = ' AND name='.$this->db_quote_escape_string($row['devicename']).' ';
+                    }
                 }
                 $req->closeCursor();
             }
@@ -1518,7 +1585,8 @@ class PageController extends Controller {
                 // get list of devices
                 $devices = array();
                 $sqldev = 'SELECT id FROM *PREFIX*phonetrack_devices ';
-                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+                $sqldev .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
+                $sqldev .= $deviceNameRestriction.' ;';
                 $req = $this->dbconnection->prepare($sqldev);
                 $req->execute();
                 while ($row = $req->fetch()){

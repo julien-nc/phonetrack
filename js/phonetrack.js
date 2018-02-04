@@ -1341,10 +1341,13 @@
             for (i = 0; i < publicFilteredShares.length; i++) {
                 publicurl = window.location.origin +
                     OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicFilteredShares[i].token);
-                divtxt = divtxt + '<li filteredtoken="' + escapeHTML(publicFilteredShares[i].token) + '" title="' +
+                divtxt = divtxt + '<li class="filteredshare" filteredtoken="' + escapeHTML(publicFilteredShares[i].token) + '" title="' +
                     filtersToTxt(publicFilteredShares[i].filters) + '">' +
                     '<input type="text" class="publicFilteredShareUrl ro" value="' + publicurl + '"/>' +
-                    '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></li>';
+                    '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></button><br/>' +
+                    '<label>' + t('phonetrack', 'Only see this device') + ' : </label>' +
+                    '<input type="text" role="device" value="' + escapeHTML(publicFilteredShares[i].devicename || '') + '"/>' +
+                    '</li>';
             }
             divtxt = divtxt + '</ul>';
             divtxt = divtxt + '</div>';
@@ -3495,6 +3498,30 @@
         });
     }
 
+    function setPublicShareDeviceDb(token, sharetoken, devicename) {
+        var req = {
+            token: token,
+            sharetoken: sharetoken,
+            devicename: devicename
+        };
+        var url = OC.generateUrl('/apps/phonetrack/setPublicShareDevice');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                OC.Notification.showTemporary(t('phonetrack', 'Device name restriction has been successfully set'));
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to set public share device name restriction'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set public share device name restriction'));
+        });
+    }
+
     function addPublicSessionShareDb(token) {
         var req = {
             token: token,
@@ -3520,10 +3547,13 @@
     function addPublicSessionShare(token, sharetoken, filters) {
         var publicurl = window.location.origin +
             OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken);
-        var li = '<li filteredtoken="' + escapeHTML(sharetoken) + '" title="' +
+        var li = '<li class="filteredshare" filteredtoken="' + escapeHTML(sharetoken) + '" title="' +
             filtersToTxt(filters) + '">' +
             '<input type="text" class="publicFilteredShareUrl" value="' + publicurl + '"/>' +
-            '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></li>';
+            '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></button><br/>' +
+            '<label>' + t('phonetrack', 'Only see this device') + ' : </label>' +
+            '<input type="text" role="device" value=""/>' +
+            '</li>';
         $('.session[token="' + token + '"]').find('.publicfilteredsharelist').append(li);
     }
 
@@ -4660,6 +4690,15 @@
 
         $('body').on('mouseleave', '.reservNameButton', function(e) {
             $(this).find('i').addClass('fa-male').removeClass('fa-female');
+        });
+
+        $('body').on('keypress','li.filteredshare input[role=device]', function(e) {
+            if (e.key === 'Enter') {
+                var filteredtoken = $(this).parent().attr('filteredtoken');
+                var devicename = $(this).val();
+                var token = $(this).parent().parent().parent().parent().parent().attr('token');
+                setPublicShareDeviceDb(token, filteredtoken, devicename);
+            }
         });
 
         if (!pageIsPublic()) {

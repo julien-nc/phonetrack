@@ -787,3 +787,9 @@ label[for=autoexportpath], #autoexportpath {
 #countdown {
     display: inline;
 }
+.filteredshare {
+    border: solid 1px grey;
+}
+.filteredshare input[role=device] {
+    width: 49% !important;
+}

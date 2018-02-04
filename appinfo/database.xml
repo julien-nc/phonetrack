@@ -348,6 +348,12 @@
       <notnull>true</notnull>
       <length>500</length>
     </field>
+    <field>
+      <name>devicename</name>
+      <type>text</type>
+      <default></default>
+      <length>300</length>
+    </field>
   </declaration>
 </table>
 </database>
