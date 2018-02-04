@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#66](https://gitlab.com/eneiluj/phonetrack-oc/issues/66) @TMaddox
 - countdown to see when is next refresh
 - button to manually refresh
+- field to restrict public filtered share to one device name
+[#45](https://gitlab.com/eneiluj/phonetrack-oc/issues/45) @Mamie
+- unit tests + gitlab CI integration + automatic coverage report
 
 ### Fixed
 - auto export daily file name mistake
