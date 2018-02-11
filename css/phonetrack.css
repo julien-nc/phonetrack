@@ -242,8 +242,9 @@ div#logofolder label {
 #overlayserverdiv, #overlaywmsserverdiv {
     display: none;
 }
+input[type=checkbox],
 .customtiletitle {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 .sidebar {
     z-index: 1990;
