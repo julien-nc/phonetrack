@@ -741,7 +741,12 @@
     //////////////// ANIMATIONS /////////////////////
 
     function showLoadingAnimation() {
-        $('#loadingpc').text('');
+        $('#loadingtext').text(t('phonetrack', 'loading positions'));
+        $('#loading').show();
+    }
+
+    function showImportAnimation() {
+        $('#loadingtext').text(t('phonetrack', 'importing session'));
         $('#loading').show();
     }
 
@@ -3141,6 +3146,7 @@
             OC.Notification.showTemporary(t('phonetrack', 'File extension must be \'.gpx\' to be imported'));
         }
         else {
+            showImportAnimation();
             var req = {
                 path: path
             };
@@ -3172,6 +3178,7 @@
                 // TODO 5 : error in gpx parsing
                 // 6 : no trk in gpx
             }).always(function() {
+                hideLoadingAnimation();
             }).fail(function() {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to import session'));
             });
