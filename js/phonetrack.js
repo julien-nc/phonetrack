@@ -81,7 +81,8 @@
         deviceNames: {},
         // indexed by token, then by devicename
         deviceIds: {},
-        filtersEnabled: false
+        filtersEnabled: false,
+        filterValues: {}
     };
 
     var offset = L.point(-7, 0);
@@ -1831,60 +1832,19 @@
 
     function filterEntry(entry) {
         var filtersEnabled = phonetrack.filtersEnabled;
-        var timestampMin = null;
-        var timestampMax = null;
 
         if (filtersEnabled) {
-            var tab = $('#filterPointsTable');
-            var dateminstr = tab.find('input[role=datemin]').val();
-            if (dateminstr) {
-                var hourminstr = parseInt(tab.find('input[role=hourmin]').val()) || 0;
-                var minminstr = parseInt(tab.find('input[role=minutemin]').val()) || 0;
-                var secminstr = parseInt(tab.find('input[role=secondmin]').val()) || 0;
-                var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
-                var momMin = moment(completeDateMinStr);
-                timestampMin = momMin.unix();
-            }
+            var satellitesmin = phonetrack.filterValues['satellitesmin'];
+            var satellitesmax = phonetrack.filterValues['satellitesmax'];
+            var batterymin    = phonetrack.filterValues['batterymin'];
+            var batterymax    = phonetrack.filterValues['batterymax'];
+            var elevationmin  = phonetrack.filterValues['elevationmin'];
+            var elevationmax  = phonetrack.filterValues['elevationmax'];
+            var accuracymin   = phonetrack.filterValues['accuracymin'];
+            var accuracymax   = phonetrack.filterValues['accuracymax'];
 
-            var datemaxstr = tab.find('input[role=datemax]').val();
-            if (datemaxstr) {
-                var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val()) || 23;
-                var minmaxstr = parseInt(tab.find('input[role=minutemax]').val()) || 59;
-                var secmaxstr = parseInt(tab.find('input[role=secondmax]').val()) || 59;
-                var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
-                var momMax = moment(completeDateMaxStr);
-                timestampMax = momMax.unix();
-            }
-
-            var lastdays = parseInt(tab.find('input[role=lastdays]').val());
-            var lasthours = parseInt(tab.find('input[role=lasthours]').val());
-            var lastmins = parseInt(tab.find('input[role=lastmins]').val());
-            var momlast = moment();
-            if (lastdays) {
-                momlast.subtract(lastdays, 'days');
-            }
-            if (lasthours) {
-                momlast.subtract(lasthours, 'hours');
-            }
-            if (lastmins) {
-                momlast.subtract(lastmins, 'minutes');
-            }
-            if (lastdays || lasthours || lastmins) {
-                var timestampLast = momlast.unix();
-                // if there is no time min or if timelast is more recent than timemin
-                if (!timestampMin || timestampLast > timestampMin) {
-                    timestampMin = timestampLast;
-                }
-            }
-
-            var satellitesmin = parseInt($('input[role=satellitesmin]').val());
-            var satellitesmax = parseInt($('input[role=satellitesmax]').val());
-            var batterymin    = parseInt($('input[role=batterymin]').val());
-            var batterymax    = parseInt($('input[role=batterymax]').val());
-            var elevationmin  = parseInt($('input[role=elevationmin]').val());
-            var elevationmax  = parseInt($('input[role=elevationmax]').val());
-            var accuracymin   = parseInt($('input[role=accuracymin]').val());
-            var accuracymax   = parseInt($('input[role=accuracymax]').val());
+            var timestampMin = phonetrack.filterValues['tsmin'];
+            var timestampMax = phonetrack.filterValues['tsmax'];
         }
         return (
             !filtersEnabled
@@ -1906,60 +1866,19 @@
     function filterList(list, token, deviceid) {
         var filtersEnabled = phonetrack.filtersEnabled;
         var resList, resDateList;
-        var timestampMin = null;
-        var timestampMax = null;
 
         if (filtersEnabled) {
-            var tab = $('#filterPointsTable');
-            var dateminstr = tab.find('input[role=datemin]').val();
-            if (dateminstr) {
-                var hourminstr = parseInt(tab.find('input[role=hourmin]').val()) || 0;
-                var minminstr = parseInt(tab.find('input[role=minutemin]').val()) || 0;
-                var secminstr = parseInt(tab.find('input[role=secondmin]').val()) || 0;
-                var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
-                var momMin = moment(completeDateMinStr);
-                timestampMin = momMin.unix();
-            }
+            var satellitesmin = phonetrack.filterValues['satellitesmin'];
+            var satellitesmax = phonetrack.filterValues['satellitesmax'];
+            var batterymin    = phonetrack.filterValues['batterymin'];
+            var batterymax    = phonetrack.filterValues['batterymax'];
+            var elevationmin  = phonetrack.filterValues['elevationmin'];
+            var elevationmax  = phonetrack.filterValues['elevationmax'];
+            var accuracymin   = phonetrack.filterValues['accuracymin'];
+            var accuracymax   = phonetrack.filterValues['accuracymax'];
 
-            var datemaxstr = tab.find('input[role=datemax]').val();
-            if (datemaxstr) {
-                var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val()) || 23;
-                var minmaxstr = parseInt(tab.find('input[role=minutemax]').val()) || 59;
-                var secmaxstr = parseInt(tab.find('input[role=secondmax]').val()) || 59;
-                var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
-                var momMax = moment(completeDateMaxStr);
-                timestampMax = momMax.unix();
-            }
-
-            var lastdays = parseInt(tab.find('input[role=lastdays]').val());
-            var lasthours = parseInt(tab.find('input[role=lasthours]').val());
-            var lastmins = parseInt(tab.find('input[role=lastmins]').val());
-            var momlast = moment();
-            if (lastdays) {
-                momlast.subtract(lastdays, 'days');
-            }
-            if (lasthours) {
-                momlast.subtract(lasthours, 'hours');
-            }
-            if (lastmins) {
-                momlast.subtract(lastmins, 'minutes');
-            }
-            if (lastdays || lasthours || lastmins) {
-                var timestampLast = momlast.unix();
-                // if there is no time min or if timelast is more recent than timemin
-                if (!timestampMin || timestampLast > timestampMin) {
-                    timestampMin = timestampLast;
-                }
-            }
-
-            var satellitesmin = parseInt($('input[role=satellitesmin]').val());
-            var satellitesmax = parseInt($('input[role=satellitesmax]').val());
-            var batterymin    = parseInt($('input[role=batterymin]').val());
-            var batterymax    = parseInt($('input[role=batterymax]').val());
-            var elevationmin  = parseInt($('input[role=elevationmin]').val());
-            var elevationmax  = parseInt($('input[role=elevationmax]').val());
-            var accuracymin   = parseInt($('input[role=accuracymin]').val());
-            var accuracymax   = parseInt($('input[role=accuracymax]').val());
+            var timestampMin = phonetrack.filterValues['tsmin'];
+            var timestampMax = phonetrack.filterValues['tsmax'];
 
             resDateList = [];
             resList = [];
@@ -2013,10 +1932,65 @@
         return resList;
     }
 
+    function storeFilters() {
+        // simple fields
+        $('#filterPointsTable input[type=number]').each(function() {
+            phonetrack.filterValues[$(this).attr('role')] = parseInt($(this).val());
+        });
+
+        // date fields : we just want tsmin and tsmax
+        var timestampMin = null;
+        var timestampMax = null;
+        var tab = $('#filterPointsTable');
+        var dateminstr = tab.find('input[role=datemin]').val();
+        if (dateminstr) {
+            var hourminstr = parseInt(tab.find('input[role=hourmin]').val()) || 0;
+            var minminstr = parseInt(tab.find('input[role=minutemin]').val()) || 0;
+            var secminstr = parseInt(tab.find('input[role=secondmin]').val()) || 0;
+            var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
+            var momMin = moment(completeDateMinStr);
+            timestampMin = momMin.unix();
+        }
+
+        var datemaxstr = tab.find('input[role=datemax]').val();
+        if (datemaxstr) {
+            var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val()) || 23;
+            var minmaxstr = parseInt(tab.find('input[role=minutemax]').val()) || 59;
+            var secmaxstr = parseInt(tab.find('input[role=secondmax]').val()) || 59;
+            var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
+            var momMax = moment(completeDateMaxStr);
+            timestampMax = momMax.unix();
+        }
+
+        var lastdays = parseInt(tab.find('input[role=lastdays]').val());
+        var lasthours = parseInt(tab.find('input[role=lasthours]').val());
+        var lastmins = parseInt(tab.find('input[role=lastmins]').val());
+        var momlast = moment();
+        if (lastdays) {
+            momlast.subtract(lastdays, 'days');
+        }
+        if (lasthours) {
+            momlast.subtract(lasthours, 'hours');
+        }
+        if (lastmins) {
+            momlast.subtract(lastmins, 'minutes');
+        }
+        if (lastdays || lasthours || lastmins) {
+            var timestampLast = momlast.unix();
+            // if there is no time min or if timelast is more recent than timemin
+            if (!timestampMin || timestampLast > timestampMin) {
+                timestampMin = timestampLast;
+            }
+        }
+        phonetrack.filterValues['tsmin'] = timestampMin;
+        phonetrack.filterValues['tsmax'] = timestampMax;
+    }
+
     function changeApplyFilter() {
         var filtersEnabled = $('#applyfilters').is(':checked');
         phonetrack.filtersEnabled = filtersEnabled;
         if (filtersEnabled) {
+            storeFilters();
             $('#filterPointsTable').addClass('activatedFilters');
         }
         else {
