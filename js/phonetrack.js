@@ -2140,18 +2140,6 @@
                 getPointTooltipContent(mentry, sessionname, s),
                 {permanent: perm, offset: offset, className: 'tooltip' + s + d.replace(' ', '')}
             );
-            // popup
-            if (!pageIsPublic()
-                && !isSessionShared(s)
-                && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
-            ) {
-                phonetrack.sessionMarkerLayers[s][d].unbindPopup();
-                phonetrack.sessionMarkerLayers[s][d].bindPopup(
-                    getPointPopup(s, d, mentry, sessionname),
-                    {closeOnClick: false}
-                );
-            }
-
             // if marker was not already displayed
             if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
                 phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
@@ -2443,6 +2431,9 @@
         phonetrack.sessionMarkerLayers[s][d].on('mouseout', function(e) {
             markerMouseout(e);
         });
+        phonetrack.sessionMarkerLayers[s][d].on('click', function(e) {
+            markerMouseClick(e);
+        });
     }
 
     function appendEntryToDevice(s, d, entry, sessionname) {
@@ -2527,6 +2518,9 @@
         m.session = s;
         m.device = d;
         m.pid = entry.id;
+        m.on('click', function(e) {
+            markerMouseClick(e);
+        });
         m.on('mouseover', function(e) {
             markerMouseover(e);
         });
@@ -2546,8 +2540,21 @@
                 }
             }
         }
-        if (!pageIsPublic() && !isSessionShared(s)) {
-            m.bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});
+    }
+
+    function markerMouseClick(e) {
+        var s = e.target.session;
+        var d = e.target.device;
+        if (!pageIsPublic()
+            && !isSessionShared(s)
+            && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
+        ) {
+            e.target.unbindPopup();
+            var pid = e.target.pid;
+            var entry = phonetrack.sessionPointsEntriesById[s][d][pid];
+            var sessionname = getSessionName(s);
+            e.target.bindPopup(getPointPopup(s, d, entry, sessionname), {closeOnClick: false});
+            e.target.openPopup();
         }
     }
 
@@ -2649,12 +2656,6 @@
             {permanent: false, offset: offset, className: 'tooltip' + token + deviceid.replace(' ', '')}
         );
 
-        // update line point popup
-        phonetrack.sessionPointsLayersById[token][deviceid][pointid].unbindPopup();
-        phonetrack.sessionPointsLayersById[token][deviceid][pointid].bindPopup(
-            getPointPopup(token, deviceid, entry, sessionname),
-            {closeOnClick: false}
-        );
         // move line point
         if (move || dateChanged) {
             phonetrack.sessionPointsLayersById[token][deviceid][pointid].setLatLng([lat, lon, pointid]);
@@ -2891,14 +2892,14 @@
                 markerMouseout(e);
             });
             m.on('dragend', dragPointEnd);
+            m.on('click', function(e) {
+                markerMouseClick(e);
+            });
             m.bindTooltip(pointtooltip, {className: 'markertooltip tooltip' + token + deviceid.replace(' ', '')});
             phonetrack.sessionPointsEntriesById[token][deviceid][entry.id] = entry;
             phonetrack.sessionPointsLayersById[token][deviceid][entry.id] = m;
             if (filter) {
                 phonetrack.sessionPointsLayers[token][deviceid].addLayer(m);
-            }
-            if (!pageIsPublic() && !isSessionShared(token)) {
-                m.bindPopup(getPointPopup(token, deviceid, entry, sessionname), {closeOnClick: false});
             }
 
             // update line
@@ -3332,22 +3333,13 @@
             && phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])
         ) {
             if (elem.hasClass('off')) {
-                phonetrack.sessionMarkerLayers[s][d].unbindPopup();
                 phonetrack.sessionMarkerLayers[s][d].dragging.disable();
             }
             else {
                 if ($('#dragcheck').is(':checked')) {
                     // if marker is displayed (not filtered)
-                        phonetrack.sessionMarkerLayers[s][d].dragging.enable();
-                    }
-                var sessionname = getSessionName(s);
-                var mid = phonetrack.sessionMarkerLayers[s][d].getLatLng().alt;
-                var mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
-
-                phonetrack.sessionMarkerLayers[s][d].bindPopup(
-                    getPointPopup(s, d, mentry, sessionname),
-                    {closeOnClick: false}
-                );
+                    phonetrack.sessionMarkerLayers[s][d].dragging.enable();
+                }
             }
         }
     }
