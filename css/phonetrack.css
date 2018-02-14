@@ -621,6 +621,14 @@ ul.devicelist {
     padding: 0px 5px 0px 5px;
     border-radius: 0;
 }
+.stattable td.roundmarker {
+    max-width: 120px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+
+}
+
 .roundmarker {
     text-align: center;
     border-radius: 50%;
