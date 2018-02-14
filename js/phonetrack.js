@@ -80,7 +80,8 @@
         // indexed by token, then by deviceid
         deviceNames: {},
         // indexed by token, then by devicename
-        deviceIds: {}
+        deviceIds: {},
+        filtersEnabled: false
     };
 
     var offset = L.point(-7, 0);
@@ -1829,7 +1830,7 @@
     }
 
     function filterEntry(entry) {
-        var filtersEnabled = $('#applyfilters').is(':checked');
+        var filtersEnabled = phonetrack.filtersEnabled;
         var timestampMin = null;
         var timestampMax = null;
 
@@ -1903,7 +1904,7 @@
     }
 
     function filterList(list, token, deviceid) {
-        var filtersEnabled = $('#applyfilters').is(':checked');
+        var filtersEnabled = phonetrack.filtersEnabled;
         var resList, resDateList;
         var timestampMin = null;
         var timestampMax = null;
@@ -2014,6 +2015,7 @@
 
     function changeApplyFilter() {
         var filtersEnabled = $('#applyfilters').is(':checked');
+        phonetrack.filtersEnabled = filtersEnabled;
         if (filtersEnabled) {
             $('#filterPointsTable').addClass('activatedFilters');
         }
