@@ -66,6 +66,7 @@
         // the last position markers
         sessionMarkerLayers: {},
         sessionColors: {},
+        currentRefreshAjax: null,
         currentTimer: null,
         // remember the oldest and newest point of each device
         lastTime: {},
@@ -1753,6 +1754,10 @@
             sessionsToWatch.push([token, lastTimes, firstTimes]);
         });
 
+        if (phonetrack.currentRefreshAjax !== null) {
+            phonetrack.currentRefreshAjax.abort();
+        }
+
         if (sessionsToWatch.length > 0) {
             showLoadingAnimation();
             var req = {
@@ -1767,7 +1772,7 @@
             else {
                 url = OC.generateUrl('/apps/phonetrack/track');
             }
-            $.ajax({
+            phonetrack.currentRefreshAjax = $.ajax({
                 type: 'POST',
                 url: url,
                 data: req,
@@ -1776,13 +1781,14 @@
                 displayNewPoints(response.sessions, response.colors, response.names);
             }).always(function() {
                 hideLoadingAnimation();
+                phonetrack.currentRefreshAjax = null;
             }).fail(function() {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to refresh sessions'));
+                // TODO check how to make it work when refresh is called from an ajax "done"
+                //OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to refresh sessions'));
             });
         }
-        else {
-            showHideSelectedSessions();
-        }
+        // we always update the view
+        showHideSelectedSessions();
 
         if (loop) {
             // launch refresh again
@@ -3888,11 +3894,12 @@
                 else {
                     icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
                     $(this).parent().parent().find('.devicelist').slideDown('slow');
-                    // we refresh only if a new session is selected
-                    phonetrack.currentTimer.pause();
-                    phonetrack.currentTimer = null;
-                    refresh();
                 }
+                // we stop the refresh loop,
+                // we save options and then we refresh
+                phonetrack.currentTimer.pause();
+                phonetrack.currentTimer = null;
+                refresh();
                 saveOptions();
             }
         });
