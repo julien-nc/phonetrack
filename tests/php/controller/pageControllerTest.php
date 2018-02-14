@@ -65,7 +65,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
-            $c->getServer()->getUserManager()
+            $c->getServer()->getUserManager(),
+            $c->query('ServerContainer')->getLogger()
         );
 
         $this->pageController2 = new PageController(
@@ -76,7 +77,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
-            $c->getServer()->getUserManager()
+            $c->getServer()->getUserManager(),
+            $c->query('ServerContainer')->getLogger()
         );
 
         $this->logController = new LogController(
