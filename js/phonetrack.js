@@ -3888,10 +3888,11 @@
                 else {
                     icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
                     $(this).parent().parent().find('.devicelist').slideDown('slow');
+                    // we refresh only if a new session is selected
+                    phonetrack.currentTimer.pause();
+                    phonetrack.currentTimer = null;
+                    refresh();
                 }
-                phonetrack.currentTimer.pause();
-                phonetrack.currentTimer = null;
-                refresh();
                 saveOptions();
             }
         });
