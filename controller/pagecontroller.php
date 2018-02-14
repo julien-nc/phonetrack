@@ -1372,10 +1372,18 @@ class PageController extends Controller {
                             $req = $this->dbconnection->prepare($sqlget);
                             $req->execute();
                             while ($row = $req->fetch()){
-                                $entry = array();
-                                foreach ($row as $k => $v) {
-                                    $entry[$k] = $v;
-                                }
+                                $entry = array(
+                                    'id'=>$row['id'],
+                                    'did'=>$row['deviceid'],
+                                    'lat'=>$row['lat'],
+                                    'lon'=>$row['lon'],
+                                    'ts'=>$row['timestamp'],
+                                    'ac'=>$row['accuracy'],
+                                    'sa'=>$row['satellites'],
+                                    'al'=>$row['altitude'],
+                                    'ba'=>$row['batterylevel'],
+                                    'ua'=>$row['useragent'],
+                                );
                                 array_push($resultDevArray, $entry);
                             }
                             $req->closeCursor();
@@ -1498,10 +1506,18 @@ class PageController extends Controller {
                         $req = $this->dbconnection->prepare($sqlget);
                         $req->execute();
                         while ($row = $req->fetch()){
-                            $entry = array();
-                            foreach ($row as $k => $v) {
-                                $entry[$k] = $v;
-                            }
+                            $entry = array(
+                                'id'=>$row['id'],
+                                'did'=>$row['deviceid'],
+                                'lat'=>$row['lat'],
+                                'lon'=>$row['lon'],
+                                'ts'=>$row['timestamp'],
+                                'ac'=>$row['accuracy'],
+                                'sa'=>$row['satellites'],
+                                'al'=>$row['altitude'],
+                                'ba'=>$row['batterylevel'],
+                                'ua'=>$row['useragent'],
+                            );
                             array_push($resultDevArray, $entry);
                         }
                         $req->closeCursor();
@@ -1642,11 +1658,19 @@ class PageController extends Controller {
                     $req = $this->dbconnection->prepare($sqlget);
                     $req->execute();
                     while ($row = $req->fetch()){
-                        $entry = array();
-                        foreach ($row as $k => $v) {
-                            $entry[$k] = $v;
-                        }
                         if ($filters === null or $this->filterPoint($row, $filters)) {
+                            $entry = array(
+                                'id'=>$row['id'],
+                                'did'=>$row['deviceid'],
+                                'lat'=>$row['lat'],
+                                'lon'=>$row['lon'],
+                                'ts'=>$row['timestamp'],
+                                'ac'=>$row['accuracy'],
+                                'sa'=>$row['satellites'],
+                                'al'=>$row['altitude'],
+                                'ba'=>$row['batterylevel'],
+                                'ua'=>$row['useragent'],
+                            );
                             array_push($resultDevArray, $entry);
                         }
                     }

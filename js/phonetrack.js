@@ -2184,11 +2184,13 @@
                 // for all new entries of this session
                 for (i in sessions[s][d]) {
                     entry = sessions[s][d][i];
-                    entry.altitude = parseInt(entry.altitude);
-                    entry.satellites = parseInt(entry.satellites);
-                    entry.accuracy = parseInt(entry.accuracy);
-                    entry.timestamp = parseInt(entry.timestamp);
-                    entry.batterylevel = parseInt(entry.batterylevel);
+                    entry.deviceid = entry.did;
+                    entry.useragent = entry.ua;
+                    entry.altitude = parseInt(entry.al);
+                    entry.satellites = parseInt(entry.sa);
+                    entry.accuracy = parseInt(entry.ac);
+                    entry.timestamp = parseInt(entry.ts);
+                    entry.batterylevel = parseInt(entry.ba);
                     appendEntryToDevice(s, d, entry, sessionname);
                 }
             }
