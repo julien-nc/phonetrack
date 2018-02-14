@@ -2133,13 +2133,6 @@
                 phonetrack.sessionMarkerLayers[s][d].pid = mid;
             }
 
-            // we update tooltip and popup anyway, in case any value has changed
-            // tooltip
-            phonetrack.sessionMarkerLayers[s][d].unbindTooltip();
-            phonetrack.sessionMarkerLayers[s][d].bindTooltip(
-                getPointTooltipContent(mentry, sessionname, s),
-                {permanent: perm, offset: offset, className: 'tooltip' + s + d.replace(' ', '')}
-            );
             // if marker was not already displayed
             if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
                 phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
@@ -2441,7 +2434,6 @@
         var filter = filterEntry(entry);
         timestamp = parseInt(entry.timestamp);
         device = entry.deviceid;
-        pointtooltip = getPointTooltipContent(entry, sessionname, s);
         if (!phonetrack.lastTime.hasOwnProperty(s)) {
             phonetrack.lastTime[s] = {};
         }
@@ -2528,7 +2520,6 @@
             markerMouseout(e);
         });
         m.on('dragend', dragPointEnd);
-        m.bindTooltip(pointtooltip, {className: 'tooltip' + s + d.replace(' ', '')});
         phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
         phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
         if (filter) {
@@ -2559,11 +2550,13 @@
     }
 
     function markerMouseover(e) {
+        var d = e.target.device;
+        var s = e.target.session;
+        var pid = e.target.pid;
+        var sessionname = getSessionName(s);
+        var entry = phonetrack.sessionPointsEntriesById[s][d][pid];
         if ($('#acccirclecheck').is(':checked')) {
             var latlng = e.target.getLatLng();
-            var pid = e.target.pid;
-            var d = e.target.device;
-            var s = e.target.session;
             var acc = parseInt(phonetrack.sessionPointsEntriesById[s][d][pid].accuracy);
             if (acc !== -1) {
                 phonetrack.currentPrecisionCircle = L.circle(latlng, {radius: acc});
@@ -2573,6 +2566,10 @@
                 phonetrack.currentPrecisionCircle = null;
             }
         }
+        // tooltips
+        var pointtooltip = getPointTooltipContent(entry, sessionname, s);
+        e.target.bindTooltip(pointtooltip, {className: 'tooltip' + s + d.replace(' ', '')});
+        e.target.openTooltip();
     }
 
     function markerMouseout(e) {
@@ -2582,6 +2579,7 @@
             phonetrack.map.removeLayer(phonetrack.currentPrecisionCircle);
             phonetrack.currentPrecisionCircle = null;
         }
+        e.target.closeTooltip();
     }
 
     function isSessionActive(s) {
@@ -2648,13 +2646,6 @@
         entry.useragent = useragent;
 
         var filter = filterEntry(entry);
-
-        // update line point tooltip
-        phonetrack.sessionPointsLayersById[token][deviceid][pointid].unbindTooltip();
-        phonetrack.sessionPointsLayersById[token][deviceid][pointid].bindTooltip(
-            getPointTooltipContent(entry, sessionname, token),
-            {permanent: false, offset: offset, className: 'tooltip' + token + deviceid.replace(' ', '')}
-        );
 
         // move line point
         if (move || dateChanged) {
@@ -2871,7 +2862,6 @@
         // insert entry correctly ;)
         else {
             // add line point
-            var pointtooltip = getPointTooltipContent(entry, sessionname, token);
             var radius = $('#pointradius').val();
             var icon = L.divIcon({
                 iconAnchor: [radius, radius],
@@ -2895,7 +2885,6 @@
             m.on('click', function(e) {
                 markerMouseClick(e);
             });
-            m.bindTooltip(pointtooltip, {className: 'markertooltip tooltip' + token + deviceid.replace(' ', '')});
             phonetrack.sessionPointsEntriesById[token][deviceid][entry.id] = entry;
             phonetrack.sessionPointsLayersById[token][deviceid][entry.id] = m;
             if (filter) {
