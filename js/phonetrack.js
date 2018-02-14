@@ -74,7 +74,13 @@
         lastZindex: 1000,
         movepointSession: null,
         movepointDevice: null,
-        movepointId: null
+        movepointId: null,
+        // to avoid checking the dom too many times
+        isSessionShared: {},
+        // indexed by token, then by deviceid
+        deviceNames: {},
+        // indexed by token, then by devicename
+        deviceIds: {}
     };
 
     var offset = L.point(-7, 0);
@@ -1152,16 +1158,21 @@
     }
 
     function getDeviceName(sessionid, did) {
-        return $('.devicelist[token="' + sessionid + '"] li[device="' + did + '"] .deviceLabel').text();
+        //return $('.devicelist[token="' + sessionid + '"] li[device="' + did + '"] .deviceLabel').text();
+        return phonetrack.deviceNames[sessionid][parseInt(did)];
     }
 
     function getDeviceId(sessionid, devicename) {
-        return $('div.session[token="' + sessionid + '"] .deviceLabel[name="' + devicename + '"]').parent().attr('device');
+        //return $('div.session[token="' + sessionid + '"] .deviceLabel[name="' + devicename + '"]').parent().attr('device');
+        return phonetrack.deviceIds[sessionid][devicename];
     }
 
     function addSession(token, name, publicviewtoken, isPublic, sharedWith=[],
                         selected=false, isFromShare=false, isSharedBy='',
                         reservedNames=[], publicFilteredShares=[], autoexport='no') {
+        // init names/ids dict
+        phonetrack.deviceNames[token] = {};
+        phonetrack.deviceIds[token] = {};
         // if session is not shared (we have write access)
         if (!isFromShare) {
             $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
@@ -1226,6 +1237,7 @@
            ' publicviewtoken="' + publicviewtoken + '"' +
            ' shared="' + (isFromShare?1:0) + '"' +
             '>';
+        phonetrack.isSessionShared[token] = isFromShare;
         divtxt = divtxt + '<div class="sessionBar">';
         divtxt = divtxt + '<button class="watchbutton" title="' + t('phonetrack', 'Watch this session') + '">' +
             '<i class="fa ' + watchicon + '" aria-hidden="true"></i></button>';
@@ -1613,6 +1625,13 @@
         var perm = $('#showtime').is(':checked');
         var to, p, l, id;
         $('.session[token=' + token + '] .devicelist li[device="' + d + '"] .deviceLabel').text(newname);
+
+        // manage names/ids
+        var intDid = parseInt(d);
+        phonetrack.deviceNames[token][intDid] = newname;
+        delete phonetrack.deviceIds[token][oldname];
+        phonetrack.deviceIds[token][newname] = intDid;
+
         // marker tooltip
         to = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
         to = to.replace(
@@ -1783,7 +1802,7 @@
                 hideLoadingAnimation();
                 phonetrack.currentRefreshAjax = null;
             }).fail(function() {
-                // TODO check how to make it work when refresh is called from an ajax "done"
+                // TODO check how to make it work when called from an ajax "done"
                 //OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to refresh sessions'));
             });
         }
@@ -2385,6 +2404,11 @@
                 t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
                 '</li>');
 
+        // manage names/ids
+        var intDid = parseInt(d);
+        phonetrack.deviceNames[s][intDid] = escapeHTML(name);
+        phonetrack.deviceIds[s][name] = intDid;
+
         phonetrack.sessionPointsLayers[s][d] = L.featureGroup();
         phonetrack.sessionPointsLayersById[s][d] = {};
         phonetrack.sessionPointsEntriesById[s][d] = {};
@@ -2558,7 +2582,7 @@
     }
 
     function isSessionShared(s) {
-        return ($('div.session[token="' + s + '"]').attr('shared') === '1');
+        return (phonetrack.isSessionShared[s]);
     }
 
     function editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent) {
