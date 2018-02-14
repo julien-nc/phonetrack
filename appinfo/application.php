@@ -51,7 +51,8 @@ class Application extends App {
                     $c->query('ServerContainer')->getConfig(),
                     $c->getServer()->getShareManager(),
                     $c->getServer()->getAppManager(),
-                    $c->getServer()->getUserManager()
+                    $c->getServer()->getUserManager(),
+                    $c->query('ServerContainer')->getLogger()
                 );
             }
         );

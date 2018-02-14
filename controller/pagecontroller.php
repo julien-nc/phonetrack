@@ -40,10 +40,16 @@ class PageController extends Controller {
     private $dbdblquotes;
     private $appPath;
     private $defaultDeviceId;
+    private $logger;
+    protected $appName;
 
     public function __construct($AppName, IRequest $request, $UserId,
-                                $userfolder, $config, $shareManager, IAppManager $appManager, $userManager){
+                                $userfolder, $config, $shareManager,
+                                IAppManager $appManager, $userManager,
+                                $logger){
         parent::__construct($AppName, $request);
+        $this->logger = $logger;
+        $this->appName = $AppName;
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
         // just to keep Owncloud compatibility
         // the first case : Nextcloud
@@ -1854,6 +1860,7 @@ class PageController extends Controller {
 
         $trackIndex = 1;
         foreach($gpx->trk as $track){
+            $points = array();
             $devicename = str_replace("\n", '', $track->name);
             if (empty($devicename)){
                 $devicename = 'device '.$trackIndex;
@@ -1895,8 +1902,16 @@ class PageController extends Controller {
                             $acc = floatval($point->extensions->accuracy);
                         }
                     }
-                    $this->logPost($token, $devicename, $lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $useragent);
+                    if (!is_null($lat) and $lat !== '' and
+                        !is_null($lon) and $lon !== '' and
+                        !is_null($timestamp) and $timestamp !== ''
+                    ) {
+                        array_push($points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua));
+                    }
                 }
+            }
+            if (count($points) > 0) {
+                $this->logMultiple($token, $devicename, $points);
             }
             $trackIndex++;
         }
@@ -2702,6 +2717,134 @@ class PageController extends Controller {
     /**
      *
      **/
+    private function logMultiple($token, $devicename, $points) {
+        $done = 0;
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            $dbdeviceid = null;
+            $sqlgetres = 'SELECT id, name FROM *PREFIX*phonetrack_devices ';
+            $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqlgetres .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+            $req = $this->dbconnection->prepare($sqlgetres);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbdeviceid = $row['id'];
+                $dbdevicename = $row['name'];
+            }
+            $req->closeCursor();
+
+            if ($dbdeviceid === null) {
+                // device does not exist and there is no reservation corresponding
+                // => we create it
+                $sql = 'INSERT INTO *PREFIX*phonetrack_devices';
+                $sql .= ' (name, sessionid) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($devicename).',';
+                $sql .= $this->db_quote_escape_string($token);
+                $sql .= ');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+
+                // get the newly created device id
+                $sqlgetdid = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+                $sqlgetdid .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqlgetdid .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+                $req = $this->dbconnection->prepare($sqlgetdid);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbdeviceid = $row['id'];
+                }
+                $req->closeCursor();
+            }
+
+            $valuesStrings = array();
+            foreach ($points as $point) {
+                $lat = $point[0];
+                $lon = $point[1];
+                $alt = $point[2];
+                $timestamp = $point[3];
+                $acc = $point[4];
+                $bat = $point[5];
+                $sat = $point[6];
+                $useragent = $point[7];
+                // correct timestamp if needed
+                $time = $timestamp;
+                if (is_numeric($time) and (int)$time > 10000000000) {
+                    $time = (int)((int)$time / 1000);
+                }
+
+                if ($bat === '' or is_null($bat)) {
+                    $bat = '-1';
+                }
+                if ($sat === '' or is_null($sat)) {
+                    $sat = '-1';
+                }
+                if ($acc === '' or is_null($acc)) {
+                    $acc = '-1';
+                }
+                else {
+                    $acc = sprintf('%.2f', floatval($acc));
+                }
+                if ($alt === '' or is_null($alt)) {
+                    $alt = '-1';
+                }
+
+
+                $oneVal = '(';
+                $oneVal .= $this->db_quote_escape_string($dbdeviceid).',';
+                $oneVal .= $this->db_quote_escape_string($lat).',';
+                $oneVal .= $this->db_quote_escape_string($lon).',';
+                $oneVal .= $this->db_quote_escape_string($time).',';
+                $oneVal .= $this->db_quote_escape_string($acc).',';
+                $oneVal .= $this->db_quote_escape_string($sat).',';
+                $oneVal .= $this->db_quote_escape_string($alt).',';
+                $oneVal .= $this->db_quote_escape_string($bat).',';
+                $oneVal .= $this->db_quote_escape_string($useragent).') ';
+
+                array_push($valuesStrings, $oneVal);
+            }
+
+            // insert by packets of 50
+            while ($valuesStrings !== null and count($valuesStrings) > 0) {
+                $c = 0;
+                $values = '';
+                if ($valuesStrings !== null and count($valuesStrings) > 0) {
+                    $values .= array_shift($valuesStrings);
+                    $c++;
+                }
+                while ($valuesStrings !== null and count($valuesStrings) > 0 and $c < 500) {
+                    $values .= ', '.array_shift($valuesStrings);
+                    $c++;
+                }
+
+                $sql = 'INSERT INTO *PREFIX*phonetrack_points';
+                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) VALUES '.$values.';';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+            }
+
+            $this->logger->error("Device imported from GPX", array('app' => $this->appName));
+            $done = 1;
+        }
+        else {
+            $done = 3;
+        }
+        return $done;
+    }
+
     private function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
         $done = 0;
         if (!is_null($devicename) and $devicename !== '' and
