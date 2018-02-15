@@ -937,6 +937,7 @@
         }).done(function (response) {
             optionsValues = response.values;
             optionsValues = $.parseJSON(optionsValues);
+            phonetrack.optionsValues = optionsValues;
             if (optionsValues) {
                 if (optionsValues.updateinterval !== undefined) {
                     $('#updateinterval').val(optionsValues.updateinterval);
