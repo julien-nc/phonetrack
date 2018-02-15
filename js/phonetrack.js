@@ -82,7 +82,8 @@
         // indexed by token, then by devicename
         deviceIds: {},
         filtersEnabled: false,
-        filterValues: {}
+        filterValues: {},
+        optionsValues: {}
     };
 
     var offset = L.point(-7, 0);
@@ -1087,6 +1088,7 @@
             }
         });
         //alert('to save : '+JSON.stringify(optionsValues));
+        phonetack.optionsValues = optionsValues;
 
         var req = {
             optionsValues: JSON.stringify(optionsValues),
@@ -2465,7 +2467,7 @@
             }
         }
 
-        var radius = $('#pointradius').val();
+        var radius = phonetrack.optionsValues.pointradius;
         var icon = L.divIcon({
             iconAnchor: [radius, radius],
             className: 'roundmarker color' + s + d.replace(' ', ''),
@@ -2487,7 +2489,7 @@
         if (filter) {
             phonetrack.sessionPointsLayers[s][d].addLayer(m);
             // dragging
-            if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
+            if (!pageIsPublic() && !isSessionShared(s) && phonetrack.optionsValues.dragcheck) {
                 if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
                     m.dragging.enable();
                 }
