@@ -766,11 +766,11 @@
     //////////////// PUBLIC DIR/FILE /////////////////////
 
     function pageIsPublicWebLog() {
-        return (document.URL.indexOf('/publicWebLog') !== -1);
+        return phonetrack.pageIsPublicWebLog;
     }
 
     function pageIsPublicSessionWatch() {
-        return (document.URL.indexOf('/publicSessionWatch') !== -1);
+        return phonetrack.pageIsPublicSessionWatch;
     }
 
     function pageIsPublic() {
@@ -2078,7 +2078,7 @@
     }
 
     function updateMarker(s, d, sessionname) {
-        var perm = $('#showtime').is(':checked');
+        var perm = phonetrack.optionsValues.showtime;
         var mla, mln, mid, mentry, displayedLatlngs, oldlatlng;
         displayedLatlngs = phonetrack.sessionLineLayers[s][d].getLatLngs();
         // if session is not watched or if there is no points to see
@@ -3722,7 +3722,8 @@
     });
 
     function main() {
-
+        phonetrack.pageIsPublicWebLog = (document.URL.indexOf('/publicWebLog') !== -1);
+        phonetrack.pageIsPublicSessionWatch = (document.URL.indexOf('/publicSessionWatch') !== -1);
         phonetrack.username = $('p#username').html();
         phonetrack.token = $('p#token').html();
         load_map();
