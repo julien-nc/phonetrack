@@ -1088,7 +1088,7 @@
             }
         });
         //alert('to save : '+JSON.stringify(optionsValues));
-        phonetack.optionsValues = optionsValues;
+        phonetrack.optionsValues = optionsValues;
 
         var req = {
             optionsValues: JSON.stringify(optionsValues),
@@ -1551,7 +1551,7 @@
                 newname + ' | '
             );
             phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
-            phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d.replace(' ', '')});
+            phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d});
             // marker popup
             if (!pageIsPublic()
                 && !isSessionShared(token)
@@ -1575,7 +1575,7 @@
                 {
                     permanent: false,
                     sticky: true,
-                    className: 'tooltip' + token + d.replace(' ', '')
+                    className: 'tooltip' + token + d
                 }
             );
             for (id in phonetrack.sessionPointsLayersById[token][d]) {
@@ -1587,7 +1587,7 @@
                     newname + ' | '
                 );
                 l.unbindTooltip();
-                l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d.replace(' ', '')});
+                l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d});
 
                 // line points popups
                 p = l.getPopup().getContent();
@@ -1641,7 +1641,7 @@
             ' | ' + newname
         );
         phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
-        phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d.replace(' ', '')});
+        phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d});
         // line tooltip
         to = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
         to = to.replace(
@@ -1654,7 +1654,7 @@
             {
                 permanent: false,
                 sticky: true,
-                className: 'tooltip' + token + d.replace(' ', '')
+                className: 'tooltip' + token + d
             }
         );
         for (id in phonetrack.sessionPointsLayersById[token][d]) {
@@ -1666,7 +1666,7 @@
                 ' | ' + newname
             );
             l.unbindTooltip();
-            l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d.replace(' ', '')});
+            l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d});
         }
     }
 
@@ -2197,18 +2197,18 @@
         }
         var opacity = $('#pointlinealpha').val();
         $('style[tokendevice="' + s + d + '"]').html(
-            '.color' + s + d.replace(' ', '') + ' { ' +
+            '.color' + s + d + ' { ' +
             'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');' +
             'color: ' + textcolor + '; font-weight: bold;' +
             ' }' +
-            '.poly' + s + d.replace(' ', '') + ' {' +
+            '.poly' + s + d + ' {' +
             'stroke: ' + colorcode + ';' +
             'opacity: ' + opacity + ';' +
             '}' +
-            '.tooltip' + s + d.replace(' ', '') + ' {' +
+            '.tooltip' + s + d + ' {' +
             'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
             'color: ' + textcolor + '; font-weight: bold; }' +
-            '.opaquetooltip' + s + d.replace(' ', '') + ' {' +
+            '.opaquetooltip' + s + d + ' {' +
             'background: rgb(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
             'color: ' + textcolor + '; font-weight: bold;' +
             '}'
@@ -2282,18 +2282,18 @@
             textcolor = 'white';
         } 
         var opacity = $('#pointlinealpha').val();
-        $('<style tokendevice="' + s + d + '">.color' + s + d.replace(' ', '') + ' { ' +
+        $('<style tokendevice="' + s + d + '">.color' + s + d + ' { ' +
             'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');' +
                 'color: ' + textcolor + '; font-weight: bold;' +
                 ' }' +
-                '.poly' + s + d.replace(' ', '') + ' {' +
+                '.poly' + s + d + ' {' +
                 'stroke: ' + phonetrack.sessionColors[s + d] + ';' +
                 'opacity: ' + opacity + ';' +
                 '}' +
-                '.tooltip' + s + d.replace(' ', '') + ' {' +
+                '.tooltip' + s + d + ' {' +
                 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
                 'color: ' + textcolor + '; font-weight: bold; }' +
-                '.opaquetooltip' + s + d.replace(' ', '') + ' {' +
+                '.opaquetooltip' + s + d + ' {' +
                 'background: rgb(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
                 'color: ' + textcolor + '; font-weight: bold;' +
                 '}</style>').appendTo('body');
@@ -2345,7 +2345,7 @@
         }
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
-                '<div class="devicecolor opaquetooltip' + s + d.replace(' ', '') + '"></div> ' +
+                '<div class="devicecolor opaquetooltip' + s + d + '"></div> ' +
                 '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
                 t('phonetrack', 'Center map on device') + '">' + escapeHTML(name) + '</div> ' +
                 renameInput +
@@ -2371,20 +2371,20 @@
         phonetrack.sessionPointsEntriesById[s][d] = {};
         phonetrack.sessionLatlngs[s][d] = [];
         var linewidth = $('#linewidth').val();
-        phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: linewidth, className: 'poly' + s + d.replace(' ', '')});
+        phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: linewidth, className: 'poly' + s + d});
         linetooltip = sessionname + ' | ' + name;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
             linetooltip,
             {
                 permanent: false,
                 sticky: true,
-                className: 'tooltip' + s + d.replace(' ', '')
+                className: 'tooltip' + s + d
             }
         );
         var radius = $('#pointradius').val();
         var icon = L.divIcon({
             iconAnchor: [radius, radius],
-            className: 'roundmarker color' + s + d.replace(' ', ''),
+            className: 'roundmarker color' + s + d,
             html: '<b>' + name[0] + '</b>'
         });
 
@@ -2470,7 +2470,7 @@
         var radius = phonetrack.optionsValues.pointradius;
         var icon = L.divIcon({
             iconAnchor: [radius, radius],
-            className: 'roundmarker color' + s + d.replace(' ', ''),
+            className: 'roundmarker color' + s + d,
             html: ''
         });
 
@@ -2532,7 +2532,7 @@
         }
         // tooltips
         var pointtooltip = getPointTooltipContent(entry, sessionname, s);
-        e.target.bindTooltip(pointtooltip, {className: 'tooltip' + s + d.replace(' ', '')});
+        e.target.bindTooltip(pointtooltip, {className: 'tooltip' + s + d});
         e.target.openTooltip();
     }
 
@@ -2829,7 +2829,7 @@
             var radius = $('#pointradius').val();
             var icon = L.divIcon({
                 iconAnchor: [radius, radius],
-                className: 'roundmarker color' + token + deviceid.replace(' ', ''),
+                className: 'roundmarker color' + token + deviceid,
                 html: ''
             });
             var m = L.marker(
@@ -3116,7 +3116,7 @@
                 m = phonetrack.sessionMarkerLayers[s][d];
                 t = m.getTooltip()._content;
                 m.unbindTooltip();
-                m.bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + s + d.replace(' ', '')});
+                m.bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + s + d});
             }
         }
     }
@@ -3329,7 +3329,7 @@
         m.setZIndexOffset(phonetrack.lastZindex++);
         t = m.getTooltip()._content;
         m.unbindTooltip();
-        m.bindTooltip(t, {permanent: perm, offset: offset, className: 'opaquetooltip' + s + d.replace(' ', ''), opacity: 1});
+        m.bindTooltip(t, {permanent: perm, offset: offset, className: 'opaquetooltip' + s + d, opacity: 1});
     }
 
     function hideAllDropDowns() {
@@ -3640,7 +3640,7 @@
                     }
 
                     table = table + '<tr><td class="roundmarker color' + s +
-                        d.replace(' ', '') + '">' + getDeviceName(s, d) + '</td>';
+                        d + '">' + getDeviceName(s, d) + '</td>';
                     table = table + '<td>'+formatDistance(dist)+'</td>';
                     table = table + '<td>';
                     if (years > 0) {
@@ -4607,14 +4607,14 @@
                     var dname = getDeviceName(s, d);
                     iconMarker = L.divIcon({
                         iconAnchor: [radius, radius],
-                        className: 'roundmarker color' + s + d.replace(' ', ''),
+                        className: 'roundmarker color' + s + d,
                         html: '<b>' + dname[0] + '</b>'
                     });
                     phonetrack.sessionMarkerLayers[s][d].setIcon(iconMarker);
 
                     icon = L.divIcon({
                         iconAnchor: [radius, radius],
-                        className: 'roundmarker color' + s + d.replace(' ', ''),
+                        className: 'roundmarker color' + s + d,
                         html: ''
                     });
                     for (pid in phonetrack.sessionPointsLayersById[s][d]) {
