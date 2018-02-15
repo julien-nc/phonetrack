@@ -491,9 +491,7 @@
         L.control.mousePosition().addTo(phonetrack.map);
         phonetrack.locateControl = L.control.locate({setView: false, locateOptions: {enableHighAccuracy: true}});
         phonetrack.locateControl.addTo(phonetrack.map);
-        phonetrack.map.on('locationfound', function(e) {
-            locationFound(e);
-        });
+        phonetrack.map.on('locationfound', locationFound);
         var linearcolor = '#FF0080';
         if (OCA.Theming) {
             linearcolor = OCA.Theming.color;
@@ -1100,7 +1098,7 @@
             data: req,
             async: true
         }).done(function (response) {
-            if (refreshAfter) {
+            if (refreshAfter === true) {
                 phonetrack.currentTimer.pause();
                 phonetrack.currentTimer = null;
                 refresh();
@@ -2394,15 +2392,9 @@
         phonetrack.sessionMarkerLayers[s][d].device = d;
         phonetrack.sessionMarkerLayers[s][d].pid = null;
         phonetrack.sessionMarkerLayers[s][d].setZIndexOffset(phonetrack.lastZindex++);
-        phonetrack.sessionMarkerLayers[s][d].on('mouseover', function(e) {
-            markerMouseover(e);
-        });
-        phonetrack.sessionMarkerLayers[s][d].on('mouseout', function(e) {
-            markerMouseout(e);
-        });
-        phonetrack.sessionMarkerLayers[s][d].on('click', function(e) {
-            markerMouseClick(e);
-        });
+        phonetrack.sessionMarkerLayers[s][d].on('mouseover', markerMouseover);
+        phonetrack.sessionMarkerLayers[s][d].on('mouseout', markerMouseout);
+        phonetrack.sessionMarkerLayers[s][d].on('click', markerMouseClick);
     }
 
     function appendEntryToDevice(s, d, entry, sessionname) {
@@ -2486,15 +2478,9 @@
         m.session = s;
         m.device = d;
         m.pid = entry.id;
-        m.on('click', function(e) {
-            markerMouseClick(e);
-        });
-        m.on('mouseover', function(e) {
-            markerMouseover(e);
-        });
-        m.on('mouseout', function(e) {
-            markerMouseout(e);
-        });
+        m.on('click', markerMouseClick);
+        m.on('mouseover', markerMouseover);
+        m.on('mouseout', markerMouseout);
         m.on('dragend', dragPointEnd);
         phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
         phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
@@ -2851,16 +2837,10 @@
             m.session = token;
             m.device = deviceid;
             m.pid = entry.id;
-            m.on('mouseover', function(e) {
-                markerMouseover(e);
-            });
-            m.on('mouseout', function(e) {
-                markerMouseout(e);
-            });
+            m.on('mouseover', markerMouseover);
+            m.on('mouseout', markerMouseout);
             m.on('dragend', dragPointEnd);
-            m.on('click', function(e) {
-                markerMouseClick(e);
-            });
+            m.on('click', markerMouseClick);
             phonetrack.sessionPointsEntriesById[token][deviceid][entry.id] = entry;
             phonetrack.sessionPointsLayersById[token][deviceid][entry.id] = m;
             if (filter) {
