@@ -32,7 +32,7 @@ On PhoneTrack main page, while watching a session, you can :
 * [reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 * toggle session auto export (daily/weekly/monthly)
 
-Public page works like main page except there is only one session displayed and there is no need to be logged in.
+Public page works like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
 This app is tested with Owncloud 10/Nextcloud 12 with Firefox 56+ and Chromium.
 
