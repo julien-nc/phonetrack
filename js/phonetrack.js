@@ -2093,7 +2093,7 @@
 
     function displayNewPoints(sessions, colors, names) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            markertooltip, colorn, rgbc, devcol,
+            colorn, rgbc, devcol,
             textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
@@ -2375,7 +2375,7 @@
     }
 
     function appendEntryToDevice(s, d, entry, sessionname) {
-        var timestamp, device, pointtooltip, i;
+        var timestamp, device, i;
         var filter = filterEntry(entry);
         timestamp = parseInt(entry.timestamp);
         device = entry.deviceid;
@@ -3293,9 +3293,6 @@
         phonetrack.lastZindex += 10;
 
         m.setZIndexOffset(phonetrack.lastZindex++);
-        t = m.getTooltip()._content;
-        m.unbindTooltip();
-        m.bindTooltip(t, {permanent: perm, offset: offset, className: 'opaquetooltip' + s + d, opacity: 1});
     }
 
     function hideAllDropDowns() {
