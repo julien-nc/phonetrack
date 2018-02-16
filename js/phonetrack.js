@@ -2844,12 +2844,7 @@
         // insert entry correctly ;)
         else {
             // add line point
-            var radius = $('#pointradius').val();
-            var icon = L.divIcon({
-                iconAnchor: [radius, radius],
-                className: 'roundmarker color' + token + deviceid,
-                html: ''
-            });
+            var icon = phonetrack.devicePointIcons[token][deviceid];
             var m = L.marker(
                 [entry.lat, entry.lon, entry.id],
                 {icon: icon}
@@ -4636,6 +4631,7 @@
                         className: 'roundmarker color' + s + d,
                         html: ''
                     });
+                    phonetrack.devicePointIcons[s][d] = icon;
                     for (pid in phonetrack.sessionPointsLayersById[s][d]) {
                         phonetrack.sessionPointsLayersById[s][d][pid].setIcon(icon);
                     }
