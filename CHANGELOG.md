@@ -15,8 +15,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#45](https://gitlab.com/eneiluj/phonetrack-oc/issues/45) @Mamie
 - unit tests + gitlab CI integration + automatic coverage report
 
+### Changed
+- show loading animation when importing
+- display progression on refresh
+- huge interface performance improvements :
+- performance improvement : import queries grouped
+- performance improvement : smaller track data, faster load
+- performance improvement : update lines/points before and after refresh : interface more responsive
+- performance improvement : huge speedup when adding lots of points, avoid DOM manipulation and generate popups/tooltips only when needed
+- performance improvement : filters and options are not red from the DOM anymore
+- performance improvement : avoid intermediate function for .on events
+- performance improvement : only one icon per device points
+[#76](https://gitlab.com/eneiluj/phonetrack-oc/issues/76) @jookk
+- cancel refresh if a session is deselected while refreshing
+
 ### Fixed
 - auto export daily file name mistake
+- fix cursor for checkboxes
+- word wrap in stat table
+- remove useless string replacements
 
 ## 0.1.1 – 2017-12-27
 ### Fixed
