@@ -79,6 +79,7 @@
         isSessionShared: {},
         // indexed by token, then by deviceid
         deviceNames: {},
+        devicePointIcons: {},
         // indexed by token, then by devicename
         deviceIds: {},
         filtersEnabled: false,
@@ -1176,6 +1177,7 @@
         // init names/ids dict
         phonetrack.deviceNames[token] = {};
         phonetrack.deviceIds[token] = {};
+        phonetrack.devicePointIcons[token] = {};
         // if session is not shared (we have write access)
         if (!isFromShare) {
             $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
@@ -2383,13 +2385,19 @@
             }
         );
         var radius = $('#pointradius').val();
-        var icon = L.divIcon({
+        var markerIcon = L.divIcon({
             iconAnchor: [radius, radius],
             className: 'roundmarker color' + s + d,
             html: '<b>' + name[0] + '</b>'
         });
+        var pointIcon = L.divIcon({
+            iconAnchor: [radius, radius],
+            className: 'roundmarker color' + s + d,
+            html: ''
+        });
+        phonetrack.devicePointIcons[s][d] = pointIcon;
 
-        phonetrack.sessionMarkerLayers[s][d] = L.marker([], {icon: icon});
+        phonetrack.sessionMarkerLayers[s][d] = L.marker([], {icon: markerIcon});
         phonetrack.sessionMarkerLayers[s][d].on('dragend', dragPointEnd);
         phonetrack.sessionMarkerLayers[s][d].session = s;
         phonetrack.sessionMarkerLayers[s][d].device = d;
@@ -2469,11 +2477,7 @@
         }
 
         var radius = phonetrack.optionsValues.pointradius;
-        var icon = L.divIcon({
-            iconAnchor: [radius, radius],
-            className: 'roundmarker color' + s + d,
-            html: ''
-        });
+        var icon = phonetrack.devicePointIcons[s][d];
 
         var m = L.marker([entry.lat, entry.lon, entry.id],
             {icon: icon}
