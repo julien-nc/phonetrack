@@ -751,6 +751,7 @@
 
     function showLoadingAnimation() {
         $('#loadingtext').text(t('phonetrack', 'loading positions'));
+        $('#loadingpc').text('');
         $('#loading').show();
     }
 
@@ -762,6 +763,7 @@
     function hideLoadingAnimation() {
         //$('div#logo').removeClass('spinning');
         $('#loading').hide();
+        $('#loadingpc').text('');
     }
 
     //////////////// PUBLIC DIR/FILE /////////////////////
@@ -1800,7 +1802,18 @@
                 type: 'POST',
                 url: url,
                 data: req,
-                async: true
+                async: true,
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.addEventListener('progress', function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total * 100;
+                            $('#loadingpc').text('(' + parseInt(percentComplete) + '%)');
+                        }
+                    }, false);
+
+                    return xhr;
+                }
             }).done(function (response) {
                 displayNewPoints(response.sessions, response.colors, response.names);
             }).always(function() {

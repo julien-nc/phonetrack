@@ -150,7 +150,7 @@ p($_['phonetrack_version']);
     </div>
     <div id="loading"><p>
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-        <label id="loadingtext"></label>&nbsp;<b id="loadinpos"></b></p>
+        <label id="loadingtext"></label>&nbsp;<b id="loadingpc"></b></p>
     </div>
     <div id="trackurldialog" style="display:none;">
         <label id="trackurllabel" for="trackurlinput"></label>
