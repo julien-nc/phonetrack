@@ -1549,25 +1549,6 @@
         var d, to, p, l, id;
         $('.session[token='+token+'] .sessionBar .sessionName').text(newname);
         for (d in phonetrack.sessionMarkerLayers[token]) {
-            // marker tooltip
-            to = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
-            to = to.replace(
-                oldname + ' | ',
-                newname + ' | '
-            );
-            phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
-            phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d});
-            // marker popup
-            if (!pageIsPublic()
-                && !isSessionShared(token)
-                && $('.session[token='+token+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
-            ) {
-                p = phonetrack.sessionMarkerLayers[token][d].getPopup().getContent();
-                phonetrack.sessionMarkerLayers[token][d].unbindPopup();
-                p = p.replace('sessionname="' + oldname + '"', 'sessionname="' + newname + '"');
-                phonetrack.sessionMarkerLayers[token][d].bindPopup(p, {closeOnClick: false});
-            }
-
             // line tooltip
             to = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
             to = to.replace(
@@ -1583,23 +1564,6 @@
                     className: 'tooltip' + token + d
                 }
             );
-            for (id in phonetrack.sessionPointsLayersById[token][d]) {
-                l = phonetrack.sessionPointsLayersById[token][d][id];
-                // line points tooltips
-                to = l.getTooltip()._content;
-                to = to.replace(
-                    oldname + ' | ',
-                    newname + ' | '
-                );
-                l.unbindTooltip();
-                l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d});
-
-                // line points popups
-                p = l.getPopup().getContent();
-                l.unbindPopup();
-                p = p.replace('sessionname="' + oldname + '"', 'sessionname="' + newname + '"');
-                l.bindPopup(p, {closeOnClick: false});
-            }
         }
     }
 
@@ -1639,14 +1603,6 @@
         delete phonetrack.deviceIds[token][oldname];
         phonetrack.deviceIds[token][newname] = intDid;
 
-        // marker tooltip
-        to = phonetrack.sessionMarkerLayers[token][d].getTooltip()._content;
-        to = to.replace(
-            ' | ' + oldname,
-            ' | ' + newname
-        );
-        phonetrack.sessionMarkerLayers[token][d].unbindTooltip();
-        phonetrack.sessionMarkerLayers[token][d].bindTooltip(to, {permanent: perm, offset: offset, className: 'tooltip' + token + d});
         // line tooltip
         to = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
         to = to.replace(
@@ -1662,17 +1618,14 @@
                 className: 'tooltip' + token + d
             }
         );
-        for (id in phonetrack.sessionPointsLayersById[token][d]) {
-            l = phonetrack.sessionPointsLayersById[token][d][id];
-            // line points tooltips
-            to = l.getTooltip()._content;
-            to = to.replace(
-                ' | ' + oldname,
-                ' | ' + newname
-            );
-            l.unbindTooltip();
-            l.bindTooltip(to, {permanent: false, offset: offset, className: 'tooltip' + token + d});
-        }
+        // update main marker letter
+        var radius = phonetrack.optionsValues.pointradius;
+        var iconMarker = L.divIcon({
+            iconAnchor: [radius, radius],
+            className: 'roundmarker color' + token + d,
+            html: '<b>' + newname[0] + '</b>'
+        });
+        phonetrack.sessionMarkerLayers[token][d].setIcon(iconMarker);
     }
 
     function reaffectDeviceSession(token, deviceid, newSessionId) {
@@ -4184,7 +4137,6 @@
 
         $('body').on('click','.editsessionbutton', function(e) {
             var token = $(this).attr('token');
-            var devicename = getDeviceName(token, deviceid);
             $(this).parent().parent().find('.sessionName').hide();
             $(this).parent().parent().find('.renameSessionInput').show();
             $(this).parent().parent().find('.renameSessionInput').val(
