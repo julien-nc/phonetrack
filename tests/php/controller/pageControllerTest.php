@@ -202,7 +202,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
             $this->assertEquals(count($pointList), 8);
-            $this->assertEquals($pointList[0]['ba'], 60);
+            $this->assertEquals($pointList[0][7], 60);
         }
 
         // STRESS LOG
@@ -222,7 +222,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
             $this->assertEquals(count($pointList), 8);
-            $this->assertEquals($pointList[0]['ba'], 60);
+            $this->assertEquals($pointList[0][7], 60);
         }
 
         // empty lon
@@ -235,7 +235,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
             $this->assertEquals(count($pointList), 8);
-            $this->assertEquals($pointList[0]['ba'], 60);
+            $this->assertEquals($pointList[0][7], 60);
         }
 
         // empty timestamp
@@ -248,7 +248,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
             $this->assertEquals(count($pointList), 8);
-            $this->assertEquals($pointList[0]['ba'], 60);
+            $this->assertEquals($pointList[0][7], 60);
         }
 
         // empty battery, sat, acc, alt and too big timestamp
@@ -261,7 +261,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
             $this->assertEquals(count($pointList), 9);
-            $this->assertEquals($pointList[0]['ba'], 60);
+            $this->assertEquals($pointList[0][7], 60);
         }
 
         // empty user agent
@@ -274,7 +274,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         foreach ($respSession[$token] as $k => $v) {
             $pointList = $v;
             $this->assertEquals(count($pointList), 10);
-            $this->assertEquals($pointList[0]['ba'], 60);
+            $this->assertEquals($pointList[0][7], 60);
         }
 
         // wrong session and logGet
@@ -494,8 +494,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $pointList = $respSession[$token][$deviceid];
 
         $this->assertEquals(count($pointList), 3);
-        $this->assertEquals($pointList[2]['ba'], 70);
-        $lastPointID = $pointList[2]['id'];
+        $this->assertEquals($pointList[2][7], 70);
+        $lastPointID = $pointList[2][0];
 
         // no first point
         $sessions = array(array($token, array($deviceid => 400), null));
@@ -584,12 +584,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $pointList = $respSession[$token][$deviceid];
 
         $this->assertEquals(count($pointList), 3);
-        $this->assertEquals($pointList[2]['ba'], 65);
-        $this->assertEquals($pointList[2]['ua'], 'tests_modif');
-        $this->assertEquals($pointList[2]['ac'], 99);
-        $this->assertEquals($pointList[2]['ts'], 480);
-        $this->assertEquals($pointList[2]['al'], 210);
-        $this->assertEquals($pointList[2]['sa'], 10);
+        $this->assertEquals($pointList[2][7], 65);
+        $this->assertEquals($pointList[2][8], 'tests_modif');
+        $this->assertEquals($pointList[2][4], 99);
+        $this->assertEquals($pointList[2][3], 480);
+        $this->assertEquals($pointList[2][6], 210);
+        $this->assertEquals($pointList[2][5], 10);
 
         //DELETE POINT
         $resp = $this->pageController->deletePoint($token, $deviceid, $pointid);
