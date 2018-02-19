@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - display progression on refresh
 - huge interface performance improvements :
 - performance improvement : import queries grouped
-- performance improvement : smaller track data, faster load
+- performance improvement : smaller track data -50%, faster load
 - performance improvement : update lines/points before and after refresh : interface more responsive
 - performance improvement : huge speedup when adding lots of points, avoid DOM manipulation and generate popups/tooltips only when needed
 - performance improvement : filters and options are not red from the DOM anymore
