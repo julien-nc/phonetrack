@@ -2093,7 +2093,7 @@
 
     function displayNewPoints(sessions, colors, names) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            colorn, rgbc, devcol,
+            entryArray, colorn, rgbc, devcol,
             textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
@@ -2134,14 +2134,19 @@
                 }
                 // for all new entries of this session
                 for (i in sessions[s][d]) {
-                    entry = sessions[s][d][i];
-                    entry.deviceid = entry.did;
-                    entry.useragent = entry.ua;
-                    entry.altitude = parseInt(entry.al);
-                    entry.satellites = parseInt(entry.sa);
-                    entry.accuracy = parseInt(entry.ac);
-                    entry.timestamp = parseInt(entry.ts);
-                    entry.batterylevel = parseInt(entry.ba);
+                    entryArray= sessions[s][d][i];
+                    entry = {
+                        id: entryArray[0],
+                        deviceid: entryArray[1],
+                        lat: entryArray[2],
+                        lon: entryArray[3],
+                        timestamp: entryArray[4],
+                        accuracy: entryArray[5],
+                        satellites: entryArray[6],
+                        altitude: entryArray[7],
+                        batterylevel: entryArray[8],
+                        useragent: entryArray[9]
+                    };
                     appendEntryToDevice(s, d, entry, sessionname);
                 }
             }

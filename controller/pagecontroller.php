@@ -1373,16 +1373,16 @@ class PageController extends Controller {
                             $req->execute();
                             while ($row = $req->fetch()){
                                 $entry = array(
-                                    'id'=>$row['id'],
-                                    'did'=>$row['deviceid'],
-                                    'lat'=>$row['lat'],
-                                    'lon'=>$row['lon'],
-                                    'ts'=>$row['timestamp'],
-                                    'ac'=>$row['accuracy'],
-                                    'sa'=>$row['satellites'],
-                                    'al'=>$row['altitude'],
-                                    'ba'=>$row['batterylevel'],
-                                    'ua'=>$row['useragent'],
+                                    intval($row['id']),
+                                    intval($row['deviceid']),
+                                    floatval($row['lat']),
+                                    floatval($row['lon']),
+                                    intval($row['timestamp']),
+                                    floatval($row['accuracy']),
+                                    intval($row['satellites']),
+                                    floatval($row['altitude']),
+                                    floatval($row['batterylevel']),
+                                    $row['useragent']
                                 );
                                 array_push($resultDevArray, $entry);
                             }
@@ -1507,16 +1507,16 @@ class PageController extends Controller {
                         $req->execute();
                         while ($row = $req->fetch()){
                             $entry = array(
-                                'id'=>$row['id'],
-                                'did'=>$row['deviceid'],
-                                'lat'=>$row['lat'],
-                                'lon'=>$row['lon'],
-                                'ts'=>$row['timestamp'],
-                                'ac'=>$row['accuracy'],
-                                'sa'=>$row['satellites'],
-                                'al'=>$row['altitude'],
-                                'ba'=>$row['batterylevel'],
-                                'ua'=>$row['useragent'],
+                                intval($row['id']),
+                                intval($row['deviceid']),
+                                floatval($row['lat']),
+                                floatval($row['lon']),
+                                intval($row['timestamp']),
+                                floatval($row['accuracy']),
+                                intval($row['satellites']),
+                                floatval($row['altitude']),
+                                floatval($row['batterylevel']),
+                                $row['useragent']
                             );
                             array_push($resultDevArray, $entry);
                         }
@@ -1660,16 +1660,16 @@ class PageController extends Controller {
                     while ($row = $req->fetch()){
                         if ($filters === null or $this->filterPoint($row, $filters)) {
                             $entry = array(
-                                'id'=>$row['id'],
-                                'did'=>$row['deviceid'],
-                                'lat'=>$row['lat'],
-                                'lon'=>$row['lon'],
-                                'ts'=>$row['timestamp'],
-                                'ac'=>$row['accuracy'],
-                                'sa'=>$row['satellites'],
-                                'al'=>$row['altitude'],
-                                'ba'=>$row['batterylevel'],
-                                'ua'=>$row['useragent'],
+                                intval($row['id']),
+                                intval($row['deviceid']),
+                                floatval($row['lat']),
+                                floatval($row['lon']),
+                                intval($row['timestamp']),
+                                floatval($row['accuracy']),
+                                intval($row['satellites']),
+                                floatval($row['altitude']),
+                                floatval($row['batterylevel']),
+                                $row['useragent']
                             );
                             array_push($resultDevArray, $entry);
                         }
