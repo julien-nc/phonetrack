@@ -2137,15 +2137,15 @@
                     entryArray= sessions[s][d][i];
                     entry = {
                         id: entryArray[0],
-                        deviceid: entryArray[1],
-                        lat: entryArray[2],
-                        lon: entryArray[3],
-                        timestamp: entryArray[4],
-                        accuracy: entryArray[5],
-                        satellites: entryArray[6],
-                        altitude: entryArray[7],
-                        batterylevel: entryArray[8],
-                        useragent: entryArray[9]
+                        deviceid: d,
+                        lat: entryArray[1],
+                        lon: entryArray[2],
+                        timestamp: entryArray[3],
+                        accuracy: entryArray[4],
+                        satellites: entryArray[5],
+                        altitude: entryArray[6],
+                        batterylevel: entryArray[7],
+                        useragent: entryArray[8]
                     };
                     appendEntryToDevice(s, d, entry, sessionname);
                 }

@@ -1304,7 +1304,7 @@ class PageController extends Controller {
                         $req = $this->dbconnection->prepare($sqldev);
                         $req->execute();
                         while ($row = $req->fetch()){
-                            array_push($devices, $row['id']);
+                            array_push($devices, intval($row['id']));
                         }
                         $req->closeCursor();
 
@@ -1374,7 +1374,6 @@ class PageController extends Controller {
                             while ($row = $req->fetch()){
                                 $entry = array(
                                     intval($row['id']),
-                                    intval($row['deviceid']),
                                     floatval($row['lat']),
                                     floatval($row['lon']),
                                     intval($row['timestamp']),
@@ -1461,7 +1460,7 @@ class PageController extends Controller {
                     $req = $this->dbconnection->prepare($sqldev);
                     $req->execute();
                     while ($row = $req->fetch()){
-                        array_push($devices, $row['id']);
+                        array_push($devices, intval($row['id']));
                     }
                     $req->closeCursor();
 
@@ -1508,7 +1507,6 @@ class PageController extends Controller {
                         while ($row = $req->fetch()){
                             $entry = array(
                                 intval($row['id']),
-                                intval($row['deviceid']),
                                 floatval($row['lat']),
                                 floatval($row['lon']),
                                 intval($row['timestamp']),
@@ -1612,7 +1610,7 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sqldev);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    array_push($devices, $row['id']);
+                    array_push($devices, intval($row['id']));
                 }
                 $req->closeCursor();
 
@@ -1661,7 +1659,6 @@ class PageController extends Controller {
                         if ($filters === null or $this->filterPoint($row, $filters)) {
                             $entry = array(
                                 intval($row['id']),
-                                intval($row['deviceid']),
                                 floatval($row['lat']),
                                 floatval($row['lon']),
                                 intval($row['timestamp']),
