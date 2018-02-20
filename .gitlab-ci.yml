@@ -11,52 +11,55 @@ before_script:
 test12:
   stage: test
   only:
+    refs:
       - master
   script:
-      - mkdir -p /var/www/html ; cd /var/www/html
-      - wget https://download.nextcloud.com/server/releases/nextcloud-12.0.5.zip ; unzip nextcloud-12.0.5.zip ; rm nextcloud-12.0.5.zip
-      - chown -R www-data:www-data nextcloud
-      - cd nextcloud/apps
-      - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
-      - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
-      - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
-      - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
-      - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-      - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
+    - mkdir -p /var/www/html ; cd /var/www/html
+    - wget https://download.nextcloud.com/server/releases/nextcloud-12.0.5.zip ; unzip nextcloud-12.0.5.zip ; rm nextcloud-12.0.5.zip
+    - chown -R www-data:www-data nextcloud
+    - cd nextcloud/apps
+    - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
+    - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+    - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
 
 # test with NC13 and produce coverage report
 test13:
   stage: test
   only:
+    refs:
       - master
   artifacts:
-      paths:
-          - coverage
+    paths:
+      - coverage
   coverage: '/^\s*Lines:\s*(\d+.\d+)\%/'
   script:
-      - mkdir -p /var/www/html ; cd /var/www/html
-      - wget https://download.nextcloud.com/server/prereleases/nextcloud-13.0.0beta4.zip ; unzip nextcloud-13.0.0beta4.zip ; rm nextcloud-13.0.0beta4.zip
-      - chown -R www-data:www-data nextcloud
-      - cd nextcloud/apps
-      - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
-      - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
-      - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
-      - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
-      - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-      - mkdir /builds/eneiluj/phonetrack-oc/coverage
-      - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html /builds/eneiluj/phonetrack-oc/coverage
+    - mkdir -p /var/www/html ; cd /var/www/html
+    - wget https://download.nextcloud.com/server/prereleases/nextcloud-13.0.0beta4.zip ; unzip nextcloud-13.0.0beta4.zip ; rm nextcloud-13.0.0beta4.zip
+    - chown -R www-data:www-data nextcloud
+    - cd nextcloud/apps
+    - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
+    - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+    - mkdir /builds/eneiluj/phonetrack-oc/coverage
+    - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html /builds/eneiluj/phonetrack-oc/coverage
 
 pages:
-    stage: deploy
-    dependencies:
-        - test13
-    only:
-        - master
-    before_script:
-        - echo "nothing before script, thanks"
-    artifacts:
-      paths:
-          - public
-    script:
-        - mkdir public
-        - mv coverage public/
+  stage: deploy
+  dependencies:
+    - test13
+  only:
+    refs:
+      - master
+  before_script:
+    - echo "nothing before script, thanks"
+  artifacts:
+    paths:
+      - public
+  script:
+    - mkdir public
+    - mv coverage public/
