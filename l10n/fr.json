@@ -156,7 +156,7 @@
     "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack." : "Entrez n'importe quelles valeurs dans les champs obligatoires 'Nom d'utilisateur' et 'Mot de passe'. Ils seront ignorés par PhoneTrack.",
     "Activate 'Live synchronization'." : "Activez 'Synchronisation directe'.",
     "In Traccar client, copy the URL below into the 'server URL' field." : "Dans le client Traccar, copiez l'URL ci-dessous dans le champs 'URL du serveur'.",
-    "You can log with any other client with a simple HTTP request." : "Vous pouvez vous connecter avec n’importe quel autre client avec une simple requête HTTP.",
+    "You can log with any other client with a simple HTTP request." : "Vous pouvez logger avec n’importe quel autre client avec une simple requête HTTP.",
     "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters." : "Assurez-vous que le système de journalisation définit au moins les valeurs des paramètres GET: 'timestamp', 'lat' et 'lon'.",
     "Configure {loggingApp} for logging to session '{sessionName}'" : "Configurer {loggingApp} pour logger dans la session '{sessionName}'",
     "Are you sure you want to delete the session {session} ?" : "Êtes-vous sur de vouloir supprimer la session {session} ?",
