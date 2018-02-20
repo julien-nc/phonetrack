@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.2.0 – 2018-02-20
 ### Added
 - help dialogs to configure logging apps
 - add option to set auto export path
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - field to restrict public filtered share to one device name
 [#45](https://gitlab.com/eneiluj/phonetrack-oc/issues/45) @Mamie
 - unit tests + gitlab CI integration + automatic coverage report
+- lots of new translations
 
 ### Changed
 - show loading animation when importing
@@ -22,10 +25,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - performance improvement : import queries grouped
 - performance improvement : smaller track data -50%, faster load
 - performance improvement : update lines/points before and after refresh : interface more responsive
-- performance improvement : huge speedup when adding lots of points, avoid DOM manipulation and generate popups/tooltips only when needed
+- performance improvement : ~12x speedup when adding lots of points, avoid DOM manipulation and generate popups/tooltips only when needed
 - performance improvement : filters and options are not red from the DOM anymore
 - performance improvement : avoid intermediate function for .on events
-- performance improvement : only one icon per device points
+- performance improvement : use same icon for all points of a device
 [#76](https://gitlab.com/eneiluj/phonetrack-oc/issues/76) @jookk
 - cancel refresh if a session is deselected while refreshing
 
