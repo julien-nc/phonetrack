@@ -113,9 +113,9 @@
     </field>
     <field>
       <name>deviceid</name>
-      <type>text</type>
+      <type>integer</type>
       <notnull>true</notnull>
-      <length>100</length>
+      <length>4</length>
     </field>
     <field>
       <name>lat</name>
