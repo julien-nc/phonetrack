@@ -162,6 +162,20 @@
       <default>nothing</default>
       <length>100</length>
     </field>
+    <index>
+      <name>phonetrack_deviceid_index</name>
+      <field>
+        <name>deviceid</name>
+        <sorting>ascending</sorting>
+      </field>
+    </index>
+    <index>
+      <name>phonetrack_timestamp_index</name>
+      <field>
+        <name>timestamp</name>
+        <sorting>ascending</sorting>
+      </field>
+    </index>
   </declaration>
 </table>
  <table>
