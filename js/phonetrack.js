@@ -2373,10 +2373,11 @@
         phonetrack.sessionMarkerLayers[s][d].session = s;
         phonetrack.sessionMarkerLayers[s][d].device = d;
         phonetrack.sessionMarkerLayers[s][d].pid = null;
-        phonetrack.sessionMarkerLayers[s][d].isLastMarker = true;
         phonetrack.sessionMarkerLayers[s][d].setZIndexOffset(phonetrack.lastZindex++);
-        phonetrack.sessionMarkerLayers[s][d].on('mouseover', markerMouseover);
-        phonetrack.sessionMarkerLayers[s][d].on('mouseout', markerMouseout);
+        if (phonetrack.optionsValues.showtime) {
+            phonetrack.sessionMarkerLayers[s][d].on('mouseover', markerMouseover);
+            phonetrack.sessionMarkerLayers[s][d].on('mouseout', markerMouseout);
+        }
         phonetrack.sessionMarkerLayers[s][d].on('click', markerMouseClick);
     }
 
@@ -2508,12 +2509,9 @@
             }
         }
         // tooltips
-        // show it only if it was not already open (it's the case for the last marker)
-        if (!e.target.getTooltip() || !e.target.isTooltipOpen()) {
-            var pointtooltip = getPointTooltipContent(entry, sessionname, s);
-            e.target.bindTooltip(pointtooltip, {className: 'tooltip' + s + d});
-            e.target.openTooltip();
-        }
+        var pointtooltip = getPointTooltipContent(entry, sessionname, s);
+        e.target.bindTooltip(pointtooltip, {className: 'tooltip' + s + d});
+        e.target.openTooltip();
     }
 
     function markerMouseout(e) {
@@ -2523,11 +2521,8 @@
             phonetrack.map.removeLayer(phonetrack.currentPrecisionCircle);
             phonetrack.currentPrecisionCircle = null;
         }
-        // close it only if it's not the last marker
-        // or if last marker tooltips are not permanent
-        if (!e.target.isLastMarker || !phonetrack.optionsValues.showtime) {
-            e.target.closeTooltip();
-        }
+        e.target.unbindTooltip();
+        e.target.closeTooltip();
     }
 
     function isSessionActive(s) {
@@ -3098,10 +3093,18 @@
                 m.closeTooltip();
                 // if option is set, show permanent tooltip for last marker
                 if (perm) {
+                    // is not affected by mouseover anymore
+                    m.off('mouseover', markerMouseover);
+                    m.off('mouseout', markerMouseout);
+                    // bind permanent tooltip
                     entry = phonetrack.sessionPointsEntriesById[s][d][m.pid];
                     sessionname = getSessionName(s);
                     pointtooltip = getPointTooltipContent(entry, sessionname, s);
                     m.bindTooltip(pointtooltip, {permanent: perm, offset: offset, className: 'tooltip' + s + d});
+                }
+                else {
+                    m.on('mouseover', markerMouseover);
+                    m.on('mouseout', markerMouseout);
                 }
             }
         }
