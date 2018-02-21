@@ -2373,6 +2373,7 @@
         phonetrack.sessionMarkerLayers[s][d].session = s;
         phonetrack.sessionMarkerLayers[s][d].device = d;
         phonetrack.sessionMarkerLayers[s][d].pid = null;
+        phonetrack.sessionMarkerLayers[s][d].isLastMarker = true;
         phonetrack.sessionMarkerLayers[s][d].setZIndexOffset(phonetrack.lastZindex++);
         phonetrack.sessionMarkerLayers[s][d].on('mouseover', markerMouseover);
         phonetrack.sessionMarkerLayers[s][d].on('mouseout', markerMouseout);
@@ -2507,9 +2508,12 @@
             }
         }
         // tooltips
-        var pointtooltip = getPointTooltipContent(entry, sessionname, s);
-        e.target.bindTooltip(pointtooltip, {className: 'tooltip' + s + d});
-        e.target.openTooltip();
+        // show it only if it was not already open (it's the case for the last marker)
+        if (!e.target.getTooltip() || !e.target.isTooltipOpen()) {
+            var pointtooltip = getPointTooltipContent(entry, sessionname, s);
+            e.target.bindTooltip(pointtooltip, {className: 'tooltip' + s + d});
+            e.target.openTooltip();
+        }
     }
 
     function markerMouseout(e) {
@@ -2519,7 +2523,11 @@
             phonetrack.map.removeLayer(phonetrack.currentPrecisionCircle);
             phonetrack.currentPrecisionCircle = null;
         }
-        e.target.closeTooltip();
+        // close it only if it's not the last marker
+        // or if last marker tooltips are not permanent
+        if (!e.target.isLastMarker || !phonetrack.optionsValues.showtime) {
+            e.target.closeTooltip();
+        }
     }
 
     function isSessionActive(s) {
@@ -3018,6 +3026,8 @@
         if ($('#autozoom').is(':checked') && displayedMarkers.length > 0) {
             zoomOnDisplayedMarkers();
         }
+        // show/hide last marker tooltips
+        changeTooltipStyle();
     }
 
     function zoomOnDisplayedMarkers(selectedSessionToken='') {
@@ -3081,13 +3091,18 @@
 
     function changeTooltipStyle() {
         var perm = $('#showtime').is(':checked');
-        var s, d, m, t;
+        var s, d, m, t, sessionname, entry, pointtooltip;
         for (s in phonetrack.sessionMarkerLayers) {
             for (d in phonetrack.sessionMarkerLayers[s]) {
                 m = phonetrack.sessionMarkerLayers[s][d];
-                t = m.getTooltip()._content;
-                m.unbindTooltip();
-                m.bindTooltip(t, {permanent: perm, offset: offset, className: 'tooltip' + s + d});
+                m.closeTooltip();
+                // if option is set, show permanent tooltip for last marker
+                if (perm) {
+                    entry = phonetrack.sessionPointsEntriesById[s][d][m.pid];
+                    sessionname = getSessionName(s);
+                    pointtooltip = getPointTooltipContent(entry, sessionname, s);
+                    m.bindTooltip(pointtooltip, {permanent: perm, offset: offset, className: 'tooltip' + s + d});
+                }
             }
         }
     }
