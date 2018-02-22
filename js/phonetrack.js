@@ -3699,6 +3699,8 @@
     //////////////// MAIN /////////////////////
 
     $(document).ready(function() {
+        phonetrack.pageIsPublicWebLog = (document.URL.indexOf('/publicWebLog') !== -1);
+        phonetrack.pageIsPublicSessionWatch = (document.URL.indexOf('/publicSessionWatch') !== -1);
         if ( !pageIsPublic() ) {
             restoreOptions();
         }
@@ -3708,8 +3710,6 @@
     });
 
     function main() {
-        phonetrack.pageIsPublicWebLog = (document.URL.indexOf('/publicWebLog') !== -1);
-        phonetrack.pageIsPublicSessionWatch = (document.URL.indexOf('/publicSessionWatch') !== -1);
         phonetrack.username = $('p#username').html();
         phonetrack.token = $('p#token').html();
         load_map();

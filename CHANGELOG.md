@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - mistake in tooltips behaviour
 - change deviceid DB field type to integer
+- mistake in public page detection
 
 ## 0.2.0 – 2018-02-20
 ### Added
