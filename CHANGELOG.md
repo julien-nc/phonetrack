@@ -5,9 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.2.2 – 2018-02-22
 ### Fixed
 - mistake in tooltips behaviour
 - change deviceid DB field type to integer
+- add index for deviceid and timestamp in points table
 - mistake in public page detection
 
 ## 0.2.0 – 2018-02-20
