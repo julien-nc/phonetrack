@@ -1246,6 +1246,26 @@ class PageController extends Controller {
         return $response;
     }
 
+    private function deviceLinesOrPointsAsked($token, $deviceid, $options) {
+        if ($options === null) {
+            return False;
+        }
+        else {
+            $devid = strval($deviceid);
+            return (
+                    isset($options['activeSessions'])
+                and array_key_exists($token, $options['activeSessions'])
+                and array_key_exists($devid, $options['activeSessions'][$token])
+                and array_key_exists('line', $options['activeSessions'][$token][$devid])
+                and array_key_exists('point', $options['activeSessions'][$token][$devid])
+                and (
+                    $options['activeSessions'][$token][$devid]['line'] === True
+                    or $options['activeSessions'][$token][$devid]['point'] === True
+                )
+            );
+        }
+    }
+
     /**
      * @NoAdminRequired
      *
@@ -1263,6 +1283,19 @@ class PageController extends Controller {
         }
         if (isset($fArray['tsmax'])) {
             $settingsTimeFilterSQL .= 'AND timestamp <= '.$this->db_quote_escape_string($fArray['tsmax']).' ';
+        }
+        // get option values
+        $sqlget = 'SELECT * FROM *PREFIX*phonetrack_options ';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        $optString = null;
+        $options = null;
+        while ($row = $req->fetch()){
+            $optString = $row['jsonvalues'];
+        }
+        if ($optString !== null) {
+            $options = json_decode($optString, True);
         }
         if (is_array($sessions)) {
             foreach ($sessions as $session) {
@@ -1368,7 +1401,13 @@ class PageController extends Controller {
                             $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
                             $sqlget .= $firstLastSQL;
                             $sqlget .= $settingsTimeFilterSQL;
-                            $sqlget .= 'ORDER BY timestamp ASC';
+                            // are lines or points asked ? if not, just get the last
+                            if (! $this->deviceLinesOrPointsAsked($dbtoken, $devid, $options)) {
+                                $sqlget .= 'ORDER BY timestamp DESC LIMIT 1';
+                            }
+                            else {
+                                $sqlget .= 'ORDER BY timestamp ASC';
+                            }
                             $req = $this->dbconnection->prepare($sqlget);
                             $req->execute();
                             while ($row = $req->fetch()){

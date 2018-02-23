@@ -2093,7 +2093,7 @@
 
     function displayNewPoints(sessions, colors, names) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            entryArray, colorn, rgbc, devcol,
+            entryArray, dEntries, colorn, rgbc, devcol,
             textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
@@ -2133,8 +2133,9 @@
                     }
                 }
                 // for all new entries of this session
+                dEntries = []
                 for (i in sessions[s][d]) {
-                    entryArray= sessions[s][d][i];
+                    entryArray = sessions[s][d][i];
                     entry = {
                         id: entryArray[0],
                         deviceid: d,
@@ -2147,8 +2148,9 @@
                         batterylevel: entryArray[7],
                         useragent: entryArray[8]
                     };
-                    appendEntryToDevice(s, d, entry, sessionname);
+                    dEntries.push(entry);
                 }
+                appendEntriesToDevice(s, d, dEntries, sessionname);
             }
         }
         if ($('#togglestats').is(':checked')) {
@@ -2229,7 +2231,7 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname, color='', name, zoom=false, line=true, point=false) {
+    function addDevice(s, d, sessionname, color='', name, zoom=false, line=false, point=false) {
         var colorn, textcolor, rgbc, linetooltip;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
@@ -2379,6 +2381,82 @@
             phonetrack.sessionMarkerLayers[s][d].on('mouseout', markerMouseout);
         }
         phonetrack.sessionMarkerLayers[s][d].on('click', markerMouseClick);
+    }
+
+    // append entries ordered by timestamp
+    function appendEntriesToDevice(s, d, entries, sessionname) {
+        var lastEntryTimestamp, firstEntryTimestamp, device, i, e, entry, ts, m;
+        var filter;
+        firstEntryTimestamp = parseInt(entries[0].timestamp);
+        lastEntryTimestamp = parseInt(entries[entries.length-1].timestamp);
+        device = d;
+        if (!phonetrack.lastTime.hasOwnProperty(s)) {
+            phonetrack.lastTime[s] = {};
+        }
+        if ((!phonetrack.lastTime[s].hasOwnProperty(device)) ||
+            lastEntryTimestamp > phonetrack.lastTime[s][device])
+        {
+            phonetrack.lastTime[s][device] = lastEntryTimestamp;
+        }
+        if (!phonetrack.firstTime.hasOwnProperty(s)) {
+            phonetrack.firstTime[s] = {};
+        }
+        if ((!phonetrack.firstTime[s].hasOwnProperty(device)) ||
+            firstEntryTimestamp < phonetrack.firstTime[s][device])
+        {
+            phonetrack.firstTime[s][device] = firstEntryTimestamp;
+        }
+
+        /////////// update global coordinates (not filtered)
+        // we keep the same i because our points are already ordered
+        i = 0;
+        for (e = 0; e < entries.length; e++) {
+            entry = entries[e];
+            // add the entry to global dict
+            phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
+            ts = entry.timestamp;
+            while (i < phonetrack.sessionLatlngs[s][d].length
+                // ouch ;-)
+                && ts > phonetrack.sessionPointsEntriesById[s][d][phonetrack.sessionLatlngs[s][d][i][2]].timestamp
+            ) {
+                i++;
+            }
+            phonetrack.sessionLatlngs[s][d].splice(i, 0, [entry.lat, entry.lon, entry.id]);
+            i++;
+        }
+
+        /////////// update FILTERED coordinates
+        // increment lines, insert into displayed layer (sessionLineLayers)
+        var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
+        phonetrack.sessionLineLayers[s][d].setLatLngs(displayedLatlngs);
+
+        var radius = phonetrack.optionsValues.pointradius;
+        var icon = phonetrack.devicePointIcons[s][d];
+
+        for (e = 0; e < entries.length; e++) {
+            entry = entries[e];
+            m = L.marker([entry.lat, entry.lon, entry.id],
+                {icon: icon}
+            );
+            m.session = s;
+            m.device = d;
+            m.pid = entry.id;
+            m.on('click', markerMouseClick);
+            m.on('mouseover', markerMouseover);
+            m.on('mouseout', markerMouseout);
+            m.on('dragend', dragPointEnd);
+            phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
+            filter = filterEntry(entry);
+            if (filter) {
+                phonetrack.sessionPointsLayers[s][d].addLayer(m);
+                // dragging
+                if (!pageIsPublic() && !isSessionShared(s) && phonetrack.optionsValues.dragcheck) {
+                    if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+                        m.dragging.enable();
+                    }
+                }
+            }
+        }
     }
 
     function appendEntryToDevice(s, d, entry, sessionname) {
@@ -4017,14 +4095,14 @@
         $('body').on('click', 'ul.devicelist li .toggleDetail', function(e) {
             toggleDetailDevice($(this));
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions(true);
             }
         });
 
         $('body').on('click', 'ul.devicelist li .toggleLineDevice', function(e) {
             toggleLineDevice($(this));
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions(true);
             }
         });
 
