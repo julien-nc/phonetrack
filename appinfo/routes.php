@@ -49,6 +49,7 @@ return [
         ['name' => 'page#publicViewTrack', 'url' => '/publicViewTrack', 'verb' => 'POST'],
         ['name' => 'page#setSessionPublic', 'url' => '/setSessionPublic', 'verb' => 'POST'],
         ['name' => 'page#setSessionAutoExport', 'url' => '/setSessionAutoExport', 'verb' => 'POST'],
+        ['name' => 'page#setSessionAutoPurge', 'url' => '/setSessionAutoPurge', 'verb' => 'POST'],
         ['name' => 'page#addUserShare', 'url' => '/addUserShare', 'verb' => 'POST'],
         ['name' => 'page#deleteUserShare', 'url' => '/deleteUserShare', 'verb' => 'POST'],
         ['name' => 'page#addPublicShare', 'url' => '/addPublicShare', 'verb' => 'POST'],

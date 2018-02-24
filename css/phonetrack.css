@@ -761,11 +761,17 @@ div#createimportsessiondiv button {
     border: 0px;
     background: none;
 }
+.autopurgediv {
+    clear:both;
+}
+.autopurgediv div,
+.autopurgediv select,
 .autoexportdiv div,
 .autoexportdiv select {
     width: 45%;
     float: left;
 }
+.autopurgediv div,
 .autoexportdiv div {
     padding: 0px 8px 0px 8px;
     font-weight: bold;

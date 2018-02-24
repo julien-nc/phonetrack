@@ -277,7 +277,7 @@ class PageController extends Controller {
     public function getSessions() {
         $sessions = array();
         // sessions owned by current user
-        $sqlget = 'SELECT name, token, publicviewtoken, public, autoexport FROM *PREFIX*phonetrack_sessions ';
+        $sqlget = 'SELECT name, token, publicviewtoken, public, autoexport, autopurge FROM *PREFIX*phonetrack_sessions ';
         $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
@@ -288,9 +288,10 @@ class PageController extends Controller {
             $dbpublicviewtoken = $row['publicviewtoken'];
             $dbpublic = $row['public'];
             $dbautoexport = $row['autoexport'];
+            $dbautopurge = $row['autopurge'];
             $reservedNames = $this->getReservedNames($dbtoken);
             $publicShares = $this->getPublicShares($dbtoken);
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport));
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge));
         }
         $req->closeCursor();
 
@@ -810,6 +811,51 @@ class PageController extends Controller {
         if ($dbname !== null) {
             $sqlren = 'UPDATE *PREFIX*phonetrack_sessions ';
             $sqlren .= 'SET autoexport='.$this->db_quote_escape_string($value).' ';
+            $sqlren .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+            $sqlren .= 'AND token='.$this->db_quote_escape_string($token).';';
+            $req = $this->dbconnection->prepare($sqlren);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function setSessionAutoPurge($token, $value) {
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            $sqlren = 'UPDATE *PREFIX*phonetrack_sessions ';
+            $sqlren .= 'SET autopurge='.$this->db_quote_escape_string($value).' ';
             $sqlren .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
             $sqlren .= 'AND token='.$this->db_quote_escape_string($token).';';
             $req = $this->dbconnection->prepare($sqlren);
@@ -3061,6 +3107,46 @@ class PageController extends Controller {
         return $dir;
     }
 
+    private function cronAutoPurge() {
+        foreach (array('day'=>'1', 'week'=>'7', 'month'=>'31') as $s => $nbDays) {
+            $now = new \DateTime();
+            $now->modify('-'.$nbDays.' day');
+            $ts = $now->getTimestamp();
+
+            // get all sessions with this auto purge value
+            $sessions = array();
+            $sqlget = 'SELECT token FROM *PREFIX*phonetrack_sessions ';
+            $sqlget .= 'WHERE autopurge='.$this->db_quote_escape_string($s).' ;';
+            $req = $this->dbconnection->prepare($sqlget);
+            $req->execute();
+            while ($row = $req->fetch()){
+                array_push($sessions, $row['token']);
+            }
+            $req->closeCursor();
+
+            $devices = array();
+            foreach ($sessions as $token) {
+                $sqlget = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+                $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    array_push($devices, $row['id']);
+                }
+                $req->closeCursor();
+            }
+
+            foreach ($devices as $did) {
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
+                $sqldel .= 'WHERE deviceid='.$this->db_quote_escape_string($did).' ';
+                $sqldel .= 'and timestamp<'.$this->db_quote_escape_string($ts).' ;';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+            }
+        }
+    }
+
     /**
      * auto export
      * triggered by NC cron job
@@ -3068,6 +3154,8 @@ class PageController extends Controller {
      * export sessions
      */
     public function cronAutoExport() {
+        $this->cronAutoPurge();
+
         $userNames = [];
 
         // last day

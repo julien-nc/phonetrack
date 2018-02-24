@@ -60,6 +60,13 @@
       <notnull>true</notnull>
       <length>10</length>
     </field>
+    <field>
+      <name>autopurge</name>
+      <type>text</type>
+      <default>no</default>
+      <notnull>true</notnull>
+      <length>10</length>
+    </field>
   </declaration>
 </table>
  <table>

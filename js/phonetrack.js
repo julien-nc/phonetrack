@@ -1175,7 +1175,7 @@
 
     function addSession(token, name, publicviewtoken, isPublic, sharedWith=[],
                         selected=false, isFromShare=false, isSharedBy='',
-                        reservedNames=[], publicFilteredShares=[], autoexport='no') {
+                        reservedNames=[], publicFilteredShares=[], autoexport='no', autopurge='no') {
         // init names/ids dict
         phonetrack.deviceNames[token] = {};
         phonetrack.deviceIds[token] = {};
@@ -1297,6 +1297,16 @@
                 divtxt = divtxt + '<option value="daily">' + t('phonetrack', 'daily') + '</option>';
                 divtxt = divtxt + '<option value="weekly">' + t('phonetrack', 'weekly') + '</option>';
                 divtxt = divtxt + '<option value="monthly">' + t('phonetrack', 'monthly') + '</option>';
+                divtxt = divtxt + '</select>';
+                divtxt = divtxt + '</div>';
+
+                divtxt = divtxt + '<div class="autopurgediv">' +
+                    '<div><i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic purge of points older than') + '</div>';
+                divtxt = divtxt + '<select role="autopurge">';
+                divtxt = divtxt + '<option value="no">' + t('phonetrack', 'no purge') + '</option>';
+                divtxt = divtxt + '<option value="day">' + t('phonetrack', 'a day') + '</option>';
+                divtxt = divtxt + '<option value="week">' + t('phonetrack', 'a week') + '</option>';
+                divtxt = divtxt + '<option value="month">' + t('phonetrack', 'a month') + '</option>';
                 divtxt = divtxt + '</select>';
                 divtxt = divtxt + '</div>';
             }
@@ -1423,6 +1433,7 @@
         $('.session[token="' + token + '"]').find('.moreUrls').hide();
         $('.session[token="' + token + '"]').find('.namereservdiv').hide();
         $('.session[token="' + token + '"]').find('select[role=autoexport]').val(autoexport);
+        $('.session[token="' + token + '"]').find('select[role=autopurge]').val(autopurge);
         if (parseInt(isPublic) === 0) {
             $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').hide();
         }
@@ -1708,7 +1719,8 @@
                             '',
                             response.sessions[s][5],
                             response.sessions[s][6],
-                            response.sessions[s][7]
+                            response.sessions[s][7],
+                            response.sessions[s][8]
                         );
                     }
                 }
@@ -4301,7 +4313,6 @@
 
         $('body').on('change','select[role=autoexport]', function(e) {
             var val = $(this).val();
-            var icon = $(this).find('i');
             var token = $(this).parent().parent().parent().attr('token');
             var req = {
                 token: token,
@@ -4324,6 +4335,33 @@
                 }
             }).fail(function() {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set session auto export value'));
+            });
+        });
+
+        $('body').on('change','select[role=autopurge]', function(e) {
+            var val = $(this).val();
+            var token = $(this).parent().parent().parent().attr('token');
+            var req = {
+                token: token,
+                value: val
+            };
+            var url = OC.generateUrl('/apps/phonetrack/setSessionAutoPurge');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                if (response.done === 1) {
+                }
+                else if (response.done === 2) {
+                    OC.Notification.showTemporary(
+                        t('phonetrack', 'Failed to set session auto purge value') +
+                        '. ' + t('phonetrack', 'session does not exist')
+                    );
+                }
+            }).fail(function() {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set session auto purge value'));
             });
         });
 
@@ -4419,6 +4457,8 @@
                 && !event.target.matches('input[role=exportname]')
                 && !event.target.matches('select[role=autoexport]')
                 && !event.target.matches('select[role=autoexport] option')
+                && !event.target.matches('select[role=autopurge]')
+                && !event.target.matches('select[role=autopurge] option')
                 && !event.target.matches('.dropdowndevicebutton') && !event.target.matches('.dropdowndevicebutton i')) {
                 hideAllDropDowns();
             }
