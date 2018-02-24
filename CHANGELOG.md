@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- auto purge option for sessions (delete points older than a day/week/month)
+[#77](https://gitlab.com/eneiluj/phonetrack-oc/issues/77) @CaptainWasabi
+
+### Changed
+- only get last point if no line/points asked for a device
+[#77](https://gitlab.com/eneiluj/phonetrack-oc/issues/77) @CaptainWasabi
+- default refresh interval : 15 seconds
 
 ## 0.2.2 – 2018-02-22
 ### Fixed
