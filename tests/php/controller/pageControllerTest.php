@@ -193,6 +193,23 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $this->logController->logOpengtsPost($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200);
 
+        // get deviceid
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        $deviceid = null;
+        foreach ($respSession[$token] as $k => $v) {
+            $deviceid = $k;
+        }
+
+        // save options
+        $resp = $this->utilsController->saveOptionsValues('{"updateinterval":"45","linewidth":"4","colortheme":"bright","pointlinealpha":"0.8","pointradius":"8","autoexportpath":"/plop","viewmove":true,"autozoom":false,"showtime":false,"dragcheck":true,"tooltipshowaccuracy":true,"tooltipshowsatellites":true,"tooltipshowbattery":true,"tooltipshowelevation":true,"tooltipshowuseragent":true,"acccirclecheck":true,"tilelayer":"OpenStreetMap","showsidebar":true,"hourmin":"","minutemin":"","secondmin":"","hourmax":"","minutemax":"","secondmax":"","lastdays":"3","lasthours":"4","lastmins":"3","accuracymin":"","accuracymax":"","elevationmin":"","elevationmax":"","batterymin":"","batterymax":"","satellitesmin":"","satellitesmax":"","datemin":8000,"datemax":1516748400,"applyfilters":false,"activeSessions":{"'.$token.'":{"'.$deviceid.'":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}}');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // TRACK
         $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
@@ -485,6 +502,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $cond = ($data['sessions'][0][1] === $token and count($data['sessions'][0][4]) > 0 and $data['sessions'][0][4][0] === 'test2') or
                 ($data['sessions'][1][1] === $token and count($data['sessions'][1][4]) > 0 and $data['sessions'][1][4][0] === 'test2');
         $this->assertEquals($cond, True);
+
+        // save options
+        $resp = $this->utilsController->saveOptionsValues('{"updateinterval":"45","linewidth":"4","colortheme":"bright","pointlinealpha":"0.8","pointradius":"8","autoexportpath":"/plop","viewmove":true,"autozoom":false,"showtime":false,"dragcheck":true,"tooltipshowaccuracy":true,"tooltipshowsatellites":true,"tooltipshowbattery":true,"tooltipshowelevation":true,"tooltipshowuseragent":true,"acccirclecheck":true,"tilelayer":"OpenStreetMap","showsidebar":true,"hourmin":"","minutemin":"","secondmin":"","hourmax":"","minutemax":"","secondmax":"","lastdays":"3","lasthours":"4","lastmins":"3","accuracymin":"","accuracymax":"","elevationmin":"","elevationmax":"","batterymin":"","batterymax":"","satellitesmin":"","satellitesmax":"","datemin":8000,"datemax":1516748400,"applyfilters":false,"activeSessions":{"'.$token.'":{"'.$deviceid.'":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}}');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
 
         // TRACK
         $sessions = array(array($token, array($deviceid => 400), array($deviceid => 1)));
