@@ -64,7 +64,7 @@ p($_['phonetrack_version']);
             <label for="autozoom"><i class="fa nc-theming-main-background"> </i>
             <?php p($l->t('Auto zoom'));?></label>
             <br/>
-            <input id="viewmove" type="checkbox"/>
+            <input id="viewmove" type="checkbox" checked/>
             <label for="viewmove"><i class="fa nc-theming-main-background"> </i>
             <?php p($l->t('Show lines'));?></label>
             <br/>
@@ -74,7 +74,7 @@ p($_['phonetrack_version']);
             <br/>
             <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true"></i>
             <?php p($l->t('Refresh each (sec)'));?></label>
-            <input id="updateinterval" type="number" min="0" max="1000" step="1" value="5"/>
+            <input id="updateinterval" type="number" min="0" max="1000" step="1" value="15"/>
             <div id="countdown"></div>
             <button id="refreshButton"><i class="fa fa-refresh" aria-hidden="true"></i> <?php p($l->t('Refresh')); ?></button>
             <br/>
