@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - only get last point if no line/points asked for a device
 [#77](https://gitlab.com/eneiluj/phonetrack-oc/issues/77) @CaptainWasabi
+- delete points by group of 500 to make it faster
+[#77](https://gitlab.com/eneiluj/phonetrack-oc/issues/77) @CaptainWasabi
 - default refresh interval : 15 seconds
 
 ## 0.2.2 – 2018-02-22

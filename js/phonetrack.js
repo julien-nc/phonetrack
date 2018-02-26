@@ -679,36 +679,55 @@
     }
 
     function deleteMultiplePoints(bounds=null) {
-        var pid;
+        var pid, pidlist, pidsToDelete, cpt, did, dname;
         var s = $('#deletePointSession option:selected').attr('token');
-        var d = $('#deletePointDevice').val();
-        var did = getDeviceId(s, d);
+        var dname = $('#deletePointDevice').val();
+        var did = getDeviceId(s, dname);
         // if session is watched, if device exists, for all displayed points
         if ($('.session[token=' + s + '] .watchbutton i').hasClass('fa-toggle-on')) {
-            if (d === '') {
-                for (d in phonetrack.sessionPointsLayers[s]) {
-                    var pidlist = [];
-                    phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                        if (bounds === null || bounds.contains(l.getLatLng())) {
-                            pidlist.push(l.getLatLng().alt);
-                        }
-                    });
-                    for (pid in pidlist) {
-                        deletePointDB(s, d, pidlist[pid]);
-                    }
-                }
-            }
-            else{
-                if (phonetrack.sessionLineLayers[s].hasOwnProperty(did)) {
-
-                    var pidlist = [];
+            if (dname === '') {
+                for (did in phonetrack.sessionPointsLayers[s]) {
+                    pidlist = [];
                     phonetrack.sessionPointsLayers[s][did].eachLayer(function(l) {
                         if (bounds === null || bounds.contains(l.getLatLng())) {
                             pidlist.push(l.getLatLng().alt);
                         }
                     });
-                    for (pid in pidlist) {
-                        deletePointDB(s, did, pidlist[pid]);
+                    // split pidlist in smaller parts
+                    cpt = 0;
+                    while (cpt < pidlist.length) {
+                        pidsToDelete = [];
+                        pidsToDelete.push(pidlist[cpt]);
+                        cpt++;
+                        // make bunch of 500 points
+                        while (cpt < pidlist.length && cpt%500 !== 0) {
+                            pidsToDelete.push(pidlist[cpt]);
+                            cpt++
+                        }
+                        deletePointsDB(s, did, pidsToDelete);
+                    }
+                }
+            }
+            else{
+                if (phonetrack.sessionLineLayers[s].hasOwnProperty(did)) {
+                    pidlist = [];
+                    phonetrack.sessionPointsLayers[s][did].eachLayer(function(l) {
+                        if (bounds === null || bounds.contains(l.getLatLng())) {
+                            pidlist.push(l.getLatLng().alt);
+                        }
+                    });
+                    // split pidlist in smaller parts
+                    cpt = 0;
+                    while (cpt < pidlist.length) {
+                        pidsToDelete = [];
+                        pidsToDelete.push(pidlist[cpt]);
+                        cpt++;
+                        // make bunch of 500 points
+                        while (cpt < pidlist.length && cpt%500 !== 0) {
+                            pidsToDelete.push(pidlist[cpt]);
+                            cpt++
+                        }
+                        deletePointsDB(s, did, pidsToDelete);
                     }
                 }
             }
@@ -2739,16 +2758,15 @@
         phonetrack.map.closePopup();
     }
 
-    function deletePointDB(s, d, pid) {
+    function deletePointsDB(s, d, pidlist) {
         var token = s;
         var deviceid = d;
-        var pointid = pid;
         var req = {
             token: token,
             deviceid: deviceid,
-            pointid: pointid
+            pointids: pidlist
         };
-        var url = OC.generateUrl('/apps/phonetrack/deletePoint');
+        var url = OC.generateUrl('/apps/phonetrack/deletePoints');
         $.ajax({
             type: 'POST',
             url: url,
@@ -2756,7 +2774,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                deletePointMap(s, d, pid);
+                deletePointsMap(s, d, pidlist);
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'The point you want to delete does not exist or you\'re not allowed to delete it'));
@@ -2767,31 +2785,29 @@
         });
     }
 
-    function deletePointMap(s, d, pid) {
+    function deletePointsMap(s, d, pidlist) {
         var perm = $('#showtime').is(':checked');
-        var i, lat, lng, p;
+        var i, lat, lng, p, pid, m;
         var sn = getSessionName(s);
-        var intpid = parseInt(pid);
-        var entry = phonetrack.sessionPointsEntriesById[s][d][pid];
-        // remove associated point from sessionPointsLayers
-        var m = phonetrack.sessionPointsLayersById[s][d][pid];
-        phonetrack.sessionPointsLayers[s][d].removeLayer(m);
-        delete phonetrack.sessionPointsLayersById[s][d][pid];
-        delete phonetrack.sessionPointsEntriesById[s][d][pid];
+        for (i = 0; i < pidlist.length; i++) {
+            pid = pidlist[i];
+            // remove associated point from sessionPointsLayers
+            m = phonetrack.sessionPointsLayersById[s][d][pid];
+            phonetrack.sessionPointsLayers[s][d].removeLayer(m);
+            delete phonetrack.sessionPointsLayersById[s][d][pid];
+            delete phonetrack.sessionPointsEntriesById[s][d][pid];
+        }
+        console.log('pidlist to delete');
+        console.log(pidlist);
 
         // remove point in the line
-        //var latlngs = phonetrack.sessionLineLayers[s][d].getLatLngs();
         var latlngs = phonetrack.sessionLatlngs[s][d];
         var newlatlngs = [];
         i = 0;
-        while (parseInt(latlngs[i][2]) !== intpid) {
-            newlatlngs.push([latlngs[i][0], latlngs[i][1], latlngs[i][2]]);
-            i++;
-        }
-        i++;
-        while (i < latlngs.length) {
-            newlatlngs.push([latlngs[i][0], latlngs[i][1], latlngs[i][2]]);
-            i++;
+        for (i = 0; i < latlngs.length; i++) {
+            if (pidlist.indexOf(latlngs[i][2]) === -1) {
+                newlatlngs.push([latlngs[i][0], latlngs[i][1], latlngs[i][2]]);
+            }
         }
 
         phonetrack.sessionLatlngs[s][d] = newlatlngs;
@@ -2802,10 +2818,14 @@
 
         // update lastTime : new last point time (independent from filter)
         if (newlatlngs.length > 0) {
-        phonetrack.lastTime[s][d] =
-            phonetrack.sessionPointsEntriesById[s][d][newlatlngs[newlatlngs.length - 1][2]].timestamp;
-        phonetrack.firstTime[s][d] =
-            phonetrack.sessionPointsEntriesById[s][d][newlatlngs[0][2]].timestamp;
+            console.log(s+' '+d+' '+newlatlngs.length);
+            console.log(phonetrack.sessionPointsEntriesById[s][d][newlatlngs[newlatlngs.length - 1][2]]);
+            console.log('pid to delete');
+            console.log(newlatlngs[newlatlngs.length - 1][2]);
+            phonetrack.lastTime[s][d] =
+                phonetrack.sessionPointsEntriesById[s][d][newlatlngs[newlatlngs.length - 1][2]].timestamp;
+            phonetrack.firstTime[s][d] =
+                phonetrack.sessionPointsEntriesById[s][d][newlatlngs[0][2]].timestamp;
         }
         else {
             // there is no point left for this device : delete the device
@@ -4408,8 +4428,8 @@
             var tab = $(this).parent().find('table');
             var s = tab.attr('token');
             var d = tab.attr('deviceid');
-            var pid = tab.attr('pid');
-            deletePointDB(s, d, pid);
+            var pid = parseInt(tab.attr('pid'));
+            deletePointsDB(s, d, [pid]);
         });
 
         $('#validaddpoint').click(function(e) {

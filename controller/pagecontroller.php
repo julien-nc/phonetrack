@@ -575,7 +575,7 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function deletePoint($token, $deviceid, $pointid) {
+    public function deletePoints($token, $deviceid, $pointids) {
         $ok = 0;
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
@@ -604,23 +604,13 @@ class PageController extends Controller {
             $req->closeCursor();
 
             if ($dbdid !== null) {
-                // check if point exists
-                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_points ';
-                $sqlchk .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdid).' ';
-                $sqlchk .= 'AND id='.$this->db_quote_escape_string($pointid).' ';
-                $req = $this->dbconnection->prepare($sqlchk);
-                $req->execute();
-                $dbpid = null;
-                while ($row = $req->fetch()){
-                    $dbpid = $row['id'];
-                    break;
-                }
-                $req->closeCursor();
-
-                if ($dbpid !== null) {
+                if (count($pointids) > 0) {
+                    $escapedPointIds = array_map($this->db_quote_escape_string, $pointids);
                     $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
-                    $sqldel .= 'WHERE id='.$this->db_quote_escape_string($dbpid).' ';
-                    $sqldel .= 'AND deviceid='.$this->db_quote_escape_string($dbdid).' ;';
+                    $sqldel .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdid).' ';
+                    $sqldel .= 'AND (id=';
+                    $sqldel .= implode(' OR id=', $escapedPointIds);
+                    $sqldel .= ');';
                     $req = $this->dbconnection->prepare($sqldel);
                     $req->execute();
                     $req->closeCursor();
