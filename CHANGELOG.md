@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#77](https://gitlab.com/eneiluj/phonetrack-oc/issues/77) @CaptainWasabi
 - default refresh interval : 15 seconds
 
+### Fixed
+- bad string point id when manually adding a point
+
 ## 0.2.2 – 2018-02-22
 ### Fixed
 - mistake in tooltips behaviour

@@ -2818,10 +2818,6 @@
 
         // update lastTime : new last point time (independent from filter)
         if (newlatlngs.length > 0) {
-            console.log(s+' '+d+' '+newlatlngs.length);
-            console.log(phonetrack.sessionPointsEntriesById[s][d][newlatlngs[newlatlngs.length - 1][2]]);
-            console.log('pid to delete');
-            console.log(newlatlngs[newlatlngs.length - 1][2]);
             phonetrack.lastTime[s][d] =
                 phonetrack.sessionPointsEntriesById[s][d][newlatlngs[newlatlngs.length - 1][2]].timestamp;
             phonetrack.firstTime[s][d] =
@@ -2844,7 +2840,7 @@
         var token = $('#addPointSession option:selected').attr('token');
         var devicename = $('#addPointDevice').val();
         lat = plat;
-        lon = plon;           
+        lon = plon;
         alt = palt;
         acc = pacc;
         sat = psat;
@@ -2891,8 +2887,9 @@
         var token = $('#addPointSession option:selected').attr('token');
         var devicename = $('#addPointDevice').val();
         var useragent = 'Manually added';
+        var pid = parseInt(id);
 
-        var entry = {id: id};
+        var entry = {id: pid};
         entry.deviceid = deviceid;
         entry.timestamp = timestamp;
         entry.lat = lat;
@@ -2948,7 +2945,7 @@
                 i++;
             }
             // put the edited point
-            newlatlngs.push([lat, lon, id]);
+            newlatlngs.push([lat, lon, pid]);
             // finish the copy
             while (i < latlngs.length) {
                 // copy

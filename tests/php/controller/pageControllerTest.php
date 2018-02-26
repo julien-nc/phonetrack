@@ -615,23 +615,28 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($pointList[2][5], 10);
 
         //DELETE POINT
-        $resp = $this->pageController->deletePoint($token, $deviceid, $pointid);
+        $resp = $this->pageController->deletePoints($token, $deviceid, array($pointid));
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
         // STRESS DELETE POINT
-        $resp = $this->pageController->deletePoint($token, $deviceid, 666);
+        $resp = $this->pageController->deletePoints($token, $deviceid, array(666));
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->deletePoints($token, $deviceid, array());
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 2);
 
-        $resp = $this->pageController->deletePoint($token, 666, $pointid);
+        $resp = $this->pageController->deletePoints($token, 666, array($pointid));
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 3);
 
-        $resp = $this->pageController->deletePoint('dumdum', $deviceid, $pointid);
+        $resp = $this->pageController->deletePoints('dumdum', $deviceid, array($pointid));
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 4);

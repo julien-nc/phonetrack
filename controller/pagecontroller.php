@@ -605,7 +605,10 @@ class PageController extends Controller {
 
             if ($dbdid !== null) {
                 if (count($pointids) > 0) {
-                    $escapedPointIds = array_map($this->db_quote_escape_string, $pointids);
+                    $escapedPointIds = array();
+                    foreach ($pointids as $pid) {
+                        array_push($escapedPointIds, $this->db_quote_escape_string($pid));
+                    }
                     $sqldel = 'DELETE FROM *PREFIX*phonetrack_points ';
                     $sqldel .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdid).' ';
                     $sqldel .= 'AND (id=';
