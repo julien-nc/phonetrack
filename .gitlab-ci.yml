@@ -7,8 +7,26 @@ stages:
 before_script:
 - bash ci/docker_install.sh
 
+# test with OC10
+test_oc10:
+  stage: test
+  only:
+    refs:
+      - master
+  script:
+    - mkdir -p /var/www/html ; cd /var/www/html
+    - wget https://download.owncloud.org/community/owncloud-10.0.7.tar.bz2 ; tar xf owncloud-10.0.7.tar.bz2 ; rm owncloud-10.0.7.tar.bz2
+    - chown -R www-data:www-data owncloud
+    - cd owncloud/apps
+    - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
+    - sudo -u www-data php /var/www/html/owncloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+    - sudo -u www-data php /var/www/html/owncloud/occ app:enable phonetrack
+    - sudo -u www-data php /var/www/html/owncloud/occ upgrade
+    - sudo -u www-data php /var/www/html/owncloud/occ maintenance:mode --off
+    - phpunit --configuration /var/www/html/owncloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
+
 # test with NC12
-test12:
+test_nc12:
   stage: test
   only:
     refs:
@@ -26,7 +44,7 @@ test12:
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
 
 # test with NC13 and produce coverage report
-test13:
+test_nc13:
   stage: test
   only:
     refs:
@@ -51,7 +69,7 @@ test13:
 pages:
   stage: deploy
   dependencies:
-    - test13
+    - test_nc13
   only:
     refs:
       - master
