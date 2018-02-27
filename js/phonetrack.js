@@ -1124,8 +1124,10 @@
             async: true
         }).done(function (response) {
             if (refreshAfter === true) {
-                phonetrack.currentTimer.pause();
-                phonetrack.currentTimer = null;
+                if (phonetrack.currentTimer !== null) {
+                    phonetrack.currentTimer.pause();
+                    phonetrack.currentTimer = null;
+                }
                 refresh();
             }
         }).fail(function() {
@@ -3967,8 +3969,10 @@
                 }
                 // we stop the refresh loop,
                 // we save options and then we refresh
-                phonetrack.currentTimer.pause();
-                phonetrack.currentTimer = null;
+                if (phonetrack.currentTimer !== null) {
+                    phonetrack.currentTimer.pause();
+                    phonetrack.currentTimer = null;
+                }
                 refresh();
                 saveOptions();
             }
