@@ -1811,15 +1811,26 @@
         // we always update the view
         showHideSelectedSessions();
 
-        if (loop) {
+        var uiVal = parseInt($('#updateinterval').val());
+        if (uiVal === 0 || isNaN(uiVal)) {
+            if (phonetrack.currentTimer !== null) {
+                phonetrack.currentTimer.pause();
+                phonetrack.currentTimer = null;
+            }
+            if ($('#countdown').hasClass('is-countdown')) {
+                $('#countdown').countdown('destroy');
+            }
+        }
+        if (loop && uiVal !== 0 && !isNaN(uiVal)) {
             // launch refresh again
-            var uiVal = $('#updateinterval').val();
             var updateinterval = 5000;
             if (uiVal !== '' && !isNaN(uiVal) && parseInt(uiVal) > 1) {
                 var updateinterval = parseInt(uiVal) * 1000;
             }
             // display countdown
-            $('#countdown').countdown('destroy');
+            if ($('#countdown').hasClass('is-countdown')) {
+                $('#countdown').countdown('destroy');
+            }
             var t = new Date();
             t.setSeconds(t.getSeconds() + updateinterval/1000);
             $('#countdown').countdown({until: t, format: 'HMS', compact: true});
@@ -3932,8 +3943,10 @@
         });
 
         $('body').on('click','#refreshButton', function(e) {
-            phonetrack.currentTimer.pause();
-            phonetrack.currentTimer = null;
+            if (phonetrack.currentTimer !== null) {
+                phonetrack.currentTimer.pause();
+                phonetrack.currentTimer = null;
+            }
             refresh();
         });
 
@@ -4078,6 +4091,10 @@
         });
 
         $('body').on('change', '#updateinterval', function() {
+            var val = parseInt($(this).val());
+            if (val !== 0 && !isNaN(val) && phonetrack.currentTimer === null) {
+                refresh();
+            }
             if (!pageIsPublic()) {
                 saveOptions();
             }
