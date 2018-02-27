@@ -21,7 +21,6 @@ test_oc10:
     - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
     - sudo -u www-data php /var/www/html/owncloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/owncloud/occ app:enable phonetrack
-    - sudo -u www-data php /var/www/html/owncloud/occ upgrade
     - sudo -u www-data php /var/www/html/owncloud/occ maintenance:mode --off
     - phpunit --configuration /var/www/html/owncloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
 
@@ -39,7 +38,6 @@ test_nc12:
     - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
-    - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
 
@@ -61,7 +59,6 @@ test_nc13:
     - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
-    - sudo -u www-data php /var/www/html/nextcloud/occ upgrade
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
     - mkdir /builds/eneiluj/phonetrack-oc/coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html /builds/eneiluj/phonetrack-oc/coverage
