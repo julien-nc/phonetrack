@@ -34,7 +34,7 @@ On PhoneTrack main page, while watching a session, you can :
 
 Public page works like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
-This app is tested with Owncloud 10/Nextcloud 12 with Firefox 56+ and Chromium.
+This app is tested with Owncloud 10/Nextcloud 12 and 13 with Firefox 57+ and Chromium.
 
 This app is under development.
 
