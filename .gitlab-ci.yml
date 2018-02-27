@@ -67,6 +67,8 @@ pages:
   stage: deploy
   dependencies:
     - test_nc13
+  before_script:
+    - echo 'nothing to install for pages jobs'
   only:
     refs:
       - master
@@ -74,5 +76,6 @@ pages:
     paths:
       - public
   script:
+    - sleep 5
     - mkdir public
     - mv coverage public/
