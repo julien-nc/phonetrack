@@ -236,9 +236,9 @@ class LogController extends Controller {
     public function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
         if (!is_null($devicename) and $devicename !== '' and
             !is_null($token) and $token !== '' and
-            !is_null($lat) and $lat !== '' and
-            !is_null($lon) and $lon !== '' and
-            !is_null($timestamp) and $timestamp !== ''
+            !is_null($lat) and $lat !== '' and is_numeric($lat) and
+            !is_null($lon) and $lon !== '' and is_numeric($lon) and
+            !is_null($timestamp) and $timestamp !== '' and is_numeric($timestamp)
         ) {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
