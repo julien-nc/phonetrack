@@ -423,6 +423,17 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 2);
 
+        // AUTO PURGE
+        $resp = $this->pageController->setSessionAutoPurge($token, 'day');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->setSessionAutoPurge($token.'a', 'monthly');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
         // STRESS CREATE SESSION
         $resp = $this->pageController->createSession('testSession');
         $data = $resp->getData();
@@ -909,6 +920,22 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $publictoken1 = $data['sharetoken'];
         $this->assertEquals(count($publictoken1) > 0, True);
 
+        // SET device restriction for this public share
+        $resp = $this->pageController->setPublicShareDevice($token2, $publictoken1, 'plop');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->setPublicShareDevice($token2.'a', $publictoken1, 'plop2');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->setPublicShareDevice($token2, $publictoken1, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // watch this public share
         $resp = $this->pageController->publicSessionWatch($publictoken1);
 
@@ -977,8 +1004,26 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respNames = $data['names'];
         $respColors = $data['colors'];
         $pointList = $respSession[$publictoken1][$deviceid];
-
         $this->assertEquals(count($pointList), 2);
+
+        $resp = $this->pageController->setPublicShareDevice($token2, $publictoken1, 'renamedTestDev');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $sessions = array(array($publictoken1, array($deviceid=>10), null));
+        $resp = $this->pageController->publicViewTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $respColors = $data['colors'];
+        $pointList = $respSession[$publictoken1][$deviceid];
+        $this->assertEquals(count($pointList), 2);
+
+        $resp = $this->pageController->setPublicShareDevice($token2, $publictoken1, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
 
         // DELETE DEVICE
         // create a device
