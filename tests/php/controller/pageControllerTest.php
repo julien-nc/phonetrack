@@ -228,6 +228,16 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->getSessions();
         $data = $resp->getData();
         $this->assertEquals(count($data['sessions']), 1);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            $pointList = $v;
+            $this->assertEquals(count($pointList), 8);
+            $this->assertEquals($pointList[0][7], 60);
+        }
 
         // empty lat
         $this->logController->logOsmand($token, 'dev1', '', 3.33, 450, 60, 10, 200, 199);
@@ -300,6 +310,38 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $this->assertEquals(count($data['sessions']), 1);
 
+        // SQL INJECTION
+        // using device name
+        $this->logController->logOsmand($token, 'dev1; DELETE FROM oc_phonetrack_points WHERE deviceid='.$deviceid.';', '44.9', 3.33, 450, 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            if ($k === $deviceid) {
+                $pointList = $v;
+                $this->assertEquals(count($pointList), 10);
+                $this->assertEquals($pointList[0][7], 60);
+            }
+        }
+
+        // SQL INJECTION
+        // with token
+        $this->logController->logOsmand($token.'; DELETE FROM oc_phonetrack_points WHERE deviceid='.$deviceid.';', 'dev1', '44.9', 3.33, 450, 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        foreach ($respSession[$token] as $k => $v) {
+            if ($k === $deviceid) {
+                $pointList = $v;
+                $this->assertEquals(count($pointList), 10);
+                $this->assertEquals($pointList[0][7], 60);
+            }
+        }
+
         // CHECK NAME RESERVATION
         $resp = $this->pageController->addNameReservation($token, 'resName');
         $data = $resp->getData();
@@ -313,7 +355,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
-        $this->assertEquals(count($respSession[$token]), 1);
+        $this->assertEquals(count($respSession[$token]), 2);
 
         // then try to log with name token, there should be two devices
         $this->logController->logOsmand($token, $reservToken, 4.44, 3.33, 500, 60, 10, 200, 199);
@@ -321,7 +363,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
-        $this->assertEquals(count($respSession[$token]), 2);
+        $this->assertEquals(count($respSession[$token]), 3);
 
         // empty deviceid => log works, device name is 'unknown'
         $this->logController->logOsmand($token, '', 44.4, 3.33, 450, 60, 10, 200, 199);
@@ -330,7 +372,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $this->assertEquals(count($respSession), 1);
-        $this->assertEquals(count($respSession[$token]), 3);
+        $this->assertEquals(count($respSession[$token]), 4);
 
         // no device name but one tid
         $this->logController->logOwntracks($token, '', 'dev1', 44.6, 3.35, 197, 470, 200, 50);
