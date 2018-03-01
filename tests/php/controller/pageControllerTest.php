@@ -163,6 +163,17 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
+
+        // SQL INJECTION
+        $resp = $this->utilsController->deleteTileServer('serv', 'tile; DELETE FROM oc_phonetrack_options WHERE 1');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->utilsController->getOptionsValues();
+        $data = $resp->getData();
+        $values = $data['values'];
+        $this->assertEquals($values, '{"lala": "lolo"}');
     }
 
     public function testLog() {
