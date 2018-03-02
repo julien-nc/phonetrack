@@ -2035,39 +2035,57 @@ class PageController extends Controller {
             $userFolder = \OC::$server->getUserFolder($username);
             $userId = $username;
         }
+        // get options to know if we should export one file per device
+        $oneFilePerDevice = false;
+        $sqlget = 'SELECT * FROM *PREFIX*phonetrack_options ';
+        $sqlget .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userId).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        $optString = null;
+        while ($row = $req->fetch()){
+            $optString = $row['jsonvalues'];
+        }
+        if ($optString !== null) {
+            $f = json_decode($optString);
+            if (isset($f->{'exportoneperdev'})) {
+                $oneFilePerDevice = $f->{'exportoneperdev'};
+            }
+        }
+
         $path = $target;
         $cleanpath = str_replace(array('../', '..\\'), '',  $path);
 
         if ($userFolder !== null) {
             $file = null;
             $filePossible = false;
-            if ($userFolder->nodeExists($cleanpath)){
-                $file = $userFolder->get($cleanpath);
-                if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
-                    $file->isUpdateable()){
-                    $filePossible = true;
-                }
-                else{
-                    $filePossible = false;
-                }
-            }
-            else{
-                $dirpath = dirname($cleanpath);
-                $newFileName = basename($cleanpath);
+            $dirpath = dirname($cleanpath);
+            $newFileName = basename($cleanpath);
+            if ($oneFilePerDevice) {
                 if ($userFolder->nodeExists($dirpath)){
                     $dir = $userFolder->get($dirpath);
                     if ($dir->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
                         $dir->isCreatable()){
-                        $dir->newFile($newFileName);
-                        $file = $dir->get($newFileName);
                         $filePossible = true;
                     }
-                    else{
-                        $filePossible = false;
+                }
+            }
+            else {
+                if ($userFolder->nodeExists($cleanpath)){
+                    $dir = $userFolder->get($dirpath);
+                    $file = $userFolder->get($cleanpath);
+                    if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
+                        $file->isUpdateable()){
+                        $filePossible = true;
                     }
                 }
                 else{
-                    $filePossible = false;
+                    if ($userFolder->nodeExists($dirpath)){
+                        $dir = $userFolder->get($dirpath);
+                        if ($dir->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
+                            $dir->isCreatable()){
+                            $filePossible = true;
+                        }
+                    }
                 }
             }
 
@@ -2124,38 +2142,31 @@ class PageController extends Controller {
                     foreach ($devices as $d) {
                         $devid = $d[0];
                         $devname = $d[1];
-                        $coords[$devname] = array();
-                        $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
-                        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-                        if ($filterSql !== '') {
-                            $sqlget .= 'AND '.$filterSql;
-                        }
-                        $sqlget .= ' ORDER BY timestamp ASC ;';
-                        $req = $this->dbconnection->prepare($sqlget);
-                        $req->execute();
-                        while ($row = $req->fetch()){
-                            $epoch = $row['timestamp'];
-                            $date = '';
-                            if (is_numeric($epoch)) {
-                                $epoch = (int)$epoch;
-                                $dt = new \DateTime("@$epoch");
-                                $date = $dt->format('Y-m-d\TH:i:s\Z');
+                        $coords[$devname] = $this->getDeviceCoords($devid, $devname, $filterSql);
+                        // generate a file for this device
+                        if ($oneFilePerDevice) {
+                            $devCoords = array($devname => $coords[$devname]);
+                            $gpxContent = $this->generateGpx($name, $devCoords);
+                            // generate file name for this device
+                            $devFileName = str_replace(array('.gpx', '.GPX'), '_'.$devname.'.gpx',  $newFileName);
+                            if (! $dir->nodeExists($newFileName)) {
+                                $dir->newFile($devFileName);
                             }
-                            $lat = $row['lat'];
-                            $lon = $row['lon'];
-                            $alt = $row['altitude'];
-                            $acc = $row['accuracy'];
-                            $bat = $row['batterylevel'];
-                            $ua  = $row['useragent'];
-                            $sat = $row['satellites'];
-
-                            $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua);
-                            array_push($coords[$devname], $point);
+                            $file = $dir->get($devFileName);
+                            if ($file->isUpdateable()) {
+                                $file->putContent($gpxContent);
+                            }
                         }
-                        $req->closeCursor();
                     }
-                    $gpxContent = $this->generateGpx($name, $coords);
-                    $file->putContent($gpxContent);
+                    // one file for the whole session
+                    if (!$oneFilePerDevice) {
+                        $gpxContent = $this->generateGpx($name, $coords);
+                        if (! $dir->nodeExists($newFileName)) {
+                            $dir->newFile($newFileName);
+                        }
+                        $file = $dir->get($newFileName);
+                        $file->putContent($gpxContent);
+                    }
                     $done = true;
                 }
             }
@@ -2172,6 +2183,40 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    private function getDeviceCoords($devid, $devname, $filterSql) {
+        $res = array();
+        $sqlget = 'SELECT * FROM *PREFIX*phonetrack_points ';
+        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
+        if ($filterSql !== '') {
+            $sqlget .= 'AND '.$filterSql;
+        }
+        $sqlget .= ' ORDER BY timestamp ASC ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $epoch = $row['timestamp'];
+            $date = '';
+            if (is_numeric($epoch)) {
+                $epoch = (int)$epoch;
+                $dt = new \DateTime("@$epoch");
+                $date = $dt->format('Y-m-d\TH:i:s\Z');
+            }
+            $lat = $row['lat'];
+            $lon = $row['lon'];
+            $alt = $row['altitude'];
+            $acc = $row['accuracy'];
+            $bat = $row['batterylevel'];
+            $ua  = $row['useragent'];
+            $sat = $row['satellites'];
+
+            $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua);
+            array_push($res, $point);
+        }
+        $req->closeCursor();
+
+        return $res;
     }
 
     private function getCurrentFilters($username='') {

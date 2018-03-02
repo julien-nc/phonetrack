@@ -131,6 +131,10 @@ p($_['phonetrack_version']);
             <?php p($l->t('Auto export path'));?></label>
             <input id="autoexportpath" type="text" value="/PhoneTrack_export"/>
             <br/>
+            <input id="exportoneperdev" type="checkbox"/>
+            <label for="exportoneperdev"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+            <?php p($l->t('Export one file per device'));?></label>
+            <br/>
             <label>(*) <?php p($l->t('reload page to make changes effective'));?></label>
         </div>
         </div>

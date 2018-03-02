@@ -1009,6 +1009,9 @@
                 if (optionsValues.acccirclecheck !== undefined) {
                     $('#acccirclecheck').prop('checked', optionsValues.acccirclecheck);
                 }
+                if (optionsValues.exportoneperdev !== undefined) {
+                    $('#exportoneperdev').prop('checked', optionsValues.exportoneperdev);
+                }
                 if (optionsValues.tilelayer !== undefined) {
                     phonetrack.restoredTileLayer = optionsValues.tilelayer;
                 }
@@ -1081,6 +1084,7 @@
         optionsValues.tooltipshowelevation = $('#tooltipshowelevation').is(':checked');
         optionsValues.tooltipshowuseragent = $('#tooltipshowuseragent').is(':checked');
         optionsValues.acccirclecheck = $('#acccirclecheck').is(':checked');
+        optionsValues.exportoneperdev = $('#exportoneperdev').is(':checked');
         optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
         optionsValues.showsidebar = !$('#sidebar').hasClass('collapsed');
         $('#filterPointsTable input[type=number]').each(function() {
@@ -4042,6 +4046,12 @@
         });
 
         $('#acccirclecheck').click(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
+
+        $('#exportoneperdev').click(function() {
             if (!pageIsPublic()) {
                 saveOptions();
             }

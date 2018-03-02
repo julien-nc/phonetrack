@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - auto purge option for sessions (delete points older than a day/week/month)
 [#77](https://gitlab.com/eneiluj/phonetrack-oc/issues/77) @CaptainWasabi
+- disable auto refresh when set to 0 or anything else than a positive integer
+[#78](https://gitlab.com/eneiluj/phonetrack-oc/issues/78) @tessus
+- option to export one file per device
 
 ### Changed
 - only get last point if no line/points asked for a device
@@ -15,6 +18,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - delete points by group of 500 to make it faster
 [#77](https://gitlab.com/eneiluj/phonetrack-oc/issues/77) @CaptainWasabi
 - default refresh interval : 15 seconds
+- improved tests : add a few SQL injection tries
+[#86](https://gitlab.com/eneiluj/phonetrack-oc/issues/86) @eneiluj
+- update to leaflet 1.3.1
 
 ### Fixed
 - bad string point id when manually adding a point
