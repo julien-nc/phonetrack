@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - bad string point id when manually adding a point
+- refuse to log points with non numeric coordinates or timestamp
+[#87](https://gitlab.com/eneiluj/phonetrack-oc/issues/87) @phyks
 
 ## 0.2.2 – 2018-02-22
 ### Fixed
