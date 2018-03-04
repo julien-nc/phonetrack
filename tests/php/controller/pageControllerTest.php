@@ -1266,6 +1266,17 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
+        // SQL injection with deleteSession
+        $resp = $this->pageController->deleteSession('aaa ; DELETE FROM oc_phonetrack_sessions WHERE 1');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        // check sessions are still there
+        $resp = $this->pageController->getSessions();
+        $data = $resp->getData();
+        $this->assertEquals(count($data['sessions']) > 0, true);
+
         // DELETE SESSION
         $resp = $this->pageController->deleteSession($token);
         $data = $resp->getData();
