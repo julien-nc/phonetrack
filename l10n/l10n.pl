@@ -8,18 +8,18 @@ use File::Path;
 sub crawlPrograms{
 	my( $dir, $ignore ) = @_;
 	my @found = ();
-	print "$dir crawl PROGRAMS\n";
-	print "ignore $ignore\n";
+    #print "$dir crawl PROGRAMS\n";
+    #print "ignore $ignore\n";
 
 	opendir( DIR, $dir );
 	my @files = readdir( DIR );
 	closedir( DIR );
 	@files = sort( @files );
-	print "FILE $_\n" for @files;
+    #print "FILE $_\n" for @files;
 
 	foreach my $i ( @files ){
 		next if substr( $i, 0, 1 ) eq '.';
-		print "i : $i et $ignore\n";
+        #print "i : $i et $ignore\n";
 		if( !($i eq 'l10n') && !$ignore ){
 			push( @found, $dir );
 		}
@@ -28,13 +28,13 @@ sub crawlPrograms{
 		}
 	}
 
-	print "end crawl LIST FOUND :\n";
-	print "FOUND $_\n" for @found;
+    #print "end crawl LIST FOUND :\n";
+    #print "FOUND $_\n" for @found;
 	return @found;
 }
 
 sub crawlFiles{
-	print "crawl FILES\n";
+    #print "crawl FILES\n";
 	my( $dir ) = @_;
 	my @found = ();
 
@@ -122,9 +122,9 @@ foreach my $i ( @files ){
 if( $task eq 'read' ){
 	rmtree( 'templates' );
 	mkdir( 'templates' ) unless -d 'templates';
-	print "Mode: readingg\n";
+    print "Mode: reading\n";
 	foreach my $dir ( @dirs ){
-		print "$dir";
+        print "$dir";
 		my @temp = split( /\//, $dir );
 		my $app = pop( @temp );
 		chdir( $dir );
@@ -133,11 +133,11 @@ if( $task eq 'read' ){
 		my @totranslate = crawlFiles('.');
 		my %ignore = readIgnorelist();
 		my $output = "${whereami}/templates/phonetrack.pot";
-		print "OUUUUUUUUUUUUUUUUUUUUUUUUU $output";
-		print "  Processing $app\n";
+        #print "OUUUUUUUUUUUUUUUUUUUUUUUUU $output";
+        #print "  Processing $app\n";
 
 		foreach my $file ( @totranslate ){
-			print "$file";
+            #print "$file";
 			next if $ignore{$file};
 			my $keywords = '';
 			if( $file =~ /\.js$/ ){
@@ -148,7 +148,7 @@ if( $task eq 'read' ){
 			}
 			my $language = ( $file =~ /\.js$/ ? 'Javascript' : 'PHP');
 			my $joinexisting = ( -e $output ? '--join-existing' : '');
-			print "    Reading $file\n";
+            #print "    Reading $file\n";
 			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="8.0.0" --package-name="ownCloud Core" --msgid-bugs-address="translations\@owncloud.org"`;
 		}
 		rmtree( "specialAppInfoFakeDummyForL10nScript.php" );
@@ -156,19 +156,19 @@ if( $task eq 'read' ){
 	}
 }
 elsif( $task eq 'write' ){
-	print "Mode: write\n";
+    #print "Mode: write\n";
 	foreach my $dir ( @dirs ){
 		my @temp = split( /\//, $dir );
 		my $app = pop( @temp );
 		chdir( $dir.'/l10n' );
-		print "  Processing $app\n";
+        #print "  Processing $app\n";
 		foreach my $language ( @languages ){
 			next if $language eq 'templates';
 
 			my $input = "${whereami}/$language/phonetrack.po";
 			next unless -e $input;
 
-			print "    Language $language\n";
+            #print "    Language $language\n";
 			my $array = Locale::PO->load_file_asarray( $input );
 			# Create array
 			my @strings = ();
