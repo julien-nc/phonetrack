@@ -287,6 +287,18 @@ class LogController extends Controller {
                 // and new point in fence
                 if ($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax) {
                     // device entered the fence !
+                    $user = $this->userManager->get($this->userId);
+                    $email = $user->getEMailAddress();
+                    $mailer = \OC::$server->getMailer();
+                    $message = $mailer->createMessage();
+                    $message->setSubject($l->t('Geofence alert'));
+                    $message->setFrom([$mailfrom => 'PhoneTrack']);
+                    $message->setTo([$email => $this->userId]);
+                    $message->setPlainBody($l->t('Device %s entered geofence %s.', $devid, $fencename));
+                    $mailer->send($message);
+                    // TODO get mail from
+                    // TODO get translator
+                    // TODO implement geofence add/del controllers
                 }
             }
             // previous point in fence
@@ -294,6 +306,15 @@ class LogController extends Controller {
                 // if new point NOT in fence
                 if (!($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax)) {
                     // device exited the fence !
+                    $user = $this->userManager->get($this->userId);
+                    $email = $user->getEMailAddress();
+                    $mailer = \OC::$server->getMailer();
+                    $message = $mailer->createMessage();
+                    $message->setSubject($l->t('Geofence alert'));
+                    $message->setFrom([$mailfrom => 'PhoneTrack']);
+                    $message->setTo([$email => $this->userId]);
+                    $message->setPlainBody($l->t('Device %s exited geofence %s.', $devid, $fencename));
+                    $mailer->send($message);
                 }
             }
         }

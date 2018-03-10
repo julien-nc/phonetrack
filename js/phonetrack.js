@@ -2353,7 +2353,11 @@
                 'title="' + t('phonetrack', 'Device geofences') + '">' +
                 '</button>';
             geofencesDiv = '<div class="geofencesDiv">' +
-                'PLOP<br/>LALA' +
+                '<input type="text" class="geofencename" value="fence name"/>' +
+                '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofence') + '">' +
+                '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add geofence') +
+                '</button>' +
+                '<ul class="geofencelist"></ul>' +
                 '</div>';
 
         }
@@ -3622,6 +3626,72 @@
         });
     }
 
+    function addGeoFenceDb(token, device, fencename, mapbounds) {
+        var latmin = mapbounds.getSouth();
+        var latmax = mapbounds.getNorth();
+        var lonmin = mapbounds.getWest();
+        var lonmax = mapbounds.getEast();
+        var req = {
+            token: token,
+            device: device,
+            fencename: fencename,
+            latmin: latmin,
+            latmax: latmax,
+            lonmin: lonmin,
+            lonmax: lonmax
+        };
+        var url = OC.generateUrl('/apps/phonetrack/addGeofence');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                addGeoFence(token, device, fencename, response.id);
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to add geofence'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add geofence'));
+        });
+    }
+
+    function addGeoFence(token, device, fencename, fenceid) {
+        var li = '<li><label>'+fencename+'</label>' +
+            '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
+            '</li>';
+        $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
+    }
+
+    function deleteGeoFenceDb(token, device, fenceid) {
+        var req = {
+            token: token,
+            device: device,
+            fenceid: fenceid
+        };
+        var url = OC.generateUrl('/apps/phonetrack/deleteGeoFence');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                var li = $('.session[token="' + token + '"] .devicelist li[device=' + device + '] .geofencelist').find('li[fenceid=' + fenceid + ']');
+                li.fadeOut('slow', function() {
+                    li.remove();
+                });
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete geofence'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete geofence'));
+        });
+    }
+
     function addPublicSessionShareDb(token) {
         var req = {
             token: token,
@@ -4591,6 +4661,21 @@
             var token = $(this).parent().parent().parent().parent().parent().attr('token');
             var sharetoken = $(this).parent().attr('filteredtoken');
             deletePublicSessionShareDb(token, sharetoken);
+        });
+
+        $('body').on('click','.addgeofencebutton', function(e) {
+            var token = $(this).parent().parent().attr('token');
+            var device = $(this).parent().parent().attr('device');
+            var fencename = $(this).parent().find('.fencename').val();
+            var mapBounds = phonetrack.map.getBounds();
+            addGeoFenceDb(token, device, fencename, mapbounds);
+        });
+
+        $('body').on('click','.deletegeofencebutton', function(e) {
+            var token = $(this).parent().parent().attr('token');
+            var device = $(this).parent().parent().attr('device');
+            var fenceid = $(this).attr('fenceid');
+            deleteGeoFenceDb(token, device, fenceid);
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {

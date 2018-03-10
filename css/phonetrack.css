@@ -725,6 +725,7 @@ label[for=viewmove] i {
     mask: url('images/geofence.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/geofence.svg') no-repeat 50% 50% !important;
     mask-size: 70% !important;
+    -webkit-mask-size: 70% !important;
 }
 .toggleLineDevice {
     width: 25px;
@@ -819,9 +820,14 @@ label[for=autoexportpath], #autoexportpath {
 #countdown {
     display: inline;
 }
+.geofencelist li,
 .filteredshare {
     border: solid 1px grey;
 }
 .filteredshare input[role=device] {
+    width: 49% !important;
+}
+button.addgeofencebutton,
+input.geofencename {
     width: 49% !important;
 }
