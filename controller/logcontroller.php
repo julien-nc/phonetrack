@@ -227,6 +227,78 @@ class LogController extends Controller {
         return $dname;
     }
 
+    private function getLastDevicePoint($devid) {
+        $therow = null;
+        $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude';
+        $sqlget .= ' FROM *PREFIX*phonetrack_points ';
+        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
+        $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $therow = $row;
+        }
+        return $therow;
+    }
+
+    private function getDeviceFences($devid) {
+        $fences = array();
+        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax';
+        $sqlget .= ' FROM *PREFIX*phonetrack_geofences ';
+        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            array_push($fences, $row);
+        }
+        return $fences;
+    }
+
+    private function checkGeoFences($lat, $lon, $devid) {
+        $lastPoint = $this->getLastDevicePoint($devid);
+        $fences = $this->getDeviceFences($devid);
+        foreach ($fences as $fence) {
+            $this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence);
+        }
+    }
+
+    private function checkGeoGence($lat, $lon, $lastPoint, $devid, $fence) {
+        $latmin = floatval($fence['latmin']);
+        $latmax = floatval($fence['latmax']);
+        $lonmin = floatval($fence['lonmin']);
+        $lonmax = floatval($fence['lonmax']);
+
+        // first point of this device
+        if ($lastPoint === null) {
+            if (    $lat > $latmin
+                and $lat < $latmax
+                and $lon > $lonmin
+                and $lon < $lonmax
+            ) {
+            }
+        }
+        // not the first point
+        else {
+            $lastLat = floatval($lastPoint['lat']);
+            $lastLon = floatval($lastPoint['lon']);
+
+            // if previous point not in fence
+            if (!($lastLat > $latmin and $lastLat < $latmax and $lastLon > $lonmin and $lastLon < $lonmax)) {
+                // and new point in fence
+                if ($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax) {
+                    // device entered the fence !
+                }
+            }
+            // previous point in fence
+            else {
+                // if new point NOT in fence
+                if (!($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax)) {
+                    // device exited the fence !
+                }
+            }
+        }
+    }
+
     /**
      * @NoAdminRequired
      * @NoCSRFRequired
@@ -360,6 +432,8 @@ class LogController extends Controller {
                     }
                     $useragent = rtrim($useragent);
                 }
+
+                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert);
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
                 $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';

@@ -470,7 +470,8 @@ ul.devicelist li .deviceLabel{
 }
 ul.devicelist li {
     border-radius: 5px;
-    height: 40px;
+    /*height: 40px;*/
+    padding: 5px 0px 5px 0px;
 }
 ul.devicelist {
     margin-left: 30px;
@@ -494,6 +495,7 @@ ul.devicelist {
 }
 .toggleLineDevice,
 .toggleDetail,
+.toggleGeofences,
 .zoomdevicebutton,
 .dropdowndevicebutton {
     padding: 0;
@@ -507,6 +509,7 @@ ul.devicelist {
     background: none;
 }
 .off i,
+.toggleGeofences i,
 .zoomdevicebutton i {
     color: grey;
 }
@@ -712,6 +715,17 @@ label[for=viewmove] i {
     mask: url('images/network.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
 }
+.toggleGeofences {
+    width: 25px;
+    height: 25px;
+    margin-left: 4px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: grey;
+    mask: url('images/geofence.svg') no-repeat 50% 50% !important;
+    -webkit-mask:  url('images/geofence.svg') no-repeat 50% 50% !important;
+    mask-size: 70% !important;
+}
 .toggleLineDevice {
     width: 25px;
     height: 25px;
@@ -724,6 +738,9 @@ label[for=viewmove] i {
 }
 .toggleLineDevice.off:hover {
     background-color: black;
+}
+.geofencesDiv {
+    clear: both;
 }
 .resetFilterButton {
     width: 25px;

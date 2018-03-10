@@ -2323,6 +2323,8 @@
                 '}</style>').appendTo('body');
         var deleteLink = '';
         var renameLink = '';
+        var geofencesLink = '';
+        var geofencesDiv = '';
         var renameInput = '';
         var reaffectLink = '';
         var reaffectSelect = '';
@@ -2347,6 +2349,13 @@
                 renameLink +
                 reaffectLink +
                 '</div>';
+            geofencesLink = ' <button class="toggleGeofences" ' +
+                'title="' + t('phonetrack', 'Device geofences') + '">' +
+                '</button>';
+            geofencesDiv = '<div class="geofencesDiv">' +
+                'PLOP<br/>LALA' +
+                '</div>';
+
         }
         var detailOnOff = 'off';
         if (point) {
@@ -2369,6 +2378,7 @@
         }
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
+                '<div>' +
                 '<div class="devicecolor opaquetooltip' + s + d + '"></div> ' +
                 '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
                 t('phonetrack', 'Center map on device') + '">' + escapeHTML(name) + '</div> ' +
@@ -2379,10 +2389,13 @@
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
+                geofencesLink +
                 detailLink +
                 lineDeviceLink +
                 '<input class="followdevice"' + followchecked + ' type="checkbox" ' + 'title="' +
                 t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
+                '</div><div style="clear: both;"></div>' +
+                geofencesDiv +
                 '</li>');
 
         // manage names/ids
@@ -2429,6 +2442,7 @@
             phonetrack.sessionMarkerLayers[s][d].on('mouseout', markerMouseout);
         }
         phonetrack.sessionMarkerLayers[s][d].on('click', markerMouseClick);
+        $('.session[token="' + s + '"] li[device='+d+']').find('.geofencesDiv').hide();
     }
 
     // append entries ordered by timestamp
@@ -2814,8 +2828,6 @@
             delete phonetrack.sessionPointsLayersById[s][d][pid];
             delete phonetrack.sessionPointsEntriesById[s][d][pid];
         }
-        console.log('pidlist to delete');
-        console.log(pidlist);
 
         // remove point in the line
         var latlngs = phonetrack.sessionLatlngs[s][d];
@@ -3158,10 +3170,10 @@
         var nbDevicesToFollow = 0
         $('.followdevice:checked').each(function() {
             // we only take those for session which are watched
-            var viewSessionCheck = $(this).parent().parent().parent().find('.watchbutton i');
+            var viewSessionCheck = $(this).parent().parent().parent().parent().find('.watchbutton i');
             if (viewSessionCheck.hasClass('fa-toggle-on')) {
-                var token = $(this).parent().parent().attr('token');
-                var device = $(this).parent().attr('device');
+                var token = $(this).parent().parent().parent().attr('token');
+                var device = $(this).parent().parent().attr('device');
                 if (!devicesToFollow.hasOwnProperty(token)) {
                     devicesToFollow[token] = [];
                 }
@@ -3338,8 +3350,8 @@
 
     function toggleLineDevice(elem) {
         var viewmove = $('#viewmove').is(':checked');
-        var d = elem.parent().attr('device');
-        var s = elem.parent().attr('token');
+        var d = elem.parent().parent().attr('device');
+        var s = elem.parent().parent().attr('token');
         var id;
 
         // line points
@@ -3365,8 +3377,8 @@
     }
 
     function toggleDetailDevice(elem) {
-        var d = elem.parent().attr('device');
-        var s = elem.parent().attr('token');
+        var d = elem.parent().parent().attr('device');
+        var s = elem.parent().parent().attr('token');
         var id;
 
         // line points
@@ -3408,8 +3420,8 @@
         var id, dd, t, b, l;
         var perm = $('#showtime').is(':checked');
         var viewmove = $('#viewmove').is(':checked');
-        var d = elem.parent().attr('device');
-        var s = elem.parent().attr('token');
+        var d = elem.parent().parent().attr('device');
+        var s = elem.parent().parent().attr('token');
         var m = phonetrack.sessionMarkerLayers[s][d];
 
         // if we show movement lines :
@@ -4214,6 +4226,16 @@
             }
         });
 
+        $('body').on('click','.toggleGeofences', function(e) {
+            var geoDiv = $(this).parent().parent().find('.geofencesDiv');
+            if (geoDiv.is(':visible')) {
+                geoDiv.slideUp('slow');
+            }
+            else{
+                geoDiv.slideDown('slow');
+            }
+        });
+
         $('body').on('click','.reaffectDevice', function(e) {
             var token = $(this).attr('token');
             var deviceid = $(this).attr('device');
@@ -4238,8 +4260,8 @@
         });
 
         $('body').on('click','.reaffectDeviceOk', function(e) {
-            var token = $(this).parent().parent().attr('token');
-            var deviceid = $(this).parent().parent().attr('device');
+            var token = $(this).parent().parent().parent().attr('token');
+            var deviceid = $(this).parent().parent().parent().attr('device');
             var newSessionId = $(this).parent().find('.reaffectDeviceSelect').val();
 
             $(this).parent().parent().find('.reaffectDeviceDiv').removeClass('show');
@@ -4260,17 +4282,17 @@
 
         $('body').on('keypress','.renameDeviceInput', function(e) {
             if (e.key === 'Escape') {
-                $(this).parent().find('.deviceLabel').show();
-                $(this).parent().find('.renameDeviceInput').hide();
+                $(this).parent().parent().find('.deviceLabel').show();
+                $(this).parent().parent().find('.renameDeviceInput').hide();
             }
             else if (e.key === 'Enter') {
-                var token = $(this).parent().attr('token');
-                var deviceid = $(this).parent().attr('device');
+                var token = $(this).parent().parent().attr('token');
+                var deviceid = $(this).parent().parent().attr('device');
                 var oldName = getDeviceName(token, deviceid);
                 var newName = $(this).val();
                 renameDevice(token, deviceid, oldName, newName);
-                $(this).parent().find('.deviceLabel').show();
-                $(this).parent().find('.renameDeviceInput').hide();
+                $(this).parent().parent().find('.deviceLabel').show();
+                $(this).parent().parent().find('.renameDeviceInput').hide();
             }
         });
 
