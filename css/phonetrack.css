@@ -773,6 +773,13 @@ div#createimportsessiondiv button {
 .publicFilteredShareUrl {
     width: 80% !important;
 }
+.geofencelist li button:hover i{
+    color: black;
+}
+.geofencelist li button i{
+    color: grey;
+}
+.geofencelist li button,
 .deletePublicFilteredShare {
     padding: 5px 5px 5px 5px;
     margin: 0;
@@ -819,6 +826,9 @@ label[for=autoexportpath], #autoexportpath {
 }
 #countdown {
     display: inline;
+}
+.geofencelist li {
+    padding: 0 !important;
 }
 .geofencelist li,
 .filteredshare {

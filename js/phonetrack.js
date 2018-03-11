@@ -1805,7 +1805,7 @@
                     return xhr;
                 }
             }).done(function (response) {
-                displayNewPoints(response.sessions, response.colors, response.names);
+                displayNewPoints(response.sessions, response.colors, response.names, response.geofences);
             }).always(function() {
                 hideLoadingAnimation();
                 phonetrack.currentRefreshAjax = null;
@@ -2139,9 +2139,9 @@
         }
     }
 
-    function displayNewPoints(sessions, colors, names) {
+    function displayNewPoints(sessions, colors, names, geofences) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            entryArray, dEntries, colorn, rgbc, devcol,
+            entryArray, dEntries, colorn, rgbc, devcol, devgeofences,
             textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
@@ -2164,11 +2164,14 @@
                     if (colors.hasOwnProperty(s) && colors[s].hasOwnProperty(d)) {
                         devcol = colors[s][d];
                     }
+                    if (geofences.hasOwnProperty(s) && geofences[s].hasOwnProperty(d)) {
+                        devgeofences = geofences[s][d];
+                    }
                     if (phonetrack.sessionsFromSavedOptions
                         && phonetrack.sessionsFromSavedOptions.hasOwnProperty(s)
                         && phonetrack.sessionsFromSavedOptions[s].hasOwnProperty(d)) {
                         addDevice(
-                            s, d, sessionname, devcol, names[s][d],
+                            s, d, sessionname, devcol, names[s][d], devgeofences,
                             phonetrack.sessionsFromSavedOptions[s][d].zoom,
                             phonetrack.sessionsFromSavedOptions[s][d].line,
                             phonetrack.sessionsFromSavedOptions[s][d].point
@@ -2177,7 +2180,7 @@
                         delete phonetrack.sessionsFromSavedOptions[s][d];
                     }
                     else {
-                        addDevice(s, d, sessionname, devcol, names[s][d]);
+                        addDevice(s, d, sessionname, devcol, names[s][d], devgeofences);
                     }
                 }
                 // for all new entries of this session
@@ -2279,7 +2282,7 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname, color='', name, zoom=false, line=false, point=false) {
+    function addDevice(s, d, sessionname, color='', name, geofences=[], zoom=false, line=false, point=false) {
         var colorn, textcolor, rgbc, linetooltip;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
@@ -2447,6 +2450,12 @@
         }
         phonetrack.sessionMarkerLayers[s][d].on('click', markerMouseClick);
         $('.session[token="' + s + '"] li[device='+d+']').find('.geofencesDiv').hide();
+        var llb, f;
+        for (var i=0; i < geofences.length; i++) {
+            f = geofences[i];
+            llb = L.latLngBounds(L.latLng(f.latmin, f.lonmin), L.latLng(f.latmax, f.lonmax));
+            addGeoFence(s, d, f.name, f.id, llb);
+        }
     }
 
     // append entries ordered by timestamp
@@ -3648,7 +3657,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                addGeoFence(token, device, fencename, response.id);
+                addGeoFence(token, device, fencename, response.fenceid, mapbounds);
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to add geofence'));
@@ -3658,8 +3667,11 @@
         });
     }
 
-    function addGeoFence(token, device, fencename, fenceid) {
-        var li = '<li><label>'+fencename+'</label>' +
+    function addGeoFence(token, device, fencename, fenceid, llb) {
+        var li = '<li fenceid="'+fenceid+'" latmin="'+llb.getSouth()+'" latmax="'+llb.getNorth()+'"' +
+            'lonmin="'+llb.getWest()+'" lonmax="'+llb.getEast()+'">' +
+            '<label>'+escapeHTML(fencename)+'</label>' +
+            '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
             '</li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
@@ -3671,7 +3683,7 @@
             device: device,
             fenceid: fenceid
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteGeoFence');
+        var url = OC.generateUrl('/apps/phonetrack/deleteGeofence');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4666,15 +4678,15 @@
         $('body').on('click','.addgeofencebutton', function(e) {
             var token = $(this).parent().parent().attr('token');
             var device = $(this).parent().parent().attr('device');
-            var fencename = $(this).parent().find('.fencename').val();
-            var mapBounds = phonetrack.map.getBounds();
+            var fencename = $(this).parent().find('.geofencename').val();
+            var mapbounds = phonetrack.map.getBounds();
             addGeoFenceDb(token, device, fencename, mapbounds);
         });
 
         $('body').on('click','.deletegeofencebutton', function(e) {
-            var token = $(this).parent().parent().attr('token');
-            var device = $(this).parent().parent().attr('device');
-            var fenceid = $(this).attr('fenceid');
+            var token = $(this).parent().parent().parent().parent().attr('token');
+            var device = $(this).parent().parent().parent().parent().attr('device');
+            var fenceid = $(this).parent().attr('fenceid');
             deleteGeoFenceDb(token, device, fenceid);
         });
 

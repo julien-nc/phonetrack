@@ -1320,6 +1320,7 @@ class PageController extends Controller {
         $result = array();
         $colors = array();
         $names = array();
+        $geofences = array();
         // manage sql optim filters (time only)
         $fArray = $this->getCurrentFilters();
         $settingsTimeFilterSQL = '';
@@ -1411,7 +1412,7 @@ class PageController extends Controller {
                                     $firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
                                 }
                                 else {
-                                    $firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';;
+                                    $firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
                                 }
                             }
                             else if ($lastDeviceTimeSQL !== '') {
@@ -1439,6 +1440,27 @@ class PageController extends Controller {
                                     $names[$token] = array();
                                 }
                                 $names[$token][$devid] = $name;
+                                // geofences
+                                if (!array_key_exists($token, $geofences)) {
+                                    $geofences[$token] = array();
+                                }
+                                if (!array_key_exists($devid, $geofences[$token])) {
+                                    $geofences[$token][$devid] = array();
+                                }
+                                $sqlfences = 'SELECT id, name, latmin, latmax, lonmin, lonmax ';
+                                $sqlfences .= 'FROM *PREFIX*phonetrack_geofences ';
+                                $sqlfences .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+                                $req = $this->dbconnection->prepare($sqlfences);
+                                $req->execute();
+                                $col = '';
+                                while ($row = $req->fetch()){
+                                    $fence = array();
+                                    foreach ($row as $k => $v) {
+                                        $fence[$k] = $v;
+                                    }
+                                    array_push($geofences[$token][$devid], $fence);
+                                }
+                                $req->closeCursor();
                             }
 
                             $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
@@ -1483,7 +1505,8 @@ class PageController extends Controller {
             [
                 'sessions'=>$result,
                 'colors'=>$colors,
-                'names'=>$names
+                'names'=>$names,
+                'geofences'=>$geofences
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -2826,6 +2849,141 @@ class PageController extends Controller {
         }
         else {
             $ok = 5;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    private function sessionExists($token, $userid) {
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        return ($dbname !== null);
+    }
+
+    private function deviceExists($devid, $token) {
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_devices ';
+        $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+        $sqlchk .= 'AND id='.$this->db_quote_escape_string($devid).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        return ($dbname !== null);
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax) {
+        $ok = 0;
+        $fenceid = null;
+        if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+            // check there is no fence with this name already
+            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_geofences ';
+            $sqlchk .= 'WHERE name='.$this->db_quote_escape_string($fencename).' ';
+            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ;';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbfencename = null;
+            while ($row = $req->fetch()){
+                $dbfencename = $row['name'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbfencename === null) {
+                // insert
+                $sql = 'INSERT INTO *PREFIX*phonetrack_geofences';
+                $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($fencename).',';
+                $sql .= $this->db_quote_escape_string($device).',';
+                $sql .= $this->db_quote_escape_string(floatval($latmin)).',';
+                $sql .= $this->db_quote_escape_string(floatval($latmax)).',';
+                $sql .= $this->db_quote_escape_string(floatval($lonmin)).',';
+                $sql .= $this->db_quote_escape_string(floatval($lonmax));
+                $sql .= ');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+
+                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_geofences ';
+                $sqlchk .= 'WHERE name='.$this->db_quote_escape_string($fencename).' ';
+                $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ;';
+                $req = $this->dbconnection->prepare($sqlchk);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $fenceid = $row['id'];
+                    break;
+                }
+                $req->closeCursor();
+
+                $ok = 1;
+            }
+            else {
+                $ok = 3;
+            }
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+                'fenceid'=>$fenceid
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteGeofence($token, $device, $fenceid) {
+        $ok = 0;
+        if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+            $sqldel = 'DELETE FROM *PREFIX*phonetrack_geofences ';
+            $sqldel .= 'WHERE deviceid='.$this->db_quote_escape_string($device).' ';
+            $sqldel .= 'AND id='.$this->db_quote_escape_string($fenceid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
         }
 
         $response = new DataResponse(

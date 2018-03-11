@@ -57,6 +57,8 @@ return [
         ['name' => 'page#setPublicShareDevice', 'url' => '/setPublicShareDevice', 'verb' => 'POST'],
         ['name' => 'page#addNameReservation', 'url' => '/addNameReservation', 'verb' => 'POST'],
         ['name' => 'page#deleteNameReservation', 'url' => '/deleteNameReservation', 'verb' => 'POST'],
+        ['name' => 'page#addGeofence', 'url' => '/addGeofence', 'verb' => 'POST'],
+        ['name' => 'page#deleteGeofence', 'url' => '/deleteGeofence', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],
         ['name' => 'page#getUserList', 'url' => '/getUserList', 'verb' => 'POST'],
