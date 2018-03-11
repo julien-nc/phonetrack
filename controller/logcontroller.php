@@ -15,6 +15,7 @@ use OCP\App\IAppManager;
 
 use OCP\IURLGenerator;
 use OCP\IConfig;
+use \OCP\IL10N;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -159,9 +160,11 @@ class LogController extends Controller {
     private $dbdblquotes;
     private $appPath;
     private $defaultDeviceName;
+    private $trans;
+    private $userManager;
 
     public function __construct($AppName, IRequest $request, $UserId,
-                                $userfolder, $config, $shareManager, IAppManager $appManager){
+                                $userfolder, $config, $shareManager, IAppManager $appManager, $userManager, IL10N $trans){
         parent::__construct($AppName, $request);
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
         // just to keep Owncloud compatibility
@@ -176,6 +179,8 @@ class LogController extends Controller {
             //$this->appPath = getcwd().'/apps/phonetrack';
         }
         $this->userId = $UserId;
+        $this->trans = $trans;
+        $this->userManager = $userManager;
         $this->dbtype = $config->getSystemValue('dbtype');
         // IConfig object
         $this->config = $config;
@@ -243,7 +248,7 @@ class LogController extends Controller {
 
     private function getDeviceFences($devid) {
         $fences = array();
-        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax';
+        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name';
         $sqlget .= ' FROM *PREFIX*phonetrack_geofences ';
         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -254,19 +259,20 @@ class LogController extends Controller {
         return $fences;
     }
 
-    private function checkGeoFences($lat, $lon, $devid) {
+    private function checkGeoFences($lat, $lon, $devid, $userid) {
         $lastPoint = $this->getLastDevicePoint($devid);
         $fences = $this->getDeviceFences($devid);
         foreach ($fences as $fence) {
-            $this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence);
+            $this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid);
         }
     }
 
-    private function checkGeoGence($lat, $lon, $lastPoint, $devid, $fence) {
+    private function checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid) {
         $latmin = floatval($fence['latmin']);
         $latmax = floatval($fence['latmax']);
         $lonmin = floatval($fence['lonmin']);
         $lonmax = floatval($fence['lonmax']);
+        $fencename = $fence['name'];
 
         // first point of this device
         if ($lastPoint === null) {
@@ -287,18 +293,17 @@ class LogController extends Controller {
                 // and new point in fence
                 if ($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax) {
                     // device entered the fence !
-                    $user = $this->userManager->get($this->userId);
+                    $mailfrom = 'roro@pluton.cassio.pe';
+                    $user = $this->userManager->get($userid);
                     $email = $user->getEMailAddress();
                     $mailer = \OC::$server->getMailer();
                     $message = $mailer->createMessage();
-                    $message->setSubject($l->t('Geofence alert'));
+                    $message->setSubject($this->trans->t('Geofence alert'));
                     $message->setFrom([$mailfrom => 'PhoneTrack']);
                     $message->setTo([$email => $this->userId]);
-                    $message->setPlainBody($l->t('Device %s entered geofence %s.', $devid, $fencename));
+                    $message->setPlainBody($this->trans->t('Device %s entered geofence %s.', $devid, $fencename));
                     $mailer->send($message);
                     // TODO get mail from
-                    // TODO get translator
-                    // TODO implement geofence add/del controllers
                 }
             }
             // previous point in fence
@@ -306,14 +311,15 @@ class LogController extends Controller {
                 // if new point NOT in fence
                 if (!($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax)) {
                     // device exited the fence !
-                    $user = $this->userManager->get($this->userId);
+                    $mailfrom = 'roro@pluton.cassio.pe';
+                    $user = $this->userManager->get($userid);
                     $email = $user->getEMailAddress();
                     $mailer = \OC::$server->getMailer();
                     $message = $mailer->createMessage();
-                    $message->setSubject($l->t('Geofence alert'));
+                    $message->setSubject($this->trans->t('Geofence alert'));
                     $message->setFrom([$mailfrom => 'PhoneTrack']);
                     $message->setTo([$email => $this->userId]);
-                    $message->setPlainBody($l->t('Device %s exited geofence %s.', $devid, $fencename));
+                    $message->setPlainBody($this->trans->t('Device %s exited geofence %s.', $devid, $fencename));
                     $mailer->send($message);
                 }
             }
@@ -333,16 +339,19 @@ class LogController extends Controller {
             !is_null($lon) and $lon !== '' and is_numeric($lon) and
             !is_null($timestamp) and $timestamp !== '' and is_numeric($timestamp)
         ) {
+            $userid = null;
             // check if session exists
-            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+            $sqlchk = 'SELECT name, user FROM *PREFIX*phonetrack_sessions ';
             $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
             $dbname = null;
             while ($row = $req->fetch()){
                 $dbname = $row['name'];
+                $userid = $row['user'];
                 break;
             }
+            error_log('A : '.$userid);
             $req->closeCursor();
 
             if ($dbname !== null) {
@@ -454,7 +463,8 @@ class LogController extends Controller {
                     $useragent = rtrim($useragent);
                 }
 
-                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert);
+                error_log('B : '.$userid);
+                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid);
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
                 $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
