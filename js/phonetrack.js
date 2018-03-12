@@ -295,7 +295,7 @@
         return res;
     }
 
-	function Timer(callback, delay) {
+    function Timer(callback, delay) {
         var timerId, start, remaining = delay;
 
         this.pause = function() {
@@ -312,25 +312,25 @@
         this.resume();
     }
 
-	function toDegreesMinutesAndSeconds(coordinate) {
-		var absolute = Math.abs(coordinate);
-		var degrees = Math.floor(absolute);
-		var minutesNotTruncated = (absolute - degrees) * 60;
-		var minutes = Math.floor(minutesNotTruncated);
-		var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+    function toDegreesMinutesAndSeconds(coordinate) {
+        var absolute = Math.abs(coordinate);
+        var degrees = Math.floor(absolute);
+        var minutesNotTruncated = (absolute - degrees) * 60;
+        var minutes = Math.floor(minutesNotTruncated);
+        var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
 
-		return degrees + "°" + minutes + "'" + seconds + escapeHTML('"');
-	}
+        return degrees + "°" + minutes + "'" + seconds + escapeHTML('"');
+    }
 
-	function convertDMS(lat, lng) {
-		var latitude = toDegreesMinutesAndSeconds(lat);
-		var latitudeCardinal = Math.sign(lat) >= 0 ? 'N' : 'S';
+    function convertDMS(lat, lng) {
+        var latitude = toDegreesMinutesAndSeconds(lat);
+        var latitudeCardinal = Math.sign(lat) >= 0 ? 'N' : 'S';
 
-		var longitude = toDegreesMinutesAndSeconds(lng);
-		var longitudeCardinal = Math.sign(lng) >= 0 ? 'E' : 'W';
+        var longitude = toDegreesMinutesAndSeconds(lng);
+        var longitudeCardinal = Math.sign(lng) >= 0 ? 'E' : 'W';
 
-		return latitude + ' ' + latitudeCardinal + ' ' + longitude + ' ' + longitudeCardinal;
-	}
+        return latitude + ' ' + latitudeCardinal + ' ' + longitude + ' ' + longitudeCardinal;
+    }
 
     //////////////// MAP /////////////////////
 
@@ -4314,6 +4314,9 @@
                 geoDiv.slideUp('slow');
             }
             else{
+                $('.geofencesDiv:visible').each(function() {
+                    $(this).slideUp('slow');
+                });
                 geoDiv.slideDown('slow');
             }
         });
@@ -4688,6 +4691,21 @@
             var device = $(this).parent().parent().parent().parent().attr('device');
             var fenceid = $(this).parent().attr('fenceid');
             deleteGeoFenceDb(token, device, fenceid);
+        });
+
+        $('body').on('click','.zoomgeofencebutton', function(e) {
+            var par = $(this).parent();
+            var latmin = par.attr('latmin');
+            var latmax = par.attr('latmax');
+            var lonmin = par.attr('lonmin');
+            var lonmax = par.attr('lonmax');
+            var llb = L.latLngBounds(L.latLng(latmin, lonmin), L.latLng(latmax, lonmax));
+            phonetrack.map.fitBounds(llb, {padding: [10, 10]});
+
+            var bounds = [[latmin, lonmin], [latmax, lonmax]];
+            var rec = L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(phonetrack.map);
+
+            setTimeout(function() {phonetrack.map.removeLayer(rec);}, 5000);
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {
