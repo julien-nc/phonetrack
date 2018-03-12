@@ -259,15 +259,15 @@ class LogController extends Controller {
         return $fences;
     }
 
-    private function checkGeoFences($lat, $lon, $devid, $userid) {
+    private function checkGeoFences($lat, $lon, $devid, $userid, $devicename, $sessionname) {
         $lastPoint = $this->getLastDevicePoint($devid);
         $fences = $this->getDeviceFences($devid);
         foreach ($fences as $fence) {
-            $this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid);
+            $this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname);
         }
     }
 
-    private function checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid) {
+    private function checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname) {
         $latmin = floatval($fence['latmin']);
         $latmax = floatval($fence['latmax']);
         $lonmin = floatval($fence['lonmin']);
@@ -292,35 +292,46 @@ class LogController extends Controller {
             if (!($lastLat > $latmin and $lastLat < $latmax and $lastLon > $lonmin and $lastLon < $lonmax)) {
                 // and new point in fence
                 if ($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax) {
-                    // device entered the fence !
-                    $mailfrom = 'roro@pluton.cassio.pe';
+                    // device ENTERED the fence !
                     $user = $this->userManager->get($userid);
-                    $email = $user->getEMailAddress();
-                    $mailer = \OC::$server->getMailer();
-                    $message = $mailer->createMessage();
-                    $message->setSubject($this->trans->t('Geofence alert'));
-                    $message->setFrom([$mailfrom => 'PhoneTrack']);
-                    $message->setTo([$email => $this->userId]);
-                    $message->setPlainBody($this->trans->t('Device %s entered geofence %s.', $devid, $fencename));
-                    $mailer->send($message);
-                    // TODO get mail from
+                    $userEmail = $user->getEMailAddress();
+                    $mailFromA = $this->config->getSystemValue('mail_from_address');
+                    $mailFromD = $this->config->getSystemValue('mail_domain');
+
+                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                        $mailfrom = $mailFromA.'@'.$mailFromD;
+
+                        $mailer = \OC::$server->getMailer();
+                        $message = $mailer->createMessage();
+                        $message->setSubject($this->trans->t('Geofence alert'));
+                        $message->setFrom([$mailfrom => 'PhoneTrack']);
+                        $message->setTo([$userEmail => $this->userId]);
+                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofence "%s".', array($sessionname, $devicename, $fencename)));
+                        $mailer->send($message);
+                    }
                 }
             }
             // previous point in fence
             else {
                 // if new point NOT in fence
                 if (!($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax)) {
-                    // device exited the fence !
-                    $mailfrom = 'roro@pluton.cassio.pe';
+                    // device EXITED the fence !
                     $user = $this->userManager->get($userid);
-                    $email = $user->getEMailAddress();
-                    $mailer = \OC::$server->getMailer();
-                    $message = $mailer->createMessage();
-                    $message->setSubject($this->trans->t('Geofence alert'));
-                    $message->setFrom([$mailfrom => 'PhoneTrack']);
-                    $message->setTo([$email => $this->userId]);
-                    $message->setPlainBody($this->trans->t('Device %s exited geofence %s.', $devid, $fencename));
-                    $mailer->send($message);
+                    $userEmail = $user->getEMailAddress();
+                    $mailFromA = $this->config->getSystemValue('mail_from_address');
+                    $mailFromD = $this->config->getSystemValue('mail_domain');
+
+                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                        $mailfrom = $mailFromA.'@'.$mailFromD;
+
+                        $mailer = \OC::$server->getMailer();
+                        $message = $mailer->createMessage();
+                        $message->setSubject($this->trans->t('Geofence alert'));
+                        $message->setFrom([$mailfrom => 'PhoneTrack']);
+                        $message->setTo([$userEmail => $this->userId]);
+                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofence "%s".', array($sessionname, $devicename, $fencename)));
+                        $mailer->send($message);
+                    }
                 }
             }
         }
@@ -351,7 +362,6 @@ class LogController extends Controller {
                 $userid = $row['user'];
                 break;
             }
-            error_log('A : '.$userid);
             $req->closeCursor();
 
             if ($dbname !== null) {
@@ -463,8 +473,7 @@ class LogController extends Controller {
                     $useragent = rtrim($useragent);
                 }
 
-                error_log('B : '.$userid);
-                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid);
+                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
                 $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
