@@ -3656,8 +3656,11 @@
             data: req,
             async: true
         }).done(function (response) {
-            if (response.done === 1) {
+            if (response.done === 1 || response.done === 4) {
                 addGeoFence(token, device, fencename, response.fenceid, mapbounds);
+                if (response.done === 4) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofence alerts.'));
+                }
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to add geofence'));

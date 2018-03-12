@@ -2943,7 +2943,16 @@ class PageController extends Controller {
                 }
                 $req->closeCursor();
 
-                $ok = 1;
+                $user = $this->userManager->get($this->userId);
+                $userEmail = $user->getEMailAddress();
+                $mailFromA = $this->config->getSystemValue('mail_from_address');
+                $mailFromD = $this->config->getSystemValue('mail_domain');
+                if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                    $ok = 1;
+                }
+                else {
+                    $ok = 4;
+                }
             }
             else {
                 $ok = 3;
