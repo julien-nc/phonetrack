@@ -88,7 +88,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->query('ServerContainer')->getUserFolder('test'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
-            $c->getServer()->getAppManager()
+            $c->getServer()->getAppManager(),
+            $c->getServer()->getUserManager(),
+            $c->query('ServerContainer')->getL10N('phonetrack')
         );
 
         $this->utilsController = new UtilsController(
