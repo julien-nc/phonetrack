@@ -3442,7 +3442,6 @@
         var s = elem.parent().parent().attr('token');
         var id;
 
-        console.log('dev '+d+' has '+phonetrack.sessionPointsLayers[s][d].getLayers().length+' points');
         // line points
         if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
             phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {

@@ -1741,6 +1741,7 @@ class PageController extends Controller {
         foreach ($sessions as $session) {
             $publicviewtoken = $session[0];
             $lastTime = $session[1];
+            $lastposonly = 0;
 
             // check if session exists
             $dbpublicviewtoken = null;
@@ -1764,7 +1765,7 @@ class PageController extends Controller {
             // there is no session with this publicviewtoken
             // check if there is a public share with the sharetoken
             if ($dbpublicviewtoken === null) {
-                $sqlget = 'SELECT sharetoken, sessionid, filters, devicename FROM *PREFIX*phonetrack_pubshares ';
+                $sqlget = 'SELECT sharetoken, sessionid, filters, devicename, lastposonly FROM *PREFIX*phonetrack_pubshares ';
                 $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
@@ -1772,6 +1773,7 @@ class PageController extends Controller {
                     $dbpublicviewtoken = $row['sharetoken'];
                     $dbtoken = $row['sessionid'];
                     $filters = json_decode($row['filters'], True);
+                    $lastposonly = $row['lastposonly'];
                     if ($row['devicename'] !== null and $row['devicename'] !== '') {
                         $deviceNameRestriction = ' AND name='.$this->db_quote_escape_string($row['devicename']).' ';
                     }
@@ -1831,7 +1833,12 @@ class PageController extends Controller {
                     $sqlget .= 'altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
-                    $sqlget .= 'ORDER BY timestamp ASC';
+                    if (intval($lastposonly) === 0) {
+                        $sqlget .= 'ORDER BY timestamp ASC ;';
+                    }
+                    else {
+                        $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
+                    }
                     $req = $this->dbconnection->prepare($sqlget);
                     $req->execute();
                     while ($row = $req->fetch()){
