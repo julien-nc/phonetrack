@@ -1567,6 +1567,15 @@ class PageController extends Controller {
                             if (count($resultDevArray) > 0) {
                                 $result[$token][$devid] = $resultDevArray;
                             }
+                            else {
+                                // if device has no new point and no last time
+                                // it means it was probably reserved : we don't give its name
+                                if (!is_array($lastTime) or !array_key_exists($devid, $lastTime)) {
+                                    unset($names[$dbtoken][$devid]);
+                                    unset($colors[$dbtoken][$devid]);
+                                    unset($geofences[$dbtoken][$devid]);
+                                }
+                            }
                         }
                     }
                 }
@@ -1706,6 +1715,7 @@ class PageController extends Controller {
                             // it means it was probably reserved : we don't give its name
                             if (!is_array($lastTime) or !array_key_exists($devid, $lastTime)) {
                                 unset($names[$dbtoken][$devid]);
+                                unset($colors[$dbtoken][$devid]);
                             }
                         }
                     }
@@ -1866,6 +1876,7 @@ class PageController extends Controller {
                         // it means it was probably reserved : we don't give its name
                         if (!is_array($lastTime) or !array_key_exists($devid, $lastTime)) {
                             unset($names[$dbpublicviewtoken][$devid]);
+                            unset($colors[$dbpublicviewtoken][$devid]);
                         }
                     }
                 }
