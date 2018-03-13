@@ -649,14 +649,42 @@
         var deviceid = phonetrack.movepointDevice;
         var pid = phonetrack.movepointId;
         var entry = phonetrack.sessionPointsEntriesById[token][deviceid][pid];
-        editPointDB(token, deviceid, pid, lat, lon, entry.altitude, entry.accuracy, entry.satellites, entry.batterylevel, entry.timestamp, entry.useragent);
+        editPointDB(
+            token,
+            deviceid,
+            pid,
+            lat,
+            lon,
+            entry.altitude,
+            entry.accuracy,
+            entry.satellites,
+            entry.batterylevel,
+            entry.timestamp,
+            entry.useragent,
+            entry.speed,
+            entry.bearing
+        );
         leaveMovePointMode();
     }
 
     function dragPointEnd(e) {
         var m = e.target;
         var entry = phonetrack.sessionPointsEntriesById[m.session][m.device][m.pid];
-        editPointDB(m.session, m.device, m.pid, m.getLatLng().lat, m.getLatLng().lng, entry.altitude, entry.accuracy, entry.satellites, entry.batterylevel, entry.timestamp, entry.useragent);
+        editPointDB(
+            m.session,
+            m.device,
+            m.pid,
+            m.getLatLng().lat,
+            m.getLatLng().lng,
+            entry.altitude,
+            entry.accuracy,
+            entry.satellites,
+            entry.batterylevel,
+            entry.timestamp,
+            entry.useragent,
+            entry.speed,
+            entry.bearing
+        );
     }
 
     function enterAddPointMode() {
@@ -994,6 +1022,12 @@
                 if (optionsValues.tooltipshowaccuracy !== undefined) {
                     $('#tooltipshowaccuracy').prop('checked', optionsValues.tooltipshowaccuracy);
                 }
+                if (optionsValues.tooltipshowbearing !== undefined) {
+                    $('#tooltipshowbearing').prop('checked', optionsValues.tooltipshowbearing);
+                }
+                if (optionsValues.tooltipshowspeed !== undefined) {
+                    $('#tooltipshowspeed').prop('checked', optionsValues.tooltipshowspeed);
+                }
                 if (optionsValues.tooltipshowsatellites !== undefined) {
                     $('#tooltipshowsatellites').prop('checked', optionsValues.tooltipshowsatellites);
                 }
@@ -1079,6 +1113,8 @@
         optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.dragcheck = $('#dragcheck').is(':checked');
         optionsValues.tooltipshowaccuracy = $('#tooltipshowaccuracy').is(':checked');
+        optionsValues.tooltipshowbearing = $('#tooltipshowbearing').is(':checked');
+        optionsValues.tooltipshowspeed = $('#tooltipshowspeed').is(':checked');
         optionsValues.tooltipshowsatellites = $('#tooltipshowsatellites').is(':checked');
         optionsValues.tooltipshowbattery = $('#tooltipshowbattery').is(':checked');
         optionsValues.tooltipshowelevation = $('#tooltipshowelevation').is(':checked');
@@ -1216,6 +1252,8 @@
             'sat=%SAT&' +
             'alt=%ALT&' +
             'acc=%ACC&' +
+            'speed=%SPD&' +
+            'bearing=%DIR&' +
             'timestamp=%TIMESTAMP&' +
             'bat=%BATT';
         gpsloggerUrl = window.location.origin + gpsloggerUrl + gpsloggerParams;
@@ -1249,6 +1287,8 @@
             'acc=ACC&' +
             'bat=BAT&' +
             'sat=SAT&' +
+            'speed=SPD&' +
+            'bearing=DIR&' +
             'timestamp=TIME';
         geturl = window.location.origin + geturl;
 
@@ -1856,6 +1896,10 @@
             var elevationmax  = phonetrack.filterValues['elevationmax'];
             var accuracymin   = phonetrack.filterValues['accuracymin'];
             var accuracymax   = phonetrack.filterValues['accuracymax'];
+            var bearingmin   = phonetrack.filterValues['bearingmin'];
+            var bearingmax   = phonetrack.filterValues['bearingmax'];
+            var speedmin   = phonetrack.filterValues['speedmin'];
+            var speedmax   = phonetrack.filterValues['speedmax'];
 
             var timestampMin = phonetrack.filterValues['tsmin'];
             var timestampMax = phonetrack.filterValues['tsmax'];
@@ -1873,6 +1917,10 @@
                 && (!satellitesmax || entry.satellites <= satellitesmax)
                 && (!accuracymin || entry.accuracy >= accuracymin)
                 && (!accuracymax || entry.accuracy <= accuracymax)
+                && (!bearingmin || entry.bearing >= bearingmin)
+                && (!bearingmax || entry.bearing <= bearingmax)
+                && (!speedmin || entry.speed >= speedmin)
+                && (!speedmax || entry.speed <= speedmax)
             )
         );
     }
@@ -1890,6 +1938,10 @@
             var elevationmax  = phonetrack.filterValues['elevationmax'];
             var accuracymin   = phonetrack.filterValues['accuracymin'];
             var accuracymax   = phonetrack.filterValues['accuracymax'];
+            var bearingmin   = phonetrack.filterValues['bearingmin'];
+            var bearingmax   = phonetrack.filterValues['bearingmax'];
+            var speedmin   = phonetrack.filterValues['bearingmin'];
+            var speedmax   = phonetrack.filterValues['bearingmax'];
 
             var timestampMin = phonetrack.filterValues['tsmin'];
             var timestampMax = phonetrack.filterValues['tsmax'];
@@ -1934,6 +1986,10 @@
                     && (!satellitesmax || entry.satellites <= satellitesmax)
                     && (!accuracymin || entry.accuracy >= accuracymin)
                     && (!accuracymax || entry.accuracy <= accuracymax)
+                    && (!bearingmin || entry.bearing >= bearingmin)
+                    && (!bearingmax || entry.bearing <= bearingmax)
+                    && (!speedmin || entry.speed >= speedmin)
+                    && (!speedmax || entry.speed <= speedmax)
                 ){
                     resList.push(resDateList[i]);
                 }
@@ -2194,7 +2250,9 @@
                         satellites: entryArray[5],
                         altitude: entryArray[6],
                         batterylevel: entryArray[7],
-                        useragent: entryArray[8]
+                        useragent: entryArray[8],
+                        speed: entryArray[9],
+                        bearing: entryArray[10]
                     };
                     dEntries.push(entry);
                 }
@@ -2734,7 +2792,7 @@
         return (phonetrack.isSessionShared[s]);
     }
 
-    function editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent) {
+    function editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing) {
         var req = {
             token: token,
             deviceid: deviceid,
@@ -2746,7 +2804,9 @@
             acc: acc,
             bat: bat,
             sat: sat,
-            useragent: useragent
+            useragent: useragent,
+            speed: speed,
+            bearing: bearing
         };
         var url = OC.generateUrl('/apps/phonetrack/updatePoint');
         $.ajax({
@@ -2756,7 +2816,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent);
+                updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing);
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'The point you want to edit does not exist or you\'re not allowed to edit it'));
@@ -2767,7 +2827,7 @@
         });
     }
 
-    function updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent) {
+    function updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing) {
         var perm = $('#showtime').is(':checked');
         var i;
 
@@ -2788,6 +2848,8 @@
         entry.satellites = sat;
         entry.accuracy = acc;
         entry.useragent = useragent;
+        entry.speed = speed;
+        entry.bearing = bearing;
 
         var filter = filterEntry(entry);
 
@@ -2924,8 +2986,8 @@
         phonetrack.map.closePopup();
     }
 
-    function addPointDB(plat='', plon='', palt='', pacc='', psat='', pbat='', pmoment='') {
-        var lat, lon, alt, acc, sat, bat, mom;
+    function addPointDB(plat='', plon='', palt='', pacc='', psat='', pbat='', pmoment='', pspeed='', pbearing='') {
+        var lat, lon, alt, acc, sat, bat, mom, speed, bearing;
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
         var devicename = $('#addPointDevice').val();
@@ -2936,6 +2998,8 @@
         sat = psat;
         bat = pbat;
         mom = pmoment;
+        speed = pspeed;
+        bearing = pbearing;
         var timestamp = mom.unix();
         var req = {
             token: token,
@@ -2947,7 +3011,9 @@
             acc: acc,
             bat: bat,
             sat: sat,
-            useragent: 'Manually added'
+            useragent: 'Manually added',
+            speed: speed,
+            bearing: bearing
         };
         var url = OC.generateUrl('/apps/phonetrack/addPoint');
         $.ajax({
@@ -2959,7 +3025,7 @@
             if (response.done === 1) {
                 // add the point on the map only if the session was displayed at least once
                 if (phonetrack.sessionLineLayers.hasOwnProperty(token)) {
-                    addPointMap(response.pointid, lat, lon, alt, acc, sat, bat, timestamp, response.deviceid);
+                    addPointMap(response.pointid, lat, lon, alt, acc, sat, bat, speed, bearing, timestamp, response.deviceid);
                 }
             }
             else if (response.done === 2) {
@@ -2971,7 +3037,7 @@
         });
     }
 
-    function addPointMap(id, lat, lon, alt, acc, sat, bat, timestamp, deviceid) {
+    function addPointMap(id, lat, lon, alt, acc, sat, bat, speed, bearing, timestamp, deviceid) {
         var perm = $('#showtime').is(':checked');
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
@@ -2989,6 +3055,8 @@
         entry.satellites = sat;
         entry.accuracy = acc;
         entry.useragent = useragent;
+        entry.speed = speed;
+        entry.bearing = bearing;
 
         var filter = filterEntry(entry);
 
@@ -3087,6 +3155,12 @@
         res = res + '</tr><tr title="' + t('phonetrack', 'Precision') + '">';
         res = res + '<td><i class="fa fa-dot-circle-o" style="font-size: 20px;"></td>';
         res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'Speed') + '">';
+        res = res + '<td><i class="fa fa-tachometer" style="font-size: 20px;"></td>';
+        res = res + '<td><input role="speed" type="number" value="' + entry.speed + '" min="-1"/></td>';
+        res = res + '</tr><tr title="' + t('phonetrack', 'Bearing') + '">';
+        res = res + '<td><i class="fa fa-compass" style="font-size: 20px;"></td>';
+        res = res + '<td><input role="bearing" type="number" value="' + entry.bearing + '" min="-1"/></td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Satellites') + '">';
         res = res + '<td><i class="fa fa-signal" style="font-size: 20px;"></td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
@@ -3127,6 +3201,14 @@
         if (entry.accuracy && parseInt(entry.accuracy) !== -1 && $('#tooltipshowaccuracy').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Precision') + ' : ' + entry.accuracy + ' m';
+        }
+        if (entry.speed && parseInt(entry.speed) !== -1 && $('#tooltipshowspeed').is(':checked')) {
+            pointtooltip = pointtooltip + '<br/>' +
+                t('phonetrack', 'Speed') + ' : ' + entry.speed;
+        }
+        if (entry.bearing && parseInt(entry.bearing) !== -1 && $('#tooltipshowbearing').is(':checked')) {
+            pointtooltip = pointtooltip + '<br/>' +
+                t('phonetrack', 'Bearing') + ' : ' + entry.bearing;
         }
         if (entry.satellites && parseInt(entry.satellites) !== -1 && $('#tooltipshowsatellites').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
@@ -4232,7 +4314,7 @@
             }
         });
 
-        $('#tooltipshowaccuracy, #tooltipshowsatellites, #tooltipshowbattery, #tooltipshowelevation, #tooltipshowuseragent').click(function() {
+        $('#tooltipshowaccuracy, #tooltipshowsatellites, #tooltipshowbattery, #tooltipshowelevation, #tooltipshowuseragent, #tooltipshowspeed, #tooltipshowbearing').click(function() {
             if (!pageIsPublic()) {
                 saveOptions();
             }
@@ -4628,6 +4710,8 @@
             var alt = parseInt(tab.find('input[role=altitude]').val());
             var acc = parseInt(tab.find('input[role=precision]').val());
             var sat = parseInt(tab.find('input[role=satellites]').val());
+            var speed = parseInt(tab.find('input[role=speed]').val());
+            var bearing = parseInt(tab.find('input[role=bearing]').val());
             var bat = parseInt(tab.find('input[role=battery]').val());
             var useragent = tab.find('input[role=useragent]').val();
             var datestr = tab.find('input[role=date]').val();
@@ -4637,7 +4721,7 @@
             var completeDateStr = datestr + ' ' + pad(hourstr) + ':' + pad(minstr) + ':' + pad(secstr);
             var mom = moment(completeDateStr);
             var timestamp = mom.unix();
-            editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent);
+            editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing);
         });
 
         $('body').on('click','.deletepoint', function(e) {

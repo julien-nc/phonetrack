@@ -343,7 +343,8 @@ class LogController extends Controller {
      * @PublicPage
      *
      **/
-    public function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
+    public function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed=null, $bearing=null) {
+        // TODO insert speed and bearing in m/s and degrees
         if (!is_null($devicename) and $devicename !== '' and
             !is_null($token) and $token !== '' and
             !is_null($lat) and $lat !== '' and is_numeric($lat) and
@@ -573,9 +574,9 @@ class LogController extends Controller {
      *
      * traccar Android/IOS
      **/
-    public function logTraccar($token, $devicename='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt) {
+    public function logTraccar($token, $devicename='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt, $speed, $bearing) {
         $dname = $this->chooseDeviceName($devicename, $id);
-        $this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar');
+        $this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar', $speed, $bearing);
     }
 
     /**
