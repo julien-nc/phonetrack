@@ -3157,10 +3157,10 @@
         res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Speed') + '">';
         res = res + '<td><i class="fa fa-tachometer" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="speed" type="number" value="' + entry.speed + '" min="-1"/></td>';
+        res = res + '<td><input role="speed" type="number" value="' + entry.speed + '" min="-1"/>m/s</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Bearing') + '">';
         res = res + '<td><i class="fa fa-compass" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="bearing" type="number" value="' + entry.bearing + '" min="-1"/></td>';
+        res = res + '<td><input role="bearing" type="number" value="' + entry.bearing + '" min="-1"/>°</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Satellites') + '">';
         res = res + '<td><i class="fa fa-signal" style="font-size: 20px;"></td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
@@ -3204,11 +3204,11 @@
         }
         if (entry.speed && parseInt(entry.speed) !== -1 && $('#tooltipshowspeed').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Speed') + ' : ' + entry.speed;
+                t('phonetrack', 'Speed') + ' : ' + entry.speed + 'm/s';
         }
         if (entry.bearing && parseInt(entry.bearing) !== -1 && $('#tooltipshowbearing').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Bearing') + ' : ' + entry.bearing;
+                t('phonetrack', 'Bearing') + ' : ' + entry.bearing + '°';
         }
         if (entry.satellites && parseInt(entry.satellites) !== -1 && $('#tooltipshowsatellites').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
