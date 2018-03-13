@@ -234,10 +234,10 @@ class LogController extends Controller {
 
     private function getLastDevicePoint($devid) {
         $therow = null;
-        $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude';
+        $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude, speed, bearing';
         $sqlget .= ' FROM *PREFIX*phonetrack_points ';
         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-        $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ';
+        $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -448,6 +448,12 @@ class LogController extends Controller {
                 if ($bat === '' or is_null($bat)) {
                     $bat = '-1';
                 }
+                if ($speed === '' or is_null($speed)) {
+                    $speed = '-1';
+                }
+                if ($bearing === '' or is_null($bearing)) {
+                    $bearing = '-1';
+                }
                 if ($sat === '' or is_null($sat)) {
                     $sat = '-1';
                 }
@@ -477,7 +483,7 @@ class LogController extends Controller {
                 $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
+                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($deviceidToInsert).',';
                 $sql .= $this->db_quote_escape_string(floatval($lat)).',';
@@ -487,7 +493,9 @@ class LogController extends Controller {
                 $sql .= $this->db_quote_escape_string(intval($sat)).',';
                 $sql .= $this->db_quote_escape_string(floatval($alt)).',';
                 $sql .= $this->db_quote_escape_string(floatval($bat)).',';
-                $sql .= $this->db_quote_escape_string($useragent).');';
+                $sql .= $this->db_quote_escape_string($useragent).',';
+                $sql .= $this->db_quote_escape_string(floatval($speed)).',';
+                $sql .= $this->db_quote_escape_string(floatval($bearing)).');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
@@ -501,9 +509,9 @@ class LogController extends Controller {
      * @PublicPage
      *
      **/
-    public function logGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt) {
+    public function logGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed, $bearing) {
         $dname = $this->chooseDeviceName($devicename, null);
-        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger');
+        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger', $speed, $bearing);
     }
 
     /**

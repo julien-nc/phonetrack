@@ -395,6 +395,8 @@ div.session p,
     -webkit-appearance: initial;
 }
 input[role=altitude],
+input[role=speed],
+input[role=bearing],
 input[role=satellites],
 input[role=battery],
 input[role=precision] {

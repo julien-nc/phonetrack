@@ -721,7 +721,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      */
     public function updatePoint($token, $deviceid, $pointid,
-        $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
+        $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing) {
         // check if session exists
         $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
         $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
@@ -772,6 +772,8 @@ class PageController extends Controller {
                     $sqlupd .= ', batterylevel='.$this->db_quote_escape_string($bat).' ';
                     $sqlupd .= ', satellites='.$this->db_quote_escape_string($sat).' ';
                     $sqlupd .= ', useragent='.$this->db_quote_escape_string($useragent).' ';
+                    $sqlupd .= ', speed='.$this->db_quote_escape_string($speed).' ';
+                    $sqlupd .= ', bearing='.$this->db_quote_escape_string($bearing).' ';
                     $sqlupd .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdid).' ';
                     $sqlupd .= 'AND id='.$this->db_quote_escape_string($dbpid).';';
                     $req = $this->dbconnection->prepare($sqlupd);
@@ -1303,12 +1305,12 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function addPoint($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
+    public function addPoint($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing) {
         $done = 0;
         $dbid = null;
         $dbdevid = null;
         if ($token !== '' and $devicename !== '') {
-            $logdone = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent);
+            $logdone = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
             if ($logdone === 1) {
                 $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
                 $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
@@ -1536,7 +1538,7 @@ class PageController extends Controller {
                             }
 
                             $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
-                            $sqlget .= ' altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
+                            $sqlget .= ' altitude, batterylevel, useragent, speed, bearing FROM *PREFIX*phonetrack_points ';
                             $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
                             $sqlget .= $firstLastSQL;
                             $sqlget .= $settingsTimeFilterSQL;
@@ -1559,7 +1561,9 @@ class PageController extends Controller {
                                     intval($row['satellites']),
                                     floatval($row['altitude']),
                                     floatval($row['batterylevel']),
-                                    $row['useragent']
+                                    $row['useragent'],
+                                    is_null($row['speed']) ? -1 : floatval($row['speed']),
+                                    is_null($row['bearing']) ? -1 : floatval($row['bearing'])
                                 );
                                 array_push($resultDevArray, $entry);
                             }
@@ -1686,7 +1690,7 @@ class PageController extends Controller {
                         }
 
                         $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
-                        $sqlget .= ' altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
+                        $sqlget .= ' altitude, batterylevel, useragent, speed, bearing FROM *PREFIX*phonetrack_points ';
                         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
                         $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
                         $sqlget .= 'ORDER BY timestamp ASC';
@@ -1702,7 +1706,9 @@ class PageController extends Controller {
                                 intval($row['satellites']),
                                 floatval($row['altitude']),
                                 floatval($row['batterylevel']),
-                                $row['useragent']
+                                $row['useragent'],
+                                is_null($row['speed']) ? -1 : floatval($row['speed']),
+                                is_null($row['bearing']) ? -1 : floatval($row['bearing'])
                             );
                             array_push($resultDevArray, $entry);
                         }
@@ -1840,7 +1846,7 @@ class PageController extends Controller {
 
 
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, ';
-                    $sqlget .= 'altitude, batterylevel, useragent FROM *PREFIX*phonetrack_points ';
+                    $sqlget .= 'altitude, batterylevel, useragent, speed, bearing FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
                     $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
                     if (intval($lastposonly) === 0) {
@@ -1862,7 +1868,9 @@ class PageController extends Controller {
                                 intval($row['satellites']),
                                 floatval($row['altitude']),
                                 floatval($row['batterylevel']),
-                                $row['useragent']
+                                $row['useragent'],
+                                is_null($row['speed']) ? -1 : floatval($row['speed']),
+                                is_null($row['bearing']) ? -1 : floatval($row['bearing'])
                             );
                             array_push($resultDevArray, $entry);
                         }
@@ -2098,6 +2106,8 @@ class PageController extends Controller {
                     $bat = -1;
                     $sat = -1;
                     $ua  = '';
+                    $speed = null;
+                    $bearing = null;
                     if (empty($point->time)) {
                         $timestamp = 0;
                     }
@@ -2110,6 +2120,9 @@ class PageController extends Controller {
                     }
                     else{
                         $ele = floatval($point->ele);
+                    }
+                    if (!empty($point->speed)) {
+                        $speed = intval($point->speed);
                     }
                     if (!empty($point->sat)) {
                         $sat = intval($point->sat);
@@ -2124,12 +2137,15 @@ class PageController extends Controller {
                         if (!empty($point->extensions->accuracy)) {
                             $acc = floatval($point->extensions->accuracy);
                         }
+                        if (!empty($point->extensions->bearing)) {
+                            $bearing = floatval($point->extensions->bearing);
+                        }
                     }
                     if (!is_null($lat) and $lat !== '' and
                         !is_null($lon) and $lon !== '' and
                         !is_null($timestamp) and $timestamp !== ''
                     ) {
-                        array_push($points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua));
+                        array_push($points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing));
                     }
                 }
             }
@@ -2334,8 +2350,10 @@ class PageController extends Controller {
             $bat = $row['batterylevel'];
             $ua  = $row['useragent'];
             $sat = $row['satellites'];
+            $speed = $row['speed'];
+            $bearing = $row['bearing'];
 
-            $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua);
+            $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua, $speed, $bearing);
             array_push($res, $point);
         }
         $req->closeCursor();
@@ -2391,7 +2409,7 @@ class PageController extends Controller {
                 if ($lastTSset and (!isset($fArray['tsmin']) or $lastTS > $fArray['tsmin'])) {
                     $fArray['tsmin'] = $lastTS;
                 }
-                foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax'] as $k) {
+                foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin'] as $k) {
                     if (isset($f->{$k}) and $f->{$k} !== '') {
                         $fArray[$k] = intval($f->{$k});
                     }
@@ -2414,6 +2432,10 @@ class PageController extends Controller {
             and (!isset($fArray['satellitesmin']) or intval($p['satellites']) >= $fArray['satellitesmin'])
             and (!isset($fArray['batterymax']) or intval($p['batterylevel']) <= $fArray['batterymax'])
             and (!isset($fArray['batterymin']) or intval($p['batterylevel']) >= $fArray['batterymin'])
+            and (!isset($fArray['speedmax']) or floatval($p['speed']) <= $fArray['speedmax'])
+            and (!isset($fArray['speedmin']) or floatval($p['speed']) >= $fArray['speedmin'])
+            and (!isset($fArray['bearingmax']) or floatval($p['bearing']) <= $fArray['bearingmax'])
+            and (!isset($fArray['bearingmin']) or floatval($p['bearing']) >= $fArray['bearingmin'])
         );
     }
 
@@ -2431,6 +2453,10 @@ class PageController extends Controller {
             if (isset($fArray['satellitesmin'])) { array_push($cond, 'satellites >= '.$this->db_quote_escape_string($fArray['satellitesmin'])); }
             if (isset($fArray['batterymax'])) { array_push($cond, 'batterylevel <= '.$this->db_quote_escape_string($fArray['batterymax'])); }
             if (isset($fArray['batterymin'])) { array_push($cond, 'batterylevel >= '.$this->db_quote_escape_string($fArray['batterymin'])); }
+            if (isset($fArray['speedmax'])) { array_push($cond, 'speed <= '.$this->db_quote_escape_string($fArray['speedmax'])); }
+            if (isset($fArray['speedmin'])) { array_push($cond, 'speed >= '.$this->db_quote_escape_string($fArray['speedmin'])); }
+            if (isset($fArray['bearingmax'])) { array_push($cond, 'bearing <= '.$this->db_quote_escape_string($fArray['bearingmax'])); }
+            if (isset($fArray['bearingmin'])) { array_push($cond, 'bearing >= '.$this->db_quote_escape_string($fArray['bearingmin'])); }
             $sql = implode(' AND ', $cond);
         }
         return $sql;
@@ -2467,11 +2493,16 @@ class PageController extends Controller {
                 $sat = $point[5];
                 $bat = $point[6];
                 $ua = $point[7];
+                $speed = $point[8];
+                $bearing = $point[9];
                 $gpxExtension = '';
                 $gpxText .= '  <trkpt lat="'.$point[0].'" lon="'.$point[1].'">' . "\n";
                 $gpxText .= '   <time>' . $point[2] . '</time>' . "\n";
                 if ($point[3] !== '' && floatval($point[3]) !== -1.0) {
                     $gpxText .= '   <ele>' . sprintf('%.2f', floatval($point[3])) . '</ele>' . "\n";
+                }
+                if ($speed !== '' && intval($speed) !== -1) {
+                    $gpxText .= '   <speed>' . floatval($speed) . '</speed>' . "\n";
                 }
                 if ($sat !== '' && intval($sat) !== -1) {
                     $gpxText .= '   <sat>' . intval($sat) . '</sat>' . "\n";
@@ -2481,6 +2512,9 @@ class PageController extends Controller {
                 }
                 if ($bat !== '' && intval($bat) !== -1) {
                     $gpxExtension .= '     <batterylevel>' . sprintf('%.2f', floatval($bat)) . '</batterylevel>' . "\n";
+                }
+                if ($bearing !== '' && intval($bearing) !== -1) {
+                    $gpxExtension .= '     <bearing>' . sprintf('%.2f', floatval($bearing)) . '</bearing>' . "\n";
                 }
                 if ($ua !== '') {
                     $gpxExtension .= '     <useragent>' . $ua . '</useragent>' . "\n";
@@ -3191,6 +3225,8 @@ class PageController extends Controller {
                 $bat = $point[5];
                 $sat = $point[6];
                 $useragent = $point[7];
+                $speed = $point[8];
+                $bearing = $point[9];
                 // correct timestamp if needed
                 $time = $timestamp;
                 if (is_numeric($time) and (int)$time > 10000000000) {
@@ -3199,6 +3235,12 @@ class PageController extends Controller {
 
                 if ($bat === '' or is_null($bat)) {
                     $bat = '-1';
+                }
+                if ($speed === '' or is_null($speed)) {
+                    $speed = '-1';
+                }
+                if ($bearing === '' or is_null($bearing)) {
+                    $bearing = '-1';
                 }
                 if ($sat === '' or is_null($sat)) {
                     $sat = '-1';
@@ -3223,7 +3265,9 @@ class PageController extends Controller {
                 $oneVal .= $this->db_quote_escape_string($sat).',';
                 $oneVal .= $this->db_quote_escape_string($alt).',';
                 $oneVal .= $this->db_quote_escape_string($bat).',';
-                $oneVal .= $this->db_quote_escape_string($useragent).') ';
+                $oneVal .= $this->db_quote_escape_string($useragent).',';
+                $oneVal .= $this->db_quote_escape_string($speed).',';
+                $oneVal .= $this->db_quote_escape_string($bearing).') ';
 
                 array_push($valuesStrings, $oneVal);
             }
@@ -3242,7 +3286,7 @@ class PageController extends Controller {
                 }
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) VALUES '.$values.';';
+                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing) VALUES '.$values.';';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
@@ -3257,7 +3301,7 @@ class PageController extends Controller {
         return $done;
     }
 
-    private function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent) {
+    private function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing) {
         $done = 0;
         if (!is_null($devicename) and $devicename !== '' and
             !is_null($token) and $token !== '' and
@@ -3324,6 +3368,12 @@ class PageController extends Controller {
                 if ($bat === '' or is_null($bat)) {
                     $bat = '-1';
                 }
+                if ($speed === '' or is_null($speed)) {
+                    $speed = '-1';
+                }
+                if ($bearing === '' or is_null($bearing)) {
+                    $bearing = '-1';
+                }
                 if ($sat === '' or is_null($sat)) {
                     $sat = '-1';
                 }
@@ -3351,7 +3401,7 @@ class PageController extends Controller {
                 }
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent) ';
+                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($dbdeviceid).',';
                 $sql .= $this->db_quote_escape_string($lat).',';
@@ -3361,7 +3411,9 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string($sat).',';
                 $sql .= $this->db_quote_escape_string($alt).',';
                 $sql .= $this->db_quote_escape_string($bat).',';
-                $sql .= $this->db_quote_escape_string($useragent).');';
+                $sql .= $this->db_quote_escape_string($useragent).',';
+                $sql .= $this->db_quote_escape_string($speed).',';
+                $sql .= $this->db_quote_escape_string($bearing).');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
@@ -3614,10 +3666,10 @@ class PageController extends Controller {
                 $req->closeCursor();
 
                 $entry = array();
-                $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude';
+                $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude, speed, bearing';
                 $sqlget .= ' FROM *PREFIX*phonetrack_points ';
                 $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-                $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ';
+                $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){

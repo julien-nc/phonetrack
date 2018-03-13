@@ -82,6 +82,14 @@ p($_['phonetrack_version']);
             <label for="tooltipshowaccuracy"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy in tooltips'));?> *</label>
             <br/>
+            <input id="tooltipshowspeed" type="checkbox" checked/>
+            <label for="tooltipshowspeed"><i class="fa fa-tachometer" aria-hidden="true"></i>
+            <?php p($l->t('Show speed in tooltips'));?> *</label>
+            <br/>
+            <input id="tooltipshowbearing" type="checkbox" checked/>
+            <label for="tooltipshowbearing"><i class="fa fa-compass" aria-hidden="true"></i>
+            <?php p($l->t('Show bearing in tooltips'));?> *</label>
+            <br/>
             <input id="tooltipshowsatellites" type="checkbox" checked/>
             <label for="tooltipshowsatellites"><i class="fa fa-signal" aria-hidden="true"></i>
             <?php p($l->t('Show satellites in tooltips'));?> *</label>
@@ -511,7 +519,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="batterymin"><?php p($l->t('Minimum battery level')); ?></label>
     </td>
     <td>
-        <input role="batterymin" type="number" value="" min="-1" max="10000"/>
+        <input role="batterymin" type="number" value="" min="-1" max="100"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -520,6 +528,38 @@ if (count($_['useroverlayserverswms']) > 0){
     </td>
     <td>
         <input role="batterymax" type="number" value="" min="-1" max="100"/>
+    </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
+</tr><tr>
+    <td>
+        <label for="speedmin"><?php p($l->t('Minimum speed')); ?></label>
+    </td>
+    <td>
+        <input role="speedmin" type="number" value="" min="-1" max="10000"/>
+    </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
+</tr><tr>
+    <td>
+        <label for="speedmax"><?php p($l->t('Maximum speed')); ?></label>
+    </td>
+    <td>
+        <input role="speedmax" type="number" value="" min="-1" max="100"/>
+    </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
+</tr><tr>
+    <td>
+        <label for="bearingmin"><?php p($l->t('Minimum bearing')); ?></label>
+    </td>
+    <td>
+        <input role="bearingmin" type="number" value="" min="-1" max="360"/>
+    </td>
+    <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
+</tr><tr>
+    <td>
+        <label for="bearingmax"><?php p($l->t('Maximum bearing')); ?></label>
+    </td>
+    <td>
+        <input role="bearingmax" type="number" value="" min="-1" max="360"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
