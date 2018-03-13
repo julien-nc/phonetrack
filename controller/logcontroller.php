@@ -584,7 +584,13 @@ class LogController extends Controller {
      **/
     public function logTraccar($token, $devicename='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt, $speed, $bearing) {
         $dname = $this->chooseDeviceName($devicename, $id);
-        $this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar', $speed, $bearing);
+        $speedp = $speed;
+        if (is_numeric($speed)) {
+            // according to traccar sources, speed is converted in knots...
+            // convert back to meter/s
+            $speedp = floatval($speed) / 1.943844;
+        }
+        $this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar', $speedp, $bearing);
     }
 
     /**
