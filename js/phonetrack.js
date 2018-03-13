@@ -3196,11 +3196,11 @@
         }
         if (entry.altitude && parseInt(entry.altitude) !== -1 && $('#tooltipshowelevation').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Altitude') + ' : ' + parseInt(entry.altitude) + ' m';
+                t('phonetrack', 'Altitude') + ' : ' + parseInt(entry.altitude) + 'm';
         }
         if (entry.accuracy && parseInt(entry.accuracy) !== -1 && $('#tooltipshowaccuracy').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Precision') + ' : ' + entry.accuracy + ' m';
+                t('phonetrack', 'Precision') + ' : ' + entry.accuracy + 'm';
         }
         if (entry.speed && parseInt(entry.speed) !== -1 && $('#tooltipshowspeed').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
