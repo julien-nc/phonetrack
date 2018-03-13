@@ -425,6 +425,13 @@
       <default></default>
       <length>300</length>
     </field>
+    <field>
+      <name>lastposonly</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>0</default>
+      <length>4</length>
+    </field>
   </declaration>
 </table>
 </database>

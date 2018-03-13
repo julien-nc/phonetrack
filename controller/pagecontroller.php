@@ -230,12 +230,13 @@ class PageController extends Controller {
         }
         $params = [
             'username'=>$this->userId,
-			'basetileservers'=>$baseTileServers,
-			'usertileservers'=>$tss,
-			'useroverlayservers'=>$oss,
-			'usertileserverswms'=>$tssw,
-			'useroverlayserverswms'=>$ossw,
+            'basetileservers'=>$baseTileServers,
+            'usertileservers'=>$tss,
+            'useroverlayservers'=>$oss,
+            'usertileserverswms'=>$tssw,
+            'useroverlayserverswms'=>$ossw,
             'publicsessionname'=>'',
+            'lastposonly'=>'',
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);
@@ -367,7 +368,15 @@ class PageController extends Controller {
         $req->execute();
         $dbusername = null;
         while ($row = $req->fetch()){
-            array_push($shares, array('token'=>$row['sharetoken'], 'filters'=>$row['filters'], 'devicename'=>$row['devicename']));
+            array_push(
+                $shares,
+                array(
+                    'token'=>$row['sharetoken'],
+                    'filters'=>$row['filters'],
+                    'devicename'=>$row['devicename'],
+                    'lastposonly'=>$row['lastposonly']
+                )
+            );
         }
         $req->closeCursor();
 
@@ -409,6 +418,69 @@ class PageController extends Controller {
                 // set device name
                 $sqlupd = 'UPDATE *PREFIX*phonetrack_pubshares SET';
                 $sqlupd .= ' devicename='.$this->db_quote_escape_string($devicename).' ';
+                $sqlupd .= 'WHERE id='.$this->db_quote_escape_string($dbshareid).';';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+
+                $done = 1;
+            }
+            else {
+                $done = 3;
+            }
+        }
+        else {
+            $done = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$done
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function setPublicShareLastOnly($token, $sharetoken, $lastposonly) {
+        $done = 0;
+        // check if sessions exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if sharetoken exists
+            $sqlchk = 'SELECT * FROM *PREFIX*phonetrack_pubshares ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqlchk .= 'AND sharetoken='.$this->db_quote_escape_string($sharetoken).';';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbshareid = null;
+            while ($row = $req->fetch()){
+                $dbshareid = $row['id'];
+            }
+            $req->closeCursor();
+
+            if ($dbshareid !== null) {
+                // set device name
+                $sqlupd = 'UPDATE *PREFIX*phonetrack_pubshares SET';
+                $sqlupd .= ' lastposonly='.$this->db_quote_escape_string($lastposonly).' ';
                 $sqlupd .= 'WHERE id='.$this->db_quote_escape_string($dbshareid).';';
                 $req = $this->dbconnection->prepare($sqlupd);
                 $req->execute();
@@ -1815,6 +1887,7 @@ class PageController extends Controller {
      **/
     public function publicSessionWatch($publicviewtoken) {
         if ($publicviewtoken !== '') {
+            $lastposonly = 0;
             // check if a public session has this publicviewtoken
             $sqlchk = 'SELECT token, public  FROM *PREFIX*phonetrack_sessions ';
             $sqlchk .= 'WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ';
@@ -1835,7 +1908,7 @@ class PageController extends Controller {
             }
             else {
                 // check if a public session has this publicviewtoken
-                $sqlchk = 'SELECT sessionid, sharetoken  FROM *PREFIX*phonetrack_pubshares ';
+                $sqlchk = 'SELECT sessionid, sharetoken, lastposonly  FROM *PREFIX*phonetrack_pubshares ';
                 $sqlchk .= 'WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ';
                 $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
@@ -1843,13 +1916,14 @@ class PageController extends Controller {
                 $dbpublic = null;
                 while ($row = $req->fetch()){
                     $dbtoken = $row['sessionid'];
+                    $lastposonly = $row['lastposonly'];
                     break;
                 }
                 $req->closeCursor();
 
                 if ($dbtoken !== null) {
                     // we give publicWebLog the real session id but then, the share token is used in the JS
-                    return $this->publicWebLog($dbtoken, '');
+                    return $this->publicWebLog($dbtoken, '', $lastposonly);
                 }
                 else {
                     return 'Session does not exist or is not public';
@@ -1865,8 +1939,10 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
+     *
+     * lastposonly is given to the page, it makes the page delete all points but the last for each device
      **/
-    public function publicWebLog($token, $devicename) {
+    public function publicWebLog($token, $devicename, $lastposonly=0) {
         if ($token !== '') {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
@@ -1902,6 +1978,7 @@ class PageController extends Controller {
             'usertileserverswms'=>[],
             'useroverlayserverswms'=>[],
             'publicsessionname'=>$dbname,
+            'lastposonly'=>$lastposonly,
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);

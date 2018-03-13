@@ -1397,18 +1397,6 @@
                 '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' +
                 t('phonetrack', 'Add public filtered share') + '</button>';
             divtxt = divtxt + '<ul class="publicfilteredsharelist">';
-            var publicurl;
-            for (i = 0; i < publicFilteredShares.length; i++) {
-                publicurl = window.location.origin +
-                    OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicFilteredShares[i].token);
-                divtxt = divtxt + '<li class="filteredshare" filteredtoken="' + escapeHTML(publicFilteredShares[i].token) + '" title="' +
-                    filtersToTxt(publicFilteredShares[i].filters) + '">' +
-                    '<input type="text" class="publicFilteredShareUrl ro" value="' + publicurl + '"/>' +
-                    '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></button><br/>' +
-                    '<label>' + t('phonetrack', 'Only see this device') + ' : </label>' +
-                    '<input type="text" role="device" value="' + escapeHTML(publicFilteredShares[i].devicename || '') + '"/>' +
-                    '</li>';
-            }
             divtxt = divtxt + '</ul>';
             divtxt = divtxt + '</div>';
 
@@ -1463,6 +1451,15 @@
             $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').hide();
         }
             //.find('input[type=text]').prop('readonly', false);
+        for (i = 0; i < publicFilteredShares.length; i++) {
+            addPublicSessionShare(
+                token,
+                publicFilteredShares[i].token,
+                publicFilteredShares[i].filters,
+                publicFilteredShares[i].devicename,
+                publicFilteredShares[i].lastposonly
+            );
+        }
     }
 
     function deleteSession(token) {
@@ -2139,7 +2136,7 @@
         }
     }
 
-    function displayNewPoints(sessions, colors, names, geofences) {
+    function displayNewPoints(sessions, colors, names, geofences={}) {
         var s, i, d, entry, device, timestamp, mom, icon,
             entryArray, dEntries, colorn, rgbc, devcol, devgeofences,
             textcolor, sessionname;
@@ -2482,52 +2479,103 @@
             phonetrack.firstTime[s][device] = firstEntryTimestamp;
         }
 
-        /////////// update global coordinates (not filtered)
-        // we keep the same i because our points are already ordered
-        i = 0;
-        for (e = 0; e < entries.length; e++) {
-            entry = entries[e];
-            // add the entry to global dict
-            phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
-            ts = entry.timestamp;
-            while (i < phonetrack.sessionLatlngs[s][d].length
-                // ouch ;-)
-                && ts > phonetrack.sessionPointsEntriesById[s][d][phonetrack.sessionLatlngs[s][d][i][2]].timestamp
-            ) {
+        /////////////////////////// LASTPOSONLY
+        // we are in public page which should only display last point of each device
+        if (pageIsPublic() && phonetrack.lastposonly === '1') {
+            var lastEntryToAdd = entries[entries.length-1];
+            var nbExistingEntries = phonetrack.sessionLatlngs[s][d].length;
+            var lastExistingEntry = null;
+            // we get the last existing entry only if there are entries
+            if (nbExistingEntries > 0) {
+                lastExistingEntry = phonetrack.sessionPointsEntriesById[s][d][phonetrack.sessionLatlngs[s][d][nbExistingEntries-1][2]];
+            }
+            // if there is nothing or new entry is more recent than last existing one :
+            // only one pos : new entry
+            if (nbExistingEntries === 0 || lastEntryToAdd.timestamp > lastExistingEntry.timestamp) {
+                phonetrack.sessionPointsEntriesById[s][d][lastEntryToAdd.id] = lastEntryToAdd;
+                phonetrack.sessionLatlngs[s][d] = [[lastEntryToAdd.lat, lastEntryToAdd.lon, lastEntryToAdd.id]];
+
+                /////////// update FILTERED coordinates
+                // increment lines, insert into displayed layer (sessionLineLayers)
+                var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
+                phonetrack.sessionLineLayers[s][d].setLatLngs(displayedLatlngs);
+
+                var radius = phonetrack.optionsValues.pointradius;
+                var icon = phonetrack.devicePointIcons[s][d];
+
+                // reset point layers
+                phonetrack.sessionPointsLayers[s][d].clearLayers();
+
+                for (e = entries.length-1; e < entries.length; e++) {
+                    entry = entries[e];
+                    m = L.marker([entry.lat, entry.lon, entry.id],
+                        {icon: icon}
+                    );
+                    m.session = s;
+                    m.device = d;
+                    m.pid = entry.id;
+                    m.on('click', markerMouseClick);
+                    m.on('mouseover', markerMouseover);
+                    m.on('mouseout', markerMouseout);
+                    m.on('dragend', dragPointEnd);
+                    phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
+                    filter = filterEntry(entry);
+                    if (filter) {
+                        phonetrack.sessionPointsLayers[s][d].addLayer(m);
+                        // no dragging
+                    }
+                }
+            }
+        }
+        ///////////////////////////// NORMAL
+        else {
+            /////////// update global coordinates (not filtered)
+            // we keep the same i because our points are already ordered
+            i = 0;
+            for (e = 0; e < entries.length; e++) {
+                entry = entries[e];
+                // add the entry to global dict
+                phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
+                ts = entry.timestamp;
+                while (i < phonetrack.sessionLatlngs[s][d].length
+                    // ouch ;-)
+                    && ts > phonetrack.sessionPointsEntriesById[s][d][phonetrack.sessionLatlngs[s][d][i][2]].timestamp
+                ) {
+                    i++;
+                }
+                phonetrack.sessionLatlngs[s][d].splice(i, 0, [entry.lat, entry.lon, entry.id]);
                 i++;
             }
-            phonetrack.sessionLatlngs[s][d].splice(i, 0, [entry.lat, entry.lon, entry.id]);
-            i++;
-        }
 
-        /////////// update FILTERED coordinates
-        // increment lines, insert into displayed layer (sessionLineLayers)
-        var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
-        phonetrack.sessionLineLayers[s][d].setLatLngs(displayedLatlngs);
+            /////////// update FILTERED coordinates
+            // increment lines, insert into displayed layer (sessionLineLayers)
+            var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
+            phonetrack.sessionLineLayers[s][d].setLatLngs(displayedLatlngs);
 
-        var radius = phonetrack.optionsValues.pointradius;
-        var icon = phonetrack.devicePointIcons[s][d];
+            var radius = phonetrack.optionsValues.pointradius;
+            var icon = phonetrack.devicePointIcons[s][d];
 
-        for (e = 0; e < entries.length; e++) {
-            entry = entries[e];
-            m = L.marker([entry.lat, entry.lon, entry.id],
-                {icon: icon}
-            );
-            m.session = s;
-            m.device = d;
-            m.pid = entry.id;
-            m.on('click', markerMouseClick);
-            m.on('mouseover', markerMouseover);
-            m.on('mouseout', markerMouseout);
-            m.on('dragend', dragPointEnd);
-            phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
-            filter = filterEntry(entry);
-            if (filter) {
-                phonetrack.sessionPointsLayers[s][d].addLayer(m);
-                // dragging
-                if (!pageIsPublic() && !isSessionShared(s) && phonetrack.optionsValues.dragcheck) {
-                    if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
-                        m.dragging.enable();
+            for (e = 0; e < entries.length; e++) {
+                entry = entries[e];
+                m = L.marker([entry.lat, entry.lon, entry.id],
+                    {icon: icon}
+                );
+                m.session = s;
+                m.device = d;
+                m.pid = entry.id;
+                m.on('click', markerMouseClick);
+                m.on('mouseover', markerMouseover);
+                m.on('mouseout', markerMouseout);
+                m.on('dragend', dragPointEnd);
+                phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
+                filter = filterEntry(entry);
+                if (filter) {
+                    phonetrack.sessionPointsLayers[s][d].addLayer(m);
+                    // dragging
+                    if (!pageIsPublic() && !isSessionShared(s) && phonetrack.optionsValues.dragcheck) {
+                        if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+                            m.dragging.enable();
+                        }
                     }
                 }
             }
@@ -3394,6 +3442,7 @@
         var s = elem.parent().parent().attr('token');
         var id;
 
+        console.log('dev '+d+' has '+phonetrack.sessionPointsLayers[s][d].getLayers().length+' points');
         // line points
         if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
             phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
@@ -3611,6 +3660,30 @@
         });
     }
 
+    function setPublicShareLastOnlyDb(token, sharetoken, lastposonly) {
+        var req = {
+            token: token,
+            sharetoken: sharetoken,
+            lastposonly: lastposonly
+        };
+        var url = OC.generateUrl('/apps/phonetrack/setPublicShareLastOnly');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                OC.Notification.showTemporary(t('phonetrack', 'Public share has been successfully modified'));
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to modify public share'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to modify public share'));
+        });
+    }
+
     function setPublicShareDeviceDb(token, sharetoken, devicename) {
         var req = {
             token: token,
@@ -3729,15 +3802,21 @@
         });
     }
 
-    function addPublicSessionShare(token, sharetoken, filters) {
+    function addPublicSessionShare(token, sharetoken, filters, name='', lastposonly=0) {
+        var lastposonlyChecked = '';
+        if (lastposonly === '1') {
+            lastposonlyChecked = 'checked';
+        }
         var publicurl = window.location.origin +
             OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken);
         var li = '<li class="filteredshare" filteredtoken="' + escapeHTML(sharetoken) + '" title="' +
             filtersToTxt(filters) + '">' +
             '<input type="text" class="publicFilteredShareUrl" value="' + publicurl + '"/>' +
             '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></button><br/>' +
-            '<label>' + t('phonetrack', 'Only see this device') + ' : </label>' +
-            '<input type="text" role="device" value=""/>' +
+            '<label>' + t('phonetrack', 'Only show this device') + ' : </label>' +
+            '<input type="text" role="device" value="' + escapeHTML(name || '') + '"/>' +
+            '<br/><label for="fil'+sharetoken+'">' + t('phonetrack', 'Only show last position') + ' : </label>' +
+            '<input id="fil'+sharetoken+'" type="checkbox" role="lastposonly" ' + lastposonlyChecked + '/>' +
             '</li>';
         $('.session[token="' + token + '"]').find('.publicfilteredsharelist').append(li);
     }
@@ -4974,6 +5053,16 @@
             }
         });
 
+        $('body').on('click', 'input[role=lastposonly]', function(e) {
+            var filteredtoken = $(this).parent().attr('filteredtoken');
+            var checked = 0;
+            if ($(this).is(':checked')) {
+                checked = 1;
+            }
+            var token = $(this).parent().parent().parent().parent().parent().attr('token');
+            setPublicShareLastOnlyDb(token, filteredtoken, checked);
+        });
+
         if (!pageIsPublic()) {
             getSessions();
         }
@@ -4991,6 +5080,7 @@
                 token = publicviewtoken;
             }
             phonetrack.token = token;
+            phonetrack.lastposonly = $('#lastposonly').text();
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
             addSession(token, name, publicviewtoken, null, [], true);
