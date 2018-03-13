@@ -198,11 +198,11 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->logController->logGpsloggerGet($token, 'dev1', 44.5, 3.34, 460, 55, 10, 200, 198);
         $this->logController->logOwntracks($token, 'dev1', 'dev1', 44.6, 3.35, 197, 470, 200, 50);
         $this->logController->logUlogger($token, 'dev1', 'tid', 44.7, 3.36, 480, 200, 196, 'pwd', 'user', 'addpos');
-        $this->logController->logTraccar($token, 'dev1', 'id', 44.6, 3.35, 470, 200, 195, 45);
+        $this->logController->logTraccar($token, 'dev1', 'id', 44.6, 3.35, 470, 200, 195, 45, 2, 180);
         $gprmc = '$GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3,E*62';
         $this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
         $this->logController->logGpsloggerPost($token, 'dev1', 44.5, 3.34, 200, 490, 35, 10, 199);
-        $this->logController->logGet($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200, 198);
+        $this->logController->logGet($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200, 198, 2, 180, 2, 180);
 
         $this->logController->logOpengtsPost($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200);
 
@@ -530,7 +530,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 3);
 
         // ADD POINTS
-        $resp = $this->pageController->addPoint($token, 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $resp = $this->pageController->addPoint($token, 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $pointid = $data['pointid'];
@@ -539,19 +539,19 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(intval($pointid) > 0, True);
         $this->assertEquals(intval($deviceid) > 0, True);
 
-        $resp = $this->pageController->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests');
-        $resp = $this->pageController->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests');
+        $resp = $this->pageController->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests', 2, 180);
+        $resp = $this->pageController->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests', 2, 180);
 
         // STRESS ADD POINT
-        $resp = $this->pageController->addPoint($token, '', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $resp = $this->pageController->addPoint($token, '', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 2);
-        $resp = $this->pageController->addPoint('', '', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $resp = $this->pageController->addPoint('', '', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 2);
-        $resp = $this->pageController->addPoint('dummytoken', 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests');
+        $resp = $this->pageController->addPoint('dummytoken', 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 3);
@@ -641,26 +641,26 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // UPDATE POINT
         $resp = $this->pageController->updatePoint($token, $deviceid, $lastPointID,
-            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
+            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
         // STRESS UPDATE POINT
         $resp = $this->pageController->updatePoint($token, $deviceid, 666,
-            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
+            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 2);
 
         $resp = $this->pageController->updatePoint($token, 666, $lastPointID,
-            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
+            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 3);
 
         $resp = $this->pageController->updatePoint('dumdum', $deviceid, $lastPointID,
-            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif');
+            45.11, 3.11, 210, 480, 99, 65, 10, 'tests_modif', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 4);
@@ -806,7 +806,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 1);
         $stressReafToken = $data['token'];
         $this->testSessionToken3 = $stressReafToken;
-        $resp = $this->pageController->addPoint($stressReafToken, 'renamedTestDev', 25.6, 2.5, 100, 560, 100, 35, 4, 'testsReaf');
+        $resp = $this->pageController->addPoint($stressReafToken, 'renamedTestDev', 25.6, 2.5, 100, 560, 100, 35, 4, 'testsReaf', 2, 180);
 
         $resp = $this->pageController->reaffectDevice($token2, $deviceid, $stressReafToken);
         $data = $resp->getData();
@@ -1040,10 +1040,10 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // DELETE DEVICE
         // create a device
-        $resp = $this->pageController->addPoint($token, 'delDev', 25.6, 2.5, 100, 560, 100, 35, 4, 'tests');
+        $resp = $this->pageController->addPoint($token, 'delDev', 25.6, 2.5, 100, 560, 100, 35, 4, 'tests', 2, 180);
         $data = $resp->getData();
         $deldeviceid = $data['deviceid'];
-        $resp = $this->pageController->addPoint($token, 'delDev', 25.7, 2.6, 120, 570, 100, 30, 11, 'tests');
+        $resp = $this->pageController->addPoint($token, 'delDev', 25.7, 2.6, 120, 570, 100, 30, 11, 'tests', 2, 180);
 
         // get sessions to check device is there
         $sessions = array(array($token, null, null));
@@ -1260,9 +1260,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->publicSessionWatch($publicviewtoken);
 
         // COVERAGE OF addNameReservation
-        $resp = $this->pageController->addPoint($token, 'futurRes', 45.5, 3.4, '', 10000000001, '', '', '', '');
-        $resp = $this->pageController->addPoint($token, 'futurRes', 45.5, 3.4, '', 10000000001, '', '', '', 'browser');
-        $resp = $this->pageController->addPoint($token, 'futurRes', '', 3.4, '', 10000000001, '', '', '', 'browser');
+        $resp = $this->pageController->addPoint($token, 'futurRes', 45.5, 3.4, '', 10000000001, '', '', '', '', 2, 180);
+        $resp = $this->pageController->addPoint($token, 'futurRes', 45.5, 3.4, '', 10000000001, '', '', '', 'browser', 2, 180);
+        $resp = $this->pageController->addPoint($token, 'futurRes', '', 3.4, '', 10000000001, '', '', '', 'browser', 2, 180);
         $resp = $this->pageController->addNameReservation($token, 'futurRes');
         $data = $resp->getData();
         $done = $data['done'];
