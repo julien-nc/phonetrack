@@ -2122,7 +2122,10 @@ class PageController extends Controller {
                         $ele = floatval($point->ele);
                     }
                     if (!empty($point->speed)) {
-                        $speed = intval($point->speed);
+                        $speed = floatval($point->speed);
+                    }
+                    if (!empty($point->course)) {
+                        $bearing = floatval($point->course);
                     }
                     if (!empty($point->sat)) {
                         $sat = intval($point->sat);
@@ -2136,9 +2139,6 @@ class PageController extends Controller {
                         }
                         if (!empty($point->extensions->accuracy)) {
                             $acc = floatval($point->extensions->accuracy);
-                        }
-                        if (!empty($point->extensions->bearing)) {
-                            $bearing = floatval($point->extensions->bearing);
                         }
                     }
                     if (!is_null($lat) and $lat !== '' and
@@ -2504,6 +2504,9 @@ class PageController extends Controller {
                 if ($speed !== '' && intval($speed) !== -1) {
                     $gpxText .= '   <speed>' . floatval($speed) . '</speed>' . "\n";
                 }
+                if ($bearing !== '' && intval($bearing) !== -1) {
+                    $gpxText .= '   <course>' . floatval($bearing) . '</course>' . "\n";
+                }
                 if ($sat !== '' && intval($sat) !== -1) {
                     $gpxText .= '   <sat>' . intval($sat) . '</sat>' . "\n";
                 }
@@ -2512,9 +2515,6 @@ class PageController extends Controller {
                 }
                 if ($bat !== '' && intval($bat) !== -1) {
                     $gpxExtension .= '     <batterylevel>' . sprintf('%.2f', floatval($bat)) . '</batterylevel>' . "\n";
-                }
-                if ($bearing !== '' && intval($bearing) !== -1) {
-                    $gpxExtension .= '     <bearing>' . sprintf('%.2f', floatval($bearing)) . '</bearing>' . "\n";
                 }
                 if ($ua !== '') {
                     $gpxExtension .= '     <useragent>' . $ua . '</useragent>' . "\n";
