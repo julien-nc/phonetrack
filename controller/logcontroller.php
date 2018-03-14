@@ -41,112 +41,6 @@ function DMStoDEC($dms, $longlat) {
     return $deg + ((($min * 60) + ($sec)) / 3600);
 }
 
-function getBrowser() {
-    if (isset($_SERVER['HTTP_USER_AGENT'])) {
-        $u_agent = $_SERVER['HTTP_USER_AGENT'];
-    }
-    else {
-        $u_agent = 'Yeyeah/5.0 (X11; Linux x86_64; rv:0.1) Gecko/20100101 UnknownBrowser/0.1';
-    }
-    $bname = 'Unknown';
-    $platform = 'Unknown';
-    $version = '';
-
-    //First get the platform?
-    if (preg_match('/linux/i', $u_agent)) {
-        $platform = 'Linux';
-    }
-    elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
-        $platform = 'Mac';
-    }
-    elseif (preg_match('/windows|win32/i', $u_agent)) {
-        $platform = 'Windows';
-    }
-
-    // Next get the name of the useragent yes seperately and for good reason
-    if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
-    {
-        $bname = 'Internet Explorer';
-        $ub = "MSIE";
-    }
-    elseif(preg_match('/Trident/i',$u_agent))
-    { // this condition is for IE11
-        $bname = 'Internet Explorer';
-        $ub = "rv";
-    }
-    elseif(preg_match('/Firefox/i',$u_agent))
-    {
-        $bname = 'Mozilla Firefox';
-        $ub = "Firefox";
-    }
-    elseif(preg_match('/Chrome/i',$u_agent))
-    {
-        $bname = 'Google Chrome';
-        $ub = "Chrome";
-    }
-    elseif(preg_match('/Safari/i',$u_agent))
-    {
-        $bname = 'Apple Safari';
-        $ub = "Safari";
-    }
-    elseif(preg_match('/Opera/i',$u_agent))
-    {
-        $bname = 'Opera';
-        $ub = "Opera";
-    }
-    elseif(preg_match('/Netscape/i',$u_agent))
-    {
-        $bname = 'Netscape';
-        $ub = "Netscape";
-    }
-    else
-    {
-        $bname = 'NoBrowser';
-        $ub = "NonoBrowser";
-    }
-
-    // finally get the correct version number
-    // Added "|:"
-    $known = array('Version', $ub, 'other');
-    $pattern = '#(?<browser>' . join('|', $known) .
-        ')[/|: ]+(?<version>[0-9.|a-zA-Z.]*)#';
-    if (!preg_match_all($pattern, $u_agent, $matches)) {
-        // we have no matching number just continue
-    }
-
-    // see how many we have
-    $i = count($matches['browser']);
-    if ($i === 0) {
-        $version = '0.1';
-    }
-    else if ($i !== 1) {
-        //we will have two since we are not using 'other' argument yet
-        //see if version is before or after the name
-        if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
-            $version= $matches['version'][0];
-        }
-        else {
-            $version= $matches['version'][1];
-        }
-    }
-    else {
-        $version= $matches['version'][0];
-    }
-
-    // check if we have a number
-    if ($version === null || $version === "") {
-        $version = "?";
-    }
-
-    return array(
-        'userAgent' => $u_agent,
-        'name'      => $bname,
-        'version'   => $version,
-        'platform'  => $platform,
-        'pattern'   => $pattern
-    );
-}
-
 class LogController extends Controller {
 
     private $userId;
@@ -445,39 +339,8 @@ class LogController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
-                if ($bat === '' or is_null($bat)) {
-                    $bat = '-1';
-                }
-                if ($speed === '' or is_null($speed)) {
-                    $speed = '-1';
-                }
-                if ($bearing === '' or is_null($bearing)) {
-                    $bearing = '-1';
-                }
-                if ($sat === '' or is_null($sat)) {
-                    $sat = '-1';
-                }
-                if ($acc === '' or is_null($acc)) {
-                    $acc = '-1';
-                }
-                else {
+                if (is_numeric($acc)) {
                     $acc = sprintf('%.2f', (float)$acc);
-                }
-                if ($alt === '' or is_null($alt)) {
-                    $alt = '-1';
-                }
-                if ($useragent === '' or is_null($useragent)) {
-                    $useragent = '';
-                }
-                else if ($useragent === 'browser') {
-                    $bi = getBrowser();
-                    $useragent = '';
-                    foreach(['name', 'version', 'platform'] as $k) {
-                        if (array_key_exists($k, $bi)) {
-                            $useragent .= $bi[$k] . ' ';
-                        }
-                    }
-                    $useragent = rtrim($useragent);
                 }
 
                 $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
@@ -489,13 +352,13 @@ class LogController extends Controller {
                 $sql .= $this->db_quote_escape_string(floatval($lat)).',';
                 $sql .= $this->db_quote_escape_string(floatval($lon)).',';
                 $sql .= $this->db_quote_escape_string(intval($time)).',';
-                $sql .= $this->db_quote_escape_string(floatval($acc)).',';
-                $sql .= $this->db_quote_escape_string(intval($sat)).',';
-                $sql .= $this->db_quote_escape_string(floatval($alt)).',';
-                $sql .= $this->db_quote_escape_string(floatval($bat)).',';
+                $sql .= $this->db_quote_escape_string(is_numeric($acc) ? floatval($acc) : null).',';
+                $sql .= $this->db_quote_escape_string(is_numeric($sat) ? intval($sat) : null).',';
+                $sql .= $this->db_quote_escape_string(is_numeric($alt) ? floatval($alt) : null).',';
+                $sql .= $this->db_quote_escape_string(is_numeric($bat) ? floatval($bat) : null).',';
                 $sql .= $this->db_quote_escape_string($useragent).',';
-                $sql .= $this->db_quote_escape_string(floatval($speed)).',';
-                $sql .= $this->db_quote_escape_string(floatval($bearing)).');';
+                $sql .= $this->db_quote_escape_string(is_numeric($speed) ? floatval($speed) : null).',';
+                $sql .= $this->db_quote_escape_string(is_numeric($bearing) ? floatval($bearing) : null).');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
@@ -556,7 +419,7 @@ class LogController extends Controller {
      **/
     public function logOwntracks($token, $devicename='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
         $dname = $this->chooseDeviceName($devicename, $tid);
-        $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, -1, 'Owntracks');
+        $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, 'Owntracks');
         return array();
     }
 
@@ -570,7 +433,7 @@ class LogController extends Controller {
     public function logUlogger($token, $devicename, $trackid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
         if ($action === 'addpos') {
             $dname = $this->chooseDeviceName($devicename, null);
-            $this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, -1, -1, 'Ulogger');
+            $this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null, 'Ulogger');
         }
         return array("error" => false, "trackid" => 1);
     }
@@ -590,7 +453,7 @@ class LogController extends Controller {
             // convert back to meter/s
             $speedp = floatval($speed) / 1.943844;
         }
-        $this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, -1, 'Traccar', $speedp, $bearing);
+        $this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, null, 'Traccar', $speedp, $bearing);
     }
 
     /**
@@ -615,7 +478,7 @@ class LogController extends Controller {
         if ($gprmca[6] === 'W') {
             $lon = - $lon;
         }
-        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, -1, $batt, -1, 'OpenGTS client');
+        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, null, $batt, null, 'OpenGTS client');
         return true;
     }
 

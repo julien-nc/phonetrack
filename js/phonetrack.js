@@ -4722,11 +4722,17 @@
             var lat = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lat;
             var lon = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lon;
             var alt = parseInt(tab.find('input[role=altitude]').val()) || null;
+            if (alt === -1) { alt = null; }
             var acc = parseInt(tab.find('input[role=precision]').val()) || null;
+            if (acc === -1) { acc = null; }
             var sat = parseInt(tab.find('input[role=satellites]').val()) || null;
+            if (sat === -1) { sat = null; }
             var speed = parseFloat(tab.find('input[role=speed]').val()) / 3.6 || null;
+            if (parseInt(tab.find('input[role=speed]').val()) === -1) { speed = null; }
             var bearing = parseFloat(tab.find('input[role=bearing]').val()) || null;
+            if (bearing === -1.0) { bearing = null; }
             var bat = parseInt(tab.find('input[role=battery]').val()) || null;
+            if (bat === -1) { bat = null; }
             var useragent = tab.find('input[role=useragent]').val();
             var datestr = tab.find('input[role=date]').val();
             var hourstr = parseInt(tab.find('input[role=hour]').val());

@@ -1557,13 +1557,13 @@ class PageController extends Controller {
                                     floatval($row['lat']),
                                     floatval($row['lon']),
                                     intval($row['timestamp']),
-                                    empty($row['accuracy']) ? -1 : floatval($row['accuracy']),
-                                    empty($row['satellites']) ? -1 : intval($row['satellites']),
-                                    empty($row['altitude']) ? -1 : floatval($row['altitude']),
-                                    empty($row['batterylevel']) ? -1 : floatval($row['batterylevel']),
+                                    is_numeric($row['accuracy']) ? floatval($row['accuracy']) : null,
+                                    is_numeric($row['satellites']) ? intval($row['satellites']) : null,
+                                    is_numeric($row['altitude']) ? floatval($row['altitude']) : null,
+                                    is_numeric($row['batterylevel']) ? floatval($row['batterylevel']) : null,
                                     $row['useragent'],
-                                    empty($row['speed']) ? -1 : floatval($row['speed']),
-                                    empty($row['bearing']) ? -1 : floatval($row['bearing'])
+                                    is_numeric($row['speed']) ? floatval($row['speed']) : null,
+                                    is_numeric($row['bearing']) ? floatval($row['bearing']) : null
                                 );
                                 array_push($resultDevArray, $entry);
                             }
@@ -1702,13 +1702,13 @@ class PageController extends Controller {
                                 floatval($row['lat']),
                                 floatval($row['lon']),
                                 intval($row['timestamp']),
-                                empty($row['accuracy']) ? -1 : floatval($row['accuracy']),
-                                empty($row['satellites']) ? -1 : intval($row['satellites']),
-                                empty($row['altitude']) ? -1 : floatval($row['altitude']),
-                                empty($row['batterylevel']) ? -1 : floatval($row['batterylevel']),
+                                is_numeric($row['accuracy']) ? floatval($row['accuracy']) : null,
+                                is_numeric($row['satellites']) ? intval($row['satellites']) : null,
+                                is_numeric($row['altitude']) ? floatval($row['altitude']) : null,
+                                is_numeric($row['batterylevel']) ? floatval($row['batterylevel']) : null,
                                 $row['useragent'],
-                                empty($row['speed']) ? -1 : floatval($row['speed']),
-                                empty($row['bearing']) ? -1 : floatval($row['bearing'])
+                                is_numeric($row['speed']) ? floatval($row['speed']) : null,
+                                is_numeric($row['bearing']) ? floatval($row['bearing']) : null
                             );
                             array_push($resultDevArray, $entry);
                         }
@@ -1864,13 +1864,13 @@ class PageController extends Controller {
                                 floatval($row['lat']),
                                 floatval($row['lon']),
                                 intval($row['timestamp']),
-                                empty($row['accuracy']) ? -1 : floatval($row['accuracy']),
-                                empty($row['satellites']) ? -1 : intval($row['satellites']),
-                                empty($row['altitude']) ? -1 : floatval($row['altitude']),
-                                empty($row['batterylevel']) ? -1 : floatval($row['batterylevel']),
+                                is_numeric($row['accuracy']) ? floatval($row['accuracy']) : null,
+                                is_numeric($row['satellites']) ? intval($row['satellites']) : null,
+                                is_numeric($row['altitude']) ? floatval($row['altitude']) : null,
+                                is_numeric($row['batterylevel']) ? floatval($row['batterylevel']) : null,
                                 $row['useragent'],
-                                empty($row['speed']) ? -1 : floatval($row['speed']),
-                                empty($row['bearing']) ? -1 : floatval($row['bearing'])
+                                is_numeric($row['speed']) ? floatval($row['speed']) : null,
+                                is_numeric($row['bearing']) ? floatval($row['bearing']) : null
                             );
                             array_push($resultDevArray, $entry);
                         }
@@ -2102,9 +2102,9 @@ class PageController extends Controller {
                 foreach($segment->trkpt as $point) {
                     $lat = floatval($point['lat']);
                     $lon = floatval($point['lon']);
-                    $acc = -1;
-                    $bat = -1;
-                    $sat = -1;
+                    $acc = null;
+                    $bat = null;
+                    $sat = null;
                     $ua  = '';
                     $speed = null;
                     $bearing = null;
@@ -2489,6 +2489,7 @@ class PageController extends Controller {
             $gpxText .= '<trk>' . "\n" . ' <name>' . $device . '</name>' . "\n";
             $gpxText .= ' <trkseg>' . "\n";
             foreach ($points as $point) {
+                $alt = $point[3];
                 $acc = $point[4];
                 $sat = $point[5];
                 $bat = $point[6];
@@ -2498,22 +2499,22 @@ class PageController extends Controller {
                 $gpxExtension = '';
                 $gpxText .= '  <trkpt lat="'.$point[0].'" lon="'.$point[1].'">' . "\n";
                 $gpxText .= '   <time>' . $point[2] . '</time>' . "\n";
-                if ($point[3] !== '' && floatval($point[3]) !== -1.0) {
-                    $gpxText .= '   <ele>' . sprintf('%.2f', floatval($point[3])) . '</ele>' . "\n";
+                if (is_numeric($alt) && floatval($alt) !== -1.0) {
+                    $gpxText .= '   <ele>' . sprintf('%.2f', floatval($alt)) . '</ele>' . "\n";
                 }
-                if ($speed !== '' && intval($speed) !== -1) {
-                    $gpxText .= '   <speed>' . floatval($speed) . '</speed>' . "\n";
+                if (is_numeric($speed) && intval($speed) !== -1) {
+                    $gpxText .= '   <speed>' . sprintf('%.3f', floatval($speed)) . '</speed>' . "\n";
                 }
-                if ($bearing !== '' && intval($bearing) !== -1) {
-                    $gpxText .= '   <course>' . floatval($bearing) . '</course>' . "\n";
+                if (is_numeric($bearing) && intval($bearing) !== -1) {
+                    $gpxText .= '   <course>' . sprintf('%.3f', floatval($bearing)) . '</course>' . "\n";
                 }
-                if ($sat !== '' && intval($sat) !== -1) {
+                if (is_numeric($sat) && intval($sat) !== -1) {
                     $gpxText .= '   <sat>' . intval($sat) . '</sat>' . "\n";
                 }
-                if ($acc !== '' && intval($acc) !== -1) {
+                if (is_numeric($acc) && intval($acc) !== -1) {
                     $gpxExtension .= '     <accuracy>' . sprintf('%.2f', floatval($acc)) . '</accuracy>' . "\n";
                 }
-                if ($bat !== '' && intval($bat) !== -1) {
+                if (is_numeric($bat) && intval($bat) !== -1) {
                     $gpxExtension .= '     <batterylevel>' . sprintf('%.2f', floatval($bat)) . '</batterylevel>' . "\n";
                 }
                 if ($ua !== '') {
@@ -3233,28 +3234,9 @@ class PageController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
-                if ($bat === '' or is_null($bat)) {
-                    $bat = '-1';
-                }
-                if ($speed === '' or is_null($speed)) {
-                    $speed = '-1';
-                }
-                if ($bearing === '' or is_null($bearing)) {
-                    $bearing = '-1';
-                }
-                if ($sat === '' or is_null($sat)) {
-                    $sat = '-1';
-                }
-                if ($acc === '' or is_null($acc)) {
-                    $acc = '-1';
-                }
-                else {
+                if (is_numeric($acc)) {
                     $acc = sprintf('%.2f', floatval($acc));
                 }
-                if ($alt === '' or is_null($alt)) {
-                    $alt = '-1';
-                }
-
 
                 $oneVal = '(';
                 $oneVal .= $this->db_quote_escape_string($dbdeviceid).',';
@@ -3365,39 +3347,8 @@ class PageController extends Controller {
                     $time = (int)((int)$time / 1000);
                 }
 
-                if ($bat === '' or is_null($bat)) {
-                    $bat = '-1';
-                }
-                if ($speed === '' or is_null($speed)) {
-                    $speed = '-1';
-                }
-                if ($bearing === '' or is_null($bearing)) {
-                    $bearing = '-1';
-                }
-                if ($sat === '' or is_null($sat)) {
-                    $sat = '-1';
-                }
-                if ($acc === '' or is_null($acc)) {
-                    $acc = '-1';
-                }
-                else {
+                if (is_numeric($acc)) {
                     $acc = sprintf('%.2f', floatval($acc));
-                }
-                if ($alt === '' or is_null($alt)) {
-                    $alt = '-1';
-                }
-                if ($useragent === '' or is_null($useragent)) {
-                    $useragent = '';
-                }
-                else if ($useragent === 'browser') {
-                    $bi = getBrowser();
-                    $useragent = '';
-                    foreach(['name', 'version', 'platform'] as $k) {
-                        if (array_key_exists($k, $bi)) {
-                            $useragent .= $bi[$k] . ' ';
-                        }
-                    }
-                    $useragent = rtrim($useragent);
                 }
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
