@@ -1898,8 +1898,8 @@
             var accuracymax   = phonetrack.filterValues['accuracymax'];
             var bearingmin   = phonetrack.filterValues['bearingmin'];
             var bearingmax   = phonetrack.filterValues['bearingmax'];
-            var speedmin   = phonetrack.filterValues['speedmin'];
-            var speedmax   = phonetrack.filterValues['speedmax'];
+            var speedmin   = phonetrack.filterValues['speedmin'] / 3.6;
+            var speedmax   = phonetrack.filterValues['speedmax'] / 3.6;
 
             var timestampMin = phonetrack.filterValues['tsmin'];
             var timestampMax = phonetrack.filterValues['tsmax'];
@@ -1940,8 +1940,8 @@
             var accuracymax   = phonetrack.filterValues['accuracymax'];
             var bearingmin   = phonetrack.filterValues['bearingmin'];
             var bearingmax   = phonetrack.filterValues['bearingmax'];
-            var speedmin   = phonetrack.filterValues['bearingmin'];
-            var speedmax   = phonetrack.filterValues['bearingmax'];
+            var speedmin   = phonetrack.filterValues['speedmin'] / 3.6;
+            var speedmax   = phonetrack.filterValues['speedmax'] / 3.6;
 
             var timestampMin = phonetrack.filterValues['tsmin'];
             var timestampMax = phonetrack.filterValues['tsmax'];
@@ -3157,10 +3157,15 @@
         res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Speed') + '">';
         res = res + '<td><i class="fa fa-tachometer" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="speed" type="number" value="' + entry.speed + '" min="-1"/>m/s</td>';
+        var speed_kmph = entry.speed;
+        if (entry.speed && parseInt(entry.speed) !== -1) {
+            speed_kmph = parseFloat(entry.speed) * 3.6;
+            speed_kmph = speed_kmph.toFixed(3);
+        }
+        res = res + '<td><input role="speed" type="number" value="' + speed_kmph + '" min="-1"/>km/h</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Bearing') + '">';
         res = res + '<td><i class="fa fa-compass" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="bearing" type="number" value="' + entry.bearing + '" min="-1"/>°</td>';
+        res = res + '<td><input role="bearing" type="number" value="' + entry.bearing + '" min="-1" max="360"/>°</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Satellites') + '">';
         res = res + '<td><i class="fa fa-signal" style="font-size: 20px;"></td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
@@ -3203,8 +3208,10 @@
                 t('phonetrack', 'Precision') + ' : ' + entry.accuracy + 'm';
         }
         if (entry.speed && parseInt(entry.speed) !== -1 && $('#tooltipshowspeed').is(':checked')) {
+            var speed_kmph = parseFloat(entry.speed) * 3.6;
+            speed_kmph = speed_kmph.toFixed(3);
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Speed') + ' : ' + entry.speed + 'm/s';
+                t('phonetrack', 'Speed') + ' : ' + speed_kmph + 'km/h';
         }
         if (entry.bearing && parseInt(entry.bearing) !== -1 && $('#tooltipshowbearing').is(':checked')) {
             pointtooltip = pointtooltip + '<br/>' +
@@ -3369,21 +3376,24 @@
         for (s in phonetrack.sessionMarkerLayers) {
             for (d in phonetrack.sessionMarkerLayers[s]) {
                 m = phonetrack.sessionMarkerLayers[s][d];
-                m.closeTooltip();
-                // if option is set, show permanent tooltip for last marker
-                if (perm) {
-                    // is not affected by mouseover anymore
-                    m.off('mouseover', markerMouseover);
-                    m.off('mouseout', markerMouseout);
-                    // bind permanent tooltip
-                    entry = phonetrack.sessionPointsEntriesById[s][d][m.pid];
-                    sessionname = getSessionName(s);
-                    pointtooltip = getPointTooltipContent(entry, sessionname, s);
-                    m.bindTooltip(pointtooltip, {permanent: perm, offset: offset, className: 'tooltip' + s + d});
-                }
-                else {
-                    m.on('mouseover', markerMouseover);
-                    m.on('mouseout', markerMouseout);
+                // if there is a marker for this device
+                if (m && m.pid) {
+                    m.closeTooltip();
+                    // if option is set, show permanent tooltip for last marker
+                    if (perm) {
+                        // is not affected by mouseover anymore
+                        m.off('mouseover', markerMouseover);
+                        m.off('mouseout', markerMouseout);
+                        // bind permanent tooltip
+                        entry = phonetrack.sessionPointsEntriesById[s][d][m.pid];
+                        sessionname = getSessionName(s);
+                        pointtooltip = getPointTooltipContent(entry, sessionname, s);
+                        m.bindTooltip(pointtooltip, {permanent: perm, offset: offset, className: 'tooltip' + s + d});
+                    }
+                    else {
+                        m.on('mouseover', markerMouseover);
+                        m.on('mouseout', markerMouseout);
+                    }
                 }
             }
         }
@@ -4707,12 +4717,12 @@
             // unchanged latlng
             var lat = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lat;
             var lon = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lon;
-            var alt = parseInt(tab.find('input[role=altitude]').val());
-            var acc = parseInt(tab.find('input[role=precision]').val());
-            var sat = parseInt(tab.find('input[role=satellites]').val());
-            var speed = parseInt(tab.find('input[role=speed]').val());
-            var bearing = parseInt(tab.find('input[role=bearing]').val());
-            var bat = parseInt(tab.find('input[role=battery]').val());
+            var alt = parseInt(tab.find('input[role=altitude]').val()) || null;
+            var acc = parseInt(tab.find('input[role=precision]').val()) || null;
+            var sat = parseInt(tab.find('input[role=satellites]').val()) || null;
+            var speed = parseFloat(tab.find('input[role=speed]').val()) / 3.6 || null;
+            var bearing = parseFloat(tab.find('input[role=bearing]').val()) || null;
+            var bat = parseInt(tab.find('input[role=battery]').val()) || null;
             var useragent = tab.find('input[role=useragent]').val();
             var datestr = tab.find('input[role=date]').val();
             var hourstr = parseInt(tab.find('input[role=hour]').val());

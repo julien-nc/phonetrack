@@ -1557,13 +1557,13 @@ class PageController extends Controller {
                                     floatval($row['lat']),
                                     floatval($row['lon']),
                                     intval($row['timestamp']),
-                                    floatval($row['accuracy']),
-                                    intval($row['satellites']),
-                                    floatval($row['altitude']),
-                                    floatval($row['batterylevel']),
+                                    empty($row['accuracy']) ? -1 : floatval($row['accuracy']),
+                                    empty($row['satellites']) ? -1 : intval($row['satellites']),
+                                    empty($row['altitude']) ? -1 : floatval($row['altitude']),
+                                    empty($row['batterylevel']) ? -1 : floatval($row['batterylevel']),
                                     $row['useragent'],
-                                    is_null($row['speed']) ? -1 : floatval($row['speed']),
-                                    is_null($row['bearing']) ? -1 : floatval($row['bearing'])
+                                    empty($row['speed']) ? -1 : floatval($row['speed']),
+                                    empty($row['bearing']) ? -1 : floatval($row['bearing'])
                                 );
                                 array_push($resultDevArray, $entry);
                             }
@@ -1702,13 +1702,13 @@ class PageController extends Controller {
                                 floatval($row['lat']),
                                 floatval($row['lon']),
                                 intval($row['timestamp']),
-                                floatval($row['accuracy']),
-                                intval($row['satellites']),
-                                floatval($row['altitude']),
-                                floatval($row['batterylevel']),
+                                empty($row['accuracy']) ? -1 : floatval($row['accuracy']),
+                                empty($row['satellites']) ? -1 : intval($row['satellites']),
+                                empty($row['altitude']) ? -1 : floatval($row['altitude']),
+                                empty($row['batterylevel']) ? -1 : floatval($row['batterylevel']),
                                 $row['useragent'],
-                                is_null($row['speed']) ? -1 : floatval($row['speed']),
-                                is_null($row['bearing']) ? -1 : floatval($row['bearing'])
+                                empty($row['speed']) ? -1 : floatval($row['speed']),
+                                empty($row['bearing']) ? -1 : floatval($row['bearing'])
                             );
                             array_push($resultDevArray, $entry);
                         }
@@ -1864,13 +1864,13 @@ class PageController extends Controller {
                                 floatval($row['lat']),
                                 floatval($row['lon']),
                                 intval($row['timestamp']),
-                                floatval($row['accuracy']),
-                                intval($row['satellites']),
-                                floatval($row['altitude']),
-                                floatval($row['batterylevel']),
+                                empty($row['accuracy']) ? -1 : floatval($row['accuracy']),
+                                empty($row['satellites']) ? -1 : intval($row['satellites']),
+                                empty($row['altitude']) ? -1 : floatval($row['altitude']),
+                                empty($row['batterylevel']) ? -1 : floatval($row['batterylevel']),
                                 $row['useragent'],
-                                is_null($row['speed']) ? -1 : floatval($row['speed']),
-                                is_null($row['bearing']) ? -1 : floatval($row['bearing'])
+                                empty($row['speed']) ? -1 : floatval($row['speed']),
+                                empty($row['bearing']) ? -1 : floatval($row['bearing'])
                             );
                             array_push($resultDevArray, $entry);
                         }
