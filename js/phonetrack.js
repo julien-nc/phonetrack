@@ -2909,6 +2909,7 @@
         if ($('#togglestats').is(':checked')) {
             updateStatTable();
         }
+        changeTooltipStyle();
 
         phonetrack.map.closePopup();
     }
