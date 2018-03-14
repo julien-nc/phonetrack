@@ -2145,6 +2145,7 @@
         if ($('#togglestats').is(':checked')) {
             updateStatTable();
         }
+        changeTooltipStyle();
     }
 
     function updateMarker(s, d, sessionname) {
