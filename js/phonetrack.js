@@ -3579,34 +3579,36 @@
         var s = elem.parent().parent().attr('token');
         var m = phonetrack.sessionMarkerLayers[s][d];
 
-        // if we show movement lines :
-        // bring it to front, show/hide points
-        // get correct zoom bounds
-        if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[s][d])) {
-            l = phonetrack.sessionLineLayers[s][d];
-            l.bringToFront();
-            b = l.getBounds();
-        }
-        else if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
-            l = phonetrack.sessionPointsLayers[s][d];
-            l.bringToFront();
-            b = l.getBounds();
-        }
-        else {
-            b = L.latLngBounds(m.getLatLng(), m.getLatLng);
-        }
-        phonetrack.map.fitBounds(b, {
-            animate: true,
-            maxZoom: 16,
-            paddingTopLeft: [parseInt($('#sidebar').css('width')),0]
-        });
+        if (phonetrack.sessionPointsLayers[s][d].getLayers().length > 0) {
+            // if we show movement lines :
+            // bring it to front, show/hide points
+            // get correct zoom bounds
+            if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[s][d])) {
+                l = phonetrack.sessionLineLayers[s][d];
+                l.bringToFront();
+                b = l.getBounds();
+            }
+            else if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
+                l = phonetrack.sessionPointsLayers[s][d];
+                l.bringToFront();
+                b = l.getBounds();
+            }
+            else {
+                b = L.latLngBounds(m.getLatLng(), m.getLatLng());
+            }
+            phonetrack.map.fitBounds(b, {
+                animate: true,
+                maxZoom: 16,
+                paddingTopLeft: [parseInt($('#sidebar').css('width')),0]
+            });
 
-        for (id in phonetrack.sessionPointsLayersById[s][d]) {
-            phonetrack.sessionPointsLayersById[s][d][id].setZIndexOffset(phonetrack.lastZindex);
-        }
-        phonetrack.lastZindex += 10;
+            for (id in phonetrack.sessionPointsLayersById[s][d]) {
+                phonetrack.sessionPointsLayersById[s][d][id].setZIndexOffset(phonetrack.lastZindex);
+            }
+            phonetrack.lastZindex += 10;
 
-        m.setZIndexOffset(phonetrack.lastZindex++);
+            m.setZIndexOffset(phonetrack.lastZindex++);
+        }
     }
 
     function hideAllDropDowns() {
