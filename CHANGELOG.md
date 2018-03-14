@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - disable auto refresh when set to 0 or anything else than a positive integer
 [#78](https://gitlab.com/eneiluj/phonetrack-oc/issues/78) @tessus
 - option to export one file per device
+- device-specific geofencing
+[#79](https://gitlab.com/eneiluj/phonetrack-oc/issues/79) @dan-cristian
+- new public share option : only show last position (web page and controllers affected)
+[#91](https://gitlab.com/eneiluj/phonetrack-oc/issues/91) @tessus
+- new fields speed and bearing (traccar/gpslogger/logPost/logGet). filters, import/export adapted
+[#90](https://gitlab.com/eneiluj/phonetrack-oc/issues/90) @mihxx
 
 ### Changed
 - only get last point if no line/points asked for a device
@@ -26,6 +32,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - bad string point id when manually adding a point
 - refuse to log points with non numeric coordinates or timestamp
 [#87](https://gitlab.com/eneiluj/phonetrack-oc/issues/87) @phyks
+- don't send names, colors or geofences for devices with no points/lasttime in track, publicWebLogTrack and publicViewTrack
+- many missing tooltip update after edition, filter change...
+- avoid zooming on device with no point
 
 ## 0.2.2 – 2018-02-22
 ### Fixed
