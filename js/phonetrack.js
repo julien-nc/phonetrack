@@ -2409,12 +2409,12 @@
                 reaffectLink +
                 '</div>';
             geofencesLink = ' <button class="toggleGeofences" ' +
-                'title="' + t('phonetrack', 'Device geofences') + '">' +
+                'title="' + t('phonetrack', 'Device geofencing zones') + '">' +
                 '</button>';
             geofencesDiv = '<div class="geofencesDiv">' +
                 '<input type="text" class="geofencename" value="fence name"/>' +
-                '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofence') + '">' +
-                '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add geofence') +
+                '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
+                '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
                 '</button>' +
                 '<ul class="geofencelist"></ul>' +
                 '</div>';
@@ -3827,14 +3827,14 @@
             if (response.done === 1 || response.done === 4) {
                 addGeoFence(token, device, fencename, response.fenceid, mapbounds);
                 if (response.done === 4) {
-                    OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofence alerts.'));
+                    OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofencing alerts.'));
                 }
             }
             else {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to add geofence'));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to add geofencing zone'));
             }
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add geofence'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add geofencing zone'));
         });
     }
 
@@ -3868,10 +3868,10 @@
                 });
             }
             else {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete geofence'));
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete geofencing zone'));
             }
         }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete geofence'));
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete geofencing zone'));
         });
     }
 
@@ -3908,9 +3908,9 @@
             filtersToTxt(filters) + '">' +
             '<input type="text" class="publicFilteredShareUrl" value="' + publicurl + '"/>' +
             '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></button><br/>' +
-            '<label>' + t('phonetrack', 'Only show this device') + ' : </label>' +
+            '<label>' + t('phonetrack', 'Show this device only') + ' : </label>' +
             '<input type="text" role="device" value="' + escapeHTML(name || '') + '"/>' +
-            '<br/><label for="fil'+sharetoken+'">' + t('phonetrack', 'Only show last position') + ' : </label>' +
+            '<br/><label for="fil'+sharetoken+'">' + t('phonetrack', 'Show last positions only') + ' : </label>' +
             '<input id="fil'+sharetoken+'" type="checkbox" role="lastposonly" ' + lastposonlyChecked + '/>' +
             '</li>';
         $('.session[token="' + token + '"]').find('.publicfilteredsharelist').append(li);

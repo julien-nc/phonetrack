@@ -197,10 +197,10 @@ class LogController extends Controller {
 
                         $mailer = \OC::$server->getMailer();
                         $message = $mailer->createMessage();
-                        $message->setSubject($this->trans->t('Geofence alert'));
+                        $message->setSubject($this->trans->t('Geofencing alert'));
                         $message->setFrom([$mailfrom => 'PhoneTrack']);
                         $message->setTo([$userEmail => $this->userId]);
-                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofence "%s".', array($sessionname, $devicename, $fencename)));
+                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
                         $mailer->send($message);
                     }
                 }
@@ -220,10 +220,10 @@ class LogController extends Controller {
 
                         $mailer = \OC::$server->getMailer();
                         $message = $mailer->createMessage();
-                        $message->setSubject($this->trans->t('Geofence alert'));
+                        $message->setSubject($this->trans->t('Geofencing alert'));
                         $message->setFrom([$mailfrom => 'PhoneTrack']);
                         $message->setTo([$userEmail => $this->userId]);
-                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofence "%s".', array($sessionname, $devicename, $fencename)));
+                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
                         $mailer->send($message);
                     }
                 }
