@@ -788,6 +788,7 @@ div#createimportsessiondiv button {
     border: 0px;
     background: none;
 }
+input[role=geofencify],
 input[role=lastposonly] {
     min-height: 14px;
     height: 14px;

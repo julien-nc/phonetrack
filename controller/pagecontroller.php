@@ -26,6 +26,37 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
+function distance($lat1, $long1, $lat2, $long2){
+
+    if ($lat1 === $lat2 and $long1 === $long2){
+        return 0;
+    }
+
+    // Convert latitude and longitude to
+    // spherical coordinates in radians.
+    $degrees_to_radians = pi()/180.0;
+
+    // phi = 90 - latitude
+    $phi1 = (90.0 - $lat1)*$degrees_to_radians;
+    $phi2 = (90.0 - $lat2)*$degrees_to_radians;
+
+    // theta = longitude
+    $theta1 = $long1*$degrees_to_radians;
+    $theta2 = $long2*$degrees_to_radians;
+
+    $cos = (sin($phi1)*sin($phi2)*cos($theta1 - $theta2) +
+           cos($phi1)*cos($phi2));
+    // why some cosinus are > than 1 ?
+    if ($cos > 1.0){
+        $cos = 1.0;
+    }
+    $arc = acos($cos);
+
+    // Remember to multiply arc by the radius of the earth
+    // in your favorite set of units to get length.
+    return $arc*6371000;
+}
+
 class PageController extends Controller {
 
     private $userId;
@@ -374,7 +405,8 @@ class PageController extends Controller {
                     'token'=>$row['sharetoken'],
                     'filters'=>$row['filters'],
                     'devicename'=>$row['devicename'],
-                    'lastposonly'=>$row['lastposonly']
+                    'lastposonly'=>$row['lastposonly'],
+                    'geofencify'=>$row['geofencify']
                 )
             );
         }
@@ -418,6 +450,69 @@ class PageController extends Controller {
                 // set device name
                 $sqlupd = 'UPDATE *PREFIX*phonetrack_pubshares SET';
                 $sqlupd .= ' devicename='.$this->db_quote_escape_string($devicename).' ';
+                $sqlupd .= 'WHERE id='.$this->db_quote_escape_string($dbshareid).';';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+
+                $done = 1;
+            }
+            else {
+                $done = 3;
+            }
+        }
+        else {
+            $done = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$done
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function setPublicShareGeofencify($token, $sharetoken, $geofencify) {
+        $done = 0;
+        // check if sessions exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($token).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if sharetoken exists
+            $sqlchk = 'SELECT * FROM *PREFIX*phonetrack_pubshares ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+            $sqlchk .= 'AND sharetoken='.$this->db_quote_escape_string($sharetoken).';';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbshareid = null;
+            while ($row = $req->fetch()){
+                $dbshareid = $row['id'];
+            }
+            $req->closeCursor();
+
+            if ($dbshareid !== null) {
+                // set device name
+                $sqlupd = 'UPDATE *PREFIX*phonetrack_pubshares SET';
+                $sqlupd .= ' geofencify='.$this->db_quote_escape_string($geofencify).' ';
                 $sqlupd .= 'WHERE id='.$this->db_quote_escape_string($dbshareid).';';
                 $req = $this->dbconnection->prepare($sqlupd);
                 $req->execute();
@@ -1758,8 +1853,10 @@ class PageController extends Controller {
             $publicviewtoken = $session[0];
             $lastTime = $session[1];
             $lastposonly = 0;
+            $geofencify = 0;
 
             // check if session exists
+            $dbtoken = null;
             $dbpublicviewtoken = null;
             $dbpublic = null;
             $filters = null;
@@ -1781,7 +1878,7 @@ class PageController extends Controller {
             // there is no session with this publicviewtoken
             // check if there is a public share with the sharetoken
             if ($dbpublicviewtoken === null) {
-                $sqlget = 'SELECT sharetoken, sessionid, filters, devicename, lastposonly FROM *PREFIX*phonetrack_pubshares ';
+                $sqlget = 'SELECT sharetoken, sessionid, filters, devicename, lastposonly, geofencify FROM *PREFIX*phonetrack_pubshares ';
                 $sqlget .= 'WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
@@ -1790,6 +1887,7 @@ class PageController extends Controller {
                     $dbtoken = $row['sessionid'];
                     $filters = json_decode($row['filters'], True);
                     $lastposonly = $row['lastposonly'];
+                    $geofencify = $row['geofencify'];
                     if ($row['devicename'] !== null and $row['devicename'] !== '') {
                         $deviceNameRestriction = ' AND name='.$this->db_quote_escape_string($row['devicename']).' ';
                     }
@@ -1888,6 +1986,9 @@ class PageController extends Controller {
                         }
                     }
                 }
+                if (intval($geofencify) !== 0) {
+                    $result[$dbpublicviewtoken] = $this->geofencify($dbtoken, $dbpublicviewtoken, $result[$dbpublicviewtoken]);
+                }
             }
         }
 
@@ -1904,6 +2005,53 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    private function getDeviceFencesCenter($devid) {
+        $fences = array();
+        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name';
+        $sqlget .= ' FROM *PREFIX*phonetrack_geofences ';
+        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $lat = (floatval($row['latmin']) + floatval($row['latmax'])) / 2;
+            $lon = (floatval($row['lonmin']) + floatval($row['lonmax'])) / 2;
+            $fences[$row['name']] = array($lat, $lon);
+        }
+        return $fences;
+    }
+
+    private function geofencify($token, $ptk, $devtab) {
+        $result = array();
+        if (count($devtab) > 0) {
+            foreach ($devtab as $devid => $entries) {
+                $geofencesCenter = $this->getDeviceFencesCenter($devid);
+                if (count($geofencesCenter) > 0) {
+                    $result[$devid] = array();
+                    foreach ($entries as $entry) {
+                        $sentry = $this->geofencifyPoint($entry, $geofencesCenter);
+                        if ($sentry !== null) {
+                            array_push($result[$devid], $sentry);
+                        }
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    private function geofencifyPoint($entry, $geofencesCenter) {
+        $nearestName = null;
+        $distMin = null;
+        foreach ($geofencesCenter as $name=>$coords) {
+            $dist = distance($coords[0], $coords[1], $entry[1], $entry[2]);
+            if ($nearestName === null or $dist < $distMin) {
+                $distMin = $dist;
+                $nearestName = $name;
+            }
+        }
+        return array($entry[0], $geofencesCenter[$nearestName][0], $geofencesCenter[$nearestName][1], $entry[3], null, null, null, null, null, null, null);
     }
 
     /**

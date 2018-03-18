@@ -1497,7 +1497,8 @@
                 publicFilteredShares[i].token,
                 publicFilteredShares[i].filters,
                 publicFilteredShares[i].devicename,
-                publicFilteredShares[i].lastposonly
+                publicFilteredShares[i].lastposonly,
+                publicFilteredShares[i].geofencify
             );
         }
     }
@@ -2759,7 +2760,7 @@
         var entry = phonetrack.sessionPointsEntriesById[s][d][pid];
         if ($('#acccirclecheck').is(':checked')) {
             var latlng = e.target.getLatLng();
-            var acc = parseInt(phonetrack.sessionPointsEntriesById[s][d][pid].accuracy);
+            var acc = parseInt(phonetrack.sessionPointsEntriesById[s][d][pid].accuracy) || -1;
             if (acc !== -1) {
                 phonetrack.currentPrecisionCircle = L.circle(latlng, {radius: acc});
                 phonetrack.map.addLayer(phonetrack.currentPrecisionCircle);
@@ -3755,6 +3756,30 @@
         });
     }
 
+    function setPublicShareGeofencifyDb(token, sharetoken, geofencify) {
+        var req = {
+            token: token,
+            sharetoken: sharetoken,
+            geofencify: geofencify
+        };
+        var url = OC.generateUrl('/apps/phonetrack/setPublicShareGeofencify');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                OC.Notification.showTemporary(t('phonetrack', 'Public share has been successfully modified'));
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to modify public share'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to modify public share'));
+        });
+    }
+
     function setPublicShareLastOnlyDb(token, sharetoken, lastposonly) {
         var req = {
             token: token,
@@ -3897,7 +3922,11 @@
         });
     }
 
-    function addPublicSessionShare(token, sharetoken, filters, name='', lastposonly=0) {
+    function addPublicSessionShare(token, sharetoken, filters, name='', lastposonly=0, geofencify=0) {
+        var geofencifyChecked = '';
+        if (geofencify === '1') {
+            geofencifyChecked = 'checked';
+        }
         var lastposonlyChecked = '';
         if (lastposonly === '1') {
             lastposonlyChecked = 'checked';
@@ -3912,6 +3941,8 @@
             '<input type="text" role="device" value="' + escapeHTML(name || '') + '"/>' +
             '<br/><label for="fil'+sharetoken+'">' + t('phonetrack', 'Show last positions only') + ' : </label>' +
             '<input id="fil'+sharetoken+'" type="checkbox" role="lastposonly" ' + lastposonlyChecked + '/>' +
+            '<br/><label for="geo'+sharetoken+'">' + t('phonetrack', 'Simplify positions to nearest geofencing zone center') + ' : </label>' +
+            '<input id="geo'+sharetoken+'" type="checkbox" role="geofencify" ' + geofencifyChecked + '/>' +
             '</li>';
         $('.session[token="' + token + '"]').find('.publicfilteredsharelist').append(li);
     }
@@ -5164,6 +5195,16 @@
             }
             var token = $(this).parent().parent().parent().parent().parent().attr('token');
             setPublicShareLastOnlyDb(token, filteredtoken, checked);
+        });
+
+        $('body').on('click', 'input[role=geofencify]', function(e) {
+            var filteredtoken = $(this).parent().attr('filteredtoken');
+            var checked = 0;
+            if ($(this).is(':checked')) {
+                checked = 1;
+            }
+            var token = $(this).parent().parent().parent().parent().parent().attr('token');
+            setPublicShareGeofencifyDb(token, filteredtoken, checked);
         });
 
         if (!pageIsPublic()) {

@@ -442,6 +442,13 @@
       <default>0</default>
       <length>4</length>
     </field>
+    <field>
+      <name>geofencify</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>0</default>
+      <length>4</length>
+    </field>
   </declaration>
 </table>
 </database>
