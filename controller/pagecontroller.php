@@ -2017,7 +2017,7 @@ class PageController extends Controller {
         while ($row = $req->fetch()){
             $lat = (floatval($row['latmin']) + floatval($row['latmax'])) / 2;
             $lon = (floatval($row['lonmin']) + floatval($row['lonmax'])) / 2;
-            $fences[$row['name']] = array($lat, $lon);
+            $fences[$row['name']] = array($lat, $lon, floatval($row['latmin']), floatval($row['latmax']), floatval($row['lonmin']), floatval($row['lonmax']));
         }
         return $fences;
     }
@@ -2035,6 +2035,9 @@ class PageController extends Controller {
                             array_push($result[$devid], $sentry);
                         }
                     }
+                    if (count($result[$devid]) === 0) {
+                        unset($result[$devid]);
+                    }
                 }
             }
         }
@@ -2045,13 +2048,25 @@ class PageController extends Controller {
         $nearestName = null;
         $distMin = null;
         foreach ($geofencesCenter as $name=>$coords) {
-            $dist = distance($coords[0], $coords[1], $entry[1], $entry[2]);
-            if ($nearestName === null or $dist < $distMin) {
-                $distMin = $dist;
-                $nearestName = $name;
+            // if point is inside geofencing zone
+            if (    $entry[1] >= $coords[2]
+                and $entry[1] <= $coords[3]
+                and $entry[2] >= $coords[4]
+                and $entry[2] <= $coords[5]
+            ) {
+                $dist = distance($coords[0], $coords[1], $entry[1], $entry[2]);
+                if ($nearestName === null or $dist < $distMin) {
+                    $distMin = $dist;
+                    $nearestName = $name;
+                }
             }
         }
-        return array($entry[0], $geofencesCenter[$nearestName][0], $geofencesCenter[$nearestName][1], $entry[3], null, null, null, null, null, null, null);
+        if ($nearestName !== null) {
+            return array($entry[0], $geofencesCenter[$nearestName][0], $geofencesCenter[$nearestName][1], $entry[3], null, null, null, null, null, null, null);
+        }
+        else {
+            return null;
+        }
     }
 
     /**
