@@ -2452,7 +2452,7 @@ class PageController extends Controller {
                             $gpxContent = $this->generateGpx($name, $devCoords);
                             // generate file name for this device
                             $devFileName = str_replace(array('.gpx', '.GPX'), '_'.$devname.'.gpx',  $newFileName);
-                            if (! $dir->nodeExists($newFileName)) {
+                            if (! $dir->nodeExists($devFileName)) {
                                 $dir->newFile($devFileName);
                             }
                             $file = $dir->get($devFileName);
