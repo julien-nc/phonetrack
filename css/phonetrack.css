@@ -96,32 +96,15 @@ h3 {
     margin-left:20px;
     list-style-type:circle;
 }
-#loading {
-    /*width: 330px;*/
-    padding-left: 5px;
-    /*height: 35px;*/
-    text-align: right;
-    font-weight: bold;
-    font-size: 22px;
-    color: white;
-    background-color: #0074D9;
-    background-size: 30px 30px;
-    background-repeat: no-repeat;
-    background-position: 3% 50%;
-    border-radius: 7px;
-    /*float: right;*/
-    position:fixed;
-    left:60px;
-    top:60px;
-    display:none;
-    /*z-index: 1000;*/
+#loadingpc {
+    width: 100%;
+    text-align: center;
+    display: block;
 }
-#loading .fa {
-    font-size: 22px;
-}
-
-#loading p {
-    padding: 6px 6px 6px 6px;
+i.display {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 .clear {
     clear:both;
@@ -848,3 +831,15 @@ button.addgeofencebutton,
 input.geofencename {
     width: 49% !important;
 }
+.leaflet-control-dialog-contents {
+    padding: 2px 0px !important;
+    overflow: visible !important;
+}
+.leaflet-control-dialog-inner {
+    padding: 2px 2px !important;
+    overflow: visible !important;
+}
+.leaflet-control-dialog i:not(.display) {
+    display: none;
+}
+

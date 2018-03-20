@@ -9,6 +9,7 @@ script('phonetrack', 'leaflet-sidebar.min');
 script('phonetrack', 'jquery-ui.min');
 script('phonetrack', 'moment-timezone-with-data.min');
 script('phonetrack', 'Leaflet.LinearMeasurement');
+script('phonetrack', 'Leaflet.Dialog');
 script('phonetrack', 'easy-button');
 script('phonetrack', 'jquery.plugin.min');
 script('phonetrack', 'jquery.countdown.min');
@@ -23,6 +24,7 @@ style('phonetrack', 'font-awesome.min');
 style('phonetrack', 'phonetrack');
 style('phonetrack', 'L.Control.Locate');
 style('phonetrack', 'Leaflet.LinearMeasurement');
+style('phonetrack', 'Leaflet.Dialog');
 style('phonetrack', 'easy-button');
 
 ?>

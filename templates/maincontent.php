@@ -160,10 +160,6 @@ p($_['phonetrack_version']);
     <h3 id="ticv" class="sectiontitle"><?php p($l->t('Tracking sessions')); ?></h3>
     <div id="sessions">
     </div>
-    <div id="loading"><p>
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-        <label id="loadingtext"></label>&nbsp;<b id="loadingpc"></b></p>
-    </div>
     <div id="trackurldialog" style="display:none;">
         <label id="trackurllabel" for="trackurlinput"></label>
         <br/>

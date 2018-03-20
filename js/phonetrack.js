@@ -487,6 +487,16 @@
             zoomControl: true
         });
 
+        var notificationText = '<div id="loadingnotification"><i class="fa fa-spinner fa-pulse fa-3x fa-fw display"></i><b id="loadingpc"></b></div>';
+        phonetrack.notificationDialog = L.control.dialog({
+            anchor: [0, -65],
+            position: 'topright',
+            //minSize: [70, 70],
+            //maxSize: [70, 70],
+            size: [55, 60]
+        })
+        .setContent(notificationText)
+
         L.control.scale({metric: true, imperial: true, position: 'topleft'})
         .addTo(phonetrack.map);
 
@@ -797,20 +807,13 @@
     //////////////// ANIMATIONS /////////////////////
 
     function showLoadingAnimation() {
-        $('#loadingtext').text(t('phonetrack', 'loading positions'));
+        phonetrack.notificationDialog.addTo(phonetrack.map);
         $('#loadingpc').text('');
-        $('#loading').show();
-    }
-
-    function showImportAnimation() {
-        $('#loadingtext').text(t('phonetrack', 'importing session'));
-        $('#loading').show();
     }
 
     function hideLoadingAnimation() {
-        //$('div#logo').removeClass('spinning');
-        $('#loading').hide();
         $('#loadingpc').text('');
+        phonetrack.notificationDialog.remove();
     }
 
     //////////////// PUBLIC DIR/FILE /////////////////////
@@ -1836,7 +1839,7 @@
                     xhr.addEventListener('progress', function(evt) {
                         if (evt.lengthComputable) {
                             var percentComplete = evt.loaded / evt.total * 100;
-                            $('#loadingpc').text('(' + parseInt(percentComplete) + '%)');
+                            $('#loadingpc').text(parseInt(percentComplete) + '%');
                         }
                     }, false);
 
@@ -3407,7 +3410,7 @@
             OC.Notification.showTemporary(t('phonetrack', 'File extension must be \'.gpx\' to be imported'));
         }
         else {
-            showImportAnimation();
+            showLoadingAnimation();
             var req = {
                 path: path
             };
@@ -3447,6 +3450,7 @@
     }
 
     function saveAction(name, token, targetPath, filename) {
+        showLoadingAnimation();
         var req = {
             name: name,
             token: token,
@@ -3467,6 +3471,7 @@
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to export session'));
             }
         }).always(function() {
+            hideLoadingAnimation();
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to export session'));
         });
