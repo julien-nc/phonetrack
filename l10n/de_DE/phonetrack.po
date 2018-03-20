@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-03-15 10:09+0100\n"
-"PO-Revision-Date: 2018-03-20 12:23-0400\n"
+"PO-Revision-Date: 2018-03-20 12:47-0400\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -881,11 +881,11 @@ msgstr "Genauigkeit in Tooltip anzeigen"
 
 #: maincontent.php:87
 msgid "Show speed in tooltips"
-msgstr ""
+msgstr "Geschwindigkeit in QuickInfo anzeigen"
 
 #: maincontent.php:91
 msgid "Show bearing in tooltips"
-msgstr ""
+msgstr "Peilung in QuickInfo anzeigen"
 
 #: maincontent.php:95
 msgid "Show satellites in tooltips"
@@ -1159,19 +1159,19 @@ msgstr "Maximaler Ladezustand"
 
 #: maincontent.php:535
 msgid "Minimum speed"
-msgstr ""
+msgstr "Niedrigste Geschwindigkeit"
 
 #: maincontent.php:543
 msgid "Maximum speed"
-msgstr ""
+msgstr "Höchstgeschwindigkeit"
 
 #: maincontent.php:551
 msgid "Minimum bearing"
-msgstr ""
+msgstr "Minimale Peilung"
 
 #: maincontent.php:559
 msgid "Maximum bearing"
-msgstr ""
+msgstr "Maximale Peilung"
 
 #: maincontent.php:567
 msgid "Minimum satellites"
