@@ -12,6 +12,7 @@ OC.L10N.register(
     "Hide last point tooltip" : "Skryť štítky užívateľov",
     "Zoom on all devices" : "Zobraziť všetkých užívateľov",
     "Click on the map to move the point, press ESC to cancel" : "Kliknutím na mapu presuniete bod, stlačením klávesu ESC zrušíte",
+    "loading positions" : "načitávam pozície",
     "Server name or server url should not be empty" : "Názov servera alebo adresa url servera nemôže byť prázdna",
     "Impossible to add tile server" : "Nedá sa pridať mapový server",
     "A server with this name already exists" : "Server s týmto názvom už existuje",
@@ -82,7 +83,6 @@ OC.L10N.register(
     "Impossible to move device to another session" : "Nedá sa presunúť zariadenie do inej relácie",
     "Failed to contact server to move device" : "Nepodarilo sa spojiť so severom, aby bolo zariadenie presunuté",
     "Failed to contact server to get sessions" : "Nepodarilo sa spojiť so severom pre získanie relácií",
-    "Failed to contact server to refresh sessions" : "Nepodarilo sa spojiť so severom na obnovenie relácií",
     "Stats of all points" : "Štatistiky všetkých bodov",
     "Stats of filtered points" : "Štatistiky filtrovaných bodov",
     "Device's color successfully changed" : "Farbu zariadenia úspešne zmenená",
@@ -189,7 +189,6 @@ OC.L10N.register(
     "Device name" : "Názov zariadenia",
     "Log my position in this session" : "Zaznamenať moju pozíciu v tejto relácii",
     "Tracking sessions" : "Nahrávané relácie",
-    "loading positions" : "načitávam pozície",
     "Custom tile servers" : "Vlastné mapové servery",
     "Server name" : "Názov servera",
     "For example : my custom server" : "Napríklad: môj vlastný server",
@@ -247,4 +246,4 @@ OC.L10N.register(
     "Source management" : "Manažovanie zdrojového kódu",
     "Authors" : "Autori"
 },
-"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: sk");
+"nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: sk");

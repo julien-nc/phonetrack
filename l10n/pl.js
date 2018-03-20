@@ -12,6 +12,7 @@ OC.L10N.register(
     "Hide last point tooltip" : "Ukryj ostatni punkt podpowiedzi",
     "Zoom on all devices" : "Przybliż na wszystkich urządzeniach",
     "Click on the map to move the point, press ESC to cancel" : "Kliknij na mapie, aby przesunąć punkt, naciśnij klawisz ESC, aby anulować",
+    "loading positions" : "wczytywanie pozycji",
     "Server name or server url should not be empty" : "Nazwa serwera lub adres url serwera nie powinnny być puste",
     "Impossible to add tile server" : "Nie udało się dodać serwera fragmentów mapy",
     "A server with this name already exists" : "Serwer o tej nazwie już istnieje",
@@ -44,6 +45,7 @@ OC.L10N.register(
     "daily" : "dziennie",
     "weekly" : "tygodniowo",
     "monthly" : "miesięcznie",
+    "a day" : "dzień",
     "Name reservation is optional." : "Rezerwacja nazwy jest opcjonalna.",
     "Name can be set directly in logging URL if it is not reserved." : "Nazwę można ustawić bezpośrednio w adresie URL rejestrowania Jeśli nie jest zarezerwowana.",
     "To log with a reserved name, use its token in logging URL." : "Aby zalogować się przy użyciu zarezerwowanej nazwy, należy użyć jego token w adresie URL logowania.",
@@ -84,7 +86,6 @@ OC.L10N.register(
     "Impossible to move device to another session" : "Niemożliwe przenieść urządzenie do innej sesji",
     "Failed to contact server to move device" : "Nie udało się połączyć do serwera, aby przesunąć urządzenie",
     "Failed to contact server to get sessions" : "Nie udało się połączyć do serwera, aby uzyskać sesje",
-    "Failed to contact server to refresh sessions" : "Nie udało się połączyć do serwera, aby odświeżyć sesje",
     "Stats of all points" : "Statystyki wszystkich punktów",
     "Stats of filtered points" : "Statystyki filtrowanych punktów",
     "Device's color successfully changed" : "Kolor urządzenia pomyślnie zmieniony",
@@ -205,7 +206,6 @@ OC.L10N.register(
     "Device name" : "Nazwa urządzenia",
     "Log my position in this session" : "Rejestruj moją pozycje podczas tej sesji",
     "Tracking sessions" : "Śledzenie sesji",
-    "loading positions" : "wczytywanie pozycji",
     "Custom tile servers" : "Niestandardowy kafelek serwerowy",
     "Server name" : "Nazwa serwera",
     "For example : my custom server" : "Na przykład: mój niestandardowy serwer",
@@ -263,4 +263,4 @@ OC.L10N.register(
     "Source management" : "Zarządzanie źródłem",
     "Authors" : "Autorzy"
 },
-"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: pl");
+"nplurals=4; plural=((n == 1) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || n%10 == 1 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 12 && n%100 <= 14)) ? 2 : 3));\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: pl");

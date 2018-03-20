@@ -84,7 +84,6 @@ OC.L10N.register(
     "Impossible to move device to another session" : "Невозможно переместить устройство в другой сеанс",
     "Failed to contact server to move device" : "Не удалось связаться с сервером для перемещения устройства",
     "Failed to contact server to get sessions" : "Не удалось связаться с сервером для получения сеансов",
-    "Failed to contact server to refresh sessions" : "Не удалось связаться с сервером для обновления сессий",
     "Stats of all points" : "Статистика всех точек",
     "Stats of filtered points" : "Статистика отфильтрованных точек",
     "Device's color successfully changed" : "Цвет устройства успешно изменен",
@@ -145,7 +144,7 @@ OC.L10N.register(
     "Failed to contact server to delete public share" : "Не удалось связаться с сервером, чтобы удалить общий ресурс",
     "Failed to contact server to get user list" : "Не удалось связаться с сервером, чтобы получить список пользователей",
     "device name" : "имя устройства",
-    "distance (km)" : "Расстояние (км)",
+    "distance (km)" : "Pасстояние (км)",
     "duration" : "Продолжительность",
     "#points" : "#points",
     "years" : "лет",
@@ -163,11 +162,11 @@ OC.L10N.register(
     "Configure {loggingApp} for logging to session '{sessionName}'" : "Настройка {loggingApp} для ведения журнала сессии '{sessionName}»",
     "Are you sure you want to delete the session {session} ?" : "Вы уверены, что хотите удалить эту сессию {session} ?",
     "Confirm session deletion" : "Подтверждение удаления сессии",
-    "Choose auto export target path" : "Выберите путь авто экспорта.",
+    "Choose auto export target path" : "Выберите путь авто экспорта",
     "Select storage location for '{fname}'" : "Выберите путь хранения для '{fname}'",
     "Are you sure you want to delete the device {device} ?" : "Вы уверены, что хотите удалить это устройство {device} ?",
-    "Confirm device deletion" : "Подтверждение удаления устройства.",
-    "Failed to toggle session public status, session does not exist" : "Не удалось изменить статус сессии, сессия не существует.",
+    "Confirm device deletion" : "Подтверждение удаления устройства",
+    "Failed to toggle session public status, session does not exist" : "Не удалось изменить статус сессии, сессия не существует",
     "Opacity (0.0-1.0)" : "Прозрачность (0.0-1.0)",
     "Your overlay tile servers" : "Ваши серверы плитка оверлея",
     "Custom WMS tile servers" : "Пользовательские плитки для сервера WMS",
@@ -178,4 +177,4 @@ OC.L10N.register(
     "Custom WMS overlay servers" : "Пользовательские WMS наложение серверов",
     "Authors" : "Авторы"
 },
-"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: ru");
+"nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: ru");
