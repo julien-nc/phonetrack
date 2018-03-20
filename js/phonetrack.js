@@ -493,7 +493,7 @@
             position: 'topright',
             //minSize: [70, 70],
             //maxSize: [70, 70],
-            size: [55, 60]
+            size: [50, 53]
         })
         .setContent(notificationText)
 
