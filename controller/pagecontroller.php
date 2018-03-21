@@ -3401,19 +3401,18 @@ class PageController extends Controller {
                     $acc = sprintf('%.2f', floatval($acc));
                 }
 
-                // TODO put NULL instead of dumb values
                 $oneVal = '(';
                 $oneVal .= $this->db_quote_escape_string($dbdeviceid).',';
                 $oneVal .= $this->db_quote_escape_string($lat).',';
                 $oneVal .= $this->db_quote_escape_string($lon).',';
                 $oneVal .= $this->db_quote_escape_string($time).',';
-                $oneVal .= $this->db_quote_escape_string($acc).',';
-                $oneVal .= $this->db_quote_escape_string($sat).',';
-                $oneVal .= $this->db_quote_escape_string($alt).',';
-                $oneVal .= $this->db_quote_escape_string($bat).',';
+                $oneVal .= (is_numeric($acc) ? $this->db_quote_escape_string($acc) : 'NULL').',';
+                $oneVal .= (is_numeric($sat) ? $this->db_quote_escape_string($sat) : 'NULL').',';
+                $oneVal .= (is_numeric($alt) ? $this->db_quote_escape_string($alt) : 'NULL').',';
+                $oneVal .= (is_numeric($bat) ? $this->db_quote_escape_string($bat) : 'NULL').',';
                 $oneVal .= $this->db_quote_escape_string($useragent).',';
-                $oneVal .= $this->db_quote_escape_string($speed).',';
-                $oneVal .= $this->db_quote_escape_string($bearing).') ';
+                $oneVal .= (is_numeric($speed) ? $this->db_quote_escape_string($speed) : 'NULL').',';
+                $oneVal .= (is_numeric($bearing) ? $this->db_quote_escape_string($bearing) : 'NULL').') ';
 
                 array_push($valuesStrings, $oneVal);
             }
