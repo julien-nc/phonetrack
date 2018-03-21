@@ -3205,35 +3205,35 @@
             pointtooltip = pointtooltip + '<br/>' +
                 mom.format('YYYY-MM-DD HH:mm:ss (Z)');
         }
-        if (entry.altitude && parseInt(entry.altitude) !== -1 && $('#tooltipshowelevation').is(':checked')) {
+        if ($('#tooltipshowelevation').is(':checked') && !isNaN(entry.altitude)) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Altitude') + ' : ' + parseInt(entry.altitude) + 'm';
+                t('phonetrack', 'Altitude') + ' : ' + parseFloat(entry.altitude).toFixed(2) + 'm';
         }
-        if (entry.accuracy && parseInt(entry.accuracy) !== -1 && $('#tooltipshowaccuracy').is(':checked')) {
+        if ($('#tooltipshowaccuracy').is(':checked') && !isNaN(entry.accuracy) && parseFloat(entry.accuracy) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Precision') + ' : ' + entry.accuracy + 'm';
         }
-        if (entry.speed && parseInt(entry.speed) !== -1 && $('#tooltipshowspeed').is(':checked')) {
+        if ($('#tooltipshowspeed').is(':checked') && !isNaN(entry.speed) && parseFloat(entry.speed) >= 0) {
             var speed_kmph = parseFloat(entry.speed) * 3.6;
             speed_kmph = speed_kmph.toFixed(3);
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Speed') + ' : ' + speed_kmph + 'km/h';
         }
-        if (entry.bearing && parseInt(entry.bearing) !== -1 && $('#tooltipshowbearing').is(':checked')) {
+        if ($('#tooltipshowbearing').is(':checked') && !isNaN(entry.bearing) && parseFloat(entry.bearing) >= 0 && parseFloat(entry.bearing) <= 360) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Bearing') + ' : ' + entry.bearing + '°';
         }
-        if (entry.satellites && parseInt(entry.satellites) !== -1 && $('#tooltipshowsatellites').is(':checked')) {
+        if ($('#tooltipshowsatellites').is(':checked') && !isNaN(entry.satellites) && parseInt(entry.satellites) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Satellites') + ' : ' + entry.satellites;
         }
-        if (entry.batterylevel && parseInt(entry.batterylevel) !== -1 && $('#tooltipshowbattery').is(':checked')) {
+        if ($('#tooltipshowbattery').is(':checked') && !isNaN(entry.batterylevel) && parseFloat(entry.batterylevel) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Battery') + ' : ' + entry.batterylevel + '%';
         }
-        if (entry.useragent && entry.useragent !== '' && entry.useragent !== 'nothing' && $('#tooltipshowuseragent').is(':checked')) {
+        if ($('#tooltipshowuseragent').is(':checked') && entry.useragent !== '' && entry.useragent !== 'nothing') {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'User-agent') + ' : ' + entry.useragent;
+                t('phonetrack', 'User-agent') + ' : ' + escapeHTML(entry.useragent);
         }
 
         return pointtooltip;
@@ -4757,9 +4757,9 @@
             // unchanged latlng
             var lat = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lat;
             var lon = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lon;
-            var alt = parseInt(tab.find('input[role=altitude]').val());
+            var alt = parseFloat(tab.find('input[role=altitude]').val());
             if (isNaN(alt)) { alt = null; }
-            var acc = parseInt(tab.find('input[role=precision]').val());
+            var acc = parseFloat(tab.find('input[role=precision]').val());
             if (isNaN(acc) || acc < 0) { acc = null; }
             var sat = parseInt(tab.find('input[role=satellites]').val());
             if (isNaN(sat) || sat < 0) { sat = null; }
@@ -4772,7 +4772,7 @@
             }
             var bearing = parseFloat(tab.find('input[role=bearing]').val());
             if (isNaN(bearing) || bearing < 0 || bearing > 360) { bearing = null; }
-            var bat = parseInt(tab.find('input[role=battery]').val());
+            var bat = parseFloat(tab.find('input[role=battery]').val());
             if (isNaN(bat) || bat < 0 || bat > 100) { bat = null; }
             var useragent = tab.find('input[role=useragent]').val();
             var datestr = tab.find('input[role=date]').val();
