@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#91](https://gitlab.com/eneiluj/phonetrack-oc/issues/91) @tessus
 - new fields speed and bearing (traccar/gpslogger/logPost/logGet). filters, import/export adapted
 [#90](https://gitlab.com/eneiluj/phonetrack-oc/issues/90) @mihxx
+- new public share option to simplify points to nearest geofencing zone center
+[#92](https://gitlab.com/eneiluj/phonetrack-oc/issues/92) @phyks
 
 ### Changed
 - only get last point if no line/points asked for a device
@@ -27,6 +29,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - improved tests : add a few SQL injection tries
 [#86](https://gitlab.com/eneiluj/phonetrack-oc/issues/86) @eneiluj
 - update to leaflet 1.3.1
+- clarify point values validation
+[#93](https://gitlab.com/eneiluj/phonetrack-oc/issues/93) @tessus
+- nicer svg icons
+- use Leaflet.Dialog to display 'loading' animation on refresh, import and export
+[#83](https://gitlab.com/eneiluj/phonetrack-oc/issues/83) @efelon
 
 ### Fixed
 - bad string point id when manually adding a point
@@ -35,6 +42,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - don't send names, colors or geofences for devices with no points/lasttime in track, publicWebLogTrack and publicViewTrack
 - many missing tooltip update after edition, filter change...
 - avoid zooming on device with no point
+- insert NULL in DB instead of dumb values
+[#93](https://gitlab.com/eneiluj/phonetrack-oc/issues/93) @tessus
 
 ## 0.2.2 – 2018-02-22
 ### Fixed
