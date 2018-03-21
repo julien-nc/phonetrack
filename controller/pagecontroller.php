@@ -861,14 +861,14 @@ class PageController extends Controller {
                     $sqlupd = 'UPDATE *PREFIX*phonetrack_points SET';
                     $sqlupd .= ' lat='.$this->db_quote_escape_string($lat).' ';
                     $sqlupd .= ', lon='.$this->db_quote_escape_string($lon).' ';
-                    $sqlupd .= ', altitude='.$this->db_quote_escape_string($alt).' ';
+                    $sqlupd .= ', altitude='.(is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL').' ';
                     $sqlupd .= ', timestamp='.$this->db_quote_escape_string($timestamp).' ';
-                    $sqlupd .= ', accuracy='.$this->db_quote_escape_string($acc).' ';
-                    $sqlupd .= ', batterylevel='.$this->db_quote_escape_string($bat).' ';
-                    $sqlupd .= ', satellites='.$this->db_quote_escape_string($sat).' ';
+                    $sqlupd .= ', accuracy='.(is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL').' ';
+                    $sqlupd .= ', batterylevel='.(is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL').' ';
+                    $sqlupd .= ', satellites='.(is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL').' ';
                     $sqlupd .= ', useragent='.$this->db_quote_escape_string($useragent).' ';
-                    $sqlupd .= ', speed='.$this->db_quote_escape_string($speed).' ';
-                    $sqlupd .= ', bearing='.$this->db_quote_escape_string($bearing).' ';
+                    $sqlupd .= ', speed='.(is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL').' ';
+                    $sqlupd .= ', bearing='.(is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').' ';
                     $sqlupd .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdid).' ';
                     $sqlupd .= 'AND id='.$this->db_quote_escape_string($dbpid).';';
                     $req = $this->dbconnection->prepare($sqlupd);
@@ -2662,22 +2662,22 @@ class PageController extends Controller {
                 $gpxExtension = '';
                 $gpxText .= '  <trkpt lat="'.$point[0].'" lon="'.$point[1].'">' . "\n";
                 $gpxText .= '   <time>' . $point[2] . '</time>' . "\n";
-                if (is_numeric($alt) && floatval($alt) !== -1.0) {
+                if (is_numeric($alt)) {
                     $gpxText .= '   <ele>' . sprintf('%.2f', floatval($alt)) . '</ele>' . "\n";
                 }
-                if (is_numeric($speed) && intval($speed) !== -1) {
+                if (is_numeric($speed) && floatval($speed) >= 0) {
                     $gpxText .= '   <speed>' . sprintf('%.3f', floatval($speed)) . '</speed>' . "\n";
                 }
-                if (is_numeric($bearing) && intval($bearing) !== -1) {
+                if (is_numeric($bearing) && floatval($bearing) >= 0 && floatval($bearing) <= 360) {
                     $gpxText .= '   <course>' . sprintf('%.3f', floatval($bearing)) . '</course>' . "\n";
                 }
-                if (is_numeric($sat) && intval($sat) !== -1) {
+                if (is_numeric($sat) && intval($sat) >= 0) {
                     $gpxText .= '   <sat>' . intval($sat) . '</sat>' . "\n";
                 }
-                if (is_numeric($acc) && intval($acc) !== -1) {
+                if (is_numeric($acc) && intval($acc) >= 0) {
                     $gpxExtension .= '     <accuracy>' . sprintf('%.2f', floatval($acc)) . '</accuracy>' . "\n";
                 }
-                if (is_numeric($bat) && intval($bat) !== -1) {
+                if (is_numeric($bat) && intval($bat) >= 0) {
                     $gpxExtension .= '     <batterylevel>' . sprintf('%.2f', floatval($bat)) . '</batterylevel>' . "\n";
                 }
                 if ($ua !== '') {
@@ -3401,6 +3401,7 @@ class PageController extends Controller {
                     $acc = sprintf('%.2f', floatval($acc));
                 }
 
+                // TODO put NULL instead of dumb values
                 $oneVal = '(';
                 $oneVal .= $this->db_quote_escape_string($dbdeviceid).',';
                 $oneVal .= $this->db_quote_escape_string($lat).',';
@@ -3521,13 +3522,13 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string($lat).',';
                 $sql .= $this->db_quote_escape_string($lon).',';
                 $sql .= $this->db_quote_escape_string($time).',';
-                $sql .= $this->db_quote_escape_string($acc).',';
-                $sql .= $this->db_quote_escape_string($sat).',';
-                $sql .= $this->db_quote_escape_string($alt).',';
-                $sql .= $this->db_quote_escape_string($bat).',';
+                $sql .= (is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL').',';
+                $sql .= (is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL').',';
+                $sql .= (is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL').',';
+                $sql .= (is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL').',';
                 $sql .= $this->db_quote_escape_string($useragent).',';
-                $sql .= $this->db_quote_escape_string($speed).',';
-                $sql .= $this->db_quote_escape_string($bearing).');';
+                $sql .= (is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL').',';
+                $sql .= (is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();

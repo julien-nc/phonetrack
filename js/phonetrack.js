@@ -712,7 +712,7 @@
     }
 
     function addPointClickMap(e) {
-        addPointDB(e.latlng.lat.toFixed(6), e.latlng.lng.toFixed(6), -1, -1, -1, -1, moment());
+        addPointDB(e.latlng.lat.toFixed(6), e.latlng.lng.toFixed(6), null, null, null, null, moment());
         leaveAddPointMode();
     }
 
@@ -2992,7 +2992,7 @@
         phonetrack.map.closePopup();
     }
 
-    function addPointDB(plat='', plon='', palt='', pacc='', psat='', pbat='', pmoment='', pspeed='', pbearing='') {
+    function addPointDB(plat='', plon='', palt=null, pacc=null, psat=null, pbat=null, pmoment='', pspeed=null, pbearing=null) {
         var lat, lon, alt, acc, sat, bat, mom, speed, bearing;
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
@@ -4757,18 +4757,23 @@
             // unchanged latlng
             var lat = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lat;
             var lon = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lon;
-            var alt = parseInt(tab.find('input[role=altitude]').val()) || null;
-            if (alt === -1) { alt = null; }
-            var acc = parseInt(tab.find('input[role=precision]').val()) || null;
-            if (acc === -1) { acc = null; }
-            var sat = parseInt(tab.find('input[role=satellites]').val()) || null;
-            if (sat === -1) { sat = null; }
-            var speed = parseFloat(tab.find('input[role=speed]').val()) / 3.6 || null;
-            if (parseInt(tab.find('input[role=speed]').val()) === -1) { speed = null; }
-            var bearing = parseFloat(tab.find('input[role=bearing]').val()) || null;
-            if (bearing === -1.0) { bearing = null; }
-            var bat = parseInt(tab.find('input[role=battery]').val()) || null;
-            if (bat === -1) { bat = null; }
+            var alt = parseInt(tab.find('input[role=altitude]').val());
+            if (isNaN(alt)) { alt = null; }
+            var acc = parseInt(tab.find('input[role=precision]').val());
+            if (isNaN(acc) || acc < 0) { acc = null; }
+            var sat = parseInt(tab.find('input[role=satellites]').val());
+            if (isNaN(sat) || sat < 0) { sat = null; }
+            var speed = parseFloat(tab.find('input[role=speed]').val());
+            if (!isNaN(speed)) {
+                speed = speed / 3.6;
+                if (speed < 0) {
+                    speed = null;
+                }
+            }
+            var bearing = parseFloat(tab.find('input[role=bearing]').val());
+            if (isNaN(bearing) || bearing < 0 || bearing > 360) { bearing = null; }
+            var bat = parseInt(tab.find('input[role=battery]').val());
+            if (isNaN(bat) || bat < 0 || bat > 100) { bat = null; }
             var useragent = tab.find('input[role=useragent]').val();
             var datestr = tab.find('input[role=date]').val();
             var hourstr = parseInt(tab.find('input[role=hour]').val());
