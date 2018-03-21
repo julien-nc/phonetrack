@@ -5089,8 +5089,8 @@
             okColor();
         });
         $('body').on('click', '.devicelist .devicecolor', function(e) {
-            var s = $(this).parent().attr('token');
-            var d = $(this).parent().attr('device');
+            var s = $(this).parent().parent().attr('token');
+            var d = $(this).parent().parent().attr('device');
             showColorPicker(s, d);
         });
 
