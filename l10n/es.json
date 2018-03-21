@@ -10,7 +10,6 @@
     "Hide last point tooltip" : "Ocultar último punto Descripción",
     "Zoom on all devices" : "Zoom sobre todos los dispositivos",
     "Click on the map to move the point, press ESC to cancel" : "Haga clic en el mapa para mover el punto, presione ESC para cancelar",
-    "loading positions" : "cargando las posiciones",
     "Server name or server url should not be empty" : "Nombre del servidor o dirección del servidor no debe estar vacío",
     "Impossible to add tile server" : "Imposible añadir servidor de mosaico",
     "A server with this name already exists" : "Un servidor con este nombre ya existe",

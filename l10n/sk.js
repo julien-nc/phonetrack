@@ -12,7 +12,6 @@ OC.L10N.register(
     "Hide last point tooltip" : "Skryť štítky užívateľov",
     "Zoom on all devices" : "Zobraziť všetkých užívateľov",
     "Click on the map to move the point, press ESC to cancel" : "Kliknutím na mapu presuniete bod, stlačením klávesu ESC zrušíte",
-    "loading positions" : "načitávam pozície",
     "Server name or server url should not be empty" : "Názov servera alebo adresa url servera nemôže byť prázdna",
     "Impossible to add tile server" : "Nedá sa pridať mapový server",
     "A server with this name already exists" : "Server s týmto názvom už existuje",

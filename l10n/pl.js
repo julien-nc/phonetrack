@@ -12,7 +12,6 @@ OC.L10N.register(
     "Hide last point tooltip" : "Ukryj ostatni punkt podpowiedzi",
     "Zoom on all devices" : "Przybliż na wszystkich urządzeniach",
     "Click on the map to move the point, press ESC to cancel" : "Kliknij na mapie, aby przesunąć punkt, naciśnij klawisz ESC, aby anulować",
-    "loading positions" : "wczytywanie pozycji",
     "Server name or server url should not be empty" : "Nazwa serwera lub adres url serwera nie powinnny być puste",
     "Impossible to add tile server" : "Nie udało się dodać serwera fragmentów mapy",
     "A server with this name already exists" : "Serwer o tej nazwie już istnieje",

@@ -4,7 +4,6 @@ OC.L10N.register(
     "Show lines" : "Zobrazit řádky",
     "Hide lines" : "Skrýt řádky",
     "Zoom on all devices" : "Zoom na všech zařízeních",
-    "loading positions" : "Načítám pozice",
     "Delete" : "Smazat",
     "Reload this page" : "Aktualizovat tuto stránku",
     "Delete session" : "Odstranit relaci",

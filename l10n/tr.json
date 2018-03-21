@@ -10,7 +10,6 @@
     "Hide last point tooltip" : "Son nokta ipucu aracını gizle",
     "Zoom on all devices" : "Tüm cihazlarda yakınlaştır",
     "Click on the map to move the point, press ESC to cancel" : "Noktayı hareket ettirmek için haritaya tıklayın, iptal etmek için ESC ye tıklayın",
-    "loading positions" : "konumlar yükleniyor",
     "Server name or server url should not be empty" : "Sunucu adı ya da sunucu Url'si boş olmamalı",
     "Impossible to add tile server" : "Kiremit sunucu eklemek mümkün değil",
     "A server with this name already exists" : "Zaten bu isimle bir sunucu var",
