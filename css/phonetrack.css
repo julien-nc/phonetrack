@@ -100,6 +100,7 @@ h3 {
     width: 100%;
     text-align: center;
     display: block;
+    line-height: 10px;
 }
 i.display {
     display: block;
@@ -842,4 +843,6 @@ input.geofencename {
 .leaflet-control-dialog i:not(.display) {
     display: none;
 }
-
+#loadingnotification {
+    padding-top: 5px;
+}
