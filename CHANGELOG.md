@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.2.7 – 2018-03-26
 ### Added
 - auto purge option for sessions (delete points older than a day/week/month)
 [#77](https://gitlab.com/eneiluj/phonetrack-oc/issues/77) @CaptainWasabi

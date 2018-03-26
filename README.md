@@ -4,7 +4,7 @@
 [![coverage report](https://gitlab.com/eneiluj/phonetrack-oc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/phonetrack-oc/coverage/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/phonetrack/localized.svg)](https://crowdin.com/project/phonetrack)
 
-PhoneTrack is an app to get tracking information from mobile devices
+PhoneTrack is an app to track positions of mobile devices
 and display them dynamically on a Leaflet map.
 
 Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if you want to help to translate this app in your language.
@@ -13,24 +13,26 @@ How to use PhoneTrack :
 
 * create a tracking session
 * give the tracking URL\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices positions in real time (or not) in PhoneTrack normal or public page
+* watch the session's devices positions in real time (or not) in PhoneTrack normal or public page
 
 (\*) Don't forget to set the device name in the URL. Replace "yourname" with the desired device name. Setting the device name in logging app options only works with Owntracks, Traccar and OpenGTS.
 
 On PhoneTrack main page, while watching a session, you can :
 
-* edit/add/delete points
-* restrict autozoom to some devices
-* display position history display (path lines)
-* rename a session/device
-* change a device color, move it to another session
+* display position history
+* filter points
+* manually edit/add/delete points
+* edit devices (rename, change color, move to another session)
+* define geofencing zones for a device
 * share a session to other users (read-only)
 * make a session public and share it via a public link. Positions are not visible in web logging page "publicWebLog" for private sessions.
+* generate public share links with optional restrictions (filters, device name, last positions, geofencing simplification)
 * import/export a session in GPX format (one file with one track by device).
 * display session statistics
-* filter points
 * [reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 * toggle session auto export (daily/weekly/monthly)
+* toggle session auto purge (daily/weekly/monthly)
+* restrict autozoom to some devices
 
 Public page works like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
@@ -56,6 +58,6 @@ See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for 
 
 ## Known issues
 
-**Warning** : PhoneTrack does not work with group restriction on it. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#warning).
+* **Warning** : PhoneTrack does not work with group restriction on it. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#warning).
 
 Any feedback will be appreciated.
