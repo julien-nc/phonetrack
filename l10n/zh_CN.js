@@ -19,6 +19,8 @@ OC.L10N.register(
     "Tile server \"{ts}\" has been added" : "已添加服务器 \"{ts}\"",
     "Failed to add tile server \"{ts}\"" : "无法添加服务器 \"{ts}\"",
     "Failed to contact server to add tile server" : "服务器未响应，无法添加服务器",
-    "Tile server \"{ts}\" has been deleted" : "服务器 \"{ts}\" 已被删除"
+    "Tile server \"{ts}\" has been deleted" : "服务器 \"{ts}\" 已被删除",
+    "Watch this session" : "查看此会话",
+    "Shared with {u}" : "分享给{u}"
 },
 "nplurals=1; plural=0;\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: zh-CN");
