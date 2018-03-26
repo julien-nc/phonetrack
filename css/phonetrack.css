@@ -340,11 +340,13 @@ div.session p,
 }
 .reaffectDeviceDiv select {
     width: 100%;
+    text-align: center;
 }
 .reaffectDeviceDiv button {
     width: 15px;
     height: 20px;
     min-height: 20px;
+    text-align: center !important;
 }
 .reaffectDeviceDiv * {
     padding: 0;
@@ -845,4 +847,15 @@ input.geofencename {
 }
 #loadingnotification {
     padding-top: 5px;
+}
+.zoomgeofencebutton, .deletegeofencebutton {
+    float: right;
+}
+.geofencelabel {
+    float: left;
+    line-height: 30px;
+    padding: 0px 10px 0px 10px;
+}
+.geofencelist li {
+    display: flow-root;
 }

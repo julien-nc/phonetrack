@@ -3871,9 +3871,9 @@
     function addGeoFence(token, device, fencename, fenceid, llb) {
         var li = '<li fenceid="'+fenceid+'" latmin="'+llb.getSouth()+'" latmax="'+llb.getNorth()+'"' +
             'lonmin="'+llb.getWest()+'" lonmax="'+llb.getEast()+'">' +
-            '<label>'+escapeHTML(fencename)+'</label>' +
-            '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
+            '<label class="geofencelabel">'+escapeHTML(fencename)+'</label>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
+            '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
             '</li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
     }
