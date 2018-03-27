@@ -78,6 +78,14 @@ p($_['phonetrack_version']);
             <div id="countdown"></div>
             <button id="refreshButton"><i class="fa fa-refresh" aria-hidden="true"></i> <?php p($l->t('Refresh')); ?></button>
             <br/>
+            <label for="cutdistance"><i class="fa fa-cut" aria-hidden="true"></i>
+            <?php p($l->t('Threshold distance to cut between two points'));?></label>
+            <input id="cutdistance" type="number" min="1" max="40000000" step="1" value=""/>m
+            <br/>
+            <label for="cuttime"><i class="fa fa-cut" aria-hidden="true"></i>
+            <?php p($l->t('Threshold time to cut between two points'));?></label>
+            <input id="cuttime" type="number" min="1" max="100000000" step="1" value=""/>sec
+            <br/>
             <input id="tooltipshowaccuracy" type="checkbox" checked/>
             <label for="tooltipshowaccuracy"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy in tooltips'));?> *</label>

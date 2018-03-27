@@ -1007,6 +1007,12 @@
                 if (optionsValues.autoexportpath !== undefined) {
                     $('#autoexportpath').val(optionsValues.autoexportpath);
                 }
+                if (optionsValues.cutdistance !== undefined) {
+                    $('#cutdistance').val(optionsValues.cutdistance);
+                }
+                if (optionsValues.cuttime !== undefined) {
+                    $('#cuttime').val(optionsValues.cuttime);
+                }
                 if (optionsValues.pointradius !== undefined) {
                     $('#pointradius').val(optionsValues.pointradius);
                 }
@@ -1109,6 +1115,8 @@
         optionsValues.linewidth = $('#linewidth').val();
         optionsValues.colortheme = $('#colorthemeselect').val();
         optionsValues.pointlinealpha = $('#pointlinealpha').val();
+        optionsValues.cutdistance = $('#cutdistance').val();
+        optionsValues.cuttime = $('#cuttime').val();
         optionsValues.pointradius = $('#pointradius').val();
         optionsValues.autoexportpath = $('#autoexportpath').val();
         optionsValues.viewmove = $('#viewmove').is(':checked');
@@ -1888,6 +1896,64 @@
         }
     }
 
+    // transform a list of latlngs into multiple segments based on time/distance thresholds
+    function segmentLines(ll, s, d) {
+        var cuttime = parseInt($('#cuttime').val()) || null;
+        var cutdistance = parseInt($('#cutdistance').val()) || null;
+        if (ll.length === 0) {
+            return [];
+        }
+        else if (ll.length === 1) {
+            return [ll];
+        }
+        else if (cuttime === null && cutdistance === null) {
+            return [ll];
+        }
+        else {
+            var i = 1;
+            var segments = [];
+            var currentSegment = [ll[0]];
+            var lastEntry    = phonetrack.sessionPointsEntriesById[s][d][ll[0][2]];
+            var currentEntry = phonetrack.sessionPointsEntriesById[s][d][ll[1][2]];
+            while (i < ll.length) {
+                // fill current segment while possible
+                while (   i < ll.length
+                       && (cutdistance === null || phonetrack.map.distance(ll[i-1], ll[i]) < cutdistance)
+                       && (cuttime === null || ((currentEntry.timestamp - lastEntry.timestamp) < cuttime))
+                ) {
+                    currentSegment.push(ll[i]);
+                    i++;
+                    lastEntry = currentEntry;
+                    if (i < ll.length) {
+                        currentEntry = phonetrack.sessionPointsEntriesById[s][d][ll[i][2]];
+                    }
+                }
+                // end of segment, add it to segment list
+                segments.push(currentSegment);
+                // and prepare next segment if there are more points
+                if (i < ll.length) {
+                    currentSegment = [ll[i]];
+                    lastEntry = phonetrack.sessionPointsEntriesById[s][d][ll[i][2]];
+                    i++;
+                    // there are more points
+                    if (i < ll.length) {
+                        currentEntry = phonetrack.sessionPointsEntriesById[s][d][ll[i][2]];
+                    }
+                    // there is no more point after this one
+                    else {
+                        segments.push(currentSegment);
+                    }
+                }
+            }
+            var cl = 0;
+            for (i=0; i<segments.length; i++) {
+                cl = cl + segments[i].length;
+            }
+            console.assert(ll.length === cl, 'Warning : segmentation went wrong')
+            return segments;
+        }
+    }
+
     function filterEntry(entry) {
         var filtersEnabled = phonetrack.filtersEnabled;
 
@@ -2061,6 +2127,7 @@
     }
 
     function changeApplyFilter() {
+        var linewidth = $('#linewidth').val();
         var filtersEnabled = $('#applyfilters').is(':checked');
         phonetrack.filtersEnabled = filtersEnabled;
         if (filtersEnabled) {
@@ -2072,7 +2139,7 @@
         }
         //$('#filterPointsTable input[type=number]').prop('disabled', filtersEnabled);
         //$('#filterPointsTable input[type=date]').prop('disabled', filtersEnabled);
-        var s, d, id, i, displayedLatlngs;
+        var s, d, id, i, displayedLatlngs, cutLines, line;
         var dragenabled = $('#dragcheck').is(':checked');
 
         if (filtersEnabled) {
@@ -2089,9 +2156,13 @@
             for (s in phonetrack.sessionLineLayers) {
                 for (d in phonetrack.sessionLineLayers[s]) {
                     // put all coordinates in lines
-                    phonetrack.sessionLineLayers[s][d].setLatLngs(
-                        phonetrack.sessionLatlngs[s][d]
-                    );
+                    displayedLatlngs = phonetrack.sessionLatlngs[s][d];
+                    cutLines = segmentLines(displayedLatlngs, s, d);
+                    phonetrack.sessionLineLayers[s][d].clearLayers();
+                    for (i = 0; i < cutLines.length; i++) {
+                        line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+                        phonetrack.sessionLineLayers[s][d].addLayer(line);
+                    }
 
                     // add line points from sessionPointsLayersById in sessionPointsLayers
                     for (id in phonetrack.sessionPointsLayersById[s][d]) {
@@ -2114,7 +2185,12 @@
                 for (d in phonetrack.sessionLineLayers[s]) {
                     // put filtered coordinates in lines
                     displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
-                    phonetrack.sessionLineLayers[s][d].setLatLngs(displayedLatlngs);
+                    cutLines = segmentLines(displayedLatlngs, s, d);
+                    phonetrack.sessionLineLayers[s][d].clearLayers();
+                    for (i = 0; i < cutLines.length; i++) {
+                        line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+                        phonetrack.sessionLineLayers[s][d].addLayer(line);
+                    }
 
                     // filter sessionPointsLayers
                     phonetrack.sessionPointsLayers[s][d].clearLayers();
@@ -2155,7 +2231,9 @@
     function updateMarker(s, d, sessionname) {
         var perm = phonetrack.optionsValues.showtime;
         var mla, mln, mid, mentry, displayedLatlngs, oldlatlng;
-        displayedLatlngs = phonetrack.sessionLineLayers[s][d].getLatLngs();
+        // TODO check if there is another way to get list of displayed latlngs
+        var lineLayersList = phonetrack.sessionLineLayers[s][d].getLayers();
+        displayedLatlngs = lineLayersList[lineLayersList.length - 1].getLatLngs();
         // if session is not watched or if there is no points to see
         if (!$('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on') || displayedLatlngs.length === 0) {
             if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
@@ -2475,7 +2553,7 @@
         phonetrack.sessionPointsEntriesById[s][d] = {};
         phonetrack.sessionLatlngs[s][d] = [];
         var linewidth = $('#linewidth').val();
-        phonetrack.sessionLineLayers[s][d] = L.polyline([], {weight: linewidth, className: 'poly' + s + d});
+        phonetrack.sessionLineLayers[s][d] = L.featureGroup();
         linetooltip = sessionname + ' | ' + name;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
             linetooltip,
@@ -2522,6 +2600,8 @@
     function appendEntriesToDevice(s, d, entries, sessionname) {
         var lastEntryTimestamp, firstEntryTimestamp, device, i, e, entry, ts, m;
         var filter;
+        var cutLines, line;
+        var linewidth = $('#linewidth').val();
         firstEntryTimestamp = parseInt(entries[0].timestamp);
         lastEntryTimestamp = parseInt(entries[entries.length-1].timestamp);
         device = d;
@@ -2561,7 +2641,9 @@
                 /////////// update FILTERED coordinates
                 // increment lines, insert into displayed layer (sessionLineLayers)
                 var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
-                phonetrack.sessionLineLayers[s][d].setLatLngs(displayedLatlngs);
+                phonetrack.sessionLineLayers[s][d].clearLayers();
+                line = L.polyline(displayedLatlngs, {weight: linewidth, className: 'poly' + s + d});
+                phonetrack.sessionLineLayers[s][d].addLayer(line);
 
                 var radius = phonetrack.optionsValues.pointradius;
                 var icon = phonetrack.devicePointIcons[s][d];
@@ -2613,7 +2695,12 @@
             /////////// update FILTERED coordinates
             // increment lines, insert into displayed layer (sessionLineLayers)
             var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
-            phonetrack.sessionLineLayers[s][d].setLatLngs(displayedLatlngs);
+            cutLines = segmentLines(displayedLatlngs, s, d);
+            phonetrack.sessionLineLayers[s][d].clearLayers();
+            for (i = 0; i < cutLines.length; i++) {
+                line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+                phonetrack.sessionLineLayers[s][d].addLayer(line);
+            }
 
             var radius = phonetrack.optionsValues.pointradius;
             var icon = phonetrack.devicePointIcons[s][d];
@@ -2640,100 +2727,6 @@
                             m.dragging.enable();
                         }
                     }
-                }
-            }
-        }
-    }
-
-    function appendEntryToDevice(s, d, entry, sessionname) {
-        var timestamp, device, i;
-        var filter = filterEntry(entry);
-        timestamp = parseInt(entry.timestamp);
-        device = entry.deviceid;
-        if (!phonetrack.lastTime.hasOwnProperty(s)) {
-            phonetrack.lastTime[s] = {};
-        }
-        if ((!phonetrack.lastTime[s].hasOwnProperty(device)) ||
-            timestamp > phonetrack.lastTime[s][device])
-        {
-            phonetrack.lastTime[s][device] = timestamp;
-        }
-        if (!phonetrack.firstTime.hasOwnProperty(s)) {
-            phonetrack.firstTime[s] = {};
-        }
-        if ((!phonetrack.firstTime[s].hasOwnProperty(device)) ||
-            timestamp < phonetrack.firstTime[s][device])
-        {
-            phonetrack.firstTime[s][device] = timestamp;
-        }
-
-        // insert into list of latlng (full list : sessionLatlngs)
-        // append
-        if (timestamp === phonetrack.lastTime[s][device]) {
-            phonetrack.sessionLatlngs[s][d].push([entry.lat, entry.lon, entry.id]);
-        }
-        // insert first
-        else if (timestamp === phonetrack.firstTime[s][device]) {
-            phonetrack.sessionLatlngs[s][d].splice(0, 0, [entry.lat, entry.lon, entry.id]);
-        }
-        // insert correctly
-        else {
-            i = 0;
-            while (i < phonetrack.sessionLatlngs[s][d].length
-                // ouch ;-)
-                && timestamp > phonetrack.sessionPointsEntriesById[s][d][phonetrack.sessionLatlngs[s][d][i][2]].timestamp
-            ) {
-                i++;
-            }
-            phonetrack.sessionLatlngs[s][d].splice(i, 0, [entry.lat, entry.lon, entry.id]);
-        }
-
-        // increment lines, insert into displayed layer (sessionLineLayers)
-        if (filter) {
-            if (timestamp === phonetrack.lastTime[s][device]) {
-                phonetrack.sessionLineLayers[s][d].addLatLng([entry.lat, entry.lon, entry.id]);
-            }
-            else {
-                // insert at the correct index
-                var ll = phonetrack.sessionLineLayers[s][d].getLatLngs();
-                if (timestamp === phonetrack.firstTime[s][device]) {
-                    ll.splice(0, 0, [entry.lat, entry.lon, entry.id]);
-                }
-                else {
-                    i = 0;
-                    while (i < ll.length
-                        // ouch again ;-)
-                        && timestamp > phonetrack.sessionPointsEntriesById[s][d][ll[i].alt].timestamp
-                    ) {
-                        i++;
-                    }
-                    ll.splice(i, 0, [entry.lat, entry.lon, entry.id]);
-                }
-                phonetrack.sessionLineLayers[s][d].setLatLngs(ll);
-            }
-        }
-
-        var radius = phonetrack.optionsValues.pointradius;
-        var icon = phonetrack.devicePointIcons[s][d];
-
-        var m = L.marker([entry.lat, entry.lon, entry.id],
-            {icon: icon}
-        );
-        m.session = s;
-        m.device = d;
-        m.pid = entry.id;
-        m.on('click', markerMouseClick);
-        m.on('mouseover', markerMouseover);
-        m.on('mouseout', markerMouseout);
-        m.on('dragend', dragPointEnd);
-        phonetrack.sessionPointsEntriesById[s][d][entry.id] = entry;
-        phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
-        if (filter) {
-            phonetrack.sessionPointsLayers[s][d].addLayer(m);
-            // dragging
-            if (!pageIsPublic() && !isSessionShared(s) && phonetrack.optionsValues.dragcheck) {
-                if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
-                    m.dragging.enable();
                 }
             }
         }
@@ -2834,6 +2827,7 @@
 
     function updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing) {
         var perm = $('#showtime').is(':checked');
+        var linewidth = $('#linewidth').val();
         var i;
 
         var sessionname = getSessionName(token);
@@ -2857,6 +2851,7 @@
         entry.bearing = bearing;
 
         var filter = filterEntry(entry);
+        var cutLines, line;
 
         // move line point
         if (move || dateChanged) {
@@ -2900,7 +2895,12 @@
             phonetrack.sessionLatlngs[token][deviceid] = newlatlngs;
             // modify line
             var filteredlatlngs = filterList(newlatlngs, token, deviceid);
-            phonetrack.sessionLineLayers[token][deviceid].setLatLngs(filteredlatlngs);
+            cutLines = segmentLines(filteredlatlngs, token, deviceid);
+            phonetrack.sessionLineLayers[token][deviceid].clearLayers();
+            for (i = 0; i < cutLines.length; i++) {
+                line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
+                phonetrack.sessionLineLayers[token][deviceid].addLayer(line);
+            }
 
             // lastTime is independent from filters
             phonetrack.lastTime[token][deviceid] =
@@ -2947,7 +2947,9 @@
 
     function deletePointsMap(s, d, pidlist) {
         var perm = $('#showtime').is(':checked');
+        var linewidth = $('#linewidth').val();
         var i, lat, lng, p, pid, m;
+        var cutLines, line;
         var sn = getSessionName(s);
         for (i = 0; i < pidlist.length; i++) {
             pid = pidlist[i];
@@ -2970,7 +2972,12 @@
 
         phonetrack.sessionLatlngs[s][d] = newlatlngs;
         var filteredlatlngs = filterList(newlatlngs, s, d);
-        phonetrack.sessionLineLayers[s][d].setLatLngs(filteredlatlngs);
+        cutLines = segmentLines(filteredlatlngs, s, d);
+        phonetrack.sessionLineLayers[s][d].clearLayers();
+        for (i = 0; i < cutLines.length; i++) {
+            line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+            phonetrack.sessionLineLayers[s][d].addLayer(line);
+        }
 
         updateMarker(s, d, sn);
 
@@ -3045,11 +3052,13 @@
 
     function addPointMap(id, lat, lon, alt, acc, sat, bat, speed, bearing, timestamp, deviceid) {
         var perm = $('#showtime').is(':checked');
+        var linewidth = $('#linewidth').val();
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
         var devicename = $('#addPointDevice').val();
         var useragent = 'Manually added';
         var pid = parseInt(id);
+        var cutLines, line;
 
         var entry = {id: pid};
         entry.deviceid = deviceid;
@@ -3071,7 +3080,7 @@
         // add device if it does not exist
         if (! phonetrack.sessionLineLayers[token].hasOwnProperty(deviceid)) {
             addDevice(token, deviceid, sessionname, '', devicename);
-            appendEntryToDevice(token, deviceid, entry, sessionname);
+            appendEntriesToDevice(token, deviceid, [entry], sessionname);
         }
         // insert entry correctly ;)
         else {
@@ -3119,7 +3128,12 @@
             // modify line
             phonetrack.sessionLatlngs[token][deviceid] = newlatlngs;
             var filteredlatlngs = filterList(newlatlngs, token, deviceid);
-            phonetrack.sessionLineLayers[token][deviceid].setLatLngs(filteredlatlngs);
+            cutLines = segmentLines(filteredlatlngs, token, deviceid);
+            phonetrack.sessionLineLayers[token][deviceid].clearLayers();
+            for (i = 0; i < cutLines.length; i++) {
+                line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
+                phonetrack.sessionLineLayers[token][deviceid].addLayer(line);
+            }
 
             // update lastTime
             phonetrack.lastTime[token][deviceid] =
@@ -3240,7 +3254,7 @@
     }
 
     function showHideSelectedSessions() {
-        var token, d, displayedLatlngs, sessionname;
+        var token, d, displayedPointsLayers, sessionname;
         var displayedMarkers = [];
         var viewLines = $('#viewmove').is(':checked');
         $('.watchbutton i').each(function() {
@@ -3277,8 +3291,8 @@
                 }
                 for (d in phonetrack.sessionMarkerLayers[token]) {
                     updateMarker(token, d, sessionname);
-                    displayedLatlngs = phonetrack.sessionLineLayers[token][d].getLatLngs();
-                    if (displayedLatlngs.length !== 0) {
+                    displayedPointsLayers = phonetrack.sessionPointsLayers[token][d].getLayers();
+                    if (displayedPointsLayers.length !== 0) {
                         displayedMarkers.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
                     }
                 }
@@ -3319,7 +3333,9 @@
 
     function zoomOnDisplayedMarkers(selectedSessionToken='') {
         var token, d, lls, i;
-        var markersToZoomOn = [];
+        var pointLatlngList = []
+        var layerList = []
+        var boundsToZoomOn;
 
         // first we check if there are devices selected for zoom
         var devicesToFollow = {};
@@ -3348,27 +3364,29 @@
                         || (devicesToFollow.hasOwnProperty(token) && devicesToFollow[token].indexOf(d) !== -1)
                     ) {
                         if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
-                            markersToZoomOn.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
+                            pointLatlngList.push(phonetrack.sessionMarkerLayers[token][d].getLatLng());
                         }
                         if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[token][d])) {
-                            phonetrack.sessionPointsLayers[token][d].eachLayer(function(l) {
-                                markersToZoomOn.push(l.getLatLng());
-                            });
+                            layerList.push(phonetrack.sessionPointsLayers[token][d]);
                         }
                         if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[token][d])) {
-                            lls = phonetrack.sessionLineLayers[token][d].getLatLngs();
-                            for (i=0; i < lls.length; i++) {
-                                markersToZoomOn.push(lls[i]);
-                            }
+                            layerList.push(phonetrack.sessionLineLayers[token][d]);
                         }
                     }
                 }
             }
         });
 
-        // ZOOM
-        if (markersToZoomOn.length > 0) {
-            phonetrack.map.fitBounds(markersToZoomOn, {
+        if (pointLatlngList.length > 0) {
+            boundsToZoomOn = L.latLngBounds(pointLatlngList);
+            if (layerList.length > 0) {
+                for (i=0; i < layerList.length; i++) {
+                    boundsToZoomOn.extend(layerList[i].getBounds());
+                }
+            }
+
+            // ZOOM
+            phonetrack.map.fitBounds(boundsToZoomOn, {
                 animate: true,
                 maxZoom: 16,
                 paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
@@ -4015,8 +4033,8 @@
     }
 
     function updateStatTable() {
-        var s, d, id, dist, time, i, ll, t1, t2;
-        var diff, years, days, hours, minutes, seconds;
+        var s, d, id, dist, time, i, li, lineLayersList, ll, t1, t2;
+        var nbsec, years, days, hours, minutes, seconds;
         var table = '';
         for (s in phonetrack.sessionLineLayers) {
             // if session is watched
@@ -4028,29 +4046,36 @@
                     t('phonetrack', 'duration') + '</th><th>' +
                     t('phonetrack', '#points') + '</th></tr>';
                 for (d in phonetrack.sessionLineLayers[s]) {
-                    ll = phonetrack.sessionLineLayers[s][d].getLatLngs();
                     dist = 0;
-                    for (i = 1; i < ll.length; i++) {
-                        dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
+                    nbsec = 0;
+                    lineLayersList = phonetrack.sessionLineLayers[s][d].getLayers();
+                    for (li = 0; li < lineLayersList.length; li++) {
+                        ll = lineLayersList[li].getLatLngs();
+                        for (i = 1; i < ll.length; i++) {
+                            dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
+                        }
+
+                        if (ll.length > 1) {
+                            t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0].alt].timestamp);
+                            t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1].alt].timestamp);
+                            nbsec = nbsec + t2.diff(t1, 'seconds');
+                        }
                     }
 
-                    if (ll.length > 1) {
-                        t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0].alt].timestamp);
-                        t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1].alt].timestamp);
-                        diff = t2.diff(t1, 'seconds');
+                    if (nbsec > 0) {
                         years = 0;
                         days = 0;
                         // if more than one year
-                        if (diff >= 31536000) {
-                            years = Math.floor(diff / 31536000);
+                        if (nbsec >= 31536000) {
+                            years = Math.floor(nbsec / 31536000);
                         }
                         // if more than one day
-                        if (diff >= 86400) {
-                            days = Math.floor((diff % 31536000) / 86400);
+                        if (nbsec >= 86400) {
+                            days = Math.floor((nbsec % 31536000) / 86400);
                         }
-                        hours = Math.floor((diff % 86400) / 3600);
-                        minutes = Math.floor((diff % 3600) / 60);
-                        seconds = Math.floor(diff % 60);
+                        hours = Math.floor((nbsec % 86400) / 3600);
+                        minutes = Math.floor((nbsec % 3600) / 60);
+                        seconds = Math.floor(nbsec % 60);
                     }
                     else {
                         years = days = hours = minutes = seconds = 0;
@@ -4370,6 +4395,14 @@
             }
         });
 
+        $('#cutdistance, #cuttime').change(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+                changeApplyFilter();
+            }
+        });
+
+
         $('#dragcheck').click(function() {
             if (!pageIsPublic()) {
                 saveOptions();
@@ -4442,7 +4475,7 @@
         });
 
         $('body').on('click', 'button.zoomsession', function(e) {
-            var sessionName = $(this).parent().parent().attr('token');
+            var token = $(this).parent().parent().attr('token');
             zoomOnDisplayedMarkers(token);
         });
 
