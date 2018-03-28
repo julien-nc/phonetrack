@@ -4398,8 +4398,8 @@
         $('#cutdistance, #cuttime').change(function() {
             if (!pageIsPublic()) {
                 saveOptions();
-                changeApplyFilter();
             }
+            changeApplyFilter();
         });
 
 
