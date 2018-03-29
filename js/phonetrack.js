@@ -1366,7 +1366,8 @@
             divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHTML(name) + '.gpx"/></div>';
 
             if (!isFromShare) {
-                divtxt = divtxt + '<div class="autoexportdiv" title="' + t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: '/PhoneTrack_export/'}) + '">' +
+                divtxt = divtxt + '<div class="autoexportdiv" title="' +
+                    t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: escapeHTML($('#autoexportpath').val())}) + '">' +
                     '<div><i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic export') + '</div>';
                 divtxt = divtxt + '<select role="autoexport">';
                 divtxt = divtxt + '<option value="no">' + t('phonetrack', 'never') + '</option>';
@@ -1376,10 +1377,11 @@
                 divtxt = divtxt + '</select>';
                 divtxt = divtxt + '</div>';
 
-                divtxt = divtxt + '<div class="autopurgediv">' +
-                    '<div><i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic purge of points older than') + '</div>';
+                divtxt = divtxt + '<div class="autopurgediv" ' +
+                    'title="' + t('phonetrack', 'Automatic purge is triggered daily and will delete points older than selected duration') + '">' +
+                    '<div><i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic purge') + '</div>';
                 divtxt = divtxt + '<select role="autopurge">';
-                divtxt = divtxt + '<option value="no">' + t('phonetrack', 'no purge') + '</option>';
+                divtxt = divtxt + '<option value="no">' + t('phonetrack', 'don\'t purge') + '</option>';
                 divtxt = divtxt + '<option value="day">' + t('phonetrack', 'a day') + '</option>';
                 divtxt = divtxt + '<option value="week">' + t('phonetrack', 'a week') + '</option>';
                 divtxt = divtxt + '<option value="month">' + t('phonetrack', 'a month') + '</option>';
@@ -4039,7 +4041,7 @@
         for (s in phonetrack.sessionLineLayers) {
             // if session is watched
             if ($('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on')) {
-                table = table + '<h3>' + getSessionName(s) + '</h3>';
+                table = table + '<b>' + getSessionName(s) + ' :</b>';
                 table = table + '<table class="stattable"><tr><th>' +
                     t('phonetrack', 'device name') + '</th><th>' +
                     t('phonetrack', 'distance (km)') + '</th><th>' +

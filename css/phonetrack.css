@@ -372,6 +372,11 @@ div.session p,
     border: 0px;
     background: none;
 }
+label[for=cuttime],
+label[for=cutdistance] {
+    width: 50%;
+    display: inline-block;
+}
 #cutdistance,
 #cuttime,
 #linewidth,
@@ -860,4 +865,8 @@ input.geofencename {
 }
 .geofencelist li {
     display: flow-root;
+}
+#statlabel {
+    display: none;
+    text-align: center;
 }

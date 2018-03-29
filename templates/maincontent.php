@@ -78,14 +78,16 @@ p($_['phonetrack_version']);
             <div id="countdown"></div>
             <button id="refreshButton"><i class="fa fa-refresh" aria-hidden="true"></i> <?php p($l->t('Refresh')); ?></button>
             <br/>
+            <div title="<?php p($l->t('Cutting lines only affects map view and stats table')); ?>">
             <label for="cutdistance"><i class="fa fa-cut" aria-hidden="true"></i>
-            <?php p($l->t('Threshold distance to cut between two points'));?></label>
-            <input id="cutdistance" type="number" min="1" max="40000000" step="1" value=""/>m
-            <br/>
+            <?php p($l->t('Minimum distance to cut between two points'));?></label>
+            <input id="cutdistance" type="number" min="1" max="40000000" step="1" value=""/> <?php p($l->t('meters')); ?>
+            </div>
+            <div title="<?php p($l->t('Cutting lines only affects map view and stats table')); ?>">
             <label for="cuttime"><i class="fa fa-cut" aria-hidden="true"></i>
-            <?php p($l->t('Threshold time to cut between two points'));?></label>
-            <input id="cuttime" type="number" min="1" max="100000000" step="1" value=""/>sec
-            <br/>
+            <?php p($l->t('Minimum time to cut between two points'));?></label>
+            <input id="cuttime" type="number" min="1" max="100000000" step="1" value=""/> <?php p($l->t('seconds')); ?>
+            </div>
             <input id="tooltipshowaccuracy" type="checkbox" checked/>
             <label for="tooltipshowaccuracy"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy in tooltips'));?> *</label>
@@ -591,12 +593,12 @@ if (count($_['useroverlayserverswms']) > 0){
 <h1 class="sectiontitle"><?php p($l->t('Statistics')); ?></h1>
 <hr/>
 <br/>
-    <input id="togglestats" type="checkbox"/>
     <label for="togglestats"><i class="fa fa-table" aria-hidden="true"></i>
         <?php p($l->t('Show stats')); ?>
-    </label>
-    <p id="statlabel">
-    </p>
+    </label>&nbsp<input id="togglestats" type="checkbox"/>
+    <br/>
+    <br/>
+    <h2 id="statlabel"></h2>
     <div id="statdiv"></div>
 </div>
 <div class="sidebar-pane" id="help">
