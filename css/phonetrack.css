@@ -853,7 +853,7 @@ input.geofencename {
     display: none;
 }
 #loadingnotification {
-    padding-top: 5px;
+    padding-top: 7px;
 }
 .zoomgeofencebutton, .deletegeofencebutton {
     float: right;
