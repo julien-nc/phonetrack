@@ -1638,7 +1638,7 @@ class PageController extends Controller {
                             $sqlget .= $firstLastSQL;
                             $sqlget .= $settingsTimeFilterSQL;
                             // are lines or points asked ? if not, just get the last
-                            if (! $this->deviceLinesOrPointsAsked($dbtoken, $devid, $options)) {
+                            if (! $this->deviceLinesOrPointsAsked($token, $devid, $options)) {
                                 $sqlget .= 'ORDER BY timestamp DESC LIMIT 1';
                             }
                             else {
