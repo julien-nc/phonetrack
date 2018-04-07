@@ -47,8 +47,6 @@ OC.L10N.register(
     "daily" : "dagelijks",
     "weekly" : "wekelijks",
     "monthly" : "maandelijks",
-    "Automatic purge of points older than" : "Automatisch opruimen van punten ouder dan",
-    "no purge" : "niet opruimen",
     "a day" : "dagelijks",
     "a week" : "een week",
     "a month" : "een maand",
