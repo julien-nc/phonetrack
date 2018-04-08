@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- options to cut device lines when point are too far (distance or time)
+[#94](https://gitlab.com/eneiluj/phonetrack-oc/issues/94) @WNYmathGuy
+
+### Fixed
+- bug when refreshing session shared to another user
+[#96](https://gitlab.com/eneiluj/phonetrack-oc/issues/96) @mihxx
 
 ## 0.2.7 – 2018-03-26
 ### Added
