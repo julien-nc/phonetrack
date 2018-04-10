@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-03-29 11:07+0200\n"
-"PO-Revision-Date: 2018-03-29 10:12-0400\n"
+"PO-Revision-Date: 2018-04-24 03:58-0400\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -205,7 +205,7 @@ msgstr "monatlich"
 
 #: phonetrack.js:1381
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr "Die automatische Bereinigung wird täglich ausgelöst und löscht Punkte, die älter als die gewählte Dauer sind."
+msgstr "Die automatische Bereinigung wird täglich ausgelöst und löscht Punkte, die älter als die gewählte Dauer sind"
 
 #: phonetrack.js:1382
 msgid "Automatic purge"
@@ -281,7 +281,7 @@ msgstr "Öffentliche URL"
 
 #: phonetrack.js:1443
 msgid "API URL (JSON last positions)"
-msgstr "API-URL (JSON letzten Positionen)"
+msgstr "API-URL (JSON letzte Positionen)"
 
 #: phonetrack.js:1449
 msgid "Current active filters will be applied on shared view"
@@ -677,7 +677,7 @@ msgstr "Nur dieses Gerät anzeigen"
 
 #: phonetrack.js:3967
 msgid "Show last positions only"
-msgstr "Nur letzte Positionsangabe anzeigen"
+msgstr "Nur letzte Position anzeigen"
 
 #: phonetrack.js:3969
 msgid "Simplify positions to nearest geofencing zone center"
@@ -877,7 +877,7 @@ msgstr "Aktualisieren"
 
 #: maincontent.php:81 maincontent.php:86
 msgid "Cutting lines only affects map view and stats table"
-msgstr "Schnittlinien wirken sich nur auf die Kartenansicht und die Statistiktabelle aus."
+msgstr "Schnittlinien wirken sich nur auf die Kartenansicht und die Statistiktabelle aus"
 
 #: maincontent.php:83
 msgid "Minimum distance to cut between two points"
@@ -889,7 +889,7 @@ msgstr "Meter"
 
 #: maincontent.php:88
 msgid "Minimum time to cut between two points"
-msgstr "Minimale Zeit zum Schneiden zwischen zwei Punkten"
+msgstr "Mindestzeit zum Schneiden zwischen zwei Punkten"
 
 #: maincontent.php:89
 msgid "seconds"
@@ -965,7 +965,7 @@ msgstr "Pfad für automatisch Export"
 
 #: maincontent.php:154
 msgid "Export one file per device"
-msgstr "Einer Datei je Gerät exportieren"
+msgstr "Eine Datei je Gerät exportieren"
 
 #: maincontent.php:156
 msgid "reload page to make changes effective"

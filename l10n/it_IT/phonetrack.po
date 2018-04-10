@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-03-29 11:07+0200\n"
-"PO-Revision-Date: 2018-03-29 05:26-0400\n"
+"PO-Revision-Date: 2018-05-07 05:42-0400\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -22,17 +22,17 @@ msgstr "PhoneTrack"
 
 #: logcontroller.php:200 logcontroller.php:223
 msgid "Geofencing alert"
-msgstr ""
+msgstr "Problema di georefenziazione"
 
 #: logcontroller.php:203
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
-msgstr ""
+msgstr "Nella sessione \"%s\", la preiferica \"%s\" è entrata nel perimetro \"%s\"."
 
 #: logcontroller.php:226
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
-msgstr ""
+msgstr "Nella sessione \"%s\", la periferica \"%s\" è uscita dal perimetro \"%s\"."
 
 #: leaflet.js:5
 msgid "left"
@@ -149,59 +149,59 @@ msgstr "condiviso da {u}"
 
 #: phonetrack.js:1336 phonetrack.js:2477
 msgid "More actions"
-msgstr ""
+msgstr "Altre azioni"
 
 #: phonetrack.js:1340
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Zoom su questa sessione"
 
 #: phonetrack.js:1343
 msgid "URL to share session"
-msgstr ""
+msgstr "URL per condividere la sessione"
 
 #: phonetrack.js:1347
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "URLs per le applicazioni di logging"
 
 #: phonetrack.js:1351
 msgid "Reserve device names"
-msgstr ""
+msgstr "Nome periferica riservato"
 
 #: phonetrack.js:1360
 msgid "Delete session"
-msgstr ""
+msgstr "Cancella Sessione"
 
 #: phonetrack.js:1361 phonetrack.js:1362
 msgid "Rename session"
-msgstr ""
+msgstr "Rinomina sessione"
 
 #: phonetrack.js:1364 phonetrack.js:1365
 msgid "Export to gpx"
-msgstr ""
+msgstr "Esporta gpx"
 
 #: phonetrack.js:1370
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Files creati in '{exdir}'"
 
 #: phonetrack.js:1371
 msgid "Automatic export"
-msgstr ""
+msgstr "Esportazione automatica"
 
 #: phonetrack.js:1373
 msgid "never"
-msgstr ""
+msgstr "mai"
 
 #: phonetrack.js:1374
 msgid "daily"
-msgstr ""
+msgstr "giornalmente"
 
 #: phonetrack.js:1375
 msgid "weekly"
-msgstr ""
+msgstr "settimanalmente"
 
 #: phonetrack.js:1376
 msgid "monthly"
-msgstr ""
+msgstr "mensilmente"
 
 #: phonetrack.js:1381
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
@@ -217,15 +217,15 @@ msgstr ""
 
 #: phonetrack.js:1385
 msgid "a day"
-msgstr ""
+msgstr "un giorno"
 
 #: phonetrack.js:1386
 msgid "a week"
-msgstr ""
+msgstr "una settimana"
 
 #: phonetrack.js:1387
 msgid "a month"
-msgstr ""
+msgstr "un mese"
 
 #: phonetrack.js:1396
 msgid "Name reservation is optional."
@@ -245,7 +245,7 @@ msgstr ""
 
 #: phonetrack.js:1402
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Riserva questo nome di dispositivo"
 
 #: phonetrack.js:1404
 msgid "Type reserved name and press 'Enter'"
@@ -253,15 +253,15 @@ msgstr ""
 
 #: phonetrack.js:1418
 msgid "Share with user"
-msgstr ""
+msgstr "Condividi con utente"
 
 #: phonetrack.js:1420
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Digitare nome utente e premere 'Invio'"
 
 #: phonetrack.js:1425 phonetrack.js:3752
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Condiviso con {u}"
 
 #: phonetrack.js:1431
 msgid "A private session is not visible on public browser logging page"
@@ -269,11 +269,11 @@ msgstr ""
 
 #: phonetrack.js:1433 phonetrack.js:4712
 msgid "Make session public"
-msgstr ""
+msgstr "Rendi pubblica la sessione"
 
 #: phonetrack.js:1436 phonetrack.js:4707
 msgid "Make session private"
-msgstr ""
+msgstr "Rendi privata la sessione"
 
 #: phonetrack.js:1441
 msgid "Public watch URL"
@@ -281,7 +281,7 @@ msgstr ""
 
 #: phonetrack.js:1443
 msgid "API URL (JSON last positions)"
-msgstr ""
+msgstr "API URL (JSON last positions)"
 
 #: phonetrack.js:1449
 msgid "Current active filters will be applied on shared view"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-03-29 11:07+0200\n"
-"PO-Revision-Date: 2018-03-29 05:25-0400\n"
+"PO-Revision-Date: 2018-05-17 05:08-0400\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -36,27 +36,27 @@ msgstr ""
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "ліворуч"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "праворуч"
 
 #: phonetrack.js:544 maincontent.php:69
 msgid "Show lines"
-msgstr ""
+msgstr "Відобразити лінії"
 
 #: phonetrack.js:552
 msgid "Hide lines"
-msgstr ""
+msgstr "Приховати лінії"
 
 #: phonetrack.js:573
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "Активувати автоматичне масштабування"
 
 #: phonetrack.js:581
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "Вимкнути автоматичне масштабування"
 
 #: phonetrack.js:602
 msgid "Show last point tooltip"
@@ -68,156 +68,156 @@ msgstr ""
 
 #: phonetrack.js:631
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Збільшити на всіх пристроях"
 
 #: phonetrack.js:644
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Натисніть на карту для переміщення точки. Щоб скасувати, натисніть клавішу ESC"
 
 #: phonetrack.js:847
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Ім'я сервера або URL-адреса сервера не можуть бути порожніми"
 
 #: phonetrack.js:850 phonetrack.js:859
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "Неможливо додати tile-сервер"
 
 #: phonetrack.js:856
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Сервер із таким іменем вже існує"
 
 #: phonetrack.js:892 phonetrack.js:3210 maincontent.php:246 maincontent.php:290
 #: maincontent.php:335 maincontent.php:384
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: phonetrack.js:925
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "Tile-сервер \"{ts}\" додано"
 
 #: phonetrack.js:928
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "Не вдалося додати tile-сервер \"{ts}\""
 
 #: phonetrack.js:932
 msgid "Failed to contact server to add tile server"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером щоб додати tile-сервер"
 
 #: phonetrack.js:966
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr ""
+msgstr "Tile-сервер \"{ts}\", було видалено"
 
 #: phonetrack.js:969
 msgid "Failed to delete tile server \"{ts}\""
-msgstr ""
+msgstr "Не вдалося видалити tile-сервер \"{ts}\""
 
 #: phonetrack.js:973
 msgid "Failed to contact server to delete tile server"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером щоб видалити tile-сервер"
 
 #: phonetrack.js:1104
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервера для відновлення значень параметрів"
 
 #: phonetrack.js:1107 phonetrack.js:1189 phonetrack.js:4703
 msgid "Reload this page"
-msgstr ""
+msgstr "Перезавантажити сторінку"
 
 #: phonetrack.js:1186
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для збереження значень параметрів"
 
 #: phonetrack.js:1209
 msgid "Session name should not be empty"
-msgstr ""
+msgstr "Назва сеансу не може бути порожньою"
 
 #: phonetrack.js:1226
 msgid "Session name already used"
-msgstr ""
+msgstr "Така назва сеансу вже існує"
 
 #: phonetrack.js:1230
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для створення сесії"
 
 #: phonetrack.js:1325
 msgid "Watch this session"
-msgstr ""
+msgstr "Подивитися цю сесію"
 
 #: phonetrack.js:1331
 msgid "shared by {u}"
-msgstr ""
+msgstr "доступ отримано від {u}"
 
 #: phonetrack.js:1336 phonetrack.js:2477
 msgid "More actions"
-msgstr ""
+msgstr "Додаткові дії"
 
 #: phonetrack.js:1340
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Збільшити на цій сесії"
 
 #: phonetrack.js:1343
 msgid "URL to share session"
-msgstr ""
+msgstr "URL, щоб поділитися сесією"
 
 #: phonetrack.js:1347
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "URL-адреси для служби журналювання"
 
 #: phonetrack.js:1351
 msgid "Reserve device names"
-msgstr ""
+msgstr "Зарезервовані імена пристроїв"
 
 #: phonetrack.js:1360
 msgid "Delete session"
-msgstr ""
+msgstr "Видалити сесію"
 
 #: phonetrack.js:1361 phonetrack.js:1362
 msgid "Rename session"
-msgstr ""
+msgstr "Перейменувати сесію"
 
 #: phonetrack.js:1364 phonetrack.js:1365
 msgid "Export to gpx"
-msgstr ""
+msgstr "Експортувати до gpx"
 
 #: phonetrack.js:1370
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Файли створюються в '{exdir} '"
 
 #: phonetrack.js:1371
 msgid "Automatic export"
-msgstr ""
+msgstr "Автоматичний експорт"
 
 #: phonetrack.js:1373
 msgid "never"
-msgstr ""
+msgstr "ніколи"
 
 #: phonetrack.js:1374
 msgid "daily"
-msgstr ""
+msgstr "щодня"
 
 #: phonetrack.js:1375
 msgid "weekly"
-msgstr ""
+msgstr "щотижня"
 
 #: phonetrack.js:1376
 msgid "monthly"
-msgstr ""
+msgstr "щомісячно"
 
 #: phonetrack.js:1381
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr ""
+msgstr "Автоматичне очищення спрацьовує щодня і призведе до видалення точок старше вказаного терміну"
 
 #: phonetrack.js:1382
 msgid "Automatic purge"
-msgstr ""
+msgstr "Автоматичне очищення"
 
 #: phonetrack.js:1384
 msgid "don't purge"
-msgstr ""
+msgstr "не очищати"
 
 #: phonetrack.js:1385
 msgid "a day"
-msgstr ""
+msgstr "день"
 
 #: phonetrack.js:1386
 msgid "a week"
@@ -397,31 +397,31 @@ msgstr ""
 
 #: phonetrack.js:2398
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "Колір пристрою успішно змінено"
 
 #: phonetrack.js:2401
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "Не вдалося зберегти колір пристрою"
 
 #: phonetrack.js:2405
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для зміни кольору пристрою"
 
 #: phonetrack.js:2480
 msgid "Delete this device"
-msgstr ""
+msgstr "Видалити цей пристрій"
 
 #: phonetrack.js:2482
 msgid "Rename this device"
-msgstr ""
+msgstr "Перейменувати цей пристрій"
 
 #: phonetrack.js:2485
 msgid "Move to another session"
-msgstr ""
+msgstr "Перемістити до іншої сесії"
 
 #: phonetrack.js:2488 maincontent.php:48
 msgid "Ok"
-msgstr ""
+msgstr "Ок"
 
 #: phonetrack.js:2496
 msgid "Device geofencing zones"
@@ -441,15 +441,15 @@ msgstr ""
 
 #: phonetrack.js:2520
 msgid "Toggle lines"
-msgstr ""
+msgstr "Відобразити лінії сітки"
 
 #: phonetrack.js:2531 phonetrack.js:2537
 msgid "Center map on device"
-msgstr ""
+msgstr "Відцентрувати карту на пристрої"
 
 #: phonetrack.js:2543
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "Слідувати за цим пристроєм (autozoom)"
 
 #: phonetrack.js:2822
 msgid "The point you want to edit does not exist or you're not allowed to edit it"

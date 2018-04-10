@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-03-29 11:07+0200\n"
-"PO-Revision-Date: 2018-03-29 05:26-0400\n"
+"PO-Revision-Date: 2018-04-10 10:28-0400\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -36,11 +36,11 @@ msgstr ""
 
 #: leaflet.js:5
 msgid "left"
-msgstr ""
+msgstr "vlevo"
 
 #: leaflet.js:5
 msgid "right"
-msgstr ""
+msgstr "vpravo"
 
 #: phonetrack.js:544 maincontent.php:69
 msgid "Show lines"
@@ -52,19 +52,19 @@ msgstr "Skrýt řádky"
 
 #: phonetrack.js:573
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "Povolit automatické přiblížení"
 
 #: phonetrack.js:581
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "Zakázat automatické přiblížení"
 
 #: phonetrack.js:602
 msgid "Show last point tooltip"
-msgstr ""
+msgstr "Zobrazit popisek posledního bodu"
 
 #: phonetrack.js:610
 msgid "Hide last point tooltip"
-msgstr ""
+msgstr "Skrýt popisek posledního bodu"
 
 #: phonetrack.js:631
 msgid "Zoom on all devices"
@@ -72,19 +72,19 @@ msgstr "Zoom na všech zařízeních"
 
 #: phonetrack.js:644
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Kliknutím na mapu přemístěte bod, klávesou ESC zrušte"
 
 #: phonetrack.js:847
 msgid "Server name or server url should not be empty"
-msgstr ""
+msgstr "Název serveru nebo adresa serveru by nesmí být prázdné"
 
 #: phonetrack.js:850 phonetrack.js:859
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "Nelze přidat mapový server"
 
 #: phonetrack.js:856
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Server s tímto názvem již existuje"
 
 #: phonetrack.js:892 phonetrack.js:3210 maincontent.php:246 maincontent.php:290
 #: maincontent.php:335 maincontent.php:384
@@ -93,31 +93,31 @@ msgstr "Smazat"
 
 #: phonetrack.js:925
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "Byl přidán mapový server \"{ts}\""
 
 #: phonetrack.js:928
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "Nepodařilo se přidat mapový server \"{ts}\""
 
 #: phonetrack.js:932
 msgid "Failed to contact server to add tile server"
-msgstr ""
+msgstr "Nepodařilo se kontaktovat server pro přidání mapového serveru"
 
 #: phonetrack.js:966
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr ""
+msgstr "Byl odebrán mapový server \"{ts}\""
 
 #: phonetrack.js:969
 msgid "Failed to delete tile server \"{ts}\""
-msgstr ""
+msgstr "Nepodařilo se odebrat mapový server \"{ts}\""
 
 #: phonetrack.js:973
 msgid "Failed to contact server to delete tile server"
-msgstr ""
+msgstr "Nepodařilo se kontaktovat server pro odebrání mapového serveru"
 
 #: phonetrack.js:1104
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "Nepodařilo se kontaktovat server pro obnovení nastavení"
 
 #: phonetrack.js:1107 phonetrack.js:1189 phonetrack.js:4703
 msgid "Reload this page"
@@ -125,47 +125,47 @@ msgstr "Aktualizovat tuto stránku"
 
 #: phonetrack.js:1186
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "Nepodařilo se kontaktovat server pro uložení nastavení"
 
 #: phonetrack.js:1209
 msgid "Session name should not be empty"
-msgstr ""
+msgstr "Název relace nesmí být prázdný"
 
 #: phonetrack.js:1226
 msgid "Session name already used"
-msgstr ""
+msgstr "Název relace je již použit"
 
 #: phonetrack.js:1230
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "Nepodařilo se kontaktovat server pro vytvoření relace"
 
 #: phonetrack.js:1325
 msgid "Watch this session"
-msgstr ""
+msgstr "Sledovat tuto relaci"
 
 #: phonetrack.js:1331
 msgid "shared by {u}"
-msgstr ""
+msgstr "sdílel {u}"
 
 #: phonetrack.js:1336 phonetrack.js:2477
 msgid "More actions"
-msgstr ""
+msgstr "Možnosti"
 
 #: phonetrack.js:1340
 msgid "Zoom on this session"
-msgstr ""
+msgstr "Přiblížit na tuto relaci"
 
 #: phonetrack.js:1343
 msgid "URL to share session"
-msgstr ""
+msgstr "Adresa URL pro sdílení relace"
 
 #: phonetrack.js:1347
 msgid "URLs for logging apps"
-msgstr ""
+msgstr "Adresy URL pro logovací aplikace"
 
 #: phonetrack.js:1351
 msgid "Reserve device names"
-msgstr ""
+msgstr "Rezervovat názvy zařízení"
 
 #: phonetrack.js:1360
 msgid "Delete session"
@@ -177,11 +177,11 @@ msgstr "Přejmenování relace"
 
 #: phonetrack.js:1364 phonetrack.js:1365
 msgid "Export to gpx"
-msgstr ""
+msgstr "Export do gpx"
 
 #: phonetrack.js:1370
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Soubory jsou vytvořeny v \"{exdir}\""
 
 #: phonetrack.js:1371
 msgid "Automatic export"
@@ -205,15 +205,15 @@ msgstr "každý měsíc"
 
 #: phonetrack.js:1381
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr ""
+msgstr "Automatické čištění je spouštěno denně a odstraní body starší než je nastavená doba jejich trvání"
 
 #: phonetrack.js:1382
 msgid "Automatic purge"
-msgstr ""
+msgstr "Automatické čištění"
 
 #: phonetrack.js:1384
 msgid "don't purge"
-msgstr ""
+msgstr "nemazat"
 
 #: phonetrack.js:1385
 msgid "a day"
@@ -229,55 +229,55 @@ msgstr "měsíc"
 
 #: phonetrack.js:1396
 msgid "Name reservation is optional."
-msgstr ""
+msgstr "Vyhrazení názvu je volitelné."
 
 #: phonetrack.js:1397
 msgid "Name can be set directly in logging URL if it is not reserved."
-msgstr ""
+msgstr "Název lze nastavit přímo v adrese URL, pokud není vyhrazeno."
 
 #: phonetrack.js:1398
 msgid "To log with a reserved name, use its token in logging URL."
-msgstr ""
+msgstr "Pro logování s vyhrazeným názvem použijte jeho token v logovací URL."
 
 #: phonetrack.js:1399
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr ""
+msgstr "Pokud je název vyhrazen, lze se s tímto názvem přihlásit pouze pomocí jeho tokenu."
 
 #: phonetrack.js:1402
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Vyhradit název zařízení"
 
 #: phonetrack.js:1404
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Napište vyhrazený název a stiskněte \"Enter\""
 
 #: phonetrack.js:1418
 msgid "Share with user"
-msgstr ""
+msgstr "Sdílet s uživatelem"
 
 #: phonetrack.js:1420
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Zadejte uživatelské jméno a stiskněte \"Enter\""
 
 #: phonetrack.js:1425 phonetrack.js:3752
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Sdíleno s {u}"
 
 #: phonetrack.js:1431
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "Soukromá relace se nezobrazuje na veřejné logovací stránce v prohlížeči"
 
 #: phonetrack.js:1433 phonetrack.js:4712
 msgid "Make session public"
-msgstr ""
+msgstr "Nastavit relaci jako veřejnou"
 
 #: phonetrack.js:1436 phonetrack.js:4707
 msgid "Make session private"
-msgstr ""
+msgstr "Nastavit relaci jako soukromou"
 
 #: phonetrack.js:1441
 msgid "Public watch URL"
-msgstr ""
+msgstr "Veřejná sledovací URL"
 
 #: phonetrack.js:1443
 msgid "API URL (JSON last positions)"
@@ -473,7 +473,7 @@ msgstr ""
 
 #: phonetrack.js:3051
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Nepodařilo se kontaktovat server pro přidání bodu"
 
 #: phonetrack.js:3166
 msgid "Date"
@@ -481,23 +481,23 @@ msgstr "Datum"
 
 #: phonetrack.js:3169
 msgid "Time"
-msgstr ""
+msgstr "Čas"
 
 #: phonetrack.js:3174 phonetrack.js:3226
 msgid "Altitude"
-msgstr ""
+msgstr "Nadmořská výška"
 
 #: phonetrack.js:3177 phonetrack.js:3230
 msgid "Precision"
-msgstr ""
+msgstr "Přesnost"
 
 #: phonetrack.js:3180 phonetrack.js:3236
 msgid "Speed"
-msgstr ""
+msgstr "Rychlost"
 
 #: phonetrack.js:3188 phonetrack.js:3240
 msgid "Bearing"
-msgstr ""
+msgstr "Azimut"
 
 #: phonetrack.js:3191 phonetrack.js:3244
 msgid "Satellites"
