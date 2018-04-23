@@ -1028,6 +1028,9 @@
                 if (optionsValues.dragcheck !== undefined) {
                     $('#dragcheck').prop('checked', optionsValues.dragcheck);
                 }
+                if (optionsValues.linegradient !== undefined) {
+                    $('#linegradient').prop('checked', optionsValues.linegradient);
+                }
                 if (optionsValues.tooltipshowaccuracy !== undefined) {
                     $('#tooltipshowaccuracy').prop('checked', optionsValues.tooltipshowaccuracy);
                 }
@@ -1123,6 +1126,7 @@
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.dragcheck = $('#dragcheck').is(':checked');
+        optionsValues.linegradient = $('#linegradient').is(':checked');
         optionsValues.tooltipshowaccuracy = $('#tooltipshowaccuracy').is(':checked');
         optionsValues.tooltipshowbearing = $('#tooltipshowbearing').is(':checked');
         optionsValues.tooltipshowspeed = $('#tooltipshowspeed').is(':checked');
@@ -2129,8 +2133,10 @@
     }
 
     function changeApplyFilter() {
-        var linewidth = $('#linewidth').val();
+        var linewidth = parseInt($('#linewidth').val()) || 5;
+        var linegradient = $('#linegradient').is(':checked');
         var filtersEnabled = $('#applyfilters').is(':checked');
+        var coordsTmp, j;
         phonetrack.filtersEnabled = filtersEnabled;
         if (filtersEnabled) {
             storeFilters();
@@ -2162,7 +2168,23 @@
                     cutLines = segmentLines(displayedLatlngs, s, d);
                     phonetrack.sessionLineLayers[s][d].clearLayers();
                     for (i = 0; i < cutLines.length; i++) {
-                        line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+                        if (linegradient) {
+                            coordsTmp = [];
+                            for (j=0; j < cutLines[i].length; j++) {
+                                coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                            }
+                            line = L.hotline(coordsTmp, {
+                                weight: linewidth,
+                                outlineWidth: 2,
+                                outlineColor: phonetrack.sessionColors[s + d],
+                                palette: {0.0: 'white', 1.0: 'black'},
+                                min: 0,
+                                max: cutLines[i].length-1
+                            });
+                        }
+                        else {
+                            line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+                        }
                         phonetrack.sessionLineLayers[s][d].addLayer(line);
                     }
 
@@ -2190,7 +2212,23 @@
                     cutLines = segmentLines(displayedLatlngs, s, d);
                     phonetrack.sessionLineLayers[s][d].clearLayers();
                     for (i = 0; i < cutLines.length; i++) {
-                        line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+                        if (linegradient) {
+                            coordsTmp = [];
+                            for (j=0; j < cutLines[i].length; j++) {
+                                coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                            }
+                            line = L.hotline(coordsTmp, {
+                                weight: linewidth,
+                                outlineWidth: 2,
+                                outlineColor: phonetrack.sessionColors[s + d],
+                                palette: {0.0: 'white', 1.0: 'black'},
+                                min: 0,
+                                max: cutLines[i].length-1
+                            });
+                        }
+                        else {
+                            line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+                        }
                         phonetrack.sessionLineLayers[s][d].addLayer(line);
                     }
 
@@ -2235,43 +2273,45 @@
         var mla, mln, mid, mentry, displayedLatlngs, oldlatlng;
         // TODO check if there is another way to get list of displayed latlngs
         var lineLayersList = phonetrack.sessionLineLayers[s][d].getLayers();
-        displayedLatlngs = lineLayersList[lineLayersList.length - 1].getLatLngs();
-        // if session is not watched or if there is no points to see
-        if (!$('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on') || displayedLatlngs.length === 0) {
-            if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
-                phonetrack.sessionMarkerLayers[s][d].remove();
+        if (lineLayersList.length > 0) {
+            displayedLatlngs = lineLayersList[lineLayersList.length - 1].getLatLngs();
+            // if session is not watched or if there is no points to see
+            if (!$('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on') || displayedLatlngs.length === 0) {
+                if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
+                    phonetrack.sessionMarkerLayers[s][d].remove();
+                }
             }
-        }
-        else {
-            mla = displayedLatlngs[displayedLatlngs.length - 1].lat;
-            mln = displayedLatlngs[displayedLatlngs.length - 1].lng;
-            mid = displayedLatlngs[displayedLatlngs.length - 1].alt;
-            mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
-            oldlatlng = phonetrack.sessionMarkerLayers[s][d].getLatLng();
-            // move and update tooltip/popup only if needed (marker has changed or coords are different)
-            if (oldlatlng === null
-                || parseInt(oldlatlng.alt) !== parseInt(mid)
-                || mla !== oldlatlng.lat
-                || mln !== oldlatlng.lng
-            ) {
-                // move
-                phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid]);
-            }
-
-            if (phonetrack.sessionMarkerLayers[s][d].pid === null
-                || parseInt(oldlatlng.alt) !== parseInt(mid)
-            ) {
-                phonetrack.sessionMarkerLayers[s][d].pid = mid;
-            }
-
-            // if marker was not already displayed
-            if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
-                phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
-                if (!pageIsPublic()
-                    && !isSessionShared(s)
-                    && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
+            else {
+                mla = displayedLatlngs[displayedLatlngs.length - 1].lat;
+                mln = displayedLatlngs[displayedLatlngs.length - 1].lng;
+                mid = displayedLatlngs[displayedLatlngs.length - 1].alt;
+                mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
+                oldlatlng = phonetrack.sessionMarkerLayers[s][d].getLatLng();
+                // move and update tooltip/popup only if needed (marker has changed or coords are different)
+                if (oldlatlng === null
+                    || parseInt(oldlatlng.alt) !== parseInt(mid)
+                    || mla !== oldlatlng.lat
+                    || mln !== oldlatlng.lng
                 ) {
-                    phonetrack.sessionMarkerLayers[s][d].dragging.enable();
+                    // move
+                    phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid]);
+                }
+
+                if (phonetrack.sessionMarkerLayers[s][d].pid === null
+                    || parseInt(oldlatlng.alt) !== parseInt(mid)
+                ) {
+                    phonetrack.sessionMarkerLayers[s][d].pid = mid;
+                }
+
+                // if marker was not already displayed
+                if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
+                    phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
+                    if (!pageIsPublic()
+                        && !isSessionShared(s)
+                        && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
+                    ) {
+                        phonetrack.sessionMarkerLayers[s][d].dragging.enable();
+                    }
                 }
             }
         }
@@ -2357,6 +2397,13 @@
     }
 
     function changeDeviceStyle(s, d, colorcode) {
+        var linegradient = $('#linegradient').is(':checked');
+        if (linegradient) {
+            phonetrack.sessionLineLayers[s][d].eachLayer(function (l) {
+                l.options.outlineColor = colorcode;
+                l.redraw();
+            });
+        }
         var rgbc = hexToRgb(colorcode);
         var textcolor = 'black';
         if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
@@ -2419,6 +2466,7 @@
         var color = $('#colorinput').val();
         var s = $('#tracknamecolor').attr('token');
         var d = $('#tracknamecolor').attr('deviceid');
+        phonetrack.sessionColors[s + d] = color;
         changeDeviceStyle(s, d, color);
     }
 
@@ -2558,7 +2606,7 @@
         phonetrack.sessionPointsLayersById[s][d] = {};
         phonetrack.sessionPointsEntriesById[s][d] = {};
         phonetrack.sessionLatlngs[s][d] = [];
-        var linewidth = $('#linewidth').val();
+        var linewidth = parseInt($('#linewidth').val()) || 5;
         phonetrack.sessionLineLayers[s][d] = L.featureGroup();
         linetooltip = sessionname + ' | ' + name;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
@@ -2604,10 +2652,11 @@
 
     // append entries ordered by timestamp
     function appendEntriesToDevice(s, d, entries, sessionname) {
-        var lastEntryTimestamp, firstEntryTimestamp, device, i, e, entry, ts, m;
+        var lastEntryTimestamp, firstEntryTimestamp, device, i, e, entry, ts, m, j, coordsTmp;
         var filter;
         var cutLines, line;
-        var linewidth = $('#linewidth').val();
+        var linewidth = parseInt($('#linewidth').val()) || 5;
+        var linegradient = $('#linegradient').is(':checked');
         firstEntryTimestamp = parseInt(entries[0].timestamp);
         lastEntryTimestamp = parseInt(entries[entries.length-1].timestamp);
         device = d;
@@ -2648,7 +2697,23 @@
                 // increment lines, insert into displayed layer (sessionLineLayers)
                 var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
                 phonetrack.sessionLineLayers[s][d].clearLayers();
-                line = L.polyline(displayedLatlngs, {weight: linewidth, className: 'poly' + s + d});
+                if (linegradient) {
+                    coordsTmp = [];
+                    for (j=0; j < displayedLatlngs.length; j++) {
+                        coordsTmp.push([displayedLatlngs[j][0], displayedLatlngs[j][1], j]);
+                    }
+                    line = L.hotline(coordsTmp, {
+                        weight: linewidth,
+                        outlineWidth: 2,
+                        outlineColor: phonetrack.sessionColors[s + d],
+                        palette: {0.0: 'white', 1.0: 'black'},
+                        min: 0,
+                        max: displayedLatlngs.length-1
+                    });
+                }
+                else {
+                    line = L.polyline(displayedLatlngs, {weight: linewidth, className: 'poly' + s + d});
+                }
                 phonetrack.sessionLineLayers[s][d].addLayer(line);
 
                 var radius = phonetrack.optionsValues.pointradius;
@@ -2703,8 +2768,24 @@
             var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
             cutLines = segmentLines(displayedLatlngs, s, d);
             phonetrack.sessionLineLayers[s][d].clearLayers();
-            for (i = 0; i < cutLines.length; i++) {
-                line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+            for (i = 0; i < cutLines.length; i++) {
+                if (linegradient) {
+                    coordsTmp = [];
+                    for (j=0; j < cutLines[i].length; j++) {
+                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                    }
+                    line = L.hotline(coordsTmp, {
+                        weight: linewidth,
+                        outlineWidth: 2,
+                        outlineColor: phonetrack.sessionColors[s + d],
+                        palette: {0.0: 'white', 1.0: 'black'},
+                        min: 0,
+                        max: cutLines[i].length-1
+                    });
+                }
+                else {
+                    line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+                }
                 phonetrack.sessionLineLayers[s][d].addLayer(line);
             }
 
@@ -2833,8 +2914,9 @@
 
     function updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing) {
         var perm = $('#showtime').is(':checked');
-        var linewidth = $('#linewidth').val();
-        var i;
+        var linegradient = $('#linegradient').is(':checked');
+        var linewidth = parseInt($('#linewidth').val()) || 5;
+        var i, j, coordsTmp;
 
         var sessionname = getSessionName(token);
         var entry = phonetrack.sessionPointsEntriesById[token][deviceid][pointid];
@@ -2904,7 +2986,23 @@
             cutLines = segmentLines(filteredlatlngs, token, deviceid);
             phonetrack.sessionLineLayers[token][deviceid].clearLayers();
             for (i = 0; i < cutLines.length; i++) {
-                line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
+                if (linegradient) {
+                    coordsTmp = [];
+                    for (j=0; j < cutLines[i].length; j++) {
+                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                    }
+                    line = L.hotline(coordsTmp, {
+                        weight: linewidth,
+                        outlineWidth: 2,
+                        outlineColor: phonetrack.sessionColors[token + deviceid],
+                        palette: {0.0: 'white', 1.0: 'black'},
+                        min: 0,
+                        max: cutLines[i].length-1
+                    });
+                }
+                else {
+                    line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
+                }
                 phonetrack.sessionLineLayers[token][deviceid].addLayer(line);
             }
 
@@ -2953,8 +3051,9 @@
 
     function deletePointsMap(s, d, pidlist) {
         var perm = $('#showtime').is(':checked');
-        var linewidth = $('#linewidth').val();
-        var i, lat, lng, p, pid, m;
+        var linegradient = $('#linegradient').is(':checked');
+        var linewidth = parseInt($('#linewidth').val()) || 5;
+        var i, lat, lng, p, pid, m, j, coordsTmp;
         var cutLines, line;
         var sn = getSessionName(s);
         for (i = 0; i < pidlist.length; i++) {
@@ -2981,7 +3080,23 @@
         cutLines = segmentLines(filteredlatlngs, s, d);
         phonetrack.sessionLineLayers[s][d].clearLayers();
         for (i = 0; i < cutLines.length; i++) {
-            line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+            if (linegradient) {
+                coordsTmp = [];
+                for (j=0; j < cutLines[i].length; j++) {
+                    coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                }
+                line = L.hotline(coordsTmp, {
+                    weight: linewidth,
+                    outlineWidth: 2,
+                    outlineColor: phonetrack.sessionColors[s + d],
+                    palette: {0.0: 'white', 1.0: 'black'},
+                    min: 0,
+                    max: cutLines[i].length-1
+                });
+            }
+            else {
+                line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
+            }
             phonetrack.sessionLineLayers[s][d].addLayer(line);
         }
 
@@ -3058,7 +3173,8 @@
 
     function addPointMap(id, lat, lon, alt, acc, sat, bat, speed, bearing, timestamp, deviceid) {
         var perm = $('#showtime').is(':checked');
-        var linewidth = $('#linewidth').val();
+        var linegradient = $('#linegradient').is(':checked');
+        var linewidth = parseInt($('#linewidth').val()) || 5;
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
         var devicename = $('#addPointDevice').val();
@@ -3115,6 +3231,7 @@
             var latlngs = phonetrack.sessionLatlngs[token][deviceid];
             var newlatlngs = [];
             var i = 0;
+            var j, coordsTmp;
             // we copy until we get to the right place to insert new point
             while (i < latlngs.length
                    && timestamp > parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][latlngs[i][2]].timestamp)
@@ -3137,7 +3254,23 @@
             cutLines = segmentLines(filteredlatlngs, token, deviceid);
             phonetrack.sessionLineLayers[token][deviceid].clearLayers();
             for (i = 0; i < cutLines.length; i++) {
-                line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
+                if (linegradient) {
+                    coordsTmp = [];
+                    for (j=0; j < cutLines[i].length; j++) {
+                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                    }
+                    line = L.hotline(coordsTmp, {
+                        weight: linewidth,
+                        outlineWidth: 2,
+                        outlineColor: phonetrack.sessionColors[token + deviceid],
+                        palette: {0.0: 'white', 1.0: 'black'},
+                        min: 0,
+                        max: cutLines[i].length-1
+                    });
+                }
+                else {
+                    line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
+                }
                 phonetrack.sessionLineLayers[token][deviceid].addLayer(line);
             }
 
@@ -4405,7 +4538,7 @@
             }
         });
 
-        $('#cutdistance, #cuttime').change(function() {
+        $('#linegradient, #cutdistance, #cuttime').change(function() {
             if (!pageIsPublic()) {
                 saveOptions();
             }

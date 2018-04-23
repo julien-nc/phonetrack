@@ -88,6 +88,10 @@ p($_['phonetrack_version']);
             <?php p($l->t('Minimum time to cut between two points'));?></label>
             <input id="cuttime" type="number" min="1" max="100000000" step="1" value=""/> <?php p($l->t('seconds')); ?>
             </div>
+            <input id="linegradient" type="checkbox"/>
+            <label for="linegradient"><i class="fa fa-paint-brush" aria-hidden="true"></i>
+            <?php p($l->t('Draw line with color gradient'));?></label>
+            <br/>
             <input id="tooltipshowaccuracy" type="checkbox" checked/>
             <label for="tooltipshowaccuracy"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy in tooltips'));?> *</label>
