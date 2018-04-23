@@ -41,6 +41,11 @@ function DMStoDEC($dms, $longlat) {
     return $deg + ((($min * 60) + ($sec)) / 3600);
 }
 
+function startsWith($haystack, $needle) {
+    $length = strlen($needle);
+    return (substr($haystack, 0, $length) === $needle);
+}
+
 class LogController extends Controller {
 
     private $userId;
@@ -142,7 +147,7 @@ class LogController extends Controller {
 
     private function getDeviceFences($devid) {
         $fences = array();
-        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name';
+        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave';
         $sqlget .= ' FROM *PREFIX*phonetrack_geofences ';
         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -166,6 +171,8 @@ class LogController extends Controller {
         $latmax = floatval($fence['latmax']);
         $lonmin = floatval($fence['lonmin']);
         $lonmax = floatval($fence['lonmax']);
+        $urlenter = $fence['urlenter'];
+        $urlleave = $fence['urlleave'];
         $fencename = $fence['name'];
 
         // first point of this device
@@ -203,6 +210,9 @@ class LogController extends Controller {
                         $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
                         $mailer->send($message);
                     }
+                    if ($urlenter !== '' and startsWith($urlenter, 'http')) {
+                        $xml = file_get_contents($urlenter);
+                    }
                 }
             }
             // previous point in fence
@@ -225,6 +235,9 @@ class LogController extends Controller {
                         $message->setTo([$userEmail => $this->userId]);
                         $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
                         $mailer->send($message);
+                    }
+                    if ($urlleave !== '' and startsWith($urlleave, 'http')) {
+                        $xml = file_get_contents($urlleave);
                     }
                 }
             }

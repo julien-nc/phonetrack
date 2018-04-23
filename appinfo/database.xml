@@ -243,6 +243,18 @@
       <notnull>true</notnull>
       <length>10</length>
     </field>
+    <field>
+      <name>urlenter</name>
+      <type>text</type>
+      <notnull>false</notnull>
+      <length>500</length>
+    </field>
+    <field>
+      <name>urlleave</name>
+      <type>text</type>
+      <notnull>false</notnull>
+      <length>500</length>
+    </field>
   </declaration>
 </table>
  <table>

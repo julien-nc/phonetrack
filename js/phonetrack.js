@@ -2500,6 +2500,10 @@
                 '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
                 '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
                 '</button>' +
+                '<label for="urlenter'+s+d+'">' + t('phonetrack', 'URL to request when entering') + ' </label>' +
+                '<input type="text" id="urlenter'+s+d+'" class="urlenter"/><br/>' +
+                '<label for="urlleave'+s+d+'">' + t('phonetrack', 'URL to request when leaving') + ' </label>' +
+                '<input type="text" id="urlleave'+s+d+'" class="urlleave"/>' +
                 '<ul class="geofencelist"></ul>' +
                 '</div>';
 
@@ -3853,7 +3857,7 @@
         });
     }
 
-    function addGeoFenceDb(token, device, fencename, mapbounds) {
+    function addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave) {
         var latmin = mapbounds.getSouth();
         var latmax = mapbounds.getNorth();
         var lonmin = mapbounds.getWest();
@@ -3865,7 +3869,9 @@
             latmin: latmin,
             latmax: latmax,
             lonmin: lonmin,
-            lonmax: lonmax
+            lonmax: lonmax,
+            urlenter: urlenter,
+            urlleave: urlleave
         };
         var url = OC.generateUrl('/apps/phonetrack/addGeofence');
         $.ajax({
@@ -3875,7 +3881,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1 || response.done === 4) {
-                addGeoFence(token, device, fencename, response.fenceid, mapbounds);
+                addGeoFence(token, device, fencename, response.fenceid, mapbounds, urlenter, urlleave);
                 if (response.done === 4) {
                     OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofencing alerts.'));
                 }
@@ -3888,9 +3894,11 @@
         });
     }
 
-    function addGeoFence(token, device, fencename, fenceid, llb) {
+    function addGeoFence(token, device, fencename, fenceid, llb, urlenter='', urlleave='') {
         var li = '<li fenceid="'+fenceid+'" latmin="'+llb.getSouth()+'" latmax="'+llb.getNorth()+'"' +
-            'lonmin="'+llb.getWest()+'" lonmax="'+llb.getEast()+'">' +
+            'lonmin="'+llb.getWest()+'" lonmax="'+llb.getEast()+'" ' +
+            'title="'+t('phonetrack', 'URL to request when entering') +' : '+escapeHTML(urlenter)+'\n' +
+            t('phonetrack', 'URL to request when leaving') +' : '+escapeHTML(urlleave)+'">' +
             '<label class="geofencelabel">'+escapeHTML(fencename)+'</label>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
             '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
@@ -4943,8 +4951,10 @@
             var token = $(this).parent().parent().attr('token');
             var device = $(this).parent().parent().attr('device');
             var fencename = $(this).parent().find('.geofencename').val();
+            var urlenter = $(this).parent().find('.urlenter').val();
+            var urlleave = $(this).parent().find('.urlleave').val();
             var mapbounds = phonetrack.map.getBounds();
-            addGeoFenceDb(token, device, fencename, mapbounds);
+            addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave);
         });
 
         $('body').on('click','.deletegeofencebutton', function(e) {

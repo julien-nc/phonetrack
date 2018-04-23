@@ -3192,7 +3192,7 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax) {
+    public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax, $urlenter, $urlleave) {
         $ok = 0;
         $fenceid = null;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
@@ -3212,14 +3212,16 @@ class PageController extends Controller {
             if ($dbfencename === null) {
                 // insert
                 $sql = 'INSERT INTO *PREFIX*phonetrack_geofences';
-                $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax) ';
+                $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax, urlenter, urlleave) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($fencename).',';
                 $sql .= $this->db_quote_escape_string($device).',';
                 $sql .= $this->db_quote_escape_string(floatval($latmin)).',';
                 $sql .= $this->db_quote_escape_string(floatval($latmax)).',';
                 $sql .= $this->db_quote_escape_string(floatval($lonmin)).',';
-                $sql .= $this->db_quote_escape_string(floatval($lonmax));
+                $sql .= $this->db_quote_escape_string(floatval($lonmax)).',';
+                $sql .= $this->db_quote_escape_string($urlenter).',';
+                $sql .= $this->db_quote_escape_string($urlleave);
                 $sql .= ');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();

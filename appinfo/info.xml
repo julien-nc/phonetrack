@@ -69,7 +69,7 @@ Any feedback will be appreciated.
     <licence>AGPL</licence>
     <summary>Display phones positions in real time</summary>
     <author>Julien Veyssier</author>
-    <version>0.2.7</version>
+    <version>0.2.8</version>
     <namespace>PhoneTrack</namespace>
     <documentation>
         <user>https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc</user>
