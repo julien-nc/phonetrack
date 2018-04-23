@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - options to cut device lines when point are too far (distance or time)
 [#94](https://gitlab.com/eneiluj/phonetrack-oc/issues/94) @WNYmathGuy
+- ability to send GET requests when device gets in or out of a geofencing zone
+[#97](https://gitlab.com/eneiluj/phonetrack-oc/issues/97) @einstein99
+- option to draw lines with black and white color gradient surrounded by device's color outline
+[#99](https://gitlab.com/eneiluj/phonetrack-oc/issues/99) @0x53A
 
 ### Fixed
 - bug when refreshing session shared to another user
