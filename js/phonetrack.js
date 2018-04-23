@@ -2272,46 +2272,53 @@
         var perm = phonetrack.optionsValues.showtime;
         var mla, mln, mid, mentry, displayedLatlngs, oldlatlng;
         // TODO check if there is another way to get list of displayed latlngs
-        var lineLayersList = phonetrack.sessionLineLayers[s][d].getLayers();
-        if (lineLayersList.length > 0) {
-            displayedLatlngs = lineLayersList[lineLayersList.length - 1].getLatLngs();
-            // if session is not watched or if there is no points to see
-            if (!$('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on') || displayedLatlngs.length === 0) {
-                if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
-                    phonetrack.sessionMarkerLayers[s][d].remove();
-                }
+        var pointLayerList = phonetrack.sessionPointsLayers[s][d].getLayers();
+        var lastll = null;
+        var maxTime = 0;
+        var ll;
+        for (var i=0; i < pointLayerList.length; i++) {
+            ll = pointLayerList[i].getLatLng();
+            if (phonetrack.sessionPointsEntriesById[s][d][ll.alt].timestamp > maxTime) {
+                maxTime = phonetrack.sessionPointsEntriesById[s][d][ll.alt].timestamp;
+                lastll = ll;
             }
-            else {
-                mla = displayedLatlngs[displayedLatlngs.length - 1].lat;
-                mln = displayedLatlngs[displayedLatlngs.length - 1].lng;
-                mid = displayedLatlngs[displayedLatlngs.length - 1].alt;
-                mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
-                oldlatlng = phonetrack.sessionMarkerLayers[s][d].getLatLng();
-                // move and update tooltip/popup only if needed (marker has changed or coords are different)
-                if (oldlatlng === null
-                    || parseInt(oldlatlng.alt) !== parseInt(mid)
-                    || mla !== oldlatlng.lat
-                    || mln !== oldlatlng.lng
-                ) {
-                    // move
-                    phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid]);
-                }
+        }
+        // if session is not watched or if there is no points to see
+        if (!$('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on') || pointLayerList.length === 0) {
+            if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
+                phonetrack.sessionMarkerLayers[s][d].remove();
+            }
+        }
+        else {
+            mla = lastll.lat;
+            mln = lastll.lng;
+            mid = lastll.alt;
+            mentry = phonetrack.sessionPointsEntriesById[s][d][mid];
+            oldlatlng = phonetrack.sessionMarkerLayers[s][d].getLatLng();
+            // move and update tooltip/popup only if needed (marker has changed or coords are different)
+            if (oldlatlng === null
+                || parseInt(oldlatlng.alt) !== parseInt(mid)
+                || mla !== oldlatlng.lat
+                || mln !== oldlatlng.lng
+            ) {
+                // move
+                phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid]);
+            }
 
-                if (phonetrack.sessionMarkerLayers[s][d].pid === null
-                    || parseInt(oldlatlng.alt) !== parseInt(mid)
-                ) {
-                    phonetrack.sessionMarkerLayers[s][d].pid = mid;
-                }
+            if (phonetrack.sessionMarkerLayers[s][d].pid === null
+                || parseInt(oldlatlng.alt) !== parseInt(mid)
+            ) {
+                phonetrack.sessionMarkerLayers[s][d].pid = mid;
+            }
 
-                // if marker was not already displayed
-                if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
-                    phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
-                    if (!pageIsPublic()
-                        && !isSessionShared(s)
-                        && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
-                    ) {
-                        phonetrack.sessionMarkerLayers[s][d].dragging.enable();
-                    }
+            // if marker was not already displayed
+            if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
+                phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
+                if (!pageIsPublic()
+                    && !isSessionShared(s)
+                    && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
+                ) {
+                    phonetrack.sessionMarkerLayers[s][d].dragging.enable();
                 }
             }
         }
