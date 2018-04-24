@@ -260,7 +260,7 @@ class LogController extends Controller {
         ) {
             $userid = null;
             // check if session exists
-            $sqlchk = 'SELECT name, user FROM *PREFIX*phonetrack_sessions ';
+            $sqlchk = 'SELECT name, '.$this->dbdblquotes.'user'.$this->dbdblquotes.' FROM *PREFIX*phonetrack_sessions ';
             $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
