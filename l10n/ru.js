@@ -167,6 +167,8 @@ OC.L10N.register(
     "Are you sure you want to delete the device {device} ?" : "Вы уверены, что хотите удалить это устройство {device} ?",
     "Confirm device deletion" : "Подтверждение удаления устройства",
     "Failed to toggle session public status, session does not exist" : "Не удалось изменить статус сессии, сессия не существует",
+    "Refresh each (sec)" : "Обновлять каждые (сек)",
+    "Refresh" : "Обновить",
     "Opacity (0.0-1.0)" : "Прозрачность (0.0-1.0)",
     "Your overlay tile servers" : "Ваши серверы плитка оверлея",
     "Custom WMS tile servers" : "Пользовательские плитки для сервера WMS",
