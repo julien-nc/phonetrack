@@ -870,3 +870,7 @@ input.geofencename {
     display: none;
     text-align: center;
 }
+.addgeofencediv {
+    border: 1px solid black;
+    border-radius: 5px;
+}

@@ -2551,14 +2551,17 @@
                 'title="' + t('phonetrack', 'Device geofencing zones') + '">' +
                 '</button>';
             geofencesDiv = '<div class="geofencesDiv">' +
-                '<input type="text" class="geofencename" value="fence name"/>' +
-                '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
-                '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
-                '</button>' +
+                '<div class="addgeofencediv">' +
+                '<p>' + t('phonetrack', 'Zoom on geofencing area, then set values, then validate.') + '</p>' +
                 '<label for="urlenter'+s+d+'">' + t('phonetrack', 'URL to request when entering') + ' </label>' +
                 '<input type="text" id="urlenter'+s+d+'" class="urlenter"/><br/>' +
                 '<label for="urlleave'+s+d+'">' + t('phonetrack', 'URL to request when leaving') + ' </label>' +
                 '<input type="text" id="urlleave'+s+d+'" class="urlleave"/>' +
+                '<input type="text" class="geofencename" value="fence name"/>' +
+                '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
+                '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
+                '</button>' +
+                '</div>' +
                 '<ul class="geofencelist"></ul>' +
                 '</div>';
 
@@ -5088,8 +5091,8 @@
         });
 
         $('body').on('click','.addgeofencebutton', function(e) {
-            var token = $(this).parent().parent().attr('token');
-            var device = $(this).parent().parent().attr('device');
+            var token = $(this).parent().parent().parent().attr('token');
+            var device = $(this).parent().parent().parent().attr('device');
             var fencename = $(this).parent().find('.geofencename').val();
             var urlenter = $(this).parent().find('.urlenter').val();
             var urlleave = $(this).parent().find('.urlleave').val();
