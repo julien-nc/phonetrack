@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.2.8 – 2018-05-21
 ### Added
 - options to cut device lines when point are too far (distance or time)
 [#94](https://gitlab.com/eneiluj/phonetrack-oc/issues/94) @WNYmathGuy
@@ -16,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - bug when refreshing session shared to another user
 [#96](https://gitlab.com/eneiluj/phonetrack-oc/issues/96) @mihxx
+- escape 'user' in SQL query for PostgreSQL
+[#100](https://gitlab.com/eneiluj/phonetrack-oc/issues/100) @r100gs
 
 ## 0.2.7 – 2018-03-26
 ### Added
