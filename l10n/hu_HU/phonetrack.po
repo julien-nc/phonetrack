@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2018-03-29 11:07+0200\n"
-"PO-Revision-Date: 2018-03-29 05:26-0400\n"
+"POT-Creation-Date: 2018-05-21 14:20+0200\n"
+"PO-Revision-Date: 2018-05-21 11:34-0400\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -20,16 +20,16 @@ msgstr ""
 msgid "PhoneTrack"
 msgstr ""
 
-#: logcontroller.php:200 logcontroller.php:223
+#: logcontroller.php:207 logcontroller.php:233
 msgid "Geofencing alert"
 msgstr ""
 
-#: logcontroller.php:203
+#: logcontroller.php:210
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
 msgstr ""
 
-#: logcontroller.php:226
+#: logcontroller.php:236
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
 msgstr ""
@@ -86,8 +86,8 @@ msgstr ""
 msgid "A server with this name already exists"
 msgstr ""
 
-#: phonetrack.js:892 phonetrack.js:3210 maincontent.php:246 maincontent.php:290
-#: maincontent.php:335 maincontent.php:384
+#: phonetrack.js:892 phonetrack.js:3357 maincontent.php:250 maincontent.php:294
+#: maincontent.php:339 maincontent.php:388
 msgid "Delete"
 msgstr "Törlés"
 
@@ -115,711 +115,723 @@ msgstr ""
 msgid "Failed to contact server to delete tile server"
 msgstr ""
 
-#: phonetrack.js:1104
+#: phonetrack.js:1107
 msgid "Failed to contact server to restore options values"
 msgstr ""
 
-#: phonetrack.js:1107 phonetrack.js:1189 phonetrack.js:4703
+#: phonetrack.js:1110 phonetrack.js:1193 phonetrack.js:4854
 msgid "Reload this page"
 msgstr "Oldal frissítése"
 
-#: phonetrack.js:1186
+#: phonetrack.js:1190
 msgid "Failed to contact server to save options values"
 msgstr ""
 
-#: phonetrack.js:1209
+#: phonetrack.js:1213
 msgid "Session name should not be empty"
 msgstr ""
 
-#: phonetrack.js:1226
+#: phonetrack.js:1230
 msgid "Session name already used"
 msgstr ""
 
-#: phonetrack.js:1230
+#: phonetrack.js:1234
 msgid "Failed to contact server to create session"
 msgstr ""
 
-#: phonetrack.js:1325
+#: phonetrack.js:1329
 msgid "Watch this session"
 msgstr ""
 
-#: phonetrack.js:1331
+#: phonetrack.js:1335
 msgid "shared by {u}"
 msgstr "segosztva tőle: {u}"
 
-#: phonetrack.js:1336 phonetrack.js:2477
+#: phonetrack.js:1340 phonetrack.js:2532
 msgid "More actions"
 msgstr "További műveletek"
 
-#: phonetrack.js:1340
+#: phonetrack.js:1344
 msgid "Zoom on this session"
 msgstr ""
 
-#: phonetrack.js:1343
+#: phonetrack.js:1347
 msgid "URL to share session"
 msgstr ""
 
-#: phonetrack.js:1347
+#: phonetrack.js:1351
 msgid "URLs for logging apps"
 msgstr ""
 
-#: phonetrack.js:1351
+#: phonetrack.js:1355
 msgid "Reserve device names"
 msgstr ""
 
-#: phonetrack.js:1360
+#: phonetrack.js:1364
 msgid "Delete session"
 msgstr "Munkamenet törtlése"
 
-#: phonetrack.js:1361 phonetrack.js:1362
+#: phonetrack.js:1365 phonetrack.js:1366
 msgid "Rename session"
 msgstr "Munkamenet átnevezése"
 
-#: phonetrack.js:1364 phonetrack.js:1365
+#: phonetrack.js:1368 phonetrack.js:1369
 msgid "Export to gpx"
 msgstr "Exportálás gpx-be"
 
-#: phonetrack.js:1370
+#: phonetrack.js:1374
 msgid "Files are created in '{exdir}'"
 msgstr ""
 
-#: phonetrack.js:1371
+#: phonetrack.js:1375
 msgid "Automatic export"
 msgstr "Automatikus exportálás"
 
-#: phonetrack.js:1373
+#: phonetrack.js:1377
 msgid "never"
 msgstr "soha"
 
-#: phonetrack.js:1374
+#: phonetrack.js:1378
 msgid "daily"
 msgstr "naponta"
 
-#: phonetrack.js:1375
+#: phonetrack.js:1379
 msgid "weekly"
 msgstr "hetente"
 
-#: phonetrack.js:1376
+#: phonetrack.js:1380
 msgid "monthly"
 msgstr "havi"
 
-#: phonetrack.js:1381
+#: phonetrack.js:1385
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
 msgstr ""
 
-#: phonetrack.js:1382
+#: phonetrack.js:1386
 msgid "Automatic purge"
 msgstr ""
 
-#: phonetrack.js:1384
+#: phonetrack.js:1388
 msgid "don't purge"
 msgstr ""
 
-#: phonetrack.js:1385
+#: phonetrack.js:1389
 msgid "a day"
 msgstr ""
 
-#: phonetrack.js:1386
+#: phonetrack.js:1390
 msgid "a week"
 msgstr ""
 
-#: phonetrack.js:1387
+#: phonetrack.js:1391
 msgid "a month"
 msgstr ""
 
-#: phonetrack.js:1396
+#: phonetrack.js:1400
 msgid "Name reservation is optional."
 msgstr ""
 
-#: phonetrack.js:1397
+#: phonetrack.js:1401
 msgid "Name can be set directly in logging URL if it is not reserved."
 msgstr ""
 
-#: phonetrack.js:1398
+#: phonetrack.js:1402
 msgid "To log with a reserved name, use its token in logging URL."
 msgstr ""
 
-#: phonetrack.js:1399
+#: phonetrack.js:1403
 msgid "If a name is reserved, the only way to log with this name is with its token."
 msgstr ""
 
-#: phonetrack.js:1402
+#: phonetrack.js:1406
 msgid "Reserve this device name"
 msgstr ""
 
-#: phonetrack.js:1404
+#: phonetrack.js:1408
 msgid "Type reserved name and press 'Enter'"
 msgstr ""
 
-#: phonetrack.js:1418
+#: phonetrack.js:1422
 msgid "Share with user"
 msgstr ""
 
-#: phonetrack.js:1420
+#: phonetrack.js:1424
 msgid "Type user name and press 'Enter'"
 msgstr ""
 
-#: phonetrack.js:1425 phonetrack.js:3752
+#: phonetrack.js:1429 phonetrack.js:3899
 msgid "Shared with {u}"
 msgstr ""
 
-#: phonetrack.js:1431
+#: phonetrack.js:1435
 msgid "A private session is not visible on public browser logging page"
 msgstr ""
 
-#: phonetrack.js:1433 phonetrack.js:4712
+#: phonetrack.js:1437 phonetrack.js:4863
 msgid "Make session public"
 msgstr ""
 
-#: phonetrack.js:1436 phonetrack.js:4707
+#: phonetrack.js:1440 phonetrack.js:4858
 msgid "Make session private"
 msgstr ""
 
-#: phonetrack.js:1441
+#: phonetrack.js:1445
 msgid "Public watch URL"
 msgstr ""
 
-#: phonetrack.js:1443
+#: phonetrack.js:1447
 msgid "API URL (JSON last positions)"
 msgstr ""
 
-#: phonetrack.js:1449
+#: phonetrack.js:1453
 msgid "Current active filters will be applied on shared view"
 msgstr ""
 
-#: phonetrack.js:1451
+#: phonetrack.js:1455
 msgid "Add public filtered share"
 msgstr ""
 
-#: phonetrack.js:1461
+#: phonetrack.js:1465
 msgid "List of server URLs to configure logging apps."
 msgstr ""
 
-#: phonetrack.js:1462 maincontent.php:178
+#: phonetrack.js:1466 maincontent.php:182
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
 msgstr ""
 
-#: phonetrack.js:1464
+#: phonetrack.js:1468
 msgid "Public browser logging URL"
 msgstr ""
 
-#: phonetrack.js:1466
+#: phonetrack.js:1470
 msgid "OsmAnd URL"
 msgstr ""
 
-#: phonetrack.js:1470
+#: phonetrack.js:1474
 msgid "GpsLogger GET and POST URL"
 msgstr ""
 
-#: phonetrack.js:1474
+#: phonetrack.js:1478
 msgid "Owntracks (HTTP mode) URL"
 msgstr ""
 
-#: phonetrack.js:1478
+#: phonetrack.js:1482
 msgid "Ulogger URL"
 msgstr ""
 
-#: phonetrack.js:1482
+#: phonetrack.js:1486
 msgid "Traccar URL"
 msgstr ""
 
-#: phonetrack.js:1486
+#: phonetrack.js:1490
 msgid "OpenGTS URL"
 msgstr ""
 
-#: phonetrack.js:1489
+#: phonetrack.js:1493
 msgid "HTTP GET URL"
 msgstr ""
 
-#: phonetrack.js:1536
+#: phonetrack.js:1540
 msgid "The session you want to delete does not exist"
 msgstr ""
 
-#: phonetrack.js:1539
+#: phonetrack.js:1543
 msgid "Failed to delete session"
 msgstr ""
 
-#: phonetrack.js:1543
+#: phonetrack.js:1547
 msgid "Failed to contact server to delete session"
 msgstr ""
 
-#: phonetrack.js:1563
+#: phonetrack.js:1567
 msgid "Device '{d}' of session '{s}' has been deleted"
 msgstr ""
 
-#: phonetrack.js:1566
+#: phonetrack.js:1570
 msgid "Failed to delete device '{d}' of session '{s}'"
 msgstr ""
 
-#: phonetrack.js:1570
+#: phonetrack.js:1574
 msgid "Failed to contact server to delete device"
 msgstr ""
 
-#: phonetrack.js:1622
+#: phonetrack.js:1626
 msgid "Impossible to rename session"
 msgstr ""
 
-#: phonetrack.js:1626
+#: phonetrack.js:1630
 msgid "Failed to contact server to rename session"
 msgstr ""
 
-#: phonetrack.js:1674
+#: phonetrack.js:1678
 msgid "Impossible to rename device"
 msgstr ""
 
-#: phonetrack.js:1678
+#: phonetrack.js:1682
 msgid "Failed to contact server to rename device"
 msgstr ""
 
-#: phonetrack.js:1735
+#: phonetrack.js:1739
 msgid "Device already exists in target session"
 msgstr ""
 
-#: phonetrack.js:1738
+#: phonetrack.js:1742
 msgid "Impossible to move device to another session"
 msgstr ""
 
-#: phonetrack.js:1742
+#: phonetrack.js:1746
 msgid "Failed to contact server to move device"
 msgstr ""
 
-#: phonetrack.js:1809
+#: phonetrack.js:1813
 msgid "Failed to contact server to get sessions"
 msgstr ""
 
-#: phonetrack.js:2182 phonetrack.js:2216
+#: phonetrack.js:2204 phonetrack.js:2254
 msgid "Stats of all points"
 msgstr ""
 
-#: phonetrack.js:2213
+#: phonetrack.js:2251
 msgid "Stats of filtered points"
 msgstr ""
 
-#: phonetrack.js:2398
+#: phonetrack.js:2452
 msgid "Device's color successfully changed"
 msgstr ""
 
-#: phonetrack.js:2401
+#: phonetrack.js:2455
 msgid "Failed to save device's color"
 msgstr ""
 
-#: phonetrack.js:2405
+#: phonetrack.js:2459
 msgid "Failed to contact server to change device's color"
 msgstr ""
 
-#: phonetrack.js:2480
+#: phonetrack.js:2535
 msgid "Delete this device"
 msgstr ""
 
-#: phonetrack.js:2482
+#: phonetrack.js:2537
 msgid "Rename this device"
 msgstr ""
 
-#: phonetrack.js:2485
+#: phonetrack.js:2540
 msgid "Move to another session"
 msgstr ""
 
-#: phonetrack.js:2488 maincontent.php:48
+#: phonetrack.js:2543 maincontent.php:48
 msgid "Ok"
 msgstr ""
 
-#: phonetrack.js:2496
+#: phonetrack.js:2551
 msgid "Device geofencing zones"
 msgstr ""
 
-#: phonetrack.js:2500
+#: phonetrack.js:2555
+msgid "Zoom on geofencing area, then set values, then validate."
+msgstr ""
+
+#: phonetrack.js:2556 phonetrack.js:4043
+msgid "URL to request when entering"
+msgstr ""
+
+#: phonetrack.js:2558 phonetrack.js:4044
+msgid "URL to request when leaving"
+msgstr ""
+
+#: phonetrack.js:2561
 msgid "Use current map view as geofencing zone"
 msgstr ""
 
-#: phonetrack.js:2501
+#: phonetrack.js:2562
 msgid "Add zone"
 msgstr ""
 
-#: phonetrack.js:2512
+#: phonetrack.js:2574
 msgid "Toggle detail/edition points"
 msgstr ""
 
-#: phonetrack.js:2520
+#: phonetrack.js:2582
 msgid "Toggle lines"
 msgstr ""
 
-#: phonetrack.js:2531 phonetrack.js:2537
+#: phonetrack.js:2593 phonetrack.js:2599
 msgid "Center map on device"
 msgstr ""
 
-#: phonetrack.js:2543
+#: phonetrack.js:2605
 msgid "Follow this device (autozoom)"
 msgstr ""
 
-#: phonetrack.js:2822
+#: phonetrack.js:2917
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
 msgstr ""
 
-#: phonetrack.js:2826
+#: phonetrack.js:2921
 msgid "Failed to contact server to edit point"
 msgstr ""
 
-#: phonetrack.js:2942
+#: phonetrack.js:3054
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
 msgstr ""
 
-#: phonetrack.js:2946
+#: phonetrack.js:3058
 msgid "Failed to contact server to delete point"
 msgstr ""
 
-#: phonetrack.js:3047
+#: phonetrack.js:3176
 msgid "Impossible to add this point"
 msgstr ""
 
-#: phonetrack.js:3051
+#: phonetrack.js:3180
 msgid "Failed to contact server to add point"
 msgstr ""
 
-#: phonetrack.js:3166
+#: phonetrack.js:3313
 msgid "Date"
 msgstr ""
 
-#: phonetrack.js:3169
+#: phonetrack.js:3316
 msgid "Time"
 msgstr ""
 
-#: phonetrack.js:3174 phonetrack.js:3226
+#: phonetrack.js:3321 phonetrack.js:3373
 msgid "Altitude"
 msgstr ""
 
-#: phonetrack.js:3177 phonetrack.js:3230
+#: phonetrack.js:3324 phonetrack.js:3377
 msgid "Precision"
 msgstr ""
 
-#: phonetrack.js:3180 phonetrack.js:3236
+#: phonetrack.js:3327 phonetrack.js:3383
 msgid "Speed"
 msgstr ""
 
-#: phonetrack.js:3188 phonetrack.js:3240
+#: phonetrack.js:3335 phonetrack.js:3387
 msgid "Bearing"
 msgstr ""
 
-#: phonetrack.js:3191 phonetrack.js:3244
+#: phonetrack.js:3338 phonetrack.js:3391
 msgid "Satellites"
 msgstr ""
 
-#: phonetrack.js:3194 phonetrack.js:3248
+#: phonetrack.js:3341 phonetrack.js:3395
 msgid "Battery"
 msgstr "Akkumulátor"
 
-#: phonetrack.js:3197 phonetrack.js:3252
+#: phonetrack.js:3344 phonetrack.js:3399
 msgid "User-agent"
 msgstr "Felhasználói azonosító"
 
-#: phonetrack.js:3200
+#: phonetrack.js:3347
 msgid "lat : lng"
 msgstr ""
 
-#: phonetrack.js:3204
+#: phonetrack.js:3351
 msgid "DMS coords"
 msgstr ""
 
-#: phonetrack.js:3209
+#: phonetrack.js:3356
 msgid "Save"
 msgstr "Mentés"
 
-#: phonetrack.js:3211
+#: phonetrack.js:3358
 msgid "Move"
 msgstr ""
 
-#: phonetrack.js:3212
+#: phonetrack.js:3359
 msgid "Cancel"
 msgstr "Mégse"
 
-#: phonetrack.js:3430
+#: phonetrack.js:3577
 msgid "File extension must be '.gpx' to be imported"
 msgstr ""
 
-#: phonetrack.js:3448
+#: phonetrack.js:3595
 msgid "Failed to create imported session"
 msgstr ""
 
-#: phonetrack.js:3452 phonetrack.js:3458
+#: phonetrack.js:3599 phonetrack.js:3605
 msgid "Failed to import session"
 msgstr ""
 
-#: phonetrack.js:3453
+#: phonetrack.js:3600
 msgid "File is not readable"
 msgstr ""
 
-#: phonetrack.js:3459
+#: phonetrack.js:3606
 msgid "File does not exist"
 msgstr ""
 
-#: phonetrack.js:3467
+#: phonetrack.js:3614
 msgid "Failed to contact server to import session"
 msgstr ""
 
-#: phonetrack.js:3487
+#: phonetrack.js:3634
 msgid "Session successfully exported in"
 msgstr ""
 
-#: phonetrack.js:3491
+#: phonetrack.js:3638
 msgid "Failed to export session"
 msgstr ""
 
-#: phonetrack.js:3496
+#: phonetrack.js:3643
 msgid "Failed to contact server to export session"
 msgstr ""
 
-#: phonetrack.js:3527
+#: phonetrack.js:3674
 msgid "Failed to contact server to log position"
 msgstr ""
 
-#: phonetrack.js:3675
+#: phonetrack.js:3822
 msgid "'{n}' is already reserved"
 msgstr ""
 
-#: phonetrack.js:3678
+#: phonetrack.js:3825
 msgid "Failed to reserve '{n}'"
 msgstr ""
 
-#: phonetrack.js:3681
+#: phonetrack.js:3828
 msgid "Failed to contact server to reserve device name"
 msgstr ""
 
-#: phonetrack.js:3712 phonetrack.js:3716
+#: phonetrack.js:3859 phonetrack.js:3863
 msgid "Failed to delete reserved name"
 msgstr ""
 
-#: phonetrack.js:3713
+#: phonetrack.js:3860
 msgid "This device does not exist"
 msgstr ""
 
-#: phonetrack.js:3717
+#: phonetrack.js:3864
 msgid "This device name is not reserved, please reload this page"
 msgstr ""
 
-#: phonetrack.js:3720
+#: phonetrack.js:3867
 msgid "Failed to contact server to delete reserved name"
 msgstr ""
 
-#: phonetrack.js:3740
+#: phonetrack.js:3887
 msgid "User does not exist"
 msgstr ""
 
-#: phonetrack.js:3743
+#: phonetrack.js:3890
 msgid "Failed to add user share"
 msgstr ""
 
-#: phonetrack.js:3746
+#: phonetrack.js:3893
 msgid "Failed to contact server to add user share"
 msgstr ""
 
-#: phonetrack.js:3777
+#: phonetrack.js:3924
 msgid "Failed to delete user share"
 msgstr ""
 
-#: phonetrack.js:3780
+#: phonetrack.js:3927
 msgid "Failed to contact server to delete user share"
 msgstr ""
 
-#: phonetrack.js:3798 phonetrack.js:3822
+#: phonetrack.js:3945 phonetrack.js:3969
 msgid "Public share has been successfully modified"
 msgstr ""
 
-#: phonetrack.js:3801 phonetrack.js:3825
+#: phonetrack.js:3948 phonetrack.js:3972
 msgid "Failed to modify public share"
 msgstr ""
 
-#: phonetrack.js:3804 phonetrack.js:3828
+#: phonetrack.js:3951 phonetrack.js:3975
 msgid "Failed to contact server to modify public share"
 msgstr ""
 
-#: phonetrack.js:3846
+#: phonetrack.js:3993
 msgid "Device name restriction has been successfully set"
 msgstr ""
 
-#: phonetrack.js:3849
+#: phonetrack.js:3996
 msgid "Failed to set public share device name restriction"
 msgstr ""
 
-#: phonetrack.js:3852
+#: phonetrack.js:3999
 msgid "Failed to contact server to set public share device name restriction"
 msgstr ""
 
-#: phonetrack.js:3880
+#: phonetrack.js:4029
 msgid "Warning : User email and server admin email must be set to receive geofencing alerts."
 msgstr ""
 
-#: phonetrack.js:3884
+#: phonetrack.js:4033
 msgid "Failed to add geofencing zone"
 msgstr ""
 
-#: phonetrack.js:3887
+#: phonetrack.js:4036
 msgid "Failed to contact server to add geofencing zone"
 msgstr ""
 
-#: phonetrack.js:3921
+#: phonetrack.js:4072
 msgid "Failed to delete geofencing zone"
 msgstr ""
 
-#: phonetrack.js:3924
+#: phonetrack.js:4075
 msgid "Failed to contact server to delete geofencing zone"
 msgstr ""
 
-#: phonetrack.js:3943
+#: phonetrack.js:4094
 msgid "Failed to add public share"
 msgstr ""
 
-#: phonetrack.js:3946
+#: phonetrack.js:4097
 msgid "Failed to contact server to add public share"
 msgstr ""
 
-#: phonetrack.js:3965
+#: phonetrack.js:4116
 msgid "Show this device only"
 msgstr ""
 
-#: phonetrack.js:3967
+#: phonetrack.js:4118
 msgid "Show last positions only"
 msgstr ""
 
-#: phonetrack.js:3969
+#: phonetrack.js:4120
 msgid "Simplify positions to nearest geofencing zone center"
 msgstr ""
 
-#: phonetrack.js:3988
+#: phonetrack.js:4139
 msgid "No filters"
 msgstr ""
 
-#: phonetrack.js:4012
+#: phonetrack.js:4163
 msgid "Failed to delete public share"
 msgstr ""
 
-#: phonetrack.js:4015
+#: phonetrack.js:4166
 msgid "Failed to contact server to delete public share"
 msgstr ""
 
-#: phonetrack.js:4033
+#: phonetrack.js:4184
 msgid "Failed to contact server to get user list"
 msgstr ""
 
-#: phonetrack.js:4046
+#: phonetrack.js:4197
 msgid "device name"
 msgstr ""
 
-#: phonetrack.js:4047
+#: phonetrack.js:4198
 msgid "distance (km)"
 msgstr ""
 
-#: phonetrack.js:4048
+#: phonetrack.js:4199
 msgid "duration"
 msgstr ""
 
-#: phonetrack.js:4049
+#: phonetrack.js:4200
 msgid "#points"
 msgstr ""
 
-#: phonetrack.js:4091
+#: phonetrack.js:4242
 msgid "years"
 msgstr ""
 
-#: phonetrack.js:4094
+#: phonetrack.js:4245
 msgid "days"
 msgstr ""
 
-#: phonetrack.js:4113
+#: phonetrack.js:4264
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
 msgstr ""
 
-#: phonetrack.js:4114
+#: phonetrack.js:4265
 msgid "Copy the URL below into the 'Online tracking web address' field."
 msgstr ""
 
-#: phonetrack.js:4118
+#: phonetrack.js:4269
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
 msgstr ""
 
-#: phonetrack.js:4119
+#: phonetrack.js:4270
 msgid "Copy the URL below into the 'URL' field."
 msgstr ""
 
-#: phonetrack.js:4127
+#: phonetrack.js:4278
 msgid "In Ulogger, go to settings menu and copy the URL below into the 'Server URL' field."
 msgstr ""
 
-#: phonetrack.js:4128
+#: phonetrack.js:4279
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
 msgstr ""
 
-#: phonetrack.js:4129
+#: phonetrack.js:4280
 msgid "Activate 'Live synchronization'."
 msgstr ""
 
-#: phonetrack.js:4133
+#: phonetrack.js:4284
 msgid "In Traccar client, copy the URL below into the 'server URL' field."
 msgstr ""
 
-#: phonetrack.js:4137
+#: phonetrack.js:4288
 msgid "You can log with any other client with a simple HTTP request."
 msgstr ""
 
-#: phonetrack.js:4138
+#: phonetrack.js:4289
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
 msgstr ""
 
-#: phonetrack.js:4141
+#: phonetrack.js:4292
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
 msgstr ""
 
-#: phonetrack.js:4272
+#: phonetrack.js:4423
 msgid "Are you sure you want to delete the session {session} ?"
 msgstr ""
 
-#: phonetrack.js:4275
+#: phonetrack.js:4426
 msgid "Confirm session deletion"
 msgstr ""
 
-#: phonetrack.js:4333
+#: phonetrack.js:4484
 msgid "Choose auto export target path"
 msgstr ""
 
-#: phonetrack.js:4471
+#: phonetrack.js:4622
 msgid "Select storage location for '{fname}'"
 msgstr ""
 
-#: phonetrack.js:4638
+#: phonetrack.js:4789
 msgid "Are you sure you want to delete the device {device} ?"
 msgstr ""
 
-#: phonetrack.js:4641
+#: phonetrack.js:4792
 msgid "Confirm device deletion"
 msgstr ""
 
-#: phonetrack.js:4699
+#: phonetrack.js:4850
 msgid "Failed to toggle session public status, session does not exist"
 msgstr ""
 
-#: phonetrack.js:4702
+#: phonetrack.js:4853
 msgid "Failed to contact server to toggle session public status"
 msgstr ""
 
-#: phonetrack.js:4735
+#: phonetrack.js:4886
 msgid "Failed to set session auto export value"
 msgstr ""
 
-#: phonetrack.js:4736 phonetrack.js:4763
+#: phonetrack.js:4887 phonetrack.js:4914
 msgid "session does not exist"
 msgstr ""
 
-#: phonetrack.js:4740
+#: phonetrack.js:4891
 msgid "Failed to contact server to set session auto export value"
 msgstr ""
 
-#: phonetrack.js:4762
+#: phonetrack.js:4913
 msgid "Failed to set session auto purge value"
 msgstr ""
 
-#: phonetrack.js:4767
+#: phonetrack.js:4918
 msgid "Failed to contact server to set session auto purge value"
 msgstr ""
 
-#: phonetrack.js:4850
+#: phonetrack.js:5001
 msgid "Import gpx session file"
 msgstr ""
 
@@ -835,11 +847,11 @@ msgstr ""
 msgid "Stats"
 msgstr ""
 
-#: maincontent.php:15 maincontent.php:211
+#: maincontent.php:15 maincontent.php:215
 msgid "Settings and extra actions"
 msgstr ""
 
-#: maincontent.php:16 maincontent.php:605
+#: maincontent.php:16 maincontent.php:609
 msgid "About PhoneTrack"
 msgstr ""
 
@@ -896,336 +908,340 @@ msgid "seconds"
 msgstr ""
 
 #: maincontent.php:93
-msgid "Show accuracy in tooltips"
+msgid "Draw line with color gradient"
 msgstr ""
 
 #: maincontent.php:97
-msgid "Show speed in tooltips"
+msgid "Show accuracy in tooltips"
 msgstr ""
 
 #: maincontent.php:101
-msgid "Show bearing in tooltips"
+msgid "Show speed in tooltips"
 msgstr ""
 
 #: maincontent.php:105
-msgid "Show satellites in tooltips"
+msgid "Show bearing in tooltips"
 msgstr ""
 
 #: maincontent.php:109
-msgid "Show battery level in tooltips"
+msgid "Show satellites in tooltips"
 msgstr ""
 
 #: maincontent.php:113
-msgid "Show elevation in tooltips"
+msgid "Show battery level in tooltips"
 msgstr ""
 
 #: maincontent.php:117
+msgid "Show elevation in tooltips"
+msgstr ""
+
+#: maincontent.php:121
 msgid "Show user-agent in tooltips"
 msgstr ""
 
-#: maincontent.php:122
+#: maincontent.php:126
 msgid "Make points draggable in edition mode"
 msgstr ""
 
-#: maincontent.php:126
+#: maincontent.php:130
 msgid "Show accuracy circle on hover"
 msgstr ""
 
-#: maincontent.php:129
+#: maincontent.php:133
 msgid "Line width"
 msgstr ""
 
-#: maincontent.php:133
+#: maincontent.php:137
 msgid "Point radius"
 msgstr ""
 
-#: maincontent.php:137
+#: maincontent.php:141
 msgid "Points and lines opacity"
 msgstr ""
 
-#: maincontent.php:141
+#: maincontent.php:145
 msgid "Theme"
 msgstr ""
 
-#: maincontent.php:143
+#: maincontent.php:147
 msgid "bright"
 msgstr ""
 
-#: maincontent.php:144
+#: maincontent.php:148
 msgid "pastel"
 msgstr ""
 
-#: maincontent.php:145
+#: maincontent.php:149
 msgid "dark"
 msgstr ""
 
-#: maincontent.php:149
+#: maincontent.php:153
 msgid "Auto export path"
 msgstr ""
 
-#: maincontent.php:154
+#: maincontent.php:158
 msgid "Export one file per device"
 msgstr ""
 
-#: maincontent.php:156
+#: maincontent.php:160
 msgid "reload page to make changes effective"
 msgstr ""
 
-#: maincontent.php:163
+#: maincontent.php:167
 msgid "Device name"
 msgstr ""
 
-#: maincontent.php:165
+#: maincontent.php:169
 msgid "Log my position in this session"
 msgstr ""
 
-#: maincontent.php:170
+#: maincontent.php:174
 msgid "Tracking sessions"
 msgstr ""
 
-#: maincontent.php:216
+#: maincontent.php:220
 msgid "Custom tile servers"
-msgstr ""
-
-#: maincontent.php:219 maincontent.php:259 maincontent.php:302
-#: maincontent.php:347
-msgid "Server name"
-msgstr ""
-
-#: maincontent.php:220 maincontent.php:260 maincontent.php:303
-#: maincontent.php:348
-msgid "For example : my custom server"
-msgstr ""
-
-#: maincontent.php:221 maincontent.php:261 maincontent.php:304
-#: maincontent.php:349
-msgid "Server url"
-msgstr ""
-
-#: maincontent.php:222 maincontent.php:305
-msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
 msgstr ""
 
 #: maincontent.php:223 maincontent.php:263 maincontent.php:306
 #: maincontent.php:351
-msgid "Min zoom (1-20)"
+msgid "Server name"
+msgstr ""
+
+#: maincontent.php:224 maincontent.php:264 maincontent.php:307
+#: maincontent.php:352
+msgid "For example : my custom server"
 msgstr ""
 
 #: maincontent.php:225 maincontent.php:265 maincontent.php:308
 #: maincontent.php:353
+msgid "Server url"
+msgstr ""
+
+#: maincontent.php:226 maincontent.php:309
+msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
+msgstr ""
+
+#: maincontent.php:227 maincontent.php:267 maincontent.php:310
+#: maincontent.php:355
+msgid "Min zoom (1-20)"
+msgstr ""
+
+#: maincontent.php:229 maincontent.php:269 maincontent.php:312
+#: maincontent.php:357
 msgid "Max zoom (1-20)"
 msgstr ""
 
-#: maincontent.php:227 maincontent.php:271 maincontent.php:316
-#: maincontent.php:365
+#: maincontent.php:231 maincontent.php:275 maincontent.php:320
+#: maincontent.php:369
 msgid "Add"
 msgstr ""
 
-#: maincontent.php:230
+#: maincontent.php:234
 msgid "Your tile servers"
 msgstr ""
 
-#: maincontent.php:256
+#: maincontent.php:260
 msgid "Custom overlay tile servers"
 msgstr ""
 
-#: maincontent.php:262 maincontent.php:350
+#: maincontent.php:266 maincontent.php:354
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 msgstr ""
 
-#: maincontent.php:267 maincontent.php:355
+#: maincontent.php:271 maincontent.php:359
 msgid "Transparent"
 msgstr ""
 
-#: maincontent.php:269 maincontent.php:357
+#: maincontent.php:273 maincontent.php:361
 msgid "Opacity (0.0-1.0)"
 msgstr ""
 
-#: maincontent.php:274
+#: maincontent.php:278
 msgid "Your overlay tile servers"
 msgstr ""
 
-#: maincontent.php:299
+#: maincontent.php:303
 msgid "Custom WMS tile servers"
 msgstr ""
 
-#: maincontent.php:310 maincontent.php:359
+#: maincontent.php:314 maincontent.php:363
 msgid "Format"
 msgstr ""
 
-#: maincontent.php:312 maincontent.php:361
+#: maincontent.php:316 maincontent.php:365
 msgid "WMS version"
 msgstr ""
 
-#: maincontent.php:314 maincontent.php:363
+#: maincontent.php:318 maincontent.php:367
 msgid "Layers to display"
 msgstr ""
 
-#: maincontent.php:319
+#: maincontent.php:323
 msgid "Your WMS tile servers"
 msgstr ""
 
-#: maincontent.php:344
+#: maincontent.php:348
 msgid "Custom WMS overlay servers"
 msgstr ""
 
-#: maincontent.php:368
+#: maincontent.php:372
 msgid "Your WMS overlay tile servers"
 msgstr ""
 
-#: maincontent.php:397
+#: maincontent.php:401
 msgid "Manually add a point"
 msgstr ""
 
-#: maincontent.php:399 maincontent.php:417
+#: maincontent.php:403 maincontent.php:421
 msgid "Session"
 msgstr ""
 
-#: maincontent.php:403 maincontent.php:421
+#: maincontent.php:407 maincontent.php:425
 msgid "Device"
 msgstr "Eszköz"
 
-#: maincontent.php:405
+#: maincontent.php:409
 msgid "Add a point"
 msgstr ""
 
-#: maincontent.php:406
+#: maincontent.php:410
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
 msgstr ""
 
-#: maincontent.php:407
+#: maincontent.php:411
 msgid "Cancel add point"
 msgstr ""
 
-#: maincontent.php:412
+#: maincontent.php:416
 msgid "Delete multiple points"
 msgstr ""
 
-#: maincontent.php:415
+#: maincontent.php:419
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
 msgstr ""
 
-#: maincontent.php:423
+#: maincontent.php:427
 msgid "Delete points"
 msgstr ""
 
-#: maincontent.php:424
+#: maincontent.php:428
 msgid "Delete only visible points"
 msgstr ""
 
-#: maincontent.php:431
+#: maincontent.php:435
 msgid "Filter points"
 msgstr ""
 
-#: maincontent.php:436
+#: maincontent.php:440
 msgid "Apply filters"
 msgstr ""
 
-#: maincontent.php:440
+#: maincontent.php:444
 msgid "Begin date"
 msgstr ""
 
-#: maincontent.php:446 maincontent.php:465
+#: maincontent.php:450 maincontent.php:469
 msgid "today"
 msgstr "ma"
 
-#: maincontent.php:452
+#: maincontent.php:456
 msgid "Begin time"
 msgstr ""
 
-#: maincontent.php:459
+#: maincontent.php:463
 msgid "End date"
 msgstr ""
 
-#: maincontent.php:471
+#: maincontent.php:475
 msgid "End time"
 msgstr ""
 
-#: maincontent.php:478
+#: maincontent.php:482
 msgid "Min-- and Max--"
 msgstr ""
 
-#: maincontent.php:481
+#: maincontent.php:485
 msgid "Min++ and Max++"
 msgstr ""
 
-#: maincontent.php:485
+#: maincontent.php:489
 msgid "Last day:hour:min"
 msgstr ""
 
-#: maincontent.php:493
+#: maincontent.php:497
 msgid "Minimum accuracy"
 msgstr ""
 
-#: maincontent.php:501
+#: maincontent.php:505
 msgid "Maximum accuracy"
 msgstr ""
 
-#: maincontent.php:509
+#: maincontent.php:513
 msgid "Minimum elevation"
 msgstr ""
 
-#: maincontent.php:517
+#: maincontent.php:521
 msgid "Maximum elevation"
 msgstr ""
 
-#: maincontent.php:525
+#: maincontent.php:529
 msgid "Minimum battery level"
 msgstr ""
 
-#: maincontent.php:533
+#: maincontent.php:537
 msgid "Maximum battery level"
 msgstr ""
 
-#: maincontent.php:541
+#: maincontent.php:545
 msgid "Minimum speed"
 msgstr ""
 
-#: maincontent.php:549
+#: maincontent.php:553
 msgid "Maximum speed"
 msgstr ""
 
-#: maincontent.php:557
+#: maincontent.php:561
 msgid "Minimum bearing"
 msgstr ""
 
-#: maincontent.php:565
+#: maincontent.php:569
 msgid "Maximum bearing"
 msgstr ""
 
-#: maincontent.php:573
+#: maincontent.php:577
 msgid "Minimum satellites"
 msgstr ""
 
-#: maincontent.php:581
+#: maincontent.php:585
 msgid "Maximum satellites"
 msgstr ""
 
-#: maincontent.php:593
+#: maincontent.php:597
 msgid "Statistics"
 msgstr ""
 
-#: maincontent.php:597
+#: maincontent.php:601
 msgid "Show stats"
 msgstr ""
 
-#: maincontent.php:607
+#: maincontent.php:611
 msgid "Shortcuts"
 msgstr ""
 
-#: maincontent.php:609
+#: maincontent.php:613
 msgid "Toggle sidebar"
 msgstr ""
 
-#: maincontent.php:613
+#: maincontent.php:617
 msgid "Documentation"
 msgstr ""
 
-#: maincontent.php:621
+#: maincontent.php:625
 msgid "Source management"
 msgstr ""
 
-#: maincontent.php:635
+#: maincontent.php:639
 msgid "Authors"
 msgstr "Szerző"
 

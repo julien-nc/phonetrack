@@ -3,26 +3,26 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
 "POT-Creation-Date: 2018-05-21 14:20+0200\n"
-"PO-Revision-Date: 2018-05-21 11:47-0400\n"
+"PO-Revision-Date: 2018-05-23 07:53-0400\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
-"Language-Team: Catalan\n"
-"Language: ca_ES\n"
+"Language-Team: Bengali\n"
+"Language: bn_BD\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: phonetrack\n"
-"X-Crowdin-Language: ca\n"
+"X-Crowdin-Language: bn\n"
 "X-Crowdin-File: /master/l10n/templates/phonetrack.pot\n"
 
 #: app.php:41
 msgid "PhoneTrack"
-msgstr "PhoneTrack"
+msgstr "ফোন ট্র্যাক"
 
 #: logcontroller.php:207 logcontroller.php:233
 msgid "Geofencing alert"
-msgstr ""
+msgstr "জিওফেনসিং সতর্কতা"
 
 #: logcontroller.php:210
 #, php-format
@@ -36,47 +36,47 @@ msgstr ""
 
 #: leaflet.js:5
 msgid "left"
-msgstr "esquerra"
+msgstr "বামে"
 
 #: leaflet.js:5
 msgid "right"
-msgstr "dreta"
+msgstr "ডানে"
 
 #: phonetrack.js:544 maincontent.php:69
 msgid "Show lines"
-msgstr "Mostra les línies"
+msgstr "রেখা প্রদর্শন করা"
 
 #: phonetrack.js:552
 msgid "Hide lines"
-msgstr "Amaga línies"
+msgstr "রেখা আড়াল করা"
 
 #: phonetrack.js:573
 msgid "Activate automatic zoom"
-msgstr "Activar zoom automàtic"
+msgstr "স্বয়ংক্রিয় জুম সক্রিয় করুন"
 
 #: phonetrack.js:581
 msgid "Disable automatic zoom"
-msgstr "Deshabilita zoom automàtic"
+msgstr "স্বয়ংক্রিয় জুম নিষ্ক্রিয় করুন"
 
 #: phonetrack.js:602
 msgid "Show last point tooltip"
-msgstr "Mostra el misatge del darrer punt"
+msgstr ""
 
 #: phonetrack.js:610
 msgid "Hide last point tooltip"
-msgstr "Amaga el misatge del darrer punt"
+msgstr ""
 
 #: phonetrack.js:631
 msgid "Zoom on all devices"
-msgstr "Zoom de tots els dispositius"
+msgstr ""
 
 #: phonetrack.js:644
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr "Feu clic al mapa per desplaçar el punt, premeu ESC per anul·lar"
+msgstr ""
 
 #: phonetrack.js:847
 msgid "Server name or server url should not be empty"
-msgstr "Nom del servidor o adreça url del servidor no ha de ser buida"
+msgstr ""
 
 #: phonetrack.js:850 phonetrack.js:859
 msgid "Impossible to add tile server"
@@ -89,7 +89,7 @@ msgstr ""
 #: phonetrack.js:892 phonetrack.js:3357 maincontent.php:250 maincontent.php:294
 #: maincontent.php:339 maincontent.php:388
 msgid "Delete"
-msgstr ""
+msgstr "মুছে ফেলুন"
 
 #: phonetrack.js:925
 msgid "Tile server \"{ts}\" has been added"
@@ -121,7 +121,7 @@ msgstr ""
 
 #: phonetrack.js:1110 phonetrack.js:1193 phonetrack.js:4854
 msgid "Reload this page"
-msgstr ""
+msgstr "পৃষ্ঠাটি পুনঃলোড করুন।"
 
 #: phonetrack.js:1190
 msgid "Failed to contact server to save options values"
@@ -149,7 +149,7 @@ msgstr ""
 
 #: phonetrack.js:1340 phonetrack.js:2532
 msgid "More actions"
-msgstr ""
+msgstr "আরও কাজ"
 
 #: phonetrack.js:1344
 msgid "Zoom on this session"
@@ -189,19 +189,19 @@ msgstr ""
 
 #: phonetrack.js:1377
 msgid "never"
-msgstr ""
+msgstr "কখনো না"
 
 #: phonetrack.js:1378
 msgid "daily"
-msgstr ""
+msgstr "প্রতিদিন"
 
 #: phonetrack.js:1379
 msgid "weekly"
-msgstr ""
+msgstr "সাপ্তাহিক"
 
 #: phonetrack.js:1380
 msgid "monthly"
-msgstr ""
+msgstr "মাসিক"
 
 #: phonetrack.js:1385
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
@@ -209,7 +209,7 @@ msgstr ""
 
 #: phonetrack.js:1386
 msgid "Automatic purge"
-msgstr ""
+msgstr "স্বয়ংক্রিয় পার্জ করুন"
 
 #: phonetrack.js:1388
 msgid "don't purge"
@@ -217,15 +217,15 @@ msgstr ""
 
 #: phonetrack.js:1389
 msgid "a day"
-msgstr ""
+msgstr "এক দিন"
 
 #: phonetrack.js:1390
 msgid "a week"
-msgstr ""
+msgstr "এক সপ্তাহ"
 
 #: phonetrack.js:1391
 msgid "a month"
-msgstr ""
+msgstr "এক মাস"
 
 #: phonetrack.js:1400
 msgid "Name reservation is optional."
@@ -253,11 +253,11 @@ msgstr ""
 
 #: phonetrack.js:1422
 msgid "Share with user"
-msgstr ""
+msgstr "ইউজার এর সাথে শেয়ার করুন"
 
 #: phonetrack.js:1424
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "ব্যবহারকারীর নাম টাইপ করুন এবং \"এন্টার\" প্রেস করুন"
 
 #: phonetrack.js:1429 phonetrack.js:3899
 msgid "Shared with {u}"
@@ -421,7 +421,7 @@ msgstr ""
 
 #: phonetrack.js:2543 maincontent.php:48
 msgid "Ok"
-msgstr ""
+msgstr "ঠিক আছে"
 
 #: phonetrack.js:2551
 msgid "Device geofencing zones"
