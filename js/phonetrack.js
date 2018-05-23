@@ -2274,7 +2274,7 @@
         // TODO check if there is another way to get list of displayed latlngs
         var pointLayerList = phonetrack.sessionPointsLayers[s][d].getLayers();
         var lastll = null;
-        var maxTime = 0;
+        var maxTime = -1;
         var ll;
         for (var i=0; i < pointLayerList.length; i++) {
             ll = pointLayerList[i].getLatLng();
