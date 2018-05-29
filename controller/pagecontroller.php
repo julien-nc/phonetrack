@@ -3395,8 +3395,8 @@ class PageController extends Controller {
                 $bearing = $point[9];
                 // correct timestamp if needed
                 $time = $timestamp;
-                if (is_numeric($time) and (int)$time > 10000000000) {
-                    $time = (int)((int)$time / 1000);
+                if (is_numeric($time) and $time > 10000000000.0) {
+                    $time = (int)($time / 1000);
                 }
 
                 if (is_numeric($acc)) {
@@ -3508,8 +3508,8 @@ class PageController extends Controller {
 
                 // correct timestamp if needed
                 $time = $timestamp;
-                if (is_numeric($time) and (int)$time > 10000000000) {
-                    $time = (int)((int)$time / 1000);
+                if (is_numeric($time) and $time > 10000000000.0) {
+                    $time = (int)($time / 1000);
                 }
 
                 if (is_numeric($acc)) {
