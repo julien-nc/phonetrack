@@ -49,19 +49,19 @@ test_nc13:
       - master
   artifacts:
     paths:
-      - /var/www/html/nextcloud/apps/phonetrack/coverage
+      - coverage
   coverage: '/^\s*Lines:\s*(\d+.\d+)\%/'
   script:
-    - mkdir -p /var/www/html ; cd /var/www/html
+    - mkdir -p /var/www/html ; pushd /var/www/html
     - wget https://download.nextcloud.com/server/releases/nextcloud-13.0.0.zip ; unzip nextcloud-13.0.0.zip ; rm nextcloud-13.0.0.zip
     - chown -R www-data:www-data nextcloud
-    - cd nextcloud/apps
+    - pushd nextcloud/apps
     - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-    - mkdir /var/www/html/nextcloud/apps/phonetrack/coverage
-    - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html /var/www/html/nextcloud/apps/phonetrack/coverage
+    - popd ; popd ; mkdir coverage
+    - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html coverage
 
 pages:
   stage: deploy
