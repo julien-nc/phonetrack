@@ -348,8 +348,11 @@ class LogController extends Controller {
 
                 // correct timestamp if needed
                 $time = $timestamp;
-                if (is_numeric($time) and $time > 10000000000.0) {
-                    $time = (int)($time / 1000);
+                if (is_numeric($time)) {
+                    $time = floatval($time);
+                    if ($time > 10000000000.0) {
+                        $time = $time / 1000;
+                    }
                 }
 
                 if (is_numeric($acc)) {
