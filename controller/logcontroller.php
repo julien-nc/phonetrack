@@ -534,10 +534,14 @@ class LogController extends Controller {
      *
      * Ulogger Android
      **/
-    public function logUlogger($token, $devicename, $trackid, $lat, $lon, $time, $accuracy, $altitude, $pass, $user, $action) {
+    public function logUlogger($token, $devicename, $trackid, $lat, $lon, $time, $accuracy, $altitude,
+                               $pass, $user, $action, $speed=null, $bearing=null) {
         if ($action === 'addpos') {
             $dname = $this->chooseDeviceName($devicename, null);
-            $this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null, 'Ulogger');
+            if ($speed != null){
+                $speed = 3.6 * $speed ;
+            }
+            $this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null,'Ulogger', $speed, $bearing);
         }
         return array("error" => false, "trackid" => 1);
     }
