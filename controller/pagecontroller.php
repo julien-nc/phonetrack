@@ -3634,8 +3634,6 @@ class PageController extends Controller {
      * export sessions
      */
     public function cronAutoExport() {
-        $this->cronAutoPurge();
-
         $userNames = [];
 
         // last day
@@ -3735,6 +3733,9 @@ class PageController extends Controller {
                 }
             }
         }
+        // we run the auto purge method AFTER the auto export
+        // to avoid deleting data before it has been eventually exported
+        $this->cronAutoPurge();
     }
 
     /**
