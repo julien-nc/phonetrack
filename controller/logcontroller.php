@@ -62,6 +62,8 @@ class LogController extends Controller {
     private $trans;
     private $userManager;
 
+    const LOG_OWNTRACKS = 'Owntracks';
+
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager, IAppManager $appManager, $userManager, IL10N $trans){
         parent::__construct($AppName, $request);
@@ -249,6 +251,8 @@ class LogController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      *
+     * @return array;
+     *
      **/
     public function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed=null, $bearing=null) {
         // TODO insert speed and bearing in m/s and degrees
@@ -258,16 +262,21 @@ class LogController extends Controller {
             !is_null($lon) and $lon !== '' and is_numeric($lon) and
             !is_null($timestamp) and $timestamp !== '' and is_numeric($timestamp)
         ) {
-            $userid = null;
             // check if session exists
-            $sqlchk = 'SELECT name, '.$this->dbdblquotes.'user'.$this->dbdblquotes.' FROM *PREFIX*phonetrack_sessions ';
-            $sqlchk .= 'WHERE token='.$this->db_quote_escape_string($token).' ';
+            $sqlchk = '
+                SELECT `name`, `user`, `public`
+                FROM `*PREFIX*phonetrack_sessions` 
+                WHERE `token`=?
+            ';
             $req = $this->dbconnection->prepare($sqlchk);
-            $req->execute();
+            $req->execute([$token]);
             $dbname = null;
+            $userid = null;
+            $isPublicSession = null;
             while ($row = $req->fetch()){
                 $dbname = $row['name'];
                 $userid = $row['user'];
+                $isPublicSession = (bool)$row['public'];
                 break;
             }
             $req->closeCursor();
@@ -378,8 +387,76 @@ class LogController extends Controller {
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
+
+                if ($isPublicSession && $useragent === self::LOG_OWNTRACKS) {
+                    $friendSQL  = '
+                        SELECT p.`deviceid`, `nametoken`, `name`, `lat`, `lon`,
+                            `speed`, `altitude`, `batterylevel`, `accuracy`,
+                            `timestamp`
+                        FROM `*PREFIX*phonetrack_points` p 
+                        JOIN (
+                            SELECT `deviceid`, `nametoken`, `name`,
+                                MAX(`timestamp`) `lastupdate`
+                            FROM `*PREFIX*phonetrack_points` po
+                            JOIN `*PREFIX*phonetrack_devices` d ON po.`deviceid` = d.`id`
+                            WHERE `sessionid` = ?
+                            GROUP BY `deviceid`
+                        ) l ON p.`deviceid` = l.`deviceid`
+                        AND p.`timestamp` = l.`lastupdate`
+                    ';
+                    $friendReq = $this->dbconnection->prepare($friendSQL);
+                    $friendReq->execute([$token]);
+                    $result = [];
+                    while ($row = $friendReq->fetch()){
+                        // we don't store the tid, so we fall back to the last
+                        // two chars of the nametoken
+                        // TODO feels far from unique, currently 32 ids max
+                        $tid = substr($row['nametoken'],-2);
+                        $location = [
+                            '_type'=>'location',
+
+                            // Tracker ID used to display the initials of a user (iOS,Android/string/optional) required for http mode
+                            'tid' => $tid,
+
+                            // latitude (iOS,Android/float/meters/required)
+                            'lat' => (float)$row['lat'],
+
+                            // longitude (iOS,Android/float/meters/required)
+                            'lon' => (float)$row['lon'],
+
+                            // UNIX epoch timestamp in seconds of the location fix (iOS,Android/integer/epoch/required)
+                            'tst' => (int)$row['timestamp'],
+                        ];
+
+                        if (isset($row['speed'])) {
+                            // velocity (iOS/integer/kmh/optional)
+                            $location['vel'] = (int)$row['speed'];
+                        }
+                        if (isset($row['altitude'])) {
+                            // Altitude measured above sea level (iOS/integer/meters/optional)
+                            $location['alt'] = (int)$row['altitude'];
+                        }
+                        if (isset($row['batterylevel'])) {
+                            // Device battery level (iOS,Android/integer/percent/optional)
+                            $location['batt'] = (int)$row['batterylevel'];
+                        }
+                        if (isset($row['accuracy'])) {
+                            // Accuracy of the reported location in meters without unit (iOS/integer/meters/optional)
+                            $location['acc'] = (int)$row['accuracy'];
+                        }
+                        $result[] = $location;
+                        $result[] = [
+                            '_type'=>'card',
+                            'tid' => $tid,
+                            //'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
+                            'name' => $row['name'],
+                        ];
+                    }
+                    return $result;
+                }
             }
         }
+        return [];
     }
 
     /**
@@ -432,11 +509,22 @@ class LogController extends Controller {
      * @PublicPage
      *
      * Owntracks IOS
+     *
+     * @param string $token
+     * @param string $devicename
+     * @param string $tid
+     * @param float $lat
+     * @param float $lon
+     * @param float $alt
+     * @param int $tst
+     * @param float $acc
+     * @param float $batt
+     *
+     * @return array;
      **/
     public function logOwntracks($token, $devicename='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
         $dname = $this->chooseDeviceName($devicename, $tid);
-        $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, 'Owntracks');
-        return array();
+        return $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
     }
 
     /**
