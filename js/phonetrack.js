@@ -1291,7 +1291,9 @@
             'lon={1}&' +
             'alt={4}&' +
             'acc={3}&' +
-            'timestamp={2}';
+            'timestamp={2}&' +
+            'speed={5}&' +
+            'bearing={6}';
         osmandurl = window.location.origin + osmandurl;
 
         var geturl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/yourname?');
