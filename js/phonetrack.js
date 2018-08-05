@@ -2527,6 +2527,7 @@
         var geofencesDiv = '';
         var renameInput = '';
         var reaffectLink = '';
+        var routingGraphLink = '';
         var reaffectSelect = '';
         var dropdowndevicebutton = '';
         var dropdowndevicecontent = '';
@@ -2537,6 +2538,8 @@
                 '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete this device') + '</button>';
             renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
+            routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">' +
+                '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Graphhopper') + '</button>';
             renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
@@ -2548,6 +2551,7 @@
                 deleteLink +
                 renameLink +
                 reaffectLink +
+                routingGraphLink +
                 '</div>';
             geofencesLink = ' <button class="toggleGeofences" ' +
                 'title="' + t('phonetrack', 'Device geofencing zones') + '">' +
@@ -4752,6 +4756,17 @@
 
             $(this).parent().parent().find('.reaffectDeviceDiv').removeClass('show');
             reaffectDeviceSession(token, deviceid, newSessionId);
+        });
+
+        $('body').on('click','.routingGraphDevice', function(e) {
+            var token = $(this).attr('token');
+            var deviceid = $(this).attr('device');
+            var ll = phonetrack.sessionLatlngs[token][deviceid];
+            var p = ll[ll.length-1];
+            var lat = p[0];
+            var lon = p[1];
+            window.open(
+                'https://graphhopper.com/maps/?point=::where_are_you::&point='+lat+'%2C'+lon+'&locale=fr&vehicle=car&weighting=fastest&elevation=true&use_miles=false&layer=Omniscale', '_blank');
         });
 
         $('body').on('click','.renameDevice', function(e) {
