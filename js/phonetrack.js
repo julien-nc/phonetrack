@@ -2533,19 +2533,19 @@
         var reaffectSelect = '';
         var dropdowndevicebutton = '';
         var dropdowndevicecontent = '';
+        routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">' +
+            '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Graphhopper') + '</button>';
+        routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">' +
+            '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Osrm') + '</button>';
+        routingOrsLink = ' <button class="routingOrsDevice" token="' + s + '" device="' + d + '">' +
+            '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with OpenRouteService') + '</button>';
+        dropdowndevicebutton = '<button class="dropdowndevicebutton" title="'+t('phonetrack', 'More actions')+'">' +
+            '<i class="fa fa-bars" aria-hidden="true"></i></button>';
         if (!pageIsPublic() && !isSessionShared(s)) {
-            dropdowndevicebutton = '<button class="dropdowndevicebutton" title="'+t('phonetrack', 'More actions')+'">' +
-                '<i class="fa fa-bars" aria-hidden="true"></i></button>';
             deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete this device') + '</button>';
             renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
-            routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">' +
-                '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Graphhopper') + '</button>';
-            routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">' +
-                '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Osrm') + '</button>';
-            routingOrsLink = ' <button class="routingOrsDevice" token="' + s + '" device="' + d + '">' +
-                '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with OpenRouteService') + '</button>';
             renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
@@ -2553,14 +2553,16 @@
                 '<button class="reaffectDeviceOk"><i class="fa fa-check" aria-hidden="true"></i> ' +
                 t('phonetrack', 'Ok') + '</button>' +
                 '</div>';
-            dropdowndevicecontent = '<div class="dropdown-content">' +
-                deleteLink +
-                renameLink +
-                reaffectLink +
-                routingGraphLink +
-                routingOsrmLink +
-                routingOrsLink +
-                '</div>';
+        }
+        dropdowndevicecontent = '<div class="dropdown-content">' +
+            deleteLink +
+            renameLink +
+            reaffectLink +
+            routingGraphLink +
+            routingOsrmLink +
+            routingOrsLink +
+            '</div>';
+        if (!pageIsPublic() && !isSessionShared(s)) {
             geofencesLink = ' <button class="toggleGeofences" ' +
                 'title="' + t('phonetrack', 'Device geofencing zones') + '">' +
                 '</button>';
