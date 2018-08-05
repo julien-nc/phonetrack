@@ -2529,6 +2529,7 @@
         var reaffectLink = '';
         var routingGraphLink = '';
         var routingOsrmLink = '';
+        var routingOrsLink = '';
         var reaffectSelect = '';
         var dropdowndevicebutton = '';
         var dropdowndevicecontent = '';
@@ -2543,6 +2544,8 @@
                 '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Graphhopper') + '</button>';
             routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Osrm') + '</button>';
+            routingOrsLink = ' <button class="routingOrsDevice" token="' + s + '" device="' + d + '">' +
+                '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with OpenRouteService') + '</button>';
             renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
@@ -2556,6 +2559,7 @@
                 reaffectLink +
                 routingGraphLink +
                 routingOsrmLink +
+                routingOrsLink +
                 '</div>';
             geofencesLink = ' <button class="toggleGeofences" ' +
                 'title="' + t('phonetrack', 'Device geofencing zones') + '">' +
@@ -4786,6 +4790,19 @@
             var lon = p[1];
             window.open(
                 'https://map.project-osrm.org/?z=12&center='+lat+'%2C'+lon+'&loc=0.000000%2C0.000000&loc='+lat+'%2C'+lon+'&hl=en&alt=0',
+                '_blank'
+            );
+        });
+
+        $('body').on('click','.routingOrsDevice', function(e) {
+            var token = $(this).attr('token');
+            var deviceid = $(this).attr('device');
+            var ll = phonetrack.sessionLatlngs[token][deviceid];
+            var p = ll[ll.length-1];
+            var lat = p[0];
+            var lon = p[1];
+            window.open(
+                'https://maps.openrouteservice.org/directions?n1='+lat+'&n2='+lon+'&n3=12&a=null,null,'+lat+','+lon+'&b=0&c=0&k1=en-US&k2=km',
                 '_blank'
             );
         });
