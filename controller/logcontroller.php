@@ -149,7 +149,7 @@ class LogController extends Controller {
 
     private function getDeviceFences($devid) {
         $fences = array();
-        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave';
+        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave, pushovertoken, pushoveruser';
         $sqlget .= ' FROM *PREFIX*phonetrack_geofences ';
         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -175,6 +175,8 @@ class LogController extends Controller {
         $lonmax = floatval($fence['lonmax']);
         $urlenter = $fence['urlenter'];
         $urlleave = $fence['urlleave'];
+        $pushovertoken = $fence['pushovertoken'];
+        $pushoveruser = $fence['pushoveruser'];
         $fencename = $fence['name'];
 
         // first point of this device
@@ -215,6 +217,24 @@ class LogController extends Controller {
                     if ($urlenter !== '' and startsWith($urlenter, 'http')) {
                         $xml = file_get_contents($urlenter);
                     }
+                    // pusover API management
+                    if ($pushovertoken !== '' and $pushoveruser !== '') {
+                        $url = 'https://api.pushover.net/1/messages.json';
+                        $data = array(
+                            'token' => $pushovertoken,
+                            'user' => $pushoveruser,
+                            'message' => $this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename))
+                        );
+                        $options = array(
+                            'http' => array(
+                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                'method'  => 'POST',
+                                'content' => http_build_query($data)
+                            )
+                        );
+                        $context  = stream_context_create($options);
+                        $result = file_get_contents($url, false, $context);
+                    }
                 }
             }
             // previous point in fence
@@ -240,6 +260,24 @@ class LogController extends Controller {
                     }
                     if ($urlleave !== '' and startsWith($urlleave, 'http')) {
                         $xml = file_get_contents($urlleave);
+                    }
+                    // pusover API management
+                    if ($pushovertoken !== '' and $pushoveruser !== '') {
+                        $url = 'https://api.pushover.net/1/messages.json';
+                        $data = array(
+                            'token' => $pushovertoken,
+                            'user' => $pushoveruser,
+                            'message' => $this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename))
+                        );
+                        $options = array(
+                            'http' => array(
+                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                'method'  => 'POST',
+                                'content' => http_build_query($data)
+                            )
+                        );
+                        $context  = stream_context_create($options);
+                        $result = file_get_contents($url, false, $context);
                     }
                 }
             }
