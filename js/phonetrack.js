@@ -2528,6 +2528,7 @@
         var renameInput = '';
         var reaffectLink = '';
         var routingGraphLink = '';
+        var routingOsrmLink = '';
         var reaffectSelect = '';
         var dropdowndevicebutton = '';
         var dropdowndevicecontent = '';
@@ -2540,6 +2541,8 @@
                 '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
             routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Graphhopper') + '</button>';
+            routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">' +
+                '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with Osrm') + '</button>';
             renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
@@ -2552,6 +2555,7 @@
                 renameLink +
                 reaffectLink +
                 routingGraphLink +
+                routingOsrmLink +
                 '</div>';
             geofencesLink = ' <button class="toggleGeofences" ' +
                 'title="' + t('phonetrack', 'Device geofencing zones') + '">' +
@@ -4766,7 +4770,24 @@
             var lat = p[0];
             var lon = p[1];
             window.open(
-                'https://graphhopper.com/maps/?point=::where_are_you::&point='+lat+'%2C'+lon+'&locale=fr&vehicle=car&weighting=fastest&elevation=true&use_miles=false&layer=Omniscale', '_blank');
+                'https://graphhopper.com/maps/?point=::where_are_you::&' +
+                'point='+lat+'%2C'+lon+'&locale=fr&vehicle=car&' +
+                'weighting=fastest&elevation=true&use_miles=false&layer=Omniscale',
+                '_blank'
+            );
+        });
+
+        $('body').on('click','.routingOsrmDevice', function(e) {
+            var token = $(this).attr('token');
+            var deviceid = $(this).attr('device');
+            var ll = phonetrack.sessionLatlngs[token][deviceid];
+            var p = ll[ll.length-1];
+            var lat = p[0];
+            var lon = p[1];
+            window.open(
+                'https://map.project-osrm.org/?z=12&center='+lat+'%2C'+lon+'&loc=0.000000%2C0.000000&loc='+lat+'%2C'+lon+'&hl=en&alt=0',
+                '_blank'
+            );
         });
 
         $('body').on('click','.renameDevice', function(e) {
