@@ -2,6 +2,7 @@
 <info>
     <id>phonetrack</id>
     <name>PhoneTrack</name>
+    <summary lang="en">Display phones positions in real time</summary>
     <description>
 # PhoneTrack Owncloud application
 # PhoneTrack Nextcloud application
@@ -66,10 +67,9 @@ See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for 
 Any feedback will be appreciated.
 
     </description>
-    <licence>AGPL</licence>
-    <summary>Display phones positions in real time</summary>
-    <author>Julien Veyssier</author>
     <version>0.2.8</version>
+    <licence>agpl</licence>
+    <author>Julien Veyssier</author>
     <namespace>PhoneTrack</namespace>
     <documentation>
         <user>https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc</user>
@@ -88,9 +88,7 @@ Any feedback will be appreciated.
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>
         <database min-version="5.5">mysql</database>
-        <php min-version="5.6"/>
-        <owncloud min-version="9.0" max-version="10.9" />
-        <nextcloud min-version="9.0" max-version="14.9"/>
+        <nextcloud min-version="14.0" max-version="14.9"/>
     </dependencies>
     <background-jobs>
         <job>OCA\PhoneTrack\Cron\AutoExport</job>
