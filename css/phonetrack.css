@@ -353,6 +353,7 @@ div.session p,
 .renameSessionInput {
     display: none;
 }
+.aliasDeviceInput,
 .renameDeviceInput {
     display: none;
     width: 30% !important;

@@ -87,6 +87,12 @@
       <length>300</length>
     </field>
     <field>
+      <name>alias</name>
+      <type>text</type>
+      <default></default>
+      <length>300</length>
+    </field>
+    <field>
       <name>sessionid</name>
       <type>text</type>
       <default></default>

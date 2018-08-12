@@ -67,7 +67,7 @@ See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for 
 Any feedback will be appreciated.
 
     </description>
-    <version>0.2.9</version>
+    <version>0.3.0</version>
     <licence>agpl</licence>
     <author>Julien Veyssier</author>
     <namespace>PhoneTrack</namespace>

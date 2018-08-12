@@ -79,6 +79,7 @@
         isSessionShared: {},
         // indexed by token, then by deviceid
         deviceNames: {},
+        deviceAliases: {},
         devicePointIcons: {},
         // indexed by token, then by devicename
         deviceIds: {},
@@ -1240,12 +1241,14 @@
     }
 
     function getDeviceName(sessionid, did) {
-        //return $('.devicelist[token="' + sessionid + '"] li[device="' + did + '"] .deviceLabel').text();
         return phonetrack.deviceNames[sessionid][parseInt(did)];
     }
 
+    function getDeviceAlias(sessionid, did) {
+        return phonetrack.deviceAliases[sessionid][parseInt(did)];
+    }
+
     function getDeviceId(sessionid, devicename) {
-        //return $('div.session[token="' + sessionid + '"] .deviceLabel[name="' + devicename + '"]').parent().attr('device');
         return phonetrack.deviceIds[sessionid][devicename];
     }
 
@@ -1254,6 +1257,7 @@
                         reservedNames=[], publicFilteredShares=[], autoexport='no', autopurge='no') {
         // init names/ids dict
         phonetrack.deviceNames[token] = {};
+        phonetrack.deviceAliases[token] = {};
         phonetrack.deviceIds[token] = {};
         phonetrack.devicePointIcons[token] = {};
         // if session is not shared (we have write access)
@@ -1688,7 +1692,16 @@
     function renameDeviceSuccess(token, d, oldname, newname) {
         var perm = $('#showtime').is(':checked');
         var to, p, l, id;
-        $('.session[token=' + token + '] .devicelist li[device="' + d + '"] .deviceLabel').text(newname);
+        var sessionName = getSessionName(token);
+        var alias = getDeviceAlias(token, d)
+        var nameLabelTxt;
+        if (newalias !== '') {
+            nameLabelTxt = newalias + ' (' + devname + ')';
+        }
+        else {
+            nameLabelTxt = devname;
+        }
+        $('.session[token=' + token + '] .devicelist li[device="' + d + '"] .deviceLabel').text(nameLabelTxt);
 
         // manage names/ids
         var intDid = parseInt(d);
@@ -1697,14 +1710,9 @@
         phonetrack.deviceIds[token][newname] = intDid;
 
         // line tooltip
-        to = phonetrack.sessionLineLayers[token][d].getTooltip()._content;
-        to = to.replace(
-            ' | ' + oldname,
-            ' | ' + newname
-        );
         phonetrack.sessionLineLayers[token][d].unbindTooltip();
         phonetrack.sessionLineLayers[token][d].bindTooltip(
-            to,
+            sessionName + ' | ' + nameLabelTxt,
             {
                 permanent: false,
                 sticky: true,
@@ -1712,11 +1720,88 @@
             }
         );
         // update main marker letter
+        var letter;
+        if (alias !== '') {
+            letter = alias[0];
+        }
+        else {
+            letter = newname[0];
+        }
         var radius = phonetrack.optionsValues.pointradius;
         var iconMarker = L.divIcon({
             iconAnchor: [radius, radius],
             className: 'roundmarker color' + token + d,
-            html: '<b>' + newname[0] + '</b>'
+            html: '<b>' + letter + '</b>'
+        });
+        phonetrack.sessionMarkerLayers[token][d].setIcon(iconMarker);
+    }
+
+    function setDeviceAlias(token, deviceid, newalias) {
+        var req = {
+            token: token,
+            deviceid: deviceid,
+            newalias: newalias
+        };
+        var url = OC.generateUrl('/apps/phonetrack/setDeviceAlias');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                setDeviceAliasSuccess(token, deviceid, newalias);
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Impossible to set device alias for {n}'), {'n': getDeviceName(token, deviceid)});
+            }
+        }).always(function() {
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set device alias'));
+        });
+    }
+
+    function setDeviceAliasSuccess(token, d, newalias) {
+        var perm = $('#showtime').is(':checked');
+        var to, p, l, id;
+        var sessionName = getSessionName(token);
+        var devname = getDeviceName(token, d);
+        var nameLabelTxt;
+        if (newalias !== '') {
+            nameLabelTxt = newalias + ' (' + devname + ')';
+        }
+        else {
+            nameLabelTxt = devname;
+        }
+        $('.session[token=' + token + '] .devicelist li[device="' + d + '"] .deviceLabel').text(nameLabelTxt);
+
+        // manage names/ids
+        var intDid = parseInt(d);
+        phonetrack.deviceAliases[token][intDid] = newalias;
+
+        // line tooltip
+        phonetrack.sessionLineLayers[token][d].unbindTooltip();
+        phonetrack.sessionLineLayers[token][d].bindTooltip(
+            sessionName + ' | ' + nameLabelTxt,
+            {
+                permanent: false,
+                sticky: true,
+                className: 'tooltip' + token + d
+            }
+        );
+        // update main marker letter
+        var letter;
+        if (newalias !== '') {
+            letter = newalias[0];
+        }
+        else {
+            letter = devname[0];
+        }
+        var radius = phonetrack.optionsValues.pointradius;
+        var iconMarker = L.divIcon({
+            iconAnchor: [radius, radius],
+            className: 'roundmarker color' + token + d,
+            html: '<b>' + letter + '</b>'
         });
         phonetrack.sessionMarkerLayers[token][d].setIcon(iconMarker);
     }
@@ -1862,7 +1947,7 @@
                     return xhr;
                 }
             }).done(function (response) {
-                displayNewPoints(response.sessions, response.colors, response.names, response.geofences);
+                displayNewPoints(response.sessions, response.colors, response.names, response.geofences, response.aliases);
             }).always(function() {
                 hideLoadingAnimation();
                 phonetrack.currentRefreshAjax = null;
@@ -2326,7 +2411,7 @@
         }
     }
 
-    function displayNewPoints(sessions, colors, names, geofences={}) {
+    function displayNewPoints(sessions, colors, names, geofences={}, aliases={}) {
         var s, i, d, entry, device, timestamp, mom, icon,
             entryArray, dEntries, colorn, rgbc, devcol, devgeofences,
             textcolor, sessionname;
@@ -2361,13 +2446,14 @@
                             s, d, sessionname, devcol, names[s][d], devgeofences,
                             phonetrack.sessionsFromSavedOptions[s][d].zoom,
                             phonetrack.sessionsFromSavedOptions[s][d].line,
-                            phonetrack.sessionsFromSavedOptions[s][d].point
+                            phonetrack.sessionsFromSavedOptions[s][d].point,
+                            aliases[s][d]
                         );
                         // once restored, get rid of the data
                         delete phonetrack.sessionsFromSavedOptions[s][d];
                     }
                     else {
-                        addDevice(s, d, sessionname, devcol, names[s][d], devgeofences);
+                        addDevice(s, d, sessionname, devcol, names[s][d], devgeofences, false, false, false, aliases[s][d]);
                     }
                 }
                 // for all new entries of this session
@@ -2479,7 +2565,7 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname, color='', name, geofences=[], zoom=false, line=false, point=false) {
+    function addDevice(s, d, sessionname, color='', name, geofences=[], zoom=false, line=false, point=false, alias='') {
         var colorn, textcolor, rgbc, linetooltip;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
@@ -2523,9 +2609,11 @@
                 '}</style>').appendTo('body');
         var deleteLink = '';
         var renameLink = '';
+        var aliasLink = '';
         var geofencesLink = '';
         var geofencesDiv = '';
         var renameInput = '';
+        var aliasInput = '';
         var reaffectLink = '';
         var routingGraphLink = '';
         var routingOsrmLink = '';
@@ -2547,6 +2635,9 @@
             renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
             renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
+            aliasLink = ' <button class="aliasDevice" token="' + s + '" device="' + d + '">' +
+                '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Set device alias') + '</button>';
+            aliasInput = '<input type="text" class="aliasDeviceInput" value="' + escapeHTML(alias || '') + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
             reaffectSelect = '<div class="reaffectDeviceDiv"><select class="reaffectDeviceSelect"></select>' +
@@ -2557,6 +2648,7 @@
         dropdowndevicecontent = '<div class="dropdown-content">' +
             deleteLink +
             renameLink +
+            aliasLink +
             reaffectLink +
             routingGraphLink +
             routingOsrmLink +
@@ -2605,13 +2697,21 @@
         if (zoom) {
             followchecked = ' checked';
         }
+        var nameLabelTxt;
+        if (alias !== null && alias !== '') {
+            nameLabelTxt = alias + ' (' + name + ')';
+        }
+        else {
+            nameLabelTxt = name;
+        }
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
                 '<div>' +
                 '<div class="devicecolor opaquetooltip' + s + d + '"></div> ' +
-                '<div class="deviceLabel" name="' + escapeHTML(name) + '" title="' +
-                t('phonetrack', 'Center map on device') + '">' + escapeHTML(name) + '</div> ' +
+                '<div class="deviceLabel" title="' +
+                t('phonetrack', 'Center map on device') + '">' + escapeHTML(nameLabelTxt) + '</div> ' +
                 renameInput +
+                aliasInput +
                 dropdowndevicebutton +
                 dropdowndevicecontent +
                 reaffectSelect +
@@ -2630,6 +2730,7 @@
         // manage names/ids
         var intDid = parseInt(d);
         phonetrack.deviceNames[s][intDid] = escapeHTML(name);
+        phonetrack.deviceAliases[s][intDid] = escapeHTML(alias || '');
         phonetrack.deviceIds[s][name] = intDid;
 
         phonetrack.sessionPointsLayers[s][d] = L.featureGroup();
@@ -2638,7 +2739,14 @@
         phonetrack.sessionLatlngs[s][d] = [];
         var linewidth = parseInt($('#linewidth').val()) || 5;
         phonetrack.sessionLineLayers[s][d] = L.featureGroup();
-        linetooltip = sessionname + ' | ' + name;
+        var nameTxt;
+        if (alias !== null && alias !== '') {
+            nameTxt = alias + ' (' + name + ')';
+        }
+        else {
+            nameTxt = name;
+        }
+        linetooltip = sessionname + ' | ' + nameTxt;
         phonetrack.sessionLineLayers[s][d].bindTooltip(
             linetooltip,
             {
@@ -2648,10 +2756,17 @@
             }
         );
         var radius = $('#pointradius').val();
+        var letter;
+        if (alias !== null && alias !== '') {
+            letter = alias[0];
+        }
+        else {
+            letter = name[0];
+        }
         var markerIcon = L.divIcon({
             iconAnchor: [radius, radius],
             className: 'roundmarker color' + s + d,
-            html: '<b>' + name[0] + '</b>'
+            html: '<b>' + letter + '</b>'
         });
         var pointIcon = L.divIcon({
             iconAnchor: [radius, radius],
@@ -3382,7 +3497,16 @@
 
     function getPointTooltipContent(entry, sn, s) {
         var mom;
-        var pointtooltip = sn + ' | ' + getDeviceName(s, entry.deviceid);
+        var name = getDeviceName(s, entry.deviceid);
+        var alias = getDeviceAlias(s, entry.deviceid);
+        var nameLabelTxt;
+        if (alias !== null && alias !== '') {
+            nameLabelTxt = alias + ' (' + name + ')';
+        }
+        else {
+            nameLabelTxt = name;
+        }
+        var pointtooltip = sn + ' | ' + nameLabelTxt;
         if (entry.timestamp) {
             mom = moment.unix(parseInt(entry.timestamp));
             pointtooltip = pointtooltip + '<br/>' +
@@ -4824,10 +4948,18 @@
             var devicename = getDeviceName(token, deviceid);
             $(this).parent().parent().find('.deviceLabel').hide();
             $(this).parent().parent().find('.renameDeviceInput').show();
-            $(this).parent().parent().find('.renameDeviceInput').val(
-                $(this).parent().parent().find('.deviceLabel').text()
-            );
+            $(this).parent().parent().find('.renameDeviceInput').val(devicename);
             $(this).parent().parent().find('.renameDeviceInput').select();
+        });
+
+        $('body').on('click','.aliasDevice', function(e) {
+            var token = $(this).attr('token');
+            var deviceid = $(this).attr('device');
+            var devicealias = getDeviceAlias(token, deviceid);
+            $(this).parent().parent().find('.deviceLabel').hide();
+            $(this).parent().parent().find('.aliasDeviceInput').show();
+            $(this).parent().parent().find('.aliasDeviceInput').val(devicealias);
+            $(this).parent().parent().find('.aliasDeviceInput').select();
         });
 
         $('body').on('keypress','.renameDeviceInput', function(e) {
@@ -4843,6 +4975,21 @@
                 renameDevice(token, deviceid, oldName, newName);
                 $(this).parent().parent().find('.deviceLabel').show();
                 $(this).parent().parent().find('.renameDeviceInput').hide();
+            }
+        });
+
+        $('body').on('keypress','.aliasDeviceInput', function(e) {
+            if (e.key === 'Escape') {
+                $(this).parent().parent().find('.deviceLabel').show();
+                $(this).parent().parent().find('.aliasDeviceInput').hide();
+            }
+            else if (e.key === 'Enter') {
+                var token = $(this).parent().parent().attr('token');
+                var deviceid = $(this).parent().parent().attr('device');
+                var newalias = $(this).val();
+                setDeviceAlias(token, deviceid, newalias);
+                $(this).parent().parent().find('.deviceLabel').show();
+                $(this).parent().parent().find('.aliasDeviceInput').hide();
             }
         });
 
