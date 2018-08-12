@@ -255,6 +255,18 @@
       <notnull>false</notnull>
       <length>500</length>
     </field>
+    <field>
+      <name>pushovertoken</name>
+      <type>text</type>
+      <notnull>false</notnull>
+      <length>500</length>
+    </field>
+    <field>
+      <name>pushoveruser</name>
+      <type>text</type>
+      <notnull>false</notnull>
+      <length>500</length>
+    </field>
   </declaration>
 </table>
  <table>
