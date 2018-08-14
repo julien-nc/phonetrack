@@ -1029,6 +1029,9 @@
                 if (optionsValues.dragcheck !== undefined) {
                     $('#dragcheck').prop('checked', optionsValues.dragcheck);
                 }
+                if (optionsValues.linearrow !== undefined) {
+                    $('#linearrow').prop('checked', optionsValues.linearrow);
+                }
                 if (optionsValues.linegradient !== undefined) {
                     $('#linegradient').prop('checked', optionsValues.linegradient);
                 }
@@ -1127,6 +1130,7 @@
         optionsValues.autozoom = $('#autozoom').is(':checked');
         optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.dragcheck = $('#dragcheck').is(':checked');
+        optionsValues.linearrow = $('#linearrow').is(':checked');
         optionsValues.linegradient = $('#linegradient').is(':checked');
         optionsValues.tooltipshowaccuracy = $('#tooltipshowaccuracy').is(':checked');
         optionsValues.tooltipshowbearing = $('#tooltipshowbearing').is(':checked');
@@ -2221,6 +2225,7 @@
 
     function changeApplyFilter() {
         var linewidth = parseInt($('#linewidth').val()) || 5;
+        var linearrow = $('#linearrow').is(':checked');
         var linegradient = $('#linegradient').is(':checked');
         var filtersEnabled = $('#applyfilters').is(':checked');
         var coordsTmp, j;
@@ -2254,7 +2259,7 @@
                     displayedLatlngs = phonetrack.sessionLatlngs[s][d];
                     cutLines = segmentLines(displayedLatlngs, s, d);
                     phonetrack.sessionLineLayers[s][d].clearLayers();
-                    for (i = 0; i < cutLines.length; i++) {
+                    for (i = 0; i < cutLines.length; i++) {
                         if (linegradient) {
                             coordsTmp = [];
                             for (j=0; j < cutLines[i].length; j++) {
@@ -2273,6 +2278,26 @@
                             line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
                         }
                         phonetrack.sessionLineLayers[s][d].addLayer(line);
+
+                        if (linearrow && cutLines[i].length > 1) {
+                            var arrows = L.polylineDecorator(line);
+                            arrows.setPatterns([{
+                                offset: 30,
+                                repeat: 40,
+                                symbol: L.Symbol.arrowHead({
+                                    pixelSize: 15 + linewidth,
+                                    polygon: false,
+                                    pathOptions: {
+                                        stroke: true,
+                                        className: 'poly' + s + d,
+                                        opacity: 1,
+                                        weight: parseInt(linewidth * 0.6)
+                                    }
+                                })
+                            }]);
+                            phonetrack.sessionLineLayers[s][d].addLayer(arrows);
+                        }
+
                     }
 
                     // add line points from sessionPointsLayersById in sessionPointsLayers
@@ -2317,6 +2342,25 @@
                             line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
                         }
                         phonetrack.sessionLineLayers[s][d].addLayer(line);
+
+                        if (linearrow && cutLines[i].length > 1) {
+                            var arrows = L.polylineDecorator(line);
+                            arrows.setPatterns([{
+                                offset: 30,
+                                repeat: 40,
+                                symbol: L.Symbol.arrowHead({
+                                    pixelSize: 15 + linewidth,
+                                    polygon: false,
+                                    pathOptions: {
+                                        stroke: true,
+                                        className: 'poly' + s + d,
+                                        opacity: 1,
+                                        weight: parseInt(linewidth * 0.6)
+                                    }
+                                })
+                            }]);
+                            phonetrack.sessionLineLayers[s][d].addLayer(arrows);
+                        }
                     }
 
                     // filter sessionPointsLayers
@@ -2801,6 +2845,7 @@
         var filter;
         var cutLines, line;
         var linewidth = parseInt($('#linewidth').val()) || 5;
+        var linearrow = $('#linearrow').is(':checked');
         var linegradient = $('#linegradient').is(':checked');
         firstEntryTimestamp = parseInt(entries[0].timestamp);
         lastEntryTimestamp = parseInt(entries[entries.length-1].timestamp);
@@ -2860,6 +2905,25 @@
                     line = L.polyline(displayedLatlngs, {weight: linewidth, className: 'poly' + s + d});
                 }
                 phonetrack.sessionLineLayers[s][d].addLayer(line);
+
+                if (linearrow && displayedLatlngs.length > 1) {
+                    var arrows = L.polylineDecorator(line);
+                    arrows.setPatterns([{
+                        offset: 30,
+                        repeat: 40,
+                        symbol: L.Symbol.arrowHead({
+                            pixelSize: 15 + linewidth,
+                            polygon: false,
+                            pathOptions: {
+                                stroke: true,
+                                className: 'poly' + s + d,
+                                opacity: 1,
+                                weight: parseInt(linewidth * 0.6)
+                            }
+                        })
+                    }]);
+                    phonetrack.sessionLineLayers[s][d].addLayer(arrows);
+                }
 
                 var radius = phonetrack.optionsValues.pointradius;
                 var icon = phonetrack.devicePointIcons[s][d];
@@ -2932,6 +2996,25 @@
                     line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
                 }
                 phonetrack.sessionLineLayers[s][d].addLayer(line);
+
+                if (linearrow && cutLines[i].length > 1) {
+                    var arrows = L.polylineDecorator(line);
+                    arrows.setPatterns([{
+                        offset: 30,
+                        repeat: 40,
+                        symbol: L.Symbol.arrowHead({
+                            pixelSize: 15 + linewidth,
+                            polygon: false,
+                            pathOptions: {
+                                stroke: true,
+                                className: 'poly' + s + d,
+                                opacity: 1,
+                                weight: parseInt(linewidth * 0.6)
+                            }
+                        })
+                    }]);
+                    phonetrack.sessionLineLayers[s][d].addLayer(arrows);
+                }
             }
 
             var radius = phonetrack.optionsValues.pointradius;
@@ -3059,6 +3142,7 @@
 
     function updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing) {
         var perm = $('#showtime').is(':checked');
+        var linearrow = $('#linearrow').is(':checked');
         var linegradient = $('#linegradient').is(':checked');
         var linewidth = parseInt($('#linewidth').val()) || 5;
         var i, j, coordsTmp;
@@ -3149,6 +3233,25 @@
                     line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
                 }
                 phonetrack.sessionLineLayers[token][deviceid].addLayer(line);
+
+                if (linearrow && cutLines[i].length > 1) {
+                    var arrows = L.polylineDecorator(line);
+                    arrows.setPatterns([{
+                        offset: 30,
+                        repeat: 40,
+                        symbol: L.Symbol.arrowHead({
+                            pixelSize: 15 + linewidth,
+                            polygon: false,
+                            pathOptions: {
+                                stroke: true,
+                                className: 'poly' + token + deviceid,
+                                opacity: 1,
+                                weight: parseInt(linewidth * 0.6)
+                            }
+                        })
+                    }]);
+                    phonetrack.sessionLineLayers[token][deviceid].addLayer(arrows);
+                }
             }
 
             // lastTime is independent from filters
@@ -3196,6 +3299,7 @@
 
     function deletePointsMap(s, d, pidlist) {
         var perm = $('#showtime').is(':checked');
+        var linearrow = $('#linearrow').is(':checked');
         var linegradient = $('#linegradient').is(':checked');
         var linewidth = parseInt($('#linewidth').val()) || 5;
         var i, lat, lng, p, pid, m, j, coordsTmp;
@@ -3243,6 +3347,25 @@
                 line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
             }
             phonetrack.sessionLineLayers[s][d].addLayer(line);
+
+            if (linearrow && cutLines[i].length > 1) {
+                var arrows = L.polylineDecorator(line);
+                arrows.setPatterns([{
+                    offset: 30,
+                    repeat: 40,
+                    symbol: L.Symbol.arrowHead({
+                        pixelSize: 15 + linewidth,
+                        polygon: false,
+                        pathOptions: {
+                            stroke: true,
+                            className: 'poly' + s + d,
+                            opacity: 1,
+                            weight: parseInt(linewidth * 0.6)
+                        }
+                    })
+                }]);
+                phonetrack.sessionLineLayers[s][d].addLayer(arrows);
+            }
         }
 
         updateMarker(s, d, sn);
@@ -3318,6 +3441,7 @@
 
     function addPointMap(id, lat, lon, alt, acc, sat, bat, speed, bearing, timestamp, deviceid) {
         var perm = $('#showtime').is(':checked');
+        var linearrow = $('#linearrow').is(':checked');
         var linegradient = $('#linegradient').is(':checked');
         var linewidth = parseInt($('#linewidth').val()) || 5;
         var tab = $('#addPointTable');
@@ -3417,6 +3541,25 @@
                     line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
                 }
                 phonetrack.sessionLineLayers[token][deviceid].addLayer(line);
+
+                if (linearrow && cutLines[i].length > 1) {
+                    var arrows = L.polylineDecorator(line);
+                    arrows.setPatterns([{
+                        offset: 30,
+                        repeat: 40,
+                        symbol: L.Symbol.arrowHead({
+                            pixelSize: 15 + linewidth,
+                            polygon: false,
+                            pathOptions: {
+                                stroke: true,
+                                className: 'poly' + token + deviceid,
+                                opacity: 1,
+                                weight: parseInt(linewidth * 0.6)
+                            }
+                        })
+                    }]);
+                    phonetrack.sessionLineLayers[token][deviceid].addLayer(arrows);
+                }
             }
 
             // update lastTime
@@ -3902,7 +4045,8 @@
             // get correct zoom bounds
             if (phonetrack.map.hasLayer(phonetrack.sessionLineLayers[s][d])) {
                 l = phonetrack.sessionLineLayers[s][d];
-                l.bringToFront();
+                // does not work with polylineDecorator
+                //l.bringToFront();
                 b = l.getBounds();
             }
             else if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
@@ -4697,7 +4841,7 @@
             }
         });
 
-        $('#linegradient, #cutdistance, #cuttime').change(function() {
+        $('#linearrow, #linegradient, #cutdistance, #cuttime').change(function() {
             if (!pageIsPublic()) {
                 saveOptions();
             }
