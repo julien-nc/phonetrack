@@ -438,7 +438,7 @@ class LogController extends Controller {
                             FROM `*PREFIX*phonetrack_points` po
                             JOIN `*PREFIX*phonetrack_devices` d ON po.`deviceid` = d.`id`
                             WHERE `sessionid` = ?
-                            GROUP BY `deviceid`
+                            GROUP BY `deviceid`, `nametoken`, `name`
                         ) l ON p.`deviceid` = l.`deviceid`
                         AND p.`timestamp` = l.`lastupdate`
                     ';
