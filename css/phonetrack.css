@@ -136,7 +136,16 @@ i.display {
 
 /* adapt right leaflet controls when sidebar pushes them */
 @media screen and (max-width: 767px) {
-    .leaflet-right { right:40px; }
+    .leaflet-top.leaflet-right { right:40px; }
+}
+@media screen and (max-width: 767px) {
+    .sidebar {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: auto;
+        bottom: auto;
+    }
 }
 
 div#filterDiv input[type=checkbox] {
