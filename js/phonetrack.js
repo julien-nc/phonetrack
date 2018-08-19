@@ -1373,16 +1373,16 @@
                 divtxt = divtxt + '<button class="removeSession">' +
                     '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete session') + '</button>';
                 divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
-                    '<i class="fa fa-pencil"></i> ' + t('phonetrack', 'Rename session') + '</button>';
+                    '<i class="fa fa-pencil-alt"></i> ' + t('phonetrack', 'Rename session') + '</button>';
             }
             divtxt = divtxt + '<div><button class="export" title="' + t('phonetrack', 'Export to gpx') + '">' +
-                '<i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
+                '<i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
             divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHTML(name) + '.gpx"/></div>';
 
             if (!isFromShare) {
                 divtxt = divtxt + '<div class="autoexportdiv" title="' +
                     t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: escapeHTML($('#autoexportpath').val())}) + '">' +
-                    '<div><i class="fa fa-floppy-o" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic export') + '</div>';
+                    '<div><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic export') + '</div>';
                 divtxt = divtxt + '<select role="autoexport">';
                 divtxt = divtxt + '<option value="no">' + t('phonetrack', 'never') + '</option>';
                 divtxt = divtxt + '<option value="daily">' + t('phonetrack', 'daily') + '</option>';
@@ -2677,13 +2677,13 @@
             deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete this device') + '</button>';
             renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">' +
-                '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
+                '<i class="fa fa-pencil-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
             renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
             aliasLink = ' <button class="aliasDevice" token="' + s + '" device="' + d + '">' +
-                '<i class="fa fa-pencil" aria-hidden="true"></i> ' + t('phonetrack', 'Set device alias') + '</button>';
+                '<i class="fa fa-pencil-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Set device alias') + '</button>';
             aliasInput = '<input type="text" class="aliasDeviceInput" value="' + escapeHTML(alias || '') + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
-                '<i class="fa fa-mail-forward" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
+                '<i class="fa fa-exchange-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
             reaffectSelect = '<div class="reaffectDeviceDiv"><select class="reaffectDeviceSelect"></select>' +
                 '<button class="reaffectDeviceOk"><i class="fa fa-check" aria-hidden="true"></i> ' +
                 t('phonetrack', 'Ok') + '</button>' +
@@ -3589,21 +3589,21 @@
         var res = '<table class="editPoint" pid="' + entry.id + '"' +
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
         res = res + '<tr title="' + t('phonetrack', 'Date') + '">';
-        res = res + '<td><i class="fa fa-calendar" style="font-size: 20px;"></i></td>';
+        res = res + '<td><i class="fa fa-calendar-alt" style="font-size: 20px;"></i></td>';
         res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Time') + '">';
-        res = res + '<td><i class="fa fa-clock-o" style="font-size: 20px;"></i></td>';
+        res = res + '<td><i class="fa fa-clock" style="font-size: 20px;"></i></td>';
         res = res + '<td><input role="hour" type="number" value="' + hourval + '" min="0" max="23"/>h' +
             '<input role="minute" type="number" value="' + minval + '" min="0" max="59"/>' +
             'min<input role="second" type="number" value="' + secval + '" min="0" max="59"/>sec</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Altitude') + '">';
-        res = res + '<td><i class="fa fa-area-chart" style="font-size: 20px;"></td>';
+        res = res + '<td><i class="fa fa-chart-area" style="font-size: 20px;"></td>';
         res = res + '<td><input role="altitude" type="number" value="' + entry.altitude + '" min="-1"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Precision') + '">';
-        res = res + '<td><i class="fa fa-dot-circle-o" style="font-size: 20px;"></td>';
+        res = res + '<td><i class="fa fa-dot-circle" style="font-size: 20px;"></td>';
         res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Speed') + '">';
-        res = res + '<td><i class="fa fa-tachometer" style="font-size: 20px;"></td>';
+        res = res + '<td><i class="fa fa-tachometer-alt" style="font-size: 20px;"></td>';
         var speed_kmph = entry.speed;
         if (entry.speed && parseInt(entry.speed) !== -1) {
             speed_kmph = parseFloat(entry.speed) * 3.6;
@@ -3617,13 +3617,13 @@
         res = res + '<td><i class="fa fa-signal" style="font-size: 20px;"></td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Battery') + '">';
-        res = res + '<td><i class="fa fa-battery-2" style="font-size: 20px;"></i></td>';
+        res = res + '<td><i class="fa fa-battery-half" style="font-size: 20px;"></i></td>';
         res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/>%</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'User-agent') + '">';
-        res = res + '<td><i class="fa fa-mobile" style="font-size: 35px;"></i></td>';
+        res = res + '<td><i class="fa fa-mobile-alt" style="font-size: 35px;"></i></td>';
         res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '"/></td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'lat : lng') + '">';
-        res = res + '<td><i class="fa fa-map-marker" style="font-size: 20px;"></td>';
+        res = res + '<td><i class="fa fa-map-marker-alt" style="font-size: 20px;"></td>';
         res = res + '<td><input role="latlng" type="text" value="' +
             parseFloat(entry.lat).toFixed(5) + ' : ' + parseFloat(entry.lon).toFixed(5) + '" readonly/></td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'DMS coords') + '">';
@@ -3633,7 +3633,7 @@
         res = res + '</table>';
         res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Save') + '</button>';
         res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Delete') + '</button>';
-        res = res + '<br/><button class="movepoint"><i class="fa fa-arrows" aria-hidden="true"></i> ' + t('phonetrack', 'Move') + '</button>';
+        res = res + '<br/><button class="movepoint"><i class="fa fa-arrows-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Move') + '</button>';
         res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Cancel') + '</button>';
         return res;
     }
@@ -4496,15 +4496,18 @@
                     nbsec = 0;
                     lineLayersList = phonetrack.sessionLineLayers[s][d].getLayers();
                     for (li = 0; li < lineLayersList.length; li++) {
-                        ll = lineLayersList[li].getLatLngs();
-                        for (i = 1; i < ll.length; i++) {
-                            dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
-                        }
+                        // because of the arrows...
+                        if (typeof lineLayersList[li].getLatLngs === 'function') {
+                            ll = lineLayersList[li].getLatLngs();
+                            for (i = 1; i < ll.length; i++) {
+                                dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
+                            }
 
-                        if (ll.length > 1) {
-                            t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0].alt].timestamp);
-                            t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1].alt].timestamp);
-                            nbsec = nbsec + t2.diff(t1, 'seconds');
+                            if (ll.length > 1) {
+                                t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0].alt].timestamp);
+                                t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1].alt].timestamp);
+                                nbsec = nbsec + t2.diff(t1, 'seconds');
+                            }
                         }
                     }
 

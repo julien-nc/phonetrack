@@ -409,14 +409,25 @@ input[role=precision] {
 #filterPointsTable input[type=number].time {
     width: 44px !important;
 }
+.editPoint td {
+    height: 29px !important;
+}
+.editPoint td * {
+    margin: 1px 1px 1px 0 !important;
+}
+.leaflet-popup-content button {
+    min-height: 10px !important;
+    height: 27px !important;
+    padding: 3px 3px 3px 3px !important;
+}
 .editPoint input[role=minute],
 .editPoint input[role=hour],
 .editPoint input[role=second] {
-    width: 34px !important;
-    height: 15px !important;
+    width: 42px !important;
+    height: 27px !important;
 }
 table.editPoint input[type=text] {
-    height: 15px;
+    height: 27px;
     width: 100%;
     padding: 0px 3px 0px 3px;
 }
@@ -442,6 +453,7 @@ input[type=date] {
 }
 .editPoint input[type=number] {
     min-height: 0px !important;
+    height: 27px !important;
 }
 .watchlabeldiv {
     display: grid;
@@ -883,4 +895,7 @@ input.geofencename {
 }
 .leaflet-bottom {
     position: fixed;
+}
+.leaflet-popup-content {
+    margin: 7px 7px !important;
 }

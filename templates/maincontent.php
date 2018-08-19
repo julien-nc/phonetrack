@@ -12,7 +12,7 @@
 </a>
 </li>
 <li title="<?php p($l->t('Stats')); ?>"><a href="#phonetrackstats" role="tab"><i class="fa fa-table"></i></a></li>
-<li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-gear"></i></a></li>
+<li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-cogs"></i></a></li>
 <li title="<?php p($l->t('About PhoneTrack')); ?>"><a href="#help" role="tab"><i class="fa fa-question"></i></a></li>
 </ul>
 <!-- Tab panes -->
@@ -32,7 +32,7 @@ p($_['phonetrack_version']);
         <div id="topbuttons">
             <div id="createimportsessiondiv">
                 <button id="importsession">
-                    <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+                    <i class="fa fa-folder-open" aria-hidden="true"></i>
                     <?php p($l->t('Import session')); ?>
                 </button>
                 <button id="showcreatesession">
@@ -451,9 +451,9 @@ if (count($_['useroverlayserverswms']) > 0){
 </tr><tr>
     <td></td>
     <td>
-        <button role="datemintoday"><i class="fa fa-calendar-o" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
-        <button role="dateminminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></button>
-        <button role="dateminplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
+        <button role="datemintoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
+        <button role="dateminminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>
+        <button role="dateminplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
     </td>
     <td></td>
 </tr><tr>
@@ -470,9 +470,9 @@ if (count($_['useroverlayserverswms']) > 0){
 </tr><tr>
     <td></td>
     <td>
-        <button role="datemaxtoday"><i class="fa fa-calendar-o" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
-        <button role="datemaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></button>
-        <button role="datemaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i></button>
+        <button role="datemaxtoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
+        <button role="datemaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>
+        <button role="datemaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
     </td>
     <td></td>
 </tr><tr>
@@ -483,10 +483,10 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td>
-        <button role="dateminmaxminus"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i> <?php p($l->t('Min-- and Max--')); ?></button>
+        <button role="dateminmaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i> <?php p($l->t('Min-- and Max--')); ?></button>
     </td>
     <td>
-        <button role="dateminmaxplus"><i class="fa fa-calendar-plus-o" aria-hidden="true"></i> <?php p($l->t('Min++ and Max++')); ?></button>
+        <button role="dateminmaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i> <?php p($l->t('Min++ and Max++')); ?></button>
     </td>
     <td></td>
 </tr><tr>
@@ -620,7 +620,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <br/><hr/><br/>
     <h3 class="sectiontitle"><?php p($l->t('Documentation')); ?></h3>
     <a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/wikis/home">
-    <i class="fa fa-gitlab" aria-hidden="true"></i>
+    <i class="fa fa-code-branch" aria-hidden="true"></i>
     Project wiki
     </a>
     <br/>
@@ -629,13 +629,13 @@ if (count($_['useroverlayserverswms']) > 0){
     <h3 class="sectiontitle"><?php p($l->t('Source management')); ?></h3>
     <ul class="disclist">
         <li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc">
-        <i class="fa fa-gitlab" aria-hidden="true"></i>
+        <i class="fa fa-code-branch" aria-hidden="true"></i>
         Gitlab project main page</a></li>
         <li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/issues">
-        <i class="fa fa-gitlab" aria-hidden="true"></i>
+        <i class="fa fa-code-branch" aria-hidden="true"></i>
         Gitlab project issue tracker</a></li>
         <li><a class="toplink" target="_blank" href="https://crowdin.com/project/phonetrack">
-        <i class="fa fa-language" aria-hidden="true"></i>
+        <i class="fa fa-globe-africa" aria-hidden="true"></i>
         Help us to translate this app on Crowdin !</a></li>
     </ul>
 

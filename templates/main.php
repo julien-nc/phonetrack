@@ -21,7 +21,7 @@ style('phonetrack', 'leaflet');
 style('phonetrack', 'L.Control.MousePosition');
 style('phonetrack', 'leaflet-sidebar.min');
 style('phonetrack', 'jquery-ui.min');
-style('phonetrack', 'font-awesome.min');
+style('phonetrack', 'fontawesome/css/all.min');
 style('phonetrack', 'phonetrack');
 style('phonetrack', 'L.Control.Locate');
 style('phonetrack', 'Leaflet.LinearMeasurement');
