@@ -3592,7 +3592,7 @@
         res = res + '<td><i class="fa fa-calendar-alt" style="font-size: 20px;"></i></td>';
         res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Time') + '">';
-        res = res + '<td><i class="fa fa-clock" style="font-size: 20px;"></i></td>';
+        res = res + '<td><i class="far fa-clock" style="font-size: 20px;"></i></td>';
         res = res + '<td><input role="hour" type="number" value="' + hourval + '" min="0" max="23"/>h' +
             '<input role="minute" type="number" value="' + minval + '" min="0" max="59"/>' +
             'min<input role="second" type="number" value="' + secval + '" min="0" max="59"/>sec</td>';
@@ -3600,7 +3600,7 @@
         res = res + '<td><i class="fa fa-chart-area" style="font-size: 20px;"></td>';
         res = res + '<td><input role="altitude" type="number" value="' + entry.altitude + '" min="-1"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Precision') + '">';
-        res = res + '<td><i class="fa fa-dot-circle" style="font-size: 20px;"></td>';
+        res = res + '<td><i class="far fa-dot-circle" style="font-size: 20px;"></td>';
         res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Speed') + '">';
         res = res + '<td><i class="fa fa-tachometer-alt" style="font-size: 20px;"></td>';
