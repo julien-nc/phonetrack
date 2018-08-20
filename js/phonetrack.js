@@ -5695,7 +5695,7 @@
             buttonColor = OCA.Theming.color;
         }
 
-        $('<style role="buttons">.fa { ' +
+        $('<style role="buttons">.fa, .far, .fas { ' +
             'color: ' + buttonColor + '; }' +
             '.dropdown-content button:hover i, ' +
             '.reaffectDeviceDiv button:hover i ' +

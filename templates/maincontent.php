@@ -72,7 +72,7 @@ p($_['phonetrack_version']);
             <label for="showtime"><i class="fa nc-theming-main-background"> </i>
             <?php p($l->t('Show tooltips'));?></label>
             <br/>
-            <label for="updateinterval"><i class="fa fa-refresh" aria-hidden="true"></i>
+            <label for="updateinterval"><i class="fa fa-sync-alt" aria-hidden="true"></i>
             <?php p($l->t('Refresh each (sec)'));?></label>
             <input id="updateinterval" type="number" min="0" max="1000" step="1" value="15"/>
             <div id="countdown"></div>
@@ -97,11 +97,11 @@ p($_['phonetrack_version']);
             <?php p($l->t('Draw line with color gradient'));?></label>
             <br/>
             <input id="tooltipshowaccuracy" type="checkbox" checked/>
-            <label for="tooltipshowaccuracy"><i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+            <label for="tooltipshowaccuracy"><i class="far fa-dot-circle" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowspeed" type="checkbox" checked/>
-            <label for="tooltipshowspeed"><i class="fa fa-tachometer" aria-hidden="true"></i>
+            <label for="tooltipshowspeed"><i class="fa fa-tachometer-alt" aria-hidden="true"></i>
             <?php p($l->t('Show speed in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowbearing" type="checkbox" checked/>
@@ -113,27 +113,27 @@ p($_['phonetrack_version']);
             <?php p($l->t('Show satellites in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowbattery" type="checkbox" checked/>
-            <label for="tooltipshowbattery"><i class="fa fa-battery-2" aria-hidden="true"></i>
+            <label for="tooltipshowbattery"><i class="fa fa-battery-half" aria-hidden="true"></i>
             <?php p($l->t('Show battery level in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowelevation" type="checkbox" checked/>
-            <label for="tooltipshowelevation"><i class="fa fa-area-chart" aria-hidden="true"></i>
+            <label for="tooltipshowelevation"><i class="fa fa-chart-area" aria-hidden="true"></i>
             <?php p($l->t('Show elevation in tooltips'));?> *</label>
             <br/>
             <input id="tooltipshowuseragent" type="checkbox" checked/>
-            <label for="tooltipshowuseragent"><i class="fa fa-mobile-phone" aria-hidden="true" style="font-size: 20px"></i>
+            <label for="tooltipshowuseragent"><i class="fa fa-mobile-alt" aria-hidden="true" style="font-size: 20px"></i>
             <?php p($l->t('Show user-agent in tooltips'));?> *</label>
             <br/>
 
             <input id="dragcheck" type="checkbox" checked/>
-            <label for="dragcheck"><i class="fa fa-hand-paper-o" aria-hidden="true"></i>
+            <label for="dragcheck"><i class="far fa-hand-paper" aria-hidden="true"></i>
             <?php p($l->t('Make points draggable in edition mode'));?></label>
             <br/>
             <input id="acccirclecheck" type="checkbox" checked/>
-            <label for="acccirclecheck"><i class="fa fa-circle-o" aria-hidden="true"></i>
+            <label for="acccirclecheck"><i class="far fa-circle" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy circle on hover'));?></label>
             <br/>
-            <label for="linewidth"><i class="fa fa-pencil" aria-hidden="true"></i>
+            <label for="linewidth"><i class="fa fa-pencil-alt" aria-hidden="true"></i>
             <?php p($l->t('Line width'));?></label>
             <input id="linewidth" type="number" min="1" max="20" step="1" value="4"/>
             <br/>
@@ -153,12 +153,12 @@ p($_['phonetrack_version']);
                 <option value="dark"><?php p($l->t('dark'));?></option>
             </select>
             <br/>
-            <label for="autoexportpath"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+            <label for="autoexportpath"><i class="far fa-save" aria-hidden="true"></i>
             <?php p($l->t('Auto export path'));?></label>
             <input id="autoexportpath" type="text" value="/PhoneTrack_export"/>
             <br/>
             <input id="exportoneperdev" type="checkbox"/>
-            <label for="exportoneperdev"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+            <label for="exportoneperdev"><i class="fas fa-save" aria-hidden="true"></i>
             <?php p($l->t('Export one file per device'));?></label>
             <br/>
             <label>(*) <?php p($l->t('reload page to make changes effective'));?></label>
