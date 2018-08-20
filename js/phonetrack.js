@@ -2263,7 +2263,7 @@
                         if (linegradient) {
                             coordsTmp = [];
                             for (j=0; j < cutLines[i].length; j++) {
-                                coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                                coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], cutLines[i][j][2]]);
                             }
                             line = L.hotline(coordsTmp, {
                                 weight: linewidth,
@@ -2327,7 +2327,7 @@
                         if (linegradient) {
                             coordsTmp = [];
                             for (j=0; j < cutLines[i].length; j++) {
-                                coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                                coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], cutLines[i][j][2]]);
                             }
                             line = L.hotline(coordsTmp, {
                                 weight: linewidth,
@@ -2890,7 +2890,7 @@
                 if (linegradient) {
                     coordsTmp = [];
                     for (j=0; j < displayedLatlngs.length; j++) {
-                        coordsTmp.push([displayedLatlngs[j][0], displayedLatlngs[j][1], j]);
+                        coordsTmp.push([displayedLatlngs[j][0], displayedLatlngs[j][1], cutLines[i][j][2]]);
                     }
                     line = L.hotline(coordsTmp, {
                         weight: linewidth,
@@ -2981,7 +2981,7 @@
                 if (linegradient) {
                     coordsTmp = [];
                     for (j=0; j < cutLines[i].length; j++) {
-                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], cutLines[i][j][2]]);
                     }
                     line = L.hotline(coordsTmp, {
                         weight: linewidth,
@@ -3218,7 +3218,7 @@
                 if (linegradient) {
                     coordsTmp = [];
                     for (j=0; j < cutLines[i].length; j++) {
-                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], cutLines[i][j][2]]);
                     }
                     line = L.hotline(coordsTmp, {
                         weight: linewidth,
@@ -3332,7 +3332,7 @@
             if (linegradient) {
                 coordsTmp = [];
                 for (j=0; j < cutLines[i].length; j++) {
-                    coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                    coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], cutLines[i][j][2]]);
                 }
                 line = L.hotline(coordsTmp, {
                     weight: linewidth,
@@ -3526,7 +3526,7 @@
                 if (linegradient) {
                     coordsTmp = [];
                     for (j=0; j < cutLines[i].length; j++) {
-                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
+                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], cutLines[i][j][2]]);
                     }
                     line = L.hotline(coordsTmp, {
                         weight: linewidth,
