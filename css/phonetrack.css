@@ -140,7 +140,7 @@ i.display {
 }
 @media screen and (max-width: 767px) {
     .sidebar {
-        position: fixed;
+        position: absolute;
         width: 100%;
         height: 100%;
         top: auto;
