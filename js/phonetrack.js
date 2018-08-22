@@ -56,6 +56,8 @@
         restoredTileLayer: null,
         // indexed by session name, contains dict indexed by deviceid
         sessionLineLayers: {},
+        // just the positions (the displayed ones, filtered, with the cut : list of lists)
+        sessionDisplayedLatlngs: {},
         // just the positions (non-filtered)
         sessionLatlngs: {},
         // the featureGroups of line points
@@ -1595,6 +1597,7 @@
         delete phonetrack.sessionMarkerLayers[token][device];
         phonetrack.sessionLineLayers[token][device].unbindTooltip().remove();
         delete phonetrack.sessionLineLayers[token][device];
+        delete phonetrack.sessionDisplayedLatlngs[token][device];
         delete phonetrack.sessionLatlngs[token][device];
         phonetrack.sessionPointsLayers[token][device].unbindTooltip().remove();
         delete phonetrack.sessionPointsLayers[token][device];
@@ -2259,6 +2262,8 @@
                     displayedLatlngs = phonetrack.sessionLatlngs[s][d];
                     cutLines = segmentLines(displayedLatlngs, s, d);
                     phonetrack.sessionLineLayers[s][d].clearLayers();
+                    delete phonetrack.sessionDisplayedLatlngs[s][d];
+                    phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
                     for (i = 0; i < cutLines.length; i++) {
                         if (linegradient) {
                             coordsTmp = [];
@@ -2323,6 +2328,8 @@
                     displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
                     cutLines = segmentLines(displayedLatlngs, s, d);
                     phonetrack.sessionLineLayers[s][d].clearLayers();
+                    delete phonetrack.sessionDisplayedLatlngs[s][d];
+                    phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
                     for (i = 0; i < cutLines.length; i++) {
                         if (linegradient) {
                             coordsTmp = [];
@@ -2464,6 +2471,7 @@
             sessionname = getSessionName(s);
             if (! phonetrack.sessionLineLayers.hasOwnProperty(s)) {
                 phonetrack.sessionLineLayers[s] = {};
+                phonetrack.sessionDisplayedLatlngs[s] = {};
                 phonetrack.sessionLatlngs[s] = {};
                 phonetrack.sessionPointsLayers[s] = {};
                 phonetrack.sessionPointsLayersById[s] = {};
@@ -2887,6 +2895,9 @@
                 // increment lines, insert into displayed layer (sessionLineLayers)
                 var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
                 phonetrack.sessionLineLayers[s][d].clearLayers();
+                phonetrack.sessionLineLayers[s] = {};
+                delete phonetrack.sessionDisplayedLatlngs[s][d];
+                phonetrack.sessionDisplayedLatlngs[s][d] = [displayedLatlngs];
                 if (linegradient) {
                     coordsTmp = [];
                     for (j=0; j < displayedLatlngs.length; j++) {
@@ -2977,6 +2988,8 @@
             var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
             cutLines = segmentLines(displayedLatlngs, s, d);
             phonetrack.sessionLineLayers[s][d].clearLayers();
+            delete phonetrack.sessionDisplayedLatlngs[s][d];
+            phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
             for (i = 0; i < cutLines.length; i++) {
                 if (linegradient) {
                     coordsTmp = [];
@@ -3214,6 +3227,8 @@
             var filteredlatlngs = filterList(newlatlngs, token, deviceid);
             cutLines = segmentLines(filteredlatlngs, token, deviceid);
             phonetrack.sessionLineLayers[token][deviceid].clearLayers();
+            delete phonetrack.sessionDisplayedLatlngs[s][d];
+            phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
             for (i = 0; i < cutLines.length; i++) {
                 if (linegradient) {
                     coordsTmp = [];
@@ -3328,6 +3343,8 @@
         var filteredlatlngs = filterList(newlatlngs, s, d);
         cutLines = segmentLines(filteredlatlngs, s, d);
         phonetrack.sessionLineLayers[s][d].clearLayers();
+        delete phonetrack.sessionDisplayedLatlngs[s][d];
+        phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
         for (i = 0; i < cutLines.length; i++) {
             if (linegradient) {
                 coordsTmp = [];
@@ -3522,6 +3539,8 @@
             var filteredlatlngs = filterList(newlatlngs, token, deviceid);
             cutLines = segmentLines(filteredlatlngs, token, deviceid);
             phonetrack.sessionLineLayers[token][deviceid].clearLayers();
+            delete phonetrack.sessionDisplayedLatlngs[token][deviceid];
+            phonetrack.sessionDisplayedLatlngs[token][deviceid] = cutLines;
             for (i = 0; i < cutLines.length; i++) {
                 if (linegradient) {
                     coordsTmp = [];
@@ -4479,7 +4498,7 @@
     }
 
     function updateStatTable() {
-        var s, d, id, dist, time, i, li, lineLayersList, ll, t1, t2;
+        var s, d, id, dist, time, i, li, coordsList, ll, t1, t2;
         var nbsec, years, days, hours, minutes, seconds;
         var table = '';
         for (s in phonetrack.sessionLineLayers) {
@@ -4494,20 +4513,17 @@
                 for (d in phonetrack.sessionLineLayers[s]) {
                     dist = 0;
                     nbsec = 0;
-                    lineLayersList = phonetrack.sessionLineLayers[s][d].getLayers();
-                    for (li = 0; li < lineLayersList.length; li++) {
-                        // because of the arrows...
-                        if (typeof lineLayersList[li].getLatLngs === 'function') {
-                            ll = lineLayersList[li].getLatLngs();
-                            for (i = 1; i < ll.length; i++) {
-                                dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
-                            }
+                    coordsList = phonetrack.sessionDisplayedLatlngs[s][d];
+                    for (li = 0; li < coordsList.length; li++) {
+                        ll = coordsList[li];
+                        for (i = 1; i < ll.length; i++) {
+                            dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
+                        }
 
-                            if (ll.length > 1) {
-                                t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0].alt].timestamp);
-                                t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1].alt].timestamp);
-                                nbsec = nbsec + t2.diff(t1, 'seconds');
-                            }
+                        if (ll.length > 1) {
+                            t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0][2]].timestamp);
+                            t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1][2]].timestamp);
+                            nbsec = nbsec + t2.diff(t1, 'seconds');
                         }
                     }
 
