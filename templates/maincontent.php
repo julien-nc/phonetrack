@@ -76,7 +76,7 @@ p($_['phonetrack_version']);
             <?php p($l->t('Refresh each (sec)'));?></label>
             <input id="updateinterval" type="number" min="0" max="1000" step="1" value="15"/>
             <div id="countdown"></div>
-            <button id="refreshButton"><i class="fa fa-refresh" aria-hidden="true"></i> <?php p($l->t('Refresh')); ?></button>
+            <button id="refreshButton"><i class="fa fa-sync-alt" aria-hidden="true"></i> <?php p($l->t('Refresh')); ?></button>
             <br/>
             <div title="<?php p($l->t('Cutting lines only affects map view and stats table')); ?>">
             <label for="cutdistance"><i class="fa fa-cut" aria-hidden="true"></i>

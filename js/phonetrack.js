@@ -2288,7 +2288,7 @@
                             var arrows = L.polylineDecorator(line);
                             arrows.setPatterns([{
                                 offset: 30,
-                                repeat: 40,
+                                repeat: 100,
                                 symbol: L.Symbol.arrowHead({
                                     pixelSize: 15 + linewidth,
                                     polygon: false,
@@ -2354,7 +2354,7 @@
                             var arrows = L.polylineDecorator(line);
                             arrows.setPatterns([{
                                 offset: 30,
-                                repeat: 40,
+                                repeat: 100,
                                 symbol: L.Symbol.arrowHead({
                                     pixelSize: 15 + linewidth,
                                     polygon: false,
@@ -2921,7 +2921,7 @@
                     var arrows = L.polylineDecorator(line);
                     arrows.setPatterns([{
                         offset: 30,
-                        repeat: 40,
+                        repeat: 100,
                         symbol: L.Symbol.arrowHead({
                             pixelSize: 15 + linewidth,
                             polygon: false,
@@ -3014,7 +3014,7 @@
                     var arrows = L.polylineDecorator(line);
                     arrows.setPatterns([{
                         offset: 30,
-                        repeat: 40,
+                        repeat: 100,
                         symbol: L.Symbol.arrowHead({
                             pixelSize: 15 + linewidth,
                             polygon: false,
@@ -3253,7 +3253,7 @@
                     var arrows = L.polylineDecorator(line);
                     arrows.setPatterns([{
                         offset: 30,
-                        repeat: 40,
+                        repeat: 100,
                         symbol: L.Symbol.arrowHead({
                             pixelSize: 15 + linewidth,
                             polygon: false,
@@ -3369,7 +3369,7 @@
                 var arrows = L.polylineDecorator(line);
                 arrows.setPatterns([{
                     offset: 30,
-                    repeat: 40,
+                    repeat: 100,
                     symbol: L.Symbol.arrowHead({
                         pixelSize: 15 + linewidth,
                         polygon: false,
@@ -3565,7 +3565,7 @@
                     var arrows = L.polylineDecorator(line);
                     arrows.setPatterns([{
                         offset: 30,
-                        repeat: 40,
+                        repeat: 100,
                         symbol: L.Symbol.arrowHead({
                             pixelSize: 15 + linewidth,
                             polygon: false,
