@@ -2296,7 +2296,7 @@
                                         stroke: true,
                                         className: 'poly' + s + d,
                                         opacity: 1,
-                                        weight: parseInt(linewidth * 0.6)
+                                        weight: parseInt(linewidth)
                                     }
                                 })
                             }]);
@@ -2362,7 +2362,7 @@
                                         stroke: true,
                                         className: 'poly' + s + d,
                                         opacity: 1,
-                                        weight: parseInt(linewidth * 0.6)
+                                        weight: parseInt(linewidth)
                                     }
                                 })
                             }]);
@@ -2929,7 +2929,7 @@
                                 stroke: true,
                                 className: 'poly' + s + d,
                                 opacity: 1,
-                                weight: parseInt(linewidth * 0.6)
+                                weight: parseInt(linewidth)
                             }
                         })
                     }]);
@@ -3022,7 +3022,7 @@
                                 stroke: true,
                                 className: 'poly' + s + d,
                                 opacity: 1,
-                                weight: parseInt(linewidth * 0.6)
+                                weight: parseInt(linewidth)
                             }
                         })
                     }]);
@@ -3261,7 +3261,7 @@
                                 stroke: true,
                                 className: 'poly' + token + deviceid,
                                 opacity: 1,
-                                weight: parseInt(linewidth * 0.6)
+                                weight: parseInt(linewidth)
                             }
                         })
                     }]);
@@ -3377,7 +3377,7 @@
                             stroke: true,
                             className: 'poly' + s + d,
                             opacity: 1,
-                            weight: parseInt(linewidth * 0.6)
+                            weight: parseInt(linewidth)
                         }
                     })
                 }]);
@@ -3573,7 +3573,7 @@
                                 stroke: true,
                                 className: 'poly' + token + deviceid,
                                 opacity: 1,
-                                weight: parseInt(linewidth * 0.6)
+                                weight: parseInt(linewidth)
                             }
                         })
                     }]);
@@ -4812,6 +4812,25 @@
                 for (d in phonetrack.sessionLineLayers[s]) {
                     phonetrack.sessionLineLayers[s][d].setStyle({
                         weight: w
+                    });
+                    // permanent change of arrows
+                    phonetrack.sessionLineLayers[s][d].eachLayer(function (l) {
+                        if (typeof l.setPatterns === 'function') {
+                            l.setPatterns([{
+                                offset: 30,
+                                repeat: 100,
+                                symbol: L.Symbol.arrowHead({
+                                    pixelSize: 15 + w,
+                                    polygon: false,
+                                    pathOptions: {
+                                        stroke: true,
+                                        className: 'poly' + s + d,
+                                        opacity: 1,
+                                        weight: w
+                                    }
+                                })
+                            }]);
+                        }
                     });
                 }
             }
