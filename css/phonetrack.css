@@ -899,3 +899,7 @@ input.geofencename {
 .leaflet-popup-content {
     margin: 7px 7px !important;
 }
+.urlleavepost, .urlenterpost {
+    min-height: 14px;
+    margin: 0;
+}

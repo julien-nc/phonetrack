@@ -256,10 +256,24 @@
       <length>500</length>
     </field>
     <field>
+      <name>urlenterpost</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>0</default>
+      <length>4</length>
+    </field>
+    <field>
       <name>urlleave</name>
       <type>text</type>
       <notnull>false</notnull>
       <length>500</length>
+    </field>
+    <field>
+      <name>urlleavepost</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>0</default>
+      <length>4</length>
     </field>
     <field>
       <name>pushovertoken</name>

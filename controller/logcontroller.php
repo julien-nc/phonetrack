@@ -149,7 +149,7 @@ class LogController extends Controller {
 
     private function getDeviceFences($devid) {
         $fences = array();
-        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave, pushovertoken, pushoveruser';
+        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave, pushovertoken, pushoveruser, urlenterpost, urlleavepost';
         $sqlget .= ' FROM *PREFIX*phonetrack_geofences ';
         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -175,6 +175,8 @@ class LogController extends Controller {
         $lonmax = floatval($fence['lonmax']);
         $urlenter = $fence['urlenter'];
         $urlleave = $fence['urlleave'];
+        $urlenterpost = intval($fence['urlenterpost']);
+        $urlleavepost = intval($fence['urlleavepost']);
         $pushovertoken = $fence['pushovertoken'];
         $pushoveruser = $fence['pushoveruser'];
         $fencename = $fence['name'];
@@ -215,7 +217,27 @@ class LogController extends Controller {
                         $mailer->send($message);
                     }
                     if ($urlenter !== '' and startsWith($urlenter, 'http')) {
-                        $xml = file_get_contents($urlenter);
+                        // GET
+                        if ($urlenterpost === 0) {
+                            $xml = file_get_contents($urlenter);
+                        }
+                        // POST
+                        else {
+                            $parts = parse_url($urlenter);
+                            parse_str($parts['query'], $data);
+
+                            $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
+
+                            $options = array(
+                                'http' => array(
+                                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                    'method'  => 'POST',
+                                    'content' => http_build_query($data)
+                                )
+                            );
+                            $context  = stream_context_create($options);
+                            $result = file_get_contents($url, false, $context);
+                        }
                     }
                     // pusover API management
                     if ($pushovertoken !== '' and $pushoveruser !== '') {
@@ -259,7 +281,27 @@ class LogController extends Controller {
                         $mailer->send($message);
                     }
                     if ($urlleave !== '' and startsWith($urlleave, 'http')) {
-                        $xml = file_get_contents($urlleave);
+                        // GET
+                        if ($urlleavepost === 0) {
+                            $xml = file_get_contents($urlleave);
+                        }
+                        // POST
+                        else {
+                            $parts = parse_url($urlleave);
+                            parse_str($parts['query'], $data);
+
+                            $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
+
+                            $options = array(
+                                'http' => array(
+                                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                    'method'  => 'POST',
+                                    'content' => http_build_query($data)
+                                )
+                            );
+                            $context  = stream_context_create($options);
+                            $result = file_get_contents($url, false, $context);
+                        }
                     }
                     // pusover API management
                     if ($pushovertoken !== '' and $pushoveruser !== '') {

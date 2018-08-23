@@ -1690,7 +1690,8 @@ class PageController extends Controller {
                                 if (!array_key_exists($devid, $geofences[$token])) {
                                     $geofences[$token][$devid] = array();
                                 }
-                                $sqlfences = 'SELECT id, name, latmin, latmax, lonmin, lonmax, urlenter, urlleave, pushovertoken, pushoveruser ';
+                                $sqlfences = 'SELECT id, name, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
+                                $sqlfences .= 'pushovertoken, pushoveruser, urlenterpost, urlleavepost ';
                                 $sqlfences .= 'FROM *PREFIX*phonetrack_geofences ';
                                 $sqlfences .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
                                 $req = $this->dbconnection->prepare($sqlfences);
@@ -3285,7 +3286,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      */
     public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax,
-                                $urlenter, $urlleave, $pushovertoken, $pushoveruser) {
+                                $urlenter, $urlleave, $pushovertoken, $pushoveruser, $urlenterpost, $urlleavepost) {
         $ok = 0;
         $fenceid = null;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
@@ -3305,7 +3306,8 @@ class PageController extends Controller {
             if ($dbfencename === null) {
                 // insert
                 $sql = 'INSERT INTO *PREFIX*phonetrack_geofences';
-                $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax, urlenter, urlleave, pushovertoken, pushoveruser) ';
+                $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
+                $sql .= 'pushovertoken, pushoveruser, urlenterpost, urlleavepost) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($fencename).',';
                 $sql .= $this->db_quote_escape_string($device).',';
@@ -3316,7 +3318,9 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string($urlenter).',';
                 $sql .= $this->db_quote_escape_string($urlleave).',';
                 $sql .= $this->db_quote_escape_string($pushovertoken).',';
-                $sql .= $this->db_quote_escape_string($pushoveruser);
+                $sql .= $this->db_quote_escape_string($pushoveruser).',';
+                $sql .= $this->db_quote_escape_string(intval($urlenterpost)).',';
+                $sql .= $this->db_quote_escape_string(intval($urlleavepost));
                 $sql .= ');';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();

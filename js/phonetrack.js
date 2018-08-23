@@ -2714,8 +2714,10 @@
                 '<div class="addgeofencediv">' +
                 '<p>' + t('phonetrack', 'Zoom on geofencing area, then set values, then validate.') + '</p>' +
                 '<label for="urlenter'+s+d+'">' + t('phonetrack', 'URL to request when entering') + ' </label>' +
+                '<span> (POST <input type="checkbox" class="urlenterpost"/>)</span>' +
                 '<input type="text" id="urlenter'+s+d+'" class="urlenter"/><br/>' +
                 '<label for="urlleave'+s+d+'">' + t('phonetrack', 'URL to request when leaving') + ' </label>' +
+                '<span> (POST <input type="checkbox" class="urlleavepost"/>)</span>' +
                 '<input type="text" id="urlleave'+s+d+'" class="urlleave"/>' +
                 '<label for="pushovertoken'+s+d+'">' + t('phonetrack', 'Pushover API token') + ' </label>' +
                 '<input type="text" id="pushovertoken'+s+d+'" class="pushovertoken"/>' +
@@ -2843,7 +2845,7 @@
         for (var i=0; i < geofences.length; i++) {
             f = geofences[i];
             llb = L.latLngBounds(L.latLng(f.latmin, f.lonmin), L.latLng(f.latmax, f.lonmax));
-            addGeoFence(s, d, f.name, f.id, llb, f.urlenter, f.urlleave, f.pushovertoken, f.pushoveruser);
+            addGeoFence(s, d, f.name, f.id, llb, f.urlenter, f.urlleave, f.pushovertoken, f.pushoveruser, f.urlenterpost, f.urlleavepost);
         }
     }
 
@@ -4307,7 +4309,7 @@
         });
     }
 
-    function addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, pushovertoken, pushoveruser) {
+    function addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, pushovertoken, pushoveruser, urlenterpost, urlleavepost) {
         var latmin = mapbounds.getSouth();
         var latmax = mapbounds.getNorth();
         var lonmin = mapbounds.getWest();
@@ -4323,7 +4325,9 @@
             urlenter: urlenter,
             urlleave: urlleave,
             pushovertoken: pushovertoken,
-            pushoveruser:pushoveruser
+            pushoveruser:pushoveruser,
+            urlenterpost: urlenterpost,
+            urlleavepost: urlleavepost
         };
         var url = OC.generateUrl('/apps/phonetrack/addGeofence');
         $.ajax({
@@ -4333,7 +4337,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1 || response.done === 4) {
-                addGeoFence(token, device, fencename, response.fenceid, mapbounds, urlenter, urlleave, pushovertoken, pushoveruser);
+                addGeoFence(token, device, fencename, response.fenceid, mapbounds, urlenter, urlleave, pushovertoken, pushoveruser, urlenterpost, urlleavepost);
                 if (response.done === 4) {
                     OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofencing alerts.'));
                 }
@@ -4346,11 +4350,19 @@
         });
     }
 
-    function addGeoFence(token, device, fencename, fenceid, llb, urlenter='', urlleave='', pushovertoken='', pushoveruser='') {
+    function addGeoFence(token, device, fencename, fenceid, llb, urlenter='', urlleave='', pushovertoken='', pushoveruser='', urlenterpost=0, urlleavepost=0) {
+        var enterpostTxt = '';
+        var leavepostTxt = '';
+        if (parseInt(urlenterpost) !== 0) {
+            enterpostTxt = '(POST)';
+        }
+        if (parseInt(urlleavepost) !== 0) {
+            leavepostTxt = '(POST)';
+        }
         var li = '<li fenceid="' + fenceid + '" latmin="' + llb.getSouth() + '" latmax="' + llb.getNorth() + '"' +
             'lonmin="' + llb.getWest() + '" lonmax="'+llb.getEast()+'" ' +
-            'title="' + t('phonetrack', 'URL to request when entering') + ' : ' + escapeHTML(urlenter || '') + '\n' +
-            t('phonetrack', 'URL to request when leaving') + ' : ' + escapeHTML(urlleave || '') + '\n' +
+            'title="' + t('phonetrack', 'URL to request when entering') + ' ' + enterpostTxt + ' : ' + escapeHTML(urlenter || '') + '\n' +
+            t('phonetrack', 'URL to request when leaving') + ' ' + leavepostTxt + ' : ' + escapeHTML(urlleave || '') + '\n' +
             t('phonetrack', 'Pushover API token') + ' : ' + escapeHTML(pushovertoken || '') + '\n' +
             t('phonetrack', 'Pushover API user') + ' : ' + escapeHTML(pushoveruser || '') +
             '">' +
@@ -5491,10 +5503,12 @@
             var fencename = $(this).parent().find('.geofencename').val();
             var urlenter = $(this).parent().find('.urlenter').val();
             var urlleave = $(this).parent().find('.urlleave').val();
+            var urlenterpost = $(this).parent().find('.urlenterpost').is(':checked') ? 1 : 0;
+            var urlleavepost = $(this).parent().find('.urlleavepost').is(':checked') ? 1 : 0;
             var pushovertoken = escapeHTML($(this).parent().find('.pushovertoken').val());
             var pushoveruser = escapeHTML($(this).parent().find('.pushoveruser').val());
             var mapbounds = phonetrack.map.getBounds();
-            addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, pushovertoken, pushoveruser);
+            addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, pushovertoken, pushoveruser, urlenterpost, urlleavepost);
         });
 
         $('body').on('click','.deletegeofencebutton', function(e) {
