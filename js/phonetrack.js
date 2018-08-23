@@ -2950,7 +2950,7 @@
                             stroke: true,
                             className: 'poly' + s + d,
                             opacity: 1,
-                            weight: parseInt(linewidth)
+                            weight: parseInt(linewidth * 0.6)
                         }
                     })
                 }]);
@@ -4624,7 +4624,7 @@
                                         stroke: true,
                                         className: 'poly' + s + d,
                                         opacity: 1,
-                                        weight: w
+                                        weight: parseInt(w * 0.6)
                                     }
                                 })
                             }]);
