@@ -199,6 +199,9 @@ echo '</p>'."\n";
 echo '<p id="lastposonly" style="display:none">';
 p($_['lastposonly']);
 echo '</p>'."\n";
+echo '<p id="sharefilters" style="display:none">';
+p($_['sharefilters']);
+echo '</p>'."\n";
 echo '<ul id="basetileservers" style="display:none">';
 foreach($_['basetileservers'] as $ts){
     echo '<li';

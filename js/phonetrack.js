@@ -5620,6 +5620,26 @@
             }
             phonetrack.token = token;
             phonetrack.lastposonly = $('#lastposonly').text();
+            // apply filters
+            phonetrack.sharefilters = $('#sharefilters').text();
+            var filtDict = $.parseJSON(phonetrack.sharefilters);
+            if (filtDict.hasOwnProperty('lastdays')) {
+                $('#filterPointsTable input[role=lastdays]').val(filtDict.lastdays);
+            }
+            if (filtDict.hasOwnProperty('lasthours')) {
+                $('#filterPointsTable input[role=lasthours]').val(filtDict.lasthours);
+            }
+            if (filtDict.hasOwnProperty('lastmins')) {
+                $('#filterPointsTable input[role=lastmins]').val(filtDict.lastmins);
+            }
+            if (   filtDict.hasOwnProperty('lastmins')
+                || filtDict.hasOwnProperty('lasthours')
+                || filtDict.hasOwnProperty('lastdays')
+            ) {
+                $('#applyfilters').prop('checked', true);
+                changeApplyFilter();
+            }
+
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
             addSession(token, name, publicviewtoken, null, [], true);

@@ -268,6 +268,7 @@ class PageController extends Controller {
             'useroverlayserverswms'=>$ossw,
             'publicsessionname'=>'',
             'lastposonly'=>'',
+            'sharefilters'=>'',
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);
@@ -2190,22 +2191,24 @@ class PageController extends Controller {
             }
             else {
                 // check if a public session has this publicviewtoken
-                $sqlchk = 'SELECT sessionid, sharetoken, lastposonly  FROM *PREFIX*phonetrack_pubshares ';
+                $sqlchk = 'SELECT sessionid, sharetoken, lastposonly, filters  FROM *PREFIX*phonetrack_pubshares ';
                 $sqlchk .= 'WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ';
                 $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
                 $dbtoken = null;
                 $dbpublic = null;
+                $filters = '';
                 while ($row = $req->fetch()){
                     $dbtoken = $row['sessionid'];
                     $lastposonly = $row['lastposonly'];
+                    $filters = $row['filters'];
                     break;
                 }
                 $req->closeCursor();
 
                 if ($dbtoken !== null) {
                     // we give publicWebLog the real session id but then, the share token is used in the JS
-                    return $this->publicWebLog($dbtoken, '', $lastposonly);
+                    return $this->publicWebLog($dbtoken, '', $lastposonly, $filters);
                 }
                 else {
                     return 'Session does not exist or is not public';
@@ -2224,7 +2227,7 @@ class PageController extends Controller {
      *
      * lastposonly is given to the page, it makes the page delete all points but the last for each device
      **/
-    public function publicWebLog($token, $devicename, $lastposonly=0) {
+    public function publicWebLog($token, $devicename, $lastposonly=0, $filters='') {
         if ($token !== '') {
             // check if session exists
             $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
@@ -2261,6 +2264,7 @@ class PageController extends Controller {
             'useroverlayserverswms'=>[],
             'publicsessionname'=>$dbname,
             'lastposonly'=>$lastposonly,
+            'sharefilters'=>$filters,
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);
@@ -2665,7 +2669,7 @@ class PageController extends Controller {
                 if ($lastTSset and (!isset($fArray['tsmin']) or $lastTS > $fArray['tsmin'])) {
                     $fArray['tsmin'] = $lastTS;
                 }
-                foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin'] as $k) {
+                foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays', 'lasthours', 'lastmins'] as $k) {
                     if (isset($f->{$k}) and $f->{$k} !== '') {
                         $fArray[$k] = intval($f->{$k});
                     }
