@@ -2264,46 +2264,8 @@
                     phonetrack.sessionLineLayers[s][d].clearLayers();
                     delete phonetrack.sessionDisplayedLatlngs[s][d];
                     phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
-                    for (i = 0; i < cutLines.length; i++) {
-                        if (linegradient) {
-                            coordsTmp = [];
-                            for (j=0; j < cutLines[i].length; j++) {
-                                coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
-                            }
-                            line = L.hotline(coordsTmp, {
-                                weight: linewidth,
-                                outlineWidth: 2,
-                                outlineColor: phonetrack.sessionColors[s + d],
-                                palette: {0.0: 'white', 1.0: 'black'},
-                                min: 0,
-                                max: cutLines[i].length-1
-                            });
-                        }
-                        else {
-                            line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
-                        }
-                        phonetrack.sessionLineLayers[s][d].addLayer(line);
 
-                        if (linearrow && cutLines[i].length > 1) {
-                            var arrows = L.polylineDecorator(line);
-                            arrows.setPatterns([{
-                                offset: 30,
-                                repeat: 100,
-                                symbol: L.Symbol.arrowHead({
-                                    pixelSize: 15 + linewidth,
-                                    polygon: false,
-                                    pathOptions: {
-                                        stroke: true,
-                                        className: 'poly' + s + d,
-                                        opacity: 1,
-                                        weight: parseInt(linewidth)
-                                    }
-                                })
-                            }]);
-                            phonetrack.sessionLineLayers[s][d].addLayer(arrows);
-                        }
-
-                    }
+                    drawLine(s, d, cutLines, linegradient, linewidth, linearrow);
 
                     // add line points from sessionPointsLayersById in sessionPointsLayers
                     for (id in phonetrack.sessionPointsLayersById[s][d]) {
@@ -2330,45 +2292,8 @@
                     phonetrack.sessionLineLayers[s][d].clearLayers();
                     delete phonetrack.sessionDisplayedLatlngs[s][d];
                     phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
-                    for (i = 0; i < cutLines.length; i++) {
-                        if (linegradient) {
-                            coordsTmp = [];
-                            for (j=0; j < cutLines[i].length; j++) {
-                                coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
-                            }
-                            line = L.hotline(coordsTmp, {
-                                weight: linewidth,
-                                outlineWidth: 2,
-                                outlineColor: phonetrack.sessionColors[s + d],
-                                palette: {0.0: 'white', 1.0: 'black'},
-                                min: 0,
-                                max: cutLines[i].length-1
-                            });
-                        }
-                        else {
-                            line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
-                        }
-                        phonetrack.sessionLineLayers[s][d].addLayer(line);
 
-                        if (linearrow && cutLines[i].length > 1) {
-                            var arrows = L.polylineDecorator(line);
-                            arrows.setPatterns([{
-                                offset: 30,
-                                repeat: 100,
-                                symbol: L.Symbol.arrowHead({
-                                    pixelSize: 15 + linewidth,
-                                    polygon: false,
-                                    pathOptions: {
-                                        stroke: true,
-                                        className: 'poly' + s + d,
-                                        opacity: 1,
-                                        weight: parseInt(linewidth)
-                                    }
-                                })
-                            }]);
-                            phonetrack.sessionLineLayers[s][d].addLayer(arrows);
-                        }
-                    }
+                    drawLine(s, d, cutLines, linegradient, linewidth, linearrow);
 
                     // filter sessionPointsLayers
                     phonetrack.sessionPointsLayers[s][d].clearLayers();
@@ -2715,10 +2640,10 @@
                 '<p>' + t('phonetrack', 'Zoom on geofencing area, then set values, then validate.') + '</p>' +
                 '<label for="urlenter'+s+d+'">' + t('phonetrack', 'URL to request when entering') + ' </label>' +
                 '<span> (POST <input type="checkbox" class="urlenterpost"/>)</span>' +
-                '<input type="text" id="urlenter'+s+d+'" class="urlenter"/><br/>' +
+                '<input type="text" id="urlenter'+s+d+'" class="urlenter" maxlength="500" /><br/>' +
                 '<label for="urlleave'+s+d+'">' + t('phonetrack', 'URL to request when leaving') + ' </label>' +
                 '<span> (POST <input type="checkbox" class="urlleavepost"/>)</span>' +
-                '<input type="text" id="urlleave'+s+d+'" class="urlleave"/>' +
+                '<input type="text" id="urlleave'+s+d+'" class="urlleave" maxlength="500" />' +
                 '<label for="pushovertoken'+s+d+'">' + t('phonetrack', 'Pushover API token') + ' </label>' +
                 '<input type="text" id="pushovertoken'+s+d+'" class="pushovertoken"/>' +
                 '<label for="pushoveruser'+s+d+'">' + t('phonetrack', 'Pushover API user') + ' </label>' +
@@ -2900,43 +2825,8 @@
                 phonetrack.sessionLineLayers[s] = {};
                 delete phonetrack.sessionDisplayedLatlngs[s][d];
                 phonetrack.sessionDisplayedLatlngs[s][d] = [displayedLatlngs];
-                if (linegradient) {
-                    coordsTmp = [];
-                    for (j=0; j < displayedLatlngs.length; j++) {
-                        coordsTmp.push([displayedLatlngs[j][0], displayedLatlngs[j][1], j]);
-                    }
-                    line = L.hotline(coordsTmp, {
-                        weight: linewidth,
-                        outlineWidth: 2,
-                        outlineColor: phonetrack.sessionColors[s + d],
-                        palette: {0.0: 'white', 1.0: 'black'},
-                        min: 0,
-                        max: displayedLatlngs.length-1
-                    });
-                }
-                else {
-                    line = L.polyline(displayedLatlngs, {weight: linewidth, className: 'poly' + s + d});
-                }
-                phonetrack.sessionLineLayers[s][d].addLayer(line);
 
-                if (linearrow && displayedLatlngs.length > 1) {
-                    var arrows = L.polylineDecorator(line);
-                    arrows.setPatterns([{
-                        offset: 30,
-                        repeat: 100,
-                        symbol: L.Symbol.arrowHead({
-                            pixelSize: 15 + linewidth,
-                            polygon: false,
-                            pathOptions: {
-                                stroke: true,
-                                className: 'poly' + s + d,
-                                opacity: 1,
-                                weight: parseInt(linewidth)
-                            }
-                        })
-                    }]);
-                    phonetrack.sessionLineLayers[s][d].addLayer(arrows);
-                }
+                drawLine(s, d, [displayedLatlngs], linegradient, linewidth, linearrow);
 
                 var radius = phonetrack.optionsValues.pointradius;
                 var icon = phonetrack.devicePointIcons[s][d];
@@ -2992,45 +2882,8 @@
             phonetrack.sessionLineLayers[s][d].clearLayers();
             delete phonetrack.sessionDisplayedLatlngs[s][d];
             phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
-            for (i = 0; i < cutLines.length; i++) {
-                if (linegradient) {
-                    coordsTmp = [];
-                    for (j=0; j < cutLines[i].length; j++) {
-                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
-                    }
-                    line = L.hotline(coordsTmp, {
-                        weight: linewidth,
-                        outlineWidth: 2,
-                        outlineColor: phonetrack.sessionColors[s + d],
-                        palette: {0.0: 'white', 1.0: 'black'},
-                        min: 0,
-                        max: cutLines[i].length-1
-                    });
-                }
-                else {
-                    line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
-                }
-                phonetrack.sessionLineLayers[s][d].addLayer(line);
 
-                if (linearrow && cutLines[i].length > 1) {
-                    var arrows = L.polylineDecorator(line);
-                    arrows.setPatterns([{
-                        offset: 30,
-                        repeat: 100,
-                        symbol: L.Symbol.arrowHead({
-                            pixelSize: 15 + linewidth,
-                            polygon: false,
-                            pathOptions: {
-                                stroke: true,
-                                className: 'poly' + s + d,
-                                opacity: 1,
-                                weight: parseInt(linewidth)
-                            }
-                        })
-                    }]);
-                    phonetrack.sessionLineLayers[s][d].addLayer(arrows);
-                }
-            }
+            drawLine(s, d, cutLines, linegradient, linewidth, linearrow);
 
             var radius = phonetrack.optionsValues.pointradius;
             var icon = phonetrack.devicePointIcons[s][d];
@@ -3058,6 +2911,50 @@
                         }
                     }
                 }
+            }
+        }
+    }
+
+    // draw lines for a device, with arrows and gradient if needed
+    function drawLine(s, d, linesCoords, linegradient, linewidth, linearrow) {
+        var line, i, j;
+        for (i = 0; i < linesCoords.length; i++) {
+            if (linegradient) {
+                var coordsTmp = [];
+                for (j=0; j < linesCoords[i].length; j++) {
+                    coordsTmp.push([linesCoords[i][j][0], linesCoords[i][j][1], j]);
+                }
+                line = L.hotline(coordsTmp, {
+                    weight: linewidth,
+                    outlineWidth: 2,
+                    outlineColor: phonetrack.sessionColors[s + d],
+                    palette: {0.0: 'white', 1.0: 'black'},
+                    min: 0,
+                    max: linesCoords[i].length-1
+                });
+            }
+            else {
+                line = L.polyline(linesCoords[i], {weight: linewidth, className: 'poly' + s + d});
+            }
+            phonetrack.sessionLineLayers[s][d].addLayer(line);
+
+            if (linearrow && linesCoords[i].length > 1) {
+                var arrows = L.polylineDecorator(line);
+                arrows.setPatterns([{
+                    offset: 30,
+                    repeat: 100,
+                    symbol: L.Symbol.arrowHead({
+                        pixelSize: 15 + linewidth,
+                        polygon: false,
+                        pathOptions: {
+                            stroke: true,
+                            className: 'poly' + s + d,
+                            opacity: 1,
+                            weight: parseInt(linewidth)
+                        }
+                    })
+                }]);
+                phonetrack.sessionLineLayers[s][d].addLayer(arrows);
             }
         }
     }
@@ -3229,47 +3126,10 @@
             var filteredlatlngs = filterList(newlatlngs, token, deviceid);
             cutLines = segmentLines(filteredlatlngs, token, deviceid);
             phonetrack.sessionLineLayers[token][deviceid].clearLayers();
-            delete phonetrack.sessionDisplayedLatlngs[s][d];
-            phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
-            for (i = 0; i < cutLines.length; i++) {
-                if (linegradient) {
-                    coordsTmp = [];
-                    for (j=0; j < cutLines[i].length; j++) {
-                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
-                    }
-                    line = L.hotline(coordsTmp, {
-                        weight: linewidth,
-                        outlineWidth: 2,
-                        outlineColor: phonetrack.sessionColors[token + deviceid],
-                        palette: {0.0: 'white', 1.0: 'black'},
-                        min: 0,
-                        max: cutLines[i].length-1
-                    });
-                }
-                else {
-                    line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
-                }
-                phonetrack.sessionLineLayers[token][deviceid].addLayer(line);
+            delete phonetrack.sessionDisplayedLatlngs[token][deviceid];
+            phonetrack.sessionDisplayedLatlngs[token][deviceid] = cutLines;
 
-                if (linearrow && cutLines[i].length > 1) {
-                    var arrows = L.polylineDecorator(line);
-                    arrows.setPatterns([{
-                        offset: 30,
-                        repeat: 100,
-                        symbol: L.Symbol.arrowHead({
-                            pixelSize: 15 + linewidth,
-                            polygon: false,
-                            pathOptions: {
-                                stroke: true,
-                                className: 'poly' + token + deviceid,
-                                opacity: 1,
-                                weight: parseInt(linewidth)
-                            }
-                        })
-                    }]);
-                    phonetrack.sessionLineLayers[token][deviceid].addLayer(arrows);
-                }
-            }
+            drawLine(token, deviceid, cutLines, linegradient, linewidth, linearrow);
 
             // lastTime is independent from filters
             phonetrack.lastTime[token][deviceid] =
@@ -3347,45 +3207,8 @@
         phonetrack.sessionLineLayers[s][d].clearLayers();
         delete phonetrack.sessionDisplayedLatlngs[s][d];
         phonetrack.sessionDisplayedLatlngs[s][d] = cutLines;
-        for (i = 0; i < cutLines.length; i++) {
-            if (linegradient) {
-                coordsTmp = [];
-                for (j=0; j < cutLines[i].length; j++) {
-                    coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
-                }
-                line = L.hotline(coordsTmp, {
-                    weight: linewidth,
-                    outlineWidth: 2,
-                    outlineColor: phonetrack.sessionColors[s + d],
-                    palette: {0.0: 'white', 1.0: 'black'},
-                    min: 0,
-                    max: cutLines[i].length-1
-                });
-            }
-            else {
-                line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + s + d});
-            }
-            phonetrack.sessionLineLayers[s][d].addLayer(line);
 
-            if (linearrow && cutLines[i].length > 1) {
-                var arrows = L.polylineDecorator(line);
-                arrows.setPatterns([{
-                    offset: 30,
-                    repeat: 100,
-                    symbol: L.Symbol.arrowHead({
-                        pixelSize: 15 + linewidth,
-                        polygon: false,
-                        pathOptions: {
-                            stroke: true,
-                            className: 'poly' + s + d,
-                            opacity: 1,
-                            weight: parseInt(linewidth)
-                        }
-                    })
-                }]);
-                phonetrack.sessionLineLayers[s][d].addLayer(arrows);
-            }
-        }
+        drawLine(s, d, cutLines, linegradient, linewidth, linearrow);
 
         updateMarker(s, d, sn);
 
@@ -3543,45 +3366,8 @@
             phonetrack.sessionLineLayers[token][deviceid].clearLayers();
             delete phonetrack.sessionDisplayedLatlngs[token][deviceid];
             phonetrack.sessionDisplayedLatlngs[token][deviceid] = cutLines;
-            for (i = 0; i < cutLines.length; i++) {
-                if (linegradient) {
-                    coordsTmp = [];
-                    for (j=0; j < cutLines[i].length; j++) {
-                        coordsTmp.push([cutLines[i][j][0], cutLines[i][j][1], j]);
-                    }
-                    line = L.hotline(coordsTmp, {
-                        weight: linewidth,
-                        outlineWidth: 2,
-                        outlineColor: phonetrack.sessionColors[token + deviceid],
-                        palette: {0.0: 'white', 1.0: 'black'},
-                        min: 0,
-                        max: cutLines[i].length-1
-                    });
-                }
-                else {
-                    line = L.polyline(cutLines[i], {weight: linewidth, className: 'poly' + token + deviceid});
-                }
-                phonetrack.sessionLineLayers[token][deviceid].addLayer(line);
 
-                if (linearrow && cutLines[i].length > 1) {
-                    var arrows = L.polylineDecorator(line);
-                    arrows.setPatterns([{
-                        offset: 30,
-                        repeat: 100,
-                        symbol: L.Symbol.arrowHead({
-                            pixelSize: 15 + linewidth,
-                            polygon: false,
-                            pathOptions: {
-                                stroke: true,
-                                className: 'poly' + token + deviceid,
-                                opacity: 1,
-                                weight: parseInt(linewidth)
-                            }
-                        })
-                    }]);
-                    phonetrack.sessionLineLayers[token][deviceid].addLayer(arrows);
-                }
-            }
+            drawLine(token, deviceid, cutLines, linegradient, linewidth, linearrow);
 
             // update lastTime
             phonetrack.lastTime[token][deviceid] =
