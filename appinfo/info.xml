@@ -4,7 +4,6 @@
     <name>PhoneTrack</name>
     <summary lang="en">Display phones positions in real time</summary>
     <description>
-# PhoneTrack Owncloud application
 # PhoneTrack Nextcloud application
 
 PhoneTrack is an app to track positions of mobile devices
@@ -39,12 +38,9 @@ On PhoneTrack main page, while watching a session, you can :
 
 Public page works like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
-This app is tested with Owncloud 10 with Firefox 57+ and Chromium.
-This app is tested with Nextcloud 12 and 13 with Firefox 57+ and Chromium.
+This app is tested with Nextcloud 14 with Firefox 57+ and Chromium.
 
 This app is under development.
-
-Link to Owncloud application website : https://marketplace.owncloud.com/apps/phonetrack
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack
 

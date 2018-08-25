@@ -6,6 +6,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.3.1 – 2018-08-25
+### Added
+- show other devices in session (only public ones) as owntrack friends
+- add link to graphhopper, OSRM and OpenRouteService to get routing information to a device
+[#120](https://gitlab.com/eneiluj/phonetrack-oc/issues/120) @jookk
+- add geofence notification options : pushover and HTTP POST
+[#118](https://gitlab.com/eneiluj/phonetrack-oc/issues/118) @Brakelmann
+- compatibility with Nextcloud 14
+[#125](https://gitlab.com/eneiluj/phonetrack-oc/issues/125) @eneiluj
+- new feature : set device name alias
+[#116](https://gitlab.com/eneiluj/phonetrack-oc/issues/116) @stevenhorner
+- add option to display arrows along lines
+[#99](https://gitlab.com/eneiluj/phonetrack-oc/issues/99) @kaistian
+
+### Changed
+- make CI more generic
+- get speed and bearing from Ulogger
+[#112](https://gitlab.com/eneiluj/phonetrack-oc/issues/112) @Tux12Fun
+- move auto purge AFTER auto export
+[#109](https://gitlab.com/eneiluj/phonetrack-oc/issues/109) @NoName805
+- upgrade fontawesome
+- make some public share filters dynamic (lastdays, lasthours and lastmins)
+[#104](https://gitlab.com/eneiluj/phonetrack-oc/issues/104) @eghetto
+
+### Fixed
+- fix marker update when all device point timestamps are 0
+- Fix time-conversion from ms to s on 32-bit systems
+- Add speed and bearing to OsmAnd
+[#123](https://gitlab.com/eneiluj/phonetrack-oc/issues/123) @Mamie
+- fix huge bug, missing point ids in gradient (hot)line coordinates
+[#99](https://gitlab.com/eneiluj/phonetrack-oc/issues/99) @kaistian
+
 ## 0.2.8 – 2018-05-21
 ### Added
 - options to cut device lines when point are too far (distance or time)

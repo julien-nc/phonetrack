@@ -1,4 +1,4 @@
-# PhoneTrack ownCloud/Nextcloud application
+# PhoneTrack Nextcloud application
 
 [![Build status](https://gitlab.com/eneiluj/phonetrack-oc/badges/master/build.svg)](https://gitlab.com/eneiluj/phonetrack-oc/commits/master)
 [![coverage report](https://gitlab.com/eneiluj/phonetrack-oc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/phonetrack-oc/coverage/)
@@ -36,11 +36,9 @@ On PhoneTrack main page, while watching a session, you can :
 
 Public page works like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
-This app is tested with Owncloud 10/Nextcloud 12 and 13 with Firefox 57+ and Chromium.
+This app is tested with Nextcloud 14 with Firefox 57+ and Chromium.
 
 This app is under development.
-
-Link to Owncloud application website : https://marketplace.owncloud.com/apps/phonetrack
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack
 
