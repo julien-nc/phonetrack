@@ -3466,33 +3466,38 @@
             pointtooltip = pointtooltip + '<br/>' +
                 mom.format('YYYY-MM-DD HH:mm:ss (Z)');
         }
-        if ($('#tooltipshowelevation').is(':checked') && !isNaN(entry.altitude)) {
+        if ($('#tooltipshowelevation').is(':checked') && !isNaN(entry.altitude) && entry.altitude !== null) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Altitude') + ' : ' + parseFloat(entry.altitude).toFixed(2) + 'm';
         }
-        if ($('#tooltipshowaccuracy').is(':checked') && !isNaN(entry.accuracy) && parseFloat(entry.accuracy) >= 0) {
+        if ($('#tooltipshowaccuracy').is(':checked') && !isNaN(entry.accuracy) && entry.accuracy !== null
+            && parseFloat(entry.accuracy) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Precision') + ' : ' + entry.accuracy + 'm';
         }
-        if ($('#tooltipshowspeed').is(':checked') && !isNaN(entry.speed) && parseFloat(entry.speed) >= 0) {
+        if ($('#tooltipshowspeed').is(':checked') && !isNaN(entry.speed) && entry.speed !== null
+            && parseFloat(entry.speed) >= 0) {
             var speed_kmph = parseFloat(entry.speed) * 3.6;
             speed_kmph = speed_kmph.toFixed(3);
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Speed') + ' : ' + speed_kmph + 'km/h';
         }
-        if ($('#tooltipshowbearing').is(':checked') && !isNaN(entry.bearing) && parseFloat(entry.bearing) >= 0 && parseFloat(entry.bearing) <= 360) {
+        if ($('#tooltipshowbearing').is(':checked') && !isNaN(entry.bearing) && entry.bearing !== null
+            && parseFloat(entry.bearing) >= 0 && parseFloat(entry.bearing) <= 360) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Bearing') + ' : ' + entry.bearing + '°';
         }
-        if ($('#tooltipshowsatellites').is(':checked') && !isNaN(entry.satellites) && parseInt(entry.satellites) >= 0) {
+        if ($('#tooltipshowsatellites').is(':checked') && !isNaN(entry.satellites) && entry.satellites !== null
+            && parseInt(entry.satellites) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Satellites') + ' : ' + entry.satellites;
         }
-        if ($('#tooltipshowbattery').is(':checked') && !isNaN(entry.batterylevel) && parseFloat(entry.batterylevel) >= 0) {
+        if ($('#tooltipshowbattery').is(':checked') && !isNaN(entry.batterylevel) && entry.batterylevel !== null
+            && parseFloat(entry.batterylevel) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Battery') + ' : ' + entry.batterylevel + '%';
         }
-        if ($('#tooltipshowuseragent').is(':checked') && entry.useragent !== '' && entry.useragent !== 'nothing') {
+        if ($('#tooltipshowuseragent').is(':checked') && entry.useragent !== '' && entry.useragent !== null && entry.useragent !== 'nothing') {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'User-agent') + ' : ' + escapeHTML(entry.useragent);
         }
