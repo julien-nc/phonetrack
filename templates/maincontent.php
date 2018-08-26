@@ -78,6 +78,11 @@ p($_['phonetrack_version']);
             <div id="countdown"></div>
             <button id="refreshButton"><i class="fa fa-sync-alt" aria-hidden="true"></i> <?php p($l->t('Refresh')); ?></button>
             <br/>
+            <div title="<?php p($l->t('An empty value means no limit')); ?>">
+            <label for="nbpointsload"><i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+            <?php p($l->t('Max number of points per device to load on refresh'));?></label>
+            <input id="nbpointsload" type="number" min="1" max="400000000" step="1" value="1000"/> <?php p($l->t('points')); ?>
+            </div>
             <div title="<?php p($l->t('Cutting lines only affects map view and stats table')); ?>">
             <label for="cutdistance"><i class="fa fa-cut" aria-hidden="true"></i>
             <?php p($l->t('Minimum distance to cut between two points'));?></label>

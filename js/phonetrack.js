@@ -1010,6 +1010,9 @@
                 if (optionsValues.autoexportpath !== undefined) {
                     $('#autoexportpath').val(optionsValues.autoexportpath);
                 }
+                if (optionsValues.nbpointsload !== undefined) {
+                    $('#nbpointsload').val(optionsValues.nbpointsload);
+                }
                 if (optionsValues.cutdistance !== undefined) {
                     $('#cutdistance').val(optionsValues.cutdistance);
                 }
@@ -1124,6 +1127,7 @@
         optionsValues.linewidth = $('#linewidth').val();
         optionsValues.colortheme = $('#colorthemeselect').val();
         optionsValues.pointlinealpha = $('#pointlinealpha').val();
+        optionsValues.nbpointsload = $('#nbpointsload').val();
         optionsValues.cutdistance = $('#cutdistance').val();
         optionsValues.cuttime = $('#cuttime').val();
         optionsValues.pointradius = $('#pointradius').val();
@@ -4684,6 +4688,11 @@
             changeApplyFilter();
         });
 
+        $('#nbpointsload').change(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
+        });
 
         $('#dragcheck').click(function() {
             if (!pageIsPublic()) {
@@ -5622,7 +5631,7 @@
             phonetrack.lastposonly = $('#lastposonly').text();
             // apply filters
             phonetrack.sharefilters = $('#sharefilters').text();
-            var filtDict = $.parseJSON(phonetrack.sharefilters);
+            var filtDict = $.parseJSON(phonetrack.sharefilters) || {};
             if (filtDict.hasOwnProperty('lastdays')) {
                 $('#filterPointsTable input[role=lastdays]').val(filtDict.lastdays);
             }

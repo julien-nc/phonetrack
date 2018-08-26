@@ -379,11 +379,13 @@ div.session p,
     border: 0px;
     background: none;
 }
+label[for=nbpointsload],
 label[for=cuttime],
 label[for=cutdistance] {
     width: 50%;
     display: inline-block;
 }
+#nbpointsload,
 #cutdistance,
 #cuttime,
 #linewidth,

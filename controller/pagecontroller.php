@@ -1713,12 +1713,20 @@ class PageController extends Controller {
                             $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
                             $sqlget .= $firstLastSQL;
                             $sqlget .= $settingsTimeFilterSQL;
+                            // get max number of points to load
+                            $nbpointsload = null;
+                            if (isset($options['nbpointsload']) and is_numeric($options['nbpointsload'])) {
+                                $nbpointsload = intval($options['nbpointsload']);
+                            }
                             // are lines or points asked ? if not, just get the last
                             if (! $this->deviceLinesOrPointsAsked($token, $devid, $options)) {
                                 $sqlget .= 'ORDER BY timestamp DESC LIMIT 1';
                             }
+                            else if ($nbpointsload !== null) {
+                                $sqlget .= 'ORDER BY timestamp DESC LIMIT '.$nbpointsload;
+                            }
                             else {
-                                $sqlget .= 'ORDER BY timestamp ASC';
+                                $sqlget .= 'ORDER BY timestamp DESC';
                             }
                             $req = $this->dbconnection->prepare($sqlget);
                             $req->execute();
@@ -1736,7 +1744,7 @@ class PageController extends Controller {
                                     is_numeric($row['speed']) ? floatval($row['speed']) : null,
                                     is_numeric($row['bearing']) ? floatval($row['bearing']) : null
                                 );
-                                array_push($resultDevArray, $entry);
+                                array_unshift($resultDevArray, $entry);
                             }
                             $req->closeCursor();
                             if (count($resultDevArray) > 0) {
@@ -1805,6 +1813,7 @@ class PageController extends Controller {
             $token = $session[0];
             if ($this->isSessionPublic($token)) {
                 $lastTime = $session[1];
+                $firstTime = $session[2];
 
                 // check if session exists
                 $dbtoken = null;
@@ -1835,9 +1844,31 @@ class PageController extends Controller {
 
                     foreach ($devices as $devid) {
                         $resultDevArray = array();
+
+                        $firstDeviceTimeSQL = '';
+                        if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
+                            $firstDeviceTime = $firstTime[$devid];
+                            $firstDeviceTimeSQL = 'timestamp<'.$this->db_quote_escape_string($firstDeviceTime);
+                        }
+
                         $lastDeviceTime = 0;
+                        $lastDeviceTimeSQL = '';
                         if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
                             $lastDeviceTime = $lastTime[$devid];
+                            $lastDeviceTimeSQL = 'timestamp>'.$this->db_quote_escape_string($lastDeviceTime);
+                        }
+                        // build SQL condition for first/last
+                        $firstLastSQL = '';
+                        if ($firstDeviceTimeSQL !== '') {
+                            if ($lastDeviceTimeSQL !== '') {
+                                $firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
+                            }
+                            else {
+                                $firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
+                            }
+                        }
+                        else if ($lastDeviceTimeSQL !== '') {
+                            $firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
                         }
                         // we give color (first point given)
                         else {
@@ -1871,8 +1902,8 @@ class PageController extends Controller {
                         $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
                         $sqlget .= ' altitude, batterylevel, useragent, speed, bearing FROM *PREFIX*phonetrack_points ';
                         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-                        $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
-                        $sqlget .= 'ORDER BY timestamp ASC';
+                        $sqlget .= $firstLastSQL;
+                        $sqlget .= 'ORDER BY timestamp DESC LIMIT 1000';
                         $req = $this->dbconnection->prepare($sqlget);
                         $req->execute();
                         while ($row = $req->fetch()){
@@ -1889,7 +1920,7 @@ class PageController extends Controller {
                                 is_numeric($row['speed']) ? floatval($row['speed']) : null,
                                 is_numeric($row['bearing']) ? floatval($row['bearing']) : null
                             );
-                            array_push($resultDevArray, $entry);
+                            array_unshift($resultDevArray, $entry);
                         }
                         $req->closeCursor();
                         if (count($resultDevArray) > 0) {
@@ -1939,6 +1970,7 @@ class PageController extends Controller {
         foreach ($sessions as $session) {
             $publicviewtoken = $session[0];
             $lastTime = $session[1];
+            $firstTime = $session[2];
             $lastposonly = 0;
             $geofencify = 0;
 
@@ -2001,9 +2033,31 @@ class PageController extends Controller {
 
                 foreach ($devices as $devid) {
                     $resultDevArray = array();
+
+                    $firstDeviceTimeSQL = '';
+                    if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
+                        $firstDeviceTime = $firstTime[$devid];
+                        $firstDeviceTimeSQL = 'timestamp<'.$this->db_quote_escape_string($firstDeviceTime);
+                    }
+
                     $lastDeviceTime = 0;
+                    $lastDeviceTimeSQL = '';
                     if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
                         $lastDeviceTime = $lastTime[$devid];
+                        $lastDeviceTimeSQL = 'timestamp>'.$this->db_quote_escape_string($lastDeviceTime);
+                    }
+                    // build SQL condition for first/last
+                    $firstLastSQL = '';
+                    if ($firstDeviceTimeSQL !== '') {
+                        if ($lastDeviceTimeSQL !== '') {
+                            $firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
+                        }
+                        else {
+                            $firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
+                        }
+                    }
+                    else if ($lastDeviceTimeSQL !== '') {
+                        $firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
                     }
                     // we give color (first point given)
                     else {
@@ -2038,9 +2092,9 @@ class PageController extends Controller {
                     $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites, ';
                     $sqlget .= 'altitude, batterylevel, useragent, speed, bearing FROM *PREFIX*phonetrack_points ';
                     $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-                    $sqlget .= 'AND timestamp>'.$this->db_quote_escape_string($lastDeviceTime).' ';
+                    $sqlget .= $firstLastSQL;
                     if (intval($lastposonly) === 0) {
-                        $sqlget .= 'ORDER BY timestamp ASC ;';
+                        $sqlget .= 'ORDER BY timestamp DESC LIMIT 1000 ;';
                     }
                     else {
                         $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
@@ -2062,7 +2116,7 @@ class PageController extends Controller {
                                 is_numeric($row['speed']) ? floatval($row['speed']) : null,
                                 is_numeric($row['bearing']) ? floatval($row['bearing']) : null
                             );
-                            array_push($resultDevArray, $entry);
+                            array_unshift($resultDevArray, $entry);
                         }
                     }
                     $req->closeCursor();
