@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- add option to set max number of points to load per device on refresh
+[#107](https://gitlab.com/eneiluj/phonetrack-oc/issues/107) @e-alfred
+
+### Fixed
+- fix NaN displayed in tooltip when values are not set
 
 ## 0.3.1 – 2018-08-25
 ### Added
