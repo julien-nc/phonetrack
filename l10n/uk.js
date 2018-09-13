@@ -52,8 +52,11 @@ OC.L10N.register(
     "Rename this device" : "Перейменувати цей пристрій",
     "Move to another session" : "Перемістити до іншої сесії",
     "Ok" : "Ок",
+    "Add zone" : "Додати регіон",
     "Toggle lines" : "Відобразити лінії сітки",
     "Center map on device" : "Відцентрувати карту на пристрої",
-    "Follow this device (autozoom)" : "Слідувати за цим пристроєм (autozoom)"
+    "Follow this device (autozoom)" : "Слідувати за цим пристроєм (autozoom)",
+    "User does not exist" : "Користувача не існує",
+    "Authors" : "Автори"
 },
 "nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: uk");
