@@ -510,6 +510,7 @@ ul.devicelist {
     margin-left: 4px !important;
 }
 .toggleLineDevice,
+.toggleAutoZoomDevice,
 .toggleDetail,
 .toggleGeofences,
 .zoomdevicebutton,
@@ -753,8 +754,20 @@ label[for=viewmove] i {
     mask: url('images/network.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
 }
-.toggleLineDevice.off:hover {
+.toggleGeofences:hover,
+.toggleLineDevice.off:hover,
+.toggleAutoZoomDevice.off:hover {
     background-color: black;
+}
+.toggleAutoZoomDevice {
+    width: 25px;
+    height: 25px;
+    margin-left: 4px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: grey;
+    mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
+    -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
 }
 .geofencesDiv {
     clear: both;

@@ -1165,7 +1165,7 @@
                 optionsValues.activeSessions[s] = {};
                 $(this).find('.devicelist li').each(function() {
                     d = $(this).attr('device');
-                    zoom = $(this).find('.followdevice').is(':checked');
+                    zoom = $(this).find('.toggleAutoZoomDevice').hasClass('on');
                     line = $(this).find('.toggleLineDevice').hasClass('on');
                     point = $(this).find('.toggleDetail').hasClass('on');
                     optionsValues.activeSessions[s][d] = {
@@ -2674,10 +2674,14 @@
             'token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle lines') + '">' +
             '</button>';
-        var followchecked = '';
+        var zoomOnOff = 'off';
         if (zoom) {
-            followchecked = ' checked';
+            zoomOnOff = 'on nc-theming-main-background';
         }
+        var autoZoomLink = ' <button class="toggleAutoZoomDevice ' + zoomOnOff + '" ' +
+            'token="' + s + '" device="' + d + '" ' +
+            'title="' + t('phonetrack', 'Follow this device (autozoom)') + '">' +
+            '</button>';
         var nameLabelTxt;
         if (alias !== null && alias !== '') {
             nameLabelTxt = alias + ' (' + name + ')';
@@ -2696,14 +2700,13 @@
                 dropdowndevicebutton +
                 dropdowndevicecontent +
                 reaffectSelect +
+                geofencesLink +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
-                geofencesLink +
+                autoZoomLink +
                 detailLink +
                 lineDeviceLink +
-                '<input class="followdevice"' + followchecked + ' type="checkbox" ' + 'title="' +
-                t('phonetrack', 'Follow this device (autozoom)') + '"/>' +
                 '</div><div style="clear: both;"></div>' +
                 geofencesDiv +
                 '</li>');
@@ -3590,12 +3593,12 @@
         // first we check if there are devices selected for zoom
         var devicesToFollow = {};
         var nbDevicesToFollow = 0
-        $('.followdevice:checked').each(function() {
+        $('.toggleAutoZoomDevice.on').each(function() {
             // we only take those for session which are watched
             var viewSessionCheck = $(this).parent().parent().parent().parent().find('.watchbutton i');
             if (viewSessionCheck.hasClass('fa-toggle-on')) {
-                var token = $(this).parent().parent().parent().attr('token');
-                var device = $(this).parent().parent().attr('device');
+                var token = $(this).attr('token');
+                var device = $(this).attr('device');
                 if (!devicesToFollow.hasOwnProperty(token)) {
                     devicesToFollow[token] = [];
                 }
@@ -3777,6 +3780,15 @@
         }
     }
 
+    function toggleAutoZoomDevice(elem) {
+        if (elem.hasClass('on')) {
+            elem.addClass('off').removeClass('on nc-theming-main-background');
+        }
+        else {
+            elem.addClass('on nc-theming-main-background').removeClass('off');
+        }
+    }
+
     function toggleLineDevice(elem) {
         var viewmove = $('#viewmove').is(':checked');
         var d = elem.parent().parent().attr('device');
@@ -3802,7 +3814,6 @@
                 elem.addClass('on nc-theming-main-background').removeClass('off');
             }
         }
-
     }
 
     function toggleDetailDevice(elem) {
@@ -4802,7 +4813,8 @@
             }
         });
 
-        $('body').on('click', 'ul.devicelist li .followdevice', function(e) {
+        $('body').on('click', 'ul.devicelist li .toggleAutoZoomDevice', function(e) {
+            toggleAutoZoomDevice($(this));
             if (!pageIsPublic()) {
                 saveOptions();
             }
