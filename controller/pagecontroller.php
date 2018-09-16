@@ -1692,7 +1692,7 @@ class PageController extends Controller {
                                     $geofences[$token][$devid] = array();
                                 }
                                 $sqlfences = 'SELECT id, name, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
-                                $sqlfences .= 'pushovertoken, pushoveruser, urlenterpost, urlleavepost ';
+                                $sqlfences .= 'urlenterpost, urlleavepost ';
                                 $sqlfences .= 'FROM *PREFIX*phonetrack_geofences ';
                                 $sqlfences .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
                                 $req = $this->dbconnection->prepare($sqlfences);
@@ -3344,7 +3344,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      */
     public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax,
-                                $urlenter, $urlleave, $pushovertoken, $pushoveruser, $urlenterpost, $urlleavepost) {
+                                $urlenter, $urlleave, $urlenterpost, $urlleavepost) {
         $ok = 0;
         $fenceid = null;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
@@ -3365,7 +3365,7 @@ class PageController extends Controller {
                 // insert
                 $sql = 'INSERT INTO *PREFIX*phonetrack_geofences';
                 $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
-                $sql .= 'pushovertoken, pushoveruser, urlenterpost, urlleavepost) ';
+                $sql .= 'urlenterpost, urlleavepost) ';
                 $sql .= 'VALUES (';
                 $sql .= $this->db_quote_escape_string($fencename).',';
                 $sql .= $this->db_quote_escape_string($device).',';
@@ -3375,8 +3375,6 @@ class PageController extends Controller {
                 $sql .= $this->db_quote_escape_string(floatval($lonmax)).',';
                 $sql .= $this->db_quote_escape_string($urlenter).',';
                 $sql .= $this->db_quote_escape_string($urlleave).',';
-                $sql .= $this->db_quote_escape_string($pushovertoken).',';
-                $sql .= $this->db_quote_escape_string($pushoveruser).',';
                 $sql .= $this->db_quote_escape_string(intval($urlenterpost)).',';
                 $sql .= $this->db_quote_escape_string(intval($urlleavepost));
                 $sql .= ');';
