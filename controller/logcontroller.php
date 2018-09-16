@@ -149,7 +149,7 @@ class LogController extends Controller {
 
     private function getDeviceFences($devid) {
         $fences = array();
-        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave, pushovertoken, pushoveruser, urlenterpost, urlleavepost';
+        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave, urlenterpost, urlleavepost, sendemail';
         $sqlget .= ' FROM *PREFIX*phonetrack_geofences ';
         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -177,8 +177,7 @@ class LogController extends Controller {
         $urlleave = $fence['urlleave'];
         $urlenterpost = intval($fence['urlenterpost']);
         $urlleavepost = intval($fence['urlleavepost']);
-        $pushovertoken = $fence['pushovertoken'];
-        $pushoveruser = $fence['pushoveruser'];
+        $sendemail = intval($fence['sendemail']);
         $fencename = $fence['name'];
 
         // first point of this device
@@ -205,7 +204,7 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address');
                     $mailFromD = $this->config->getSystemValue('mail_domain');
 
-                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail) and $sendemail !== 0) {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
                         $mailer = \OC::$server->getMailer();
@@ -239,24 +238,6 @@ class LogController extends Controller {
                             $result = file_get_contents($url, false, $context);
                         }
                     }
-                    // pusover API management
-                    if ($pushovertoken !== '' and $pushoveruser !== '') {
-                        $url = 'https://api.pushover.net/1/messages.json';
-                        $data = array(
-                            'token' => $pushovertoken,
-                            'user' => $pushoveruser,
-                            'message' => $this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename))
-                        );
-                        $options = array(
-                            'http' => array(
-                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                                'method'  => 'POST',
-                                'content' => http_build_query($data)
-                            )
-                        );
-                        $context  = stream_context_create($options);
-                        $result = file_get_contents($url, false, $context);
-                    }
                 }
             }
             // previous point in fence
@@ -269,7 +250,7 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address');
                     $mailFromD = $this->config->getSystemValue('mail_domain');
 
-                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail) and $sendemail !== 0) {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
                         $mailer = \OC::$server->getMailer();
@@ -302,24 +283,6 @@ class LogController extends Controller {
                             $context  = stream_context_create($options);
                             $result = file_get_contents($url, false, $context);
                         }
-                    }
-                    // pusover API management
-                    if ($pushovertoken !== '' and $pushoveruser !== '') {
-                        $url = 'https://api.pushover.net/1/messages.json';
-                        $data = array(
-                            'token' => $pushovertoken,
-                            'user' => $pushoveruser,
-                            'message' => $this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename))
-                        );
-                        $options = array(
-                            'http' => array(
-                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                                'method'  => 'POST',
-                                'content' => http_build_query($data)
-                            )
-                        );
-                        $context  = stream_context_create($options);
-                        $result = file_get_contents($url, false, $context);
                     }
                 }
             }
