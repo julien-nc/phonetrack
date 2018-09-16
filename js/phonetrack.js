@@ -2643,7 +2643,7 @@
                 '<div class="addgeofencediv">' +
                 '<p>' + t('phonetrack', 'Zoom on geofencing area, then set values, then validate.') + '</p>' +
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + '</label> ' +
-                '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'"/><br/>' +
+                '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
                 '<label for="urlenter'+s+d+'">' + t('phonetrack', 'URL to request when entering') + ' </label>' +
                 '<span> (POST <input type="checkbox" class="urlenterpost"/>)</span>' +
                 '<input type="text" id="urlenter'+s+d+'" class="urlenter" maxlength="500" /><br/>' +
