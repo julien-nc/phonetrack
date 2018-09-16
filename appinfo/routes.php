@@ -26,7 +26,7 @@ return [
         ['name' => 'page#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],
         ['name' => 'page#deletePoints', 'url' => '/deletePoints', 'verb' => 'POST'],
         ['name' => 'page#updatePoint', 'url' => '/updatePoint', 'verb' => 'POST'],
-        ['name' => 'page#addPoint', 'url' => '/addPoint', 'verb' => 'POST'],
+        ['name' => 'log#addPoint', 'url' => '/addPoint', 'verb' => 'POST'],
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
         ['name' => 'page#APIgetLastPositions', 'url' => '/APIgetLastPositions/{sessionid}', 'verb' => 'GET'],
         ['name' => 'page#importSession', 'url' => '/importSession', 'verb' => 'POST'],

@@ -291,6 +291,69 @@ class LogController extends Controller {
 
     /**
      * @NoAdminRequired
+     */
+    public function addPoint($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing) {
+        $done = 0;
+        $dbid = null;
+        $dbdevid = null;
+        if ($token !== '' and $devicename !== '') {
+            $logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
+            if ($logres['done'] === 1) {
+                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+                $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                $sqlchk .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+                $req = $this->dbconnection->prepare($sqlchk);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbdevid = $row['id'];
+                    break;
+                }
+                $req->closeCursor();
+
+                if ($dbdevid !== null) {
+                    $sqlchk = 'SELECT MAX(id) as maxid FROM *PREFIX*phonetrack_points ';
+                    $sqlchk .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdevid).' ';
+                    $sqlchk .= 'AND lat='.$this->db_quote_escape_string($lat).' ';
+                    $sqlchk .= 'AND lon='.$this->db_quote_escape_string($lon).' ';
+                    $sqlchk .= 'AND timestamp='.$this->db_quote_escape_string($timestamp).' ';
+                    $req = $this->dbconnection->prepare($sqlchk);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $dbid = $row['maxid'];
+                        break;
+                    }
+                    $req->closeCursor();
+                    $done = 1;
+                }
+                else {
+                    $done = 4;
+                }
+            }
+            else {
+                $done = 3;
+            }
+        }
+        else {
+            $done = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$done,
+                'pointid'=>$dbid,
+                'deviceid'=>$dbdevid
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
      *
@@ -298,6 +361,7 @@ class LogController extends Controller {
      *
      **/
     public function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed=null, $bearing=null) {
+        $res = ['done'=>0, 'friends'=>[]];
         // TODO insert speed and bearing in m/s and degrees
         if (!is_null($devicename) and $devicename !== '' and
             !is_null($token) and $token !== '' and
@@ -431,6 +495,8 @@ class LogController extends Controller {
                 $req->execute();
                 $req->closeCursor();
 
+                $res['done'] = 1;
+
                 if ($isPublicSession && $useragent === self::LOG_OWNTRACKS) {
                     $friendSQL  = '
                         SELECT p.`deviceid`, `nametoken`, `name`, `lat`, `lon`,
@@ -495,11 +561,11 @@ class LogController extends Controller {
                             'name' => $row['name'],
                         ];
                     }
-                    return $result;
+                    $res['friends'] = $result;
                 }
             }
         }
-        return [];
+        return $res;
     }
 
     /**
@@ -567,7 +633,8 @@ class LogController extends Controller {
      **/
     public function logOwntracks($token, $devicename='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
         $dname = $this->chooseDeviceName($devicename, $tid);
-        return $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
+        $res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
+        return $res['friends'];
     }
 
     /**
