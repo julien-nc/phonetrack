@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add option to set max number of points to load per device on refresh
 [#107](https://gitlab.com/eneiluj/phonetrack-oc/issues/107) @e-alfred
 
+### Changed
+- remove pushover support (already possible with POST URL)
+[#118](https://gitlab.com/eneiluj/phonetrack-oc/issues/118) @Brakelmann
+- make CI use NC14
+- make geofencing email notification optional
+[#136](https://gitlab.com/eneiluj/phonetrack-oc/issues/136) @abmurski
+- manual point adding now also triggers geofencing events
+[#136](https://gitlab.com/eneiluj/phonetrack-oc/issues/136) @abmurski
+- change device autozoom checkbox into an icon
+- change routing icons
+
 ### Fixed
 - fix NaN displayed in tooltip when values are not set
 
