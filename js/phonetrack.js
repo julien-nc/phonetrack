@@ -2603,11 +2603,11 @@
         var dropdowndevicebutton = '';
         var dropdowndevicecontent = '';
         routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">' +
-            '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'Graphhopper'}) + '</button>';
+            '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'Graphhopper'}) + '</button>';
         routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">' +
-            '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'Osrm'}) + '</button>';
+            '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'Osrm'}) + '</button>';
         routingOrsLink = ' <button class="routingOrsDevice" token="' + s + '" device="' + d + '">' +
-            '<i class="fa fa-map-pin" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'OpenRouteService'}) + '</button>';
+            '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'OpenRouteService'}) + '</button>';
         dropdowndevicebutton = '<button class="dropdowndevicebutton" title="'+t('phonetrack', 'More actions')+'">' +
             '<i class="fa fa-bars" aria-hidden="true"></i></button>';
         if (!pageIsPublic() && !isSessionShared(s)) {
