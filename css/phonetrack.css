@@ -407,6 +407,11 @@ input[role=precision] {
 }
 #filterPointsTable {
     width: 100%;
+    border-radius: 7px;
+	padding: 5px;/*dodane*/
+}
+#filterPointsTable td {
+	padding: 5px;/*dodane*/
 }
 #filterPointsTable input[type=number].time {
     width: 44px !important;
@@ -838,9 +843,6 @@ input[role=lastposonly] {
     text-align: left !important;
     font-size: 10px;
     line-height: normal;
-}
-#filterPointsTable {
-    border-radius: 7px;
 }
 label[for=autoexportpath], #autoexportpath {
     width: 49%;
