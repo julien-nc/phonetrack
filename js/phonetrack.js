@@ -2644,13 +2644,13 @@
                 '<p>' + t('phonetrack', 'Zoom on geofencing area, then set values, then validate.') + '</p>' +
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + '</label> ' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
-                '<label for="urlenter'+s+d+'">' + t('phonetrack', 'URL to request when entering') + ' </label>' +
-                '<span> (POST <input type="checkbox" class="urlenterpost"/>)</span>' +
+                '<label for="urlenter'+s+d+'">' + t('phonetrack', 'URL to request when entering') + '<br/></label>' +
+                '<span>' + t('phonetrack', 'Send like as POST') +' <input type="checkbox" class="urlenterpost"/></span>' +
                 '<input type="text" id="urlenter'+s+d+'" class="urlenter" maxlength="500" /><br/>' +
-                '<label for="urlleave'+s+d+'">' + t('phonetrack', 'URL to request when leaving') + ' </label>' +
-                '<span> (POST <input type="checkbox" class="urlleavepost"/>)</span>' +
+                '<label for="urlleave'+s+d+'">' + t('phonetrack', 'URL to request when leaving') + '<br/></label>' +
+                '<span>' + t('phonetrack', 'Send like as POST') +' <input type="checkbox" class="urlleavepost"/></span>' +
                 '<input type="text" id="urlleave'+s+d+'" class="urlleave" maxlength="500" />' +
-                '<input type="text" class="geofencename" value="fence name"/>' +
+                '<input type="text" class="geofencename" value="' + t('phonetrack', 'Fence name') + '"/>' +
                 '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
                 '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
                 '</button>' +
