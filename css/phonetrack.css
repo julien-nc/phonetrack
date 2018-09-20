@@ -408,10 +408,10 @@ input[role=precision] {
 #filterPointsTable {
     width: 100%;
     border-radius: 7px;
-	padding: 5px;/*dodane*/
+    padding: 5px;
 }
 #filterPointsTable td {
-	padding: 5px;/*dodane*/
+    padding: 5px;
 }
 #filterPointsTable input[type=number].time {
     width: 44px !important;
@@ -907,6 +907,7 @@ input.geofencename {
 .addgeofencediv {
     border: 1px solid black;
     border-radius: 5px;
+    padding: 5px;
 }
 .leaflet-bottom {
     position: fixed;
