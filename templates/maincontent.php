@@ -417,7 +417,7 @@ if (count($_['useroverlayserverswms']) > 0){
 </select>
 <br/>
 <label for="addPointDevice"><?php p($l->t('Device')); ?></label>
-<input id="addPointDevice" value="deviceName"/>
+<input id="addPointDevice" value="<?php p($l->t('Device name')); ?>"/>
 <button id="validaddpoint"><i class="fa fa-plus-circle" aria-hidden="true"></i> <?php p($l->t('Add a point')); ?></button>
 <p id="explainaddpoint"><?php p($l->t('Now, click on the map to add a point (if session is not activated, you won\'t see added point)')); ?></p>
 <button id="canceladdpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Cancel add point')); ?></button>
@@ -435,7 +435,7 @@ if (count($_['useroverlayserverswms']) > 0){
 </select>
 <br/>
 <label for="deletePointDevice"><?php p($l->t('Device')); ?></label>
-<input id="deletePointDevice" value="deviceName"/>
+<input id="deletePointDevice" value="<?php p($l->t('Device name')); ?>"/>
 <button id="validdeletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Delete points')); ?></button>
 <button id="validdeletevisiblepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> <?php p($l->t('Delete only visible points')); ?></button>
 </div>
