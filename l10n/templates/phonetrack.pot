@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2018-09-17 14:55+0200\n"
+"POT-Creation-Date: 2018-09-20 12:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -461,8 +461,16 @@ msgstr ""
 msgid "URL to request when entering"
 msgstr ""
 
+#: phonetrack.js:2648 phonetrack.js:2651
+msgid "Use POST method"
+msgstr ""
+
 #: phonetrack.js:2650 phonetrack.js:4172
 msgid "URL to request when leaving"
+msgstr ""
+
+#: phonetrack.js:2653
+msgid "Fence name"
 msgstr ""
 
 #: phonetrack.js:2654
@@ -1044,7 +1052,7 @@ msgstr ""
 msgid "reload page to make changes effective"
 msgstr ""
 
-#: maincontent.php:176
+#: maincontent.php:176 maincontent.php:420 maincontent.php:438
 msgid "Device name"
 msgstr ""
 
