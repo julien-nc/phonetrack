@@ -5685,8 +5685,9 @@
 
             if (pageIsPublicSessionWatch()) {
                 $('#sidebar').toggleClass('collapsed');
-                $('div#header').hide();
-                $('div#content-wrapper').css('padding-top', '0px');
+                $('#sidebar li.active').removeClass('active');
+                $('#header').hide();
+                $('div#content').css('padding-top', '0px');
             }
         }
 
