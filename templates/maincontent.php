@@ -490,10 +490,10 @@ if (count($_['useroverlayserverswms']) > 0){
         <input class="time" role="secondmax" type="number" value="" min="0" max="59"/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
-    <td>
+    <td class="dateminmaxplus">
         <button role="dateminmaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i> <?php p($l->t('Min-- and Max--')); ?></button>
     </td>
-    <td>
+    <td class="dateminmaxplus">
         <button role="dateminmaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i> <?php p($l->t('Min++ and Max++')); ?></button>
     </td>
     <td></td>
