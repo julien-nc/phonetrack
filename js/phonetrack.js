@@ -5331,9 +5331,8 @@
             deleteGeoFenceDb(token, device, fenceid);
         });
 
-        $('body').on('click','.zoomgeofencebutton', function(e) {
-            var par = $(this).parent();
-            var latmin = par.attr('latmin');
+        function zoomongeofence(par) {
+			var latmin = par.attr('latmin');
             var latmax = par.attr('latmax');
             var lonmin = par.attr('lonmin');
             var lonmax = par.attr('lonmax');
@@ -5344,6 +5343,14 @@
             var rec = L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(phonetrack.map);
 
             setTimeout(function() {phonetrack.map.removeLayer(rec);}, 5000);
+		};
+		
+        $('body').on('click','.zoomgeofencebutton', function(e) {
+            zoomongeofence($(this).parent());
+        });
+        
+        $('body').on('click','.geofencelabel', function(e) {
+            zoomongeofence($(this).parent());
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {
