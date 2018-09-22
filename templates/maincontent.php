@@ -459,8 +459,8 @@ if (count($_['useroverlayserverswms']) > 0){
 </tr><tr>
     <td></td>
     <td>
-        <button role="datemintoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
         <button role="dateminminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>
+        <button role="datemintoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
         <button role="dateminplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
     </td>
     <td></td>
@@ -478,8 +478,8 @@ if (count($_['useroverlayserverswms']) > 0){
 </tr><tr>
     <td></td>
     <td>
+        <button role="datemaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>        
         <button role="datemaxtoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
-        <button role="datemaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>
         <button role="datemaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
     </td>
     <td></td>
