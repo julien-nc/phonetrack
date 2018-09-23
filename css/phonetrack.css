@@ -322,6 +322,7 @@ div.session p,
 .watchbutton:hover i,
 .off:hover i,
 .zoomdevicebutton:hover i,
+.toggleProxim:hover i,
 .reservNameButton:hover i,
 .moreUrlsButton:hover i,
 .sharesession:hover i,
@@ -452,6 +453,7 @@ input[role=date] {
 input[type=date] {
     width: 150px;
 }
+.proximDiv input[type=number],
 #filterPointsTable input[type=number],
 .editPoint input[type=number] {
     -moz-appearance: number-input !important;
@@ -518,6 +520,7 @@ ul.devicelist {
 .toggleAutoZoomDevice,
 .toggleDetail,
 .toggleGeofences,
+.toggleProxim,
 .zoomdevicebutton,
 .dropdowndevicebutton {
     padding: 0;
@@ -532,6 +535,7 @@ ul.devicelist {
 }
 .off i,
 .toggleGeofences i,
+.toggleProxim i,
 .zoomdevicebutton i {
     color: grey;
 }
@@ -805,12 +809,15 @@ div#createimportsessiondiv button {
 .publicFilteredShareUrl {
     width: 80% !important;
 }
+.proximlist li button:hover i,
 .geofencelist li button:hover i{
     color: black;
 }
+.proximlist li button i,
 .geofencelist li button i{
     color: grey;
 }
+.proximlist li button,
 .geofencelist li button,
 .deletePublicFilteredShare {
     padding: 5px 5px 5px 5px;
@@ -861,9 +868,11 @@ label[for=autoexportpath], #autoexportpath {
 #countdown {
     display: inline;
 }
+.proximlist li,
 .geofencelist li {
     padding: 0 !important;
 }
+.proximlist li,
 .geofencelist li,
 .filteredshare {
     border: solid 1px grey;
@@ -889,14 +898,16 @@ input.geofencename {
 #loadingnotification {
     padding-top: 7px;
 }
-.zoomgeofencebutton, .deletegeofencebutton {
+.deleteproximbutton, .zoomgeofencebutton, .deletegeofencebutton {
     float: right;
 }
+.proximlabel,
 .geofencelabel {
     float: left;
     line-height: 30px;
     padding: 0px 10px 0px 10px;
 }
+.proximlist li,
 .geofencelist li {
     display: flow-root;
 }
@@ -904,6 +915,7 @@ input.geofencename {
     display: none;
     text-align: center;
 }
+.addproximdiv,
 .addgeofencediv {
     border: 1px solid grey;
     border-radius: 5px;
@@ -921,6 +933,7 @@ input.geofencename {
 .leaflet-popup-content {
     margin: 7px 7px !important;
 }
+.urlclosepost, .urlfarpost,
 .urlleavepost, .urlenterpost, .sendemail {
     min-height: 14px;
     margin: 0;

@@ -2612,7 +2612,7 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname, color='', name, geofences=[], zoom=false, line=false, point=false, alias='') {
+    function addDevice(s, d, sessionname, color='', name, geofences=[], zoom=false, line=false, point=false, alias='', proxims=[]) {
         var colorn, textcolor, rgbc, linetooltip;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
@@ -2659,6 +2659,8 @@
         var aliasLink = '';
         var geofencesLink = '';
         var geofencesDiv = '';
+        var proximLink = '';
+        var proximDiv = '';
         var renameInput = '';
         var aliasInput = '';
         var reaffectLink = '';
@@ -2742,6 +2744,35 @@
                 '</div>' +
                 '<ul class="geofencelist"></ul>' +
                 '</div>';
+            proximLink = ' <button class="toggleProxim" ' +
+                'title="' + t('phonetrack', 'Device proximity notifications') + '">' +
+                '<i class="fa fa-user-friends" aria-hidden="true"></i></button>';
+            proximDiv = '<div class="proximDiv">' +
+                '<div class="addproximdiv">' +
+                '<p>' + t('phonetrack', 'Select a session, a device name and a distance, set the notification settings, then validate.') + ' ' +
+                t('phonetrack', 'You will be notified when distance between devices gets bigger than high limit or smaller than low limit.') + '</p>' +
+                '<input type="text" class="sessionname" value="' + t('phonetrack', 'Session name') + '"/>' +
+                '<input type="text" class="devicename" value="' + t('phonetrack', 'Device name') + '"/>' +
+                '<label for="highlimit'+s+d+'"> ' + t('phonetrack', 'High distance limit') + ' </label> ' +
+                '<input id="highlimit'+s+d+'" class="highlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
+                '<label for="lowlimit'+s+d+'"> ' + t('phonetrack', 'Low distance limit') + ' </label>' +
+                '<input id="lowlimit'+s+d+'" class="lowlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
+                '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + '</label>' +
+                '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
+                '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'URL to request when devices get close') + '</b></label><br/>' +
+                '<span>(<label for="urlclosepost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
+                '<input type="checkbox" class="urlclosepost" id="urlclosepost'+s+d+'"/>)</span>' +
+                '<input type="text" id="urlclose'+s+d+'" class="urlclose" maxlength="500" /><br/>' +
+                '<label for="urlfar'+s+d+'"><b>' + t('phonetrack', 'URL to request when devices get far') + '</b> </label><br/>' +
+                '<span>(<label for="urlfarpost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
+                '<input type="checkbox" class="urlfarpost" id="urlfarpost'+s+d+'"/>)</span>' +
+                '<input type="text" id="urlfar'+s+d+'" class="urlfar" maxlength="500" />' +
+                '<button class="addproximbutton">' +
+                '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add proximity notification') +
+                '</button>' +
+                '</div>' +
+                '<ul class="proximlist"></ul>' +
+                '</div>';
         }
         var detailOnOff = 'off';
         if (point) {
@@ -2784,6 +2815,7 @@
                 dropdowndevicebutton +
                 dropdowndevicecontent +
                 reaffectSelect +
+                proximLink +
                 geofencesLink +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
@@ -2793,6 +2825,7 @@
                 lineDeviceLink +
                 '</div><div style="clear: both;"></div>' +
                 geofencesDiv +
+                proximDiv +
                 '</li>');
 
         // manage names/ids
@@ -2856,11 +2889,16 @@
         }
         phonetrack.sessionMarkerLayers[s][d].on('click', markerMouseClick);
         $('.session[token="' + s + '"] li[device='+d+']').find('.geofencesDiv').hide();
-        var llb, f;
-        for (var i=0; i < geofences.length; i++) {
+        $('.session[token="' + s + '"] li[device='+d+']').find('.proximDiv').hide();
+        var llb, f, i;
+        for (i=0; i < geofences.length; i++) {
             f = geofences[i];
             llb = L.latLngBounds(L.latLng(f.latmin, f.lonmin), L.latLng(f.latmax, f.lonmax));
             addGeoFence(s, d, f.name, f.id, llb, f.urlenter, f.urlleave, f.urlenterpost, f.urlleavepost, f.sendemail);
+        }
+        for (i=0; i < proxims.length; i++) {
+            pr = proxims[i];
+            addProxim(s, d, pr.id, pr.s, pr.d, pr.dname, pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar, pr.urlclosepost, pr.urlfarpost, pr.sendemail);
         }
     }
 
@@ -3977,12 +4015,19 @@
             else {
                 b = L.latLngBounds(m.getLatLng(), m.getLatLng());
             }
-            phonetrack.map.fitBounds(b, {
-                animate: true,
-                maxZoom: 16,
-                paddingTopLeft: [parseInt($('#sidebar').css('width')), 50],
-                paddingBottomRight: [50, 50]
-            });
+
+            // covers all problematic cases
+            if (b.getSouthWest().equals(b.getNorthWest())) {
+                phonetrack.map.setView(m.getLatLng(), 10, {animate: true});
+            }
+            else {
+                phonetrack.map.fitBounds(b, {
+                    animate: true,
+                    maxZoom: 16,
+                    paddingTopLeft: [parseInt($('#sidebar').css('width')), 50],
+                    paddingBottomRight: [50, 50]
+                });
+            }
 
             for (id in phonetrack.sessionPointsLayersById[s][d]) {
                 phonetrack.sessionPointsLayersById[s][d][id].setZIndexOffset(phonetrack.lastZindex);
@@ -4273,6 +4318,31 @@
             '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
             '</li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
+    }
+
+    function addProxim(token, device, proximid, token2, device2, name2, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
+        var sessionName = 'sessionName'
+        var closepostTxt = '';
+        var farpostTxt = '';
+        if (parseInt(urlclosepost) !== 0) {
+            closepostTxt = '(POST)';
+        }
+        if (parseInt(urlfarpost) !== 0) {
+            farpostTxt = '(POST)';
+        }
+        var sendemailTxt = 'NO';
+        if (parseInt(sendemail) !== 0) {
+            sendemailTxt = 'YES';
+        }
+        var li = '<li proximid="' + proximid + '"' +
+            'title="' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n' +
+            t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
+            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
+            '">' +
+            '<label class="proximlabel">'+escapeHTML(sessionName + '-' + name2)+'</label>' +
+            '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
+            '</li>';
+        $('.session[token="' + token + '"] .devicelist li[device='+device+'] .proximDiv .proximlist').append(li);
     }
 
     function deleteGeoFenceDb(token, device, fenceid) {
@@ -4982,10 +5052,23 @@
                 geoDiv.slideUp('slow');
             }
             else{
-                $('.geofencesDiv:visible').each(function() {
+                $('.geofencesDiv:visible, .proximDiv:visible').each(function() {
                     $(this).slideUp('slow');
                 });
                 geoDiv.slideDown('slow');
+            }
+        });
+
+        $('body').on('click','.toggleProxim', function(e) {
+            var prDiv = $(this).parent().parent().find('.proximDiv');
+            if (prDiv.is(':visible')) {
+                prDiv.slideUp('slow');
+            }
+            else{
+                $('.geofencesDiv:visible, .proximDiv:visible').each(function() {
+                    $(this).slideUp('slow');
+                });
+                prDiv.slideDown('slow');
             }
         });
 
@@ -5471,6 +5554,21 @@
 
         $('body').on('click','.geofencelabel', function(e) {
             zoomongeofence($(this).parent());
+        });
+
+        $('body').on('click','.addproximbutton', function(e) {
+            var s = $(this).parent().parent().parent().attr('token');
+            var d = $(this).parent().parent().parent().attr('device');
+            var sessionname = $(this).parent().find('.sessionname').val();
+            var devicename = $(this).parent().find('.devicename').val();
+            var highlimit = $(this).parent().find('.highlimit').val();
+            var lowlimit = $(this).parent().find('.lowlimit').val();
+            var urlclose = $(this).parent().find('.urlclose').val();
+            var urlfar = $(this).parent().find('.urlfar').val();
+            var urlclosepost = $(this).parent().find('.urlclosepost').is(':checked') ? 1 : 0;
+            var urlfarpost = $(this).parent().find('.urlfarpost').is(':checked') ? 1 : 0;
+            var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
+            addProxim(s, d, 'iiiii', sessionname, devicename, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {
