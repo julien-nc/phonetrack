@@ -54,8 +54,8 @@ OC.L10N.register(
     "Ok" : "Ок",
     "Add zone" : "Додати регіон",
     "Toggle lines" : "Відобразити лінії сітки",
-    "Center map on device" : "Відцентрувати карту на пристрої",
     "Follow this device (autozoom)" : "Слідувати за цим пристроєм (autozoom)",
+    "Center map on device" : "Відцентрувати карту на пристрої",
     "User does not exist" : "Користувача не існує",
     "Authors" : "Автори"
 },
