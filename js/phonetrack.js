@@ -4437,6 +4437,20 @@
         $('#trackurlinput').select();
     }
 
+    function zoomongeofence(par) {
+        var latmin = par.attr('latmin');
+        var latmax = par.attr('latmax');
+        var lonmin = par.attr('lonmin');
+        var lonmax = par.attr('lonmax');
+        var llb = L.latLngBounds(L.latLng(latmin, lonmin), L.latLng(latmax, lonmax));
+        phonetrack.map.fitBounds(llb, {padding: [10, 10]});
+
+        var bounds = [[latmin, lonmin], [latmax, lonmax]];
+        var rec = L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(phonetrack.map);
+
+        setTimeout(function() {phonetrack.map.removeLayer(rec);}, 5000);
+    };
+
     //////////////// MAIN /////////////////////
 
     $(document).ready(function() {
@@ -5332,18 +5346,11 @@
         });
 
         $('body').on('click','.zoomgeofencebutton', function(e) {
-            var par = $(this).parent();
-            var latmin = par.attr('latmin');
-            var latmax = par.attr('latmax');
-            var lonmin = par.attr('lonmin');
-            var lonmax = par.attr('lonmax');
-            var llb = L.latLngBounds(L.latLng(latmin, lonmin), L.latLng(latmax, lonmax));
-            phonetrack.map.fitBounds(llb, {padding: [10, 10]});
+            zoomongeofence($(this).parent());
+        });
 
-            var bounds = [[latmin, lonmin], [latmax, lonmax]];
-            var rec = L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(phonetrack.map);
-
-            setTimeout(function() {phonetrack.map.removeLayer(rec);}, 5000);
+        $('body').on('click','.geofencelabel', function(e) {
+            zoomongeofence($(this).parent());
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {
