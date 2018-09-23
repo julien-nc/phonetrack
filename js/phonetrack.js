@@ -3341,6 +3341,15 @@
             phonetrack.sessionPointsLayersById[token][deviceid][entry.id] = m;
             if (filter) {
                 phonetrack.sessionPointsLayers[token][deviceid].addLayer(m);
+
+                // manage draggable
+                // if points are displayed
+                if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[token][deviceid])) {
+                    // if dragging is allowed
+                    if (!pageIsPublic() && !isSessionShared(token) && $('#dragcheck').is(':checked')) {
+                        m.dragging.enable();
+                    }
+                }
             }
 
             // update line
