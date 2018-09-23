@@ -919,3 +919,6 @@ input.geofencename {
     min-height: 14px;
     margin: 0;
 }
+.dateminmaxcell {
+    text-align: center;
+}
