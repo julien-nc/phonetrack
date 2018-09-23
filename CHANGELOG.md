@@ -19,9 +19,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#136](https://gitlab.com/eneiluj/phonetrack-oc/issues/136) @abmurski
 - change device autozoom checkbox into an icon
 - change routing icons
+- zoom on geofence when fence name is clicked
 
 ### Fixed
 - fix NaN displayed in tooltip when values are not set
+- bug when zooming on device with only one coordinate
+- css for filters
+[!150](https://gitlab.com/eneiluj/phonetrack-oc/merge_requests/150) @Valdnet
+- css for geofences
+- fix header hiding and initial sidebar state in public page
+[#139](https://gitlab.com/eneiluj/phonetrack-oc/issues/139) @vixu
+- newly manually added point is draggable if possible
 
 ## 0.3.1 – 2018-08-25
 ### Added
