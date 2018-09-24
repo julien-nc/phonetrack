@@ -3653,8 +3653,9 @@
             phonetrack.map.fitBounds(boundsToZoomOn, {
                 animate: true,
                 maxZoom: 16,
-                paddingTopLeft: [parseInt($('#sidebar').css('width')),0]}
-            );
+                paddingTopLeft: [parseInt($('#sidebar').css('width')), 50],
+                paddingBottomRight: [50, 50]
+            });
         }
     }
 
@@ -3896,7 +3897,8 @@
             phonetrack.map.fitBounds(b, {
                 animate: true,
                 maxZoom: 16,
-                paddingTopLeft: [parseInt($('#sidebar').css('width')),0]
+                paddingTopLeft: [parseInt($('#sidebar').css('width')), 50],
+                paddingBottomRight: [50, 50]
             });
 
             for (id in phonetrack.sessionPointsLayersById[s][d]) {
