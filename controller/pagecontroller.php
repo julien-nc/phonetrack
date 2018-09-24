@@ -3438,6 +3438,125 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function addProxim($token, $device, $sid, $dname, $lowlimit, $highlimit,
+                                $urlclose, $urlfar, $urlclosepost, $urlclosepost, $sendemail) {
+        $ok = 0;
+        $fenceid = null;
+        if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+            // check there is no fence with this name already
+            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_geofences ';
+            $sqlchk .= 'WHERE name='.$this->db_quote_escape_string($fencename).' ';
+            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ;';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbfencename = null;
+            while ($row = $req->fetch()){
+                $dbfencename = $row['name'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbfencename === null) {
+                // insert
+                $sql = 'INSERT INTO *PREFIX*phonetrack_geofences';
+                $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
+                $sql .= 'urlenterpost, urlleavepost, sendemail) ';
+                $sql .= 'VALUES (';
+                $sql .= $this->db_quote_escape_string($fencename).',';
+                $sql .= $this->db_quote_escape_string($device).',';
+                $sql .= $this->db_quote_escape_string(floatval($latmin)).',';
+                $sql .= $this->db_quote_escape_string(floatval($latmax)).',';
+                $sql .= $this->db_quote_escape_string(floatval($lonmin)).',';
+                $sql .= $this->db_quote_escape_string(floatval($lonmax)).',';
+                $sql .= $this->db_quote_escape_string($urlenter).',';
+                $sql .= $this->db_quote_escape_string($urlleave).',';
+                $sql .= $this->db_quote_escape_string(intval($urlenterpost)).',';
+                $sql .= $this->db_quote_escape_string(intval($urlleavepost)).',';
+                $sql .= $this->db_quote_escape_string(intval($sendemail));
+                $sql .= ');';
+                $req = $this->dbconnection->prepare($sql);
+                $req->execute();
+                $req->closeCursor();
+
+                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_geofences ';
+                $sqlchk .= 'WHERE name='.$this->db_quote_escape_string($fencename).' ';
+                $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ;';
+                $req = $this->dbconnection->prepare($sqlchk);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $fenceid = $row['id'];
+                    break;
+                }
+                $req->closeCursor();
+
+                $user = $this->userManager->get($this->userId);
+                $userEmail = $user->getEMailAddress();
+                $mailFromA = $this->config->getSystemValue('mail_from_address');
+                $mailFromD = $this->config->getSystemValue('mail_domain');
+                if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                    $ok = 1;
+                }
+                else {
+                    $ok = 4;
+                }
+            }
+            else {
+                $ok = 3;
+            }
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+                'fenceid'=>$fenceid
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteGeofence($token, $device, $fenceid) {
+        $ok = 0;
+        if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+            $sqldel = 'DELETE FROM *PREFIX*phonetrack_geofences ';
+            $sqldel .= 'WHERE deviceid='.$this->db_quote_escape_string($device).' ';
+            $sqldel .= 'AND id='.$this->db_quote_escape_string($fenceid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function deleteGeofence($token, $device, $fenceid) {
         $ok = 0;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {

@@ -2751,13 +2751,14 @@
                 '<div class="addproximdiv">' +
                 '<p>' + t('phonetrack', 'Select a session, a device name and a distance, set the notification settings, then validate.') + ' ' +
                 t('phonetrack', 'You will be notified when distance between devices gets bigger than high limit or smaller than low limit.') + '</p>' +
-                '<input type="text" class="sessionname" value="' + t('phonetrack', 'Session name') + '"/>' +
+                '<label>' + t('phonetrack', 'Session') + ' </label> ' +
+                '<select class="proximsession"></select>' +
                 '<input type="text" class="devicename" value="' + t('phonetrack', 'Device name') + '"/>' +
                 '<label for="highlimit'+s+d+'"> ' + t('phonetrack', 'High distance limit') + ' </label> ' +
                 '<input id="highlimit'+s+d+'" class="highlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
                 '<label for="lowlimit'+s+d+'"> ' + t('phonetrack', 'Low distance limit') + ' </label>' +
                 '<input id="lowlimit'+s+d+'" class="lowlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
-                '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + '</label>' +
+                '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + ' </label>' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
                 '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'URL to request when devices get close') + '</b></label><br/>' +
                 '<span>(<label for="urlclosepost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
@@ -2898,7 +2899,7 @@
         }
         for (i=0; i < proxims.length; i++) {
             pr = proxims[i];
-            addProxim(s, d, pr.id, pr.s, pr.d, pr.dname, pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar, pr.urlclosepost, pr.urlfarpost, pr.sendemail);
+            addProxim(s, d, pr.id, pr.sid, pr.sname, pr.d, pr.dname, pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar, pr.urlclosepost, pr.urlfarpost, pr.sendemail);
         }
     }
 
@@ -4320,8 +4321,42 @@
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
     }
 
-    function addProxim(token, device, proximid, token2, device2, name2, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
-        var sessionName = 'sessionName'
+    function addProximDb(token, device, sid, sname, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
+        var req = {
+            token: token,
+            device: device,
+            sid: sid,
+            dname: dname,
+            lowlimit: lowlimit,
+            highlimit: highlimit,
+            urlclose: urlclose,
+            urlfar: urlfar,
+            urlclosepost: urlclosepost,
+            urlfarpost: urlfarpost,
+            sendemail: sendemail
+        };
+        var url = OC.generateUrl('/apps/phonetrack/addProxim');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1 || response.done === 4) {
+                addProxim(token, device, response.proximid, sname, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+                if (response.done === 4) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'));
+                }
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to add proximity alert'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add proximity alert'));
+        });
+    }
+
+    function addProxim(token, device, proximid, sid, sname, did, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
         var closepostTxt = '';
         var farpostTxt = '';
         if (parseInt(urlclosepost) !== 0) {
@@ -4337,9 +4372,11 @@
         var li = '<li proximid="' + proximid + '"' +
             'title="' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n' +
             t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
-            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
+            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
+            t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) + '\n' +
+            t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
             '">' +
-            '<label class="proximlabel">'+escapeHTML(sessionName + '-' + name2)+'</label>' +
+            '<label class="proximlabel">'+escapeHTML(sname + '-' + dname)+'</label>' +
             '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
             '</li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .proximDiv .proximlist').append(li);
@@ -4599,6 +4636,16 @@
             height: 250
         });
         $('#trackurlinput').select();
+    }
+
+    function updateProximSessionsSelect(tog) {
+        var prSel = tog.parent().parent().find('.proximDiv select.proximsession');
+        prSel.html('');
+        var s, sname;
+        for (s in phonetrack.deviceNames) {
+            sname = getSessionName(s);
+            prSel.append('<option value="' + s + '" name="' + sname + '">' + sname + '</option>');
+        }
     }
 
     function zoomongeofence(par) {
@@ -5069,6 +5116,7 @@
                     $(this).slideUp('slow');
                 });
                 prDiv.slideDown('slow');
+                updateProximSessionsSelect($(this));
             }
         });
 
@@ -5559,7 +5607,8 @@
         $('body').on('click','.addproximbutton', function(e) {
             var s = $(this).parent().parent().parent().attr('token');
             var d = $(this).parent().parent().parent().attr('device');
-            var sessionname = $(this).parent().find('.sessionname').val();
+            var sessiontoken = $(this).parent().find('.proximsession').val();
+            var sessionname = $(this).parent().find('.proximsession option:selected').attr('name');
             var devicename = $(this).parent().find('.devicename').val();
             var highlimit = $(this).parent().find('.highlimit').val();
             var lowlimit = $(this).parent().find('.lowlimit').val();
@@ -5568,7 +5617,7 @@
             var urlclosepost = $(this).parent().find('.urlclosepost').is(':checked') ? 1 : 0;
             var urlfarpost = $(this).parent().find('.urlfarpost').is(':checked') ? 1 : 0;
             var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
-            addProxim(s, d, 'iiiii', sessionname, devicename, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+            addProxim(s, d, 'iiiii', sessiontoken, sessionname, 'deviceid', devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {

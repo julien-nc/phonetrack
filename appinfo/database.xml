@@ -285,6 +285,76 @@
   </declaration>
 </table>
  <table>
+  <name>*dbprefix*phonetrack_proxims</name>
+  <declaration>
+    <field>
+      <name>id</name>
+      <type>integer</type>
+      <default>0</default>
+      <notnull>true</notnull>
+      <autoincrement>1</autoincrement>
+      <length>4</length>
+    </field>
+    <field>
+      <name>deviceid1</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <length>4</length>
+    </field>
+    <field>
+      <name>deviceid2</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <length>4</length>
+    </field>
+    <field>
+      <name>lowlimit</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <length>4</length>
+    </field>
+    <field>
+      <name>highlimit</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <length>4</length>
+    </field>
+    <field>
+      <name>urlclose</name>
+      <type>text</type>
+      <notnull>false</notnull>
+      <length>500</length>
+    </field>
+    <field>
+      <name>urlclosepost</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>0</default>
+      <length>4</length>
+    </field>
+    <field>
+      <name>urlfar</name>
+      <type>text</type>
+      <notnull>false</notnull>
+      <length>500</length>
+    </field>
+    <field>
+      <name>urlfarpost</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>0</default>
+      <length>4</length>
+    </field>
+    <field>
+      <name>sendemail</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>1</default>
+      <length>4</length>
+    </field>
+  </declaration>
+</table>
+ <table>
   <name>*dbprefix*phonetrack_tileserver</name>
   <declaration>
     <field>

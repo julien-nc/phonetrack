@@ -62,6 +62,8 @@ return [
         ['name' => 'page#deleteNameReservation', 'url' => '/deleteNameReservation', 'verb' => 'POST'],
         ['name' => 'page#addGeofence', 'url' => '/addGeofence', 'verb' => 'POST'],
         ['name' => 'page#deleteGeofence', 'url' => '/deleteGeofence', 'verb' => 'POST'],
+        ['name' => 'page#addProxim', 'url' => '/addProxim', 'verb' => 'POST'],
+        ['name' => 'page#deleteProxim', 'url' => '/deleteProxim', 'verb' => 'POST'],
         ['name' => 'page#export', 'url' => '/export', 'verb' => 'POST'],
         ['name' => 'page#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],
         ['name' => 'page#getUserList', 'url' => '/getUserList', 'verb' => 'POST'],
