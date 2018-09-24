@@ -310,6 +310,20 @@ class LogController extends Controller {
                 }
                 $req->closeCursor();
 
+                // if it's reserved and a device token was given
+                if ($dbdevid === null) {
+                    $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+                    $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
+                    $sqlchk .= 'AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
+                    $req = $this->dbconnection->prepare($sqlchk);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $dbdevid = $row['id'];
+                        break;
+                    }
+                    $req->closeCursor();
+                }
+
                 if ($dbdevid !== null) {
                     $sqlchk = 'SELECT MAX(id) as maxid FROM *PREFIX*phonetrack_points ';
                     $sqlchk .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdevid).' ';
