@@ -4459,7 +4459,11 @@
         var lonmin = par.attr('lonmin');
         var lonmax = par.attr('lonmax');
         var llb = L.latLngBounds(L.latLng(latmin, lonmin), L.latLng(latmax, lonmax));
-        phonetrack.map.fitBounds(llb, {padding: [10, 10]});
+        phonetrack.map.fitBounds(llb, {
+            //padding: [10, 10],
+            paddingTopLeft: [parseInt($('#sidebar').css('width')) + 30, 50],
+            paddingBottomRight: [50, 50]
+        });
 
         var bounds = [[latmin, lonmin], [latmax, lonmax]];
         var rec = L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(phonetrack.map);
