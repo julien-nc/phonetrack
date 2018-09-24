@@ -1037,6 +1037,9 @@
                 if (optionsValues.linearrow !== undefined) {
                     $('#linearrow').prop('checked', optionsValues.linearrow);
                 }
+                if (optionsValues.stats !== undefined) {
+                    $('#togglestats').prop('checked', optionsValues.stats);
+                }
                 if (optionsValues.linegradient !== undefined) {
                     $('#linegradient').prop('checked', optionsValues.linegradient);
                 }
@@ -1137,6 +1140,7 @@
         optionsValues.showtime = $('#showtime').is(':checked');
         optionsValues.dragcheck = $('#dragcheck').is(':checked');
         optionsValues.linearrow = $('#linearrow').is(':checked');
+        optionsValues.stats = $('#togglestats').is(':checked');
         optionsValues.linegradient = $('#linegradient').is(':checked');
         optionsValues.tooltipshowaccuracy = $('#tooltipshowaccuracy').is(':checked');
         optionsValues.tooltipshowbearing = $('#tooltipshowbearing').is(':checked');
@@ -5506,8 +5510,10 @@
                 $('#statdiv').hide();
                 $('#statlabel').hide();
             }
+            if (!pageIsPublic()) {
+                saveOptions();
+            }
         });
-        $('#togglestats').prop('checked', false);
 
         $('body').on('click', '.urlhelpbutton', function(e) {
             var logger = $(this).attr('logger');
