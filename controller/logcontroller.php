@@ -386,7 +386,7 @@ class LogController extends Controller {
             // check if session exists
             $sqlchk = '
                 SELECT `name`, `user`, `public`
-                FROM `*PREFIX*phonetrack_sessions` 
+                FROM `*PREFIX*phonetrack_sessions`
                 WHERE `token`=?
             ';
             $req = $this->dbconnection->prepare($sqlchk);
@@ -421,9 +421,16 @@ class LogController extends Controller {
 
                 // the device exists
                 if ($dbdevicename !== null) {
-                    // this device id reserved => logging refused
+                    // this device id reserved => logging refused if the request does not come from correct user
                     if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
-                        return;
+                        // here, we check if we're logged in as the session owner
+                        if ($this->userId !== '' and $this->userId !== null and $userid === $this->userId) {
+                            // if so, accept to (manually) log with name and not nametoken
+                            $deviceidToInsert = $dbdeviceid;
+                        }
+                        else {
+                            return;
+                        }
                     }
                     else {
                         $deviceidToInsert = $dbdeviceid;
