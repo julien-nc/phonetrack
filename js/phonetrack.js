@@ -1076,6 +1076,7 @@
                 if (optionsValues.showsidebar !== undefined) {
                     if (! optionsValues.showsidebar) {
                         $('#sidebar').addClass('collapsed');
+                        $('#sidebar li.active').removeClass('active');
                     }
                 }
                 $('#filterPointsTable input[type=number]').each(function() {
