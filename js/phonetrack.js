@@ -2657,6 +2657,15 @@
                 '<span>(<label for="urlleavepost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlleavepost" id="urlleavepost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlleave'+s+d+'" class="urlleave" maxlength="500" />' +
+                '<label><b>' + t('phonetrack', 'Geofence zone coordinates (leave blank to use current map bounds)') + '</b> </label><br/>' +
+                '<label for="north'+s+d+'"> ' + t('phonetrack', 'North') + ' </label> ' +
+                '<input id="north'+s+d+'" class="proximnorth" type="number" value="" min="-90" max="90" step="0.000001"/>' +
+                '<label for="south'+s+d+'"> ' + t('phonetrack', 'South') + ' </label> ' +
+                '<input id="south'+s+d+'" class="proximsouth" type="number" value="" min="-90" max="90" step="0.000001"/><br/>' +
+                '<label for="east'+s+d+'"> ' + t('phonetrack', 'East') + ' </label> ' +
+                '<input id="east'+s+d+'" class="proximeast" type="number" value="" min="-90" max="90" step="0.000001"/>' +
+                '<label for="west'+s+d+'"> ' + t('phonetrack', 'West') + ' </label> ' +
+                '<input id="west'+s+d+'" class="proximwest" type="number" value="" min="-90" max="90" step="0.000001"/><br/>' +
                 '<input type="text" class="geofencename" value="' + t('phonetrack', 'Fence name') + '"/>' +
                 '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
                 '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
@@ -5354,8 +5363,18 @@
             var urlenterpost = $(this).parent().find('.urlenterpost').is(':checked') ? 1 : 0;
             var urlleavepost = $(this).parent().find('.urlleavepost').is(':checked') ? 1 : 0;
             var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
-            var mapbounds = phonetrack.map.getBounds();
-            addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail);
+            var north = $(this).parent().find('.proximnorth').val();
+            var south = $(this).parent().find('.proximsouth').val();
+            var east = $(this).parent().find('.proximeast').val();
+            var west = $(this).parent().find('.proximwest').val();
+            var zonebounds;
+            if (north && west && east && south) {
+                zonebounds = L.latLngBounds(L.latLng(north, west), L.latLng(south, east));
+            }
+            else {
+                zonebounds = phonetrack.map.getBounds();
+            }
+            addGeoFenceDb(token, device, fencename, zonebounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail);
         });
 
         $('body').on('click','.deletegeofencebutton', function(e) {

@@ -922,3 +922,8 @@ input.geofencename {
 .dateminmaxcell {
     text-align: center;
 }
+.proximnorth, .proximeast, .proximsouth, .proximwest {
+    width: 85px !important;
+    -moz-appearance: number-input !important;
+    -webkit-appearance: initial !important;
+}
