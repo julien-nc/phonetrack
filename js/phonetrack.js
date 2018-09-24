@@ -5697,7 +5697,13 @@
             phonetrack.lastposonly = $('#lastposonly').text();
             // apply filters
             phonetrack.sharefilters = $('#sharefilters').text();
-            var filtDict = $.parseJSON(phonetrack.sharefilters) || {};
+            var filtDict = {}
+            if (phonetrack.sharefilters !== '') {
+                filtDict = $.parseJSON(phonetrack.sharefilters);
+                if (filtDict === null || typeof filtDict === 'undefined') {
+                    filtDict = {};
+                }
+            }
             if (filtDict.hasOwnProperty('lastdays')) {
                 $('#filterPointsTable input[role=lastdays]').val(filtDict.lastdays);
             }
