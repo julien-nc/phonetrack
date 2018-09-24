@@ -3267,7 +3267,7 @@
             acc: acc,
             bat: bat,
             sat: sat,
-            useragent: 'Manually added',
+            useragent: t('phonetrack', 'Manually added'),
             speed: speed,
             bearing: bearing
         };
@@ -3301,7 +3301,7 @@
         var tab = $('#addPointTable');
         var token = $('#addPointSession option:selected').attr('token');
         var devicename = $('#addPointDevice').val();
-        var useragent = 'Manually added';
+        var useragent = t('phonetrack', 'Manually added');
         var pid = parseInt(id);
         var cutLines, line;
 
