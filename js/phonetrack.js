@@ -2670,10 +2670,10 @@
                 '<input id="south'+s+d+'" class="proximsouth" type="number" value="" min="-90" max="90" step="0.000001"/>' +
                 '<label for="south'+s+d+'"> ' + t('phonetrack', 'South') + ' </label> ' +
                 '</div>' +
-				'<div class="addgeofenceright">' +
+                '<div class="addgeofenceright">' +
                 '<label for="west'+s+d+'"> ' + t('phonetrack', 'West') + ' </label> ' +
                 '<input id="west'+s+d+'" class="proximwest" type="number" value="" min="-90" max="90" step="0.000001"/>' +
-				'</div>' +
+                '</div>' +
                 '<input type="text" class="geofencename" value="' + t('phonetrack', 'Fence name') + '"/>' +
                 '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
                 '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
