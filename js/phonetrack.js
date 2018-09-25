@@ -786,6 +786,7 @@
         if (kc === 60 || kc === 220) {
             e.preventDefault();
             $('#sidebar').toggleClass('collapsed');
+            $('#sidebar li.active').removeClass('active');
         }
 
         if (e.key === 'Escape' && phonetrack.movepointSession !== null) {
