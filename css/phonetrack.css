@@ -905,7 +905,7 @@ input.geofencename {
     text-align: center;
 }
 .addgeofencediv {
-    border: 1px solid black;
+    border: 1px solid grey;
     border-radius: 5px;
     padding: 5px;
 }
