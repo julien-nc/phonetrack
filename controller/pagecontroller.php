@@ -324,7 +324,8 @@ class PageController extends Controller {
             $dbautopurge = $row['autopurge'];
             $reservedNames = $this->getReservedNames($dbtoken);
             $publicShares = $this->getPublicShares($dbtoken);
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge));
+            $devices = $this->getDevices($dbtoken);
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge));
         }
         $req->closeCursor();
 
@@ -339,7 +340,8 @@ class PageController extends Controller {
             $sessionInfo = $this->getSessionInfo($dbsessionid);
             $dbname = $sessionInfo['name'];
             $dbuser = $sessionInfo['user'];
-            array_push($sessions, array($dbname, $dbsharetoken, $dbuser));
+            $devices = $this->getDevices($dbsessionid);
+            array_push($sessions, array($dbname, $dbsharetoken, $dbuser, $devices));
         }
         $req->closeCursor();
 
@@ -354,6 +356,27 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    private function getDevices($sessionid) {
+        $devices = array();
+        $sqlget = 'SELECT id, name, alias, color, nametoken FROM *PREFIX*phonetrack_devices ';
+        $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($sessionid).';';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbid = $row['id'];
+            $dbname = $row['name'];
+            $dbalias = $row['alias'];
+            $dbcolor = $row['color'];
+            $dbnametoken = $row['nametoken'];
+            $geofences = $this->getGeofences($dbid);
+            $oneDev = [$dbid, $dbname, $dbalias, $dbcolor, $dbnametoken, $geofences];
+            array_push($devices, $oneDev);
+        }
+        $req->closeCursor();
+
+        return $devices;
     }
 
     private function getSessionInfo($sessionid) {
@@ -1628,21 +1651,7 @@ class PageController extends Controller {
                                 if (!array_key_exists($devid, $geofences[$token])) {
                                     $geofences[$token][$devid] = array();
                                 }
-                                $sqlfences = 'SELECT id, name, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
-                                $sqlfences .= 'urlenterpost, urlleavepost, sendemail ';
-                                $sqlfences .= 'FROM *PREFIX*phonetrack_geofences ';
-                                $sqlfences .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
-                                $req = $this->dbconnection->prepare($sqlfences);
-                                $req->execute();
-                                $col = '';
-                                while ($row = $req->fetch()){
-                                    $fence = array();
-                                    foreach ($row as $k => $v) {
-                                        $fence[$k] = $v;
-                                    }
-                                    array_push($geofences[$token][$devid], $fence);
-                                }
-                                $req->closeCursor();
+                                $geofences[$token][$devid] = $this->getGeofences($devid);
                             }
 
                             $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
@@ -1718,6 +1727,25 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    private function getGeofences($devid) {
+        $geofences = array();
+        $sqlfences = 'SELECT id, name, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
+        $sqlfences .= 'urlenterpost, urlleavepost, sendemail ';
+        $sqlfences .= 'FROM *PREFIX*phonetrack_geofences ';
+        $sqlfences .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+        $req = $this->dbconnection->prepare($sqlfences);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $fence = array();
+            foreach ($row as $k => $v) {
+                $fence[$k] = $v;
+            }
+            array_push($geofences, $fence);
+        }
+        $req->closeCursor();
+        return $geofences;
     }
 
     private function isSessionPublic($token) {
@@ -2308,11 +2336,16 @@ class PageController extends Controller {
         if ($done !== 1 && $done !== 3 && $done !== 4) {
             $this->deleteSession($token);
         }
+        $devices = [];
+        if ($done === 1) {
+            $devices = $this->getDevices($token);
+        }
 
         $response = new DataResponse(
             [
                 'done'=>$done,
                 'token'=>$token,
+                'devices'=>$devices,
                 'sessionName'=>$sessionName,
                 'publicviewtoken'=>$publicviewtoken
             ]

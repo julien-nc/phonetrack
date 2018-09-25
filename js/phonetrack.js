@@ -1267,7 +1267,7 @@
         return phonetrack.deviceIds[sessionid][devicename];
     }
 
-    function addSession(token, name, publicviewtoken, isPublic, sharedWith=[],
+    function addSession(token, name, publicviewtoken, isPublic, devices=[], sharedWith=[],
                         selected=false, isFromShare=false, isSharedBy='',
                         reservedNames=[], publicFilteredShares=[], autoexport='no', autopurge='no') {
         // init names/ids dict
@@ -1520,6 +1520,9 @@
         divtxt = divtxt + '<ul class="devicelist" token="' + token + '"></ul></div>';
 
         $('div#sessions').append($(divtxt).fadeIn('slow')).find('input.ro[type=text]').prop('readonly', true);
+        if (!selected) {
+            $('.session[token="' + token + '"]').find('.devicelist').hide();
+        }
         $('.session[token="' + token + '"]').find('.sharediv').hide();
         $('.session[token="' + token + '"]').find('.moreUrls').hide();
         $('.session[token="' + token + '"]').find('.namereservdiv').hide();
@@ -1538,6 +1541,47 @@
                 publicFilteredShares[i].lastposonly,
                 publicFilteredShares[i].geofencify
             );
+        }
+        ///////////////////////////////////////////////////////////
+        if (! phonetrack.sessionLineLayers.hasOwnProperty(token)) {
+            phonetrack.sessionLineLayers[token] = {};
+            phonetrack.sessionDisplayedLatlngs[token] = {};
+            phonetrack.sessionLatlngs[token] = {};
+            phonetrack.sessionPointsLayers[token] = {};
+            phonetrack.sessionPointsLayersById[token] = {};
+            phonetrack.sessionPointsEntriesById[token] = {};
+        }
+        if (! phonetrack.sessionMarkerLayers.hasOwnProperty(token)) {
+            phonetrack.sessionMarkerLayers[token] = {};
+        }
+        ////////////////////////////////////////////////////////////
+        // Manage devices from given list
+        var ii, dev, devid, devname, devalias, devcolor, devnametoken, devgeofences;
+        for (ii=0; ii < devices.length; ii++) {
+            dev = devices[ii];
+            devid = dev[0];
+            devname = dev[1];
+            devalias = dev[2];
+            devcolor = dev[3];
+            devnametoken = dev[4];
+            devgeofences = dev[5];
+
+            if (phonetrack.sessionsFromSavedOptions
+                && phonetrack.sessionsFromSavedOptions.hasOwnProperty(token)
+                && phonetrack.sessionsFromSavedOptions[token].hasOwnProperty(devid)) {
+                addDevice(
+                    token, devid, name, devcolor, devname, devgeofences,
+                    phonetrack.sessionsFromSavedOptions[token][devid].zoom,
+                    phonetrack.sessionsFromSavedOptions[token][devid].line,
+                    phonetrack.sessionsFromSavedOptions[token][devid].point,
+                    devalias
+                );
+                // once restored, get rid of the data
+                delete phonetrack.sessionsFromSavedOptions[token][devid];
+            }
+            else {
+                addDevice(token, devid, name, devcolor, devname, devgeofences, false, false, false, devalias);
+            }
         }
     }
 
@@ -1876,12 +1920,13 @@
                         selected = true;
                     }
                     // session is shared by someone else
-                    if (response.sessions[s].length < 4) {
+                    if (response.sessions[s].length < 5) {
                         addSession(
                             response.sessions[s][1],
                             response.sessions[s][0],
                             '',
                             0,
+                            response.sessions[s][3],
                             [],
                             selected,
                             true,
@@ -1895,15 +1940,16 @@
                             response.sessions[s][1],
                             response.sessions[s][0],
                             response.sessions[s][2],
-                            response.sessions[s][3],
                             response.sessions[s][4],
+                            response.sessions[s][3],
+                            response.sessions[s][5],
                             selected,
                             false,
                             '',
-                            response.sessions[s][5],
                             response.sessions[s][6],
                             response.sessions[s][7],
-                            response.sessions[s][8]
+                            response.sessions[s][8],
+                            response.sessions[s][9]
                         );
                     }
                 }
@@ -2403,17 +2449,6 @@
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
             sessionname = getSessionName(s);
-            if (! phonetrack.sessionLineLayers.hasOwnProperty(s)) {
-                phonetrack.sessionLineLayers[s] = {};
-                phonetrack.sessionDisplayedLatlngs[s] = {};
-                phonetrack.sessionLatlngs[s] = {};
-                phonetrack.sessionPointsLayers[s] = {};
-                phonetrack.sessionPointsLayersById[s] = {};
-                phonetrack.sessionPointsEntriesById[s] = {};
-            }
-            if (! phonetrack.sessionMarkerLayers.hasOwnProperty(s)) {
-                phonetrack.sessionMarkerLayers[s] = {};
-            }
             // for all devices
             for (d in sessions[s]) {
                 // add line and marker if necessary
@@ -3668,7 +3703,7 @@
 
             // ZOOM
             phonetrack.map.fitBounds(boundsToZoomOn, {
-                animate: true,
+                //animate: true,
                 maxZoom: 16,
                 paddingTopLeft: [parseInt($('#sidebar').css('width')), 50],
                 paddingBottomRight: [50, 50]
@@ -3722,7 +3757,7 @@
                 async: true
             }).done(function (response) {
                 if (response.done === 1) {
-                    addSession(response.token, response.sessionName, response.publicviewtoken, [], 1);
+                    addSession(response.token, response.sessionName, response.publicviewtoken, [], response.devices, 1);
                 }
                 else if (response.done === 2) {
                     OC.Notification.showTemporary(t('phonetrack', 'Failed to create imported session'));
@@ -5726,7 +5761,7 @@
 
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
-            addSession(token, name, publicviewtoken, null, [], true);
+            addSession(token, name, publicviewtoken, null, [], [], true);
             $('#addPointDiv').remove();
             $('#deletePointDiv').remove();
             $('.removeSession').remove();
