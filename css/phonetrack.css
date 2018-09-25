@@ -910,10 +910,10 @@ input.geofencename {
     padding: 5px;
 }
 .addgeofenceleft {
-	float: left;
+    float: left;
 }
 .addgeofenceright {
-	float: right;
+    float: right;
 }
 .leaflet-bottom {
     position: fixed;
