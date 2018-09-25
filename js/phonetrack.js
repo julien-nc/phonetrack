@@ -2658,22 +2658,22 @@
                 '<input type="checkbox" class="urlleavepost" id="urlleavepost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlleave'+s+d+'" class="urlleave" maxlength="500" />' +
                 '<label><b>' + t('phonetrack', 'Geofence zone coordinates') + '</b> ' + '(' + t('phonetrack', 'leave blank to use current map bounds') + ')' + '</label><br/>' +
-				'<div class="addgeofenceleft">' +
+                '<div class="addgeofenceleft">' +
                 '<input id="north'+s+d+'" class="proximnorth" type="number" value="" min="-90" max="90" step="0.000001"/>' +
-				'<label for="north'+s+d+'"> ' + t('phonetrack', 'North') + ' </label> ' +				
-				'</div>' +
-				'<div class="addgeofenceright">' +
-                '<label for="east'+s+d+'"> ' + t('phonetrack', 'East') + ' </label> ' +						
-                '<input id="east'+s+d+'" class="proximeast" type="number" value="" min="-90" max="90" step="0.000001"/>' +		
-				'</div>' +
-				'<div class="addgeofenceleft">' +
+                '<label for="north'+s+d+'"> ' + t('phonetrack', 'North') + ' </label> ' +
+                '</div>' +
+                '<div class="addgeofenceright">' +
+                '<label for="east'+s+d+'"> ' + t('phonetrack', 'East') + ' </label> ' +
+                '<input id="east'+s+d+'" class="proximeast" type="number" value="" min="-90" max="90" step="0.000001"/>' +
+                '</div>' +
+                '<div class="addgeofenceleft">' +
                 '<input id="south'+s+d+'" class="proximsouth" type="number" value="" min="-90" max="90" step="0.000001"/>' +
-                '<label for="south'+s+d+'"> ' + t('phonetrack', 'South') + ' </label> ' +				
-				'</div>' +				
+                '<label for="south'+s+d+'"> ' + t('phonetrack', 'South') + ' </label> ' +
+                '</div>' +
 				'<div class="addgeofenceright">' +
                 '<label for="west'+s+d+'"> ' + t('phonetrack', 'West') + ' </label> ' +
                 '<input id="west'+s+d+'" class="proximwest" type="number" value="" min="-90" max="90" step="0.000001"/>' +
-				'</div>' +					
+				'</div>' +
                 '<input type="text" class="geofencename" value="' + t('phonetrack', 'Fence name') + '"/>' +
                 '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
                 '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
