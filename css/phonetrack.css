@@ -909,6 +909,12 @@ input.geofencename {
     border-radius: 5px;
     padding: 5px;
 }
+.addgeofenceleft {
+	float: left;
+}
+.addgeofenceright {
+	float: right;
+}
 .leaflet-bottom {
     position: fixed;
 }
