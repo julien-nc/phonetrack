@@ -245,6 +245,8 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function index() {
+        //date_default_timezone_set('Europe/Paris');
+        //phpinfo();
         $tss = $this->getUserTileServers('tile');
         $oss = $this->getUserTileServers('overlay');
         $tssw = $this->getUserTileServers('tilewms');
@@ -2669,12 +2671,47 @@ class PageController extends Controller {
                     $secondmin = (isset($f->{'secondmin'}) and $f->{'secondmin'} !== '') ? intval($f->{'secondmin'}) : 0;
                     $fArray['tsmin'] = intval($f->{'datemin'}) + 3600*$hourmin + 60*$minutemin + $secondmin;
                 }
+                else {
+                    if (    isset($f->{'hourmin'}) and $f->{'hourmin'} !== ''
+                        and isset($f->{'minutemin'}) and $f->{'minutemin'} !== ''
+                        and isset($f->{'secondmin'}) and $f->{'secondmin'} !== ''
+                    ) {
+                        date_default_timezone_set(ini_get('date.timezone'));
+                        $now = new \DateTime();
+                        $y = $now->format('Y');
+                        $m = $now->format('m');
+                        $d = $now->format('d');
+                        $h = intval($f->{'hourmin'});
+                        $mi = intval($f->{'minutemin'});
+                        $s = intval($f->{'secondmin'});
+                        $dmin = new \DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
+                        $fArray['tsmin'] = $dmin->getTimestamp();
+                    }
+                }
                 if (isset($f->{'datemax'}) and $f->{'datemax'} !== '') {
                     $hourmax = (isset($f->{'hourmax'}) and $f->{'hourmax'} !== '') ? intval($f->{'hourmax'}) : 23;
                     $minutemax = (isset($f->{'minutemax'}) and $f->{'minutemax'} !== '') ? intval($f->{'minutemax'}) : 59;
                     $secondmax = (isset($f->{'secondmax'}) and $f->{'secondmax'} !== '') ? intval($f->{'secondmax'}) : 59;
                     $fArray['tsmax'] = intval($f->{'datemax'}) + 3600*$hourmax + 60*$minutemax + $secondmax;
                 }
+                else {
+                    if (    isset($f->{'hourmax'}) and $f->{'hourmax'} !== ''
+                        and isset($f->{'minutemax'}) and $f->{'minutemax'} !== ''
+                        and isset($f->{'secondmax'}) and $f->{'secondmax'} !== ''
+                    ) {
+                        date_default_timezone_set(ini_get('date.timezone'));
+                        $now = new \DateTime();
+                        $y = $now->format('Y');
+                        $m = $now->format('m');
+                        $d = $now->format('d');
+                        $h = intval($f->{'hourmax'});
+                        $mi = intval($f->{'minutemax'});
+                        $s = intval($f->{'secondmax'});
+                        $dmax = new \DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
+                        $fArray['tsmax'] = $dmax->getTimestamp();
+                    }
+                }
+                date_default_timezone_set('UTC');
                 $lastTS = new \DateTime();
                 $lastTS = $lastTS->getTimestamp();
                 $lastTSset = false;
@@ -2747,6 +2784,7 @@ class PageController extends Controller {
     }
 
     private function generateGpx($name, $coords) {
+        date_default_timezone_set('UTC');
         $dt = new \DateTime();
         $date = $dt->format('Y-m-d\TH:i:s\Z');
         $gpxText = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>' . "\n";
@@ -3614,6 +3652,7 @@ class PageController extends Controller {
     }
 
     private function cronAutoPurge() {
+        date_default_timezone_set('UTC');
         foreach (array('day'=>'1', 'week'=>'7', 'month'=>'31') as $s => $nbDays) {
             $now = new \DateTime();
             $now->modify('-'.$nbDays.' day');
@@ -3660,6 +3699,7 @@ class PageController extends Controller {
      * export sessions
      */
     public function cronAutoExport() {
+        date_default_timezone_set('UTC');
         $userNames = [];
 
         // last day
