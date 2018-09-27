@@ -2801,6 +2801,7 @@
         phonetrack.sessionPointsLayersById[s][d] = {};
         phonetrack.sessionPointsEntriesById[s][d] = {};
         phonetrack.sessionLatlngs[s][d] = [];
+        phonetrack.sessionDisplayedLatlngs[s][d] = [];
         var linewidth = parseInt($('#linewidth').val()) || 5;
         phonetrack.sessionLineLayers[s][d] = L.featureGroup();
         var nameTxt;
