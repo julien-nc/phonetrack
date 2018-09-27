@@ -3439,24 +3439,32 @@ class PageController extends Controller {
      * @NoAdminRequired
      */
     public function addProxim($token, $device, $sid, $dname, $lowlimit, $highlimit,
-                                $urlclose, $urlfar, $urlclosepost, $urlclosepost, $sendemail) {
+                                $urlclose, $urlfar, $urlclosepost, $urlfarpost, $sendemail) {
         $ok = 0;
-        $fenceid = null;
+        $proximid = null;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
-            // check there is no fence with this name already
-            $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_geofences ';
-            $sqlchk .= 'WHERE name='.$this->db_quote_escape_string($fencename).' ';
-            $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ;';
-            $req = $this->dbconnection->prepare($sqlchk);
-            $req->execute();
-            $dbfencename = null;
-            while ($row = $req->fetch()){
-                $dbfencename = $row['name'];
-                break;
+            // check if target session id is owned by current user or if it's shared with him/her
+            $targetId = null;
+            $ownsTargetSession = $this->sessionExists($sid, $this->userId);
+            if ($ownsTargetSession) {
+                $targetId = $sid;
             }
-            $req->closeCursor();
+            else {
+                $sqlchk = 'SELECT id, sessionid, sharetoken FROM *PREFIX*phonetrack_shares ';
+                $sqlchk .= 'WHERE username='.$this->db_quote_escape_string($this->userId).' ';
+                $sqlchk .= 'AND sharetoken='.$this->db_quote_escape_string($sid).' ;';
+                $req = $this->dbconnection->prepare($sqlchk);
+                $req->execute();
+                $dbTargetId = null;
+                while ($row = $req->fetch()){
+                    $targetId = $row['sessionid'];
+                    break;
+                }
+                $req->closeCursor();
+            }
 
-            if ($dbfencename === null) {
+            if ($targetId !== null) {
+                // TODO
                 // insert
                 $sql = 'INSERT INTO *PREFIX*phonetrack_geofences';
                 $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
@@ -3525,7 +3533,7 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function deleteGeofence($token, $device, $fenceid) {
+    public function deleteProxim($token, $device, $fenceid) {
         $ok = 0;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
             $sqldel = 'DELETE FROM *PREFIX*phonetrack_geofences ';

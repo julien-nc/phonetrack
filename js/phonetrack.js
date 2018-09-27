@@ -5617,7 +5617,7 @@
             var urlclosepost = $(this).parent().find('.urlclosepost').is(':checked') ? 1 : 0;
             var urlfarpost = $(this).parent().find('.urlfarpost').is(':checked') ? 1 : 0;
             var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
-            addProxim(s, d, 'iiiii', sessiontoken, sessionname, 'deviceid', devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+            addProxim(s, d, sessiontoken, sessionname, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {
