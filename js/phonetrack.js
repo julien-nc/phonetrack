@@ -2246,6 +2246,19 @@
             var momMin = moment(completeDateMinStr);
             timestampMin = momMin.unix();
         }
+        // if no date is set but hour:min:sec is set, make it today
+        else {
+            var hourminstr = parseInt(tab.find('input[role=hourmin]').val());
+            var minminstr = parseInt(tab.find('input[role=minutemin]').val());
+            var secminstr = parseInt(tab.find('input[role=secondmin]').val());
+            if (!isNaN(hourminstr) && !isNaN(minminstr) && !isNaN(secminstr)) {
+                var momMin = moment();
+                momMin.hour(hourminstr);
+                momMin.minute(minminstr);
+                momMin.second(secminstr);
+                timestampMin = momMin.unix();
+            }
+        }
 
         var datemaxstr = tab.find('input[role=datemax]').val();
         if (datemaxstr) {
@@ -2255,6 +2268,19 @@
             var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
             var momMax = moment(completeDateMaxStr);
             timestampMax = momMax.unix();
+        }
+        // if no date is set but hour:min:sec is set, make it today
+        else {
+            var hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
+            var minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
+            var secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
+            if (!isNaN(hourmaxstr) && !isNaN(minmaxstr) && !isNaN(secmaxstr)) {
+                var momMax = moment();
+                momMax.hour(hourmaxstr);
+                momMax.minute(minmaxstr);
+                momMax.second(secmaxstr);
+                timestampMax = momMax.unix();
+            }
         }
 
         var lastdays = parseInt(tab.find('input[role=lastdays]').val());
