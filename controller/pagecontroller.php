@@ -3444,10 +3444,10 @@ class PageController extends Controller {
         $proximid = null;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
             // check if target session id is owned by current user or if it's shared with him/her
-            $targetId = null;
+            $targetSessionId = null;
             $ownsTargetSession = $this->sessionExists($sid, $this->userId);
             if ($ownsTargetSession) {
-                $targetId = $sid;
+                $targetSessionId = $sid;
             }
             else {
                 $sqlchk = 'SELECT id, sessionid, sharetoken FROM *PREFIX*phonetrack_shares ';
@@ -3455,57 +3455,70 @@ class PageController extends Controller {
                 $sqlchk .= 'AND sharetoken='.$this->db_quote_escape_string($sid).' ;';
                 $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
-                $dbTargetId = null;
                 while ($row = $req->fetch()){
-                    $targetId = $row['sessionid'];
+                    $targetSessionId = $row['sessionid'];
                     break;
                 }
                 $req->closeCursor();
             }
 
-            if ($targetId !== null) {
-                // TODO
-                // insert
-                $sql = 'INSERT INTO *PREFIX*phonetrack_geofences';
-                $sql .= ' (name, deviceid, latmin, latmax, lonmin, lonmax, urlenter, urlleave, ';
-                $sql .= 'urlenterpost, urlleavepost, sendemail) ';
-                $sql .= 'VALUES (';
-                $sql .= $this->db_quote_escape_string($fencename).',';
-                $sql .= $this->db_quote_escape_string($device).',';
-                $sql .= $this->db_quote_escape_string(floatval($latmin)).',';
-                $sql .= $this->db_quote_escape_string(floatval($latmax)).',';
-                $sql .= $this->db_quote_escape_string(floatval($lonmin)).',';
-                $sql .= $this->db_quote_escape_string(floatval($lonmax)).',';
-                $sql .= $this->db_quote_escape_string($urlenter).',';
-                $sql .= $this->db_quote_escape_string($urlleave).',';
-                $sql .= $this->db_quote_escape_string(intval($urlenterpost)).',';
-                $sql .= $this->db_quote_escape_string(intval($urlleavepost)).',';
-                $sql .= $this->db_quote_escape_string(intval($sendemail));
-                $sql .= ');';
-                $req = $this->dbconnection->prepare($sql);
-                $req->execute();
-                $req->closeCursor();
-
-                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_geofences ';
-                $sqlchk .= 'WHERE name='.$this->db_quote_escape_string($fencename).' ';
-                $sqlchk .= 'AND deviceid='.$this->db_quote_escape_string($device).' ;';
+            if ($targetSessionId !== null) {
+                // check if there is a device named like that in target session
+                $dbTargetDeviceId = null
+                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+                $sqlchk .= 'WHERE name='.$this->db_quote_escape_string($dname).' ';
+                $sqlchk .= 'AND sessionid='.$this->db_quote_escape_string($targetSessionId).' ;';
                 $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    $fenceid = $row['id'];
+                    $targetDeviceId = $row['id'];
                     break;
                 }
                 $req->closeCursor();
 
-                $user = $this->userManager->get($this->userId);
-                $userEmail = $user->getEMailAddress();
-                $mailFromA = $this->config->getSystemValue('mail_from_address');
-                $mailFromD = $this->config->getSystemValue('mail_domain');
-                if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
-                    $ok = 1;
+                if ($targetDeviceId !== null) {
+                    // insert
+                    $sql = 'INSERT INTO *PREFIX*phonetrack_proxims';
+                    $sql .= ' (deviceid1, deviceid2, lowlimit, highlimit, urlclose, urlfar, ';
+                    $sql .= 'urlclosepost, urlfarpost, sendemail) ';
+                    $sql .= 'VALUES (';
+                    $sql .= $this->db_quote_escape_string($device).',';
+                    $sql .= $this->db_quote_escape_string($targetDeviceId).',';
+                    $sql .= $this->db_quote_escape_string(intval($lowlimit)).',';
+                    $sql .= $this->db_quote_escape_string(intval($highlimit)).',';
+                    $sql .= $this->db_quote_escape_string($urlclose).',';
+                    $sql .= $this->db_quote_escape_string($urlfar).',';
+                    $sql .= $this->db_quote_escape_string(intval($urlclosepost)).',';
+                    $sql .= $this->db_quote_escape_string(intval($urlfarpost)).',';
+                    $sql .= $this->db_quote_escape_string(intval($sendemail));
+                    $sql .= ');';
+                    $req = $this->dbconnection->prepare($sql);
+                    $req->execute();
+                    $req->closeCursor();
+
+                    $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_proxims ';
+                    $sqlchk .= 'WHERE deviceid1='.$this->db_quote_escape_string($device).' ';
+                    $sqlchk .= 'AND deviceid2='.$this->db_quote_escape_string($targetDeviceId).' ;';
+                    $req = $this->dbconnection->prepare($sqlchk);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $proximid = $row['id'];
+                        break;
+                    }
+                    $req->closeCursor();
+
+                    $user = $this->userManager->get($this->userId);
+                    $userEmail = $user->getEMailAddress();
+                    $mailFromA = $this->config->getSystemValue('mail_from_address');
+                    $mailFromD = $this->config->getSystemValue('mail_domain');
+                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                        $ok = 1;
+                    }
+                    else {
+                        $ok = 4;
+                    }
                 }
                 else {
-                    $ok = 4;
                 }
             }
             else {
@@ -3519,7 +3532,7 @@ class PageController extends Controller {
         $response = new DataResponse(
             [
                 'done'=>$ok,
-                'fenceid'=>$fenceid
+                'proximid'=>$proximid
             ]
         );
         $csp = new ContentSecurityPolicy();
