@@ -46,6 +46,37 @@ function startsWith($haystack, $needle) {
     return (substr($haystack, 0, $length) === $needle);
 }
 
+function distance($lat1, $long1, $lat2, $long2){
+
+    if ($lat1 === $lat2 and $long1 === $long2){
+        return 0;
+    }
+
+    // Convert latitude and longitude to
+    // spherical coordinates in radians.
+    $degrees_to_radians = pi()/180.0;
+
+    // phi = 90 - latitude
+    $phi1 = (90.0 - $lat1)*$degrees_to_radians;
+    $phi2 = (90.0 - $lat2)*$degrees_to_radians;
+
+    // theta = longitude
+    $theta1 = $long1*$degrees_to_radians;
+    $theta2 = $long2*$degrees_to_radians;
+
+    $cos = (sin($phi1)*sin($phi2)*cos($theta1 - $theta2) +
+           cos($phi1)*cos($phi2));
+    // why some cosinus are > than 1 ?
+    if ($cos > 1.0){
+        $cos = 1.0;
+    }
+    $arc = acos($cos);
+
+    // Remember to multiply arc by the radius of the earth
+    // in your favorite set of units to get length.
+    return $arc*6371000;
+}
+
 class LogController extends Controller {
 
     private $userId;
@@ -135,8 +166,8 @@ class LogController extends Controller {
 
     private function getLastDevicePoint($devid) {
         $therow = null;
-        $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude, speed, bearing';
-        $sqlget .= ' FROM *PREFIX*phonetrack_points ';
+        $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude, speed, bearing ';
+        $sqlget .= 'FROM *PREFIX*phonetrack_points ';
         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
         $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -144,19 +175,209 @@ class LogController extends Controller {
         while ($row = $req->fetch()){
             $therow = $row;
         }
+        $req->closeCursor();
         return $therow;
+    }
+
+    private function getDeviceProxims($devid) {
+        $proxims = array();
+        $sqlget = 'SELECT deviceid1, deviceid2, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail ';
+        $sqlget .= 'FROM *PREFIX*phonetrack_proxims ';
+        $sqlget .= 'WHERE deviceid1='.$this->db_quote_escape_string($devid).' OR deviceid2='.$this->db_quote_escape_string($devid).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            array_push($proxims, $row);
+        }
+        $req->closeCursor();
+        return $proxims;
+    }
+
+    private function checkProxims($lat, $lon, $devid, $userid, $devicename, $sessionname) {
+        $lastPoint = $this->getLastDevicePoint($devid);
+        $proxims = $this->getDeviceProxims($devid);
+        foreach ($proxims as $proxim) {
+            $this->checkProxim($lat, $lon, $devid, $proxim, $userid, $lastPoint, $devicename);
+        }
+    }
+
+    private function getSessionOwnerOfDevice($devid) {
+        $owner = null;
+        $sqlget = 'SELECT '.$this->dbdblquotes.'user'.$this->dbdblquotes.' ';
+        $sqlget .= 'FROM *PREFIX*phonetrack_devices INNER JOIN *PREFIX*phonetrack_sessions ';
+        $sqlget .= 'WHERE *PREFIX*phonetrack_devices.id='.$this->db_quote_escape_string($devid).' ';
+        $sqlget .= 'AND *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $owner = $row['user'];
+        }
+        $req->closeCursor();
+        return $owner;
+    }
+
+    private function getDeviceName($devid) {
+        $dbname = null;
+        $sqlget = 'SELECT name FROM *PREFIX*phonetrack_devices ';
+        $sqlget .= 'WHERE id='.$this->db_quote_escape_string($devid).';';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+        }
+        $req->closeCursor();
+
+        return $dbname;
+    }
+
+    private function checkProxim($newLat, $newLon, $movingDevid, $proxim, $userid, $lastPoint, $movingDeviceName) {
+        $highlimit = intval($proxim['highlimit']);
+        $lowlimit = intval($proxim['lowlimit']);
+        $urlclose = $proxim['urlclose'];
+        $urlfar = $proxim['urlfar'];
+        $urlclosepost = intval($proxim['urlclosepost']);
+        $urlfarpost = intval($proxim['urlfarpost']);
+        $sendemail = intval($proxim['sendemail']);
+
+        $otherDeviceId = null;
+        // get the deviceid of other device
+        if (intval($movingDevid) === intval($proxim['deviceid1'])) {
+            $otherDeviceId = intval($proxim['deviceid2']);
+        }
+        else {
+            $otherDeviceId = intval($proxim['deviceid1']);
+        }
+
+        // get coords of other device
+        $lastOtherPoint = $this->getLastDevicePoint($otherDeviceId);
+        $latOther = floatval($lastOtherPoint['lat']);
+        $lonOther = floatval($lastOtherPoint['lon']);
+
+        if ($lastPoint !== null) {
+            // previous coords of observed device
+            $prevLat = floatval($lastPoint['lat']);
+            $prevLon = floatval($lastPoint['lon']);
+
+            $prevDist = distance($prevLat, $prevLon, $latOther, $lonOther);
+            $currDist = distance($newLat, $newLon, $latOther, $lonOther);
+
+            // if distance was not close and is now close
+            if ($lowlimit !== 0 and $prevDist >= $lowlimit and $currDist < $lowlimit) {
+                // devices are now close !
+                if ($sendemail !== 0) {
+                    // if the observed device is 'deviceid2', then we might have the wrong userId
+                    if (intval($movingDevid) === intval($proxim['deviceid2'])) {
+                        $userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
+                    }
+                    $dev1name = $movingDeviceName;
+                    $dev2name = $this->getDeviceName($otherDeviceId);
+
+                    $user = $this->userManager->get($userid);
+                    $userEmail = $user->getEMailAddress();
+                    $mailFromA = $this->config->getSystemValue('mail_from_address');
+                    $mailFromD = $this->config->getSystemValue('mail_domain');
+
+                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                        $mailfrom = $mailFromA.'@'.$mailFromD;
+
+                        $mailer = \OC::$server->getMailer();
+                        $message = $mailer->createMessage();
+                        $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
+                        $message->setFrom([$mailfrom => 'PhoneTrack']);
+                        $message->setTo([$userEmail => $userid]);
+                        $message->setPlainBody($this->trans->t('Device "%s" is now closer than %sm to "%s".', array($dev1name, $lowlimit, $dev2name)));
+                        $mailer->send($message);
+                    }
+                }
+                if ($urlclose !== '' and startsWith($urlclose, 'http')) {
+                    // GET
+                    if ($urlenterpost === 0) {
+                        $xml = file_get_contents($urlclose);
+                    }
+                    // POST
+                    else {
+                        $parts = parse_url($urlclose);
+                        parse_str($parts['query'], $data);
+
+                        $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
+
+                        $options = array(
+                            'http' => array(
+                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                'method'  => 'POST',
+                                'content' => http_build_query($data)
+                            )
+                        );
+                        $context  = stream_context_create($options);
+                        $result = file_get_contents($url, false, $context);
+                    }
+                }
+            }
+            else if ($highlimit !== 0 and $prevDist <= $highlimit and $currDist > $highlimit) {
+                // devices are now far !
+                if ($sendemail !== 0) {
+                    // if the observed device is 'deviceid2', then we might have the wrong userId
+                    if (intval($movingDevid) === intval($proxim['deviceid2'])) {
+                        $userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
+                    }
+                    $dev1name = $movingDeviceName;
+                    $dev2name = $this->getDeviceName($otherDeviceId);
+
+                    $user = $this->userManager->get($userid);
+                    $userEmail = $user->getEMailAddress();
+                    $mailFromA = $this->config->getSystemValue('mail_from_address');
+                    $mailFromD = $this->config->getSystemValue('mail_domain');
+
+                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                        $mailfrom = $mailFromA.'@'.$mailFromD;
+
+                        $mailer = \OC::$server->getMailer();
+                        $message = $mailer->createMessage();
+                        $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
+                        $message->setFrom([$mailfrom => 'PhoneTrack']);
+                        $message->setTo([$userEmail => $userid]);
+                        $message->setPlainBody($this->trans->t('Device "%s" is now farther than %sm from "%s".', array($dev1name, $lowlimit, $dev2name)));
+                        $mailer->send($message);
+                    }
+                }
+                if ($urlclose !== '' and startsWith($urlclose, 'http')) {
+                    // GET
+                    if ($urlenterpost === 0) {
+                        $xml = file_get_contents($urlclose);
+                    }
+                    // POST
+                    else {
+                        $parts = parse_url($urlclose);
+                        parse_str($parts['query'], $data);
+
+                        $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
+
+                        $options = array(
+                            'http' => array(
+                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                'method'  => 'POST',
+                                'content' => http_build_query($data)
+                            )
+                        );
+                        $context  = stream_context_create($options);
+                        $result = file_get_contents($url, false, $context);
+                    }
+                }
+            }
+        }
     }
 
     private function getDeviceFences($devid) {
         $fences = array();
-        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave, urlenterpost, urlleavepost, sendemail';
-        $sqlget .= ' FROM *PREFIX*phonetrack_geofences ';
+        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave, urlenterpost, urlleavepost, sendemail ';
+        $sqlget .= 'FROM *PREFIX*phonetrack_geofences ';
         $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
             array_push($fences, $row);
         }
+        $req->closeCursor();
         return $fences;
     }
 
@@ -497,6 +718,7 @@ class LogController extends Controller {
                 }
 
                 $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
+                $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
 
                 $sql = 'INSERT INTO *PREFIX*phonetrack_points';
                 $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing) ';
