@@ -2662,12 +2662,15 @@
         var renameInput = '';
         var aliasInput = '';
         var reaffectLink = '';
+        var geoLink = '';
         var routingGraphLink = '';
         var routingOsrmLink = '';
         var routingOrsLink = '';
         var reaffectSelect = '';
         var dropdowndevicebutton = '';
         var dropdowndevicecontent = '';
+        geoLink = ' <button class="geoLinkDevice" token="' + s + '" device="' + d + '">' +
+            '<i class="fa fa-map-marked-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Geo link to open position in other app/program') + '</button>';
         routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">' +
             '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'Graphhopper'}) + '</button>';
         routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">' +
@@ -2697,6 +2700,7 @@
             renameLink +
             aliasLink +
             reaffectLink +
+            geoLink +
             routingGraphLink +
             routingOsrmLink +
             routingOrsLink +
@@ -5015,6 +5019,18 @@
 
             $(this).parent().parent().find('.reaffectDeviceDiv').removeClass('show');
             reaffectDeviceSession(token, deviceid, newSessionId);
+        });
+
+        $('body').on('click','.geoLinkDevice', function(e) {
+            var token = $(this).attr('token');
+            var deviceid = $(this).attr('device');
+            var ll = phonetrack.sessionLatlngs[token][deviceid];
+            var p = ll[ll.length-1];
+            var lat = p[0];
+            var lon = p[1];
+            window.open(
+                'geo:' + lat + ',' + lon
+            );
         });
 
         $('body').on('click','.routingGraphDevice', function(e) {
