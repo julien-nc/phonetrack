@@ -2901,7 +2901,7 @@
         }
         for (i=0; i < proxims.length; i++) {
             pr = proxims[i];
-            addProxim(s, d, pr.id, pr.deviceid2, pr.name2, pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar, pr.urlclosepost, pr.urlfarpost, pr.sendemail);
+            addProxim(s, d, pr.id, pr.sname2, pr.deviceid2, pr.dname2, pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar, pr.urlclosepost, pr.urlfarpost, pr.sendemail);
         }
     }
 
@@ -4323,67 +4323,6 @@
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
     }
 
-    function addProximDb(token, device, sid, sname, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
-        var req = {
-            token: token,
-            device: device,
-            sid: sid,
-            dname: dname,
-            lowlimit: lowlimit,
-            highlimit: highlimit,
-            urlclose: urlclose,
-            urlfar: urlfar,
-            urlclosepost: urlclosepost,
-            urlfarpost: urlfarpost,
-            sendemail: sendemail
-        };
-        var url = OC.generateUrl('/apps/phonetrack/addProxim');
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: req,
-            async: true
-        }).done(function (response) {
-            if (response.done === 1 || response.done === 4) {
-                addProxim(token, device, response.proximid, response.targetdeviceid, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
-                if (response.done === 4) {
-                    OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'));
-                }
-            }
-            else {
-                OC.Notification.showTemporary(t('phonetrack', 'Failed to add proximity alert'));
-            }
-        }).fail(function() {
-            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add proximity alert'));
-        });
-    }
-
-    function addProxim(token, device, proximid, did, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
-        var closepostTxt = '';
-        var farpostTxt = '';
-        if (parseInt(urlclosepost) !== 0) {
-            closepostTxt = '(POST)';
-        }
-        if (parseInt(urlfarpost) !== 0) {
-            farpostTxt = '(POST)';
-        }
-        var sendemailTxt = 'NO';
-        if (parseInt(sendemail) !== 0) {
-            sendemailTxt = 'YES';
-        }
-        var li = '<li proximid="' + proximid + '"' +
-            'title="' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n' +
-            t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
-            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
-            t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) + '\n' +
-            t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
-            '">' +
-            '<label class="proximlabel">'+escapeHTML(dname)+'</label>' +
-            '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
-            '</li>';
-        $('.session[token="' + token + '"] .devicelist li[device='+device+'] .proximDiv .proximlist').append(li);
-    }
-
     function deleteGeoFenceDb(token, device, fenceid) {
         var req = {
             token: token,
@@ -4408,6 +4347,98 @@
             }
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete geofencing zone'));
+        });
+    }
+
+    function addProximDb(token, device, sid, sname, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
+        var req = {
+            token: token,
+            device: device,
+            sid: sid,
+            dname: dname,
+            lowlimit: lowlimit,
+            highlimit: highlimit,
+            urlclose: urlclose,
+            urlfar: urlfar,
+            urlclosepost: urlclosepost,
+            urlfarpost: urlfarpost,
+            sendemail: sendemail
+        };
+        var url = OC.generateUrl('/apps/phonetrack/addProxim');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1 || response.done === 4) {
+                addProxim(token, device, response.proximid, sname, response.targetdeviceid, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+                if (response.done === 4) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'));
+                }
+            }
+            else if (response.done === 3 || response.done === 5) {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to add proximity alert'));
+                OC.Notification.showTemporary(t('phonetrack', 'Device or session does not exist'));
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to add proximity alert'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add proximity alert'));
+        });
+    }
+
+    function addProxim(token, device, proximid, sname, did, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
+        var closepostTxt = '';
+        var farpostTxt = '';
+        if (parseInt(urlclosepost) !== 0) {
+            closepostTxt = '(POST)';
+        }
+        if (parseInt(urlfarpost) !== 0) {
+            farpostTxt = '(POST)';
+        }
+        var sendemailTxt = 'NO';
+        if (parseInt(sendemail) !== 0) {
+            sendemailTxt = 'YES';
+        }
+        var li = '<li proximid="' + proximid + '"' +
+            'title="' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n' +
+            t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
+            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
+            t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) + '\n' +
+            t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
+            '">' +
+            '<label class="proximlabel">'+escapeHTML(sname + ' -> ' + dname)+'</label>' +
+            '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
+            '</li>';
+        $('.session[token="' + token + '"] .devicelist li[device='+device+'] .proximDiv .proximlist').append(li);
+    }
+
+    function deleteProximDb(token, device, proximid) {
+        var req = {
+            token: token,
+            device: device,
+            proximid: proximid
+        };
+        var url = OC.generateUrl('/apps/phonetrack/deleteProxim');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                var li = $('.session[token="' + token + '"] .devicelist li[device=' + device + '] .proximlist').find('li[proximid=' + proximid + ']');
+                li.fadeOut('slow', function() {
+                    li.remove();
+                });
+            }
+            else {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to delete proximity alert'));
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete proximity alert'));
         });
     }
 
@@ -5620,6 +5651,13 @@
             var urlfarpost = $(this).parent().find('.urlfarpost').is(':checked') ? 1 : 0;
             var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
             addProximDb(s, d, sessiontoken, sessionname, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+        });
+
+        $('body').on('click','.deleteproximbutton', function(e) {
+            var token = $(this).parent().parent().parent().parent().attr('token');
+            var device = $(this).parent().parent().parent().parent().attr('device');
+            var proximid = $(this).parent().attr('proximid');
+            deleteProximDb(token, device, proximid);
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {
