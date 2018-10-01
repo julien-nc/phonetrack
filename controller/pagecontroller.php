@@ -373,7 +373,8 @@ class PageController extends Controller {
             $dbcolor = $row['color'];
             $dbnametoken = $row['nametoken'];
             $geofences = $this->getGeofences($dbid);
-            $oneDev = [$dbid, $dbname, $dbalias, $dbcolor, $dbnametoken, $geofences];
+            $proxims = $this->getProxims($dbid);
+            $oneDev = [$dbid, $dbname, $dbalias, $dbcolor, $dbnametoken, $geofences, $proxims];
             array_push($devices, $oneDev);
         }
         $req->closeCursor();
@@ -1522,6 +1523,7 @@ class PageController extends Controller {
         $names = array();
         $aliases = array();
         $geofences = array();
+        $proxims = array();
         // manage sql optim filters (time only)
         $fArray = $this->getCurrentFilters();
         $settingsTimeFilterSQL = '';
@@ -1654,6 +1656,14 @@ class PageController extends Controller {
                                     $geofences[$token][$devid] = array();
                                 }
                                 $geofences[$token][$devid] = $this->getGeofences($devid);
+                                // proxims
+                                if (!array_key_exists($token, $proxims)) {
+                                    $proxims[$token] = array();
+                                }
+                                if (!array_key_exists($devid, $proxims[$token])) {
+                                    $proxims[$token][$devid] = array();
+                                }
+                                $proxims[$token][$devid] = $this->getProxims($devid);
                             }
 
                             $sqlget = 'SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,';
@@ -1720,7 +1730,8 @@ class PageController extends Controller {
                 'colors'=>$colors,
                 'names'=>$names,
                 'aliases'=>$aliases,
-                'geofences'=>$geofences
+                'geofences'=>$geofences,
+                'proxims'=>$proxims
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -1748,6 +1759,26 @@ class PageController extends Controller {
         }
         $req->closeCursor();
         return $geofences;
+    }
+
+    private function getProxims($devid) {
+        $proxims = array();
+        $sqlproxims = 'SELECT *PREFIX*phonetrack_proxims.id AS id, deviceid2, lowlimit, highlimit, urlclose, urlfar, ';
+        $sqlproxims .= 'urlclosepost, urlfarpost, sendemail, name AS name2 ';
+        $sqlproxims .= 'FROM *PREFIX*phonetrack_proxims INNER JOIN *PREFIX*phonetrack_devices ';
+        $sqlproxims .= 'WHERE deviceid1='.$this->db_quote_escape_string($devid).' ';
+        $sqlproxims .= 'AND deviceid2=*PREFIX*phonetrack_devices.id ;';
+        $req = $this->dbconnection->prepare($sqlproxims);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $proxim = array();
+            foreach ($row as $k => $v) {
+                $proxim[$k] = $v;
+            }
+            array_push($proxims, $proxim);
+        }
+        $req->closeCursor();
+        return $proxims;
     }
 
     private function isSessionPublic($token) {
@@ -3442,6 +3473,7 @@ class PageController extends Controller {
                                 $urlclose, $urlfar, $urlclosepost, $urlfarpost, $sendemail) {
         $ok = 0;
         $proximid = null;
+        $targetDeviceId = null;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
             // check if target session id is owned by current user or if it's shared with him/her
             $targetSessionId = null;
@@ -3464,7 +3496,6 @@ class PageController extends Controller {
 
             if ($targetSessionId !== null) {
                 // check if there is a device named like that in target session
-                $dbTargetDeviceId = null
                 $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
                 $sqlchk .= 'WHERE name='.$this->db_quote_escape_string($dname).' ';
                 $sqlchk .= 'AND sessionid='.$this->db_quote_escape_string($targetSessionId).' ;';
@@ -3532,7 +3563,8 @@ class PageController extends Controller {
         $response = new DataResponse(
             [
                 'done'=>$ok,
-                'proximid'=>$proximid
+                'proximid'=>$proximid,
+                'targetdeviceid'=>$targetDeviceId
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -3546,17 +3578,31 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function deleteProxim($token, $device, $fenceid) {
+    public function deleteProxim($token, $device, $proximid) {
         $ok = 0;
         if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
-            $sqldel = 'DELETE FROM *PREFIX*phonetrack_geofences ';
-            $sqldel .= 'WHERE deviceid='.$this->db_quote_escape_string($device).' ';
-            $sqldel .= 'AND id='.$this->db_quote_escape_string($fenceid).' ;';
-            $req = $this->dbconnection->prepare($sqldel);
+            $dbproximid = null;
+            $sqlchk = 'SELECT id, deviceid1 FROM *PREFIX*phonetrack_proxims ';
+            $sqlchk .= 'WHERE id='.$this->db_quote_escape_string($proximid).' ';
+            $sqlchk .= 'AND deviceid1='.$this->db_quote_escape_string($device).' ;';
+            $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
+            while ($row = $req->fetch()){
+                $dbproximid = $row['id'];
+                break;
+            }
             $req->closeCursor();
 
-            $ok = 1;
+            if ($dbproximid !== null) {
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_proxims ';
+                $sqldel .= 'WHERE id='.$this->db_quote_escape_string($dbproximid).' ';
+                $sqldel .= 'AND deviceid1='.$this->db_quote_escape_string($device).' ;';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+
+                $ok = 1;
+            }
         }
         else {
             $ok = 2;

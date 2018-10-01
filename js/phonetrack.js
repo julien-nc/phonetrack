@@ -1556,7 +1556,7 @@
         }
         ////////////////////////////////////////////////////////////
         // Manage devices from given list
-        var ii, dev, devid, devname, devalias, devcolor, devnametoken, devgeofences;
+        var ii, dev, devid, devname, devalias, devcolor, devnametoken, devgeofences, devproxims;
         for (ii=0; ii < devices.length; ii++) {
             dev = devices[ii];
             devid = dev[0];
@@ -1565,6 +1565,7 @@
             devcolor = dev[3];
             devnametoken = dev[4];
             devgeofences = dev[5];
+            devproxims = dev[6];
 
             if (phonetrack.sessionsFromSavedOptions
                 && phonetrack.sessionsFromSavedOptions.hasOwnProperty(token)
@@ -1574,13 +1575,14 @@
                     phonetrack.sessionsFromSavedOptions[token][devid].zoom,
                     phonetrack.sessionsFromSavedOptions[token][devid].line,
                     phonetrack.sessionsFromSavedOptions[token][devid].point,
-                    devalias
+                    devalias,
+                    devproxims
                 );
                 // once restored, get rid of the data
                 delete phonetrack.sessionsFromSavedOptions[token][devid];
             }
             else {
-                addDevice(token, devid, name, devcolor, devname, devgeofences, false, false, false, devalias);
+                addDevice(token, devid, name, devcolor, devname, devgeofences, false, false, false, devalias, devproxims);
             }
         }
     }
@@ -2891,7 +2893,7 @@
         phonetrack.sessionMarkerLayers[s][d].on('click', markerMouseClick);
         $('.session[token="' + s + '"] li[device='+d+']').find('.geofencesDiv').hide();
         $('.session[token="' + s + '"] li[device='+d+']').find('.proximDiv').hide();
-        var llb, f, i;
+        var llb, f, i, pr;
         for (i=0; i < geofences.length; i++) {
             f = geofences[i];
             llb = L.latLngBounds(L.latLng(f.latmin, f.lonmin), L.latLng(f.latmax, f.lonmax));
@@ -2899,7 +2901,7 @@
         }
         for (i=0; i < proxims.length; i++) {
             pr = proxims[i];
-            addProxim(s, d, pr.id, pr.sid, pr.sname, pr.d, pr.dname, pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar, pr.urlclosepost, pr.urlfarpost, pr.sendemail);
+            addProxim(s, d, pr.id, pr.deviceid2, pr.name2, pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar, pr.urlclosepost, pr.urlfarpost, pr.sendemail);
         }
     }
 
@@ -4343,7 +4345,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1 || response.done === 4) {
-                addProxim(token, device, response.proximid, sname, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+                addProxim(token, device, response.proximid, response.targetdeviceid, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
                 if (response.done === 4) {
                     OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'));
                 }
@@ -4356,7 +4358,7 @@
         });
     }
 
-    function addProxim(token, device, proximid, sid, sname, did, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
+    function addProxim(token, device, proximid, did, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
         var closepostTxt = '';
         var farpostTxt = '';
         if (parseInt(urlclosepost) !== 0) {
@@ -4376,7 +4378,7 @@
             t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) + '\n' +
             t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
             '">' +
-            '<label class="proximlabel">'+escapeHTML(sname + '-' + dname)+'</label>' +
+            '<label class="proximlabel">'+escapeHTML(dname)+'</label>' +
             '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
             '</li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .proximDiv .proximlist').append(li);
@@ -5617,7 +5619,7 @@
             var urlclosepost = $(this).parent().find('.urlclosepost').is(':checked') ? 1 : 0;
             var urlfarpost = $(this).parent().find('.urlfarpost').is(':checked') ? 1 : 0;
             var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
-            addProxim(s, d, sessiontoken, sessionname, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+            addProximDb(s, d, sessiontoken, sessionname, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
         });
 
         $('body').on('keypress','.addnamereserv', function(e) {
