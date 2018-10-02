@@ -3528,13 +3528,13 @@ class PageController extends Controller {
                     $req->execute();
                     $req->closeCursor();
 
-                    $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_proxims ';
+                    $sqlchk = 'SELECT MAX(id) as maxid FROM *PREFIX*phonetrack_proxims ';
                     $sqlchk .= 'WHERE deviceid1='.$this->db_quote_escape_string($device).' ';
                     $sqlchk .= 'AND deviceid2='.$this->db_quote_escape_string($targetDeviceId).' ;';
                     $req = $this->dbconnection->prepare($sqlchk);
                     $req->execute();
                     while ($row = $req->fetch()){
-                        $proximid = $row['id'];
+                        $proximid = $row['maxid'];
                         break;
                     }
                     $req->closeCursor();
