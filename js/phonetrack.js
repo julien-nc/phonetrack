@@ -2756,10 +2756,10 @@
                 '<label>' + t('phonetrack', 'Session') + ' </label> ' +
                 '<select class="proximsession"></select>' +
                 '<input type="text" class="devicename" value="' + t('phonetrack', 'Device name') + '"/>' +
-                '<label for="highlimit'+s+d+'"> ' + t('phonetrack', 'High distance limit') + ' </label> ' +
-                '<input id="highlimit'+s+d+'" class="highlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
                 '<label for="lowlimit'+s+d+'"> ' + t('phonetrack', 'Low distance limit') + ' </label>' +
                 '<input id="lowlimit'+s+d+'" class="lowlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
+                '<label for="highlimit'+s+d+'"> ' + t('phonetrack', 'High distance limit') + ' </label> ' +
+                '<input id="highlimit'+s+d+'" class="highlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + ' </label>' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
                 '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'URL to request when devices get close') + '</b></label><br/>' +
@@ -4406,8 +4406,8 @@
             'title="' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n' +
             t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
-            t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) + '\n' +
-            t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
+            t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) + '\n' +
+            t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
             '">' +
             '<label class="proximlabel">'+escapeHTML(sname + ' -> ' + dname)+'</label>' +
             '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
