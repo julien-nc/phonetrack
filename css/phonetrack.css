@@ -2,19 +2,16 @@ html {
     min-height: 100%;
     position: relative;
 }
-
 body {
     margin: 0;
     width: 100%;
     height: 100%;
 }
-
 div#map {
     position: fixed;
     width: 100%;
     height: 100%;
 }
-
 div#logo, div#logo img {
     height:80px;
 }
@@ -47,7 +44,6 @@ div#logo {
     float:left;
     cursor: pointer;
 }
-
 h1.sectiontitle {
     font-size: 18px;
     font-weight: bold;
@@ -665,6 +661,9 @@ ul.devicelist {
 }
 .sidebar-tabs > li.active {
     background-color: #E8E8E8;
+}
+ul.sidebar-tabs {
+    width: 38px;
 }
 .leaflet-control-locate.active .fa {
     color: #2074B6;
