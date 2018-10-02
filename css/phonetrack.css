@@ -674,9 +674,6 @@ ul.devicelist {
 .sidebar-tabs > li.active {
     background-color: #E8E8E8;
 }
-ul.sidebar-tabs {
-    width: 38px;
-}
 .leaflet-control-locate.active .fa {
     color: #2074B6;
 }
