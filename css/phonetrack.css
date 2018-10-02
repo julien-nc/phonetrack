@@ -413,6 +413,18 @@ input[role=precision] {
 #filterPointsTable input[type=number].time {
     width: 44px !important;
 }
+.filterLine td {
+    border-top: solid 1px grey;
+}
+.filterLine:hover {
+   background-color: transparent;
+}
+.dateminmaxcell {
+   background: #E2E6F1;
+}
+.dateminmaxcell td {
+   text-align: center;
+}
 .editPoint td {
     height: 29px !important;
 }
@@ -936,9 +948,6 @@ input.geofencename {
 .urlleavepost, .urlenterpost, .sendemail {
     min-height: 14px;
     margin: 0;
-}
-.dateminmaxcell {
-    text-align: center;
 }
 .proximnorth, .proximeast, .proximsouth, .proximwest {
     width: 85px !important;
