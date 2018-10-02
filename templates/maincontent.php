@@ -452,7 +452,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><label for="applyfilters"><?php p($l->t('Apply filters')); ?></label></td>
     <td><input type="checkbox" id="applyfilters"/></td>
     <td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td><?php p($l->t('Begin date')); ?></td>
     <td><input role="datemin" type="date" value=""/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
@@ -470,9 +470,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <input class="time" role="minutemin" type="number" value="" min="0" max="59"/>:
         <input class="time" role="secondmin" type="number" value="" min="0" max="59"/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
-</tr><tr class="filterLine">
-    <td></td><td></td><td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td><?php p($l->t('End date')); ?></td>
     <td><input role="datemax" type="date" value=""/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
@@ -490,7 +488,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <input class="time" role="minutemax" type="number" value="" min="0" max="59"/>:
         <input class="time" role="secondmax" type="number" value="" min="0" max="59"/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
-</tr><tr class="dateminmaxcell">
+</tr><tr class="dateminmaxcell filterDelimiterLine">
     <td>
         <button role="dateminmaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i> <?php p($l->t('Min-- and Max--')); ?></button>
     </td>
@@ -498,15 +496,13 @@ if (count($_['useroverlayserverswms']) > 0){
         <button role="dateminmaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i> <?php p($l->t('Min++ and Max++')); ?></button>
     </td>
     <td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td><?php p($l->t('Last day:hour:min')); ?></td>
     <td><input class="time" role="lastdays" type="number" value="" min="0" max="100000"/>:
         <input class="time" role="lasthours" type="number" value="" min="0" max="23"/>:
         <input class="time" role="lastmins" type="number" value="" min="0" max="59"/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
-</tr><tr class="filterLine">
-    <td></td><td></td><td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td>
         <label for="accuracymin"><?php p($l->t('Minimum accuracy')); ?></label>
     </td>
@@ -522,9 +518,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <input role="accuracymax" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
-</tr><tr class="filterLine">
-    <td></td><td></td><td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td>
         <label for="elevationmin"><?php p($l->t('Minimum elevation')); ?></label>
     </td>
@@ -540,9 +534,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <input role="elevationmax" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
-</tr><tr class="filterLine">
-    <td></td><td></td><td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td>
         <label for="batterymin"><?php p($l->t('Minimum battery level')); ?></label>
     </td>
@@ -558,9 +550,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <input role="batterymax" type="number" value="" min="-1" max="100"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
-</tr><tr class="filterLine">
-    <td></td><td></td><td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td>
         <label for="speedmin"><?php p($l->t('Minimum speed')); ?></label>
     </td>
@@ -576,9 +566,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <input role="speedmax" type="number" value="" min="-1" max="100"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
-</tr><tr class="filterLine">
-    <td></td><td></td><td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td>
         <label for="bearingmin"><?php p($l->t('Minimum bearing')); ?></label>
     </td>
@@ -594,9 +582,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <input role="bearingmax" type="number" value="" min="-1" max="360"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
-</tr><tr class="filterLine">
-    <td></td><td></td><td></td>
-</tr><tr>
+</tr><tr class="filterDelimiterLine">
     <td>
         <label for="satellitesmin"><?php p($l->t('Minimum satellites')); ?></label>
     </td>

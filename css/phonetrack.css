@@ -408,19 +408,13 @@ input[role=precision] {
     padding: 5px;
 }
 #filterPointsTable td {
-    padding: 5px;
+    padding: 3px;
 }
 #filterPointsTable input[type=number].time {
     width: 44px !important;
 }
-.filterLine td {
+.filterDelimiterLine td {
     border-top: solid 1px grey;
-}
-.filterLine:hover {
-   background-color: transparent;
-}
-.dateminmaxcell {
-   background: #E2E6F1;
 }
 .dateminmaxcell td {
    text-align: center;
