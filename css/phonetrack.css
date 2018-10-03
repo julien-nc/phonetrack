@@ -954,3 +954,6 @@ input.geofencename {
     margin: 0px;
     border: 0px;
 }
+.sidebar.collapsed {
+    width: 42px;
+}
