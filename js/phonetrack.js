@@ -2674,7 +2674,7 @@
         var dropdowndevicebutton = '';
         var dropdowndevicecontent = '';
         geoLink = ' <button class="geoLinkDevice" token="' + s + '" device="' + d + '">' +
-            '<i class="fa fa-map-marked-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Geo link to open position in other app/program') + '</button>';
+            '<i class="fa fa-map-marked-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Geo link to open position in other app/software') + '</button>';
         routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">' +
             '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'Graphhopper'}) + '</button>';
         routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">' +
