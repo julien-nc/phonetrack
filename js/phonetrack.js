@@ -3351,8 +3351,9 @@
                 phonetrack.sessionPointsEntriesById[s][d][newlatlngs[0][2]].timestamp;
         }
         else {
-            // there is no point left for this device : delete the device
-            deleteDevice(s, d);
+            // there is no point left for this device
+            delete phonetrack.lastTime[s][d];
+            delete phonetrack.firstTime[s][d];
         }
         if ($('#togglestats').is(':checked')) {
             updateStatTable();
