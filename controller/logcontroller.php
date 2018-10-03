@@ -336,7 +336,7 @@ class LogController extends Controller {
                         $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
                         $message->setFrom([$mailfrom => 'PhoneTrack']);
                         $message->setTo([$userEmail => $userid]);
-                        $message->setPlainBody($this->trans->t('Device "%s" is now farther than %sm from "%s".', array($dev1name, $lowlimit, $dev2name)));
+                        $message->setPlainBody($this->trans->t('Device "%s" is now farther than %sm from "%s".', array($dev1name, $highlimit, $dev2name)));
                         $mailer->send($message);
                     }
                 }
