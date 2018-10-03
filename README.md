@@ -11,9 +11,9 @@ Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if yo
 
 How to use PhoneTrack :
 
-* create a tracking session
-* give the tracking URL\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* watch the session's devices positions in real time (or not) in PhoneTrack normal or public page
+* Create a tracking session.
+* Give the tracking URL\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+* Watch the session's devices positions in real time (or not) in PhoneTrack normal or public page.
 
 (\*) Don't forget to set the device name in the URL. Replace "yourname" with the desired device name. Setting the device name in logging app options only works with Owntracks, Traccar and OpenGTS.
 
@@ -23,18 +23,18 @@ On PhoneTrack main page, while watching a session, you can :
 * filter points
 * manually edit/add/delete points
 * edit devices (rename, change color, move to another session)
-* define geofencing zones for a device
+* define geofencing zones for devices
+* define proximity alerts for device pairs
 * share a session to other users (read-only)
 * make a session public and share it via a public link. Positions are not visible in web logging page "publicWebLog" for private sessions.
 * generate public share links with optional restrictions (filters, device name, last positions, geofencing simplification)
-* import/export a session in GPX format (one file with one track by device).
+* import/export a session in GPX format (one file with one track per device or one file per device).
 * display session statistics
 * [reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 * toggle session auto export (daily/weekly/monthly)
 * toggle session auto purge (daily/weekly/monthly)
-* restrict autozoom to some devices
 
-Public page works like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
+Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
 This app is tested with Nextcloud 14 with Firefox 57+ and Chromium.
 
@@ -56,6 +56,6 @@ See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for 
 
 ## Known issues
 
-* **Warning** : PhoneTrack does not work with group restriction on it. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#warning).
+* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Any feedback will be appreciated.
