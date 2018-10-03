@@ -5447,8 +5447,8 @@
         $('body').on('click','.valideditpoint', function(e) {
             var tab = $(this).parent().find('table');
             var token = tab.attr('token');
-            var deviceid = tab.attr('deviceid');
-            var pointid = tab.attr('pid');
+            var deviceid = parseInt(tab.attr('deviceid'));
+            var pointid = parseInt(tab.attr('pid'));
             // unchanged latlng
             var lat = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lat;
             var lon = phonetrack.sessionPointsEntriesById[token][deviceid][pointid].lon;
