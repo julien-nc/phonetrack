@@ -192,7 +192,7 @@ p($_['phonetrack_version']);
         </div>
     </div>
     <input id="tracknamecolor" type="text" style="display:none;"></input>
-    <input id="colorinput" type="color" style="display:none;"></input>
+    <input id="colorinput" type="color"></input>
 <?php
 
 echo '<p id="username" style="display:none">';
