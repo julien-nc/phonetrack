@@ -1464,6 +1464,13 @@ class PageController extends Controller {
                 $req->execute();
                 $req->closeCursor();
 
+                $sqldel = 'DELETE FROM *PREFIX*phonetrack_proxims ';
+                $sqldel .= 'WHERE deviceid1='.$this->db_quote_escape_string($dbdeviceid).' ';
+                $sqldel .= 'OR deviceid2='.$this->db_quote_escape_string($dbdeviceid).' ;';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+
                 $sqldel = 'DELETE FROM *PREFIX*phonetrack_devices ';
                 $sqldel .= 'WHERE id='.$this->db_quote_escape_string($dbdeviceid).' ;';
                 $req = $this->dbconnection->prepare($sqldel);
