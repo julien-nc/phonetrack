@@ -105,11 +105,6 @@ class LogController extends Controller {
         if (method_exists($appManager, 'getAppPath')){
             $this->appPath = $appManager->getAppPath('phonetrack');
         }
-        else {
-            $this->appPath = \OC_App::getAppPath('phonetrack');
-            // even dirtier
-            //$this->appPath = getcwd().'/apps/phonetrack';
-        }
         $this->userId = $UserId;
         $this->trans = $trans;
         $this->userManager = $userManager;
@@ -891,7 +886,7 @@ class LogController extends Controller {
                                $pass, $user, $action, $speed=null, $bearing=null) {
         if ($action === 'addpos') {
             $dname = $this->chooseDeviceName($devicename, null);
-            if ($speed != null){
+            if ($speed !== null){
                 $speed = 3.6 * $speed ;
             }
             $this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null,'Ulogger', $speed, $bearing);

@@ -88,11 +88,6 @@ class PageController extends Controller {
         if (method_exists($appManager, 'getAppPath')){
             $this->appPath = $appManager->getAppPath('phonetrack');
         }
-        else {
-            $this->appPath = \OC_App::getAppPath('phonetrack');
-            // even dirtier
-            //$this->appPath = getcwd().'/apps/phonetrack';
-        }
         $this->userId = $UserId;
         $this->userManager = $userManager;
         $this->dbtype = $config->getSystemValue('dbtype');
