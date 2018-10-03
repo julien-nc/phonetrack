@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - add option to set max number of points to load per device on refresh
 [#107](https://gitlab.com/eneiluj/phonetrack-oc/issues/107) @e-alfred
+- allow to set precise geofence coordinates
+[#142](https://gitlab.com/eneiluj/phonetrack-oc/issues/142) @Valdnet
+- add geo links to open device positions in external apps/softwares
+[#120](https://gitlab.com/eneiluj/phonetrack-oc/issues/120) @jookk
+- new feature : proximity notification for device pairs
+[#126](https://gitlab.com/eneiluj/phonetrack-oc/issues/126) @poVoq
 
 ### Changed
 - remove pushover support (already possible with POST URL)
@@ -20,6 +26,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - change device autozoom checkbox into an icon
 - change routing icons
 - zoom on geofence when fence name is clicked
+- remember if stats table is enabled
+[#147](https://gitlab.com/eneiluj/phonetrack-oc/issues/147) @Valdnet
+- lots of design improvements in filters and geofence definition
+- get entire device list when loading session and not lazy-load it when points arrive
+[#148](https://gitlab.com/eneiluj/phonetrack-oc/issues/148) @Valdnet
+- [filter] if not date is set but hour:min:sec is set, it implicitly concerns today
+[#149](https://gitlab.com/eneiluj/phonetrack-oc/issues/149) @vixu
+- remove absurd automatic device deletion after deleting its last loaded point
 
 ### Fixed
 - fix NaN displayed in tooltip when values are not set
@@ -30,6 +44,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - fix header hiding and initial sidebar state in public page
 [#139](https://gitlab.com/eneiluj/phonetrack-oc/issues/139) @vixu
 - newly manually added point is draggable if possible
+- padding when zooming
+[#146](https://gitlab.com/eneiluj/phonetrack-oc/issues/146) @Valdnet
+- sidebar state when collapsed after loading
+- manually add point to reserved name, now works for session owner with normal name (not the token)
+[#143](https://gitlab.com/eneiluj/phonetrack-oc/issues/143) @Valdnet
+- bug on some actions for newly added devices
+[#148](https://gitlab.com/eneiluj/phonetrack-oc/issues/148) @Valdnet
+- huge bug when editing recently manually added point and then trying to delete it
+- make app pass Nextcloud code check
+- device color changing in other browsers than Firefox
+[#139](https://gitlab.com/eneiluj/phonetrack-oc/issues/139) @Valdnet
 
 ## 0.3.1 – 2018-08-25
 ### Added
