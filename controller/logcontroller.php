@@ -340,14 +340,14 @@ class LogController extends Controller {
                         $mailer->send($message);
                     }
                 }
-                if ($urlclose !== '' and startsWith($urlclose, 'http')) {
+                if ($urlfar !== '' and startsWith($urlfar, 'http')) {
                     // GET
                     if ($urlenterpost === 0) {
-                        $xml = file_get_contents($urlclose);
+                        $xml = file_get_contents($urlfar);
                     }
                     // POST
                     else {
-                        $parts = parse_url($urlclose);
+                        $parts = parse_url($urlfar);
                         parse_str($parts['query'], $data);
 
                         $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
