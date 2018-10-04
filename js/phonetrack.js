@@ -1275,6 +1275,8 @@
         phonetrack.deviceAliases[token] = {};
         phonetrack.deviceIds[token] = {};
         phonetrack.devicePointIcons[token] = {};
+        phonetrack.lastTime[token] = {};
+        phonetrack.firstTime[token] = {};
         // if session is not shared (we have write access)
         if (!isFromShare) {
             $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
@@ -1971,8 +1973,14 @@
         // get new positions for all watched sessions
         $('.watchbutton i.fa-toggle-on').each(function() {
             var token = $(this).parent().parent().parent().attr('token');
-            var lastTimes = phonetrack.lastTime[token] || '';
-            var firstTimes = phonetrack.firstTime[token] || '';
+            var lastTimes = phonetrack.lastTime[token];
+            if (Object.keys(lastTimes).length === 0) {
+                lastTimes = '';
+            }
+            var firstTimes = phonetrack.firstTime[token];
+            if (Object.keys(firstTimes).length === 0) {
+                firstTimes = '';
+            }
             sessionsToWatch.push([token, lastTimes, firstTimes]);
         });
 
@@ -2916,16 +2924,10 @@
         firstEntryTimestamp = parseInt(entries[0].timestamp);
         lastEntryTimestamp = parseInt(entries[entries.length-1].timestamp);
         device = d;
-        if (!phonetrack.lastTime.hasOwnProperty(s)) {
-            phonetrack.lastTime[s] = {};
-        }
         if ((!phonetrack.lastTime[s].hasOwnProperty(device)) ||
             lastEntryTimestamp > phonetrack.lastTime[s][device])
         {
             phonetrack.lastTime[s][device] = lastEntryTimestamp;
-        }
-        if (!phonetrack.firstTime.hasOwnProperty(s)) {
-            phonetrack.firstTime[s] = {};
         }
         if ((!phonetrack.firstTime[s].hasOwnProperty(device)) ||
             firstEntryTimestamp < phonetrack.firstTime[s][device])
@@ -3511,6 +3513,7 @@
             drawLine(token, deviceid, cutLines, linegradient, linewidth, linearrow);
 
             // update lastTime
+            console.log(phonetrack.lastTime[token][deviceid]);
             phonetrack.lastTime[token][deviceid] =
                 phonetrack.sessionPointsEntriesById[token][deviceid][newlatlngs[newlatlngs.length - 1][2]].timestamp;
             phonetrack.firstTime[token][deviceid] =
