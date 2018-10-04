@@ -4358,14 +4358,24 @@
         if (parseInt(urlleavepost) !== 0) {
             leavepostTxt = '(POST)';
         }
+        var urlentertxt = '';
+        if (urlenter !== '') {
+            urlentertxt = t('phonetrack', 'URL to request when entering') + ' ' + enterpostTxt + ' : ' + escapeHTML(urlenter) + '\n';
+        }
+        var urlleavetxt = '';
+        if (urlleave !== '') {
+            urlleavetxt = t('phonetrack', 'URL to request when leaving') + ' ' + leavepostTxt + ' : ' + escapeHTML(urlleave) + '\n';
+        }
+
         var sendemailTxt = 'NO';
         if (parseInt(sendemail) !== 0) {
             sendemailTxt = 'YES';
         }
         var li = '<li fenceid="' + fenceid + '" latmin="' + llb.getSouth() + '" latmax="' + llb.getNorth() + '"' +
             'lonmin="' + llb.getWest() + '" lonmax="'+llb.getEast()+'" ' +
-            'title="' + t('phonetrack', 'URL to request when entering') + ' ' + enterpostTxt + ' : ' + escapeHTML(urlenter || '') + '\n' +
-            t('phonetrack', 'URL to request when leaving') + ' ' + leavepostTxt + ' : ' + escapeHTML(urlleave || '') + '\n' +
+            'title="' +
+            urlentertxt +
+            urlleavetxt +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
             '">' +
             '<label class="geofencelabel">'+escapeHTML(fencename)+'</label>' +
