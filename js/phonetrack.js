@@ -3777,7 +3777,7 @@
             // ZOOM
             phonetrack.map.fitBounds(boundsToZoomOn, {
                 //animate: true,
-                maxZoom: 16,
+                maxZoom: 15,
                 paddingTopLeft: [parseInt($('#sidebar').css('width')), 50],
                 paddingBottomRight: [50, 50]
             });
@@ -4022,12 +4022,12 @@
 
             // covers all problematic cases
             if (b.getSouthWest().equals(b.getNorthWest())) {
-                phonetrack.map.setView(m.getLatLng(), 10, {animate: true});
+                phonetrack.map.setView(m.getLatLng(), 15, {animate: true});
             }
             else {
                 phonetrack.map.fitBounds(b, {
                     animate: true,
-                    maxZoom: 16,
+                    maxZoom: 15,
                     paddingTopLeft: [parseInt($('#sidebar').css('width')), 50],
                     paddingBottomRight: [50, 50]
                 });
