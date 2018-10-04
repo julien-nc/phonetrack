@@ -2772,7 +2772,7 @@
                 '<span>(<label for="urlleavepost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlleavepost" id="urlleavepost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlleave'+s+d+'" class="urlleave" maxlength="500" />' +
-                '<label><b>' + t('phonetrack', 'Geofence zone coordinates') + '</b> ' + '(' + t('phonetrack', 'leave blank to use current map bounds') + ')' + '</label><br/>' +
+                '<label><b>' + t('phonetrack', 'Geofencing zone coordinates') + '</b> ' + '(' + t('phonetrack', 'leave blank to use current map bounds') + ')' + '</label><br/>' +
                 '<div class="addgeofenceleft">' +
                 '<label for="north'+s+d+'"> ' + t('phonetrack', 'North') + ' </label>' +
                 '<input id="north'+s+d+'" class="fencenorth" type="number" value="" min="-90" max="90" step="0.000001"/><br/>' +
