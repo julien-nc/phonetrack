@@ -3993,7 +3993,7 @@
         }
     }
 
-    function zoomOnDevice(elem) {
+    function zoomOnDevice(elem, t) {
         var id, dd, t, b, l;
         var perm = $('#showtime').is(':checked');
         var viewmove = $('#viewmove').is(':checked');
@@ -4039,6 +4039,9 @@
             phonetrack.lastZindex += 10;
 
             m.setZIndexOffset(phonetrack.lastZindex++);
+        }
+        else {
+            OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom on this device'));
         }
     }
 
@@ -5061,7 +5064,7 @@
         });
 
         $('body').on('click', 'ul.devicelist li .zoomdevicebutton, ul.devicelist li .deviceLabel', function(e) {
-            zoomOnDevice($(this));
+            zoomOnDevice($(this), t);
         });
 
         $('body').on('click', 'ul.devicelist li .toggleDetail', function(e) {
