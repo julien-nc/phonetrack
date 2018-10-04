@@ -87,7 +87,8 @@
         deviceIds: {},
         filtersEnabled: false,
         filterValues: {},
-        optionsValues: {}
+        optionsValues: {},
+        NSEWClick: {}
     };
 
     var offset = L.point(-7, 0);
@@ -698,6 +699,43 @@
             entry.speed,
             entry.bearing
         );
+    }
+
+    function enterNSEWMode(but) {
+        $('.leaflet-container').css('cursor','crosshair');
+        var s = but.parent().parent().parent().parent().attr('token');
+        var d = but.parent().parent().parent().parent().attr('device');
+        var ne = but.hasClass('geonortheastbutton');
+        phonetrack.NSEWClick = {s: s, d: d, ne: ne};
+        phonetrack.map.on('click', NSEWClickMap);
+    }
+
+    function leaveNSEWMode() {
+        $('.leaflet-container').css('cursor','grab');
+        phonetrack.map.off('click', NSEWClickMap);
+    }
+
+    function NSEWClickMap(e) {
+        var lat = e.latlng.lat;
+        var lon = e.latlng.lng;
+        while (lon < -180) {
+            lon = lon + 360;
+        }
+        lat = lat.toFixed(6);
+        lon = lon.toFixed(6);
+        var s = phonetrack.NSEWClick.s;
+        var d = phonetrack.NSEWClick.d;
+        var ne = phonetrack.NSEWClick.ne;
+        var geodiv = $('.session[token='+s+'] .devicelist li[device='+d+'] .addgeofencediv');
+        if (ne) {
+            geodiv.find('.fencenorth').val(lat);
+            geodiv.find('.fenceeast').val(lon);
+        }
+        else {
+            geodiv.find('.fencesouth').val(lat);
+            geodiv.find('.fencewest').val(lon);
+        }
+        leaveNSEWMode();
     }
 
     function enterAddPointMode() {
@@ -2737,15 +2775,23 @@
                 '<label><b>' + t('phonetrack', 'Geofence zone coordinates') + '</b> ' + '(' + t('phonetrack', 'leave blank to use current map bounds') + ')' + '</label><br/>' +
                 '<div class="addgeofenceleft">' +
                 '<label for="north'+s+d+'"> ' + t('phonetrack', 'North') + ' </label>' +
-                '<input id="north'+s+d+'" class="proximnorth" type="number" value="" min="-90" max="90" step="0.000001"/><br/>' +
+                '<input id="north'+s+d+'" class="fencenorth" type="number" value="" min="-90" max="90" step="0.000001"/><br/>' +
                 '<label for="south'+s+d+'"> ' + t('phonetrack', 'South') + ' </label>' +
-                '<input id="south'+s+d+'" class="proximsouth" type="number" value="" min="-90" max="90" step="0.000001"/>' +
+                '<input id="south'+s+d+'" class="fencesouth" type="number" value="" min="-90" max="90" step="0.000001"/>' +
+                '</div>' +
+                '<div class="addgeofencecenter">' +
+                '<button class="geonortheastbutton" title="' + t('phonetrack', 'Set North/East corner by clicking on the map') + '">' +
+                '<i class="fa fa-crosshairs" aria-hidden="true"></i> ' + t('phonetrack', 'Set N/E') +
+                '</button><br/>' +
+                '<button class="geosouthwestbutton" title="' + t('phonetrack', 'Set South/West corner by clicking on the map') + '">' +
+                '<i class="fa fa-crosshairs" aria-hidden="true"></i> ' + t('phonetrack', 'Set S/W') +
+                '</button>' +
                 '</div>' +
                 '<div class="addgeofenceright">' +
                 '<label for="east'+s+d+'"> ' + t('phonetrack', 'East') + ' </label> ' +
-                '<input id="east'+s+d+'" class="proximeast" type="number" value="" min="-90" max="90" step="0.000001"/><br/>' +
+                '<input id="east'+s+d+'" class="fenceeast" type="number" value="" min="-180" max="180" step="0.000001"/><br/>' +
                 '<label for="west'+s+d+'"> ' + t('phonetrack', 'West') + ' </label> ' +
-                '<input id="west'+s+d+'" class="proximwest" type="number" value="" min="-90" max="90" step="0.000001"/>' +
+                '<input id="west'+s+d+'" class="fencewest" type="number" value="" min="-180" max="180" step="0.000001"/>' +
                 '</div>' +
                 '<input type="text" class="geofencename" value="' + t('phonetrack', 'Fence name') + '"/>' +
                 '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
@@ -3513,7 +3559,6 @@
             drawLine(token, deviceid, cutLines, linegradient, linewidth, linearrow);
 
             // update lastTime
-            console.log(phonetrack.lastTime[token][deviceid]);
             phonetrack.lastTime[token][deviceid] =
                 phonetrack.sessionPointsEntriesById[token][deviceid][newlatlngs[newlatlngs.length - 1][2]].timestamp;
             phonetrack.firstTime[token][deviceid] =
@@ -5487,12 +5532,16 @@
             editPointDB(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing);
         });
 
-        $('body').on('click','.deletepoint', function(e) {
+        $('body').on('click', '.deletepoint', function(e) {
             var tab = $(this).parent().find('table');
             var s = tab.attr('token');
             var d = tab.attr('deviceid');
             var pid = parseInt(tab.attr('pid'));
             deletePointsDB(s, d, [pid]);
+        });
+
+        $('body').on('click', '.geonortheastbutton , .geosouthwestbutton', function(e) {
+            enterNSEWMode($(this));
         });
 
         $('#validaddpoint').click(function(e) {
@@ -5615,10 +5664,10 @@
             var urlenterpost = $(this).parent().find('.urlenterpost').is(':checked') ? 1 : 0;
             var urlleavepost = $(this).parent().find('.urlleavepost').is(':checked') ? 1 : 0;
             var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
-            var north = $(this).parent().find('.proximnorth').val();
-            var south = $(this).parent().find('.proximsouth').val();
-            var east = $(this).parent().find('.proximeast').val();
-            var west = $(this).parent().find('.proximwest').val();
+            var north = $(this).parent().find('.fencenorth').val();
+            var south = $(this).parent().find('.fencesouth').val();
+            var east = $(this).parent().find('.fenceeast').val();
+            var west = $(this).parent().find('.fencewest').val();
             var zonebounds;
             if (north && west && east && south) {
                 zonebounds = L.latLngBounds(L.latLng(north, west), L.latLng(south, east));

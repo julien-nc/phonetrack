@@ -781,6 +781,13 @@ label[for=viewmove] i {
 .geofencesDiv {
     clear: both;
 }
+.addgeofencecenter {
+    float:left;
+}
+.geonortheastbutton,
+.geosouthwestbutton {
+    padding: 2px;
+}
 .resetFilterButton {
     width: 25px;
     height: 25px;
@@ -940,7 +947,7 @@ input.geofencename {
     min-height: 14px;
     margin: 0;
 }
-.proximnorth, .proximeast, .proximsouth, .proximwest {
+.fencenorth, .fenceeast, .fencesouth, .fencewest {
     width: 85px !important;
     -moz-appearance: number-input !important;
     -webkit-appearance: initial !important;
