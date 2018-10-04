@@ -3830,6 +3830,9 @@
                 paddingBottomRight: [50, 50]
             });
         }
+        else {
+            OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is nothing to zoom on'));
+        }
     }
 
     function changeTooltipStyle() {
@@ -4089,7 +4092,7 @@
             m.setZIndexOffset(phonetrack.lastZindex++);
         }
         else {
-            OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom on this device'));
+            OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is nothing to zoom on'));
         }
     }
 
