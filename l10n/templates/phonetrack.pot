@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2018-10-04 16:29+0200\n"
+"POT-Creation-Date: 2018-10-05 10:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -816,6 +816,14 @@ msgstr ""
 
 #: phonetrack.js:4351
 msgid "Failed to contact server to add geofencing zone"
+msgstr ""
+
+#: phonetrack.js:4373 phonetrack.js:4466
+msgid "no"
+msgstr ""
+
+#: phonetrack.js:4375 phonetrack.js:4468
+msgid "yes"
 msgstr ""
 
 #: phonetrack.js:4411

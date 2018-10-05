@@ -4370,9 +4370,9 @@
             urlleavetxt = t('phonetrack', 'URL to request when leaving') + ' ' + leavepostTxt + ' : ' + escapeHTML(urlleave) + '\n';
         }
 
-        var sendemailTxt = 'NO';
+        var sendemailTxt = t('phonetrack', 'no');
         if (parseInt(sendemail) !== 0) {
-            sendemailTxt = 'YES';
+            sendemailTxt = t('phonetrack', 'yes');
         }
         var li = '<li fenceid="' + fenceid + '" latmin="' + llb.getSouth() + '" latmax="' + llb.getNorth() + '"' +
             'lonmin="' + llb.getWest() + '" lonmax="'+llb.getEast()+'" ' +
@@ -4463,9 +4463,9 @@
         if (parseInt(urlfarpost) !== 0) {
             farpostTxt = '(POST)';
         }
-        var sendemailTxt = 'NO';
+        var sendemailTxt = t('phonetrack', 'no');
         if (parseInt(sendemail) !== 0) {
-            sendemailTxt = 'YES';
+            sendemailTxt = t('phonetrack', 'yes');
         }
         var li = '<li proximid="' + proximid + '"' +
             'title="' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n' +
