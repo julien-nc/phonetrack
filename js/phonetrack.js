@@ -1423,10 +1423,10 @@
             if (!isFromShare) {
                 divtxt = divtxt + '<button class="removeSession">' +
                     '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete session') + '</button>';
-                divtxt = divtxt + '<button class="editsessionbutton" title="' + t('phonetrack', 'Rename session') + '">' +
+                divtxt = divtxt + '<button class="editsessionbutton">' +
                     '<i class="fa fa-pencil-alt"></i> ' + t('phonetrack', 'Rename session') + '</button>';
             }
-            divtxt = divtxt + '<div><button class="export" title="' + t('phonetrack', 'Export to gpx') + '">' +
+            divtxt = divtxt + '<div><button class="export">' +
                 '<i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
             divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHTML(name) + '.gpx"/></div>';
 
