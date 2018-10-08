@@ -74,7 +74,7 @@ p($_['phonetrack_version']);
             <br/>
             <label for="updateinterval"><i class="fa fa-sync-alt" aria-hidden="true"></i>
             <?php p($l->t('Refresh each (sec)'));?></label>
-            <input id="updateinterval" type="number" min="0" max="1000" step="1" value="15"/>
+            <input id="updateinterval" type="number" min="0" max="100000" step="1" value="15"/>
             <div id="countdown"></div>
             <button id="refreshButton"><i class="fa fa-sync-alt" aria-hidden="true"></i> <?php p($l->t('Refresh')); ?></button>
             <br/>
