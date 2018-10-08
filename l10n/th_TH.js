@@ -1,6 +1,7 @@
 OC.L10N.register(
     "phonetrack",
     {
+    "PhoneTrack" : "ติดตามสถานที่Bitzaron",
     "left" : "ซ้าย",
     "right" : "ขวา",
     "daily" : "ทุกวัน",

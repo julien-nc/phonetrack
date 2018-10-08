@@ -9,9 +9,9 @@
     "Delete this device" : "हटाएं इस उपकरण को",
     "Rename this device" : "नाम बदलें इस उपकरण का",
     "Ok" : "ठीक",
+    "Session" : "सत्र",
     "No filters" : "फ़िल्टर नहीं",
     "device name" : "उपकरण का नाम",
-    "About PhoneTrack" : "फोनटैक के बारे में",
-    "Session" : "सत्र"
+    "About PhoneTrack" : "फोनटैक के बारे में"
 },"pluralForm" :"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: hi"
 }

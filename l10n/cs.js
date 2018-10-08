@@ -1,6 +1,7 @@
 OC.L10N.register(
     "phonetrack",
     {
+    "PhoneTrack" : "Phonetrack",
     "left" : "vlevo",
     "right" : "vpravo",
     "Show lines" : "Zobrazit řádky",
@@ -62,7 +63,9 @@ OC.L10N.register(
     "Make session public" : "Nastavit relaci jako veřejnou",
     "Make session private" : "Nastavit relaci jako soukromou",
     "Public watch URL" : "Veřejná sledovací URL",
+    "Delete this device" : "Vymazat toto zařízení",
     "Rename this device" : "Přejmenovat toto zařízení",
+    "Set device alias" : "Nastavit zařízení alias",
     "Ok" : "Ok",
     "Failed to contact server to add point" : "Nepodařilo se kontaktovat server pro přidání bodu",
     "Date" : "Datum",
