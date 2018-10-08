@@ -144,7 +144,7 @@ p($_['phonetrack_version']);
             <br/>
             <label for="pointradius"><i class="fa fa-circle" aria-hidden="true"></i>
             <?php p($l->t('Point radius'));?></label>
-            <input id="pointradius" type="number" min="1" max="20" step="1" value="8"/>
+            <input id="pointradius" type="number" min="4" max="20" step="1" value="8"/>
             <br/>
             <label for="pointlinealpha"><i class="fa fa-eraser" aria-hidden="true"></i>
             <?php p($l->t('Points and lines opacity'));?></label>
