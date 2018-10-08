@@ -660,10 +660,17 @@ ul.devicelist {
 
 }
 
-.roundmarker {
+.divmarker {
     text-align: center;
-    border-radius: 50%;
     font-size: 17px;
+
+    border-width: 4px;
+    border-style: solid;
+}
+.roundmarker {
+    border-radius: 50%;
+}
+.squaremarker {
 }
 .sidebar-tabs > li.active {
     background-color: #E8E8E8;
