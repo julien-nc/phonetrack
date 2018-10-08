@@ -3831,7 +3831,7 @@
             });
         }
         else {
-            OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is nothing to zoom on'));
+            OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is no point to zoom on for this session'));
         }
     }
 
@@ -4092,7 +4092,7 @@
             m.setZIndexOffset(phonetrack.lastZindex++);
         }
         else {
-            OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is nothing to zoom on'));
+            OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is no point to zoom on for this device'));
         }
     }
 
