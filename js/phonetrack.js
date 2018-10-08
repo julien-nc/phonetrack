@@ -2827,9 +2827,11 @@
                 '<select class="proximsession"></select>' +
                 '<input type="text" class="devicename" value="' + t('phonetrack', 'Device name') + '"/>' +
                 '<label for="lowlimit'+s+d+'"> ' + t('phonetrack', 'Low distance limit') + ' </label>' +
-                '<input id="lowlimit'+s+d+'" class="lowlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
+                '<input id="lowlimit'+s+d+'" class="lowlimit" type="number" value="500" min="1" max="20000000"/>' +
+                t('phonetrack', 'meters') + '<br/>' +
                 '<label for="highlimit'+s+d+'"> ' + t('phonetrack', 'High distance limit') + ' </label> ' +
-                '<input id="highlimit'+s+d+'" class="highlimit" type="number" value="500" min="1" max="20000000"/><br/>' +
+                '<input id="highlimit'+s+d+'" class="highlimit" type="number" value="500" min="1" max="20000000"/>' +
+                t('phonetrack', 'meters') + '<br/>' +
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + ' </label>' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
                 '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'URL to request when devices get close') + '</b></label><br/>' +

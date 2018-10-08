@@ -971,3 +971,6 @@ input.geofencename {
 .sidebar.collapsed {
     width: 42px;
 }
+.lowlimit, .highlimit {
+    width: 80px;
+}
