@@ -2948,7 +2948,9 @@
                 '</li>');
 
         // select shape
-        $('.session[token="' + s + '"] ul.devicelist li[device='+d+']').find('select[role=shapeselect]').val(shape);
+        if (shape !== '') {
+            $('.session[token="' + s + '"] ul.devicelist li[device='+d+']').find('select[role=shapeselect]').val(shape);
+        }
 
         // manage names/ids
         var intDid = parseInt(d);
