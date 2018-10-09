@@ -106,6 +106,12 @@
       <length>300</length>
     </field>
     <field>
+      <name>shape</name>
+      <type>text</type>
+      <default></default>
+      <length>1</length>
+    </field>
+    <field>
       <name>nametoken</name>
       <type>text</type>
       <default></default>

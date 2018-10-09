@@ -35,6 +35,7 @@ return [
         ['name' => 'page#setDeviceAlias', 'url' => '/setDeviceAlias', 'verb' => 'POST'],
         ['name' => 'page#reaffectDevice', 'url' => '/reaffectDevice', 'verb' => 'POST'],
         ['name' => 'page#setDeviceColor', 'url' => '/setDeviceColor', 'verb' => 'POST'],
+        ['name' => 'page#setDeviceShape', 'url' => '/setDeviceShape', 'verb' => 'POST'],
         ['name' => 'log#logGet', 'url' => '/logGet/{token}/{devicename}', 'verb' => 'GET'],
         ['name' => 'log#logPost', 'url' => '/logPost/{token}/{devicename}', 'verb' => 'POST'],
         ['name' => 'log#logOsmand', 'url' => '/log/osmand/{token}/{devicename}', 'verb' => 'GET'],

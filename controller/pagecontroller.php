@@ -357,7 +357,7 @@ class PageController extends Controller {
 
     private function getDevices($sessionid) {
         $devices = array();
-        $sqlget = 'SELECT id, name, alias, color, nametoken FROM *PREFIX*phonetrack_devices ';
+        $sqlget = 'SELECT id, name, alias, color, nametoken, shape FROM *PREFIX*phonetrack_devices ';
         $sqlget .= 'WHERE sessionid='.$this->db_quote_escape_string($sessionid).';';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
@@ -367,9 +367,10 @@ class PageController extends Controller {
             $dbalias = $row['alias'];
             $dbcolor = $row['color'];
             $dbnametoken = $row['nametoken'];
+            $dbshape = $row['shape'];
             $geofences = $this->getGeofences($dbid);
             $proxims = $this->getProxims($dbid);
-            $oneDev = [$dbid, $dbname, $dbalias, $dbcolor, $dbnametoken, $geofences, $proxims];
+            $oneDev = [$dbid, $dbname, $dbalias, $dbcolor, $dbnametoken, $geofences, $proxims, $dbshape];
             array_push($devices, $oneDev);
         }
         $req->closeCursor();
@@ -1131,6 +1132,69 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function setDeviceShape($session, $device, $shape) {
+        $ok = 0;
+        // check if session exists
+        $sqlchk = 'SELECT name FROM *PREFIX*phonetrack_sessions ';
+        $sqlchk .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlchk .= 'AND token='.$this->db_quote_escape_string($session).' ';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbname = null;
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbname !== null) {
+            // check if device exists
+            $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
+            $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($session).' ';
+            $sqlchk .= 'AND id='.$this->db_quote_escape_string($device).' ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            $dbdevid = null;
+            while ($row = $req->fetch()){
+                $dbdevid = $row['id'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbdevid !== null) {
+                $sqlupd = 'UPDATE *PREFIX*phonetrack_devices ';
+                $sqlupd .= 'SET shape='.$this->db_quote_escape_string($shape).' ';
+                $sqlupd .= 'WHERE id='.$this->db_quote_escape_string($device).' ';
+                $sqlupd .= 'AND sessionid='.$this->db_quote_escape_string($session).';';
+                $req = $this->dbconnection->prepare($sqlupd);
+                $req->execute();
+                $req->closeCursor();
+                $ok = 1;
+            }
+            else {
+                $ok = 3;
+            }
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function renameSession($token, $newname) {
         $ok = 0;
         if ($newname !== '' and $newname !== null) {
@@ -1522,6 +1586,7 @@ class PageController extends Controller {
     public function track($sessions) {
         $result = array();
         $colors = array();
+        $shapes = array();
         $names = array();
         $aliases = array();
         $geofences = array();
@@ -1625,7 +1690,7 @@ class PageController extends Controller {
                             }
                             // we give color (first point given)
                             else {
-                                $sqlcolor = 'SELECT color, name, alias ';
+                                $sqlcolor = 'SELECT color, name, alias, shape ';
                                 $sqlcolor .= 'FROM *PREFIX*phonetrack_devices ';
                                 $sqlcolor .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                                 $sqlcolor .= 'AND id='.$this->db_quote_escape_string($devid).'; ';
@@ -1633,11 +1698,16 @@ class PageController extends Controller {
                                 $req->execute();
                                 $col = '';
                                 while ($row = $req->fetch()){
+                                    $shape = $row['shape'];
                                     $col = $row['color'];
                                     $name = $row['name'];
                                     $alias = $row['alias'];
                                 }
                                 $req->closeCursor();
+                                if (!array_key_exists($token, $shapes)) {
+                                    $shapes[$token] = array();
+                                }
+                                $shapes[$token][$devid] = $shape;
                                 if (!array_key_exists($token, $colors)) {
                                     $colors[$token] = array();
                                 }
@@ -1717,6 +1787,7 @@ class PageController extends Controller {
                                     unset($names[$dbtoken][$devid]);
                                     unset($aliases[$dbtoken][$devid]);
                                     unset($colors[$dbtoken][$devid]);
+                                    unset($shapes[$dbtoken][$devid]);
                                     unset($geofences[$dbtoken][$devid]);
                                 }
                             }
@@ -1730,6 +1801,7 @@ class PageController extends Controller {
             [
                 'sessions'=>$result,
                 'colors'=>$colors,
+                'shapes'=>$shapes,
                 'names'=>$names,
                 'aliases'=>$aliases,
                 'geofences'=>$geofences,
@@ -1808,6 +1880,7 @@ class PageController extends Controller {
     public function publicWebLogTrack($sessions) {
         $result = array();
         $colors = array();
+        $shapes = array();
         $names = array();
         $aliases = array();
         foreach ($sessions as $session) {
@@ -1873,7 +1946,7 @@ class PageController extends Controller {
                         }
                         // we give color (first point given)
                         else {
-                            $sqlcolor = 'SELECT color, name, alias ';
+                            $sqlcolor = 'SELECT color, name, alias, shapes ';
                             $sqlcolor .= 'FROM *PREFIX*phonetrack_devices ';
                             $sqlcolor .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                             $sqlcolor .= 'AND id='.$this->db_quote_escape_string($devid).'; ';
@@ -1882,10 +1955,15 @@ class PageController extends Controller {
                             $col = '';
                             while ($row = $req->fetch()){
                                 $col = $row['color'];
+                                $shape = $row['shape'];
                                 $name = $row['name'];
                                 $alias = $row['alias'];
                             }
                             $req->closeCursor();
+                            if (!array_key_exists($dbtoken, $shapes)) {
+                                $shapes[$dbtoken] = array();
+                            }
+                            $shapes[$dbtoken][$devid] = $shape;
                             if (!array_key_exists($dbtoken, $colors)) {
                                 $colors[$dbtoken] = array();
                             }
@@ -1934,6 +2012,7 @@ class PageController extends Controller {
                                 unset($names[$dbtoken][$devid]);
                                 unset($aliases[$dbtoken][$devid]);
                                 unset($colors[$dbtoken][$devid]);
+                                unset($shapes[$dbtoken][$devid]);
                             }
                         }
                     }
@@ -1945,6 +2024,7 @@ class PageController extends Controller {
             [
                 'sessions'=>$result,
                 'colors'=>$colors,
+                'shapes'=>$shapes,
                 'names'=>$names,
                 'aliases'=>$aliases
             ]
@@ -1966,6 +2046,7 @@ class PageController extends Controller {
     public function publicViewTrack($sessions) {
         $result = array();
         $colors = array();
+        $shapes = array();
         $names = array();
         $aliases = array();
         foreach ($sessions as $session) {
@@ -2062,7 +2143,7 @@ class PageController extends Controller {
                     }
                     // we give color (first point given)
                     else {
-                        $sqlcolor = 'SELECT color, name, alias ';
+                        $sqlcolor = 'SELECT color, name, alias, shape ';
                         $sqlcolor .= 'FROM *PREFIX*phonetrack_devices ';
                         $sqlcolor .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                         $sqlcolor .= 'AND id='.$this->db_quote_escape_string($devid).'; ';
@@ -2071,10 +2152,15 @@ class PageController extends Controller {
                         $col = '';
                         while ($row = $req->fetch()){
                             $col = $row['color'];
+                            $shape = $row['shape'];
                             $name = $row['name'];
                             $alias = $row['alias'];
                         }
                         $req->closeCursor();
+                        if (!array_key_exists($dbpublicviewtoken, $shapes)) {
+                            $shapes[$dbpublicviewtoken] = array();
+                        }
+                        $shapes[$dbpublicviewtoken][$devid] = $shape;
                         if (!array_key_exists($dbpublicviewtoken, $colors)) {
                             $colors[$dbpublicviewtoken] = array();
                         }
@@ -2131,6 +2217,7 @@ class PageController extends Controller {
                             unset($names[$dbpublicviewtoken][$devid]);
                             unset($aliases[$dbpublicviewtoken][$devid]);
                             unset($colors[$dbpublicviewtoken][$devid]);
+                            unset($shapes[$dbpublicviewtoken][$devid]);
                         }
                     }
                 }
@@ -2144,6 +2231,7 @@ class PageController extends Controller {
             [
                 'sessions'=>$result,
                 'colors'=>$colors,
+                'shapes'=>$shapes,
                 'names'=>$names,
                 'aliases'=>$aliases
             ]

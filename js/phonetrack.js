@@ -68,6 +68,7 @@
         // the last position markers
         sessionMarkerLayers: {},
         sessionColors: {},
+        sessionShapes: {},
         currentRefreshAjax: null,
         currentTimer: null,
         // remember the oldest and newest point of each device
@@ -1602,7 +1603,7 @@
         }
         ////////////////////////////////////////////////////////////
         // Manage devices from given list
-        var ii, dev, devid, devname, devalias, devcolor, devnametoken, devgeofences, devproxims;
+        var ii, dev, devid, devname, devalias, devcolor, devnametoken, devgeofences, devproxims, devshape;
         for (ii=0; ii < devices.length; ii++) {
             dev = devices[ii];
             devid = dev[0];
@@ -1612,6 +1613,7 @@
             devnametoken = dev[4];
             devgeofences = dev[5];
             devproxims = dev[6];
+            devshape = dev[7];
 
             if (phonetrack.sessionsFromSavedOptions
                 && phonetrack.sessionsFromSavedOptions.hasOwnProperty(token)
@@ -1622,13 +1624,14 @@
                     phonetrack.sessionsFromSavedOptions[token][devid].line,
                     phonetrack.sessionsFromSavedOptions[token][devid].point,
                     devalias,
-                    devproxims
+                    devproxims,
+                    devshape
                 );
                 // once restored, get rid of the data
                 delete phonetrack.sessionsFromSavedOptions[token][devid];
             }
             else {
-                addDevice(token, devid, name, devcolor, devname, devgeofences, false, false, false, devalias, devproxims);
+                addDevice(token, devid, name, devcolor, devname, devgeofences, false, false, false, devalias, devproxims, devshape);
             }
         }
     }
@@ -1828,7 +1831,7 @@
             }
         );
         // update main marker letter
-        var mletter = phonetrack.optionsValues.markerletter;
+        var mletter = $('#markerletter').is(':checked');
         var letter = '';
         if (mletter) {
             if (alias !== '') {
@@ -1839,7 +1842,7 @@
             }
         }
         var radius = phonetrack.optionsValues.pointradius;
-        var shape = 'round';
+        var shape = phonetrack.sessionShapes[token+d];
         var iconMarker = L.divIcon({
             iconAnchor: [radius, radius],
             className: shape + 'marker color' + token + d,
@@ -1903,7 +1906,7 @@
         );
         // update main marker letter
         var letter = '';
-        var mletter = phonetrack.optionsValues.markerletter;
+        var mletter = $('#markerletter').is(':checked');
         if (mletter) {
             if (newalias !== '') {
                 letter = newalias[0];
@@ -1913,7 +1916,7 @@
             }
         }
         var radius = phonetrack.optionsValues.pointradius;
-        var shape = 'round';
+        var shape = phonetrack.sessionShapes[token+d];
         var iconMarker = L.divIcon({
             iconAnchor: [radius, radius],
             className: shape + 'marker color' + token + d,
@@ -2071,7 +2074,7 @@
                     return xhr;
                 }
             }).done(function (response) {
-                displayNewPoints(response.sessions, response.colors, response.names, response.geofences, response.aliases);
+                displayNewPoints(response.sessions, response.colors, response.names, response.geofences, response.aliases, response.proxims, response.shapes);
             }).always(function() {
                 hideLoadingAnimation();
                 phonetrack.currentRefreshAjax = null;
@@ -2530,9 +2533,9 @@
         }
     }
 
-    function displayNewPoints(sessions, colors, names, geofences={}, aliases={}) {
+    function displayNewPoints(sessions, colors, names, geofences={}, aliases={}, proxims={}, shapes={}) {
         var s, i, d, entry, device, timestamp, mom, icon,
-            entryArray, dEntries, colorn, rgbc, devcol, devgeofences,
+            entryArray, dEntries, colorn, rgbc, devcol, devgeofences, devshape, devproxims,
             textcolor, sessionname;
         var perm = $('#showtime').is(':checked');
         for (s in sessions) {
@@ -2542,8 +2545,17 @@
                 // add line and marker if necessary
                 if (! phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
                     devcol = '';
+                    devgeofences = [];
+                    devproxims = [];
+                    devshape = '';
                     if (colors.hasOwnProperty(s) && colors[s].hasOwnProperty(d)) {
                         devcol = colors[s][d];
+                    }
+                    if (proxims.hasOwnProperty(s) && proxims[s].hasOwnProperty(d)) {
+                        devproxims = proxims[s][d];
+                    }
+                    if (shapes.hasOwnProperty(s) && shapes[s].hasOwnProperty(d)) {
+                        devshape = shapes[s][d];
                     }
                     if (geofences.hasOwnProperty(s) && geofences[s].hasOwnProperty(d)) {
                         devgeofences = geofences[s][d];
@@ -2556,13 +2568,15 @@
                             phonetrack.sessionsFromSavedOptions[s][d].zoom,
                             phonetrack.sessionsFromSavedOptions[s][d].line,
                             phonetrack.sessionsFromSavedOptions[s][d].point,
-                            aliases[s][d]
+                            aliases[s][d],
+                            devproxims,
+                            devshape
                         );
                         // once restored, get rid of the data
                         delete phonetrack.sessionsFromSavedOptions[s][d];
                     }
                     else {
-                        addDevice(s, d, sessionname, devcol, names[s][d], devgeofences, false, false, false, aliases[s][d]);
+                        addDevice(s, d, sessionname, devcol, names[s][d], devgeofences, false, false, false, aliases[s][d], devproxims, devshape);
                     }
                 }
                 // for all new entries of this session
@@ -2614,8 +2628,8 @@
             textcolor = 'white';
         }
         var opacity = $('#pointlinealpha').val();
-        var shape = 'round';
-        var background = '';
+        var shape = phonetrack.sessionShapes[s+d];
+        var background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         var border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
         if (shape !== 'triangle') {
             background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
@@ -2682,8 +2696,8 @@
         changeDeviceStyle(s, d, color);
     }
 
-    function addDevice(s, d, sessionname, color='', name, geofences=[], zoom=false, line=false, point=false, alias='', proxims=[]) {
-        var colorn, textcolor, rgbc, linetooltip;
+    function addDevice(s, d, sessionname, color='', name, geofences=[], zoom=false, line=false, point=false, alias='', proxims=[], pshape='') {
+        var colorn, textcolor, rgbc, linetooltip, shape;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
             var colorCodeArray;
@@ -2707,10 +2721,16 @@
         textcolor = 'black';
         if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
             textcolor = 'white';
-        } 
+        }
+        if (pshape === '' || pshape === null) {
+            shape = 'round';
+        }
+        else {
+            shape = pshape;
+        }
+        phonetrack.sessionShapes[s + d] = shape;
         var opacity = $('#pointlinealpha').val();
-        var shape = 'round';
-        var background = '';
+        var background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         var border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
         if (shape !== 'triangle') {
             background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
@@ -2732,6 +2752,7 @@
                 'background: rgb(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
                 'color: ' + textcolor + '; font-weight: bold;' +
                 '}</style>').appendTo('body');
+        var shapeDiv = '';
         var deleteLink = '';
         var renameLink = '';
         var aliasLink = '';
@@ -2760,6 +2781,14 @@
         dropdowndevicebutton = '<button class="dropdowndevicebutton" title="'+t('phonetrack', 'More actions')+'">' +
             '<i class="fa fa-bars" aria-hidden="true"></i></button>';
         if (!pageIsPublic() && !isSessionShared(s)) {
+            shapeDiv = '<div class="shapediv" title="">' +
+                '<div><i class="fa fa-shapes" aria-hidden="true"></i> ' + t('phonetrack', 'Set device shape') + '</div>' +
+            '<select role="shapeselect">' +
+            '<option value="round">' + t('phonetrack', 'Round') + '</option>' +
+            '<option value="square">' + t('phonetrack', 'Square') + '</option>' +
+            '<option value="triangle">' + t('phonetrack', 'Triangle') + '</option>' +
+            '</select>' +
+            '</div>';
             deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete this device') + '</button>';
             renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">' +
@@ -2776,6 +2805,7 @@
                 '</div>';
         }
         dropdowndevicecontent = '<div class="dropdown-content">' +
+            shapeDiv +
             deleteLink +
             renameLink +
             aliasLink +
@@ -2917,6 +2947,9 @@
                 proximDiv +
                 '</li>');
 
+        // select shape
+        $('.session[token="' + s + '"] ul.devicelist li[device='+d+']').find('select[role=shapeselect]').val(shape);
+
         // manage names/ids
         var intDid = parseInt(d);
         phonetrack.deviceNames[s][intDid] = escapeHTML(name);
@@ -2947,7 +2980,7 @@
             }
         );
         var radius = phonetrack.optionsValues.pointradius;
-        var mletter = phonetrack.optionsValues.markerletter;
+        var mletter = $('#markerletter').is(':checked');
         var letter = '';
         if (mletter) {
             if (alias !== null && alias !== '') {
@@ -5474,6 +5507,77 @@
             }
         });
 
+        $('body').on('change','select[role=shapeselect]', function(e) {
+            var shape = $(this).val();
+            var s = $(this).parent().parent().parent().parent().attr('token');
+            var d = $(this).parent().parent().parent().parent().attr('device');
+            var req = {
+                session: s,
+                device: d,
+                shape: shape
+            };
+            var url = OC.generateUrl('/apps/phonetrack/setDeviceShape');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                if (response.done === 1) {
+                    phonetrack.sessionShapes[s+d] = shape;
+                    var radius = $('#pointradius').val();
+                    var opacity = $('#pointlinealpha').val();
+                    var mletter = $('#markerletter').is(':checked');
+                    var letter = '';
+                    if (mletter) {
+                        var dname = getDeviceName(s, d);
+                        var dalias = getDeviceAlias(s, d);
+                        if (dalias !== null && dalias !== '') {
+                            letter = dalias[0];
+                        }
+                        else {
+                            letter = dname[0];
+                        }
+                    }
+                    var iconMarker = L.divIcon({
+                        iconAnchor: [radius, radius],
+                        className: shape + 'marker color' + s + d,
+                        html: '<b>' + letter + '</b>'
+                    });
+                    phonetrack.sessionMarkerLayers[s][d].setIcon(iconMarker);
+
+                    var icon = L.divIcon({
+                        iconAnchor: [radius, radius],
+                        className: shape + 'marker color' + s + d,
+                        html: ''
+                    });
+                    phonetrack.devicePointIcons[s][d] = icon;
+                    var pid;
+                    for (pid in phonetrack.sessionPointsLayersById[s][d]) {
+                        phonetrack.sessionPointsLayersById[s][d][pid].setIcon(icon);
+                    }
+                    // dev styles
+                    var styletxt = $('style[tokendevice="' + s + d + '"]').html();
+                    styletxt = styletxt.replace(/opacity: (\d+(\.\d+)?);/, 'opacity: ' + opacity + ';');
+                    // if markers is square or round, make border completely transparent
+                    if (shape === 'triangle') {
+                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, ' + opacity + ')');
+                        styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, 0)');
+                    }
+                    else {
+                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, 0)');
+                        styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, ' + opacity + ')');
+                    }
+                    $('style[tokendevice="' + s + d + '"]').html(styletxt);
+                }
+                else if (response.done === 2) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Failed to set device shape'));
+                }
+            }).fail(function() {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set device shape'));
+            });
+        });
+
         $('body').on('change','select[role=autoexport]', function(e) {
             var val = $(this).val();
             var token = $(this).parent().parent().parent().attr('token');
@@ -5635,6 +5739,8 @@
                 && !event.target.matches('.reaffectDeviceDiv select') && !event.target.matches('.reaffectDeviceDiv')
                 && !event.target.matches('.reaffectDeviceDiv select *')
                 && !event.target.matches('input[role=exportname]')
+                && !event.target.matches('select[role=shapeselect]')
+                && !event.target.matches('select[role=shapeselect] option')
                 && !event.target.matches('select[role=autoexport]')
                 && !event.target.matches('select[role=autoexport] option')
                 && !event.target.matches('select[role=autopurge]')
@@ -5949,7 +6055,7 @@
             if (!pageIsPublic()) {
                 saveOptions();
             }
-            var mletter = phonetrack.optionsValues.markerletter;
+            var mletter = $('#markerletter').is(':checked');
             var radius = $(this).val();
             var diam = 2 * radius;
             $('style[role=divmarker]').html(
@@ -5983,7 +6089,7 @@
                             letter = dname[0];
                         }
                     }
-                    shape = 'round';
+                    shape = phonetrack.sessionShapes[s+d];
                     iconMarker = L.divIcon({
                         iconAnchor: [radius, radius],
                         className: shape + 'marker color' + s + d,
@@ -6032,7 +6138,7 @@
             var s, d, shape, name, alias, letter, markerIcon;
             for (s in phonetrack.sessionMarkerLayers) {
                 for (d in phonetrack.sessionMarkerLayers[s]) {
-                    shape = 'round';
+                    shape = phonetrack.sessionShapes[s+d];
                     letter = '';
                     if (mletter) {
                         name = getDeviceName(s, d);
@@ -6062,16 +6168,17 @@
             var s, d, styletxt, shape;
             for (s in phonetrack.sessionMarkerLayers) {
                 for (d in phonetrack.sessionMarkerLayers[s]) {
-                    shape = 'round';
+                    shape = phonetrack.sessionShapes[s+d];
                     styletxt = $('style[tokendevice="' + s + d + '"]').html();
                     styletxt = styletxt.replace(/opacity: (\d+(\.\d+)?);/, 'opacity: ' + opacity + ';');
-                    styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, ' + opacity + ')');
                     // if markers is square or round, make border completely transparent
                     if (shape === 'triangle') {
                         styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, ' + opacity + ')');
+                        styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, 0)');
                     }
                     else {
                         styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, 0)');
+                        styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, ' + opacity + ')');
                     }
                     $('style[tokendevice="' + s + d + '"]').html(styletxt);
                 }

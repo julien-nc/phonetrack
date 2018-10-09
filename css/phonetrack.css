@@ -856,11 +856,13 @@ input[role=lastposonly] {
 .autopurgediv div,
 .autopurgediv select,
 .autoexportdiv div,
+.shapediv div,
 .autoexportdiv select {
     width: 45%;
     float: left;
 }
 .autopurgediv div,
+.shapediv div,
 .autoexportdiv div {
     padding: 0px 8px 0px 8px;
     font-weight: bold;
