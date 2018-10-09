@@ -16,6 +16,7 @@ use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\IConfig;
 use \OCP\IL10N;
+use \OCP\ILogger;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -92,11 +93,13 @@ class LogController extends Controller {
     private $defaultDeviceName;
     private $trans;
     private $userManager;
+    private $ncLogger;
 
     const LOG_OWNTRACKS = 'Owntracks';
 
     public function __construct($AppName, IRequest $request, $UserId,
-                                $userfolder, $config, $shareManager, IAppManager $appManager, $userManager, IL10N $trans){
+                                $userfolder, $config, $shareManager,
+                                IAppManager $appManager, $userManager, IL10N $trans, ILogger $ncLogger){
         parent::__construct($AppName, $request);
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
         // just to keep Owncloud compatibility
@@ -107,6 +110,7 @@ class LogController extends Controller {
         }
         $this->userId = $UserId;
         $this->trans = $trans;
+        $this->ncLogger = $ncLogger;
         $this->userManager = $userManager;
         $this->dbtype = $config->getSystemValue('dbtype');
         // IConfig object
@@ -275,13 +279,18 @@ class LogController extends Controller {
                     if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
-                        $mailer = \OC::$server->getMailer();
-                        $message = $mailer->createMessage();
-                        $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
-                        $message->setFrom([$mailfrom => 'PhoneTrack']);
-                        $message->setTo([$userEmail => $userid]);
-                        $message->setPlainBody($this->trans->t('Device "%s" is now closer than %sm to "%s".', array($dev1name, $lowlimit, $dev2name)));
-                        $mailer->send($message);
+                        try {
+                            $mailer = \OC::$server->getMailer();
+                            $message = $mailer->createMessage();
+                            $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
+                            $message->setFrom([$mailfrom => 'PhoneTrack']);
+                            $message->setTo([$userEmail => $userid]);
+                            $message->setPlainBody($this->trans->t('Device "%s" is now closer than %sm to "%s".', array($dev1name, $lowlimit, $dev2name)));
+                            $mailer->send($message);
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                        }
                     }
                 }
                 if ($urlclose !== '' and startsWith($urlclose, 'http')) {
@@ -326,13 +335,18 @@ class LogController extends Controller {
                     if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
-                        $mailer = \OC::$server->getMailer();
-                        $message = $mailer->createMessage();
-                        $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
-                        $message->setFrom([$mailfrom => 'PhoneTrack']);
-                        $message->setTo([$userEmail => $userid]);
-                        $message->setPlainBody($this->trans->t('Device "%s" is now farther than %sm from "%s".', array($dev1name, $highlimit, $dev2name)));
-                        $mailer->send($message);
+                        try {
+                            $mailer = \OC::$server->getMailer();
+                            $message = $mailer->createMessage();
+                            $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
+                            $message->setFrom([$mailfrom => 'PhoneTrack']);
+                            $message->setTo([$userEmail => $userid]);
+                            $message->setPlainBody($this->trans->t('Device "%s" is now farther than %sm from "%s".', array($dev1name, $highlimit, $dev2name)));
+                            $mailer->send($message);
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                        }
                     }
                 }
                 if ($urlfar !== '' and startsWith($urlfar, 'http')) {
@@ -423,13 +437,18 @@ class LogController extends Controller {
                     if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail) and $sendemail !== 0) {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
-                        $mailer = \OC::$server->getMailer();
-                        $message = $mailer->createMessage();
-                        $message->setSubject($this->trans->t('Geofencing alert'));
-                        $message->setFrom([$mailfrom => 'PhoneTrack']);
-                        $message->setTo([$userEmail => $this->userId]);
-                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
-                        $mailer->send($message);
+                        try {
+                            $mailer = \OC::$server->getMailer();
+                            $message = $mailer->createMessage();
+                            $message->setSubject($this->trans->t('Geofencing alert'));
+                            $message->setFrom([$mailfrom => 'PhoneTrack']);
+                            $message->setTo([$userEmail => $this->userId]);
+                            $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
+                            $mailer->send($message);
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                        }
                     }
                     if ($urlenter !== '' and startsWith($urlenter, 'http')) {
                         // GET
@@ -469,13 +488,18 @@ class LogController extends Controller {
                     if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail) and $sendemail !== 0) {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
-                        $mailer = \OC::$server->getMailer();
-                        $message = $mailer->createMessage();
-                        $message->setSubject($this->trans->t('Geofencing alert'));
-                        $message->setFrom([$mailfrom => 'PhoneTrack']);
-                        $message->setTo([$userEmail => $this->userId]);
-                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
-                        $mailer->send($message);
+                        try {
+                            $mailer = \OC::$server->getMailer();
+                            $message = $mailer->createMessage();
+                            $message->setSubject($this->trans->t('Geofencing alert'));
+                            $message->setFrom([$mailfrom => 'PhoneTrack']);
+                            $message->setTo([$userEmail => $this->userId]);
+                            $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
+                            $mailer->send($message);
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                        }
                     }
                     if ($urlleave !== '' and startsWith($urlleave, 'http')) {
                         // GET
