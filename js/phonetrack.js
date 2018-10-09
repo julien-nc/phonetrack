@@ -5508,6 +5508,8 @@
         });
 
         $('body').on('change','select[role=shapeselect]', function(e) {
+            // to avoid clicking on another menu item
+            hideAllDropDowns();
             var shape = $(this).val();
             var s = $(this).parent().parent().parent().parent().attr('token');
             var d = $(this).parent().parent().parent().parent().attr('device');
