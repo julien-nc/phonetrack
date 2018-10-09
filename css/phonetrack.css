@@ -660,17 +660,21 @@ ul.devicelist {
 
 }
 
-.divmarker {
+.roundmarker, .squaremarker, .trianglemarker {
     text-align: center;
-    font-size: 17px;
+    font-size: 16px;
+}
 
+.roundmarker, .squaremarker {
     border-width: 4px;
     border-style: solid;
 }
 .roundmarker {
     border-radius: 50%;
 }
-.squaremarker {
+.trianglemarker b {
+    position: absolute;
+    left: -4px;
 }
 .sidebar-tabs > li.active {
     background-color: #E8E8E8;

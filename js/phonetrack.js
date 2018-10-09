@@ -1830,9 +1830,10 @@
             letter = newname[0];
         }
         var radius = phonetrack.optionsValues.pointradius;
+        var shape = 'round';
         var iconMarker = L.divIcon({
             iconAnchor: [radius, radius],
-            className: 'divmarker roundmarker color' + token + d,
+            className: shape + 'marker color' + token + d,
             html: '<b>' + letter + '</b>'
         });
         phonetrack.sessionMarkerLayers[token][d].setIcon(iconMarker);
@@ -1900,9 +1901,10 @@
             letter = devname[0];
         }
         var radius = phonetrack.optionsValues.pointradius;
+        var shape = 'round';
         var iconMarker = L.divIcon({
             iconAnchor: [radius, radius],
-            className: 'divmarker roundmarker color' + token + d,
+            className: shape + 'marker color' + token + d,
             html: '<b>' + letter + '</b>'
         });
         phonetrack.sessionMarkerLayers[token][d].setIcon(iconMarker);
@@ -2600,10 +2602,10 @@
             textcolor = 'white';
         }
         var opacity = $('#pointlinealpha').val();
-        var full = true;
+        var shape = 'round';
         var background = '';
         var border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
-        if (full) {
+        if (shape !== 'triangle') {
             background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
             border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         }
@@ -2695,10 +2697,10 @@
             textcolor = 'white';
         } 
         var opacity = $('#pointlinealpha').val();
-        var full = true;
+        var shape = 'round';
         var background = '';
         var border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
-        if (full) {
+        if (shape !== 'triangle') {
             background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
             border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         }
@@ -2942,12 +2944,12 @@
         }
         var markerIcon = L.divIcon({
             iconAnchor: [radius, radius],
-            className: 'divmarker roundmarker color' + s + d,
+            className: shape + 'marker color' + s + d,
             html: '<b>' + letter + '</b>'
         });
         var pointIcon = L.divIcon({
             iconAnchor: [radius, radius],
-            className: 'divmarker roundmarker color' + s + d,
+            className: shape + 'marker color' + s + d,
             html: ''
         });
         phonetrack.devicePointIcons[s][d] = pointIcon;
@@ -4683,7 +4685,7 @@
                         years = days = hours = minutes = seconds = 0;
                     }
 
-                    table = table + '<tr><td class="divmarker color' + s +
+                    table = table + '<tr><td class="color' + s +
                         d + '">' + getDeviceName(s, d) + '</td>';
                     table = table + '<td>'+formatDistance(dist)+'</td>';
                     table = table + '<td>';
@@ -5911,11 +5913,22 @@
 
         var radius = $('#pointradius').val();
         var diam = 2 * radius;
-        $('<style role="divmarker">.divmarker { ' +
+        $('<style role="divmarker">' +
+            '.roundmarker, .squaremarker { ' +
             'width: ' + diam + 'px !important;' +
             'height: ' + diam + 'px !important;' +
             'line-height: ' + (diam - 10) + 'px;' +
-            '}</style>').appendTo('body');
+            '}' +
+            '.trianglemarker { ' +
+            'width: 0px !important;' +
+            'height: 0px !important;' +
+            'border-left: ' + radius + 'px solid transparent !important;' +
+            'border-right: ' + radius + 'px solid transparent !important;' +
+            'border-bottom-width: ' + diam + 'px;' +
+            'border-bottom-style: solid;' +
+            'line-height: ' + (diam) + 'px;' +
+            '}' +
+            '</style>').appendTo('body');
 
         $('#pointradius').change(function() {
             if (!pageIsPublic()) {
@@ -5924,27 +5937,37 @@
             var radius = $(this).val();
             var diam = 2 * radius;
             $('style[role=divmarker]').html(
-                '.divmarker { ' +
+                '.roundmarker, .squaremarker { ' +
                 'width: ' + diam + 'px !important;' +
                 'height: ' + diam + 'px !important;' +
                 'line-height: ' + (diam - 10) + 'px;' +
-                '}</style>'
+                '}' +
+                '.trianglemarker { ' +
+                'width: 0px !important;' +
+                'height: 0px !important;' +
+                'border-left: ' + radius + 'px solid transparent !important;' +
+                'border-right: ' + radius + 'px solid transparent !important;' +
+                'border-bottom-width: ' + diam + 'px;' +
+                'border-bottom-style: solid;' +
+                'line-height: ' + (diam) + 'px;' +
+                '}'
             );
             // change iconanchor
             var s, d, pid, icon, iconMarker;
             for (s in phonetrack.sessionMarkerLayers) {
                 for (d in phonetrack.sessionMarkerLayers[s]) {
                     var dname = getDeviceName(s, d);
+                    var shape = 'round';
                     iconMarker = L.divIcon({
                         iconAnchor: [radius, radius],
-                        className: 'divmarker roundmarker color' + s + d,
+                        className: shape + 'marker color' + s + d,
                         html: '<b>' + dname[0] + '</b>'
                     });
                     phonetrack.sessionMarkerLayers[s][d].setIcon(iconMarker);
 
                     icon = L.divIcon({
                         iconAnchor: [radius, radius],
-                        className: 'divmarker roundmarker color' + s + d,
+                        className: shape + 'marker color' + s + d,
                         html: ''
                     });
                     phonetrack.devicePointIcons[s][d] = icon;
@@ -5978,19 +6001,19 @@
                 saveOptions();
             }
             var opacity = $(this).val();
-            var s, d, styletxt, full;
+            var s, d, styletxt, shape;
             for (s in phonetrack.sessionMarkerLayers) {
                 for (d in phonetrack.sessionMarkerLayers[s]) {
-                    full = true;
+                    shape = 'round';
                     styletxt = $('style[tokendevice="' + s + d + '"]').html();
                     styletxt = styletxt.replace(/opacity: (\d+(\.\d+)?);/, 'opacity: ' + opacity + ';');
                     styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, ' + opacity + ')');
-                    // if markers are full, make border completely transparent
-                    if (full) {
-                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, 0)');
+                    // if markers is square or round, make border completely transparent
+                    if (shape === 'triangle') {
+                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, ' + opacity + ')');
                     }
                     else {
-                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, ' + opacity + ')');
+                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, 0)');
                     }
                     $('style[tokendevice="' + s + d + '"]').html(styletxt);
                 }
