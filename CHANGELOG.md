@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.3.4 – 2018-10-09
 ### Added
 - add option to set max number of points to load per device on refresh
 [#107](https://gitlab.com/eneiluj/phonetrack-oc/issues/107) @e-alfred
@@ -14,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#120](https://gitlab.com/eneiluj/phonetrack-oc/issues/120) @jookk
 - new feature : proximity notification for device pairs
 [#126](https://gitlab.com/eneiluj/phonetrack-oc/issues/126) @poVoq
+- notification if zooming on device with no points
+[#156](https://gitlab.com/eneiluj/phonetrack-oc/issues/156) @Valdnet
+- ability to set geofence zone corners with click on map
+[#142](https://gitlab.com/eneiluj/phonetrack-oc/issues/142) @Valdnet
 
 ### Changed
 - remove pushover support (already possible with POST URL)
@@ -34,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [filter] if not date is set but hour:min:sec is set, it implicitly concerns today
 [#149](https://gitlab.com/eneiluj/phonetrack-oc/issues/149) @vixu
 - remove absurd automatic device deletion after deleting its last loaded point
+- update leaflet to 1.3.4
 
 ### Fixed
 - fix NaN displayed in tooltip when values are not set
@@ -55,6 +62,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - make app pass Nextcloud code check
 - device color changing in other browsers than Firefox
 [#139](https://gitlab.com/eneiluj/phonetrack-oc/issues/139) @Valdnet
+- update leaflet.polylinedecorator to fix zoom performance issue with arrows displayed
+- translations when locale is en\_GB
+[#128](https://gitlab.com/eneiluj/phonetrack-oc/issues/128) @poVoq
 
 ## 0.3.1 – 2018-08-25
 ### Added
