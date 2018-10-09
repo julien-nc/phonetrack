@@ -162,7 +162,6 @@
     "Save" : "Opslaan",
     "Move" : "Verplaatsen",
     "Cancel" : "Annuleer",
-    "Impossible to zoom, there is nothing to zoom on" : "Inzoemen niet mogelijk, er is niets om op in te zoemen",
     "File extension must be '.gpx' to be imported" : "Om te importeren moet de bestandsextensie '.gpx' zijn",
     "Failed to create imported session" : "Aanmaken van de geïmporteerde sessie is mislukt",
     "Failed to import session" : "Importeren van de sessie is mislukt",
