@@ -2631,7 +2631,7 @@
         var shape = phonetrack.sessionShapes[s+d];
         var background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         var border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
-        if (shape !== 'triangle') {
+        if (shape !== 't') {
             background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
             border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         }
@@ -2723,7 +2723,7 @@
             textcolor = 'white';
         }
         if (pshape === '' || pshape === null) {
-            shape = 'round';
+            shape = 'r';
         }
         else {
             shape = pshape;
@@ -2732,7 +2732,7 @@
         var opacity = $('#pointlinealpha').val();
         var background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         var border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
-        if (shape !== 'triangle') {
+        if (shape !== 't') {
             background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
             border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         }
@@ -2784,9 +2784,9 @@
             shapeDiv = '<div class="shapediv" title="">' +
                 '<div><i class="fa fa-shapes" aria-hidden="true"></i> ' + t('phonetrack', 'Set device shape') + '</div>' +
             '<select role="shapeselect">' +
-            '<option value="round">' + t('phonetrack', 'Round') + '</option>' +
-            '<option value="square">' + t('phonetrack', 'Square') + '</option>' +
-            '<option value="triangle">' + t('phonetrack', 'Triangle') + '</option>' +
+            '<option value="r">' + t('phonetrack', 'Round') + '</option>' +
+            '<option value="s">' + t('phonetrack', 'Square') + '</option>' +
+            '<option value="t">' + t('phonetrack', 'Triangle') + '</option>' +
             '</select>' +
             '</div>';
             deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '">' +
@@ -5564,7 +5564,7 @@
                     var styletxt = $('style[tokendevice="' + s + d + '"]').html();
                     styletxt = styletxt.replace(/opacity: (\d+(\.\d+)?);/, 'opacity: ' + opacity + ';');
                     // if markers is square or round, make border completely transparent
-                    if (shape === 'triangle') {
+                    if (shape === 't') {
                         styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, ' + opacity + ')');
                         styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, 0)');
                     }
@@ -6039,12 +6039,12 @@
         var radius = $('#pointradius').val();
         var diam = 2 * radius;
         $('<style role="divmarker">' +
-            '.roundmarker, .squaremarker { ' +
+            '.rmarker, .smarker { ' +
             'width: ' + diam + 'px !important;' +
             'height: ' + diam + 'px !important;' +
             'line-height: ' + (diam - 10) + 'px;' +
             '}' +
-            '.trianglemarker { ' +
+            '.tmarker { ' +
             'width: 0px !important;' +
             'height: 0px !important;' +
             'border-left: ' + radius + 'px solid transparent !important;' +
@@ -6063,12 +6063,12 @@
             var radius = $(this).val();
             var diam = 2 * radius;
             $('style[role=divmarker]').html(
-                '.roundmarker, .squaremarker { ' +
+                '.rmarker, .smarker { ' +
                 'width: ' + diam + 'px !important;' +
                 'height: ' + diam + 'px !important;' +
                 'line-height: ' + (diam - 10) + 'px;' +
                 '}' +
-                '.trianglemarker { ' +
+                '.tmarker { ' +
                 'width: 0px !important;' +
                 'height: 0px !important;' +
                 'border-left: ' + radius + 'px solid transparent !important;' +
@@ -6176,7 +6176,7 @@
                     styletxt = $('style[tokendevice="' + s + d + '"]').html();
                     styletxt = styletxt.replace(/opacity: (\d+(\.\d+)?);/, 'opacity: ' + opacity + ';');
                     // if markers is square or round, make border completely transparent
-                    if (shape === 'triangle') {
+                    if (shape === 't') {
                         styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, ' + opacity + ')');
                         styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, 0)');
                     }

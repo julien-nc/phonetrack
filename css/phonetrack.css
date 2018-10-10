@@ -660,19 +660,19 @@ ul.devicelist {
 
 }
 
-.roundmarker, .squaremarker, .trianglemarker {
+.rmarker, .smarker, .tmarker {
     text-align: center;
     font-size: 16px;
 }
 
-.roundmarker, .squaremarker {
+.rmarker, .smarker {
     border-width: 4px;
     border-style: solid;
 }
-.roundmarker {
+.rmarker {
     border-radius: 50%;
 }
-.trianglemarker b {
+.tmarker b {
     position: absolute;
     left: -4px;
 }
