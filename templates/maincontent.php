@@ -144,15 +144,18 @@ p($_['phonetrack_version']);
             <br/>
             <label for="linewidth"><i class="fa fa-pencil-alt" aria-hidden="true"></i>
             <?php p($l->t('Line width'));?></label>
-            <input id="linewidth" type="number" min="1" max="20" step="1" value="4"/>
+            <input id="linewidth" type="range" min="1" max="20" step="1" value="4"/>
+            <label id="linewidthlabel">4px</label>
             <br/>
             <label for="pointradius"><i class="fa fa-circle" aria-hidden="true"></i>
             <?php p($l->t('Point radius'));?></label>
-            <input id="pointradius" type="number" min="4" max="20" step="1" value="8"/>
+            <input id="pointradius" type="range" min="4" max="20" step="1" value="8"/>
+            <label id="pointradiuslabel">8px</label>
             <br/>
             <label for="pointlinealpha"><i class="fa fa-eraser" aria-hidden="true"></i>
             <?php p($l->t('Points and lines opacity'));?></label>
-            <input id="pointlinealpha" type="number" min="0.1" max="1" step="0.1" value="0.8"/>
+            <input id="pointlinealpha" type="range" min="0.1" max="1" step="0.1" value="0.8"/>
+            <label id="pointlinealphalabel">0.8</label>
             <br/>
             <label for="colorthemeselect"><i class="fa fa-paint-brush" aria-hidden="true"></i>
             <?php p($l->t('Theme'));?>*</label>

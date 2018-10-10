@@ -1039,12 +1039,14 @@
                 }
                 if (optionsValues.linewidth !== undefined) {
                     $('#linewidth').val(optionsValues.linewidth);
+                    $('#linewidthlabel').text(optionsValues.linewidth+'px');
                 }
                 if (optionsValues.colortheme !== undefined) {
                     $('#colorthemeselect').val(optionsValues.colortheme);
                 }
                 if (optionsValues.pointlinealpha !== undefined) {
                     $('#pointlinealpha').val(optionsValues.pointlinealpha);
+                    $('#pointlinealphalabel').text(optionsValues.pointlinealpha);
                 }
                 if (optionsValues.autoexportpath !== undefined) {
                     $('#autoexportpath').val(optionsValues.autoexportpath);
@@ -1060,6 +1062,7 @@
                 }
                 if (optionsValues.pointradius !== undefined) {
                     $('#pointradius').val(optionsValues.pointradius);
+                    $('#pointradiuslabel').text(optionsValues.pointradius+'px');
                 }
                 if (optionsValues.showtime !== undefined) {
                     $('#showtime').prop('checked', optionsValues.showtime);
@@ -5013,6 +5016,7 @@
             }
             var s, d;
             var w = parseInt($(this).val());
+            $('#linewidthlabel').text(w+'px');
             for (s in phonetrack.sessionLineLayers) {
                 for (d in phonetrack.sessionLineLayers[s]) {
                     phonetrack.sessionLineLayers[s][d].setStyle({
@@ -6039,6 +6043,7 @@
             }
             var mletter = $('#markerletter').is(':checked');
             var radius = $(this).val();
+            $('#pointradiuslabel').text(radius+'px');
             var diam = 2 * radius;
             $('style[role=divmarker]').html(
                 '.rmarker, .smarker { ' +
@@ -6147,6 +6152,7 @@
                 saveOptions();
             }
             var opacity = $(this).val();
+            $('#pointlinealphalabel').text(opacity);
             var s, d, styletxt, shape, colorcode;
             for (s in phonetrack.sessionMarkerLayers) {
                 for (d in phonetrack.sessionMarkerLayers[s]) {
