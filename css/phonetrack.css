@@ -396,7 +396,7 @@ label[for=cutdistance] {
     padding: 0 !important;
     height: 10px;
     width: 100px;
-    -webkit-appearance: initial;
+    -webkit-appearance: slider-horizontal;
     -moz-appearance: initial;
 }
 input[role=altitude],
