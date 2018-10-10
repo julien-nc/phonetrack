@@ -48,6 +48,10 @@ h1.sectiontitle {
     font-size: 18px;
     font-weight: bold;
 }
+h2.sectiontitle {
+    font-size: 14px;
+    font-weight: bold;
+}
 h3.sectiontitle {
     font-size: 16px;
     font-weight: bold;
@@ -59,7 +63,6 @@ div#help h1 {
     /*margin-left:30px;*/
     text-align:center;
 }
-
 ul,hr {
     margin-top : 3px;
     margin-bottom : 3px;
@@ -68,16 +71,13 @@ h3 {
     margin-top : 5px;
     margin-bottom : 5px;
 }
-
 .transparent {
     opacity : 0.6;
 }
-
 .uibutton {
     font-size: 13px;
     height : 28px;
 }
-
 #phonetracksettings{
     color:black;
 }
@@ -663,12 +663,10 @@ ul.devicelist {
     white-space: normal;
 
 }
-
 .rmarker, .smarker, .tmarker {
     text-align: center;
     font-size: 16px;
 }
-
 .rmarker, .smarker {
     border-width: 4px;
     border-style: solid;
