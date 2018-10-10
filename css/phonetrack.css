@@ -584,8 +584,6 @@ ul.devicelist {
 }
 .devicecolor {
     float: left;
-    border-radius: 50%;
-    border: solid 1px grey;
     width: 15px;
     height: 15px;
     margin: 5px 0px 5px 0px;
@@ -675,6 +673,19 @@ ul.devicelist {
 .tmarker b {
     position: absolute;
     left: -4px;
+}
+.rdevicecolor {
+    border-radius: 50%;
+}
+.sdevicecolor {
+}
+.tdevicecolor {
+    width: 0px !important;
+    height: 0px !important;
+    border-left: 7px solid transparent !important;
+    border-right: 7px solid transparent !important;
+    border-bottom-width: 15px;
+    border-bottom-style: solid;
 }
 .sidebar-tabs > li.active {
     background-color: #E8E8E8;

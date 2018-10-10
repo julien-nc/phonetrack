@@ -2614,33 +2614,35 @@
         }
     }
 
-    function changeDeviceStyle(s, d, colorcode) {
-        var linegradient = $('#linegradient').is(':checked');
-        if (linegradient) {
-            phonetrack.sessionLineLayers[s][d].eachLayer(function (l) {
-                l.options.outlineColor = colorcode;
-                l.redraw();
-            });
-        }
+    function setDeviceCss(s, d, colorcode, opacity, shape) {
         var rgbc = hexToRgb(colorcode);
         var textcolor = 'black';
         if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
             textcolor = 'white';
         }
-        var opacity = $('#pointlinealpha').val();
-        var shape = phonetrack.sessionShapes[s+d];
         var background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
         var border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
+        var devcolbackground = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
+        var devcolborder = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 1);';
         if (shape !== 't') {
             background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
-            border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
+            //border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
+            border = 'border: 1px solid grey;';
+            devcolbackground = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 1);';
+            //devcolborder = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
+            devcolborder = 'border: 1px solid grey;';
         }
-        $('style[tokendevice="' + s + d + '"]').html(
+        $('style[tokendevice="' + s + d + '"]').remove();
+        $('<style tokendevice="' + s + d + '">' +
             '.color' + s + d + ' { ' +
             background +
             border +
             'color: ' + textcolor + '; font-weight: bold;' +
             ' }' +
+            '.devicecolor' + s + d + ' {' +
+            devcolbackground +
+            devcolborder +
+            '}' +
             '.poly' + s + d + ' {' +
             'stroke: ' + colorcode + ';' +
             'opacity: ' + opacity + ';' +
@@ -2651,8 +2653,20 @@
             '.opaquetooltip' + s + d + ' {' +
             'background: rgb(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
             'color: ' + textcolor + '; font-weight: bold;' +
-            '}'
-        );
+            '}</style>').appendTo('body');
+    }
+
+    function changeDeviceStyle(s, d, colorcode) {
+        var linegradient = $('#linegradient').is(':checked');
+        if (linegradient) {
+            phonetrack.sessionLineLayers[s][d].eachLayer(function (l) {
+                l.options.outlineColor = colorcode;
+                l.redraw();
+            });
+        }
+        var shape = phonetrack.sessionShapes[s+d];
+        var opacity = $('#pointlinealpha').val();
+        setDeviceCss(s, d, colorcode, opacity, shape);
         // we apply change in DB
         if (!pageIsPublic()) {
             var req = {
@@ -2697,7 +2711,14 @@
     }
 
     function addDevice(s, d, sessionname, color='', name, geofences=[], zoom=false, line=false, point=false, alias='', proxims=[], pshape='') {
-        var colorn, textcolor, rgbc, linetooltip, shape;
+        var colorn, textcolor, linetooltip, shape;
+        if (pshape === '' || pshape === null) {
+            shape = 'r';
+        }
+        else {
+            shape = pshape;
+        }
+        phonetrack.sessionShapes[s + d] = shape;
         if (color === '' || color === null) {
             var theme = $('#colorthemeselect').val();
             var colorCodeArray;
@@ -2712,46 +2733,13 @@
             }
             colorn = ++lastColorUsed % colorCodeArray.length;
             phonetrack.sessionColors[s + d] = colorCodeArray[colorn];
-            rgbc = hexToRgb(colorCodeArray[colorn]);
         }
         else {
             phonetrack.sessionColors[s + d] = color;
-            rgbc = hexToRgb(color);
         }
-        textcolor = 'black';
-        if (rgbc.r + rgbc.g + rgbc.b < 3 * 80) {
-            textcolor = 'white';
-        }
-        if (pshape === '' || pshape === null) {
-            shape = 'r';
-        }
-        else {
-            shape = pshape;
-        }
-        phonetrack.sessionShapes[s + d] = shape;
         var opacity = $('#pointlinealpha').val();
-        var background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
-        var border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
-        if (shape !== 't') {
-            background = 'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', ' + opacity + ');';
-            border = 'border-color: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0);';
-        }
-        $('<style tokendevice="' + s + d + '">.color' + s + d + ' { ' +
-            background +
-            border +
-                'color: ' + textcolor + '; font-weight: bold;' +
-                ' }' +
-                '.poly' + s + d + ' {' +
-                'stroke: ' + phonetrack.sessionColors[s + d] + ';' +
-                'opacity: ' + opacity + ';' +
-                '}' +
-                '.tooltip' + s + d + ' {' +
-                'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
-                'color: ' + textcolor + '; font-weight: bold; }' +
-                '.opaquetooltip' + s + d + ' {' +
-                'background: rgb(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
-                'color: ' + textcolor + '; font-weight: bold;' +
-                '}</style>').appendTo('body');
+        setDeviceCss(s, d, phonetrack.sessionColors[s + d], opacity, shape);
+
         var shapeDiv = '';
         var deleteLink = '';
         var renameLink = '';
@@ -2926,7 +2914,7 @@
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
                 '<div>' +
-                '<div class="devicecolor opaquetooltip' + s + d + '"></div> ' +
+                '<div class="devicecolor ' + shape + 'devicecolor devicecolor' + s + d + '"></div> ' +
                 '<div class="deviceLabel" title="' +
                 t('phonetrack', 'Center map on device') + '">' + escapeHTML(nameLabelTxt) + '</div> ' +
                 renameInput +
@@ -5561,18 +5549,8 @@
                         phonetrack.sessionPointsLayersById[s][d][pid].setIcon(icon);
                     }
                     // dev styles
-                    var styletxt = $('style[tokendevice="' + s + d + '"]').html();
-                    styletxt = styletxt.replace(/opacity: (\d+(\.\d+)?);/, 'opacity: ' + opacity + ';');
-                    // if markers is square or round, make border completely transparent
-                    if (shape === 't') {
-                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, ' + opacity + ')');
-                        styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, 0)');
-                    }
-                    else {
-                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, 0)');
-                        styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, ' + opacity + ')');
-                    }
-                    $('style[tokendevice="' + s + d + '"]').html(styletxt);
+                    setDeviceCss(s, d, phonetrack.sessionColors[s + d], opacity, shape);
+                    $('.session[token='+s+'] ul.devicelist li[device='+d+'] .devicecolor').removeClass('rdevicecolor').removeClass('sdevicecolor').removeClass('tdevicecolor').addClass(shape+'devicecolor');
                 }
                 else if (response.done === 2) {
                     OC.Notification.showTemporary(t('phonetrack', 'Failed to set device shape'));
@@ -6042,7 +6020,7 @@
             '.rmarker, .smarker { ' +
             'width: ' + diam + 'px !important;' +
             'height: ' + diam + 'px !important;' +
-            'line-height: ' + (diam - 10) + 'px;' +
+            'line-height: ' + (diam - 4) + 'px;' +
             '}' +
             '.tmarker { ' +
             'width: 0px !important;' +
@@ -6066,7 +6044,7 @@
                 '.rmarker, .smarker { ' +
                 'width: ' + diam + 'px !important;' +
                 'height: ' + diam + 'px !important;' +
-                'line-height: ' + (diam - 10) + 'px;' +
+                'line-height: ' + (diam - 4) + 'px;' +
                 '}' +
                 '.tmarker { ' +
                 'width: 0px !important;' +
@@ -6169,22 +6147,12 @@
                 saveOptions();
             }
             var opacity = $(this).val();
-            var s, d, styletxt, shape;
+            var s, d, styletxt, shape, colorcode;
             for (s in phonetrack.sessionMarkerLayers) {
                 for (d in phonetrack.sessionMarkerLayers[s]) {
                     shape = phonetrack.sessionShapes[s+d];
-                    styletxt = $('style[tokendevice="' + s + d + '"]').html();
-                    styletxt = styletxt.replace(/opacity: (\d+(\.\d+)?);/, 'opacity: ' + opacity + ';');
-                    // if markers is square or round, make border completely transparent
-                    if (shape === 't') {
-                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, ' + opacity + ')');
-                        styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, 0)');
-                    }
-                    else {
-                        styletxt = styletxt.replace(/border-color: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'border-color: rgba($1, $2, $3, 0)');
-                        styletxt = styletxt.replace(/background: rgba\((\d+), (\d+), (\d+), (\d+(\.\d+)?)\)/, 'background: rgba($1, $2, $3, ' + opacity + ')');
-                    }
-                    $('style[tokendevice="' + s + d + '"]').html(styletxt);
+                    colorcode = phonetrack.sessionColors[s+d];
+                    setDeviceCss(s, d, colorcode, opacity, shape);
                 }
             }
         });
