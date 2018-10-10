@@ -62,20 +62,8 @@ p($_['phonetrack_version']);
         <div id="optioncheckdiv">
             <div>
             <hr/>
-            <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('Map settings')); ?></h2>
+            <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('General')); ?></h2>
             </div>
-            <input id="autozoom" type="checkbox"/>
-            <label for="autozoom"><i class="fa nc-theming-main-background"> </i>
-            <?php p($l->t('Auto zoom')); ?></label>
-            <br/>
-            <input id="viewmove" type="checkbox" checked/>
-            <label for="viewmove"><i class="fa nc-theming-main-background"> </i>
-            <?php p($l->t('Show lines')); ?></label>
-            <br/>
-            <input id="showtime" type="checkbox"/>
-            <label for="showtime"><i class="fa nc-theming-main-background"> </i>
-            <?php p($l->t('Show tooltips')); ?></label>
-            <br/>
             <label for="updateinterval"><i class="fa fa-sync-alt" aria-hidden="true"></i>
             <?php p($l->t('Refresh each (sec)')); ?></label>
             <input id="updateinterval" type="number" min="0" max="100000" step="1" value="15"/>
@@ -99,8 +87,20 @@ p($_['phonetrack_version']);
             </div>
             <div>
             <hr/>
-            <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('Point settings')); ?></h2>
+            <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('Display')); ?></h2>
             </div>
+            <input id="autozoom" type="checkbox"/>
+            <label for="autozoom"><i class="fa nc-theming-main-background"> </i>
+            <?php p($l->t('Auto zoom')); ?></label>
+            <br/>
+            <input id="viewmove" type="checkbox" checked/>
+            <label for="viewmove"><i class="fa nc-theming-main-background"> </i>
+            <?php p($l->t('Show lines')); ?></label>
+            <br/>
+            <input id="showtime" type="checkbox"/>
+            <label for="showtime"><i class="fa nc-theming-main-background"> </i>
+            <?php p($l->t('Show tooltips')); ?></label>
+            <br/>
             <input id="markerletter" type="checkbox" checked/>
             <label for="markerletter"><i class="fa fa-font" aria-hidden="true"></i>
             <?php p($l->t('Display first letter of device name on last position')); ?></label>
@@ -174,7 +174,7 @@ p($_['phonetrack_version']);
             <br/>
             <div>
             <hr/>
-            <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('File export settings')); ?></h2>
+            <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('File export')); ?></h2>
             </div>
             <label for="autoexportpath"><i class="far fa-save" aria-hidden="true"></i>
             <?php p($l->t('Auto export path')); ?></label>

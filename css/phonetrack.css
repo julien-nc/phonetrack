@@ -738,7 +738,7 @@ ul.devicelist {
 }
 label[for=autozoom] i {
     width: 20px;
-    height: 18px;
+    height: 16px;
     min-height: 2px;
     margin-left: 0px;
     margin-top: 0 !important;
@@ -746,10 +746,12 @@ label[for=autozoom] i {
     padding: 0 !important;
     mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
+    mask-size: 20px !important;
+    -webkit-mask-size: 20px !important;
 }
 label[for=showtime] i {
     width: 20px;
-    height: 18px;
+    height: 16px;
     min-height: 2px;
     margin-left: 0px;
     margin-top: 0 !important;
@@ -757,10 +759,12 @@ label[for=showtime] i {
     padding: 0 !important;
     mask: url('images/pointtooltip.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/pointtooltip.svg') no-repeat 50% 50% !important;
+    mask-size: 19px !important;
+    -webkit-mask-size: 19px !important;
 }
 label[for=viewmove] i {
     width: 20px;
-    height: 18px;
+    height: 16px;
     min-height: 2px;
     margin-left: 0px;
     margin-top: 0 !important;
@@ -768,6 +772,8 @@ label[for=viewmove] i {
     padding: 0 !important;
     mask: url('images/network.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
+    mask-size: 19px !important;
+    -webkit-mask-size: 19px !important;
 }
 .toggleGeofences {
     width: 25px;
