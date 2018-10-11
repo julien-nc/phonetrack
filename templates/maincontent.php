@@ -115,31 +115,31 @@ p($_['phonetrack_version']);
             <br/>
             <input id="tooltipshowaccuracy" type="checkbox" checked/>
             <label for="tooltipshowaccuracy"><i class="far fa-dot-circle" aria-hidden="true"></i>
-            <?php p($l->t('Show accuracy in tooltips')); ?> *</label>
+            <?php p($l->t('Show accuracy in tooltips')); ?></label>
             <br/>
             <input id="tooltipshowspeed" type="checkbox" checked/>
             <label for="tooltipshowspeed"><i class="fa fa-tachometer-alt" aria-hidden="true"></i>
-            <?php p($l->t('Show speed in tooltips')); ?> *</label>
+            <?php p($l->t('Show speed in tooltips')); ?></label>
             <br/>
             <input id="tooltipshowbearing" type="checkbox" checked/>
             <label for="tooltipshowbearing"><i class="fa fa-compass" aria-hidden="true"></i>
-            <?php p($l->t('Show bearing in tooltips')); ?> *</label>
+            <?php p($l->t('Show bearing in tooltips')); ?></label>
             <br/>
             <input id="tooltipshowsatellites" type="checkbox" checked/>
             <label for="tooltipshowsatellites"><i class="fa fa-signal" aria-hidden="true"></i>
-            <?php p($l->t('Show satellites in tooltips')); ?> *</label>
+            <?php p($l->t('Show satellites in tooltips')); ?></label>
             <br/>
             <input id="tooltipshowbattery" type="checkbox" checked/>
             <label for="tooltipshowbattery"><i class="fa fa-battery-half" aria-hidden="true"></i>
-            <?php p($l->t('Show battery level in tooltips')); ?> *</label>
+            <?php p($l->t('Show battery level in tooltips')); ?></label>
             <br/>
             <input id="tooltipshowelevation" type="checkbox" checked/>
             <label for="tooltipshowelevation"><i class="fa fa-chart-area" aria-hidden="true"></i>
-            <?php p($l->t('Show elevation in tooltips')); ?> *</label>
+            <?php p($l->t('Show elevation in tooltips')); ?></label>
             <br/>
             <input id="tooltipshowuseragent" type="checkbox" checked/>
             <label for="tooltipshowuseragent"><i class="fa fa-mobile-alt" aria-hidden="true" style="font-size: 20px"></i>
-            <?php p($l->t('Show user-agent in tooltips')); ?> *</label>
+            <?php p($l->t('Show user-agent in tooltips')); ?></label>
             <br/>
             <input id="dragcheck" type="checkbox" checked/>
             <label for="dragcheck"><i class="far fa-hand-paper" aria-hidden="true"></i>
@@ -165,7 +165,7 @@ p($_['phonetrack_version']);
             <label id="pointlinealphalabel">0.8</label>
             <br/>
             <label for="colorthemeselect"><i class="fa fa-paint-brush" aria-hidden="true"></i>
-            <?php p($l->t('Theme')); ?>*</label>
+            <?php p($l->t('Theme')); ?> *</label>
             <select id="colorthemeselect">
                 <option value="bright"><?php p($l->t('bright')); ?></option>
                 <option value="pastel"><?php p($l->t('pastel')); ?></option>
