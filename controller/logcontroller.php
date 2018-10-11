@@ -202,10 +202,11 @@ class LogController extends Controller {
 
     private function getSessionOwnerOfDevice($devid) {
         $owner = null;
-        $sqlget = 'SELECT '.$this->dbdblquotes.'user'.$this->dbdblquotes.' ';
-        $sqlget .= 'FROM *PREFIX*phonetrack_devices INNER JOIN *PREFIX*phonetrack_sessions ';
-        $sqlget .= 'WHERE *PREFIX*phonetrack_devices.id='.$this->db_quote_escape_string($devid).' ';
-        $sqlget .= 'AND *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token ;';
+        $sqlget = '
+        SELECT '.$this->dbdblquotes.'user'.$this->dbdblquotes.'
+        FROM *PREFIX*phonetrack_devices
+        INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
+        WHERE *PREFIX*phonetrack_devices.id='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){

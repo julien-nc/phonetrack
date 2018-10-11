@@ -1837,12 +1837,17 @@ class PageController extends Controller {
 
     private function getProxims($devid) {
         $proxims = array();
-        $sqlproxims = 'SELECT *PREFIX*phonetrack_proxims.id AS id, deviceid2, lowlimit, highlimit, urlclose, urlfar, ';
-        $sqlproxims .= 'urlclosepost, urlfarpost, sendemail, *PREFIX*phonetrack_devices.name AS dname2, *PREFIX*phonetrack_sessions.name AS sname2 ';
-        $sqlproxims .= 'FROM *PREFIX*phonetrack_proxims INNER JOIN *PREFIX*phonetrack_devices INNER JOIN *PREFIX*phonetrack_sessions ';
-        $sqlproxims .= 'WHERE deviceid1='.$this->db_quote_escape_string($devid).' ';
-        $sqlproxims .= 'AND deviceid2=*PREFIX*phonetrack_devices.id ';
-        $sqlproxims .= 'AND *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token ;';
+        $sqlproxims = '
+            SELECT *PREFIX*phonetrack_proxims.id AS id, deviceid2, lowlimit, highlimit,
+                urlclose, urlfar,
+                urlclosepost, urlfarpost,
+                sendemail,
+                *PREFIX*phonetrack_devices.name AS dname2,
+                *PREFIX*phonetrack_sessions.name AS sname2
+            FROM *PREFIX*phonetrack_proxims
+            INNER JOIN *PREFIX*phonetrack_devices ON deviceid2=*PREFIX*phonetrack_devices.id
+            INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
+            WHERE deviceid1='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlproxims);
         $req->execute();
         while ($row = $req->fetch()){
