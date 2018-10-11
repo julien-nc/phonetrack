@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.3.5 – 2018-10-11
+### Added
+- new option to toggle letter on last position
+[#159](https://gitlab.com/eneiluj/phonetrack-oc/issues/159) @Valdnet
+- new option to choose device points shape
+[#159](https://gitlab.com/eneiluj/phonetrack-oc/issues/159) @Valdnet
+
+### Changed
+- change point radius, line width and opacity input styles to slider
+[#159](https://gitlab.com/eneiluj/phonetrack-oc/issues/159) @Valdnet
+- reorder and separate options
+
+### Fixed
+- fix bad INNER JOIN sql syntax refused by PostgreSQL
+[#160](https://gitlab.com/eneiluj/phonetrack-oc/issues/160) @linux571
+
 ## 0.3.4 – 2018-10-09
 ### Added
 - add option to set max number of points to load per device on refresh
