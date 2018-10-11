@@ -172,6 +172,8 @@ p($_['phonetrack_version']);
                 <option value="dark"><?php p($l->t('dark')); ?></option>
             </select>
             <br/>
+            <label>(*) <?php p($l->t('reload page to make changes effective')); ?></label>
+            <br/>
             <div>
             <hr/>
             <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('File export')); ?></h2>
@@ -183,8 +185,6 @@ p($_['phonetrack_version']);
             <input id="exportoneperdev" type="checkbox"/>
             <label for="exportoneperdev"><i class="fas fa-save" aria-hidden="true"></i>
             <?php p($l->t('Export one file per device')); ?></label>
-            <br/>
-            <label>(*) <?php p($l->t('reload page to make changes effective')); ?></label>
         </div>
         </div>
     </div>
