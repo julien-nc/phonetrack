@@ -4423,11 +4423,11 @@
             leavepostTxt = '(POST)';
         }
         var urlentertxt = '';
-        if (urlenter !== '') {
+        if (urlenter && urlenter !== '') {
             urlentertxt = t('phonetrack', 'URL to request when entering') + ' ' + enterpostTxt + ' : ' + escapeHTML(urlenter) + '\n';
         }
         var urlleavetxt = '';
-        if (urlleave !== '') {
+        if (urlleave && urlleave !== '') {
             urlleavetxt = t('phonetrack', 'URL to request when leaving') + ' ' + leavepostTxt + ' : ' + escapeHTML(urlleave) + '\n';
         }
 
