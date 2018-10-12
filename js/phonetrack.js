@@ -927,9 +927,9 @@
         }).done(function (response) {
             if (response.done) {
                 $('#'+type+'serverlist ul').prepend(
-                    '<li style="display:none;" servername="' + escapeHTML(sname) +
-                    '" title="' + escapeHTML(surl) + '">' +
-                    escapeHTML(sname) + ' <button>' +
+                    '<li style="display:none;" servername="' + escapeHTML(sname || '') +
+                    '" title="' + escapeHTML(surl || '') + '">' +
+                    escapeHTML(sname || '') + ' <button>' +
                     '<i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' +
                     t('phonetrack', 'Delete') +
                     '</button></li>'
@@ -4442,7 +4442,7 @@
             urlleavetxt +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
             '">' +
-            '<label class="geofencelabel">'+escapeHTML(fencename)+'</label>' +
+            '<label class="geofencelabel">'+escapeHTML(fencename || '')+'</label>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
             '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
             '</li>';
