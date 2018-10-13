@@ -2653,7 +2653,7 @@
             '.tooltip' + s + d + ' {' +
             'background: rgba(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ', 0.5);' +
             'color: ' + textcolor + '; font-weight: bold; }' +
-            '.opaquetooltip' + s + d + ' {' +
+            '.statcolor' + s + d + ' {' +
             'background: rgb(' + rgbc.r + ', ' + rgbc.g + ', ' + rgbc.b + ');' +
             'color: ' + textcolor + '; font-weight: bold;' +
             '}</style>').appendTo('body');
@@ -4726,7 +4726,7 @@
                         years = days = hours = minutes = seconds = 0;
                     }
 
-                    table = table + '<tr><td class="color' + s +
+                    table = table + '<tr><td class="statcolor' + s +
                         d + '">' + getDeviceName(s, d) + '</td>';
                     table = table + '<td>'+formatDistance(dist)+'</td>';
                     table = table + '<td>';
