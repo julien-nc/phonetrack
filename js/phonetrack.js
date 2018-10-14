@@ -2889,8 +2889,9 @@
                 '<ul class="proximlist"></ul>' +
                 '</div>';
         }
+        var urlPointToggle = getUrlParameter('pointToggle');
         var detailOnOff = 'off';
-        if (point) {
+        if (point || (urlPointToggle && urlPointToggle !== '0')) {
             detailOnOff = 'on';
         }
         var detailLink = ' <button class="toggleDetail ' + detailOnOff + '" token="' + s + '" device="' + d + '" ' +
