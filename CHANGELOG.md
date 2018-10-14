@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- add QRcode for logging urls in help dialogs
+[#152](https://gitlab.com/eneiluj/phonetrack-oc/issues/152) @e-alfred
+
+### Changed
+- browser logging URL and OpenGTS URL now have help dialog too
+[#152](https://gitlab.com/eneiluj/phonetrack-oc/issues/152) @e-alfred
+
+### Fixed
+- stat table cell color when shape is triangle
+[#159](https://gitlab.com/eneiluj/phonetrack-oc/issues/159) @eneiluj
+- secure null values given to escapeHTML (happens when having DB problems)
 
 ## 0.3.5 – 2018-10-11
 ### Added
