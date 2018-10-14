@@ -1536,12 +1536,16 @@
                 t('phonetrack', 'List of server URLs to configure logging apps.') + '<br/>' +
                 t('phonetrack', 'Replace \'yourname\' with the desired device name or with the name reservation token') +
                 '</p>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Public browser logging URL') + ' :</p>';
-            divtxt = divtxt + '<input class="ro" role="publicTrackUrl" type="text" value="' + publicTrackUrl + '"></input>';
+            divtxt = divtxt + '<p><label>' + t('phonetrack', 'Public browser logging URL') + ' : </label>' +
+                '<button class="urlhelpbutton" logger="publicTrack"><i class="fa fa-question"></i></button>' +
+                '</p>';
+            divtxt = divtxt + '<input class="ro" role="publicTrackurl" type="text" value="' + publicTrackUrl + '"></input>';
+
             divtxt = divtxt + '<p><label>' + t('phonetrack', 'OsmAnd URL') + ' : </label>' +
                 '<button class="urlhelpbutton" logger="osmand"><i class="fa fa-question"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input>';
+
             divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' : ' +
                 '<button class="urlhelpbutton" logger="gpslogger"><i class="fa fa-question"></i></button>' +
                 '</p>';
@@ -1559,6 +1563,7 @@
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' : ' +
+                '<button class="urlhelpbutton" logger="opengts"><i class="fa fa-question"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'HTTP GET URL') + ' : ' +
@@ -4751,6 +4756,7 @@
 
     function clickUrlHelp(logger, url, sessionName) {
         var loggerName, content;
+        content = '';
         if (logger === 'osmand') {
             loggerName = 'OsmAnd';
             content = t('phonetrack', 'In OsmAnd, go to \'Plugins\' in the main menu, then activate \'Trip recording\' plugin and go to its settings.') +
@@ -4780,18 +4786,26 @@
             content = t('phonetrack', 'You can log with any other client with a simple HTTP request.');
             content = content + ' ' + t('phonetrack', 'Make sure the logging system sets values for at least \'timestamp\', \'lat\' and \'lon\' GET parameters.');
         }
+        else if (logger === 'opengts') {
+            content = t('phonetrack', 'Use this URL as the server URL in your OpenGTS compatible logging app.');
+            loggerName = t('phonetrack', 'OpenGTS compatible logger');
+        }
+        else if (logger === 'publicTrack') {
+            loggerName = t('phonetrack', 'the browser');
+            var logLabel = t('phonetrack', 'Log my position in this session');
+            content = t('phonetrack', 'Visit this URL with a web browser and check "{loglabel}".', {loglabel: logLabel});
+        }
         var title = t('phonetrack',
             'Configure {loggingApp} for logging to session \'{sessionName}\'',
             {sessionName: sessionName, loggingApp: loggerName}
         );
 
         $('#trackurlinput').val(url);
-        $('#trackurlqrcode').html('').qrcode({width: 180,height: 180,text: url});
+        $('#trackurlqrcode').html('').qrcode({width: 200,height: 200,text: url});
         $('#trackurllabel').text(content);
 
         $('#trackurldialog').dialog({
             title: title,
-            closeText: 'show',
             width: 500,
             height: 400
         });

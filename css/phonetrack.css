@@ -912,8 +912,6 @@ label[for=autoexportpath], #autoexportpath {
     font-size: 12px;
 }
 #trackurlqrcode {
-    margin-left: auto;
-    margin-right: auto;
     width: 200px;
 }
 #countdown {
