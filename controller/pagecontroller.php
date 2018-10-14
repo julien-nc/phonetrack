@@ -1951,7 +1951,7 @@ class PageController extends Controller {
                         }
                         // we give color (first point given)
                         else {
-                            $sqlcolor = 'SELECT color, name, alias, shapes ';
+                            $sqlcolor = 'SELECT color, name, alias, shape ';
                             $sqlcolor .= 'FROM *PREFIX*phonetrack_devices ';
                             $sqlcolor .= 'WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ';
                             $sqlcolor .= 'AND id='.$this->db_quote_escape_string($devid).'; ';

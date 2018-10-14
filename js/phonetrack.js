@@ -2896,8 +2896,9 @@
         var detailLink = ' <button class="toggleDetail ' + detailOnOff + '" token="' + s + '" device="' + d + '" ' +
             'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
             '<i class="fa fa-circle" aria-hidden="true"></i></button>';
+        var urlLineToggle = getUrlParameter('lineToggle');
         var lineOnOff = 'off';
-        if (line) {
+        if (line || (urlLineToggle && urlLineToggle !== '0')) {
             lineOnOff = 'on nc-theming-main-background';
         }
         var lineDeviceLink = ' <button class="toggleLineDevice ' + lineOnOff + '" ' +
@@ -6226,16 +6227,17 @@
         }
         // public page
         else {
+            // just to fill phonetrack.optionsValues
             saveOptions();
             var params, token, deviceid, publicviewtoken;
             if (pageIsPublicWebLog()) {
-                params = window.location.href.split('publicWebLog/')[1].split('/');
+                params = window.location.href.split('publicWebLog/')[1].split('?')[0].split('/');
                 token = params[0];
                 publicviewtoken = '';
                 deviceid = params[1];
             }
             else {
-                publicviewtoken = window.location.href.split('publicSessionWatch/')[1];
+                publicviewtoken = window.location.href.split('publicSessionWatch/')[1].split('?')[0];
                 token = publicviewtoken;
             }
             phonetrack.token = token;
