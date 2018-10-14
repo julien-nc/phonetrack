@@ -165,10 +165,14 @@ class LogController extends Controller {
 
     private function getLastDevicePoint($devid) {
         $therow = null;
-        $sqlget = 'SELECT lat, lon, timestamp, batterylevel, satellites, accuracy, altitude, speed, bearing ';
-        $sqlget .= 'FROM *PREFIX*phonetrack_points ';
-        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-        $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
+        $sqlget = '
+            SELECT lat, lon, timestamp,
+                   batterylevel, satellites,
+                   accuracy, altitude,
+                   speed, bearing
+            FROM *PREFIX*phonetrack_points
+            WHERE deviceid='.$this->db_quote_escape_string($devid).'
+            ORDER BY timestamp DESC LIMIT 1 ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -180,9 +184,13 @@ class LogController extends Controller {
 
     private function getDeviceProxims($devid) {
         $proxims = array();
-        $sqlget = 'SELECT deviceid1, deviceid2, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail ';
-        $sqlget .= 'FROM *PREFIX*phonetrack_proxims ';
-        $sqlget .= 'WHERE deviceid1='.$this->db_quote_escape_string($devid).' OR deviceid2='.$this->db_quote_escape_string($devid).' ;';
+        $sqlget = '
+            SELECT deviceid1, deviceid2, highlimit,
+                   lowlimit, urlclose, urlfar,
+                   urlclosepost, urlfarpost, sendemail
+            FROM *PREFIX*phonetrack_proxims
+            WHERE deviceid1='.$this->db_quote_escape_string($devid).'
+                  OR deviceid2='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -203,10 +211,11 @@ class LogController extends Controller {
     private function getSessionOwnerOfDevice($devid) {
         $owner = null;
         $sqlget = '
-        SELECT '.$this->dbdblquotes.'user'.$this->dbdblquotes.'
-        FROM *PREFIX*phonetrack_devices
-        INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
-        WHERE *PREFIX*phonetrack_devices.id='.$this->db_quote_escape_string($devid).' ;';
+            SELECT '.$this->dbdblquotes.'user'.$this->dbdblquotes.'
+            FROM *PREFIX*phonetrack_devices
+            INNER JOIN *PREFIX*phonetrack_sessions
+                ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
+            WHERE *PREFIX*phonetrack_devices.id='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -218,8 +227,10 @@ class LogController extends Controller {
 
     private function getDeviceName($devid) {
         $dbname = null;
-        $sqlget = 'SELECT name FROM *PREFIX*phonetrack_devices ';
-        $sqlget .= 'WHERE id='.$this->db_quote_escape_string($devid).';';
+        $sqlget = '
+            SELECT name
+            FROM *PREFIX*phonetrack_devices
+            WHERE id='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -379,9 +390,12 @@ class LogController extends Controller {
 
     private function getDeviceFences($devid) {
         $fences = array();
-        $sqlget = 'SELECT latmin, lonmin, latmax, lonmax, name, urlenter, urlleave, urlenterpost, urlleavepost, sendemail ';
-        $sqlget .= 'FROM *PREFIX*phonetrack_geofences ';
-        $sqlget .= 'WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+        $sqlget = '
+            SELECT latmin, lonmin, latmax, lonmax,
+                   name, urlenter, urlleave,
+                   urlenterpost, urlleavepost, sendemail
+            FROM *PREFIX*phonetrack_geofences
+            WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -540,9 +554,11 @@ class LogController extends Controller {
         if ($token !== '' and $devicename !== '') {
             $logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
             if ($logres['done'] === 1) {
-                $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
-                $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                $sqlchk .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+                $sqlchk = '
+                    SELECT id
+                    FROM *PREFIX*phonetrack_devices
+                    WHERE sessionid='.$this->db_quote_escape_string($token).'
+                          AND name='.$this->db_quote_escape_string($devicename).' ;';
                 $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
                 while ($row = $req->fetch()){
@@ -553,9 +569,11 @@ class LogController extends Controller {
 
                 // if it's reserved and a device token was given
                 if ($dbdevid === null) {
-                    $sqlchk = 'SELECT id FROM *PREFIX*phonetrack_devices ';
-                    $sqlchk .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                    $sqlchk .= 'AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
+                    $sqlchk = '
+                        SELECT id
+                        FROM *PREFIX*phonetrack_devices
+                        WHERE sessionid='.$this->db_quote_escape_string($token).'
+                              AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
                     $req = $this->dbconnection->prepare($sqlchk);
                     $req->execute();
                     while ($row = $req->fetch()){
@@ -566,11 +584,13 @@ class LogController extends Controller {
                 }
 
                 if ($dbdevid !== null) {
-                    $sqlchk = 'SELECT MAX(id) as maxid FROM *PREFIX*phonetrack_points ';
-                    $sqlchk .= 'WHERE deviceid='.$this->db_quote_escape_string($dbdevid).' ';
-                    $sqlchk .= 'AND lat='.$this->db_quote_escape_string($lat).' ';
-                    $sqlchk .= 'AND lon='.$this->db_quote_escape_string($lon).' ';
-                    $sqlchk .= 'AND timestamp='.$this->db_quote_escape_string($timestamp).' ';
+                    $sqlchk = '
+                        SELECT MAX(id) as maxid
+                        FROM *PREFIX*phonetrack_points
+                        WHERE deviceid='.$this->db_quote_escape_string($dbdevid).'
+                              AND lat='.$this->db_quote_escape_string($lat).'
+                              AND lon='.$this->db_quote_escape_string($lon).'
+                              AND timestamp='.$this->db_quote_escape_string($timestamp).' ;';
                     $req = $this->dbconnection->prepare($sqlchk);
                     $req->execute();
                     while ($row = $req->fetch()){
@@ -648,9 +668,11 @@ class LogController extends Controller {
                 $dbdevicename = null;
                 $dbdevicenametoken = null;
                 $deviceidToInsert = null;
-                $sqlgetres = 'SELECT id, name, nametoken FROM *PREFIX*phonetrack_devices ';
-                $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                $sqlgetres .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+                $sqlgetres = '
+                    SELECT id, name, nametoken
+                    FROM *PREFIX*phonetrack_devices
+                    WHERE sessionid='.$this->db_quote_escape_string($token).'
+                          AND name='.$this->db_quote_escape_string($devicename).' ;';
                 $req = $this->dbconnection->prepare($sqlgetres);
                 $req->execute();
                 while ($row = $req->fetch()){
@@ -682,9 +704,11 @@ class LogController extends Controller {
                     // check if the device name corresponds to a nametoken
                     $dbdevicenametoken = null;
                     $dbdevicename = null;
-                    $sqlgetres = 'SELECT id, name, nametoken FROM *PREFIX*phonetrack_devices ';
-                    $sqlgetres .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                    $sqlgetres .= 'AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
+                    $sqlgetres = '
+                        SELECT id, name, nametoken
+                        FROM *PREFIX*phonetrack_devices
+                        WHERE sessionid='.$this->db_quote_escape_string($token).'
+                              AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
                     $req = $this->dbconnection->prepare($sqlgetres);
                     $req->execute();
                     while ($row = $req->fetch()){
@@ -701,20 +725,23 @@ class LogController extends Controller {
                     else {
                         // device does not exist and there is no reservation corresponding
                         // => we create it
-                        $sql = 'INSERT INTO *PREFIX*phonetrack_devices';
-                        $sql .= ' (name, sessionid) ';
-                        $sql .= 'VALUES (';
-                        $sql .= $this->db_quote_escape_string($devicename).',';
-                        $sql .= $this->db_quote_escape_string($token);
-                        $sql .= ');';
+                        $sql = '
+                            INSERT INTO *PREFIX*phonetrack_devices
+                            (name, sessionid)
+                            VALUES ('.
+                                $this->db_quote_escape_string($devicename).','.
+                                $this->db_quote_escape_string($token).
+                            ') ;';
                         $req = $this->dbconnection->prepare($sql);
                         $req->execute();
                         $req->closeCursor();
 
                         // get the newly created device id
-                        $sqlgetdid = 'SELECT id FROM *PREFIX*phonetrack_devices ';
-                        $sqlgetdid .= 'WHERE sessionid='.$this->db_quote_escape_string($token).' ';
-                        $sqlgetdid .= 'AND name='.$this->db_quote_escape_string($devicename).' ;';
+                        $sqlgetdid = '
+                            SELECT id
+                            FROM *PREFIX*phonetrack_devices
+                            WHERE sessionid='.$this->db_quote_escape_string($token).'
+                                  AND name='.$this->db_quote_escape_string($devicename).' ;';
                         $req = $this->dbconnection->prepare($sqlgetdid);
                         $req->execute();
                         while ($row = $req->fetch()){
@@ -740,20 +767,22 @@ class LogController extends Controller {
                 $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
                 $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
 
-                $sql = 'INSERT INTO *PREFIX*phonetrack_points';
-                $sql .= ' (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing) ';
-                $sql .= 'VALUES (';
-                $sql .= $this->db_quote_escape_string($deviceidToInsert).',';
-                $sql .= $this->db_quote_escape_string(floatval($lat)).',';
-                $sql .= $this->db_quote_escape_string(floatval($lon)).',';
-                $sql .= $this->db_quote_escape_string(intval($time)).',';
-                $sql .= (is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL').',';
-                $sql .= (is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL').',';
-                $sql .= (is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL').',';
-                $sql .= (is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL').',';
-                $sql .= $this->db_quote_escape_string($useragent).',';
-                $sql .= (is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL').',';
-                $sql .= (is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').');';
+                $sql = '
+                    INSERT INTO *PREFIX*phonetrack_points
+                    (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
+                    VALUES ('.
+                        $this->db_quote_escape_string($deviceidToInsert).','.
+                        $this->db_quote_escape_string(floatval($lat)).','.
+                        $this->db_quote_escape_string(floatval($lon)).','.
+                        $this->db_quote_escape_string(intval($time)).','.
+                        (is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL').','.
+                        (is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL').','.
+                        (is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL').','.
+                        (is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL').','.
+                        $this->db_quote_escape_string($useragent).','.
+                        (is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL').','.
+                        (is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').'
+                    ) ;';
                 $req = $this->dbconnection->prepare($sql);
                 $req->execute();
                 $req->closeCursor();
