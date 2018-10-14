@@ -765,7 +765,7 @@ class LogController extends Controller {
                         SELECT p.`deviceid`, `nametoken`, `name`, `lat`, `lon`,
                             `speed`, `altitude`, `batterylevel`, `accuracy`,
                             `timestamp`
-                        FROM `*PREFIX*phonetrack_points` p 
+                        FROM `*PREFIX*phonetrack_points` p
                         JOIN (
                             SELECT `deviceid`, `nametoken`, `name`,
                                 MAX(`timestamp`) `lastupdate`
