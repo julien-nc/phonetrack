@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - add QRcode for logging urls in help dialogs
 [#152](https://gitlab.com/eneiluj/phonetrack-oc/issues/152) @e-alfred
+- add options to toggle line/point display in public pages through URL GET parameters
+[#155](https://gitlab.com/eneiluj/phonetrack-oc/issues/155) @Japhys
 
 ### Changed
 - browser logging URL and OpenGTS URL now have help dialog too
