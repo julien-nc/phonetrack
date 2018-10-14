@@ -208,6 +208,7 @@ p($_['phonetrack_version']);
         <div id="trackurlhint">
         <?php p($l->t('Replace \'yourname\' with the desired device name or with the name reservation token')); ?>
         </div>
+        <div id="trackurlqrcode"></div>
     </div>
     <input id="tracknamecolor" type="text" style="display:none;"></input>
     <input id="colorinput" type="color"></input>

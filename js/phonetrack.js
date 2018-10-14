@@ -4786,13 +4786,14 @@
         );
 
         $('#trackurlinput').val(url);
+        $('#trackurlqrcode').html('').qrcode({width: 180,height: 180,text: url});
         $('#trackurllabel').text(content);
 
         $('#trackurldialog').dialog({
             title: title,
             closeText: 'show',
             width: 500,
-            height: 250
+            height: 400
         });
         $('#trackurlinput').select();
     }

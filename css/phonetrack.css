@@ -908,6 +908,14 @@ label[for=autoexportpath], #autoexportpath {
 #trackurlinput {
     width: 100%;
 }
+#trackurldialog {
+    font-size: 12px;
+}
+#trackurlqrcode {
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+}
 #countdown {
     display: inline;
 }
