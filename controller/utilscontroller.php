@@ -82,9 +82,12 @@ class UtilsController extends Controller {
                     $layers, $version, $tformat, $opacity, $transparent,
                     $minzoom, $maxzoom, $attribution) {
         // first we check it does not already exist
-        $sqlts = 'SELECT servername FROM *PREFIX*phonetrack_tileserver ';
-        $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
-        $sqlts .= 'AND servername='.$this->db_quote_escape_string($servername).' AND type='.$this->db_quote_escape_string($type).' ';
+        $sqlts = '
+            SELECT servername
+            FROM *PREFIX*phonetrack_tileserver
+            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
+                  AND servername='.$this->db_quote_escape_string($servername).'
+                  AND type='.$this->db_quote_escape_string($type).' ;';
         $req = $this->dbconnection->prepare($sqlts);
         $req->execute();
         $ts = null;
@@ -96,20 +99,23 @@ class UtilsController extends Controller {
 
         // then if not, we insert it
         if ($ts === null){
-            $sql = 'INSERT INTO *PREFIX*phonetrack_tileserver';
-            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', type, servername, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution) ';
-            $sql .= 'VALUES ('.$this->db_quote_escape_string($this->userId).',';
-            $sql .= $this->db_quote_escape_string($type).',';
-            $sql .= $this->db_quote_escape_string($servername).',';
-            $sql .= $this->db_quote_escape_string($serverurl).',';
-            $sql .= $this->db_quote_escape_string($layers).',';
-            $sql .= $this->db_quote_escape_string($version).',';
-            $sql .= $this->db_quote_escape_string($tformat).',';
-            $sql .= $this->db_quote_escape_string($opacity).',';
-            $sql .= $this->db_quote_escape_string($transparent).',';
-            $sql .= $this->db_quote_escape_string($minzoom).',';
-            $sql .= $this->db_quote_escape_string($maxzoom).',';
-            $sql .= $this->db_quote_escape_string($attribution).');';
+            $sql = '
+                INSERT INTO *PREFIX*phonetrack_tileserver
+                ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', type, servername, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
+                VALUES ('.
+                    $this->db_quote_escape_string($this->userId).','.
+                    $this->db_quote_escape_string($type).','.
+                    $this->db_quote_escape_string($servername).','.
+                    $this->db_quote_escape_string($serverurl).','.
+                    $this->db_quote_escape_string($layers).','.
+                    $this->db_quote_escape_string($version).','.
+                    $this->db_quote_escape_string($tformat).','.
+                    $this->db_quote_escape_string($opacity).','.
+                    $this->db_quote_escape_string($transparent).','.
+                    $this->db_quote_escape_string($minzoom).','.
+                    $this->db_quote_escape_string($maxzoom).','.
+                    $this->db_quote_escape_string($attribution).'
+                ) ;';
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
             $req->closeCursor();
@@ -137,9 +143,11 @@ class UtilsController extends Controller {
      * @NoAdminRequired
      */
     public function deleteTileServer($servername, $type) {
-        $sqldel = 'DELETE FROM *PREFIX*phonetrack_tileserver ';
-        $sqldel .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' AND servername=';
-        $sqldel .= $this->db_quote_escape_string($servername).' AND type='.$this->db_quote_escape_string($type).';';
+        $sqldel = '
+            DELETE FROM *PREFIX*phonetrack_tileserver
+            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
+                  AND servername='.$this->db_quote_escape_string($servername).'
+                  AND type='.$this->db_quote_escape_string($type).' ;';
         $req = $this->dbconnection->prepare($sqldel);
         $req->execute();
         $req->closeCursor();
@@ -162,8 +170,9 @@ class UtilsController extends Controller {
      * @NoAdminRequired
      */
     public function deleteOptionsValues() {
-        $sqldel = 'DELETE FROM *PREFIX*phonetrack_options ';
-        $sqldel .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+        $sqldel = '
+            DELETE FROM *PREFIX*phonetrack_options
+            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqldel);
         $req->execute();
         $req->closeCursor();
@@ -187,8 +196,10 @@ class UtilsController extends Controller {
      */
     public function saveOptionsValues($optionsValues) {
         // first we check if user already has options values in DB
-        $sqlts = 'SELECT jsonvalues FROM *PREFIX*phonetrack_options ';
-        $sqlts .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ';
+        $sqlts = '
+            SELECT jsonvalues
+            FROM *PREFIX*phonetrack_options
+            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlts);
         $req->execute();
         $check = null;
@@ -200,19 +211,22 @@ class UtilsController extends Controller {
 
         // if nothing is there, we insert
         if ($check === null){
-            $sql = 'INSERT INTO *PREFIX*phonetrack_options';
-            $sql .= ' ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', jsonvalues) ';
-            $sql .= 'VALUES ('.$this->db_quote_escape_string($this->userId).',';
-            $sql .= ''.$this->db_quote_escape_string($optionsValues).');';
+            $sql = '
+                INSERT INTO *PREFIX*phonetrack_options
+                ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', jsonvalues)
+                VALUES ('.
+                    $this->db_quote_escape_string($this->userId).','.
+                    $this->db_quote_escape_string($optionsValues).') ;';
             $req = $this->dbconnection->prepare($sql);
             $req->execute();
             $req->closeCursor();
         }
         // else we update the values
         else{
-            $sqlupd = 'UPDATE *PREFIX*phonetrack_options ';
-            $sqlupd .= 'SET jsonvalues='.$this->db_quote_escape_string($optionsValues).' ';
-            $sqlupd .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ; ';
+            $sqlupd = '
+                UPDATE *PREFIX*phonetrack_options
+                SET jsonvalues='.$this->db_quote_escape_string($optionsValues).'
+                WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
             $req = $this->dbconnection->prepare($sqlupd);
             $req->execute();
             $req->closeCursor();
@@ -236,8 +250,10 @@ class UtilsController extends Controller {
      * @NoAdminRequired
      */
     public function getOptionsValues() {
-        $sqlov = 'SELECT jsonvalues FROM *PREFIX*phonetrack_options ';
-        $sqlov .= 'WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+        $sqlov = '
+            SELECT jsonvalues
+            FROM *PREFIX*phonetrack_options
+            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlov);
         $req->execute();
         $ov = '{}';
