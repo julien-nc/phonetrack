@@ -1112,6 +1112,12 @@
                 if (optionsValues.acccirclecheck !== undefined) {
                     $('#acccirclecheck').prop('checked', optionsValues.acccirclecheck);
                 }
+                if (optionsValues.pubviewline !== undefined) {
+                    $('#pubviewline').prop('checked', optionsValues.pubviewline);
+                }
+                if (optionsValues.pubviewpoint !== undefined) {
+                    $('#pubviewpoint').prop('checked', optionsValues.pubviewpoint);
+                }
                 if (optionsValues.exportoneperdev !== undefined) {
                     $('#exportoneperdev').prop('checked', optionsValues.exportoneperdev);
                 }
@@ -1197,6 +1203,8 @@
         optionsValues.tooltipshowelevation = $('#tooltipshowelevation').is(':checked');
         optionsValues.tooltipshowuseragent = $('#tooltipshowuseragent').is(':checked');
         optionsValues.acccirclecheck = $('#acccirclecheck').is(':checked');
+        optionsValues.pubviewline = $('#pubviewline').is(':checked');
+        optionsValues.pubviewpoint = $('#pubviewpoint').is(':checked');
         optionsValues.exportoneperdev = $('#exportoneperdev').is(':checked');
         optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
         optionsValues.showsidebar = !$('#sidebar').hasClass('collapsed');
@@ -1378,11 +1386,15 @@
             'timestamp=TIME';
         geturl = window.location.origin + geturl;
 
-        var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/yourname');
-        publicTrackUrl = window.location.origin + publicTrackUrl;
+        var pl = $('#pubviewline').is(':checked') ? '1' : '0';
+        var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
+        var linePointParams = $.param({lineToggle: pl, pointToggle: pp})
 
-        var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken);
-        publicWatchUrl = window.location.origin + publicWatchUrl;
+        var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/yourname?');
+        publicTrackUrl = window.location.origin + publicTrackUrl + linePointParams;
+
+        var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken + '?');
+        publicWatchUrl = window.location.origin + publicWatchUrl + linePointParams;
 
         var APIUrl = OC.generateUrl('/apps/phonetrack/APIgetLastPositions/' + publicviewtoken);
         APIUrl = window.location.origin + APIUrl;
@@ -4606,8 +4618,12 @@
         if (lastposonly === '1') {
             lastposonlyChecked = 'checked';
         }
+        var pl = $('#pubviewline').is(':checked') ? '1' : '0';
+        var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
+        var linePointParams = $.param({lineToggle: pl, pointToggle: pp})
+
         var publicurl = window.location.origin +
-            OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken);
+            OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken + '?') + linePointParams;
         var li = '<li class="filteredshare" filteredtoken="' + escapeHTML(sharetoken) + '" title="' +
             filtersToTxt(filters) + '">' +
             '<input type="text" class="publicFilteredShareUrl" value="' + publicurl + '"/>' +
@@ -4682,6 +4698,34 @@
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get user list'));
         });
+    }
+
+    function updateLinePointUrlParams() {
+        var pl = $('#pubviewline').is(':checked') ? '1' : '0';
+        var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
+        var linePointParams = $.param({lineToggle: pl, pointToggle: pp})
+
+        var sessionDiv, publicWebLogInput, publicWatchInput, inputList, value, i, elem, s;
+        for (s in phonetrack.sessionLineLayers) {
+            if (!isSessionShared(s)) {
+                inputList = [];
+                var sessionDiv = $('div.session[token='+s+']');
+                var publicWebLogInput = sessionDiv.find('input[role=publicTrackurl]');
+                var publicWatchInput = sessionDiv.find('input[role=publicWatchUrl]');
+                inputList.push(publicWebLogInput);
+                inputList.push(publicWatchInput);
+
+                $('div.session[token='+s+'] input.publicFilteredShareUrl').each(function () {
+                    inputList.push($(this));
+                });
+
+                for (i = 0; i < inputList.length; i++) {
+                    elem = inputList[i];
+                    value = elem.val().split('?')[0];
+                    elem.val(value + '?' + linePointParams);
+                }
+            }
+        }
     }
 
     function updateStatTable() {
@@ -5084,6 +5128,13 @@
             }
             else {
                 phonetrack.timeButton.state('noshowtime');
+            }
+        });
+
+        $('#pubviewline, #pubviewpoint').click(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
+                updateLinePointUrlParams();
             }
         });
 

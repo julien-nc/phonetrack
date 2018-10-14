@@ -762,6 +762,7 @@ label[for=showtime] i {
     mask-size: 19px !important;
     -webkit-mask-size: 19px !important;
 }
+label[for=pubviewline] i ,
 label[for=viewmove] i {
     width: 20px;
     height: 16px;

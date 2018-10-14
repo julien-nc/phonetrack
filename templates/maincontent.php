@@ -172,6 +172,14 @@ p($_['phonetrack_version']);
                 <option value="dark"><?php p($l->t('dark')); ?></option>
             </select>
             <br/>
+            <input id="pubviewline" type="checkbox"/>
+            <label for="pubviewline"><i class="fa nc-theming-main-background"> </i>
+            <?php p($l->t('Show lines in public pages')); ?></label>
+            <br/>
+            <input id="pubviewpoint" type="checkbox"/>
+            <label for="pubviewpoint"><i class="fa fa-circle" aria-hidden="true"> </i>
+            <?php p($l->t('Show points in public pages')); ?></label>
+            <br/>
             <label>(*) <?php p($l->t('reload page to make changes effective')); ?></label>
             <br/>
             <div>
