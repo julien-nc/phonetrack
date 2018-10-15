@@ -1012,3 +1012,13 @@ input.geofencename {
 .lowlimit, .highlimit {
     width: 80px;
 }
+/* measurement tool */
+a.icon-ruler {
+    background-image: none !important;
+}
+a.icon-ruler span {
+    color: var(--color-main-text);
+}
+a.icon-active span{
+    color: var(--color-primary);
+}
