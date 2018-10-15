@@ -4737,12 +4737,12 @@
             if ($('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on')) {
                 table = table + '<b>' + getSessionName(s) + ' :</b>';
                 table = table + '<table class="stattable"><tr><th>' +
-                    t('phonetrack', 'device<br/>name') + '</th><th>' +
-                    t('phonetrack', 'distance<br/>(km)') + '</th><th>' +
+                    t('phonetrack', 'device name') + '</th><th>' +
+                    t('phonetrack', 'distance (km)') + '</th><th>' +
                     t('phonetrack', 'duration') + '</th><th>' +
                     t('phonetrack', '#points') + '</th><th>' +
-                    t('phonetrack', 'avg speed<br/>(km/h)') + '</th><th>' +
-                    t('phonetrack', 'max speed<br/>(km/h)') + '</th>' +
+                    t('phonetrack', 'avg speed (km/h)') + '</th><th>' +
+                    t('phonetrack', 'max speed (km/h)') + '</th>' +
                     '</tr>';
                 for (d in phonetrack.sessionLineLayers[s]) {
                     nbspeeds = 0;

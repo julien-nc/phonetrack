@@ -654,12 +654,12 @@ ul.devicelist {
     border: 1px solid var(--color-border);
     padding: 0px 5px 0px 5px;
     border-radius: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: initial;
 }
 .stattable td {
     max-width: 120px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
 
 }
 .rmarker, .smarker, .tmarker {
