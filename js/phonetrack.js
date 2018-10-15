@@ -4730,27 +4730,47 @@
 
     function updateStatTable() {
         var s, d, id, dist, time, i, li, coordsList, ll, t1, t2;
-        var nbsec, years, days, hours, minutes, seconds;
+        var nbsec, years, days, hours, minutes, seconds, nbspeeds, totspeed, entry, avgspeed, maxspeed;
         var table = '';
         for (s in phonetrack.sessionLineLayers) {
             // if session is watched
             if ($('div.session[token='+s+'] .watchbutton i').hasClass('fa-toggle-on')) {
                 table = table + '<b>' + getSessionName(s) + ' :</b>';
                 table = table + '<table class="stattable"><tr><th>' +
-                    t('phonetrack', 'device name') + '</th><th>' +
-                    t('phonetrack', 'distance (km)') + '</th><th>' +
+                    t('phonetrack', 'device<br/>name') + '</th><th>' +
+                    t('phonetrack', 'distance<br/>(km)') + '</th><th>' +
                     t('phonetrack', 'duration') + '</th><th>' +
-                    t('phonetrack', '#points') + '</th></tr>';
+                    t('phonetrack', '#points') + '</th><th>' +
+                    t('phonetrack', 'avg speed<br/>(km/h)') + '</th><th>' +
+                    t('phonetrack', 'max speed<br/>(km/h)') + '</th>' +
+                    '</tr>';
                 for (d in phonetrack.sessionLineLayers[s]) {
+                    nbspeeds = 0;
+                    totspeed = 0;
+                    avgspeed = '';
+                    maxspeed = 0;
                     dist = 0;
                     nbsec = 0;
                     coordsList = phonetrack.sessionDisplayedLatlngs[s][d];
                     for (li = 0; li < coordsList.length; li++) {
                         ll = coordsList[li];
+                        // distance
                         for (i = 1; i < ll.length; i++) {
                             dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
                         }
+                        // speed
+                        for (i = 0; i < ll.length; i++) {
+                            entry = phonetrack.sessionPointsEntriesById[s][d][ll[i][2]];
+                            if (entry.speed !== null) {
+                                totspeed = totspeed + entry.speed;
+                                nbspeeds++;
+                                if (entry.speed > maxspeed) {
+                                    maxspeed = entry.speed;
+                                }
+                            }
+                        }
 
+                        // duration
                         if (ll.length > 1) {
                             t1 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[0][2]].timestamp);
                             t2 = moment.unix(phonetrack.sessionPointsEntriesById[s][d][ll[ll.length-1][2]].timestamp);
@@ -4758,6 +4778,18 @@
                         }
                     }
 
+                    // process speed
+                    if (nbspeeds > 0) {
+                        avgspeed = totspeed / nbspeeds * 3.6;
+                        avgspeed = avgspeed.toFixed(3);
+                        maxspeed = maxspeed * 3.6;
+                        maxspeed = maxspeed.toFixed(3);
+                    }
+                    else {
+                        maxspeed = '';
+                    }
+
+                    // process duration
                     if (nbsec > 0) {
                         years = 0;
                         days = 0;
@@ -4788,7 +4820,10 @@
                         table = table + days + ' ' + t('phonetrack', 'days') + ' ';
                     }
                     table = table + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds) + '</td>';
-                    table = table + '<td>' + phonetrack.sessionPointsLayers[s][d].getLayers().length + '</td></tr>';
+                    table = table + '<td>' + phonetrack.sessionPointsLayers[s][d].getLayers().length + '</td>';
+                    table = table + '<td>'+avgspeed+'</td>';
+                    table = table + '<td>'+maxspeed+'</td>';
+                    table = table + '</tr>';
                 }
                 table = table + '</table>';
             }

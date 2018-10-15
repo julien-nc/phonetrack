@@ -55,6 +55,9 @@ h3.sectiontitle {
     font-size: 16px;
     font-weight: bold;
 }
+div#phonetrackstats {
+    overflow: scroll;
+}
 div#phonetracksettings h1,
 div#phonetrackfilters h1,
 div#phonetrackstats h1,
