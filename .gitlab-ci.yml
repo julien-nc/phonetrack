@@ -7,23 +7,6 @@ stages:
 before_script:
 - bash ci/docker_install.sh
 
-# test with OC10
-test_oc10:
-  stage: test
-  only:
-    refs:
-      - master
-  script:
-    - mkdir -p /var/www/html ; cd /var/www/html
-    - wget https://download.owncloud.org/community/owncloud-10.0.7.tar.bz2 ; tar xf owncloud-10.0.7.tar.bz2 ; rm owncloud-10.0.7.tar.bz2
-    - chown -R www-data:www-data owncloud
-    - cd owncloud/apps
-    - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
-    - sudo -u www-data php /var/www/html/owncloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
-    - sudo -u www-data php /var/www/html/owncloud/occ app:enable phonetrack
-    - sudo -u www-data php /var/www/html/owncloud/occ maintenance:mode --off
-    - phpunit --configuration /var/www/html/owncloud/apps/phonetrack/phpunit.xml --coverage-text --color=never
-
 # test with NC14 and produce coverage report
 test_nc14:
   stage: test
@@ -36,7 +19,9 @@ test_nc14:
   coverage: '/^\s*Lines:\s*(\d+.\d+)\%/'
   script:
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget https://download.nextcloud.com/server/releases/nextcloud-14.0.0.zip ; unzip nextcloud-14.0.0.zip ; rm nextcloud-14.0.0.zip
+    - wget https://download.nextcloud.com/server/releases/nextcloud-14.0.3.zip ; unzip nextcloud-14.0.3.zip ; rm nextcloud-14.0.3.zip
+    # temporary fix of autoloader.php
+    - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud
     - pushd nextcloud/apps
     - git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
