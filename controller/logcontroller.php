@@ -47,7 +47,7 @@ function startsWith($haystack, $needle) {
     return (substr($haystack, 0, $length) === $needle);
 }
 
-function distance($lat1, $long1, $lat2, $long2){
+function distance2($lat1, $long1, $lat2, $long2){
 
     if ($lat1 === $lat2 and $long1 === $long2){
         return 0;
@@ -269,8 +269,8 @@ class LogController extends Controller {
             $prevLat = floatval($lastPoint['lat']);
             $prevLon = floatval($lastPoint['lon']);
 
-            $prevDist = distance($prevLat, $prevLon, $latOther, $lonOther);
-            $currDist = distance($newLat, $newLon, $latOther, $lonOther);
+            $prevDist = distance2($prevLat, $prevLon, $latOther, $lonOther);
+            $currDist = distance2($newLat, $newLon, $latOther, $lonOther);
 
             // if distance was not close and is now close
             if ($lowlimit !== 0 and $prevDist >= $lowlimit and $currDist < $lowlimit) {

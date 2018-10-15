@@ -31,6 +31,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     private $pageController;
     private $pageController2;
     private $logController;
+    private $logController2;
     private $utilsController;
 
     private $testSessionToken;
@@ -90,7 +91,21 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
-            $c->query('ServerContainer')->getL10N('phonetrack')
+            $c->query('ServerContainer')->getL10N('phonetrack'),
+            $c->query('ServerContainer')->getLogger()
+        );
+
+        $this->logController2 = new LogController(
+            $this->appName,
+            $this->request,
+            'test2',
+            $c->query('ServerContainer')->getUserFolder('test2'),
+            $c->query('ServerContainer')->getConfig(),
+            $c->getServer()->getShareManager(),
+            $c->getServer()->getAppManager(),
+            $c->getServer()->getUserManager(),
+            $c->query('ServerContainer')->getL10N('phonetrack'),
+            $c->query('ServerContainer')->getLogger()
         );
 
         $this->utilsController = new UtilsController(
@@ -362,15 +377,23 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $reservToken = $data['nametoken'];
         $this->assertEquals($done, 1);
 
-        // then try to log, number of devices should still be 1
-        $this->logController->logOsmand($token, 'resName', 4.44, 3.33, 500, 60, 10, 200, 199);
+        // then try to log with another user (simulates not logged in), it should not work
+        $this->logController2->logOsmand($token, 'resName', 4.44, 3.33, 500, 60, 10, 200, 199);
         $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $this->assertEquals(count($respSession[$token]), 2);
 
-        // then try to log with name token, there should be two devices
+        // but if you try to log with reserved name (not name token) and you're logged in as the ower : it should work
+        $this->logController->logOsmand($token, 'resName', 4.44, 3.33, 500, 60, 10, 200, 199);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession[$token]), 3);
+
+        // then try to log with name token, this should work also
         $this->logController->logOsmand($token, $reservToken, 4.44, 3.33, 500, 60, 10, 200, 199);
         $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
@@ -565,8 +588,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($name, 'testSession');
 
         // CHECK SESSION IS SHARED WITH A USER
-        $cond = ($data['sessions'][0][1] === $token and count($data['sessions'][0][4]) > 0 and $data['sessions'][0][4][0] === 'test2') or
-                ($data['sessions'][1][1] === $token and count($data['sessions'][1][4]) > 0 and $data['sessions'][1][4][0] === 'test2');
+        $cond = (count($data['sessions'][0])>4 and $data['sessions'][0][1] === $token and count($data['sessions'][0][5]) > 0 and $data['sessions'][0][5][0] === 'test2') or
+                (count($data['sessions'][0])>4 and $data['sessions'][1][1] === $token and count($data['sessions'][1][5]) > 0 and $data['sessions'][1][5][0] === 'test2');
         $this->assertEquals($cond, True);
 
         // save options
@@ -995,9 +1018,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $checkpublictoken = null;
         foreach ($data['sessions'] as $s) {
             $name = $s[0];
-            if ($name == 'otherSession') {
-                if (count($s[6]) > 0) {
-                    $checkpublictoken = $s[6][0]['token'];
+            if ($name === 'otherSession') {
+                if (count($s[7]) > 0) {
+                    $checkpublictoken = $s[7][0]['token'];
                 }
             }
         }
@@ -1124,7 +1147,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         foreach ($data['sessions'] as $s) {
             $name = $s[0];
             if ($name == 'renamedTestSession') {
-                $reservedList = $s[5];
+                $reservedList = $s[6];
             }
         }
 
@@ -1166,7 +1189,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         foreach ($data['sessions'] as $s) {
             $name = $s[0];
             if ($name == 'renamedTestSession') {
-                $reservedList = $s[5];
+                $reservedList = $s[6];
             }
         }
 
