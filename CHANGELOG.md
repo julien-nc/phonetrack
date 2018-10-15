@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#159](https://gitlab.com/eneiluj/phonetrack-oc/issues/159) @eneiluj
 - secure null values given to escapeHTML (happens when having DB problems)
 - session deletion now triggers deletion of all related things
+- dirty patch Nextcloud in CI to make PhpUnit tests work again
+- make CI more generic so any user (fork) can run it in his/her own master branch
 
 ## 0.3.5 – 2018-10-11
 ### Added
