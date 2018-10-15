@@ -987,6 +987,7 @@ input.geofencename {
 }
 .leaflet-popup-content {
     margin: 7px 7px !important;
+    color: var(--color-main-text);
 }
 .urlclosepost, .urlfarpost,
 .urlleavepost, .urlenterpost, .sendemail {
