@@ -143,6 +143,10 @@ i.display {
         bottom: auto;
     }
 }
+.ui-widget-header {
+    background: none;
+    background-color: var(--color-primary);
+}
 
 div#filterDiv input[type=checkbox] {
     margin-left: 5px;
