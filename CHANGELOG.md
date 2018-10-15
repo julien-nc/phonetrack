@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - browser logging URL and OpenGTS URL now have help dialog too
 [#152](https://gitlab.com/eneiluj/phonetrack-oc/issues/152) @e-alfred
 - better SQL queries design in controllers
+- use css variables to adapt to accessibility theming @earboxer
 
 ### Fixed
 - stat table cell color when shape is triangle
