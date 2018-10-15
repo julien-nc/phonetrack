@@ -511,14 +511,6 @@ ul.devicelist li {
 ul.devicelist {
     margin-left: 30px;
 }
-.easy-button-button {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-.easy-button-button span.fa{
-    margin-top: auto;
-    margin-bottom: auto;
-}
 .followdevice {
     height: 16px !important;
     min-height: 16px !important;
@@ -1022,3 +1014,22 @@ a.icon-ruler span {
 a.icon-active span{
     color: var(--color-primary);
 }
+/* easy button */
+.easy-button-button {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.easy-button-button span.fa{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.leaflet-bar button, .leaflet-bar button:hover,
+.leaflet-touch .leaflet-bar a, .leaflet-touch .leaflet-bar a:hover {
+    background-color: var(--color-background-dark);
+    border: 1px solid var(--color-border-dark);
+    color: var(--color-main-text);
+}
+.leaflet-bar button:hover, leaflet-bar a:hover {
+  background-color: var(--color-background-darker);
+}
+
