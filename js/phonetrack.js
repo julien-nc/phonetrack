@@ -2772,6 +2772,7 @@
         var aliasInput = '';
         var reaffectLink = '';
         var geoLink = '';
+        var geoLinkQR = '';
         var routingGraphLink = '';
         var routingOsrmLink = '';
         var routingOrsLink = '';
@@ -2780,6 +2781,8 @@
         var dropdowndevicecontent = '';
         geoLink = ' <button class="geoLinkDevice" token="' + s + '" device="' + d + '">' +
             '<i class="fa fa-map-marked-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Geo link to open position in other app/software') + '</button>';
+        geoLinkQR = ' <button class="geoLinkQRDevice" token="' + s + '" device="' + d + '">' +
+            '<i class="fa fa-qrcode" aria-hidden="true"></i> <i class="fa fa-map-marked-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Geo link QRcode to open position with a QRcode scanner') + '</button>';
         routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">' +
             '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'Graphhopper'}) + '</button>';
         routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">' +
@@ -2819,6 +2822,7 @@
             aliasLink +
             reaffectLink +
             geoLink +
+            geoLinkQR +
             routingGraphLink +
             routingOsrmLink +
             routingOrsLink +
@@ -4881,7 +4885,8 @@
             {sessionName: sessionName, loggingApp: loggerName}
         );
 
-        $('#trackurlinput').val(url);
+        $('#trackurlinput').show().val(url);
+        $('#trackurlhint').show();
         $('#trackurlqrcode').html('').qrcode({width: 200,height: 200,text: url});
         $('#trackurllabel').text(content);
 
@@ -5415,16 +5420,41 @@
             reaffectDeviceSession(token, deviceid, newSessionId);
         });
 
+        $('body').on('click','.geoLinkQRDevice', function(e) {
+            var token = $(this).attr('token');
+            var deviceid = $(this).attr('device');
+            var ll = phonetrack.sessionLatlngs[token][deviceid];
+            if (ll.length > 0) {
+                var dname = getDeviceName(token, deviceid);
+                var p = ll[ll.length-1];
+                var lat = p[0];
+                var lon = p[1];
+                var geourl ='geo:' + lat + ',' + lon;
+                $('#trackurlinput').hide();
+                $('#trackurlhint').hide();
+                $('#trackurlqrcode').html('').qrcode({width: 200,height: 200,text: geourl});
+                $('#trackurllabel').text(geourl);
+
+                $('#trackurldialog').dialog({
+                    title: t('phonetrack', 'Geo QRcode : last position of {dname}', {dname: dname}),
+                    width: 250,
+                    height: 300
+                });
+            }
+        });
+
         $('body').on('click','.geoLinkDevice', function(e) {
             var token = $(this).attr('token');
             var deviceid = $(this).attr('device');
             var ll = phonetrack.sessionLatlngs[token][deviceid];
-            var p = ll[ll.length-1];
-            var lat = p[0];
-            var lon = p[1];
-            window.open(
-                'geo:' + lat + ',' + lon
-            );
+            if (ll.length > 0) {
+                var p = ll[ll.length-1];
+                var lat = p[0];
+                var lon = p[1];
+                window.open(
+                    'geo:' + lat + ',' + lon
+                );
+            }
         });
 
         $('body').on('click','.routingGraphDevice', function(e) {
