@@ -19,16 +19,12 @@
 <div class="sidebar-content active">
 <div class="sidebar-pane active" id="ho">
     <div id="logofolder">
-        <div id="logo">
-            <!--p align="center"><img src="phonetrack.png"/></p-->
-            <div>
-            <p>v
+        <div id="logo"></div>
+        <p class="version">v
 <?php
 p($_['phonetrack_version']);
 ?>
-            </p>
-            </div>
-        </div>
+        </p>
         <div id="topbuttons">
             <div id="createimportsessiondiv">
                 <button id="importsession">

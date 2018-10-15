@@ -12,9 +12,6 @@ div#map {
     width: 100%;
     height: 100%;
 }
-div#logo, div#logo img {
-    height:80px;
-}
 div#logo div{
     position:absolute;
     bottom:0;
@@ -34,10 +31,12 @@ div#logo p{
     margin-bottom: 0px;
 }
 div#logo {
-    background-image: url('images/phonetrack.png');
+    mask: url('images/phonetrack.svg');
+    -webkit-mask: url('images/phonetrack.svg');
+    background-color: var(--color-main-text);
     width: 65px;
-    background-size: 65px 65px;
-    background-repeat: no-repeat;
+    -webkit-mask-size: 65px;
+    -webkit-mask-repeat: no-repeat;
 }
 #optiontitle{
     width:100%;
@@ -77,9 +76,6 @@ h3 {
 .uibutton {
     font-size: 13px;
     height : 28px;
-}
-#phonetracksettings{
-    color:black;
 }
 .disclist{
     margin-left:20px;
@@ -186,11 +182,15 @@ div#options button {
 }
 div#logofolder {
     display: grid;
-    grid-template: 50% 50% / 80px 1fr;
+    grid-template: 50% 50% / min-content 1fr;
+}
+div#logofolder p.version {
+    grid-row: 3;
+    text-align: center;
 }
 div#logo{
     grid-column: 1;
-    grid-row: 1/3;
+    grid-row: 1/2;
 }
 div#logofolder label {
     padding: 0px 5px 0px 5px;
@@ -259,7 +259,7 @@ input[type=checkbox],
     grid-template-columns: 48% 48%;
 }
 .session {
-    border: 2px solid grey;
+    border: 2px solid var(--color-text-lighter);
     border-radius: 5px;
     padding: 0 4px 0 4px;
     margin-bottom: 5px;
@@ -312,7 +312,7 @@ div.session p,
     font-size: 16px;
 }
 .watchbutton i.fa-toggle-off {
-    color: grey;
+    color: var(--color-text-lighter);
 }
 .deletereservedname:hover i,
 .deletePublicFilteredShare:hover i,
@@ -330,7 +330,7 @@ div.session p,
 .publicsessionbutton:hover i,
 .dropdowndevicebutton:hover i,
 .dropdownbutton:hover i {
-    color: black;
+    color: var(--color-main-text);
 }
 .deletereservedname i,
 .deleteusershare i,
@@ -342,7 +342,7 @@ div.session p,
 .dropdownbutton i,
 .dropdowndevicebutton i,
 .sharediv i {
-    color: grey;
+    color: var(--color-text-lighter);
     font-size: 16px;
 }
 .reaffectDeviceDiv select {
@@ -424,7 +424,7 @@ input[role=precision] {
     width: 44px !important;
 }
 .filterDelimiterLine td {
-    border-top: solid 1px grey;
+    border-top: solid 1px var(--color-border);
 }
 .dateminmaxcell td {
    text-align: center;
@@ -541,10 +541,10 @@ ul.devicelist {
 .toggleGeofences i,
 .toggleProxim i,
 .zoomdevicebutton i {
-    color: grey;
+    color: var(--color-text-lighter);
 }
 .off i {
-    color: grey;
+    color: var(--color-text-lighter);
 }
 .deleteDevice:hover i {
     color: red;
@@ -595,7 +595,7 @@ ul.devicelist {
 /*.dropdownbutton:hover,*/
 .dropdowndevicebutton:focus,
 .dropdownbutton:focus {
-    background-color: #dddddd;
+    background-color: var(--color-background-dark);
 }
 .reaffectDeviceDiv,
 .devicelist .dropdown-content {
@@ -606,15 +606,15 @@ ul.devicelist {
     display: none;
     position: absolute;
     right: 0px;
-    background-color: #f9f9f9;
+    background-color: var(--color-background-dark);
     width: 250px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px var(--color-box-shadow);
     z-index: 1;
     border-radius: 10px;
 }
 .reaffectDeviceDiv button i,
 .dropdown-content button i {
-    color: black;
+    color: var(--color-main-text);
     font-size: 16px;
 }
 .publicsessionbutton,
@@ -648,7 +648,7 @@ ul.devicelist {
 }
 .stattable th,
 .stattable td {
-    border: 1px solid black;
+    border: 1px solid var(--color-border);
     padding: 0px 5px 0px 5px;
     border-radius: 0;
 }
@@ -687,21 +687,30 @@ ul.devicelist {
     border-bottom-width: 15px;
     border-bottom-style: solid;
 }
+.sidebar-tabs, .sidebar-content {
+    background-color: var(--color-main-background);
+}
+.sidebar-tabs>li:hover, .sidebar-tabs>ul>li:hover {
+    background-color: var(--color-background-dark);
+}
 .sidebar-tabs > li.active {
-    background-color: #E8E8E8;
+    background-color: var(--color-background-darker);
 }
 .leaflet-control-locate.active .fa {
-    color: #2074B6;
+    color: var(--color-primary);
 }
 .leaflet-control-locate .fa {
-    color: black;
+    color: var(--color-main-text);
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background-color: var(--color-main-background);
 }
 .networkicon {
     width: 30px;
     height: 30px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: black;
+    background-color: var(--color-main-text);
     mask: url('images/network.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
 }
@@ -710,7 +719,7 @@ ul.devicelist {
     height: 30px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: black;
+    background-color: var(--color-main-text);
     mask: url('images/normalzoom.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/normalzoom.svg') no-repeat 50% 50% !important;
 }
@@ -719,7 +728,7 @@ ul.devicelist {
     height: 30px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: black;
+    background-color: var(--color-main-text);
     mask: url('images/pointtooltip.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/pointtooltip.svg') no-repeat 50% 50% !important;
 }
@@ -728,7 +737,7 @@ ul.devicelist {
     height: 30px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: black;
+    background-color: var(--color-main-text);
     mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
 }
@@ -777,7 +786,7 @@ label[for=viewmove] i {
     height: 25px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: grey;
+    background-color: var(--color-text-lighter);
     mask: url('images/geofence.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/geofence.svg') no-repeat 50% 50% !important;
     mask-size: 70% !important;
@@ -789,21 +798,21 @@ label[for=viewmove] i {
     margin-left: 4px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: grey;
+    background-color: var(--color-text-lighter);
     mask: url('images/network.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
 }
 .toggleGeofences:hover,
 .toggleLineDevice.off:hover,
 .toggleAutoZoomDevice.off:hover {
-    background-color: black;
+    background-color: var(--color-main-text);
 }
 .toggleAutoZoomDevice {
     width: 25px;
     height: 25px;
     margin-top: auto;
     margin-bottom: auto;
-    background-color: grey;
+    background-color: var(--color-text-lighter);
     mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
     -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
 }
@@ -823,7 +832,7 @@ label[for=viewmove] i {
     padding: 0;
 }
 #sidebarFdis {
-    color: black;
+    color: var(--color-main-text);
 }
 #sidebarFen,
 #sidebarFdis {
@@ -837,7 +846,7 @@ label[for=viewmove] i {
 }
 .dropdown-content button:hover,
 .reaffectDeviceDiv button:hover {
-    border: 1px solid black;
+    border: 1px solid var(--color-border);
 }
 div#createimportsessiondiv button {
     margin-left: auto;
@@ -849,11 +858,11 @@ div#createimportsessiondiv button {
 }
 .proximlist li button:hover i,
 .geofencelist li button:hover i{
-    color: black;
+    color: var(--color-main-text);
 }
 .proximlist li button i,
 .geofencelist li button i{
-    color: grey;
+    color: var(--color-text-lighter);
 }
 .proximlist li button,
 .geofencelist li button,
@@ -884,7 +893,7 @@ input[role=lastposonly] {
 .autoexportdiv div {
     padding: 0px 8px 0px 8px;
     font-weight: bold;
-    color: grey;
+    color: var(--color-text-lighter);
 }
 .information {
     text-align: left !important;
@@ -921,7 +930,7 @@ label[for=autoexportpath], #autoexportpath {
 .proximlist li,
 .geofencelist li,
 .filteredshare {
-    border: solid 1px grey;
+    border: solid 1px var(--color-text-lighter);
 }
 .filteredshare input[role=device] {
     width: 49% !important;
@@ -963,7 +972,7 @@ input.geofencename {
 }
 .addproximdiv,
 .addgeofencediv {
-    border: 1px solid grey;
+    border: 1px solid var(--color-border-dark);
     border-radius: 5px;
     padding: 5px;
 }
@@ -1011,7 +1020,8 @@ a.icon-ruler {
 a.icon-ruler span {
     color: var(--color-main-text);
 }
-a.icon-active span{
+/*.leaflet-bar.active span.fa,*/
+a.icon-active span {
     color: var(--color-primary);
 }
 /* easy button */
