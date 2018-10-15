@@ -646,14 +646,6 @@ class PageController extends Controller {
         $req->closeCursor();
 
         if ($dbname !== null) {
-            $sqldel = '
-                DELETE FROM *PREFIX*phonetrack_sessions
-                WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-                      AND token='.$this->db_quote_escape_string($token).' ;';
-            $req = $this->dbconnection->prepare($sqldel);
-            $req->execute();
-            $req->closeCursor();
-
             // get all devices
             $dids = array();
             $sqlchk = '
@@ -669,12 +661,7 @@ class PageController extends Controller {
             $req->closeCursor();
 
             foreach ($dids as $did) {
-                $sqldel = '
-                    DELETE FROM *PREFIX*phonetrack_points
-                    WHERE deviceid='.$this->db_quote_escape_string($did).' ;';
-                $req = $this->dbconnection->prepare($sqldel);
-                $req->execute();
-                $req->closeCursor();
+                $this->deleteDevice($token, $did);
             }
 
             $sqldel = '
@@ -685,8 +672,16 @@ class PageController extends Controller {
             $req->closeCursor();
 
             $sqldel = '
-                DELETE FROM *PREFIX*phonetrack_devices
+                DELETE FROM *PREFIX*phonetrack_pubshares
                 WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
+            $sqldel = '
+                DELETE FROM *PREFIX*phonetrack_sessions
+                WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
+                      AND token='.$this->db_quote_escape_string($token).' ;';
             $req = $this->dbconnection->prepare($sqldel);
             $req->execute();
             $req->closeCursor();

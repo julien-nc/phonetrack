@@ -14,11 +14,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - browser logging URL and OpenGTS URL now have help dialog too
 [#152](https://gitlab.com/eneiluj/phonetrack-oc/issues/152) @e-alfred
+- better SQL queries design in controllers
 
 ### Fixed
 - stat table cell color when shape is triangle
 [#159](https://gitlab.com/eneiluj/phonetrack-oc/issues/159) @eneiluj
 - secure null values given to escapeHTML (happens when having DB problems)
+- session deletion now triggers deletion of all related things
 
 ## 0.3.5 – 2018-10-11
 ### Added
