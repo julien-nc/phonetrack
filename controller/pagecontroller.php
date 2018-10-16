@@ -1761,11 +1761,7 @@ class PageController extends Controller {
                             if (isset($options['nbpointsload']) and is_numeric($options['nbpointsload'])) {
                                 $nbpointsload = intval($options['nbpointsload']);
                             }
-                            // are lines or points asked ? if not, just get the last
-                            if (! $this->deviceLinesOrPointsAsked($token, $devid, $options)) {
-                                $sqlget .= 'ORDER BY timestamp DESC LIMIT 1';
-                            }
-                            else if ($nbpointsload !== null) {
+                            if ($nbpointsload !== null) {
                                 $sqlget .= 'ORDER BY timestamp DESC LIMIT '.$nbpointsload;
                             }
                             else {
