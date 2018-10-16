@@ -1,3 +1,5 @@
+[[_TOC_]]
+
 # Translate PhoneTrack in your language
 
 Translation is done in the [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
@@ -66,11 +68,25 @@ git pull https://gitlab.com/eneiluj/phonetrack-oc master
 git checkout master
 git pull https://gitlab.com/eneiluj/phonetrack-oc master
 git checkout new_feature1
+# rebasing a branch means trying to put the commits of local branch on top of requested branch
+# in this example : remove your changes, get new stuff from master, put your changes on top !
 git rebase master
 # if there is no conflict between your changes
 # and the new stuff in master branch of original project
-# the rebase will go just fine
+# the rebase will go just fine.
+# You can then continue developing on your new_feature1 branch
 ```
+
+## Tests
+
+If you want to trigger Continuous Integration tests on Gitlab, just push to the branch `test`
+
+``` bash
+# from any branch
+git push origin test -f
+```
+
+Those tests only concern controller part. If someone could show me the way and just start to implement front-end tests with Karma, i'll be more than grateful !
 
 ## Recomandations
 
