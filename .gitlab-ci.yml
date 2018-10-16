@@ -13,6 +13,7 @@ test_nc14:
   only:
     refs:
       - master
+      - test
   artifacts:
     paths:
       - coverage
