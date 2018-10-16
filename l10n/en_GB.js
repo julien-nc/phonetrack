@@ -1,7 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "PhoneTrack",
-    "left" : "left"
+    "PhoneTrack" : "PhoneTrack"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: en");
+"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: en-GB");
