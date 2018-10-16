@@ -9,8 +9,8 @@ git checkout master
 git merge l10n_master
 cd l10n
 ./write
-cp en_US.js en_GB.js
-cp en_US.json en_GB.json
+#cp en_US.js en_GB.js
+#cp en_US.json en_GB.json
 git commit -a -m "write new translations"
 git push origin master
 git push origin master:l10n_master -f

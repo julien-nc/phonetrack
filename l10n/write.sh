@@ -25,3 +25,4 @@ rename 's/id_ID/id/g' *.js*
 rename 's/uk_UA/uk/g' *.js*
 rename 's/el_GR/el/g' *.js*
 rename 's/bg_BG/bg/g' *.js*
+rename 's/en_US/en/g' *.js*
