@@ -35,6 +35,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - session deletion now triggers deletion of all related things
 - dirty patch Nextcloud in CI to make PhpUnit tests work again
 - make CI more generic so any user (fork) can run it in his/her own master branch
+- bug in public filtered share when displaying last positions only
+[#164](https://gitlab.com/eneiluj/phonetrack-oc/issues/164) @Valdnet
 
 ## 0.3.5 – 2018-10-11
 ### Added
