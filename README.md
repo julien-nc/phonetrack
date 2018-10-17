@@ -4,39 +4,42 @@
 [![coverage report](https://gitlab.com/eneiluj/phonetrack-oc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/phonetrack-oc/coverage/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/phonetrack/localized.svg)](https://crowdin.com/project/phonetrack)
 
-PhoneTrack is an app to track positions of mobile devices
-and display them dynamically on a Leaflet map.
+PhoneTrack is a Nextcloud application to track
+and store mobile devices :iphone: locations.
+It receives information from mobile phones logging apps
+and display it dynamically on a map :world\_map:.
 
-Go to [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack) if you want to help to translate this app in your language.
+:earth\_africa: Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+
+Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
 How to use PhoneTrack :
 
 * Create a tracking session.
-* Give the tracking URL\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices positions in real time (or not) in PhoneTrack normal or public page.
+* Give the logging URL\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
 
-(\*) Don't forget to set the device name in the URL. Replace "yourname" with the desired device name. Setting the device name in logging app options only works with Owntracks, Traccar and OpenGTS.
+(\*) Don't forget to set the device name in the URL (rather than in the logging app settings. Replace "yourname" with the desired device name.
+Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
 
 On PhoneTrack main page, while watching a session, you can :
 
-* display position history
-* filter points
-* manually edit/add/delete points
-* edit devices (rename, change color, move to another session)
-* define geofencing zones for devices
-* define proximity alerts for device pairs
-* share a session to other users (read-only)
-* make a session public and share it via a public link. Positions are not visible in web logging page "publicWebLog" for private sessions.
-* generate public share links with optional restrictions (filters, device name, last positions, geofencing simplification)
-* import/export a session in GPX format (one file with one track per device or one file per device).
-* display session statistics
-* [reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* toggle session auto export (daily/weekly/monthly)
-* toggle session auto purge (daily/weekly/monthly)
+* Display location history
+* Filter points
+* Manually edit/add/delete points
+* Edit devices (rename, change color/shape, move to another session)
+* Define geofencing zones for devices
+* Define proximity alerts for device pairs
+* Share a session to other Nextcloud users or with a public link (read-only)
+* Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
+* Import/export a session in GPX format (one file with one track per device or one file per device).
+* Display sessions statistics
+* [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
+* Toggle session auto export and auto purge (daily/weekly/monthly)
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
-This app is tested with Nextcloud 14 with Firefox 57+ and Chromium.
+This app is tested on Nextcloud 14 with Firefox 57+ and Chromium.
 
 This app is under development.
 

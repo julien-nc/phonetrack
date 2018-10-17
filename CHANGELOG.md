@@ -5,17 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.3.6 – 2018-10-17
 ### Added
 - add QRcode for logging urls in help dialogs
 [#152](https://gitlab.com/eneiluj/phonetrack-oc/issues/152) @e-alfred
+- add button in 'device actions' to generate Geo QRcode with last device position
+[#120](https://gitlab.com/eneiluj/phonetrack-oc/issues/120) @jookk
 - add options to toggle line/point display in public pages through URL GET parameters
 [#155](https://gitlab.com/eneiluj/phonetrack-oc/issues/155) @Japhys
+- add average and max speed to stats table
+[#151](https://gitlab.com/eneiluj/phonetrack-oc/issues/151) @vixu
+- add CONTRIBUTING guidelines
 
 ### Changed
 - browser logging URL and OpenGTS URL now have help dialog too
 [#152](https://gitlab.com/eneiluj/phonetrack-oc/issues/152) @e-alfred
 - better SQL queries design in controllers
 - use css variables to adapt to accessibility theming @earboxer
+- load device points even when line/point are disabled
+[#151](https://gitlab.com/eneiluj/phonetrack-oc/issues/151) @vixu
+- trigger CI in test branch too (easier for contributors who want
+  to keep their master clean and run tests for their work
 
 ### Fixed
 - stat table cell color when shape is triangle

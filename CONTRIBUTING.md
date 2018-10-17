@@ -1,5 +1,3 @@
-[[_TOC_]]
-
 # Translate PhoneTrack in your language
 
 Translation is done in the [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
