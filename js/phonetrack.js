@@ -3085,7 +3085,6 @@
                 // increment lines, insert into displayed layer (sessionLineLayers)
                 var displayedLatlngs = filterList(phonetrack.sessionLatlngs[s][d], s, d);
                 phonetrack.sessionLineLayers[s][d].clearLayers();
-                phonetrack.sessionLineLayers[s] = {};
                 delete phonetrack.sessionDisplayedLatlngs[s][d];
                 phonetrack.sessionDisplayedLatlngs[s][d] = [displayedLatlngs];
 
