@@ -1046,4 +1046,7 @@ a.icon-active span {
 .leaflet-bar button:hover, leaflet-bar a:hover {
   background-color: var(--color-background-darker);
 }
-
+#dummylogo {
+    display: none;
+    content: url("images/phonetrack.png");
+}
