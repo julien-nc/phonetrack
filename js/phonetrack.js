@@ -280,6 +280,30 @@
         } : null;
     }
 
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return "#" + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b));
+    }
+
+    function hexToDarkerHex(hex) {
+        var rgb = hexToRgb(hex);
+        while (getColorBrightness(rgb) > 150) {
+            if (rgb.r > 0) rgb.r--;
+            if (rgb.g > 0) rgb.g--;
+            if (rgb.b > 0) rgb.b--;
+        }
+        return rgbToHex(rgb.r, rgb.g, rgb.b);
+    }
+
+    // this formula was found here : https://stackoverflow.com/a/596243/7692836
+    function getColorBrightness(rgb) {
+        return 0.2126*rgb.r + 0.7152*rgb.g + 0.0722*rgb.b;
+    }
+
     function brify(str, linesize) {
         var res = '';
         var words = str.split(' ');
@@ -4886,7 +4910,13 @@
 
         $('#trackurlinput').show().val(url);
         $('#trackurlhint').show();
-        $('#trackurlqrcode').html('').qrcode({width: 200,height: 200,text: url});
+        $('#trackurlqrcode').html('').qrcode({
+            width: 200,
+            height: 200,
+            text: url,
+            background: "#ffffff",
+            foreground: phonetrack.themeColorDark
+        });
         $('#trackurllabel').text(content);
 
         $('#trackurldialog').dialog({
@@ -5431,7 +5461,13 @@
                 var geourl ='geo:' + lat + ',' + lon;
                 $('#trackurlinput').hide();
                 $('#trackurlhint').hide();
-                $('#trackurlqrcode').html('').qrcode({width: 200,height: 200,text: geourl});
+                $('#trackurlqrcode').html('').qrcode({
+                    width: 200,
+                    height: 200,
+                    text: geourl,
+                    background: "#ffffff",
+                    foreground: phonetrack.themeColorDark
+                });
                 $('#trackurllabel').text(geourl);
 
                 $('#trackurldialog').dialog({
@@ -6229,19 +6265,20 @@
             }
         });
 
-        var buttonColor = '#0000FF';
+        phonetrack.themeColor = '#0000FF';
         if (OCA.Theming) {
-            buttonColor = OCA.Theming.color;
+            phonetrack.themeColor = OCA.Theming.color;
         }
+        phonetrack.themeColorDark = hexToDarkerHex(phonetrack.themeColor);
 
         $('<style role="buttons">.fa, .far, .fas { ' +
-            'color: ' + buttonColor + '; }' +
+            'color: ' + phonetrack.themeColor + '; }' +
             '.dropdown-content button:hover i, ' +
             '.reaffectDeviceDiv button:hover i ' +
-            '{ color: ' + buttonColor + '; }' +
+            '{ color: ' + phonetrack.themeColor + '; }' +
             '</style>').appendTo('body');
 
-        var rgbTC = hexToRgb(buttonColor);
+        var rgbTC = hexToRgb(phonetrack.themeColor);
 
         $('<style role="filtertable">.activatedFilters { ' +
             'background: rgba(' + rgbTC.r + ',' + rgbTC.g + ',' + rgbTC.b + ', 0.2); }' +
