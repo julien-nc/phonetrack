@@ -4914,47 +4914,48 @@
         var img = new Image;
         // wait for the image to be loaded to generate the QRcode
         img.onload = function(){
-            $('#trackurlqrcode').qrcode({
+            var qr = kjua({
                 text: url,
                 render: 'canvas',
                 minVersion: 6,
-                maxVersion: 40,
                 ecLevel: 'H',
                 size: 210,
-                background: "#ffffff",
+                back: "#ffffff",
                 fill: phonetrack.themeColorDark,
-                radius: 0.5,
-                quiet: 1,
-                mode: 4,
-                mSize: 0.2,
-                mPosX: 0.5,
-                mPosY: 0.5,
+                rounded: 100,
+                quiet: 0,
+                mode: 'image',
+                mSize: 20,
+                mPosX: 50,
+                mPosY: 50,
                 image: img,
                 label: 'no label',
             });
+            $('#trackurlqrcode').append(qr);
         }
         img.onerror = function() {
-            $('#trackurlqrcode').qrcode({
+            var qr = kjua({
                 text: url,
                 render: 'canvas',
                 minVersion: 6,
-                maxVersion: 40,
                 ecLevel: 'H',
                 size: 210,
-                background: "#ffffff",
+                back: "#ffffff",
                 fill: phonetrack.themeColorDark,
-                radius: 0.5,
-                quiet: 1,
-                mode: 2,
-                mSize: 0.1,
-                mPosX: 0.5,
-                mPosY: 0.5,
+                rounded: 100,
+                quiet: 0,
+                mode: 'label',
+                mSize: 10,
+                mPosX: 50,
+                mPosY: 50,
+                image: img,
                 label: logger,
-                fontcolor: phonetrack.themeColorDark,
+                fontcolor: '#000000',
             });
+            $('#trackurlqrcode').append(qr);
         }
         // dirty trick to get image URL from css url()... Anyone knows better ?
-        var srcurl = $('#dummylogo').css('content').split('"')[1].split('"')[0];
+        var srcurl = $('#dummylogo').css('content').replace('url("', '').replace('")', '');
         if (logger !== 'opengts') {
             srcurl = srcurl.replace('phonetrack.png', 'ext_logos/'+logger+'.png');
         }
@@ -5507,47 +5508,48 @@
                 var img = new Image;
                 // wait for the image to be loaded to generate the QRcode
                 img.onload = function(){
-                    $('#trackurlqrcode').qrcode({
+                    var qr = kjua({
                         text: geourl,
                         render: 'canvas',
                         minVersion: 6,
-                        maxVersion: 40,
                         ecLevel: 'H',
                         size: 210,
-                        background: "#ffffff",
+                        back: "#ffffff",
                         fill: phonetrack.themeColorDark,
-                        radius: 0.5,
-                        quiet: 1,
-                        mode: 4,
-                        mSize: 0.2,
-                        mPosX: 0.5,
-                        mPosY: 0.5,
+                        rounded: 100,
+                        quiet: 0,
+                        mode: 'image',
+                        mSize: 20,
+                        mPosX: 50,
+                        mPosY: 50,
                         image: img,
                         label: 'no label',
                     });
+                    $('#trackurlqrcode').append(qr);
                 }
                 img.onerror = function() {
-                    $('#trackurlqrcode').qrcode({
+                    var qr = kjua({
                         text: geourl,
                         render: 'canvas',
                         minVersion: 6,
-                        maxVersion: 40,
                         ecLevel: 'H',
                         size: 210,
-                        background: "#ffffff",
+                        back: "#ffffff",
                         fill: phonetrack.themeColorDark,
-                        radius: 0.5,
-                        quiet: 1,
-                        mode: 2,
-                        mSize: 0.1,
-                        mPosX: 0.5,
-                        mPosY: 0.5,
+                        rounded: 100,
+                        quiet: 0,
+                        mode: 'label',
+                        mSize: 10,
+                        mPosX: 50,
+                        mPosY: 50,
+                        image: img,
                         label: '===>',
-                        fontcolor: phonetrack.themeColorDark,
+                        fontcolor: '#000000',
                     });
+                    $('#trackurlqrcode').append(qr);
                 }
                 // dirty trick to get image URL from css url()... Anyone knows better ?
-                img.src = $('#dummylogo').css('content').split('"')[1].split('"')[0].replace('phonetrack.png', 'marker-icon.png');
+                img.src = $('#dummylogo').css('content').replace('url("', '').replace('")', '').replace('phonetrack.png', 'marker-icon.png');
 
                 $('#trackurllabel').text(geourl);
 

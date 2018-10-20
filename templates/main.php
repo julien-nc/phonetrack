@@ -14,7 +14,7 @@ script('phonetrack', 'easy-button');
 script('phonetrack', 'jquery.plugin.min');
 script('phonetrack', 'jquery.countdown.min');
 script('phonetrack', 'leaflet.hotline');
-script('phonetrack', 'jquery-qrcode.min');
+script('phonetrack', 'kjua.min');
 script('phonetrack', 'phonetrack');
 
 style('phonetrack', 'style');
