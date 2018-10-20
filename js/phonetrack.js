@@ -4967,7 +4967,10 @@
         $('#trackurldialog').dialog({
             title: title,
             width: 500,
-            height: 450
+            height: 450,
+            open: function(event, ui) {
+                $('.ui-dialog-titlebar-close', ui.dialog | ui).html('<i class="far fa-times-circle"></i>');
+            }
         });
         $('#trackurlinput').select();
     }
@@ -5560,7 +5563,10 @@
                 $('#trackurldialog').dialog({
                     title: t('phonetrack', 'Geo QRcode : last position of {dname}', {dname: dname}),
                     width: 250,
-                    height: 300
+                    height: 300,
+                    open: function(event, ui) {
+                        $('.ui-dialog-titlebar-close', ui.dialog | ui).html('<i class="far fa-times-circle"></i>');
+                    }
                 });
             }
         });

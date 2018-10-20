@@ -918,6 +918,8 @@ label[for=autoexportpath], #autoexportpath {
     width: 100%;
 }
 #trackurldialog {
+    background-color: var(--color-main-background);
+    color: var(--color-main-text);
     font-size: 12px;
 }
 #trackurlqrcode {
@@ -1049,4 +1051,25 @@ a.icon-active span {
 #dummylogo {
     display: none;
     content: url("images/phonetrack.png");
+}
+/* jquery dialog */
+.ui-dialog-titlebar-close {
+    height: 22px !important;
+    background-image: none !important;
+    background-color: var(--color-main-background) !important;
+}
+.ui-dialog-titlebar-close i{
+    color: var(--color-main-text) !important;
+}
+.ui-dialog-titlebar {
+    background: none;
+    border: 0px;
+    background-color: var(--color-primary);
+}
+.ui-dialog-content {
+    background-color: var(--color-main-background) !important;
+    color: var(--color-main-text) !important;
+}
+.ui-dialog{
+    z-index: 2001 !important ;
 }
