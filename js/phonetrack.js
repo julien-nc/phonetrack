@@ -4916,6 +4916,7 @@
         img.onload = function(){
             var qr = kjua({
                 text: url,
+                crisp: false,
                 render: 'canvas',
                 minVersion: 6,
                 ecLevel: 'H',
@@ -4923,7 +4924,7 @@
                 back: "#ffffff",
                 fill: phonetrack.themeColorDark,
                 rounded: 100,
-                quiet: 0,
+                quiet: 1,
                 mode: 'image',
                 mSize: 20,
                 mPosX: 50,
@@ -4936,6 +4937,7 @@
         img.onerror = function() {
             var qr = kjua({
                 text: url,
+                crisp: false,
                 render: 'canvas',
                 minVersion: 6,
                 ecLevel: 'H',
@@ -4943,7 +4945,7 @@
                 back: "#ffffff",
                 fill: phonetrack.themeColorDark,
                 rounded: 100,
-                quiet: 0,
+                quiet: 1,
                 mode: 'label',
                 mSize: 10,
                 mPosX: 50,
@@ -5510,6 +5512,7 @@
                 img.onload = function(){
                     var qr = kjua({
                         text: geourl,
+                        crisp: false,
                         render: 'canvas',
                         minVersion: 6,
                         ecLevel: 'H',
@@ -5517,7 +5520,7 @@
                         back: "#ffffff",
                         fill: phonetrack.themeColorDark,
                         rounded: 100,
-                        quiet: 0,
+                        quiet: 1,
                         mode: 'image',
                         mSize: 20,
                         mPosX: 50,
@@ -5530,6 +5533,7 @@
                 img.onerror = function() {
                     var qr = kjua({
                         text: geourl,
+                        crisp: false,
                         render: 'canvas',
                         minVersion: 6,
                         ecLevel: 'H',
@@ -5537,7 +5541,7 @@
                         back: "#ffffff",
                         fill: phonetrack.themeColorDark,
                         rounded: 100,
-                        quiet: 0,
+                        quiet: 1,
                         mode: 'label',
                         mSize: 10,
                         mPosX: 50,
