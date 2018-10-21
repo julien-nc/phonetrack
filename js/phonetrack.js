@@ -1305,6 +1305,7 @@
 
     function createSession() {
         var sessionName = $('#sessionnameinput').val();
+        $('#sessionnameinput').val('');
         if (!sessionName) {
             OC.Notification.showTemporary(t('phonetrack', 'Session name should not be empty'));
             return;
@@ -5108,6 +5109,16 @@
             }
         });
 
+        $('#sessionnameinput').on('keyup', function(e) {
+            if (e.key === 'Enter') {
+                createSession();
+                $('#newsessiondiv').slideUp('slow');
+            }
+            else if (e.key === 'Escape') {
+                $('#newsessiondiv').slideUp('slow');
+            }
+        });
+
         $('#newsession').click(function() {
             createSession();
             $('#newsessiondiv').slideUp('slow');
@@ -5646,7 +5657,7 @@
             $(this).parent().parent().find('.aliasDeviceInput').select();
         });
 
-        $('body').on('keypress','.renameDeviceInput', function(e) {
+        $('body').on('keyup','.renameDeviceInput', function(e) {
             if (e.key === 'Escape') {
                 $(this).parent().parent().find('.deviceLabel').show();
                 $(this).parent().parent().find('.renameDeviceInput').hide();
@@ -5662,7 +5673,7 @@
             }
         });
 
-        $('body').on('keypress','.aliasDeviceInput', function(e) {
+        $('body').on('keyup','.aliasDeviceInput', function(e) {
             if (e.key === 'Escape') {
                 $(this).parent().parent().find('.deviceLabel').show();
                 $(this).parent().parent().find('.aliasDeviceInput').hide();
@@ -5706,7 +5717,7 @@
             $(this).parent().parent().find('.renameSessionInput').select();
         });
 
-        $('body').on('keypress','.renameSessionInput', function(e) {
+        $('body').on('keyup','.renameSessionInput', function(e) {
             if (e.key === 'Escape') {
                 $(this).parent().find('.sessionName').show();
                 $(this).parent().find('.renameSessionInput').hide();
@@ -6031,7 +6042,7 @@
             addUserAutocompletion($(this));
         });
 
-        $('body').on('keypress','.addusershare', function(e) {
+        $('body').on('keyup','.addusershare', function(e) {
             if (e.key === 'Enter') {
                 var token = $(this).parent().parent().parent().attr('token');
                 var username = $(this).val();
@@ -6117,7 +6128,7 @@
             deleteProximDb(token, device, proximid);
         });
 
-        $('body').on('keypress','.addnamereserv', function(e) {
+        $('body').on('keyup','.addnamereserv', function(e) {
             if (e.key === 'Enter') {
                 var token = $(this).parent().parent().attr('token');
                 var devicename = $(this).val();
@@ -6439,7 +6450,7 @@
             $(this).find('i').addClass('fa-male').removeClass('fa-female');
         });
 
-        $('body').on('keypress','li.filteredshare input[role=device]', function(e) {
+        $('body').on('keyup','li.filteredshare input[role=device]', function(e) {
             if (e.key === 'Enter') {
                 var filteredtoken = $(this).parent().attr('filteredtoken');
                 var devicename = $(this).val();
