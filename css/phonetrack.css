@@ -180,7 +180,12 @@ div#options button {
 .smallbutton {
     font-size:10px;
 }
-.leaflet-control-layers-selector, button.ui-button {
+.leaflet-control-layers {
+    background-color: var(--color-main-background);
+    color: var(--color-main-text);
+}
+.leaflet-control-layers-selector,
+button.ui-button {
     min-height: 0px;
 }
 div#logofolder {
