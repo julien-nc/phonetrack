@@ -784,7 +784,7 @@
     }
 
     function deleteMultiplePoints(bounds=null) {
-        var pid, pidlist, pidsToDelete, cpt, did, dname;
+        var pid, pidlist, pidsToDelete, cpt, did, dname, layers, l, i;
         var s = $('#deletePointSession option:selected').attr('token');
         dname = $('#deletePointDevice').val();
         did = getDeviceId(s, dname);
@@ -793,11 +793,13 @@
             if (dname === '') {
                 for (did in phonetrack.sessionPointsLayers[s]) {
                     pidlist = [];
-                    phonetrack.sessionPointsLayers[s][did].eachLayer(function(l) {
+                    layers = phonetrack.sessionPointsLayers[s][did].getLayers();
+                    for (i = 0; i < layers.length; i++) {
+                        l = layers[i];
                         if (bounds === null || bounds.contains(l.getLatLng())) {
                             pidlist.push(l.getLatLng().alt);
                         }
-                    });
+                    }
                     // split pidlist in smaller parts
                     cpt = 0;
                     while (cpt < pidlist.length) {
@@ -816,11 +818,13 @@
             else{
                 if (phonetrack.sessionLineLayers[s].hasOwnProperty(did)) {
                     pidlist = [];
-                    phonetrack.sessionPointsLayers[s][did].eachLayer(function(l) {
+                    layers = phonetrack.sessionPointsLayers[s][did].getLayers();
+                    for (i = 0; i < layers.length; i++) {
+                        l = layers[i];
                         if (bounds === null || bounds.contains(l.getLatLng())) {
                             pidlist.push(l.getLatLng().alt);
                         }
-                    });
+                    }
                     // split pidlist in smaller parts
                     cpt = 0;
                     while (cpt < pidlist.length) {
@@ -4743,7 +4747,8 @@
         var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
         var linePointParams = $.param({lineToggle: pl, pointToggle: pp});
 
-        var sessionDiv, publicWebLogInput, publicWatchInput, inputList, value, i, elem, s;
+        var sessionDiv, publicWebLogInput, publicWatchInput,
+            jqInputs, inputList, value, i, j, elem, s;
         for (s in phonetrack.sessionLineLayers) {
             if (!isSessionShared(s)) {
                 inputList = [];
@@ -4753,9 +4758,10 @@
                 inputList.push(publicWebLogInput);
                 inputList.push(publicWatchInput);
 
-                $('div.session[token='+s+'] input.publicFilteredShareUrl').each(function () {
-                    inputList.push($(this));
-                });
+                jqInputs = $('div.session[token='+s+'] input.publicFilteredShareUrl');
+                for (j = 0; j < jqInputs.length; j++) {
+                    inputList.push($(jqInputs[j]));
+                }
 
                 for (i = 0; i < inputList.length; i++) {
                     elem = inputList[i];
@@ -5213,7 +5219,7 @@
             if (!pageIsPublic()) {
                 saveOptions();
             }
-            var s, d;
+            var s, d, layers, l, i;
             var w = parseInt($(this).val());
             $('#linewidthlabel').text(w+'px');
             for (s in phonetrack.sessionLineLayers) {
@@ -5222,7 +5228,9 @@
                         weight: w
                     });
                     // permanent change of arrows
-                    phonetrack.sessionLineLayers[s][d].eachLayer(function (l) {
+                    layers = phonetrack.sessionLineLayers[s][d].getLayers();
+                    for (i = 0; i < layers.length; i++) {
+                        l = layers[i];
                         if (typeof l.setPatterns === 'function') {
                             l.setPatterns([{
                                 offset: 30,
@@ -5239,7 +5247,7 @@
                                 })
                             }]);
                         }
-                    });
+                    }
                 }
             }
         });
