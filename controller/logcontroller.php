@@ -187,7 +187,8 @@ class LogController extends Controller {
         $sqlget = '
             SELECT deviceid1, deviceid2, highlimit,
                    lowlimit, urlclose, urlfar,
-                   urlclosepost, urlfarpost, sendemail
+                   urlclosepost, urlfarpost,
+                   sendemail, emailaddr
             FROM *PREFIX*phonetrack_proxims
             WHERE deviceid1='.$this->db_quote_escape_string($devid).'
                   OR deviceid2='.$this->db_quote_escape_string($devid).' ;';
@@ -249,6 +250,10 @@ class LogController extends Controller {
         $urlclosepost = intval($proxim['urlclosepost']);
         $urlfarpost = intval($proxim['urlfarpost']);
         $sendemail = intval($proxim['sendemail']);
+        $emailaddr = $proxim['emailaddr'];
+        if ($emailaddr === null) {
+            $emailaddr = '';
+        }
 
         $otherDeviceId = null;
         // get the deviceid of other device
@@ -288,20 +293,33 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address');
                     $mailFromD = $this->config->getSystemValue('mail_domain');
 
-                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                    $emailaddrArray = explode(',', $emailaddr);
+                    if (
+                        (count($emailaddrArray) === 0
+                         or (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+                        and !empty($userEmail)
+                    ) {
+                        array_push($emailaddrArray, $userEmail);
+                    }
+
+                    if (!empty($mailFromA) and !empty($mailFromD)) {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
-                        try {
-                            $mailer = \OC::$server->getMailer();
-                            $message = $mailer->createMessage();
-                            $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
-                            $message->setFrom([$mailfrom => 'PhoneTrack']);
-                            $message->setTo([$userEmail => $userid]);
-                            $message->setPlainBody($this->trans->t('Device "%s" is now closer than %sm to "%s".', array($dev1name, $lowlimit, $dev2name)));
-                            $mailer->send($message);
-                        }
-                        catch (\Exception $e) {
-                            $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                        foreach ($emailaddrArray as $addrTo) {
+                            if ($addrTo !== null and $addrTo !== '') {
+                                try {
+                                    $mailer = \OC::$server->getMailer();
+                                    $message = $mailer->createMessage();
+                                    $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
+                                    $message->setFrom([$mailfrom => 'PhoneTrack']);
+                                    $message->setTo([trim($addrTo) => '']);
+                                    $message->setPlainBody($this->trans->t('Device "%s" is now closer than %sm to "%s".', array($dev1name, $lowlimit, $dev2name)));
+                                    $mailer->send($message);
+                                }
+                                catch (\Exception $e) {
+                                    $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                                }
+                            }
                         }
                     }
                 }
@@ -344,20 +362,33 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address');
                     $mailFromD = $this->config->getSystemValue('mail_domain');
 
-                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                    $emailaddrArray = explode(',', $emailaddr);
+                    if (
+                        (count($emailaddrArray) === 0
+                         or (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+                        and !empty($userEmail)
+                    ) {
+                        array_push($emailaddrArray, $userEmail);
+                    }
+
+                    if (!empty($mailFromA) and !empty($mailFromD)) {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
-                        try {
-                            $mailer = \OC::$server->getMailer();
-                            $message = $mailer->createMessage();
-                            $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
-                            $message->setFrom([$mailfrom => 'PhoneTrack']);
-                            $message->setTo([$userEmail => $userid]);
-                            $message->setPlainBody($this->trans->t('Device "%s" is now farther than %sm from "%s".', array($dev1name, $highlimit, $dev2name)));
-                            $mailer->send($message);
-                        }
-                        catch (\Exception $e) {
-                            $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                        foreach ($emailaddrArray as $addrTo) {
+                            if ($addrTo !== null and $addrTo !== '') {
+                                try {
+                                    $mailer = \OC::$server->getMailer();
+                                    $message = $mailer->createMessage();
+                                    $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
+                                    $message->setFrom([$mailfrom => 'PhoneTrack']);
+                                    $message->setTo([trim($addrTo) => '']);
+                                    $message->setPlainBody($this->trans->t('Device "%s" is now farther than %sm from "%s".', array($dev1name, $highlimit, $dev2name)));
+                                    $mailer->send($message);
+                                }
+                                catch (\Exception $e) {
+                                    $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                                }
+                            }
                         }
                     }
                 }
@@ -393,7 +424,8 @@ class LogController extends Controller {
         $sqlget = '
             SELECT latmin, lonmin, latmax, lonmax,
                    name, urlenter, urlleave,
-                   urlenterpost, urlleavepost, sendemail
+                   urlenterpost, urlleavepost,
+                   sendemail, emailaddr
             FROM *PREFIX*phonetrack_geofences
             WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -423,6 +455,10 @@ class LogController extends Controller {
         $urlenterpost = intval($fence['urlenterpost']);
         $urlleavepost = intval($fence['urlleavepost']);
         $sendemail = intval($fence['sendemail']);
+        $emailaddr = $fence['emailaddr'];
+        if ($emailaddr === null) {
+            $emailaddr = '';
+        }
         $fencename = $fence['name'];
 
         // first point of this device
@@ -449,20 +485,34 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address');
                     $mailFromD = $this->config->getSystemValue('mail_domain');
 
-                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail) and $sendemail !== 0) {
-                        $mailfrom = $mailFromA.'@'.$mailFromD;
-
-                        try {
-                            $mailer = \OC::$server->getMailer();
-                            $message = $mailer->createMessage();
-                            $message->setSubject($this->trans->t('Geofencing alert'));
-                            $message->setFrom([$mailfrom => 'PhoneTrack']);
-                            $message->setTo([$userEmail => $this->userId]);
-                            $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
-                            $mailer->send($message);
+                    if ($sendemail !== 0) {
+                        $emailaddrArray = explode(',', $emailaddr);
+                        if (
+                            (count($emailaddrArray) === 0
+                             or (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+                            and !empty($userEmail)
+                        ) {
+                            array_push($emailaddrArray, $userEmail);
                         }
-                        catch (\Exception $e) {
-                            $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                        if (!empty($mailFromA) and !empty($mailFromD)) {
+                            $mailfrom = $mailFromA.'@'.$mailFromD;
+
+                            foreach ($emailaddrArray as $addrTo) {
+                                if ($addrTo !== null and $addrTo !== '') {
+                                    try {
+                                        $mailer = \OC::$server->getMailer();
+                                        $message = $mailer->createMessage();
+                                        $message->setSubject($this->trans->t('Geofencing alert'));
+                                        $message->setFrom([$mailfrom => 'PhoneTrack']);
+                                        $message->setTo([trim($addrTo) => '']);
+                                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
+                                        $mailer->send($message);
+                                    }
+                                    catch (\Exception $e) {
+                                        $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                                    }
+                                }
+                            }
                         }
                     }
                     if ($urlenter !== '' and startsWith($urlenter, 'http')) {
@@ -500,20 +550,34 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address');
                     $mailFromD = $this->config->getSystemValue('mail_domain');
 
-                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail) and $sendemail !== 0) {
-                        $mailfrom = $mailFromA.'@'.$mailFromD;
-
-                        try {
-                            $mailer = \OC::$server->getMailer();
-                            $message = $mailer->createMessage();
-                            $message->setSubject($this->trans->t('Geofencing alert'));
-                            $message->setFrom([$mailfrom => 'PhoneTrack']);
-                            $message->setTo([$userEmail => $this->userId]);
-                            $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
-                            $mailer->send($message);
+                    if ($sendemail !== 0) {
+                        $emailaddrArray = explode(',', $emailaddr);
+                        if (
+                            (count($emailaddrArray) === 0
+                             or (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+                            and !empty($userEmail)
+                        ) {
+                            array_push($emailaddrArray, $userEmail);
                         }
-                        catch (\Exception $e) {
-                            $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                        if (!empty($mailFromA) and !empty($mailFromD)) {
+                            $mailfrom = $mailFromA.'@'.$mailFromD;
+
+                            foreach ($emailaddrArray as $addrTo) {
+                                if ($addrTo !== null and $addrTo !== '') {
+                                    try {
+                                        $mailer = \OC::$server->getMailer();
+                                        $message = $mailer->createMessage();
+                                        $message->setSubject($this->trans->t('Geofencing alert'));
+                                        $message->setFrom([$mailfrom => 'PhoneTrack']);
+                                        $message->setTo([trim($addrTo) => '']);
+                                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
+                                        $mailer->send($message);
+                                    }
+                                    catch (\Exception $e) {
+                                        $this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+                                    }
+                                }
+                            }
                         }
                     }
                     if ($urlleave !== '' and startsWith($urlleave, 'http')) {

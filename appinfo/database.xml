@@ -288,6 +288,12 @@
       <default>1</default>
       <length>4</length>
     </field>
+    <field>
+      <name>emailaddr</name>
+      <type>text</type>
+      <notnull>false</notnull>
+      <length>500</length>
+    </field>
   </declaration>
 </table>
  <table>
@@ -357,6 +363,12 @@
       <notnull>true</notnull>
       <default>1</default>
       <length>4</length>
+    </field>
+    <field>
+      <name>emailaddr</name>
+      <type>text</type>
+      <notnull>false</notnull>
+      <length>500</length>
     </field>
   </declaration>
 </table>

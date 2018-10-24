@@ -2875,6 +2875,9 @@
                 '<p>' + t('phonetrack', 'Zoom on geofencing area, then set values, then validate.') + '</p>' +
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + '</label> ' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
+                '<input type="text" id="geoemail'+s+d+'" class="geoemail" maxlength="500"' +
+                'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
+                t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
                 '<label for="urlenter'+s+d+'"><b>' + t('phonetrack', 'URL to request when entering') + '</b></label><br/>' +
                 '<span>(<label for="urlenterpost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlenterpost" id="urlenterpost'+s+d+'"/>)</span>' +
@@ -2929,6 +2932,9 @@
                 t('phonetrack', 'meters') + '<br/>' +
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + ' </label>' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
+                '<input type="text" id="proxemail'+s+d+'" class="proxemail" maxlength="500"' +
+                'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
+                t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
                 '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'URL to request when devices get close') + '</b></label><br/>' +
                 '<span>(<label for="urlclosepost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlclosepost" id="urlclosepost'+s+d+'"/>)</span>' +
@@ -3074,11 +3080,16 @@
         for (i=0; i < geofences.length; i++) {
             f = geofences[i];
             llb = L.latLngBounds(L.latLng(f.latmin, f.lonmin), L.latLng(f.latmax, f.lonmax));
-            addGeoFence(s, d, f.name, f.id, llb, f.urlenter, f.urlleave, f.urlenterpost, f.urlleavepost, f.sendemail);
+            addGeoFence(s, d, f.name, f.id, llb,
+                        f.urlenter, f.urlleave,
+                        f.urlenterpost, f.urlleavepost,
+                        f.sendemail, f.emailaddr);
         }
         for (i=0; i < proxims.length; i++) {
             pr = proxims[i];
-            addProxim(s, d, pr.id, pr.sname2, pr.deviceid2, pr.dname2, pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar, pr.urlclosepost, pr.urlfarpost, pr.sendemail);
+            addProxim(s, d, pr.id, pr.sname2, pr.deviceid2, pr.dname2,
+                      pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar,
+                      pr.urlclosepost, pr.urlfarpost, pr.sendemail, pr.emailaddr);
         }
     }
 
@@ -4434,7 +4445,7 @@
         });
     }
 
-    function addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail) {
+    function addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr) {
         var latmin = mapbounds.getSouth();
         var latmax = mapbounds.getNorth();
         var lonmin = mapbounds.getWest();
@@ -4451,7 +4462,8 @@
             urlleave: urlleave,
             urlenterpost: urlenterpost,
             urlleavepost: urlleavepost,
-            sendemail: sendemail
+            sendemail: sendemail,
+            emailaddr: emailaddr
         };
         var url = OC.generateUrl('/apps/phonetrack/addGeofence');
         $.ajax({
@@ -4461,7 +4473,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1 || response.done === 4) {
-                addGeoFence(token, device, fencename, response.fenceid, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail);
+                addGeoFence(token, device, fencename, response.fenceid, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr);
                 if (response.done === 4) {
                     OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofencing alerts.'));
                 }
@@ -4474,7 +4486,7 @@
         });
     }
 
-    function addGeoFence(token, device, fencename, fenceid, llb, urlenter='', urlleave='', urlenterpost=0, urlleavepost=0, sendemail=1) {
+    function addGeoFence(token, device, fencename, fenceid, llb, urlenter='', urlleave='', urlenterpost=0, urlleavepost=0, sendemail=1, emailaddr='') {
         var enterpostTxt = '';
         var leavepostTxt = '';
         if (parseInt(urlenterpost) !== 0) {
@@ -4501,7 +4513,8 @@
             'title="' +
             urlentertxt +
             urlleavetxt +
-            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
+            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
+            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || '') +
             '">' +
             '<label class="geofencelabel">'+escapeHTML(fencename || '')+'</label>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
@@ -4537,7 +4550,7 @@
         });
     }
 
-    function addProximDb(token, device, sid, sname, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
+    function addProximDb(token, device, sid, sname, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1, emailaddr='') {
         var req = {
             token: token,
             device: device,
@@ -4549,7 +4562,8 @@
             urlfar: urlfar,
             urlclosepost: urlclosepost,
             urlfarpost: urlfarpost,
-            sendemail: sendemail
+            sendemail: sendemail,
+            emailaddr: emailaddr
         };
         var url = OC.generateUrl('/apps/phonetrack/addProxim');
         $.ajax({
@@ -4559,7 +4573,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1 || response.done === 4) {
-                addProxim(token, device, response.proximid, sname, response.targetdeviceid, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+                addProxim(token, device, response.proximid, sname, response.targetdeviceid, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail, emailaddr);
                 if (response.done === 4) {
                     OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'));
                 }
@@ -4576,7 +4590,7 @@
         });
     }
 
-    function addProxim(token, device, proximid, sname, did, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1) {
+    function addProxim(token, device, proximid, sname, did, dname, highlimit=500, lowlimit=500, urlclose='', urlfar='', urlclosepost=0, urlfarpost=0, sendemail=1, emailaddr='') {
         var closepostTxt = '';
         var farpostTxt = '';
         if (parseInt(urlclosepost) !== 0) {
@@ -4593,6 +4607,7 @@
             'title="' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n' +
             t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
+            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || '') + '\n' +
             t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) + '\n' +
             t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
             '">' +
@@ -6096,6 +6111,7 @@
             var urlenterpost = $(this).parent().find('.urlenterpost').is(':checked') ? 1 : 0;
             var urlleavepost = $(this).parent().find('.urlleavepost').is(':checked') ? 1 : 0;
             var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
+            var emailaddr = $(this).parent().find('.geoemail').val();
             var north = $(this).parent().find('.fencenorth').val();
             var south = $(this).parent().find('.fencesouth').val();
             var east = $(this).parent().find('.fenceeast').val();
@@ -6107,7 +6123,7 @@
             else {
                 zonebounds = phonetrack.map.getBounds();
             }
-            addGeoFenceDb(token, device, fencename, zonebounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail);
+            addGeoFenceDb(token, device, fencename, zonebounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr);
         });
 
         $('body').on('click','.deletegeofencebutton', function(e) {
@@ -6138,7 +6154,8 @@
             var urlclosepost = $(this).parent().find('.urlclosepost').is(':checked') ? 1 : 0;
             var urlfarpost = $(this).parent().find('.urlfarpost').is(':checked') ? 1 : 0;
             var sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0;
-            addProximDb(s, d, sessiontoken, sessionname, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail);
+            var emailaddr = $(this).parent().find('.proxemail').val();
+            addProximDb(s, d, sessiontoken, sessionname, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail, emailaddr);
         });
 
         $('body').on('click','.deleteproximbutton', function(e) {
