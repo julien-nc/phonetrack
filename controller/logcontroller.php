@@ -1004,9 +1004,6 @@ class LogController extends Controller {
                                $pass, $user, $action, $speed=null, $bearing=null) {
         if ($action === 'addpos') {
             $dname = $this->chooseDeviceName($devicename, null);
-            if ($speed !== null){
-                $speed = 3.6 * $speed ;
-            }
             $this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null,'Ulogger', $speed, $bearing);
         }
         return array("error" => false, "trackid" => 1);
