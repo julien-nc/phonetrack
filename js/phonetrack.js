@@ -4806,7 +4806,7 @@
                 for (d in phonetrack.sessionLineLayers[s]) {
                     nbspeeds = 0;
                     totspeed = 0;
-                    avgspeed = '';
+                    avgspeed = '-';
                     maxspeed = 0;
                     dist = 0;
                     nbsec = 0;
@@ -4845,7 +4845,7 @@
                         maxspeed = maxspeed.toFixed(3);
                     }
                     else {
-                        maxspeed = '';
+                        maxspeed = '-';
                     }
 
                     // process duration
