@@ -608,6 +608,92 @@ class LogController extends Controller {
         }
     }
 
+    private function checkQuota($deviceidToInsert, $userid) {
+        $quota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
+
+        $nbPoints = 0;
+        // does the user have more points than allowed ?
+        $sqlget = '
+            SELECT count(*) as co
+            FROM *PREFIX*phonetrack_points AS p
+            INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
+            INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
+            WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $nbPoints = intval($row['co']);
+        }
+
+        if ($nbPoints < $quota) {
+            return true;
+        }
+
+        $userChoice = 'block';
+        $sqlget = '
+            SELECT *
+            FROM *PREFIX*phonetrack_options
+            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        $optString = null;
+        while ($row = $req->fetch()){
+            $optString = $row['jsonvalues'];
+        }
+        if ($optString !== null) {
+            $f = json_decode($optString);
+            if (isset($f->{'quotareached'})) {
+                $userChoice = $f->{'quotareached'};
+            }
+        }
+
+        if ($userChoice !== 'block') {
+            // find point to delete
+            $pid = null;
+            if ($userChoice === 'rotatedev') {
+                $sqlget = '
+                    SELECT id, timestamp
+                    FROM *PREFIX*phonetrack_points
+                    WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
+                    ORDER BY timestamp ASC LIMIT 1 ;
+                    ';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $pid = $row['id'];
+                }
+            }
+            // if rotateglob
+            // or if rotatedev can't be done because there is no point for this device yet
+            if ($userChoice === 'rotateglob' or $pid === null) {
+                $sqlget = '
+                    SELECT p.id, timestamp
+                    FROM *PREFIX*phonetrack_points AS p
+                    INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
+                    INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
+                    WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).'
+                    ORDER BY timestamp ASC LIMIT 1 ;
+                    ';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $pid = $row['id'];
+                }
+            }
+            // delete the point
+            if ($pid !== null) {
+                $sqldel = '
+                    DELETE FROM *PREFIX*phonetrack_points
+                    WHERE id='.$this->db_quote_escape_string($pid).' ;';
+                $req = $this->dbconnection->prepare($sqldel);
+                $req->execute();
+                $req->closeCursor();
+            }
+        }
+
+        return ($userChoice !== 'block');
+    }
+
     /**
      * @NoAdminRequired
      */
@@ -669,7 +755,12 @@ class LogController extends Controller {
                 }
             }
             else {
+                // logpost didn't work
                 $done = 3;
+                // because of quota
+                if ($logres['done'] === 2) {
+                    $done = 5;
+                }
             }
         }
         else {
@@ -828,8 +919,15 @@ class LogController extends Controller {
                     $acc = sprintf('%.2f', (float)$acc);
                 }
 
+                // geofences, proximity alerts, quota
                 $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
                 $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
+                $quotaClearance = $this->checkQuota($deviceidToInsert, $userid);
+
+                if (!$quotaClearance) {
+                    $res['done'] = 2;
+                    return $res;
+                }
 
                 $sql = '
                     INSERT INTO *PREFIX*phonetrack_points

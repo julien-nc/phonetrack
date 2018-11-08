@@ -3592,6 +3592,9 @@
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'Impossible to add this point'));
             }
+            else if (response.done === 5) {
+                OC.Notification.showTemporary(t('phonetrack', 'User quota was reached'));
+            }
         }).always(function() {
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add point'));
