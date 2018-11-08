@@ -1078,3 +1078,9 @@ a.icon-active span {
 .ui-dialog{
     z-index: 2001 !important ;
 }
+label[for=quotareached] {
+    width: 49%;
+}
+#quotareached {
+    width: 50%;
+}

@@ -81,6 +81,13 @@ p($_['phonetrack_version']);
             <?php p($l->t('Minimum time to cut between two points')); ?></label>
             <input id="cuttime" type="number" min="1" max="100000000" step="1" value=""/> <?php p($l->t('seconds')); ?>
             </div>
+            <label for="quotareached"><i class="fa fa-shield-alt" aria-hidden="true"></i>
+            <?php p($l->t('When point quota is reached')); ?></label>
+            <select id="quotareached">
+                <option selected value="block"><?php p($l->t('block logging')); ?></option>
+                <option value="rotateglob"><?php p($l->t('delete my oldest point each time a new one is logged')); ?></option>
+                <option value="rotatedev"><?php p($l->t('delete device\'s oldest point each time a new one is logged')); ?></option>
+            </select>
             <div>
             <hr/>
             <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('Display')); ?></h2>

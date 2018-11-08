@@ -1074,6 +1074,9 @@
                 if (optionsValues.colortheme !== undefined) {
                     $('#colorthemeselect').val(optionsValues.colortheme);
                 }
+                if (optionsValues.quotareached !== undefined) {
+                    $('#quotareached').val(optionsValues.quotareached);
+                }
                 if (optionsValues.pointlinealpha !== undefined) {
                     $('#pointlinealpha').val(optionsValues.pointlinealpha);
                     $('#pointlinealphalabel').text(optionsValues.pointlinealpha);
@@ -1211,6 +1214,7 @@
         optionsValues.updateinterval = $('#updateinterval').val();
         optionsValues.linewidth = $('#linewidth').val();
         optionsValues.colortheme = $('#colorthemeselect').val();
+        optionsValues.quotareached = $('#quotareached').val();
         optionsValues.pointlinealpha = $('#pointlinealpha').val();
         optionsValues.nbpointsload = $('#nbpointsload').val();
         optionsValues.cutdistance = $('#cutdistance').val();
@@ -5264,6 +5268,12 @@
                         }
                     }
                 }
+            }
+        });
+
+        $('#quotareached').click(function() {
+            if (!pageIsPublic()) {
+                saveOptions();
             }
         });
 
