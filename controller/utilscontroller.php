@@ -29,9 +29,7 @@ class UtilsController extends Controller {
 
 
     private $userId;
-    private $userfolder;
     private $config;
-    private $userAbsoluteDataPath;
     private $dbconnection;
     private $dbtype;
     private $appPath;
@@ -53,18 +51,9 @@ class UtilsController extends Controller {
         else{
             $this->dbdblquotes = '';
         }
-        if ($UserId !== '' and $userfolder !== null){
-            // path of user files folder relative to DATA folder
-            $this->userfolder = $userfolder;
-            // IConfig object
-            $this->config = $config;
-            // absolute path to user files folder
-            $this->userAbsoluteDataPath =
-                $this->config->getSystemValue('datadirectory').
-                rtrim($this->userfolder->getFullPath(''), '/');
-
-            $this->dbconnection = \OC::$server->getDatabaseConnection();
-        }
+        // IConfig object
+        $this->config = $config;
+        $this->dbconnection = \OC::$server->getDatabaseConnection();
     }
 
     /*
@@ -72,6 +61,24 @@ class UtilsController extends Controller {
      */
     private function db_quote_escape_string($str){
         return $this->dbconnection->quote($str);
+    }
+
+    /**
+     * set global point quota
+     */
+    public function setPointQuota($quota) {
+        $this->config->setAppValue('phonetrack', 'pointQuota', $quota);
+        $response = new DataResponse(
+            [
+                'done'=>'1'
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
     }
 
     /**

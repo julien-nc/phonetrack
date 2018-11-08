@@ -95,4 +95,7 @@ Any feedback will be appreciated.
     <background-jobs>
         <job>OCA\PhoneTrack\Cron\AutoExport</job>
     </background-jobs>
+    <settings>
+        <admin>OCA\PhoneTrack\Settings\Admin</admin>
+    </settings>
 </info>
