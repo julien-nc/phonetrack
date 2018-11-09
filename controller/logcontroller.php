@@ -610,6 +610,9 @@ class LogController extends Controller {
 
     private function checkQuota($deviceidToInsert, $userid) {
         $quota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
+        if ($quota === 0) {
+            return true;
+        }
 
         $nbPoints = 0;
         // does the user have more points than allowed ?
