@@ -85,7 +85,7 @@ p($_['phonetrack_version']);
             <?php p($l->t('When point quota is reached')); ?></label>
             <select id="quotareached">
                 <option selected value="block"><?php p($l->t('block logging')); ?></option>
-                <option value="rotateglob"><?php p($l->t('delete my oldest point each time a new one is logged')); ?></option>
+                <option value="rotateglob"><?php p($l->t('delete user\'s oldest point each time a new one is logged')); ?></option>
                 <option value="rotatedev"><?php p($l->t('delete device\'s oldest point each time a new one is logged')); ?></option>
             </select>
             <div>
