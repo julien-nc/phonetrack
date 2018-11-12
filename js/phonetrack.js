@@ -1188,7 +1188,12 @@
                     value = elem.is(':checked');
                 }
                 else if (tag === 'INPUT' && type === 'date') {
-                    value = moment(elem.val()).unix();
+                    if (elem.val() === '') {
+                        value = '';
+                    }
+                    else {
+                        value = moment(elem.val()).unix();
+                    }
                 }
             }
             options[key] = value;

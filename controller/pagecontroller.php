@@ -2871,7 +2871,7 @@ class PageController extends Controller {
                 $lastTS = $lastTS - 60*intval($f['lastmins']);
                 $lastTSset = true;
             }
-            if ($lastTSset and (!isset($fArray['tsmin']) or $lastTS > $fArray['tsmin'])) {
+            if ($lastTSset and (!array_key_exists('tsmin', $fArray) or $lastTS > $fArray['tsmin'])) {
                 $fArray['tsmin'] = $lastTS;
             }
             foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays', 'lasthours', 'lastmins'] as $k) {
