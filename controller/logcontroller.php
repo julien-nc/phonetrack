@@ -632,23 +632,7 @@ class LogController extends Controller {
             return true;
         }
 
-        $userChoice = 'block';
-        $sqlget = '
-            SELECT *
-            FROM *PREFIX*phonetrack_options
-            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).' ;';
-        $req = $this->dbconnection->prepare($sqlget);
-        $req->execute();
-        $optString = null;
-        while ($row = $req->fetch()){
-            $optString = $row['jsonvalues'];
-        }
-        if ($optString !== null) {
-            $f = json_decode($optString);
-            if (isset($f->{'quotareached'})) {
-                $userChoice = $f->{'quotareached'};
-            }
-        }
+        $userChoice = $this->config->getUserValue($userid, 'phonetrack', 'exportoneperdev', 'block');
 
         if ($userChoice !== 'block') {
             // find point to delete

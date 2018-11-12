@@ -1602,21 +1602,9 @@ class PageController extends Controller {
         if (isset($fArray['tsmax'])) {
             $settingsTimeFilterSQL .= 'AND timestamp <= '.$this->db_quote_escape_string($fArray['tsmax']).' ';
         }
-        // get option values
-        $sqlget = '
-            SELECT *
-            FROM *PREFIX*phonetrack_options
-            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
-        $req = $this->dbconnection->prepare($sqlget);
-        $req->execute();
-        $optString = null;
-        $options = null;
-        while ($row = $req->fetch()){
-            $optString = $row['jsonvalues'];
-        }
-        if ($optString !== null) {
-            $options = json_decode($optString, True);
-        }
+        // get option value
+        $nbpointsload = $this->config->getUserValue($this->userId, 'phonetrack', 'nbpointsload', '10000');
+
         if (is_array($sessions)) {
             foreach ($sessions as $session) {
                 if (is_array($session) and count($session) === 3) {
@@ -1757,12 +1745,8 @@ class PageController extends Controller {
                                 $firstLastSQL.' '.
                                 $settingsTimeFilterSQL.' ';
                             // get max number of points to load
-                            $nbpointsload = null;
-                            if (isset($options['nbpointsload']) and is_numeric($options['nbpointsload'])) {
-                                $nbpointsload = intval($options['nbpointsload']);
-                            }
-                            if ($nbpointsload !== null) {
-                                $sqlget .= 'ORDER BY timestamp DESC LIMIT '.$nbpointsload;
+                            if (is_numeric($nbpointsload)) {
+                                $sqlget .= 'ORDER BY timestamp DESC LIMIT '.intval($nbpointsload);
                             }
                             else {
                                 $sqlget .= 'ORDER BY timestamp DESC';
@@ -2631,23 +2615,8 @@ class PageController extends Controller {
             $userId = $username;
         }
         // get options to know if we should export one file per device
-        $oneFilePerDevice = false;
-        $sqlget = '
-            SELECT *
-            FROM *PREFIX*phonetrack_options
-            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userId).' ;';
-        $req = $this->dbconnection->prepare($sqlget);
-        $req->execute();
-        $optString = null;
-        while ($row = $req->fetch()){
-            $optString = $row['jsonvalues'];
-        }
-        if ($optString !== null) {
-            $f = json_decode($optString);
-            if (isset($f->{'exportoneperdev'})) {
-                $oneFilePerDevice = $f->{'exportoneperdev'};
-            }
-        }
+        $ofpd = $this->config->getUserValue($userId, 'phonetrack', 'exportoneperdev', 'false');
+        $oneFilePerDevice = ($ofpd === 'true');
 
         $path = $target;
         $cleanpath = str_replace(array('../', '..\\'), '',  $path);
@@ -2832,89 +2801,82 @@ class PageController extends Controller {
             $userId = $username;
         }
         $fArray = null;
-        $sqlget = '
-            SELECT *
-            FROM *PREFIX*phonetrack_options
-            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userId).' ;';
-        $req = $this->dbconnection->prepare($sqlget);
-        $req->execute();
-        $optString = null;
-        while ($row = $req->fetch()){
-            $optString = $row['jsonvalues'];
+        $f = array();
+        $keys = $this->config->getUserKeys($userId, 'phonetrack');
+        foreach ($keys as $key) {
+            $value = $this->config->getUserValue($userId, 'phonetrack', $key);
+            $f[$key] = $value;
         }
-        if ($optString !== null) {
-            $f = json_decode($optString);
-            if (isset($f->{'applyfilters'}) and $f->{'applyfilters'} === true) {
-                $fArray = array();
-                if (isset($f->{'datemin'}) and $f->{'datemin'} !== '') {
-                    $hourmin = (isset($f->{'hourmin'}) and $f->{'hourmin'} !== '') ? intval($f->{'hourmin'}) : 0;
-                    $minutemin = (isset($f->{'minutemin'}) and $f->{'minutemin'} !== '') ? intval($f->{'minutemin'}) : 0;
-                    $secondmin = (isset($f->{'secondmin'}) and $f->{'secondmin'} !== '') ? intval($f->{'secondmin'}) : 0;
-                    $fArray['tsmin'] = intval($f->{'datemin'}) + 3600*$hourmin + 60*$minutemin + $secondmin;
+        if (array_key_exists('applyfilters', $f) and $f['applyfilters'] === 'true') {
+            $fArray = array();
+            if (array_key_exists('datemin', $f) and $f['datemin'] !== '') {
+                $hourmin =   (array_key_exists('hourmin', $f)   and $f['hourmin']   !== '') ? intval($f['hourmin']) : 0;
+                $minutemin = (array_key_exists('minutemin', $f) and $f['minutemin'] !== '') ? intval($f['minutemin']) : 0;
+                $secondmin = (array_key_exists('secondmin', $f) and $f['secondmin'] !== '') ? intval($f['secondmin']) : 0;
+                $fArray['tsmin'] = intval($f['datemin']) + 3600*$hourmin + 60*$minutemin + $secondmin;
+            }
+            else {
+                if (    array_key_exists('hourmin', $f)   and $f['hourmin'] !== ''
+                    and array_key_exists('minutemin', $f) and $f['minutemin'] !== ''
+                    and array_key_exists('secondmin', $f) and $f['secondmin'] !== ''
+                ) {
+                    date_default_timezone_set(ini_get('date.timezone'));
+                    $now = new \DateTime();
+                    $y = $now->format('Y');
+                    $m = $now->format('m');
+                    $d = $now->format('d');
+                    $h = intval($f['hourmin']);
+                    $mi = intval($f['minutemin']);
+                    $s = intval($f['secondmin']);
+                    $dmin = new \DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
+                    $fArray['tsmin'] = $dmin->getTimestamp();
                 }
-                else {
-                    if (    isset($f->{'hourmin'}) and $f->{'hourmin'} !== ''
-                        and isset($f->{'minutemin'}) and $f->{'minutemin'} !== ''
-                        and isset($f->{'secondmin'}) and $f->{'secondmin'} !== ''
-                    ) {
-                        date_default_timezone_set(ini_get('date.timezone'));
-                        $now = new \DateTime();
-                        $y = $now->format('Y');
-                        $m = $now->format('m');
-                        $d = $now->format('d');
-                        $h = intval($f->{'hourmin'});
-                        $mi = intval($f->{'minutemin'});
-                        $s = intval($f->{'secondmin'});
-                        $dmin = new \DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
-                        $fArray['tsmin'] = $dmin->getTimestamp();
-                    }
+            }
+            if (array_key_exists('datemax', $f) and $f['datemax'] !== '') {
+                $hourmax =   (array_key_exists('hourmax', $f)   and $f['hourmax'] !== '')   ? intval($f['hourmax']) : 23;
+                $minutemax = (array_key_exists('minutemax', $f) and $f['minutemax'] !== '') ? intval($f['minutemax']) : 59;
+                $secondmax = (array_key_exists('secondmax', $f) and $f['secondmax'] !== '') ? intval($f['secondmax']) : 59;
+                $fArray['tsmax'] = intval($f['datemax']) + 3600*$hourmax + 60*$minutemax + $secondmax;
+            }
+            else {
+                if (    array_key_exists('hourmax', $f)   and $f['hourmax'] !== ''
+                    and array_key_exists('minutemax', $f) and $f['minutemax'] !== ''
+                    and array_key_exists('secondmax', $f) and $f['secondmax'] !== ''
+                ) {
+                    date_default_timezone_set(ini_get('date.timezone'));
+                    $now = new \DateTime();
+                    $y = $now->format('Y');
+                    $m = $now->format('m');
+                    $d = $now->format('d');
+                    $h = intval($f['hourmax']);
+                    $mi = intval($f['minutemax']);
+                    $s = intval($f['secondmax']);
+                    $dmax = new \DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
+                    $fArray['tsmax'] = $dmax->getTimestamp();
                 }
-                if (isset($f->{'datemax'}) and $f->{'datemax'} !== '') {
-                    $hourmax = (isset($f->{'hourmax'}) and $f->{'hourmax'} !== '') ? intval($f->{'hourmax'}) : 23;
-                    $minutemax = (isset($f->{'minutemax'}) and $f->{'minutemax'} !== '') ? intval($f->{'minutemax'}) : 59;
-                    $secondmax = (isset($f->{'secondmax'}) and $f->{'secondmax'} !== '') ? intval($f->{'secondmax'}) : 59;
-                    $fArray['tsmax'] = intval($f->{'datemax'}) + 3600*$hourmax + 60*$minutemax + $secondmax;
-                }
-                else {
-                    if (    isset($f->{'hourmax'}) and $f->{'hourmax'} !== ''
-                        and isset($f->{'minutemax'}) and $f->{'minutemax'} !== ''
-                        and isset($f->{'secondmax'}) and $f->{'secondmax'} !== ''
-                    ) {
-                        date_default_timezone_set(ini_get('date.timezone'));
-                        $now = new \DateTime();
-                        $y = $now->format('Y');
-                        $m = $now->format('m');
-                        $d = $now->format('d');
-                        $h = intval($f->{'hourmax'});
-                        $mi = intval($f->{'minutemax'});
-                        $s = intval($f->{'secondmax'});
-                        $dmax = new \DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
-                        $fArray['tsmax'] = $dmax->getTimestamp();
-                    }
-                }
-                date_default_timezone_set('UTC');
-                $lastTS = new \DateTime();
-                $lastTS = $lastTS->getTimestamp();
-                $lastTSset = false;
-                if (isset($f->{'lastdays'}) and $f->{'lastdays'} !== '') {
-                    $lastTS = $lastTS - 24*3600*intval($f->{'lastdays'});
-                    $lastTSset = true;
-                }
-                if (isset($f->{'lasthours'}) and $f->{'lasthours'} !== '') {
-                    $lastTS = $lastTS - 3600*intval($f->{'lasthours'});
-                    $lastTSset = true;
-                }
-                if (isset($f->{'lastmins'}) and $f->{'lastmins'} !== '') {
-                    $lastTS = $lastTS - 60*intval($f->{'lastmins'});
-                    $lastTSset = true;
-                }
-                if ($lastTSset and (!isset($fArray['tsmin']) or $lastTS > $fArray['tsmin'])) {
-                    $fArray['tsmin'] = $lastTS;
-                }
-                foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays', 'lasthours', 'lastmins'] as $k) {
-                    if (isset($f->{$k}) and $f->{$k} !== '') {
-                        $fArray[$k] = intval($f->{$k});
-                    }
+            }
+            date_default_timezone_set('UTC');
+            $lastTS = new \DateTime();
+            $lastTS = $lastTS->getTimestamp();
+            $lastTSset = false;
+            if (array_key_exists('lastdays', $f) and $f['lastdays'] !== '') {
+                $lastTS = $lastTS - 24*3600*intval($f['lastdays']);
+                $lastTSset = true;
+            }
+            if (array_key_exists('lasthours', $f) and $f['lasthours'] !== '') {
+                $lastTS = $lastTS - 3600*intval($f['lasthours']);
+                $lastTSset = true;
+            }
+            if (array_key_exists('lastmins', $f) and $f['lastmins'] !== '') {
+                $lastTS = $lastTS - 60*intval($f['lastmins']);
+                $lastTSset = true;
+            }
+            if ($lastTSset and (!isset($fArray['tsmin']) or $lastTS > $fArray['tsmin'])) {
+                $fArray['tsmin'] = $lastTS;
+            }
+            foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays', 'lasthours', 'lastmins'] as $k) {
+                if (array_key_exists($k, $f) and $f[$k] !== '') {
+                    $fArray[$k] = intval($f[$k]);
                 }
             }
         }
@@ -2924,20 +2886,20 @@ class PageController extends Controller {
 
     private function filterPoint($p, $fArray) {
         return (
-                (!isset($fArray['tsmin']) or intval($p['timestamp']) >= $fArray['tsmin'])
-            and (!isset($fArray['tsmax']) or intval($p['timestamp']) <= $fArray['tsmax'])
-            and (!isset($fArray['elevationmax']) or intval($p['altitude']) <= $fArray['elevationmax'])
-            and (!isset($fArray['elevationmin']) or intval($p['altitude']) >= $fArray['elevationmin'])
-            and (!isset($fArray['accuracymax']) or intval($p['accuracy']) <= $fArray['accuracymax'])
-            and (!isset($fArray['accuracymin']) or intval($p['accuracy']) >= $fArray['accuracymin'])
-            and (!isset($fArray['satellitesmax']) or intval($p['satellites']) <= $fArray['satellitesmax'])
-            and (!isset($fArray['satellitesmin']) or intval($p['satellites']) >= $fArray['satellitesmin'])
-            and (!isset($fArray['batterymax']) or intval($p['batterylevel']) <= $fArray['batterymax'])
-            and (!isset($fArray['batterymin']) or intval($p['batterylevel']) >= $fArray['batterymin'])
-            and (!isset($fArray['speedmax']) or floatval($p['speed']) <= $fArray['speedmax'])
-            and (!isset($fArray['speedmin']) or floatval($p['speed']) >= $fArray['speedmin'])
-            and (!isset($fArray['bearingmax']) or floatval($p['bearing']) <= $fArray['bearingmax'])
-            and (!isset($fArray['bearingmin']) or floatval($p['bearing']) >= $fArray['bearingmin'])
+                (!array_key_exists('tsmin', $fArray) or intval($p['timestamp']) >= $fArray['tsmin'])
+            and (!array_key_exists('tsmax', $fArray) or intval($p['timestamp']) <= $fArray['tsmax'])
+            and (!array_key_exists('elevationmax', $fArray) or intval($p['altitude']) <= $fArray['elevationmax'])
+            and (!array_key_exists('elevationmin', $fArray) or intval($p['altitude']) >= $fArray['elevationmin'])
+            and (!array_key_exists('accuracymax', $fArray) or intval($p['accuracy']) <= $fArray['accuracymax'])
+            and (!array_key_exists('accuracymin', $fArray) or intval($p['accuracy']) >= $fArray['accuracymin'])
+            and (!array_key_exists('satellitesmax', $fArray) or intval($p['satellites']) <= $fArray['satellitesmax'])
+            and (!array_key_exists('satellitesmin', $fArray) or intval($p['satellites']) >= $fArray['satellitesmin'])
+            and (!array_key_exists('batterymax', $fArray) or intval($p['batterylevel']) <= $fArray['batterymax'])
+            and (!array_key_exists('batterymin', $fArray) or intval($p['batterylevel']) >= $fArray['batterymin'])
+            and (!array_key_exists('speedmax', $fArray) or floatval($p['speed']) <= $fArray['speedmax'])
+            and (!array_key_exists('speedmin', $fArray) or floatval($p['speed']) >= $fArray['speedmin'])
+            and (!array_key_exists('bearingmax', $fArray) or floatval($p['bearing']) <= $fArray['bearingmax'])
+            and (!array_key_exists('bearingmin', $fArray) or floatval($p['bearing']) >= $fArray['bearingmin'])
         );
     }
 
@@ -2945,20 +2907,20 @@ class PageController extends Controller {
         $sql = '';
         if ($fArray !== null) {
             $cond = array();
-            if (isset($fArray['tsmin'])) { array_push($cond, 'timestamp >= '.$this->db_quote_escape_string($fArray['tsmin'])); }
-            if (isset($fArray['tsmax'])) { array_push($cond, 'timestamp <= '.$this->db_quote_escape_string($fArray['tsmax'])); }
-            if (isset($fArray['elevationmax'])) { array_push($cond, 'altitude <= '.$this->db_quote_escape_string($fArray['elevationmax'])); }
-            if (isset($fArray['elevationmin'])) { array_push($cond, 'altitude >= '.$this->db_quote_escape_string($fArray['elvationmin'])); }
-            if (isset($fArray['accuracymax'])) { array_push($cond, 'accuracy <= '.$this->db_quote_escape_string($fArray['accuracymax'])); }
-            if (isset($fArray['accuracymin'])) { array_push($cond, 'accuracy >= '.$this->db_quote_escape_string($fArray['accuracymin'])); }
-            if (isset($fArray['satellitesmax'])) { array_push($cond, 'satellites <= '.$this->db_quote_escape_string($fArray['satellitesmax'])); }
-            if (isset($fArray['satellitesmin'])) { array_push($cond, 'satellites >= '.$this->db_quote_escape_string($fArray['satellitesmin'])); }
-            if (isset($fArray['batterymax'])) { array_push($cond, 'batterylevel <= '.$this->db_quote_escape_string($fArray['batterymax'])); }
-            if (isset($fArray['batterymin'])) { array_push($cond, 'batterylevel >= '.$this->db_quote_escape_string($fArray['batterymin'])); }
-            if (isset($fArray['speedmax'])) { array_push($cond, 'speed <= '.$this->db_quote_escape_string($fArray['speedmax'])); }
-            if (isset($fArray['speedmin'])) { array_push($cond, 'speed >= '.$this->db_quote_escape_string($fArray['speedmin'])); }
-            if (isset($fArray['bearingmax'])) { array_push($cond, 'bearing <= '.$this->db_quote_escape_string($fArray['bearingmax'])); }
-            if (isset($fArray['bearingmin'])) { array_push($cond, 'bearing >= '.$this->db_quote_escape_string($fArray['bearingmin'])); }
+            if (array_key_exists('tsmin', $fArray)) { array_push($cond, 'timestamp >= '.$this->db_quote_escape_string($fArray['tsmin'])); }
+            if (array_key_exists('tsmax', $fArray)) { array_push($cond, 'timestamp <= '.$this->db_quote_escape_string($fArray['tsmax'])); }
+            if (array_key_exists('elevationmax', $fArray)) { array_push($cond, 'altitude <= '.$this->db_quote_escape_string($fArray['elevationmax'])); }
+            if (array_key_exists('elevationmin', $fArray)) { array_push($cond, 'altitude >= '.$this->db_quote_escape_string($fArray['elvationmin'])); }
+            if (array_key_exists('accuracymax', $fArray)) { array_push($cond, 'accuracy <= '.$this->db_quote_escape_string($fArray['accuracymax'])); }
+            if (array_key_exists('accuracymin', $fArray)) { array_push($cond, 'accuracy >= '.$this->db_quote_escape_string($fArray['accuracymin'])); }
+            if (array_key_exists('satellitesmax', $fArray)) { array_push($cond, 'satellites <= '.$this->db_quote_escape_string($fArray['satellitesmax'])); }
+            if (array_key_exists('satellitesmin', $fArray)) { array_push($cond, 'satellites >= '.$this->db_quote_escape_string($fArray['satellitesmin'])); }
+            if (array_key_exists('batterymax', $fArray)) { array_push($cond, 'batterylevel <= '.$this->db_quote_escape_string($fArray['batterymax'])); }
+            if (array_key_exists('batterymin', $fArray)) { array_push($cond, 'batterylevel >= '.$this->db_quote_escape_string($fArray['batterymin'])); }
+            if (array_key_exists('speedmax', $fArray)) { array_push($cond, 'speed <= '.$this->db_quote_escape_string($fArray['speedmax'])); }
+            if (array_key_exists('speedmin', $fArray)) { array_push($cond, 'speed >= '.$this->db_quote_escape_string($fArray['speedmin'])); }
+            if (array_key_exists('bearingmax', $fArray)) { array_push($cond, 'bearing <= '.$this->db_quote_escape_string($fArray['bearingmax'])); }
+            if (array_key_exists('bearingmin', $fArray)) { array_push($cond, 'bearing >= '.$this->db_quote_escape_string($fArray['bearingmin'])); }
             $sql = implode(' AND ', $cond);
         }
         return $sql;
@@ -4019,36 +3981,21 @@ class PageController extends Controller {
         $dir = null;
         $userFolder = \OC::$server->getUserFolder($userId);
 
-        $sqlget = '
-            SELECT *
-            FROM *PREFIX*phonetrack_options
-            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userId).' ;';
-        $req = $this->dbconnection->prepare($sqlget);
-        $req->execute();
-        $optString = null;
-        while ($row = $req->fetch()){
-            $optString = $row['jsonvalues'];
+        $dirpath = $this->config->getUserValue($userId, 'phonetrack', 'autoexportpath');
+        if ($autoexportpath === '') {
+            $dirpath = '/PhoneTrack_export';
         }
-        if ($optString !== null) {
-            $f = json_decode($optString, True);
-            if (isset($f['autoexportpath'])) {
-                $dirpath = $f['autoexportpath'];
-            }
-            else {
-                $dirpath = '/PhoneTrack_export';
-            }
 
-            if ($userFolder->nodeExists($dirpath)){
-                $tmp = $userFolder->get($dirpath);
-                if ($tmp->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
-                    $tmp->isCreatable()){
-                    $dir = $tmp;
-                }
+        if ($userFolder->nodeExists($dirpath)){
+            $tmp = $userFolder->get($dirpath);
+            if ($tmp->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
+                $tmp->isCreatable()){
+                $dir = $tmp;
             }
-            else {
-                $userFolder->newFolder($dirpath);
-                $dir = $userFolder->get($dirpath);
-            }
+        }
+        else {
+            $userFolder->newFolder($dirpath);
+            $dir = $userFolder->get($dirpath);
         }
         return $dir;
     }

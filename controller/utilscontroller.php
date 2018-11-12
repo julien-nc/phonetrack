@@ -170,12 +170,10 @@ class UtilsController extends Controller {
      * @NoAdminRequired
      */
     public function deleteOptionsValues() {
-        $sqldel = '
-            DELETE FROM *PREFIX*phonetrack_options
-            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
-        $req = $this->dbconnection->prepare($sqldel);
-        $req->execute();
-        $req->closeCursor();
+        $keys = $this->config->getUserKeys($this->userId, 'phonetrack');
+        foreach ($keys as $key) {
+            $this->config->deleteUserValue($this->userId, 'phonetrack', $key);
+        }
 
         $response = new DataResponse(
             [
