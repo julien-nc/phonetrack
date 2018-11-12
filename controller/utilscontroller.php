@@ -32,17 +32,10 @@ class UtilsController extends Controller {
     private $config;
     private $dbconnection;
     private $dbtype;
-    private $appPath;
 
     public function __construct($AppName, IRequest $request, $UserId,
         $userfolder, $config, IAppManager $appManager){
         parent::__construct($AppName, $request);
-        // just to keep Owncloud compatibility
-        // the first case : Nextcloud
-        // else : Owncloud
-        if (method_exists($appManager, 'getAppPath')){
-            $this->appPath = $appManager->getAppPath('phonetrack');
-        }
         $this->userId = $UserId;
         $this->dbtype = $config->getSystemValue('dbtype');
         if ($this->dbtype === 'pgsql'){
@@ -201,43 +194,8 @@ class UtilsController extends Controller {
      * Save options values to the DB for current user
      * @NoAdminRequired
      */
-    public function saveOptionsValues($optionsValues) {
-        // first we check if user already has options values in DB
-        $sqlts = '
-            SELECT jsonvalues
-            FROM *PREFIX*phonetrack_options
-            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
-        $req = $this->dbconnection->prepare($sqlts);
-        $req->execute();
-        $check = null;
-        while ($row = $req->fetch()){
-            $check = $row['jsonvalues'];
-            break;
-        }
-        $req->closeCursor();
-
-        // if nothing is there, we insert
-        if ($check === null){
-            $sql = '
-                INSERT INTO *PREFIX*phonetrack_options
-                ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', jsonvalues)
-                VALUES ('.
-                    $this->db_quote_escape_string($this->userId).','.
-                    $this->db_quote_escape_string($optionsValues).') ;';
-            $req = $this->dbconnection->prepare($sql);
-            $req->execute();
-            $req->closeCursor();
-        }
-        // else we update the values
-        else{
-            $sqlupd = '
-                UPDATE *PREFIX*phonetrack_options
-                SET jsonvalues='.$this->db_quote_escape_string($optionsValues).'
-                WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
-            $req = $this->dbconnection->prepare($sqlupd);
-            $req->execute();
-            $req->closeCursor();
-        }
+    public function saveOptionValue($key, $value) {
+        $this->config->setUserValue($this->userId, 'phonetrack', $key, $value);
 
         $response = new DataResponse(
             [
@@ -253,21 +211,16 @@ class UtilsController extends Controller {
     }
 
     /**
-     * get options values to the DB for current user
+     * get options values from the config for current user
      * @NoAdminRequired
      */
     public function getOptionsValues() {
-        $sqlov = '
-            SELECT jsonvalues
-            FROM *PREFIX*phonetrack_options
-            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
-        $req = $this->dbconnection->prepare($sqlov);
-        $req->execute();
-        $ov = '{}';
-        while ($row = $req->fetch()){
-            $ov = $row['jsonvalues'];
+        $ov = array();
+        $keys = $this->config->getUserKeys($this->userId, 'phonetrack');
+        foreach ($keys as $key) {
+            $value = $this->config->getUserValue($this->userId, 'phonetrack', $key);
+            $ov[$key] = $value;
         }
-        $req->closeCursor();
 
         $response = new DataResponse(
             [

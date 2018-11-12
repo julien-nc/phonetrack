@@ -89,7 +89,6 @@
         deviceIds: {},
         filtersEnabled: false,
         filterValues: {},
-        optionsValues: {},
         NSEWClick: {}
     };
 
@@ -563,7 +562,7 @@
         //phonetrack.map.on('zoomend', updateTrackListFromBounds);
         //phonetrack.map.on('baselayerchange', updateTrackListFromBounds);
         if (! pageIsPublic()) {
-            phonetrack.map.on('baselayerchange', saveOptions);
+            phonetrack.map.on('baselayerchange', saveOptionTileLayer);
         }
 
         phonetrack.moveButton = L.easyButton({
@@ -1053,7 +1052,7 @@
         var url = OC.generateUrl('/apps/phonetrack/getOptionsValues');
         var req = {
         };
-        var optionsValues = '{}';
+        var optionsValues = {};
         $.ajax({
             type: 'POST',
             url: url,
@@ -1061,140 +1060,68 @@
             async: true
         }).done(function (response) {
             optionsValues = response.values;
-            optionsValues = $.parseJSON(optionsValues);
-            phonetrack.optionsValues = optionsValues;
             if (optionsValues) {
-                if (optionsValues.updateinterval !== undefined) {
-                    $('#updateinterval').val(optionsValues.updateinterval);
-                }
-                if (optionsValues.linewidth !== undefined) {
-                    $('#linewidth').val(optionsValues.linewidth);
-                    $('#linewidthlabel').text(optionsValues.linewidth+'px');
-                }
-                if (optionsValues.colortheme !== undefined) {
-                    $('#colorthemeselect').val(optionsValues.colortheme);
-                }
-                if (optionsValues.quotareached !== undefined) {
-                    $('#quotareached').val(optionsValues.quotareached);
-                }
-                if (optionsValues.pointlinealpha !== undefined) {
-                    $('#pointlinealpha').val(optionsValues.pointlinealpha);
-                    $('#pointlinealphalabel').text(optionsValues.pointlinealpha);
-                }
-                if (optionsValues.autoexportpath !== undefined) {
-                    $('#autoexportpath').val(optionsValues.autoexportpath);
-                }
-                if (optionsValues.nbpointsload !== undefined) {
-                    $('#nbpointsload').val(optionsValues.nbpointsload);
-                }
-                if (optionsValues.cutdistance !== undefined) {
-                    $('#cutdistance').val(optionsValues.cutdistance);
-                }
-                if (optionsValues.cuttime !== undefined) {
-                    $('#cuttime').val(optionsValues.cuttime);
-                }
-                if (optionsValues.pointradius !== undefined) {
-                    $('#pointradius').val(optionsValues.pointradius);
-                    $('#pointradiuslabel').text(optionsValues.pointradius+'px');
-                }
-                if (optionsValues.showtime !== undefined) {
-                    $('#showtime').prop('checked', optionsValues.showtime);
-                }
-                if (optionsValues.autozoom !== undefined) {
-                    $('#autozoom').prop('checked', optionsValues.autozoom);
-                }
-                if (optionsValues.viewmove !== undefined) {
-                    $('#viewmove').prop('checked', optionsValues.viewmove);
-                }
-                if (optionsValues.dragcheck !== undefined) {
-                    $('#dragcheck').prop('checked', optionsValues.dragcheck);
-                }
-                if (optionsValues.markerletter !== undefined) {
-                    $('#markerletter').prop('checked', optionsValues.markerletter);
-                }
-                if (optionsValues.linearrow !== undefined) {
-                    $('#linearrow').prop('checked', optionsValues.linearrow);
-                }
-                if (optionsValues.stats !== undefined) {
-                    $('#togglestats').prop('checked', optionsValues.stats);
-                }
-                if (optionsValues.linegradient !== undefined) {
-                    $('#linegradient').prop('checked', optionsValues.linegradient);
-                }
-                if (optionsValues.tooltipshowaccuracy !== undefined) {
-                    $('#tooltipshowaccuracy').prop('checked', optionsValues.tooltipshowaccuracy);
-                }
-                if (optionsValues.tooltipshowbearing !== undefined) {
-                    $('#tooltipshowbearing').prop('checked', optionsValues.tooltipshowbearing);
-                }
-                if (optionsValues.tooltipshowspeed !== undefined) {
-                    $('#tooltipshowspeed').prop('checked', optionsValues.tooltipshowspeed);
-                }
-                if (optionsValues.tooltipshowsatellites !== undefined) {
-                    $('#tooltipshowsatellites').prop('checked', optionsValues.tooltipshowsatellites);
-                }
-                if (optionsValues.tooltipshowbattery !== undefined) {
-                    $('#tooltipshowbattery').prop('checked', optionsValues.tooltipshowbattery);
-                }
-                if (optionsValues.tooltipshowelevation !== undefined) {
-                    $('#tooltipshowelevation').prop('checked', optionsValues.tooltipshowelevation);
-                }
-                if (optionsValues.tooltipshowuseragent !== undefined) {
-                    $('#tooltipshowuseragent').prop('checked', optionsValues.tooltipshowuseragent);
-                }
-                if (optionsValues.acccirclecheck !== undefined) {
-                    $('#acccirclecheck').prop('checked', optionsValues.acccirclecheck);
-                }
-                if (optionsValues.pubviewline !== undefined) {
-                    $('#pubviewline').prop('checked', optionsValues.pubviewline);
-                }
-                if (optionsValues.pubviewpoint !== undefined) {
-                    $('#pubviewpoint').prop('checked', optionsValues.pubviewpoint);
-                }
-                if (optionsValues.exportoneperdev !== undefined) {
-                    $('#exportoneperdev').prop('checked', optionsValues.exportoneperdev);
-                }
-                if (optionsValues.tilelayer !== undefined) {
-                    phonetrack.restoredTileLayer = optionsValues.tilelayer;
-                }
-                if (optionsValues.showsidebar !== undefined) {
-                    if (! optionsValues.showsidebar) {
-                        $('#sidebar').addClass('collapsed');
-                        $('#sidebar li.active').removeClass('active');
+                var elem, tag, type, k;
+                for (k in optionsValues) {
+                    elem = $('#'+k);
+                    tag = elem.prop('tagName');
+                    if (k === 'linewidth') {
+                        $('#'+k).val(optionsValues[k]);
+                        $('#linewidthlabel').text(optionsValues[k]+'px');
                     }
-                }
-                $('#filterPointsTable input[type=number]').each(function() {
-                    if (optionsValues.hasOwnProperty($(this).attr('role'))) {
-                        $(this).val(optionsValues[$(this).attr('role')]);
+                    else if (k === 'pointlinealpha') {
+                        $('#'+k).val(optionsValues[k]);
+                        $('#pointlinealphalabel').text(optionsValues[k]);
                     }
-                });
-                $('#filterPointsTable input[type=date]').each(function() {
-                    if (optionsValues.hasOwnProperty($(this).attr('role')) &&
-                        optionsValues[$(this).attr('role')] !== null &&
-                        optionsValues[$(this).attr('role')] !== ''
-                    ) {
-                        if (String(optionsValues[$(this).attr('role')]).match(/\d\d\d\d-\d\d-\d\d/g) !== null) {
-                            $(this).val(optionsValues[$(this).attr('role')]);
-                        }
-                        else {
-                            try {
-                                mom = moment.unix(parseInt(optionsValues[$(this).attr('role')]));
-                                $(this).val(mom.format('YYYY-MM-DD'));
-                            }
-                            catch(err) {
-                                $(this).val('');
-                            }
+                    else if (k === 'pointradius') {
+                        $('#'+k).val(optionsValues[k]);
+                        $('#pointradiuslabel').text(optionsValues[k]+'px');
+                    }
+                    else if (k === 'tilelayer') {
+                        phonetrack.restoredTileLayer = optionsValues[k];
+                    }
+                    else if (k === 'activeSessions') {
+                        phonetrack.sessionsFromSavedOptions = $.parseJSON(optionsValues[k]);
+                    }
+                    else if (k === 'showsidebar') {
+                        if (optionsValues[k] !== 'true') {
+                            $('#sidebar').addClass('collapsed');
+                            $('#sidebar li.active').removeClass('active');
                         }
                     }
-                    else {
-                        $(this).val('');
+                    else if (tag === 'SELECT') {
+                        elem.val(optionsValues[k]);
                     }
-                });
-                if (optionsValues.applyfilters !== undefined) {
-                    $('#applyfilters').prop('checked', optionsValues.applyfilters);
-                }
-                if (optionsValues.hasOwnProperty('activeSessions')) {
-                    phonetrack.sessionsFromSavedOptions = optionsValues.activeSessions;
+                    else if (tag === 'INPUT') {
+                        type = elem.attr('type');
+                        if (type === 'date') {
+                            if (optionsValues[k] !== null &&
+                                optionsValues[k] !== ''
+                            ) {
+                                if (String(optionsValues[k]).match(/\d\d\d\d-\d\d-\d\d/g) !== null) {
+                                    elem.val(optionsValues[k]);
+                                }
+                                else {
+                                    try {
+                                        mom = moment.unix(parseInt(optionsValues[k]));
+                                        elem.val(mom.format('YYYY-MM-DD'));
+                                    }
+                                    catch(err) {
+                                        elem.val('');
+                                    }
+                                }
+                            }
+                            else {
+                                elem.val('');
+                            }
+                        }
+                        else if (type === 'checkbox') {
+                            elem.prop('checked', optionsValues[k] !== 'false');
+                        }
+                        else if (type === 'text' || type === 'number' || type === 'range') {
+                            elem.val(optionsValues[k]);
+                        }
+                    }
                 }
             }
             // quite important ;-)
@@ -1209,74 +1136,61 @@
         });
     }
 
-    function saveOptions(refreshAfter=false) {
-        var optionsValues = {};
-        optionsValues.updateinterval = $('#updateinterval').val();
-        optionsValues.linewidth = $('#linewidth').val();
-        optionsValues.colortheme = $('#colorthemeselect').val();
-        optionsValues.quotareached = $('#quotareached').val();
-        optionsValues.pointlinealpha = $('#pointlinealpha').val();
-        optionsValues.nbpointsload = $('#nbpointsload').val();
-        optionsValues.cutdistance = $('#cutdistance').val();
-        optionsValues.cuttime = $('#cuttime').val();
-        optionsValues.pointradius = $('#pointradius').val();
-        optionsValues.autoexportpath = $('#autoexportpath').val();
-        optionsValues.viewmove = $('#viewmove').is(':checked');
-        optionsValues.autozoom = $('#autozoom').is(':checked');
-        optionsValues.showtime = $('#showtime').is(':checked');
-        optionsValues.dragcheck = $('#dragcheck').is(':checked');
-        optionsValues.markerletter = $('#markerletter').is(':checked');
-        optionsValues.linearrow = $('#linearrow').is(':checked');
-        optionsValues.stats = $('#togglestats').is(':checked');
-        optionsValues.linegradient = $('#linegradient').is(':checked');
-        optionsValues.tooltipshowaccuracy = $('#tooltipshowaccuracy').is(':checked');
-        optionsValues.tooltipshowbearing = $('#tooltipshowbearing').is(':checked');
-        optionsValues.tooltipshowspeed = $('#tooltipshowspeed').is(':checked');
-        optionsValues.tooltipshowsatellites = $('#tooltipshowsatellites').is(':checked');
-        optionsValues.tooltipshowbattery = $('#tooltipshowbattery').is(':checked');
-        optionsValues.tooltipshowelevation = $('#tooltipshowelevation').is(':checked');
-        optionsValues.tooltipshowuseragent = $('#tooltipshowuseragent').is(':checked');
-        optionsValues.acccirclecheck = $('#acccirclecheck').is(':checked');
-        optionsValues.pubviewline = $('#pubviewline').is(':checked');
-        optionsValues.pubviewpoint = $('#pubviewpoint').is(':checked');
-        optionsValues.exportoneperdev = $('#exportoneperdev').is(':checked');
-        optionsValues.tilelayer = phonetrack.activeLayers.getActiveBaseLayer().name;
-        optionsValues.showsidebar = !$('#sidebar').hasClass('collapsed');
-        $('#filterPointsTable input[type=number]').each(function() {
-            optionsValues[$(this).attr('role')] = $(this).val();
-        });
-        $('#filterPointsTable input[type=date]').each(function() {
-            optionsValues[$(this).attr('role')] = moment($(this).val()).unix();
-        });
-        optionsValues.applyfilters = $('#applyfilters').is(':checked');
+    function saveOptionTileLayer(refreshAfter=false) {
+        saveOptions('tilelayer', refreshAfter);
+    }
 
-        optionsValues.activeSessions = {};
-        var devs, s, d, zoom, line, point;
-        $('.session').each(function() {
-            s = $(this).attr('token');
-            if (isSessionActive(s)) {
-                optionsValues.activeSessions[s] = {};
-                $(this).find('.devicelist li').each(function() {
-                    d = $(this).attr('device');
-                    zoom = $(this).find('.toggleAutoZoomDevice').hasClass('on');
-                    line = $(this).find('.toggleLineDevice').hasClass('on');
-                    point = $(this).find('.toggleDetail').hasClass('on');
-                    optionsValues.activeSessions[s][d] = {
-                        zoom: zoom,
-                        line: line,
-                        point: point
-                    };
-                });
+    function saveOptions(key, refreshAfter=false) {
+        var i, value;
+        if (key === 'tilelayer') {
+            value = phonetrack.activeLayers.getActiveBaseLayer().name;
+        }
+        else if (key === 'showsidebar') {
+            value = !$('#sidebar').hasClass('collapsed');
+        }
+        else if (key === 'activeSessions') {
+            value = {};
+            var devs, s, d, zoom, line, point;
+            $('.session').each(function() {
+                s = $(this).attr('token');
+                if (isSessionActive(s)) {
+                    value[s] = {};
+                    $(this).find('.devicelist li').each(function() {
+                        d = $(this).attr('device');
+                        zoom = $(this).find('.toggleAutoZoomDevice').hasClass('on');
+                        line = $(this).find('.toggleLineDevice').hasClass('on');
+                        point = $(this).find('.toggleDetail').hasClass('on');
+                        value[s][d] = {
+                            zoom: zoom,
+                            line: line,
+                            point: point
+                        };
+                    });
+                }
+            });
+            value = JSON.stringify(value);
+        }
+        else {
+            var elem = $('#'+key);
+            var tag = elem.prop('tagName');
+            var type = elem.attr('type');
+            if (tag === 'SELECT' || (tag === 'INPUT' && (type === 'text' || type === 'number' || type === 'range'))) {
+                value = elem.val();
             }
-        });
-        //alert('to save : '+JSON.stringify(optionsValues));
-        phonetrack.optionsValues = optionsValues;
+            else if (tag === 'INPUT' && type === 'checkbox') {
+                value = elem.is(':checked');
+            }
+            else if (tag === 'INPUT' && type === 'date') {
+                value = moment(elem.val()).unix();
+            }
+        }
 
         if (!pageIsPublic()) {
             var req = {
-                optionsValues: JSON.stringify(optionsValues),
+                key: key,
+                value: value
             };
-            var url = OC.generateUrl('/apps/phonetrack/saveOptionsValues');
+            var url = OC.generateUrl('/apps/phonetrack/saveOptionValue');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1896,7 +1810,7 @@
                 letter = newname[0];
             }
         }
-        var radius = phonetrack.optionsValues.pointradius;
+        var radius = parseInt($('#pointradius').val());
         var shape = phonetrack.sessionShapes[token+d];
         var iconMarker = L.divIcon({
             iconAnchor: [radius, radius],
@@ -1970,7 +1884,7 @@
                 letter = devname[0];
             }
         }
-        var radius = phonetrack.optionsValues.pointradius;
+        var radius = parseInt($('#pointradius').val());
         var shape = phonetrack.sessionShapes[token+d];
         var iconMarker = L.divIcon({
             iconAnchor: [radius, radius],
@@ -2356,29 +2270,29 @@
     function storeFilters() {
         // simple fields
         $('#filterPointsTable input[type=number]').each(function() {
-            phonetrack.filterValues[$(this).attr('role')] = parseInt($(this).val());
+            phonetrack.filterValues[$(this).attr('id')] = parseInt($(this).val());
         });
 
         // date fields : we just want tsmin and tsmax
         var timestampMin = null;
         var timestampMax = null;
         var tab = $('#filterPointsTable');
-        var dateminstr = tab.find('input[role=datemin]').val();
+        var dateminstr = tab.find('input#datemin').val();
         var hourminstr, minminstr, secminstr, momMin;
         var hourmaxstr, minmaxstr, secmaxstr, momMax;
         if (dateminstr) {
-            hourminstr = parseInt(tab.find('input[role=hourmin]').val()) || 0;
-            minminstr = parseInt(tab.find('input[role=minutemin]').val()) || 0;
-            secminstr = parseInt(tab.find('input[role=secondmin]').val()) || 0;
+            hourminstr = parseInt(tab.find('input#hourmin').val()) || 0;
+            minminstr = parseInt(tab.find('input#minutemin').val()) || 0;
+            secminstr = parseInt(tab.find('input#secondmin').val()) || 0;
             var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
             momMin = moment(completeDateMinStr);
             timestampMin = momMin.unix();
         }
         // if no date is set but hour:min:sec is set, make it today
         else {
-            hourminstr = parseInt(tab.find('input[role=hourmin]').val());
-            minminstr = parseInt(tab.find('input[role=minutemin]').val());
-            secminstr = parseInt(tab.find('input[role=secondmin]').val());
+            hourminstr = parseInt(tab.find('input#hourmin').val());
+            minminstr = parseInt(tab.find('input#minutemin').val());
+            secminstr = parseInt(tab.find('input#secondmin').val());
             if (!isNaN(hourminstr) && !isNaN(minminstr) && !isNaN(secminstr)) {
                 momMin = moment();
                 momMin.hour(hourminstr);
@@ -2388,20 +2302,20 @@
             }
         }
 
-        var datemaxstr = tab.find('input[role=datemax]').val();
+        var datemaxstr = tab.find('input#datemax').val();
         if (datemaxstr) {
-            hourmaxstr = parseInt(tab.find('input[role=hourmax]').val()) || 23;
-            minmaxstr = parseInt(tab.find('input[role=minutemax]').val()) || 59;
-            secmaxstr = parseInt(tab.find('input[role=secondmax]').val()) || 59;
+            hourmaxstr = parseInt(tab.find('input#hourmax').val()) || 23;
+            minmaxstr = parseInt(tab.find('input#minutemax').val()) || 59;
+            secmaxstr = parseInt(tab.find('input#secondmax').val()) || 59;
             var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
             momMax = moment(completeDateMaxStr);
             timestampMax = momMax.unix();
         }
         // if no date is set but hour:min:sec is set, make it today
         else {
-            hourmaxstr = parseInt(tab.find('input[role=hourmax]').val());
-            minmaxstr = parseInt(tab.find('input[role=minutemax]').val());
-            secmaxstr = parseInt(tab.find('input[role=secondmax]').val());
+            hourmaxstr = parseInt(tab.find('input#hourmax').val());
+            minmaxstr = parseInt(tab.find('input#minutemax').val());
+            secmaxstr = parseInt(tab.find('input#secondmax').val());
             if (!isNaN(hourmaxstr) && !isNaN(minmaxstr) && !isNaN(secmaxstr)) {
                 momMax = moment();
                 momMax.hour(hourmaxstr);
@@ -2411,9 +2325,9 @@
             }
         }
 
-        var lastdays = parseInt(tab.find('input[role=lastdays]').val());
-        var lasthours = parseInt(tab.find('input[role=lasthours]').val());
-        var lastmins = parseInt(tab.find('input[role=lastmins]').val());
+        var lastdays = parseInt(tab.find('input#lastdays').val());
+        var lasthours = parseInt(tab.find('input#lasthours').val());
+        var lastmins = parseInt(tab.find('input#lastmins').val());
         var momlast = moment();
         if (lastdays) {
             momlast.subtract(lastdays, 'days');
@@ -2541,7 +2455,7 @@
     }
 
     function updateMarker(s, d, sessionname) {
-        var perm = phonetrack.optionsValues.showtime;
+        var perm = $('#showtime').is(':checked');
         var mla, mln, mid, mentry, displayedLatlngs, oldlatlng;
         // TODO check if there is another way to get list of displayed latlngs
         var pointLayerList = phonetrack.sessionPointsLayers[s][d].getLayers();
@@ -3044,7 +2958,7 @@
                 className: 'tooltip' + s + d
             }
         );
-        var radius = phonetrack.optionsValues.pointradius;
+        var radius = parseInt($('#pointradius').val());
         var mletter = $('#markerletter').is(':checked');
         var letter = '';
         if (mletter) {
@@ -3073,7 +2987,7 @@
         phonetrack.sessionMarkerLayers[s][d].device = d;
         phonetrack.sessionMarkerLayers[s][d].pid = null;
         phonetrack.sessionMarkerLayers[s][d].setZIndexOffset(phonetrack.lastZindex++);
-        if (phonetrack.optionsValues.showtime) {
+        if ($('#showtime').is(':checked')) {
             phonetrack.sessionMarkerLayers[s][d].on('mouseover', markerMouseover);
             phonetrack.sessionMarkerLayers[s][d].on('mouseout', markerMouseout);
         }
@@ -3144,7 +3058,7 @@
 
                 drawLine(s, d, [displayedLatlngs], linegradient, linewidth, linearrow);
 
-                radius = phonetrack.optionsValues.pointradius;
+                radius = parseInt($('#pointradius').val());
                 icon = phonetrack.devicePointIcons[s][d];
 
                 // reset point layers
@@ -3201,7 +3115,7 @@
 
             drawLine(s, d, cutLines, linegradient, linewidth, linearrow);
 
-            radius = phonetrack.optionsValues.pointradius;
+            radius = parseInt($('#pointradius').val());
             icon = phonetrack.devicePointIcons[s][d];
 
             for (e = 0; e < entries.length; e++) {
@@ -3221,7 +3135,7 @@
                 if (filter) {
                     phonetrack.sessionPointsLayers[s][d].addLayer(m);
                     // dragging
-                    if (!pageIsPublic() && !isSessionShared(s) && phonetrack.optionsValues.dragcheck) {
+                    if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
                         if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
                             m.dragging.enable();
                         }
@@ -5062,12 +4976,12 @@
 
         $('body').on('change', '#autozoomcheck', function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
         $('body').on('change', '#arrowcheck', function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
@@ -5210,19 +5124,19 @@
                     phonetrack.currentTimer = null;
                 }
                 refresh();
-                saveOptions();
+                saveOptions('activeSessions');
             }
         });
 
         $('#colorthemeselect').change(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
         $('#autoexportpath').change(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
@@ -5239,7 +5153,7 @@
 
         $('#linewidth').change(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
             var s, d, layers, l, i;
             var w = parseInt($(this).val());
@@ -5276,13 +5190,13 @@
 
         $('#quotareached').click(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
         $('#autozoom').click(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
             if ($(this).is(':checked')) {
                 phonetrack.zoomButton.state('zoom');
@@ -5295,7 +5209,7 @@
         $('#showtime').click(function() {
             changeTooltipStyle();
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
             if ($(this).is(':checked')) {
                 phonetrack.timeButton.state('showtime');
@@ -5307,45 +5221,45 @@
 
         $('#pubviewline, #pubviewpoint').click(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
                 updateLinePointUrlParams();
             }
         });
 
         $('#acccirclecheck').click(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
         $('#exportoneperdev').click(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
         $('#tooltipshowaccuracy, #tooltipshowsatellites, #tooltipshowbattery, #tooltipshowelevation, #tooltipshowuseragent, #tooltipshowspeed, #tooltipshowbearing').click(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
         $('#linearrow, #linegradient, #cutdistance, #cuttime').change(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
             changeApplyFilter();
         });
 
         $('#nbpointsload').change(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
         $('#dragcheck').click(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
             if (!pageIsPublic()) {
                 var dragcheck = $(this).is(':checked');
@@ -5374,7 +5288,7 @@
         $('#viewmove').click(function() {
             showHideSelectedSessions();
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
             if ($(this).is(':checked')) {
                 phonetrack.moveButton.state('move');
@@ -5390,14 +5304,14 @@
                 refresh();
             }
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
         $('body').on('change', '#filterPointsTable input[type=number], #filterPointsTable input[type=date]', function() {
             changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions($(this).attr('id'), $('#applyfilters').is(':checked'));
             }
         });
 
@@ -5435,21 +5349,21 @@
         $('body').on('click', 'ul.devicelist li .toggleDetail', function(e) {
             toggleDetailDevice($(this));
             if (!pageIsPublic()) {
-                saveOptions(true);
+                saveOptions('activeSessions', true);
             }
         });
 
         $('body').on('click', 'ul.devicelist li .toggleLineDevice', function(e) {
             toggleLineDevice($(this));
             if (!pageIsPublic()) {
-                saveOptions(true);
+                saveOptions('activeSessions', true);
             }
         });
 
         $('body').on('click', 'ul.devicelist li .toggleAutoZoomDevice', function(e) {
             toggleAutoZoomDevice($(this));
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions('activeSessions');
             }
         });
 
@@ -6032,7 +5946,7 @@
         $('#applyfilters').click(function(e) {
             changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions(true);
+                saveOptions($(this).attr('id'), true);
             }
         });
         changeApplyFilter();
@@ -6192,123 +6106,136 @@
             deleteNameReservationDb(token, devicename);
         });
 
-        $('button[role=datemintoday]').click(function() {
+        $('button#datemintoday').click(function() {
             var mom = moment();
-            $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+            $('input#datemin').val(mom.format('YYYY-MM-DD'));
             changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions('datemin', $('#applyfilters').is(':checked'));
             }
         });
 
-        $('button[role=datemaxtoday]').click(function() {
+        $('button#datemaxtoday').click(function() {
             var mom = moment();
-            $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+            $('input#datemax').val(mom.format('YYYY-MM-DD'));
             changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions('datemax', $('#applyfilters').is(':checked'));
             }
         });
 
-        $('button[role=dateminplus]').click(function() {
-            if ($('input[role=datemin]').val()) {
-                var mom = moment($('input[role=datemin]').val());
+        $('button#dateminplus').click(function() {
+            if ($('input#datemin').val()) {
+                var mom = moment($('input#datemin').val());
                 mom.add(1, 'days');
-                $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+                $('input#datemin').val(mom.format('YYYY-MM-DD'));
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions('datemin', $('#applyfilters').is(':checked'));
             }
         });
 
-        $('button[role=dateminminus]').click(function() {
-            if ($('input[role=datemin]').val()) {
-                var mom = moment($('input[role=datemin]').val());
+        $('button#dateminminus').click(function() {
+            if ($('input#datemin').val()) {
+                var mom = moment($('input#datemin').val());
                 mom.subtract(1, 'days');
-                $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+                $('input#datemin').val(mom.format('YYYY-MM-DD'));
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions('datemin', $('#applyfilters').is(':checked'));
             }
         });
 
-        $('button[role=datemaxplus]').click(function() {
-            if ($('input[role=datemax]').val()) {
-                var mom = moment($('input[role=datemax]').val());
+        $('button#datemaxplus').click(function() {
+            if ($('input#datemax').val()) {
+                var mom = moment($('input#datemax').val());
                 mom.add(1, 'days');
-                $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+                $('input#datemax').val(mom.format('YYYY-MM-DD'));
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions('datemax', $('#applyfilters').is(':checked'));
             }
         });
 
-        $('button[role=datemaxminus]').click(function() {
-            if ($('input[role=datemax]').val()) {
-                var mom = moment($('input[role=datemax]').val());
+        $('button#datemaxminus').click(function() {
+            if ($('input#datemax').val()) {
+                var mom = moment($('input#datemax').val());
                 mom.subtract(1, 'days');
-                $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+                $('input#datemax').val(mom.format('YYYY-MM-DD'));
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions('datemax', $('#applyfilters').is(':checked'));
             }
         });
 
-        $('button[role=dateminmaxplus]').click(function() {
+        $('button#dateminmaxplus').click(function() {
             var mom;
-            if ($('input[role=datemin]').val()) {
-                mom = moment($('input[role=datemin]').val());
+            if ($('input#datemin').val()) {
+                mom = moment($('input#datemin').val());
                 mom.add(1, 'days');
-                $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+                $('input#datemin').val(mom.format('YYYY-MM-DD'));
             }
 
-            if ($('input[role=datemax]').val()) {
-                mom = moment($('input[role=datemax]').val());
+            if ($('input#datemax').val()) {
+                mom = moment($('input#datemax').val());
                 mom.add(1, 'days');
-                $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+                $('input#datemax').val(mom.format('YYYY-MM-DD'));
             }
 
-            if ($('input[role=datemax]').val() || $('input[role=datemin]').val()) {
+            if ($('input#datemax').val() || $('input#datemin').val()) {
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions('datemin');
+                saveOptions('datemax', $('#applyfilters').is(':checked'));
             }
         });
 
-        $('button[role=dateminmaxminus]').click(function() {
+        $('button#dateminmaxminus').click(function() {
             var mom;
-            if ($('input[role=datemin]').val()) {
-                mom = moment($('input[role=datemin]').val());
+            if ($('input#datemin').val()) {
+                mom = moment($('input#datemin').val());
                 mom.subtract(1, 'days');
-                $('input[role=datemin]').val(mom.format('YYYY-MM-DD'));
+                $('input#datemin').val(mom.format('YYYY-MM-DD'));
             }
 
-            if ($('input[role=datemax]').val()) {
-                mom = moment($('input[role=datemax]').val());
+            if ($('input#datemax').val()) {
+                mom = moment($('input#datemax').val());
                 mom.subtract(1, 'days');
-                $('input[role=datemax]').val(mom.format('YYYY-MM-DD'));
+                $('input#datemax').val(mom.format('YYYY-MM-DD'));
             }
 
-            if ($('input[role=datemax]').val() || $('input[role=datemin]').val()) {
+            if ($('input#datemax').val() || $('input#datemin').val()) {
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                saveOptions('datemin');
+                saveOptions('datemax', $('#applyfilters').is(':checked'));
             }
         });
 
         $('body').on('click','.resetFilterButton', function(e) {
             var tr = $(this).parent().parent();
-            tr.find('input[type=date]').val('');
-            tr.find('input[type=number]').val('');
             changeApplyFilter();
             if (!pageIsPublic()) {
-                saveOptions($('#applyfilters').is(':checked'));
+                var l = [];
+                tr.find('input[type=date]').each(function () {
+                    l.push($(this).attr('id'));
+                });
+                tr.find('input[type=number]').each(function () {
+                    l.push($(this).attr('id'));
+                });
+                var i;
+                for (i = 0; i < l.length - 1; i++) {
+                    saveOptions(l[i]);
+                }
+                if (l.length > 0) {
+                    saveOptions(l[i], $('#applyfilters').is(':checked'));
+                }
             }
         });
 
@@ -6323,7 +6250,7 @@
                 $('#statlabel').hide();
             }
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
         });
 
@@ -6363,7 +6290,7 @@
 
         $('#pointradius').change(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
             var mletter = $('#markerletter').is(':checked');
             var radius = $(this).val();
@@ -6442,7 +6369,7 @@
 
         $('#markerletter').change(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
 
             var mletter = $(this).is(':checked');
@@ -6474,7 +6401,7 @@
 
         $('#pointlinealpha').change(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions($(this).attr('id'));
             }
             var opacity = $(this).val();
             $('#pointlinealphalabel').text(opacity);
@@ -6490,7 +6417,7 @@
 
         $('.sidebar-tabs li').click(function() {
             if (!pageIsPublic()) {
-                saveOptions();
+                saveOptions('showsidebar');
             }
         });
 
@@ -6536,8 +6463,6 @@
         }
         // public page
         else {
-            // just to fill phonetrack.optionsValues
-            saveOptions();
             var params, token, deviceid, publicviewtoken;
             if (pageIsPublicWebLog()) {
                 params = window.location.href.split('publicWebLog/')[1].split('?')[0].split('/');
@@ -6561,13 +6486,13 @@
                 }
             }
             if (filtDict.hasOwnProperty('lastdays')) {
-                $('#filterPointsTable input[role=lastdays]').val(filtDict.lastdays);
+                $('#filterPointsTable input#lastdays').val(filtDict.lastdays);
             }
             if (filtDict.hasOwnProperty('lasthours')) {
-                $('#filterPointsTable input[role=lasthours]').val(filtDict.lasthours);
+                $('#filterPointsTable input#lasthours').val(filtDict.lasthours);
             }
             if (filtDict.hasOwnProperty('lastmins')) {
-                $('#filterPointsTable input[role=lastmins]').val(filtDict.lastmins);
+                $('#filterPointsTable input#lastmins').val(filtDict.lastmins);
             }
             if (filtDict.hasOwnProperty('lastmins') ||
                 filtDict.hasOwnProperty('lasthours') ||

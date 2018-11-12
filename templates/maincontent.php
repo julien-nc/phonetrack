@@ -485,60 +485,60 @@ if (count($_['useroverlayserverswms']) > 0){
     <td></td>
 </tr><tr class="filterDelimiterLine">
     <td><?php p($l->t('Begin date')); ?></td>
-    <td><input role="datemin" type="date" value=""/></td>
+    <td><input id="datemin" type="date" value=""/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td></td>
     <td>
-        <button role="dateminminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>
-        <button role="datemintoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
-        <button role="dateminplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
+        <button id="dateminminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>
+        <button id="datemintoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
+        <button id="dateminplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
     </td>
     <td></td>
 </tr><tr>
     <td><?php p($l->t('Begin time')); ?></td>
-    <td><input class="time" role="hourmin" type="number" value="" min="0" max="23"/>:
-        <input class="time" role="minutemin" type="number" value="" min="0" max="59"/>:
-        <input class="time" role="secondmin" type="number" value="" min="0" max="59"/></td>
+    <td><input class="time" id="hourmin" type="number" value="" min="0" max="23"/>:
+        <input class="time" id="minutemin" type="number" value="" min="0" max="59"/>:
+        <input class="time" id="secondmin" type="number" value="" min="0" max="59"/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr class="filterDelimiterLine">
     <td><?php p($l->t('End date')); ?></td>
-    <td><input role="datemax" type="date" value=""/></td>
+    <td><input id="datemax" type="date" value=""/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
     <td></td>
     <td>
-        <button role="datemaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>        
-        <button role="datemaxtoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
-        <button role="datemaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
+        <button id="datemaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>        
+        <button id="datemaxtoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
+        <button id="datemaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
     </td>
     <td></td>
 </tr><tr>
     <td><?php p($l->t('End time')); ?></td>
-    <td><input class="time" role="hourmax" type="number" value="" min="0" max="23"/>:
-        <input class="time" role="minutemax" type="number" value="" min="0" max="59"/>:
-        <input class="time" role="secondmax" type="number" value="" min="0" max="59"/></td>
+    <td><input class="time" id="hourmax" type="number" value="" min="0" max="23"/>:
+        <input class="time" id="minutemax" type="number" value="" min="0" max="59"/>:
+        <input class="time" id="secondmax" type="number" value="" min="0" max="59"/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr class="dateminmaxcell filterDelimiterLine">
     <td>
-        <button role="dateminmaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i> <?php p($l->t('Min-- and Max--')); ?></button>
+        <button id="dateminmaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i> <?php p($l->t('Min-- and Max--')); ?></button>
     </td>
     <td>
-        <button role="dateminmaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i> <?php p($l->t('Min++ and Max++')); ?></button>
+        <button id="dateminmaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i> <?php p($l->t('Min++ and Max++')); ?></button>
     </td>
     <td></td>
 </tr><tr class="filterDelimiterLine">
     <td><?php p($l->t('Last day:hour:min')); ?></td>
-    <td><input class="time" role="lastdays" type="number" value="" min="0" max="100000"/>:
-        <input class="time" role="lasthours" type="number" value="" min="0" max="23"/>:
-        <input class="time" role="lastmins" type="number" value="" min="0" max="59"/></td>
+    <td><input class="time" id="lastdays" type="number" value="" min="0" max="100000"/>:
+        <input class="time" id="lasthours" type="number" value="" min="0" max="23"/>:
+        <input class="time" id="lastmins" type="number" value="" min="0" max="59"/></td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr class="filterDelimiterLine">
     <td>
         <label for="accuracymin"><?php p($l->t('Minimum accuracy')); ?></label>
     </td>
     <td>
-        <input role="accuracymin" type="number" value="" min="-1" max="10000"/>
+        <input id="accuracymin" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -546,7 +546,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="accuracymax"><?php p($l->t('Maximum accuracy')); ?></label>
     </td>
     <td>
-        <input role="accuracymax" type="number" value="" min="-1" max="10000"/>
+        <input id="accuracymax" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr class="filterDelimiterLine">
@@ -554,7 +554,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="elevationmin"><?php p($l->t('Minimum elevation')); ?></label>
     </td>
     <td>
-        <input role="elevationmin" type="number" value="" min="-1" max="10000"/>
+        <input id="elevationmin" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -562,7 +562,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="elevationmax"><?php p($l->t('Maximum elevation')); ?></label>
     </td>
     <td>
-        <input role="elevationmax" type="number" value="" min="-1" max="10000"/>
+        <input id="elevationmax" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr class="filterDelimiterLine">
@@ -570,7 +570,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="batterymin"><?php p($l->t('Minimum battery level')); ?></label>
     </td>
     <td>
-        <input role="batterymin" type="number" value="" min="-1" max="100"/>
+        <input id="batterymin" type="number" value="" min="-1" max="100"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -578,7 +578,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="batterymax"><?php p($l->t('Maximum battery level')); ?></label>
     </td>
     <td>
-        <input role="batterymax" type="number" value="" min="-1" max="100"/>
+        <input id="batterymax" type="number" value="" min="-1" max="100"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr class="filterDelimiterLine">
@@ -586,7 +586,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="speedmin"><?php p($l->t('Minimum speed')); ?></label>
     </td>
     <td>
-        <input role="speedmin" type="number" value="" min="-1" max="10000"/>
+        <input id="speedmin" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -594,7 +594,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="speedmax"><?php p($l->t('Maximum speed')); ?></label>
     </td>
     <td>
-        <input role="speedmax" type="number" value="" min="-1" max="100"/>
+        <input id="speedmax" type="number" value="" min="-1" max="100"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr class="filterDelimiterLine">
@@ -602,7 +602,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="bearingmin"><?php p($l->t('Minimum bearing')); ?></label>
     </td>
     <td>
-        <input role="bearingmin" type="number" value="" min="-1" max="360"/>
+        <input id="bearingmin" type="number" value="" min="-1" max="360"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -610,7 +610,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="bearingmax"><?php p($l->t('Maximum bearing')); ?></label>
     </td>
     <td>
-        <input role="bearingmax" type="number" value="" min="-1" max="360"/>
+        <input id="bearingmax" type="number" value="" min="-1" max="360"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr class="filterDelimiterLine">
@@ -618,7 +618,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="satellitesmin"><?php p($l->t('Minimum satellites')); ?></label>
     </td>
     <td>
-        <input role="satellitesmin" type="number" value="" min="-1" max="10000"/>
+        <input id="satellitesmin" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr><tr>
@@ -626,7 +626,7 @@ if (count($_['useroverlayserverswms']) > 0){
         <label for="satellitesmax"><?php p($l->t('Maximum satellites')); ?></label>
     </td>
     <td>
-        <input role="satellitesmax" type="number" value="" min="-1" max="10000"/>
+        <input id="satellitesmax" type="number" value="" min="-1" max="10000"/>
     </td>
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr>
