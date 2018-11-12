@@ -194,8 +194,10 @@ class UtilsController extends Controller {
      * Save options values to the DB for current user
      * @NoAdminRequired
      */
-    public function saveOptionValue($key, $value) {
-        $this->config->setUserValue($this->userId, 'phonetrack', $key, $value);
+    public function saveOptionValue($options) {
+        foreach ($options as $key => $value) {
+            $this->config->setUserValue($this->userId, 'phonetrack', $key, $value);
+        }
 
         $response = new DataResponse(
             [

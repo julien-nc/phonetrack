@@ -1140,55 +1140,63 @@
         saveOptions('tilelayer', refreshAfter);
     }
 
-    function saveOptions(key, refreshAfter=false) {
-        var i, value;
-        if (key === 'tilelayer') {
-            value = phonetrack.activeLayers.getActiveBaseLayer().name;
+    function saveOptions(keyParam, refreshAfter=false) {
+        var keys = keyParam;
+        if (keys.constructor !== Array) {
+            keys = [keyParam];
         }
-        else if (key === 'showsidebar') {
-            value = !$('#sidebar').hasClass('collapsed');
-        }
-        else if (key === 'activeSessions') {
-            value = {};
-            var devs, s, d, zoom, line, point;
-            $('.session').each(function() {
-                s = $(this).attr('token');
-                if (isSessionActive(s)) {
-                    value[s] = {};
-                    $(this).find('.devicelist li').each(function() {
-                        d = $(this).attr('device');
-                        zoom = $(this).find('.toggleAutoZoomDevice').hasClass('on');
-                        line = $(this).find('.toggleLineDevice').hasClass('on');
-                        point = $(this).find('.toggleDetail').hasClass('on');
-                        value[s][d] = {
-                            zoom: zoom,
-                            line: line,
-                            point: point
-                        };
-                    });
+        var i, key, value;
+        var options = {};
+        for (i = 0; i < keys.length; i++) {
+            key = keys[i];
+            if (key === 'tilelayer') {
+                value = phonetrack.activeLayers.getActiveBaseLayer().name;
+            }
+            else if (key === 'showsidebar') {
+                value = !$('#sidebar').hasClass('collapsed');
+            }
+            else if (key === 'activeSessions') {
+                value = {};
+                var devs, s, d, zoom, line, point;
+                $('.session').each(function() {
+                    s = $(this).attr('token');
+                    if (isSessionActive(s)) {
+                        value[s] = {};
+                        $(this).find('.devicelist li').each(function() {
+                            d = $(this).attr('device');
+                            zoom = $(this).find('.toggleAutoZoomDevice').hasClass('on');
+                            line = $(this).find('.toggleLineDevice').hasClass('on');
+                            point = $(this).find('.toggleDetail').hasClass('on');
+                            value[s][d] = {
+                                zoom: zoom,
+                                line: line,
+                                point: point
+                            };
+                        });
+                    }
+                });
+                value = JSON.stringify(value);
+            }
+            else {
+                var elem = $('#'+key);
+                var tag = elem.prop('tagName');
+                var type = elem.attr('type');
+                if (tag === 'SELECT' || (tag === 'INPUT' && (type === 'text' || type === 'number' || type === 'range'))) {
+                    value = elem.val();
                 }
-            });
-            value = JSON.stringify(value);
-        }
-        else {
-            var elem = $('#'+key);
-            var tag = elem.prop('tagName');
-            var type = elem.attr('type');
-            if (tag === 'SELECT' || (tag === 'INPUT' && (type === 'text' || type === 'number' || type === 'range'))) {
-                value = elem.val();
+                else if (tag === 'INPUT' && type === 'checkbox') {
+                    value = elem.is(':checked');
+                }
+                else if (tag === 'INPUT' && type === 'date') {
+                    value = moment(elem.val()).unix();
+                }
             }
-            else if (tag === 'INPUT' && type === 'checkbox') {
-                value = elem.is(':checked');
-            }
-            else if (tag === 'INPUT' && type === 'date') {
-                value = moment(elem.val()).unix();
-            }
+            options[key] = value;
         }
 
         if (!pageIsPublic()) {
             var req = {
-                key: key,
-                value: value
+                options: options
             };
             var url = OC.generateUrl('/apps/phonetrack/saveOptionValue');
             $.ajax({
@@ -6190,8 +6198,7 @@
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions('datemin');
-                saveOptions('datemax', $('#applyfilters').is(':checked'));
+                saveOptions(['datemax', 'datemin'], $('#applyfilters').is(':checked'));
             }
         });
 
@@ -6213,8 +6220,7 @@
                 changeApplyFilter();
             }
             if (!pageIsPublic()) {
-                saveOptions('datemin');
-                saveOptions('datemax', $('#applyfilters').is(':checked'));
+                saveOptions(['datemax', 'datemin'], $('#applyfilters').is(':checked'));
             }
         });
 
@@ -6232,11 +6238,8 @@
                     $(this).val('');
                 });
                 var i;
-                for (i = 0; i < l.length - 1; i++) {
-                    saveOptions(l[i]);
-                }
                 if (l.length > 0) {
-                    saveOptions(l[i], $('#applyfilters').is(':checked'));
+                    saveOptions(l, $('#applyfilters').is(':checked'));
                 }
             }
         });
