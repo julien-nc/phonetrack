@@ -6225,9 +6225,11 @@
                 var l = [];
                 tr.find('input[type=date]').each(function () {
                     l.push($(this).attr('id'));
+                    $(this).val('');
                 });
                 tr.find('input[type=number]').each(function () {
                     l.push($(this).attr('id'));
+                    $(this).val('');
                 });
                 var i;
                 for (i = 0; i < l.length - 1; i++) {
