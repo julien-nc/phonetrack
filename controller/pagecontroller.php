@@ -3587,9 +3587,7 @@ class PageController extends Controller {
 
                 $user = $this->userManager->get($this->userId);
                 $userEmail = $user->getEMailAddress();
-                $mailFromA = $this->config->getSystemValue('mail_from_address');
-                $mailFromD = $this->config->getSystemValue('mail_domain');
-                if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                if (!empty($userEmail)) {
                     $ok = 1;
                 }
                 else {
@@ -3700,9 +3698,7 @@ class PageController extends Controller {
 
                     $user = $this->userManager->get($this->userId);
                     $userEmail = $user->getEMailAddress();
-                    $mailFromA = $this->config->getSystemValue('mail_from_address');
-                    $mailFromD = $this->config->getSystemValue('mail_domain');
-                    if (!empty($mailFromA) and !empty($mailFromD) and !empty($userEmail)) {
+                    if (!empty($userEmail)) {
                         $ok = 1;
                     }
                     else {

@@ -290,8 +290,8 @@ class LogController extends Controller {
 
                     $user = $this->userManager->get($userid);
                     $userEmail = $user->getEMailAddress();
-                    $mailFromA = $this->config->getSystemValue('mail_from_address');
-                    $mailFromD = $this->config->getSystemValue('mail_domain');
+                    $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
+                    $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
                     $emailaddrArray = explode(',', $emailaddr);
                     if (
@@ -359,8 +359,8 @@ class LogController extends Controller {
 
                     $user = $this->userManager->get($userid);
                     $userEmail = $user->getEMailAddress();
-                    $mailFromA = $this->config->getSystemValue('mail_from_address');
-                    $mailFromD = $this->config->getSystemValue('mail_domain');
+                    $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
+                    $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
                     $emailaddrArray = explode(',', $emailaddr);
                     if (
@@ -482,8 +482,8 @@ class LogController extends Controller {
                     // device ENTERED the fence !
                     $user = $this->userManager->get($userid);
                     $userEmail = $user->getEMailAddress();
-                    $mailFromA = $this->config->getSystemValue('mail_from_address');
-                    $mailFromD = $this->config->getSystemValue('mail_domain');
+                    $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
+                    $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
                     if ($sendemail !== 0) {
                         $emailaddrArray = explode(',', $emailaddr);
@@ -547,8 +547,8 @@ class LogController extends Controller {
                     // device EXITED the fence !
                     $user = $this->userManager->get($userid);
                     $userEmail = $user->getEMailAddress();
-                    $mailFromA = $this->config->getSystemValue('mail_from_address');
-                    $mailFromD = $this->config->getSystemValue('mail_domain');
+                    $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
+                    $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
                     if ($sendemail !== 0) {
                         $emailaddrArray = explode(',', $emailaddr);

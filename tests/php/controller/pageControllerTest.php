@@ -46,7 +46,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $c = $app->getContainer();
 
         // CREATE DUMMY USERS
-        $c->getServer()->getUserManager()->createUser('test', 'T0T0T0');
+        $u1 = $c->getServer()->getUserManager()->createUser('test', 'T0T0T0');
+        $u1->setEMailAddress('toto@toto.net');
         $c->getServer()->getUserManager()->createUser('test2', 'T0T0T0');
         $c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
     }
@@ -648,6 +649,10 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 3);
 
         // ADD POINTS
+        $resp = $this->logController->addPoint($token, 'testDevProx', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $deviceidProx = $data['deviceid'];
         $resp = $this->logController->addPoint($token, 'testDev', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
@@ -716,6 +721,55 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
+
+        // GEOFENCE
+        $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->addGeofence($token.'a', $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->addGeofence($token, 9876, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        // PROXIM
+        $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProxFake', 400, 1000, '', '', 0, 0, 0, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 5);
+
+        $resp = $this->pageController->addProxim($token, $deviceid, $token.'a', 'testDevProx', 400, 1000, '', '', 0, 0, 0, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->addProxim($token.'a', $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->addProxim($token, 98765, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deleteDevice($token, $deviceidProx);
 
         // TRACK
         $sessions = array(array($token, array($deviceid => 400), array($deviceid => 1)));
