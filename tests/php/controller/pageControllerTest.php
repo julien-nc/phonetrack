@@ -39,6 +39,17 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     private $testSessionToken3;
     private $testSessionToken4;
     private $testSessionToken5;
+    private $testSessionToExportToken;
+
+    public static function setUpBeforeClass() {
+        $app = new Application();
+        $c = $app->getContainer();
+
+        // CREATE DUMMY USERS
+        $c->getServer()->getUserManager()->createUser('test', 'T0T0T0');
+        $c->getServer()->getUserManager()->createUser('test2', 'T0T0T0');
+        $c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
+    }
 
     public function setUp() {
         $this->appName = 'phonetrack';
@@ -52,11 +63,6 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->app = new Application();
         $this->container = $this->app->getContainer();
         $c = $this->container;
-
-        // CREATE DUMMY USERS
-        $c->getServer()->getUserManager()->createUser('test', 'T0T0T0');
-        $c->getServer()->getUserManager()->createUser('test2', 'T0T0T0');
-        $c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
 
         $this->pageController = new PageController(
             $this->appName,
@@ -118,19 +124,25 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
+    public static function tearDownAfterClass() {
+        $app = new Application();
+        $c = $app->getContainer();
+        $user = $c->getServer()->getUserManager()->get('test');
+        $user->delete();
+        $user = $c->getServer()->getUserManager()->get('test2');
+        $user->delete();
+        $user = $c->getServer()->getUserManager()->get('test3');
+        $user->delete();
+    }
+
     public function tearDown() {
-        $user = $this->container->getServer()->getUserManager()->get('test');
-        $user->delete();
-        $user = $this->container->getServer()->getUserManager()->get('test2');
-        $user->delete();
-        $user = $this->container->getServer()->getUserManager()->get('test3');
-        $user->delete();
         // in case there was a failure and session was not deleted
         $this->pageController->deleteSession($this->testSessionToken);
         $this->pageController->deleteSession($this->testSessionToken2);
         $this->pageController->deleteSession($this->testSessionToken3);
         $this->pageController->deleteSession($this->testSessionToken4);
         $this->pageController->deleteSession($this->testSessionToken5);
+        $this->pageController->deleteSession($this->testSessionToExportToken);
     }
 
     public function testUtils() {
@@ -482,6 +494,47 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 2);
+
+        $userfolder = $this->container->query('ServerContainer')->getUserFolder('test');
+        $now = new \DateTime();
+        $timestamp = $now->getTimestamp();
+
+        // do the auto export
+        $resp = $this->utilsController->saveOptionValue(['autoexportpath'=>'/autoex']);
+        for ($i=10; $i>0; $i--) {
+            $this->logController->logPost($token, 'devautoex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, '');
+        }
+        $resp = $this->pageController->cronAutoExport();
+        //echo $userfolder->search('.gpx')[0]->getContent();
+        // check something was exported
+        $this->assertEquals(count($userfolder->get('/autoex')->getDirectoryListing()), 1);
+        // just get the deviceid
+        $resp = $this->logController->addPoint($token, 'devautoex', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $pointid = $data['pointid'];
+        $deviceid = $data['deviceid'];
+        $this->pageController->deleteDevice($token, $deviceid);
+
+        // MANUAL EXPORT
+        $resp = $this->pageController->createSession('sessionToExport');
+        $data = $resp->getData();
+        $exportToken = $data['token'];
+        $this->testSessionToExportToken = $exportToken;
+        for ($i=10; $i>0; $i--) {
+            $this->logController->logPost($exportToken, 'devmanex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, '');
+        }
+        $resp = $this->pageController->export('sessionToExport', $exportToken, '/sessionToExport.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals(True, $done);
+        $this->assertEquals(True, $userfolder->nodeExists('/sessionToExport.gpx'));
+        //echo $userfolder->get('/sessionToExport.gpx')->getContent();
+
+        $resp = $this->pageController->deleteSession($exportToken);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
 
         // AUTO PURGE
         $resp = $this->pageController->setSessionAutoPurge($token, 'day');

@@ -3991,7 +3991,6 @@ class PageController extends Controller {
             }
         }
         else {
-            echo $dirpath;
             $userFolder->newFolder($dirpath);
             $dir = $userFolder->get($dirpath);
         }
