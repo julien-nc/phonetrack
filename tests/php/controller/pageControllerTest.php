@@ -532,7 +532,6 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals(True, $done);
         $this->assertEquals(True, $userfolder->nodeExists('/sessionToExport.gpx'));
-        $userfolder->get('/sessionToExport.gpx')->delete();
         // do it again to overwrite the file
         $resp = $this->pageController->export('sessionToExport', $exportToken, '/sessionToExport.gpx');
         $data = $resp->getData();
