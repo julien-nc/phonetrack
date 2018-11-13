@@ -3981,10 +3981,7 @@ class PageController extends Controller {
         $dir = null;
         $userFolder = \OC::$server->getUserFolder($userId);
 
-        $dirpath = $this->config->getUserValue($userId, 'phonetrack', 'autoexportpath');
-        if ($autoexportpath === '') {
-            $dirpath = '/PhoneTrack_export';
-        }
+        $dirpath = $this->config->getUserValue($userId, 'phonetrack', 'autoexportpath', '/PhoneTrack_export');
 
         if ($userFolder->nodeExists($dirpath)){
             $tmp = $userFolder->get($dirpath);
@@ -3994,6 +3991,7 @@ class PageController extends Controller {
             }
         }
         else {
+            echo $dirpath;
             $userFolder->newFolder($dirpath);
             $dir = $userFolder->get($dirpath);
         }
