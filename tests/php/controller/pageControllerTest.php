@@ -1675,6 +1675,78 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         // PUBLIC WEB LOG with non existent session
         $resp = $this->pageController->publicWebLog('', '');
         $this->assertEquals(is_string($resp), True);
+
+        // IMPORT
+        $txt = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="PhoneTrack Owncloud/Nextcloud app 0.3.8" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+<metadata>
+ <time>2018-11-13T19:37:45Z</time>
+ <name>plop</name>
+ <desc>4 devices</desc>
+</metadata>
+<trk>
+ <name>fff</name>
+ <trkseg>
+  <trkpt lat="47.544715" lon="-2.944336">
+   <time>2018-09-13T10:29:41Z</time>
+   <extensions>
+     <useragent>Manually added</useragent>
+   </extensions>
+  </trkpt>
+  <trkpt lat="50.063003" lon="11.99707">
+   <time>2018-09-13T10:29:45Z</time>
+   <extensions>
+     <useragent>Manually added</useragent>
+   </extensions>
+  </trkpt>
+ </trkseg>
+</trk>
+<trk>
+ <name>poulpe</name>
+ <trkseg>
+  <trkpt lat="-1.406109" lon="-29.53125">
+   <time>2018-11-12T15:43:57Z</time>
+   <extensions>
+     <useragent>Ajouté manuellement</useragent>
+   </extensions>
+  </trkpt>
+  <trkpt lat="-9.795678" lon="7.734375">
+   <time>2018-11-12T15:43:59Z</time>
+   <extensions>
+     <useragent>Ajouté manuellement</useragent>
+   </extensions>
+  </trkpt>
+ </trkseg>
+</trk>
+<trk>
+ <name>aaaa</name>
+ <trkseg>
+  <trkpt lat="-40.497955" lon="32.695313">
+   <time>2018-11-08T23:17:01Z</time>
+   <extensions>
+     <useragent>Ajouté manuellement</useragent>
+   </extensions>
+  </trkpt>
+  <trkpt lat="-52.312872" lon="33.398438">
+   <time>2018-11-08T23:18:41Z</time>
+   <extensions>
+     <useragent>Ajouté manuellement</useragent>
+   </extensions>
+  </trkpt>
+ </trkseg>
+</trk>
+</gpx>';
+        $userfolder->newFile('session.gpx')->putContent($txt);
+        $resp = $this->pageController->importSession('/session.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $tokenImp = $data['token'];
+        $this->assertEquals($done, 1);
+
+        $this->pageController->deleteSession($tokenImp);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
     }
 
 }

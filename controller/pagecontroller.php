@@ -2459,7 +2459,7 @@ class PageController extends Controller {
      */
     public function importSession($path) {
         $done = 1;
-        $userFolder = \OC::$server->getUserFolder();
+        $userFolder = \OC::$server->getUserFolder($this->userId);
         $cleanpath = str_replace(array('../', '..\\'), '',  $path);
 
         $file = null;
