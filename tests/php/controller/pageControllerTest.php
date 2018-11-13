@@ -749,6 +749,43 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respSession = $data['sessions'];
         $this->assertEquals(count($respSession), 1);
 
+        // set device shape
+        $resp = $this->pageController->setDeviceShape($token, $deviceid, 'triangle');
+        $data = $resp->getData();
+        $resp = $data['done'];
+        $this->assertEquals($resp, 1);
+
+        $resp = $this->pageController->setDeviceShape($token, 987654, 'triangle');
+        $data = $resp->getData();
+        $resp = $data['done'];
+        $this->assertEquals($resp, 3);
+
+        $resp = $this->pageController->setDeviceShape($token.'a', $deviceid, 'triangle');
+        $data = $resp->getData();
+        $resp = $data['done'];
+        $this->assertEquals($resp, 2);
+
+        // set device alias
+        $resp = $this->pageController->setDeviceAlias($token, $deviceid, 'superalias');
+        $data = $resp->getData();
+        $resp = $data['done'];
+        $this->assertEquals($resp, 1);
+
+        $resp = $this->pageController->setDeviceAlias($token, 98765, 'superalias');
+        $data = $resp->getData();
+        $resp = $data['done'];
+        $this->assertEquals($resp, 2);
+
+        $resp = $this->pageController->setDeviceAlias($token.'a', $deviceid, 'superalias');
+        $data = $resp->getData();
+        $resp = $data['done'];
+        $this->assertEquals($resp, 3);
+
+        $resp = $this->pageController->setDeviceAlias($token, $deviceid, '');
+        $data = $resp->getData();
+        $resp = $data['done'];
+        $this->assertEquals($resp, 4);
+
         // STRESS TRACK
         $sessions = null;
         $resp = $this->pageController->track($sessions);
@@ -1091,6 +1128,49 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
+        // set public share last pos only
+        $resp = $this->pageController->setPublicShareLastOnly($token2, $publictoken1, 1);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->setPublicShareLastOnly($token2, $publictoken1, 0);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->setPublicShareLastOnly($token2, $publictoken1.'a', 1);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->setPublicShareLastOnly($token2.'a', $publictoken1, 1);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        // set public share geofencify
+        $resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1, 1);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1, 0);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1.'a', 1);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 3);
+
+        $resp = $this->pageController->setPublicShareGeofencify($token2.'a', $publictoken1, 1);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+
         // watch this public share
         $resp = $this->pageController->publicSessionWatch($publictoken1);
 
@@ -1365,6 +1445,14 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             }
         }
         $this->assertEquals($stoken === '', False);
+
+        // test export with session shared
+        $resp = $this->pageController->export('super', $stoken, '/super.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals(True, $done);
+        $this->assertEquals(True, $userfolder->nodeExists('/super.gpx'));
+        $userfolder->get('/super.gpx')->delete();
 
         // TRACK AND FIND SHARED SESSION
         $sessions = array(array($stoken, null, null));
