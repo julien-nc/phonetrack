@@ -521,15 +521,34 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $exportToken = $data['token'];
         $this->testSessionToExportToken = $exportToken;
-        for ($i=10; $i>0; $i--) {
+        for ($i=5; $i>0; $i--) {
             $this->logController->logPost($exportToken, 'devmanex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, '');
+        }
+        for ($i=5; $i>0; $i--) {
+            $this->logController->logPost($exportToken, 'devmanex2222', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, '');
         }
         $resp = $this->pageController->export('sessionToExport', $exportToken, '/sessionToExport.gpx');
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals(True, $done);
         $this->assertEquals(True, $userfolder->nodeExists('/sessionToExport.gpx'));
+        $userfolder->get('/sessionToExport.gpx')->delete();
+        // do it again to overwrite the file
+        $resp = $this->pageController->export('sessionToExport', $exportToken, '/sessionToExport.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals(True, $done);
+        $this->assertEquals(True, $userfolder->nodeExists('/sessionToExport.gpx'));
         //echo $userfolder->get('/sessionToExport.gpx')->getContent();
+        $userfolder->get('/sessionToExport.gpx')->delete();
+        // do it again with one file per device
+        $resp = $this->utilsController->saveOptionValue(['exportoneperdev'=>'true']);
+        $resp = $this->pageController->export('sessionToExport', $exportToken, '/sessionToExport.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals(True, $done);
+        $this->assertEquals(True, $userfolder->nodeExists('/sessionToExport_devmanex.gpx'));
+        $this->assertEquals(True, $userfolder->nodeExists('/sessionToExport_devmanex2222.gpx'));
 
         $resp = $this->pageController->deleteSession($exportToken);
         $data = $resp->getData();
