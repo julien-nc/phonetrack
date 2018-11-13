@@ -1,10 +1,34 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) 
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- jshint in CI
+- allow to set email address(es) for geofences and proxim alerts
+[#166](https://gitlab.com/eneiluj/phonetrack-oc/issues/166) @mychalwipf
+- add admin settings additional section to set user point number quota
+[#154](https://gitlab.com/eneiluj/phonetrack-oc/issues/154) @jookk
+- add user options to choose what happens when quota is reached : block, delete oldest point
+
+### Changed
+- put utf-8 symbols in info.xml and README
+- QRcode : use kjua.js, foreground color adapts to theming, darker, round corners, logo, margin
+[#120](https://gitlab.com/eneiluj/phonetrack-oc/issues/120) @jookk
+[#152](https://gitlab.com/eneiluj/phonetrack-oc/issues/152) @e-alfred
+- press Enter on new session name => create
+- make it more explicit when there is no avg speed or no max speed
+- rewrite user options system : use NC config
+- only save necessary option when changed
+
+### Fixed
+- theming support : jquery dialog, layer selector
+- fix escape key detection : use keyup event instead of keypress,
+- CI works again : apply patch to Nextcloud while deploying
+- fix speed logged with Ulogger
+[#167](https://gitlab.com/eneiluj/phonetrack-oc/issues/167) @nicolasvila
 
 ## 0.3.6 – 2018-10-17
 ### Added
@@ -403,4 +427,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - fix the world with this app
-
