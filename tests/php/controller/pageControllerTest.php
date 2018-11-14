@@ -543,6 +543,15 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         //echo $userfolder->search('.gpx')[0]->getContent();
         // check something was exported
         $this->assertEquals(count($userfolder->get('/autoex')->getDirectoryListing()), 1);
+        $search = $userfolder->get('/autoex')->search('.gpx');
+        $this->assertEquals(count($search), 1);
+        $search[0]->delete();
+        $resp = $this->pageController->setSessionAutoExport($token, 'weekly');
+        // do it again to test when export dir already exists and test weekly
+        $resp = $this->pageController->cronAutoExport();
+        $search = $userfolder->get('/autoex')->search('.gpx');
+        $this->assertEquals(count($search), 1);
+
         $this->pageController->deleteDevice($token, $deviceid);
 
         // MANUAL EXPORT
@@ -692,6 +701,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->logController->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests', 2, 180);
         $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests', 2, 180);
+        $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, $timestamp, 100, 70, 11, 'tests', 2, 180);
+        $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, $timestamp-3600, 100, 70, 11, 'tests', 2, 180);
 
         // STRESS ADD POINT
         $resp = $this->logController->addPoint($token, '', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
@@ -834,6 +845,45 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
+        // track to get geofences and proxims
+        $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '');
+        $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
+        // no point load limit
+        $resp = $this->utilsController->saveOptionValue([
+            'nbpointsload' => '',
+            "hourmin" => "1",
+            "minutemin" => "1",
+            "secondmin" => "1",
+            "hourmax" => "23",
+            "minutemax" => "59",
+            "secondmax" => "59",
+            "lastdays" => "3",
+            "lasthours" => "4",
+            "lastmins" => "3",
+            "accuracymin" => "",
+            "accuracymax" => "",
+            "elevationmin" => "",
+            "elevationmax" => "",
+            "batterymin" => "",
+            "batterymax" => "",
+            "satellitesmin" => "",
+            "satellitesmax" => "",
+            "datemin" => "",
+            "datemax" => "",
+            "applyfilters" => 'true',
+        ]);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respgeofences = $data['geofences'];
+        $respproxims = $data['proxims'];
+        $this->assertEquals(True, count($respgeofences[$token][$deviceid]) > 0);
+        $this->assertEquals(True, count($respproxims[$token][$deviceid]) > 0);
+        // two filtered points expected
+        $this->assertEquals(2, count($respSession[$token][$deviceid]));
+        $resp = $this->utilsController->saveOptionValue(['nbpointsload' => '10000']);
+
         $resp = $this->pageController->deleteDevice($token, $deviceidProx);
 
         // USER LIST
@@ -843,13 +893,16 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(True, count($users) > 0);
 
         // TRACK
+        $resp = $this->utilsController->saveOptionValue([
+            'applyfilters' => 'false',
+        ]);
         $sessions = array(array($token, array($deviceid => 400), array($deviceid => 1)));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $pointList = $respSession[$token][$deviceid];
 
-        $this->assertEquals(count($pointList), 3);
+        $this->assertEquals(5, count($pointList));
         $this->assertEquals($pointList[2][7], 70);
         $lastPointID = $pointList[2][0];
 
@@ -932,7 +985,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respColors), 0);
         $this->assertEquals(count($respNames), 0);
 
-        $sessions = array(array($token, array($deviceid => 1000), array($deviceid => 1)));
+        $sessions = array(array($token, array($deviceid => $timestamp + 10000), array($deviceid => 1)));
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
@@ -976,7 +1029,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respSession = $data['sessions'];
         $pointList = $respSession[$token][$deviceid];
 
-        $this->assertEquals(count($pointList), 3);
+        $this->assertEquals(5, count($pointList));
         $this->assertEquals($pointList[2][7], 65);
         $this->assertEquals($pointList[2][8], 'tests_modif');
         $this->assertEquals($pointList[2][4], 99);
@@ -1018,7 +1071,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respSession = $data['sessions'];
         $pointList = $respSession[$token][$deviceid];
 
-        $this->assertEquals(count($pointList), 2);
+        $this->assertEquals(4, count($pointList));
 
         // RENAME SESSION
         $resp = $this->pageController->renameSession($token, 'renamedTestSession');
@@ -1182,14 +1235,14 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respColors = $data['colors'];
         $pointList = $respSession[$sharetoken2][$deviceid];
 
-        $this->assertEquals(count($pointList), 2);
+        $this->assertEquals(4, count($pointList));
 
         // API
         $resp = $this->pageController->APIgetLastPositions($sharetoken2);
         $data = $resp->getData();
 
         $this->assertEquals((count($data[$sharetoken2]) > 0), True);
-        $this->assertEquals($data[$sharetoken2]['renamedTestDev']['timestamp'], 480);
+        $this->assertEquals($timestamp, $data[$sharetoken2]['renamedTestDev']['timestamp']);
 
         // SET SESSION PRIVATE
         $resp = $this->pageController->setSessionPublic($token2, 0);
@@ -1387,7 +1440,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respNames = $data['names'];
         $respColors = $data['colors'];
         $pointList = $respSession[$publictoken1][$deviceid];
-        $this->assertEquals(count($pointList), 2);
+        $this->assertEquals(4, count($pointList));
 
         $resp = $this->pageController->setPublicShareDevice($token2, $publictoken1, 'renamedTestDev');
         $data = $resp->getData();
@@ -1401,7 +1454,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respNames = $data['names'];
         $respColors = $data['colors'];
         $pointList = $respSession[$publictoken1][$deviceid];
-        $this->assertEquals(count($pointList), 2);
+        $this->assertEquals(4, count($pointList));
 
         $resp = $this->pageController->setPublicShareDevice($token2, $publictoken1, '');
         $data = $resp->getData();

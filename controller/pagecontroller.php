@@ -1560,26 +1560,6 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function deviceLinesOrPointsAsked($token, $deviceid, $options) {
-        if ($options === null) {
-            return False;
-        }
-        else {
-            $devid = strval($deviceid);
-            return (
-                    isset($options['activeSessions'])
-                and array_key_exists($token, $options['activeSessions'])
-                and array_key_exists($devid, $options['activeSessions'][$token])
-                and array_key_exists('line', $options['activeSessions'][$token][$devid])
-                and array_key_exists('point', $options['activeSessions'][$token][$devid])
-                and (
-                    $options['activeSessions'][$token][$devid]['line'] === True
-                    or $options['activeSessions'][$token][$devid]['point'] === True
-                )
-            );
-        }
-    }
-
     /**
      * @NoAdminRequired
      *
@@ -2820,7 +2800,11 @@ class PageController extends Controller {
                     and array_key_exists('minutemin', $f) and $f['minutemin'] !== ''
                     and array_key_exists('secondmin', $f) and $f['secondmin'] !== ''
                 ) {
-                    date_default_timezone_set(ini_get('date.timezone'));
+                    $dtz = ini_get('date.timezone');
+                    if ($dtz === '') {
+                        $dtz = 'UTC';
+                    }
+                    date_default_timezone_set($dtz);
                     $now = new \DateTime();
                     $y = $now->format('Y');
                     $m = $now->format('m');
@@ -2843,7 +2827,11 @@ class PageController extends Controller {
                     and array_key_exists('minutemax', $f) and $f['minutemax'] !== ''
                     and array_key_exists('secondmax', $f) and $f['secondmax'] !== ''
                 ) {
-                    date_default_timezone_set(ini_get('date.timezone'));
+                    $dtz = ini_get('date.timezone');
+                    if ($dtz === '') {
+                        $dtz = 'UTC';
+                    }
+                    date_default_timezone_set($dtz);
                     $now = new \DateTime();
                     $y = $now->format('Y');
                     $m = $now->format('m');
