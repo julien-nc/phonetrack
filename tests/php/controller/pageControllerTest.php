@@ -485,7 +485,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals($done, 1);
 
-        // AUTO EXPORT
+        // AUTO EXPORT and AUTO PURGE
         $resp = $this->pageController->setSessionAutoExport($token, 'monthly');
         $data = $resp->getData();
         $done = $data['done'];
@@ -496,25 +496,53 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 2);
 
+        $resp = $this->pageController->setSessionAutoPurge($token, 'month');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->setSessionAutoPurge($token.'a', 'month');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
         $userfolder = $this->container->query('ServerContainer')->getUserFolder('test');
         $now = new \DateTime();
         $timestamp = $now->getTimestamp();
 
         // do the auto export
         $resp = $this->utilsController->saveOptionValue(['autoexportpath'=>'/autoex']);
-        for ($i=10; $i>0; $i--) {
+        for ($i=10; $i>=0; $i--) {
             $this->logController->logPost($token, 'devautoex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, '');
         }
-        $resp = $this->pageController->cronAutoExport();
-        //echo $userfolder->search('.gpx')[0]->getContent();
-        // check something was exported
-        $this->assertEquals(count($userfolder->get('/autoex')->getDirectoryListing()), 1);
         // just get the deviceid
         $resp = $this->logController->addPoint($token, 'devautoex', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $pointid = $data['pointid'];
         $deviceid = $data['deviceid'];
+        // check number of points
+        $sessions = array(array($token, array($deviceid => 400), null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $pointListBeforePurge = $respSession[$token][$deviceid];
+        $this->assertEquals(True, count($pointListBeforePurge) > 0);
+
+        $resp = $this->pageController->cronAutoExport();
+
+        // check number of points
+        $sessions = array(array($token, array($deviceid => 400), null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $pointListAfterPurge = $respSession[$token][$deviceid];
+        $this->assertEquals(True, count($pointListAfterPurge) > 0);
+        $this->assertEquals(True, count($pointListAfterPurge) < count($pointListBeforePurge));
+
+        //echo $userfolder->search('.gpx')[0]->getContent();
+        // check something was exported
+        $this->assertEquals(count($userfolder->get('/autoex')->getDirectoryListing()), 1);
         $this->pageController->deleteDevice($token, $deviceid);
 
         // MANUAL EXPORT
@@ -726,6 +754,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
         $data = $resp->getData();
         $done = $data['done'];
+        $fenceid = $data['fenceid'];
         $this->assertEquals($done, 1);
 
         $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
@@ -743,10 +772,26 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 2);
 
+        $resp = $this->pageController->deleteGeofence($token.'a', $deviceid, $fenceid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deleteGeofence($token, 98765, $fenceid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deleteGeofence($token, $deviceid, $fenceid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         // PROXIM
         $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '');
         $data = $resp->getData();
         $done = $data['done'];
+        $proxid = $data['proximid'];
         $this->assertEquals($done, 1);
 
         $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProxFake', 400, 1000, '', '', 0, 0, 0, '');
@@ -769,7 +814,33 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 2);
 
+        $resp = $this->pageController->deleteProxim($token.'a', $deviceid, $proxid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deleteProxim($token, 98765, $proxid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 2);
+
+        $resp = $this->pageController->deleteProxim($token, $deviceid, 98765);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 0);
+
+        $resp = $this->pageController->deleteProxim($token, $deviceid, $proxid);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
         $resp = $this->pageController->deleteDevice($token, $deviceidProx);
+
+        // USER LIST
+        $resp = $this->pageController->getUserList();
+        $data = $resp->getData();
+        $users = $data['users'];
+        $this->assertEquals(True, count($users) > 0);
 
         // TRACK
         $sessions = array(array($token, array($deviceid => 400), array($deviceid => 1)));
