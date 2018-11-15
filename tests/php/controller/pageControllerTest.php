@@ -513,10 +513,10 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         // do the auto export
         $resp = $this->utilsController->saveOptionValue(['autoexportpath'=>'/autoex']);
         for ($i=10; $i>=0; $i--) {
-            $this->logController->logPost($token, 'devautoex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, '');
+            $this->logController->logPost($token, 'devautoex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, 'testUA');
         }
         // just get the deviceid
-        $resp = $this->logController->addPoint($token, 'devautoex', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
+        $resp = $this->logController->addPoint($token, 'devautoex', 45.5, 3.4, 111, $timestamp-(3*604700), 100, 80, 12, 'AAAAAAAAtest', 2, 180);
         $data = $resp->getData();
         $done = $data['done'];
         $pointid = $data['pointid'];
@@ -804,6 +804,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $proxid = $data['proximid'];
         $this->assertEquals($done, 1);
+
+        // log with proxim
+        $this->logController->logPost($token, 'testDevProx', 4.44, 3.33, 100, 470, 60, 10, 200, '');
 
         $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProxFake', 400, 1000, '', '', 0, 0, 0, '');
         $data = $resp->getData();
