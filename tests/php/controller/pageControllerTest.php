@@ -1352,6 +1352,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->logController->addPoint($token2, 'todelDev', 45.6, 4.5, 100, 560, 100, 35, 4, 'tests', 2, 180);
         $data = $resp->getData();
         $geodeviceid = $data['deviceid'];
+        $resp = $this->logController->addPoint($token2, 'todelDev', 44.6, 4.8, 100, 562, 100, 35, 4, 'tests', 2, 180);
         $resp = $this->pageController->addGeofence($token2, $geodeviceid, 'testfence1', 44.0, 46.0, 3.0, 5.0, '', '', 0, 0, 0, 0);
 
         $sessions = array(array($publictoken1, null, null));
@@ -1359,10 +1360,20 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $pointList = $respSession[$publictoken1][$geodeviceid];
-        $this->assertEquals(1, count($pointList));
+        $this->assertEquals(2, count($pointList));
         // coordinates are simplified to geofence center !
         $this->assertEquals(45.0, $pointList[0][1]);
         $this->assertEquals(4.0, $pointList[0][2]);
+
+        // we want last position only
+        $resp = $this->pageController->setPublicShareLastOnly($token2, $publictoken1, 1);
+        $sessions = array(array($publictoken1, [$geodeviceid=>400], [$geodeviceid=>100]));
+        $resp = $this->pageController->publicViewTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $pointList = $respSession[$publictoken1][$geodeviceid];
+        $this->assertEquals(1, count($pointList));
+        $resp = $this->pageController->setPublicShareLastOnly($token2, $publictoken1, 0);
 
         // watch this public share
         $resp = $this->pageController->publicSessionWatch($publictoken1);
@@ -1523,7 +1534,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respColors = $data['colors'];
 
         $cond = (!array_key_exists($token, $data['names'])) or (!array_key_exists($deldeviceid, $data['names'][$token]));
-        $this->assertEquals($cond, True);
+        $this->assertEquals(True, $cond);
 
         // NAME RESERVATION
         $resp = $this->pageController->addNameReservation($token, 'resName');
@@ -1537,9 +1548,20 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $respSession = $data['sessions'];
         $respNames = $data['names'];
-        $this->assertEquals(count($respSession), 1);
-        $this->assertEquals(array_key_exists($token, $respNames), True);
-        $this->assertEquals(in_array('resName', $respNames[$token]), False);
+        $this->assertEquals(1, count($respSession));
+        $this->assertEquals(True, array_key_exists($token, $respNames));
+        $this->assertEquals(False, in_array('resName', $respNames[$token]));
+
+        // coverage on publicWebLogTrack
+        $resp = $this->logController->addPoint($token, 'todelll', 45.5, 3.4, '', 500, '', '', '', '', 2, 180);
+        $data = $resp->getData();
+        $deviceidtodelll = $data['deviceid'];
+        $sessions = array(array($token, [$deviceidtodelll=>200], [$deviceidtodelll=>100]));
+        $resp = $this->pageController->publicWebLogTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $respNames = $data['names'];
+        $this->assertEquals(1, count($respSession[$token][$deviceidtodelll]));
 
         // STRESS NAME RESERVATION
         $resp = $this->pageController->addNameReservation($token, '');
