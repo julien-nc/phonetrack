@@ -632,7 +632,7 @@ class LogController extends Controller {
             return true;
         }
 
-        $userChoice = $this->config->getUserValue($userid, 'phonetrack', 'exportoneperdev', 'block');
+        $userChoice = $this->config->getUserValue($userid, 'phonetrack', 'quotareached', 'block');
 
         if ($userChoice !== 'block') {
             // find point to delete

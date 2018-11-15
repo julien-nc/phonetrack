@@ -26,6 +26,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     private $contacts;
 
     private $container;
+    private $config;
     private $app;
 
     private $pageController;
@@ -64,6 +65,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->app = new Application();
         $this->container = $this->app->getContainer();
         $c = $this->container;
+        $this->config = $c->query('ServerContainer')->getConfig();
 
         $this->pageController = new PageController(
             $this->appName,
@@ -144,6 +146,89 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->pageController->deleteSession($this->testSessionToken4);
         $this->pageController->deleteSession($this->testSessionToken5);
         $this->pageController->deleteSession($this->testSessionToExportToken);
+    }
+
+    public function testQuota() {
+        $oldQuota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
+        $this->config->setAppValue('phonetrack', 'pointQuota', '');
+
+        $resp = $this->utilsController->deleteOptionsValues();
+        $resp = $this->pageController->createSession('quotaSession');
+        $data = $resp->getData();
+        $token = $data['token'];
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        // log
+        $now = new \DateTime();
+        $timestamp = $now->getTimestamp();
+        $resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp-10, 100, 80, 12, 'test', 2, 180);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $pointid = $data['pointid'];
+        $devid1 = $data['deviceid'];
+        $resp = $this->logController->addPoint($token, 'dev2', 45.5, 3.4, 111, $timestamp-11, 100, 80, 12, 'test', 2, 180);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $devid2 = $data['deviceid'];
+        for ($i=9; $i>0; $i--) {
+            $resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp-$i, 100, 80, 12, 'test', 2, 180);
+            $resp = $this->logController->addPoint($token, 'dev2', 45.5, 3.4, 111, $timestamp-$i-1, 100, 80, 12, 'test', 2, 180);
+        }
+        // number of points
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(count($respSession), 1);
+        $deviceid = null;
+        $this->assertEquals(10, count($respSession[$token][$devid1]));
+        $this->assertEquals($timestamp-1, $respSession[$token][$devid1][9][3]);
+        $this->assertEquals(10, count($respSession[$token][$devid2]));
+        $this->assertEquals($timestamp-2, $respSession[$token][$devid2][9][3]);
+
+        $this->config->setAppValue('phonetrack', 'pointQuota', 15);
+
+        // test when user chose to block new points
+        $resp = $this->utilsController->saveOptionValue(['quotareached' => 'block']);
+        $resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp, 100, 80, 12, 'test', 2, 180);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(10, count($respSession[$token][$devid1]));
+        $this->assertEquals(10, count($respSession[$token][$devid2]));
+        $this->assertEquals($timestamp-1, $respSession[$token][$devid1][9][3]);
+
+        $resp = $this->utilsController->saveOptionValue(['quotareached' => 'rotatedev']);
+        $resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp, 100, 80, 12, 'test', 2, 180);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(10, count($respSession[$token][$devid1]));
+        $this->assertEquals(10, count($respSession[$token][$devid2]));
+        $this->assertEquals($timestamp, $respSession[$token][$devid1][9][3]);
+
+        $resp = $this->utilsController->saveOptionValue(['quotareached' => 'rotateglob']);
+        $resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp+1, 100, 80, 12, 'test', 2, 180);
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(11, count($respSession[$token][$devid1]));
+        $this->assertEquals(9, count($respSession[$token][$devid2]));
+        $this->assertEquals($timestamp+1, $respSession[$token][$devid1][10][3]);
+        // first point of dev2 should have been deleted
+        $this->assertEquals($timestamp-10, $respSession[$token][$devid2][0][3]);
+
+        $resp = $this->pageController->deleteSession($token);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals($done, 1);
+
+        $resp = $this->utilsController->deleteOptionsValues();
+        $this->config->setAppValue('phonetrack', 'pointQuota', $oldQuota);
     }
 
     public function testUtils() {
