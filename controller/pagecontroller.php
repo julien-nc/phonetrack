@@ -2444,6 +2444,10 @@ class PageController extends Controller {
         $cleanpath = str_replace(array('../', '..\\'), '',  $path);
 
         $file = null;
+        $sessionName = null;
+        $token = null;
+        $devices = null;
+        $publicviewtoken = null;
         if ($userFolder->nodeExists($cleanpath)){
             $file = $userFolder->get($cleanpath);
             if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
@@ -2500,16 +2504,17 @@ class PageController extends Controller {
             $gpx = new \SimpleXMLElement($gpx_content);
         }
         catch (\Exception $e) {
-            error_log('Exception in '.$file->getName().' gpx parsing : '.$e->getMessage());
+            $this->logger->error('Exception in '.$file->getName().' gpx parsing : '.$e->getMessage(), array('app' => $this->appName));
             return 5;
         }
 
         if (count($gpx->trk) === 0){
-            error_log('Nothing to parse in '.$file->getName().' gpx file');
+            $this->logger->error('Nothing to parse in '.$file->getName().' gpx file', array('app' => $this->appName));
             return 6;
         }
 
         $trackIndex = 1;
+        $pointIndex = 1;
         foreach($gpx->trk as $track){
             $points = array();
             $devicename = str_replace("\n", '', $track->name);
@@ -2529,7 +2534,7 @@ class PageController extends Controller {
                     $speed = null;
                     $bearing = null;
                     if (empty($point->time)) {
-                        $timestamp = 0;
+                        $timestamp = $pointIndex;
                     }
                     else{
                         $time = new \DateTime($point->time);
@@ -2567,6 +2572,7 @@ class PageController extends Controller {
                     ) {
                         array_push($points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing));
                     }
+                    $pointIndex++;
                 }
             }
             if (count($points) > 0) {

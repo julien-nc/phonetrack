@@ -1840,6 +1840,10 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->publicWebLog('', '');
         $this->assertEquals(is_string($resp), True);
 
+        $resp = $this->utilsController->saveOptionValue([
+            "applyfilters" => 'false',
+        ]);
+
         // IMPORT
         $txt = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="PhoneTrack Owncloud/Nextcloud app 0.3.8" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
@@ -1905,12 +1909,138 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $tokenImp = $data['token'];
-        $this->assertEquals($done, 1);
+        $this->assertEquals(1, $done);
 
-        $this->pageController->deleteSession($tokenImp);
+        $resp = $this->pageController->importSession('/dumdum.gpx');
         $data = $resp->getData();
         $done = $data['done'];
-        $this->assertEquals($done, 1);
+        $this->assertEquals(4, $done);
+
+        $resp = $this->pageController->deleteSession($tokenImp);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals(1, $done);
+
+        $txt = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="PhoneTrack Owncloud/Nextcloud app 0.3.8" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+<metadata>
+ <time>2018-11-13T19:37:45Z</time>
+ <name>plop</name>
+ <desc>4 devices</desc>
+</metadata>
+</gpx>';
+        $userfolder->newFile('session2.gpx')->putContent($txt);
+        $resp = $this->pageController->importSession('/session2.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $tokenImp = $data['token'];
+        $this->assertEquals(6, $done);
+
+        $txt = '<?xml version="1.0"';
+        $userfolder->newFile('session3.gpx')->putContent($txt);
+        $resp = $this->pageController->importSession('/session3.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $tokenImp = $data['token'];
+        $this->assertEquals(5, $done);
+
+        $txt = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="PhoneTrack Owncloud/Nextcloud app 0.3.8" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+<metadata>
+ <time>2018-11-13T19:37:45Z</time>
+ <name>plop</name>
+ <desc>4 devices</desc>
+</metadata>
+<trk>
+ <name></name>
+ <trkseg>
+  <trkpt lat="-40.497955" lon="32.695313">
+   <time>2018-11-08T23:17:01Z</time>
+   <extensions>
+     <useragent>Ajouté manuellement</useragent>
+   </extensions>
+  </trkpt>
+  <trkpt lat="-52.312872" lon="33.398438">
+   <time>2018-11-08T23:18:41Z</time>
+   <extensions>
+     <useragent>Ajouté manuellement</useragent>
+   </extensions>
+  </trkpt>
+ </trkseg>
+</trk>
+</gpx>';
+        $userfolder->newFile('session4.gpx')->putContent($txt);
+        $resp = $this->pageController->importSession('/session4.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $tokenImp = $data['token'];
+        $this->assertEquals(1, $done);
+        $resp = $this->pageController->deleteSession($tokenImp);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals(1, $done);
+
+        $txt = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="PhoneTrack Owncloud/Nextcloud app 0.3.8" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">
+<metadata>
+ <time>2018-11-13T19:37:45Z</time>
+ <name>plop</name>
+ <desc>4 devices</desc>
+</metadata>
+<trk>
+ <trkseg>
+  <trkpt lat="-40.497955" lon="32.695313">
+   <extensions>
+     <useragent>Ajouté manuellement</useragent>
+   </extensions>
+  </trkpt>
+  <trkpt lat="-52.312872" lon="33.398438">
+  <ele>1000</ele>
+  <speed>33</speed>
+  <course>2.2</course>
+  <sat>10</sat>
+   <extensions>
+     <useragent>PUA</useragent>
+     <accuracy>5</accuracy>
+     <batterylevel>99</batterylevel>
+   </extensions>
+  </trkpt>
+ </trkseg>
+</trk>
+</gpx>';
+        $userfolder->newFile('session5.gpx')->putContent($txt);
+        $resp = $this->pageController->importSession('/session5.gpx');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $tokenImp = $data['token'];
+        $this->assertEquals(1, $done);
+        // test imported data
+        $sessions = array(array($tokenImp, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $this->assertEquals(1, count($respSession));
+        foreach ($respSession[$tokenImp] as $k => $v) {
+            $deviceid = $k;
+        }
+        $this->assertEquals(2, count($respSession[$tokenImp][$deviceid]));
+        $this->assertEquals(-40.497955, floatval($respSession[$tokenImp][$deviceid][0][1]));
+        $this->assertEquals(32.695313, floatval($respSession[$tokenImp][$deviceid][0][2]));
+        $this->assertEquals(1, intval($respSession[$tokenImp][$deviceid][0][3]));
+        $this->assertEquals(2, intval($respSession[$tokenImp][$deviceid][1][3]));
+        $this->assertEquals(null, $respSession[$tokenImp][$deviceid][0][6]);
+        $this->assertEquals(5, intval($respSession[$tokenImp][$deviceid][1][4]));
+        $this->assertEquals(10, intval($respSession[$tokenImp][$deviceid][1][5]));
+        $this->assertEquals(1000, intval($respSession[$tokenImp][$deviceid][1][6]));
+        $this->assertEquals(99, intval($respSession[$tokenImp][$deviceid][1][7]));
+        $this->assertEquals('PUA', $respSession[$tokenImp][$deviceid][1][8]);
+        $this->assertEquals(33, intval($respSession[$tokenImp][$deviceid][1][9]));
+        $this->assertEquals(2.2, floatval($respSession[$tokenImp][$deviceid][1][10]));
+
+        $resp = $this->pageController->deleteSession($tokenImp);
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals(1, $done);
     }
 
 }
