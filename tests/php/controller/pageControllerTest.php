@@ -847,7 +847,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // track to get geofences and proxims
         $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '');
-        $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
+        $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence1', 44.0, 46.1, 3.3, 5.2, '', '', 0, 0, 0, 0);
         // no point load limit
         $resp = $this->utilsController->saveOptionValue([
             'nbpointsload' => '',
@@ -1328,12 +1328,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 2);
 
         // set public share geofencify
-        $resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1, 1);
+        $resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1, 0);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
-        $resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1, 0);
+        $resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1, 1);
         $data = $resp->getData();
         $done = $data['done'];
         $this->assertEquals($done, 1);
@@ -1348,9 +1348,27 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $done = $data['done'];
         $this->assertEquals($done, 2);
 
+        // we want to geofencify
+        $resp = $this->logController->addPoint($token2, 'todelDev', 45.6, 4.5, 100, 560, 100, 35, 4, 'tests', 2, 180);
+        $data = $resp->getData();
+        $geodeviceid = $data['deviceid'];
+        $resp = $this->pageController->addGeofence($token2, $geodeviceid, 'testfence1', 44.0, 46.0, 3.0, 5.0, '', '', 0, 0, 0, 0);
+
+        $sessions = array(array($publictoken1, null, null));
+        $resp = $this->pageController->publicViewTrack($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $pointList = $respSession[$publictoken1][$geodeviceid];
+        $this->assertEquals(1, count($pointList));
+        // coordinates are simplified to geofence center !
+        $this->assertEquals(45.0, $pointList[0][1]);
+        $this->assertEquals(4.0, $pointList[0][2]);
 
         // watch this public share
         $resp = $this->pageController->publicSessionWatch($publictoken1);
+
+        // remove geofencify
+        $resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1, 0);
 
         $resp = $this->pageController->addPublicShare($token2);
         $data = $resp->getData();

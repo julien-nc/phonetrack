@@ -180,6 +180,7 @@ class PageController extends Controller {
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
             ->addAllowedChildSrcDomain('*')
+          //->addAllowedChildSrcDomain("'self'")
             ->addAllowedObjectDomain('*')
             ->addAllowedScriptDomain('*')
             ->addAllowedConnectDomain('*');
