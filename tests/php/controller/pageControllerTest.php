@@ -41,6 +41,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     private $testSessionToken4;
     private $testSessionToken5;
     private $testSessionToExportToken;
+    private $testSessionQuota;
 
     public static function setUpBeforeClass() {
         $app = new Application();
@@ -146,6 +147,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->pageController->deleteSession($this->testSessionToken4);
         $this->pageController->deleteSession($this->testSessionToken5);
         $this->pageController->deleteSession($this->testSessionToExportToken);
+        $this->pageController->deleteSession($this->testSessionQuota);
     }
 
     public function testQuota() {
@@ -156,6 +158,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->createSession('quotaSession');
         $data = $resp->getData();
         $token = $data['token'];
+        $this->testSessionQuota = $token;
         $done = $data['done'];
         $this->assertEquals($done, 1);
 
@@ -171,6 +174,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $data = $resp->getData();
         $done = $data['done'];
         $devid2 = $data['deviceid'];
+        $this->config->setAppValue('phonetrack', 'pointQuota', 300);
         for ($i=9; $i>0; $i--) {
             $resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp-$i, 100, 80, 12, 'test', 2, 180);
             $resp = $this->logController->addPoint($token, 'dev2', 45.5, 3.4, 111, $timestamp-$i-1, 100, 80, 12, 'test', 2, 180);
@@ -847,11 +851,22 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 1);
 
         // GEOFENCE
-        $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
+        $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, '');
         $data = $resp->getData();
         $done = $data['done'];
         $fenceid = $data['fenceid'];
         $this->assertEquals($done, 1);
+
+        $resp = $this->pageController->addGeofence($token, $deviceidProx, 'testfence2', 20.2, 21.1, 4.3, 5.2, 'https://dumdumdum.net/dumdum', 'https://dumdumdum.net/dumdum2', 0, 0, 1, '');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $fenceid = $data['fenceid'];
+        $this->assertEquals($done, 1);
+        $resp = $this->pageController->addGeofence($token, $deviceidProx, 'testfence3', 20.2, 21.1, 4.3, 5.2, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net/dumdum2?plop=2', 1, 1, 0, '');
+
+        // log with geofence
+        $this->logController->logPost($token, 'testDevProx', 4.44, 3.33, 100, 470, 60, 10, 200, '');
+        $this->logController->logPost($token, 'testDevProx', 20.5, 4.4, 100, 471, 60, 10, 200, '');
 
         $resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0);
         $data = $resp->getData();
@@ -884,14 +899,18 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($done, 1);
 
         // PROXIM
-        $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '');
+        $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 0, 0, 1, '');
+        $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 1, 1, 0, '');
         $data = $resp->getData();
         $done = $data['done'];
         $proxid = $data['proximid'];
         $this->assertEquals($done, 1);
 
         // log with proxim
+        //$resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, $timestamp, 100, 70, 11, 'tests', 2, 180);
         $this->logController->logPost($token, 'testDevProx', 4.44, 3.33, 100, 470, 60, 10, 200, '');
+        $this->logController->logPost($token, 'testDevProx', 45.69999, 3.5999, 100, $timestamp+1, 60, 10, 200, '');
+        $this->logController->logPost($token, 'testDevProx', 10.69999, 13.5999, 100, $timestamp+2, 60, 10, 200, '');
 
         $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProxFake', 400, 1000, '', '', 0, 0, 0, '');
         $data = $resp->getData();

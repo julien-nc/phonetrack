@@ -325,25 +325,35 @@ class LogController extends Controller {
                 }
                 if ($urlclose !== '' and startsWith($urlclose, 'http')) {
                     // GET
-                    if ($urlenterpost === 0) {
-                        $xml = file_get_contents($urlclose);
+                    if ($urlclosepost === 0) {
+                        try {
+                            $xml = file_get_contents($urlclose);
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error during PhoneTrack proxim URL query : '.$e, array('app' => $this->appName));
+                        }
                     }
                     // POST
                     else {
-                        $parts = parse_url($urlclose);
-                        parse_str($parts['query'], $data);
+                        try {
+                            $parts = parse_url($urlclose);
+                            parse_str($parts['query'], $data);
 
-                        $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
+                            $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
 
-                        $options = array(
-                            'http' => array(
-                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                                'method'  => 'POST',
-                                'content' => http_build_query($data)
-                            )
-                        );
-                        $context  = stream_context_create($options);
-                        $result = file_get_contents($url, false, $context);
+                            $options = array(
+                                'http' => array(
+                                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                    'method'  => 'POST',
+                                    'content' => http_build_query($data)
+                                )
+                            );
+                            $context  = stream_context_create($options);
+                            $result = file_get_contents($url, false, $context);
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, array('app' => $this->appName));
+                        }
                     }
                 }
             }
@@ -394,25 +404,35 @@ class LogController extends Controller {
                 }
                 if ($urlfar !== '' and startsWith($urlfar, 'http')) {
                     // GET
-                    if ($urlenterpost === 0) {
-                        $xml = file_get_contents($urlfar);
+                    if ($urlfarpost === 0) {
+                        try {
+                            $xml = file_get_contents($urlfar);
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error during PhoneTrack proxim URL query : '.$e, array('app' => $this->appName));
+                        }
                     }
                     // POST
                     else {
-                        $parts = parse_url($urlfar);
-                        parse_str($parts['query'], $data);
+                        try {
+                            $parts = parse_url($urlfar);
+                            parse_str($parts['query'], $data);
 
-                        $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
+                            $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
 
-                        $options = array(
-                            'http' => array(
-                                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                                'method'  => 'POST',
-                                'content' => http_build_query($data)
-                            )
-                        );
-                        $context  = stream_context_create($options);
-                        $result = file_get_contents($url, false, $context);
+                            $options = array(
+                                'http' => array(
+                                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                    'method'  => 'POST',
+                                    'content' => http_build_query($data)
+                                )
+                            );
+                            $context  = stream_context_create($options);
+                            $result = file_get_contents($url, false, $context);
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, array('app' => $this->appName));
+                        }
                     }
                 }
             }
@@ -518,24 +538,34 @@ class LogController extends Controller {
                     if ($urlenter !== '' and startsWith($urlenter, 'http')) {
                         // GET
                         if ($urlenterpost === 0) {
-                            $xml = file_get_contents($urlenter);
+                            try {
+                                $xml = file_get_contents($urlenter);
+                            }
+                            catch (\Exception $e) {
+                                $this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, array('app' => $this->appName));
+                            }
                         }
                         // POST
                         else {
-                            $parts = parse_url($urlenter);
-                            parse_str($parts['query'], $data);
+                            try {
+                                $parts = parse_url($urlenter);
+                                parse_str($parts['query'], $data);
 
-                            $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
+                                $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
 
-                            $options = array(
-                                'http' => array(
-                                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                                    'method'  => 'POST',
-                                    'content' => http_build_query($data)
-                                )
-                            );
-                            $context  = stream_context_create($options);
-                            $result = file_get_contents($url, false, $context);
+                                $options = array(
+                                    'http' => array(
+                                        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                        'method'  => 'POST',
+                                        'content' => http_build_query($data)
+                                    )
+                                );
+                                $context  = stream_context_create($options);
+                                $result = file_get_contents($url, false, $context);
+                            }
+                            catch (\Exception $e) {
+                                $this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, array('app' => $this->appName));
+                            }
                         }
                     }
                 }
@@ -583,24 +613,34 @@ class LogController extends Controller {
                     if ($urlleave !== '' and startsWith($urlleave, 'http')) {
                         // GET
                         if ($urlleavepost === 0) {
-                            $xml = file_get_contents($urlleave);
+                            try {
+                                $xml = file_get_contents($urlleave);
+                            }
+                            catch (\Exception $e) {
+                                $this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, array('app' => $this->appName));
+                            }
                         }
                         // POST
                         else {
-                            $parts = parse_url($urlleave);
-                            parse_str($parts['query'], $data);
+                            try {
+                                $parts = parse_url($urlleave);
+                                parse_str($parts['query'], $data);
 
-                            $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
+                                $url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
 
-                            $options = array(
-                                'http' => array(
-                                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                                    'method'  => 'POST',
-                                    'content' => http_build_query($data)
-                                )
-                            );
-                            $context  = stream_context_create($options);
-                            $result = file_get_contents($url, false, $context);
+                                $options = array(
+                                    'http' => array(
+                                        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                                        'method'  => 'POST',
+                                        'content' => http_build_query($data)
+                                    )
+                                );
+                                $context  = stream_context_create($options);
+                                $result = file_get_contents($url, false, $context);
+                            }
+                            catch (\Exception $e) {
+                                $this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, array('app' => $this->appName));
+                            }
                         }
                     }
                 }
