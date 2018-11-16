@@ -153,6 +153,10 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     public function testQuota() {
         $oldQuota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
         $this->config->setAppValue('phonetrack', 'pointQuota', '');
+        $resp = $this->utilsController->setPointQuota('');
+        $data = $resp->getData();
+        $done = $data['done'];
+        $this->assertEquals(1, $done);
 
         $resp = $this->utilsController->deleteOptionsValues();
         $resp = $this->pageController->createSession('quotaSession');
@@ -160,7 +164,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $token = $data['token'];
         $this->testSessionQuota = $token;
         $done = $data['done'];
-        $this->assertEquals($done, 1);
+        $this->assertEquals(1, $done);
 
         // log
         $now = new \DateTime();
@@ -1647,6 +1651,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->addNameReservation($token, 'resName');
         $data = $resp->getData();
         $done = $data['done'];
+        $nameToken = $data['nametoken'];
         $this->assertEquals($done, 1);
 
         // reserved name should not be given
@@ -1669,6 +1674,11 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $respSession = $data['sessions'];
         $respNames = $data['names'];
         $this->assertEquals(1, count($respSession[$token][$deviceidtodelll]));
+
+        // add point with reservation token
+        $resp = $this->logController->addPoint($token, $nameToken, 45.5, 3.4, '', 10000000001, '', '', '', '', 2, 180);
+        $data = $resp->getData();
+        $this->assertEquals(1, $data['done']);
 
         // STRESS NAME RESERVATION
         $resp = $this->pageController->addNameReservation($token, '');
