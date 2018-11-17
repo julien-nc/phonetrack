@@ -34,7 +34,7 @@ Here is a brief description of the `fork and merge request` workflow (or at leas
 
 * Fork the project to get a copy of which you are the owner
 * Don't push commits in your master branch, it is easier to use your master branch to stay up to date with original project
-* Create a branch from your up-to-date master to make a bunch of commits **on the same topic**. Name it explicitly.
+* Create a branch from your up-to-date master to make a bunch of commits **related to one single topic**. Name the branch explicitly.
 * Create a merge request from this branch to master branch of the original project
 
 Here is a memo of git commands to run after having forked the project on gitlab.com :
@@ -42,7 +42,7 @@ Here is a memo of git commands to run after having forked the project on gitlab.
 git clone https://gitlab.com/yourlogin/phonetrack-oc phonetrack
 cd phonetrack
 
-# on branch master, to get changes from master branch of original project
+# on your local branch master, to get changes from master branch of original project :
 git pull https://gitlab.com/eneiluj/phonetrack-oc master
 
 # create a branch to work on a future merge request
@@ -50,7 +50,7 @@ git checkout -b new_feature1
 # make changes then commit
 git commit -a -m "beginning to implement my new feature"
 # continue developing
-git commit -a -m "new feature is ready"
+git commit -a -m "new feature is now ready"
 # push it to your repo
 git push origin new_feature1
 # now you can make your merge request ^^ !
@@ -59,7 +59,7 @@ git push origin new_feature1
 git checkout master
 git pull https://gitlab.com/eneiluj/phonetrack-oc master
 
-# expert git trick ;-) :
+# optional expert git trick ;-) :
 # you've started to work on new_feature1 and in the meantime,
 # the master branch of original project integrated some new stuff.
 # If you want to get the new stuff in your new_feature1 branch :
@@ -77,14 +77,14 @@ git rebase master
 
 ## Tests
 
-If you want to trigger Continuous Integration tests on Gitlab, just push to the branch `test`
+If you want to trigger Continuous Integration tests on Gitlab, just push to your branch `test`
 
 ``` bash
-# from any branch
-git push origin test -f
+# from any branch, for example from branch 'new_feature1'
+git push origin new_feature1:test -f
 ```
 
-Those tests only concern controller part. If someone could show me the way and just start to implement front-end tests with Karma, i'll be more than grateful !
+Those tests only concern controller part. If someone could show me the way and just start to implement front-end (JS) tests with Karma, i'll be more than grateful !
 
 ## Recomandations
 
