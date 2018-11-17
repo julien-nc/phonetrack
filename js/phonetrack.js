@@ -3847,8 +3847,8 @@
         $('.toggleAutoZoomDevice.on').each(function() {
             // we only take those for session which are watched
             var viewSessionCheck = $(this).parent().parent().parent().parent().find('.watchbutton i');
-            if (viewSessionCheck.hasClass('fa-toggle-on')) {
-                var token = $(this).attr('token');
+            var token = $(this).attr('token');
+            if (viewSessionCheck.hasClass('fa-toggle-on') && (selectedSessionToken === '' || token === selectedSessionToken)) {
                 var device = $(this).attr('device');
                 if (!devicesToFollow.hasOwnProperty(token)) {
                     devicesToFollow[token] = [];
