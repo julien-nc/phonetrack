@@ -6364,7 +6364,7 @@
         }
         phonetrack.themeColorDark = hexToDarkerHex(phonetrack.themeColor);
 
-        $('<style role="buttons">.fa, .far, .fas { ' +
+        $('<style role="buttons">.fa, .fab, .far, .fas { ' +
             'color: ' + phonetrack.themeColor + '; }' +
             '.dropdown-content button:hover i, ' +
             '.reaffectDeviceDiv button:hover i ' +

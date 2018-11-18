@@ -657,7 +657,7 @@ if (count($_['useroverlayserverswms']) > 0){
     <br/><hr/><br/>
     <h3 class="sectiontitle"><?php p($l->t('Documentation')); ?></h3>
     <a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/wikis/home">
-    <i class="fa fa-code-branch" aria-hidden="true"></i>
+    <i class="fab fa-gitlab" aria-hidden="true"></i>
     Project wiki
     </a>
     <br/>
@@ -666,10 +666,10 @@ if (count($_['useroverlayserverswms']) > 0){
     <h3 class="sectiontitle"><?php p($l->t('Source management')); ?></h3>
     <ul class="disclist">
         <li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc">
-        <i class="fa fa-code-branch" aria-hidden="true"></i>
+        <i class="fab fa-gitlab" aria-hidden="true"></i>
         Gitlab project main page</a></li>
         <li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/issues">
-        <i class="fa fa-code-branch" aria-hidden="true"></i>
+        <i class="fab fa-gitlab" aria-hidden="true"></i>
         Gitlab project issue tracker</a></li>
         <li><a class="toplink" target="_blank" href="https://crowdin.com/project/phonetrack">
         <i class="fa fa-globe-africa" aria-hidden="true"></i>
