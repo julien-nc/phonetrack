@@ -37,6 +37,7 @@ On PhoneTrack main page, while watching a session, you can :
 * 🗠  Display sessions statistics
 * 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 * 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
+* ◔  Choose what to do when point number quota is reached (block logging or delete oldest point)
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
