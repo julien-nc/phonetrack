@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add admin settings additional section to set user point number quota
 [#154](https://gitlab.com/eneiluj/phonetrack-oc/issues/154) @jookk
 - add user options to choose what happens when quota is reached : block, delete oldest point
+[#154](https://gitlab.com/eneiluj/phonetrack-oc/issues/154) @jookk
+- lots of controller tests (import/export/geofence/proxims/purge/filters : coverage close to 100%
 
 ### Changed
 - put utf-8 symbols in info.xml and README
@@ -21,7 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - press Enter on new session name => create
 - make it more explicit when there is no avg speed or no max speed
 - rewrite user options system : use NC config
-- only save necessary option when changed
+- only save option value which just changed (reset all user option to default values)
 
 ### Fixed
 - theming support : jquery dialog, layer selector
@@ -29,6 +31,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - CI works again : apply patch to Nextcloud while deploying
 - fix speed logged with Ulogger
 [#167](https://gitlab.com/eneiluj/phonetrack-oc/issues/167) @nicolasvila
+- bugs with geofence URLs
+- bug with session zoom and device following
+[#169](https://gitlab.com/eneiluj/phonetrack-oc/issues/169) @Valdnet
 
 ## 0.3.6 – 2018-10-17
 ### Added
