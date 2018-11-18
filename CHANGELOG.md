@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.3.8 – 2018-11-18
 ### Added
 - jshint in CI
 - allow to set email address(es) for geofences and proxim alerts
