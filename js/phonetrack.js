@@ -5956,7 +5956,7 @@
 
         $('#importsession').click(function(e) {
             OC.dialogs.filepicker(
-                t('phonetrack', 'Import gpx session file'),
+                t('phonetrack', 'Import gpx/kml session file'),
                 function(targetPath) {
                     importSession(targetPath);
                 },
