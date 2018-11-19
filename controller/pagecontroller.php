@@ -26,6 +26,8 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
+require_once('conversion.php');
+
 function distance($lat1, $long1, $lat2, $long2){
 
     if ($lat1 === $lat2 and $long1 === $long2){
@@ -55,6 +57,13 @@ function distance($lat1, $long1, $lat2, $long2){
     // Remember to multiply arc by the radius of the earth
     // in your favorite set of units to get length.
     return $arc*6371000;
+}
+
+function endswith($string, $test) {
+    $strlen = strlen($string);
+    $testlen = strlen($test);
+    if ($testlen > $strlen) return false;
+    return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
 }
 
 class PageController extends Controller {
@@ -2452,16 +2461,38 @@ class PageController extends Controller {
             $file = $userFolder->get($cleanpath);
             if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
                 $file->isReadable()){
-                $sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
-                $res = $this->createSession($sessionName);
-                $response = $res->getData();
-                if ($response['done']) {
-                    $token = $response['token'];
-                    $publicviewtoken = $response['publicviewtoken'];
-                    $done = $this->parseGpxImportPoints($file, $token);
+                if (endswith($file->getName(), '.gpx') or endswith($file->getName(), '.GPX')) {
+                    $sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
+                    $res = $this->createSession($sessionName);
+                    $response = $res->getData();
+                    if ($response['done'] === 1) {
+                        $token = $response['token'];
+                        $publicviewtoken = $response['publicviewtoken'];
+                        $done = $this->parseGpxImportPoints($file->getContent(), $token);
+                    }
+                    else {
+                        $done = 2;
+                    }
                 }
-                else {
-                    $done = 2;
+                else if (endswith($file->getName(), '.kml') or endswith($file->getName(), '.KML')) {
+                    $sessionName = str_replace(['.kml', '.KML'], '', $file->getName());
+                    $res = $this->createSession($sessionName);
+                    $response = $res->getData();
+                    if ($response['done'] === 1) {
+                        $token = $response['token'];
+                        $publicviewtoken = $response['publicviewtoken'];
+                        try {
+                            $gpx_content = kmlToGpx($file->getContent());
+                            $done = $this->parseGpxImportPoints($gpx_content, $token);
+                        }
+                        catch (\Exception $e) {
+                            $this->logger->error('Exception in '.$file->getName().' file import : '.$e->getMessage(), array('app' => $this->appName));
+                            $done = 5;
+                        }
+                    }
+                    else {
+                        $done = 2;
+                    }
                 }
             }
             else {
@@ -2498,8 +2529,7 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function parseGpxImportPoints($file, $token) {
-        $gpx_content = $file->getContent();
+    private function parseGpxImportPoints($gpx_content, $token) {
         try{
             $gpx = new \SimpleXMLElement($gpx_content);
         }

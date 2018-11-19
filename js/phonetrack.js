@@ -3932,8 +3932,8 @@
     }
 
     function importSession(path) {
-        if (! endsWith(path, '.gpx')) {
-            OC.Notification.showTemporary(t('phonetrack', 'File extension must be \'.gpx\' to be imported'));
+        if (!endsWith(path, '.gpx') && !endsWith(path, '.kml')) {
+            OC.Notification.showTemporary(t('phonetrack', 'File extension must be \'.gpx\' or \'.kml\' to be imported'));
         }
         else {
             showLoadingAnimation();
@@ -3965,8 +3965,18 @@
                         t('phonetrack', 'File does not exist')
                     );
                 }
-                // TODO 5 : error in gpx parsing
-                // 6 : no trk in gpx
+                else if (response.done === 5) {
+                    OC.Notification.showTemporary(
+                        t('phonetrack', 'Failed to import session') + '. ' +
+                        t('phonetrack', 'Malformed XML file')
+                    );
+                }
+                else if (response.done === 6) {
+                    OC.Notification.showTemporary(
+                        t('phonetrack', 'Failed to import session') + '. ' +
+                        t('phonetrack', 'There is no device to import in submitted file')
+                    );
+                }
             }).always(function() {
                 hideLoadingAnimation();
             }).fail(function() {
