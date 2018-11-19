@@ -2468,7 +2468,7 @@ class PageController extends Controller {
                     if ($response['done'] === 1) {
                         $token = $response['token'];
                         $publicviewtoken = $response['publicviewtoken'];
-                        $done = $this->parseGpxImportPoints($file->getContent(), $token);
+                        $done = $this->parseGpxImportPoints($file->getContent(), $file->getName(), $token);
                     }
                     else {
                         $done = 2;
@@ -2483,7 +2483,7 @@ class PageController extends Controller {
                         $publicviewtoken = $response['publicviewtoken'];
                         try {
                             $gpx_content = kmlToGpx($file->getContent());
-                            $done = $this->parseGpxImportPoints($gpx_content, $token);
+                            $done = $this->parseGpxImportPoints($gpx_content, $file->getName().' (converted to gpx)', $token);
                         }
                         catch (\Exception $e) {
                             $this->logger->error('Exception in '.$file->getName().' file import : '.$e->getMessage(), array('app' => $this->appName));
@@ -2529,17 +2529,17 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function parseGpxImportPoints($gpx_content, $token) {
+    private function parseGpxImportPoints($gpx_content, $gpx_name, $token) {
         try{
             $gpx = new \SimpleXMLElement($gpx_content);
         }
         catch (\Exception $e) {
-            $this->logger->error('Exception in '.$file->getName().' gpx parsing : '.$e->getMessage(), array('app' => $this->appName));
+            $this->logger->error('Exception in '.$gpx_name.' gpx parsing : '.$e->getMessage(), array('app' => $this->appName));
             return 5;
         }
 
         if (count($gpx->trk) === 0){
-            $this->logger->error('Nothing to parse in '.$file->getName().' gpx file', array('app' => $this->appName));
+            $this->logger->error('Nothing to parse in '.$gpx_name.' gpx file', array('app' => $this->appName));
             return 6;
         }
 
