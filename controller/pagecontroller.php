@@ -2839,33 +2839,43 @@ class PageController extends Controller {
                     }
                     $filterSql = $this->getSqlFilter($filterArray);
 
+                    // one file for the whole session
+                    if (!$oneFilePerDevice) {
+                        $gpxHeader = $this->generateGpxHeader($name, count($devices));
+                        if (! $dir->nodeExists($newFileName)) {
+                            $dir->newFile($newFileName);
+                        }
+                        $file = $dir->get($newFileName);
+                        $fd = $file->fopen('w');
+                        fwrite($fd, $gpxHeader);
+                    }
                     foreach ($devices as $d) {
                         $devid = $d[0];
                         $devname = $d[1];
-                        $coords[$devname] = $this->getDeviceCoords($devid, $devname, $filterSql);
-                        // generate a file for this device
+
+                        // generate a file for this device if needed
                         if ($oneFilePerDevice) {
-                            $devCoords = array($devname => $coords[$devname]);
-                            $gpxContent = $this->generateGpx($name, $devCoords);
+                            $gpxHeader = $this->generateGpxHeader($name);
                             // generate file name for this device
                             $devFileName = str_replace(array('.gpx', '.GPX'), '_'.$devname.'.gpx',  $newFileName);
                             if (! $dir->nodeExists($devFileName)) {
                                 $dir->newFile($devFileName);
                             }
                             $file = $dir->get($devFileName);
-                            if ($file->isUpdateable()) {
-                                $file->putContent($gpxContent);
-                            }
+                            $fd = $file->fopen('w');
+                            fwrite($fd, $gpxHeader);
+                        }
+
+                        $this->getAndWriteDeviceCoords($devid, $devname, $filterSql, $fd);
+
+                        if ($oneFilePerDevice) {
+                            fwrite($fd, '</gpx>');
+                            fclose($fd);
                         }
                     }
-                    // one file for the whole session
                     if (!$oneFilePerDevice) {
-                        $gpxContent = $this->generateGpx($name, $coords);
-                        if (! $dir->nodeExists($newFileName)) {
-                            $dir->newFile($newFileName);
-                        }
-                        $file = $dir->get($newFileName);
-                        $file->putContent($gpxContent);
+                        fwrite($fd, '</gpx>');
+                        fclose($fd);
                     }
                     $done = true;
                 }
@@ -2885,42 +2895,102 @@ class PageController extends Controller {
         return $response;
     }
 
-    private function getDeviceCoords($devid, $devname, $filterSql) {
-        $res = array();
+    private function getAndWriteDeviceCoords($devid, $devname, $filterSql, $fd) {
+        $done = 0;
         $sqlget = '
-            SELECT *
+            SELECT count(*) AS co
             FROM *PREFIX*phonetrack_points
             WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
         if ($filterSql !== '') {
             $sqlget .= 'AND '.$filterSql;
         }
-        $sqlget .= ' ORDER BY timestamp ASC ;';
+        $sqlget .= ' ;';
+        //$sqlget .= ' ORDER BY timestamp ASC ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
-        while ($row = $req->fetch()){
-            $epoch = $row['timestamp'];
-            $date = '';
-            if (is_numeric($epoch)) {
-                $epoch = (int)$epoch;
-                $dt = new \DateTime("@$epoch");
-                $date = $dt->format('Y-m-d\TH:i:s\Z');
-            }
-            $lat = $row['lat'];
-            $lon = $row['lon'];
-            $alt = $row['altitude'];
-            $acc = $row['accuracy'];
-            $bat = $row['batterylevel'];
-            $ua  = $row['useragent'];
-            $sat = $row['satellites'];
-            $speed = $row['speed'];
-            $bearing = $row['bearing'];
-
-            $point = array($lat, $lon, $date, $alt, $acc, $sat, $bat, $ua, $speed, $bearing);
-            array_push($res, $point);
+        $nbPoints = 0;
+        while ($row = $req->fetch()) {
+            $nbPoints = intval($row['co']);
         }
-        $req->closeCursor();
 
-        return $res;
+        if ($nbPoints > 0) {
+            $gpxText  = '<trk>' . "\n" . ' <name>' . $devname . '</name>' . "\n";
+            $gpxText .= ' <trkseg>' . "\n";
+            fwrite($fd, $gpxText);
+
+            $chunkSize = 10000;
+            $pointIndex = 0;
+
+            while ($pointIndex < $nbPoints) {
+                $gpxText = '';
+                $sqlget = '
+                    SELECT *
+                    FROM *PREFIX*phonetrack_points
+                    WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
+                if ($filterSql !== '') {
+                    $sqlget .= 'AND '.$filterSql;
+                }
+                $sqlget .= ' ORDER BY timestamp ASC LIMIT '.$pointIndex.','.$chunkSize.' ;';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()) {
+                    $epoch = $row['timestamp'];
+                    $date = '';
+                    if (is_numeric($epoch)) {
+                        $epoch = intval($epoch);
+                        $dt = new \DateTime("@$epoch");
+                        $date = $dt->format('Y-m-d\TH:i:s\Z');
+                    }
+                    $lat = $row['lat'];
+                    $lon = $row['lon'];
+                    $alt = $row['altitude'];
+                    $acc = $row['accuracy'];
+                    $bat = $row['batterylevel'];
+                    $ua  = $row['useragent'];
+                    $sat = $row['satellites'];
+                    $speed = $row['speed'];
+                    $bearing = $row['bearing'];
+
+                    $gpxExtension = '';
+                    $gpxText .= '  <trkpt lat="'.$lat.'" lon="'.$lon.'">' . "\n";
+                    $gpxText .= '   <time>' . $date . '</time>' . "\n";
+                    if (is_numeric($alt)) {
+                        $gpxText .= '   <ele>' . sprintf('%.2f', floatval($alt)) . '</ele>' . "\n";
+                    }
+                    if (is_numeric($speed) && floatval($speed) >= 0) {
+                        $gpxText .= '   <speed>' . sprintf('%.3f', floatval($speed)) . '</speed>' . "\n";
+                    }
+                    if (is_numeric($bearing) && floatval($bearing) >= 0 && floatval($bearing) <= 360) {
+                        $gpxText .= '   <course>' . sprintf('%.3f', floatval($bearing)) . '</course>' . "\n";
+                    }
+                    if (is_numeric($sat) && intval($sat) >= 0) {
+                        $gpxText .= '   <sat>' . intval($sat) . '</sat>' . "\n";
+                    }
+                    if (is_numeric($acc) && intval($acc) >= 0) {
+                        $gpxExtension .= '     <accuracy>' . sprintf('%.2f', floatval($acc)) . '</accuracy>' . "\n";
+                    }
+                    if (is_numeric($bat) && intval($bat) >= 0) {
+                        $gpxExtension .= '     <batterylevel>' . sprintf('%.2f', floatval($bat)) . '</batterylevel>' . "\n";
+                    }
+                    if ($ua !== '') {
+                        $gpxExtension .= '     <useragent>' . $ua . '</useragent>' . "\n";
+                    }
+                    if ($gpxExtension !== '') {
+                        $gpxText .= '   <extensions>'. "\n" . $gpxExtension;
+                        $gpxText .= '   </extensions>' . "\n";
+                    }
+                    $gpxText .= '  </trkpt>' . "\n";
+                }
+                // write the chunk !
+                fwrite($fd, $gpxText);
+                $pointIndex = $pointIndex + $chunkSize;
+            }
+            $gpxText  = ' </trkseg>' . "\n";
+            $gpxText .= '</trk>' . "\n";
+            fwrite($fd, $gpxText);
+
+        }
+        return $done;
     }
 
     private function getCurrentFilters($username='') {
@@ -3062,7 +3132,7 @@ class PageController extends Controller {
         return $sql;
     }
 
-    private function generateGpx($name, $coords) {
+    private function generateGpxHeader($name, $nbdev=0) {
         date_default_timezone_set('UTC');
         $dt = new \DateTime();
         $date = $dt->format('Y-m-d\TH:i:s\Z');
@@ -3084,53 +3154,10 @@ class PageController extends Controller {
             ' http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">' . "\n";
         $gpxText .= '<metadata>' . "\n" . ' <time>' . $date . '</time>' . "\n";
         $gpxText .= ' <name>' . $name . '</name>' . "\n";
-        $gpxText .= ' <desc>' . count($coords) . ' devices</desc>' . "\n";
-        $gpxText .= '</metadata>' . "\n";
-        foreach ($coords as $device => $points) {
-            $gpxText .= '<trk>' . "\n" . ' <name>' . $device . '</name>' . "\n";
-            $gpxText .= ' <trkseg>' . "\n";
-            foreach ($points as $point) {
-                $alt = $point[3];
-                $acc = $point[4];
-                $sat = $point[5];
-                $bat = $point[6];
-                $ua = $point[7];
-                $speed = $point[8];
-                $bearing = $point[9];
-                $gpxExtension = '';
-                $gpxText .= '  <trkpt lat="'.$point[0].'" lon="'.$point[1].'">' . "\n";
-                $gpxText .= '   <time>' . $point[2] . '</time>' . "\n";
-                if (is_numeric($alt)) {
-                    $gpxText .= '   <ele>' . sprintf('%.2f', floatval($alt)) . '</ele>' . "\n";
-                }
-                if (is_numeric($speed) && floatval($speed) >= 0) {
-                    $gpxText .= '   <speed>' . sprintf('%.3f', floatval($speed)) . '</speed>' . "\n";
-                }
-                if (is_numeric($bearing) && floatval($bearing) >= 0 && floatval($bearing) <= 360) {
-                    $gpxText .= '   <course>' . sprintf('%.3f', floatval($bearing)) . '</course>' . "\n";
-                }
-                if (is_numeric($sat) && intval($sat) >= 0) {
-                    $gpxText .= '   <sat>' . intval($sat) . '</sat>' . "\n";
-                }
-                if (is_numeric($acc) && intval($acc) >= 0) {
-                    $gpxExtension .= '     <accuracy>' . sprintf('%.2f', floatval($acc)) . '</accuracy>' . "\n";
-                }
-                if (is_numeric($bat) && intval($bat) >= 0) {
-                    $gpxExtension .= '     <batterylevel>' . sprintf('%.2f', floatval($bat)) . '</batterylevel>' . "\n";
-                }
-                if ($ua !== '') {
-                    $gpxExtension .= '     <useragent>' . $ua . '</useragent>' . "\n";
-                }
-                if ($gpxExtension !== '') {
-                    $gpxText .= '   <extensions>'. "\n" . $gpxExtension;
-                    $gpxText .= '   </extensions>' . "\n";
-                }
-                $gpxText .= '  </trkpt>' . "\n";
-            }
-            $gpxText .= ' </trkseg>' . "\n";
-            $gpxText .= '</trk>' . "\n";
+        if ($nbdev > 0) {
+            $gpxText .= ' <desc>' . $nbdev . ' device'.($nbdev > 1 ? 's' : '').'</desc>' . "\n";
         }
-        $gpxText .= '</gpx>';
+        $gpxText .= '</metadata>' . "\n";
         return $gpxText;
     }
 
