@@ -2485,14 +2485,7 @@ class PageController extends Controller {
                     if ($response['done'] === 1) {
                         $token = $response['token'];
                         $publicviewtoken = $response['publicviewtoken'];
-                        try {
-                            $gpx_content = kmlToGpx($file->getContent());
-                            $done = $this->parseGpxImportPoints($gpx_content, $file->getName().' (converted to gpx)', $token);
-                        }
-                        catch (\Exception $e) {
-                            $this->logger->error('Exception in '.$file->getName().' file import : '.$e->getMessage(), array('app' => $this->appName));
-                            $done = 5;
-                        }
+                        $done = $this->readKmlImportPoints($file, $file->getName(), $token);
                     }
                     else {
                         $done = 2;
@@ -2624,7 +2617,7 @@ class PageController extends Controller {
         while ($data = fread($fp, 4096000)) {
             if (!xml_parse($xml_parser, $data, feof($fp))) {
                 $this->logger->error(
-                    'Exception in '.$gpx_name.' gpx parsing at line '.
+                    'Exception in '.$gpx_name.' parsing at line '.
                       xml_get_current_line_number($xml_parser).' : '.
                       xml_error_string(xml_get_error_code($xml_parser)),
                     array('app' => $this->appName)
@@ -2640,88 +2633,90 @@ class PageController extends Controller {
         return 1;
     }
 
-    private function parseGpxImportPoints($gpx_content, $gpx_name, $token) {
-        try{
-            $gpx = new \SimpleXMLElement($gpx_content);
+    private function kmlStartElement($parser, $name, $attrs) {
+        //$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
+        $this->currentXmlTag = $name;
+        if ($name === 'GX:TRACK') {
+            $this->importDevName = 'device'.$this->trackIndex;
+            $this->pointIndex = 1;
+            $this->currentPointList = array();
         }
-        catch (\Exception $e) {
-            $this->logger->error('Exception in '.$gpx_name.' gpx parsing : '.$e->getMessage(), array('app' => $this->appName));
-            return 5;
+        else if ($name === 'WHEN') {
+            $this->currentPoint = array(null, null, null, $this->pointIndex, null, null,  null, null, null, null);
         }
+        //var_dump($attrs);
+    }
 
-        if (count($gpx->trk) === 0){
-            $this->logger->error('Nothing to parse in '.$gpx_name.' gpx file', array('app' => $this->appName));
-            return 6;
-        }
-
-        $trackIndex = 1;
-        $pointIndex = 1;
-        foreach($gpx->trk as $track){
-            $points = array();
-            $devicename = str_replace("\n", '', $track->name);
-            if (empty($devicename)){
-                $devicename = 'device '.$trackIndex;
+    private function kmlEndElement($parser, $name) {
+        if ($name === 'GX:TRACK') {
+            // log last track points
+            if (count($this->currentPointList) > 0) {
+                $this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
             }
-            $devicename = str_replace('"', "'", $devicename);
+            $this->trackIndex++;
+            unset($this->currentPointList);
+        }
+        else if ($name === 'GX:COORD') {
+            // store track point
+            array_push($this->currentPointList, $this->currentPoint);
+            // if we have enough points, we log them and clean the points array
+            if (count($this->currentPointList) >= 500) {
+                $this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
+                unset($this->currentPointList);
+                $this->currentPointList = array();
+            }
+            $this->pointIndex++;
+        }
+    }
 
-            foreach($track->trkseg as $segment) {
-                foreach($segment->trkpt as $point) {
-                    $lat = floatval($point['lat']);
-                    $lon = floatval($point['lon']);
-                    $acc = null;
-                    $bat = null;
-                    $sat = null;
-                    $ua  = '';
-                    $speed = null;
-                    $bearing = null;
-                    if (empty($point->time)) {
-                        $timestamp = $pointIndex;
+    private function kmlDataElement($parser, $data) {
+        //$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
+        $d = trim($data);
+        if (!empty($d)) {
+            if ($this->currentXmlTag === 'WHEN') {
+                $time = new \DateTime($d);
+                $timestamp = $time->getTimestamp();
+                $this->currentPoint[3] = $timestamp;
+            }
+            else if ($this->currentXmlTag === 'GX:COORD') {
+                $spl = explode(' ', $d);
+                if (count($spl) > 1) {
+                    $this->currentPoint[0] = floatval($spl[1]);
+                    $this->currentPoint[1] = floatval($spl[0]);
+                    if (count($spl) > 2) {
+                        $this->currentPoint[2] = floatval($spl[2]);
                     }
-                    else{
-                        $time = new \DateTime($point->time);
-                        $timestamp = $time->getTimestamp();
-                    }
-                    if (empty($point->ele)) {
-                        $ele = null;
-                    }
-                    else{
-                        $ele = floatval($point->ele);
-                    }
-                    if (!empty($point->speed)) {
-                        $speed = floatval($point->speed);
-                    }
-                    if (!empty($point->course)) {
-                        $bearing = floatval($point->course);
-                    }
-                    if (!empty($point->sat)) {
-                        $sat = intval($point->sat);
-                    }
-                    if (!empty($point->extensions)) {
-                        if (!empty($point->extensions->useragent)) {
-                            $ua = $point->extensions->useragent;
-                        }
-                        if (!empty($point->extensions->batterylevel)) {
-                            $bat = floatval($point->extensions->batterylevel);
-                        }
-                        if (!empty($point->extensions->accuracy)) {
-                            $acc = floatval($point->extensions->accuracy);
-                        }
-                    }
-                    if (!is_null($lat) and $lat !== '' and
-                        !is_null($lon) and $lon !== '' and
-                        !is_null($timestamp) and $timestamp !== ''
-                    ) {
-                        array_push($points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing));
-                    }
-                    $pointIndex++;
                 }
             }
-            if (count($points) > 0) {
-                $this->logMultiple($token, $devicename, $points);
-            }
-            $trackIndex++;
         }
+    }
 
+    private function readKmlImportPoints($kml_file, $kml_name, $token) {
+        $this->importToken = $token;
+        $this->trackIndex = 1;
+        $xml_parser = xml_parser_create();
+        xml_set_object($xml_parser, $this);
+        xml_set_element_handler($xml_parser, 'kmlStartElement', 'kmlEndElement');
+        xml_set_character_data_handler($xml_parser, 'kmlDataElement');
+
+        $fp = $kml_file->fopen('r');
+
+        while ($data = fread($fp, 4096000)) {
+            if (!xml_parse($xml_parser, $data, feof($fp))) {
+                $this->logger->error(
+                    'Exception in '.$kml_name.' parsing at line '.
+                      xml_get_current_line_number($xml_parser).' : '.
+                      xml_error_string(xml_get_error_code($xml_parser)),
+                    array('app' => $this->appName)
+                );
+                return 5;
+            }
+        }
+        fclose($fp);
+        xml_parser_free($xml_parser);
+        if ($this->trackIndex === 1) {
+            return 6;
+        }
         return 1;
     }
 
