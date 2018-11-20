@@ -2637,7 +2637,12 @@ class PageController extends Controller {
         //$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
         $this->currentXmlTag = $name;
         if ($name === 'GX:TRACK') {
-            $this->importDevName = 'device'.$this->trackIndex;
+            if (array_key_exists('ID', $attrs)) {
+                $this->importDevName = $attrs['ID'];
+            }
+            else {
+                $this->importDevName = 'device'.$this->trackIndex;
+            }
             $this->pointIndex = 1;
             $this->currentPointList = array();
         }
