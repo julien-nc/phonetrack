@@ -82,6 +82,13 @@ class PageController extends Controller {
     private $defaultDeviceId;
     private $logger;
     protected $appName;
+    private $currentXmlTag;
+    private $importToken;
+    private $importDevName;
+    private $currentPoint;
+    private $currentPointList;
+    private $trackIndex;
+    private $pointIndex;
 
     public function __construct($AppName, IRequest $request, $UserId,
                                 $userfolder, $config, $shareManager,
@@ -91,9 +98,6 @@ class PageController extends Controller {
         $this->logger = $logger;
         $this->appName = $AppName;
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
-        // just to keep Owncloud compatibility
-        // the first case : Nextcloud
-        // else : Owncloud
         if (method_exists($appManager, 'getAppPath')){
             $this->appPath = $appManager->getAppPath('phonetrack');
         }
@@ -2468,7 +2472,7 @@ class PageController extends Controller {
                     if ($response['done'] === 1) {
                         $token = $response['token'];
                         $publicviewtoken = $response['publicviewtoken'];
-                        $done = $this->parseGpxImportPoints($file->getContent(), $file->getName(), $token);
+                        $done = $this->readGpxImportPoints($file, $file->getName(), $token);
                     }
                     else {
                         $done = 2;
@@ -2527,6 +2531,110 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    private function gpxStartElement($parser, $name, $attrs) {
+        //$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
+        $this->currentXmlTag = $name;
+        if ($name === 'TRK') {
+            $this->importDevName = 'device'.$this->trackIndex;
+            $this->pointIndex = 1;
+            $this->currentPointList = array();
+        }
+        else if ($name === 'TRKPT') {
+            $this->currentPoint = array(null, null, null, $this->pointIndex, null, null,  null, null, null, null);
+            if (array_key_exists('LAT', $attrs)) {
+                $this->currentPoint[0] = floatval($attrs['LAT']);
+            }
+            if (array_key_exists('LON', $attrs)) {
+                $this->currentPoint[1] = floatval($attrs['LON']);
+            }
+        }
+        //var_dump($attrs);
+    }
+
+    private function gpxEndElement($parser, $name) {
+        if ($name === 'TRK') {
+            // log last track points
+            if (count($this->currentPointList) > 0) {
+                $this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
+            }
+            $this->trackIndex++;
+            unset($this->currentPointList);
+        }
+        else if ($name === 'TRKPT') {
+            // store track point
+            array_push($this->currentPointList, $this->currentPoint);
+            // if we have enough points, we log them and clean the points array
+            if (count($this->currentPointList) >= 500) {
+                $this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
+                unset($this->currentPointList);
+                $this->currentPointList = array();
+            }
+            $this->pointIndex++;
+        }
+    }
+
+    private function gpxDataElement($parser, $data) {
+        //$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
+        $d = trim($data);
+        if (!empty($d)) {
+            if ($this->currentXmlTag === 'ELE') {
+                $this->currentPoint[2] = floatval($d);
+            }
+            else if ($this->currentXmlTag === 'SPEED') {
+                $this->currentPoint[8] = floatval($d);
+            }
+            else if ($this->currentXmlTag === 'SAT') {
+                $this->currentPoint[6] = intval($d);
+            }
+            else if ($this->currentXmlTag === 'COURSE') {
+                $this->currentPoint[9] = floatval($d);
+            }
+            else if ($this->currentXmlTag === 'USERAGENT') {
+                $this->currentPoint[7] = $d;
+            }
+            else if ($this->currentXmlTag === 'BATTERYLEVEL') {
+                $this->currentPoint[5] = floatval($d);
+            }
+            else if ($this->currentXmlTag === 'ACCURACY') {
+                $this->currentPoint[4] = floatval($d);
+            }
+            else if ($this->currentXmlTag === 'TIME') {
+                $time = new \DateTime($d);
+                $timestamp = $time->getTimestamp();
+                $this->currentPoint[3] = $timestamp;
+            }
+            else if ($this->currentXmlTag === 'NAME') {
+                $this->importDevName = $d;
+            }
+        }
+    }
+
+    private function readGpxImportPoints($gpx_file, $gpx_name, $token) {
+        $this->importToken = $token;
+        $this->trackIndex = 1;
+        $xml_parser = xml_parser_create();
+        xml_set_object($xml_parser, $this);
+        xml_set_element_handler($xml_parser, 'gpxStartElement', 'gpxEndElement');
+        xml_set_character_data_handler($xml_parser, 'gpxDataElement');
+
+        $fp = $gpx_file->fopen('r');
+
+        while ($data = fread($fp, 4096000)) {
+            if (!xml_parse($xml_parser, $data, feof($fp))) {
+                $this->logger->error(
+                    'Exception in '.$gpx_name.' gpx parsing at line '.
+                      xml_get_current_line_number($xml_parser).' : '.
+                      xml_error_string(xml_get_error_code($xml_parser)),
+                    array('app' => $this->appName)
+                );
+                return 5;
+            }
+        }
+        fclose($fp);
+        xml_parser_free($xml_parser);
+        return 1;
     }
 
     private function parseGpxImportPoints($gpx_content, $gpx_name, $token) {
@@ -3965,7 +4073,7 @@ class PageController extends Controller {
                 array_push($valuesStrings, $oneVal);
             }
 
-            // insert by packets of 50
+            // insert by packets of 500
             while ($valuesStrings !== null and count($valuesStrings) > 0) {
                 $c = 0;
                 $values = '';
@@ -3989,7 +4097,6 @@ class PageController extends Controller {
                 $req->closeCursor();
             }
 
-            $this->logger->error("Device imported from GPX", array('app' => $this->appName));
             $done = 1;
         }
         else {

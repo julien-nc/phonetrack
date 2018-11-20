@@ -3672,7 +3672,7 @@
             speed_kmph = parseFloat(entry.speed) * 3.6;
             speed_kmph = speed_kmph.toFixed(3);
         }
-        res = res + '<td><input role="speed" type="number" value="' + speed_kmph + '" min="-1"/>km/h</td>';
+        res = res + '<td><input role="speed" type="number" value="' + speed_kmph + '" min="-1" step="0.01"/>km/h</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Bearing') + '">';
         res = res + '<td><i class="fa fa-compass" style="font-size: 20px;"></td>';
         res = res + '<td><input role="bearing" type="number" value="' + entry.bearing + '" min="-1" max="360"/>°</td>';
