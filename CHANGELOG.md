@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- add fontawesome brand icons, use gitlab one
+- ability to import google timeline kml export
+[#172](https://gitlab.com/eneiluj/phonetrack-oc/issues/172) @FloThinksPi
+
+### Changed
+
+### Fixed
+- import/export are now memory efficient, whatever size is the data
+[#172](https://gitlab.com/eneiluj/phonetrack-oc/issues/172) @FloThinksPi
+- fix email notifications (geofence and proxim) : use alias in priority, then name. works with name reservation
+[#173](https://gitlab.com/eneiluj/phonetrack-oc/issues/173) @mychalwipf
 
 ## 0.3.8 – 2018-11-18
 ### Added
