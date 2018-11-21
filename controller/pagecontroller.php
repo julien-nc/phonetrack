@@ -5,7 +5,7 @@
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
- * @author Julien Veyssier <eneiluj@gmx.fr>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @copyright Julien Veyssier 2017
  */
 
@@ -25,8 +25,6 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
-
-require_once('conversion.php');
 
 function distance($lat1, $long1, $lat2, $long2){
 
@@ -3141,7 +3139,7 @@ class PageController extends Controller {
             ' xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3"' .
             ' xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1"' .
             ' xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"' .
-            ' creator="PhoneTrack Owncloud/Nextcloud app ' .
+            ' creator="PhoneTrack Nextcloud app ' .
             $this->appVersion. '" version="1.1"' .
             ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
             ' xsi:schemaLocation="http://www.topografix.com/GPX/1/1' .

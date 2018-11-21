@@ -1,11 +1,11 @@
 <?php
 /**
- * ownCloud - phonetrack
+ * Nextcloud - phonetrack
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
- * @author Julien Veyssier <eneiluj@gmx.fr>
+ * @author Julien Veyssier <eneiluj@posteo.net>
  * @copyright Julien Veyssier 2017
  */
 
@@ -89,7 +89,6 @@ class LogController extends Controller {
     private $dbconnection;
     private $dbtype;
     private $dbdblquotes;
-    private $appPath;
     private $defaultDeviceName;
     private $trans;
     private $userManager;
@@ -102,12 +101,6 @@ class LogController extends Controller {
                                 IAppManager $appManager, $userManager, IL10N $trans, ILogger $ncLogger){
         parent::__construct($AppName, $request);
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
-        // just to keep Owncloud compatibility
-        // the first case : Nextcloud
-        // else : Owncloud
-        if (method_exists($appManager, 'getAppPath')){
-            $this->appPath = $appManager->getAppPath('phonetrack');
-        }
         $this->userId = $UserId;
         $this->trans = $trans;
         $this->ncLogger = $ncLogger;

@@ -1,16 +1,15 @@
 <?php
 /**
- * ownCloud - phonetrack
+ * Nextcloud - phonetrack
  *
+ * This file is licensed under the Affero General Public License version 3 or
+ * later. See the COPYING file.
  *
- * @author
- *
- * @copyright
+ * @author Julien Veyssier <eneiluj@posteo.net>
+ * @copyright Julien Veyssier 2017
  */
 
 namespace OCA\PhoneTrack\AppInfo;
-
-
 
 use OCP\IContainer;
 
