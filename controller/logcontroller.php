@@ -226,6 +226,22 @@ class LogController extends Controller {
         return $owner;
     }
 
+    private function getDeviceAlias($devid) {
+        $dbalias = null;
+        $sqlget = '
+            SELECT alias
+            FROM *PREFIX*phonetrack_devices
+            WHERE id='.$this->db_quote_escape_string($devid).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbalias = $row['alias'];
+        }
+        $req->closeCursor();
+
+        return $dbalias;
+    }
+
     private function getDeviceName($devid) {
         $dbname = null;
         $sqlget = '
@@ -287,6 +303,10 @@ class LogController extends Controller {
                     }
                     $dev1name = $movingDeviceName;
                     $dev2name = $this->getDeviceName($otherDeviceId);
+                    $dev2alias = $this->getDeviceAlias($otherDeviceId);
+                    if (!empty($dev2alias)) {
+                        $dev2name = $dev2alias.' ('.$dev2name.')';
+                    }
 
                     $user = $this->userManager->get($userid);
                     $userEmail = $user->getEMailAddress();
@@ -366,6 +386,10 @@ class LogController extends Controller {
                     }
                     $dev1name = $movingDeviceName;
                     $dev2name = $this->getDeviceName($otherDeviceId);
+                    $dev2alias = $this->getDeviceAlias($otherDeviceId);
+                    if (!empty($dev2alias)) {
+                        $dev2name = $dev2alias.' ('.$dev2name.')';
+                    }
 
                     $user = $this->userManager->get($userid);
                     $userEmail = $user->getEMailAddress();
@@ -846,12 +870,14 @@ class LogController extends Controller {
             $req->closeCursor();
 
             if ($dbname !== null) {
+                $humanReadableDeviceName = $devicename;
                 // check if this devicename is reserved or exists
                 $dbdevicename = null;
+                $dbdevicealias = null;
                 $dbdevicenametoken = null;
                 $deviceidToInsert = null;
                 $sqlgetres = '
-                    SELECT id, name, nametoken
+                    SELECT id, name, nametoken, alias
                     FROM *PREFIX*phonetrack_devices
                     WHERE sessionid='.$this->db_quote_escape_string($token).'
                           AND name='.$this->db_quote_escape_string($devicename).' ;';
@@ -860,12 +886,19 @@ class LogController extends Controller {
                 while ($row = $req->fetch()){
                     $dbdeviceid = $row['id'];
                     $dbdevicename = $row['name'];
+                    $dbdevicealias = $row['alias'];
                     $dbdevicenametoken = $row['nametoken'];
                 }
                 $req->closeCursor();
 
                 // the device exists
                 if ($dbdevicename !== null) {
+                    if (!empty($dbdevicealias)) {
+                        $humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
+                    }
+                    else {
+                        $humanReadableDeviceName = $dbdevicename;
+                    }
                     // this device id reserved => logging refused if the request does not come from correct user
                     if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
                         // here, we check if we're logged in as the session owner
@@ -886,8 +919,9 @@ class LogController extends Controller {
                     // check if the device name corresponds to a nametoken
                     $dbdevicenametoken = null;
                     $dbdevicename = null;
+                    $dbdevicealias = null;
                     $sqlgetres = '
-                        SELECT id, name, nametoken
+                        SELECT id, name, nametoken, alias
                         FROM *PREFIX*phonetrack_devices
                         WHERE sessionid='.$this->db_quote_escape_string($token).'
                               AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
@@ -896,6 +930,7 @@ class LogController extends Controller {
                     while ($row = $req->fetch()){
                         $dbdeviceid = $row['id'];
                         $dbdevicename = $row['name'];
+                        $dbdevicealias = $row['alias'];
                         $dbdevicenametoken = $row['nametoken'];
                     }
                     $req->closeCursor();
@@ -903,6 +938,12 @@ class LogController extends Controller {
                     // there is a device which has this nametoken => we log for this device
                     if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
                         $deviceidToInsert = $dbdeviceid;
+                        if (!empty($dbdevicealias)) {
+                            $humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
+                        }
+                        else {
+                            $humanReadableDeviceName = $dbdevicename;
+                        }
                     }
                     else {
                         // device does not exist and there is no reservation corresponding
@@ -947,8 +988,8 @@ class LogController extends Controller {
                 }
 
                 // geofences, proximity alerts, quota
-                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
-                $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $devicename, $dbname);
+                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+                $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
                 $quotaClearance = $this->checkQuota($deviceidToInsert, $userid);
 
                 if (!$quotaClearance) {
