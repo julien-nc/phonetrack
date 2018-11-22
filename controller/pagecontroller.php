@@ -1309,7 +1309,7 @@ class PageController extends Controller {
      */
     public function setDeviceAlias($token, $deviceid, $newalias) {
         $ok = 0;
-        if ($newalias !== null and $newalias !== '') {
+        if ($newalias !== null) {
             // check if session exists
             $sqlchk = '
                 SELECT name, token
