@@ -1335,7 +1335,7 @@
 
         changeApplyFilter();
         // save filters in options
-        saveOptions(filterKeys);
+        saveOptions(filterKeys, $('#applyfilters').is(':checked'));
     }
 
     //////////////// SYMBOLS /////////////////////
