@@ -1070,10 +1070,15 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $data['done'];
         $this->assertEquals($resp, 3);
 
-        $resp = $this->pageController->setDeviceAlias($token, $deviceid, '');
+        $resp = $this->pageController->setDeviceAlias($token, $deviceid, null);
         $data = $resp->getData();
         $resp = $data['done'];
         $this->assertEquals($resp, 4);
+
+        $resp = $this->pageController->setDeviceAlias($token, $deviceid, '');
+        $data = $resp->getData();
+        $resp = $data['done'];
+        $this->assertEquals($resp, 1);
 
         // STRESS TRACK
         $sessions = null;
