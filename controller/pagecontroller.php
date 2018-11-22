@@ -184,6 +184,7 @@ class PageController extends Controller {
             'publicsessionname'=>'',
             'lastposonly'=>'',
             'sharefilters'=>'',
+            'filtersBookmarks'=>$this->getFiltersBookmarks(),
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);
@@ -2431,6 +2432,7 @@ class PageController extends Controller {
             'publicsessionname'=>$dbname,
             'lastposonly'=>$lastposonly,
             'sharefilters'=>$filters,
+            'filtersBookmarks'=>[],
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);
@@ -3688,6 +3690,121 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
+    public function addFiltersBookmark($name, $filters) {
+        $ok = 0;
+        $bookid = null;
+        // check there is no bookmark with this name already
+        $sqlchk = '
+            SELECT name
+            FROM *PREFIX*phonetrack_filtersb
+            WHERE name='.$this->db_quote_escape_string($name).'
+                  AND username='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbbookname = null;
+        while ($row = $req->fetch()){
+            $dbbookname = $row['name'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbbookname === null) {
+            // insert
+            $sql = '
+                INSERT INTO *PREFIX*phonetrack_filtersb
+                (username, name, filterjson)
+                VALUES ('.
+                     $this->db_quote_escape_string($this->userId).','.
+                     $this->db_quote_escape_string($name).','.
+                     $this->db_quote_escape_string($filters).'
+                ) ;';
+            $req = $this->dbconnection->prepare($sql);
+            $req->execute();
+            $req->closeCursor();
+
+            $sqlchk = '
+                SELECT id
+                FROM *PREFIX*phonetrack_filtersb
+                WHERE name='.$this->db_quote_escape_string($name).'
+                      AND username='.$this->db_quote_escape_string($this->userId).' ;';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $bookid = $row['id'];
+                break;
+            }
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok,
+                'bookid'=>$bookid
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteFiltersBookmark($bookid) {
+        $ok = 0;
+        $sqldel = '
+            DELETE FROM *PREFIX*phonetrack_filtersb
+            WHERE id='.$this->db_quote_escape_string($bookid).'
+                  AND username='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sqldel);
+        $req->execute();
+        $req->closeCursor();
+
+        $ok = 1;
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    private function getFiltersBookmarks() {
+        $res = [];
+        $sql = '
+            SELECT id, username, name, filterjson
+            FROM *PREFIX*phonetrack_filtersb
+            WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sql);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $bookid = $row['id'];
+            $name = $row['name'];
+            $filters = $row['filterjson'];
+            $res[$bookid] = [$name, $filters];
+        }
+        $req->closeCursor();
+
+        return $res;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
     public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax,
                                 $urlenter, $urlleave, $urlenterpost, $urlleavepost, $sendemail, $emailaddr) {
         $ok = 0;
@@ -3767,6 +3884,39 @@ class PageController extends Controller {
             [
                 'done'=>$ok,
                 'fenceid'=>$fenceid
+            ]
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function deleteGeofence($token, $device, $fenceid) {
+        $ok = 0;
+        if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+            $sqldel = '
+                DELETE FROM *PREFIX*phonetrack_geofences
+                WHERE deviceid='.$this->db_quote_escape_string($device).'
+                      AND id='.$this->db_quote_escape_string($fenceid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+
+            $ok = 1;
+        }
+        else {
+            $ok = 2;
+        }
+
+        $response = new DataResponse(
+            [
+                'done'=>$ok
             ]
         );
         $csp = new ContentSecurityPolicy();
@@ -3924,39 +4074,6 @@ class PageController extends Controller {
 
                 $ok = 1;
             }
-        }
-        else {
-            $ok = 2;
-        }
-
-        $response = new DataResponse(
-            [
-                'done'=>$ok
-            ]
-        );
-        $csp = new ContentSecurityPolicy();
-        $csp->addAllowedImageDomain('*')
-            ->addAllowedMediaDomain('*')
-            ->addAllowedConnectDomain('*');
-        $response->setContentSecurityPolicy($csp);
-        return $response;
-    }
-
-    /**
-     * @NoAdminRequired
-     */
-    public function deleteGeofence($token, $device, $fenceid) {
-        $ok = 0;
-        if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
-            $sqldel = '
-                DELETE FROM *PREFIX*phonetrack_geofences
-                WHERE deviceid='.$this->db_quote_escape_string($device).'
-                      AND id='.$this->db_quote_escape_string($fenceid).' ;';
-            $req = $this->dbconnection->prepare($sqldel);
-            $req->execute();
-            $req->closeCursor();
-
-            $ok = 1;
         }
         else {
             $ok = 2;

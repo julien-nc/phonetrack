@@ -631,6 +631,39 @@ if (count($_['useroverlayserverswms']) > 0){
     <td><button class="resetFilterButton"><i class="fa fa-undo" aria-hidden="true"></i></button></td>
 </tr>
 </table>
+
+<hr/>
+<input id="filtername" type="text" maxlength="100" value="<?php p($l->t('bookmark name')); ?>"/>
+<button id="savefilters"><i class="far fa-save" aria-hidden="true"></i>
+<?php p($l->t('Save filter bookmark')); ?>
+</button>
+<ul id="filterbookmarks">
+<?php
+foreach ($_['filtersBookmarks'] as $bookid => $e) {
+    $name = $e[0];
+    $filters = json_decode($e[1], True);
+    echo '<li bookid="';
+    p($bookid);
+    echo '" name="';
+    p($name);
+    echo '" title="';
+    foreach ($filters as $fs => $fv) {
+        p($fs);
+        echo ' : ';
+        p($fv);
+        echo "\n";
+    }
+    echo '"><label class="booklabel">';
+    p($name);
+    echo '</label>
+          <button class="deletebookbutton"><i class="fa fa-trash"></i></button>
+          <button class="applybookbutton"><i class="fa fa-filter"></i></button>
+          <p class="filterstxt" style="display:none;">';
+    p($e[1]);
+    echo '</p></li>';
+}
+?>
+</ul>
 </div>
 
 </div>

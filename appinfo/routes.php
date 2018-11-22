@@ -61,6 +61,8 @@ return [
         ['name' => 'page#setPublicShareGeofencify', 'url' => '/setPublicShareGeofencify', 'verb' => 'POST'],
         ['name' => 'page#addNameReservation', 'url' => '/addNameReservation', 'verb' => 'POST'],
         ['name' => 'page#deleteNameReservation', 'url' => '/deleteNameReservation', 'verb' => 'POST'],
+        ['name' => 'page#addFiltersBookmark', 'url' => '/addFiltersBookmark', 'verb' => 'POST'],
+        ['name' => 'page#deleteFiltersBookmark', 'url' => '/deleteFiltersBookmark', 'verb' => 'POST'],
         ['name' => 'page#addGeofence', 'url' => '/addGeofence', 'verb' => 'POST'],
         ['name' => 'page#deleteGeofence', 'url' => '/deleteGeofence', 'verb' => 'POST'],
         ['name' => 'page#addProxim', 'url' => '/addProxim', 'verb' => 'POST'],

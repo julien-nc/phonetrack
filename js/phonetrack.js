@@ -99,7 +99,7 @@
         deviceIds: {},
         filtersEnabled: false,
         filterValues: {},
-        NSEWClick: {}
+        NSEWClick: {},
     };
 
     var offset = L.point(-7, 0);
@@ -1236,6 +1236,106 @@
                 );
             });
         }
+    }
+
+    function addFiltersBookmarkDb(e) {
+        var name = $('#filtername').val();
+        if (name === '') {
+            t('phonetrack', 'Filter bookmark should have a name');
+            return;
+        }
+        var filters = {};
+        $('#filterPointsTable input[type=date], #filterPointsTable input[type=number]').each(function () {
+            var val = $(this).val();
+            var id = $(this).attr('id');
+            if (val !== '') {
+                filters[id] = val;
+            }
+        });
+
+        var req = {
+            name: name,
+            filters: JSON.stringify(filters),
+        };
+        var url = OC.generateUrl('/apps/phonetrack/addFiltersBookmark');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                addFiltersBookmark(name, filters, response.bookid);
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Failed to contact server to save filters bookmark')
+            );
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Reload this page')
+            );
+        });
+    }
+
+    function addFiltersBookmark(name, filters, bookid) {
+        var f = filters;
+
+        var li = '<li bookid="' + bookid + '" name="' + escapeHTML(name || '') + '" title="';
+        for (var fname in f) {
+            li = li + fname + ' : ' + f[fname] + '\n';
+        }
+        li = li + '">' +
+            '<label class="booklabel">'+escapeHTML(name || '')+'</label>' +
+            '<button class="deletebookbutton"><i class="fa fa-trash"></i></button>' +
+            '<button class="applybookbutton"><i class="fa fa-filter"></i></button>' +
+            '<p class="filterstxt" style="display:none;">' + JSON.stringify(filters) + '</p>' +
+            '</li>';
+        $('#filterbookmarks').append(li);
+    }
+
+    function deleteFiltersBookmarkDb(elem) {
+        var name =   elem.parent().attr('name');
+        var bookid = elem.parent().attr('bookid');
+
+        var req = {
+            bookid: bookid
+        };
+        var url = OC.generateUrl('/apps/phonetrack/deleteFiltersBookmark');
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: req,
+            async: true
+        }).done(function (response) {
+            if (response.done === 1) {
+                $('#filterbookmarks li[bookid='+bookid+']').remove();
+            }
+        }).fail(function() {
+            OC.Notification.showTemporary(
+                t('phonetrack', 'Failed to contact server to delete filters bookmark')
+            );
+        });
+    }
+
+    function applyFiltersBookmark(elem) {
+        var filterKeys = [];
+        // reset filters
+        $('#filterPointsTable input[type=date], #filterPointsTable input[type=number]').each(function () {
+            $(this).val('');
+            filterKeys.push($(this).attr('id'));
+        });
+
+        // apply
+        var bname = elem.parent().attr('name');
+        var filterstxt = elem.parent().find('.filterstxt').text();
+        var f = $.parseJSON(filterstxt);
+        for (var id in f) {
+            $('#'+id).val(f[id]);
+        }
+
+        changeApplyFilter();
+        // save filters in options
+        saveOptions(filterKeys);
     }
 
     //////////////// SYMBOLS /////////////////////
@@ -6449,6 +6549,16 @@
             if (!pageIsPublic()) {
                 saveOptions('showsidebar');
             }
+        });
+
+        $('#savefilters').click(addFiltersBookmarkDb);
+
+        $('body').on('click', '.deletebookbutton', function(e) {
+            deleteFiltersBookmarkDb($(this));
+        });
+
+        $('body').on('click', '.applybookbutton', function(e) {
+            applyFiltersBookmark($(this));
         });
 
         $('body').on('mouseenter', '.reservNameButton', function(e) {
