@@ -511,6 +511,7 @@ input[type=date] {
 ul.devicelist li .deviceLabel{
     cursor: pointer;
 }
+#filterbookmarks li,
 ul.devicelist li {
     border-radius: 5px;
     /*height: 40px;*/
@@ -864,14 +865,17 @@ div#createimportsessiondiv button {
 .publicFilteredShareUrl {
     width: 80% !important;
 }
+#filterbookmarks li button:hover i,
 .proximlist li button:hover i,
 .geofencelist li button:hover i{
     color: var(--color-main-text);
 }
+#filterbookmarks li button i,
 .proximlist li button i,
 .geofencelist li button i{
     color: var(--color-text-lighter);
 }
+#filterbookmarks li button,
 .proximlist li button,
 .geofencelist li button,
 .deletePublicFilteredShare {
@@ -933,10 +937,12 @@ label[for=autoexportpath], #autoexportpath {
 #countdown {
     display: inline;
 }
+#filterbookmarks li,
 .proximlist li,
 .geofencelist li {
     padding: 0 !important;
 }
+#filterbookmarks li,
 .proximlist li,
 .geofencelist li,
 .filteredshare {
@@ -963,15 +969,21 @@ input.geofencename {
 #loadingnotification {
     padding-top: 7px;
 }
-.deleteproximbutton, .zoomgeofencebutton, .deletegeofencebutton {
+.deletebookbutton,
+.applybookbutton,
+.deleteproximbutton,
+.zoomgeofencebutton,
+.deletegeofencebutton {
     float: right;
 }
+.booklabel,
 .proximlabel,
 .geofencelabel {
     float: left;
     line-height: 30px;
     padding: 0px 10px 0px 10px;
 }
+#filterbookmarks li,
 .proximlist li,
 .geofencelist li {
     display: flow-root;

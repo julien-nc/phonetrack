@@ -1286,8 +1286,8 @@
         }
         li = li + '">' +
             '<label class="booklabel">'+escapeHTML(name || '')+'</label>' +
-            '<button class="deletebookbutton"><i class="fa fa-trash"></i></button>' +
             '<button class="applybookbutton"><i class="fa fa-filter"></i></button>' +
+            '<button class="deletebookbutton"><i class="fa fa-trash"></i></button>' +
             '<p class="filterstxt" style="display:none;">' + JSON.stringify(filters) + '</p>' +
             '</li>';
         $('#filterbookmarks').append(li);
@@ -6557,7 +6557,7 @@
             deleteFiltersBookmarkDb($(this));
         });
 
-        $('body').on('click', '.applybookbutton', function(e) {
+        $('body').on('click', '.applybookbutton, .booklabel', function(e) {
             applyFiltersBookmark($(this));
         });
 

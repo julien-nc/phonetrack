@@ -656,8 +656,8 @@ foreach ($_['filtersBookmarks'] as $bookid => $e) {
     echo '"><label class="booklabel">';
     p($name);
     echo '</label>
-          <button class="deletebookbutton"><i class="fa fa-trash"></i></button>
           <button class="applybookbutton"><i class="fa fa-filter"></i></button>
+          <button class="deletebookbutton"><i class="fa fa-trash"></i></button>
           <p class="filterstxt" style="display:none;">';
     p($e[1]);
     echo '</p></li>';
