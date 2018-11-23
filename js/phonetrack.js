@@ -6351,7 +6351,6 @@
 
         $('body').on('click','.resetFilterButton', function(e) {
             var tr = $(this).parent().parent();
-            changeApplyFilter();
             if (!pageIsPublic()) {
                 var l = [];
                 tr.find('input[type=date]').each(function () {
@@ -6367,6 +6366,7 @@
                     saveOptions(l, $('#applyfilters').is(':checked'));
                 }
             }
+            changeApplyFilter();
         });
 
         $('#togglestats').click(function() {
