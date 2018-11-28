@@ -28,6 +28,7 @@ return [
         ['name' => 'page#updatePoint', 'url' => '/updatePoint', 'verb' => 'POST'],
         ['name' => 'log#addPoint', 'url' => '/addPoint', 'verb' => 'POST'],
         ['name' => 'page#getSessions', 'url' => '/getSessions', 'verb' => 'POST'],
+        ['name' => 'page#APIgetSessions', 'url' => '/APIgetSessions', 'verb' => 'GET'],
         ['name' => 'page#APIgetLastPositions', 'url' => '/APIgetLastPositions/{sessionid}', 'verb' => 'GET'],
         ['name' => 'page#importSession', 'url' => '/importSession', 'verb' => 'POST'],
         ['name' => 'page#renameSession', 'url' => '/renameSession', 'verb' => 'POST'],

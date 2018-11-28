@@ -281,6 +281,65 @@ class PageController extends Controller {
         return $response;
     }
 
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     *
+     * get sessions owned by and shared with current user
+     */
+    public function APIgetSessions() {
+        $sessions = array();
+        // sessions owned by current user
+        $sqlget = '
+            SELECT name, token, publicviewtoken, public, autoexport, autopurge
+            FROM *PREFIX*phonetrack_sessions
+            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbname = $row['name'];
+            $dbtoken = $row['token'];
+            $sharedWith = $this->getUserShares($dbtoken);
+            $dbpublicviewtoken = $row['publicviewtoken'];
+            $dbpublic = $row['public'];
+            $dbautoexport = $row['autoexport'];
+            $dbautopurge = $row['autopurge'];
+            $reservedNames = $this->getReservedNames($dbtoken);
+            $publicShares = $this->getPublicShares($dbtoken);
+            $devices = $this->getDevices($dbtoken);
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge));
+        }
+        $req->closeCursor();
+
+        // sessions shared with current user
+        $sqlgetshares = '
+            SELECT sessionid, sharetoken
+            FROM *PREFIX*phonetrack_shares
+            WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sqlgetshares);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbsessionid = $row['sessionid'];
+            $dbsharetoken = $row['sharetoken'];
+            $sessionInfo = $this->getSessionInfo($dbsessionid);
+            $dbname = $sessionInfo['name'];
+            $dbuser = $sessionInfo['user'];
+            $devices = $this->getDevices($dbsessionid);
+            array_push($sessions, array($dbname, $dbsharetoken, $dbuser, $devices));
+        }
+        $req->closeCursor();
+
+        $response = new DataResponse(
+            $sessions
+        );
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
     private function getDevices($sessionid) {
         $devices = array();
         $sqlget = '
