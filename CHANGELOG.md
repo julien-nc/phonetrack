@@ -5,18 +5,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.3.9 – 2018-11-28
 ### Added
 - add fontawesome brand icons, use gitlab one
 - ability to import google timeline kml export
 [#172](https://gitlab.com/eneiluj/phonetrack-oc/issues/172) @FloThinksPi
+- new feature : save/load filters bookmarks
+[#171](https://gitlab.com/eneiluj/phonetrack-oc/issues/171) @CH5525
+- add API route to get session list
 
 ### Changed
+- max NC version : 15
+[#176](https://gitlab.com/eneiluj/phonetrack-oc/issues/176) @tacruc
 
 ### Fixed
 - import/export are now memory efficient, whatever size is the data
 [#172](https://gitlab.com/eneiluj/phonetrack-oc/issues/172) @FloThinksPi
 - fix email notifications (geofence and proxim) : use alias in priority, then name. works with name reservation
 [#173](https://gitlab.com/eneiluj/phonetrack-oc/issues/173) @mychalwipf
+- set empty alias to remove was broken
+[#173](https://gitlab.com/eneiluj/phonetrack-oc/issues/173) @mychalwipf
+- fix : apply filters AFTER having reset the field
+[#171](https://gitlab.com/eneiluj/phonetrack-oc/issues/171) @CH5525
 
 ## 0.3.8 – 2018-11-18
 ### Added

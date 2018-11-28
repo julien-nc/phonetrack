@@ -91,7 +91,7 @@ Any feedback will be appreciated.
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>
         <database min-version="5.5">mysql</database>
-        <nextcloud min-version="14.0" max-version="14.9"/>
+        <nextcloud min-version="14.0" max-version="15.9"/>
     </dependencies>
     <background-jobs>
         <job>OCA\PhoneTrack\Cron\AutoExport</job>
