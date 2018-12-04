@@ -1091,7 +1091,7 @@ class LogController extends Controller {
      **/
     public function logGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed=null, $bearing=null) {
         $dname = $this->chooseDeviceName($devicename, null);
-        $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger', $speed, $bearing);
+        return $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger', $speed, $bearing);
     }
 
     /**
