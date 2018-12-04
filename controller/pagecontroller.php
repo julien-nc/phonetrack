@@ -3284,6 +3284,29 @@ class PageController extends Controller {
                     $req->closeCursor();
 
                     $ok = 1;
+
+                    // SEND NOTIFICATION
+                    $manager = \OC::$server->getNotificationManager();
+                    $notification = $manager->createNotification();
+
+                    $acceptAction = $notification->createAction();
+                    $acceptAction->setLabel('accept')
+                        ->setLink('/apps/phonetrack', 'GET');
+
+                    $declineAction = $notification->createAction();
+                    $declineAction->setLabel('decline')
+                        ->setLink('/apps/phonetrack', 'GET');
+
+                    $notification->setApp('phonetrack')
+                        ->setUser($username)
+                        ->setDateTime(new \DateTime())
+                        ->setObject('addusershare', $dbtoken)
+                        ->setSubject('add_user_share', [$this->userId, $dbname])
+                        ->addAction($acceptAction)
+                        ->addAction($declineAction)
+                        ;
+
+                    $manager->notify($notification);
                 }
                 else {
                     $ok = 2;
@@ -3429,6 +3452,29 @@ class PageController extends Controller {
                 $req->closeCursor();
 
                 $ok = 1;
+
+                // SEND NOTIFICATION
+                $manager = \OC::$server->getNotificationManager();
+                $notification = $manager->createNotification();
+
+                $acceptAction = $notification->createAction();
+                $acceptAction->setLabel('accept')
+                    ->setLink('/apps/phonetrack', 'GET');
+
+                $declineAction = $notification->createAction();
+                $declineAction->setLabel('decline')
+                    ->setLink('/apps/phonetrack', 'GET');
+
+                $notification->setApp('phonetrack')
+                    ->setUser($username)
+                    ->setDateTime(new \DateTime())
+                    ->setObject('deleteusershare', $dbtoken)
+                    ->setSubject('delete_user_share', [$this->userId, $dbname])
+                    ->addAction($acceptAction)
+                    ->addAction($declineAction)
+                    ;
+
+                $manager->notify($notification);
             }
             else {
                 $ok = 2;

@@ -100,6 +100,22 @@ class Notifier implements INotifier {
                 ->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
             return $notification;
 
+        case 'add_user_share':
+            $p = $notification->getSubjectParameters();
+            $content = $l->t('User "%s" shared PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
+
+            $notification->setParsedSubject($content)
+                ->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+            return $notification;
+
+        case 'delete_user_share':
+            $p = $notification->getSubjectParameters();
+            $content = $l->t('User "%s" stopped sharing PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
+
+            $notification->setParsedSubject($content)
+                ->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+            return $notification;
+
         default:
             // Unknown subject => Unknown notification => throw
             throw new \InvalidArgumentException();
