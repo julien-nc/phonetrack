@@ -776,7 +776,7 @@ class LogController extends Controller {
         }
     }
 
-    private function checkQuota($deviceidToInsert, $userid) {
+    private function checkQuota($deviceidToInsert, $userid, $devicename, $sessionname) {
         $quota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
         if ($quota === 0) {
             return true;
@@ -797,6 +797,31 @@ class LogController extends Controller {
         }
 
         if ($nbPoints < $quota) {
+            // if we just reached the quota : notify the user
+            if ($nbPoints === $quota - 1) {
+                $manager = \OC::$server->getNotificationManager();
+                $notification = $manager->createNotification();
+
+                $acceptAction = $notification->createAction();
+                $acceptAction->setLabel('accept')
+                    ->setLink('/apps/phonetrack', 'GET');
+
+                $declineAction = $notification->createAction();
+                $declineAction->setLabel('decline')
+                    ->setLink('/apps/phonetrack', 'GET');
+
+                $notification->setApp('phonetrack')
+                    ->setUser($userid)
+                    ->setDateTime(new \DateTime())
+                    ->setObject('quotareached', $nbPoints)
+                    ->setSubject('quota_reached', [$quota, $devicename, $sessionname])
+                    ->addAction($acceptAction)
+                    ->addAction($declineAction)
+                    ;
+
+                $manager->notify($notification);
+            }
+
             return true;
         }
 
@@ -1094,7 +1119,7 @@ class LogController extends Controller {
                 // geofences, proximity alerts, quota
                 $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
                 $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
-                $quotaClearance = $this->checkQuota($deviceidToInsert, $userid);
+                $quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
 
                 if (!$quotaClearance) {
                     $res['done'] = 2;

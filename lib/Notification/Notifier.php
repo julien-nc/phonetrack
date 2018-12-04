@@ -92,6 +92,14 @@ class Notifier implements INotifier {
                 ->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
             return $notification;
 
+        case 'quota_reached':
+            $p = $notification->getSubjectParameters();
+            $content = $l->t('Point number quota (%s) was reached with a point of "%s" in session "%s".', [$p[0], $p[1], $p[2]]);
+
+            $notification->setParsedSubject($content)
+                ->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+            return $notification;
+
         default:
             // Unknown subject => Unknown notification => throw
             throw new \InvalidArgumentException();
