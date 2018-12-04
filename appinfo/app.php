@@ -12,9 +12,21 @@
 namespace OCA\PhoneTrack\AppInfo;
 
 use OCP\AppFramework\App;
+use OCA\PhoneTrack\Notification\Notifier;
 
 $app = new Application();
 $container = $app->getContainer();
+
+$manager = \OC::$server->getNotificationManager();
+$manager->registerNotifier(function() {
+        return \OC::$server->query(Notifier::class);
+}, function() {
+        $l = \OC::$server->getL10N('phonetrack');
+        return [
+                'id' => 'phonetrack',
+                'name' => $l->t('PhoneTrack'),
+        ];
+});
 
 #\OCP\Backgroundjob::addRegularTask('\OCA\PhoneTrack\Cron\AutoExport', 'run');
 

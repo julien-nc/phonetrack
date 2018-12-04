@@ -178,7 +178,7 @@ class LogController extends Controller {
     private function getDeviceProxims($devid) {
         $proxims = array();
         $sqlget = '
-            SELECT deviceid1, deviceid2, highlimit,
+            SELECT id, deviceid1, deviceid2, highlimit,
                    lowlimit, urlclose, urlfar,
                    urlclosepost, urlfarpost,
                    sendemail, emailaddr
@@ -263,6 +263,7 @@ class LogController extends Controller {
         if ($emailaddr === null) {
             $emailaddr = '';
         }
+        $proximid = $proxim['id'];
 
         $otherDeviceId = null;
         // get the deviceid of other device
@@ -289,23 +290,49 @@ class LogController extends Controller {
             // if distance was not close and is now close
             if ($lowlimit !== 0 and $prevDist >= $lowlimit and $currDist < $lowlimit) {
                 // devices are now close !
+
+                // if the observed device is 'deviceid2', then we might have the wrong userId
+                if (intval($movingDevid) === intval($proxim['deviceid2'])) {
+                    $userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
+                }
+                $dev1name = $movingDeviceName;
+                $dev2name = $this->getDeviceName($otherDeviceId);
+                $dev2alias = $this->getDeviceAlias($otherDeviceId);
+                if (!empty($dev2alias)) {
+                    $dev2name = $dev2alias.' ('.$dev2name.')';
+                }
+
+                // NOTIFICATIONS
+                $manager = \OC::$server->getNotificationManager();
+                $notification = $manager->createNotification();
+
+                $acceptAction = $notification->createAction();
+                $acceptAction->setLabel('accept')
+                    ->setLink('/apps/phonetrack', 'GET');
+
+                $declineAction = $notification->createAction();
+                $declineAction->setLabel('decline')
+                    ->setLink('/apps/phonetrack', 'GET');
+
+                $notification->setApp('phonetrack')
+                    ->setUser($userid)
+                    ->setDateTime(new \DateTime())
+                    ->setObject('closeproxim', $proximid)
+                    ->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
+                    ->addAction($acceptAction)
+                    ->addAction($declineAction)
+                    ;
+
+                $manager->notify($notification);
+
                 if ($sendemail !== 0) {
-                    // if the observed device is 'deviceid2', then we might have the wrong userId
-                    if (intval($movingDevid) === intval($proxim['deviceid2'])) {
-                        $userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
-                    }
-                    $dev1name = $movingDeviceName;
-                    $dev2name = $this->getDeviceName($otherDeviceId);
-                    $dev2alias = $this->getDeviceAlias($otherDeviceId);
-                    if (!empty($dev2alias)) {
-                        $dev2name = $dev2alias.' ('.$dev2name.')';
-                    }
 
                     $user = $this->userManager->get($userid);
                     $userEmail = $user->getEMailAddress();
                     $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
                     $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
+                    // EMAIL
                     $emailaddrArray = explode(',', $emailaddr);
                     if (
                         (count($emailaddrArray) === 0
@@ -372,17 +399,42 @@ class LogController extends Controller {
             }
             else if ($highlimit !== 0 and $prevDist <= $highlimit and $currDist > $highlimit) {
                 // devices are now far !
+
+                // if the observed device is 'deviceid2', then we might have the wrong userId
+                if (intval($movingDevid) === intval($proxim['deviceid2'])) {
+                    $userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
+                }
+                $dev1name = $movingDeviceName;
+                $dev2name = $this->getDeviceName($otherDeviceId);
+                $dev2alias = $this->getDeviceAlias($otherDeviceId);
+                if (!empty($dev2alias)) {
+                    $dev2name = $dev2alias.' ('.$dev2name.')';
+                }
+
+                // NOTIFICATIONS
+                $manager = \OC::$server->getNotificationManager();
+                $notification = $manager->createNotification();
+
+                $acceptAction = $notification->createAction();
+                $acceptAction->setLabel('accept')
+                    ->setLink('/apps/phonetrack', 'GET');
+
+                $declineAction = $notification->createAction();
+                $declineAction->setLabel('decline')
+                    ->setLink('/apps/phonetrack', 'GET');
+
+                $notification->setApp('phonetrack')
+                    ->setUser($userid)
+                    ->setDateTime(new \DateTime())
+                    ->setObject('farproxim', $proximid)
+                    ->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
+                    ->addAction($acceptAction)
+                    ->addAction($declineAction)
+                    ;
+
+                $manager->notify($notification);
+
                 if ($sendemail !== 0) {
-                    // if the observed device is 'deviceid2', then we might have the wrong userId
-                    if (intval($movingDevid) === intval($proxim['deviceid2'])) {
-                        $userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
-                    }
-                    $dev1name = $movingDeviceName;
-                    $dev2name = $this->getDeviceName($otherDeviceId);
-                    $dev2alias = $this->getDeviceAlias($otherDeviceId);
-                    if (!empty($dev2alias)) {
-                        $dev2name = $dev2alias.' ('.$dev2name.')';
-                    }
 
                     $user = $this->userManager->get($userid);
                     $userEmail = $user->getEMailAddress();
@@ -459,7 +511,7 @@ class LogController extends Controller {
     private function getDeviceFences($devid) {
         $fences = array();
         $sqlget = '
-            SELECT latmin, lonmin, latmax, lonmax,
+            SELECT id, latmin, lonmin, latmax, lonmax,
                    name, urlenter, urlleave,
                    urlenterpost, urlleavepost,
                    sendemail, emailaddr
@@ -497,6 +549,7 @@ class LogController extends Controller {
             $emailaddr = '';
         }
         $fencename = $fence['name'];
+        $fenceid = $fence['id'];
 
         // first point of this device
         if ($lastPoint === null) {
@@ -522,6 +575,30 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
                     $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
+                    // NOTIFICATIONS
+                    $manager = \OC::$server->getNotificationManager();
+                    $notification = $manager->createNotification();
+
+                    $acceptAction = $notification->createAction();
+                    $acceptAction->setLabel('accept')
+                        ->setLink('/apps/phonetrack', 'GET');
+
+                    $declineAction = $notification->createAction();
+                    $declineAction->setLabel('decline')
+                        ->setLink('/apps/phonetrack', 'GET');
+
+                    $notification->setApp('phonetrack')
+                        ->setUser($userid)
+                        ->setDateTime(new \DateTime())
+                        ->setObject('entergeofence', $fenceid) // $type and $id
+                        ->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
+                        ->addAction($acceptAction)
+                        ->addAction($declineAction)
+                        ;
+
+                    $manager->notify($notification);
+
+                    // EMAIL
                     if ($sendemail !== 0) {
                         $emailaddrArray = explode(',', $emailaddr);
                         if (
@@ -597,6 +674,30 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
                     $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
+                    // NOTIFICATIONS
+                    $manager = \OC::$server->getNotificationManager();
+                    $notification = $manager->createNotification();
+
+                    $acceptAction = $notification->createAction();
+                    $acceptAction->setLabel('accept')
+                        ->setLink('/apps/phonetrack', 'GET');
+
+                    $declineAction = $notification->createAction();
+                    $declineAction->setLabel('decline')
+                        ->setLink('/apps/phonetrack', 'GET');
+
+                    $notification->setApp('phonetrack')
+                        ->setUser($userid)
+                        ->setDateTime(new \DateTime())
+                        ->setObject('leavegeofence', $fenceid) // $type and $id
+                        ->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
+                        ->addAction($acceptAction)
+                        ->addAction($declineAction)
+                        ;
+
+                    $manager->notify($notification);
+
+                    // EMAIL
                     if ($sendemail !== 0) {
                         $emailaddrArray = explode(',', $emailaddr);
                         if (
