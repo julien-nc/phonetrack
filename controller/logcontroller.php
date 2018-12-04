@@ -181,7 +181,7 @@ class LogController extends Controller {
             SELECT id, deviceid1, deviceid2, highlimit,
                    lowlimit, urlclose, urlfar,
                    urlclosepost, urlfarpost,
-                   sendemail, emailaddr
+                   sendemail, emailaddr, sendnotif
             FROM *PREFIX*phonetrack_proxims
             WHERE deviceid1='.$this->db_quote_escape_string($devid).'
                   OR deviceid2='.$this->db_quote_escape_string($devid).' ;';
@@ -259,6 +259,7 @@ class LogController extends Controller {
         $urlclosepost = intval($proxim['urlclosepost']);
         $urlfarpost = intval($proxim['urlfarpost']);
         $sendemail = intval($proxim['sendemail']);
+        $sendnotif = intval($proxim['sendnotif']);
         $emailaddr = $proxim['emailaddr'];
         if ($emailaddr === null) {
             $emailaddr = '';
@@ -303,27 +304,29 @@ class LogController extends Controller {
                 }
 
                 // NOTIFICATIONS
-                $manager = \OC::$server->getNotificationManager();
-                $notification = $manager->createNotification();
+                if ($sendnotif !== 0) {
+                    $manager = \OC::$server->getNotificationManager();
+                    $notification = $manager->createNotification();
 
-                $acceptAction = $notification->createAction();
-                $acceptAction->setLabel('accept')
-                    ->setLink('/apps/phonetrack', 'GET');
+                    $acceptAction = $notification->createAction();
+                    $acceptAction->setLabel('accept')
+                        ->setLink('/apps/phonetrack', 'GET');
 
-                $declineAction = $notification->createAction();
-                $declineAction->setLabel('decline')
-                    ->setLink('/apps/phonetrack', 'GET');
+                    $declineAction = $notification->createAction();
+                    $declineAction->setLabel('decline')
+                        ->setLink('/apps/phonetrack', 'GET');
 
-                $notification->setApp('phonetrack')
-                    ->setUser($userid)
-                    ->setDateTime(new \DateTime())
-                    ->setObject('closeproxim', $proximid)
-                    ->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
-                    ->addAction($acceptAction)
-                    ->addAction($declineAction)
-                    ;
+                    $notification->setApp('phonetrack')
+                        ->setUser($userid)
+                        ->setDateTime(new \DateTime())
+                        ->setObject('closeproxim', $proximid)
+                        ->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
+                        ->addAction($acceptAction)
+                        ->addAction($declineAction)
+                        ;
 
-                $manager->notify($notification);
+                    $manager->notify($notification);
+                }
 
                 if ($sendemail !== 0) {
 
@@ -412,27 +415,29 @@ class LogController extends Controller {
                 }
 
                 // NOTIFICATIONS
-                $manager = \OC::$server->getNotificationManager();
-                $notification = $manager->createNotification();
+                if ($sendnotif !== 0) {
+                    $manager = \OC::$server->getNotificationManager();
+                    $notification = $manager->createNotification();
 
-                $acceptAction = $notification->createAction();
-                $acceptAction->setLabel('accept')
-                    ->setLink('/apps/phonetrack', 'GET');
+                    $acceptAction = $notification->createAction();
+                    $acceptAction->setLabel('accept')
+                        ->setLink('/apps/phonetrack', 'GET');
 
-                $declineAction = $notification->createAction();
-                $declineAction->setLabel('decline')
-                    ->setLink('/apps/phonetrack', 'GET');
+                    $declineAction = $notification->createAction();
+                    $declineAction->setLabel('decline')
+                        ->setLink('/apps/phonetrack', 'GET');
 
-                $notification->setApp('phonetrack')
-                    ->setUser($userid)
-                    ->setDateTime(new \DateTime())
-                    ->setObject('farproxim', $proximid)
-                    ->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
-                    ->addAction($acceptAction)
-                    ->addAction($declineAction)
-                    ;
+                    $notification->setApp('phonetrack')
+                        ->setUser($userid)
+                        ->setDateTime(new \DateTime())
+                        ->setObject('farproxim', $proximid)
+                        ->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
+                        ->addAction($acceptAction)
+                        ->addAction($declineAction)
+                        ;
 
-                $manager->notify($notification);
+                    $manager->notify($notification);
+                }
 
                 if ($sendemail !== 0) {
 
@@ -514,7 +519,7 @@ class LogController extends Controller {
             SELECT id, latmin, lonmin, latmax, lonmax,
                    name, urlenter, urlleave,
                    urlenterpost, urlleavepost,
-                   sendemail, emailaddr
+                   sendemail, emailaddr, sendnotif
             FROM *PREFIX*phonetrack_geofences
             WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -544,6 +549,7 @@ class LogController extends Controller {
         $urlenterpost = intval($fence['urlenterpost']);
         $urlleavepost = intval($fence['urlleavepost']);
         $sendemail = intval($fence['sendemail']);
+        $sendnotif = intval($fence['sendnotif']);
         $emailaddr = $fence['emailaddr'];
         if ($emailaddr === null) {
             $emailaddr = '';
@@ -576,27 +582,29 @@ class LogController extends Controller {
                     $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
                     // NOTIFICATIONS
-                    $manager = \OC::$server->getNotificationManager();
-                    $notification = $manager->createNotification();
+                    if ($sendnotif !== 0) {
+                        $manager = \OC::$server->getNotificationManager();
+                        $notification = $manager->createNotification();
 
-                    $acceptAction = $notification->createAction();
-                    $acceptAction->setLabel('accept')
-                        ->setLink('/apps/phonetrack', 'GET');
+                        $acceptAction = $notification->createAction();
+                        $acceptAction->setLabel('accept')
+                            ->setLink('/apps/phonetrack', 'GET');
 
-                    $declineAction = $notification->createAction();
-                    $declineAction->setLabel('decline')
-                        ->setLink('/apps/phonetrack', 'GET');
+                        $declineAction = $notification->createAction();
+                        $declineAction->setLabel('decline')
+                            ->setLink('/apps/phonetrack', 'GET');
 
-                    $notification->setApp('phonetrack')
-                        ->setUser($userid)
-                        ->setDateTime(new \DateTime())
-                        ->setObject('entergeofence', $fenceid) // $type and $id
-                        ->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
-                        ->addAction($acceptAction)
-                        ->addAction($declineAction)
-                        ;
+                        $notification->setApp('phonetrack')
+                            ->setUser($userid)
+                            ->setDateTime(new \DateTime())
+                            ->setObject('entergeofence', $fenceid) // $type and $id
+                            ->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
+                            ->addAction($acceptAction)
+                            ->addAction($declineAction)
+                            ;
 
-                    $manager->notify($notification);
+                        $manager->notify($notification);
+                    }
 
                     // EMAIL
                     if ($sendemail !== 0) {
@@ -675,27 +683,29 @@ class LogController extends Controller {
                     $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
                     // NOTIFICATIONS
-                    $manager = \OC::$server->getNotificationManager();
-                    $notification = $manager->createNotification();
+                    if ($sendnotif !== 0) {
+                        $manager = \OC::$server->getNotificationManager();
+                        $notification = $manager->createNotification();
 
-                    $acceptAction = $notification->createAction();
-                    $acceptAction->setLabel('accept')
-                        ->setLink('/apps/phonetrack', 'GET');
+                        $acceptAction = $notification->createAction();
+                        $acceptAction->setLabel('accept')
+                            ->setLink('/apps/phonetrack', 'GET');
 
-                    $declineAction = $notification->createAction();
-                    $declineAction->setLabel('decline')
-                        ->setLink('/apps/phonetrack', 'GET');
+                        $declineAction = $notification->createAction();
+                        $declineAction->setLabel('decline')
+                            ->setLink('/apps/phonetrack', 'GET');
 
-                    $notification->setApp('phonetrack')
-                        ->setUser($userid)
-                        ->setDateTime(new \DateTime())
-                        ->setObject('leavegeofence', $fenceid) // $type and $id
-                        ->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
-                        ->addAction($acceptAction)
-                        ->addAction($declineAction)
-                        ;
+                        $notification->setApp('phonetrack')
+                            ->setUser($userid)
+                            ->setDateTime(new \DateTime())
+                            ->setObject('leavegeofence', $fenceid) // $type and $id
+                            ->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
+                            ->addAction($acceptAction)
+                            ->addAction($declineAction)
+                            ;
 
-                    $manager->notify($notification);
+                        $manager->notify($notification);
+                    }
 
                     // EMAIL
                     if ($sendemail !== 0) {

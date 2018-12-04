@@ -294,6 +294,12 @@
       <notnull>false</notnull>
       <length>500</length>
     </field>
+    <field>
+      <name>sendnotif</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>1</default>
+    </field>
   </declaration>
 </table>
  <table>
@@ -369,6 +375,12 @@
       <type>text</type>
       <notnull>false</notnull>
       <length>500</length>
+    </field>
+    <field>
+      <name>sendnotif</name>
+      <type>integer</type>
+      <notnull>true</notnull>
+      <default>1</default>
     </field>
   </declaration>
 </table>
