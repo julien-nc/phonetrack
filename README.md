@@ -52,8 +52,7 @@ Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetra
 I develop this app during my free time.
 
 * [Donate on Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
-* Bitcoin : 1FfDVdPK8mZHB84EdN67iVgKCmRa3SwF6r
-* Monero : 43moCXnskkeJNf1MezHnjzARNpk2BRvhuRA9vzyuVAkTYH2AE4L4EwJjC3HbDxv9uRBdsYdBPF1jePLeV8TpdnU7F9FN2Ao
+* [![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/eneiluj/donate)
 
 ## Install
 
