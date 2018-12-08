@@ -2930,11 +2930,13 @@ class PageController extends Controller {
                         if ($oneFilePerDevice) {
                             fwrite($fd, '</gpx>');
                             fclose($fd);
+                            $file->touch();
                         }
                     }
                     if (!$oneFilePerDevice) {
                         fwrite($fd, '</gpx>');
                         fclose($fd);
+                        $file->touch();
                     }
                     $done = true;
                 }
