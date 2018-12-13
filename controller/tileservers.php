@@ -70,6 +70,14 @@ $baseTileServers = [
         'maxzoom' => '19'
     ),
     Array(
+        'name' => 'OpenTopoMap',
+        'type' => 'tile',
+        'url' => 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+        'attribution' => 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+        'minzoom' => '1',
+        'maxzoom' => '17'
+    ),
+    Array(
         'name' => 'Hike & bike',
         'type' => 'tile',
         'url' => 'http://a.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
