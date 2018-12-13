@@ -28,7 +28,7 @@ $baseTileServers = [
         'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         'attribution' => 'Map data &copy; 2013 <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
         'minzoom' => '1',
-        'maxzoom' => '18'
+        'maxzoom' => '19'
     ),
     Array(
         'name' => 'OpenCycleMap',
@@ -36,7 +36,7 @@ $baseTileServers = [
         'url' => 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png',
         'attribution' => '&copy; <a href="http://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         'minzoom' => '1',
-        'maxzoom' => '18'
+        'maxzoom' => '22'
     ),
     Array(
         'name' => 'OpenStreetMap Transport',
@@ -44,7 +44,7 @@ $baseTileServers = [
         'url' => 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
         'attribution' => 'Map data &copy; 2013 <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
         'minzoom' => '1',
-        'maxzoom' => '18'
+        'maxzoom' => '22'
     ),
     Array(
         'name' => 'ESRI Aerial',
@@ -55,7 +55,7 @@ $baseTileServers = [
                          'USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the' .
                          ' GIS User Community',
         'minzoom' => '1',
-        'maxzoom' => '18'
+        'maxzoom' => '19'
     ),
     Array(
         'name' => 'ESRI Topo with relief',
@@ -67,7 +67,7 @@ $baseTileServers = [
                           'nance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User' .
                           ' Community',
         'minzoom' => '1',
-        'maxzoom' => '18'
+        'maxzoom' => '19'
     ),
     Array(
         'name' => 'Hike & bike',
@@ -83,7 +83,7 @@ $baseTileServers = [
         'url' => 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
         'attribution' => 'Map data &copy; 2013 <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
         'minzoom' => '1',
-        'maxzoom' => '18'
+        'maxzoom' => '19'
     ),
     Array(
         'name' => 'IGN France',
