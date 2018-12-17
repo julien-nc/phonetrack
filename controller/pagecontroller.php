@@ -3339,7 +3339,7 @@ class PageController extends Controller {
      * Used to build public tokens with filters (then accessed by publicWatchUrl)
      * @NoAdminRequired
      */
-    public function addPublicShare($token) {
+    public function addPublicShare($token, $ignoreFilters=false) {
         $ok = 0;
         $filters = '';
         $sharetoken = '';
@@ -3363,9 +3363,11 @@ class PageController extends Controller {
 
         if ($dbname !== null) {
             $filters = '{}';
-            $filterArray = $this->getCurrentFilters();
-            if ($filterArray !== null) {
-                $filters = json_encode($filterArray);
+            if (!$ignoreFilters) {
+                $filterArray = $this->getCurrentFilters();
+                if ($filterArray !== null) {
+                    $filters = json_encode($filterArray);
+                }
             }
 
             // determine share token
@@ -4626,6 +4628,76 @@ class PageController extends Controller {
                 $req->closeCursor();
                 if (count($entry) > 0) {
                     $result[$dbpubtoken][$name] = $entry;
+                }
+            }
+        }
+        $response = new DataResponse($result);
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * check if there already is a public share restricted on that device
+     * if not => add it
+     * returns the share token
+     *
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function APIshareDevice($sessionid, $devicename) {
+        $result = array('code'=>0, 'sharetoken'=>'');
+        // check if session exists and is owned by current user
+        $sqlchk = '
+            SELECT token
+            FROM *PREFIX*phonetrack_sessions
+            WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
+                  AND token='.$this->db_quote_escape_string($sessionid).' ;';
+        $req = $this->dbconnection->prepare($sqlchk);
+        $req->execute();
+        $dbtoken = null;
+        while ($row = $req->fetch()){
+            $dbtoken = $row['token'];
+            break;
+        }
+        $req->closeCursor();
+
+        if ($dbtoken !== null) {
+            $dbsharetoken = null;
+            $sqlget = '
+                SELECT sharetoken
+                FROM *PREFIX*phonetrack_pubshares
+                WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
+                      AND devicename='.$this->db_quote_escape_string($devicename).' ;';
+            $req = $this->dbconnection->prepare($sqlget);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbsharetoken = $row['sharetoken'];
+            }
+            $req->closeCursor();
+
+            // public share exists
+            if ($dbsharetoken !== null) {
+                $result['sharetoken'] = $dbsharetoken;
+                $result['code'] = 1;
+            }
+            else {
+                // let's create the public share without filters
+                $resp = $this->addPublicShare($dbtoken, true);
+                $data = $resp->getData();
+                $done = $data['done'];
+                $sharetoken = $data['sharetoken'];
+                if ($done === 1) {
+                    $resp2 = $this->setPublicShareDevice($dbtoken, $sharetoken, $devicename);
+                    $data2 = $resp2->getData();
+                    $done2 = $data2['done'];
+                    if ($done2 === 1) {
+                        $result['sharetoken'] = $sharetoken;
+                        $result['done'] = 1;
+                    }
                 }
             }
         }

@@ -1469,7 +1469,7 @@
         var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken + '?');
         publicWatchUrl = window.location.origin + publicWatchUrl + linePointParams;
 
-        var APIUrl = OC.generateUrl('/apps/phonetrack/APIgetLastPositions/' + publicviewtoken);
+        var APIUrl = OC.generateUrl('/apps/phonetrack/api/getlastpositions/' + publicviewtoken);
         APIUrl = window.location.origin + APIUrl;
 
         var watchicon = 'fa-toggle-off';

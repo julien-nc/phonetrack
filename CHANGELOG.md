@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - geofences and proxim now trigger optional NC notifications
 [#179](https://gitlab.com/eneiluj/phonetrack-oc/issues/179) @Ryonez
-- NC notification when point number quota is reached
+- NC notification when point number quota is reached and when session is shared with a user
 [#179](https://gitlab.com/eneiluj/phonetrack-oc/issues/179) @eneiluj
 - add empty ping API to allow phone client to connect
 - add opentopomap tile server
