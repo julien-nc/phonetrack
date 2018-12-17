@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- geofences and proxim now trigger optional NC notifications
+[#179](https://gitlab.com/eneiluj/phonetrack-oc/issues/179) @Ryonez
+- NC notification when point number quota is reached
+[#179](https://gitlab.com/eneiluj/phonetrack-oc/issues/179) @eneiluj
+- add empty ping API to allow phone client to connect
+- add opentopomap tile server
+- add api entry point to get sessions information
+
+### Changed
+- update max zoom for base tileservers
+
+### Fixed
+- touch() exported files to make nextcloud display correct sizes
+[#181](https://gitlab.com/eneiluj/phonetrack-oc/issues/181) @Valdnet
 
 ## 0.3.9 – 2018-11-28
 ### Added
