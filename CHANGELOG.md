@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add empty ping API to allow phone client to connect
 - add opentopomap tile server
 - add api entry point to get sessions information
+- add api entry point to create/get public share for one device
 
 ### Changed
 - update max zoom for base tileservers
