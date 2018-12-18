@@ -5,13 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.4.0 – 2018-12-18
 ### Added
 - geofences and proxim now trigger optional NC notifications
 [#179](https://gitlab.com/eneiluj/phonetrack-oc/issues/179) @Ryonez
 - NC notification when point number quota is reached and when session is shared with a user
 [#179](https://gitlab.com/eneiluj/phonetrack-oc/issues/179) @eneiluj
-- add empty ping API to allow phone client to connect
 - add opentopomap tile server
+- add empty ping API to allow phone client to connect
 - add api entry point to get sessions information
 - add api entry point to create/get public share for one device
 
