@@ -103,7 +103,6 @@ OC.L10N.register(
     "Save" : "Salvează",
     "Move" : "Mută",
     "Cancel" : "Anulează",
-    "File extension must be '.gpx' to be imported" : "Extensia fișierului trebuie să fie '.gpx' pentru a fi importat",
     "Failed to create imported session" : "Nu pot crea sesiunea importată",
     "Failed to import session" : "Nu am reuşit să import sesiune",
     "File is not readable" : "Fişierul nu poate fi citit",
