@@ -349,7 +349,7 @@ class LogController extends Controller {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
                         foreach ($emailaddrArray as $addrTo) {
-                            if ($addrTo !== null and $addrTo !== '') {
+                            if ($addrTo !== null and $addrTo !== '' and filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
                                 try {
                                     $mailer = \OC::$server->getMailer();
                                     $message = $mailer->createMessage();
@@ -459,7 +459,7 @@ class LogController extends Controller {
                         $mailfrom = $mailFromA.'@'.$mailFromD;
 
                         foreach ($emailaddrArray as $addrTo) {
-                            if ($addrTo !== null and $addrTo !== '') {
+                            if ($addrTo !== null and $addrTo !== '' and filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
                                 try {
                                     $mailer = \OC::$server->getMailer();
                                     $message = $mailer->createMessage();
@@ -620,7 +620,7 @@ class LogController extends Controller {
                             $mailfrom = $mailFromA.'@'.$mailFromD;
 
                             foreach ($emailaddrArray as $addrTo) {
-                                if ($addrTo !== null and $addrTo !== '') {
+                                if ($addrTo !== null and $addrTo !== '' and filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
                                     try {
                                         $mailer = \OC::$server->getMailer();
                                         $message = $mailer->createMessage();
@@ -721,7 +721,7 @@ class LogController extends Controller {
                             $mailfrom = $mailFromA.'@'.$mailFromD;
 
                             foreach ($emailaddrArray as $addrTo) {
-                                if ($addrTo !== null and $addrTo !== '') {
+                                if ($addrTo !== null and $addrTo !== '' and filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
                                     try {
                                         $mailer = \OC::$server->getMailer();
                                         $message = $mailer->createMessage();
