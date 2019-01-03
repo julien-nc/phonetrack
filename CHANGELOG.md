@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+
+### Changed
+- use https for tileservers which support it
+[!464](https://gitlab.com/eneiluj/phonetrack-oc/merge_requests/464) @webunraveling
+
+### Fixed
+- check email validity for geofences and proxims
+[#185](https://gitlab.com/eneiluj/phonetrack-oc/issues/185) @Stat1cV01D
 
 ## 0.4.0 – 2018-12-18
 ### Added
