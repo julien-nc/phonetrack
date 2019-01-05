@@ -1236,6 +1236,28 @@ class LogController extends Controller {
      * @PublicPage
      *
      **/
+    public function logLocusmapGet($token, $devicename, $lat, $lon, $time, $battery, $acc, $alt, $speed, $bearing) {
+        $dname = $this->chooseDeviceName($devicename, null);
+        $this->logPost($token, $dname, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
+     **/
+    public function logLocusmapPost($token, $devicename, $lat, $lon, $time, $battery, $acc, $alt, $speed, $bearing) {
+        $dname = $this->chooseDeviceName($devicename, null);
+        $this->logPost($token, $dname, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
+     **/
     public function logOsmand($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed=null, $bearing=null) {
         $dname = $this->chooseDeviceName($devicename, null);
         $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);

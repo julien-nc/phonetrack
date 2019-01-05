@@ -42,6 +42,8 @@ return [
         ['name' => 'log#logGet', 'url' => '/logGet/{token}/{devicename}', 'verb' => 'GET'],
         ['name' => 'log#logPost', 'url' => '/logPost/{token}/{devicename}', 'verb' => 'POST'],
         ['name' => 'log#logOsmand', 'url' => '/log/osmand/{token}/{devicename}', 'verb' => 'GET'],
+        ['name' => 'log#logLocusmapGet', 'url' => '/log/locusmap/{token}/{devicename}', 'verb' => 'GET'],
+        ['name' => 'log#logLocusmapPost', 'url' => '/log/locusmap/{token}/{devicename}', 'verb' => 'POST'],
         ['name' => 'log#logGpsloggerGet', 'url' => '/log/gpslogger/{token}/{devicename}', 'verb' => 'GET'],
         ['name' => 'log#logGpsloggerPost', 'url' => '/log/gpslogger/{token}/{devicename}', 'verb' => 'POST'],
         ['name' => 'log#logOwntracks', 'url' => '/log/owntracks/{token}/{devicename}', 'verb' => 'POST', 'defaults' => array('devicename' => '')],
