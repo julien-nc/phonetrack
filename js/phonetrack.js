@@ -4998,6 +4998,10 @@
             loggerName = 'Traccar';
             content = t('phonetrack', 'In Traccar client, copy the URL below into the \'server URL\' field.');
         }
+        else if (logger === 'locusmap') {
+            loggerName = 'LocusMap';
+            content = t('phonetrack', 'In LocusMap, copy the URL below into the \'server URL\' field. It works with POST and GET methods.');
+        }
         else if (logger === 'get') {
             loggerName = 'GET logger';
             content = t('phonetrack', 'You can log with any other client with a simple HTTP request.');
