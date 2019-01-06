@@ -1654,7 +1654,7 @@
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'Locus Map URL') + ' : ' +
-                '<button class="urlhelpbutton" logger="locusmap"><i class="fa fa-question"></i> <i class="fa fa-rqcode"></i></button>' +
+                '<button class="urlhelpbutton" logger="locusmap"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="locusmapurl" type="text" value="' + locusmapurl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'HTTP GET URL') + ' : ' +
