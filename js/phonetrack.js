@@ -1435,6 +1435,9 @@
         var opengtsurl = OC.generateUrl('/apps/phonetrack/log/opengts/' + token + '/yourname');
         opengtsurl = window.location.origin + opengtsurl;
 
+        var locusmapurl = OC.generateUrl('/apps/phonetrack/log/locusmap/' + token + '/yourname');
+        locusmapurl =window.location.origin + locusmapurl;
+
         var osmandurl = OC.generateUrl('/apps/phonetrack/log/osmand/' + token + '/yourname?');
         osmandurl = osmandurl +
             'lat={0}&' +
@@ -1650,6 +1653,10 @@
                 '<button class="urlhelpbutton" logger="opengts"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Locus Map URL') + ' : ' +
+                '<button class="urlhelpbutton" logger="locusmap"><i class="fa fa-question"></i> <i class="fa fa-rqcode"></i></button>' +
+                '</p>';
+            divtxt = divtxt + '<input class="ro" role="locusmapurl" type="text" value="' + locusmapurl + '"></input>';
             divtxt = divtxt + '<p>' + t('phonetrack', 'HTTP GET URL') + ' : ' +
                 '<button class="urlhelpbutton" logger="get"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
