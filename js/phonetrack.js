@@ -4987,8 +4987,8 @@
         else if (logger === 'owntracks') {
             loggerName = 'Owntracks';
             content = t('phonetrack', 'In the Owntracks preferences menu, go to \'Connections\'.') +
-                    ' ' + t('phonetrack', 'Change the connection Mode to \'Private HTTP\', Copy the URL below into the \'Host\' field.') +
-                    ' ' + t('phonetrack', 'Leave settings under \'Identification\' blank as they are not required.');
+                ' ' + t('phonetrack', 'Change the connection Mode to \'Private HTTP\', Copy the URL below into the \'Host\' field.') +
+                ' ' + t('phonetrack', 'Leave settings under \'Identification\' blank as they are not required.');
         }
         else if (logger === 'ulogger') {
             loggerName = 'Ulogger';
