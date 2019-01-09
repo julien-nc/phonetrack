@@ -792,10 +792,10 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(intval($pointid) > 0, True);
         $this->assertEquals(intval($deviceid) > 0, True);
 
-        $resp = $this->logController->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests', 2, 180);
-        $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests', 2, 180);
-        $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, $timestamp, 100, 70, 11, 'tests', 2, 180);
-        $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, $timestamp-3600, 100, 70, 11, 'tests', 2, 180);
+        $resp = $this->logController->addPoint($token, 'testDev', 45.6, 3.5, 200, 460, 100, 75, 14, 'tests_uaA', 2, 180);
+        $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, 470, 100, 70, 11, 'tests_uaB', 2, 180);
+        $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, $timestamp, 100, 70, 11, 'tests_uaC', 2, 180);
+        $resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, $timestamp-3600, 100, 70, 11, 'tests_uaD', 2, 180);
 
         // STRESS ADD POINT
         $resp = $this->logController->addPoint($token, '', 45.5, 3.4, 111, 456, 100, 80, 12, 'tests', 2, 180);
@@ -912,9 +912,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         // log with proxim
         //$resp = $this->logController->addPoint($token, 'testDev', 45.7, 3.6, 220, $timestamp, 100, 70, 11, 'tests', 2, 180);
-        $this->logController->logPost($token, 'testDevProx', 4.44, 3.33, 100, 470, 60, 10, 200, '');
-        $this->logController->logPost($token, 'testDevProx', 45.69999, 3.5999, 100, $timestamp+1, 60, 10, 200, '');
-        $this->logController->logPost($token, 'testDevProx', 10.69999, 13.5999, 100, $timestamp+2, 60, 10, 200, '');
+        $this->logController->logPost($token, 'testDevProx', 4.44, 3.33, 100, 470, 60, 10, 200, 'ua1');
+        $this->logController->logPost($token, 'testDevProx', 45.69999, 3.5999, 100, $timestamp+1, 60, 10, 200, 'ua2');
+        $this->logController->logPost($token, 'testDevProx', 10.69999, 13.5999, 100, $timestamp+2, 60, 10, 200, 'ua3');
 
         $resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProxFake', 400, 1000, '', '', 0, 0, 0, '', 1);
         $data = $resp->getData();
@@ -962,12 +962,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         // no point load limit
         $resp = $this->utilsController->saveOptionValue([
             'nbpointsload' => '',
-            "hourmin" => "1",
-            "minutemin" => "1",
-            "secondmin" => "1",
-            "hourmax" => "23",
-            "minutemax" => "59",
-            "secondmax" => "59",
+            "hourmin" => "",
+            "minutemin" => "",
+            "secondmin" => "",
+            "hourmax" => "",
+            "minutemax" => "",
+            "secondmax" => "",
             "lastdays" => "3",
             "lasthours" => "4",
             "lastmins" => "3",
