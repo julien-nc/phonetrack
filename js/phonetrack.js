@@ -4986,7 +4986,7 @@
         }
         else if (logger === 'owntracks') {
             loggerName = 'Owntracks';
-            content = 'To be written by a Owntracks user !';
+            content = 'In the Owntracks preferences menu, go to \'Connections\'. Change the connection Mode to \'Private HTTP\', Copy the URL below into the \'Host\' field. Leave settings under \'Identification\' blank as they are not required.';
         }
         else if (logger === 'ulogger') {
             loggerName = 'Ulogger';
