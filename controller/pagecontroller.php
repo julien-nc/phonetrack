@@ -2117,6 +2117,10 @@ class PageController extends Controller {
             $publicviewtoken = $session[0];
             $lastTime = $session[1];
             $firstTime = $session[2];
+            $nbPointsLoad = 1000;
+            if (count($session) > 3) {
+                $nbPointsLoad = $session[3];
+            }
             $lastposonly = 0;
             $geofencify = 0;
 
@@ -2257,7 +2261,12 @@ class PageController extends Controller {
                         WHERE deviceid='.$this->db_quote_escape_string($devid).' '.
                         $firstLastSQL.' ';
                     if (intval($lastposonly) === 0) {
-                        $sqlget .= 'ORDER BY timestamp DESC LIMIT 1000 ;';
+                        if (intval($nbPointsLoad) === 0) {
+                            $sqlget .= 'ORDER BY timestamp DESC ;';
+                        }
+                        else {
+                            $sqlget .= 'ORDER BY timestamp DESC LIMIT '.intval($nbPointsLoad).' ;';
+                        }
                     }
                     else {
                         $sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';

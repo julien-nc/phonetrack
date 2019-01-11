@@ -1147,6 +1147,9 @@
     }
 
     function restoreOptionsFromUrlParams() {
+        var nbpoints = getUrlParameter('nbpoints');
+        $('#nbpointsload').val(nbpoints);
+
         var refresh = getUrlParameter('refresh');
         if (refresh && refresh !== '') {
             var refreshInt = parseInt(refresh);
@@ -1526,6 +1529,7 @@
         linePointParamsDict.tooltip = 0;
         linePointParamsDict.linewidth = 4;
         linePointParamsDict.pointradius = 8;
+        linePointParamsDict.nbpoints = 1000;
         var linePointParams = $.param(linePointParamsDict);
 
         var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/yourname?');
@@ -2197,7 +2201,13 @@
             if (Object.keys(firstTimes).length === 0) {
                 firstTimes = '';
             }
-            sessionsToWatch.push([token, lastTimes, firstTimes]);
+            var nbPointsLoad = $('#nbpointsload').val();
+            if (pageIsPublic()) {
+                sessionsToWatch.push([token, lastTimes, firstTimes, nbPointsLoad]);
+            }
+            else {
+                sessionsToWatch.push([token, lastTimes, firstTimes]);
+            }
         });
 
         if (phonetrack.currentRefreshAjax !== null) {
@@ -4824,6 +4834,7 @@
         linePointParamsDict.tooltip = 0;
         linePointParamsDict.linewidth = 4;
         linePointParamsDict.pointradius = 8;
+        linePointParamsDict.nbpoints = 1000;
         var linePointParams = $.param(linePointParamsDict);
 
         var publicurl = window.location.origin +
