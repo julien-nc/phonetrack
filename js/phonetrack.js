@@ -1146,6 +1146,60 @@
         });
     }
 
+    function restoreOptionsFromUrlParams() {
+        var refresh = getUrlParameter('refresh');
+        if (refresh && refresh !== '') {
+            var refreshInt = parseInt(refresh);
+            if (!isNaN(refreshInt) && refreshInt > 0) {
+                $('#updateinterval').val(refreshInt);
+            }
+        }
+        var gradient = getUrlParameter('gradient');
+        if (gradient && gradient !== '') {
+            var gradientInt = parseInt(gradient);
+            if (!isNaN(gradientInt)) {
+                $('#linegradient').prop('checked', gradientInt !== 0);
+            }
+        }
+        var arrows = getUrlParameter('arrow');
+        if (arrows && arrows !== '') {
+            var arrowsInt = parseInt(arrows);
+            if (!isNaN(arrowsInt)) {
+                $('#linearrow').prop('checked', arrowsInt !== 0);
+            }
+        }
+        var autozoom = getUrlParameter('autozoom');
+        if (autozoom && autozoom !== '') {
+            var autozoomInt = parseInt(autozoom);
+            if (!isNaN(autozoomInt)) {
+                $('#autozoom').prop('checked', autozoomInt !== 0);
+            }
+        }
+        var tooltip = getUrlParameter('tooltip');
+        if (tooltip && tooltip !== '') {
+            var tooltipInt = parseInt(tooltip);
+            if (!isNaN(tooltipInt)) {
+                $('#showtime').prop('checked', tooltipInt !== 0);
+            }
+        }
+        var linewidth = getUrlParameter('linewidth');
+        if (linewidth && linewidth !== '') {
+            var linewidthInt = parseInt(linewidth);
+            if (!isNaN(linewidthInt) && linewidthInt > 0 && linewidthInt <= 20) {
+                $('#linewidth').val(linewidthInt);
+                $('#linewidthlabel').text(linewidthInt+'px');
+            }
+        }
+        var pointradius = getUrlParameter('pointradius');
+        if (pointradius && pointradius !== '') {
+            var pointradiusInt = parseInt(pointradius);
+            if (!isNaN(pointradiusInt) && pointradiusInt >= 4 && pointradiusInt <= 20) {
+                $('#pointradius').val(pointradiusInt);
+                $('#pointradiuslabel').text(pointradiusInt+'px');
+            }
+        }
+    }
+
     function saveOptionTileLayer(refreshAfter=false) {
         saveOptions('tilelayer', refreshAfter);
     }
@@ -1464,7 +1518,15 @@
 
         var pl = $('#pubviewline').is(':checked') ? '1' : '0';
         var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
-        var linePointParams = $.param({lineToggle: pl, pointToggle: pp});
+        var linePointParamsDict = {lineToggle: pl, pointToggle: pp};
+        linePointParamsDict.refresh = 15;
+        linePointParamsDict.arrow = 0;
+        linePointParamsDict.gradient = 0;
+        linePointParamsDict.autozoom = 1;
+        linePointParamsDict.tooltip = 0;
+        linePointParamsDict.linewidth = 4;
+        linePointParamsDict.pointradius = 8;
+        var linePointParams = $.param(linePointParamsDict);
 
         var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/yourname?');
         publicTrackUrl = window.location.origin + publicTrackUrl + linePointParams;
@@ -4754,7 +4816,15 @@
         }
         var pl = $('#pubviewline').is(':checked') ? '1' : '0';
         var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
-        var linePointParams = $.param({lineToggle: pl, pointToggle: pp});
+        var linePointParamsDict = {lineToggle: pl, pointToggle: pp};
+        linePointParamsDict.refresh = 15;
+        linePointParamsDict.arrow = 0;
+        linePointParamsDict.gradient = 0;
+        linePointParamsDict.autozoom = 1;
+        linePointParamsDict.tooltip = 0;
+        linePointParamsDict.linewidth = 4;
+        linePointParamsDict.pointradius = 8;
+        var linePointParams = $.param(linePointParamsDict);
 
         var publicurl = window.location.origin +
             OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken + '?') + linePointParams;
@@ -5127,6 +5197,7 @@
             restoreOptions();
         }
         else {
+            restoreOptionsFromUrlParams();
             main();
         }
     });
@@ -6686,8 +6757,10 @@
                 $('#logmediv').show();
                 $('#logmedeviceinput').val(deviceid);
             }
-            $('#autozoom').prop('checked', true);
-            phonetrack.zoomButton.state('zoom');
+            if (!getUrlParameter('autozoom')) {
+                $('#autozoom').prop('checked', true);
+                phonetrack.zoomButton.state('zoom');
+            }
 
             if (pageIsPublicSessionWatch()) {
                 $('#sidebar').toggleClass('collapsed');
