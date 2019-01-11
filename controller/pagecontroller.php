@@ -250,6 +250,7 @@ class PageController extends Controller {
         }
         $req->closeCursor();
 
+        $ncUserList = $this->getUserList()->getData()['users'];
         // sessions shared with current user
         $sqlgetshares = '
             SELECT sessionid, sharetoken
@@ -262,9 +263,13 @@ class PageController extends Controller {
             $dbsharetoken = $row['sharetoken'];
             $sessionInfo = $this->getSessionInfo($dbsessionid);
             $dbname = $sessionInfo['name'];
-            $dbuser = $sessionInfo['user'];
+            $dbuserId = $sessionInfo['user'];
+            $userNameDisplay = $dbuserId;
+            if (array_key_exists($dbuserId, $ncUserList)) {
+                $userNameDisplay = $ncUserList[$dbuserId];
+            }
             $devices = $this->getDevices($dbsessionid);
-            array_push($sessions, array($dbname, $dbsharetoken, $dbuser, $devices));
+            array_push($sessions, array($dbname, $dbsharetoken, $userNameDisplay, $devices));
         }
         $req->closeCursor();
 
