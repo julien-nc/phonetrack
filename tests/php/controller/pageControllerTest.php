@@ -820,8 +820,15 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($name, 'testSession');
 
         // CHECK SESSION IS SHARED WITH A USER
-        $cond = (count($data['sessions'][0])>4 and $data['sessions'][0][1] === $token and count($data['sessions'][0][5]) > 0 and $data['sessions'][0][5][0] === 'test2') or
-                (count($data['sessions'][0])>4 and $data['sessions'][1][1] === $token and count($data['sessions'][1][5]) > 0 and $data['sessions'][1][5][0] === 'test2');
+        $cond = (count($data['sessions'][0])>4
+                    and $data['sessions'][0][1] === $token
+                    and count($data['sessions'][0][5]) > 0
+                    and $data['sessions'][0][5]['test2'] === 'test2')
+                or
+                (count($data['sessions'][0])>4
+                    and $data['sessions'][1][1] === $token
+                    and count($data['sessions'][1][5]) > 0
+                    and $data['sessions'][1][5]['test2'] === 'test2');
         $this->assertEquals($cond, True);
 
         // save options

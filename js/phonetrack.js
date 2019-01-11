@@ -100,6 +100,7 @@
         filtersEnabled: false,
         filterValues: {},
         NSEWClick: {},
+        userIdName: {}
     };
 
     var offset = L.point(-7, 0);
@@ -1425,7 +1426,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                addSession(response.token, sessionName, response.publicviewtoken, [], 1);
+                addSession(response.token, sessionName, response.publicviewtoken, 1, []);
             }
             else if (response.done === 2) {
                 OC.Notification.showTemporary(t('phonetrack', 'Session name already used'));
@@ -1452,7 +1453,7 @@
         return phonetrack.deviceIds[sessionid][devicename];
     }
 
-    function addSession(token, name, publicviewtoken, isPublic, devices=[], sharedWith=[],
+    function addSession(token, name, publicviewtoken, isPublic, devices=[], sharedWith={},
                         selected=false, isFromShare=false, isSharedBy='',
                         reservedNames=[], publicFilteredShares=[], autoexport='no', autopurge='no') {
         var i;
@@ -1648,10 +1649,12 @@
                 t('phonetrack', 'Type user name and press \'Enter\'') + '"></input>';
             divtxt = divtxt + '<ul class="usersharelist">';
 
-            for (i = 0; i < sharedWith.length; i++) {
-                divtxt = divtxt + '<li username="' + escapeHTML(sharedWith[i]) + '"><label>' +
-                    t('phonetrack', 'Shared with {u}', {'u': sharedWith[i]}) + '</label>' +
-                    '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
+            var username;
+            for (var id in sharedWith) {
+                username = sharedWith[id];
+                divtxt = divtxt + '<li userid="'+escapeHTML(id)+'" username="' + escapeHTML(username) + '"><label>' +
+                    t('phonetrack', 'Shared with {u}', {'u': username}) + '</label>' +
+                    '<button class="deleteusershare" userid="'+escapeHTML(id)+'"><i class="fa fa-trash"></i></li>';
             }
             divtxt = divtxt + '</ul>';
             divtxt = divtxt + '</div><hr/>';
@@ -2151,7 +2154,7 @@
                             '',
                             0,
                             response.sessions[s][3],
-                            [],
+                            {},
                             selected,
                             true,
                             response.sessions[s][2],
@@ -4141,7 +4144,8 @@
                 async: true
             }).done(function (response) {
                 if (response.done === 1) {
-                    addSession(response.token, response.sessionName, response.publicviewtoken, [], response.devices, 1);
+                    // TODO fix that
+                    addSession(response.token, response.sessionName, response.publicviewtoken, 1, response.devices);
                 }
                 else if (response.done === 2) {
                     OC.Notification.showTemporary(t('phonetrack', 'Failed to create imported session'));
@@ -4450,10 +4454,10 @@
         });
     }
 
-    function addUserShareDb(token, username) {
+    function addUserShareDb(token, userId, userName) {
         var req = {
             token: token,
-            username: username
+            userId: userId
         };
         var url = OC.generateUrl('/apps/phonetrack/addUserShare');
         $.ajax({
@@ -4463,7 +4467,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                addUserShare(token, username);
+                addUserShare(token, userId, userName);
             }
             else if (response.done === 4) {
                 OC.Notification.showTemporary(t('phonetrack', 'User does not exist'));
@@ -4476,18 +4480,18 @@
         });
     }
 
-    function addUserShare(token, username) {
-        var li = '<li username="' + escapeHTML(username) + '"><label>' +
+    function addUserShare(token, userId, username) {
+        var li = '<li userid="'+escapeHTML(userId)+'" username="' + escapeHTML(username) + '"><label>' +
             t('phonetrack', 'Shared with {u}', {'u': username}) + '</label>' +
-            '<button class="deleteusershare"><i class="fa fa-trash"></i></li>';
+            '<button class="deleteusershare" userid="'+escapeHTML(userId)+'"><i class="fa fa-trash"></i></li>';
         $('.session[token="' + token + '"]').find('.usersharelist').append(li);
         $('.session[token="' + token + '"]').find('.addusershare').val('');
     }
 
-    function deleteUserShareDb(token, username) {
+    function deleteUserShareDb(token, userId, username) {
         var req = {
             token: token,
-            username: username
+            userId: userId
         };
         var url = OC.generateUrl('/apps/phonetrack/deleteUserShare');
         $.ajax({
@@ -4497,7 +4501,7 @@
             async: true
         }).done(function (response) {
             if (response.done === 1) {
-                var li = $('.session[token="' + token + '"]').find('.usersharelist li[username=' + username + ']');
+                var li = $('.session[token="' + token + '"]').find('.usersharelist li[userid=' + userId + ']');
                 li.fadeOut('slow', function() {
                     li.remove();
                 });
@@ -4907,8 +4911,15 @@
             data: req,
             async: true
         }).done(function (response) {
+            phonetrack.userIdName = response.users;
+            var nameList = [];
+            var name;
+            for (var id in response.users) {
+                name = response.users[id];
+                nameList.push(name);
+            }
             input.autocomplete({
-                source: response.users
+                source: nameList
             });
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get user list'));
@@ -6252,14 +6263,22 @@
             if (e.key === 'Enter') {
                 var token = $(this).parent().parent().parent().attr('token');
                 var username = $(this).val();
-                addUserShareDb(token, username);
+                var userId = '';
+                for (var id in phonetrack.userIdName) {
+                    if (username === phonetrack.userIdName[id]) {
+                        userId = id;
+                        break;
+                    }
+                }
+                addUserShareDb(token, userId, username);
             }
         });
 
         $('body').on('click','.deleteusershare', function(e) {
             var token = $(this).parent().parent().parent().parent().parent().attr('token');
             var username = $(this).parent().attr('username');
-            deleteUserShareDb(token, username);
+            var userId = $(this).attr('userid');
+            deleteUserShareDb(token, userId, username);
         });
 
         $('body').on('click','.addpublicfilteredshareButton', function(e) {
@@ -6757,7 +6776,7 @@
 
             var name = $('#publicsessionname').text();
             phonetrack.publicName = name;
-            addSession(token, name, publicviewtoken, null, [], [], true);
+            addSession(token, name, publicviewtoken, 1, [], {}, true);
             $('#addPointDiv').remove();
             $('#deletePointDiv').remove();
             $('.removeSession').remove();

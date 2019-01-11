@@ -386,6 +386,8 @@ class PageController extends Controller {
      * with whom is this session shared ?
      */
     private function getUserShares($sessionid) {
+        $ncUserList = $this->getUserList()->getData()['users'];
+        $sharesToDelete = [];
         $sharedWith = [];
         $sqlchk = '
             SELECT username
@@ -395,9 +397,28 @@ class PageController extends Controller {
         $req->execute();
         $dbusername = null;
         while ($row = $req->fetch()){
-            array_push($sharedWith, $row['username']);
+            //array_push($sharedWith, $row['username']);
+            $userId = $row['username'];
+            if (array_key_exists($userId, $ncUserList)) {
+                $userName = $ncUserList[$userId];
+                $sharedWith[$userId] = $userName;
+            }
+            else {
+                array_push($sharesToDelete, $userId);
+            }
         }
         $req->closeCursor();
+
+        // delete useless shares (with unexisting users)
+        foreach ($sharesToDelete as $uid) {
+            $sqldel = '
+                DELETE FROM *PREFIX*phonetrack_shares
+                WHERE sessionid='.$this->db_quote_escape_string($sessionid).' 
+                    AND username='.$this->db_quote_escape_string($uid).' ;';
+            $req = $this->dbconnection->prepare($sqldel);
+            $req->execute();
+            $req->closeCursor();
+        }
 
         return $sharedWith;
     }
@@ -3234,16 +3255,16 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function addUserShare($token, $username) {
+    public function addUserShare($token, $userId) {
         $ok = 0;
-        // check if username exists
-        $userNames = [];
+        // check if userId exists
+        $userIds = [];
         foreach($this->userManager->search('') as $u) {
             if ($u->getUID() !== $this->userId) {
-                array_push($userNames, $u->getUID());
+                array_push($userIds, $u->getUID());
             }
         }
-        if ($username !== '' and in_array($username, $userNames)) {
+        if ($userId !== '' and in_array($userId, $userIds)) {
             // check if session exists and owned by current user
             $sqlchk = '
                 SELECT name, token
@@ -3267,7 +3288,7 @@ class PageController extends Controller {
                     SELECT username, sessionid
                     FROM *PREFIX*phonetrack_shares
                     WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-                          AND username='.$this->db_quote_escape_string($username).' ;';
+                          AND username='.$this->db_quote_escape_string($userId).' ;';
                 $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
                 $dbusername = null;
@@ -3287,7 +3308,7 @@ class PageController extends Controller {
                         (sessionid, username, sharetoken)
                         VALUES ('.
                             $this->db_quote_escape_string($dbtoken).','.
-                            $this->db_quote_escape_string($username).','.
+                            $this->db_quote_escape_string($userId).','.
                             $this->db_quote_escape_string($sharetoken).
                         ') ;';
                     $req = $this->dbconnection->prepare($sql);
@@ -3309,7 +3330,7 @@ class PageController extends Controller {
                         ->setLink('/apps/phonetrack', 'GET');
 
                     $notification->setApp('phonetrack')
-                        ->setUser($username)
+                        ->setUser($userId)
                         ->setDateTime(new \DateTime())
                         ->setObject('addusershare', $dbtoken)
                         ->setSubject('add_user_share', [$this->userId, $dbname])
@@ -3419,7 +3440,7 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      */
-    public function deleteUserShare($token, $username) {
+    public function deleteUserShare($token, $userId) {
         $ok = 0;
         // check if session exists
         $sqlchk = '
@@ -3444,22 +3465,22 @@ class PageController extends Controller {
                 SELECT username, sessionid
                 FROM *PREFIX*phonetrack_shares
                 WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-                      AND username='.$this->db_quote_escape_string($username).' ;';
+                      AND username='.$this->db_quote_escape_string($userId).' ;';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
-            $dbusername = null;
+            $dbuserId = null;
             while ($row = $req->fetch()){
-                $dbusername = $row['username'];
+                $dbuserId = $row['username'];
                 break;
             }
             $req->closeCursor();
 
-            if ($dbusername !== null) {
+            if ($dbuserId !== null) {
                 // delete
                 $sqldel = '
                     DELETE FROM *PREFIX*phonetrack_shares
                     WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-                          AND username='.$this->db_quote_escape_string($username).' ;';
+                          AND username='.$this->db_quote_escape_string($userId).' ;';
                 $req = $this->dbconnection->prepare($sqldel);
                 $req->execute();
                 $req->closeCursor();
@@ -3479,7 +3500,7 @@ class PageController extends Controller {
                     ->setLink('/apps/phonetrack', 'GET');
 
                 $notification->setApp('phonetrack')
-                    ->setUser($username)
+                    ->setUser($userId)
                     ->setDateTime(new \DateTime())
                     ->setObject('deleteusershare', $dbtoken)
                     ->setSubject('delete_user_share', [$this->userId, $dbname])
@@ -4219,7 +4240,8 @@ class PageController extends Controller {
         $userNames = [];
         foreach($this->userManager->search('') as $u) {
             if ($u->getUID() !== $this->userId) {
-                array_push($userNames, $u->getUID());
+                //array_push($userNames, $u->getUID());
+                $userNames[$u->getUID()] = $u->getDisplayName();
             }
         }
         $response = new DataResponse(
