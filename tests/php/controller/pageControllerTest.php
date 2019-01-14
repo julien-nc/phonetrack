@@ -550,6 +550,27 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $gprmc = '$GPRMC,081839,A,3751.65,S,14507.36,W,000.0,360.0,130998,011.3,E*62';
         $this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
 
+        // log multiple
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+        $nbPoints = count($respSession[$token][$deviceid]);
+
+        $points = [
+            [43.65339660644531,3.8572182655334473,1547460652,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
+            [43.65339660644532,3.8572182655334473,1547460653,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
+            [43.65339660644533,3.8572182655334473,1547460654,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
+            [43.65339660644534,3.8572182655334473,1547460655,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
+        ];
+        $this->logController->logPostMultiple($token, 'dev1', $points);
+
+        $sessions = array(array($token, null, null));
+        $resp = $this->pageController->track($sessions);
+        $data = $resp->getData();
+        $respSession = $data['sessions'];
+
+        $this->assertEquals($nbPoints+4, count($respSession[$token][$deviceid]));
     }
 
     public function testPage() {
