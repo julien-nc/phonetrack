@@ -6,10 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- LocusMap compatibility
+[#101](https://gitlab.com/eneiluj/phonetrack-oc/issues/101) @webunraveling
+- GET parameters to publicSessionWatch URL
+[#190](https://gitlab.com/eneiluj/phonetrack-oc/issues/190) @Lucas.Sichardt
+- new log method to receive multiple points in JSON (used by PhoneTrack-Android)
 
 ### Changed
 - use https for tileservers which support it
 [!464](https://gitlab.com/eneiluj/phonetrack-oc/merge_requests/464) @webunraveling
+- improve session-user sharing system, consider userId instead of username
+[#195](https://gitlab.com/eneiluj/phonetrack-oc/issues/195) @mikoladz
 
 ### Fixed
 - check email validity for geofences and proxims
