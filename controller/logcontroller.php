@@ -1224,6 +1224,279 @@ class LogController extends Controller {
      * @NoCSRFRequired
      * @PublicPage
      *
+     * @return array;
+     *
+     **/
+    public function logPostMultiple($token, $devicename, $points) {
+        $res = ['done'=>0, 'friends'=>[]];
+        if (!is_null($devicename) and $devicename !== '' and
+            !is_null($token) and $token !== '') {
+            // check if session exists
+            $sqlchk = '
+                SELECT `name`, `user`, `public`
+                FROM `*PREFIX*phonetrack_sessions`
+                WHERE `token`=?
+            ';
+            $req = $this->dbconnection->prepare($sqlchk);
+            $req->execute([$token]);
+            $dbname = null;
+            $userid = null;
+            $isPublicSession = null;
+            while ($row = $req->fetch()){
+                $dbname = $row['name'];
+                $userid = $row['user'];
+                $isPublicSession = (bool)$row['public'];
+                break;
+            }
+            $req->closeCursor();
+
+            if ($dbname !== null) {
+                $humanReadableDeviceName = $devicename;
+                // check if this devicename is reserved or exists
+                $dbdevicename = null;
+                $dbdevicealias = null;
+                $dbdevicenametoken = null;
+                $deviceidToInsert = null;
+                $sqlgetres = '
+                    SELECT id, name, nametoken, alias
+                    FROM *PREFIX*phonetrack_devices
+                    WHERE sessionid='.$this->db_quote_escape_string($token).'
+                          AND name='.$this->db_quote_escape_string($devicename).' ;';
+                $req = $this->dbconnection->prepare($sqlgetres);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbdeviceid = $row['id'];
+                    $dbdevicename = $row['name'];
+                    $dbdevicealias = $row['alias'];
+                    $dbdevicenametoken = $row['nametoken'];
+                }
+                $req->closeCursor();
+
+                // the device exists
+                if ($dbdevicename !== null) {
+                    if (!empty($dbdevicealias)) {
+                        $humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
+                    }
+                    else {
+                        $humanReadableDeviceName = $dbdevicename;
+                    }
+                    // this device id reserved => logging refused if the request does not come from correct user
+                    if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
+                        // here, we check if we're logged in as the session owner
+                        if ($this->userId !== '' and $this->userId !== null and $userid === $this->userId) {
+                            // if so, accept to (manually) log with name and not nametoken
+                            $deviceidToInsert = $dbdeviceid;
+                        }
+                        else {
+                            return;
+                        }
+                    }
+                    else {
+                        $deviceidToInsert = $dbdeviceid;
+                    }
+                }
+                // the device with this device name does not exist
+                else {
+                    // check if the device name corresponds to a nametoken
+                    $dbdevicenametoken = null;
+                    $dbdevicename = null;
+                    $dbdevicealias = null;
+                    $sqlgetres = '
+                        SELECT id, name, nametoken, alias
+                        FROM *PREFIX*phonetrack_devices
+                        WHERE sessionid='.$this->db_quote_escape_string($token).'
+                              AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
+                    $req = $this->dbconnection->prepare($sqlgetres);
+                    $req->execute();
+                    while ($row = $req->fetch()){
+                        $dbdeviceid = $row['id'];
+                        $dbdevicename = $row['name'];
+                        $dbdevicealias = $row['alias'];
+                        $dbdevicenametoken = $row['nametoken'];
+                    }
+                    $req->closeCursor();
+
+                    // there is a device which has this nametoken => we log for this device
+                    if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
+                        $deviceidToInsert = $dbdeviceid;
+                        if (!empty($dbdevicealias)) {
+                            $humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
+                        }
+                        else {
+                            $humanReadableDeviceName = $dbdevicename;
+                        }
+                    }
+                    else {
+                        // device does not exist and there is no reservation corresponding
+                        // => we create it
+                        $sql = '
+                            INSERT INTO *PREFIX*phonetrack_devices
+                            (name, sessionid)
+                            VALUES ('.
+                                $this->db_quote_escape_string($devicename).','.
+                                $this->db_quote_escape_string($token).
+                            ') ;';
+                        $req = $this->dbconnection->prepare($sql);
+                        $req->execute();
+                        $req->closeCursor();
+
+                        // get the newly created device id
+                        $sqlgetdid = '
+                            SELECT id
+                            FROM *PREFIX*phonetrack_devices
+                            WHERE sessionid='.$this->db_quote_escape_string($token).'
+                                  AND name='.$this->db_quote_escape_string($devicename).' ;';
+                        $req = $this->dbconnection->prepare($sqlgetdid);
+                        $req->execute();
+                        while ($row = $req->fetch()){
+                            $deviceidToInsert = $row['id'];
+                        }
+                        $req->closeCursor();
+                    }
+                }
+
+                foreach ($points as $point) {
+                    $lat = $point[0];
+                    $lon = $point[1];
+                    $timestamp = $point[2];
+                    $alt = $point[3];
+                    $acc = $point[4];
+                    $bat = $point[5];
+                    $sat = $point[6];
+                    $useragent = $point[7];
+                    $speed = $point[8];
+                    $bearing = $point[9];
+
+                    if (!is_null($devicename) and $devicename !== '' and
+                        !is_null($token) and $token !== '' and
+                        !is_null($lat) and $lat !== '' and is_numeric($lat) and
+                        !is_null($lon) and $lon !== '' and is_numeric($lon) and
+                        !is_null($timestamp) and $timestamp !== '' and is_numeric($timestamp)
+                    ) {
+
+                        // correct timestamp if needed
+                        $time = $timestamp;
+                        if (is_numeric($time)) {
+                            $time = floatval($time);
+                            if ($time > 10000000000.0) {
+                                $time = $time / 1000;
+                            }
+                        }
+
+                        if (is_numeric($acc)) {
+                            $acc = sprintf('%.2f', (float)$acc);
+                        }
+
+                        // geofences, proximity alerts, quota
+                        $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+                        $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+                        $quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+
+                        if (!$quotaClearance) {
+                            $res['done'] = 2;
+                            return $res;
+                        }
+
+                        $sql = '
+                            INSERT INTO *PREFIX*phonetrack_points
+                            (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
+                            VALUES ('.
+                                $this->db_quote_escape_string($deviceidToInsert).','.
+                                $this->db_quote_escape_string(floatval($lat)).','.
+                                $this->db_quote_escape_string(floatval($lon)).','.
+                                $this->db_quote_escape_string(intval($time)).','.
+                                (is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL').','.
+                                (is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL').','.
+                                (is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL').','.
+                                (is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL').','.
+                                $this->db_quote_escape_string($useragent).','.
+                                (is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL').','.
+                                (is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').'
+                            ) ;';
+                        $req = $this->dbconnection->prepare($sql);
+                        $req->execute();
+                        $req->closeCursor();
+                    }
+                }
+
+                $res['done'] = 1;
+
+                if ($isPublicSession && $useragent === self::LOG_OWNTRACKS) {
+                    $friendSQL  = '
+                        SELECT p.`deviceid`, `nametoken`, `name`, `lat`, `lon`,
+                            `speed`, `altitude`, `batterylevel`, `accuracy`,
+                            `timestamp`
+                        FROM `*PREFIX*phonetrack_points` p
+                        JOIN (
+                            SELECT `deviceid`, `nametoken`, `name`,
+                                MAX(`timestamp`) `lastupdate`
+                            FROM `*PREFIX*phonetrack_points` po
+                            JOIN `*PREFIX*phonetrack_devices` d ON po.`deviceid` = d.`id`
+                            WHERE `sessionid` = ?
+                            GROUP BY `deviceid`, `nametoken`, `name`
+                        ) l ON p.`deviceid` = l.`deviceid`
+                        AND p.`timestamp` = l.`lastupdate`
+                    ';
+                    $friendReq = $this->dbconnection->prepare($friendSQL);
+                    $friendReq->execute([$token]);
+                    $result = [];
+                    while ($row = $friendReq->fetch()){
+                        // we don't store the tid, so we fall back to the last
+                        // two chars of the nametoken
+                        // TODO feels far from unique, currently 32 ids max
+                        $tid = substr($row['nametoken'],-2);
+                        $location = [
+                            '_type'=>'location',
+
+                            // Tracker ID used to display the initials of a user (iOS,Android/string/optional) required for http mode
+                            'tid' => $tid,
+
+                            // latitude (iOS,Android/float/meters/required)
+                            'lat' => (float)$row['lat'],
+
+                            // longitude (iOS,Android/float/meters/required)
+                            'lon' => (float)$row['lon'],
+
+                            // UNIX epoch timestamp in seconds of the location fix (iOS,Android/integer/epoch/required)
+                            'tst' => (int)$row['timestamp'],
+                        ];
+
+                        if (isset($row['speed'])) {
+                            // velocity (iOS/integer/kmh/optional)
+                            $location['vel'] = (int)$row['speed'];
+                        }
+                        if (isset($row['altitude'])) {
+                            // Altitude measured above sea level (iOS/integer/meters/optional)
+                            $location['alt'] = (int)$row['altitude'];
+                        }
+                        if (isset($row['batterylevel'])) {
+                            // Device battery level (iOS,Android/integer/percent/optional)
+                            $location['batt'] = (int)$row['batterylevel'];
+                        }
+                        if (isset($row['accuracy'])) {
+                            // Accuracy of the reported location in meters without unit (iOS/integer/meters/optional)
+                            $location['acc'] = (int)$row['accuracy'];
+                        }
+                        $result[] = $location;
+                        $result[] = [
+                            '_type'=>'card',
+                            'tid' => $tid,
+                            //'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
+                            'name' => $row['name'],
+                        ];
+                    }
+                    $res['friends'] = $result;
+                }
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     * @PublicPage
+     *
      **/
     public function logGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed=null, $bearing=null) {
         $dname = $this->chooseDeviceName($devicename, null);

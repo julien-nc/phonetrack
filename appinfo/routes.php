@@ -41,6 +41,7 @@ return [
         ['name' => 'page#setDeviceShape', 'url' => '/setDeviceShape', 'verb' => 'POST'],
         ['name' => 'log#logGet', 'url' => '/logGet/{token}/{devicename}', 'verb' => 'GET'],
         ['name' => 'log#logPost', 'url' => '/logPost/{token}/{devicename}', 'verb' => 'POST'],
+        ['name' => 'log#logPostMultiple', 'url' => '/logPostMultiple/{token}/{devicename}', 'verb' => 'POST'],
         ['name' => 'log#logOsmand', 'url' => '/log/osmand/{token}/{devicename}', 'verb' => 'GET'],
         ['name' => 'log#logLocusmapGet', 'url' => '/log/locusmap/{token}/{devicename}', 'verb' => 'GET'],
         ['name' => 'log#logLocusmapPost', 'url' => '/log/locusmap/{token}/{devicename}', 'verb' => 'POST'],
