@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.4.1 – 2019-01-14
 ### Added
 - LocusMap compatibility
 [#101](https://gitlab.com/eneiluj/phonetrack-oc/issues/101) @webunraveling
