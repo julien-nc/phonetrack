@@ -318,8 +318,10 @@ class PageController extends Controller {
 
         // sessions shared with current user
         $sqlgetshares = '
-            SELECT sessionid, sharetoken
+            SELECT sessionid, sharetoken,
+                   *PREFIX*phonetrack_sessions.publicviewtoken AS publicviewtoken
             FROM *PREFIX*phonetrack_shares
+            INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_shares.sessionid=*PREFIX*phonetrack_sessions.token
             WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlgetshares);
         $req->execute();
@@ -329,8 +331,9 @@ class PageController extends Controller {
             $sessionInfo = $this->getSessionInfo($dbsessionid);
             $dbname = $sessionInfo['name'];
             $dbuser = $sessionInfo['user'];
+            $dbpublicviewtoken = $row['publicviewtoken'];
             $devices = $this->getDevices($dbsessionid);
-            array_push($sessions, array($dbname, $dbsharetoken, $dbuser, $devices));
+            array_push($sessions, array($dbname, $dbsharetoken, $dbpublicviewtoken, $dbuser, $devices));
         }
         $req->closeCursor();
 
