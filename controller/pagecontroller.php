@@ -4661,7 +4661,7 @@ class PageController extends Controller {
                 $req->execute();
                 while ($row = $req->fetch()){
                     foreach ($row as $k => $v) {
-                        $entry[$k] = floatval($v);
+                        $entry[$k] = is_numeric($v) ? floatval($v) : null;
                     }
                 }
                 $req->closeCursor();
