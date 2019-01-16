@@ -4652,7 +4652,7 @@ class PageController extends Controller {
 
                 $entry = array();
                 $sqlget = '
-                    SELECT lat, lon, timestamp, batterylevel,
+                    SELECT lat, lon, timestamp, batterylevel, useragent,
                            satellites, accuracy, altitude, speed, bearing
                     FROM *PREFIX*phonetrack_points
                     WHERE deviceid='.$this->db_quote_escape_string($devid).'
@@ -4660,6 +4660,8 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){
+                    $entry['useragent'] = $row['useragent'];
+                    unset($row['useragent']);
                     foreach ($row as $k => $v) {
                         $entry[$k] = is_numeric($v) ? floatval($v) : null;
                     }
