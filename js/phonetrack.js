@@ -4661,12 +4661,22 @@
             urlleavetxt +
             t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
-            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || '') +
+            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
             '">' +
             '<label class="geofencelabel">'+escapeHTML(fencename || '')+'</label>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
             '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
-            '</li>';
+            '<br/><br/><p class="geofenceTextValues">';
+        if (urlentertxt) {
+            li = li + urlentertxt + '<br/>';
+        }
+        if (urlleavetxt) {
+            li = li + urlleavetxt + '<br/>';
+        }
+        li = li +t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '<br/>' +
+            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '<br/>' +
+            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
+            '</p></li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
     }
 

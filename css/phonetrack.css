@@ -1096,3 +1096,7 @@ label[for=quotareached] {
 #quotareached {
     width: 50%;
 }
+.geofenceTextValues {
+    text-align: left !important;
+    padding: 0px 10px 5px 10px;
+}

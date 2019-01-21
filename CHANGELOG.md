@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add useragent to api getLastPositions
 - add isPublic to api getSessions
 - replace URL with link or address in translatable strings
+- display geofence values to make it more explicit how it works
 
 ### Fixed
 - api/getlastpositions : missing values = null
