@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PhoneTrack app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-01-22 00:16+0100\n"
+"POT-Creation-Date: 2019-01-22 00:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgstr ""
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
 msgstr ""
 
-#: logcontroller.php:627 logcontroller.php:728
+#: logcontroller.php:627 logcontroller.php:729
 msgid "Geofencing alert"
 msgstr ""
 
@@ -45,7 +45,7 @@ msgstr ""
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
 msgstr ""
 
-#: logcontroller.php:731 Notification/Notifier.php:74
+#: logcontroller.php:732 Notification/Notifier.php:74
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
 msgstr ""
@@ -535,7 +535,9 @@ msgid "You can put multiple addresses separated by comas (,)."
 msgstr ""
 
 #: phonetrack.js:3006
-msgid "HTTP address to request when entering"
+msgid ""
+"HTTP address to request when entering (\"%loc\" will be replaced by "
+"\"latitude:longitude\")"
 msgstr ""
 
 #: phonetrack.js:3007 phonetrack.js:3011 phonetrack.js:3066 phonetrack.js:3070
@@ -543,7 +545,9 @@ msgid "Use POST method"
 msgstr ""
 
 #: phonetrack.js:3010
-msgid "HTTP address to request when leaving"
+msgid ""
+"HTTP address to request when leaving (\"%loc\" will be replaced by "
+"\"latitude:longitude\")"
 msgstr ""
 
 #: phonetrack.js:3014
