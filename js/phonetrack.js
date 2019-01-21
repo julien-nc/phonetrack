@@ -3003,11 +3003,11 @@
                 '<input type="text" id="geoemail'+s+d+'" class="geoemail" maxlength="500"' +
                 'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
                 t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
-                '<label for="urlenter'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when entering') + '</b></label><br/>' +
+                '<label for="urlenter'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when entering ("%loc" will be replaced by "latitude:longitude")') + '</b></label><br/>' +
                 '<span>(<label for="urlenterpost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlenterpost" id="urlenterpost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlenter'+s+d+'" class="urlenter" maxlength="500" /><br/>' +
-                '<label for="urlleave'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when leaving') + '</b> </label><br/>' +
+                '<label for="urlleave'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when leaving ("%loc" will be replaced by "latitude:longitude")') + '</b> </label><br/>' +
                 '<span>(<label for="urlleavepost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlleavepost" id="urlleavepost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlleave'+s+d+'" class="urlleave" maxlength="500" />' +

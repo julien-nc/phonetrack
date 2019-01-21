@@ -639,6 +639,7 @@ class LogController extends Controller {
                     }
                     if ($urlenter !== '' and startsWith($urlenter, 'http')) {
                         // GET
+                        $urlenter = str_replace(array('%loc'), $lat.':'.$lon,  $urlenter);
                         if ($urlenterpost === 0) {
                             try {
                                 $xml = file_get_contents($urlenter);
@@ -741,6 +742,7 @@ class LogController extends Controller {
                     if ($urlleave !== '' and startsWith($urlleave, 'http')) {
                         // GET
                         if ($urlleavepost === 0) {
+                            $urlleave = str_replace(array('%loc'), $lat.':'.$lon,  $urlleave);
                             try {
                                 $xml = file_get_contents($urlleave);
                             }
