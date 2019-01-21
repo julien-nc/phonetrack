@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+- api/getlastpositions now gives publicviewtoken of shared sessions, used in PT-android
+- add useragent to api getLastPositions
+- add isPublic to api getSessions
+- replace URL with link or address in translatable strings
+
+### Fixed
+- api/getlastpositions : missing values = null
+
 ## 0.4.1 – 2019-01-14
 ### Added
 - LocusMap compatibility
