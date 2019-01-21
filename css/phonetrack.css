@@ -976,6 +976,9 @@ input.geofencename {
 .deletegeofencebutton {
     float: right;
 }
+.proximlabel {
+    cursor: default;
+}
 .booklabel,
 .proximlabel,
 .geofencelabel {
@@ -1096,7 +1099,7 @@ label[for=quotareached] {
 #quotareached {
     width: 50%;
 }
-.geofenceTextValues {
+.geofenceTextValues, .proximTextValues {
     text-align: left !important;
     padding: 0px 10px 5px 10px;
 }

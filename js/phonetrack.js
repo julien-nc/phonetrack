@@ -4770,13 +4770,27 @@
             t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
             t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
-            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || '') + '\n' +
+            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) + '\n' +
             t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) + '\n' +
             t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
             '">' +
             '<label class="proximlabel">'+escapeHTML(sname + ' -> ' + dname)+'</label>' +
             '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
-            '</li>';
+            '<br/><br/><p class="proximTextValues">' +
+            t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') +
+            '<br/>' +
+            t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') +
+            '<br/>' +
+            t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt +
+            '<br/>' +
+            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
+            '<br/>' +
+            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
+            '<br/>' +
+            t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
+            '<br/>' +
+            t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
+            '</p></li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .proximDiv .proximlist').append(li);
     }
 
