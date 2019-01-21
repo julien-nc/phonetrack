@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PhoneTrack app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-01-21 03:08+0100\n"
+"POT-Creation-Date: 2019-01-21 20:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,7 +99,7 @@ msgid "Click on the map to move the point, press ESC to cancel"
 msgstr ""
 
 #: phonetrack.js:928
-msgid "Server name or server url should not be empty"
+msgid "Server name or server address should not be empty"
 msgstr ""
 
 #: phonetrack.js:931 phonetrack.js:940
@@ -192,11 +192,11 @@ msgid "Zoom on this session"
 msgstr ""
 
 #: phonetrack.js:1573
-msgid "URL to share session"
+msgid "Link to share session"
 msgstr ""
 
 #: phonetrack.js:1577
-msgid "URLs for logging apps"
+msgid "Links for logging apps"
 msgstr ""
 
 #: phonetrack.js:1581
@@ -270,11 +270,11 @@ msgid "Name reservation is optional."
 msgstr ""
 
 #: phonetrack.js:1627
-msgid "Name can be set directly in logging URL if it is not reserved."
+msgid "Name can be set directly in logging link if it is not reserved."
 msgstr ""
 
 #: phonetrack.js:1628
-msgid "To log with a reserved name, use its token in logging URL."
+msgid "To log with a reserved name, use its token in logging link."
 msgstr ""
 
 #: phonetrack.js:1629
@@ -315,7 +315,7 @@ msgid "Make session private"
 msgstr ""
 
 #: phonetrack.js:1672
-msgid "Public watch URL"
+msgid "Public watch link"
 msgstr ""
 
 #: phonetrack.js:1674
@@ -331,7 +331,7 @@ msgid "Add public filtered share"
 msgstr ""
 
 #: phonetrack.js:1692
-msgid "List of server URLs to configure logging apps."
+msgid "List of links to configure logging apps server settings."
 msgstr ""
 
 #: phonetrack.js:1693 maincontent.php:220
@@ -341,39 +341,39 @@ msgid ""
 msgstr ""
 
 #: phonetrack.js:1695
-msgid "Public browser logging URL"
+msgid "Public browser logging link"
 msgstr ""
 
 #: phonetrack.js:1700
-msgid "OsmAnd URL"
+msgid "OsmAnd link"
 msgstr ""
 
 #: phonetrack.js:1705
-msgid "GpsLogger GET and POST URL"
+msgid "GpsLogger GET and POST link"
 msgstr ""
 
 #: phonetrack.js:1709
-msgid "Owntracks (HTTP mode) URL"
+msgid "Owntracks (HTTP mode) link"
 msgstr ""
 
 #: phonetrack.js:1713
-msgid "Ulogger URL"
+msgid "Ulogger link"
 msgstr ""
 
 #: phonetrack.js:1717
-msgid "Traccar URL"
+msgid "Traccar link"
 msgstr ""
 
 #: phonetrack.js:1721
-msgid "OpenGTS URL"
+msgid "OpenGTS link"
 msgstr ""
 
 #: phonetrack.js:1725
-msgid "Locus Map URL"
+msgid "Locus Map link"
 msgstr ""
 
 #: phonetrack.js:1729
-msgid "HTTP GET URL"
+msgid "HTTP GET link"
 msgstr ""
 
 #: phonetrack.js:1824
@@ -532,16 +532,16 @@ msgstr ""
 msgid "You can put multiple addresses separated by comas (,)."
 msgstr ""
 
-#: phonetrack.js:3006 phonetrack.js:4642
-msgid "URL to request when entering"
+#: phonetrack.js:3006
+msgid "HTTP address to request when entering"
 msgstr ""
 
 #: phonetrack.js:3007 phonetrack.js:3011 phonetrack.js:3066 phonetrack.js:3070
 msgid "Use POST method"
 msgstr ""
 
-#: phonetrack.js:3010 phonetrack.js:4646
-msgid "URL to request when leaving"
+#: phonetrack.js:3010
+msgid "HTTP address to request when leaving"
 msgstr ""
 
 #: phonetrack.js:3014
@@ -633,12 +633,12 @@ msgstr ""
 msgid "High distance limit"
 msgstr ""
 
-#: phonetrack.js:3065 phonetrack.js:4759
-msgid "URL to request when devices get close"
+#: phonetrack.js:3065
+msgid "HTTP address to request when devices get close"
 msgstr ""
 
-#: phonetrack.js:3069 phonetrack.js:4760
-msgid "URL to request when devices get far"
+#: phonetrack.js:3069
+msgid "HTTP address to request when devices get far"
 msgstr ""
 
 #: phonetrack.js:3074
@@ -894,6 +894,14 @@ msgstr ""
 msgid "Failed to contact server to add geofencing zone"
 msgstr ""
 
+#: phonetrack.js:4642
+msgid "URL to request when entering"
+msgstr ""
+
+#: phonetrack.js:4646
+msgid "URL to request when leaving"
+msgstr ""
+
 #: phonetrack.js:4649 phonetrack.js:4653 phonetrack.js:4750 phonetrack.js:4754
 msgid "no"
 msgstr ""
@@ -930,6 +938,14 @@ msgstr ""
 
 #: phonetrack.js:4737
 msgid "Failed to contact server to add proximity alert"
+msgstr ""
+
+#: phonetrack.js:4759
+msgid "URL to request when devices get close"
+msgstr ""
+
+#: phonetrack.js:4760
+msgid "URL to request when devices get far"
 msgstr ""
 
 #: phonetrack.js:4764
@@ -1023,7 +1039,7 @@ msgid ""
 msgstr ""
 
 #: phonetrack.js:5072
-msgid "Copy the URL below into the 'Online tracking web address' field."
+msgid "Copy the link below into the 'Online tracking web address' field."
 msgstr ""
 
 #: phonetrack.js:5076
@@ -1033,7 +1049,7 @@ msgid ""
 msgstr ""
 
 #: phonetrack.js:5077
-msgid "Copy the URL below into the 'URL' field."
+msgid "Copy the link below into the 'URL' field."
 msgstr ""
 
 #: phonetrack.js:5081
@@ -1042,7 +1058,7 @@ msgstr ""
 
 #: phonetrack.js:5082
 msgid ""
-"Change the connection Mode to 'Private HTTP', Copy the URL below into the "
+"Change the connection Mode to 'Private HTTP', Copy the link below into the "
 "'Host' field."
 msgstr ""
 
@@ -1052,8 +1068,8 @@ msgstr ""
 
 #: phonetrack.js:5087
 msgid ""
-"In Ulogger, go to settings menu and copy the URL below into the 'Server URL' "
-"field."
+"In Ulogger, go to settings menu and copy the link below into the 'Server "
+"URL' field."
 msgstr ""
 
 #: phonetrack.js:5088
@@ -1067,12 +1083,12 @@ msgid "Activate 'Live synchronization'."
 msgstr ""
 
 #: phonetrack.js:5093
-msgid "In Traccar client, copy the URL below into the 'server URL' field."
+msgid "In Traccar client, copy the link below into the 'server URL' field."
 msgstr ""
 
 #: phonetrack.js:5097
 msgid ""
-"In LocusMap, copy the URL below into the 'server URL' field. It works with "
+"In LocusMap, copy the link below into the 'server URL' field. It works with "
 "POST and GET methods."
 msgstr ""
 
@@ -1087,7 +1103,7 @@ msgid ""
 msgstr ""
 
 #: phonetrack.js:5105
-msgid "Use this URL as the server URL in your OpenGTS compatible logging app."
+msgid "Use this link as the server URL in your OpenGTS compatible logging app."
 msgstr ""
 
 #: phonetrack.js:5106
@@ -1103,7 +1119,7 @@ msgid "Log my position in this session"
 msgstr ""
 
 #: phonetrack.js:5111
-msgid "Visit this URL with a web browser and check \"{loglabel}\"."
+msgid "Visit this link with a web browser and check \"{loglabel}\"."
 msgstr ""
 
 #: phonetrack.js:5114
@@ -1434,9 +1450,8 @@ msgstr ""
 msgid "For example : my custom server"
 msgstr ""
 
-#: maincontent.php:268 maincontent.php:308 maincontent.php:351
-#: maincontent.php:396
-msgid "Server url"
+#: maincontent.php:268
+msgid "Server address"
 msgstr ""
 
 #: maincontent.php:269 maincontent.php:352
@@ -1464,6 +1479,10 @@ msgstr ""
 
 #: maincontent.php:303
 msgid "Custom overlay tile servers"
+msgstr ""
+
+#: maincontent.php:308 maincontent.php:351 maincontent.php:396
+msgid "Server url"
 msgstr ""
 
 #: maincontent.php:309 maincontent.php:397

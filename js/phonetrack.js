@@ -925,7 +925,7 @@
         var slayers = $('#'+type+'layers').val() || '';
         if (sname === '' || surl === '') {
             OC.Notification.showTemporary(
-                t('phonetrack', 'Server name or server url should not be empty')
+                t('phonetrack', 'Server name or server address should not be empty')
             );
             OC.Notification.showTemporary(
                 t('phonetrack', 'Impossible to add tile server')
@@ -1570,11 +1570,11 @@
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search"></i></button>';
         if (!pageIsPublic() && !isFromShare) {
-            divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'URL to share session')+'">' +
+            divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Link to share session')+'">' +
                 '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
-            divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'URLs for logging apps') + '">' +
+            divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Links for logging apps') + '">' +
                 '<i class="fa fa-link"></i></button>';
         }
         if (!pageIsPublic() && !isFromShare) {
@@ -1624,8 +1624,8 @@
         if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<div class="namereservdiv">';
             divtxt = divtxt + '<p class="information">' + t('phonetrack', 'Name reservation is optional.') + '<br/>' +
-                t('phonetrack', 'Name can be set directly in logging URL if it is not reserved.') + '<br/>' +
-                t('phonetrack', 'To log with a reserved name, use its token in logging URL.') + '<br/>' +
+                t('phonetrack', 'Name can be set directly in logging link if it is not reserved.') + '<br/>' +
+                t('phonetrack', 'To log with a reserved name, use its token in logging link.') + '<br/>' +
                 t('phonetrack', 'If a name is reserved, the only way to log with this name is with its token.') +
                 '</p>';
 
@@ -1669,7 +1669,7 @@
             divtxt = divtxt + '<button class="publicsessionbutton" title="' + titlePublic + '">';
             divtxt = divtxt + '<i class="fa ' + icon + '"></i> <b>' + pubtext + '</b></button>';
             divtxt = divtxt + '<div class="publicWatchUrlDiv">';
-            divtxt = divtxt + '<p class="publicWatchUrlLabel">' + t('phonetrack', 'Public watch URL') + ' :</p>';
+            divtxt = divtxt + '<p class="publicWatchUrlLabel">' + t('phonetrack', 'Public watch link') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
             divtxt = divtxt + '<p class="APIUrlLabel">' + t('phonetrack', 'API URL (JSON last positions)') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="APIUrl" type="text" value="' + APIUrl + '"></input>';
@@ -1689,44 +1689,44 @@
         if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<div class="moreUrls">';
             divtxt = divtxt + '<p class="urlhint information">' +
-                t('phonetrack', 'List of server URLs to configure logging apps.') + '<br/>' +
+                t('phonetrack', 'List of links to configure logging apps server settings.') + '<br/>' +
                 t('phonetrack', 'Replace \'yourname\' with the desired device name or with the name reservation token') +
                 '</p>';
-            divtxt = divtxt + '<p><label>' + t('phonetrack', 'Public browser logging URL') + ' : </label>' +
+            divtxt = divtxt + '<p><label>' + t('phonetrack', 'Public browser logging link') + ' : </label>' +
                 '<button class="urlhelpbutton" logger="publicTrack"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="publicTrackurl" type="text" value="' + publicTrackUrl + '"></input>';
 
-            divtxt = divtxt + '<p><label>' + t('phonetrack', 'OsmAnd URL') + ' : </label>' +
+            divtxt = divtxt + '<p><label>' + t('phonetrack', 'OsmAnd link') + ' : </label>' +
                 '<button class="urlhelpbutton" logger="osmand"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input>';
 
-            divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST URL') + ' : ' +
+            divtxt = divtxt + '<p>' + t('phonetrack', 'GpsLogger GET and POST link') + ' : ' +
                 '<button class="urlhelpbutton" logger="gpslogger"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) URL') + ' : ' +
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Owntracks (HTTP mode) link') + ' : ' +
                 '<button class="urlhelpbutton" logger="owntracks"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="owntracksurl" type="text" value="' + owntracksurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger URL') + ' : ' +
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Ulogger link') + ' : ' +
                 '<button class="urlhelpbutton" logger="ulogger"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="uloggerurl" type="text" value="' + uloggerurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar URL') + ' : ' +
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Traccar link') + ' : ' +
                 '<button class="urlhelpbutton" logger="traccar"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS URL') + ' : ' +
+            divtxt = divtxt + '<p>' + t('phonetrack', 'OpenGTS link') + ' : ' +
                 '<button class="urlhelpbutton" logger="opengts"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'Locus Map URL') + ' : ' +
+            divtxt = divtxt + '<p>' + t('phonetrack', 'Locus Map link') + ' : ' +
                 '<button class="urlhelpbutton" logger="locusmap"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="locusmapurl" type="text" value="' + locusmapurl + '"></input>';
-            divtxt = divtxt + '<p>' + t('phonetrack', 'HTTP GET URL') + ' : ' +
+            divtxt = divtxt + '<p>' + t('phonetrack', 'HTTP GET link') + ' : ' +
                 '<button class="urlhelpbutton" logger="get"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="geturl" type="text" value="' + geturl + '"></input>';
@@ -3003,11 +3003,11 @@
                 '<input type="text" id="geoemail'+s+d+'" class="geoemail" maxlength="500"' +
                 'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
                 t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
-                '<label for="urlenter'+s+d+'"><b>' + t('phonetrack', 'URL to request when entering') + '</b></label><br/>' +
+                '<label for="urlenter'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when entering') + '</b></label><br/>' +
                 '<span>(<label for="urlenterpost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlenterpost" id="urlenterpost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlenter'+s+d+'" class="urlenter" maxlength="500" /><br/>' +
-                '<label for="urlleave'+s+d+'"><b>' + t('phonetrack', 'URL to request when leaving') + '</b> </label><br/>' +
+                '<label for="urlleave'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when leaving') + '</b> </label><br/>' +
                 '<span>(<label for="urlleavepost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlleavepost" id="urlleavepost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlleave'+s+d+'" class="urlleave" maxlength="500" />' +
@@ -3062,11 +3062,11 @@
                 '<input type="text" id="proxemail'+s+d+'" class="proxemail" maxlength="500"' +
                 'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
                 t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
-                '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'URL to request when devices get close') + '</b></label><br/>' +
+                '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when devices get close') + '</b></label><br/>' +
                 '<span>(<label for="urlclosepost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlclosepost" id="urlclosepost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlclose'+s+d+'" class="urlclose" maxlength="500" /><br/>' +
-                '<label for="urlfar'+s+d+'"><b>' + t('phonetrack', 'URL to request when devices get far') + '</b> </label><br/>' +
+                '<label for="urlfar'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when devices get far') + '</b> </label><br/>' +
                 '<span>(<label for="urlfarpost'+s+d+'">' + t('phonetrack', 'Use POST method') +' </label>' +
                 '<input type="checkbox" class="urlfarpost" id="urlfarpost'+s+d+'"/>)</span>' +
                 '<input type="text" id="urlfar'+s+d+'" class="urlfar" maxlength="500" />' +
@@ -5069,32 +5069,32 @@
         if (logger === 'osmand') {
             loggerName = 'OsmAnd';
             content = t('phonetrack', 'In OsmAnd, go to \'Plugins\' in the main menu, then activate \'Trip recording\' plugin and go to its settings.') +
-            ' ' + t('phonetrack', 'Copy the URL below into the \'Online tracking web address\' field.');
+            ' ' + t('phonetrack', 'Copy the link below into the \'Online tracking web address\' field.');
         }
         else if (logger === 'gpslogger') {
             loggerName = 'GpsLogger';
             content = t('phonetrack', 'In GpsLogger, go to \'Logging details\' in the sidebar menu, then activate \'Log to custom URL\'.') +
-                ' ' + t('phonetrack', 'Copy the URL below into the \'URL\' field.');
+                ' ' + t('phonetrack', 'Copy the link below into the \'URL\' field.');
         }
         else if (logger === 'owntracks') {
             loggerName = 'Owntracks';
             content = t('phonetrack', 'In the Owntracks preferences menu, go to \'Connections\'.') +
-                ' ' + t('phonetrack', 'Change the connection Mode to \'Private HTTP\', Copy the URL below into the \'Host\' field.') +
+                ' ' + t('phonetrack', 'Change the connection Mode to \'Private HTTP\', Copy the link below into the \'Host\' field.') +
                 ' ' + t('phonetrack', 'Leave settings under \'Identification\' blank as they are not required.');
         }
         else if (logger === 'ulogger') {
             loggerName = 'Ulogger';
-            content = t('phonetrack', 'In Ulogger, go to settings menu and copy the URL below into the \'Server URL\' field.') +
+            content = t('phonetrack', 'In Ulogger, go to settings menu and copy the link below into the \'Server URL\' field.') +
                 ' ' + t('phonetrack', 'Set \'User name\' and \'Password\' mandatory fields to any value as they will be ignored by PhoneTrack.') +
                 ' ' + t('phonetrack', 'Activate \'Live synchronization\'.');
         }
         else if (logger === 'traccar') {
             loggerName = 'Traccar';
-            content = t('phonetrack', 'In Traccar client, copy the URL below into the \'server URL\' field.');
+            content = t('phonetrack', 'In Traccar client, copy the link below into the \'server URL\' field.');
         }
         else if (logger === 'locusmap') {
             loggerName = 'LocusMap';
-            content = t('phonetrack', 'In LocusMap, copy the URL below into the \'server URL\' field. It works with POST and GET methods.');
+            content = t('phonetrack', 'In LocusMap, copy the link below into the \'server URL\' field. It works with POST and GET methods.');
         }
         else if (logger === 'get') {
             loggerName = 'GET logger';
@@ -5102,13 +5102,13 @@
             content = content + ' ' + t('phonetrack', 'Make sure the logging system sets values for at least \'timestamp\', \'lat\' and \'lon\' GET parameters.');
         }
         else if (logger === 'opengts') {
-            content = t('phonetrack', 'Use this URL as the server URL in your OpenGTS compatible logging app.');
+            content = t('phonetrack', 'Use this link as the server URL in your OpenGTS compatible logging app.');
             loggerName = t('phonetrack', 'OpenGTS compatible logger');
         }
         else if (logger === 'publicTrack') {
             loggerName = t('phonetrack', 'the browser');
             var logLabel = t('phonetrack', 'Log my position in this session');
-            content = t('phonetrack', 'Visit this URL with a web browser and check "{loglabel}".', {loglabel: logLabel});
+            content = t('phonetrack', 'Visit this link with a web browser and check "{loglabel}".', {loglabel: logLabel});
         }
         var title = t('phonetrack',
             'Configure {loggingApp} for logging to session \'{sessionName}\'',

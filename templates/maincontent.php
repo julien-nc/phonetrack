@@ -265,7 +265,7 @@ echo '</ul>'."\n";
     <div id="tileserveradd">
         <p><?php p($l->t('Server name')); ?> :</p>
         <input type="text" id="tileservername" title="<?php p($l->t('For example : my custom server')); ?>"/>
-        <p><?php p($l->t('Server url')); ?> :</p>
+        <p><?php p($l->t('Server address')); ?> :</p>
         <input type="text" id="tileserverurl" title="<?php p($l->t('For example : http://tile.server.org/cycle/{z}/{x}/{y}.png')); ?>"/>
         <p><?php p($l->t('Min zoom (1-20)')); ?> :</p>
         <input type="text" id="tileminzoom" value="1"/>
