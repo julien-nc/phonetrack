@@ -4660,7 +4660,7 @@
             urlleavetxt +
             t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
-            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
+            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) +
             '">' +
             '<label class="geofencelabel"><i class="fa fa-caret-right"></i> '+escapeHTML(fencename || '') +
             '</label>' +
@@ -4677,7 +4677,7 @@
             '<li>' + t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '</li>';
         if (parseInt(sendemail) !== 0) {
             li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' +
-            escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) + '</li>';
+            escapeHTML(emailaddr || t('phonetrack', 'account mail address')) + '</li>';
         }
         li = li + '</ul></li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
@@ -4773,7 +4773,7 @@
             t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
             t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
-            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) + '\n' +
+            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) + '\n' +
             t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) + '\n' +
             t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
             '">' +
@@ -4793,7 +4793,7 @@
             '<li>' + t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
             '</li>';
         if (parseInt(sendemail) !== 0) {
-            li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
+            li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) +
             '</li>';
         }
             '<li>' + t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
