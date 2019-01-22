@@ -335,7 +335,6 @@ div.session p,
 .moreUrlsButton:hover i,
 .sharesession:hover i,
 .zoomsession:hover i,
-.publicsessionbutton:hover i,
 .dropdowndevicebutton:hover i,
 .dropdownbutton:hover i {
     color: var(--color-main-text);
@@ -346,12 +345,17 @@ div.session p,
 .reservNameButton i,
 .sharesession i,
 .zoomsession i,
-.publicsessionbutton i,
 .dropdownbutton i,
 .dropdowndevicebutton i,
 .sharediv i {
     color: var(--color-text-lighter);
     font-size: 16px;
+}
+.publicsessionbutton .fa-toggle-off {
+    color: var(--color-text-lighter);
+}
+.publicsessionbutton .fa-toggle-on {
+    color: var(--color-primary);
 }
 .reaffectDeviceDiv select {
     width: 100%;

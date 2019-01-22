@@ -1661,10 +1661,9 @@
 
             var titlePublic = t('phonetrack', 'A private session is not visible on public browser logging page');
             var icon = 'fa-toggle-off';
-            var pubtext = t('phonetrack', 'Make session public');
+            var pubtext = t('phonetrack', 'Public session');
             if (parseInt(isPublic) === 1) {
                 icon = 'fa-toggle-on';
-                pubtext = t('phonetrack', 'Make session private');
             }
             divtxt = divtxt + '<button class="publicsessionbutton" title="' + titlePublic + '">';
             divtxt = divtxt + '<i class="fa ' + icon + '"></i> <b>' + pubtext + '</b></button>';
@@ -6002,12 +6001,10 @@
             });
             if (pub) {
                 icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
-                buttext.text(t('phonetrack', 'Make session private'));
                 $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideDown();
             }
             else {
                 icon.addClass('fa-toggle-off').removeClass('fa-toggle-on');
-                buttext.text(t('phonetrack', 'Make session public'));
                 $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').slideUp();
             }
         });
