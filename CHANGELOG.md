@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+- variable in geofence notification URLs (%loc replaced by lat:lon)
+[#199](https://gitlab.com/eneiluj/phonetrack-oc/issues/199) @olivier.revelin
 
 ### Changed
 - api/getlastpositions now gives publicviewtoken of shared sessions, used in PT-android
@@ -14,6 +16,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add isPublic to api getSessions
 - replace URL with link or address in translatable strings
 - display geofence values to make it more explicit how it works
+- improve geofence and proxims UI
+[#199](https://gitlab.com/eneiluj/phonetrack-oc/issues/199) @olivier.revelin
+- make public session button clearer
+[#200](https://gitlab.com/eneiluj/phonetrack-oc/issues/200) @strugee
 
 ### Fixed
 - api/getlastpositions : missing values = null
