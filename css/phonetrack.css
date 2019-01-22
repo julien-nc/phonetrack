@@ -515,8 +515,11 @@ input[type=date] {
 ul.devicelist li .deviceLabel{
     cursor: pointer;
 }
+.filteredshare {
+    padding: 5px 5px 5px 5px;
+}
 #filterbookmarks li,
-ul.devicelist li {
+ul.devicelist > li {
     border-radius: 5px;
     /*height: 40px;*/
     padding: 5px 0px 5px 0px;
@@ -942,8 +945,8 @@ label[for=autoexportpath], #autoexportpath {
     display: inline;
 }
 #filterbookmarks li,
-.proximlist li,
-.geofencelist li {
+.proximlist > li,
+.geofencelist > li {
     padding: 0 !important;
 }
 #filterbookmarks li,
@@ -951,6 +954,7 @@ label[for=autoexportpath], #autoexportpath {
 .geofencelist li,
 .filteredshare {
     border: solid 1px var(--color-text-lighter);
+    border-radius: 5px;
 }
 .filteredshare input[role=device] {
     width: 49% !important;
@@ -979,9 +983,6 @@ input.geofencename {
 .zoomgeofencebutton,
 .deletegeofencebutton {
     float: right;
-}
-.proximlabel {
-    cursor: default;
 }
 .booklabel,
 .proximlabel,
@@ -1106,4 +1107,12 @@ label[for=quotareached] {
 .geofenceTextValues, .proximTextValues {
     text-align: left !important;
     padding: 0px 10px 5px 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    clear: both;
+    display: none;
+}
+.geofenceTextValues li, .proximTextValues li {
+    padding: 5px 5px 5px 5px;
+    border-radius: 5px;
 }

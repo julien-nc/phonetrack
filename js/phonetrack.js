@@ -4662,20 +4662,24 @@
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
             t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
             '">' +
-            '<label class="geofencelabel">'+escapeHTML(fencename || '')+'</label>' +
+            '<label class="geofencelabel"><i class="fa fa-caret-right"></i> '+escapeHTML(fencename || '') +
+            '</label>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
             '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
-            '<br/><br/><p class="geofenceTextValues">';
+            '<ul class="geofenceTextValues">';
         if (urlentertxt) {
-            li = li + urlentertxt + '<br/>';
+            li = li + '<li>' + urlentertxt + '</li>';
         }
         if (urlleavetxt) {
-            li = li + urlleavetxt + '<br/>';
+            li = li + '<li>' + urlleavetxt + '</li>';
         }
-        li = li +t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '<br/>' +
-            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '<br/>' +
-            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
-            '</p></li>';
+        li = li + '<li>' + t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '</li>' +
+            '<li>' + t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '</li>';
+        if (parseInt(sendemail) !== 0) {
+            li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' +
+            escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) + '</li>';
+        }
+        li = li + '</ul></li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
     }
 
@@ -4773,23 +4777,30 @@
             t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) + '\n' +
             t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
             '">' +
-            '<label class="proximlabel">'+escapeHTML(sname + ' -> ' + dname)+'</label>' +
+            '<label class="proximlabel"><i class="fa fa-caret-right"></i> '+escapeHTML(sname + ' -> ' + dname)+'</label>' +
             '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
-            '<br/><br/><p class="proximTextValues">' +
-            t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') +
-            '<br/>' +
-            t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') +
-            '<br/>' +
-            t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt +
-            '<br/>' +
-            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
-            '<br/>' +
-            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
-            '<br/>' +
-            t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
-            '<br/>' +
-            t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
-            '</p></li>';
+            '<ul class="proximTextValues">';
+        if (urlclose) {
+            li = li + '<li>' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') +
+            '</li>';
+        }
+        if (urlfar) {
+            li = li + '<li>' + t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') +
+            '</li>';
+        }
+        li = li + '<li>' + t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt +
+            '</li>' +
+            '<li>' + t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
+            '</li>';
+        if (parseInt(sendemail) !== 0) {
+            li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'Account mail address')) +
+            '</li>';
+        }
+            '<li>' + t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
+            '</li>' +
+            '<li>' + t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
+            '</li>' +
+            '</ul></li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .proximDiv .proximlist').append(li);
     }
 
@@ -6349,8 +6360,28 @@
             zoomongeofence($(this).parent());
         });
 
+        $('body').on('click','.proximlabel', function(e) {
+            var infoList = $(this).parent().find('.proximTextValues');
+            if (infoList.is(':visible')) {
+                $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+                infoList.slideUp();
+            }
+            else {
+                $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
+                infoList.slideDown();
+            }
+        });
+
         $('body').on('click','.geofencelabel', function(e) {
-            zoomongeofence($(this).parent());
+            var infoList = $(this).parent().find('.geofenceTextValues');
+            if (infoList.is(':visible')) {
+                $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+                infoList.slideUp();
+            }
+            else {
+                $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
+                infoList.slideDown();
+            }
         });
 
         $('body').on('click','.addproximbutton', function(e) {
