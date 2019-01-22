@@ -5327,16 +5327,11 @@
         $('body').on('click','h3#optiontitle', function(e) {
             if ($('#optionscontent').is(':visible')) {
                 $('#optionscontent').slideUp();
-                $('#optiontoggle').html('<i class="fa fa-angle-double-down"></i>');
-                $('#optiontoggle').animate({'left': 0}, 'slow');
+                $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
             }
             else{
                 $('#optionscontent').slideDown();
-                $('#optiontoggle').html('<i class="fa fa-angle-double-up"></i>');
-                var offset = parseInt($('#optiontitle').css('width')) -
-                    parseInt($('#optiontoggle').css('width')) -
-                    parseInt($('#optiontitletext').css('width')) - 5;
-                $('#optiontoggle').animate({'left': offset}, 'slow');
+                $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
             }
         });
 

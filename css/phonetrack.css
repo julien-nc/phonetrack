@@ -169,10 +169,6 @@ div#options input {
 div#options button {
     padding: 7px 4px;
 }
-
-#optiontoggle{
-    position: relative;
-}
 #linkhint {
     font-size: 10px;
     font-style: italic;

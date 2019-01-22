@@ -50,8 +50,8 @@ p($_['phonetrack_version']);
     <div id="options">
         <div>
         <h3 id="optiontitle" class="sectiontitle">
-        <b id="optiontitletext"><?php p($l->t('Options')); ?> </b>
-        <b id="optiontoggle"><i class="fa fa-angle-double-down"></i></b></h3>
+        <b id="optiontitletext"><i class="fa fa-caret-right"></i> <?php p($l->t('Options')); ?> </b>
+        </h3>
         </div>
         <div style="clear:both"></div>
         <div id="optionscontent" style="display:none;">
