@@ -926,6 +926,9 @@ label[for=autoexportpath], #autoexportpath {
     border: 0px;
     background: none;
 }
+.urlhelpbutton i {
+    float: left;
+}
 #trackurlinput {
     width: 100%;
 }

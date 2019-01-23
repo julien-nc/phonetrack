@@ -1687,6 +1687,11 @@
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<div class="moreUrls">';
+            divtxt = divtxt + '<p><label>' + t('phonetrack', 'Session token') + ' : </label>' +
+                '<button class="urlhelpbutton" ></button>' +
+                '</p>';
+            divtxt = divtxt + '<input class="ro" type="text" value="' + token + '"></input>';
+
             divtxt = divtxt + '<p class="urlhint information">' +
                 t('phonetrack', 'List of links to configure logging apps server settings.') + '<br/>' +
                 t('phonetrack', 'Replace \'yourname\' with the desired device name or with the name reservation token') +
