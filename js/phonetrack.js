@@ -4659,9 +4659,11 @@
             urlentertxt +
             urlleavetxt +
             t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
-            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
-            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) +
-            '">' +
+            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n';
+        if (parseInt(sendemail) !== 0) {
+            li = li + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address'));
+        }
+        li = li + '">' +
             '<label class="geofencelabel"><i class="fa fa-caret-right"></i> '+escapeHTML(fencename || '') +
             '</label>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
@@ -4769,12 +4771,19 @@
             sendnotifTxt = t('phonetrack', 'yes');
         }
         var li = '<li proximid="' + proximid + '"' +
-            'title="' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n' +
-            t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n' +
-            t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
-            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n' +
-            t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) + '\n' +
-            t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) + '\n' +
+            'title="';
+        if (urlclose) {
+            li = li + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n';
+        }
+        if (urlfar) {
+            li = li + t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n';
+        }
+        li = li + t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
+            t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n';
+        if (parseInt(sendemail) !== 0) {
+            li = li + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) + '\n';
+        }
+        li = li + t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) + '\n' +
             t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
             '">' +
             '<label class="proximlabel"><i class="fa fa-caret-right"></i> '+escapeHTML(sname + ' -> ' + dname)+'</label>' +
