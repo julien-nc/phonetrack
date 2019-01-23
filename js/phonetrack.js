@@ -1564,7 +1564,7 @@
         divtxt = divtxt + '<div class="sessionName" title="' + name + sharedByText + '">' + name + '</div><input class="renameSessionInput" type="text"/>';
         if (!pageIsPublic()) {
             divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
-                '<i class="fa fa-bars" aria-hidden="true"></i></button>';
+                '<i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>';
         }
         divtxt = divtxt + ' <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
@@ -2951,7 +2951,7 @@
         routingOrsLink = ' <button class="routingOrsDevice" token="' + s + '" device="' + d + '">' +
             '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', {'s': 'OpenRouteService'}) + '</button>';
         dropdowndevicebutton = '<button class="dropdowndevicebutton" title="'+t('phonetrack', 'More actions')+'">' +
-            '<i class="fa fa-bars" aria-hidden="true"></i></button>';
+            '<i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>';
         if (!pageIsPublic() && !isSessionShared(s)) {
             shapeDiv = '<div class="shapediv" title="">' +
                 '<div><i class="fa fa-shapes" aria-hidden="true"></i> ' + t('phonetrack', 'Set device shape') + '</div>' +
