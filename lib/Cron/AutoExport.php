@@ -21,7 +21,6 @@ class AutoExport extends \OC\BackgroundJob\TimedJob {
 
     protected function run($argument) {
         $d = new \DateTime();
-        file_put_contents('/tmp/ptlog', $d->format('Y-m-d H:i:s')."\n", FILE_APPEND);
         (new Application())->getContainer()->query('PageController')->cronAutoExport();
     }
 
