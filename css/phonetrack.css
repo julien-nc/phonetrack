@@ -927,7 +927,7 @@ input[role=lastposonly] {
 }
 .information {
     text-align: left !important;
-    font-size: 10px;
+    font-size: 12px;
     line-height: normal;
 }
 label[for=autoexportpath], #autoexportpath {

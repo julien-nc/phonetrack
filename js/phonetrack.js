@@ -1692,44 +1692,44 @@
                 '</p>';
             divtxt = divtxt + '<input class="ro" type="text" value="' + token + '"></input>';
 
-            divtxt = divtxt + '<hr/> <p class="urlhint information">' +
+            divtxt = divtxt + '<hr/><p class="urlhint information">' +
                 t('phonetrack', 'List of links to configure logging apps server settings.') + '<br/>' +
                 t('phonetrack', 'Replace \'yourname\' with the desired device name or with the name reservation token') +
-                '</p> <hr/>';
+                '</p><hr/>';
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'Public browser logging link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="publicTrack"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" role="publicTrackurl" type="text" value="' + publicTrackUrl + '"></input> <hr/>';
+            divtxt = divtxt + '<input class="ro" role="publicTrackurl" type="text" value="' + publicTrackUrl + '"></input><hr/>';
 
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'OsmAnd link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="osmand"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input> <hr/>';
+            divtxt = divtxt + '<input class="ro" role="osmandurl" type="text" value="' + osmandurl + '"></input><hr/>';
 
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'GpsLogger GET and POST link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="gpslogger"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input> <hr/>';
+            divtxt = divtxt + '<input class="ro" role="gpsloggerurl" type="text" value="' + gpsloggerUrl + '"></input><hr/>';
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'Owntracks (HTTP mode) link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="owntracks"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" role="owntracksurl" type="text" value="' + owntracksurl + '"></input> <hr/>';
+            divtxt = divtxt + '<input class="ro" role="owntracksurl" type="text" value="' + owntracksurl + '"></input><hr/>';
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'Ulogger link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="ulogger"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" role="uloggerurl" type="text" value="' + uloggerurl + '"></input> <hr/>';
+            divtxt = divtxt + '<input class="ro" role="uloggerurl" type="text" value="' + uloggerurl + '"></input><hr/>';
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'Traccar link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="traccar"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input> <hr/>';
+            divtxt = divtxt + '<input class="ro" role="traccarurl" type="text" value="' + traccarurl + '"></input><hr/>';
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'OpenGTS link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="opengts"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input> <hr/>';
+            divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input><hr/>';
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'Locus Map link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="locusmap"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" role="locusmapurl" type="text" value="' + locusmapurl + '"></input> <hr/>';
+            divtxt = divtxt + '<input class="ro" role="locusmapurl" type="text" value="' + locusmapurl + '"></input><hr/>';
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'HTTP GET link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="get"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
