@@ -280,6 +280,7 @@ input[type=checkbox],
 }
 .moreUrls hr {
     width: 100%;
+    color: var(--color-text-lighter);
 }
 .moreUrls hr,
 .urlhint {
