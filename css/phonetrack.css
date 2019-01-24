@@ -286,6 +286,20 @@ input[type=checkbox],
 .urlhint {
     grid-column: 1/3;
 }
+.moreUrls span {
+    width: 79%;
+    display: block;
+    float: left;
+    text-align: left;
+}
+.moreUrls button {
+    width: 19%;
+    float: left;
+}
+.moreLeft {
+    display: table-cell;
+    vertical-align: middle;
+}
 div.session input[type=text]{
     width: 100%;
 }
@@ -928,7 +942,7 @@ label[for=autoexportpath], #autoexportpath {
     background: none;
 }
 .urlhelpbutton i {
-    float: left;
+    float: right;
 }
 #trackurlinput {
     width: 100%;
