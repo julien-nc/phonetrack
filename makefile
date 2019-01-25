@@ -8,8 +8,8 @@ sign_dir_own=/tmp/sign_own
 cert_dir=$(HOME)/.nextcloud/certificates
 cert_dir_own=$(HOME)/.owncloud/certificates
 webserveruser ?= www-data
-occ_dir ?= /var/www/html/n14
-occ_dir_own ?= /var/www/html/n14
+occ_dir ?= /var/www/html/n15
+occ_dir_own ?= /var/www/html/n15
 
 all: appstore
 

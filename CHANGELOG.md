@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.4.2 – 2019-01-25
 ### Added
 - variable in geofence notification URLs (%loc replaced by lat:lon)
 [#199](https://gitlab.com/eneiluj/phonetrack-oc/issues/199) @olivier.revelin
@@ -20,9 +21,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#199](https://gitlab.com/eneiluj/phonetrack-oc/issues/199) @olivier.revelin
 - make public session button clearer
 [#200](https://gitlab.com/eneiluj/phonetrack-oc/issues/200) @strugee
+- use ellipsis as dropdown menus icons
 
 ### Fixed
 - api/getlastpositions : missing values = null
+- design of geofence/proxims
 
 ## 0.4.1 – 2019-01-14
 ### Added
