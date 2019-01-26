@@ -10,7 +10,6 @@
     "Hide last point tooltip" : "إخفاء تلميح آخر نقطة",
     "Zoom on all devices" : "تكبير على جميع الأجهزة",
     "Click on the map to move the point, press ESC to cancel" : "انقر على الخريطة لتحريك النقطة، اضغط المفتاح ESC إلغاء الأمر",
-    "Server name or server url should not be empty" : "اسم او عنوان المخدّم يجب أن لا يكون فارغاً",
     "A server with this name already exists" : "يوجد مخدّم بنفس الاسم بالفعل",
     "Delete" : "حذف",
     "Tile server \"{ts}\" has been added" : "تم إضافة مخدّم \"{ts}\"",

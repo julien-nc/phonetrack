@@ -22,7 +22,6 @@ OC.L10N.register(
     "a week" : "en uke",
     "a month" : "en måned",
     "Name reservation is optional." : "Navn reservasjon er valgfritt.",
-    "Name can be set directly in logging URL if it is not reserved." : "Navnet kan angis direkte i logging URL hvis det ikke er reservert.",
     "Ok" : "Ok",
     "Session" : "Økt",
     "Date" : "Dato",
