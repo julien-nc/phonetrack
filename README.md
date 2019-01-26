@@ -43,6 +43,8 @@ Public page and public filtered page work like main page except there is only on
 
 This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 
+This app is compatible with theming colors and accessibility themes !
+
 This app is under development.
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack

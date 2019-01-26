@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.4.3 – 2019-01-26
+### Added
+- lots of translations
+
 ## 0.4.2 – 2019-01-25
 ### Added
 - variable in geofence notification URLs (%loc replaced by lat:lon)
