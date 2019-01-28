@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-01-22 18:17+0100\n"
-"PO-Revision-Date: 2019-01-22 17:26\n"
+"PO-Revision-Date: 2019-01-29 06:23\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -23,21 +23,21 @@ msgstr "Phonetrack"
 #: logcontroller.php:356 logcontroller.php:466
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
-msgstr ""
+msgstr "PhoneTrack přiblížení (%s a %s)"
 
 #: logcontroller.php:359 Notification/Notifier.php:82
 #, php-format
 msgid "Device \"%s\" is now closer than %sm to \"%s\"."
-msgstr ""
+msgstr "Zařízení \"%s\" je nyní blíže než %sm k \"%s\"."
 
 #: logcontroller.php:469 Notification/Notifier.php:89
 #, php-format
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
-msgstr ""
+msgstr "Zařízení \"%s\" je nyní dále než %sm od \"%s\"."
 
 #: logcontroller.php:627 logcontroller.php:729
 msgid "Geofencing alert"
-msgstr ""
+msgstr "Geofencing výstraha"
 
 #: logcontroller.php:630 Notification/Notifier.php:67
 #, php-format

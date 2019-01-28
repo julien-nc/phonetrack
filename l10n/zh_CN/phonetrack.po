@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-01-22 18:17+0100\n"
-"PO-Revision-Date: 2019-01-22 17:26\n"
+"PO-Revision-Date: 2019-02-13 05:24\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -23,12 +23,12 @@ msgstr "PhoneTrack"
 #: logcontroller.php:356 logcontroller.php:466
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
-msgstr ""
+msgstr "PhoneTrack 近距离警报 (%s 和 %s)"
 
 #: logcontroller.php:359 Notification/Notifier.php:82
 #, php-format
 msgid "Device \"%s\" is now closer than %sm to \"%s\"."
-msgstr ""
+msgstr "设备 \"%s\" 现在比 %sm 接近 \"%s\"。"
 
 #: logcontroller.php:469 Notification/Notifier.php:89
 #, php-format
@@ -55,7 +55,7 @@ msgstr ""
 
 #: admin.js:23
 msgid "Failed to save quota"
-msgstr ""
+msgstr "配额存储失败"
 
 #: leaflet.js:5
 msgid "left"
@@ -99,7 +99,7 @@ msgstr "点击地图移动点, 按 ESC 键取消"
 
 #: phonetrack.js:928
 msgid "Server name or server address should not be empty"
-msgstr ""
+msgstr "服务器名称或服务器 url 不应为空"
 
 #: phonetrack.js:931 phonetrack.js:940
 msgid "Impossible to add tile server"
@@ -292,7 +292,7 @@ msgstr "与别人分享"
 
 #: phonetrack.js:1649
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "键入用户名并按回车。"
 
 #: phonetrack.js:1656 phonetrack.js:4484
 msgid "Shared with {u}"
@@ -304,7 +304,7 @@ msgstr ""
 
 #: phonetrack.js:1664
 msgid "Public session"
-msgstr ""
+msgstr "公共会话"
 
 #: phonetrack.js:1671
 msgid "Public watch link"
@@ -364,7 +364,7 @@ msgstr ""
 
 #: phonetrack.js:1728
 msgid "HTTP GET link"
-msgstr ""
+msgstr "HTTP GET 链接"
 
 #: phonetrack.js:1823
 msgid "The session you want to delete does not exist"
@@ -372,7 +372,7 @@ msgstr ""
 
 #: phonetrack.js:1826
 msgid "Failed to delete session"
-msgstr ""
+msgstr "删除会话失败。"
 
 #: phonetrack.js:1830
 msgid "Failed to contact server to delete session"

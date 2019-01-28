@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-01-22 18:17+0100\n"
-"PO-Revision-Date: 2019-01-22 17:25\n"
+"PO-Revision-Date: 2019-02-01 17:41\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -99,7 +99,7 @@ msgstr "Haga clic en el mapa para mover el punto, presione ESC para cancelar"
 
 #: phonetrack.js:928
 msgid "Server name or server address should not be empty"
-msgstr ""
+msgstr "El nombre del servidor o su dirección no debe estar vacío"
 
 #: phonetrack.js:931 phonetrack.js:940
 msgid "Impossible to add tile server"
@@ -192,11 +192,11 @@ msgstr "Zoom en esta sesión"
 
 #: phonetrack.js:1573
 msgid "Link to share session"
-msgstr ""
+msgstr "Enlace para compartir la sesión"
 
 #: phonetrack.js:1577
 msgid "Links for logging apps"
-msgstr ""
+msgstr "Enlaces para aplicaciones de registro"
 
 #: phonetrack.js:1581
 msgid "Reserve device names"
@@ -268,11 +268,11 @@ msgstr "Reserva de nombre es opcional."
 
 #: phonetrack.js:1627
 msgid "Name can be set directly in logging link if it is not reserved."
-msgstr ""
+msgstr "El nombre se puede establecer directamente en el enlace de registro si no está reservado."
 
 #: phonetrack.js:1628
 msgid "To log with a reserved name, use its token in logging link."
-msgstr ""
+msgstr "Para iniciar sesión con un nombre reservado, use su token en el enlace de registro."
 
 #: phonetrack.js:1629
 msgid "If a name is reserved, the only way to log with this name is with its token."
@@ -304,11 +304,11 @@ msgstr "Una sesión privada no es visible en la página de registro público con
 
 #: phonetrack.js:1664
 msgid "Public session"
-msgstr ""
+msgstr "Sesión pública"
 
 #: phonetrack.js:1671
 msgid "Public watch link"
-msgstr ""
+msgstr "Enlace para observación pública"
 
 #: phonetrack.js:1673
 msgid "API URL (JSON last positions)"

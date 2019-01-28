@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-01-22 18:17+0100\n"
-"PO-Revision-Date: 2019-01-22 17:25\n"
+"PO-Revision-Date: 2019-01-29 01:33\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -23,39 +23,39 @@ msgstr "PhoneTrack"
 #: logcontroller.php:356 logcontroller.php:466
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
-msgstr "PhoneTrack proximity alert (%s and %s)"
+msgstr ""
 
 #: logcontroller.php:359 Notification/Notifier.php:82
 #, php-format
 msgid "Device \"%s\" is now closer than %sm to \"%s\"."
-msgstr "Device \"%s\" is now closer than %sm to \"%s\"."
+msgstr ""
 
 #: logcontroller.php:469 Notification/Notifier.php:89
 #, php-format
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
-msgstr "Device \"%s\" is now farther than %sm from \"%s\"."
+msgstr ""
 
 #: logcontroller.php:627 logcontroller.php:729
 msgid "Geofencing alert"
-msgstr "Geofencing alert"
+msgstr ""
 
 #: logcontroller.php:630 Notification/Notifier.php:67
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
-msgstr "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
+msgstr ""
 
 #: logcontroller.php:732 Notification/Notifier.php:74
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
-msgstr "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
+msgstr ""
 
 #: admin.js:19
 msgid "Quota was successfully saved"
-msgstr "Quota was successfully saved"
+msgstr ""
 
 #: admin.js:23
 msgid "Failed to save quota"
-msgstr "Failed to save quota"
+msgstr ""
 
 #: leaflet.js:5
 msgid "left"
@@ -240,27 +240,27 @@ msgstr "aylık"
 
 #: phonetrack.js:1611
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr "Automatic purge is triggered daily and will delete points older than selected duration"
+msgstr ""
 
 #: phonetrack.js:1612
 msgid "Automatic purge"
-msgstr "Automatic purge"
+msgstr ""
 
 #: phonetrack.js:1614
 msgid "don't purge"
-msgstr "don't purge"
+msgstr ""
 
 #: phonetrack.js:1615
 msgid "a day"
-msgstr "a day"
+msgstr ""
 
 #: phonetrack.js:1616
 msgid "a week"
-msgstr "a week"
+msgstr ""
 
 #: phonetrack.js:1617
 msgid "a month"
-msgstr "a month"
+msgstr ""
 
 #: phonetrack.js:1626
 msgid "Name reservation is optional."
@@ -408,11 +408,11 @@ msgstr "Cihazı yenilemek için gereken bağlantı başarısız oldu"
 
 #: phonetrack.js:2038
 msgid "Impossible to set device alias for {n}"
-msgstr "Impossible to set device alias for {n}"
+msgstr ""
 
 #: phonetrack.js:2042
 msgid "Failed to contact server to set device alias"
-msgstr "Failed to contact server to set device alias"
+msgstr ""
 
 #: phonetrack.js:2112
 msgid "Device already exists in target session"
@@ -452,31 +452,31 @@ msgstr "Aygıtın rengini değiştirmek için sunucu ile bağlantı kurulamadı"
 
 #: phonetrack.js:2944
 msgid "Geo link to open position in other app/software"
-msgstr "Geo link to open position in other app/software"
+msgstr ""
 
 #: phonetrack.js:2946
 msgid "Geo link QRcode to open position with a QRcode scanner"
-msgstr "Geo link QRcode to open position with a QRcode scanner"
+msgstr ""
 
 #: phonetrack.js:2948 phonetrack.js:2950 phonetrack.js:2952
 msgid "Get driving direction to this device with {s}"
-msgstr "Get driving direction to this device with {s}"
+msgstr ""
 
 #: phonetrack.js:2957
 msgid "Set device shape"
-msgstr "Ayarladığı aygıt şekil"
+msgstr ""
 
 #: phonetrack.js:2959
 msgid "Round"
-msgstr "Round"
+msgstr ""
 
 #: phonetrack.js:2960
 msgid "Square"
-msgstr "Square"
+msgstr ""
 
 #: phonetrack.js:2961
 msgid "Triangle"
-msgstr "Triangle"
+msgstr ""
 
 #: phonetrack.js:2965
 msgid "Delete this device"
@@ -488,7 +488,7 @@ msgstr "Cihazı yeniden adlandır"
 
 #: phonetrack.js:2970
 msgid "Set device alias"
-msgstr "Set device alias"
+msgstr ""
 
 #: phonetrack.js:2973
 msgid "Move to another session"
@@ -500,11 +500,11 @@ msgstr "Tamam"
 
 #: phonetrack.js:2993
 msgid "Device geofencing zones"
-msgstr "Device geofencing zones"
+msgstr ""
 
 #: phonetrack.js:2997
 msgid "Zoom on geofencing area, then set values, then validate."
-msgstr "Zoom on geofencing area, then set values, then validate."
+msgstr ""
 
 #: phonetrack.js:2998 phonetrack.js:3057 phonetrack.js:4661 phonetrack.js:4676
 #: phonetrack.js:4774 phonetrack.js:4791
@@ -514,15 +514,15 @@ msgstr ""
 #: phonetrack.js:3000 phonetrack.js:3059 phonetrack.js:4662 phonetrack.js:4677
 #: phonetrack.js:4775 phonetrack.js:4793
 msgid "Email notification"
-msgstr "Email notification"
+msgstr ""
 
 #: phonetrack.js:3003 phonetrack.js:3062
 msgid "An empty value means the session owner's email address."
-msgstr "An empty value means the session owner's email address."
+msgstr ""
 
 #: phonetrack.js:3004 phonetrack.js:3063
 msgid "You can put multiple addresses separated by comas (,)."
-msgstr "You can put multiple addresses separated by comas (,)."
+msgstr ""
 
 #: phonetrack.js:3005
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
@@ -538,39 +538,39 @@ msgstr ""
 
 #: phonetrack.js:3013
 msgid "Geofencing zone coordinates"
-msgstr "Geofencing zone coordinates"
+msgstr ""
 
 #: phonetrack.js:3013
 msgid "leave blank to use current map bounds"
-msgstr "geçerli şifreyi korumak için boş bırakın"
+msgstr ""
 
 #: phonetrack.js:3015
 msgid "North"
-msgstr "North"
+msgstr ""
 
 #: phonetrack.js:3017
 msgid "South"
-msgstr "South"
+msgstr ""
 
 #: phonetrack.js:3021
 msgid "Set North/East corner by clicking on the map"
-msgstr "Set North/East corner by clicking on the map"
+msgstr ""
 
 #: phonetrack.js:3022
 msgid "Set N/E"
-msgstr "Set N/E"
+msgstr ""
 
 #: phonetrack.js:3024
 msgid "Set South/West corner by clicking on the map"
-msgstr "Set South/West corner by clicking on the map"
+msgstr ""
 
 #: phonetrack.js:3025
 msgid "Set S/W"
-msgstr "Set S/W"
+msgstr ""
 
 #: phonetrack.js:3029
 msgid "East"
-msgstr "East"
+msgstr ""
 
 #: phonetrack.js:3031
 msgid "West"
@@ -879,11 +879,11 @@ msgstr ""
 
 #: phonetrack.js:4641
 msgid "URL to request when entering"
-msgstr "URL to request when entering"
+msgstr ""
 
 #: phonetrack.js:4645
 msgid "URL to request when leaving"
-msgstr "URL to request when leaving"
+msgstr ""
 
 #: phonetrack.js:4648 phonetrack.js:4652 phonetrack.js:4763 phonetrack.js:4767
 msgid "no"
@@ -959,7 +959,7 @@ msgstr "Herkese açık paylaşım eklemek için sunucuya bağlanılamadı"
 
 #: phonetrack.js:4884
 msgid "Show this device only"
-msgstr "Show this device only"
+msgstr ""
 
 #: phonetrack.js:4886
 msgid "Show last positions only"
@@ -1027,7 +1027,7 @@ msgstr ""
 
 #: phonetrack.js:5110
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
-msgstr "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
+msgstr ""
 
 #: phonetrack.js:5111
 msgid "Copy the link below into the 'URL' field."
@@ -1051,7 +1051,7 @@ msgstr ""
 
 #: phonetrack.js:5122
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
-msgstr "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
+msgstr ""
 
 #: phonetrack.js:5123
 msgid "Activate 'Live synchronization'."

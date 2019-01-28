@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-01-22 18:17+0100\n"
-"PO-Revision-Date: 2019-01-24 13:44\n"
+"PO-Revision-Date: 2019-02-05 15:04\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -1402,7 +1402,7 @@ msgstr "Eksportuj plik pogrupowany po urządzeniach"
 
 #: maincontent.php:212
 msgid "Tracking sessions"
-msgstr "Śledzenie sesji"
+msgstr "Monitorowane sesje"
 
 #: maincontent.php:263
 msgid "Custom tile servers"
@@ -1451,7 +1451,7 @@ msgstr "Niestandardowe serwery kafelki z nakładką"
 
 #: maincontent.php:308 maincontent.php:351 maincontent.php:396
 msgid "Server url"
-msgstr "Adres Url serwera"
+msgstr "Adres url serwera"
 
 #: maincontent.php:309 maincontent.php:397
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"

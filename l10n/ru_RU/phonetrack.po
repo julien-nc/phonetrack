@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-01-22 18:17+0100\n"
-"PO-Revision-Date: 2019-01-23 19:59\n"
+"PO-Revision-Date: 2019-02-14 08:21\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -272,7 +272,7 @@ msgstr "Имя можно задать непосредственно в URL з�
 
 #: phonetrack.js:1628
 msgid "To log with a reserved name, use its token in logging link."
-msgstr ""
+msgstr "Для входа с зарезервированным именем используйте токен из URL журнала."
 
 #: phonetrack.js:1629
 msgid "If a name is reserved, the only way to log with this name is with its token."
@@ -308,7 +308,7 @@ msgstr "Открытая сессия"
 
 #: phonetrack.js:1671
 msgid "Public watch link"
-msgstr ""
+msgstr "Ссылка для публичного доступа (просмотра)"
 
 #: phonetrack.js:1673
 msgid "API URL (JSON last positions)"
@@ -324,7 +324,7 @@ msgstr "Добавить публичную отобранную ссылку"
 
 #: phonetrack.js:1691
 msgid "List of links to configure logging apps server settings."
-msgstr ""
+msgstr "Ссылки для настройки приложений на телефоне."
 
 #: phonetrack.js:1692 maincontent.php:220
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
@@ -332,39 +332,39 @@ msgstr "Замените «yourname» в URL на желаемое имя уст
 
 #: phonetrack.js:1694
 msgid "Public browser logging link"
-msgstr ""
+msgstr "URL публичного доступа из браузера"
 
 #: phonetrack.js:1699
 msgid "OsmAnd link"
-msgstr ""
+msgstr "URL для OsmAnd"
 
 #: phonetrack.js:1704
 msgid "GpsLogger GET and POST link"
-msgstr ""
+msgstr "URL для GpsLogger (GET и POST)"
 
 #: phonetrack.js:1708
 msgid "Owntracks (HTTP mode) link"
-msgstr ""
+msgstr "URL для OwnTracks (режим HTTP)"
 
 #: phonetrack.js:1712
 msgid "Ulogger link"
-msgstr ""
+msgstr "URL для Ulogger"
 
 #: phonetrack.js:1716
 msgid "Traccar link"
-msgstr ""
+msgstr "URL для  Traccar"
 
 #: phonetrack.js:1720
 msgid "OpenGTS link"
-msgstr ""
+msgstr "URL для OpenGTS"
 
 #: phonetrack.js:1724
 msgid "Locus Map link"
-msgstr ""
+msgstr "URL для Locus Map"
 
 #: phonetrack.js:1728
 msgid "HTTP GET link"
-msgstr ""
+msgstr "HTTP GET "
 
 #: phonetrack.js:1823
 msgid "The session you want to delete does not exist"
@@ -526,7 +526,7 @@ msgstr "Можно ввести несколько адресов через з�
 
 #: phonetrack.js:3005
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr ""
+msgstr "HTTP-адрес запроса при входе («%loc» будут заменены на «Широта: долгота»)"
 
 #: phonetrack.js:3006 phonetrack.js:3010 phonetrack.js:3065 phonetrack.js:3069
 msgid "Use POST method"
@@ -534,7 +534,7 @@ msgstr "Использовать метод POST"
 
 #: phonetrack.js:3009
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr ""
+msgstr "HTTP адрес для запроса при выходе (\"%loс\" будет заменен \"широта:долгота\")"
 
 #: phonetrack.js:3013
 msgid "Geofencing zone coordinates"
@@ -623,11 +623,11 @@ msgstr "Максимальная дистанция"
 
 #: phonetrack.js:3064
 msgid "HTTP address to request when devices get close"
-msgstr ""
+msgstr "HTTP адрес для запроса при закрытии устройств"
 
 #: phonetrack.js:3068
 msgid "HTTP address to request when devices get far"
-msgstr ""
+msgstr "HTTP адрес для запроса, когда устройства за пределами"
 
 #: phonetrack.js:3073
 msgid "Add proximity notification"
@@ -899,7 +899,7 @@ msgstr "Email адрес(ы)"
 
 #: phonetrack.js:4663 phonetrack.js:4680 phonetrack.js:4776 phonetrack.js:4796
 msgid "account mail address"
-msgstr ""
+msgstr "Адрес э/п аккаунта"
 
 #: phonetrack.js:4706
 msgid "Failed to delete geofencing zone"
@@ -1023,7 +1023,7 @@ msgstr "В приложения OsmAnd перейдите на «Плагины�
 
 #: phonetrack.js:5106
 msgid "Copy the link below into the 'Online tracking web address' field."
-msgstr ""
+msgstr "Скопируйте URL расположенный ниже в поле «Веб-адрес для онлайн отслеживания»."
 
 #: phonetrack.js:5110
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
@@ -1031,23 +1031,23 @@ msgstr "В настройках GpsLogger перейдите в \"Настрой
 
 #: phonetrack.js:5111
 msgid "Copy the link below into the 'URL' field."
-msgstr ""
+msgstr "Скопируйте URL ниже в поле «URL»."
 
 #: phonetrack.js:5115
 msgid "In the Owntracks preferences menu, go to 'Connections'."
-msgstr ""
+msgstr "В настройках Owntracks откройте «Соединения»."
 
 #: phonetrack.js:5116
 msgid "Change the connection Mode to 'Private HTTP', Copy the link below into the 'Host' field."
-msgstr ""
+msgstr "Установите режим «Private HTTP», скопируйте ссылку ниже в поле «Хост»."
 
 #: phonetrack.js:5117
 msgid "Leave settings under 'Identification' blank as they are not required."
-msgstr ""
+msgstr "Параметры в разделе «Идентификация» оставьте пустым, поскольку они не требуются."
 
 #: phonetrack.js:5121
 msgid "In Ulogger, go to settings menu and copy the link below into the 'Server URL' field."
-msgstr ""
+msgstr "В Ulogger перейдите в меню настройки и скопируйте URL-адрес ниже в поле «URL-адрес сервера»."
 
 #: phonetrack.js:5122
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
@@ -1059,11 +1059,11 @@ msgstr "Включить «живую синхронизацию»."
 
 #: phonetrack.js:5127
 msgid "In Traccar client, copy the link below into the 'server URL' field."
-msgstr ""
+msgstr "В клиенте Traccar скопируйте URL ниже в поле «URL-адрес сервера»."
 
 #: phonetrack.js:5131
 msgid "In LocusMap, copy the link below into the 'server URL' field. It works with POST and GET methods."
-msgstr ""
+msgstr "В LocusMap скопируйте ссылку ниже в поле «URL-адрес сервера». Это работает с методами POST и GET."
 
 #: phonetrack.js:5135
 msgid "You can log with any other client with a simple HTTP request."
@@ -1075,7 +1075,7 @@ msgstr "Убедитесь, что система протоколировани
 
 #: phonetrack.js:5139
 msgid "Use this link as the server URL in your OpenGTS compatible logging app."
-msgstr ""
+msgstr "Используйте этот URL как адрес сервера в вашем OpenGTS совместимом приложении журнала."
 
 #: phonetrack.js:5140
 msgid "OpenGTS compatible logger"
@@ -1091,7 +1091,7 @@ msgstr "Записать мою позицию в этой сессии"
 
 #: phonetrack.js:5145
 msgid "Visit this link with a web browser and check \"{loglabel}\"."
-msgstr ""
+msgstr "Откройте ссылку в браузере и проверьте \"{loglabel}\""
 
 #: phonetrack.js:5148
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
