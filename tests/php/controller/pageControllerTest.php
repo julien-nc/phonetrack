@@ -1067,17 +1067,17 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 1);
 
         // set device shape
-        $resp = $this->pageController->setDeviceShape($token, $deviceid, 'triangle');
+        $resp = $this->pageController->setDeviceShape($token, $deviceid, 't');
         $data = $resp->getData();
         $resp = $data['done'];
         $this->assertEquals($resp, 1);
 
-        $resp = $this->pageController->setDeviceShape($token, 987654, 'triangle');
+        $resp = $this->pageController->setDeviceShape($token, 987654, 't');
         $data = $resp->getData();
         $resp = $data['done'];
         $this->assertEquals($resp, 3);
 
-        $resp = $this->pageController->setDeviceShape($token.'a', $deviceid, 'triangle');
+        $resp = $this->pageController->setDeviceShape($token.'a', $deviceid, 't');
         $data = $resp->getData();
         $resp = $data['done'];
         $this->assertEquals($resp, 2);
