@@ -109,7 +109,7 @@
       <name>shape</name>
       <type>text</type>
       <default></default>
-      <length>1</length>
+      <length>20</length>
     </field>
     <field>
       <name>nametoken</name>
