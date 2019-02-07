@@ -3849,6 +3849,15 @@
             minval = mom.format('mm');
             secval = mom.format('ss');
         }
+        var altitudeValue = (entry.altitude !== null && !isNaN(entry.altitude)) ? entry.altitude.toFixed(2) : '';
+        var accuracyValue = (entry.accuracy !== null && !isNaN(entry.accuracy)) ? entry.accuracy.toFixed(2) : '';
+        var bearingValue = (entry.bearing !== null && !isNaN(entry.bearing)) ? entry.bearing.toFixed(2) : '';
+        var batteryValue = (entry.battery !== null && !isNaN(entry.battery)) ? entry.battery.toFixed(2) : '';
+        var speed_kmph = entry.speed;
+        if (entry.speed && parseInt(entry.speed) !== -1) {
+            speed_kmph = parseFloat(entry.speed) * 3.6;
+            speed_kmph = speed_kmph.toFixed(3);
+        }
         var res = '<table class="editPoint" pid="' + entry.id + '"' +
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
         res = res + '<tr title="' + t('phonetrack', 'Date') + '">';
@@ -3861,27 +3870,22 @@
             'min<input role="second" type="number" value="' + secval + '" min="0" max="59"/>sec</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Altitude') + '">';
         res = res + '<td><i class="fa fa-chart-area" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="altitude" type="number" value="' + entry.altitude + '" min="-1"/>m</td>';
+        res = res + '<td><input role="altitude" type="number" value="' + altitudeValue + '" min="-1" step="0.01"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Precision') + '">';
         res = res + '<td><i class="far fa-dot-circle" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="precision" type="number" value="' + entry.accuracy + '" min="-1"/>m</td>';
+        res = res + '<td><input role="precision" type="number" value="' + accuracyValue + '" min="-1" step="0.01"/>m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Speed') + '">';
         res = res + '<td><i class="fa fa-tachometer-alt" style="font-size: 20px;"></td>';
-        var speed_kmph = entry.speed;
-        if (entry.speed && parseInt(entry.speed) !== -1) {
-            speed_kmph = parseFloat(entry.speed) * 3.6;
-            speed_kmph = speed_kmph.toFixed(3);
-        }
         res = res + '<td><input role="speed" type="number" value="' + speed_kmph + '" min="-1" step="0.01"/>km/h</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Bearing') + '">';
         res = res + '<td><i class="fa fa-compass" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="bearing" type="number" value="' + entry.bearing + '" min="-1" max="360"/>°</td>';
+        res = res + '<td><input role="bearing" type="number" value="' + bearingValue + '" min="-1" max="360" step="0.01"/>°</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Satellites') + '">';
         res = res + '<td><i class="fa fa-signal" style="font-size: 20px;"></td>';
         res = res + '<td><input role="satellites" type="number" value="' + entry.satellites + '" min="-1"/></td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Battery') + '">';
         res = res + '<td><i class="fa fa-battery-half" style="font-size: 20px;"></i></td>';
-        res = res + '<td><input role="battery" type="number" value="' + entry.batterylevel + '" min="-1" max="100"/>%</td>';
+        res = res + '<td><input role="battery" type="number" value="' + batteryValue + '" min="-1" max="100" step="0.01"/>%</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'User-agent') + '">';
         res = res + '<td><i class="fa fa-mobile-alt" style="font-size: 35px;"></i></td>';
         res = res + '<td><input role="useragent" type="text" value="' + entry.useragent + '"/></td>';
@@ -3925,7 +3929,7 @@
         if ($('#tooltipshowaccuracy').is(':checked') && !isNaN(entry.accuracy) && entry.accuracy !== null &&
             parseFloat(entry.accuracy) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Precision') + ' : ' + entry.accuracy + 'm';
+                t('phonetrack', 'Precision') + ' : ' + parseFloat(entry.accuracy).toFixed(2) + 'm';
         }
         if ($('#tooltipshowspeed').is(':checked') && !isNaN(entry.speed) && entry.speed !== null &&
             parseFloat(entry.speed) >= 0) {
@@ -3937,17 +3941,17 @@
         if ($('#tooltipshowbearing').is(':checked') && !isNaN(entry.bearing) && entry.bearing !== null &&
             parseFloat(entry.bearing) >= 0 && parseFloat(entry.bearing) <= 360) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Bearing') + ' : ' + entry.bearing + '°';
+                t('phonetrack', 'Bearing') + ' : ' + parseFloat(entry.bearing).toFixed(2) + '°';
         }
         if ($('#tooltipshowsatellites').is(':checked') && !isNaN(entry.satellites) && entry.satellites !== null &&
             parseInt(entry.satellites) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Satellites') + ' : ' + entry.satellites;
+                t('phonetrack', 'Satellites') + ' : ' + parseInt(entry.satellites);
         }
         if ($('#tooltipshowbattery').is(':checked') && !isNaN(entry.batterylevel) && entry.batterylevel !== null &&
             parseFloat(entry.batterylevel) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Battery') + ' : ' + entry.batterylevel + '%';
+                t('phonetrack', 'Battery') + ' : ' + parseFloat(entry.batterylevel).toFixed(2) + '%';
         }
         if ($('#tooltipshowuseragent').is(':checked') && entry.useragent !== '' && entry.useragent !== null && entry.useragent !== 'nothing') {
             pointtooltip = pointtooltip + '<br/>' +
