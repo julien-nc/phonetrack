@@ -5061,9 +5061,9 @@
                     // process speed
                     if (nbspeeds > 0) {
                         avgspeed = totspeed / nbspeeds * 3.6;
-                        avgspeed = avgspeed.toFixed(3);
+                        avgspeed = avgspeed.toFixed(2);
                         maxspeed = maxspeed * 3.6;
-                        maxspeed = maxspeed.toFixed(3);
+                        maxspeed = maxspeed.toFixed(2);
                     }
                     else {
                         maxspeed = '-';
