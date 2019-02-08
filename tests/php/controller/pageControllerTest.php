@@ -1382,7 +1382,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(4, count($pointList));
 
         // API
-        $resp = $this->pageController->APIgetLastPositions($sharetoken2);
+        $resp = $this->pageController->APIgetLastPositionsPublic($sharetoken2);
         $data = $resp->getData();
 
         $this->assertEquals((count($data[$sharetoken2]) > 0), True);
@@ -1416,7 +1416,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(count($respSession), 0);
 
         // API
-        $resp = $this->pageController->APIgetLastPositions($sharetoken2);
+        $resp = $this->pageController->APIgetLastPositionsPublic($sharetoken2);
         $data = $resp->getData();
 
         $this->assertEquals((count($data) === 0), True);
