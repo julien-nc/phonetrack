@@ -3934,7 +3934,7 @@
         if ($('#tooltipshowspeed').is(':checked') && !isNaN(entry.speed) && entry.speed !== null &&
             parseFloat(entry.speed) >= 0) {
             var speed_kmph = parseFloat(entry.speed) * 3.6;
-            speed_kmph = speed_kmph.toFixed(3);
+            speed_kmph = speed_kmph.toFixed(2);
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Speed') + ' : ' + speed_kmph + 'km/h';
         }

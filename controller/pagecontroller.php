@@ -4602,7 +4602,7 @@ class PageController extends Controller {
      * @PublicPage
      * @NoCSRFRequired
      */
-    public function APIgetLastPositions($sessionid) {
+    public function APIgetLastPositionsPublic($sessionid) {
         $result = array();
         // check if session exists
         $dbtoken = null;
@@ -4671,6 +4671,106 @@ class PageController extends Controller {
                 $req->closeCursor();
                 if (count($entry) > 0) {
                     $result[$dbpubtoken][$name] = $entry;
+                }
+            }
+        }
+        $response = new DataResponse($result);
+        $csp = new ContentSecurityPolicy();
+        $csp->addAllowedImageDomain('*')
+            ->addAllowedMediaDomain('*')
+            ->addAllowedConnectDomain('*');
+        $response->setContentSecurityPolicy($csp);
+        return $response;
+    }
+
+    /**
+     * get last positions of a user's session
+     * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function APIgetLastPositionsUser($sessionid) {
+        $result = array();
+        // check if session exists
+        $dbtoken = null;
+        $sqlget = '
+            SELECT token
+            FROM *PREFIX*phonetrack_sessions
+            WHERE token='.$this->db_quote_escape_string($sessionid).'
+                  AND '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            $dbtoken = $row['token'];
+        }
+        $req->closeCursor();
+
+        // check if session is shared with current user
+        if ($dbtoken === null) {
+            $sqlget = '
+                SELECT sessionid
+                FROM *PREFIX*phonetrack_shares
+                WHERE sharetoken='.$this->db_quote_escape_string($sessionid).'
+                      AND username='.$this->db_quote_escape_string($this->userId).' ;';
+            $req = $this->dbconnection->prepare($sqlget);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbtoken = $row['sessionid'];
+            }
+            $req->closeCursor();
+        }
+
+        // session exists
+        if ($dbtoken !== null) {
+            // get list of devices
+            $devices = array();
+            $sqldev = '
+                SELECT id
+                FROM *PREFIX*phonetrack_devices
+                WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+            $req = $this->dbconnection->prepare($sqldev);
+            $req->execute();
+            while ($row = $req->fetch()){
+                array_push($devices, $row['id']);
+            }
+            $req->closeCursor();
+
+            // get the coords for each device
+            $result[$sessionid] = array();
+
+            foreach ($devices as $devid) {
+                $name = null;
+                $sqlname = '
+                    SELECT name
+                    FROM *PREFIX*phonetrack_devices
+                    WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
+                          AND id='.$this->db_quote_escape_string($devid).' ;';
+                $req = $this->dbconnection->prepare($sqlname);
+                $req->execute();
+                $col = '';
+                while ($row = $req->fetch()){
+                    $name = $row['name'];
+                }
+                $req->closeCursor();
+
+                $entry = array();
+                $sqlget = '
+                    SELECT lat, lon, timestamp, batterylevel, useragent,
+                           satellites, accuracy, altitude, speed, bearing
+                    FROM *PREFIX*phonetrack_points
+                    WHERE deviceid='.$this->db_quote_escape_string($devid).'
+                    ORDER BY timestamp DESC LIMIT 1 ;';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $entry['useragent'] = $row['useragent'];
+                    unset($row['useragent']);
+                    foreach ($row as $k => $v) {
+                        $entry[$k] = is_numeric($v) ? floatval($v) : null;
+                    }
+                }
+                $req->closeCursor();
+                if (count($entry) > 0) {
+                    $result[$sessionid][$name] = $entry;
                 }
             }
         }
