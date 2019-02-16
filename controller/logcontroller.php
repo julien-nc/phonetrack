@@ -1357,6 +1357,8 @@ class LogController extends Controller {
                     }
                 }
 
+                $valuesToInsert = [];
+                $nbToInsert = 0;
                 foreach ($points as $point) {
                     $lat = $point[0];
                     $lon = $point[1];
@@ -1399,26 +1401,42 @@ class LogController extends Controller {
                             return $res;
                         }
 
-                        $sql = '
-                            INSERT INTO *PREFIX*phonetrack_points
-                            (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
-                            VALUES ('.
-                                $this->db_quote_escape_string($deviceidToInsert).','.
-                                $this->db_quote_escape_string(floatval($lat)).','.
-                                $this->db_quote_escape_string(floatval($lon)).','.
-                                $this->db_quote_escape_string(intval($time)).','.
-                                (is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL').','.
-                                (is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL').','.
-                                (is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL').','.
-                                (is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL').','.
-                                $this->db_quote_escape_string($useragent).','.
-                                (is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL').','.
-                                (is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').'
-                            ) ;';
-                        $req = $this->dbconnection->prepare($sql);
-                        $req->execute();
-                        $req->closeCursor();
+                        $value = '('.
+                                  $this->db_quote_escape_string($deviceidToInsert).','.
+                                  $this->db_quote_escape_string(floatval($lat)).','.
+                                  $this->db_quote_escape_string(floatval($lon)).','.
+                                  $this->db_quote_escape_string(intval($time)).','.
+                                  (is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL').','.
+                                  (is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL').','.
+                                  (is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL').','.
+                                  (is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL').','.
+                                  $this->db_quote_escape_string($useragent).','.
+                                  (is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL').','.
+                                  (is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').'
+                          )';
+                        array_push($valuesToInsert, $value);
+                        $nbToInsert++;
+
+                        if ($nbToInsert%50 === 0) {
+                            $sql = '
+                                INSERT INTO *PREFIX*phonetrack_points
+                                (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
+                                VALUES '.implode(', ', $valuesToInsert).' ;';
+                            $req = $this->dbconnection->prepare($sql);
+                            $req->execute();
+                            $req->closeCursor();
+                            $valuesToInsert = [];
+                        }
                     }
+                }
+                if (count($valuesToInsert) > 0) {
+                    $sql = '
+                        INSERT INTO *PREFIX*phonetrack_points
+                        (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
+                        VALUES '.implode(', ', $valuesToInsert).' ;';
+                    $req = $this->dbconnection->prepare($sql);
+                    $req->execute();
+                    $req->closeCursor();
                 }
 
                 $res['done'] = 1;
