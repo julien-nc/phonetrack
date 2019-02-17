@@ -1879,6 +1879,10 @@
         delete phonetrack.sessionPointsLayers[token][device];
         delete phonetrack.lastTime[token][device];
         delete phonetrack.firstTime[token][device];
+
+        if ($('#togglestats').is(':checked')) {
+            updateStatTable();
+        }
     }
 
     function removeSession(div) {
