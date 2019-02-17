@@ -778,7 +778,7 @@ class LogController extends Controller {
         }
     }
 
-    private function checkQuota($deviceidToInsert, $userid, $devicename, $sessionname) {
+    private function checkQuota($deviceidToInsert, $userid, $devicename, $sessionname, $nbPointsToInsert=1) {
         $quota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
         if ($quota === 0) {
             return true;
@@ -798,9 +798,10 @@ class LogController extends Controller {
             $nbPoints = intval($row['co']);
         }
 
-        if ($nbPoints < $quota) {
+        // if there is enough 'space'
+        if ($nbPoints + $nbPointsToInsert <= $quota) {
             // if we just reached the quota : notify the user
-            if ($nbPoints === $quota - 1) {
+            if ($nbPoints + $nbPointsToInsert === $quota) {
                 $manager = \OC::$server->getNotificationManager();
                 $notification = $manager->createNotification();
 
@@ -827,46 +828,60 @@ class LogController extends Controller {
             return true;
         }
 
+        // so we need space
+        $nbExceedingPoints = $nbPoints + $nbPointsToInsert - $quota;
+
         $userChoice = $this->config->getUserValue($userid, 'phonetrack', 'quotareached', 'block');
 
         if ($userChoice !== 'block') {
-            // find point to delete
-            $pid = null;
             if ($userChoice === 'rotatedev') {
+                // delete the most points we can from device
+                // if it's not enough, do global rotate
+                $count = 0;
                 $sqlget = '
-                    SELECT id, timestamp
+                    SELECT count(id) as co
                     FROM *PREFIX*phonetrack_points
                     WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
-                    ORDER BY timestamp ASC LIMIT 1 ;
-                    ';
+                    ;';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    $pid = $row['id'];
+                    $count = $row['co'];
                 }
+
+                // delete what we can
+                if ($count >= $nbExceedingPoints) {
+                    $nbToDelete = $nbExceedingPoints;
+                }
+                else {
+                    $nbToDelete = $count;
+                }
+                if ($nbToDelete > 0) {
+                    $sqldel = '
+                        DELETE FROM *PREFIX*phonetrack_points
+                        WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
+                        ORDER BY timestamp ASC LIMIT '.$nbToDelete.' ;';
+                    $req = $this->dbconnection->prepare($sqldel);
+                    $req->execute();
+                    $req->closeCursor();
+                }
+                // update the space we need after this deletion
+                $nbExceedingPoints = $nbExceedingPoints - $nbToDelete;
             }
+
             // if rotateglob
-            // or if rotatedev can't be done because there is no point for this device yet
-            if ($userChoice === 'rotateglob' or $pid === null) {
-                $sqlget = '
-                    SELECT p.id, timestamp
-                    FROM *PREFIX*phonetrack_points AS p
-                    INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
-                    INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
-                    WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).'
-                    ORDER BY timestamp ASC LIMIT 1 ;
-                    ';
-                $req = $this->dbconnection->prepare($sqlget);
-                $req->execute();
-                while ($row = $req->fetch()){
-                    $pid = $row['id'];
-                }
-            }
-            // delete the point
-            if ($pid !== null) {
+            // or if rotatedev was not enough to free the space we need
+            if ($userChoice === 'rotateglob' or $nbExceedingPoints > 0) {
                 $sqldel = '
                     DELETE FROM *PREFIX*phonetrack_points
-                    WHERE id='.$this->db_quote_escape_string($pid).' ;';
+                    WHERE *PREFIX*phonetrack_points.id IN
+                        (SELECT p.id
+                        FROM *PREFIX*phonetrack_points AS p
+                        INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
+                        INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
+                        WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).'
+                        ORDER BY timestamp ASC LIMIT '.$nbExceedingPoints.')
+                     ;';
                 $req = $this->dbconnection->prepare($sqldel);
                 $req->execute();
                 $req->closeCursor();
@@ -1357,6 +1372,24 @@ class LogController extends Controller {
                     }
                 }
 
+                // check quota once before inserting anything
+                // it will delete points to make room if needed
+                $quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, count($points));
+
+                if (!$quotaClearance) {
+                    $res['done'] = 2;
+                    return $res;
+                }
+
+                // check geofences and proxims only once with the last point
+                if (count($points) > 0) {
+                    $lastPointToInsert = $points[count($points) - 1];
+                    $lat = $lastPointToInsert[0];
+                    $lon = $lastPointToInsert[1];
+                    $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+                    $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+                }
+
                 $valuesToInsert = [];
                 $nbToInsert = 0;
                 foreach ($points as $point) {
@@ -1389,13 +1422,6 @@ class LogController extends Controller {
 
                         if (is_numeric($acc)) {
                             $acc = sprintf('%.2f', (float)$acc);
-                        }
-
-                        $quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
-
-                        if (!$quotaClearance) {
-                            $res['done'] = 2;
-                            return $res;
                         }
 
                         $value = '('.
@@ -1436,12 +1462,6 @@ class LogController extends Controller {
                     $req = $this->dbconnection->prepare($sql);
                     $req->execute();
                     $req->closeCursor();
-                }
-
-                // check geofences and proxims only once with the last point
-                if (count($points) > 0) {
-                    $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
-                    $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
                 }
 
                 $res['done'] = 1;
