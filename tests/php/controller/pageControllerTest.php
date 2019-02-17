@@ -214,9 +214,10 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
-        $this->assertEquals(10, count($respSession[$token][$devid1]));
+        // dev1 points were deleted to match quota
+        $this->assertEquals(5, count($respSession[$token][$devid1]));
         $this->assertEquals(10, count($respSession[$token][$devid2]));
-        $this->assertEquals($timestamp, $respSession[$token][$devid1][9][3]);
+        $this->assertEquals($timestamp, $respSession[$token][$devid1][4][3]);
 
         $resp = $this->utilsController->saveOptionValue(['quotareached' => 'rotateglob']);
         $resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp+1, 100, 80, 12, 'test', 2, 180);
@@ -224,9 +225,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->track($sessions);
         $data = $resp->getData();
         $respSession = $data['sessions'];
-        $this->assertEquals(11, count($respSession[$token][$devid1]));
+        $this->assertEquals(6, count($respSession[$token][$devid1]));
         $this->assertEquals(9, count($respSession[$token][$devid2]));
-        $this->assertEquals($timestamp+1, $respSession[$token][$devid1][10][3]);
+        $this->assertEquals($timestamp+1, $respSession[$token][$devid1][5][3]);
         // first point of dev2 should have been deleted
         $this->assertEquals($timestamp-10, $respSession[$token][$devid2][0][3]);
 
@@ -563,7 +564,8 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             [43.65339660644533,3.8572182655334473,1547460654,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
             [43.65339660644534,3.8572182655334473,1547460655,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
         ];
-        $this->logController->logPostMultiple($token, 'dev1', $points);
+        $resp = $this->utilsController->setPointQuota(300);
+        $resp = $this->logController->logPostMultiple($token, 'dev1', $points);
 
         $sessions = array(array($token, null, null));
         $resp = $this->pageController->track($sessions);
