@@ -1391,9 +1391,6 @@ class LogController extends Controller {
                             $acc = sprintf('%.2f', (float)$acc);
                         }
 
-                        // geofences, proximity alerts, quota
-                        $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
-                        $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
                         $quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
 
                         if (!$quotaClearance) {
@@ -1417,6 +1414,7 @@ class LogController extends Controller {
                         array_push($valuesToInsert, $value);
                         $nbToInsert++;
 
+                        // insert by bunch of 50 points
                         if ($nbToInsert%50 === 0) {
                             $sql = '
                                 INSERT INTO *PREFIX*phonetrack_points
@@ -1429,6 +1427,7 @@ class LogController extends Controller {
                         }
                     }
                 }
+                // insert last bunch of points
                 if (count($valuesToInsert) > 0) {
                     $sql = '
                         INSERT INTO *PREFIX*phonetrack_points
@@ -1437,6 +1436,12 @@ class LogController extends Controller {
                     $req = $this->dbconnection->prepare($sql);
                     $req->execute();
                     $req->closeCursor();
+                }
+
+                // check geofences and proxims only once with the last point
+                if (count($points) > 0) {
+                    $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+                    $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
                 }
 
                 $res['done'] = 1;
