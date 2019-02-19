@@ -2,6 +2,10 @@ OC.L10N.register(
     "phonetrack",
     {
     "PhoneTrack" : "Phonetrack",
+    "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack přiblížení (%s a %s)",
+    "Device \"%s\" is now closer than %sm to \"%s\"." : "Zařízení \"%s\" je nyní blíže než %sm k \"%s\".",
+    "Device \"%s\" is now farther than %sm from \"%s\"." : "Zařízení \"%s\" je nyní dále než %sm od \"%s\".",
+    "Geofencing alert" : "Geofencing výstraha",
     "left" : "vlevo",
     "right" : "vpravo",
     "Show lines" : "Zobrazit řádky",
