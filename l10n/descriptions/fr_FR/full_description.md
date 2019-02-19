@@ -14,7 +14,7 @@ Comment utiliser PhoneTrack :
 * Donnez le lien de logging\* aux appareils mobiles. Choisissez la [méthode de logging](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) que vous préférez.
 * Regardez l'emplacement des appareils de la session en temps réel (ou non) dans PhoneTrack ou partagez-le avec des liens publics.
 
-(\*) N'oubliez pas de définir le nom de l'appareil dans le lien (plutôt que dans les paramètres de l'application de logging. Remplacez 'yourname' par le nom d'appareil désiré. Définir le nom de l'appareil dans les paramètres de l'application de journalisation ne fonctionne qu'avec Owntracks, Traccar et OpenGTS.
+(\*) N'oubliez pas de définir le nom de l'appareil dans le lien (plutôt que dans les paramètres de l'application de logging). Remplacez 'yourname' par le nom d'appareil désiré. Définir le nom de l'appareil dans les paramètres de l'application de journalisation ne fonctionne qu'avec Owntracks, Traccar et OpenGTS.
 
 Sur la page principale de PhoneTrack, quand vous regardez une session, vous pouvez :
 
@@ -26,7 +26,7 @@ Sur la page principale de PhoneTrack, quand vous regardez une session, vous pouv
 * ⚇ Définir des alertes de proximité pour des paires d'appareils
 * 🖧 Partager une session à d'autres utilisateurs Nextcloud ou avec un lien public (lecture seule)
 * 🔗 Générer des liens de partage public avec des restrictions optionnelles (filtres, nom d'appareil, dernières positions seulement, simplification de geofence)
-* 🖫 Importer/exporter une session au format GPX (un fichier avec une piste par périphérique ou un fichier par périphérique).
+* 🖫 Importer/exporter une session au format GPX (un fichier avec une piste par périphérique ou un fichier par périphérique)
 * 🗠 Afficher les statistiques des sessions
 * 🔒 [Réserver un nom de périphérique](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) pour s'assurer que seul l'utilisateur autorisé peut loguer avec ce nom
 * 🗓 Activer l'export automatique de session et la purge automatique (quotidien/hebdomadaire/mensuel)

@@ -1,1 +1,1 @@
-Track and display phones positions in real time
+Urmăreşte şi afişează poziţia telefoanelor în timp real

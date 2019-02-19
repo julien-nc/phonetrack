@@ -1,20 +1,20 @@
-# PhoneTrack Nextcloud application
+# Приложение PhoneTrack Nextcloud
 
-📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
+📱 PhoneTrack представляет собой приложение Nextcloud, чтобы отслеживать и сохранять местоположения мобильных устройств.
 
-🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
+🗺 Он получает информацию от приложений передающих координаты с мобильных телефонов, и динамически отображает их на карте.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+🌍 Помогите нам перевести это приложение на [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Проверить другие способы, чтобы помочь в [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-How to use PhoneTrack :
+Как использовать PhoneTrack:
 
-* Create a tracking session.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+* Создать сессию.
+* Указать ссылки на мобильные устройства. Выберите предпочтительный [метод записи ](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods).
 * Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings. Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
 
 On PhoneTrack main page, while watching a session, you can :
 
@@ -26,7 +26,7 @@ On PhoneTrack main page, while watching a session, you can :
 * ⚇ Define proximity alerts for device pairs
 * 🖧 Share a session to other Nextcloud users or with a public link (read-only)
 * 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device).
+* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
 * 🗠 Display sessions statistics
 * 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 * 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-01-22 18:17+0100\n"
-"PO-Revision-Date: 2019-01-22 17:25\n"
+"POT-Creation-Date: 2019-02-19 04:09+0100\n"
+"PO-Revision-Date: 2019-02-19 03:27\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -109,7 +109,7 @@ msgstr "Nedá sa pridať mapový server"
 msgid "A server with this name already exists"
 msgstr "Server s týmto názvom už existuje"
 
-#: phonetrack.js:973 phonetrack.js:3893 maincontent.php:293 maincontent.php:337
+#: phonetrack.js:973 phonetrack.js:3906 maincontent.php:293 maincontent.php:337
 #: maincontent.php:382 maincontent.php:431
 msgid "Delete"
 msgstr "Vymazať"
@@ -142,7 +142,7 @@ msgstr "Nepodarilo sa spojiť so severom na odstránenie mapového servera"
 msgid "Failed to contact server to restore options values"
 msgstr "Nepodarilo sa spojiť so severom, aby boli obnovené hodnoty nastavení"
 
-#: phonetrack.js:1145 phonetrack.js:1293 phonetrack.js:1333 phonetrack.js:6006
+#: phonetrack.js:1145 phonetrack.js:1293 phonetrack.js:1333 phonetrack.js:6028
 msgid "Reload this page"
 msgstr "Načítať stránku znova"
 
@@ -182,7 +182,7 @@ msgstr "Sledovať túto reláciu"
 msgid "shared by {u}"
 msgstr "zdieľané {u}"
 
-#: phonetrack.js:1566 phonetrack.js:2953
+#: phonetrack.js:1566 phonetrack.js:2962
 msgid "More actions"
 msgstr "Ďalšie možnosti"
 
@@ -294,7 +294,7 @@ msgstr "Zdieľať s používateľom"
 msgid "Type user name and press 'Enter'"
 msgstr "Napíšte používateľské meno a stlačte \"Enter\""
 
-#: phonetrack.js:1656 phonetrack.js:4484
+#: phonetrack.js:1656 phonetrack.js:4497
 msgid "Shared with {u}"
 msgstr "Zdieľané s {u}"
 
@@ -322,846 +322,850 @@ msgstr "Aktuálne aktívne filtre budú použité na zdieľané zobrazenie"
 msgid "Add public filtered share"
 msgstr "Pridať verejné filtrované zdieľanie"
 
-#: phonetrack.js:1691
+#: phonetrack.js:1690
+msgid "Session token"
+msgstr ""
+
+#: phonetrack.js:1696
 msgid "List of links to configure logging apps server settings."
 msgstr ""
 
-#: phonetrack.js:1692 maincontent.php:220
+#: phonetrack.js:1697 maincontent.php:220
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
 msgstr "Nahraďte \"yourname\" vašim zvoleným názvom zariadenia alebo názvom rezervačného tokenu"
 
-#: phonetrack.js:1694
+#: phonetrack.js:1699
 msgid "Public browser logging link"
 msgstr ""
 
-#: phonetrack.js:1699
+#: phonetrack.js:1704
 msgid "OsmAnd link"
 msgstr ""
 
-#: phonetrack.js:1704
+#: phonetrack.js:1709
 msgid "GpsLogger GET and POST link"
 msgstr ""
 
-#: phonetrack.js:1708
+#: phonetrack.js:1713
 msgid "Owntracks (HTTP mode) link"
 msgstr ""
 
-#: phonetrack.js:1712
+#: phonetrack.js:1717
 msgid "Ulogger link"
 msgstr ""
 
-#: phonetrack.js:1716
+#: phonetrack.js:1721
 msgid "Traccar link"
 msgstr ""
 
-#: phonetrack.js:1720
+#: phonetrack.js:1725
 msgid "OpenGTS link"
 msgstr ""
 
-#: phonetrack.js:1724
+#: phonetrack.js:1729
 msgid "Locus Map link"
 msgstr ""
 
-#: phonetrack.js:1728
+#: phonetrack.js:1733
 msgid "HTTP GET link"
 msgstr ""
 
-#: phonetrack.js:1823
+#: phonetrack.js:1828
 msgid "The session you want to delete does not exist"
 msgstr "Relácia, ktorú chcete vymazať neexistuje"
 
-#: phonetrack.js:1826
+#: phonetrack.js:1831
 msgid "Failed to delete session"
 msgstr "Nepodarilo sa vymazať reláciu"
 
-#: phonetrack.js:1830
+#: phonetrack.js:1835
 msgid "Failed to contact server to delete session"
 msgstr "Nepodarilo sa spojiť so severom, aby bola vymazaná relácia"
 
-#: phonetrack.js:1850
+#: phonetrack.js:1855
 msgid "Device '{d}' of session '{s}' has been deleted"
 msgstr "Zariadenie '{d}' relácie '{s} bolo odstránené"
 
-#: phonetrack.js:1853
+#: phonetrack.js:1858
 msgid "Failed to delete device '{d}' of session '{s}'"
 msgstr "Nepodarilo sa odstrániť zariadenie \"{d}\" relácie \"{s}\""
 
-#: phonetrack.js:1857
+#: phonetrack.js:1862
 msgid "Failed to contact server to delete device"
 msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie vymazané"
 
-#: phonetrack.js:1910
+#: phonetrack.js:1919
 msgid "Impossible to rename session"
 msgstr "Reláciu nie je možné premenovať"
 
-#: phonetrack.js:1914
+#: phonetrack.js:1923
 msgid "Failed to contact server to rename session"
 msgstr "Nepodarilo sa spojiť so severom, aby bola relácia premenovaná"
 
-#: phonetrack.js:1962
+#: phonetrack.js:1971
 msgid "Impossible to rename device"
 msgstr "Nemožno premenovať zariadenie"
 
-#: phonetrack.js:1966
+#: phonetrack.js:1975
 msgid "Failed to contact server to rename device"
 msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie premenované"
 
-#: phonetrack.js:2038
+#: phonetrack.js:2047
 msgid "Impossible to set device alias for {n}"
 msgstr ""
 
-#: phonetrack.js:2042
+#: phonetrack.js:2051
 msgid "Failed to contact server to set device alias"
 msgstr ""
 
-#: phonetrack.js:2112
+#: phonetrack.js:2121
 msgid "Device already exists in target session"
 msgstr "Zariadenie v cieľovej relácii už existuje"
 
-#: phonetrack.js:2115
+#: phonetrack.js:2124
 msgid "Impossible to move device to another session"
 msgstr "Nedá sa presunúť zariadenie do inej relácie"
 
-#: phonetrack.js:2119
+#: phonetrack.js:2128
 msgid "Failed to contact server to move device"
 msgstr "Nepodarilo sa spojiť so severom, aby bolo zariadenie presunuté"
 
-#: phonetrack.js:2188
+#: phonetrack.js:2197
 msgid "Failed to contact server to get sessions"
 msgstr "Nepodarilo sa spojiť so severom pre získanie relácií"
 
-#: phonetrack.js:2610 phonetrack.js:2644
+#: phonetrack.js:2619 phonetrack.js:2653
 msgid "Stats of all points"
 msgstr "Štatistiky všetkých bodov"
 
-#: phonetrack.js:2641
+#: phonetrack.js:2650
 msgid "Stats of filtered points"
 msgstr "Štatistiky filtrovaných bodov"
 
-#: phonetrack.js:2866
+#: phonetrack.js:2875
 msgid "Device's color successfully changed"
 msgstr "Farbu zariadenia úspešne zmenená"
 
-#: phonetrack.js:2869
+#: phonetrack.js:2878
 msgid "Failed to save device's color"
 msgstr "Nepodarilo sa uložiť farbu zariadenia"
 
-#: phonetrack.js:2873
+#: phonetrack.js:2882
 msgid "Failed to contact server to change device's color"
 msgstr "Nepodarilo sa spojiť so severom, aby bola zmenená farba zariadenia"
 
-#: phonetrack.js:2944
+#: phonetrack.js:2953
 msgid "Geo link to open position in other app/software"
 msgstr ""
 
-#: phonetrack.js:2946
+#: phonetrack.js:2955
 msgid "Geo link QRcode to open position with a QRcode scanner"
 msgstr ""
 
-#: phonetrack.js:2948 phonetrack.js:2950 phonetrack.js:2952
+#: phonetrack.js:2957 phonetrack.js:2959 phonetrack.js:2961
 msgid "Get driving direction to this device with {s}"
 msgstr ""
 
-#: phonetrack.js:2957
+#: phonetrack.js:2966
 msgid "Set device shape"
 msgstr ""
 
-#: phonetrack.js:2959
+#: phonetrack.js:2968
 msgid "Round"
 msgstr "Kruh"
 
-#: phonetrack.js:2960
+#: phonetrack.js:2969
 msgid "Square"
 msgstr "Štvorec"
 
-#: phonetrack.js:2961
+#: phonetrack.js:2970
 msgid "Triangle"
 msgstr "Trojuholník"
 
-#: phonetrack.js:2965
+#: phonetrack.js:2974
 msgid "Delete this device"
 msgstr "Vymazať toto zariadenie"
 
-#: phonetrack.js:2967
+#: phonetrack.js:2976
 msgid "Rename this device"
 msgstr "Premenovať zariadenie"
 
-#: phonetrack.js:2970
+#: phonetrack.js:2979
 msgid "Set device alias"
 msgstr "Nastaviť prezývku zariadenia"
 
-#: phonetrack.js:2973
+#: phonetrack.js:2982
 msgid "Move to another session"
 msgstr "Presunúť do inej relácie"
 
-#: phonetrack.js:2976 maincontent.php:44
+#: phonetrack.js:2985 maincontent.php:44
 msgid "Ok"
 msgstr "Ok"
 
-#: phonetrack.js:2993
+#: phonetrack.js:3002
 msgid "Device geofencing zones"
 msgstr ""
 
-#: phonetrack.js:2997
+#: phonetrack.js:3006
 msgid "Zoom on geofencing area, then set values, then validate."
 msgstr ""
 
-#: phonetrack.js:2998 phonetrack.js:3057 phonetrack.js:4661 phonetrack.js:4676
-#: phonetrack.js:4774 phonetrack.js:4791
+#: phonetrack.js:3007 phonetrack.js:3066 phonetrack.js:4674 phonetrack.js:4691
+#: phonetrack.js:4794 phonetrack.js:4813
 msgid "Nextcloud notification"
 msgstr ""
 
-#: phonetrack.js:3000 phonetrack.js:3059 phonetrack.js:4662 phonetrack.js:4677
-#: phonetrack.js:4775 phonetrack.js:4793
+#: phonetrack.js:3009 phonetrack.js:3068 phonetrack.js:4675 phonetrack.js:4692
+#: phonetrack.js:4795 phonetrack.js:4815
 msgid "Email notification"
 msgstr "Emailové upozornenie"
 
-#: phonetrack.js:3003 phonetrack.js:3062
+#: phonetrack.js:3012 phonetrack.js:3071
 msgid "An empty value means the session owner's email address."
 msgstr ""
 
-#: phonetrack.js:3004 phonetrack.js:3063
+#: phonetrack.js:3013 phonetrack.js:3072
 msgid "You can put multiple addresses separated by comas (,)."
 msgstr ""
 
-#: phonetrack.js:3005
+#: phonetrack.js:3014
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
 msgstr ""
 
-#: phonetrack.js:3006 phonetrack.js:3010 phonetrack.js:3065 phonetrack.js:3069
+#: phonetrack.js:3015 phonetrack.js:3019 phonetrack.js:3074 phonetrack.js:3078
 msgid "Use POST method"
 msgstr "Použiť metódu POST"
 
-#: phonetrack.js:3009
+#: phonetrack.js:3018
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
 msgstr ""
 
-#: phonetrack.js:3013
+#: phonetrack.js:3022
 msgid "Geofencing zone coordinates"
 msgstr ""
 
-#: phonetrack.js:3013
+#: phonetrack.js:3022
 msgid "leave blank to use current map bounds"
 msgstr ""
 
-#: phonetrack.js:3015
+#: phonetrack.js:3024
 msgid "North"
 msgstr "Sever"
 
-#: phonetrack.js:3017
+#: phonetrack.js:3026
 msgid "South"
 msgstr "Juh"
 
-#: phonetrack.js:3021
+#: phonetrack.js:3030
 msgid "Set North/East corner by clicking on the map"
 msgstr ""
 
-#: phonetrack.js:3022
+#: phonetrack.js:3031
 msgid "Set N/E"
 msgstr ""
 
-#: phonetrack.js:3024
+#: phonetrack.js:3033
 msgid "Set South/West corner by clicking on the map"
 msgstr ""
 
-#: phonetrack.js:3025
+#: phonetrack.js:3034
 msgid "Set S/W"
 msgstr ""
 
-#: phonetrack.js:3029
+#: phonetrack.js:3038
 msgid "East"
 msgstr "Východ"
 
-#: phonetrack.js:3031
+#: phonetrack.js:3040
 msgid "West"
 msgstr "Západ"
 
-#: phonetrack.js:3034
+#: phonetrack.js:3043
 msgid "Fence name"
 msgstr ""
 
-#: phonetrack.js:3035
+#: phonetrack.js:3044
 msgid "Use current map view as geofencing zone"
 msgstr ""
 
-#: phonetrack.js:3036
+#: phonetrack.js:3045
 msgid "Add zone"
 msgstr "Pridaj zónu"
 
-#: phonetrack.js:3042
+#: phonetrack.js:3051
 msgid "Device proximity notifications"
 msgstr ""
 
-#: phonetrack.js:3046
+#: phonetrack.js:3055
 msgid "Select a session, a device name and a distance, set the notification settings, then validate."
 msgstr ""
 
-#: phonetrack.js:3047
+#: phonetrack.js:3056
 msgid "You will be notified when distance between devices gets bigger than high limit or smaller than low limit."
 msgstr ""
 
-#: phonetrack.js:3048 maincontent.php:446 maincontent.php:464
+#: phonetrack.js:3057 maincontent.php:446 maincontent.php:464
 msgid "Session"
 msgstr "Relácia"
 
-#: phonetrack.js:3050 maincontent.php:205 maincontent.php:451
+#: phonetrack.js:3059 maincontent.php:205 maincontent.php:451
 #: maincontent.php:469
 msgid "Device name"
 msgstr "Názov zariadenia"
 
-#: phonetrack.js:3051
+#: phonetrack.js:3060
 msgid "Low distance limit"
 msgstr ""
 
-#: phonetrack.js:3053 phonetrack.js:3056 maincontent.php:77
+#: phonetrack.js:3062 phonetrack.js:3065 maincontent.php:77
 msgid "meters"
 msgstr "metrov"
 
-#: phonetrack.js:3054
+#: phonetrack.js:3063
 msgid "High distance limit"
 msgstr ""
 
-#: phonetrack.js:3064
+#: phonetrack.js:3073
 msgid "HTTP address to request when devices get close"
 msgstr ""
 
-#: phonetrack.js:3068
+#: phonetrack.js:3077
 msgid "HTTP address to request when devices get far"
 msgstr ""
 
-#: phonetrack.js:3073
+#: phonetrack.js:3082
 msgid "Add proximity notification"
 msgstr ""
 
-#: phonetrack.js:3085
+#: phonetrack.js:3094
 msgid "Toggle detail/edition points"
 msgstr "Prepnúť detaily/úpravy bodov"
 
-#: phonetrack.js:3094
+#: phonetrack.js:3103
 msgid "Toggle lines"
 msgstr "Prepnúť čiary"
 
-#: phonetrack.js:3102
+#: phonetrack.js:3111
 msgid "Follow this device (autozoom)"
 msgstr "Sledovať toto zariadenie (zoom)"
 
-#: phonetrack.js:3116 phonetrack.js:3125
+#: phonetrack.js:3125 phonetrack.js:3134
 msgid "Center map on device"
 msgstr "Centrovať mapu na zariadenie"
 
-#: phonetrack.js:3485
+#: phonetrack.js:3494
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
 msgstr "Bod, ktorý chcete upraviť neexistuje alebo nemáte dovolené ho upraviť"
 
-#: phonetrack.js:3489
+#: phonetrack.js:3498
 msgid "Failed to contact server to edit point"
 msgstr "Nepodarilo sa spojiť so severom na úpravu bodu"
 
-#: phonetrack.js:3607
+#: phonetrack.js:3616
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
 msgstr "Bod, ktorý chcete odstrániť neexistuje alebo nemáte dovolené ho vymazať"
 
-#: phonetrack.js:3611
+#: phonetrack.js:3620
 msgid "Failed to contact server to delete point"
 msgstr "Nepodarilo sa spojiť so severom na vymazanie bodu"
 
-#: phonetrack.js:3697 phonetrack.js:3734
+#: phonetrack.js:3706 phonetrack.js:3743
 msgid "Manually added"
 msgstr "Manuálne pridané"
 
-#: phonetrack.js:3715
+#: phonetrack.js:3724
 msgid "Impossible to add this point"
 msgstr "Tento bod sa nedá pridať"
 
-#: phonetrack.js:3718
+#: phonetrack.js:3727
 msgid "User quota was reached"
 msgstr ""
 
-#: phonetrack.js:3722
+#: phonetrack.js:3731
 msgid "Failed to contact server to add point"
 msgstr "Nepodarilo sa spojiť so severom na pridanie bodu"
 
-#: phonetrack.js:3849
+#: phonetrack.js:3867
 msgid "Date"
 msgstr "Dátum"
 
-#: phonetrack.js:3852
+#: phonetrack.js:3870
 msgid "Time"
 msgstr "Čas"
 
-#: phonetrack.js:3857 phonetrack.js:3918
+#: phonetrack.js:3875 phonetrack.js:3931
 msgid "Altitude"
 msgstr "Nadmorská výška"
 
-#: phonetrack.js:3860 phonetrack.js:3923
+#: phonetrack.js:3878 phonetrack.js:3936
 msgid "Precision"
 msgstr "Presnosť"
 
-#: phonetrack.js:3863 phonetrack.js:3930
+#: phonetrack.js:3881 phonetrack.js:3943
 msgid "Speed"
 msgstr "Rýchlosť"
 
-#: phonetrack.js:3871 phonetrack.js:3935
+#: phonetrack.js:3884 phonetrack.js:3948
 msgid "Bearing"
 msgstr "Smer"
 
-#: phonetrack.js:3874 phonetrack.js:3940
+#: phonetrack.js:3887 phonetrack.js:3953
 msgid "Satellites"
 msgstr "Satelity"
 
-#: phonetrack.js:3877 phonetrack.js:3945
+#: phonetrack.js:3890 phonetrack.js:3958
 msgid "Battery"
 msgstr "Batéria"
 
-#: phonetrack.js:3880 phonetrack.js:3949
+#: phonetrack.js:3893 phonetrack.js:3962
 msgid "User-agent"
 msgstr "Používateľský agent"
 
-#: phonetrack.js:3883
+#: phonetrack.js:3896
 msgid "lat : lng"
 msgstr "lat: lng"
 
-#: phonetrack.js:3887
+#: phonetrack.js:3900
 msgid "DMS coords"
 msgstr "DMS súradnice"
 
-#: phonetrack.js:3892
+#: phonetrack.js:3905
 msgid "Save"
 msgstr "Uložiť"
 
-#: phonetrack.js:3894
+#: phonetrack.js:3907
 msgid "Move"
 msgstr "Presunúť"
 
-#: phonetrack.js:3895
+#: phonetrack.js:3908
 msgid "Cancel"
 msgstr "Ukončiť"
 
-#: phonetrack.js:4096
+#: phonetrack.js:4109
 msgid "Impossible to zoom, there is no point to zoom on for this session"
 msgstr ""
 
-#: phonetrack.js:4131
+#: phonetrack.js:4144
 msgid "File extension must be '.gpx' or '.kml' to be imported"
 msgstr ""
 
-#: phonetrack.js:4150
+#: phonetrack.js:4163
 msgid "Failed to create imported session"
 msgstr "Nepodarilo sa vytvoriť importovanú reláciu"
 
-#: phonetrack.js:4154 phonetrack.js:4160 phonetrack.js:4166 phonetrack.js:4172
+#: phonetrack.js:4167 phonetrack.js:4173 phonetrack.js:4179 phonetrack.js:4185
 msgid "Failed to import session"
 msgstr "Nepodarilo sa importovať reláciu"
 
-#: phonetrack.js:4155
+#: phonetrack.js:4168
 msgid "File is not readable"
 msgstr "Súbor nie je čitateľný"
 
-#: phonetrack.js:4161
+#: phonetrack.js:4174
 msgid "File does not exist"
 msgstr "Súbor neexistuje"
 
-#: phonetrack.js:4167
+#: phonetrack.js:4180
 msgid "Malformed XML file"
 msgstr ""
 
-#: phonetrack.js:4173
+#: phonetrack.js:4186
 msgid "There is no device to import in submitted file"
 msgstr ""
 
-#: phonetrack.js:4179
+#: phonetrack.js:4192
 msgid "Failed to contact server to import session"
 msgstr "Nepodarilo sa spojiť so severom, aby bola relácia importovaná"
 
-#: phonetrack.js:4199
+#: phonetrack.js:4212
 msgid "Session successfully exported in"
 msgstr "Relácia sa úspešne exportovala v"
 
-#: phonetrack.js:4203
+#: phonetrack.js:4216
 msgid "Failed to export session"
 msgstr "Nepodarilo sa exportovať reláciu"
 
-#: phonetrack.js:4208
+#: phonetrack.js:4221
 msgid "Failed to contact server to export session"
 msgstr "Nepodarilo sa spojiť so severom, aby bola relácia exportovaná"
 
-#: phonetrack.js:4239
+#: phonetrack.js:4252
 msgid "Failed to contact server to log position"
 msgstr "Nepodarilo sa spojiť so severom na uloženie pozície"
 
-#: phonetrack.js:4368
+#: phonetrack.js:4381
 msgid "Impossible to zoom, there is no point to zoom on for this device"
 msgstr ""
 
-#: phonetrack.js:4407
+#: phonetrack.js:4420
 msgid "'{n}' is already reserved"
 msgstr "\"{n}\", je už rezervované"
 
-#: phonetrack.js:4410
+#: phonetrack.js:4423
 msgid "Failed to reserve '{n}'"
 msgstr "Nepodarilo sa rezervovať '{n}'"
 
-#: phonetrack.js:4413
+#: phonetrack.js:4426
 msgid "Failed to contact server to reserve device name"
 msgstr "Nepodarilo sa spojiť so severom na rezerváciu názvu zariadenia"
 
-#: phonetrack.js:4444 phonetrack.js:4448
+#: phonetrack.js:4457 phonetrack.js:4461
 msgid "Failed to delete reserved name"
 msgstr "Nepodarilo sa vymazať rezervované meno"
 
-#: phonetrack.js:4445
+#: phonetrack.js:4458
 msgid "This device does not exist"
 msgstr "Toto zariadenie neexistuje"
 
-#: phonetrack.js:4449
+#: phonetrack.js:4462
 msgid "This device name is not reserved, please reload this page"
 msgstr "Názov tohto zariadenia nie je rezervovaný, prosím, obnovte túto stránku"
 
-#: phonetrack.js:4452
+#: phonetrack.js:4465
 msgid "Failed to contact server to delete reserved name"
 msgstr "Nepodarilo sa spojiť so severom na vymazanie rezervácie názvu zariadenia"
 
-#: phonetrack.js:4472
+#: phonetrack.js:4485
 msgid "User does not exist"
 msgstr "Používateľ neexistuje"
 
-#: phonetrack.js:4475
+#: phonetrack.js:4488
 msgid "Failed to add user share"
 msgstr "Nepodarilo sa pridať užívateľské zdieľanie"
 
-#: phonetrack.js:4478
+#: phonetrack.js:4491
 msgid "Failed to contact server to add user share"
 msgstr "Nepodarilo sa spojiť so severom na pridanie užívateľského zdieľania"
 
-#: phonetrack.js:4509
+#: phonetrack.js:4522
 msgid "Failed to delete user share"
 msgstr "Nepodarilo sa zmazať užívateľské zdieľanie"
 
-#: phonetrack.js:4512
+#: phonetrack.js:4525
 msgid "Failed to contact server to delete user share"
 msgstr "Nepodarilo sa spojiť so severom, aby bolo vymazané užívateľské zdieľanie"
 
-#: phonetrack.js:4530 phonetrack.js:4554
+#: phonetrack.js:4543 phonetrack.js:4567
 msgid "Public share has been successfully modified"
 msgstr ""
 
-#: phonetrack.js:4533 phonetrack.js:4557
+#: phonetrack.js:4546 phonetrack.js:4570
 msgid "Failed to modify public share"
 msgstr ""
 
-#: phonetrack.js:4536 phonetrack.js:4560
+#: phonetrack.js:4549 phonetrack.js:4573
 msgid "Failed to contact server to modify public share"
 msgstr ""
 
-#: phonetrack.js:4578
+#: phonetrack.js:4591
 msgid "Device name restriction has been successfully set"
 msgstr ""
 
-#: phonetrack.js:4581
+#: phonetrack.js:4594
 msgid "Failed to set public share device name restriction"
 msgstr ""
 
-#: phonetrack.js:4584
+#: phonetrack.js:4597
 msgid "Failed to contact server to set public share device name restriction"
 msgstr ""
 
-#: phonetrack.js:4619
+#: phonetrack.js:4632
 msgid "Warning : User email and server admin email must be set to receive geofencing alerts."
 msgstr ""
 
-#: phonetrack.js:4623
+#: phonetrack.js:4636
 msgid "Failed to add geofencing zone"
 msgstr ""
 
-#: phonetrack.js:4626
+#: phonetrack.js:4639
 msgid "Failed to contact server to add geofencing zone"
 msgstr ""
 
-#: phonetrack.js:4641
+#: phonetrack.js:4654
 msgid "URL to request when entering"
 msgstr ""
 
-#: phonetrack.js:4645
+#: phonetrack.js:4658
 msgid "URL to request when leaving"
 msgstr ""
 
-#: phonetrack.js:4648 phonetrack.js:4652 phonetrack.js:4763 phonetrack.js:4767
+#: phonetrack.js:4661 phonetrack.js:4665 phonetrack.js:4778 phonetrack.js:4782
 msgid "no"
 msgstr ""
 
-#: phonetrack.js:4650 phonetrack.js:4654 phonetrack.js:4765 phonetrack.js:4769
+#: phonetrack.js:4663 phonetrack.js:4667 phonetrack.js:4780 phonetrack.js:4784
 msgid "yes"
 msgstr ""
 
-#: phonetrack.js:4663 phonetrack.js:4679 phonetrack.js:4776 phonetrack.js:4796
+#: phonetrack.js:4677 phonetrack.js:4694 phonetrack.js:4797 phonetrack.js:4818
 msgid "Email address(es)"
 msgstr ""
 
-#: phonetrack.js:4663 phonetrack.js:4680 phonetrack.js:4776 phonetrack.js:4796
+#: phonetrack.js:4677 phonetrack.js:4695 phonetrack.js:4797 phonetrack.js:4818
 msgid "account mail address"
 msgstr ""
 
-#: phonetrack.js:4706
+#: phonetrack.js:4721
 msgid "Failed to delete geofencing zone"
 msgstr ""
 
-#: phonetrack.js:4709
+#: phonetrack.js:4724
 msgid "Failed to contact server to delete geofencing zone"
 msgstr ""
 
-#: phonetrack.js:4739
+#: phonetrack.js:4754
 msgid "Warning : User email and server admin email must be set to receive proximity alerts."
 msgstr ""
 
-#: phonetrack.js:4743 phonetrack.js:4747
+#: phonetrack.js:4758 phonetrack.js:4762
 msgid "Failed to add proximity alert"
 msgstr ""
 
-#: phonetrack.js:4744
+#: phonetrack.js:4759
 msgid "Device or session does not exist"
 msgstr ""
 
-#: phonetrack.js:4750
+#: phonetrack.js:4765
 msgid "Failed to contact server to add proximity alert"
 msgstr ""
 
-#: phonetrack.js:4772 phonetrack.js:4784
+#: phonetrack.js:4789 phonetrack.js:4806
 msgid "URL to request when devices get close"
 msgstr ""
 
-#: phonetrack.js:4773 phonetrack.js:4788
+#: phonetrack.js:4792 phonetrack.js:4810
 msgid "URL to request when devices get far"
 msgstr ""
 
-#: phonetrack.js:4777 phonetrack.js:4799
+#: phonetrack.js:4799 phonetrack.js:4821
 msgid "Low distance limit : {nbmeters}m"
 msgstr ""
 
-#: phonetrack.js:4778 phonetrack.js:4801
+#: phonetrack.js:4800 phonetrack.js:4823
 msgid "High distance limit : {nbmeters}m"
 msgstr ""
 
-#: phonetrack.js:4827
+#: phonetrack.js:4849
 msgid "Failed to delete proximity alert"
 msgstr ""
 
-#: phonetrack.js:4830
+#: phonetrack.js:4852
 msgid "Failed to contact server to delete proximity alert"
 msgstr ""
 
-#: phonetrack.js:4849
+#: phonetrack.js:4871
 msgid "Failed to add public share"
 msgstr "Nepodarilo sa pridať verejné zdieľanie"
 
-#: phonetrack.js:4852
+#: phonetrack.js:4874
 msgid "Failed to contact server to add public share"
 msgstr "Nepodarilo sa spojiť so severom na pridanie verejného zdieľania"
 
-#: phonetrack.js:4884
+#: phonetrack.js:4906
 msgid "Show this device only"
 msgstr "Zobraziť len toto zariadenie"
 
-#: phonetrack.js:4886
+#: phonetrack.js:4908
 msgid "Show last positions only"
 msgstr "Zobraziť len posledné pozície"
 
-#: phonetrack.js:4888
+#: phonetrack.js:4910
 msgid "Simplify positions to nearest geofencing zone center"
 msgstr ""
 
-#: phonetrack.js:4907
+#: phonetrack.js:4929
 msgid "No filters"
 msgstr "Žiadne filtre"
 
-#: phonetrack.js:4931
+#: phonetrack.js:4953
 msgid "Failed to delete public share"
 msgstr "Nepodarilo sa zmazať verejné zdieľanie"
 
-#: phonetrack.js:4934
+#: phonetrack.js:4956
 msgid "Failed to contact server to delete public share"
 msgstr "Nepodarilo sa spojiť so severom, aby bolo vymazané verejné zdieľanie"
 
-#: phonetrack.js:4959
+#: phonetrack.js:4981
 msgid "Failed to contact server to get user list"
 msgstr "Nepodarilo sa spojiť so severom pre získanie zoznamu užívateľov"
 
-#: phonetrack.js:5002
+#: phonetrack.js:5024
 msgid "device name"
 msgstr "názov zariadenia"
 
-#: phonetrack.js:5003
+#: phonetrack.js:5025
 msgid "distance (km)"
 msgstr "vzdialenosť (km)"
 
-#: phonetrack.js:5004
+#: phonetrack.js:5026
 msgid "duration"
 msgstr "trvanie"
 
-#: phonetrack.js:5005
+#: phonetrack.js:5027
 msgid "#points"
 msgstr "#body"
 
-#: phonetrack.js:5006
+#: phonetrack.js:5028
 msgid "avg speed (km/h)"
 msgstr ""
 
-#: phonetrack.js:5007
+#: phonetrack.js:5029
 msgid "max speed (km/h)"
 msgstr ""
 
-#: phonetrack.js:5079
+#: phonetrack.js:5101
 msgid "years"
 msgstr "roky"
 
-#: phonetrack.js:5082
+#: phonetrack.js:5104
 msgid "days"
 msgstr "dní"
 
-#: phonetrack.js:5105
+#: phonetrack.js:5127
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
 msgstr ""
 
-#: phonetrack.js:5106
+#: phonetrack.js:5128
 msgid "Copy the link below into the 'Online tracking web address' field."
 msgstr ""
 
-#: phonetrack.js:5110
+#: phonetrack.js:5132
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
 msgstr ""
 
-#: phonetrack.js:5111
+#: phonetrack.js:5133
 msgid "Copy the link below into the 'URL' field."
 msgstr ""
 
-#: phonetrack.js:5115
+#: phonetrack.js:5137
 msgid "In the Owntracks preferences menu, go to 'Connections'."
 msgstr ""
 
-#: phonetrack.js:5116
+#: phonetrack.js:5138
 msgid "Change the connection Mode to 'Private HTTP', Copy the link below into the 'Host' field."
 msgstr ""
 
-#: phonetrack.js:5117
+#: phonetrack.js:5139
 msgid "Leave settings under 'Identification' blank as they are not required."
 msgstr ""
 
-#: phonetrack.js:5121
+#: phonetrack.js:5143
 msgid "In Ulogger, go to settings menu and copy the link below into the 'Server URL' field."
 msgstr ""
 
-#: phonetrack.js:5122
+#: phonetrack.js:5144
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
 msgstr ""
 
-#: phonetrack.js:5123
+#: phonetrack.js:5145
 msgid "Activate 'Live synchronization'."
 msgstr "Aktivovať \"Live synchronizáciu\"."
 
-#: phonetrack.js:5127
+#: phonetrack.js:5149
 msgid "In Traccar client, copy the link below into the 'server URL' field."
 msgstr ""
 
-#: phonetrack.js:5131
+#: phonetrack.js:5153
 msgid "In LocusMap, copy the link below into the 'server URL' field. It works with POST and GET methods."
 msgstr ""
 
-#: phonetrack.js:5135
+#: phonetrack.js:5157
 msgid "You can log with any other client with a simple HTTP request."
 msgstr ""
 
-#: phonetrack.js:5136
+#: phonetrack.js:5158
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
 msgstr ""
 
-#: phonetrack.js:5139
+#: phonetrack.js:5161
 msgid "Use this link as the server URL in your OpenGTS compatible logging app."
 msgstr ""
 
-#: phonetrack.js:5140
+#: phonetrack.js:5162
 msgid "OpenGTS compatible logger"
 msgstr ""
 
-#: phonetrack.js:5143
+#: phonetrack.js:5165
 msgid "the browser"
 msgstr ""
 
-#: phonetrack.js:5144 maincontent.php:207
+#: phonetrack.js:5166 maincontent.php:207
 msgid "Log my position in this session"
 msgstr "Zaznamenať moju pozíciu v tejto relácii"
 
-#: phonetrack.js:5145
+#: phonetrack.js:5167
 msgid "Visit this link with a web browser and check \"{loglabel}\"."
 msgstr ""
 
-#: phonetrack.js:5148
+#: phonetrack.js:5170
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
 msgstr ""
 
-#: phonetrack.js:5368
+#: phonetrack.js:5390
 msgid "Are you sure you want to delete the session {session} ?"
 msgstr "Ste si naozaj istý/á, že chcete vymazať reláciu {session} ?"
 
-#: phonetrack.js:5371
+#: phonetrack.js:5393
 msgid "Confirm session deletion"
 msgstr "Potvrďte vymazanie relácie"
 
-#: phonetrack.js:5429
+#: phonetrack.js:5451
 msgid "Choose auto export target path"
 msgstr ""
 
-#: phonetrack.js:5607
+#: phonetrack.js:5629
 msgid "Select storage location for '{fname}'"
 msgstr "Vyberte si miesto uloženia pre '{fname}'"
 
-#: phonetrack.js:5819
+#: phonetrack.js:5841
 msgid "Geo QRcode : last position of {dname}"
 msgstr ""
 
-#: phonetrack.js:5941
+#: phonetrack.js:5963
 msgid "Are you sure you want to delete the device {device} ?"
 msgstr "Naozaj chcete odstrániť zariadenie {device} ?"
 
-#: phonetrack.js:5944
+#: phonetrack.js:5966
 msgid "Confirm device deletion"
 msgstr "Potvrďte odstránenie zariadenia"
 
-#: phonetrack.js:6002
+#: phonetrack.js:6024
 msgid "Failed to toggle session public status, session does not exist"
 msgstr "Nepodarilo sa prepnúť stav verejnej relácie, pretože relácia neexistuje"
 
-#: phonetrack.js:6005
+#: phonetrack.js:6027
 msgid "Failed to contact server to toggle session public status"
 msgstr "Nepodarilo sa kontaktovať server na prepnutie stavu verejnej relácie,"
 
-#: phonetrack.js:6074
+#: phonetrack.js:6096
 msgid "Failed to set device shape"
 msgstr ""
 
-#: phonetrack.js:6077
+#: phonetrack.js:6099
 msgid "Failed to contact server to set device shape"
 msgstr ""
 
-#: phonetrack.js:6099
+#: phonetrack.js:6121
 msgid "Failed to set session auto export value"
 msgstr "Nepodarilo sa nastaviť hodnotu automatického exportu relácie"
 
-#: phonetrack.js:6100 phonetrack.js:6127
+#: phonetrack.js:6122 phonetrack.js:6149
 msgid "session does not exist"
 msgstr "relácia neexistuje"
 
-#: phonetrack.js:6104
+#: phonetrack.js:6126
 msgid "Failed to contact server to set session auto export value"
 msgstr "Nepodarilo sa kontaktovať server pre nastavenie hodnoty automatického exportu relácie"
 
-#: phonetrack.js:6126
+#: phonetrack.js:6148
 msgid "Failed to set session auto purge value"
 msgstr ""
 
-#: phonetrack.js:6131
+#: phonetrack.js:6153
 msgid "Failed to contact server to set session auto purge value"
 msgstr ""
 
-#: phonetrack.js:6218
+#: phonetrack.js:6240
 msgid "Import gpx/kml session file"
 msgstr ""
 

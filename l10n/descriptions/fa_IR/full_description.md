@@ -4,7 +4,7 @@
 
 يستلم المعلومات من برنامج نظام الهاتف و يحددها على الخارطه بوضوح.
 
-ساعدنا لترجمة هذا التطبيق فى مشروع phon Track Crowdin.
+🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
 ابحث الطرق الاخرى لمساعدتنا فى[مشاهدة كل الاسهم](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
@@ -14,7 +14,7 @@
 * اعطى رابط الولوج link\ * الى الهاتف. انتخب [طريق الدخول للنظام](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) الذى تريده.
 * شاهد الان الجلسه المحلية (او لا) فى PhoneTrack و شاركه مع الصفحات العامه.
 
-(\*) لا تنسى تحديد اسم للجهاز فى الرابط (وليس فى اعدادات التطبيق. استبدل"Yourname"مع الاسم الذى تريده. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) Don't forget to set the device name in the link (rather than in the logging app settings). استبدل"Yourname"مع الاسم الذى تريده. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
 
 On PhoneTrack main page, while watching a session, you can :
 
@@ -26,7 +26,7 @@ On PhoneTrack main page, while watching a session, you can :
 * ⚇ Define proximity alerts for device pairs
 * 🖧 Share a session to other Nextcloud users or with a public link (read-only)
 * 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device).
+* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
 * 🗠 Display sessions statistics
 * 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 * 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
