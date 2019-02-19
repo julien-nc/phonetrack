@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- add api entry to get last positions when logged in, works with all sessions
+
+### Changed
+- update CI to NC 15
+- on log multiple points, check geofences and proxims just once with last point
+- make app description translatable
+
+### Fixed
+- number of decimal displayed in popup/tooltip values and stats table
+[#207](https://gitlab.com/eneiluj/phonetrack-oc/issues/207) @Valdnet
+- only check quota once for multiple log
+- update stats table after device deletion
+
 ## 0.4.3 – 2019-01-26
 ### Added
 - lots of translations
