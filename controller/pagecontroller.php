@@ -3031,7 +3031,7 @@ class PageController extends Controller {
                 if ($filterSql !== '') {
                     $sqlget .= 'AND '.$filterSql;
                 }
-                $sqlget .= ' ORDER BY timestamp ASC LIMIT '.$pointIndex.','.$chunkSize.' ;';
+                $sqlget .= ' ORDER BY timestamp ASC LIMIT '.$chunkSize.' OFFSET '.$pointIndex.' ;';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()) {
