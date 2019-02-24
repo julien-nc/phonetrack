@@ -194,11 +194,11 @@ class LogController extends Controller {
         return $proxims;
     }
 
-    private function checkProxims($lat, $lon, $devid, $userid, $devicename, $sessionname) {
+    private function checkProxims($lat, $lon, $devid, $userid, $devicename, $sessionname, $sessionid) {
         $lastPoint = $this->getLastDevicePoint($devid);
         $proxims = $this->getDeviceProxims($devid);
         foreach ($proxims as $proxim) {
-            $this->checkProxim($lat, $lon, $devid, $proxim, $userid, $lastPoint, $devicename);
+            $this->checkProxim($lat, $lon, $devid, $proxim, $userid, $lastPoint, $devicename, $sessionid);
         }
     }
 
@@ -251,7 +251,7 @@ class LogController extends Controller {
         return $dbname;
     }
 
-    private function checkProxim($newLat, $newLon, $movingDevid, $proxim, $userid, $lastPoint, $movingDeviceName) {
+    private function checkProxim($newLat, $newLon, $movingDevid, $proxim, $userid, $lastPoint, $movingDeviceName, $sessionid) {
         $highlimit = intval($proxim['highlimit']);
         $lowlimit = intval($proxim['lowlimit']);
         $urlclose = $proxim['urlclose'];
@@ -305,27 +305,32 @@ class LogController extends Controller {
 
                 // NOTIFICATIONS
                 if ($sendnotif !== 0) {
-                    $manager = \OC::$server->getNotificationManager();
-                    $notification = $manager->createNotification();
+                    $userIds = $this->getSessionSharedUserIdList($sessionid);
+                    array_push($userIds, $userid);
 
-                    $acceptAction = $notification->createAction();
-                    $acceptAction->setLabel('accept')
-                        ->setLink('/apps/phonetrack', 'GET');
+                    foreach ($userIds as $aUserId) {
+                        $manager = \OC::$server->getNotificationManager();
+                        $notification = $manager->createNotification();
 
-                    $declineAction = $notification->createAction();
-                    $declineAction->setLabel('decline')
-                        ->setLink('/apps/phonetrack', 'GET');
+                        $acceptAction = $notification->createAction();
+                        $acceptAction->setLabel('accept')
+                            ->setLink('/apps/phonetrack', 'GET');
 
-                    $notification->setApp('phonetrack')
-                        ->setUser($userid)
-                        ->setDateTime(new \DateTime())
-                        ->setObject('closeproxim', $proximid)
-                        ->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
-                        ->addAction($acceptAction)
-                        ->addAction($declineAction)
-                        ;
+                        $declineAction = $notification->createAction();
+                        $declineAction->setLabel('decline')
+                            ->setLink('/apps/phonetrack', 'GET');
 
-                    $manager->notify($notification);
+                        $notification->setApp('phonetrack')
+                            ->setUser($aUserId)
+                            ->setDateTime(new \DateTime())
+                            ->setObject('closeproxim', $proximid)
+                            ->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
+                            ->addAction($acceptAction)
+                            ->addAction($declineAction)
+                            ;
+
+                        $manager->notify($notification);
+                    }
                 }
 
                 if ($sendemail !== 0) {
@@ -416,27 +421,32 @@ class LogController extends Controller {
 
                 // NOTIFICATIONS
                 if ($sendnotif !== 0) {
-                    $manager = \OC::$server->getNotificationManager();
-                    $notification = $manager->createNotification();
+                    $userIds = $this->getSessionSharedUserIdList($sessionid);
+                    array_push($userIds, $userid);
 
-                    $acceptAction = $notification->createAction();
-                    $acceptAction->setLabel('accept')
-                        ->setLink('/apps/phonetrack', 'GET');
+                    foreach ($userIds as $aUserId) {
+                        $manager = \OC::$server->getNotificationManager();
+                        $notification = $manager->createNotification();
 
-                    $declineAction = $notification->createAction();
-                    $declineAction->setLabel('decline')
-                        ->setLink('/apps/phonetrack', 'GET');
+                        $acceptAction = $notification->createAction();
+                        $acceptAction->setLabel('accept')
+                            ->setLink('/apps/phonetrack', 'GET');
 
-                    $notification->setApp('phonetrack')
-                        ->setUser($userid)
-                        ->setDateTime(new \DateTime())
-                        ->setObject('farproxim', $proximid)
-                        ->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
-                        ->addAction($acceptAction)
-                        ->addAction($declineAction)
-                        ;
+                        $declineAction = $notification->createAction();
+                        $declineAction->setLabel('decline')
+                            ->setLink('/apps/phonetrack', 'GET');
 
-                    $manager->notify($notification);
+                        $notification->setApp('phonetrack')
+                            ->setUser($aUserId)
+                            ->setDateTime(new \DateTime())
+                            ->setObject('farproxim', $proximid)
+                            ->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
+                            ->addAction($acceptAction)
+                            ->addAction($declineAction)
+                            ;
+
+                        $manager->notify($notification);
+                    }
                 }
 
                 if ($sendemail !== 0) {
@@ -531,15 +541,33 @@ class LogController extends Controller {
         return $fences;
     }
 
-    private function checkGeoFences($lat, $lon, $devid, $userid, $devicename, $sessionname) {
+    /**
+     * returns user ids the session is shared with
+     */
+    private function getSessionSharedUserIdList($token) {
+        $userids = array();
+        $sqlget = '
+            SELECT username
+            FROM *PREFIX*phonetrack_shares
+            WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
+        $req = $this->dbconnection->prepare($sqlget);
+        $req->execute();
+        while ($row = $req->fetch()){
+            array_push($userids, $row['username']);
+        }
+        $req->closeCursor();
+        return $userids;
+    }
+
+    private function checkGeoFences($lat, $lon, $devid, $userid, $devicename, $sessionname, $sessionid) {
         $lastPoint = $this->getLastDevicePoint($devid);
         $fences = $this->getDeviceFences($devid);
         foreach ($fences as $fence) {
-            $this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname);
+            $this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname, $sessionid);
         }
     }
 
-    private function checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname) {
+    private function checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname, $sessionid) {
         $latmin = floatval($fence['latmin']);
         $latmax = floatval($fence['latmax']);
         $lonmin = floatval($fence['lonmin']);
@@ -583,27 +611,32 @@ class LogController extends Controller {
 
                     // NOTIFICATIONS
                     if ($sendnotif !== 0) {
-                        $manager = \OC::$server->getNotificationManager();
-                        $notification = $manager->createNotification();
+                        $userIds = $this->getSessionSharedUserIdList($sessionid);
+                        array_push($userIds, $userid);
 
-                        $acceptAction = $notification->createAction();
-                        $acceptAction->setLabel('accept')
-                            ->setLink('/apps/phonetrack', 'GET');
+                        foreach ($userIds as $aUserId) {
+                            $manager = \OC::$server->getNotificationManager();
+                            $notification = $manager->createNotification();
 
-                        $declineAction = $notification->createAction();
-                        $declineAction->setLabel('decline')
-                            ->setLink('/apps/phonetrack', 'GET');
+                            $acceptAction = $notification->createAction();
+                            $acceptAction->setLabel('accept')
+                                ->setLink('/apps/phonetrack', 'GET');
 
-                        $notification->setApp('phonetrack')
-                            ->setUser($userid)
-                            ->setDateTime(new \DateTime())
-                            ->setObject('entergeofence', $fenceid) // $type and $id
-                            ->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
-                            ->addAction($acceptAction)
-                            ->addAction($declineAction)
-                            ;
+                            $declineAction = $notification->createAction();
+                            $declineAction->setLabel('decline')
+                                ->setLink('/apps/phonetrack', 'GET');
 
-                        $manager->notify($notification);
+                            $notification->setApp('phonetrack')
+                                ->setUser($aUserId)
+                                ->setDateTime(new \DateTime())
+                                ->setObject('entergeofence', $fenceid) // $type and $id
+                                ->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
+                                ->addAction($acceptAction)
+                                ->addAction($declineAction)
+                                ;
+
+                            $manager->notify($notification);
+                        }
                     }
 
                     // EMAIL
@@ -685,27 +718,32 @@ class LogController extends Controller {
 
                     // NOTIFICATIONS
                     if ($sendnotif !== 0) {
-                        $manager = \OC::$server->getNotificationManager();
-                        $notification = $manager->createNotification();
+                        $userIds = $this->getSessionSharedUserIdList($sessionid);
+                        array_push($userIds, $userid);
 
-                        $acceptAction = $notification->createAction();
-                        $acceptAction->setLabel('accept')
-                            ->setLink('/apps/phonetrack', 'GET');
+                        foreach ($userIds as $aUserId) {
+                            $manager = \OC::$server->getNotificationManager();
+                            $notification = $manager->createNotification();
 
-                        $declineAction = $notification->createAction();
-                        $declineAction->setLabel('decline')
-                            ->setLink('/apps/phonetrack', 'GET');
+                            $acceptAction = $notification->createAction();
+                            $acceptAction->setLabel('accept')
+                                ->setLink('/apps/phonetrack', 'GET');
 
-                        $notification->setApp('phonetrack')
-                            ->setUser($userid)
-                            ->setDateTime(new \DateTime())
-                            ->setObject('leavegeofence', $fenceid) // $type and $id
-                            ->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
-                            ->addAction($acceptAction)
-                            ->addAction($declineAction)
-                            ;
+                            $declineAction = $notification->createAction();
+                            $declineAction->setLabel('decline')
+                                ->setLink('/apps/phonetrack', 'GET');
 
-                        $manager->notify($notification);
+                            $notification->setApp('phonetrack')
+                                ->setUser($aUserId)
+                                ->setDateTime(new \DateTime())
+                                ->setObject('leavegeofence', $fenceid) // $type and $id
+                                ->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
+                                ->addAction($acceptAction)
+                                ->addAction($declineAction)
+                                ;
+
+                            $manager->notify($notification);
+                        }
                     }
 
                     // EMAIL
@@ -1134,8 +1172,8 @@ class LogController extends Controller {
                 }
 
                 // geofences, proximity alerts, quota
-                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
-                $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+                $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+                $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
                 $quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
 
                 if (!$quotaClearance) {
@@ -1386,8 +1424,8 @@ class LogController extends Controller {
                     $lastPointToInsert = $points[count($points) - 1];
                     $lat = $lastPointToInsert[0];
                     $lon = $lastPointToInsert[1];
-                    $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
-                    $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+                    $this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+                    $this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
                 }
 
                 $valuesToInsert = [];
