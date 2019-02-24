@@ -1225,8 +1225,8 @@
             }
             else if (key === 'activeSessions') {
                 value = {};
-                var devs, s, d, zoom, line, point;
                 $('.session').each(function() {
+                    var devs, s, d, zoom, line, point;
                     s = $(this).attr('token');
                     if (isSessionActive(s)) {
                         value[s] = {};
@@ -4818,7 +4818,7 @@
             li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) +
             '</li>';
         }
-            '<li>' + t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
+        li = li + '<li>' + t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
             '</li>' +
             '<li>' + t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
             '</li>' +
