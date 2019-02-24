@@ -74,6 +74,7 @@
     "API URL (JSON last positions)" : "API URL (JSON последняя позиция)",
     "Current active filters will be applied on shared view" : "Текущие активные фильтры будут применяться на общем виде",
     "Add public filtered share" : "Добавить публичную отобранную ссылку",
+    "Session token" : "Маркер сессии",
     "List of links to configure logging apps server settings." : "Ссылки для настройки приложений на телефоне.",
     "Replace 'yourname' with the desired device name or with the name reservation token" : "Замените «yourname» в URL на желаемое имя устройства или маркер резервирования",
     "Public browser logging link" : "URL публичного доступа из браузера",

@@ -76,6 +76,7 @@ OC.L10N.register(
     "API URL (JSON last positions)" : "API URL (ostatnie pozycje JSON)",
     "Current active filters will be applied on shared view" : "Bieżące aktywne filtry zostaną udostępnione w widoku",
     "Add public filtered share" : "Dodaj udziały publicznie filtrowane",
+    "Session token" : "Token sesji",
     "List of links to configure logging apps server settings." : "Lista łączy do konfiguracji ustawień rejestracji serwera w aplikacji.",
     "Replace 'yourname' with the desired device name or with the name reservation token" : "Zastąp 'yourname' na nazwę wybranego urządzenia lub na token zarezerwowanej nazwy",
     "Public browser logging link" : "Link do zarejestrowania publicznej przeglądarki",

@@ -76,6 +76,7 @@ OC.L10N.register(
     "API URL (JSON last positions)" : "URL de API (JSON últimas posiciones)",
     "Current active filters will be applied on shared view" : "Los filtros actuales se aplicarán a la vista compartida",
     "Add public filtered share" : "Agregar una compartición publica filtrada",
+    "Session token" : "Token de sesión",
     "Replace 'yourname' with the desired device name or with the name reservation token" : "Reemplazar 'yourname' con el nombre del dispositivo deseado o con el token de la reserva de nombre",
     "The session you want to delete does not exist" : "La sesión que desea eliminar no existe",
     "Failed to delete session" : "Error al eliminar la sesión",

@@ -64,6 +64,7 @@
     "API URL (JSON last positions)" : "API URL (JSON последна позиция)",
     "Current active filters will be applied on shared view" : "Текущите активни филтри ще бъдат приложени към споделеното представяне",
     "Add public filtered share" : "Сподели с приложени филтри",
+    "Session token" : "Тоукън на сесията",
     "Replace 'yourname' with the desired device name or with the name reservation token" : "Замести \"Твоето име\" с името на желаното устройство или с тоукън за резервация на името",
     "The session you want to delete does not exist" : "Сесията, която искате да изтриете, не съществува",
     "Failed to delete session" : "Неуспешно изтриване на сесията",

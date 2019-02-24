@@ -74,6 +74,7 @@
     "API URL (JSON last positions)" : "API-URL (JSON letzte Positionen)",
     "Current active filters will be applied on shared view" : "Aktuelle aktive Filter werden auf die freigegebene Ansicht angewendet.",
     "Add public filtered share" : "Öffentliche gefilterte Freigabe hinzufügen",
+    "Session token" : "Sitzungstoken",
     "List of links to configure logging apps server settings." : "Liste der Links zur Konfiguration der Servereinstellungen für Protokollierungs-Apps.",
     "Replace 'yourname' with the desired device name or with the name reservation token" : "Ersetzen Sie „yourname” durch den gewünschten Gerätenamen oder durch das Namensreservierungstoken",
     "Public browser logging link" : "Öffentlicher Browser Protokollierungs-Link",

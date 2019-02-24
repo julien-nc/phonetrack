@@ -21,6 +21,7 @@ OC.L10N.register(
     "daily" : "naponta",
     "weekly" : "hetente",
     "monthly" : "havi",
+    "Session token" : "Munkamenet-token",
     "Battery" : "Akkumulátor",
     "User-agent" : "Felhasználói azonosító",
     "Save" : "Mentés",

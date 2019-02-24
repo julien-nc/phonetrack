@@ -74,6 +74,7 @@
     "API URL (JSON last positions)" : "URL de l'API (dernières positions en JSON)",
     "Current active filters will be applied on shared view" : "Les filtres actifs actuels seront appliqués sur la vue partagée",
     "Add public filtered share" : "Ajouter un partage public filtré",
+    "Session token" : "Token de session",
     "List of links to configure logging apps server settings." : "Liste de liens pour configurer les préférences de serveur des applis de logging.",
     "Replace 'yourname' with the desired device name or with the name reservation token" : "Remplacez 'yourname' par le nom d'appareil souhaité ou par le token de réservation de nom",
     "Public browser logging link" : "Lien public de logging dans le navigateur",
