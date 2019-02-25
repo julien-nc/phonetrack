@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
 "POT-Creation-Date: 2019-02-19 04:09+0100\n"
-"PO-Revision-Date: 2019-02-19 03:26\n"
+"PO-Revision-Date: 2019-02-25 16:50\n"
 "Last-Translator: eneiluj <eneiluj@posteo.net>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -176,7 +176,7 @@ msgstr "Nie udało się połączyć z serwerem, aby utworzyć sesję"
 
 #: phonetrack.js:1555
 msgid "Watch this session"
-msgstr "Obejrzyj tę sesję"
+msgstr "Obejrzyj sesję"
 
 #: phonetrack.js:1561
 msgid "shared by {u}"

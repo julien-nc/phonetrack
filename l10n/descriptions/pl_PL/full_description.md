@@ -52,4 +52,4 @@ Sprawdź plik [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUT
 
 * PhoneTrack **działa teraz** z aktywacją ograniczenia grupy Nextcloud. Zobacz [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Wszelkie opinie będą doceniane.
+Będą doceniane wszelkie opinie.
