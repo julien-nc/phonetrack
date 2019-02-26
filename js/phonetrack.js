@@ -5360,10 +5360,11 @@
         $('#showcreatesession').click(function() {
             var newsessiondiv = $('#newsessiondiv');
             if (newsessiondiv.is(':visible')) {
-                newsessiondiv.slideUp('slow');
+                newsessiondiv.slideUp();
             }
             else {
-                newsessiondiv.slideDown('slow');
+                newsessiondiv.slideDown();
+                $('#sessionnameinput').focus().select();
             }
         });
 
