@@ -39,7 +39,7 @@ OC.L10N.register(
     "Session name should not be empty" : "Nazwa sesji nie powinna być pusta",
     "Session name already used" : "Nazwa sesji jest już używana",
     "Failed to contact server to create session" : "Nie udało się połączyć z serwerem, aby utworzyć sesję",
-    "Watch this session" : "Obejrzyj tę sesję",
+    "Watch this session" : "Obejrzyj sesję",
     "shared by {u}" : "udostępnione przez {u}",
     "More actions" : "Więcej akcji",
     "Zoom on this session" : "Zbliżenie na tą sesję",
