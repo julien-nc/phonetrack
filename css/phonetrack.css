@@ -186,10 +186,10 @@ button.ui-button {
 }
 div#logofolder {
     display: grid;
-    grid-template: 50% 50% / min-content 1fr;
+    grid-template: 85% 15% / min-content 1fr;
 }
 div#logofolder p.version {
-    grid-row: 3;
+    grid-row: 2;
     text-align: center;
 }
 div#logo{
