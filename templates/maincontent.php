@@ -152,20 +152,29 @@ p($_['phonetrack_version']);
             <label for="acccirclecheck"><i class="far fa-circle" aria-hidden="true"></i>
             <?php p($l->t('Show accuracy circle on hover')); ?></label>
             <br/>
-            <label for="linewidth"><i class="fa fa-pencil-alt" aria-hidden="true"></i>
-            <?php p($l->t('Line width')); ?></label>
+            <br/>
+            <div class="rangelabel">
+                <label for="linewidth"><i class="fa fa-pencil-alt" aria-hidden="true"></i>
+                <?php p($l->t('Line width')); ?>: </label>
+                <label id="linewidthlabel">4px</label>
+            </div>
             <input id="linewidth" type="range" min="1" max="20" step="1" value="4"/>
-            <label id="linewidthlabel">4px</label>
             <br/>
-            <label for="pointradius"><i class="fa fa-circle" aria-hidden="true"></i>
-            <?php p($l->t('Point radius')); ?></label>
+            <div class="rangelabel">
+                <label for="pointradius"><i class="fa fa-circle" aria-hidden="true"></i>
+                <?php p($l->t('Point radius')); ?>: </label>
+                <label id="pointradiuslabel">8px</label>
+            </div>
             <input id="pointradius" type="range" min="4" max="20" step="1" value="8"/>
-            <label id="pointradiuslabel">8px</label>
             <br/>
-            <label for="pointlinealpha"><i class="fa fa-eraser" aria-hidden="true"></i>
-            <?php p($l->t('Points and lines opacity')); ?></label>
+            <div class="rangelabel">
+                <label for="pointlinealpha"><i class="fa fa-eraser" aria-hidden="true"></i>
+                <?php p($l->t('Points and lines opacity')); ?>: </label>
+                <label id="pointlinealphalabel">0.8</label>
+            </div>
             <input id="pointlinealpha" type="range" min="0.1" max="1" step="0.1" value="0.8"/>
-            <label id="pointlinealphalabel">0.8</label>
+            <br/>
+            <div style="clear: both;"></div>
             <br/>
             <label for="colorthemeselect"><i class="fa fa-paint-brush" aria-hidden="true"></i>
             <?php p($l->t('Theme')); ?> *</label>
