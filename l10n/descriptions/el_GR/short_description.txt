@@ -1,1 +1,1 @@
-Track and display phones positions in real time
+Ζωντανή παρακολούθηση και προβολή θέσεων τηλεφώνων

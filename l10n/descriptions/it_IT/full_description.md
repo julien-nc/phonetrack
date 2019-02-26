@@ -22,15 +22,15 @@ Nella pagina principale di PhoneTrack, mentre segui una sessione, è possibile:
 * ⛛ Filtra punti
 * ✎ Modifica/aggiungi/elimina punti manualmente
 * ✎ Modifica dispositivi (rinomina, cambia colore/forma, sposta in un'altra sessione)
-* ⛶ Definisci zone di geofencing per i dispositivi\\
+* ⛶ Definisci zone di Geo-perimetro per i dispositivi\\
 * ⚇ Definisci gli avvisi di prossimità per gli accoppiamenti del dispositivo
 * 🖧 Condividi una sessione ad altri utenti Nextcloud o con un link pubblico (sola lettura)
-* 🔗 Genera collegamenti di condivisione pubblica con restrizioni opzionali (filtri, nome del dispositivo, solo posizioni finali, semplificazione geofencing)
+* 🔗 Genera collegamenti di condivisione pubblica con restrizioni opzionali (filtri, nome del dispositivo, solo posizioni finali, semplificazione Geo-perimetro)
 * 🖫 Importa/esporta una sessione in formato GPX (un file con una traccia per dispositivo o un file per dispositivo)
 * 🗠 Visualizza le statistiche delle sessioni
 * 🔒 [Riserva un nome del dispositivo](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) per assicurarsi che solo l'utente autorizzato possa accedere con questo nome
 * 🗓 Toggle esportazione automatica della sessione e cancellazione automatica (giornaliera/settimanale/mensile)
-* 𗩌 Scegli cosa fare quando si raggiunge la quota del numero di punti (blocca il log o elimina il punto più lungo)
+* 𗩌 Scegli cosa fare quando si raggiunge la quota del numero di punti (blocca la registrazione o elimina il punto più vecchio)
 
 Pagina pubblica e pagina filtrata pubblica come pagina principale, ad eccezione di una sola sessione visualizzata, tutto è in sola lettura e non c'è bisogno di accedere.
 

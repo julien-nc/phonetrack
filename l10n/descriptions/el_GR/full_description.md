@@ -1,55 +1,55 @@
-# PhoneTrack Nextcloud application
+# Εφαρμογή Phonetrack για το Nextcloud
 
-📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
+📱 Το PhoneTrack είναι μία Nextcloud εφαρμογή για την καταγραφή και την αποθήκευση της τοποθεσίας φορητών συσκευών.
 
-🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
+🗺 Λαμβάνει πληροφορίες από εφαρμογές καταγραφής σε κινητά τηλέφωνα και τα εμφανίζει δυναμικά στο χάρτη.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+🌍 Βοηθήστε μας να μεταφράσουμε αυτή την εφαρμογή στο [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Τσεκάρετε και άλλους τρόπους για να βοηθήσετε στις [οδηγίες συνεισφοράς](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-How to use PhoneTrack :
+Πώς χρησιμοποιείται το PhoneTrack:
 
-* Create a tracking session.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+* Δημιουργούμε μία συνεδρία καταγραφής.
+* Δίνουμε το σύνδεσμο καταγραφής\ * στις φορητές μας συσκευές. Επιλέγουμε τη [μέθοδο καταγραφής](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) που θέλουμε.
+* Παρακολουθούμε την τοποθεσία των συσκευών της συνεδρίας σε πραγματικό χρόνο (ή όχι) στο PhoneTrack ή το κοινοποιούμε σε δημόσιες σελίδες.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) Μην ξεχάσετε να ορίσετε το όνομα της συσκευής στο σύνδεσμο (και όχι στις ρυθμίσεις της εφαρμογής καταγραφής). Αντικαταστήστε το "yourname" με την επιθυμητή ονομασία συσκευής. Η ρύθμιση το ονόματος της συσκευής στις ρυθμίσεις της εφαρμογής καταγραφής λειτουργεί μόνο με το Owntracks, το Traccar και το OpenGTS.
 
-On PhoneTrack main page, while watching a session, you can :
+Στην κεντρική σελίδα του PhoneTrack, ενώ παρακολουθούμε μια συνεδρία, μπορούμε :
 
-* 📍 Display location history
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-* 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+* 📍 Να εμφανίσουμε το ιστορικό τοποθεσίας
+* ⛛ Να φιλτράρουμε σημεία
+* ✎ Να κάνουμε χειροκίνητη επεξεργασία/προσθήκη/διαγραφή σημείων
+* ✎ Να επεξεργαστούμε τις συσκευές μας (μετονομασία, αλλαγή χρώματος/σχήματος, μετακίνηση σε άλλη συνεδρία)
+* ⛶ Να ορίσουμε γεωφρακτικές ζώνες για τις συσκευές
+* ⚇ Να ορίσουμε ειδοποιήσεις εγγύτητας για τις συνδεδεμένες συσκευές
+* 🖧 Να κοινοποιήσουμε μια συνεδρία σε άλλους χρήστες του Nextcloud ή με δημόσιο σύνδεσμο (μόνο για ανάγνωση)
+* 🔗 Να δημιουργήσουμε συνδέσμους δημόσιας κοινοποίησης με προαιρετικούς περιορισμούς (φίλτρα, όνομα συσκευής, τελευταίες θέσεις μόνο, απλοποίηση γεωφρακτικών ζωνών)
+* 🖫 Να εισάγουμε/εξάγουμε συνεδρίες σε μορφή GPX (ένα αρχείο με μία καταγραφή ανά συσκευή ή ένα αρχείο ανά συσκευή)
+* 🗠 Να προβάλουμε στατιστικά της συνεδρίας
+* 🔒 [Να δεσμεύσουμε ένα όνομα συσκευής](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) για να βεβαιωθούμε ότι μόνο ένας εξουσιοδοτημένος χρήστης μπορεί να συνδεθεί με αυτό το όνομα
+* 🗓 Να κάνουμε εναλλαγή αυτόματης εξαγωγής και αυτόματης εκκαθάρισης συνεδρίας (καθημερινά/εβδομαδιαία/μηνιαία)
+* ◔ Να επιλέξουμε τι θα συμβαίνει όταν το μέγιστο όριο καταγραφής σημείων επιτυγχάνεται (αποκλεισμός καταγραφής ή διαγραφή παλαιότερου σημείου)
 
-Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
+Η δημόσια σελίδα και η δημόσια φιλτραρισμένη σελίδα λειτουργεί σαν κύρια σελίδα, με εξαίρεση αν υπάρχει μόνο μία εμφανιζόμενη συνεδρία, τα πάντα είναι μόνο για ανάγνωση και δεν υπάρχει ανάγκη σύνδεσης.
 
-This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
+Η εφαρμογή έχει δοκιμαστεί στο Nextcloud 15 με Firefox 57+ και Chromium.
 
-This app is compatible with theming colors and accessibility themes !
+Η εφαρμογή είναι συμβατή με θέματα χρωμάτων και προσβασιμότητας!
 
-This app is under development.
+Η εφαρμογή είναι υπό κατασκευή.
 
-## Install
+## Εγκατάσταση
 
-See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
+Δείτε το [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) για λεπτομέρειες εγκατάστασης.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Ελέγξτε το αρχείο [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) για να δείτε τι νέο περιλαμβάνεται και τι θα συμπεριληφθεί στην επόμενη έκδοση.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Ελέξτε το αρχείο [Συντάκτες](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) για να δείτε μία πλήρη λίστα των συντακτών.
 
-## Known issues
+## Γνωστά προβλήματα
 
-* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+* Το PhoneTrack **λειτουργεί** με ενεργοποιημένο τον περιορισμό ομάδων του Nextcloud. Δείτε το [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Any feedback will be appreciated.
+Οποιοδήποτε σχόλιο για τη βελτίωση της εφαρμογής θα εκτιμηθεί.

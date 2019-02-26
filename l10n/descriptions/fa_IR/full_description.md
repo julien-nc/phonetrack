@@ -4,9 +4,9 @@
 
 يستلم المعلومات من برنامج نظام الهاتف و يحددها على الخارطه بوضوح.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+🌍 به ما ترجمه این برنامه را روی [PhoneTrack Crowdin پروژه](https://crowdin.com/project/phonetrack) کمک کند.
 
-ابحث الطرق الاخرى لمساعدتنا فى[مشاهدة كل الاسهم](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ بررسی کنید راه های دیگر برای کمک در [مشاهده تمام سهم](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
 طريقة استعمال PhoneTrack:
 
@@ -18,10 +18,10 @@
 
 On PhoneTrack main page, while watching a session, you can :
 
-* 📍 Display location history
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
+* 📍 نمایش تاریخچه مکان
+* ⛛ فیلتر امتیازها
+* ✎ ویرایش دستی /افزودن/حذف نقاط
+* ✎ ویرایش دستگاه‌ها (تغییر نام، تغییر رنگ/شکل، انتقال به جلسه دیگر)
 * ⛶ Define geofencing zones for devices
 * ⚇ Define proximity alerts for device pairs
 * 🖧 Share a session to other Nextcloud users or with a public link (read-only)
@@ -40,15 +40,15 @@ This app is compatible with theming colors and accessibility themes !
 
 This app is under development.
 
-## Install
+## نصب
 
-See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
+برای مضاهده جزئیات بیشتر [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) را مشاهده کنید.
 
 Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
 Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
-## Known issues
+## مشکلات شناخته شده
 
 * PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 

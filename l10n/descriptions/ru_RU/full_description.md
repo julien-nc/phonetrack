@@ -12,44 +12,44 @@
 
 * Создать сессию.
 * Указать ссылки на мобильные устройства. Выберите предпочтительный [метод записи ](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods).
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+* Просмотр положения устройств сессии в режиме реального времени (или нет) в PhoneTrack или показ их на публичных страницах.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) Не забудьте установить имя устройства в ссылке (а не в настройках приложения для входа). Заменить "yourname" на нужное имя устройства. Установка имени устройства в настройках приложений журналирования работает только с Owntracks, Traccar и OpenGTS.
 
-On PhoneTrack main page, while watching a session, you can :
+На главной странице PhoneTrack при просмотре сессии вы можете:
 
-* 📍 Display location history
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-* 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+* 📍Отобразить историю место положений
+* ⛛ Фильтр точек
+* ✎ Вручную изменить/добавить/удалить точки
+* ✎ Редактировать устройства (переименовать, изменить цвет/форму, переместить в другую сессию)
+* ⛶ Определить зоны навигации для устройств
+* ⚇ Определить оповещения о сближении для пар устройств
+* 🖧 Поделиться сеансом с другими пользователями Nextcloud или с публичной ссылкой (в режиме чтения)
+* 🔗 Генерировать публичные ссылки с необязательными ограничениями (фильтры, имя устройства, только последние позиции, ограничения зоны навигации)
+* 🖫 Импорт/экспорт сессии в формате GPX (один файл с одним треком на устройство или один файл на устройство)
+* 🗠 Отображать статистику сессий
+* 🔒 [Запомнить имя устройства](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) чтобы убедиться, что только авторизованный пользователь может войти с таким именем
+* 🗓 Переключить автоэкспорт и автоочистку сессии (ежедневно/еженедельно/ежемесячно)
+* ◔ Выбрать, что делать, когда установлен лимит количества точек (блокировка записи или удаление самой старой точки)
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
-This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
+Это приложение тестируется на Nextcloud 15 с Firefox 57+ и Chromium.
 
 This app is compatible with theming colors and accessibility themes !
 
-This app is under development.
+Это приложение находится в стадии разработки.
 
-## Install
+## Установить
 
-See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
+Подробности установки см. в [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc).
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Проверьте файл [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) чтобы увидеть, что нового и что будет в следующем выпуске.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Смотрите файл [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors), чтобы увидеть полный список авторов.
 
-## Known issues
+## Известные проблемы
 
-* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+* PhoneTrack **теперь работает** с активированным ограничением группы Nextcloud. См. [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Any feedback will be appreciated.
+Любая обратная связь будет оценена.

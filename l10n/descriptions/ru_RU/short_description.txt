@@ -1,1 +1,1 @@
-Track and display phones positions in real time
+Путь и геолокация телефона в реальном времени
