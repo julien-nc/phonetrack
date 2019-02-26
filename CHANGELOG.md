@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.4.4 – 2019-02-26
 ### Added
 - add api entry to get last positions when logged in, works with all sessions
 
@@ -13,12 +14,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - update CI to NC 15
 - on log multiple points, check geofences and proxims just once with last point
 - make app description translatable
+- send geofence/proxim notifications to all users sharing the session
+[#206](https://gitlab.com/eneiluj/phonetrack-oc/issues/206) @Valdnet
+- sliders design
 
 ### Fixed
 - number of decimal displayed in popup/tooltip values and stats table
 [#207](https://gitlab.com/eneiluj/phonetrack-oc/issues/207) @Valdnet
 - only check quota once for multiple log
 - update stats table after device deletion
+- fix LIMIT/OFFSET syntax to be compatible with SQLite, MySQL and PostgreSQL
+[#212](https://gitlab.com/eneiluj/phonetrack-oc/issues/212) @lachmanfrantisek
+- sidebar logo display in chromium
 
 ## 0.4.3 – 2019-01-26
 ### Added

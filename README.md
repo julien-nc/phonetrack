@@ -4,6 +4,8 @@
 [![coverage report](https://gitlab.com/eneiluj/phonetrack-oc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/phonetrack-oc/coverage/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/phonetrack/localized.svg)](https://crowdin.com/project/phonetrack)
 
+Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack
+
 📱 PhoneTrack is a Nextcloud application to track
 and store mobile devices locations.
 
@@ -46,8 +48,6 @@ This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
 This app is compatible with theming colors and accessibility themes !
 
 This app is under development.
-
-Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack
 
 ## Donation
 

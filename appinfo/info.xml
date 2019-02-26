@@ -17,9 +17,9 @@
     <category>multimedia</category>
     <website>https://gitlab.com/eneiluj/phonetrack-oc</website>
     <bugs>https://gitlab.com/eneiluj/phonetrack-oc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/17ba0aa1f01eb5f09010fb87048d0a6a/ph1.jpeg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/55c1a459b1155cf75aba1252388c085a/ph2.jpeg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/uploads/2c88199e6ce40fcaafbb7c112f9e42f9/ph3.jpeg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/ab2ffce1e08b08466e83e3f0000984f6/p1.png</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/a7ebb0a8e835440581c38ea9bee140a2/p2.png</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/d7c06f1269cc376462d60f324e50d698/p3.png</screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>
