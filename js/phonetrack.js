@@ -5458,6 +5458,11 @@
             );
         });
 
+        $('body').on('input','#linewidth', function(e) {
+            var w = parseInt($(this).val());
+            $('#linewidthlabel').text(w+'px');
+        });
+
         $('#linewidth').change(function() {
             if (!pageIsPublic()) {
                 saveOptions($(this).attr('id'));
@@ -6620,6 +6625,11 @@
             '}' +
             '</style>').appendTo('body');
 
+        $('body').on('input','#pointradius', function(e) {
+            var radius = $(this).val();
+            $('#pointradiuslabel').text(radius+'px');
+        });
+
         $('#pointradius').change(function() {
             if (!pageIsPublic()) {
                 saveOptions($(this).attr('id'));
@@ -6729,6 +6739,11 @@
                     phonetrack.sessionMarkerLayers[s][d].setIcon(markerIcon);
                 }
             }
+        });
+
+        $('body').on('input','#pointlinealpha', function(e) {
+            var opacity = $(this).val();
+            $('#pointlinealphalabel').text(opacity);
         });
 
         $('#pointlinealpha').change(function() {
