@@ -417,15 +417,6 @@ label[for=cutdistance] {
     -moz-appearance: number-input;
     -webkit-appearance: initial;
 }
-#linewidth,
-#pointlinealpha,
-#pointradius {
-    padding: 0 !important;
-    height: 10px;
-    width: 50%;
-    /*-webkit-appearance: slider-horizontal;
-    -moz-appearance: initial;*/
-}
 input[role=altitude],
 input[role=speed],
 input[role=bearing],
@@ -1131,16 +1122,26 @@ label[for=quotareached] {
     border-radius: 5px;
 }
 /* RANGE */
-.rangelabel {
-    width: 45%;
-    float: left;
-    height: 30px;
+#linewidthlabel,
+#pointradiuslabel,
+#pointlinealphalabel {
+    text-align: center;
+}
+.rangediv {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 35% 15% 50%;
+}
+.rangediv * {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 input[type=range] {
-    float: right;
+  float: right;
   height: 34px;
   -webkit-appearance: none;
-  margin: 10px 0;
+  /*margin: 10px 0;*/
   width: 100%;
 }
 input[type=range]:focus {
