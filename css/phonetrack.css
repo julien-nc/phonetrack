@@ -1103,11 +1103,8 @@ a.icon-active span {
 .ui-dialog{
     z-index: 2001 !important ;
 }
-label[for=quotareached] {
-    width: 49%;
-}
 #quotareached {
-    width: 50%;
+    width: 100%;
 }
 .geofenceTextValues, .proximTextValues {
     text-align: left !important;
@@ -1147,6 +1144,7 @@ label[for=quotareached] {
     margin-bottom: auto;
 }
 input[type=range] {
+  background: var(--color-main-background, white);
   float: right;
   height: 34px;
   -webkit-appearance: none;
