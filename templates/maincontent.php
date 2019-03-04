@@ -92,66 +92,67 @@ p($_['phonetrack_version']);
             <hr/>
             <h2 id="optiontitle" class="sectiontitle"><?php p($l->t('Display')); ?></h2>
             </div>
-            <input id="autozoom" type="checkbox"/>
-            <label for="autozoom"><i class="fa nc-theming-main-background"> </i>
-            <?php p($l->t('Auto zoom')); ?></label>
-            <br/>
-            <input id="viewmove" type="checkbox" checked/>
-            <label for="viewmove"><i class="fa nc-theming-main-background"> </i>
-            <?php p($l->t('Show lines')); ?></label>
-            <br/>
-            <input id="showtime" type="checkbox"/>
-            <label for="showtime"><i class="fa nc-theming-main-background"> </i>
-            <?php p($l->t('Show tooltips')); ?></label>
-            <br/>
-            <input id="markerletter" type="checkbox" checked/>
-            <label for="markerletter"><i class="fa fa-font" aria-hidden="true"></i>
-            <?php p($l->t('Display first letter of device name on last position')); ?></label>
-            <br/>
-            <input id="linearrow" type="checkbox"/>
-            <label for="linearrow"><i class="fa fa-arrow-right" aria-hidden="true"></i>
-            <?php p($l->t('Show direction arrows along lines')); ?></label>
-            <br/>
-            <input id="linegradient" type="checkbox"/>
-            <label for="linegradient"><i class="fa fa-paint-brush" aria-hidden="true"></i>
-            <?php p($l->t('Draw line with color gradient')); ?></label>
-            <br/>
-            <input id="tooltipshowaccuracy" type="checkbox" checked/>
-            <label for="tooltipshowaccuracy"><i class="far fa-dot-circle" aria-hidden="true"></i>
-            <?php p($l->t('Show accuracy in tooltips')); ?></label>
-            <br/>
-            <input id="tooltipshowspeed" type="checkbox" checked/>
-            <label for="tooltipshowspeed"><i class="fa fa-tachometer-alt" aria-hidden="true"></i>
-            <?php p($l->t('Show speed in tooltips')); ?></label>
-            <br/>
-            <input id="tooltipshowbearing" type="checkbox" checked/>
-            <label for="tooltipshowbearing"><i class="fa fa-compass" aria-hidden="true"></i>
-            <?php p($l->t('Show bearing in tooltips')); ?></label>
-            <br/>
-            <input id="tooltipshowsatellites" type="checkbox" checked/>
-            <label for="tooltipshowsatellites"><i class="fa fa-signal" aria-hidden="true"></i>
-            <?php p($l->t('Show satellites in tooltips')); ?></label>
-            <br/>
-            <input id="tooltipshowbattery" type="checkbox" checked/>
-            <label for="tooltipshowbattery"><i class="fa fa-battery-half" aria-hidden="true"></i>
-            <?php p($l->t('Show battery level in tooltips')); ?></label>
-            <br/>
-            <input id="tooltipshowelevation" type="checkbox" checked/>
-            <label for="tooltipshowelevation"><i class="fa fa-chart-area" aria-hidden="true"></i>
-            <?php p($l->t('Show elevation in tooltips')); ?></label>
-            <br/>
-            <input id="tooltipshowuseragent" type="checkbox" checked/>
-            <label for="tooltipshowuseragent"><i class="fa fa-mobile-alt" aria-hidden="true" style="font-size: 20px"></i>
-            <?php p($l->t('Show user-agent in tooltips')); ?></label>
-            <br/>
-            <input id="dragcheck" type="checkbox" checked/>
-            <label for="dragcheck"><i class="far fa-hand-paper" aria-hidden="true"></i>
-            <?php p($l->t('Make points draggable in edition mode')); ?></label>
-            <br/>
-            <input id="acccirclecheck" type="checkbox" checked/>
-            <label for="acccirclecheck"><i class="far fa-circle" aria-hidden="true"></i>
-            <?php p($l->t('Show accuracy circle on hover')); ?></label>
-            <br/>
+            <div class="checkboxes">
+                <input id="autozoom" class="checkbox" type="checkbox"/>
+                <label for="autozoom"><i class="fa nc-theming-main-background"> </i>
+                <?php p($l->t('Auto zoom')); ?></label>
+
+                <input id="viewmove" class="checkbox" type="checkbox" checked/>
+                <label for="viewmove"><i class="fa nc-theming-main-background"> </i>
+                <?php p($l->t('Show lines')); ?></label>
+
+                <input id="showtime" class="checkbox" type="checkbox"/>
+                <label for="showtime"><i class="fa nc-theming-main-background"> </i>
+                <?php p($l->t('Show tooltips')); ?></label>
+
+                <input id="markerletter" class="checkbox" type="checkbox" checked/>
+                <label for="markerletter"><i class="fa fa-font" aria-hidden="true"></i>
+                <?php p($l->t('Display first letter of device name on last position')); ?></label>
+
+                <input id="linearrow" class="checkbox" type="checkbox"/>
+                <label for="linearrow"><i class="fa fa-arrow-right" aria-hidden="true"></i>
+                <?php p($l->t('Show direction arrows along lines')); ?></label>
+
+                <input id="linegradient" class="checkbox" type="checkbox"/>
+                <label for="linegradient"><i class="fa fa-paint-brush" aria-hidden="true"></i>
+                <?php p($l->t('Draw line with color gradient')); ?></label>
+
+                <input id="tooltipshowaccuracy" class="checkbox" type="checkbox" checked/>
+                <label for="tooltipshowaccuracy"><i class="far fa-dot-circle" aria-hidden="true"></i>
+                <?php p($l->t('Show accuracy in tooltips')); ?></label>
+
+                <input id="tooltipshowspeed" class="checkbox" type="checkbox" checked/>
+                <label for="tooltipshowspeed"><i class="fa fa-tachometer-alt" aria-hidden="true"></i>
+                <?php p($l->t('Show speed in tooltips')); ?></label>
+
+                <input id="tooltipshowbearing" class="checkbox" type="checkbox" checked/>
+                <label for="tooltipshowbearing"><i class="fa fa-compass" aria-hidden="true"></i>
+                <?php p($l->t('Show bearing in tooltips')); ?></label>
+
+                <input id="tooltipshowsatellites" class="checkbox" type="checkbox" checked/>
+                <label for="tooltipshowsatellites"><i class="fa fa-signal" aria-hidden="true"></i>
+                <?php p($l->t('Show satellites in tooltips')); ?></label>
+
+                <input id="tooltipshowbattery" class="checkbox" type="checkbox" checked/>
+                <label for="tooltipshowbattery"><i class="fa fa-battery-half" aria-hidden="true"></i>
+                <?php p($l->t('Show battery level in tooltips')); ?></label>
+
+                <input id="tooltipshowelevation" class="checkbox" type="checkbox" checked/>
+                <label for="tooltipshowelevation"><i class="fa fa-chart-area" aria-hidden="true"></i>
+                <?php p($l->t('Show elevation in tooltips')); ?></label>
+
+                <input id="tooltipshowuseragent" class="checkbox" type="checkbox" checked/>
+                <label for="tooltipshowuseragent"><i class="fa fa-mobile-alt" aria-hidden="true" style="font-size: 20px"></i>
+                <?php p($l->t('Show user-agent in tooltips')); ?></label>
+
+                <input id="dragcheck" class="checkbox" type="checkbox" checked/>
+                <label for="dragcheck"><i class="far fa-hand-paper" aria-hidden="true"></i>
+                <?php p($l->t('Make points draggable in edition mode')); ?></label>
+
+                <input id="acccirclecheck" class="checkbox" type="checkbox" checked/>
+                <label for="acccirclecheck"><i class="far fa-circle" aria-hidden="true"></i>
+                <?php p($l->t('Show accuracy circle on hover')); ?></label>
+            </div>
             <div class="rangediv">
                 <label for="linewidth"><i class="fa fa-pencil-alt" aria-hidden="true"></i>
                 <?php p($l->t('Line width')); ?>: </label>
@@ -176,14 +177,14 @@ p($_['phonetrack_version']);
                 <option value="dark"><?php p($l->t('dark')); ?></option>
             </select>
             <br/>
-            <input id="pubviewline" type="checkbox"/>
-            <label for="pubviewline"><i class="fa nc-theming-main-background"> </i>
-            <?php p($l->t('Show lines in public pages')); ?></label>
-            <br/>
-            <input id="pubviewpoint" type="checkbox"/>
-            <label for="pubviewpoint"><i class="fa fa-circle" aria-hidden="true"> </i>
-            <?php p($l->t('Show points in public pages')); ?></label>
-            <br/>
+            <div class="checkboxes">
+                <input id="pubviewline" class="checkbox" type="checkbox"/>
+                <label for="pubviewline"><i class="fa nc-theming-main-background"> </i>
+                <?php p($l->t('Show lines in public pages')); ?></label>
+                <input id="pubviewpoint" class="checkbox" type="checkbox"/>
+                <label for="pubviewpoint"><i class="fa fa-circle" aria-hidden="true"> </i>
+                <?php p($l->t('Show points in public pages')); ?></label>
+            </div>
             <label>(*) <?php p($l->t('reload page to make changes effective')); ?></label>
             <br/>
             <div>
@@ -194,9 +195,11 @@ p($_['phonetrack_version']);
             <?php p($l->t('Auto export path')); ?></label>
             <input id="autoexportpath" type="text" value="/PhoneTrack_export"/>
             <br/>
-            <input id="exportoneperdev" type="checkbox"/>
-            <label for="exportoneperdev"><i class="fas fa-save" aria-hidden="true"></i>
-            <?php p($l->t('Export one file per device')); ?></label>
+            <div class="checkboxes">
+                <input id="exportoneperdev" class="checkbox" type="checkbox"/>
+                <label for="exportoneperdev"><i class="fas fa-save" aria-hidden="true"></i>
+                <?php p($l->t('Export one file per device')); ?></label>
+            </div>
         </div>
         </div>
     </div>
@@ -481,8 +484,11 @@ if (count($_['useroverlayserverswms']) > 0){
 <br/>
 <table id="filterPointsTable">
 <tr>
-    <td><label for="applyfilters"><?php p($l->t('Apply filters')); ?></label></td>
-    <td><input type="checkbox" id="applyfilters"/></td>
+    <td>
+        <input class="checkbox" type="checkbox" id="applyfilters"/>
+        <label for="applyfilters"><?php p($l->t('Apply filters')); ?></label>
+    </td>
+    <td></td>
     <td></td>
 </tr><tr class="filterDelimiterLine">
     <td><?php p($l->t('Begin date')); ?></td>

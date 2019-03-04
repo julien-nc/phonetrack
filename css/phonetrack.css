@@ -1121,6 +1121,15 @@ label[for=quotareached] {
     padding: 5px 5px 5px 5px;
     border-radius: 5px;
 }
+.checkboxes {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+}
+.checkboxes * {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 /* RANGE */
 #linewidthlabel,
 #pointradiuslabel,
