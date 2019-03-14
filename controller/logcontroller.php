@@ -308,28 +308,33 @@ class LogController extends Controller {
                     $userIds = $this->getSessionSharedUserIdList($sessionid);
                     array_push($userIds, $userid);
 
-                    foreach ($userIds as $aUserId) {
+                    try {
                         $manager = \OC::$server->getNotificationManager();
-                        $notification = $manager->createNotification();
+                        foreach ($userIds as $aUserId) {
+                            $notification = $manager->createNotification();
 
-                        $acceptAction = $notification->createAction();
-                        $acceptAction->setLabel('accept')
-                            ->setLink('/apps/phonetrack', 'GET');
+                            $acceptAction = $notification->createAction();
+                            $acceptAction->setLabel('accept')
+                                ->setLink('/apps/phonetrack', 'GET');
 
-                        $declineAction = $notification->createAction();
-                        $declineAction->setLabel('decline')
-                            ->setLink('/apps/phonetrack', 'GET');
+                            $declineAction = $notification->createAction();
+                            $declineAction->setLabel('decline')
+                                ->setLink('/apps/phonetrack', 'GET');
 
-                        $notification->setApp('phonetrack')
-                            ->setUser($aUserId)
-                            ->setDateTime(new \DateTime())
-                            ->setObject('closeproxim', $proximid)
-                            ->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
-                            ->addAction($acceptAction)
-                            ->addAction($declineAction)
-                            ;
+                            $notification->setApp('phonetrack')
+                                ->setUser($aUserId)
+                                ->setDateTime(new \DateTime())
+                                ->setObject('closeproxim', $proximid)
+                                ->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
+                                ->addAction($acceptAction)
+                                ->addAction($declineAction)
+                                ;
 
-                        $manager->notify($notification);
+                            $manager->notify($notification);
+                        }
+                    }
+                    catch (\Exception $e) {
+                        $this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
                     }
                 }
 
@@ -424,28 +429,33 @@ class LogController extends Controller {
                     $userIds = $this->getSessionSharedUserIdList($sessionid);
                     array_push($userIds, $userid);
 
-                    foreach ($userIds as $aUserId) {
+                    try {
                         $manager = \OC::$server->getNotificationManager();
-                        $notification = $manager->createNotification();
+                        foreach ($userIds as $aUserId) {
+                            $notification = $manager->createNotification();
 
-                        $acceptAction = $notification->createAction();
-                        $acceptAction->setLabel('accept')
-                            ->setLink('/apps/phonetrack', 'GET');
+                            $acceptAction = $notification->createAction();
+                            $acceptAction->setLabel('accept')
+                                ->setLink('/apps/phonetrack', 'GET');
 
-                        $declineAction = $notification->createAction();
-                        $declineAction->setLabel('decline')
-                            ->setLink('/apps/phonetrack', 'GET');
+                            $declineAction = $notification->createAction();
+                            $declineAction->setLabel('decline')
+                                ->setLink('/apps/phonetrack', 'GET');
 
-                        $notification->setApp('phonetrack')
-                            ->setUser($aUserId)
-                            ->setDateTime(new \DateTime())
-                            ->setObject('farproxim', $proximid)
-                            ->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
-                            ->addAction($acceptAction)
-                            ->addAction($declineAction)
-                            ;
+                            $notification->setApp('phonetrack')
+                                ->setUser($aUserId)
+                                ->setDateTime(new \DateTime())
+                                ->setObject('farproxim', $proximid)
+                                ->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
+                                ->addAction($acceptAction)
+                                ->addAction($declineAction)
+                                ;
 
-                        $manager->notify($notification);
+                            $manager->notify($notification);
+                        }
+                    }
+                    catch (\Exception $e) {
+                        $this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
                     }
                 }
 
@@ -614,28 +624,33 @@ class LogController extends Controller {
                         $userIds = $this->getSessionSharedUserIdList($sessionid);
                         array_push($userIds, $userid);
 
-                        foreach ($userIds as $aUserId) {
+                        try {
                             $manager = \OC::$server->getNotificationManager();
-                            $notification = $manager->createNotification();
+                            foreach ($userIds as $aUserId) {
+                                $notification = $manager->createNotification();
 
-                            $acceptAction = $notification->createAction();
-                            $acceptAction->setLabel('accept')
-                                ->setLink('/apps/phonetrack', 'GET');
+                                $acceptAction = $notification->createAction();
+                                $acceptAction->setLabel('accept')
+                                    ->setLink('/apps/phonetrack', 'GET');
 
-                            $declineAction = $notification->createAction();
-                            $declineAction->setLabel('decline')
-                                ->setLink('/apps/phonetrack', 'GET');
+                                $declineAction = $notification->createAction();
+                                $declineAction->setLabel('decline')
+                                    ->setLink('/apps/phonetrack', 'GET');
 
-                            $notification->setApp('phonetrack')
-                                ->setUser($aUserId)
-                                ->setDateTime(new \DateTime())
-                                ->setObject('entergeofence', $fenceid) // $type and $id
-                                ->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
-                                ->addAction($acceptAction)
-                                ->addAction($declineAction)
-                                ;
+                                $notification->setApp('phonetrack')
+                                    ->setUser($aUserId)
+                                    ->setDateTime(new \DateTime())
+                                    ->setObject('entergeofence', $fenceid) // $type and $id
+                                    ->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
+                                    ->addAction($acceptAction)
+                                    ->addAction($declineAction)
+                                    ;
 
-                            $manager->notify($notification);
+                                $manager->notify($notification);
+                            }
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
                         }
                     }
 
@@ -721,28 +736,33 @@ class LogController extends Controller {
                         $userIds = $this->getSessionSharedUserIdList($sessionid);
                         array_push($userIds, $userid);
 
-                        foreach ($userIds as $aUserId) {
+                        try {
                             $manager = \OC::$server->getNotificationManager();
-                            $notification = $manager->createNotification();
+                            foreach ($userIds as $aUserId) {
+                                $notification = $manager->createNotification();
 
-                            $acceptAction = $notification->createAction();
-                            $acceptAction->setLabel('accept')
-                                ->setLink('/apps/phonetrack', 'GET');
+                                $acceptAction = $notification->createAction();
+                                $acceptAction->setLabel('accept')
+                                    ->setLink('/apps/phonetrack', 'GET');
 
-                            $declineAction = $notification->createAction();
-                            $declineAction->setLabel('decline')
-                                ->setLink('/apps/phonetrack', 'GET');
+                                $declineAction = $notification->createAction();
+                                $declineAction->setLabel('decline')
+                                    ->setLink('/apps/phonetrack', 'GET');
 
-                            $notification->setApp('phonetrack')
-                                ->setUser($aUserId)
-                                ->setDateTime(new \DateTime())
-                                ->setObject('leavegeofence', $fenceid) // $type and $id
-                                ->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
-                                ->addAction($acceptAction)
-                                ->addAction($declineAction)
-                                ;
+                                $notification->setApp('phonetrack')
+                                    ->setUser($aUserId)
+                                    ->setDateTime(new \DateTime())
+                                    ->setObject('leavegeofence', $fenceid) // $type and $id
+                                    ->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
+                                    ->addAction($acceptAction)
+                                    ->addAction($declineAction)
+                                    ;
 
-                            $manager->notify($notification);
+                                $manager->notify($notification);
+                            }
+                        }
+                        catch (\Exception $e) {
+                            $this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
                         }
                     }
 
