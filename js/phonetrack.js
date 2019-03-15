@@ -1566,13 +1566,22 @@
             divtxt = divtxt + '<button class="reservNameButton" title="' + t('phonetrack', 'Reserve device names') + '">' +
                 '<i class="fa fa-male"></i></button>';
         }
+        else {
+            divtxt = divtxt + '<div></div>';
+        }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Links for logging apps') + '">' +
                 '<i class="fa fa-link"></i></button>';
         }
+        else {
+            divtxt = divtxt + '<div></div>';
+        }
         if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Link to share session')+'">' +
                 '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
+        }
+        else {
+            divtxt = divtxt + '<div></div>';
         }
         divtxt = divtxt + ' <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
@@ -1580,6 +1589,9 @@
         if (!pageIsPublic()) {
             divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
                 '<i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>';
+        }
+        else {
+            divtxt = divtxt + '<div></div>';
         }
         divtxt = divtxt + '</div>';
         if (!pageIsPublic()) {
@@ -2930,6 +2942,7 @@
         var opacity = $('#pointlinealpha').val();
         setDeviceCss(s, d, phonetrack.sessionColors[s + d], opacity, shape);
 
+        var ghostSpace = '';
         var shapeDiv = '';
         var deleteLink = '';
         var renameLink = '';
@@ -3085,6 +3098,9 @@
                 '<ul class="proximlist"></ul>' +
                 '</div>';
         }
+        else {
+            ghostSpace = '<div></div><div></div>';
+        }
         var urlPointToggle = getUrlParameter('pointToggle');
         var detailOnOff = 'off';
         if (point || (urlPointToggle && urlPointToggle !== '0')) {
@@ -3125,6 +3141,7 @@
                 t('phonetrack', 'Center map on device') + '">' + escapeHTML(nameLabelTxt) + '</div> ' +
                 renameInput +
                 aliasInput +
+                ghostSpace +
                 lineDeviceLink +
                 detailLink +
                 autoZoomLink +
