@@ -317,13 +317,13 @@ div.session p,
 .watchSession i{
     color: blue;
 }
-.sessionBar b {
+/*.sessionBar b {
     float: left;
     line-height: 40px;
 }
 .sessionBar > button {
     float: right;
-}
+}*/
 .watchbutton {
     float: left !important;
 }
@@ -582,12 +582,16 @@ ul.devicelist {
     display: grid;
     grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
+.sessionBar {
+    display: grid;
+    grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr;
+}
 .renameSessionInput,
 .sessionName {
-    width: 30% !important;
+    /*width: 30% !important;*/
     padding-top: 8px;
     height: 40px;
-    float: left;
+    /*float: left;*/
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;

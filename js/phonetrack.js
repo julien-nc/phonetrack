@@ -1562,24 +1562,24 @@
                 ')';
         }
         divtxt = divtxt + '<div class="sessionName" title="' + name + sharedByText + '">' + name + '</div><input class="renameSessionInput" type="text"/>';
-        if (!pageIsPublic()) {
-            divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
-                '<i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>';
-        }
-        divtxt = divtxt + ' <button class="zoomsession" ' +
-            'title="' + t('phonetrack', 'Zoom on this session') + '">' +
-            '<i class="fa fa-search"></i></button>';
         if (!pageIsPublic() && !isFromShare) {
-            divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Link to share session')+'">' +
-                '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
+            divtxt = divtxt + '<button class="reservNameButton" title="' + t('phonetrack', 'Reserve device names') + '">' +
+                '<i class="fa fa-male"></i></button>';
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<button class="moreUrlsButton" title="' + t('phonetrack', 'Links for logging apps') + '">' +
                 '<i class="fa fa-link"></i></button>';
         }
         if (!pageIsPublic() && !isFromShare) {
-            divtxt = divtxt + '<button class="reservNameButton" title="' + t('phonetrack', 'Reserve device names') + '">' +
-                '<i class="fa fa-male"></i></button>';
+            divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Link to share session')+'">' +
+                '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
+        }
+        divtxt = divtxt + ' <button class="zoomsession" ' +
+            'title="' + t('phonetrack', 'Zoom on this session') + '">' +
+            '<i class="fa fa-search"></i></button>';
+        if (!pageIsPublic()) {
+            divtxt = divtxt + '<button class="dropdownbutton" title="'+t('phonetrack', 'More actions')+'">' +
+                '<i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>';
         }
         divtxt = divtxt + '</div>';
         if (!pageIsPublic()) {
