@@ -3119,23 +3119,23 @@
         }
         $('div.session[token="' + s + '"] ul.devicelist').append(
             '<li device="' + d + '" token="' + s + '">' +
-                '<div>' +
+                '<div class="devinteractline">' +
                 '<div class="devicecolor ' + shape + 'devicecolor devicecolor' + s + d + '"></div> ' +
                 '<div class="deviceLabel" title="' +
                 t('phonetrack', 'Center map on device') + '">' + escapeHTML(nameLabelTxt) + '</div> ' +
                 renameInput +
                 aliasInput +
-                dropdowndevicebutton +
-                dropdowndevicecontent +
-                reaffectSelect +
-                proximLink +
-                geofencesLink +
+                lineDeviceLink +
+                detailLink +
+                autoZoomLink +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
-                autoZoomLink +
-                detailLink +
-                lineDeviceLink +
+                geofencesLink +
+                proximLink +
+                reaffectSelect +
+                dropdowndevicebutton +
+                dropdowndevicecontent +
                 '</div><div style="clear: both;"></div>' +
                 geofencesDiv +
                 proximDiv +

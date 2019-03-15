@@ -389,7 +389,6 @@ div.session p,
 .aliasDeviceInput,
 .renameDeviceInput {
     display: none;
-    width: 30% !important;
     height: 28px;
     min-height: 28px;
     padding: 0 !important;
@@ -551,7 +550,6 @@ ul.devicelist {
     height: 25px;
     min-height: 0px;
     margin-right: 4px;
-    float: right;
     border: 0px;
     background: none;
 }
@@ -576,11 +574,13 @@ ul.devicelist {
     height: 40px;
 }
 .deviceLabel {
-    width: 30%;
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    float: left;
+}
+.devinteractline {
+    display: grid;
+    grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .renameSessionInput,
 .sessionName {
@@ -603,7 +603,6 @@ ul.devicelist {
     display: none;
 }
 .devicecolor {
-    float: left;
     width: 15px;
     height: 15px;
     margin: 5px 0px 5px 0px;
