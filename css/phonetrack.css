@@ -397,6 +397,8 @@ div.session p,
 .deleteusershare,
 .sessionBar button {
     padding: 0;
+    margin-left: 0px;
+    margin-right: 2px;
     width: 25px;
     height: 25px;
     border: 0px;
@@ -549,7 +551,7 @@ ul.devicelist {
     width: 25px;
     height: 25px;
     min-height: 0px;
-    margin-right: 4px;
+    margin-right: 2px;
     border: 0px;
     background: none;
 }
