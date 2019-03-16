@@ -4792,7 +4792,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function APIshareDevice($sessionid, $devicename) {
-        $result = array('code'=>0, 'sharetoken'=>'');
+        $result = array('code'=>0, 'sharetoken'=>'', 'done'=>0);
         // check if session exists and is owned by current user
         $sqlchk = '
             SELECT token
@@ -4826,6 +4826,7 @@ class PageController extends Controller {
             if ($dbsharetoken !== null) {
                 $result['sharetoken'] = $dbsharetoken;
                 $result['code'] = 1;
+                $result['done'] = 1;
             }
             else {
                 // let's create the public share without filters
