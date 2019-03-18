@@ -541,7 +541,6 @@ ul.devicelist {
 }
 .toggleLineDevice,
 .toggleAutoZoomDevice,
-.toggleDetail,
 .toggleGeofences,
 .toggleProxim,
 .zoomdevicebutton,
@@ -582,7 +581,7 @@ ul.devicelist {
 }
 .devinteractline {
     display: grid;
-    grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .sessionBar {
     display: grid;

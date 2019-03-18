@@ -1245,11 +1245,9 @@
                             d = $(this).attr('device');
                             zoom = $(this).find('.toggleAutoZoomDevice').hasClass('on');
                             line = $(this).find('.toggleLineDevice').hasClass('on');
-                            point = $(this).find('.toggleDetail').hasClass('on');
                             value[s][d] = {
                                 zoom: zoom,
-                                line: line,
-                                point: point
+                                line: line
                             };
                         });
                     }
@@ -2663,13 +2661,6 @@
                         id = displayedLatlngs[i][2];
                         phonetrack.sessionPointsLayers[s][d].addLayer(phonetrack.sessionPointsLayersById[s][d][id]);
                     }
-                    // if device is displayed and dragging is enabled : make it happen
-                    if (dragenabled && $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')) {
-                        for (i = 0; i < displayedLatlngs.length; i++) {
-                            id = displayedLatlngs[i][2];
-                            phonetrack.sessionPointsLayersById[s][d][id].dragging.enable();
-                        }
-                    }
                 }
             }
             if (filtersEnabled) {
@@ -2743,7 +2734,6 @@
                 if (!pageIsPublic() &&
                     !isSessionShared(s) &&
                     $('#dragcheck').is(':checked')
-                    //&& $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
                 ) {
                     phonetrack.sessionMarkerLayers[s][d].dragging.enable();
                 }
@@ -3122,9 +3112,6 @@
         if (point || (urlPointToggle && urlPointToggle !== '0')) {
             detailOnOff = 'on';
         }
-        var detailLink = ' <button class="toggleDetail ' + detailOnOff + '" token="' + s + '" device="' + d + '" ' +
-            'title="' + t('phonetrack', 'Toggle detail/edition points') + '">' +
-            '<i class="fa fa-circle" aria-hidden="true"></i></button>';
         var urlLineToggle = getUrlParameter('lineToggle');
         var lineOnOff = 'off';
         if (line || (urlLineToggle && urlLineToggle !== '0')) {
@@ -3159,7 +3146,6 @@
                 aliasInput +
                 ghostSpace +
                 lineDeviceLink +
-                detailLink +
                 autoZoomLink +
                 '<button class="zoomdevicebutton" title="' +
                 t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
@@ -3483,7 +3469,6 @@
         var d = e.target.device;
         if (!pageIsPublic() &&
             !isSessionShared(s)
-            //&& $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
         ) {
             e.target.unbindPopup();
             var pid = e.target.pid;
@@ -4064,19 +4049,6 @@
                         }
                     }
                 }
-                for (d in phonetrack.sessionPointsLayers[token]) {
-                    if (!phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[token][d])) {
-                        if ($('.session[token='+token+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')) {
-                            phonetrack.map.addLayer(phonetrack.sessionPointsLayers[token][d]);
-                            // manage draggable
-                            if (!pageIsPublic() && !isSessionShared(token) && $('#dragcheck').is(':checked')) {
-                                phonetrack.sessionPointsLayers[token][d].eachLayer(function(l) {
-                                    l.dragging.enable();
-                                });
-                            }
-                        }
-                    }
-                }
                 for (d in phonetrack.sessionMarkerLayers[token]) {
                     updateMarker(token, d, sessionname);
                     displayedPointsLayers = phonetrack.sessionPointsLayers[token][d].getLayers();
@@ -4340,6 +4312,9 @@
     }
 
     function toggleLineDevice(elem) {
+        if (phonetrack.editMarker) {
+            phonetrack.editMarker.remove();
+        }
         var viewmove = $('#viewmove').is(':checked');
         var d = elem.parent().parent().attr('device');
         var s = elem.parent().parent().attr('token');
@@ -4362,46 +4337,6 @@
             }
             else {
                 elem.addClass('on nc-theming-main-background').removeClass('off');
-            }
-        }
-    }
-
-    function toggleDetailDevice(elem) {
-        var d = elem.parent().parent().attr('device');
-        var s = elem.parent().parent().attr('token');
-        var id;
-
-        // line points
-        if (phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
-            phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                l.dragging.disable();
-            });
-            phonetrack.sessionPointsLayers[s][d].remove();
-            elem.addClass('off').removeClass('on');
-        }
-        else{
-            phonetrack.sessionPointsLayers[s][d].addTo(phonetrack.map);
-            elem.addClass('on').removeClass('off');
-            // manage draggable
-            if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
-                phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                    l.dragging.enable();
-                });
-            }
-        }
-        // marker
-        if (!pageIsPublic() &&
-            !isSessionShared(s) &&
-            phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])
-        ) {
-            if (elem.hasClass('off')) {
-                phonetrack.sessionMarkerLayers[s][d].dragging.disable();
-            }
-            else {
-                if ($('#dragcheck').is(':checked')) {
-                    // if marker is displayed (not filtered)
-                    phonetrack.sessionMarkerLayers[s][d].dragging.enable();
-                }
             }
         }
     }
@@ -5493,8 +5428,6 @@
                     $(this).parent().parent().find('.devicelist').slideUp('slow');
                     $(this).parent().parent().find('.sharediv').slideUp('slow');
                     $(this).parent().parent().find('.moreUrls').slideUp('slow');
-                    //$(this).parent().parent().find('.toggleDetail').addClass('off').removeClass('on');
-                    //$(this).parent().parent().find('.toggleLineDevice').addClass('on').removeClass('off');
                 }
                 else {
                     icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
@@ -5652,24 +5585,11 @@
             if (!pageIsPublic()) {
                 var dragcheck = $(this).is(':checked');
                 var id, s, d;
-                $('.toggleDetail.on').each(function() {
-                    if (!isSessionShared(s)) {
-                        s = $(this).attr('token');
-                        d = $(this).attr('device');
-                        if (dragcheck) {
-                            phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                                l.dragging.enable();
-                            });
-                            phonetrack.sessionMarkerLayers[s][d].dragging.enable();
-                        }
-                        else {
-                            phonetrack.sessionPointsLayers[s][d].eachLayer(function(l) {
-                                l.dragging.disable();
-                            });
-                            phonetrack.sessionMarkerLayers[s][d].dragging.disable();
-                        }
-                    }
-                });
+                // TODO toggle marker dragging for each displayed device
+                //if (!isSessionShared(s)) {
+                //    phonetrack.sessionMarkerLayers[s][d].dragging.enable();
+                //    phonetrack.sessionMarkerLayers[s][d].dragging.disable();
+                //}
             }
         });
 
@@ -5732,13 +5652,6 @@
 
         $('body').on('click', 'ul.devicelist li .zoomdevicebutton, ul.devicelist li .deviceLabel', function(e) {
             zoomOnDevice($(this), t);
-        });
-
-        $('body').on('click', 'ul.devicelist li .toggleDetail', function(e) {
-            toggleDetailDevice($(this));
-            if (!pageIsPublic()) {
-                saveOptions('activeSessions', true);
-            }
         });
 
         $('body').on('click', 'ul.devicelist li .toggleLineDevice', function(e) {
