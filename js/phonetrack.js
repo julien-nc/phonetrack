@@ -5584,12 +5584,22 @@
             }
             if (!pageIsPublic()) {
                 var dragcheck = $(this).is(':checked');
-                var id, s, d;
-                // TODO toggle marker dragging for each displayed device
-                //if (!isSessionShared(s)) {
-                //    phonetrack.sessionMarkerLayers[s][d].dragging.enable();
-                //    phonetrack.sessionMarkerLayers[s][d].dragging.disable();
-                //}
+                var s, d;
+                if (phonetrack.editMarker) {
+                    phonetrack.editMarker.remove();
+                }
+                for (s in phonetrack.sessionMarkerLayers) {
+                    for (d in phonetrack.sessionMarkerLayers[s]) {
+                        if (phonetrack.sessionMarkerLayers[s][d] && phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
+                            if (dragcheck && !isSessionShared(s)) {
+                                phonetrack.sessionMarkerLayers[s][d].dragging.enable();
+                            }
+                            else {
+                                phonetrack.sessionMarkerLayers[s][d].dragging.disable();
+                            }
+                        }
+                    }
+                }
             }
         });
 
