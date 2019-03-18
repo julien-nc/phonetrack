@@ -1583,6 +1583,9 @@
         else {
             divtxt = divtxt + '<div></div>';
         }
+        if (pageIsPublic()) {
+            divtxt = divtxt + '<div></div>';
+        }
         divtxt = divtxt + ' <button class="zoomsession" ' +
             'title="' + t('phonetrack', 'Zoom on this session') + '">' +
             '<i class="fa fa-search"></i></button>';
