@@ -100,7 +100,8 @@
         filtersEnabled: false,
         filterValues: {},
         NSEWClick: {},
-        userIdName: {}
+        userIdName: {},
+        currentlyDragging: false
     };
 
     var offset = L.point(-7, 0);
@@ -722,7 +723,12 @@
         leaveMovePointMode();
     }
 
+    function dragPointStart(e) {
+        phonetrack.currentlyDragging = true;
+    }
+
     function dragPointEnd(e) {
+        phonetrack.currentlyDragging = false;
         var m = e.target;
         var entry = phonetrack.sessionPointsEntriesById[m.session][m.device][m.pid];
         editPointDB(
@@ -3228,6 +3234,7 @@
         phonetrack.devicePointIcons[s][d] = pointIcon;
 
         phonetrack.sessionMarkerLayers[s][d] = L.marker([], {icon: markerIcon});
+        phonetrack.sessionMarkerLayers[s][d].on('dragstart', dragPointStart);
         phonetrack.sessionMarkerLayers[s][d].on('dragend', dragPointEnd);
         phonetrack.sessionMarkerLayers[s][d].session = s;
         phonetrack.sessionMarkerLayers[s][d].device = d;
@@ -3258,6 +3265,9 @@
     }
 
     function lineOver(e) {
+        if (phonetrack.currentlyDragging) {
+            return;
+        }
         if (phonetrack.editMarker) {
             phonetrack.editMarker.remove();
         }
@@ -3350,6 +3360,7 @@
                     m.on('click', markerMouseClick);
                     m.on('mouseover', markerMouseover);
                     m.on('mouseout', markerMouseout);
+                    m.on('dragstart', dragPointStart);
                     m.on('dragend', dragPointEnd);
                     phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
                     filter = filterEntry(entry);
@@ -3404,6 +3415,7 @@
                 m.on('click', markerMouseClick);
                 m.on('mouseover', markerMouseover);
                 m.on('mouseout', markerMouseout);
+                m.on('dragstart', dragPointStart);
                 m.on('dragend', dragPointEnd);
                 phonetrack.sessionPointsLayersById[s][d][entry.id] = m;
                 filter = filterEntry(entry);
@@ -3842,6 +3854,7 @@
             m.pid = entry.id;
             m.on('mouseover', markerMouseover);
             m.on('mouseout', markerMouseout);
+            m.on('dragstart', dragPointStart);
             m.on('dragend', dragPointEnd);
             m.on('click', markerMouseClick);
             phonetrack.sessionPointsEntriesById[token][deviceid][entry.id] = entry;
