@@ -3917,11 +3917,11 @@
         var altitudeValue = (entry.altitude !== null && !isNaN(entry.altitude)) ? entry.altitude.toFixed(2) : '';
         var accuracyValue = (entry.accuracy !== null && !isNaN(entry.accuracy)) ? entry.accuracy.toFixed(2) : '';
         var bearingValue = (entry.bearing !== null && !isNaN(entry.bearing)) ? entry.bearing.toFixed(2) : '';
-        var batteryValue = (entry.battery !== null && !isNaN(entry.battery)) ? entry.battery.toFixed(2) : '';
+        var batteryValue = (entry.batterylevel !== null && !isNaN(entry.batterylevel)) ? entry.batterylevel.toFixed(2) : '';
         var speed_kmph = entry.speed;
         if (entry.speed && parseInt(entry.speed) !== -1) {
             speed_kmph = parseFloat(entry.speed) * 3.6;
-            speed_kmph = speed_kmph.toFixed(3);
+            speed_kmph = speed_kmph.toFixed(2);
         }
         var res = '<table class="editPoint" pid="' + entry.id + '"' +
            ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">';
