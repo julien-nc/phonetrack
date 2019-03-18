@@ -577,7 +577,10 @@ ul.devicelist {
 .deviceLabel {
     overflow-x: auto;
     overflow-y: hidden;
-    white-space: nowrap;
+}
+.devinteractline button {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 .devinteractline {
     display: grid;
@@ -612,6 +615,8 @@ ul.devicelist {
     height: 15px;
     margin: 5px 0px 5px 0px;
     cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 /*.dropdownbutton:hover,*/
