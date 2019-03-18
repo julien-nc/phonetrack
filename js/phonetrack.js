@@ -565,6 +565,11 @@
         phonetrack.activeLayers = L.control.activeLayers(baseLayers, baseOverlays);
         phonetrack.activeLayers.addTo(phonetrack.map);
 
+        phonetrack.map.on('click', function (e) {
+            if (phonetrack.editMarker) {
+                phonetrack.editMarker.remove();
+            }
+        });
         //phonetrack.map.on('contextmenu',rightClick);
         //phonetrack.map.on('popupclose',function() {});
         //phonetrack.map.on('viewreset',updateTrackListFromBounds);
@@ -2728,9 +2733,11 @@
             // if marker was not already displayed
             if (!phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[s][d])) {
                 phonetrack.map.addLayer(phonetrack.sessionMarkerLayers[s][d]);
+                phonetrack.sessionMarkerLayers[s][d].dragging.disable();
                 if (!pageIsPublic() &&
                     !isSessionShared(s) &&
-                    $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
+                    $('#dragcheck').is(':checked')
+                    //&& $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
                 ) {
                     phonetrack.sessionMarkerLayers[s][d].dragging.enable();
                 }
@@ -3195,6 +3202,8 @@
                 className: 'tooltip' + s + d
             }
         );
+        phonetrack.sessionLineLayers[s][d].on('mouseover', lineOver);
+        phonetrack.sessionLineLayers[s][d].on('mouseout', lineOut);
         var radius = parseInt($('#pointradius').val());
         var mletter = $('#markerletter').is(':checked');
         var letter = '';
@@ -3246,6 +3255,35 @@
                       pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar,
                       pr.urlclosepost, pr.urlfarpost, pr.sendemail, pr.emailaddr, pr.sendnotif);
         }
+    }
+
+    function lineOver(e) {
+        if (phonetrack.editMarker) {
+            phonetrack.editMarker.remove();
+        }
+        var s = e.layer.session;
+        var d = e.layer.device;
+        var overLatLng = phonetrack.map.layerPointToLatLng(e.layerPoint);
+        var minDist = 40000000;
+        var markerLatLng = null;
+        var tmpDist;
+        for (var i=0; i<phonetrack.sessionLatlngs[s][d].length; i++) {
+            tmpDist = phonetrack.map.distance(overLatLng, L.latLng(phonetrack.sessionLatlngs[s][d][i]));
+            if (tmpDist < minDist) {
+                markerLatLng = phonetrack.sessionLatlngs[s][d][i];
+                minDist = tmpDist;
+            }
+        }
+        phonetrack.editMarker = phonetrack.sessionPointsLayersById[s][d][markerLatLng[2]];
+        phonetrack.map.addLayer(phonetrack.editMarker);
+        phonetrack.editMarker.dragging.disable();
+        if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')) {
+            phonetrack.editMarker.dragging.enable();
+        }
+    }
+
+    function lineOut(e) {
+        //console.log(e);
     }
 
     // append entries ordered by timestamp
@@ -3403,6 +3441,8 @@
             else {
                 line = L.polyline(linesCoords[i], {weight: linewidth, className: 'poly' + s + d});
             }
+            line.session = s;
+            line.device = d;
             phonetrack.sessionLineLayers[s][d].addLayer(line);
 
             if (linearrow && linesCoords[i].length > 1) {
@@ -3430,8 +3470,8 @@
         var s = e.target.session;
         var d = e.target.device;
         if (!pageIsPublic() &&
-            !isSessionShared(s) &&
-            $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
+            !isSessionShared(s)
+            //&& $('.session[token='+s+'] .devicelist li[device="'+d+'"] .toggleDetail').hasClass('on')
         ) {
             e.target.unbindPopup();
             var pid = e.target.pid;
@@ -3642,6 +3682,9 @@
     }
 
     function deletePointsMap(s, d, pidlist) {
+        if (phonetrack.editMarker) {
+            phonetrack.editMarker.remove();
+        }
         var perm = $('#showtime').is(':checked');
         var linearrow = $('#linearrow').is(':checked');
         var linegradient = $('#linegradient').is(':checked');
@@ -6188,7 +6231,7 @@
             var tab = $(this).parent().find('table');
             var token = tab.attr('token');
             var deviceid = tab.attr('deviceid');
-            var pointid = tab.attr('pid');
+            var pointid = parseInt(tab.attr('pid'));
             phonetrack.movepointSession = token;
             phonetrack.movepointDevice = deviceid;
             phonetrack.movepointId = pointid;
