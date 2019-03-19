@@ -1478,7 +1478,8 @@
             $('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
             $('#deletePointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
         }
-        var gpsloggerUrl = OC.generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/yourname?');
+        var defaultName = t('phonetrack', 'yourname').replace(' ', '');
+        var gpsloggerUrl = OC.generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/'+defaultName+'?');
         var gpsloggerParams = 'lat=%LAT&' +
             'lon=%LON&' +
             'sat=%SAT&' +
@@ -1490,22 +1491,22 @@
             'bat=%BATT';
         gpsloggerUrl = window.location.origin + gpsloggerUrl + gpsloggerParams;
 
-        var owntracksurl = OC.generateUrl('/apps/phonetrack/log/owntracks/' + token + '/yourname');
+        var owntracksurl = OC.generateUrl('/apps/phonetrack/log/owntracks/' + token + '/'+defaultName);
         owntracksurl = window.location.origin + owntracksurl;
 
-        var uloggerurl = OC.generateUrl('/apps/phonetrack/log/ulogger/' + token + '/yourname');
+        var uloggerurl = OC.generateUrl('/apps/phonetrack/log/ulogger/' + token + '/'+defaultName);
         uloggerurl = window.location.origin + uloggerurl;
 
-        var traccarurl = OC.generateUrl('/apps/phonetrack/log/traccar/' + token + '/yourname');
+        var traccarurl = OC.generateUrl('/apps/phonetrack/log/traccar/' + token + '/'+defaultName);
         traccarurl = window.location.origin + traccarurl;
 
-        var opengtsurl = OC.generateUrl('/apps/phonetrack/log/opengts/' + token + '/yourname');
+        var opengtsurl = OC.generateUrl('/apps/phonetrack/log/opengts/' + token + '/'+defaultName);
         opengtsurl = window.location.origin + opengtsurl;
 
-        var locusmapurl = OC.generateUrl('/apps/phonetrack/log/locusmap/' + token + '/yourname');
+        var locusmapurl = OC.generateUrl('/apps/phonetrack/log/locusmap/' + token + '/'+defaultName);
         locusmapurl =window.location.origin + locusmapurl;
 
-        var osmandurl = OC.generateUrl('/apps/phonetrack/log/osmand/' + token + '/yourname?');
+        var osmandurl = OC.generateUrl('/apps/phonetrack/log/osmand/' + token + '/'+defaultName+'?');
         osmandurl = osmandurl +
             'lat={0}&' +
             'lon={1}&' +
@@ -1516,7 +1517,7 @@
             'bearing={6}';
         osmandurl = window.location.origin + osmandurl;
 
-        var geturl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/yourname?');
+        var geturl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/'+defaultName+'?');
         geturl = geturl +
             'lat=LAT&' +
             'lon=LON&' +
@@ -1542,7 +1543,7 @@
         linePointParamsDict.nbpoints = 1000;
         var linePointParams = $.param(linePointParamsDict);
 
-        var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/yourname?');
+        var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/'+defaultName+'?');
         publicTrackUrl = window.location.origin + publicTrackUrl + linePointParams;
 
         var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken + '?');
