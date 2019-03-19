@@ -48,6 +48,12 @@
       <length>1</length>
     </field>
     <field>
+      <name>locked</name>
+      <type>integer</type>
+      <default>0</default>
+      <length>1</length>
+    </field>
+    <field>
       <name>creationversion</name>
       <type>text</type>
       <default></default>

@@ -343,6 +343,7 @@ div.session p,
 .zoomdevicebutton:hover i,
 .toggleProxim:hover i,
 .reservNameButton:hover i,
+.lockButton:hover i,
 .moreUrlsButton:hover i,
 .sharesession:hover i,
 .zoomsession:hover i,
@@ -353,6 +354,7 @@ div.session p,
 .deletereservedname i,
 .deleteusershare i,
 .moreUrlsButton i,
+.lockButton i,
 .reservNameButton i,
 .sharesession i,
 .zoomsession i,
@@ -588,7 +590,7 @@ ul.devicelist {
 }
 .sessionBar {
     display: grid;
-    grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .renameSessionInput,
 .sessionName {

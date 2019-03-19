@@ -25,6 +25,7 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 function distance($lat1, $long1, $lat2, $long2){
 
@@ -230,7 +231,7 @@ class PageController extends Controller {
         $sessions = array();
         // sessions owned by current user
         $sqlget = '
-            SELECT name, token, publicviewtoken, public, autoexport, autopurge
+            SELECT name, token, publicviewtoken, public, autoexport, autopurge, locked
             FROM *PREFIX*phonetrack_sessions
             WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
         $req = $this->dbconnection->prepare($sqlget);
@@ -243,10 +244,11 @@ class PageController extends Controller {
             $dbpublic = $row['public'];
             $dbautoexport = $row['autoexport'];
             $dbautopurge = $row['autopurge'];
+            $dblocked = intval($row['locked']);
             $reservedNames = $this->getReservedNames($dbtoken);
             $publicShares = $this->getPublicShares($dbtoken);
             $devices = $this->getDevices($dbtoken);
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge));
+            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge, $dblocked));
         }
         $req->closeCursor();
 
@@ -1034,6 +1036,58 @@ class PageController extends Controller {
             ->addAllowedConnectDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
+    }
+
+    /**
+     * @NoAdminRequired
+     */
+    public function setSessionLocked($token, $locked) {
+        $ilocked = intval($locked);
+        if ($ilocked === 1 or $ilocked === 0) {
+            // check if session exists
+            $qb = $this->dbconnection->getQueryBuilder();
+            // is the project shared with the user ?
+            $qb->select('name')
+                ->from('phonetrack_sessions', 's')
+                ->where(
+                    $qb->expr()->eq('user', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
+                )
+                ->andWhere(
+                    $qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+                );
+            $req = $qb->execute();
+            $dbname = null;
+            while ($row = $req->fetch()){
+                $dbname = $row['name'];
+                break;
+            }
+            $req->closeCursor();
+            $qb = $qb->resetQueryParts();
+
+            if ($dbname !== null) {
+                $qb->update('phonetrack_sessions');
+                $qb->set('locked', $qb->createNamedParameter($ilocked, IQueryBuilder::PARAM_INT))
+                   ->where(
+                       $qb->expr()->eq('user', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
+                   )
+                   ->andWhere(
+                       $qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+                   );
+                $req = $qb->execute();
+                $qb = $qb->resetQueryParts();
+
+                $response = new DataResponse(['done'=>1]);
+                return $response;
+            }
+            else {
+                $response = new DataResponse(['done'=>2], 400);
+                return $response;
+            }
+        }
+        else {
+            $response = new DataResponse(['done'=>3], 400);
+            return $response;
+        }
     }
 
     /**

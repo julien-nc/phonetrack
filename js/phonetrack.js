@@ -1464,7 +1464,7 @@
 
     function addSession(token, name, publicviewtoken, isPublic, devices=[], sharedWith={},
                         selected=false, isFromShare=false, isSharedBy='',
-                        reservedNames=[], publicFilteredShares=[], autoexport='no', autopurge='no') {
+                        reservedNames=[], publicFilteredShares=[], autoexport='no', autopurge='no', locked=0) {
         var i;
         // init names/ids dict
         phonetrack.deviceNames[token] = {};
@@ -1571,6 +1571,17 @@
                 ')';
         }
         divtxt = divtxt + '<div class="sessionName" title="' + name + sharedByText + '">' + name + '</div><input class="renameSessionInput" type="text"/>';
+        if (!pageIsPublic() && !isFromShare) {
+            var iconLocked = 'lock-open';
+            if (locked === 1) {
+                iconLocked = 'lock';
+            }
+            divtxt = divtxt + '<button class="lockButton" title="' + t('phonetrack', 'Forbid devices to log to this session') + '">' +
+                '<i class="fa fa-' + iconLocked + '"></i></button>';
+        }
+        else {
+            divtxt = divtxt + '<div></div>';
+        }
         if (!pageIsPublic() && !isFromShare) {
             divtxt = divtxt + '<button class="reservNameButton" title="' + t('phonetrack', 'Reserve device names') + '">' +
                 '<i class="fa fa-male"></i></button>';
@@ -2208,7 +2219,8 @@
                             response.sessions[s][6],
                             response.sessions[s][7],
                             response.sessions[s][8],
-                            response.sessions[s][9]
+                            response.sessions[s][9],
+                            response.sessions[s][10]
                         );
                     }
                 }
@@ -6001,6 +6013,29 @@
                 $(this).parent().find('.sessionName').show();
                 $(this).parent().find('.renameSessionInput').hide();
             }
+        });
+
+        $('body').on('click','.lockButton', function(e) {
+            var icon = $(this).find('i');
+            var isLocked = icon.hasClass('fa-lock');
+            var token = $(this).parent().parent().attr('token');
+            var dbNewLocked = isLocked ? 0 : 1;
+            var req = {
+                token: token,
+                locked: dbNewLocked
+            };
+            var url = OC.generateUrl('/apps/phonetrack/setSessionLocked');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: req,
+                async: true
+            }).done(function (response) {
+                icon.toggleClass('fa-lock').toggleClass('fa-lock-open');
+            }).fail(function() {
+                OC.Notification.showTemporary(t('phonetrack', 'Failed to change session lock status'));
+                OC.Notification.showTemporary(t('phonetrack', 'Reload this page'));
+            });
         });
 
         $('body').on('click','.publicsessionbutton', function(e) {
