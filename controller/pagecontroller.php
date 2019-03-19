@@ -4739,8 +4739,9 @@ class PageController extends Controller {
 
             foreach ($devices as $devid) {
                 $name = null;
+                $color = null;
                 $sqlname = '
-                    SELECT name
+                    SELECT name, color
                     FROM *PREFIX*phonetrack_devices
                     WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
                           AND id='.$this->db_quote_escape_string($devid).' ;';
@@ -4749,6 +4750,7 @@ class PageController extends Controller {
                 $col = '';
                 while ($row = $req->fetch()){
                     $name = $row['name'];
+                    $color = $row['color'];
                 }
                 $req->closeCursor();
 
@@ -4770,6 +4772,7 @@ class PageController extends Controller {
                 }
                 $req->closeCursor();
                 if (count($entry) > 0) {
+                    $entry['color'] = $color;
                     $result[$sessionid][$name] = $entry;
                 }
             }
