@@ -1723,10 +1723,10 @@
         }
         if (!pageIsPublicSessionWatch() && !isFromShare) {
             divtxt = divtxt + '<div class="moreUrls">';
-            divtxt = divtxt + '<p><label>' + t('phonetrack', 'Session token') + ' : </label>' +
+            divtxt = divtxt + '<p><label for="tokeninput'+token+'">' + t('phonetrack', 'Session token') + ' : </label>' +
                 '<button class="urlhelpbutton" ></button>' +
                 '</p>';
-            divtxt = divtxt + '<input class="ro" type="text" value="' + token + '"></input>';
+            divtxt = divtxt + '<input id="tokeninput'+token+'" class="ro" type="text" value="' + token + '"></input>';
 
             divtxt = divtxt + '<hr/><p class="urlhint information">' +
                 t('phonetrack', 'List of links to configure logging apps server settings.') + '<br/>' +
