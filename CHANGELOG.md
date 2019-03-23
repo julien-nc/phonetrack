@@ -6,10 +6,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- add button to disable session : forbid log
+[#222](https://gitlab.com/eneiluj/phonetrack-oc/issues/222) @GURKE
 
 ### Changed
+- focus and select session name input when showing it
+- immediately display value when dragging sliders
+- improve sliders design
+[#213](https://gitlab.com/eneiluj/phonetrack-oc/issues/213) @Valdnet
+- add space between settings checkboxes
+- improve options design
+- improve device and session line design: take as much space as available for the name
+[#221](https://gitlab.com/eneiluj/phonetrack-oc/issues/221) @GURKE
+- remove point display, make point appear when hovering the line
+- send color when getting last positions with private API
 
 ### Fixed
+- fix api to get a public link for a device
+- apply dragging option to device main markers
+- fix point popup (battery and speed)
+[#223](https://gitlab.com/eneiluj/phonetrack-oc/issues/223) @Valdnet
 
 ## 0.4.4 – 2019-02-26
 ### Added
