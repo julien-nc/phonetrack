@@ -4276,7 +4276,7 @@
                 }
                 else if (response.warning === 2) {
                     OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in') +
-                        ' ' + targetPath + '/' + filename + ', '+ t('phonetrack', 'but there is no point to export for some devices'));
+                        ' ' + targetPath + '/' + filename + ', '+ t('phonetrack', 'but there was no point to export for some devices'));
                 }
             }
             else {
