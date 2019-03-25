@@ -1795,6 +1795,9 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->testSessionToken5 = $tokenu2;
         $done = $data['done'];
         $this->assertEquals($done, 1);
+        for ($i=5; $i>0; $i--) {
+            $this->logController2->logPost($tokenu2, 'devmanex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, '');
+        }
 
         $resp = $this->pageController2->addUserShare($tokenu2, 'test');
         $data = $resp->getData();

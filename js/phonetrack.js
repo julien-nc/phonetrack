@@ -882,15 +882,12 @@
         }
     }
 
-    function getUrlParameter(sParam)
-    {
+    function getUrlParameter(sParam) {
         var sPageURL = window.location.search.substring(1);
         var sURLVariables = sPageURL.split('&');
-        for (var i = 0; i < sURLVariables.length; i++) 
-        {
+        for (var i = 0; i < sURLVariables.length; i++) {
             var sParameterName = sURLVariables[i].split('=');
-            if (sParameterName[0] === sParam) 
-            {
+            if (sParameterName[0] === sParam) {
                 return decodeURIComponent(sParameterName[1]);
             }
         }
@@ -4270,8 +4267,17 @@
             async: true
         }).done(function (response) {
             if (response.done) {
-                OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in') +
-                    ' ' + targetPath + '/' + filename);
+                if (response.warning === 0) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in') +
+                        ' ' + targetPath + '/' + filename);
+                }
+                else if (response.warning === 1) {
+                    OC.Notification.showTemporary(t('phonetrack', 'There is no point to export for this session'));
+                }
+                else if (response.warning === 2) {
+                    OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in') +
+                        ' ' + targetPath + '/' + filename + ', '+ t('phonetrack', 'but there is no point to export for some devices'));
+                }
             }
             else {
                 OC.Notification.showTemporary(t('phonetrack', 'Failed to export session'));
