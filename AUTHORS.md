@@ -1,6 +1,7 @@
 # Authors
 
 * Julien Veyssier <eneiluj@posteo.net> @eneiluj (Developer)
+* robyquin (Developer)
 * Zach DeCook @earboxer (Designer)
 * Valdnet @Valdnet (Designer/Tester)
 * Jörn Friedrich Dreyer @butonic (Developer)
