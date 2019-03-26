@@ -12,7 +12,7 @@
 </a>
 </li>
 <li title="<?php p($l->t('Stats')); ?>"><a href="#phonetrackstats" role="tab"><i class="fa fa-table"></i></a></li>
-<li title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-cogs"></i></a></li>
+<li id="extraTab" title="<?php p($l->t('Settings and extra actions')); ?>"><a href="#phonetracksettings" role="tab"><i class="fa fa-cogs"></i></a></li>
 <li title="<?php p($l->t('About PhoneTrack')); ?>"><a href="#help" role="tab"><i class="fa fa-question"></i></a></li>
 </ul>
 <!-- Tab panes -->
@@ -187,7 +187,7 @@ p($_['phonetrack_version']);
             </div>
             <label>(*) <?php p($l->t('reload page to make changes effective')); ?></label>
             <br/>
-            <div>
+            <div id="exportOptionsTitle">
             <hr/>
             <h2 class="sectiontitle"><?php p($l->t('File export')); ?></h2>
             </div>

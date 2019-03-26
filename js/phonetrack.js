@@ -6924,6 +6924,24 @@
                 $('#header').hide();
                 $('div#content').css('padding-top', '0px');
             }
+            if (pageIsPublic()) {
+                $('#colorthemeselect').hide();
+                $('label[for=colorthemeselect]').hide();
+                $('#pubviewline').hide();
+                $('label[for=pubviewline]').hide();
+                $('#pubviewpoint').hide();
+                $('label[for=pubviewpoint]').hide();
+                $('#autoexportpath').hide();
+                $('label[for=autoexportpath]').hide();
+                $('#exportoneperdev').hide();
+                $('label[for=exportoneperdev]').hide();
+                $('#exportOptionsTitle').hide();
+                $('#quotareached').hide();
+                $('label[for=quotareached]').hide();
+                $('#extraTab').hide();
+                $('#filtername').hide();
+                $('#savefilters').hide();
+            }
         }
 
         refresh();

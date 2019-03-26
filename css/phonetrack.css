@@ -1246,3 +1246,6 @@ input[type=range]:focus::-ms-fill-upper {
   background: var(--color-primary, #74A9D8);
 }
 /* END RANGE */
+#topbuttons {
+    min-height: 70px;
+}
