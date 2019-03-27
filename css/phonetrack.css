@@ -355,7 +355,7 @@ div.session p,
 .zoomsession:hover i,
 .dropdowndevicebutton:hover i,
 .dropdownbutton:hover i {
-    color: var(--color-main-text);
+    color: var(--color-text-light);
 }
 .deletereservedname i,
 .deleteusershare i,
@@ -839,7 +839,7 @@ label[for=viewmove] i {
 .toggleGeofences:hover,
 .toggleLineDevice.off:hover,
 .toggleAutoZoomDevice.off:hover {
-    background-color: var(--color-main-text);
+    background-color: var(--color-text-light);
 }
 .toggleAutoZoomDevice {
     width: 25px;
@@ -1256,4 +1256,10 @@ input[type=range]:focus::-ms-fill-upper {
 /* END RANGE */
 #topbuttons {
     min-height: 70px;
+}
+.activeMaskedButton {
+    background: var(--color-main-text) !important;
+}
+.activeButton i {
+    color: var(--color-main-text) !important;
 }

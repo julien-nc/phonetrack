@@ -5703,9 +5703,12 @@
             var sharediv = $(this).parent().parent().find('.sharediv');
             if (nameDiv.is(':visible')) {
                 nameDiv.slideUp('slow');
+                $(this).removeClass('activeButton');
             }
             else{
                 nameDiv.slideDown('slow');
+                $(this).parent().find('.activeButton').removeClass('activeButton');
+                $(this).addClass('activeButton');
                 urlDiv.slideUp('slow');
                 sharediv.slideUp('slow');
             }
@@ -5717,9 +5720,12 @@
             var sharediv = $(this).parent().parent().find('.sharediv');
             if (urlDiv.is(':visible')) {
                 urlDiv.slideUp('slow');
+                $(this).removeClass('activeButton');
             }
             else{
                 urlDiv.slideDown('slow').css('display', 'grid');
+                $(this).parent().find('.activeButton').removeClass('activeButton');
+                $(this).addClass('activeButton');
                 nameDiv.slideUp('slow');
                 sharediv.slideUp('slow');
             }
@@ -5731,9 +5737,12 @@
             var moreurldiv = $(this).parent().parent().find('.moreUrls');
             if (sharediv.is(':visible')) {
                 sharediv.slideUp('slow');
+                $(this).removeClass('activeButton');
             }
             else {
                 sharediv.slideDown('slow');
+                $(this).parent().find('.activeButton').removeClass('activeButton');
+                $(this).addClass('activeButton');
                 nameDiv.slideUp('slow');
                 moreurldiv.slideUp('slow');
             }
@@ -5743,12 +5752,16 @@
             var geoDiv = $(this).parent().parent().find('.geofencesDiv');
             if (geoDiv.is(':visible')) {
                 geoDiv.slideUp('slow');
+                $(this).removeClass('activeMaskedButton');
             }
             else{
                 $('.geofencesDiv:visible, .proximDiv:visible').each(function() {
                     $(this).slideUp('slow');
+                    $(this).parent().find('.toggleGeofences').removeClass('activeMaskedButton');
+                    $(this).parent().find('.toggleProxim').removeClass('activeButton');
                 });
                 geoDiv.slideDown('slow');
+                $(this).addClass('activeMaskedButton');
             }
         });
 
@@ -5756,12 +5769,16 @@
             var prDiv = $(this).parent().parent().find('.proximDiv');
             if (prDiv.is(':visible')) {
                 prDiv.slideUp('slow');
+                $(this).removeClass('activeButton');
             }
             else{
                 $('.geofencesDiv:visible, .proximDiv:visible').each(function() {
                     $(this).slideUp('slow');
+                    $(this).parent().find('.toggleGeofences').removeClass('activeMaskedButton');
+                    $(this).parent().find('.toggleProxim').removeClass('activeButton');
                 });
                 prDiv.slideDown('slow');
+                $(this).addClass('activeButton');
                 updateProximSessionsSelect($(this));
             }
         });
