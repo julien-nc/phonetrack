@@ -242,6 +242,7 @@ input[type=checkbox],
 }
 .sidebar {
     z-index: 1990;
+    border-radius: var(--border-radius, 4px);
 }
 .sharediv {
     width: 100%;
@@ -263,8 +264,8 @@ input[type=checkbox],
     grid-template-columns: 48% 48%;
 }
 .session {
-    border: 2px solid var(--color-text-lighter);
-    border-radius: 5px;
+    border: 1px solid var(--color-text-lighter);
+    border-radius: var(--border-radius, 5px);
     padding: 0 4px 0 4px;
     margin-bottom: 5px;
 }
@@ -277,6 +278,11 @@ input[type=checkbox],
 .moreUrls {
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--color-text-lighter);
 }
 .moreUrls hr {
     width: 100%;
@@ -431,7 +437,7 @@ input[role=precision] {
 }
 #filterPointsTable {
     width: 100%;
-    border-radius: 7px;
+    border-radius: var(--border-radius, 4px);
     padding: 5px;
 }
 #filterPointsTable td {
@@ -525,7 +531,6 @@ ul.devicelist li .deviceLabel{
 }
 #filterbookmarks li,
 ul.devicelist > li {
-    border-radius: 5px;
     /*height: 40px;*/
     padding: 5px 0px 5px 0px;
 }
@@ -639,7 +644,7 @@ ul.devicelist {
     width: 250px;
     box-shadow: 0px 8px 16px 0px var(--color-box-shadow);
     z-index: 1;
-    border-radius: 10px;
+    border-radius: var(--border-radius, 4px);
 }
 .reaffectDeviceDiv button i,
 .dropdown-content button i {
@@ -970,7 +975,7 @@ label[for=autoexportpath], #autoexportpath {
 .geofencelist li,
 .filteredshare {
     border: solid 1px var(--color-text-lighter);
-    border-radius: 5px;
+    border-radius: var(--border-radius, 4px);
 }
 .filteredshare input[role=device] {
     width: 49% !important;
@@ -1019,7 +1024,7 @@ input.geofencename {
 .addproximdiv,
 .addgeofencediv {
     border: 1px solid var(--color-border-dark);
-    border-radius: 5px;
+    border-radius: var(--border-radius, 4px);
     padding: 5px;
 }
 .addgeofenceleft {
@@ -1080,9 +1085,12 @@ a.icon-active span {
     margin-top: auto;
     margin-bottom: auto;
 }
+.leaflet-bar {
+    background-color: var(--color-main-background);
+}
 .leaflet-bar button, .leaflet-bar button:hover,
 .leaflet-touch .leaflet-bar a, .leaflet-touch .leaflet-bar a:hover {
-    background-color: var(--color-background-dark);
+    background-color: var(--color-main-background);
     border: 1px solid var(--color-border-dark);
     color: var(--color-main-text);
 }
@@ -1127,7 +1135,7 @@ a.icon-active span {
 }
 .geofenceTextValues li, .proximTextValues li {
     padding: 5px 5px 5px 5px;
-    border-radius: 5px;
+    border-radius: var(--border-radius, 4px);
 }
 .checkboxes {
     width: 100%;
