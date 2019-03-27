@@ -639,10 +639,11 @@ ul.devicelist {
 .dropdown-content {
     display: none;
     position: absolute;
-    right: 0px;
-    background-color: var(--color-background-dark);
+    right: 8px;
+    padding: 3px 7px 3px 7px;
+    background-color: var(--color-main-background);
     width: 250px;
-    box-shadow: 0px 8px 16px 0px var(--color-box-shadow);
+    filter: drop-shadow(0 1px 3px var(--color-box-shadow));
     z-index: 1;
     border-radius: var(--border-radius, 4px);
 }
@@ -658,6 +659,7 @@ ul.devicelist {
     text-align: left;
     display: block;
     border: 0px;
+    margin-top: 4px;
 }
 .dropdown-content button.export {
     border: 0px;
