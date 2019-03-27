@@ -20,12 +20,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#221](https://gitlab.com/eneiluj/phonetrack-oc/issues/221) @GURKE
 - remove point display, make point appear when hovering the line
 - send color when getting last positions with private API
+- CI tests with NC16beta1
+- lots of style improvements (dropdown menus, borders, colors...)
 
 ### Fixed
 - fix api to get a public link for a device
 - apply dragging option to device main markers
 - fix point popup (battery and speed)
 [#223](https://gitlab.com/eneiluj/phonetrack-oc/issues/223) @Valdnet
+- do not export empty devices or empty sessions (MR from @robyquin)
+- hide useless elements in public pages
+[#214](https://gitlab.com/eneiluj/phonetrack-oc/issues/214) @robyquin
+- replace deprecated addAllowedChildSrcDomain
 
 ## 0.4.4 – 2019-02-26
 ### Added
