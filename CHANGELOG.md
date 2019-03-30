@@ -10,17 +10,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [#222](https://gitlab.com/eneiluj/phonetrack-oc/issues/222) @GURKE
 
 ### Changed
+- remove point display, make point appear when hovering the line (fixes UI performance issue!)
 - focus and select session name input when showing it
 - immediately display value when dragging sliders
 - improve sliders design
 [#213](https://gitlab.com/eneiluj/phonetrack-oc/issues/213) @Valdnet
 - add space between settings checkboxes
 - improve options design
-- improve device and session line design: take as much space as available for the name
+- improve device and session sidebar design: take as much space as available for the name
 [#221](https://gitlab.com/eneiluj/phonetrack-oc/issues/221) @GURKE
-- remove point display, make point appear when hovering the line
 - send color when getting last positions with private API
-- CI tests with NC16beta1
+- CI tests with NC16beta2
 - lots of style improvements (dropdown menus, borders, colors...)
 
 ### Fixed
