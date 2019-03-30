@@ -191,6 +191,8 @@ OC.L10N.register(
     "There is no device to import in submitted file" : "В файле нет устройства для импорта",
     "Failed to contact server to import session" : "Не удалось связаться с сервером для импорта сессии",
     "Session successfully exported in" : "Сессия успешно экспортированна в",
+    "There is no point to export for this session" : "Отсутствуют точки для экспорта в этой сессии",
+    "but there was no point to export for some devices" : "но нет необходимости экспорта точек для некоторых устройств",
     "Failed to export session" : "Не удалось экспортировать сессию",
     "Failed to contact server to export session" : "Не удалось связаться с сервером для экспорта сессии",
     "Failed to contact server to log position" : "Не удалось связаться с сервером для записи позиции",

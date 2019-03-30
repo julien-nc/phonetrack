@@ -191,6 +191,8 @@ OC.L10N.register(
     "There is no device to import in submitted file" : "Δεν υπάρχει συσκευή για εισαγωγή στο αρχείο που υποβλήθηκε",
     "Failed to contact server to import session" : "Αποτυχία επικοινωνίας με το διακομιστή για την εισαγωγή συνεδρίας",
     "Session successfully exported in" : "Επιτυχής εξαγωγή συνεδρίας σε",
+    "There is no point to export for this session" : "Δεν υπάρχει κανένα σημείο για εξαγωγή σε αυτή τη συνεδρία",
+    "but there was no point to export for some devices" : "αλλά δεν υπήρχε σημείο για εξαγωγή για ορισμένες συσκευές",
     "Failed to export session" : "Αποτυχία εξαγωγής συνεδρίας",
     "Failed to contact server to export session" : "Αποτυχία επικοινωνίας με το διακομιστή για την εξαγωγή συνεδρίας",
     "Failed to contact server to log position" : "Αποτυχία επικοινωνίας με το διακομιστή για την καταγραφή θέσης",

@@ -189,6 +189,8 @@
     "There is no device to import in submitted file" : "Non esiste un dispositivo da importare nel file inviato",
     "Failed to contact server to import session" : "Impossibile contattare il server per importare la sessione",
     "Session successfully exported in" : "Sessione esportata con successo",
+    "There is no point to export for this session" : "Non ci sono punti da esportare per questa sessione",
+    "but there was no point to export for some devices" : "ma non c'erano punti da esportare per alcuni dispositivi",
     "Failed to export session" : "Impossibile esportare la sessione",
     "Failed to contact server to export session" : "Impossibile contattare il server per esportare la sessione",
     "Failed to contact server to log position" : "Impossibile contattare il server per registrare la posizione",

@@ -191,6 +191,8 @@ OC.L10N.register(
     "There is no device to import in submitted file" : "W przesłanym pliku nie ma urządzenia do importu",
     "Failed to contact server to import session" : "Nie udało się połączyć z serwerem, aby importować sesje",
     "Session successfully exported in" : "Sesja pomyślnie wyeksportowana",
+    "There is no point to export for this session" : "Nie ma punktów do wyeksportowania dla tej sesji",
+    "but there was no point to export for some devices" : "ale nie było żadnych punktów do wyeksportowania dla niektórych urządzeń",
     "Failed to export session" : "Nie udało się eksportować sesji",
     "Failed to contact server to export session" : "Nie udało się połączyć z serwerem, aby eksportować sesje",
     "Failed to contact server to log position" : "Nie udało się połączyć z serwerem, aby rejestrować pozycje",

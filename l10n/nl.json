@@ -189,6 +189,8 @@
     "There is no device to import in submitted file" : "Er is geen apparaat om te importeren in het opgegeven bestand",
     "Failed to contact server to import session" : "Kon geen contact maken met server om sessie te importeren",
     "Session successfully exported in" : "Sessie succesvol geëxporteerd in",
+    "There is no point to export for this session" : "Deze sessie heeft geen punt om te exporteren",
+    "but there was no point to export for some devices" : "maar er waren enkele apparaten die geen punt te exporteren hadden",
     "Failed to export session" : "Sessie exporteren is mislukt",
     "Failed to contact server to export session" : "Kon geen contact maken met server om sessie te exporteren",
     "Failed to contact server to log position" : "Kon geen contact maken met server om positie te loggen",
