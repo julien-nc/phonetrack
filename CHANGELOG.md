@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.5.0 – 2019-03-30
 ### Added
 - add button to disable session : forbid log
 [#222](https://gitlab.com/eneiluj/phonetrack-oc/issues/222) @GURKE
