@@ -43,7 +43,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
     private $testSessionToExportToken;
     private $testSessionQuota;
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass(): void {
         $app = new Application();
         $c = $app->getContainer();
 
@@ -54,7 +54,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
     }
 
-    public function setUp() {
+    protected function setUp(): void {
         $this->appName = 'phonetrack';
         $this->request = $this->getMockBuilder('\OCP\IRequest')
             ->disableOriginalConstructor()
@@ -128,7 +128,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass(): void {
         $app = new Application();
         $c = $app->getContainer();
         $user = $c->getServer()->getUserManager()->get('test');
@@ -139,7 +139,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $user->delete();
     }
 
-    public function tearDown() {
+    protected function tearDown(): void {
         // in case there was a failure and session was not deleted
         $this->pageController->deleteSession($this->testSessionToken);
         $this->pageController->deleteSession($this->testSessionToken2);
