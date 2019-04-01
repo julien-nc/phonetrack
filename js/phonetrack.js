@@ -1658,7 +1658,7 @@
             divtxt = divtxt + '<div class="namereservdiv">';
             divtxt = divtxt + '<p class="information">' + t('phonetrack', 'Name reservation is optional.') + '<br/>' +
                 t('phonetrack', 'Name can be set directly in logging link if it is not reserved.') + '<br/>' +
-                t('phonetrack', 'To log with a reserved name, use its token in logging link.') + '<br/>' +
+                t('phonetrack', 'To log with a reserved name, use the "name token" in logging link (or in PhoneTrack-Android log job\'s "device name") field.') + '<br/>' +
                 t('phonetrack', 'If a name is reserved, the only way to log with this name is with its token.') +
                 '</p>';
 

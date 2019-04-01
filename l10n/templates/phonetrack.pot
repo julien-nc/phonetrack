@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PhoneTrack app 8.0.0\n"
 "Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-03-28 13:41+0100\n"
+"POT-Creation-Date: 2019-04-01 14:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -283,7 +283,9 @@ msgid "Name can be set directly in logging link if it is not reserved."
 msgstr ""
 
 #: phonetrack.js:1661
-msgid "To log with a reserved name, use its token in logging link."
+msgid ""
+"To log with a reserved name, use the \"name token\" in logging link (or in "
+"PhoneTrack-Android log job's \"device name\") field."
 msgstr ""
 
 #: phonetrack.js:1662
