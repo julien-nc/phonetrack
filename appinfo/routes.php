@@ -32,6 +32,7 @@ return [
         ['name' => 'page#APIgetLastPositionsPublic', 'url' => '/api/getlastpositions/{sessionid}', 'verb' => 'GET'],
         ['name' => 'page#APIgetLastPositionsUser', 'url' => '/api/getuserlastpositions/{sessionid}', 'verb' => 'GET'],
         ['name' => 'page#APIshareDevice', 'url' => '/api/sharedevice/{sessionid}/{devicename}', 'verb' => 'GET'],
+        ['name' => 'page#APIcreateSession', 'url' => '/api/createsession/{sessionname}', 'verb' => 'GET'],
         ['name' => 'page#APIPing', 'url' => '/api/ping', 'verb' => 'GET'],
         ['name' => 'page#importSession', 'url' => '/importSession', 'verb' => 'POST'],
         ['name' => 'page#renameSession', 'url' => '/renameSession', 'verb' => 'POST'],

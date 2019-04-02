@@ -671,6 +671,14 @@ class PageController extends Controller {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
+     */
+    public function APIcreateSession($sessionname) {
+        return $this->createSession($sessionname);
+    }
+
+    /**
+     * @NoAdminRequired
      */
     public function createSession($name) {
         $token = '';
