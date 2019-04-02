@@ -1630,7 +1630,7 @@
 
             if (!isFromShare) {
                 divtxt = divtxt + '<div class="autoexportdiv" title="' +
-                    t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: escapeHTML($('#autoexportpath').val())}) + '">' +
+                    t('phonetrack', 'The automatic export is activated daily and save/update files in \'{exdir}\' with duration selected. (today is ignored)', {exdir: escapeHTML($('#autoexportpath').val())}) + '">' +
                     '<div><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic export') + '</div>';
                 divtxt = divtxt + '<select role="autoexport">';
                 divtxt = divtxt + '<option value="no">' + t('phonetrack', 'never') + '</option>';
@@ -1641,7 +1641,7 @@
                 divtxt = divtxt + '</div>';
 
                 divtxt = divtxt + '<div class="autopurgediv" ' +
-                    'title="' + t('phonetrack', 'Automatic purge is triggered daily and will delete points older than selected duration') + '">' +
+                    'title="' + t('phonetrack', 'The automatic purge is activated daily and will delete the old points, it keep alive selected duration that will precede the export interval') + '">' +
                     '<div><i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic purge') + '</div>';
                 divtxt = divtxt + '<select role="autopurge">';
                 divtxt = divtxt + '<option value="no">' + t('phonetrack', 'don\'t purge') + '</option>';

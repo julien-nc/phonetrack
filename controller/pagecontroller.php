@@ -4531,27 +4531,23 @@ class PageController extends Controller {
         return $dir;
     }
 
-    private function cronAutoPurge() {
+    private function cronAutoPurge($limit_purge) {
         date_default_timezone_set('UTC');
         foreach (array('day'=>'1', 'week'=>'7', 'month'=>'31') as $s => $nbDays) {
-            $now = new \DateTime();
-            $now->modify('-'.$nbDays.' day');
-            $ts = $now->getTimestamp();
-
             // get all sessions with this auto purge value
             $sessions = array();
             $sqlget = '
-                SELECT token FROM *PREFIX*phonetrack_sessions
+                SELECT token,autoexport FROM *PREFIX*phonetrack_sessions
                 WHERE autopurge='.$this->db_quote_escape_string($s).' ;';
             $req = $this->dbconnection->prepare($sqlget);
             $req->execute();
             while ($row = $req->fetch()){
-                array_push($sessions, $row['token']);
+                $sessions[$row['token']] = $row['autoexport'];
             }
             $req->closeCursor();
 
             $devices = array();
-            foreach ($sessions as $token) {
+            foreach ($sessions as $token => $autoexport) {
                 $sqlget = '
                     SELECT id
                     FROM *PREFIX*phonetrack_devices
@@ -4559,12 +4555,23 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    array_push($devices, $row['id']);
+                    if($autoexport == 'daily' || $autoexport == 'no'){
+                        $now = new \DateTime("@$limit_purge[0]");
+                        $now->modify('-'.$nbDays.' day');
+                    }else if($autoexport == 'weekly'){
+                        $now = new \DateTime("@$limit_purge[1]");
+                        $now->modify('-'.$nbDays.' day');
+                    }else {
+                        $now = new \DateTime("@$limit_purge[2]");
+                        $now->modify('-'.$nbDays.' day');
+                    }
+                    $ts = $now->getTimestamp();
+                    $devices[$row['id']] = $ts;
                 }
                 $req->closeCursor();
             }
 
-            foreach ($devices as $did) {
+            foreach ($devices as $did => $ts) {
                 $sqldel = '
                     DELETE FROM *PREFIX*phonetrack_points
                     WHERE deviceid='.$this->db_quote_escape_string($did).'
@@ -4599,35 +4606,38 @@ class PageController extends Controller {
         $minDayTimestamp = $maxDayTimestamp - 24*60*60;
 
         $dateMaxDay->modify('-1 day');
-        $dailySuffix = '_daily_'.$dateMaxDay->format('Y-m-d');
-        //$dailySuffix = '_daily_'.$y.'-'.sprintf('%02d', intval($m)).'-'.sprintf('%02d', intval($d)-1);
+        $dailySuffix = '_'.$dateMaxDay->format('Y-m-d').'_daily';
 
-        // last week
+        // current week
         $now = new \DateTime();
-        while (intval($now->format('N')) !== 1) {
-            $now->modify('-1 day');
-        }
         $y = $now->format('Y');
         $m = $now->format('m');
         $d = $now->format('d');
         $dateWeekMax = new \DateTime($y.'-'.$m.'-'.$d);
         $maxWeekTimestamp = $dateWeekMax->getTimestamp();
-        $minWeekTimestamp = $maxWeekTimestamp - 7*24*60*60;
-        $dateWeekMin = new \DateTime($y.'-'.$m.'-'.$d);
-        $dateWeekMin->modify('-7 day');
-        $weeklySuffix = '_weekly_'.$dateWeekMin->format('Y-m-d');
-
-        // last month
-        $now = new \DateTime();
-        while (intval($now->format('d')) !== 1) {
+        if(intval($now->format('N')) == 1){ //now is Monday
             $now->modify('-1 day');
         }
+        while (intval($now->format('N')) !== 1) {
+            $now->modify('-1 day');
+        }
+        $y = intval($now->format('Y'));
+        $m = intval($now->format('m'));
+        $d = intval($now->format('d'));
+        $dateWeekMin =  new \DateTime($y.'-'.$m.'-'.$d);
+        $minWeekTimestamp = $dateWeekMin->getTimestamp();
+        $weeklySuffix = '_'.$dateWeekMin->format('Y-m-d').'_weekly';
+
+        // current month
+        $now = new \DateTime();
         $y = $now->format('Y');
         $m = $now->format('m');
         $d = $now->format('d');
         $dateMonthMax = new \DateTime($y.'-'.$m.'-'.$d);
         $maxMonthTimestamp = $dateMonthMax->getTimestamp();
-        $now->modify('-1 day');
+        if(intval($now->format('d')) == 1) { //now is first of month
+            $now->modify('-1 day');
+        }
         while (intval($now->format('d')) !== 1) {
             $now->modify('-1 day');
         }
@@ -4636,7 +4646,7 @@ class PageController extends Controller {
         $d = intval($now->format('d'));
         $dateMonthMin = new \DateTime($y.'-'.$m.'-'.$d);
         $minMonthTimestamp = $dateMonthMin->getTimestamp();
-        $monthlySuffix = '_monthly_'.$dateMonthMin->format('Y-m');
+        $monthlySuffix = '_'.$dateMonthMin->format('Y-m-d').'_monthly';
 
         $weekFilterArray = array();
         $weekFilterArray['tsmin'] = $minWeekTimestamp;
@@ -4647,6 +4657,9 @@ class PageController extends Controller {
         $monthFilterArray = array();
         $monthFilterArray['tsmin'] = $minMonthTimestamp;
         $monthFilterArray['tsmax'] = $maxMonthTimestamp;
+
+        //set upper limit for purge function
+        $limit_purge = array($minDayTimestamp,$minWeekTimestamp,$minMonthTimestamp);
 
         foreach($this->userManager->search('') as $u) {
             $userName = $u->getUID();
@@ -4687,7 +4700,7 @@ class PageController extends Controller {
         }
         // we run the auto purge method AFTER the auto export
         // to avoid deleting data before it has been eventually exported
-        $this->cronAutoPurge();
+        $this->cronAutoPurge($limit_purge);
     }
 
     /**
