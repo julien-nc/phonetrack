@@ -4555,17 +4555,14 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    if($autoexport == 'daily' || $autoexport == 'no'){
-                        $now = new \DateTime("@$limit_purge[0]");
-                        $now->modify('-'.$nbDays.' day');
+                    if($autoexport == 'daily'){
+                        $ts = $limit_purge[0] - 24*3600*$nbDays;
                     }else if($autoexport == 'weekly'){
-                        $now = new \DateTime("@$limit_purge[1]");
-                        $now->modify('-'.$nbDays.' day');
-                    }else {
-                        $now = new \DateTime("@$limit_purge[2]");
-                        $now->modify('-'.$nbDays.' day');
+                        $ts = $limit_purge[1] - 24*3600*$nbDays;
+                    }else  if($autoexport == 'monthly' || $autoexport == 'no'){
+                        // if autoexport == 'no', leave the data longer in the db
+                        $ts = $limit_purge[2] - 24*3600*$nbDays;
                     }
-                    $ts = $now->getTimestamp();
                     $devices[$row['id']] = $ts;
                 }
                 $req->closeCursor();
@@ -4590,7 +4587,12 @@ class PageController extends Controller {
      * export sessions
      */
     public function cronAutoExport() {
-        date_default_timezone_set('UTC');
+        $dtz = ini_get('date.timezone');
+        if ($dtz === '') {
+            $dtz = 'UTC';
+        }
+        date_default_timezone_set($dtz);
+
         $userNames = [];
 
         // last day
@@ -4661,6 +4663,7 @@ class PageController extends Controller {
         //set upper limit for purge function
         $limit_purge = array($minDayTimestamp,$minWeekTimestamp,$minMonthTimestamp);
 
+        date_default_timezone_set('UTC');
         foreach($this->userManager->search('') as $u) {
             $userName = $u->getUID();
 
