@@ -4555,12 +4555,12 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    if($autoexport == 'daily'){
+                    if($autoexport === 'daily'){
                         $ts = $limit_purge[0] - 24*3600*$nbDays;
-                    }else if($autoexport == 'weekly'){
+                    }else if($autoexport === 'weekly'){
                         $ts = $limit_purge[1] - 24*3600*$nbDays;
-                    }else  if($autoexport == 'monthly' || $autoexport == 'no'){
-                        // if autoexport == 'no', leave the data longer in the db
+                    }else  if($autoexport === 'monthly' || $autoexport === 'no'){
+                        // if autoexport === 'no', leave the data longer in the db
                         $ts = $limit_purge[2] - 24*3600*$nbDays;
                     }
                     $devices[$row['id']] = $ts;
@@ -4617,7 +4617,7 @@ class PageController extends Controller {
         $d = $now->format('d');
         $dateWeekMax = new \DateTime($y.'-'.$m.'-'.$d);
         $maxWeekTimestamp = $dateWeekMax->getTimestamp();
-        if(intval($now->format('N')) == 1){ //now is Monday
+        if(intval($now->format('N')) === 1){ //now is Monday
             $now->modify('-1 day');
         }
         while (intval($now->format('N')) !== 1) {
@@ -4637,7 +4637,7 @@ class PageController extends Controller {
         $d = $now->format('d');
         $dateMonthMax = new \DateTime($y.'-'.$m.'-'.$d);
         $maxMonthTimestamp = $dateMonthMax->getTimestamp();
-        if(intval($now->format('d')) == 1) { //now is first of month
+        if(intval($now->format('d')) === 1) { //now is first of month
             $now->modify('-1 day');
         }
         while (intval($now->format('d')) !== 1) {
