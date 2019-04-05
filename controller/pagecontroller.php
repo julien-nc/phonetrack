@@ -235,7 +235,7 @@ class PageController extends Controller {
             SELECT name, token, publicviewtoken, public, autoexport, autopurge, locked
             FROM *PREFIX*phonetrack_sessions
             WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-            ORDER BY name ASC ;';
+            ORDER BY LOWER(name) ASC ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
@@ -303,7 +303,7 @@ class PageController extends Controller {
             SELECT name, token, publicviewtoken, public, autoexport, autopurge
             FROM *PREFIX*phonetrack_sessions
             WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-            ORDER BY name ASC ;';
+            ORDER BY LOWER(name) ASC ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
