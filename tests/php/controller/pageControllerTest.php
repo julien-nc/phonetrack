@@ -838,20 +838,20 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->getSessions();
 
         $data = $resp->getData();
-        $name = $data['sessions'][0][0];
+        $name = $data['sessions'][1][0];
 
         $this->assertEquals($name, 'testSession');
 
         // CHECK SESSION IS SHARED WITH A USER
-        $cond = (count($data['sessions'][0])>4
-                    and $data['sessions'][0][1] === $token
-                    and count($data['sessions'][0][5]) > 0
-                    and $data['sessions'][0][5]['test2'] === 'test2')
-                or
-                (count($data['sessions'][0])>4
+        $cond = (count($data['sessions'][1])>4
                     and $data['sessions'][1][1] === $token
                     and count($data['sessions'][1][5]) > 0
-                    and $data['sessions'][1][5]['test2'] === 'test2');
+                    and $data['sessions'][1][5]['test2'] === 'test2')
+                or
+                (count($data['sessions'][0])>4
+                    and $data['sessions'][0][1] === $token
+                    and count($data['sessions'][0][5]) > 0
+                    and $data['sessions'][0][5]['test2'] === 'test2');
         $this->assertEquals($cond, True);
 
         // save options
@@ -1245,7 +1245,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $resp = $this->pageController->getSessions();
 
         $data = $resp->getData();
-        $name = $data['sessions'][0][0];
+        $name = $data['sessions'][1][0];
 
         $this->assertEquals($name, 'renamedTestSession');
 
