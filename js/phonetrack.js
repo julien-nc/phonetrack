@@ -101,6 +101,7 @@
         filterValues: {},
         NSEWClick: {},
         userIdName: {},
+        shareInputToId: {},
         currentlyDragging: false
     };
 
@@ -1682,13 +1683,6 @@
                 t('phonetrack', 'Type user name and press \'Enter\'') + '"></input>';
             divtxt = divtxt + '<ul class="usersharelist">';
 
-            var username;
-            for (var id in sharedWith) {
-                username = sharedWith[id];
-                divtxt = divtxt + '<li userid="'+escapeHTML(id)+'" username="' + escapeHTML(username) + '"><label>' +
-                    t('phonetrack', 'Shared with {u}', {'u': username}) + '</label>' +
-                    '<button class="deleteusershare" userid="'+escapeHTML(id)+'"><i class="fa fa-trash"></i></li>';
-            }
             divtxt = divtxt + '</ul>';
             divtxt = divtxt + '</div><hr/>';
 
@@ -1782,6 +1776,13 @@
         $('.session[token="' + token + '"]').find('select[role=autopurge]').val(autopurge);
         if (parseInt(isPublic) === 0) {
             $('.session[token="' + token + '"]').find('.publicWatchUrlDiv').hide();
+        }
+        if (!pageIsPublic() && !isFromShare) {
+            var username;
+            for (var id in sharedWith) {
+                username = sharedWith[id];
+                addUserShare(token, id, username);
+            }
         }
             //.find('input[type=text]').prop('readonly', false);
         for (i = 0; i < publicFilteredShares.length; i++) {
@@ -4523,8 +4524,12 @@
     }
 
     function addUserShare(token, userId, username) {
+        var displayString = userId;
+        if (userId !== username) {
+            displayString = username + ' (' + userId + ')';
+        }
         var li = '<li userid="'+escapeHTML(userId)+'" username="' + escapeHTML(username) + '"><label>' +
-            t('phonetrack', 'Shared with {u}', {'u': username}) + '</label>' +
+            t('phonetrack', 'Shared with {u}', {'u': displayString}) + '</label>' +
             '<button class="deleteusershare" userid="'+escapeHTML(userId)+'"><i class="fa fa-trash"></i></li>';
         $('.session[token="' + token + '"]').find('.usersharelist').append(li);
         $('.session[token="' + token + '"]').find('.addusershare').val('');
@@ -4998,11 +5003,20 @@
             async: true
         }).done(function (response) {
             phonetrack.userIdName = response.users;
+            phonetrack.shareInputToId = {};
             var nameList = [];
-            var name;
+            var name, complString;
             for (var id in response.users) {
                 name = response.users[id];
-                nameList.push(name);
+                if (id !== name) {
+                    complString = name + ' (' + id + ')';
+                    nameList.push(complString);
+                    phonetrack.shareInputToId[complString] = id;
+                }
+                else {
+                    nameList.push(name);
+                    phonetrack.shareInputToId[name] = id;
+                }
             }
             input.autocomplete({
                 source: nameList
@@ -6375,15 +6389,13 @@
         $('body').on('keyup','.addusershare', function(e) {
             if (e.key === 'Enter') {
                 var token = $(this).parent().parent().parent().attr('token');
-                var username = $(this).val();
-                var userId = '';
-                for (var id in phonetrack.userIdName) {
-                    if (username === phonetrack.userIdName[id]) {
-                        userId = id;
-                        break;
-                    }
+                var val = $(this).val();
+                var userId, userName;
+                if (phonetrack.shareInputToId.hasOwnProperty(val)) {
+                    userId = phonetrack.shareInputToId[val];
+                    userName = phonetrack.userIdName[userId];
+                    addUserShareDb(token, userId, userName);
                 }
-                addUserShareDb(token, userId, username);
             }
         });
 
