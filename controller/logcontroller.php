@@ -917,8 +917,12 @@ class LogController extends Controller {
                 if ($nbToDelete > 0) {
                     $sqldel = '
                         DELETE FROM *PREFIX*phonetrack_points
-                        WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
-                        ORDER BY timestamp ASC LIMIT '.$nbToDelete.' ;';
+                        WHERE id IN (
+                            SELECT id
+                            FROM *PREFIX*phonetrack_points
+                            WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
+                            ORDER BY timestamp ASC LIMIT '.$nbToDelete.'
+                        );';
                     $req = $this->dbconnection->prepare($sqldel);
                     $req->execute();
                     $req->closeCursor();
