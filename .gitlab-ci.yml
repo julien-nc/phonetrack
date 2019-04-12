@@ -46,11 +46,15 @@ test_nc15_sqlite:
     paths:
       - coverage
   coverage: '/^\s*Lines:\s*(\d+.\d+)\%/'
+  cache:
+    key: nc15zip
+    paths:
+      - nextcloud-15.0.7.zip
   script:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
-    - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.2.zip ; unzip -q nextcloud-15.0.2.zip ; rm nextcloud-15.0.2.zip
+    - test -f nextcloud-15.0.7.zip && echo "cached nextcloud found" || wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.7.zip
+    - unzip -q nextcloud-15.0.7.zip ; mkdir -p /var/www/html ; mv nextcloud /var/www/html/ ; pushd /var/www/html
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -76,12 +80,16 @@ test_nc15_pgsql:
       POSTGRES_DB: plop
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ""
+  cache:
+    key: nc15zip
+    paths:
+      - nextcloud-15.0.7.zip
   script:
     - DEBIAN_FRONTEND=noninteractive apt-get install php7.2-pgsql postgresql-client -yqq > /dev/null 2>&1
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
-    - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.2.zip ; unzip -q nextcloud-15.0.2.zip ; rm nextcloud-15.0.2.zip
+    - test -f nextcloud-15.0.7.zip && echo "cached nextcloud found" || wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.7.zip
+    - unzip -q nextcloud-15.0.7.zip ; mkdir -p /var/www/html ; mv nextcloud /var/www/html/ ; pushd /var/www/html
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -101,6 +109,10 @@ test_nc15_mysql:
     refs:
       - master
       - test
+  cache:
+    key: nc15zip
+    paths:
+      - nextcloud-15.0.7.zip
   script:
     # DB
     - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.2-mysql -yqq > /dev/null 2>&1
@@ -110,8 +122,8 @@ test_nc15_mysql:
     - mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
-    - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.2.zip ; unzip -q nextcloud-15.0.2.zip ; rm nextcloud-15.0.2.zip
+    - test -f nextcloud-15.0.7.zip && echo "cached nextcloud found" || wget -q https://download.nextcloud.com/server/releases/nextcloud-15.0.7.zip
+    - unzip -q nextcloud-15.0.7.zip ; mkdir -p /var/www/html ; mv nextcloud /var/www/html/ ; pushd /var/www/html
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
