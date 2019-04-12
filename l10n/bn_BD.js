@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "phonetrack",
+    {
+    "PhoneTrack" : "ফোন ট্র্যাক",
+    "Geofencing alert" : "জিওফেনসিং সতর্কতা",
+    "left" : "বামে",
+    "right" : "ডানে",
+    "Show lines" : "রেখা প্রদর্শন করা",
+    "Hide lines" : "রেখা আড়াল করা",
+    "Activate automatic zoom" : "স্বয়ংক্রিয় জুম সক্রিয় করুন",
+    "Disable automatic zoom" : "স্বয়ংক্রিয় জুম নিষ্ক্রিয় করুন",
+    "Delete" : "মুছে ফেলুন",
+    "Reload this page" : "পৃষ্ঠাটি পুনঃলোড করুন।",
+    "More actions" : "আরও কাজ",
+    "never" : "কখনো না",
+    "daily" : "প্রতিদিন",
+    "weekly" : "সাপ্তাহিক",
+    "monthly" : "মাসিক",
+    "Automatic purge" : "স্বয়ংক্রিয় পার্জ করুন",
+    "a day" : "এক দিন",
+    "a week" : "এক সপ্তাহ",
+    "a month" : "এক মাস",
+    "Share with user" : "ইউজার এর সাথে শেয়ার করুন",
+    "Type user name and press 'Enter'" : "ব্যবহারকারীর নাম টাইপ করুন এবং \"এন্টার\" প্রেস করুন",
+    "Ok" : "ঠিক আছে"
+},
+"nplurals=2; plural=(n != 1);");
