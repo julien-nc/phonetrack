@@ -17,6 +17,7 @@ test_nc16_sqlite:
   cache:
     paths:
       - nextcloud-16.0.0RC1.zip
+    policy: pull
   script:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
@@ -50,6 +51,7 @@ test_nc15_sqlite:
     key: nc15zip
     paths:
       - nextcloud-15.0.7.zip
+    policy: pull
   script:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
@@ -84,6 +86,7 @@ test_nc15_pgsql:
     key: nc15zip
     paths:
       - nextcloud-15.0.7.zip
+    policy: pull
   script:
     - DEBIAN_FRONTEND=noninteractive apt-get install php7.2-pgsql postgresql-client -yqq > /dev/null 2>&1
     # copy local copy that has been cloned already
@@ -113,6 +116,7 @@ test_nc15_mysql:
     key: nc15zip
     paths:
       - nextcloud-15.0.7.zip
+    policy: pull
   script:
     # DB
     - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.2-mysql -yqq > /dev/null 2>&1
