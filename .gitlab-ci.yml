@@ -14,11 +14,14 @@ test_nc16_sqlite:
     refs:
       - master
       - test
+  cache:
+    paths:
+      - nextcloud-16.0.0RC1.zip
   script:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
-    - mkdir -p /var/www/html ; pushd /var/www/html
-    - wget -q https://download.nextcloud.com/server/prereleases/nextcloud-16.0.0beta2.zip ; unzip -q nextcloud-16.0.0beta2.zip ; rm nextcloud-16.0.0beta2.zip
+    - test -f nextcloud-16.0.0RC1.zip && echo "cached nextcloud found" || wget -q https://download.nextcloud.com/server/prereleases/nextcloud-16.0.0RC1.zip
+    - unzip -q nextcloud-16.0.0RC1.zip ; mkdir -p /var/www/html ; mv nextcloud /var/www/html/ ; pushd /var/www/html
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
