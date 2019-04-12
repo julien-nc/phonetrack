@@ -1,0 +1,1680 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: phonetrack\n"
+"Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
+"POT-Creation-Date: 2019-04-01 14:21+0200\n"
+"PO-Revision-Date: 2019-04-12 09:51\n"
+"Last-Translator: eneiluj <eneiluj@posteo.net>\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: crowdin.com\n"
+"X-Crowdin-Project: phonetrack\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /master/translationfiles/templates/phonetrack.pot\n"
+
+#: app.php:27 app.php:50 admin.php:7
+msgid "PhoneTrack"
+msgstr "PhoneTrack"
+
+#: logcontroller.php:366 logcontroller.php:486
+#, php-format
+msgid "PhoneTrack proximity alert (%s and %s)"
+msgstr "PhoneTrack 近距离警报 (%s 和 %s)"
+
+#: logcontroller.php:369 Notification/Notifier.php:82
+#, php-format
+msgid "Device \"%s\" is now closer than %sm to \"%s\"."
+msgstr "设备 \"%s\" 现在比 %sm 接近 \"%s\"。"
+
+#: logcontroller.php:489 Notification/Notifier.php:89
+#, php-format
+msgid "Device \"%s\" is now farther than %sm from \"%s\"."
+msgstr ""
+
+#: logcontroller.php:675 logcontroller.php:787
+msgid "Geofencing alert"
+msgstr ""
+
+#: logcontroller.php:678 Notification/Notifier.php:67
+#, php-format
+msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
+msgstr ""
+
+#: logcontroller.php:790 Notification/Notifier.php:74
+#, php-format
+msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
+msgstr ""
+
+#: admin.js:19
+msgid "Quota was successfully saved"
+msgstr "配额已成功保存~"
+
+#: admin.js:23
+msgid "Failed to save quota"
+msgstr "配额存储失败"
+
+#: leaflet.js:5
+msgid "left"
+msgstr "左"
+
+#: leaflet.js:5
+msgid "right"
+msgstr "右"
+
+#: phonetrack.js:590 maincontent.php:102
+msgid "Show lines"
+msgstr "显示线条"
+
+#: phonetrack.js:598
+msgid "Hide lines"
+msgstr "隐藏线条"
+
+#: phonetrack.js:619
+msgid "Activate automatic zoom"
+msgstr "激活自动缩放"
+
+#: phonetrack.js:627
+msgid "Disable automatic zoom"
+msgstr "禁用自动缩放"
+
+#: phonetrack.js:648
+msgid "Show last point tooltip"
+msgstr "显示提示"
+
+#: phonetrack.js:656
+msgid "Hide last point tooltip"
+msgstr "隐藏提示"
+
+#: phonetrack.js:677
+msgid "Zoom on all devices"
+msgstr "放大所有设备"
+
+#: phonetrack.js:690
+msgid "Click on the map to move the point, press ESC to cancel"
+msgstr "点击地图移动点, 按 ESC 键取消"
+
+#: phonetrack.js:936
+msgid "Server name or server address should not be empty"
+msgstr "服务器名称或服务器 url 不应为空"
+
+#: phonetrack.js:939 phonetrack.js:948
+msgid "Impossible to add tile server"
+msgstr "无法添加服务器"
+
+#: phonetrack.js:945
+msgid "A server with this name already exists"
+msgstr "服务器已经存在"
+
+#: phonetrack.js:981 phonetrack.js:3977 maincontent.php:297 maincontent.php:341
+#: maincontent.php:386 maincontent.php:435
+msgid "Delete"
+msgstr "删除"
+
+#: phonetrack.js:1015
+msgid "Tile server \"{ts}\" has been added"
+msgstr "已添加服务器 \"{ts}\""
+
+#: phonetrack.js:1018
+msgid "Failed to add tile server \"{ts}\""
+msgstr "无法添加服务器 \"{ts}\""
+
+#: phonetrack.js:1022
+msgid "Failed to contact server to add tile server"
+msgstr "服务器未响应，无法添加服务器"
+
+#: phonetrack.js:1056
+msgid "Tile server \"{ts}\" has been deleted"
+msgstr "服务器 \"{ts}\" 已被删除"
+
+#: phonetrack.js:1059
+msgid "Failed to delete tile server \"{ts}\""
+msgstr "无法删除服务器 \"{ts}\""
+
+#: phonetrack.js:1063
+msgid "Failed to contact server to delete tile server"
+msgstr ""
+
+#: phonetrack.js:1150
+msgid "Failed to contact server to restore options values"
+msgstr ""
+
+#: phonetrack.js:1153 phonetrack.js:1299 phonetrack.js:1339 phonetrack.js:6061
+#: phonetrack.js:6092
+msgid "Reload this page"
+msgstr "重新加载页面。"
+
+#: phonetrack.js:1296
+msgid "Failed to contact server to save options values"
+msgstr ""
+
+#: phonetrack.js:1308
+msgid "Filter bookmark should have a name"
+msgstr ""
+
+#: phonetrack.js:1336
+msgid "Failed to contact server to save filters bookmark"
+msgstr ""
+
+#: phonetrack.js:1379
+msgid "Failed to contact server to delete filters bookmark"
+msgstr ""
+
+#: phonetrack.js:1421
+msgid "Session name should not be empty"
+msgstr ""
+
+#: phonetrack.js:1438
+msgid "Session name already used"
+msgstr ""
+
+#: phonetrack.js:1442
+msgid "Failed to contact server to create session"
+msgstr ""
+
+#: phonetrack.js:1478
+msgid "yourname"
+msgstr ""
+
+#: phonetrack.js:1562
+msgid "Watch this session"
+msgstr "查看此会话"
+
+#: phonetrack.js:1568
+msgid "shared by {u}"
+msgstr "由 {u} 分享"
+
+#: phonetrack.js:1577
+msgid "Forbid devices to log to this session"
+msgstr ""
+
+#: phonetrack.js:1584
+msgid "Reserve device names"
+msgstr "输入设备名称"
+
+#: phonetrack.js:1591
+msgid "Links for logging apps"
+msgstr "用于位置记录应用程序的地址"
+
+#: phonetrack.js:1598
+msgid "Link to share session"
+msgstr ""
+
+#: phonetrack.js:1608
+msgid "Zoom on this session"
+msgstr "缩放此会话"
+
+#: phonetrack.js:1611 phonetrack.js:2991
+msgid "More actions"
+msgstr "更多操作"
+
+#: phonetrack.js:1623
+msgid "Delete session"
+msgstr "删除会话"
+
+#: phonetrack.js:1625
+msgid "Rename session"
+msgstr "重命名会话"
+
+#: phonetrack.js:1628
+msgid "Export to gpx"
+msgstr "导出到 gpx"
+
+#: phonetrack.js:1633
+msgid "Files are created in '{exdir}'"
+msgstr "文件是在 \"{exdir}\" 中创建的"
+
+#: phonetrack.js:1634
+msgid "Automatic export"
+msgstr "自动导出"
+
+#: phonetrack.js:1636
+msgid "never"
+msgstr "从不"
+
+#: phonetrack.js:1637
+msgid "daily"
+msgstr "每天"
+
+#: phonetrack.js:1638
+msgid "weekly"
+msgstr "每周"
+
+#: phonetrack.js:1639
+msgid "monthly"
+msgstr "每月"
+
+#: phonetrack.js:1644
+msgid "Automatic purge is triggered daily and will delete points older than selected duration"
+msgstr ""
+
+#: phonetrack.js:1645
+msgid "Automatic purge"
+msgstr "自动清除"
+
+#: phonetrack.js:1647
+msgid "don't purge"
+msgstr "不清除"
+
+#: phonetrack.js:1648
+msgid "a day"
+msgstr "1 天"
+
+#: phonetrack.js:1649
+msgid "a week"
+msgstr "1 周"
+
+#: phonetrack.js:1650
+msgid "a month"
+msgstr "1 个月"
+
+#: phonetrack.js:1659
+msgid "Name reservation is optional."
+msgstr ""
+
+#: phonetrack.js:1660
+msgid "Name can be set directly in logging link if it is not reserved."
+msgstr ""
+
+#: phonetrack.js:1661
+msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
+msgstr ""
+
+#: phonetrack.js:1662
+msgid "If a name is reserved, the only way to log with this name is with its token."
+msgstr ""
+
+#: phonetrack.js:1665
+msgid "Reserve this device name"
+msgstr ""
+
+#: phonetrack.js:1667
+msgid "Type reserved name and press 'Enter'"
+msgstr "键入保留的用户名，并按回车。"
+
+#: phonetrack.js:1680
+msgid "Share with user"
+msgstr "与别人分享"
+
+#: phonetrack.js:1682
+msgid "Type user name and press 'Enter'"
+msgstr "键入用户名并按回车。"
+
+#: phonetrack.js:1689 phonetrack.js:4527
+msgid "Shared with {u}"
+msgstr "分享给{u}"
+
+#: phonetrack.js:1695
+msgid "A private session is not visible on public browser logging page"
+msgstr ""
+
+#: phonetrack.js:1697
+msgid "Public session"
+msgstr "公共会话"
+
+#: phonetrack.js:1704
+msgid "Public watch link"
+msgstr "公开的位置分享链接"
+
+#: phonetrack.js:1706
+msgid "API URL (JSON last positions)"
+msgstr ""
+
+#: phonetrack.js:1712
+msgid "Current active filters will be applied on shared view"
+msgstr ""
+
+#: phonetrack.js:1714
+msgid "Add public filtered share"
+msgstr "添加公共筛选的共享"
+
+#: phonetrack.js:1723
+msgid "Session token"
+msgstr "会话令牌"
+
+#: phonetrack.js:1729
+msgid "List of links to configure logging apps server settings."
+msgstr ""
+
+#: phonetrack.js:1730 maincontent.php:224
+msgid "Replace 'yourname' with the desired device name or with the name reservation token"
+msgstr ""
+
+#: phonetrack.js:1732
+msgid "Public browser logging link"
+msgstr "公开浏览器日志记录 URL"
+
+#: phonetrack.js:1737
+msgid "OsmAnd link"
+msgstr "用于 OsmAnd 的链接"
+
+#: phonetrack.js:1742
+msgid "GpsLogger GET and POST link"
+msgstr "用于 GPSLogger 的链接（GET 或者 POST 方式）"
+
+#: phonetrack.js:1746
+msgid "Owntracks (HTTP mode) link"
+msgstr "用于 OwnTracks（HTTP 模式）的链接"
+
+#: phonetrack.js:1750
+msgid "Ulogger link"
+msgstr "用于 μlogger 的链接"
+
+#: phonetrack.js:1754
+msgid "Traccar link"
+msgstr "用于 Traccar 的链接"
+
+#: phonetrack.js:1758
+msgid "OpenGTS link"
+msgstr "用于 OpenGTS 的链接"
+
+#: phonetrack.js:1762
+msgid "Locus Map link"
+msgstr "用于 Locus Map 的链接"
+
+#: phonetrack.js:1766
+msgid "HTTP GET link"
+msgstr "HTTP GET 链接"
+
+#: phonetrack.js:1861
+msgid "The session you want to delete does not exist"
+msgstr "您想要删除的活动并不存在……"
+
+#: phonetrack.js:1864
+msgid "Failed to delete session"
+msgstr "删除会话失败。"
+
+#: phonetrack.js:1868
+msgid "Failed to contact server to delete session"
+msgstr "由于无法连接服务器，删除会话失败"
+
+#: phonetrack.js:1888
+msgid "Device '{d}' of session '{s}' has been deleted"
+msgstr ""
+
+#: phonetrack.js:1891
+msgid "Failed to delete device '{d}' of session '{s}'"
+msgstr ""
+
+#: phonetrack.js:1895
+msgid "Failed to contact server to delete device"
+msgstr ""
+
+#: phonetrack.js:1952
+msgid "Impossible to rename session"
+msgstr ""
+
+#: phonetrack.js:1956
+msgid "Failed to contact server to rename session"
+msgstr "由于无法连接服务器，重命名会话失败"
+
+#: phonetrack.js:2004
+msgid "Impossible to rename device"
+msgstr "无法重命名设备"
+
+#: phonetrack.js:2008
+msgid "Failed to contact server to rename device"
+msgstr ""
+
+#: phonetrack.js:2080
+msgid "Impossible to set device alias for {n}"
+msgstr ""
+
+#: phonetrack.js:2084
+msgid "Failed to contact server to set device alias"
+msgstr ""
+
+#: phonetrack.js:2154
+msgid "Device already exists in target session"
+msgstr ""
+
+#: phonetrack.js:2157
+msgid "Impossible to move device to another session"
+msgstr ""
+
+#: phonetrack.js:2161
+msgid "Failed to contact server to move device"
+msgstr ""
+
+#: phonetrack.js:2231
+msgid "Failed to contact server to get sessions"
+msgstr ""
+
+#: phonetrack.js:2653 phonetrack.js:2680
+msgid "Stats of all points"
+msgstr ""
+
+#: phonetrack.js:2677
+msgid "Stats of filtered points"
+msgstr ""
+
+#: phonetrack.js:2903
+msgid "Device's color successfully changed"
+msgstr ""
+
+#: phonetrack.js:2906
+msgid "Failed to save device's color"
+msgstr "未能保存设备的颜色"
+
+#: phonetrack.js:2910
+msgid "Failed to contact server to change device's color"
+msgstr "无法与服务器联系以更改设备的颜色"
+
+#: phonetrack.js:2982
+msgid "Geo link to open position in other app/software"
+msgstr ""
+
+#: phonetrack.js:2984
+msgid "Geo link QRcode to open position with a QRcode scanner"
+msgstr ""
+
+#: phonetrack.js:2986 phonetrack.js:2988 phonetrack.js:2990
+msgid "Get driving direction to this device with {s}"
+msgstr ""
+
+#: phonetrack.js:2995
+msgid "Set device shape"
+msgstr ""
+
+#: phonetrack.js:2997
+msgid "Round"
+msgstr ""
+
+#: phonetrack.js:2998
+msgid "Square"
+msgstr ""
+
+#: phonetrack.js:2999
+msgid "Triangle"
+msgstr ""
+
+#: phonetrack.js:3003
+msgid "Delete this device"
+msgstr "删除设备"
+
+#: phonetrack.js:3005
+msgid "Rename this device"
+msgstr "重命名此设备"
+
+#: phonetrack.js:3008
+msgid "Set device alias"
+msgstr ""
+
+#: phonetrack.js:3011
+msgid "Move to another session"
+msgstr "移动到另一个会话"
+
+#: phonetrack.js:3014 maincontent.php:44
+msgid "Ok"
+msgstr "确定"
+
+#: phonetrack.js:3031
+msgid "Device geofencing zones"
+msgstr "设备 geofencing 区域"
+
+#: phonetrack.js:3035
+msgid "Zoom on geofencing area, then set values, then validate."
+msgstr ""
+
+#: phonetrack.js:3036 phonetrack.js:3095 phonetrack.js:4704 phonetrack.js:4721
+#: phonetrack.js:4824 phonetrack.js:4843
+msgid "Nextcloud notification"
+msgstr ""
+
+#: phonetrack.js:3038 phonetrack.js:3097 phonetrack.js:4705 phonetrack.js:4722
+#: phonetrack.js:4825 phonetrack.js:4845
+msgid "Email notification"
+msgstr ""
+
+#: phonetrack.js:3041 phonetrack.js:3100
+msgid "An empty value means the session owner's email address."
+msgstr ""
+
+#: phonetrack.js:3042 phonetrack.js:3101
+msgid "You can put multiple addresses separated by comas (,)."
+msgstr ""
+
+#: phonetrack.js:3043
+msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
+msgstr ""
+
+#: phonetrack.js:3044 phonetrack.js:3048 phonetrack.js:3103 phonetrack.js:3107
+msgid "Use POST method"
+msgstr ""
+
+#: phonetrack.js:3047
+msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
+msgstr ""
+
+#: phonetrack.js:3051
+msgid "Geofencing zone coordinates"
+msgstr ""
+
+#: phonetrack.js:3051
+msgid "leave blank to use current map bounds"
+msgstr ""
+
+#: phonetrack.js:3053
+msgid "North"
+msgstr ""
+
+#: phonetrack.js:3055
+msgid "South"
+msgstr ""
+
+#: phonetrack.js:3059
+msgid "Set North/East corner by clicking on the map"
+msgstr ""
+
+#: phonetrack.js:3060
+msgid "Set N/E"
+msgstr ""
+
+#: phonetrack.js:3062
+msgid "Set South/West corner by clicking on the map"
+msgstr ""
+
+#: phonetrack.js:3063
+msgid "Set S/W"
+msgstr ""
+
+#: phonetrack.js:3067
+msgid "East"
+msgstr "东"
+
+#: phonetrack.js:3069
+msgid "West"
+msgstr "西"
+
+#: phonetrack.js:3072
+msgid "Fence name"
+msgstr ""
+
+#: phonetrack.js:3073
+msgid "Use current map view as geofencing zone"
+msgstr "使用当前映射视图作为 geofencing 区域"
+
+#: phonetrack.js:3074
+msgid "Add zone"
+msgstr "添加区域"
+
+#: phonetrack.js:3080
+msgid "Device proximity notifications"
+msgstr ""
+
+#: phonetrack.js:3084
+msgid "Select a session, a device name and a distance, set the notification settings, then validate."
+msgstr ""
+
+#: phonetrack.js:3085
+msgid "You will be notified when distance between devices gets bigger than high limit or smaller than low limit."
+msgstr ""
+
+#: phonetrack.js:3086 maincontent.php:450 maincontent.php:468
+msgid "Session"
+msgstr "会话"
+
+#: phonetrack.js:3088 maincontent.php:209 maincontent.php:455
+#: maincontent.php:473
+msgid "Device name"
+msgstr "设备名称"
+
+#: phonetrack.js:3089
+msgid "Low distance limit"
+msgstr ""
+
+#: phonetrack.js:3091 phonetrack.js:3094 maincontent.php:77
+msgid "meters"
+msgstr "米"
+
+#: phonetrack.js:3092
+msgid "High distance limit"
+msgstr ""
+
+#: phonetrack.js:3102
+msgid "HTTP address to request when devices get close"
+msgstr ""
+
+#: phonetrack.js:3106
+msgid "HTTP address to request when devices get far"
+msgstr ""
+
+#: phonetrack.js:3111
+msgid "Add proximity notification"
+msgstr ""
+
+#: phonetrack.js:3132
+msgid "Toggle lines"
+msgstr "切换线条"
+
+#: phonetrack.js:3140
+msgid "Follow this device (autozoom)"
+msgstr "跟踪此设备（自动缩放）"
+
+#: phonetrack.js:3154 phonetrack.js:3161
+msgid "Center map on device"
+msgstr "设备在地图中心"
+
+#: phonetrack.js:3561
+msgid "The point you want to edit does not exist or you're not allowed to edit it"
+msgstr ""
+
+#: phonetrack.js:3565
+msgid "Failed to contact server to edit point"
+msgstr "编辑点失败无法联系服务器"
+
+#: phonetrack.js:3683
+msgid "The point you want to delete does not exist or you're not allowed to delete it"
+msgstr "您想要删除的点不存在，或者您不允许删除它。"
+
+#: phonetrack.js:3687
+msgid "Failed to contact server to delete point"
+msgstr "删除点失败无法联系服务器"
+
+#: phonetrack.js:3776 phonetrack.js:3813
+msgid "Manually added"
+msgstr ""
+
+#: phonetrack.js:3794
+msgid "Impossible to add this point"
+msgstr "无法添加该事件。"
+
+#: phonetrack.js:3797
+msgid "User quota was reached"
+msgstr ""
+
+#: phonetrack.js:3801
+msgid "Failed to contact server to add point"
+msgstr "添加点失败无法联系服务器"
+
+#: phonetrack.js:3938
+msgid "Date"
+msgstr "日期"
+
+#: phonetrack.js:3941
+msgid "Time"
+msgstr "时间"
+
+#: phonetrack.js:3946 phonetrack.js:4002
+msgid "Altitude"
+msgstr "海拔"
+
+#: phonetrack.js:3949 phonetrack.js:4007
+msgid "Precision"
+msgstr "精度"
+
+#: phonetrack.js:3952 phonetrack.js:4014
+msgid "Speed"
+msgstr "速度"
+
+#: phonetrack.js:3955 phonetrack.js:4019
+msgid "Bearing"
+msgstr "方向"
+
+#: phonetrack.js:3958 phonetrack.js:4024
+msgid "Satellites"
+msgstr "卫星"
+
+#: phonetrack.js:3961 phonetrack.js:4029
+msgid "Battery"
+msgstr "电量"
+
+#: phonetrack.js:3964 phonetrack.js:4033
+msgid "User-agent"
+msgstr "浏览器标识"
+
+#: phonetrack.js:3967
+msgid "lat : lng"
+msgstr "经:纬"
+
+#: phonetrack.js:3971
+msgid "DMS coords"
+msgstr "DMS 坐标"
+
+#: phonetrack.js:3976
+msgid "Save"
+msgstr "保存"
+
+#: phonetrack.js:3978
+msgid "Move"
+msgstr "移动"
+
+#: phonetrack.js:3979
+msgid "Cancel"
+msgstr "取消"
+
+#: phonetrack.js:4167
+msgid "Impossible to zoom, there is no point to zoom on for this session"
+msgstr ""
+
+#: phonetrack.js:4202
+msgid "File extension must be '.gpx' or '.kml' to be imported"
+msgstr ""
+
+#: phonetrack.js:4221
+msgid "Failed to create imported session"
+msgstr "导入会话创建失败"
+
+#: phonetrack.js:4225 phonetrack.js:4231 phonetrack.js:4237 phonetrack.js:4243
+msgid "Failed to import session"
+msgstr "导入会话失败"
+
+#: phonetrack.js:4226
+msgid "File is not readable"
+msgstr "文件不可读"
+
+#: phonetrack.js:4232
+msgid "File does not exist"
+msgstr "文件不存在"
+
+#: phonetrack.js:4238
+msgid "Malformed XML file"
+msgstr "XML 数据格式错误"
+
+#: phonetrack.js:4244
+msgid "There is no device to import in submitted file"
+msgstr ""
+
+#: phonetrack.js:4250
+msgid "Failed to contact server to import session"
+msgstr "联络服务器以获取链接失败"
+
+#: phonetrack.js:4271 phonetrack.js:4278
+msgid "Session successfully exported in"
+msgstr "导出会话成功"
+
+#: phonetrack.js:4275
+msgid "There is no point to export for this session"
+msgstr ""
+
+#: phonetrack.js:4279
+msgid "but there was no point to export for some devices"
+msgstr ""
+
+#: phonetrack.js:4283
+msgid "Failed to export session"
+msgstr "导入会话失败"
+
+#: phonetrack.js:4288
+msgid "Failed to contact server to export session"
+msgstr "未能将服务器与导出会话联系"
+
+#: phonetrack.js:4319
+msgid "Failed to contact server to log position"
+msgstr "未能将服务器与日志位置联系"
+
+#: phonetrack.js:4411
+msgid "Impossible to zoom, there is no point to zoom on for this device"
+msgstr ""
+
+#: phonetrack.js:4450
+msgid "'{n}' is already reserved"
+msgstr "“{n}”已被保留"
+
+#: phonetrack.js:4453
+msgid "Failed to reserve '{n}'"
+msgstr "未能保留“{n}”"
+
+#: phonetrack.js:4456
+msgid "Failed to contact server to reserve device name"
+msgstr "未能联系服务器以保留设备名称"
+
+#: phonetrack.js:4487 phonetrack.js:4491
+msgid "Failed to delete reserved name"
+msgstr "未能删除保留名称"
+
+#: phonetrack.js:4488
+msgid "This device does not exist"
+msgstr "此设备不存在。"
+
+#: phonetrack.js:4492
+msgid "This device name is not reserved, please reload this page"
+msgstr "此设备名称未保留, 请重新加载此页"
+
+#: phonetrack.js:4495
+msgid "Failed to contact server to delete reserved name"
+msgstr "无法联系服务器以删除保留名称"
+
+#: phonetrack.js:4515
+msgid "User does not exist"
+msgstr "用户不存在"
+
+#: phonetrack.js:4518
+msgid "Failed to add user share"
+msgstr "无法添加用户份额"
+
+#: phonetrack.js:4521
+msgid "Failed to contact server to add user share"
+msgstr ""
+
+#: phonetrack.js:4552
+msgid "Failed to delete user share"
+msgstr "未能删除共享"
+
+#: phonetrack.js:4555
+msgid "Failed to contact server to delete user share"
+msgstr ""
+
+#: phonetrack.js:4573 phonetrack.js:4597
+msgid "Public share has been successfully modified"
+msgstr "公开分享链接地址已成功更改~"
+
+#: phonetrack.js:4576 phonetrack.js:4600
+msgid "Failed to modify public share"
+msgstr "无法修改公共共享"
+
+#: phonetrack.js:4579 phonetrack.js:4603
+msgid "Failed to contact server to modify public share"
+msgstr ""
+
+#: phonetrack.js:4621
+msgid "Device name restriction has been successfully set"
+msgstr ""
+
+#: phonetrack.js:4624
+msgid "Failed to set public share device name restriction"
+msgstr ""
+
+#: phonetrack.js:4627
+msgid "Failed to contact server to set public share device name restriction"
+msgstr ""
+
+#: phonetrack.js:4662
+msgid "Warning : User email and server admin email must be set to receive geofencing alerts."
+msgstr "警告: 用户电子邮件和服务器管理电子邮件必须设置为接收 geofencing 警报。"
+
+#: phonetrack.js:4666
+msgid "Failed to add geofencing zone"
+msgstr "未能添加 geofencing 区域"
+
+#: phonetrack.js:4669
+msgid "Failed to contact server to add geofencing zone"
+msgstr ""
+
+#: phonetrack.js:4684
+msgid "URL to request when entering"
+msgstr ""
+
+#: phonetrack.js:4688
+msgid "URL to request when leaving"
+msgstr ""
+
+#: phonetrack.js:4691 phonetrack.js:4695 phonetrack.js:4808 phonetrack.js:4812
+msgid "no"
+msgstr ""
+
+#: phonetrack.js:4693 phonetrack.js:4697 phonetrack.js:4810 phonetrack.js:4814
+msgid "yes"
+msgstr ""
+
+#: phonetrack.js:4707 phonetrack.js:4724 phonetrack.js:4827 phonetrack.js:4848
+msgid "Email address(es)"
+msgstr ""
+
+#: phonetrack.js:4707 phonetrack.js:4725 phonetrack.js:4827 phonetrack.js:4848
+msgid "account mail address"
+msgstr ""
+
+#: phonetrack.js:4751
+msgid "Failed to delete geofencing zone"
+msgstr ""
+
+#: phonetrack.js:4754
+msgid "Failed to contact server to delete geofencing zone"
+msgstr ""
+
+#: phonetrack.js:4784
+msgid "Warning : User email and server admin email must be set to receive proximity alerts."
+msgstr ""
+
+#: phonetrack.js:4788 phonetrack.js:4792
+msgid "Failed to add proximity alert"
+msgstr ""
+
+#: phonetrack.js:4789
+msgid "Device or session does not exist"
+msgstr ""
+
+#: phonetrack.js:4795
+msgid "Failed to contact server to add proximity alert"
+msgstr ""
+
+#: phonetrack.js:4819 phonetrack.js:4836
+msgid "URL to request when devices get close"
+msgstr ""
+
+#: phonetrack.js:4822 phonetrack.js:4840
+msgid "URL to request when devices get far"
+msgstr ""
+
+#: phonetrack.js:4829 phonetrack.js:4851
+msgid "Low distance limit : {nbmeters}m"
+msgstr ""
+
+#: phonetrack.js:4830 phonetrack.js:4853
+msgid "High distance limit : {nbmeters}m"
+msgstr ""
+
+#: phonetrack.js:4879
+msgid "Failed to delete proximity alert"
+msgstr ""
+
+#: phonetrack.js:4882
+msgid "Failed to contact server to delete proximity alert"
+msgstr ""
+
+#: phonetrack.js:4901
+msgid "Failed to add public share"
+msgstr ""
+
+#: phonetrack.js:4904
+msgid "Failed to contact server to add public share"
+msgstr ""
+
+#: phonetrack.js:4936
+msgid "Show this device only"
+msgstr ""
+
+#: phonetrack.js:4938
+msgid "Show last positions only"
+msgstr ""
+
+#: phonetrack.js:4940
+msgid "Simplify positions to nearest geofencing zone center"
+msgstr ""
+
+#: phonetrack.js:4959
+msgid "No filters"
+msgstr "无过滤器"
+
+#: phonetrack.js:4983
+msgid "Failed to delete public share"
+msgstr "未能删除公共共享"
+
+#: phonetrack.js:4986
+msgid "Failed to contact server to delete public share"
+msgstr "删除公共分析失败无法联系服务器"
+
+#: phonetrack.js:5011
+msgid "Failed to contact server to get user list"
+msgstr ""
+
+#: phonetrack.js:5054
+msgid "device name"
+msgstr "设备名称"
+
+#: phonetrack.js:5055
+msgid "distance (km)"
+msgstr "距离 (公里)"
+
+#: phonetrack.js:5056
+msgid "duration"
+msgstr "持续时间"
+
+#: phonetrack.js:5057
+msgid "#points"
+msgstr "#点"
+
+#: phonetrack.js:5058
+msgid "avg speed (km/h)"
+msgstr "平均速度 (km/h)"
+
+#: phonetrack.js:5059
+msgid "max speed (km/h)"
+msgstr "最大速度 (km/h)"
+
+#: phonetrack.js:5131
+msgid "years"
+msgstr "年"
+
+#: phonetrack.js:5134
+msgid "days"
+msgstr "天"
+
+#: phonetrack.js:5157
+msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
+msgstr "在 OsmAnd 中, 转到主菜单中的 \"插件\", 然后激活 \"旅行录制\" 插件并转到其设置。"
+
+#: phonetrack.js:5158
+msgid "Copy the link below into the 'Online tracking web address' field."
+msgstr ""
+
+#: phonetrack.js:5162
+msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
+msgstr ""
+
+#: phonetrack.js:5163
+msgid "Copy the link below into the 'URL' field."
+msgstr ""
+
+#: phonetrack.js:5167
+msgid "In the Owntracks preferences menu, go to 'Connections'."
+msgstr ""
+
+#: phonetrack.js:5168
+msgid "Change the connection Mode to 'Private HTTP', Copy the link below into the 'Host' field."
+msgstr ""
+
+#: phonetrack.js:5169
+msgid "Leave settings under 'Identification' blank as they are not required."
+msgstr ""
+
+#: phonetrack.js:5173
+msgid "In Ulogger, go to settings menu and copy the link below into the 'Server URL' field."
+msgstr ""
+
+#: phonetrack.js:5174
+msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
+msgstr ""
+
+#: phonetrack.js:5175
+msgid "Activate 'Live synchronization'."
+msgstr ""
+
+#: phonetrack.js:5179
+msgid "In Traccar client, copy the link below into the 'server URL' field."
+msgstr ""
+
+#: phonetrack.js:5183
+msgid "In LocusMap, copy the link below into the 'server URL' field. It works with POST and GET methods."
+msgstr ""
+
+#: phonetrack.js:5187
+msgid "You can log with any other client with a simple HTTP request."
+msgstr ""
+
+#: phonetrack.js:5188
+msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
+msgstr ""
+
+#: phonetrack.js:5191
+msgid "Use this link as the server URL in your OpenGTS compatible logging app."
+msgstr ""
+
+#: phonetrack.js:5192
+msgid "OpenGTS compatible logger"
+msgstr "与 OpenGTS 标准相兼容的记录器/记录软件"
+
+#: phonetrack.js:5195
+msgid "the browser"
+msgstr ""
+
+#: phonetrack.js:5196 maincontent.php:211
+msgid "Log my position in this session"
+msgstr "在这个会话中记录我的位置"
+
+#: phonetrack.js:5197
+msgid "Visit this link with a web browser and check \"{loglabel}\"."
+msgstr ""
+
+#: phonetrack.js:5200
+msgid "Configure {loggingApp} for logging to session '{sessionName}'"
+msgstr ""
+
+#: phonetrack.js:5421
+msgid "Are you sure you want to delete the session {session} ?"
+msgstr ""
+
+#: phonetrack.js:5424
+msgid "Confirm session deletion"
+msgstr "确认会话删除"
+
+#: phonetrack.js:5480
+msgid "Choose auto export target path"
+msgstr "选择 \"自动导出目标路径\""
+
+#: phonetrack.js:5660
+msgid "Select storage location for '{fname}'"
+msgstr ""
+
+#: phonetrack.js:5882
+msgid "Geo QRcode : last position of {dname}"
+msgstr ""
+
+#: phonetrack.js:6004
+msgid "Are you sure you want to delete the device {device} ?"
+msgstr "确定要删除此设备吗{device}?"
+
+#: phonetrack.js:6007
+msgid "Confirm device deletion"
+msgstr "确认设备删除"
+
+#: phonetrack.js:6060
+msgid "Failed to change session lock status"
+msgstr ""
+
+#: phonetrack.js:6088
+msgid "Failed to toggle session public status, session does not exist"
+msgstr "无法切换会话公共状态, 会话不存在"
+
+#: phonetrack.js:6091
+msgid "Failed to contact server to toggle session public status"
+msgstr ""
+
+#: phonetrack.js:6160
+msgid "Failed to set device shape"
+msgstr ""
+
+#: phonetrack.js:6163
+msgid "Failed to contact server to set device shape"
+msgstr ""
+
+#: phonetrack.js:6185
+msgid "Failed to set session auto export value"
+msgstr ""
+
+#: phonetrack.js:6186 phonetrack.js:6213
+msgid "session does not exist"
+msgstr "会话不存在"
+
+#: phonetrack.js:6190
+msgid "Failed to contact server to set session auto export value"
+msgstr ""
+
+#: phonetrack.js:6212
+msgid "Failed to set session auto purge value"
+msgstr ""
+
+#: phonetrack.js:6217
+msgid "Failed to contact server to set session auto purge value"
+msgstr ""
+
+#: phonetrack.js:6304
+msgid "Import gpx/kml session file"
+msgstr "导入 gpx/kml 格式文件"
+
+#: Notification/Notifier.php:97
+#, php-format
+msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
+msgstr ""
+
+#: Notification/Notifier.php:105
+#, php-format
+msgid "User \"%s\" shared PhoneTrack session \"%s\" with you."
+msgstr ""
+
+#: Notification/Notifier.php:113
+#, php-format
+msgid "User \"%s\" stopped sharing PhoneTrack session \"%s\" with you."
+msgstr ""
+
+#: admin.php:8
+msgid "Point number quota"
+msgstr ""
+
+#: admin.php:9
+msgid "Set the maximum number of points each user can store/log."
+msgstr ""
+
+#: admin.php:10
+msgid "Each user can choose what happens when the quota is reached : block logging or delete oldest point."
+msgstr ""
+
+#: admin.php:11
+msgid "An empty value means no limit."
+msgstr ""
+
+#: maincontent.php:4
+msgid "Main tab"
+msgstr "主选项卡"
+
+#: maincontent.php:5
+msgid "Filters"
+msgstr "过滤器"
+
+#: maincontent.php:14
+msgid "Stats"
+msgstr "统计资料"
+
+#: maincontent.php:15 maincontent.php:262
+msgid "Settings and extra actions"
+msgstr "设置和额外操作"
+
+#: maincontent.php:16 maincontent.php:690
+msgid "About PhoneTrack"
+msgstr "关于PhoneTrack"
+
+#: maincontent.php:32
+msgid "Import session"
+msgstr "导入会话"
+
+#: maincontent.php:36
+msgid "Create session"
+msgstr "创建新会话"
+
+#: maincontent.php:40
+msgid "Session name"
+msgstr "会话名称"
+
+#: maincontent.php:53
+msgid "Options"
+msgstr "选项"
+
+#: maincontent.php:61
+msgid "General"
+msgstr ""
+
+#: maincontent.php:64
+msgid "Refresh each (sec)"
+msgstr "循环刷新（秒）"
+
+#: maincontent.php:67
+msgid "Refresh"
+msgstr "刷新"
+
+#: maincontent.php:69
+msgid "An empty value means no limit"
+msgstr ""
+
+#: maincontent.php:71
+msgid "Max number of points per device to load on refresh"
+msgstr ""
+
+#: maincontent.php:72
+msgid "points"
+msgstr ""
+
+#: maincontent.php:74 maincontent.php:79
+msgid "Cutting lines only affects map view and stats table"
+msgstr "切割线只影响地图视图和统计表"
+
+#: maincontent.php:76
+msgid "Minimum distance to cut between two points"
+msgstr "两点间最小距离"
+
+#: maincontent.php:81
+msgid "Minimum time to cut between two points"
+msgstr "两点间最小切割时间"
+
+#: maincontent.php:82
+msgid "seconds"
+msgstr "秒"
+
+#: maincontent.php:85
+msgid "When point quota is reached"
+msgstr ""
+
+#: maincontent.php:87
+msgid "block logging"
+msgstr ""
+
+#: maincontent.php:88
+msgid "delete user's oldest point each time a new one is logged"
+msgstr ""
+
+#: maincontent.php:89
+msgid "delete device's oldest point each time a new one is logged"
+msgstr ""
+
+#: maincontent.php:93
+msgid "Display"
+msgstr ""
+
+#: maincontent.php:98
+msgid "Auto zoom"
+msgstr "自动缩放"
+
+#: maincontent.php:106
+msgid "Show tooltips"
+msgstr "显示提示"
+
+#: maincontent.php:110
+msgid "Display first letter of device name on last position"
+msgstr ""
+
+#: maincontent.php:114
+msgid "Show direction arrows along lines"
+msgstr ""
+
+#: maincontent.php:118
+msgid "Draw line with color gradient"
+msgstr ""
+
+#: maincontent.php:122
+msgid "Show accuracy in tooltips"
+msgstr "显示提示的准确性"
+
+#: maincontent.php:126
+msgid "Show speed in tooltips"
+msgstr "在提示中显示速度"
+
+#: maincontent.php:130
+msgid "Show bearing in tooltips"
+msgstr "在提示中显示方向"
+
+#: maincontent.php:134
+msgid "Show satellites in tooltips"
+msgstr "在提示中显示卫星数"
+
+#: maincontent.php:138
+msgid "Show battery level in tooltips"
+msgstr "在提示中显示电量"
+
+#: maincontent.php:142
+msgid "Show elevation in tooltips"
+msgstr "在提示中显示海拔"
+
+#: maincontent.php:146
+msgid "Show user-agent in tooltips"
+msgstr "在提示中显示用户代理"
+
+#: maincontent.php:150
+msgid "Make points draggable in edition mode"
+msgstr "在编辑模式下使点可拖动"
+
+#: maincontent.php:154
+msgid "Show accuracy circle on hover"
+msgstr "悬停显示精度圆"
+
+#: maincontent.php:158
+msgid "Line width"
+msgstr "线宽"
+
+#: maincontent.php:163
+msgid "Point radius"
+msgstr "点半径"
+
+#: maincontent.php:168
+msgid "Points and lines opacity"
+msgstr "点线不透明"
+
+#: maincontent.php:173
+msgid "Theme"
+msgstr "主题"
+
+#: maincontent.php:175
+msgid "bright"
+msgstr "亮度"
+
+#: maincontent.php:176
+msgid "pastel"
+msgstr "柔和"
+
+#: maincontent.php:177
+msgid "dark"
+msgstr "暗色调"
+
+#: maincontent.php:183
+msgid "Show lines in public pages"
+msgstr ""
+
+#: maincontent.php:186
+msgid "Show points in public pages"
+msgstr ""
+
+#: maincontent.php:188
+msgid "reload page to make changes effective"
+msgstr "重新加载页面以使更改生效"
+
+#: maincontent.php:192
+msgid "File export"
+msgstr ""
+
+#: maincontent.php:195
+msgid "Auto export path"
+msgstr "自动导出路径"
+
+#: maincontent.php:201
+msgid "Export one file per device"
+msgstr "每个设备导出一个文件"
+
+#: maincontent.php:216
+msgid "Tracking sessions"
+msgstr "跟踪会话"
+
+#: maincontent.php:267
+msgid "Custom tile servers"
+msgstr "自定义磁贴服务器"
+
+#: maincontent.php:270 maincontent.php:310 maincontent.php:353
+#: maincontent.php:398
+msgid "Server name"
+msgstr "服务器名称"
+
+#: maincontent.php:271 maincontent.php:311 maincontent.php:354
+#: maincontent.php:399
+msgid "For example : my custom server"
+msgstr "例如: 我的自定义服务器"
+
+#: maincontent.php:272
+msgid "Server address"
+msgstr ""
+
+#: maincontent.php:273 maincontent.php:356
+msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
+msgstr "例如: http://tile.server.org/cycle/{z}/{x}/{y}.png"
+
+#: maincontent.php:274 maincontent.php:314 maincontent.php:357
+#: maincontent.php:402
+msgid "Min zoom (1-20)"
+msgstr "最小变焦 (1-20)"
+
+#: maincontent.php:276 maincontent.php:316 maincontent.php:359
+#: maincontent.php:404
+msgid "Max zoom (1-20)"
+msgstr "最大变焦 (1-20)"
+
+#: maincontent.php:278 maincontent.php:322 maincontent.php:367
+#: maincontent.php:416
+msgid "Add"
+msgstr "添加"
+
+#: maincontent.php:281
+msgid "Your tile servers"
+msgstr "您的WMS瓦片服务器"
+
+#: maincontent.php:307
+msgid "Custom overlay tile servers"
+msgstr "自定义磁贴服务器"
+
+#: maincontent.php:312 maincontent.php:355 maincontent.php:400
+msgid "Server url"
+msgstr "服务器 Url"
+
+#: maincontent.php:313 maincontent.php:401
+msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
+msgstr "例如: http://tile.server.org/cycle/{z}/{x}/{y}.png"
+
+#: maincontent.php:318 maincontent.php:406
+msgid "Transparent"
+msgstr "透明"
+
+#: maincontent.php:320 maincontent.php:408
+msgid "Opacity (0.0-1.0)"
+msgstr "透明度 (0.0-1.0)"
+
+#: maincontent.php:325
+msgid "Your overlay tile servers"
+msgstr "您的WMS瓦片服务器"
+
+#: maincontent.php:350
+msgid "Custom WMS tile servers"
+msgstr "自定义磁贴服务器"
+
+#: maincontent.php:361 maincontent.php:410
+msgid "Format"
+msgstr "格式化"
+
+#: maincontent.php:363 maincontent.php:412
+msgid "WMS version"
+msgstr "WMS 版本"
+
+#: maincontent.php:365 maincontent.php:414
+msgid "Layers to display"
+msgstr "要显示的图层"
+
+#: maincontent.php:370
+msgid "Your WMS tile servers"
+msgstr "您的WMS瓦片服务器"
+
+#: maincontent.php:395
+msgid "Custom WMS overlay servers"
+msgstr "自定义 WMS 覆盖服务器"
+
+#: maincontent.php:419
+msgid "Your WMS overlay tile servers"
+msgstr "您的WMS瓦片服务器"
+
+#: maincontent.php:448
+msgid "Manually add a point"
+msgstr "手动添加点"
+
+#: maincontent.php:454 maincontent.php:472
+msgid "Device"
+msgstr "设备"
+
+#: maincontent.php:456
+msgid "Add a point"
+msgstr "添加点"
+
+#: maincontent.php:457
+msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
+msgstr "现在，单击地图添加一个点（如果会话未激活，则不会看到添加点）"
+
+#: maincontent.php:458
+msgid "Cancel add point"
+msgstr "取消添加点"
+
+#: maincontent.php:463
+msgid "Delete multiple points"
+msgstr "删除多个点"
+
+#: maincontent.php:466
+msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
+msgstr "选择一个会话，一个设备，并调整过滤器。将删除选定设备的所有显示点。一个空的设备名选择它们。"
+
+#: maincontent.php:474
+msgid "Delete points"
+msgstr "删除点"
+
+#: maincontent.php:475
+msgid "Delete only visible points"
+msgstr "只删除可见点"
+
+#: maincontent.php:482
+msgid "Filter points"
+msgstr "过滤点"
+
+#: maincontent.php:489
+msgid "Apply filters"
+msgstr "应用过滤"
+
+#: maincontent.php:494
+msgid "Begin date"
+msgstr "开始日期"
+
+#: maincontent.php:501 maincontent.php:519
+msgid "today"
+msgstr "今天"
+
+#: maincontent.php:506
+msgid "Begin time"
+msgstr "开始时间"
+
+#: maincontent.php:512
+msgid "End date"
+msgstr "结束日期"
+
+#: maincontent.php:524
+msgid "End time"
+msgstr "结束时间"
+
+#: maincontent.php:531
+msgid "Min-- and Max--"
+msgstr "最小-- 和 最大Max--"
+
+#: maincontent.php:534
+msgid "Min++ and Max++"
+msgstr "最小++ 和 最大Max++"
+
+#: maincontent.php:538
+msgid "Last day:hour:min"
+msgstr "最后 天：时：分"
+
+#: maincontent.php:545
+msgid "Minimum accuracy"
+msgstr "最小精度："
+
+#: maincontent.php:553
+msgid "Maximum accuracy"
+msgstr "最大精度"
+
+#: maincontent.php:561
+msgid "Minimum elevation"
+msgstr "最小仰角"
+
+#: maincontent.php:569
+msgid "Maximum elevation"
+msgstr "最大仰角"
+
+#: maincontent.php:577
+msgid "Minimum battery level"
+msgstr "最低电量"
+
+#: maincontent.php:585
+msgid "Maximum battery level"
+msgstr "最高电量"
+
+#: maincontent.php:593
+msgid "Minimum speed"
+msgstr "最小速度"
+
+#: maincontent.php:601
+msgid "Maximum speed"
+msgstr "最大速度"
+
+#: maincontent.php:609
+msgid "Minimum bearing"
+msgstr "最小方位"
+
+#: maincontent.php:617
+msgid "Maximum bearing"
+msgstr "最大方位"
+
+#: maincontent.php:625
+msgid "Minimum satellites"
+msgstr "最小卫星数"
+
+#: maincontent.php:633
+msgid "Maximum satellites"
+msgstr "最大卫星数"
+
+#: maincontent.php:643
+msgid "bookmark name"
+msgstr ""
+
+#: maincontent.php:645
+msgid "Save filter bookmark"
+msgstr ""
+
+#: maincontent.php:678
+msgid "Statistics"
+msgstr "统计"
+
+#: maincontent.php:682
+msgid "Show stats"
+msgstr "显示状态"
+
+#: maincontent.php:692
+msgid "Shortcuts"
+msgstr "快捷方式"
+
+#: maincontent.php:694
+msgid "Toggle sidebar"
+msgstr "切换边栏"
+
+#: maincontent.php:698
+msgid "Documentation"
+msgstr "文档"
+
+#: maincontent.php:706
+msgid "Source management"
+msgstr "源管理"
+
+#: maincontent.php:720
+msgid "Authors"
+msgstr "作者"
+
