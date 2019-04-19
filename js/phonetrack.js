@@ -2824,6 +2824,15 @@
         if ($('#togglestats').is(':checked')) {
             updateStatTable();
         }
+        // if filter on and last days/hours/minutes is set : update filtered view to potentially filter tail
+        if ($('#applyfilters').is(':checked')) {
+            var lastdays = parseInt($('input#lastdays').val());
+            var lasthours = parseInt($('input#lasthours').val());
+            var lastmins = parseInt($('input#lastmins').val());
+            if (lastdays || lasthours || lastmins) {
+                changeApplyFilter();
+            }
+        }
         // in case user click is between ajax request and response
         showHideSelectedSessions();
 
