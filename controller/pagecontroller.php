@@ -4537,7 +4537,7 @@ class PageController extends Controller {
             // get all sessions with this auto purge value
             $sessions = array();
             $sqlget = '
-                SELECT token,autoexport FROM *PREFIX*phonetrack_sessions
+                SELECT token, autoexport FROM *PREFIX*phonetrack_sessions
                 WHERE autopurge='.$this->db_quote_escape_string($s).' ;';
             $req = $this->dbconnection->prepare($sqlget);
             $req->execute();
@@ -4554,12 +4554,14 @@ class PageController extends Controller {
                     WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
-                while ($row = $req->fetch()){
-                    if($autoexport === 'daily'){
+                while ($row = $req->fetch()) {
+                    if ($autoexport === 'daily') {
                         $ts = $limit_purge[0] - 24*3600*$nbDays;
-                    }else if($autoexport === 'weekly'){
+                    }
+                    elseif ($autoexport === 'weekly') {
                         $ts = $limit_purge[1] - 24*3600*$nbDays;
-                    }else  if($autoexport === 'monthly' || $autoexport === 'no'){
+                    }
+                    elseif ($autoexport === 'monthly' || $autoexport === 'no') {
                         // if autoexport === 'no', leave the data longer in the db
                         $ts = $limit_purge[2] - 24*3600*$nbDays;
                     }
@@ -4617,7 +4619,8 @@ class PageController extends Controller {
         $d = $now->format('d');
         $dateWeekMax = new \DateTime($y.'-'.$m.'-'.$d);
         $maxWeekTimestamp = $dateWeekMax->getTimestamp();
-        if(intval($now->format('N')) === 1){ //now is Monday
+        //now is Monday
+        if (intval($now->format('N')) === 1) {
             $now->modify('-1 day');
         }
         while (intval($now->format('N')) !== 1) {
@@ -4637,7 +4640,8 @@ class PageController extends Controller {
         $d = $now->format('d');
         $dateMonthMax = new \DateTime($y.'-'.$m.'-'.$d);
         $maxMonthTimestamp = $dateMonthMax->getTimestamp();
-        if(intval($now->format('d')) === 1) { //now is first of month
+        //now is first of month
+        if (intval($now->format('d')) === 1) {
             $now->modify('-1 day');
         }
         while (intval($now->format('d')) !== 1) {
@@ -4661,7 +4665,7 @@ class PageController extends Controller {
         $monthFilterArray['tsmax'] = $maxMonthTimestamp;
 
         //set upper limit for purge function
-        $limit_purge = array($minDayTimestamp,$minWeekTimestamp,$minMonthTimestamp);
+        $limit_purge = array($minDayTimestamp, $minWeekTimestamp, $minMonthTimestamp);
 
         date_default_timezone_set('UTC');
         foreach($this->userManager->search('') as $u) {
@@ -4702,7 +4706,7 @@ class PageController extends Controller {
             }
         }
         // we run the auto purge method AFTER the auto export
-        // to avoid deleting data before it has been eventually exported
+        // to avoid deleting data before it has been potentially exported
         $this->cronAutoPurge($limit_purge);
     }
 
