@@ -63,7 +63,6 @@ OC.L10N.register(
     "a month" : "o lună",
     "Name reservation is optional." : "Rezervare nume este opţional.",
     "Name can be set directly in logging link if it is not reserved." : "Numele se poate stabili direct în adresa link-ului în cazul în care nu este rezervat deja.",
-    "To log with a reserved name, use its token in logging link." : "Pentru a te conecta cu un nume rezervat, folosește token-ul în link.",
     "If a name is reserved, the only way to log with this name is with its token." : "În cazul în care un nume este rezervat, singura modalitate de a conecta cu acest nume este cu token-ul său.",
     "Reserve this device name" : "Rezerva acest nume de dispozitiv",
     "Type reserved name and press 'Enter'" : "Alege nume rezervat şi apasă \"Enter\"",
@@ -196,4 +195,4 @@ OC.L10N.register(
     "End date" : "Dată de sfârşit",
     "Authors" : "Autori"
 },
-"nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: ro");
+"nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);");

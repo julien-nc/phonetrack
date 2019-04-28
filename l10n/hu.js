@@ -30,4 +30,4 @@ OC.L10N.register(
     "today" : "ma",
     "Authors" : "Szerző"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: hu");
+"nplurals=2; plural=(n != 1);");

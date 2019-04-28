@@ -246,4 +246,4 @@ OC.L10N.register(
     "Source management" : "源管理",
     "Authors" : "作者"
 },
-"nplurals=1; plural=0;\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: zh-CN");
+"nplurals=1; plural=0;");

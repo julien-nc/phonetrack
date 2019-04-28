@@ -915,10 +915,22 @@ class LogController extends Controller {
                     $nbToDelete = $count;
                 }
                 if ($nbToDelete > 0) {
-                    $sqldel = '
-                        DELETE FROM *PREFIX*phonetrack_points
-                        WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
-                        ORDER BY timestamp ASC LIMIT '.$nbToDelete.' ;';
+                    if ($this->dbtype === 'pgsql') {
+                        $sqldel = '
+                            DELETE FROM *PREFIX*phonetrack_points
+                            WHERE id IN (
+                                SELECT id
+                                FROM *PREFIX*phonetrack_points
+                                WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
+                                ORDER BY timestamp ASC LIMIT '.$nbToDelete.'
+                            );';
+                    }
+                    else {
+                        $sqldel = '
+                             DELETE FROM *PREFIX*phonetrack_points
+                             WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
+                             ORDER BY timestamp ASC LIMIT '.$nbToDelete.' ;';
+                    }
                     $req = $this->dbconnection->prepare($sqldel);
                     $req->execute();
                     $req->closeCursor();
@@ -930,19 +942,46 @@ class LogController extends Controller {
             // if rotateglob
             // or if rotatedev was not enough to free the space we need
             if ($userChoice === 'rotateglob' or $nbExceedingPoints > 0) {
-                $sqldel = '
-                    DELETE FROM *PREFIX*phonetrack_points
-                    WHERE *PREFIX*phonetrack_points.id IN
-                        (SELECT p.id
+                if ($this->dbtype === 'mysql') {
+                    $sqldel = '
+                        SELECT p.id AS id
                         FROM *PREFIX*phonetrack_points AS p
                         INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
                         INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
                         WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).'
-                        ORDER BY timestamp ASC LIMIT '.$nbExceedingPoints.')
-                     ;';
-                $req = $this->dbconnection->prepare($sqldel);
-                $req->execute();
-                $req->closeCursor();
+                        ORDER BY timestamp ASC LIMIT '.$nbExceedingPoints.' ;';
+                    $req = $this->dbconnection->prepare($sqldel);
+                    $req->execute();
+                    $pids = [];
+                    while ($row = $req->fetch()){
+                        array_push($pids, $row['id']);
+                    }
+                    $req->closeCursor();
+
+                    foreach ($pids as $pid) {
+                        $sqldel = '
+                            DELETE FROM *PREFIX*phonetrack_points
+                            WHERE id='.$this->db_quote_escape_string($pid).' ;';
+                        $req = $this->dbconnection->prepare($sqldel);
+                        $req->execute();
+                        $req->closeCursor();
+                    }
+                }
+                else {
+                    $sqldel = '
+                        DELETE FROM *PREFIX*phonetrack_points
+                        WHERE *PREFIX*phonetrack_points.id IN
+                            (SELECT p.id
+                            FROM *PREFIX*phonetrack_points AS p
+                            INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
+                            INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
+                            WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).'
+                            ORDER BY timestamp ASC LIMIT '.$nbExceedingPoints.')
+                         ;';
+                    $req = $this->dbconnection->prepare($sqldel);
+                    $req->execute();
+                    $req->closeCursor();
+                }
             }
         }
 

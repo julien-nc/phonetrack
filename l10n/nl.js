@@ -65,7 +65,7 @@ OC.L10N.register(
     "a month" : "een maand",
     "Name reservation is optional." : "Naamreservering is optioneel.",
     "Name can be set directly in logging link if it is not reserved." : "De naam kan direct in de logging link worden ingesteld indien hij niet gereserveerd is.",
-    "To log with a reserved name, use its token in logging link." : "Om te loggen met een gereserveerde naam, gebruik het token in de logging link.",
+    "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field." : "Om in te loggen met een gereserveerde naam, gebruik de \"naam token\" in de logging link (of in het veld \"apparaatnaam\").",
     "If a name is reserved, the only way to log with this name is with its token." : "Indien een naam gereserveerd is, kan voor deze naam enkel met de bijbehorende token gelogd worden.",
     "Reserve this device name" : "Reserveer deze apparaatnaam",
     "Type reserved name and press 'Enter'" : "Voer gereserveerde naam in en druk 'Enter'",
@@ -413,4 +413,4 @@ OC.L10N.register(
     "Source management" : "Bron beheer",
     "Authors" : "Auteurs"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: nl");
+"nplurals=2; plural=(n != 1);");

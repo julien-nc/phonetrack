@@ -65,7 +65,7 @@ OC.L10N.register(
     "a month" : "ein Monat",
     "Name reservation is optional." : "Die Namensreservierung ist optional.",
     "Name can be set directly in logging link if it is not reserved." : "Der Name kann direkt in der Protokollierungs-Link festgelegt werden, wenn er nicht reserviert ist.",
-    "To log with a reserved name, use its token in logging link." : "Um mit einem reservierten Namen zu protokollieren, verwenden Sie dessen Token in dessen Protokollierungs-Link",
+    "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field." : "Um sich mit einem reservierten Namen anzumelden, verwenden Sie das Feld \"Namenstoken\" im Logging-Link (oder im Feld \"Gerätename\" des PhoneTrack-Android Log-Jobs).",
     "If a name is reserved, the only way to log with this name is with its token." : "Wenn ein Name reserviert ist, kann der Name nur mit seinem Token protokolliert werden.",
     "Reserve this device name" : "Gerätename reservieren",
     "Type reserved name and press 'Enter'" : "Geben Sie den reservierten Namen ein und drücken Sie die Eingabetaste",
@@ -413,4 +413,4 @@ OC.L10N.register(
     "Source management" : "Quellenverwaltung",
     "Authors" : "Autoren"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: de");
+"nplurals=2; plural=(n != 1);");

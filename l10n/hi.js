@@ -16,4 +16,4 @@ OC.L10N.register(
     "device name" : "उपकरण का नाम",
     "About PhoneTrack" : "फोनटैक के बारे में"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: hi");
+"nplurals=2; plural=(n != 1);");

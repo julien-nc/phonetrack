@@ -63,7 +63,7 @@
     "a month" : "un mese",
     "Name reservation is optional." : "La prenotazione del nome è facoltativa.",
     "Name can be set directly in logging link if it is not reserved." : "Il nome può essere impostato direttamente nel link di registrazione, se non è riservato.",
-    "To log with a reserved name, use its token in logging link." : "Per accedere con un nome riservato, utilizzare il suo token nel link di registrazione.",
+    "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field." : "Per accedere con un nome riservato, usa il \"token del nome\" nel link di log (o nel campo di log di PhoneTrack-Android del job \"nome dispositivo\").",
     "If a name is reserved, the only way to log with this name is with its token." : "Se un nome è riservato, l'unico modo per accedere con questo nome è con il suo token.",
     "Reserve this device name" : "Riserva questo nome di dispositivo",
     "Type reserved name and press 'Enter'" : "Digitare nome riservato e premi 'Invio'",
@@ -410,5 +410,5 @@
     "Documentation" : "Documentazione",
     "Source management" : "Impostazione sorgente",
     "Authors" : "Autori"
-},"pluralForm" :"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: it"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

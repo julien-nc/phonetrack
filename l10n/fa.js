@@ -42,4 +42,4 @@ OC.L10N.register(
     "years" : "سال ها",
     "days" : "روز ها"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: fa");
+"nplurals=2; plural=(n != 1);");

@@ -24,4 +24,4 @@ OC.L10N.register(
     "Type user name and press 'Enter'" : "ব্যবহারকারীর নাম টাইপ করুন এবং \"এন্টার\" প্রেস করুন",
     "Ok" : "ঠিক আছে"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: bn");
+"nplurals=2; plural=(n != 1);");

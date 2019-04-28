@@ -273,4 +273,4 @@ OC.L10N.register(
     "Source management" : "Manažovanie zdrojového kódu",
     "Authors" : "Autori"
 },
-"nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: sk");
+"nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;");

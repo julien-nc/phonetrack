@@ -270,5 +270,5 @@
     "Documentation" : "Dokumentácia",
     "Source management" : "Manažovanie zdrojového kódu",
     "Authors" : "Autori"
-},"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: sk"
+},"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;"
 }

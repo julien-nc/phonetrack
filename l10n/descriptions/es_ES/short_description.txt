@@ -1,1 +1,1 @@
-Track and display phones positions in real time
+Rastrea y nuestra las posiciones de móviles en tiempo real

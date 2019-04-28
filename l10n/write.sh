@@ -1,5 +1,7 @@
 rm *.js*
-perl l10n.pl write phonetrack
+cd ..
+translationtool.phar convert-po-files
+cd -
 rename 's/fr_FR/fr/g' *.js*
 rename 's/es_ES/es/g' *.js*
 rename 's/de_DE/de/g' *.js*
@@ -27,4 +29,3 @@ rename 's/el_GR/el/g' *.js*
 rename 's/bg_BG/bg/g' *.js*
 rename 's/en_US/en/g' *.js*
 rename 's/sl_SI/sl/g' *.js*
-rename 's/sr_SP/sr/g' *.js*

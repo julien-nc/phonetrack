@@ -39,7 +39,7 @@ OC.L10N.register(
     "Session name should not be empty" : "Имя сессии не может быть пустым",
     "Session name already used" : "Имя сессии уже используется",
     "Failed to contact server to create session" : "Не удалось связаться с сервером для создания сессии",
-    "yourname" : "имя",
+    "yourname" : "yourname",
     "Watch this session" : "Посмотреть эту сессию",
     "shared by {u}" : "поделиться с {u}",
     "Forbid devices to log to this session" : "Запретить устройствам вход в эту сессию",
@@ -65,7 +65,7 @@ OC.L10N.register(
     "a month" : "месяц",
     "Name reservation is optional." : "Резервирование имени является необязательным.",
     "Name can be set directly in logging link if it is not reserved." : "Имя можно задать непосредственно в URL записи трека, если оно не зарезервировано",
-    "To log with a reserved name, use its token in logging link." : "Для входа с зарезервированным именем используйте токен из URL журнала.",
+    "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field." : "Чтобы войти с зарезервированным именем, используйте \"токен имени\" в ссылке входа или в поле \"имя устройства\" журнала PhoneTrack-Android.",
     "If a name is reserved, the only way to log with this name is with its token." : "Если имя зарезервировано, единственный способ для входа с этим именем связана с ее маркером.",
     "Reserve this device name" : "Зарезервировать это имя устройства",
     "Type reserved name and press 'Enter'" : "Введите зарезервированное имя и нажмите «Enter»",
@@ -413,4 +413,4 @@ OC.L10N.register(
     "Source management" : "Управление источниками",
     "Authors" : "Авторы"
 },
-"nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: ru");
+"nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));");

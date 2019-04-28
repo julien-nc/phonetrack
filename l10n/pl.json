@@ -63,7 +63,7 @@
     "a month" : "miesiąc",
     "Name reservation is optional." : "Rezerwacja nazwy jest opcjonalna.",
     "Name can be set directly in logging link if it is not reserved." : "Jeśli nazwa nie jest zarezerwowana, można ją ustawić bezpośrednio w łączu rejestrowania.",
-    "To log with a reserved name, use its token in logging link." : "Aby zalogować się przy użyciu zarezerwowanej nazwy, należy użyć jej tokena w linku logowania.",
+    "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field." : "Aby zalogować się z zastrzeżoną nazwą, użyj \"tokenu nazwy\" w polu logowania (lub w polu \"nazwa urządzenia\" dla zadania rejestratora PhoneTrack-Android).",
     "If a name is reserved, the only way to log with this name is with its token." : "Jeśli nazwa jest już zarezerwowana, jedynym sposobem, aby zalogować się za pomocą tej nazwy, jest użycie jej tokena.",
     "Reserve this device name" : "Zarezerwuj nazwę urządzenia",
     "Type reserved name and press 'Enter'" : "Wpisz zarezerwowaną nazwę użytkownika i naciśnij 'Enter'",
@@ -410,5 +410,5 @@
     "Documentation" : "Dokumentacja",
     "Source management" : "Zarządzanie źródłem",
     "Authors" : "Autorzy"
-},"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: pl"
+},"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

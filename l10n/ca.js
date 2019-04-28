@@ -13,4 +13,4 @@ OC.L10N.register(
     "Zoom on all devices" : "Zoom de tots els dispositius",
     "Click on the map to move the point, press ESC to cancel" : "Feu clic al mapa per desplaçar el punt, premeu ESC per anul·lar"
 },
-"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: ca");
+"nplurals=2; plural=(n != 1);");

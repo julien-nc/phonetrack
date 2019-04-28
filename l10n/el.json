@@ -63,7 +63,7 @@
     "a month" : "ένας μήνας",
     "Name reservation is optional." : "Η δέσμευση ονόματος είναι προαιρετική.",
     "Name can be set directly in logging link if it is not reserved." : "Το όνομα μπορεί να οριστεί στο σύνδεσμο καταγραφής εάν δεν έχει δεσμευτεί.",
-    "To log with a reserved name, use its token in logging link." : "Για την καταγραφή με δεσμευμένο όνομα, χρησιμοποίησε το διακριτικό του συνδέσμου καταγραφής.",
+    "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field." : "Για σύνδεση με ένα δεσμευμένο όνομα, χρησιμοποιήστε το \"όνομα διακριτικού\" στο πεδίο του συνδέσμου καταγραφής (ή στην \"ονομασία συσκευής\" του PhoneTrack στο Android).",
     "If a name is reserved, the only way to log with this name is with its token." : "Αν ένα όνομα είναι δεσμευμένο, ο μόνος τρόπος για σύνδεση με αυτό το όνομα είναι με το διακριτικό του.",
     "Reserve this device name" : "Δέσμευση αυτού του ονόματος συσκευής",
     "Type reserved name and press 'Enter'" : "Πληκτρολογήστε το δεσμευμένο όνομα και πατήστε 'Enter'",
@@ -410,5 +410,5 @@
     "Documentation" : "Τεκμηρίωση",
     "Source management" : "Διαχείριση προέλευσης",
     "Authors" : "Συντάκτες"
-},"pluralForm" :"nplurals=2; plural=(n != 1);\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: el"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

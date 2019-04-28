@@ -65,7 +65,6 @@ OC.L10N.register(
     "a month" : "měsíc",
     "Name reservation is optional." : "Vyhrazení názvu je volitelné.",
     "Name can be set directly in logging link if it is not reserved." : "Název může být nastaven přímo v odkazu, pokud není rezervován.",
-    "To log with a reserved name, use its token in logging link." : "Pro logování s rezervovaným názvem, použijte jeho token v logovacím odkazu.",
     "If a name is reserved, the only way to log with this name is with its token." : "Pokud je název vyhrazen, lze se s tímto názvem přihlásit pouze pomocí jeho tokenu.",
     "Reserve this device name" : "Vyhradit název zařízení",
     "Type reserved name and press 'Enter'" : "Napište vyhrazený název a stiskněte \"Enter\"",
@@ -172,4 +171,4 @@ OC.L10N.register(
     "Documentation" : "Dokumentace",
     "Authors" : "Autoři"
 },
-"nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: cs");
+"nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;");

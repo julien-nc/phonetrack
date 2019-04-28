@@ -250,4 +250,4 @@ OC.L10N.register(
     "Source management" : "Manajemen sumber",
     "Authors" : "Penulis"
 },
-"nplurals=1; plural=0;\nX-Generator: crowdin.com\nX-Crowdin-Project: phonetrack\nX-Crowdin-Language: id");
+"nplurals=1; plural=0;");
