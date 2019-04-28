@@ -4844,14 +4844,42 @@ class PageController extends Controller {
         }
         $req->closeCursor();
 
+        $dbFilters = null;
+        $dbDevicename = null;
+        $dbLastPosOnly = null;
+        $dbGeofencify = null;
+        if ($dbtoken === null) {
+            $sqlget = '
+            SELECT sessionid, sharetoken, filters, devicename, lastposonly, geofencify
+            FROM *PREFIX*phonetrack_pubshares
+            WHERE sharetoken='.$this->db_quote_escape_string($sessionid).' ;';
+            $req = $this->dbconnection->prepare($sqlget);
+            $req->execute();
+            while ($row = $req->fetch()){
+                $dbtoken = $row['sessionid'];
+                $dbpubtoken = $row['sharetoken'];
+                $dbFilters = json_decode($row['filters'], True);
+                $dbDevicename = $row['devicename'];
+                $dbLastPosOnly = $row['lastposonly'];
+                $dbGeofencify = $row['geofencify'];
+            }
+            $req->closeCursor();
+        }
+
         // session exists
         if ($dbtoken !== null) {
             // get list of devices
             $devices = array();
+
+            $deviceNameRestriction = '';
+            if ($dbDevicename !== null and $dbDevicename !== '') {
+                $deviceNameRestriction = ' AND name='.$this->db_quote_escape_string($dbDevicename).' ';
+            }
             $sqldev = '
                 SELECT id
                 FROM *PREFIX*phonetrack_devices
-                WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+                WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
+                '.$deviceNameRestriction.' ;';
             $req = $this->dbconnection->prepare($sqldev);
             $req->execute();
             while ($row = $req->fetch()){
@@ -4881,7 +4909,10 @@ class PageController extends Controller {
 
                 $entries = [];
                 $sqlLimit = '';
-                if (is_numeric($limit)) {
+                if (intval($dbLastPosOnly) === 1) {
+                    $sqlLimit = 'LIMIT 1';
+                }
+                elseif (is_numeric($limit)) {
                     $sqlLimit = 'LIMIT '.intval($limit);
                 }
                 $sqlget = '
@@ -4893,13 +4924,15 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
                 while ($row = $req->fetch()){
-                    $entry = [];
-                    $entry['useragent'] = $row['useragent'];
-                    unset($row['useragent']);
-                    foreach ($row as $k => $v) {
-                        $entry[$k] = is_numeric($v) ? floatval($v) : null;
+                    if ($dbFilters === null or $this->filterPoint($row, $dbFilters)) {
+                        $entry = [];
+                        $entry['useragent'] = $row['useragent'];
+                        unset($row['useragent']);
+                        foreach ($row as $k => $v) {
+                            $entry[$k] = is_numeric($v) ? floatval($v) : null;
+                        }
+                        array_unshift($entries, $entry);
                     }
-                    array_unshift($entries, $entry);
                 }
                 $req->closeCursor();
                 if (count($entries) > 0) {
