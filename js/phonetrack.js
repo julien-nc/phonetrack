@@ -1549,6 +1549,8 @@
 
         var APIUrl = OC.generateUrl('/apps/phonetrack/api/getlastpositions/' + publicviewtoken);
         APIUrl = window.location.origin + APIUrl;
+        var APIUrlMultiple = OC.generateUrl('/apps/phonetrack/api/getpositions/' + publicviewtoken + '?limit=number');
+        APIUrlMultiple = window.location.origin + APIUrlMultiple;
 
         var watchicon = 'fa-toggle-off';
         if (selected) {
@@ -1697,8 +1699,10 @@
             divtxt = divtxt + '<div class="publicWatchUrlDiv">';
             divtxt = divtxt + '<p class="publicWatchUrlLabel">' + t('phonetrack', 'Public watch link') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="publicWatchUrl" type="text" value="' + publicWatchUrl + '"></input>';
-            divtxt = divtxt + '<p class="APIUrlLabel">' + t('phonetrack', 'API URL (JSON last positions)') + ' :</p>';
+            divtxt = divtxt + '<p class="APIUrlLabel">' + t('phonetrack', 'API URL (JSON, last positions)') + ' :</p>';
             divtxt = divtxt + '<input class="ro" role="APIUrl" type="text" value="' + APIUrl + '"></input>';
+            divtxt = divtxt + '<p class="APIMultiUrlLabel">' + t('phonetrack', 'API URL (JSON, all positions)') + ' :</p>';
+            divtxt = divtxt + '<input class="ro" role="APIUrlMultiple" type="text" value="' + APIUrlMultiple + '"></input>';
             divtxt = divtxt + '</div><hr/>';
 
             divtxt = divtxt + '<div class="publicfilteredsharediv">';
