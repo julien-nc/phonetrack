@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.5.1 – 2019-05-05
+### Added
+- API route to create session
+- API route to get last positions
+[#241](https://gitlab.com/eneiluj/phonetrack-oc/issues/241) @grandpianisto
+
+### Changed
+- use phpunit 8 and adapt tests
+- improve CI tests, add jobs with MySQL and PostgreSQL
+- improve auto purge and auto export
+[!760](https://gitlab.com/eneiluj/phonetrack-oc/merge_requests/760) @robyquin
+- sort sessions when front-end gets them
+- improve translation automation stuff
+
+### Fixed
+- fix sql request DB type compatibility
+- show user id and name if necessary when sharing
+[#231](https://gitlab.com/eneiluj/phonetrack-oc/issues/231) @fwejklwefnk1a
+- apply filters after refreshing points to make sure last days/hours/minutes filter is applied
+[#240](https://gitlab.com/eneiluj/phonetrack-oc/issues/240) @kaistian
+- share autocomplete select design
+
 ## 0.5.0 – 2019-03-30
 ### Added
 - add button to disable session : forbid log
