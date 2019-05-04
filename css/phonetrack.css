@@ -1265,3 +1265,15 @@ input[type=range]:focus::-ms-fill-upper {
 .activeButton i {
     color: var(--color-main-text) !important;
 }
+.shareCompleteIcon {
+    background-color: inherit;
+    border: 0px;
+    height: 35px;
+    padding-top: 13px;
+}
+.shareCompleteLink {
+    line-height: 35px;
+}
+.ui-autocomplete {
+    z-index: 9999 !important;
+}

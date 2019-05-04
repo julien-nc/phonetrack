@@ -5033,7 +5033,14 @@
             }
             input.autocomplete({
                 source: nameList
-            });
+            }).data('ui-autocomplete')._renderItem = function(ul, item) {
+                var iconClass = 'icon-user';
+                var listItem = $('<li></li>')
+                    .data('item.autocomplete', item)
+                    .append('<a class="shareCompleteLink"><button class="shareCompleteIcon '+iconClass+'"></button> ' + item.label + '</a>')
+                    .appendTo(ul);
+                return listItem;
+            };
         }).fail(function() {
             OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get user list'));
         });
