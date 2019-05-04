@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
-"Report-Msgid-Bugs-To: ju-translations@cassio.pe\n"
-"POT-Creation-Date: 2019-04-01 14:21+0200\n"
-"PO-Revision-Date: 2019-04-12 09:52\n"
-"Last-Translator: eneiluj <eneiluj@posteo.net>\n"
+"Report-Msgid-Bugs-To: translations\\@example.com\n"
+"POT-Creation-Date: 2019-04-28 17:45+0200\n"
+"PO-Revision-Date: 2019-04-28 16:00\n"
+"Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
@@ -16,1665 +16,1777 @@ msgstr ""
 "X-Crowdin-Language: sv-SE\n"
 "X-Crowdin-File: /master/translationfiles/templates/phonetrack.pot\n"
 
-#: app.php:27 app.php:50 admin.php:7
+#: /var/www/html/n16/apps/phonetrack/appinfo/app.php:27
+#: /var/www/html/n16/apps/phonetrack/appinfo/app.php:50
+#: /var/www/html/n16/apps/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
+#: /var/www/html/n16/apps/phonetrack/templates/admin.php:7
 msgid "PhoneTrack"
 msgstr ""
 
-#: logcontroller.php:366 logcontroller.php:486
+#: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:366
+#: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:486
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
 msgstr ""
 
-#: logcontroller.php:369 Notification/Notifier.php:82
+#: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:369
+#: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:82
 #, php-format
 msgid "Device \"%s\" is now closer than %sm to \"%s\"."
 msgstr ""
 
-#: logcontroller.php:489 Notification/Notifier.php:89
+#: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:489
+#: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:89
 #, php-format
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
 msgstr ""
 
-#: logcontroller.php:675 logcontroller.php:787
+#: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:675
+#: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:787
 msgid "Geofencing alert"
 msgstr ""
 
-#: logcontroller.php:678 Notification/Notifier.php:67
+#: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:678
+#: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:67
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
 msgstr ""
 
-#: logcontroller.php:790 Notification/Notifier.php:74
+#: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:790
+#: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:74
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
 msgstr ""
 
-#: admin.js:19
+#: /var/www/html/n16/apps/phonetrack/js/admin.js:19
 msgid "Quota was successfully saved"
 msgstr ""
 
-#: admin.js:23
+#: /var/www/html/n16/apps/phonetrack/js/admin.js:23
 msgid "Failed to save quota"
 msgstr ""
 
-#: leaflet.js:5
+#: /var/www/html/n16/apps/phonetrack/js/leaflet.js:5
 msgid "left"
 msgstr ""
 
-#: leaflet.js:5
+#: /var/www/html/n16/apps/phonetrack/js/leaflet.js:5
 msgid "right"
 msgstr ""
 
-#: phonetrack.js:590 maincontent.php:102
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:591
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:102
 msgid "Show lines"
 msgstr ""
 
-#: phonetrack.js:598
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:599
 msgid "Hide lines"
 msgstr ""
 
-#: phonetrack.js:619
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:620
 msgid "Activate automatic zoom"
 msgstr ""
 
-#: phonetrack.js:627
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:628
 msgid "Disable automatic zoom"
 msgstr ""
 
-#: phonetrack.js:648
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:649
 msgid "Show last point tooltip"
 msgstr ""
 
-#: phonetrack.js:656
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:657
 msgid "Hide last point tooltip"
 msgstr ""
 
-#: phonetrack.js:677
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:678
 msgid "Zoom on all devices"
 msgstr ""
 
-#: phonetrack.js:690
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:691
 msgid "Click on the map to move the point, press ESC to cancel"
 msgstr ""
 
-#: phonetrack.js:936
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:937
 msgid "Server name or server address should not be empty"
 msgstr ""
 
-#: phonetrack.js:939 phonetrack.js:948
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:940
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:949
 msgid "Impossible to add tile server"
 msgstr ""
 
-#: phonetrack.js:945
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:946
 msgid "A server with this name already exists"
 msgstr ""
 
-#: phonetrack.js:981 phonetrack.js:3977 maincontent.php:297 maincontent.php:341
-#: maincontent.php:386 maincontent.php:435
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:982
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3991
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:297
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:341
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:386
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:435
 msgid "Delete"
 msgstr ""
 
-#: phonetrack.js:1015
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1016
 msgid "Tile server \"{ts}\" has been added"
 msgstr ""
 
-#: phonetrack.js:1018
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1019
 msgid "Failed to add tile server \"{ts}\""
 msgstr ""
 
-#: phonetrack.js:1022
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1023
 msgid "Failed to contact server to add tile server"
 msgstr ""
 
-#: phonetrack.js:1056
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1057
 msgid "Tile server \"{ts}\" has been deleted"
 msgstr ""
 
-#: phonetrack.js:1059
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1060
 msgid "Failed to delete tile server \"{ts}\""
 msgstr ""
 
-#: phonetrack.js:1063
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1064
 msgid "Failed to contact server to delete tile server"
 msgstr ""
 
-#: phonetrack.js:1150
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1151
 msgid "Failed to contact server to restore options values"
 msgstr ""
 
-#: phonetrack.js:1153 phonetrack.js:1299 phonetrack.js:1339 phonetrack.js:6061
-#: phonetrack.js:6092
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1154
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1300
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1340
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6088
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6119
 msgid "Reload this page"
 msgstr ""
 
-#: phonetrack.js:1296
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1297
 msgid "Failed to contact server to save options values"
 msgstr ""
 
-#: phonetrack.js:1308
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1309
 msgid "Filter bookmark should have a name"
 msgstr ""
 
-#: phonetrack.js:1336
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1337
 msgid "Failed to contact server to save filters bookmark"
 msgstr ""
 
-#: phonetrack.js:1379
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1380
 msgid "Failed to contact server to delete filters bookmark"
 msgstr ""
 
-#: phonetrack.js:1421
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1422
 msgid "Session name should not be empty"
 msgstr ""
 
-#: phonetrack.js:1438
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1439
 msgid "Session name already used"
 msgstr ""
 
-#: phonetrack.js:1442
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1443
 msgid "Failed to contact server to create session"
 msgstr ""
 
-#: phonetrack.js:1478
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1479
 msgid "yourname"
 msgstr ""
 
-#: phonetrack.js:1562
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1565
 msgid "Watch this session"
 msgstr ""
 
-#: phonetrack.js:1568
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1571
 msgid "shared by {u}"
 msgstr ""
 
-#: phonetrack.js:1577
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1580
 msgid "Forbid devices to log to this session"
 msgstr ""
 
-#: phonetrack.js:1584
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1587
 msgid "Reserve device names"
 msgstr ""
 
-#: phonetrack.js:1591
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1594
 msgid "Links for logging apps"
 msgstr ""
 
-#: phonetrack.js:1598
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1601
 msgid "Link to share session"
 msgstr ""
 
-#: phonetrack.js:1608
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1611
 msgid "Zoom on this session"
 msgstr ""
 
-#: phonetrack.js:1611 phonetrack.js:2991
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1614
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3005
 msgid "More actions"
 msgstr ""
 
-#: phonetrack.js:1623
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1626
 msgid "Delete session"
 msgstr ""
 
-#: phonetrack.js:1625
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1628
 msgid "Rename session"
 msgstr ""
 
-#: phonetrack.js:1628
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1631
 msgid "Export to gpx"
 msgstr ""
 
-#: phonetrack.js:1633
-msgid "Files are created in '{exdir}'"
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1636
+msgid "The automatic export runs daily and saves/updates files in '{exdir}' for selected interval (today is ignored)"
 msgstr ""
 
-#: phonetrack.js:1634
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1637
 msgid "Automatic export"
 msgstr ""
 
-#: phonetrack.js:1636
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1639
 msgid "never"
 msgstr ""
 
-#: phonetrack.js:1637
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1640
 msgid "daily"
 msgstr ""
 
-#: phonetrack.js:1638
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1641
 msgid "weekly"
 msgstr ""
 
-#: phonetrack.js:1639
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1642
 msgid "monthly"
 msgstr ""
 
-#: phonetrack.js:1644
-msgid "Automatic purge is triggered daily and will delete points older than selected duration"
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1647
+msgid "The automatic purge runs daily and deletes old points, it keeps \"auto export\" interval plus \"auto purge\" interval\n"
+"(If \"auto export\" is set to \"never\", consider it as set to \"monthly\")"
 msgstr ""
 
-#: phonetrack.js:1645
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1648
 msgid "Automatic purge"
 msgstr ""
 
-#: phonetrack.js:1647
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1650
 msgid "don't purge"
 msgstr ""
 
-#: phonetrack.js:1648
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1651
 msgid "a day"
 msgstr ""
 
-#: phonetrack.js:1649
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1652
 msgid "a week"
 msgstr ""
 
-#: phonetrack.js:1650
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1653
 msgid "a month"
 msgstr ""
 
-#: phonetrack.js:1659
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1662
 msgid "Name reservation is optional."
 msgstr ""
 
-#: phonetrack.js:1660
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1663
 msgid "Name can be set directly in logging link if it is not reserved."
 msgstr ""
 
-#: phonetrack.js:1661
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1664
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
 msgstr ""
 
-#: phonetrack.js:1662
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1665
 msgid "If a name is reserved, the only way to log with this name is with its token."
 msgstr ""
 
-#: phonetrack.js:1665
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1668
 msgid "Reserve this device name"
 msgstr ""
 
-#: phonetrack.js:1667
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1670
 msgid "Type reserved name and press 'Enter'"
 msgstr ""
 
-#: phonetrack.js:1680
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1683
 msgid "Share with user"
 msgstr ""
 
-#: phonetrack.js:1682
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1685
 msgid "Type user name and press 'Enter'"
 msgstr ""
 
-#: phonetrack.js:1689 phonetrack.js:4527
-msgid "Shared with {u}"
-msgstr ""
-
-#: phonetrack.js:1695
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1691
 msgid "A private session is not visible on public browser logging page"
 msgstr ""
 
-#: phonetrack.js:1697
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1693
 msgid "Public session"
 msgstr ""
 
-#: phonetrack.js:1704
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1700
 msgid "Public watch link"
 msgstr ""
 
-#: phonetrack.js:1706
-msgid "API URL (JSON last positions)"
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1702
+msgid "API URL (JSON, last positions)"
 msgstr ""
 
-#: phonetrack.js:1712
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1704
+msgid "API URL (JSON, all positions)"
+msgstr ""
+
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1710
 msgid "Current active filters will be applied on shared view"
 msgstr ""
 
-#: phonetrack.js:1714
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1712
 msgid "Add public filtered share"
 msgstr ""
 
-#: phonetrack.js:1723
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1721
 msgid "Session token"
 msgstr ""
 
-#: phonetrack.js:1729
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1727
 msgid "List of links to configure logging apps server settings."
 msgstr ""
 
-#: phonetrack.js:1730 maincontent.php:224
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1728
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:224
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
 msgstr ""
 
-#: phonetrack.js:1732
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1730
 msgid "Public browser logging link"
 msgstr ""
 
-#: phonetrack.js:1737
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1735
 msgid "OsmAnd link"
 msgstr ""
 
-#: phonetrack.js:1742
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1740
 msgid "GpsLogger GET and POST link"
 msgstr ""
 
-#: phonetrack.js:1746
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1744
 msgid "Owntracks (HTTP mode) link"
 msgstr ""
 
-#: phonetrack.js:1750
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1748
 msgid "Ulogger link"
 msgstr ""
 
-#: phonetrack.js:1754
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1752
 msgid "Traccar link"
 msgstr ""
 
-#: phonetrack.js:1758
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1756
 msgid "OpenGTS link"
 msgstr ""
 
-#: phonetrack.js:1762
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1760
 msgid "Locus Map link"
 msgstr ""
 
-#: phonetrack.js:1766
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1764
 msgid "HTTP GET link"
 msgstr ""
 
-#: phonetrack.js:1861
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1866
 msgid "The session you want to delete does not exist"
 msgstr ""
 
-#: phonetrack.js:1864
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1869
 msgid "Failed to delete session"
 msgstr ""
 
-#: phonetrack.js:1868
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1873
 msgid "Failed to contact server to delete session"
 msgstr ""
 
-#: phonetrack.js:1888
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1893
 msgid "Device '{d}' of session '{s}' has been deleted"
 msgstr ""
 
-#: phonetrack.js:1891
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1896
 msgid "Failed to delete device '{d}' of session '{s}'"
 msgstr ""
 
-#: phonetrack.js:1895
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1900
 msgid "Failed to contact server to delete device"
 msgstr ""
 
-#: phonetrack.js:1952
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1957
 msgid "Impossible to rename session"
 msgstr ""
 
-#: phonetrack.js:1956
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1961
 msgid "Failed to contact server to rename session"
 msgstr ""
 
-#: phonetrack.js:2004
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2009
 msgid "Impossible to rename device"
 msgstr ""
 
-#: phonetrack.js:2008
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2013
 msgid "Failed to contact server to rename device"
 msgstr ""
 
-#: phonetrack.js:2080
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2085
 msgid "Impossible to set device alias for {n}"
 msgstr ""
 
-#: phonetrack.js:2084
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2089
 msgid "Failed to contact server to set device alias"
 msgstr ""
 
-#: phonetrack.js:2154
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2159
 msgid "Device already exists in target session"
 msgstr ""
 
-#: phonetrack.js:2157
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2162
 msgid "Impossible to move device to another session"
 msgstr ""
 
-#: phonetrack.js:2161
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2166
 msgid "Failed to contact server to move device"
 msgstr ""
 
-#: phonetrack.js:2231
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2236
 msgid "Failed to contact server to get sessions"
 msgstr ""
 
-#: phonetrack.js:2653 phonetrack.js:2680
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2658
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2685
 msgid "Stats of all points"
 msgstr ""
 
-#: phonetrack.js:2677
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2682
 msgid "Stats of filtered points"
 msgstr ""
 
-#: phonetrack.js:2903
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2917
 msgid "Device's color successfully changed"
 msgstr ""
 
-#: phonetrack.js:2906
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2920
 msgid "Failed to save device's color"
 msgstr ""
 
-#: phonetrack.js:2910
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2924
 msgid "Failed to contact server to change device's color"
 msgstr ""
 
-#: phonetrack.js:2982
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2996
 msgid "Geo link to open position in other app/software"
 msgstr ""
 
-#: phonetrack.js:2984
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:2998
 msgid "Geo link QRcode to open position with a QRcode scanner"
 msgstr ""
 
-#: phonetrack.js:2986 phonetrack.js:2988 phonetrack.js:2990
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3000
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3002
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3004
 msgid "Get driving direction to this device with {s}"
 msgstr ""
 
-#: phonetrack.js:2995
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3009
 msgid "Set device shape"
 msgstr ""
 
-#: phonetrack.js:2997
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3011
 msgid "Round"
 msgstr ""
 
-#: phonetrack.js:2998
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3012
 msgid "Square"
 msgstr ""
 
-#: phonetrack.js:2999
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3013
 msgid "Triangle"
 msgstr ""
 
-#: phonetrack.js:3003
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3017
 msgid "Delete this device"
 msgstr ""
 
-#: phonetrack.js:3005
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3019
 msgid "Rename this device"
 msgstr ""
 
-#: phonetrack.js:3008
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3022
 msgid "Set device alias"
 msgstr ""
 
-#: phonetrack.js:3011
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3025
 msgid "Move to another session"
 msgstr ""
 
-#: phonetrack.js:3014 maincontent.php:44
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3028
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:44
 msgid "Ok"
 msgstr ""
 
-#: phonetrack.js:3031
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3045
 msgid "Device geofencing zones"
 msgstr ""
 
-#: phonetrack.js:3035
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3049
 msgid "Zoom on geofencing area, then set values, then validate."
 msgstr ""
 
-#: phonetrack.js:3036 phonetrack.js:3095 phonetrack.js:4704 phonetrack.js:4721
-#: phonetrack.js:4824 phonetrack.js:4843
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3050
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3109
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4722
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4739
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4842
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4861
 msgid "Nextcloud notification"
 msgstr ""
 
-#: phonetrack.js:3038 phonetrack.js:3097 phonetrack.js:4705 phonetrack.js:4722
-#: phonetrack.js:4825 phonetrack.js:4845
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3052
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3111
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4723
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4740
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4843
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4863
 msgid "Email notification"
 msgstr ""
 
-#: phonetrack.js:3041 phonetrack.js:3100
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3055
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3114
 msgid "An empty value means the session owner's email address."
 msgstr ""
 
-#: phonetrack.js:3042 phonetrack.js:3101
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3056
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3115
 msgid "You can put multiple addresses separated by comas (,)."
 msgstr ""
 
-#: phonetrack.js:3043
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3057
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
 msgstr ""
 
-#: phonetrack.js:3044 phonetrack.js:3048 phonetrack.js:3103 phonetrack.js:3107
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3058
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3062
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3117
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3121
 msgid "Use POST method"
 msgstr ""
 
-#: phonetrack.js:3047
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3061
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
 msgstr ""
 
-#: phonetrack.js:3051
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3065
 msgid "Geofencing zone coordinates"
 msgstr ""
 
-#: phonetrack.js:3051
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3065
 msgid "leave blank to use current map bounds"
 msgstr ""
 
-#: phonetrack.js:3053
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3067
 msgid "North"
 msgstr ""
 
-#: phonetrack.js:3055
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3069
 msgid "South"
 msgstr ""
 
-#: phonetrack.js:3059
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3073
 msgid "Set North/East corner by clicking on the map"
 msgstr ""
 
-#: phonetrack.js:3060
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3074
 msgid "Set N/E"
 msgstr ""
 
-#: phonetrack.js:3062
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3076
 msgid "Set South/West corner by clicking on the map"
 msgstr ""
 
-#: phonetrack.js:3063
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3077
 msgid "Set S/W"
 msgstr ""
 
-#: phonetrack.js:3067
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3081
 msgid "East"
 msgstr ""
 
-#: phonetrack.js:3069
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3083
 msgid "West"
 msgstr ""
 
-#: phonetrack.js:3072
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3086
 msgid "Fence name"
 msgstr ""
 
-#: phonetrack.js:3073
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3087
 msgid "Use current map view as geofencing zone"
 msgstr ""
 
-#: phonetrack.js:3074
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3088
 msgid "Add zone"
 msgstr ""
 
-#: phonetrack.js:3080
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3094
 msgid "Device proximity notifications"
 msgstr ""
 
-#: phonetrack.js:3084
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3098
 msgid "Select a session, a device name and a distance, set the notification settings, then validate."
 msgstr ""
 
-#: phonetrack.js:3085
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3099
 msgid "You will be notified when distance between devices gets bigger than high limit or smaller than low limit."
 msgstr ""
 
-#: phonetrack.js:3086 maincontent.php:450 maincontent.php:468
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3100
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:450
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:468
 msgid "Session"
 msgstr ""
 
-#: phonetrack.js:3088 maincontent.php:209 maincontent.php:455
-#: maincontent.php:473
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3102
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:209
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:455
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:473
 msgid "Device name"
 msgstr ""
 
-#: phonetrack.js:3089
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3103
 msgid "Low distance limit"
 msgstr ""
 
-#: phonetrack.js:3091 phonetrack.js:3094 maincontent.php:77
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3105
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3108
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:77
 msgid "meters"
 msgstr ""
 
-#: phonetrack.js:3092
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3106
 msgid "High distance limit"
 msgstr ""
 
-#: phonetrack.js:3102
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3116
 msgid "HTTP address to request when devices get close"
 msgstr ""
 
-#: phonetrack.js:3106
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3120
 msgid "HTTP address to request when devices get far"
 msgstr ""
 
-#: phonetrack.js:3111
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3125
 msgid "Add proximity notification"
 msgstr ""
 
-#: phonetrack.js:3132
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3146
 msgid "Toggle lines"
 msgstr ""
 
-#: phonetrack.js:3140
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3154
 msgid "Follow this device (autozoom)"
 msgstr ""
 
-#: phonetrack.js:3154 phonetrack.js:3161
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3168
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3175
 msgid "Center map on device"
 msgstr ""
 
-#: phonetrack.js:3561
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3575
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
 msgstr ""
 
-#: phonetrack.js:3565
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3579
 msgid "Failed to contact server to edit point"
 msgstr ""
 
-#: phonetrack.js:3683
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3697
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
 msgstr ""
 
-#: phonetrack.js:3687
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3701
 msgid "Failed to contact server to delete point"
 msgstr ""
 
-#: phonetrack.js:3776 phonetrack.js:3813
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3790
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3827
 msgid "Manually added"
 msgstr ""
 
-#: phonetrack.js:3794
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3808
 msgid "Impossible to add this point"
 msgstr ""
 
-#: phonetrack.js:3797
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3811
 msgid "User quota was reached"
 msgstr ""
 
-#: phonetrack.js:3801
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3815
 msgid "Failed to contact server to add point"
 msgstr ""
 
-#: phonetrack.js:3938
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3952
 msgid "Date"
 msgstr ""
 
-#: phonetrack.js:3941
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3955
 msgid "Time"
 msgstr ""
 
-#: phonetrack.js:3946 phonetrack.js:4002
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3960
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4016
 msgid "Altitude"
 msgstr ""
 
-#: phonetrack.js:3949 phonetrack.js:4007
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3963
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4021
 msgid "Precision"
 msgstr ""
 
-#: phonetrack.js:3952 phonetrack.js:4014
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3966
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4028
 msgid "Speed"
 msgstr ""
 
-#: phonetrack.js:3955 phonetrack.js:4019
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3969
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4033
 msgid "Bearing"
 msgstr ""
 
-#: phonetrack.js:3958 phonetrack.js:4024
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3972
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4038
 msgid "Satellites"
 msgstr ""
 
-#: phonetrack.js:3961 phonetrack.js:4029
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3975
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4043
 msgid "Battery"
 msgstr ""
 
-#: phonetrack.js:3964 phonetrack.js:4033
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3978
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4047
 msgid "User-agent"
 msgstr ""
 
-#: phonetrack.js:3967
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3981
 msgid "lat : lng"
 msgstr ""
 
-#: phonetrack.js:3971
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3985
 msgid "DMS coords"
 msgstr ""
 
-#: phonetrack.js:3976
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3990
 msgid "Save"
 msgstr ""
 
-#: phonetrack.js:3978
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3992
 msgid "Move"
 msgstr ""
 
-#: phonetrack.js:3979
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3993
 msgid "Cancel"
 msgstr ""
 
-#: phonetrack.js:4167
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4181
 msgid "Impossible to zoom, there is no point to zoom on for this session"
 msgstr ""
 
-#: phonetrack.js:4202
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4216
 msgid "File extension must be '.gpx' or '.kml' to be imported"
 msgstr ""
 
-#: phonetrack.js:4221
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4235
 msgid "Failed to create imported session"
 msgstr ""
 
-#: phonetrack.js:4225 phonetrack.js:4231 phonetrack.js:4237 phonetrack.js:4243
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4239
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4245
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4251
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4257
 msgid "Failed to import session"
 msgstr ""
 
-#: phonetrack.js:4226
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4240
 msgid "File is not readable"
 msgstr ""
 
-#: phonetrack.js:4232
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4246
 msgid "File does not exist"
 msgstr ""
 
-#: phonetrack.js:4238
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4252
 msgid "Malformed XML file"
 msgstr ""
 
-#: phonetrack.js:4244
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4258
 msgid "There is no device to import in submitted file"
 msgstr ""
 
-#: phonetrack.js:4250
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4264
 msgid "Failed to contact server to import session"
 msgstr ""
 
-#: phonetrack.js:4271 phonetrack.js:4278
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4285
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4292
 msgid "Session successfully exported in"
 msgstr ""
 
-#: phonetrack.js:4275
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4289
 msgid "There is no point to export for this session"
 msgstr ""
 
-#: phonetrack.js:4279
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4293
 msgid "but there was no point to export for some devices"
 msgstr ""
 
-#: phonetrack.js:4283
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4297
 msgid "Failed to export session"
 msgstr ""
 
-#: phonetrack.js:4288
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4302
 msgid "Failed to contact server to export session"
 msgstr ""
 
-#: phonetrack.js:4319
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4333
 msgid "Failed to contact server to log position"
 msgstr ""
 
-#: phonetrack.js:4411
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4425
 msgid "Impossible to zoom, there is no point to zoom on for this device"
 msgstr ""
 
-#: phonetrack.js:4450
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4464
 msgid "'{n}' is already reserved"
 msgstr ""
 
-#: phonetrack.js:4453
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4467
 msgid "Failed to reserve '{n}'"
 msgstr ""
 
-#: phonetrack.js:4456
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4470
 msgid "Failed to contact server to reserve device name"
 msgstr ""
 
-#: phonetrack.js:4487 phonetrack.js:4491
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4501
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4505
 msgid "Failed to delete reserved name"
 msgstr ""
 
-#: phonetrack.js:4488
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4502
 msgid "This device does not exist"
 msgstr ""
 
-#: phonetrack.js:4492
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4506
 msgid "This device name is not reserved, please reload this page"
 msgstr ""
 
-#: phonetrack.js:4495
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4509
 msgid "Failed to contact server to delete reserved name"
 msgstr ""
 
-#: phonetrack.js:4515
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4529
 msgid "User does not exist"
 msgstr ""
 
-#: phonetrack.js:4518
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4532
 msgid "Failed to add user share"
 msgstr ""
 
-#: phonetrack.js:4521
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4535
 msgid "Failed to contact server to add user share"
 msgstr ""
 
-#: phonetrack.js:4552
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4545
+msgid "Shared with {u}"
+msgstr ""
+
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4570
 msgid "Failed to delete user share"
 msgstr ""
 
-#: phonetrack.js:4555
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4573
 msgid "Failed to contact server to delete user share"
 msgstr ""
 
-#: phonetrack.js:4573 phonetrack.js:4597
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4591
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4615
 msgid "Public share has been successfully modified"
 msgstr ""
 
-#: phonetrack.js:4576 phonetrack.js:4600
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4594
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4618
 msgid "Failed to modify public share"
 msgstr ""
 
-#: phonetrack.js:4579 phonetrack.js:4603
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4597
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4621
 msgid "Failed to contact server to modify public share"
 msgstr ""
 
-#: phonetrack.js:4621
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4639
 msgid "Device name restriction has been successfully set"
 msgstr ""
 
-#: phonetrack.js:4624
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4642
 msgid "Failed to set public share device name restriction"
 msgstr ""
 
-#: phonetrack.js:4627
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4645
 msgid "Failed to contact server to set public share device name restriction"
 msgstr ""
 
-#: phonetrack.js:4662
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4680
 msgid "Warning : User email and server admin email must be set to receive geofencing alerts."
 msgstr ""
 
-#: phonetrack.js:4666
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4684
 msgid "Failed to add geofencing zone"
 msgstr ""
 
-#: phonetrack.js:4669
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4687
 msgid "Failed to contact server to add geofencing zone"
 msgstr ""
 
-#: phonetrack.js:4684
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4702
 msgid "URL to request when entering"
 msgstr ""
 
-#: phonetrack.js:4688
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4706
 msgid "URL to request when leaving"
 msgstr ""
 
-#: phonetrack.js:4691 phonetrack.js:4695 phonetrack.js:4808 phonetrack.js:4812
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4709
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4713
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4826
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4830
 msgid "no"
 msgstr ""
 
-#: phonetrack.js:4693 phonetrack.js:4697 phonetrack.js:4810 phonetrack.js:4814
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4711
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4715
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4828
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4832
 msgid "yes"
 msgstr ""
 
-#: phonetrack.js:4707 phonetrack.js:4724 phonetrack.js:4827 phonetrack.js:4848
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4725
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4742
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4845
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4866
 msgid "Email address(es)"
 msgstr ""
 
-#: phonetrack.js:4707 phonetrack.js:4725 phonetrack.js:4827 phonetrack.js:4848
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4725
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4743
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4845
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4866
 msgid "account mail address"
 msgstr ""
 
-#: phonetrack.js:4751
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4769
 msgid "Failed to delete geofencing zone"
 msgstr ""
 
-#: phonetrack.js:4754
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4772
 msgid "Failed to contact server to delete geofencing zone"
 msgstr ""
 
-#: phonetrack.js:4784
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4802
 msgid "Warning : User email and server admin email must be set to receive proximity alerts."
 msgstr ""
 
-#: phonetrack.js:4788 phonetrack.js:4792
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4806
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4810
 msgid "Failed to add proximity alert"
 msgstr ""
 
-#: phonetrack.js:4789
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4807
 msgid "Device or session does not exist"
 msgstr ""
 
-#: phonetrack.js:4795
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4813
 msgid "Failed to contact server to add proximity alert"
 msgstr ""
 
-#: phonetrack.js:4819 phonetrack.js:4836
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4837
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4854
 msgid "URL to request when devices get close"
 msgstr ""
 
-#: phonetrack.js:4822 phonetrack.js:4840
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4840
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4858
 msgid "URL to request when devices get far"
 msgstr ""
 
-#: phonetrack.js:4829 phonetrack.js:4851
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4847
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4869
 msgid "Low distance limit : {nbmeters}m"
 msgstr ""
 
-#: phonetrack.js:4830 phonetrack.js:4853
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4848
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4871
 msgid "High distance limit : {nbmeters}m"
 msgstr ""
 
-#: phonetrack.js:4879
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4897
 msgid "Failed to delete proximity alert"
 msgstr ""
 
-#: phonetrack.js:4882
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4900
 msgid "Failed to contact server to delete proximity alert"
 msgstr ""
 
-#: phonetrack.js:4901
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4919
 msgid "Failed to add public share"
 msgstr ""
 
-#: phonetrack.js:4904
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4922
 msgid "Failed to contact server to add public share"
 msgstr ""
 
-#: phonetrack.js:4936
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4954
 msgid "Show this device only"
 msgstr ""
 
-#: phonetrack.js:4938
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4956
 msgid "Show last positions only"
 msgstr ""
 
-#: phonetrack.js:4940
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4958
 msgid "Simplify positions to nearest geofencing zone center"
 msgstr ""
 
-#: phonetrack.js:4959
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4977
 msgid "No filters"
 msgstr ""
 
-#: phonetrack.js:4983
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5001
 msgid "Failed to delete public share"
 msgstr ""
 
-#: phonetrack.js:4986
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5004
 msgid "Failed to contact server to delete public share"
 msgstr ""
 
-#: phonetrack.js:5011
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5038
 msgid "Failed to contact server to get user list"
 msgstr ""
 
-#: phonetrack.js:5054
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5081
 msgid "device name"
 msgstr ""
 
-#: phonetrack.js:5055
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5082
 msgid "distance (km)"
 msgstr ""
 
-#: phonetrack.js:5056
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5083
 msgid "duration"
 msgstr ""
 
-#: phonetrack.js:5057
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5084
 msgid "#points"
 msgstr ""
 
-#: phonetrack.js:5058
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5085
 msgid "avg speed (km/h)"
 msgstr ""
 
-#: phonetrack.js:5059
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5086
 msgid "max speed (km/h)"
 msgstr ""
 
-#: phonetrack.js:5131
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5158
 msgid "years"
 msgstr ""
 
-#: phonetrack.js:5134
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5161
 msgid "days"
 msgstr ""
 
-#: phonetrack.js:5157
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5184
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
 msgstr ""
 
-#: phonetrack.js:5158
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5185
 msgid "Copy the link below into the 'Online tracking web address' field."
 msgstr ""
 
-#: phonetrack.js:5162
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5189
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
 msgstr ""
 
-#: phonetrack.js:5163
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5190
 msgid "Copy the link below into the 'URL' field."
 msgstr ""
 
-#: phonetrack.js:5167
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5194
 msgid "In the Owntracks preferences menu, go to 'Connections'."
 msgstr ""
 
-#: phonetrack.js:5168
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5195
 msgid "Change the connection Mode to 'Private HTTP', Copy the link below into the 'Host' field."
 msgstr ""
 
-#: phonetrack.js:5169
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5196
 msgid "Leave settings under 'Identification' blank as they are not required."
 msgstr ""
 
-#: phonetrack.js:5173
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5200
 msgid "In Ulogger, go to settings menu and copy the link below into the 'Server URL' field."
 msgstr ""
 
-#: phonetrack.js:5174
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5201
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
 msgstr ""
 
-#: phonetrack.js:5175
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5202
 msgid "Activate 'Live synchronization'."
 msgstr ""
 
-#: phonetrack.js:5179
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5206
 msgid "In Traccar client, copy the link below into the 'server URL' field."
 msgstr ""
 
-#: phonetrack.js:5183
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5210
 msgid "In LocusMap, copy the link below into the 'server URL' field. It works with POST and GET methods."
 msgstr ""
 
-#: phonetrack.js:5187
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5214
 msgid "You can log with any other client with a simple HTTP request."
 msgstr ""
 
-#: phonetrack.js:5188
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5215
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
 msgstr ""
 
-#: phonetrack.js:5191
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5218
 msgid "Use this link as the server URL in your OpenGTS compatible logging app."
 msgstr ""
 
-#: phonetrack.js:5192
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5219
 msgid "OpenGTS compatible logger"
 msgstr ""
 
-#: phonetrack.js:5195
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5222
 msgid "the browser"
 msgstr ""
 
-#: phonetrack.js:5196 maincontent.php:211
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5223
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:211
 msgid "Log my position in this session"
 msgstr ""
 
-#: phonetrack.js:5197
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5224
 msgid "Visit this link with a web browser and check \"{loglabel}\"."
 msgstr ""
 
-#: phonetrack.js:5200
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5227
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
 msgstr ""
 
-#: phonetrack.js:5421
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5448
 msgid "Are you sure you want to delete the session {session} ?"
 msgstr ""
 
-#: phonetrack.js:5424
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5451
 msgid "Confirm session deletion"
 msgstr ""
 
-#: phonetrack.js:5480
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5507
 msgid "Choose auto export target path"
 msgstr ""
 
-#: phonetrack.js:5660
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5687
 msgid "Select storage location for '{fname}'"
 msgstr ""
 
-#: phonetrack.js:5882
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5909
 msgid "Geo QRcode : last position of {dname}"
 msgstr ""
 
-#: phonetrack.js:6004
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6031
 msgid "Are you sure you want to delete the device {device} ?"
 msgstr ""
 
-#: phonetrack.js:6007
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6034
 msgid "Confirm device deletion"
 msgstr ""
 
-#: phonetrack.js:6060
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6087
 msgid "Failed to change session lock status"
 msgstr ""
 
-#: phonetrack.js:6088
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6115
 msgid "Failed to toggle session public status, session does not exist"
 msgstr ""
 
-#: phonetrack.js:6091
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6118
 msgid "Failed to contact server to toggle session public status"
 msgstr ""
 
-#: phonetrack.js:6160
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6187
 msgid "Failed to set device shape"
 msgstr ""
 
-#: phonetrack.js:6163
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6190
 msgid "Failed to contact server to set device shape"
 msgstr ""
 
-#: phonetrack.js:6185
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6212
 msgid "Failed to set session auto export value"
 msgstr ""
 
-#: phonetrack.js:6186 phonetrack.js:6213
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6213
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6240
 msgid "session does not exist"
 msgstr ""
 
-#: phonetrack.js:6190
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6217
 msgid "Failed to contact server to set session auto export value"
 msgstr ""
 
-#: phonetrack.js:6212
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6239
 msgid "Failed to set session auto purge value"
 msgstr ""
 
-#: phonetrack.js:6217
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6244
 msgid "Failed to contact server to set session auto purge value"
 msgstr ""
 
-#: phonetrack.js:6304
+#: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6331
 msgid "Import gpx/kml session file"
 msgstr ""
 
-#: Notification/Notifier.php:97
+#: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:97
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
 msgstr ""
 
-#: Notification/Notifier.php:105
+#: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:105
 #, php-format
 msgid "User \"%s\" shared PhoneTrack session \"%s\" with you."
 msgstr ""
 
-#: Notification/Notifier.php:113
+#: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:113
 #, php-format
 msgid "User \"%s\" stopped sharing PhoneTrack session \"%s\" with you."
 msgstr ""
 
-#: admin.php:8
+#: /var/www/html/n16/apps/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
+msgid " "
+msgstr ""
+
+#: /var/www/html/n16/apps/phonetrack/templates/admin.php:8
 msgid "Point number quota"
 msgstr ""
 
-#: admin.php:9
+#: /var/www/html/n16/apps/phonetrack/templates/admin.php:9
 msgid "Set the maximum number of points each user can store/log."
 msgstr ""
 
-#: admin.php:10
+#: /var/www/html/n16/apps/phonetrack/templates/admin.php:10
 msgid "Each user can choose what happens when the quota is reached : block logging or delete oldest point."
 msgstr ""
 
-#: admin.php:11
+#: /var/www/html/n16/apps/phonetrack/templates/admin.php:11
 msgid "An empty value means no limit."
 msgstr ""
 
-#: maincontent.php:4
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:4
 msgid "Main tab"
 msgstr ""
 
-#: maincontent.php:5
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:5
 msgid "Filters"
 msgstr ""
 
-#: maincontent.php:14
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:14
 msgid "Stats"
 msgstr ""
 
-#: maincontent.php:15 maincontent.php:262
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:15
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:262
 msgid "Settings and extra actions"
 msgstr ""
 
-#: maincontent.php:16 maincontent.php:690
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:16
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:690
 msgid "About PhoneTrack"
 msgstr ""
 
-#: maincontent.php:32
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:32
 msgid "Import session"
 msgstr ""
 
-#: maincontent.php:36
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:36
 msgid "Create session"
 msgstr ""
 
-#: maincontent.php:40
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:40
 msgid "Session name"
 msgstr ""
 
-#: maincontent.php:53
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:53
 msgid "Options"
 msgstr ""
 
-#: maincontent.php:61
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:61
 msgid "General"
 msgstr ""
 
-#: maincontent.php:64
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:64
 msgid "Refresh each (sec)"
 msgstr ""
 
-#: maincontent.php:67
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:67
 msgid "Refresh"
 msgstr ""
 
-#: maincontent.php:69
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:69
 msgid "An empty value means no limit"
 msgstr ""
 
-#: maincontent.php:71
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:71
 msgid "Max number of points per device to load on refresh"
 msgstr ""
 
-#: maincontent.php:72
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:72
 msgid "points"
 msgstr ""
 
-#: maincontent.php:74 maincontent.php:79
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:74
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:79
 msgid "Cutting lines only affects map view and stats table"
 msgstr ""
 
-#: maincontent.php:76
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:76
 msgid "Minimum distance to cut between two points"
 msgstr ""
 
-#: maincontent.php:81
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:81
 msgid "Minimum time to cut between two points"
 msgstr ""
 
-#: maincontent.php:82
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:82
 msgid "seconds"
 msgstr ""
 
-#: maincontent.php:85
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:85
 msgid "When point quota is reached"
 msgstr ""
 
-#: maincontent.php:87
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:87
 msgid "block logging"
 msgstr ""
 
-#: maincontent.php:88
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:88
 msgid "delete user's oldest point each time a new one is logged"
 msgstr ""
 
-#: maincontent.php:89
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:89
 msgid "delete device's oldest point each time a new one is logged"
 msgstr ""
 
-#: maincontent.php:93
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:93
 msgid "Display"
 msgstr ""
 
-#: maincontent.php:98
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:98
 msgid "Auto zoom"
 msgstr ""
 
-#: maincontent.php:106
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:106
 msgid "Show tooltips"
 msgstr ""
 
-#: maincontent.php:110
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:110
 msgid "Display first letter of device name on last position"
 msgstr ""
 
-#: maincontent.php:114
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:114
 msgid "Show direction arrows along lines"
 msgstr ""
 
-#: maincontent.php:118
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:118
 msgid "Draw line with color gradient"
 msgstr ""
 
-#: maincontent.php:122
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:122
 msgid "Show accuracy in tooltips"
 msgstr ""
 
-#: maincontent.php:126
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:126
 msgid "Show speed in tooltips"
 msgstr ""
 
-#: maincontent.php:130
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:130
 msgid "Show bearing in tooltips"
 msgstr ""
 
-#: maincontent.php:134
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:134
 msgid "Show satellites in tooltips"
 msgstr ""
 
-#: maincontent.php:138
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:138
 msgid "Show battery level in tooltips"
 msgstr ""
 
-#: maincontent.php:142
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:142
 msgid "Show elevation in tooltips"
 msgstr ""
 
-#: maincontent.php:146
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:146
 msgid "Show user-agent in tooltips"
 msgstr ""
 
-#: maincontent.php:150
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:150
 msgid "Make points draggable in edition mode"
 msgstr ""
 
-#: maincontent.php:154
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:154
 msgid "Show accuracy circle on hover"
 msgstr ""
 
-#: maincontent.php:158
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:158
 msgid "Line width"
 msgstr ""
 
-#: maincontent.php:163
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:163
 msgid "Point radius"
 msgstr ""
 
-#: maincontent.php:168
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:168
 msgid "Points and lines opacity"
 msgstr ""
 
-#: maincontent.php:173
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:173
 msgid "Theme"
 msgstr ""
 
-#: maincontent.php:175
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:175
 msgid "bright"
 msgstr ""
 
-#: maincontent.php:176
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:176
 msgid "pastel"
 msgstr ""
 
-#: maincontent.php:177
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:177
 msgid "dark"
 msgstr ""
 
-#: maincontent.php:183
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:183
 msgid "Show lines in public pages"
 msgstr ""
 
-#: maincontent.php:186
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:186
 msgid "Show points in public pages"
 msgstr ""
 
-#: maincontent.php:188
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:188
 msgid "reload page to make changes effective"
 msgstr ""
 
-#: maincontent.php:192
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:192
 msgid "File export"
 msgstr ""
 
-#: maincontent.php:195
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:195
 msgid "Auto export path"
 msgstr ""
 
-#: maincontent.php:201
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:201
 msgid "Export one file per device"
 msgstr ""
 
-#: maincontent.php:216
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:216
 msgid "Tracking sessions"
 msgstr ""
 
-#: maincontent.php:267
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:267
 msgid "Custom tile servers"
 msgstr ""
 
-#: maincontent.php:270 maincontent.php:310 maincontent.php:353
-#: maincontent.php:398
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:270
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:310
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:353
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:398
 msgid "Server name"
 msgstr ""
 
-#: maincontent.php:271 maincontent.php:311 maincontent.php:354
-#: maincontent.php:399
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:271
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:311
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:354
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:399
 msgid "For example : my custom server"
 msgstr ""
 
-#: maincontent.php:272
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:272
 msgid "Server address"
 msgstr ""
 
-#: maincontent.php:273 maincontent.php:356
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:273
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:356
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
 msgstr ""
 
-#: maincontent.php:274 maincontent.php:314 maincontent.php:357
-#: maincontent.php:402
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:274
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:314
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:357
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:402
 msgid "Min zoom (1-20)"
 msgstr ""
 
-#: maincontent.php:276 maincontent.php:316 maincontent.php:359
-#: maincontent.php:404
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:276
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:316
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:359
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:404
 msgid "Max zoom (1-20)"
 msgstr ""
 
-#: maincontent.php:278 maincontent.php:322 maincontent.php:367
-#: maincontent.php:416
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:278
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:322
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:367
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:416
 msgid "Add"
 msgstr ""
 
-#: maincontent.php:281
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:281
 msgid "Your tile servers"
 msgstr ""
 
-#: maincontent.php:307
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:307
 msgid "Custom overlay tile servers"
 msgstr ""
 
-#: maincontent.php:312 maincontent.php:355 maincontent.php:400
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:312
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:355
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:400
 msgid "Server url"
 msgstr ""
 
-#: maincontent.php:313 maincontent.php:401
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:313
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:401
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 msgstr ""
 
-#: maincontent.php:318 maincontent.php:406
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:318
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:406
 msgid "Transparent"
 msgstr ""
 
-#: maincontent.php:320 maincontent.php:408
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:320
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:408
 msgid "Opacity (0.0-1.0)"
 msgstr ""
 
-#: maincontent.php:325
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:325
 msgid "Your overlay tile servers"
 msgstr ""
 
-#: maincontent.php:350
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:350
 msgid "Custom WMS tile servers"
 msgstr ""
 
-#: maincontent.php:361 maincontent.php:410
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:361
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:410
 msgid "Format"
 msgstr ""
 
-#: maincontent.php:363 maincontent.php:412
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:363
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:412
 msgid "WMS version"
 msgstr ""
 
-#: maincontent.php:365 maincontent.php:414
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:365
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:414
 msgid "Layers to display"
 msgstr ""
 
-#: maincontent.php:370
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:370
 msgid "Your WMS tile servers"
 msgstr ""
 
-#: maincontent.php:395
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:395
 msgid "Custom WMS overlay servers"
 msgstr ""
 
-#: maincontent.php:419
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:419
 msgid "Your WMS overlay tile servers"
 msgstr ""
 
-#: maincontent.php:448
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:448
 msgid "Manually add a point"
 msgstr ""
 
-#: maincontent.php:454 maincontent.php:472
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:454
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:472
 msgid "Device"
 msgstr ""
 
-#: maincontent.php:456
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:456
 msgid "Add a point"
 msgstr ""
 
-#: maincontent.php:457
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:457
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
 msgstr ""
 
-#: maincontent.php:458
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:458
 msgid "Cancel add point"
 msgstr ""
 
-#: maincontent.php:463
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:463
 msgid "Delete multiple points"
 msgstr ""
 
-#: maincontent.php:466
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:466
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
 msgstr ""
 
-#: maincontent.php:474
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:474
 msgid "Delete points"
 msgstr ""
 
-#: maincontent.php:475
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:475
 msgid "Delete only visible points"
 msgstr ""
 
-#: maincontent.php:482
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:482
 msgid "Filter points"
 msgstr ""
 
-#: maincontent.php:489
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:489
 msgid "Apply filters"
 msgstr ""
 
-#: maincontent.php:494
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:494
 msgid "Begin date"
 msgstr ""
 
-#: maincontent.php:501 maincontent.php:519
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:501
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:519
 msgid "today"
 msgstr ""
 
-#: maincontent.php:506
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:506
 msgid "Begin time"
 msgstr ""
 
-#: maincontent.php:512
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:512
 msgid "End date"
 msgstr ""
 
-#: maincontent.php:524
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:524
 msgid "End time"
 msgstr ""
 
-#: maincontent.php:531
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:531
 msgid "Min-- and Max--"
 msgstr ""
 
-#: maincontent.php:534
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:534
 msgid "Min++ and Max++"
 msgstr ""
 
-#: maincontent.php:538
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:538
 msgid "Last day:hour:min"
 msgstr ""
 
-#: maincontent.php:545
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:545
 msgid "Minimum accuracy"
 msgstr ""
 
-#: maincontent.php:553
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:553
 msgid "Maximum accuracy"
 msgstr ""
 
-#: maincontent.php:561
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:561
 msgid "Minimum elevation"
 msgstr ""
 
-#: maincontent.php:569
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:569
 msgid "Maximum elevation"
 msgstr ""
 
-#: maincontent.php:577
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:577
 msgid "Minimum battery level"
 msgstr ""
 
-#: maincontent.php:585
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:585
 msgid "Maximum battery level"
 msgstr ""
 
-#: maincontent.php:593
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:593
 msgid "Minimum speed"
 msgstr ""
 
-#: maincontent.php:601
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:601
 msgid "Maximum speed"
 msgstr ""
 
-#: maincontent.php:609
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:609
 msgid "Minimum bearing"
 msgstr ""
 
-#: maincontent.php:617
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:617
 msgid "Maximum bearing"
 msgstr ""
 
-#: maincontent.php:625
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:625
 msgid "Minimum satellites"
 msgstr ""
 
-#: maincontent.php:633
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:633
 msgid "Maximum satellites"
 msgstr ""
 
-#: maincontent.php:643
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:643
 msgid "bookmark name"
 msgstr ""
 
-#: maincontent.php:645
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:645
 msgid "Save filter bookmark"
 msgstr ""
 
-#: maincontent.php:678
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:678
 msgid "Statistics"
 msgstr ""
 
-#: maincontent.php:682
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:682
 msgid "Show stats"
 msgstr ""
 
-#: maincontent.php:692
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:692
 msgid "Shortcuts"
 msgstr ""
 
-#: maincontent.php:694
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:694
 msgid "Toggle sidebar"
 msgstr ""
 
-#: maincontent.php:698
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:698
 msgid "Documentation"
 msgstr ""
 
-#: maincontent.php:706
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:706
 msgid "Source management"
 msgstr ""
 
-#: maincontent.php:720
+#: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:720
 msgid "Authors"
 msgstr ""
 

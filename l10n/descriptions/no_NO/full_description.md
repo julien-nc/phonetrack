@@ -1,30 +1,30 @@
-# PhoneTrack Nextcloud application
+# PhoneTrack Nextcloud programmet
 
-📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
+📱 PhoneTrack er et Nextcloud program for å spore og lagre mobilenheters lokasjoner.
 
-🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
+🗺 Det mottar informasjon fra mobiltelefoners loggeprogrammer og viser det dynamisk på kart.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+🌍 Hjelpe oss å oversette denne appen på [PhoneTrack Crowdin](https://crowdin.com/project/phonetrack) prosjektet.
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Sjekk ut andre måter å hjelpe i [retningslinjer for bidrag](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-How to use PhoneTrack :
+Hvordan bruke PhoneTrack:
 
-* Create a tracking session.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+* Opprett en sporingsøkt.
+* Gi loggelinken\ * til mobile enheter. Velg den [loggemetoden](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) du foretrekker.
+* Se øktens enhetsplasseringer i sanntid (eller ikke) i PhoneTrack eller del det med offentlige sider.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) Ikke glem å sette enhetsnavnet i koblingen (ikke i appens loggeinnstillinger). Erstatt "dittnavn" med ønsket enhetsnavn. Å angi enhetsnavnet i loggeappen fungerer bare med Owntracks, Traccar og OpenGTS.
 
-On PhoneTrack main page, while watching a session, you can :
+På hovedsiden for PhoneTrack kan du, mens du ser en økt:
 
-* 📍 Display location history
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
+* 📍 Vise posisjonshistorikk
+* ⛛ Filter poeng
+* ✎ Manuelt legge til/redigere punkter
+* ✎ Redigere enheter (gi nytt navn, endre farge/form, flytte til en annen økt)
+* ⛶ Definer geofencing soner for enheter
+* ⚇ Definere nærhetsvarsler for enhetspar
+* Dele en økt med andre Nextcloud brukere eller med en offentlig lenke (kun lese)
 * 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
 * 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
 * 🗠 Display sessions statistics
