@@ -2,6 +2,7 @@ OC.L10N.register(
     "phonetrack",
     {
     "PhoneTrack" : "PhoneTrack",
+    "Device \"%s\" is now closer than %sm to \"%s\"." : "Enhet \"%s\" er nå nærmere enn %sm fra \"%s\".",
     "left" : "venstre",
     "right" : "høyre",
     "Show lines" : "Vis linjer",

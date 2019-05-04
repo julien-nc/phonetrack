@@ -20,7 +20,6 @@ OC.L10N.register(
     "More actions" : "امکانات بیشتر",
     "Delete session" : "حذف جلسه",
     "Rename session" : "تغییر نام جلسه",
-    "Files are created in '{exdir}'" : "پرونده ها در \"{exdir}\" ایجاد شدند",
     "Automatic export" : "صدور خودکار",
     "never" : "هرگز",
     "daily" : "روزانه",
@@ -28,7 +27,6 @@ OC.L10N.register(
     "monthly" : "ماهانه",
     "Reserve this device name" : "رزرو نام این دستگاه",
     "Share with user" : "با کاربر به اشتراک بگذارید",
-    "Shared with {u}" : "با {u} به اشتراک گذاشته شده",
     "Failed to delete session" : "عدم موفقیت در حذف جلسه",
     "Stats of all points" : "آمار از تمام نقاط",
     "Ok" : "تایید",
@@ -39,6 +37,7 @@ OC.L10N.register(
     "Battery" : "باتری",
     "Save" : "ذخیره",
     "Move" : "حرکت",
+    "Shared with {u}" : "با {u} به اشتراک گذاشته شده",
     "years" : "سال ها",
     "days" : "روز ها"
 },
