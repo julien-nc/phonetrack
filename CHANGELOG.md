@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.5.1 – 2019-05-05
+## 0.5.1 – 2019-05-06
 ### Added
 - API route to create session
 - API route to get last positions
