@@ -2697,6 +2697,14 @@
             updateStatTable();
         }
         changeTooltipStyle();
+        // potentially remove the hover marker
+        if (phonetrack.editMarker) {
+            var d = phonetrack.editMarker.device;
+            var s = phonetrack.editMarker.session;
+            if (!phonetrack.sessionPointsLayers[s][d].hasLayer(phonetrack.editMarker)) {
+                phonetrack.editMarker.remove();
+            }
+        }
     }
 
     function updateMarker(s, d, sessionname) {
