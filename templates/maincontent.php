@@ -117,6 +117,10 @@ p($_['phonetrack_version']);
                 <label for="linegradient"> <i class="fa fa-paint-brush" aria-hidden="true"> </i>
                 <?php p($l->t('Draw line with color gradient')); ?></label>
 
+                <input id="tooltipshowdistance" class="checkbox" type="checkbox" checked/>
+                <label for="tooltipshowdistance"> <i class="far fa-ruler-horizontal" aria-hidden="true"> </i>
+                <?php p($l->t('Show distance in tooltips')); ?></label>
+
                 <input id="tooltipshowaccuracy" class="checkbox" type="checkbox" checked/>
                 <label for="tooltipshowaccuracy"> <i class="far fa-dot-circle" aria-hidden="true"> </i>
                 <?php p($l->t('Show accuracy in tooltips')); ?></label>

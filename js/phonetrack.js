@@ -4017,6 +4017,14 @@
             pointtooltip = pointtooltip + '<br/>' +
                 mom.format('YYYY-MM-DD HH:mm:ss (Z)');
         }
+		if ($('#tooltipshowdistance').is(':checked')) {		
+			var dist = 0;
+			var ll = phonetrack.sessionDisplayedLatlngs[s][entry.deviceid][0];
+			for (var i = 1; i < ll.length && ll[i][2] <= entry.id; i++) {
+				dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
+			}
+			pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Distance') + ' : ' + formatDistance(dist) + 'km';
+        }
         if ($('#tooltipshowelevation').is(':checked') && !isNaN(entry.altitude) && entry.altitude !== null) {
             pointtooltip = pointtooltip + '<br/>' +
                 t('phonetrack', 'Altitude') + ' : ' + parseFloat(entry.altitude).toFixed(2) + 'm';
@@ -5616,7 +5624,7 @@
             }
         });
 
-        $('#tooltipshowaccuracy, #tooltipshowsatellites, #tooltipshowbattery, #tooltipshowelevation, #tooltipshowuseragent, #tooltipshowspeed, #tooltipshowbearing').click(function() {
+        $('#tooltipshowdistance', '#tooltipshowaccuracy, #tooltipshowsatellites, #tooltipshowbattery, #tooltipshowelevation, #tooltipshowuseragent, #tooltipshowspeed, #tooltipshowbearing').click(function() {
             if (!pageIsPublic()) {
                 saveOptions($(this).attr('id'));
             }
