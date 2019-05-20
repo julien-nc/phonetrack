@@ -3295,11 +3295,15 @@
         var minDist = 40000000;
         var markerLatLng = null;
         var tmpDist;
-        for (var i=0; i<phonetrack.sessionLatlngs[s][d].length; i++) {
-            tmpDist = phonetrack.map.distance(overLatLng, L.latLng(phonetrack.sessionLatlngs[s][d][i]));
-            if (tmpDist < minDist) {
-                markerLatLng = phonetrack.sessionLatlngs[s][d][i];
-                minDist = tmpDist;
+        var segmentLatlngs, i, j;
+        for (i=0; i < phonetrack.sessionDisplayedLatlngs[s][d].length; i++) {
+            segmentLatlngs = phonetrack.sessionDisplayedLatlngs[s][d][i];
+            for (j=0; j < segmentLatlngs.length; j++) {
+                tmpDist = phonetrack.map.distance(overLatLng, L.latLng(segmentLatlngs[j]));
+                if (tmpDist < minDist) {
+                    markerLatLng = segmentLatlngs[j];
+                    minDist = tmpDist;
+                }
             }
         }
         phonetrack.editMarker = phonetrack.sessionPointsLayersById[s][d][markerLatLng[2]];
