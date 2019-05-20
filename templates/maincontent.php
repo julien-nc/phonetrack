@@ -181,9 +181,6 @@ p($_['phonetrack_version']);
                 <input id="pubviewline" class="checkbox" type="checkbox"/>
                 <label for="pubviewline"><i class="fa nc-theming-main-background"> </i>
                 <?php p($l->t('Show lines in public pages')); ?></label>
-                <input id="pubviewpoint" class="checkbox" type="checkbox"/>
-                <label for="pubviewpoint"><i class="fa fa-circle" aria-hidden="true"> </i>
-                <?php p($l->t('Show points in public pages')); ?></label>
             </div>
             <label>(*) <?php p($l->t('reload page to make changes effective')); ?></label>
             <br/>

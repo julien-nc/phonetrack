@@ -1529,8 +1529,7 @@
         geturl = window.location.origin + geturl;
 
         var pl = $('#pubviewline').is(':checked') ? '1' : '0';
-        var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
-        var linePointParamsDict = {lineToggle: pl, pointToggle: pp};
+        var linePointParamsDict = {lineToggle: pl};
         linePointParamsDict.refresh = 15;
         linePointParamsDict.arrow = 0;
         linePointParamsDict.gradient = 0;
@@ -3138,11 +3137,6 @@
         }
         else {
             ghostSpace = '<div></div><div></div>';
-        }
-        var urlPointToggle = getUrlParameter('pointToggle');
-        var detailOnOff = 'off';
-        if (point || (urlPointToggle && urlPointToggle !== '0')) {
-            detailOnOff = 'on';
         }
         var urlLineToggle = getUrlParameter('lineToggle');
         var lineOnOff = 'off';
@@ -4945,8 +4939,7 @@
             lastposonlyChecked = 'checked';
         }
         var pl = $('#pubviewline').is(':checked') ? '1' : '0';
-        var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
-        var linePointParamsDict = {lineToggle: pl, pointToggle: pp};
+        var linePointParamsDict = {lineToggle: pl};
         linePointParamsDict.refresh = 15;
         linePointParamsDict.arrow = 0;
         linePointParamsDict.gradient = 0;
@@ -5060,8 +5053,7 @@
 
     function updateLinePointUrlParams() {
         var pl = $('#pubviewline').is(':checked') ? '1' : '0';
-        var pp = $('#pubviewpoint').is(':checked') ? '1' : '0';
-        var linePointParams = $.param({lineToggle: pl, pointToggle: pp});
+        var linePointParams = $.param({lineToggle: pl});
 
         var sessionDiv, publicWebLogInput, publicWatchInput,
             jqInputs, inputList, value, i, j, elem, s;
