@@ -3178,8 +3178,7 @@
         else {
             nameLabelTxt = name;
         }
-        $('div.session[token="' + s + '"] ul.devicelist').append(
-            '<li device="' + d + '" token="' + s + '">' +
+        var devHtml = '<li device="' + d + '" token="' + s + '">' +
                 '<div class="devinteractline">' +
                 '<div class="devicecolor ' + shape + 'devicecolor devicecolor' + s + d + '"></div> ' +
                 '<div class="deviceLabel" title="' +
@@ -3200,11 +3199,28 @@
                 '</div><div style="clear: both;"></div>' +
                 geofencesDiv +
                 proximDiv +
-                '</li>');
+                '</li>';
+
+        var beforeThis = null;
+        var nameLower = name.toLowerCase();
+        var dName;
+        $('.session[token="' + s + '"] ul.devicelist > li').each(function() {
+            dName = $(this).find('.deviceLabel').text().toLowerCase();
+            if (nameLower.localeCompare(dName) < 0) {
+                beforeThis = $(this);
+                return false;
+            }
+        });
+        if (beforeThis !== null) {
+            $(devHtml).fadeIn('slow').insertBefore(beforeThis);
+        }
+        else {
+            $('div.session[token="' + s + '"] ul.devicelist').append(devHtml);
+        }
 
         // select shape
         if (shape !== '') {
-            $('.session[token="' + s + '"] ul.devicelist li[device='+d+']').find('select[role=shapeselect]').val(shape);
+            $('.session[token="' + s + '"] ul.devicelist > li[device='+d+']').find('select[role=shapeselect]').val(shape);
         }
 
         // manage names/ids
