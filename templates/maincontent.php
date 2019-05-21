@@ -118,7 +118,7 @@ p($_['phonetrack_version']);
                 <?php p($l->t('Draw line with color gradient')); ?></label>
 
                 <input id="tooltipshowdistance" class="checkbox" type="checkbox" checked/>
-                <label for="tooltipshowdistance"> <i class="far fa-ruler-horizontal" aria-hidden="true"> </i>
+                <label for="tooltipshowdistance"> <i class="fas fa-ruler" aria-hidden="true"> </i>
                 <?php p($l->t('Show distance in tooltips')); ?></label>
 
                 <input id="tooltipshowaccuracy" class="checkbox" type="checkbox" checked/>

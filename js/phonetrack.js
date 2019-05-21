@@ -4017,13 +4017,31 @@
             pointtooltip = pointtooltip + '<br/>' +
                 mom.format('YYYY-MM-DD HH:mm:ss (Z)');
         }
-		if ($('#tooltipshowdistance').is(':checked')) {		
-			var dist = 0;
-			var ll = phonetrack.sessionDisplayedLatlngs[s][entry.deviceid][0];
-			for (var i = 1; i < ll.length && ll[i][2] <= entry.id; i++) {
-				dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
-			}
-			pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Distance') + ' : ' + formatDistance(dist) + 'km';
+        if ($('#tooltipshowdistance').is(':checked')) {
+            var i, j;
+            var segments = phonetrack.sessionDisplayedLatlngs[s][entry.deviceid];
+            var segment;
+            var iseg = -1;
+            // find out in which segment is the point
+            for (i = 0; i < segments.length; i++) {
+                segment = segments[i];
+                for (j = 0; j < segment.length; j++) {
+                    if (segment[j][2] === entry.id) {
+                        iseg = i;
+                        break;
+                    }
+                    if (iseg !== -1) {
+                        break;
+                    }
+                }
+            }
+
+            var dist = 0;
+            var ll = phonetrack.sessionDisplayedLatlngs[s][entry.deviceid][iseg];
+            for (i = 1; i < ll.length && ll[i][2] <= entry.id; i++) {
+                dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
+            }
+            pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Distance') + ' : ' + formatDistance(dist) + 'km';
         }
         if ($('#tooltipshowelevation').is(':checked') && !isNaN(entry.altitude) && entry.altitude !== null) {
             pointtooltip = pointtooltip + '<br/>' +
