@@ -360,7 +360,8 @@ class PageController extends Controller {
         $sqlget = '
             SELECT id, name, alias, color, nametoken, shape
             FROM *PREFIX*phonetrack_devices
-            WHERE sessionid='.$this->db_quote_escape_string($sessionid).' ;';
+            WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
+            ORDER BY LOWER(name) ASC ;';
         $req = $this->dbconnection->prepare($sqlget);
         $req->execute();
         while ($row = $req->fetch()){
