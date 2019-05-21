@@ -1768,7 +1768,23 @@
         }
         divtxt = divtxt + '<ul class="devicelist" token="' + token + '"></ul></div>';
 
-        $('div#sessions').append($(divtxt).fadeIn('slow')).find('input.ro[type=text]').prop('readonly', true);
+        var beforeThis = null;
+        var nameLower = name.toLowerCase();
+        var sName;
+        $('#sessions div.session').each(function() {
+            sName = $(this).find('.sessionName').text().toLowerCase();
+            if (nameLower.localeCompare(sName) < 0) {
+                beforeThis = $(this);
+                return false;
+            }
+        });
+        if (beforeThis !== null) {
+            $(divtxt).fadeIn('slow').insertBefore(beforeThis).find('input.ro[type=text]').prop('readonly', true);
+        }
+        else {
+            $('div#sessions').append($(divtxt).fadeIn('slow')).find('input.ro[type=text]').prop('readonly', true);
+        }
+
         if (!selected) {
             $('.session[token="' + token + '"]').find('.devicelist').hide();
         }
