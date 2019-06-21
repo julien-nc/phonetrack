@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- distance in tooltips
+[!813](https://gitlab.com/eneiluj/phonetrack-oc/merge_requests/813) @GURKE
+
+### Changed
+- remove some options
+[#221](https://gitlab.com/eneiluj/phonetrack-oc/issues/221) @GURKE
+- sort sessions and devices by name
+[#247](https://gitlab.com/eneiluj/phonetrack-oc/issues/247) @GURKE
+- speedup animations
+
+### Fixed
+- problem with userManager with some database setups
+[#243](https://gitlab.com/eneiluj/phonetrack-oc/issues/243) @spastis1
+- remanent edition marker
+[#246](https://gitlab.com/eneiluj/phonetrack-oc/issues/246) @creywood
+- show filtered points when hovering
+[#246](https://gitlab.com/eneiluj/phonetrack-oc/issues/246) @creywood
+
 ## 0.5.1 – 2019-05-06
 ### Added
 - API route to create session
