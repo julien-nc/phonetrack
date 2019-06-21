@@ -982,7 +982,7 @@
                     t('phonetrack', 'Delete') +
                     '</button></li>'
                 );
-                $('#'+type+'serverlist ul li[servername="' + sname + '"]').fadeIn('slow');
+                $('#'+type+'serverlist ul li[servername="' + sname + '"]').fadeIn();
 
                 var newlayer;
                 if (type === 'tile') {
@@ -1038,7 +1038,7 @@
             async: true
         }).done(function (response) {
             if (response.done) {
-                li.fadeOut('slow', function() {
+                li.fadeOut('normal', function() {
                     li.remove();
                 });
                 if (type === 'tile') {
@@ -1779,10 +1779,10 @@
             }
         });
         if (beforeThis !== null) {
-            $(divtxt).fadeIn('slow').insertBefore(beforeThis).find('input.ro[type=text]').prop('readonly', true);
+            $(divtxt).fadeIn().insertBefore(beforeThis).find('input.ro[type=text]').prop('readonly', true);
         }
         else {
-            $('div#sessions').append($(divtxt).fadeIn('slow')).find('input.ro[type=text]').prop('readonly', true);
+            $('div#sessions').append($(divtxt).fadeIn()).find('input.ro[type=text]').prop('readonly', true);
         }
 
         if (!selected) {
@@ -1918,7 +1918,7 @@
 
     function removeDevice(token, device) {
         // remove devicelist line
-        $('.devicelist li[token="' + token + '"][device="' + device + '"]').fadeOut('slow', function() {
+        $('.devicelist li[token="' + token + '"][device="' + device + '"]').fadeOut('normal', function() {
             $(this).remove();
         });
         // remove marker, line and tooltips
@@ -1948,7 +1948,7 @@
         // remove things in sidebar
         $('#addPointSession option[token=' + token + ']').remove();
         $('#deletePointSession option[token=' + token + ']').remove();
-        div.fadeOut('slow', function() {
+        div.fadeOut('normal', function() {
             div.remove();
         });
     }
@@ -3212,7 +3212,7 @@
             }
         });
         if (beforeThis !== null) {
-            $(devHtml).fadeIn('slow').insertBefore(beforeThis);
+            $(devHtml).fadeIn().insertBefore(beforeThis);
         }
         else {
             $('div.session[token="' + s + '"] ul.devicelist').append(devHtml);
@@ -4557,7 +4557,7 @@
         }).done(function (response) {
             if (response.done === 1) {
                 var li = $('.session[token="' + token + '"]').find('.namereservlist li[name=' + devicename + ']');
-                li.fadeOut('slow', function() {
+                li.fadeOut('normal', function() {
                     li.remove();
                 });
             }
@@ -4626,7 +4626,7 @@
         }).done(function (response) {
             if (response.done === 1) {
                 var li = $('.session[token="' + token + '"]').find('.usersharelist li[userid=' + userId + ']');
-                li.fadeOut('slow', function() {
+                li.fadeOut('normal', function() {
                     li.remove();
                 });
             }
@@ -4825,7 +4825,7 @@
         }).done(function (response) {
             if (response.done === 1) {
                 var li = $('.session[token="' + token + '"] .devicelist li[device=' + device + '] .geofencelist').find('li[fenceid=' + fenceid + ']');
-                li.fadeOut('slow', function() {
+                li.fadeOut('normal', function() {
                     li.remove();
                 });
             }
@@ -4953,7 +4953,7 @@
         }).done(function (response) {
             if (response.done === 1) {
                 var li = $('.session[token="' + token + '"] .devicelist li[device=' + device + '] .proximlist').find('li[proximid=' + proximid + ']');
-                li.fadeOut('slow', function() {
+                li.fadeOut('normal', function() {
                     li.remove();
                 });
             }
@@ -5056,7 +5056,7 @@
         }).done(function (response) {
             if (response.done === 1) {
                 var li = $('.session[token="' + token + '"]').find('.publicfilteredsharelist li[filteredtoken=' + sharetoken + ']');
-                li.fadeOut('slow', function() {
+                li.fadeOut('normal', function() {
                     li.remove();
                 });
             }
@@ -5497,16 +5497,16 @@
         $('#sessionnameinput').on('keyup', function(e) {
             if (e.key === 'Enter') {
                 createSession();
-                $('#newsessiondiv').slideUp('slow');
+                $('#newsessiondiv').slideUp();
             }
             else if (e.key === 'Escape') {
-                $('#newsessiondiv').slideUp('slow');
+                $('#newsessiondiv').slideUp();
             }
         });
 
         $('#newsession').click(function() {
             createSession();
-            $('#newsessiondiv').slideUp('slow');
+            $('#newsessiondiv').slideUp();
         });
 
         $('body').on('click','.removeSession', function(e) {
@@ -5540,13 +5540,13 @@
                 var icon = $(this).find('i');
                 if (icon.hasClass('fa-toggle-on')) {
                     icon.addClass('fa-toggle-off').removeClass('fa-toggle-on');
-                    $(this).parent().parent().find('.devicelist').slideUp('slow');
-                    $(this).parent().parent().find('.sharediv').slideUp('slow');
-                    $(this).parent().parent().find('.moreUrls').slideUp('slow');
+                    $(this).parent().parent().find('.devicelist').slideUp();
+                    $(this).parent().parent().find('.sharediv').slideUp();
+                    $(this).parent().parent().find('.moreUrls').slideUp();
                 }
                 else {
                     icon.addClass('fa-toggle-on').removeClass('fa-toggle-off');
-                    $(this).parent().parent().find('.devicelist').slideDown('slow');
+                    $(this).parent().parent().find('.devicelist').slideDown();
                 }
                 // we stop the refresh loop,
                 // we save options and then we refresh
@@ -5798,15 +5798,15 @@
             var urlDiv = $(this).parent().parent().find('.moreUrls');
             var sharediv = $(this).parent().parent().find('.sharediv');
             if (nameDiv.is(':visible')) {
-                nameDiv.slideUp('slow');
+                nameDiv.slideUp();
                 $(this).removeClass('activeButton');
             }
             else{
-                nameDiv.slideDown('slow');
+                nameDiv.slideDown();
                 $(this).parent().find('.activeButton').removeClass('activeButton');
                 $(this).addClass('activeButton');
-                urlDiv.slideUp('slow');
-                sharediv.slideUp('slow');
+                urlDiv.slideUp();
+                sharediv.slideUp();
             }
         });
 
@@ -5815,15 +5815,15 @@
             var nameDiv = $(this).parent().parent().find('.namereservdiv');
             var sharediv = $(this).parent().parent().find('.sharediv');
             if (urlDiv.is(':visible')) {
-                urlDiv.slideUp('slow');
+                urlDiv.slideUp();
                 $(this).removeClass('activeButton');
             }
             else{
-                urlDiv.slideDown('slow').css('display', 'grid');
+                urlDiv.slideDown().css('display', 'grid');
                 $(this).parent().find('.activeButton').removeClass('activeButton');
                 $(this).addClass('activeButton');
-                nameDiv.slideUp('slow');
-                sharediv.slideUp('slow');
+                nameDiv.slideUp();
+                sharediv.slideUp();
             }
         });
 
@@ -5832,31 +5832,31 @@
             var nameDiv = $(this).parent().parent().find('.namereservdiv');
             var moreurldiv = $(this).parent().parent().find('.moreUrls');
             if (sharediv.is(':visible')) {
-                sharediv.slideUp('slow');
+                sharediv.slideUp();
                 $(this).removeClass('activeButton');
             }
             else {
-                sharediv.slideDown('slow');
+                sharediv.slideDown();
                 $(this).parent().find('.activeButton').removeClass('activeButton');
                 $(this).addClass('activeButton');
-                nameDiv.slideUp('slow');
-                moreurldiv.slideUp('slow');
+                nameDiv.slideUp();
+                moreurldiv.slideUp();
             }
         });
 
         $('body').on('click','.toggleGeofences', function(e) {
             var geoDiv = $(this).parent().parent().find('.geofencesDiv');
             if (geoDiv.is(':visible')) {
-                geoDiv.slideUp('slow');
+                geoDiv.slideUp();
                 $(this).removeClass('activeMaskedButton');
             }
             else{
                 $('.geofencesDiv:visible, .proximDiv:visible').each(function() {
-                    $(this).slideUp('slow');
+                    $(this).slideUp();
                     $(this).parent().find('.toggleGeofences').removeClass('activeMaskedButton');
                     $(this).parent().find('.toggleProxim').removeClass('activeButton');
                 });
-                geoDiv.slideDown('slow');
+                geoDiv.slideDown();
                 $(this).addClass('activeMaskedButton');
             }
         });
@@ -5864,16 +5864,16 @@
         $('body').on('click','.toggleProxim', function(e) {
             var prDiv = $(this).parent().parent().find('.proximDiv');
             if (prDiv.is(':visible')) {
-                prDiv.slideUp('slow');
+                prDiv.slideUp();
                 $(this).removeClass('activeButton');
             }
             else{
                 $('.geofencesDiv:visible, .proximDiv:visible').each(function() {
-                    $(this).slideUp('slow');
+                    $(this).slideUp();
                     $(this).parent().find('.toggleGeofences').removeClass('activeMaskedButton');
                     $(this).parent().find('.toggleProxim').removeClass('activeButton');
                 });
-                prDiv.slideDown('slow');
+                prDiv.slideDown();
                 $(this).addClass('activeButton');
                 updateProximSessionsSelect($(this));
             }
