@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-04-28 17:45+0200\n"
-"PO-Revision-Date: 2019-04-28 15:59\n"
+"PO-Revision-Date: 2019-05-06 15:42\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
@@ -143,7 +143,7 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1057
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr ""
+msgstr "تم إضافة مخدّم \"{ts}\""
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1060
 msgid "Failed to delete tile server \"{ts}\""

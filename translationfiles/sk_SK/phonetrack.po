@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-04-28 17:45+0200\n"
-"PO-Revision-Date: 2019-04-28 15:59\n"
+"PO-Revision-Date: 2019-06-06 13:30\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -1536,7 +1536,7 @@ msgstr "Napríklad: môj vlastný server"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:272
 msgid "Server address"
-msgstr ""
+msgstr "Adresa servera"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:273
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:356

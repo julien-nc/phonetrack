@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-04-28 17:45+0200\n"
-"PO-Revision-Date: 2019-04-28 16:00\n"
+"PO-Revision-Date: 2019-07-02 07:06\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -244,7 +244,7 @@ msgstr "Exportar a GPX"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1636
 msgid "The automatic export runs daily and saves/updates files in '{exdir}' for selected interval (today is ignored)"
-msgstr ""
+msgstr "La exportación automática se ejecuta diariamente y guarda/actualiza los archivos en '{exdir}' para el intervalo seleccionado (hoy se ignora)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1637
 msgid "Automatic export"
@@ -269,7 +269,8 @@ msgstr "cada mes"
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1647
 msgid "The automatic purge runs daily and deletes old points, it keeps \"auto export\" interval plus \"auto purge\" interval\n"
 "(If \"auto export\" is set to \"never\", consider it as set to \"monthly\")"
-msgstr ""
+msgstr "La purga automática se ejecuta diariamente y elimina los puntos antiguos, mantiene el intervalo de \"exportación automática\" más el intervalo de \"purga automática\"\n"
+"(si \"exportación automática\" se establece a \"nunca\", considere que se establece como \"mensual\")"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1648
 msgid "Automatic purge"
@@ -337,11 +338,11 @@ msgstr "Enlace para observación pública"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1702
 msgid "API URL (JSON, last positions)"
-msgstr ""
+msgstr "URL de la API (JSON, últimas posiciones)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1704
 msgid "API URL (JSON, all positions)"
-msgstr ""
+msgstr "URL de la API (JSON, todas las posiciones)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1710
 msgid "Current active filters will be applied on shared view"
@@ -1130,23 +1131,23 @@ msgstr "En GpsLogger, ir a la 'Detalles de registro' en el menú y luego activar
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5190
 msgid "Copy the link below into the 'URL' field."
-msgstr ""
+msgstr "Copia el enlace de abajo en el campo 'URL'."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5194
 msgid "In the Owntracks preferences menu, go to 'Connections'."
-msgstr ""
+msgstr "En el menú de preferencias de Owntracks, ve a \"Conexiones\"."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5195
 msgid "Change the connection Mode to 'Private HTTP', Copy the link below into the 'Host' field."
-msgstr ""
+msgstr "Cambia el modo de conexión a 'HTTP privado', copia el enlace de abajo en el campo 'Host'."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5196
 msgid "Leave settings under 'Identification' blank as they are not required."
-msgstr ""
+msgstr "Dejar los ajuste en 'Identificación' en blanco ya que no son necesarios."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5200
 msgid "In Ulogger, go to settings menu and copy the link below into the 'Server URL' field."
-msgstr ""
+msgstr "En Ulogger, ir al menú de configuración y copiar la URL en el campo de dirección URL del servidor."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5201
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
@@ -1158,11 +1159,11 @@ msgstr "Activar 'sincronización en directo'."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5206
 msgid "In Traccar client, copy the link below into the 'server URL' field."
-msgstr ""
+msgstr "En el cliente Traccar, copia el enlace a continuación en el campo 'URL del servidor'."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5210
 msgid "In LocusMap, copy the link below into the 'server URL' field. It works with POST and GET methods."
-msgstr ""
+msgstr "En LocusMap, copia el enlace a continuación en el campo 'URL del servidor'. Funciona con los métodos POST y GET."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5214
 msgid "You can log with any other client with a simple HTTP request."
@@ -1174,7 +1175,7 @@ msgstr "Asegúrese de que el sistema de registro establece por lo menos los valo
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5218
 msgid "Use this link as the server URL in your OpenGTS compatible logging app."
-msgstr ""
+msgstr "Usa este enlace como la URL del servidor en tu app de registro compatible con OpenGTS."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5219
 msgid "OpenGTS compatible logger"
@@ -1227,7 +1228,7 @@ msgstr "Confirmar eliminación de dispositivo"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6087
 msgid "Failed to change session lock status"
-msgstr ""
+msgstr "Fallo al cambiar el estado de bloqueo de la sesión"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:6115
 msgid "Failed to toggle session public status, session does not exist"

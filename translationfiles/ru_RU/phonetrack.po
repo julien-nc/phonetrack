@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-04-28 17:45+0200\n"
-"PO-Revision-Date: 2019-04-28 15:59\n"
+"PO-Revision-Date: 2019-06-07 05:17\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -244,7 +244,7 @@ msgstr "Экспорт в gpx"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1636
 msgid "The automatic export runs daily and saves/updates files in '{exdir}' for selected interval (today is ignored)"
-msgstr ""
+msgstr "Автоматический экспорт запускается ежедневно и сохраняет/обновляет файлы в '{exdir}' для выбранного интервала (сегодня игнорируется)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1637
 msgid "Automatic export"
@@ -269,7 +269,8 @@ msgstr "ежемесячно"
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1647
 msgid "The automatic purge runs daily and deletes old points, it keeps \"auto export\" interval plus \"auto purge\" interval\n"
 "(If \"auto export\" is set to \"never\", consider it as set to \"monthly\")"
-msgstr ""
+msgstr "Автоматическая очистка запускается ежедневно и удаляет старые точки, она не затрагивает интервал \"auto export\" и интервал \"auto purge\"\n"
+"(если \"auto export\" установлен на \"never\", считайте его как \"ежемесячный\")"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1648
 msgid "Automatic purge"
@@ -337,11 +338,11 @@ msgstr "Ссылка для публичного доступа (просмот�
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1702
 msgid "API URL (JSON, last positions)"
-msgstr ""
+msgstr "API URL (JSON, последние позиции)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1704
 msgid "API URL (JSON, all positions)"
-msgstr ""
+msgstr "API URL (JSON, все позиции)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1710
 msgid "Current active filters will be applied on shared view"

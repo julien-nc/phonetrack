@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-04-28 17:45+0200\n"
-"PO-Revision-Date: 2019-04-28 16:00\n"
+"PO-Revision-Date: 2019-05-13 09:04\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Indonesian\n"
 "Language: id_ID\n"
@@ -44,7 +44,7 @@ msgstr "Perangkat %s sekarang mendekati %sm ke %s."
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:675
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:787
 msgid "Geofencing alert"
-msgstr ""
+msgstr "Peringatan Geofence"
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:678
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:67
@@ -171,15 +171,15 @@ msgstr "Gagal menghubungi server untuk menyimpan nilai opsi"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1309
 msgid "Filter bookmark should have a name"
-msgstr ""
+msgstr "Filter bookmark harus memiliki nama"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1337
 msgid "Failed to contact server to save filters bookmark"
-msgstr ""
+msgstr "Gagal untuk menghubungi server untuk menyimpan filter bookmark"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1380
 msgid "Failed to contact server to delete filters bookmark"
-msgstr ""
+msgstr "Gagal untuk menghubungi server untuk menghapus filter bookmark"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1422
 msgid "Session name should not be empty"
@@ -195,7 +195,7 @@ msgstr "Gagal menghubungi server untuk membuat sesi"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1479
 msgid "yourname"
-msgstr ""
+msgstr "namaanda"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1565
 msgid "Watch this session"
@@ -207,7 +207,7 @@ msgstr "dibagi oleh {u}"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1580
 msgid "Forbid devices to log to this session"
-msgstr ""
+msgstr "Larang perangkat untuk masuk sesi ini"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1587
 msgid "Reserve device names"
@@ -297,7 +297,7 @@ msgstr "Pemesanan nama bersifat opsional."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1663
 msgid "Name can be set directly in logging link if it is not reserved."
-msgstr ""
+msgstr "Nama bisa diatur langsung di link logging jika belum digunakan."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1664
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
