@@ -1,6 +1,9 @@
 OC.L10N.register(
     "phonetrack",
     {
+    "left" : "levo",
+    "right" : "desno",
+    "Delete" : "Izbriši",
     "never" : "nikoli",
     "daily" : "dnevno",
     "weekly" : "tedensko"

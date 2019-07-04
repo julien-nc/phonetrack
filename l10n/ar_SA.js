@@ -15,6 +15,7 @@ OC.L10N.register(
     "A server with this name already exists" : "يوجد مخدّم بنفس الاسم بالفعل",
     "Delete" : "حذف",
     "Tile server \"{ts}\" has been added" : "تم إضافة مخدّم \"{ts}\"",
+    "Tile server \"{ts}\" has been deleted" : "تم إضافة مخدّم \"{ts}\"",
     "Reload this page" : "اعادة تحميل الصفحة",
     "Automatic export" : "تصدير تلقائي",
     "never" : "ابداً",

@@ -218,6 +218,7 @@ OC.L10N.register(
     "Custom tile servers" : "Vlastné mapové servery",
     "Server name" : "Názov servera",
     "For example : my custom server" : "Napríklad: môj vlastný server",
+    "Server address" : "Adresa servera",
     "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png" : "Napríklad : http://tile.server.org/cycle/{z}/{x}/{y}.png",
     "Min zoom (1-20)" : "Min priblíženie (1-20)",
     "Max zoom (1-20)" : "Max priblíženie( 1-20)",
