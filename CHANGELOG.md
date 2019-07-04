@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.5.2 – 2019-07-04
 ### Added
 - distance in tooltips
 [!813](https://gitlab.com/eneiluj/phonetrack-oc/merge_requests/813) @GURKE
