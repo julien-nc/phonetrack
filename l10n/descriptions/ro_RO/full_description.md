@@ -40,9 +40,9 @@ This app is compatible with theming colors and accessibility themes !
 
 This app is under development.
 
-## Install
+## Instalare
 
-See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
+Vezi [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) pentru mai multe detalii despre instalare.
 
 Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 

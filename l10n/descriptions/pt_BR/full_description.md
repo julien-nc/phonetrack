@@ -6,9 +6,9 @@
 
 🌍 Ajude-nos a traduzir este aplicativo no [projeto PhoneTrack no Crowdin](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒Confira outras maneiras de ajudar nas [diretrizes de contribuição](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-How to use PhoneTrack :
+Como usar o PhoneTrack :
 
 * Create a tracking session.
 * Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.

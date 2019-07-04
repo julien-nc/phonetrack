@@ -4,7 +4,7 @@
 
 🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+🌍 Help ons deze app te vertalen op [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
 ⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
