@@ -3,7 +3,7 @@
     <id>phonetrack</id>
     <name>PhoneTrack</name>
     <summary> </summary><description> </description>
-    <version>0.5.2</version>
+    <version>0.5.3</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>PhoneTrack</namespace>
@@ -17,9 +17,9 @@
     <category>multimedia</category>
     <website>https://gitlab.com/eneiluj/phonetrack-oc</website>
     <bugs>https://gitlab.com/eneiluj/phonetrack-oc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/ab2ffce1e08b08466e83e3f0000984f6/p1.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/a7ebb0a8e835440581c38ea9bee140a2/p2.png</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/d7c06f1269cc376462d60f324e50d698/p3.png</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/745bc0a7e6ba21b65703e383709c3d97/p1.jpg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/24b55acc14b6785f2380dcf5e84648d8/p2.jpg</screenshot>
+    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/47ac89131d8fc434c53ba6baac2beb74/p3.jpg</screenshot>
     <dependencies>
         <database min-version="9.4">pgsql</database>
         <database>sqlite</database>
