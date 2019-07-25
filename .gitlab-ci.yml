@@ -7,37 +7,8 @@ stages:
 before_script:
 - bash ci/docker_install.sh
 
-## test with NC16
-#test_nc16_sqlite:
-#  stage: test
-#  only:
-#    refs:
-#      - master
-#      - test
-#  cache:
-#    paths:
-#      - nextcloud-16.0.0RC1.zip
-#    policy: pull
-#  script:
-#    # copy local copy that has been cloned already
-#    - cp -r . /tmp/phonetrack
-#    - test -f nextcloud-16.0.0RC1.zip && echo "cached nextcloud found" || wget -q https://download.nextcloud.com/server/prereleases/nextcloud-16.0.0RC1.zip
-#    - unzip -q nextcloud-16.0.0RC1.zip ; mkdir -p /var/www/html ; mv nextcloud /var/www/html/ ; pushd /var/www/html
-#    # temporary fix of autoloader.php
-#    - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
-#    - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
-#    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
-#    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
-#    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-#    # check code with occ
-#    - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code phonetrack
-#    # check JS code
-#    - jshint --verbose phonetrack/js/phonetrack.js && echo "jshint OK" || echo "jshint has complaints"
-#    - popd ; popd
-#    - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
-
-# test with NC16 and produce coverage report
-test_nc16_sqlite:
+# test with NC17 and produce coverage report
+test_nc17_sqlite:
   stage: test
   only:
     refs:
@@ -47,16 +18,11 @@ test_nc16_sqlite:
     paths:
       - coverage
   coverage: '/^\s*Lines:\s*(\d+.\d+)\%/'
-  cache:
-    key: nc16zip
-    paths:
-      - nextcloud-16.0.1.zip
-    policy: pull
   script:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
-    - test -f nextcloud-16.0.1.zip && echo "cached nextcloud found" || wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.1.zip
-    - unzip -q nextcloud-16.0.1.zip ; mkdir -p /var/www/html ; mv nextcloud /var/www/html/ ; pushd /var/www/html
+    - mkdir -p /var/www/html ; pushd /var/www/html
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -70,7 +36,7 @@ test_nc16_sqlite:
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html coverage
 
-test_nc16_pgsql:
+test_nc17_pgsql:
   stage: test
   only:
     refs:
@@ -82,17 +48,12 @@ test_nc16_pgsql:
       POSTGRES_DB: plop
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ""
-  cache:
-    key: nc16zip
-    paths:
-      - nextcloud-16.0.1.zip
-    policy: pull
   script:
     - DEBIAN_FRONTEND=noninteractive apt-get install php7.2-pgsql postgresql-client -yqq > /dev/null 2>&1
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
-    - test -f nextcloud-16.0.1.zip && echo "cached nextcloud found" || wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.1.zip
-    - unzip -q nextcloud-16.0.1.zip ; mkdir -p /var/www/html ; mv nextcloud /var/www/html/ ; pushd /var/www/html
+    - mkdir -p /var/www/html ; pushd /var/www/html
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -106,17 +67,12 @@ test_nc16_pgsql:
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
 
-test_nc16_mysql:
+test_nc17_mysql:
   stage: test
   only:
     refs:
       - master
       - test
-  cache:
-    key: nc16zip
-    paths:
-      - nextcloud-16.0.7.zip
-    policy: pull
   script:
     # DB
     - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.2-mysql -yqq > /dev/null 2>&1
@@ -126,8 +82,8 @@ test_nc16_mysql:
     - mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
-    - test -f nextcloud-16.0.1.zip && echo "cached nextcloud found" || wget -q https://download.nextcloud.com/server/releases/nextcloud-16.0.1.zip
-    - unzip -q nextcloud-16.0.1.zip ; mkdir -p /var/www/html ; mv nextcloud /var/www/html/ ; pushd /var/www/html
+    - mkdir -p /var/www/html ; pushd /var/www/html
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -144,7 +100,7 @@ test_nc16_mysql:
 pages:
   stage: deploy
   dependencies:
-    - test_nc16_sqlite
+    - test_nc17_sqlite
   before_script:
     - echo 'nothing to install for pages jobs'
   only:
