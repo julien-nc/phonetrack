@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-07-03 12:20+0200\n"
-"PO-Revision-Date: 2019-07-03 10:44\n"
+"PO-Revision-Date: 2019-07-14 12:16\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -801,7 +801,7 @@ msgstr "Ukončiť"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4076
 msgid "Distance"
-msgstr ""
+msgstr "Vzdialenosť"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4245
 msgid "Impossible to zoom, there is no point to zoom on for this session"
@@ -976,21 +976,21 @@ msgstr ""
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4890
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4894
 msgid "no"
-msgstr ""
+msgstr "nie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4775
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4779
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4892
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4896
 msgid "yes"
-msgstr ""
+msgstr "áno"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4789
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4806
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4909
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4930
 msgid "Email address(es)"
-msgstr ""
+msgstr "E-mailové adresy"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4789
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4807
@@ -1106,11 +1106,11 @@ msgstr "#body"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5154
 msgid "avg speed (km/h)"
-msgstr ""
+msgstr "priemerná rýchlosť (km/h)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5155
 msgid "max speed (km/h)"
-msgstr ""
+msgstr "max rýchlosť (km/h)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5227
 msgid "years"
@@ -1186,7 +1186,7 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5291
 msgid "the browser"
-msgstr ""
+msgstr "prehliadač"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5292
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:212
@@ -1349,7 +1349,7 @@ msgstr "Možnosti"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:61
 msgid "General"
-msgstr ""
+msgstr "Všeobecné"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:64
 msgid "Refresh each (sec)"
@@ -1357,7 +1357,7 @@ msgstr "Obnoviť každú (sec)"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:67
 msgid "Refresh"
-msgstr ""
+msgstr "Obnoviť"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:69
 msgid "An empty value means no limit"
@@ -1369,7 +1369,7 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:72
 msgid "points"
-msgstr ""
+msgstr "body"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:74
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:79
@@ -1386,7 +1386,7 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:82
 msgid "seconds"
-msgstr ""
+msgstr "sekundy"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:85
 msgid "When point quota is reached"
@@ -1406,7 +1406,7 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:93
 msgid "Display"
-msgstr ""
+msgstr "Zobraziť"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:98
 msgid "Auto zoom"
