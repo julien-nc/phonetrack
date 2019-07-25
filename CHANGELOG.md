@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.5.3 – 2019-07-25
+### Changed
+- adapt notifications to NC 17
+- compatible with NC >= 17
+- new smaller screenshots
 
 ## 0.5.2 – 2019-07-04
 ### Added
