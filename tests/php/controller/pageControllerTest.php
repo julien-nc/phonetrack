@@ -629,7 +629,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         // do the auto export
         $resp = $this->utilsController->saveOptionValue(['autoexportpath'=>'/autoex']);
         for ($i=10; $i>=0; $i--) {
-            $this->logController->logPost($token, 'devautoex', 4.46, 3.28, 100, $timestamp - (604800*$i) - (24*3600), 60, 10, 200, 'testUA');
+            $this->logController->logPost($token, 'devautoex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, 'testUA');
         }
         // just get the deviceid
         $resp = $this->logController->addPoint($token, 'devautoex', 45.5, 3.4, 111, $timestamp-(3*604700), 100, 80, 12, 'AAAAAAAAtest', 2, 180);
