@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-07-03 12:20+0200\n"
-"PO-Revision-Date: 2019-07-04 06:58\n"
+"PO-Revision-Date: 2019-09-02 11:02\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -753,7 +753,7 @@ msgstr "Wysokość n.p.m."
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4001
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4085
 msgid "Precision"
-msgstr "Precyzja"
+msgstr "Dokładność"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4004
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4092

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-07-03 12:20+0200\n"
-"PO-Revision-Date: 2019-07-03 10:43\n"
+"PO-Revision-Date: 2019-08-22 13:05\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Norwegian\n"
 "Language: no_NO\n"
@@ -27,7 +27,7 @@ msgstr "PhoneTrack"
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:486
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
-msgstr ""
+msgstr "PhoneTrack nærhetsalarm (\"%s\" og \"%s\")"
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:369
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:82
@@ -39,28 +39,28 @@ msgstr "Enhet \"%s\" er nå nærmere enn %sm fra \"%s\"."
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:89
 #, php-format
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
-msgstr ""
+msgstr "Enhet \"%s\" er nå lengre enn \"%s\"m fra \"%s\"."
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:675
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:787
 msgid "Geofencing alert"
-msgstr ""
+msgstr "Geofence varsling"
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:678
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:67
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
-msgstr ""
+msgstr "I økt \"%s\", entret enhet \"%s\" geofence sone \"%s\"."
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:790
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:74
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
-msgstr ""
+msgstr "I økt \"%s\", forlot enhet \"%s\" geofence sone \"%s\"."
 
 #: /var/www/html/n16/apps/phonetrack/js/admin.js:19
 msgid "Quota was successfully saved"
-msgstr ""
+msgstr "Oppføringen ble lagret"
 
 #: /var/www/html/n16/apps/phonetrack/js/admin.js:23
 msgid "Failed to save quota"
@@ -101,11 +101,11 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:678
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "Zoom på alle enheter"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:691
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "Klikk på kartet for å flytte punktet, trykk ESC for å kansellere"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:937
 msgid "Server name or server address should not be empty"
@@ -309,7 +309,7 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1667
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Reserver dette enhetsnavnet"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1669
 msgid "Type reserved name and press 'Enter'"
@@ -317,7 +317,7 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1682
 msgid "Share with user"
-msgstr ""
+msgstr "Del med bruker"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1684
 msgid "Type user name and press 'Enter'"

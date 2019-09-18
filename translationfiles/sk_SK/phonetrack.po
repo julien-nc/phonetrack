@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-07-03 12:20+0200\n"
-"PO-Revision-Date: 2019-07-14 12:16\n"
+"PO-Revision-Date: 2019-09-02 08:39\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -27,7 +27,7 @@ msgstr "PhoneTrack"
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:486
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
-msgstr ""
+msgstr "PhoneTrack upozornenie na vzdialenosť (%s a %s)"
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:369
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:82
@@ -207,7 +207,7 @@ msgstr "zdieľané {u}"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1579
 msgid "Forbid devices to log to this session"
-msgstr ""
+msgstr "Zakázať zariadeniam zaznamenávať toto sedenie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1586
 msgid "Reserve device names"
@@ -215,11 +215,11 @@ msgstr "Rezervovať názvy zariadení"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1593
 msgid "Links for logging apps"
-msgstr ""
+msgstr "Odkazy na zaznamenávacie aplikácie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1600
 msgid "Link to share session"
-msgstr ""
+msgstr "Odkaz na zdieľanie relácie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1610
 msgid "Zoom on this session"
@@ -244,7 +244,7 @@ msgstr "Export do gpx"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1635
 msgid "The automatic export runs daily and saves/updates files in '{exdir}' for selected interval (today is ignored)"
-msgstr ""
+msgstr "Automatický export sa spúšťa denne a ukladá/aktualizuje súbory v '{exdir}' vo zvolenom intervale (dnešok je ignorovaný)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1636
 msgid "Automatic export"
@@ -269,7 +269,7 @@ msgstr "mesačne"
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1646
 msgid "The automatic purge runs daily and deletes old points, it keeps \"auto export\" interval plus \"auto purge\" interval\n"
 "(If \"auto export\" is set to \"never\", consider it as set to \"monthly\")"
-msgstr ""
+msgstr "Automatické mazanie sa spúšťa denne a maže staré body, ponecháva interval \"automatického exportu\" a interval \"automatického mazania\" (Ak je \"automatický export\" nastavený na \"nikdy\", správa sa ako keby bol nastavený na \"mesačne\")"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1647
 msgid "Automatic purge"
@@ -297,11 +297,11 @@ msgstr "Rezervovanie názvu zariadenia je voliteľné."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1662
 msgid "Name can be set directly in logging link if it is not reserved."
-msgstr ""
+msgstr "Názov môže byť nastavený priamo v odkaze na zaznamenávanie, ak už nie je rezervovaný."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1663
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
-msgstr ""
+msgstr "Pre záznam s rezervovaným názvom použite \"názov tokenu\" v zaznamenávacom odkaze (alebo v PhoneTrack-Android názvy záznamov \"názov zariadenia\") poli."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1664
 msgid "If a name is reserved, the only way to log with this name is with its token."
@@ -329,19 +329,19 @@ msgstr "Súkromná relácia nie je viditeľná na verejnej sledovacej stránke p
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1692
 msgid "Public session"
-msgstr ""
+msgstr "Verejné sedenie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1699
 msgid "Public watch link"
-msgstr ""
+msgstr "Verejný odkaz na sledovanie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1701
 msgid "API URL (JSON, last positions)"
-msgstr ""
+msgstr "API URL (JSON, posledná poloha)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1703
 msgid "API URL (JSON, all positions)"
-msgstr ""
+msgstr "API URL (JSON, všetky polohy)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1709
 msgid "Current active filters will be applied on shared view"
@@ -353,11 +353,11 @@ msgstr "Pridať verejné filtrované zdieľanie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1720
 msgid "Session token"
-msgstr ""
+msgstr "Token sedenia"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1726
 msgid "List of links to configure logging apps server settings."
-msgstr ""
+msgstr "Zoznam odkazov na úpravu nastavení logovacej aplikácie na servri."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1727
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:225
@@ -366,7 +366,7 @@ msgstr "Nahraďte \"yourname\" vašim zvoleným názvom zariadenia alebo názvom
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1729
 msgid "Public browser logging link"
-msgstr ""
+msgstr "Verejný odkaz na sledovanie cez prehliadač"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1734
 msgid "OsmAnd link"
@@ -487,11 +487,11 @@ msgstr "Nepodarilo sa spojiť so severom, aby bola zmenená farba zariadenia"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3019
 msgid "Geo link to open position in other app/software"
-msgstr ""
+msgstr "Geo odkaz na otvorenie polohy v inej aplikácii/programe"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3021
 msgid "Geo link QRcode to open position with a QRcode scanner"
-msgstr ""
+msgstr "QR kód geo odkazu pre otvorenie polohy so skenerom QR kódov"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3023
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3025
@@ -551,7 +551,7 @@ msgstr ""
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4906
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4925
 msgid "Nextcloud notification"
-msgstr ""
+msgstr "Nextcloud notifikácie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3075
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3134
@@ -565,16 +565,16 @@ msgstr "Emailové upozornenie"
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3078
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3137
 msgid "An empty value means the session owner's email address."
-msgstr ""
+msgstr "Prázdna hodnota znamená e-mailovú adresu vlastníka sedenia."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3079
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3138
 msgid "You can put multiple addresses separated by comas (,)."
-msgstr ""
+msgstr "Môžete vložiť viacero adries oddeľovaných čiarkami (,)."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3080
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr ""
+msgstr "Vyžiadané HTTP adresy pri vstupe (\"%loc\" bude nahradené \"šírkou:dĺžkou)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3081
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3085
@@ -585,15 +585,15 @@ msgstr "Použiť metódu POST"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3084
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr ""
+msgstr "Vyžiadané HTTP adresy pri opustení (\"%loc\" bude nahradené \"šírkou:dĺžkou)"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3088
 msgid "Geofencing zone coordinates"
-msgstr ""
+msgstr "Súradnice zóny geoplota"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3088
 msgid "leave blank to use current map bounds"
-msgstr ""
+msgstr "nechajte prázdne pre použitie okrajov aktuálnej mapy"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3090
 msgid "North"
@@ -605,19 +605,19 @@ msgstr "Juh"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3096
 msgid "Set North/East corner by clicking on the map"
-msgstr ""
+msgstr "Nastavte severný/východný roh kliknutím na mapu"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3097
 msgid "Set N/E"
-msgstr ""
+msgstr "Nastaviť S/V"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3099
 msgid "Set South/West corner by clicking on the map"
-msgstr ""
+msgstr "Nastavte južný/západný roh kliknutím na mapu"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3100
 msgid "Set S/W"
-msgstr ""
+msgstr "Nastaviť J/Z"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3104
 msgid "East"
@@ -629,11 +629,11 @@ msgstr "Západ"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3109
 msgid "Fence name"
-msgstr ""
+msgstr "Názov plota"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3110
 msgid "Use current map view as geofencing zone"
-msgstr ""
+msgstr "Použiť aktuálne zobrazenú mapu ako oblasť geoplota"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3111
 msgid "Add zone"
@@ -641,15 +641,15 @@ msgstr "Pridaj zónu"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3117
 msgid "Device proximity notifications"
-msgstr ""
+msgstr "Upozornenie na blízkosť zariadenia"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3121
 msgid "Select a session, a device name and a distance, set the notification settings, then validate."
-msgstr ""
+msgstr "Vyberte sedenie, názov zariadenia a vzdialenosť, nastavte notifikácie, potom potvrďte."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3122
 msgid "You will be notified when distance between devices gets bigger than high limit or smaller than low limit."
-msgstr ""
+msgstr "Dostanete upozornenie, keď sa vzdialenosť medzi zariadeniami zvýši alebo zníži nad/pod nastavené limity."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3123
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:451
@@ -666,7 +666,7 @@ msgstr "Názov zariadenia"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3126
 msgid "Low distance limit"
-msgstr ""
+msgstr "Limit najmenšej vzdialenosti"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3128
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3131
@@ -676,19 +676,19 @@ msgstr "metrov"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3129
 msgid "High distance limit"
-msgstr ""
+msgstr "Limit najväčšej vzdialenosti"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3139
 msgid "HTTP address to request when devices get close"
-msgstr ""
+msgstr "HTTP adresa vyžiadaná pri priblížení zariadení"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3143
 msgid "HTTP address to request when devices get far"
-msgstr ""
+msgstr "HTTP adresa vyžiadaná pri vzdialení zariadení"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3148
 msgid "Add proximity notification"
-msgstr ""
+msgstr "Pridať upozornenia na blízkosť"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3164
 msgid "Toggle lines"
@@ -730,7 +730,7 @@ msgstr "Tento bod sa nedá pridať"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3849
 msgid "User quota was reached"
-msgstr ""
+msgstr "Bola vyčerpaná kvóta používateľa"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:3853
 msgid "Failed to contact server to add point"
@@ -805,11 +805,11 @@ msgstr "Vzdialenosť"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4245
 msgid "Impossible to zoom, there is no point to zoom on for this session"
-msgstr ""
+msgstr "Nie je možné zväčšiť, v tomto sedení nie je bod, na ktorý by bolo možné priblížiť"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4280
 msgid "File extension must be '.gpx' or '.kml' to be imported"
-msgstr ""
+msgstr "Súbor musí mať príponu '.gpx' alebo '.kml' aby sa dal importovať"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4299
 msgid "Failed to create imported session"
@@ -832,11 +832,11 @@ msgstr "Súbor neexistuje"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4316
 msgid "Malformed XML file"
-msgstr ""
+msgstr "Nesprávny XML súbor"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4322
 msgid "There is no device to import in submitted file"
-msgstr ""
+msgstr "V odosielanom súbore nie je žiadne zariadenie na importovanie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4328
 msgid "Failed to contact server to import session"
@@ -849,11 +849,11 @@ msgstr "Relácia sa úspešne exportovala v"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4353
 msgid "There is no point to export for this session"
-msgstr ""
+msgstr "V tomto sedení nie je žiadny bod na exportovanie"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4357
 msgid "but there was no point to export for some devices"
-msgstr ""
+msgstr "ale nebol tu žiadny bod na exportovanie v niektorých zariadeniach"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4361
 msgid "Failed to export session"
@@ -869,7 +869,7 @@ msgstr "Nepodarilo sa spojiť so severom na uloženie pozície"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4489
 msgid "Impossible to zoom, there is no point to zoom on for this device"
-msgstr ""
+msgstr "Nie je možné zväčšiť, v tomto sedení nie je bod, na ktorý by bolo možné priblížiť v tomto zariadení"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4528
 msgid "'{n}' is already reserved"
@@ -927,49 +927,49 @@ msgstr "Nepodarilo sa spojiť so severom, aby bolo vymazané užívateľské zdi
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4655
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4679
 msgid "Public share has been successfully modified"
-msgstr ""
+msgstr "Verejné zdieľanie bolo úspešne upravené"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4658
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4682
 msgid "Failed to modify public share"
-msgstr ""
+msgstr "Úprava verejného zdieľania zlyhala"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4661
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4685
 msgid "Failed to contact server to modify public share"
-msgstr ""
+msgstr "Zlyhalo spojenie so serverom pre úpravu verejného zdieľania"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4703
 msgid "Device name restriction has been successfully set"
-msgstr ""
+msgstr "Obmedzenia názvu zariadenia boli úspešne nastavené"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4706
 msgid "Failed to set public share device name restriction"
-msgstr ""
+msgstr "Zlyhalo nastavenie obmedzenia názvu zariadenia pri verejnom zdieľaní"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4709
 msgid "Failed to contact server to set public share device name restriction"
-msgstr ""
+msgstr "Zlyhalo spojenie so serverom pre nastavenie obmedzení názvu zariadenia pri verejnom zdieľaní"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4744
 msgid "Warning : User email and server admin email must be set to receive geofencing alerts."
-msgstr ""
+msgstr "Pozor: E-mail používateľa a e-mail administrátora servera musia byť nastavené, aby bolo možné prijímať výstrahy geoplota."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4748
 msgid "Failed to add geofencing zone"
-msgstr ""
+msgstr "Zlyhalo pridanie zóny geoplota"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4751
 msgid "Failed to contact server to add geofencing zone"
-msgstr ""
+msgstr "Zlyhalo spojenie so serverom pre pridanie zóny geoplota"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4766
 msgid "URL to request when entering"
-msgstr ""
+msgstr "URL vyžiadaná pri vstupe"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4770
 msgid "URL to request when leaving"
-msgstr ""
+msgstr "URL vyžiadaná pri opustení"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4773
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4777
@@ -997,60 +997,60 @@ msgstr "E-mailové adresy"
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4909
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4930
 msgid "account mail address"
-msgstr ""
+msgstr "e-mailová adresa účtu"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4833
 msgid "Failed to delete geofencing zone"
-msgstr ""
+msgstr "Zlyhalo vymazanie zóny geoplota"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4836
 msgid "Failed to contact server to delete geofencing zone"
-msgstr ""
+msgstr "Zlyhalo spojenie so serverom pre vymazanie zóny geoplota"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4866
 msgid "Warning : User email and server admin email must be set to receive proximity alerts."
-msgstr ""
+msgstr "Pozor: E-mail používateľa a e-mail administrátora servera musia byť nastavené, aby bolo možné prijímať upozornenia na vzdialenosť."
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4870
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4874
 msgid "Failed to add proximity alert"
-msgstr ""
+msgstr "Zlyhalo pridanie upozornenia na vzdialenosť"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4871
 msgid "Device or session does not exist"
-msgstr ""
+msgstr "Zariadenie alebo sedenie neexistuje"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4877
 msgid "Failed to contact server to add proximity alert"
-msgstr ""
+msgstr "Zlyhalo spojenie so serverom pre pridanie výstrahy blízkosti"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4901
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4918
 msgid "URL to request when devices get close"
-msgstr ""
+msgstr "URL adresa vyžiadaná pri priblížení zariadení"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4904
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4922
 msgid "URL to request when devices get far"
-msgstr ""
+msgstr "URL adresa vyžiadaná pri vzdialení zariadení"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4911
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4933
 msgid "Low distance limit : {nbmeters}m"
-msgstr ""
+msgstr "Limit najmenšej vzdialenosti: {nbmeters}m"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4912
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4935
 msgid "High distance limit : {nbmeters}m"
-msgstr ""
+msgstr "Limit najväčšej vzdialenosti : {nbmeters} m"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4961
 msgid "Failed to delete proximity alert"
-msgstr ""
+msgstr "Vymazanie upozornenia na vzdialenosť zlyhalo"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4964
 msgid "Failed to contact server to delete proximity alert"
-msgstr ""
+msgstr "Zlyhalo spojenie so serverom pre vymazanie výstrahy blízkosti"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4983
 msgid "Failed to add public share"
@@ -1070,7 +1070,7 @@ msgstr "Zobraziť len posledné pozície"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5021
 msgid "Simplify positions to nearest geofencing zone center"
-msgstr ""
+msgstr "Zjednodušiť umiestnenie na stred najbližšieho geoplota"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:5040
 msgid "No filters"
