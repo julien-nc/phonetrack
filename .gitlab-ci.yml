@@ -22,7 +22,7 @@ test_nc17_sqlite:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable17 nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -53,7 +53,7 @@ test_nc17_pgsql:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable17 nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -83,7 +83,7 @@ test_nc17_mysql:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable17 nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
