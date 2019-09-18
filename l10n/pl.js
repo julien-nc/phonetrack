@@ -170,7 +170,7 @@ OC.L10N.register(
     "Date" : "Data",
     "Time" : "Czas",
     "Altitude" : "Wysokość n.p.m.",
-    "Precision" : "Precyzja",
+    "Precision" : "Dokładność",
     "Speed" : "Prędkość",
     "Bearing" : "Kierunek",
     "Satellites" : "Satelity",
