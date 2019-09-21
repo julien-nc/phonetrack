@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-07-03 12:20+0200\n"
-"PO-Revision-Date: 2019-07-03 10:43\n"
+"PO-Revision-Date: 2019-09-20 07:54\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -27,13 +27,13 @@ msgstr "PhoneTrack"
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:486
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
-msgstr ""
+msgstr "PhoneTrack yakınlık alarmı (%s and %s)"
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:369
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:82
 #, php-format
 msgid "Device \"%s\" is now closer than %sm to \"%s\"."
-msgstr ""
+msgstr "Şuanda \"%s\" cihazı %s den \"%s\" ye daha yakın."
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:489
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:89
@@ -44,7 +44,7 @@ msgstr ""
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:675
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:787
 msgid "Geofencing alert"
-msgstr ""
+msgstr "Coğrafi varlık alarmı"
 
 #: /var/www/html/n16/apps/phonetrack/controller/logcontroller.php:678
 #: /var/www/html/n16/apps/phonetrack/lib/Notification/Notifier.php:67
@@ -60,11 +60,11 @@ msgstr ""
 
 #: /var/www/html/n16/apps/phonetrack/js/admin.js:19
 msgid "Quota was successfully saved"
-msgstr ""
+msgstr "Kota başarı ile kayıt edildi"
 
 #: /var/www/html/n16/apps/phonetrack/js/admin.js:23
 msgid "Failed to save quota"
-msgstr ""
+msgstr "Kota kadı sırasında hata oluştu"
 
 #: /var/www/html/n16/apps/phonetrack/js/leaflet.js:5
 msgid "left"
@@ -109,7 +109,7 @@ msgstr "Noktayı hareket ettirmek için haritaya tıklayın, iptal etmek için E
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:937
 msgid "Server name or server address should not be empty"
-msgstr ""
+msgstr "Sunucu ismi ve sunucu adresi boş olmamalı"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:940
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:949
@@ -171,15 +171,15 @@ msgstr "Seçenekleri kaydetmek için sunucu ile bağlantı kurulamadı"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1309
 msgid "Filter bookmark should have a name"
-msgstr ""
+msgstr "Yer imi filtresinin bir ismi olmalı"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1337
 msgid "Failed to contact server to save filters bookmark"
-msgstr ""
+msgstr "Yer imi filtresini kayıt etmek için sunucuya bağlanılamadı"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1380
 msgid "Failed to contact server to delete filters bookmark"
-msgstr ""
+msgstr "Yer imi filtresini silmek için sunuya bağlanılamadı"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1422
 msgid "Session name should not be empty"
@@ -195,7 +195,7 @@ msgstr "Oturum açmak için sunucu ile bağlantı kurulamadı"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1479
 msgid "yourname"
-msgstr ""
+msgstr "isminiz"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1564
 msgid "Watch this session"
@@ -207,7 +207,7 @@ msgstr "{u} tarafından paylaşılan"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1579
 msgid "Forbid devices to log to this session"
-msgstr ""
+msgstr "Aygıtların bu oturuma giriş yapmasını yasaklayın"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1586
 msgid "Reserve device names"
@@ -215,11 +215,11 @@ msgstr "Aygıt adlarını rezerve et"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1593
 msgid "Links for logging apps"
-msgstr ""
+msgstr "Günlük uygulamaları için linkler"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1600
 msgid "Link to share session"
-msgstr ""
+msgstr "Oturumu paylaşma bağlantısı"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:1610
 msgid "Zoom on this session"

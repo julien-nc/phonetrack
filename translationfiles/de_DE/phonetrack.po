@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2019-07-03 12:20+0200\n"
-"PO-Revision-Date: 2019-07-03 14:34\n"
+"PO-Revision-Date: 2019-09-21 09:08\n"
 "Last-Translator: Julien Veyssier (eneiluj)\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -773,7 +773,7 @@ msgstr "Satelliten"
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4013
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4107
 msgid "Battery"
-msgstr "Batterie"
+msgstr "Akku"
 
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4016
 #: /var/www/html/n16/apps/phonetrack/js/phonetrack.js:4111
@@ -1312,7 +1312,7 @@ msgstr "Ein leerer Wert bedeutet: „keine Einschränkungen”."
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:4
 msgid "Main tab"
-msgstr "Haup-Tab"
+msgstr "Haupt-Tab"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:5
 msgid "Filters"
@@ -1366,7 +1366,7 @@ msgstr "Ein leerer Wert bedeutet: Keine Beschränkung"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:71
 msgid "Max number of points per device to load on refresh"
-msgstr "Maximale Anzahl von Datenpunkte je Gerät, die beim Aktualisieren geladen werden"
+msgstr "Maximale Anzahl von Datenpunkten je Gerät, die beim Aktualisieren geladen werden"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:72
 msgid "points"
@@ -1451,7 +1451,7 @@ msgstr "Satellitenzahl in Tooltips anzeigen"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:142
 msgid "Show battery level in tooltips"
-msgstr "Batteriestatus in Tooltips anzeigen"
+msgstr "Ladezustand in Tooltips anzeigen"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:146
 msgid "Show elevation in tooltips"
@@ -1463,7 +1463,7 @@ msgstr "User-Agent in Tooltips anzeigen"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:154
 msgid "Make points draggable in edition mode"
-msgstr "Ermöglichen, Datenpunkte im Bearbeitungsmodus verschieben zu können"
+msgstr "Verschieben von Datenpunkten im Bearbeitungsmodus erlauben"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:158
 msgid "Show accuracy circle on hover"
@@ -1519,7 +1519,7 @@ msgstr "Eine Datei pro Gerät exportieren"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:217
 msgid "Tracking sessions"
-msgstr "Sitzungen aufzeichnen"
+msgstr "Sitzungen"
 
 #: /var/www/html/n16/apps/phonetrack/templates/maincontent.php:268
 msgid "Custom tile servers"
