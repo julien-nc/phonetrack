@@ -6842,9 +6842,12 @@
             }
         });
 
-        phonetrack.themeColor = '#0000FF';
         if (OCA.Theming) {
             phonetrack.themeColor = OCA.Theming.color;
+        }
+        else {
+            phonetrack.themeColor = '#0082C9';
+            $('<style>.nc-theming-main-background {background-color: blue;}</style>').appendTo('body');
         }
         phonetrack.themeColorDark = hexToDarkerHex(phonetrack.themeColor);
 
