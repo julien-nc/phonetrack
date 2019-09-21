@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.5.4 – 2019-09-21
+### Changed
+- CI script now uses NC 17
+- revert autoexport/autopurge to previous system
+
+### Fixed
+- notifications for NC 17
+[#261](https://gitlab.com/eneiluj/phonetrack-oc/issues/261) @nickvergessen
+- filter table with small screen size
+[#274](https://gitlab.com/eneiluj/phonetrack-oc/issues/274) @amo13
+- use NC blue when theming app is disabled
+[#276](https://gitlab.com/eneiluj/phonetrack-oc/issues/276) @huste
+
 ## 0.5.3 – 2019-07-25
 ### Changed
 - adapt notifications to NC 17
