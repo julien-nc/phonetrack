@@ -446,6 +446,10 @@ input[role=precision] {
 #filterPointsTable input[type=number].time {
     width: 44px !important;
 }
+#filterPointsTable td {
+    word-wrap: break-word;
+    white-space: normal;
+}
 .filterDelimiterLine td {
     border-top: solid 1px var(--color-border);
 }
