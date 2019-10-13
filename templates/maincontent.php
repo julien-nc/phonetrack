@@ -246,7 +246,7 @@ echo '</p>'."\n";
 echo '<ul id="basetileservers" style="display:none">';
 foreach($_['basetileservers'] as $ts){
     echo '<li';
-    foreach (Array('name', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution') as $field) {
+    foreach (Array('name', 'type', 'url', 'token', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution') as $field) {
         if (array_key_exists($field, $ts)) {
             echo ' '.$field.'="';
             p($ts[$field]);

@@ -189,15 +189,20 @@ class PageController extends Controller {
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);
+        $response->addHeader("Access-Control-Allow-Origin", "*");
         $csp = new ContentSecurityPolicy();
-        $csp->addAllowedImageDomain('*')
-            ->addAllowedMediaDomain('*')
-            //->addAllowedChildSrcDomain('*')
-            ->addAllowedFrameDomain('*')
-            ->addAllowedWorkerSrcDomain('*')
-            ->addAllowedObjectDomain('*')
-            ->addAllowedScriptDomain('*')
-            ->addAllowedConnectDomain('*');
+        $csp->allowInlineScript()
+        ->allowEvalScript()
+        ->allowInlineStyle()
+        ->addAllowedScriptDomain('*')
+        ->addAllowedStyleDomain('*')
+        ->addAllowedFontDomain('*')
+        ->addAllowedImageDomain('*')
+        ->addAllowedConnectDomain('*')
+        ->addAllowedMediaDomain('*')
+        ->addAllowedObjectDomain('*')
+        ->addAllowedFrameDomain('*')
+        ->addAllowedChildSrcDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
     }

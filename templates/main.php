@@ -15,6 +15,8 @@ script('phonetrack', 'jquery.plugin.min');
 script('phonetrack', 'jquery.countdown.min');
 script('phonetrack', 'leaflet.hotline');
 script('phonetrack', 'kjua.min');
+script('phonetrack', 'mapbox-gl');
+script('phonetrack', 'leaflet-mapbox-gl');
 script('phonetrack', 'phonetrack');
 
 style('phonetrack', 'style');
@@ -27,6 +29,7 @@ style('phonetrack', 'L.Control.Locate');
 style('phonetrack', 'Leaflet.LinearMeasurement');
 style('phonetrack', 'Leaflet.Dialog');
 style('phonetrack', 'easy-button');
+style('phonetrack', 'mapbox-gl');
 style('phonetrack', 'phonetrack');
 
 ?>

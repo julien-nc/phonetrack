@@ -12,6 +12,24 @@ $baseTileServers = [
     //    'transparent' => 'true|false'
     //),
     //Array(
+    //    'name' => 'vector mapbox',
+    //    'type' => 'mapbox',
+    //    'token' => 'YOUR_MAPBOX_TOKEN',
+    //    'url' => 'mapbox://styles/mapbox/bright-v8',
+    //    'attribution' => 'Map data &copy; 2013 <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+    //    'minzoom' => '1',
+    //    'maxzoom' => '22'
+    //),
+    //Array(
+    //    'name' => 'vector openmaptiles',
+    //    'type' => 'mapbox',
+    //    'token' => 'no-token',
+    //    'url' => 'https://your.openmaptiles.server:PORT/styles/osm-bright/style.json',
+    //    'attribution' => 'Map data &copy; 2013 <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+    //    'minzoom' => '1',
+    //    'maxzoom' => '22'
+    //),
+    //Array(
     //    'name' => 'tilewms',
     //    'type' => 'tilewms|overlaywms',
     //    'url' => '',
