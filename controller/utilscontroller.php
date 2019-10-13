@@ -78,7 +78,7 @@ class UtilsController extends Controller {
      * Add one tile server to the DB for current user
      * @NoAdminRequired
      */
-    public function addTileServer($servername, $serverurl, $type,
+    public function addTileServer($servername, $serverurl, $type, $token,
                     $layers, $version, $tformat, $opacity, $transparent,
                     $minzoom, $maxzoom, $attribution) {
         // first we check it does not already exist
@@ -101,12 +101,13 @@ class UtilsController extends Controller {
         if ($ts === null){
             $sql = '
                 INSERT INTO *PREFIX*phonetrack_tileserver
-                ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', type, servername, url, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
+                ('.$this->dbdblquotes.'user'.$this->dbdblquotes.', type, servername, url, token, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
                 VALUES ('.
                     $this->db_quote_escape_string($this->userId).','.
                     $this->db_quote_escape_string($type).','.
                     $this->db_quote_escape_string($servername).','.
                     $this->db_quote_escape_string($serverurl).','.
+                    $this->db_quote_escape_string($token).','.
                     $this->db_quote_escape_string($layers).','.
                     $this->db_quote_escape_string($version).','.
                     $this->db_quote_escape_string($tformat).','.

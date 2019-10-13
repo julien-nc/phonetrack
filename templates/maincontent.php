@@ -305,6 +305,45 @@ if (count($_['usertileservers']) > 0){
 </div>
 
 <hr/>
+<h3 class="sectiontitle customtiletitle" for="mapboxtileserverdiv"><b><?php p($l->t('Custom mapbox tile servers')); ?></b> <i class="fa fa-angle-double-down" aria-hidden="true"></i></h3>
+<div id="mapboxtileserverdiv">
+    <div id="mapboxtileserveradd">
+        <p><?php p($l->t('Server name')); ?> :</p>
+        <input type="text" id="mapboxtileservername" title="<?php p($l->t('For example : my custom server')); ?>"/>
+        <p><?php p($l->t('Style.json url')); ?> :</p>
+        <input type="text" id="mapboxtileserverurl" title="<?php p($l->t('For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json')); ?>"/>
+        <p><?php p($l->t('Access token (API key)')); ?> :</p>
+        <input type="text" id="mapboxtiletoken"/>
+        <button id="addmapboxtileserver"><i class="fa fa-plus-circle" aria-hidden="true" style="color:green;"></i> <?php p($l->t('Add')); ?></button>
+    </div>
+    <div id="mapboxtileserverlist">
+        <h3><?php p($l->t('Your mapbox tile servers')); ?></h3>
+        <ul class="disclist">
+<?php
+if (count($_['usermapboxtileservers']) > 0){
+    foreach($_['usermapboxtileservers'] as $ts){
+        echo '<li title="'.$ts['url'].'"';
+        foreach (Array('servername', 'type', 'url', 'token', 'attribution') as $field) {
+            if (array_key_exists($field, $ts)) {
+                echo ' '.$field.'="';
+                p($ts[$field]);
+                echo '"';
+            }
+        }
+        echo '>';
+        p($ts['servername']);
+        echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
+        p($l->t('Delete'));
+        echo '</button></li>';
+    }
+}
+?>
+        </ul>
+    </div>
+</div>
+
+
+<hr/>
 <h3 class="sectiontitle customtiletitle" for="overlayserverdiv"><b><?php p($l->t('Custom overlay tile servers')); ?></b> <i class="fa fa-angle-double-down" aria-hidden="true"></i></h3>
 <div id="overlayserverdiv">
     <div id="overlayserveradd">

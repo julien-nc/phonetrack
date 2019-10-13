@@ -205,10 +205,11 @@ div#logofolder label {
 #lastlegend {
     grid-column: 1/3;
 }
-#overlayserveradd, #tileserveradd, #tilewmsserveradd, #overlaywmsserveradd {
+#overlayserveradd, #mapboxtileserveradd, #tileserveradd, #tilewmsserveradd, #overlaywmsserveradd {
     display: grid;
     grid-template-columns: 35% 65%;
 }
+#mapboxtileserveradd       p,
 #tileserveradd       p,
 #tilewmsserveradd    p,
 #overlaywmsserveradd p,
@@ -216,12 +217,14 @@ div#logofolder label {
     margin-top: auto;
     margin-bottom: auto;
 }
+#mapboxtileserveradd input[type=checkbox],
 #tileserveradd input[type=checkbox],
 #tilewmsserveradd input[type=checkbox],
 #overlaywmsserveradd input[type=checkbox],
 #overlayserveradd input[type=checkbox]{
     margin-right: auto;
 }
+#mapboxtileserveradd input[type=text],
 #tileserveradd input[type=text],
 #tilewmsserveradd input[type=text],
 #overlaywmsserveradd input[type=text],
@@ -232,7 +235,7 @@ div#logofolder label {
     display: block;
     text-align: center;
 }
-#tileserverdiv, #tilewmsserverdiv,
+#mapboxtileserverdiv, #tileserverdiv, #tilewmsserverdiv,
 #overlayserverdiv, #overlaywmsserverdiv {
     display: none;
 }

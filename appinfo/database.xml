@@ -460,6 +460,13 @@
       <length>300</length>
     </field>
     <field>
+      <name>token</name>
+      <type>text</type>
+      <notnull>true</notnull>
+      <default>no-token</default>
+      <length>300</length>
+    </field>
+    <field>
       <name>format</name>
       <type>text</type>
       <notnull>true</notnull>

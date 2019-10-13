@@ -136,7 +136,7 @@ class PageController extends Controller {
     private function getUserTileServers($type){
         // custom tile servers management
         $sqlts = '
-            SELECT servername, type, url, layers,
+            SELECT servername, type, url, layers, token,
                    version, format, opacity, transparent,
                    minzoom, maxzoom, attribution
             FROM *PREFIX*phonetrack_tileserver
@@ -147,7 +147,7 @@ class PageController extends Controller {
         $tss = Array();
         while ($row = $req->fetch()){
             $tss[$row["servername"]] = Array();
-            foreach (Array('servername', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution') as $field) {
+            foreach (Array('servername', 'type', 'url', 'token', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution') as $field) {
                 $tss[$row['servername']][$field] = $row[$field];
             }
         }
@@ -165,6 +165,7 @@ class PageController extends Controller {
         //date_default_timezone_set('Europe/Paris');
         //phpinfo();
         $tss = $this->getUserTileServers('tile');
+        $mbtss = $this->getUserTileServers('mapboxtile');
         $oss = $this->getUserTileServers('overlay');
         $tssw = $this->getUserTileServers('tilewms');
         $ossw = $this->getUserTileServers('overlaywms');
@@ -179,6 +180,7 @@ class PageController extends Controller {
             'username'=>$this->userId,
             'basetileservers'=>$baseTileServers,
             'usertileservers'=>$tss,
+            'usermapboxtileservers'=>$mbtss,
             'useroverlayservers'=>$oss,
             'usertileserverswms'=>$tssw,
             'useroverlayserverswms'=>$ossw,

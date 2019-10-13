@@ -422,8 +422,8 @@
                 baseLayers[sname] = L.mapboxGL({
                     accessToken: token || 'token',
                     style: surl,
-                    minZoom: minz,
-                    maxZoom: maxz,
+                    minZoom: minz || 1,
+                    maxZoom: maxz || 22,
                     attribution: sattrib
                 });
             }
@@ -454,6 +454,19 @@
             var sattrib = $(this).attr('attribution') || '';
             baseLayers[sname] = new L.TileLayer(surl,
                     {minZoom: sminzoom, maxZoom: smaxzoom, attribution: sattrib});
+        });
+        $('#mapboxtileserverlist li').each(function() {
+            var sname = $(this).attr('servername');
+            var surl = $(this).attr('url');
+            var token = $(this).attr('token');
+            var sattrib = $(this).attr('attribution') || '';
+            baseLayers[sname] = L.mapboxGL({
+                accessToken: token || 'token',
+                style: surl,
+                minZoom: 1,
+                maxZoom: 22,
+                attribution: sattrib
+            });
         });
         $('#tilewmsserverlist li').each(function() {
             var sname = $(this).attr('servername');
@@ -946,8 +959,9 @@
     function addTileServer(type) {
         var sname = $('#'+type+'servername').val();
         var surl = $('#'+type+'serverurl').val();
-        var sminzoom = $('#'+type+'minzoom').val();
-        var smaxzoom = $('#'+type+'maxzoom').val();
+        var stoken = $('#'+type+'token').val();
+        var sminzoom = $('#'+type+'minzoom').val() || '';
+        var smaxzoom = $('#'+type+'maxzoom').val() || '';
         var stransparent = $('#'+type+'transparent').is(':checked');
         var sopacity = $('#'+type+'opacity').val() || '';
         var sformat = $('#'+type+'format').val() || '';
@@ -973,11 +987,13 @@
         }
         $('#'+type+'servername').val('');
         $('#'+type+'serverurl').val('');
+        $('#'+type+'token').val('');
 
         var req = {
             servername: sname,
             serverurl: surl,
             type: type,
+            token: stoken,
             layers: slayers,
             version: sversion,
             tformat: sformat,
@@ -1010,6 +1026,17 @@
                     // add tile server in leaflet control
                     newlayer = new L.TileLayer(surl,
                         {minZoom: sminzoom, maxZoom: smaxzoom, attribution: ''});
+                    phonetrack.activeLayers.addBaseLayer(newlayer, sname);
+                    phonetrack.baseLayers[sname] = newlayer;
+                }
+                else if (type === 'mapboxtile'){
+                    newlayer = L.mapboxGL({
+                        accessToken: stoken || 'token',
+                        style: surl,
+                        minZoom: 1,
+                        maxZoom: 22,
+                        attribution: ''
+                    });
                     phonetrack.activeLayers.addBaseLayer(newlayer, sname);
                     phonetrack.baseLayers[sname] = newlayer;
                 }
@@ -5447,6 +5474,12 @@
         document.onkeydown = checkKey;
 
         // Custom tile server management
+        $('body').on('click', '#mapboxtileserverlist button', function(e) {
+            deleteTileServer($(this).parent(), 'mapboxtile');
+        });
+        $('#addmapboxtileserver').click(function() {
+            addTileServer('mapboxtile');
+        });
         $('body').on('click', '#tileserverlist button', function(e) {
             deleteTileServer($(this).parent(), 'tile');
         });
