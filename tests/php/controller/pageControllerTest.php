@@ -267,7 +267,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->utilsController->addTileServer(
             'serv', 'https://tile.server/x/y/z', 'tile',
-            '', '', '', 0.9, True,
+            '', '', '', '', 0.9, True,
             10, 16, 'owyeah'
         );
         $data = $resp->getData();
@@ -276,7 +276,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $resp = $this->utilsController->addTileServer(
             'serv', 'https://tile.server/x/y/z', 'tile',
-            '', '', '', 0.9, True,
+            '', '', '', '', 0.9, True,
             10, 16, 'owyeah'
         );
         $data = $resp->getData();
@@ -1976,7 +1976,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         // JUST to increase coverage
         $resp = $this->utilsController->addTileServer(
             'serv', 'https://tile.server/x/y/z', 'tile',
-            '', '', '', 0.9, True,
+            '', '', '', '', 0.9, True,
             10, 16, 'owyeah'
         );
         $data = $resp->getData();
