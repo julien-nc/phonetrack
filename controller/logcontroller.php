@@ -1749,8 +1749,9 @@ class LogController extends Controller {
     public function logOverland($token, $devicename, $locations) {
         foreach ($locations as $loc) {
             if ($loc['type'] === 'Feature' and $loc['geometry']['type'] === 'Point') {
-                $lat = $loc['geometry']['coordinates'][0];
-                $lon = $loc['geometry']['coordinates'][1];
+                $dname = $this->chooseDeviceName($loc['properties']['device_id'], $devicename);
+                $lat = $loc['geometry']['coordinates'][1];
+                $lon = $loc['geometry']['coordinates'][0];
                 $datetime = new \Datetime($loc['properties']['timestamp']);
                 $timestamp = $datetime->getTimestamp();
                 $alt = $loc['properties']['altitude'];
