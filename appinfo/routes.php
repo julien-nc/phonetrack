@@ -53,6 +53,7 @@ return [
         ['name' => 'log#logGpsloggerPost', 'url' => '/log/gpslogger/{token}/{devicename}', 'verb' => 'POST'],
         ['name' => 'log#logOwntracks', 'url' => '/log/owntracks/{token}/{devicename}', 'verb' => 'POST', 'defaults' => array('devicename' => '')],
         ['name' => 'log#logUlogger', 'url' => '/log/ulogger/{token}/{devicename}/client/index.php', 'verb' => 'POST'],
+        ['name' => 'log#logOverland', 'url' => '/log/overland/{token}/{devicename}', 'verb' => 'POST'],
         ['name' => 'log#logTraccar', 'url' => '/log/traccar/{token}/{devicename}', 'verb' => 'POST', 'defaults' => array('devicename' => '')],
         ['name' => 'log#logOpengts', 'url' => '/log/opengts/{token}/{devicename}', 'verb' => 'GET', 'defaults' => array('devicename' => '')],
         ['name' => 'log#logOpengtsPost', 'url' => '/log/opengts/{token}/{devicename}', 'verb' => 'POST'],
