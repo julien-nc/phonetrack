@@ -4462,18 +4462,8 @@ class PageController extends Controller {
 
             $valuesStrings = array();
             foreach ($points as $point) {
-                $lat        = number_format($point[0], 8, '.', '');
-                $lon        = number_format($point[1], 8, '.', '');
-                $alt        = is_numeric($point[2]) ? number_format($point[2], 2, '.', '') : 'NULL';
-                $timestamp  = is_numeric($point[3]) ? number_format($point[3], 0, '.', '') : 'NULL';
-                $acc        = is_numeric($point[4]) ? number_format($point[4], 2, '.', '') : 'NULL';
-                $bat        = is_numeric($point[5]) ? number_format($point[5], 2, '.', '') : 'NULL';
-                $sat        = is_numeric($point[6]) ? number_format($point[6], 0, '.', '') : 'NULL';
-                $speed      = is_numeric($point[8]) ? number_format($point[8], 3, '.', '') : 'NULL';
-                $bearing    = is_numeric($point[9]) ? number_format($point[9], 2, '.', '') : 'NULL';
-                $useragent  = $point[7];
                 // correct timestamp if needed
-                $time = $timestamp;
+                $time = $point[3];
                 if (is_numeric($time)) {
                     $time = floatval($time);
                     if ($time > 10000000000.0) {
@@ -4481,18 +4471,29 @@ class PageController extends Controller {
                     }
                 }
 
+                $lat        = $this->db_quote_escape_string(number_format($point[0], 8, '.', ''));
+                $lon        = $this->db_quote_escape_string(number_format($point[1], 8, '.', ''));
+                $alt        = is_numeric($point[2]) ? $this->db_quote_escape_string(number_format($point[2], 2, '.', '')) : 'NULL';
+                $time       = is_numeric($time) ? $this->db_quote_escape_string(number_format($time, 0, '.', '')) : 'NULL';
+                $acc        = is_numeric($point[4]) ? $this->db_quote_escape_string(number_format($point[4], 2, '.', '')) : 'NULL';
+                $bat        = is_numeric($point[5]) ? $this->db_quote_escape_string(number_format($point[5], 2, '.', '')) : 'NULL';
+                $sat        = is_numeric($point[6]) ? $this->db_quote_escape_string(number_format($point[6], 0, '.', '')) : 'NULL';
+                $speed      = is_numeric($point[8]) ? $this->db_quote_escape_string(number_format($point[8], 3, '.', '')) : 'NULL';
+                $bearing    = is_numeric($point[9]) ? $this->db_quote_escape_string(number_format($point[9], 2, '.', '')) : 'NULL';
+                $useragent  = $point[7];
+
                 $oneVal = '(';
                 $oneVal .= $this->db_quote_escape_string($dbdeviceid).',';
-                $oneVal .= $this->db_quote_escape_string($lat).',';
-                $oneVal .= $this->db_quote_escape_string($lon).',';
-                $oneVal .= $this->db_quote_escape_string($time).',';
-                $oneVal .= $this->db_quote_escape_string($acc).',';
-                $oneVal .= $this->db_quote_escape_string($sat).',';
-                $oneVal .= $this->db_quote_escape_string($alt).',';
-                $oneVal .= $this->db_quote_escape_string($bat).',';
+                $oneVal .= $lat.',';
+                $oneVal .= $lon.',';
+                $oneVal .= $time.',';
+                $oneVal .= $acc.',';
+                $oneVal .= $sat.',';
+                $oneVal .= $alt.',';
+                $oneVal .= $bat.',';
                 $oneVal .= $this->db_quote_escape_string($useragent).',';
-                $oneVal .= $this->db_quote_escape_string($speed).',';
-                $oneVal .= $this->db_quote_escape_string($bearing).') ';
+                $oneVal .= $speed.',';
+                $oneVal .= $bearing.') ';
 
                 array_push($valuesStrings, $oneVal);
             }

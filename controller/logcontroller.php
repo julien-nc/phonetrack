@@ -1243,31 +1243,31 @@ class LogController extends Controller {
                         return $res;
                     }
 
-                    $lat        = number_format($lat, 8, '.', '');
-                    $lon        = number_format($lon, 8, '.', '');
-                    $time       = number_format($time, 0, '.', '');
-                    $alt        = is_numeric($alt) ? number_format($alt, 2, '.', '') : 'NULL';
-                    $acc        = is_numeric($acc) ? number_format($acc, 2, '.', '') : 'NULL';
-                    $bat        = is_numeric($bat) ? number_format($bat, 2, '.', '') : 'NULL';
-                    $sat        = is_numeric($sat) ? number_format($sat, 0, '.', '') : 'NULL';
-                    $speed      = is_numeric($speed) ? number_format($speed, 3, '.', '') : 'NULL';
-                    $bearing    = is_numeric($bearing) ? number_format($bearing, 2, '.', '') : 'NULL';
+                    $lat        = $this->db_quote_escape_string(number_format($lat, 8, '.', ''));
+                    $lon        = $this->db_quote_escape_string(number_format($lon, 8, '.', ''));
+                    $time       = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
+                    $alt        = is_numeric($alt) ? $this->db_quote_escape_string(number_format($alt, 2, '.', '')) : 'NULL';
+                    $acc        = is_numeric($acc) ? $this->db_quote_escape_string(number_format($acc, 2, '.', '')) : 'NULL';
+                    $bat        = is_numeric($bat) ? $this->db_quote_escape_string(number_format($bat, 2, '.', '')) : 'NULL';
+                    $sat        = is_numeric($sat) ? $this->db_quote_escape_string(number_format($sat, 0, '.', '')) : 'NULL';
+                    $speed      = is_numeric($speed) ? $this->db_quote_escape_string(number_format($speed, 3, '.', '')) : 'NULL';
+                    $bearing    = is_numeric($bearing) ? $this->db_quote_escape_string(number_format($bearing, 2, '.', '')) : 'NULL';
 
                     $sql = '
                         INSERT INTO *PREFIX*phonetrack_points
                         (deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
                         VALUES ('.
                             $this->db_quote_escape_string($deviceidToInsert).','.
-                            $this->db_quote_escape_string($lat).','.
-                            $this->db_quote_escape_string($lon).','.
-                            $this->db_quote_escape_string($time).','.
-                            $this->db_quote_escape_string($acc).','.
-                            $this->db_quote_escape_string($sat).','.
-                            $this->db_quote_escape_string($alt).','.
-                            $this->db_quote_escape_string($bat).','.
+                            $lat.','.
+                            $lon.','.
+                            $time.','.
+                            $acc.','.
+                            $sat.','.
+                            $alt.','.
+                            $bat.','.
                             $this->db_quote_escape_string($useragent).','.
-                            $this->db_quote_escape_string($speed).','.
-                            $this->db_quote_escape_string($bearing).'
+                            $speed.','.
+                            $bearing.'
                         ) ;';
                     $req = $this->dbconnection->prepare($sql);
                     $req->execute();
@@ -1527,16 +1527,6 @@ class LogController extends Controller {
                             !is_null($lon) and $lon !== '' and is_numeric($lon) and
                             !is_null($timestamp) and $timestamp !== '' and is_numeric($timestamp)
                         ) {
-                            $lat        = number_format($lat, 8, '.', '');
-                            $lon        = number_format($lon, 8, '.', '');
-                            $timestamp  = number_format($timestamp, 0, '.', '');
-                            $alt        = is_numeric($alt) ? number_format($alt, 2, '.', '') : 'NULL';
-                            $acc        = is_numeric($acc) ? number_format($acc, 2, '.', '') : 'NULL';
-                            $bat        = is_numeric($bat) ? number_format($bat, 2, '.', '') : 'NULL';
-                            $sat        = is_numeric($sat) ? number_format($sat, 0, '.', '') : 'NULL';
-                            $speed      = is_numeric($speed) ? number_format($speed, 3, '.', '') : 'NULL';
-                            $bearing    = is_numeric($bearing) ? number_format($bearing, 2, '.', '') : 'NULL';
-
                             // correct timestamp if needed
                             $time = $timestamp;
                             if (is_numeric($time)) {
@@ -1546,18 +1536,28 @@ class LogController extends Controller {
                                 }
                             }
 
+                            $lat        = $this->db_quote_escape_string(number_format($lat, 8, '.', ''));
+                            $lon        = $this->db_quote_escape_string(number_format($lon, 8, '.', ''));
+                            $time       = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
+                            $alt        = is_numeric($alt) ? $this->db_quote_escape_string(number_format($alt, 2, '.', '')) : 'NULL';
+                            $acc        = is_numeric($acc) ? $this->db_quote_escape_string(number_format($acc, 2, '.', '')) : 'NULL';
+                            $bat        = is_numeric($bat) ? $this->db_quote_escape_string(number_format($bat, 2, '.', '')) : 'NULL';
+                            $sat        = is_numeric($sat) ? $this->db_quote_escape_string(number_format($sat, 0, '.', '')) : 'NULL';
+                            $speed      = is_numeric($speed) ? $this->db_quote_escape_string(number_format($speed, 3, '.', '')) : 'NULL';
+                            $bearing    = is_numeric($bearing) ? $this->db_quote_escape_string(number_format($bearing, 2, '.', '')) : 'NULL';
+
                             $value = '('.
                                       $this->db_quote_escape_string($deviceidToInsert).','.
-                                      $this->db_quote_escape_string($lat).','.
-                                      $this->db_quote_escape_string($lon).','.
-                                      $this->db_quote_escape_string($time).','.
-                                      $this->db_quote_escape_string($acc).','.
-                                      $this->db_quote_escape_string($sat).','.
-                                      $this->db_quote_escape_string($alt).','.
-                                      $this->db_quote_escape_string($bat).','.
+                                      $lat.','.
+                                      $lon.','.
+                                      $time.','.
+                                      $acc.','.
+                                      $sat.','.
+                                      $alt.','.
+                                      $bat.','.
                                       $this->db_quote_escape_string($useragent).','.
-                                      $this->db_quote_escape_string($speed).','.
-                                      $this->db_quote_escape_string($bearing).'
+                                      $speed.','.
+                                      $bearing.'
                               )';
                             array_push($valuesToInsert, $value);
                             $nbToInsert++;
