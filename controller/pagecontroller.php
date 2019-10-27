@@ -4462,16 +4462,16 @@ class PageController extends Controller {
 
             $valuesStrings = array();
             foreach ($points as $point) {
-                $lat = $point[0];
-                $lon = $point[1];
-                $alt = $point[2];
-                $timestamp = $point[3];
-                $acc = $point[4];
-                $bat = $point[5];
-                $sat = $point[6];
-                $useragent = $point[7];
-                $speed = $point[8];
-                $bearing = $point[9];
+                $lat        = number_format($point[0], 8, '.', '');
+                $lon        = number_format($point[1], 8, '.', '');
+                $alt        = is_numeric($point[2]) ? number_format($point[2], 2, '.', '') : 'NULL';
+                $timestamp  = is_numeric($point[3]) ? number_format($point[3], 0, '.', '') : 'NULL';
+                $acc        = is_numeric($point[4]) ? number_format($point[4], 2, '.', '') : 'NULL';
+                $bat        = is_numeric($point[5]) ? number_format($point[5], 2, '.', '') : 'NULL';
+                $sat        = is_numeric($point[6]) ? number_format($point[6], 0, '.', '') : 'NULL';
+                $speed      = is_numeric($point[8]) ? number_format($point[8], 3, '.', '') : 'NULL';
+                $bearing    = is_numeric($point[9]) ? number_format($point[9], 2, '.', '') : 'NULL';
+                $useragent  = $point[7];
                 // correct timestamp if needed
                 $time = $timestamp;
                 if (is_numeric($time)) {
@@ -4481,22 +4481,18 @@ class PageController extends Controller {
                     }
                 }
 
-                if (is_numeric($acc)) {
-                    $acc = sprintf('%.2f', floatval($acc));
-                }
-
                 $oneVal = '(';
                 $oneVal .= $this->db_quote_escape_string($dbdeviceid).',';
                 $oneVal .= $this->db_quote_escape_string($lat).',';
                 $oneVal .= $this->db_quote_escape_string($lon).',';
                 $oneVal .= $this->db_quote_escape_string($time).',';
-                $oneVal .= (is_numeric($acc) ? $this->db_quote_escape_string($acc) : 'NULL').',';
-                $oneVal .= (is_numeric($sat) ? $this->db_quote_escape_string($sat) : 'NULL').',';
-                $oneVal .= (is_numeric($alt) ? $this->db_quote_escape_string($alt) : 'NULL').',';
-                $oneVal .= (is_numeric($bat) ? $this->db_quote_escape_string($bat) : 'NULL').',';
+                $oneVal .= $this->db_quote_escape_string($acc).',';
+                $oneVal .= $this->db_quote_escape_string($sat).',';
+                $oneVal .= $this->db_quote_escape_string($alt).',';
+                $oneVal .= $this->db_quote_escape_string($bat).',';
                 $oneVal .= $this->db_quote_escape_string($useragent).',';
-                $oneVal .= (is_numeric($speed) ? $this->db_quote_escape_string($speed) : 'NULL').',';
-                $oneVal .= (is_numeric($bearing) ? $this->db_quote_escape_string($bearing) : 'NULL').') ';
+                $oneVal .= $this->db_quote_escape_string($speed).',';
+                $oneVal .= $this->db_quote_escape_string($bearing).') ';
 
                 array_push($valuesStrings, $oneVal);
             }
