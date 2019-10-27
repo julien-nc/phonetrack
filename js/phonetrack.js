@@ -4045,13 +4045,13 @@
             'min<input role="second" type="number" value="' + secval + '" min="0" max="59"/>sec</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Altitude') + '">';
         res = res + '<td><i class="fa fa-chart-area" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="altitude" type="number" value="' + altitudeValue + '" min="-1" step="0.01"/>m</td>';
+        res = res + '<td><input role="altitude" type="number" value="' + altitudeValue + '" min="-1" step="0.01"/> m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Precision') + '">';
         res = res + '<td><i class="far fa-dot-circle" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="precision" type="number" value="' + accuracyValue + '" min="-1" step="0.01"/>m</td>';
+        res = res + '<td><input role="precision" type="number" value="' + accuracyValue + '" min="-1" step="0.01"/> m</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Speed') + '">';
         res = res + '<td><i class="fa fa-tachometer-alt" style="font-size: 20px;"></td>';
-        res = res + '<td><input role="speed" type="number" value="' + speed_kmph + '" min="-1" step="0.01"/>km/h</td>';
+        res = res + '<td><input role="speed" type="number" value="' + speed_kmph + '" min="-1" step="0.01"/> km/h</td>';
         res = res + '</tr><tr title="' + t('phonetrack', 'Bearing') + '">';
         res = res + '<td><i class="fa fa-compass" style="font-size: 20px;"></td>';
         res = res + '<td><input role="bearing" type="number" value="' + bearingValue + '" min="-1" max="360" step="0.01"/>°</td>';
@@ -4121,23 +4121,23 @@
             for (i = 1; i < ll.length && ll[i][2] <= entry.id; i++) {
                 dist = dist + phonetrack.map.distance(ll[i-1], ll[i]);
             }
-            pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Distance') + ' : ' + formatDistance(dist) + 'km';
+            pointtooltip = pointtooltip + '<br/>' + t('phonetrack', 'Distance') + ' : ' + formatDistance(dist) + ' km';
         }
         if ($('#tooltipshowelevation').is(':checked') && !isNaN(entry.altitude) && entry.altitude !== null) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Altitude') + ' : ' + parseFloat(entry.altitude).toFixed(2) + 'm';
+                t('phonetrack', 'Altitude') + ' : ' + parseFloat(entry.altitude).toFixed(2) + ' m';
         }
         if ($('#tooltipshowaccuracy').is(':checked') && !isNaN(entry.accuracy) && entry.accuracy !== null &&
             parseFloat(entry.accuracy) >= 0) {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Precision') + ' : ' + parseFloat(entry.accuracy).toFixed(2) + 'm';
+                t('phonetrack', 'Precision') + ' : ' + parseFloat(entry.accuracy).toFixed(2) + ' m';
         }
         if ($('#tooltipshowspeed').is(':checked') && !isNaN(entry.speed) && entry.speed !== null &&
             parseFloat(entry.speed) >= 0) {
             var speed_kmph = parseFloat(entry.speed) * 3.6;
             speed_kmph = speed_kmph.toFixed(2);
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'Speed') + ' : ' + speed_kmph + 'km/h';
+                t('phonetrack', 'Speed') + ' : ' + speed_kmph + ' km/h';
         }
         if ($('#tooltipshowbearing').is(':checked') && !isNaN(entry.bearing) && entry.bearing !== null &&
             parseFloat(entry.bearing) >= 0 && parseFloat(entry.bearing) <= 360) {
