@@ -1,9 +1,11 @@
 <?php
 script('phonetrack', 'leaflet');
+script('phonetrack', 'd3.min');
 script('phonetrack', 'leaflet.polylineDecorator');
 script('phonetrack', 'L.Control.MousePosition');
 script('phonetrack', 'ActiveLayers');
 script('phonetrack', 'L.Control.Locate.min');
+script('phonetrack', 'L.Control.Elevation');
 script('phonetrack', 'MovingMarker');
 script('phonetrack', 'leaflet-sidebar.min');
 script('phonetrack', 'jquery-ui.min');
@@ -22,6 +24,7 @@ script('phonetrack', 'phonetrack');
 style('phonetrack', 'style');
 style('phonetrack', 'leaflet');
 style('phonetrack', 'L.Control.MousePosition');
+style('phonetrack', 'Leaflet.Elevation-0.0.2');
 style('phonetrack', 'leaflet-sidebar.min');
 style('phonetrack', 'jquery-ui.min');
 style('phonetrack', 'fontawesome/css/all.min');

@@ -102,7 +102,9 @@
         NSEWClick: {},
         userIdName: {},
         shareInputToId: {},
-        currentlyDragging: false
+        currentlyDragging: false,
+        elevationControl: null,
+        closeElevationButton: null
     };
 
     var offset = L.point(-7, 0);
@@ -4532,10 +4534,62 @@
             phonetrack.lastZindex += 10;
 
             m.setZIndexOffset(phonetrack.lastZindex++);
+
+            showDeviceElevation(s, d);
         }
         else {
             OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is no point to zoom on for this device'));
         }
+    }
+
+    function clearElevationControl() {
+        if (phonetrack.elevationControl !== null) {
+            phonetrack.elevationControl.clear();
+            phonetrack.elevationControl.remove();
+            phonetrack.elevationControl = null;
+            phonetrack.closeElevationButton.remove();
+        }
+    }
+
+    function showDeviceElevation(s, d) {
+        clearElevationControl();
+        var el = L.control.elevation({
+            position: 'bottomleft',
+            height: 100,
+            width: 700,
+            margins: {
+                top: 10,
+                right: 120,
+                bottom: 23,
+                left: 60
+            },
+            //collapsed: true,
+            theme: 'steelblue-theme'
+        });
+        el.addTo(phonetrack.map);
+
+        var layers = phonetrack.sessionLineLayers[s][d].getLayers();
+        var times;
+        var data, i, j, lls, pid;
+        for (i=0; i < layers.length; i++) {
+            data = layers[i].toGeoJSON();
+            // add time information
+            times = [];
+            lls = layers[i].getLatLngs();
+            for (j=0; j < lls.length; j++) {
+                pid = lls[j].alt;
+                times.push(phonetrack.sessionPointsEntriesById[s][d][pid].timestamp);
+            }
+            console.log(times);
+            for (j=0; j < data.geometry.coordinates.length; j++) {
+                data.geometry.coordinates[j].push(times[j]);
+            }
+
+            el.addData(data, layers[i]);
+        }
+        phonetrack.closeElevationButton.addTo(phonetrack.map);
+
+        phonetrack.elevationControl = el;
     }
 
     function hideAllDropDowns() {
@@ -7034,6 +7088,19 @@
             }
             var token = $(this).parent().parent().parent().parent().parent().attr('token');
             setPublicShareGeofencifyDb(token, filteredtoken, checked);
+        });
+
+        // close elevation char button
+        phonetrack.closeElevationButton = L.easyButton({
+            position: 'bottomleft',
+            states: [{
+                stateName: 'no-importa',
+                icon:      'fa-times',
+                title:     t('phonetrack', 'Close elevation chart'),
+                onClick: function(btn, map) {
+                    clearElevationControl();
+                }
+            }]
         });
 
         if (!pageIsPublic()) {
