@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.5.5 – 2019-10-27
+### Added
+- vector tiles support with Mapbox of OpenMapTile server
+- Overland IOS compatibility
+[#289](https://gitlab.com/eneiluj/phonetrack-oc/issues/289) @MarkusGe
+- display interactive elevation chart when zooming on specific device
+[#283](https://gitlab.com/eneiluj/phonetrack-oc/issues/283) @Akitou
+
+### Changed
+- unit display in tooltips/popups
+
+### Fixed
+- bug when theming color code is compacted
+[#284](https://gitlab.com/eneiluj/phonetrack-oc/issues/284) @DofTNet
+- make location DB insertion more robusy
+[#281](https://gitlab.com/eneiluj/phonetrack-oc/issues/281) @maviar1981
+
 ## 0.5.4 – 2019-09-21
 ### Changed
 - CI script now uses NC 17
