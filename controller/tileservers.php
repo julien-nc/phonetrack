@@ -40,6 +40,17 @@ $baseTileServers = [
     //    'opacity' => '0-1',
     //    'transparent' => 'true|false'
     //),
+    //Array(
+    //    'name' => 'tilewmsExample',
+    //    'type' => 'tilewms',
+    //    'url' => 'https://ows.mundialis.de/services/service?',
+    //    'layers' => 'TOPO-OSM-WMS',
+    //    'version' => '',
+    //    'attribution' => '',
+    //    'format' => 'image/png',
+    //    'opacity' => '1',
+    //    'transparent' => 'false'
+    //),
     Array(
         'name' => 'OpenStreetMap',
         'type' => 'tile',
