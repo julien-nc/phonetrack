@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Cospend\Activity;
+namespace OCA\Phonetrack\Activity;
 
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -44,7 +44,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
-		return 'cospend';
+		return 'phonetrack';
 	}
 
 	/**
@@ -52,7 +52,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l10n->t('Cospend');
+		return $this->l10n->t('Phonetrack');
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getIcon() {
-        return $this->urlGenerator->imagePath('cospend', 'app_black.svg');
+        return $this->urlGenerator->imagePath('phonetrack', 'app_black.svg');
 	}
 
 	/**
@@ -87,6 +87,6 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function allowedApps() {
-		return ['cospend'];
+		return ['phonetrack'];
 	}
 }

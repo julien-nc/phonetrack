@@ -21,14 +21,14 @@
  *
  */
 
-namespace OCA\Cospend\Activity;
+namespace OCA\Phonetrack\Activity;
 
 use InvalidArgumentException;
-use OCA\Cospend\Service\ProjectService;
-use OCA\Cospend\Db\BillMapper;
-use OCA\Cospend\Db\Bill;
-use OCA\Cospend\Db\ProjectMapper;
-use OCA\Cospend\Db\Project;
+use OCA\Phonetrack\Service\SessionService;
+use OCA\Phonetrack\Db\SessionMapper;
+use OCA\Phonetrack\Db\Session;
+use OCA\Phonetrack\Db\DeviceMapper;
+use OCA\Phonetrack\Db\Device;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IUserManager;
@@ -46,29 +46,31 @@ class ActivityManager {
 	private $billMapper;
 	private $l10n;
 
-	const COSPEND_OBJECT_BILL = 'cospend_bill';
-	const COSPEND_OBJECT_PROJECT = 'cospend_project';
+	const PHONETRACK_OBJECT_SESSION = 'phonetrack_session';
+	const PHONETRACK_OBJECT_DEVICE = 'phonetrack_device';
 
-	const SUBJECT_BILL_CREATE = 'bill_create';
-	const SUBJECT_BILL_UPDATE = 'bill_update';
-	const SUBJECT_BILL_DELETE = 'bill_delete';
+	const SUBJECT_GEOFENCE_ENTER = 'geofence_enter';
+	const SUBJECT_GEOFENCE_EXIT = 'geofence_exit';
 
-	const SUBJECT_PROJECT_SHARE = 'project_share';
-	const SUBJECT_PROJECT_UNSHARE = 'project_unshare';
+	const SUBJECT_PROXIMITY_CLOSE = 'proximity_close';
+	const SUBJECT_PROXIMITY_FAR = 'proximity_far';
+
+	const SUBJECT_SESSION_SHARE = 'session_share';
+	const SUBJECT_SESSION_UNSHARE = 'session_unshare';
 
 	public function __construct(
 		IManager $manager,
-		ProjectService $projectService,
-		ProjectMapper $projectMapper,
-		BillMapper $billMapper,
+		SessionService $sessionService,
+		SessionMapper $sessionMapper,
+		DeviceMapper $deviceMapper,
 		IL10N $l10n,
 		IUserManager $userManager,
 		$userId
 	) {
 		$this->manager = $manager;
-		$this->projectService = $projectService;
-		$this->projectMapper = $projectMapper;
-		$this->billMapper = $billMapper;
+		$this->sessionService = $sessionService;
+		$this->sessionMapper = $sessionMapper;
+		$this->deviceMapper = $deviceMapper;
 		$this->l10n = $l10n;
 		$this->userId = $userId;
 		$this->userManager = $userManager;
@@ -83,20 +85,23 @@ class ActivityManager {
 	public function getActivityFormat($subjectIdentifier, $subjectParams = [], $ownActivity = false) {
 		$subject = '';
 		switch ($subjectIdentifier) {
-			case self::SUBJECT_BILL_CREATE:
-				$subject = $ownActivity ? $this->l10n->t('You have created a new bill {bill} in project {project}'): $this->l10n->t('{user} has created a new bill {bill} in project {project}');
+			case self::SUBJECT_GEOFENCE_ENTER:
+				$subject = $this->l10n->t('In PhoneTrack session {session}, device {device} has entered geofence {geofence}');
 				break;
-			case self::SUBJECT_BILL_DELETE:
-				$subject = $ownActivity ? $this->l10n->t('You have deleted the bill {bill} of project {project}') : $this->l10n->t('{user} has deleted the bill {bill} of project {project}');
+			case self::SUBJECT_GEOFENCE_EXIT:
+				$subject = $this->l10n->t('In PhoneTrack session {session}, device {device} has exited geofence {geofence}');
 				break;
-			case self::SUBJECT_PROJECT_SHARE:
-				$subject = $ownActivity ? $this->l10n->t('You have shared the project {project} with {who}') : $this->l10n->t('{user} has shared the project {project} with {who}');
+			case self::SUBJECT_PROXIMITY_CLOSE:
+				$subject = $this->l10n->t('Device {device1} is now closer than {meters}m to {device2}');
 				break;
-			case self::SUBJECT_PROJECT_UNSHARE:
-				$subject = $ownActivity ? $this->l10n->t('You have removed {who} from the project {project}') : $this->l10n->t('{user} has removed {who} from the project {project}');
+			case self::SUBJECT_PROXIMITY_FAR:
+				$subject = $this->l10n->t('Device {device1} is now farther than {meters}m from {device2}');
 				break;
-			case self::SUBJECT_BILL_UPDATE:
-				$subject = $ownActivity ? $this->l10n->t('You have updated the bill {bill} of project {project}') : $this->l10n->t('{user} has updated the bill {bill} of project {project}');
+			case self::SUBJECT_SESSION_SHARE:
+				$subject = $ownActivity ? $this->l10n->t('You shared PhoneTrack session {session} with {who}') : $this->l10n->t('PhoneTrack session {session} is now shared with {who}');
+				break;
+			case self::SUBJECT_SESSION_UNSHARE:
+				$subject = $ownActivity ? $this->l10n->t('You have removed {who} from the session {session}') : $this->l10n->t('PhoneTrack session {session} is not shared with {who} anymore');
 				break;
 			default:
 				break;
@@ -138,32 +143,37 @@ class ActivityManager {
 		 * Automatically fetch related details for subject parameters
 		 * depending on the subject
 		 */
-		$eventType = 'cospend';
+		$eventType = 'phonetrack';
 		$subjectParams = [];
 		$message = null;
 		$objectName = null;
 		switch ($subject) {
 			// No need to enhance parameters since entity already contains the required data
-			case self::SUBJECT_BILL_CREATE:
-			case self::SUBJECT_BILL_UPDATE:
-			case self::SUBJECT_BILL_DELETE:
-				$subjectParams = $this->findDetailsForBill($entity->getId());
-				$objectName = $object->getWhat();
-				$eventType = 'cospend_bill_event';
+			case self::SUBJECT_GEOFENCE_ENTER:
+			case self::SUBJECT_GEOFENCE_EXIT:
+				$subjectParams = $this->findDetailsForDevice($entity->getId());
+				$objectName = $object->getName();
+				$eventType = 'phonetrack_geofence_event';
 				break;
-			case self::SUBJECT_PROJECT_SHARE:
-			case self::SUBJECT_PROJECT_UNSHARE:
-				$subjectParams = $this->findDetailsForProject($entity->getId());
-				$objectName = $object->getId();
+			case self::SUBJECT_PROXIMITY_FAR:
+			case self::SUBJECT_PROXIMITY_CLOSE:
+				$subjectParams = $this->findDetailsForDevice($entity->getId());
+				$objectName = $object->getName();
+				$eventType = 'phonetrack_proximity_event';
+				break;
+			case self::SUBJECT_SESSION_SHARE:
+			case self::SUBJECT_SESSION_UNSHARE:
+				$subjectParams = $this->findDetailsForSession($entity->getId());
+				$objectName = $object->getName();
 				break;
 			default:
 				throw new \Exception('Unknown subject for activity.');
 				break;
 		}
-		$subjectParams['author'] = $this->l10n->t('A Cospend client');
+		$subjectParams['author'] = $this->l10n->t('A PhoneTrack client');
 
 		$event = $this->manager->generateEvent();
-		$event->setApp('cospend')
+		$event->setApp('phonetrack')
 			->setType($eventType)
 			->setAuthor($author === null ? $this->userId ?? '' : $author)
 			->setObject($objectType, (int)$object->getId(), $objectName)
@@ -177,23 +187,23 @@ class ActivityManager {
 	}
 
 	/**
-	 * Publish activity to all users that are part of the project of a given object
+	 * Publish activity to all users that have access to the session of a given object
 	 *
 	 * @param IEvent $event
 	 */
 	private function sendToUsers(IEvent $event) {
 		switch ($event->getObjectType()) {
-			case self::COSPEND_OBJECT_BILL:
-				$mapper = $this->billMapper;
-				$projectId = $mapper->findProjectId($event->getObjectId());
+			case self::PHONETRACK_OBJECT_DEVICE:
+				$mapper = $this->deviceMapper;
+				$sessionId = $mapper->findSessionId($event->getObjectId());
 				break;
-			case self::COSPEND_OBJECT_PROJECT:
-				$mapper = $this->projectMapper;
-				$projectId = $event->getObjectName();
+			case self::COSPEND_OBJECT_SESSION:
+				$mapper = $this->sessionMapper;
+				$sessionId = $event->getObjectId();
 				break;
 		}
 		/** @var IUser $user */
-		foreach ($this->projectService->findUsers($projectId) as $user) {
+		foreach ($this->sessionService->findUsers($sessionId) as $user) {
 			$event->setAffectedUser($user);
 			/** @noinspection DisconnectedForeachInstructionInspection */
 			$this->manager->publish($event);
@@ -203,62 +213,62 @@ class ActivityManager {
 	/**
 	 * @param $objectType
 	 * @param $entity
-	 * @return null|\OCA\Cospend\Db\RelationalEntity|\OCP\AppFramework\Db\Entity
+	 * @return null|\OCA\Phonetrack\Db\RelationalEntity|\OCP\AppFramework\Db\Entity
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException
 	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
 	 */
 	private function findObjectForEntity($objectType, $entity) {
 		$className = \get_class($entity);
 		$objectId = null;
-		if ($objectType === self::COSPEND_OBJECT_BILL) {
+		if ($objectType === self::PHONETRACK_OBJECT_DEVICE) {
 			switch ($className) {
-				case Bill::class:
+				case Device::class:
 					$objectId = $entity->getId();
 					break;
 				default:
 					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 			}
-			return $this->billMapper->find($objectId);
+			return $this->deviceMapper->find($objectId);
 		}
-		if ($objectType === self::COSPEND_OBJECT_PROJECT) {
+		if ($objectType === self::PHONETRACK_OBJECT_SESSION) {
 			switch ($className) {
-				case Project::class:
+				case Session::class:
 					$objectId = $entity->getId();
 					break;
 				default:
 					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 			}
-			return $this->projectMapper->find($objectId);
+			return $this->sessionMapper->find($objectId);
 		}
 		throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
 	}
 
-	private function findDetailsForBill($billId) {
-		$bill = $this->billMapper->find($billId);
-		$project = $this->projectMapper->find($bill->getProjectid());
-		$bill = [
-			'id' => $bill->getId(),
-			'name' => $bill->getWhat(),
-			'amount' => $bill->getAmount()
+	private function findDetailsForDevice($deviceId) {
+		$device = $this->deviceMapper->find($deviceId);
+		$session = $this->sessionMapper->find($device->getSessionid());
+		$device = [
+			'id' => $device->getId(),
+			'name' => $device->getName(),
+			'alias' => $device->getAlias()
 		];
-		$project = [
-			'id' => $project->getId(),
-			'name' => $project->getName()
+		$session = [
+			'id' => $session->getId(),
+			'name' => $session->getName()
 		];
 		return [
-			'bill' => $bill,
-			'project' => $project
+			'device' => $device,
+			'session' => $session
 		];
 	}
 
-	private function findDetailsForProject($projectId, $subject = null) {
-		$project = $this->projectMapper->find($projectId);
-		$project = [
-			'id' => $project->getId(),
-			'name' => $project->getName()
+	private function findDetailsForSession($sessionId, $subject = null) {
+		$session = $this->sessionMapper->find($sessionId);
+		$session = [
+			'id' => $session->getId(),
+			'name' => $session->getName()
 		];
 		return [
-			'project' => $project
+			'session' => $session
 		];
 	}
 
