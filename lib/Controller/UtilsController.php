@@ -33,8 +33,12 @@ class UtilsController extends Controller {
     private $dbconnection;
     private $dbtype;
 
-    public function __construct($AppName, IRequest $request, $UserId,
-        $userfolder, $config, IAppManager $appManager){
+    public function __construct($AppName,
+                                IRequest $request,
+                                IConfig $config,
+                                IAppManager $appManager,
+                                $UserId
+                                ){
         parent::__construct($AppName, $request);
         $this->userId = $UserId;
         $this->dbtype = $config->getSystemValue('dbtype');

@@ -71,60 +71,59 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $this->pageController = new PageController(
             $this->appName,
             $this->request,
-            'test',
-            $c->query('ServerContainer')->getUserFolder('test'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
-            $c->query('ServerContainer')->getLogger()
+            $c->query('ServerContainer')->getLogger(),
+            'test',
         );
 
         $this->pageController2 = new PageController(
             $this->appName,
             $this->request,
-            'test2',
-            $c->query('ServerContainer')->getUserFolder('test2'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
-            $c->query('ServerContainer')->getLogger()
+            $c->query('ServerContainer')->getLogger(),
+            'test2',
         );
 
         $this->logController = new LogController(
             $this->appName,
             $this->request,
-            'test',
-            $c->query('ServerContainer')->getUserFolder('test'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getL10N('phonetrack'),
-            $c->query('ServerContainer')->getLogger()
+            $c->query('ServerContainer')->getLogger(),
+            'test',
         );
 
         $this->logController2 = new LogController(
             $this->appName,
             $this->request,
-            'test2',
-            $c->query('ServerContainer')->getUserFolder('test2'),
+            $c->query('ServerContainer'),
             $c->query('ServerContainer')->getConfig(),
             $c->getServer()->getShareManager(),
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getL10N('phonetrack'),
-            $c->query('ServerContainer')->getLogger()
+            $c->query('ServerContainer')->getLogger(),
+            'test2',
         );
 
         $this->utilsController = new UtilsController(
             $this->appName,
             $this->request,
-            'test',
-            $c->query('ServerContainer')->getUserFolder('test'),
             $c->query('ServerContainer')->getConfig(),
-            $c->getServer()->getAppManager()
+            $c->getServer()->getAppManager(),
+            'test'
         );
     }
 

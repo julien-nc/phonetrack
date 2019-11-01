@@ -21,6 +21,11 @@ use OCP\AppFramework\Http\RedirectResponse;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
+use OCP\IUserManager;
+use OCP\Share\IManager;
+use OCP\IServerContainer;
+use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -89,10 +94,16 @@ class PageController extends Controller {
     private $trackIndex;
     private $pointIndex;
 
-    public function __construct($AppName, IRequest $request, $UserId,
-                                $userfolder, $config, $shareManager,
-                                IAppManager $appManager, $userManager,
-                                $logger){
+    public function __construct($AppName,
+                                IRequest $request,
+                                IServerContainer $serverContainer,
+                                IConfig $config,
+                                IManager $shareManager,
+                                IAppManager $appManager,
+                                IUserManager $userManager,
+                                ILogger $logger,
+                                $UserId
+                                ){
         parent::__construct($AppName, $request);
         $this->logger = $logger;
         $this->appName = $AppName;
@@ -113,9 +124,9 @@ class PageController extends Controller {
             $this->dbdblquotes = '';
         }
         $this->dbconnection = \OC::$server->getDatabaseConnection();
-        if ($UserId !== '' and $userfolder !== null){
+        if ($UserId !== '' and $serverContainer !== null){
             // path of user files folder relative to DATA folder
-            $this->userfolder = $userfolder;
+            $this->userfolder = $serverContainer->getUserFolder($UserId);
             // absolute path to user files folder
             $this->userAbsoluteDataPath =
                 $this->config->getSystemValue('datadirectory').

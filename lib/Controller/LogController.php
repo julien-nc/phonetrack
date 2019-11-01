@@ -23,6 +23,10 @@ use OCP\AppFramework\Http\RedirectResponse;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
+use OCP\IUserManager;
+use OCP\Share\IManager;
+use OCP\IServerContainer;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -96,9 +100,17 @@ class LogController extends Controller {
 
     const LOG_OWNTRACKS = 'Owntracks';
 
-    public function __construct($AppName, IRequest $request, $UserId,
-                                $userfolder, $config, $shareManager,
-                                IAppManager $appManager, $userManager, IL10N $trans, ILogger $ncLogger){
+    public function __construct($AppName,
+                                IRequest $request,
+                                IServerContainer $serverContainer,
+                                IConfig $config,
+                                IManager $shareManager,
+                                IAppManager $appManager,
+                                IUserManager $userManager,
+                                IL10N $trans,
+                                ILogger $ncLogger,
+                                $UserId
+                                ){
         parent::__construct($AppName, $request);
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
         $this->userId = $UserId;
@@ -116,15 +128,14 @@ class LogController extends Controller {
             $this->dbdblquotes = '';
         }
         $this->dbconnection = \OC::$server->getDatabaseConnection();
-        if ($UserId !== '' and $userfolder !== null){
+        if ($UserId !== '' and $serverContainer !== null){
             // path of user files folder relative to DATA folder
-            $this->userfolder = $userfolder;
+            $this->userfolder = $serverContainer->getUserFolder($UserId);
             // absolute path to user files folder
             $this->userAbsoluteDataPath =
                 $this->config->getSystemValue('datadirectory').
                 rtrim($this->userfolder->getFullPath(''), '/');
         }
-        //$this->shareManager = \OC::$server->getShareManager();
         $this->shareManager = $shareManager;
         $this->defaultDeviceName = ['yourname', 'devicename', 'name'];
     }

@@ -36,58 +36,6 @@ class Application extends App {
         parent::__construct('phonetrack', $urlParams);
 
         $container = $this->getContainer();
-
-        /**
-         * Controllers
-         */
-        $container->registerService(
-            'PageController', function (IAppContainer $c) {
-                return new PageController(
-                    $c->query('AppName'),
-                    $c->query('Request'),
-                    $c->query('UserId'),
-                    $c->query('ServerContainer')->getUserFolder($c->query('UserId')),
-                    $c->query('ServerContainer')->getConfig(),
-                    $c->getServer()->getShareManager(),
-                    $c->getServer()->getAppManager(),
-                    $c->getServer()->getUserManager(),
-                    $c->query('ServerContainer')->getLogger()
-                );
-            }
-        );
-
-        $container->registerService(
-            'LogController', function (IAppContainer $c) {
-                return new LogController(
-                    $c->query('AppName'),
-                    $c->query('Request'),
-                    $c->query('UserId'),
-                    $c->query('ServerContainer')->getUserFolder($c->query('UserId')),
-                    $c->query('ServerContainer')->getConfig(),
-                    $c->getServer()->getShareManager(),
-                    $c->getServer()->getAppManager(),
-                    $c->getServer()->getUserManager(),
-                    $c->query('ServerContainer')->getL10N($c->query('AppName')),
-                    $c->query('ServerContainer')->getLogger()
-                );
-            }
-        );
-
-        $container->registerService(
-            'UtilsController', function (IAppContainer $c) {
-                return new UtilsController(
-                    $c->query('AppName'),
-                    $c->query('Request'),
-                    $c->query('UserId'),
-                    //$c->getServer()->getUserFolder($c->query('UserId')),
-                    //$c->query('OCP\IConfig'),
-                    $c->query('ServerContainer')->getUserFolder($c->query('UserId')),
-                    $c->query('ServerContainer')->getConfig(),
-                    $c->getServer()->getAppManager()
-                );
-            }
-        );
-
     }
 
 }
