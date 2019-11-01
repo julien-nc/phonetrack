@@ -21,17 +21,17 @@
  *
  */
 
-namespace OCA\Cospend\Activity;
+namespace OCA\Phonetrack\Activity;
 
 
-class BillSetting extends Setting {
+class GeofenceSetting extends Setting {
 
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
-		return 'cospend_bill_event';
+		return 'phonetrack_geofence_event';
 	}
 
 	/**
@@ -39,7 +39,7 @@ class BillSetting extends Setting {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('A <strong>bill</strong> inside the Cospend app has been updated/created/deleted');
+		return $this->l->t('<strong>PhoneTrack geofences</strong> events');
 	}
 
 }

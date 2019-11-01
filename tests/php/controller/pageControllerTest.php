@@ -77,7 +77,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getLogger(),
-            'test',
+            'test'
         );
 
         $this->pageController2 = new PageController(
@@ -89,7 +89,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getLogger(),
-            'test2',
+            'test2'
         );
 
         $this->logController = new LogController(
@@ -102,7 +102,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getL10N('phonetrack'),
             $c->query('ServerContainer')->getLogger(),
-            'test',
+            'test'
         );
 
         $this->logController2 = new LogController(
@@ -115,7 +115,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getL10N('phonetrack'),
             $c->query('ServerContainer')->getLogger(),
-            'test2',
+            'test2'
         );
 
         $this->utilsController = new UtilsController(

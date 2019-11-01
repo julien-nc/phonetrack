@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Cospend\Activity;
+namespace OCA\Phonetrack\Activity;
 
 
 use OCP\IL10N;
@@ -43,7 +43,7 @@ class Setting implements \OCP\Activity\ISetting {
 	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
-		return 'cospend';
+		return 'phonetrack';
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Setting implements \OCP\Activity\ISetting {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('Changes in the <strong>Cospend app</strong>');
+		return $this->l->t('Changes in the <strong>PhoneTrack app</strong>');
 	}
 
 	/**
