@@ -68,6 +68,48 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $c = $this->container;
         $this->config = $c->query('ServerContainer')->getConfig();
 
+        $this->activityManager = new \OCA\PhoneTrack\Activity\ActivityManager(
+            $c->query('ServerContainer')->getActivityManager(),
+            new \OCA\PhoneTrack\Service\SessionService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new \OCA\PhoneTrack\Db\SessionMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getGroupManager()
+            ),
+            new \OCA\PhoneTrack\Db\SessionMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\PhoneTrack\Db\DeviceMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            $c->getServer()->getUserManager(),
+            'test'
+        );
+
+        $this->activityManager2 = new \OCA\PhoneTrack\Activity\ActivityManager(
+            $c->query('ServerContainer')->getActivityManager(),
+            new \OCA\PhoneTrack\Service\SessionService(
+                $c->query('ServerContainer')->getLogger(),
+                $c->query('ServerContainer')->getL10N($c->query('AppName')),
+                new \OCA\PhoneTrack\Db\SessionMapper(
+                    $c->query('ServerContainer')->getDatabaseConnection()
+                ),
+                $c->getServer()->getGroupManager()
+            ),
+            new \OCA\PhoneTrack\Db\SessionMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\PhoneTrack\Db\DeviceMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            $c->getServer()->getUserManager(),
+            'test2'
+        );
+
         $this->pageController = new PageController(
             $this->appName,
             $this->request,
@@ -77,6 +119,13 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getLogger(),
+            $this->activityManager,
+            new \OCA\PhoneTrack\Db\SessionMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\PhoneTrack\Db\DeviceMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
             'test'
         );
 
@@ -89,6 +138,13 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getLogger(),
+            $this->activityManager2,
+            new \OCA\PhoneTrack\Db\SessionMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            new \OCA\PhoneTrack\Db\DeviceMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
             'test2'
         );
 
