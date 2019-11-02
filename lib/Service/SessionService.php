@@ -62,7 +62,6 @@ class SessionService {
         $req->closeCursor();
         $qb = $qb->resetQueryParts();
 
-        error_log('COCO '.count($userIds));
         return $userIds;
     }
 
