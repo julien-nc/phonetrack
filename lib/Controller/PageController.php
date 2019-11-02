@@ -32,6 +32,10 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
+use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Activity\ActivityManager;
+
 function distance($lat1, $long1, $lat2, $long2){
 
     if ($lat1 === $lat2 and $long1 === $long2){
@@ -102,11 +106,17 @@ class PageController extends Controller {
                                 IAppManager $appManager,
                                 IUserManager $userManager,
                                 ILogger $logger,
+                                ActivityManager $activityManager,
+                                SessionMapper $sessionMapper,
+                                DeviceMapper $deviceMapper,
                                 $UserId
                                 ){
         parent::__construct($AppName, $request);
         $this->logger = $logger;
         $this->appName = $AppName;
+        $this->activityManager = $activityManager;
+        $this->sessionMapper = $sessionMapper;
+        $this->deviceMapper = $deviceMapper;
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
         if (method_exists($appManager, 'getAppPath')){
             $this->appPath = $appManager->getAppPath('phonetrack');
@@ -3465,6 +3475,14 @@ class PageController extends Controller {
 
                     $ok = 1;
 
+                    // activity
+                    $sessionObj = $this->sessionMapper->findByToken($dbtoken);
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::PHONETRACK_OBJECT_SESSION, $sessionObj,
+                        ActivityManager::SUBJECT_SESSION_SHARE,
+                        ['who'=>$userId, 'type'=>'u']
+                    );
+
                     // SEND NOTIFICATION
                     $manager = \OC::$server->getNotificationManager();
                     $notification = $manager->createNotification();
@@ -3624,6 +3642,14 @@ class PageController extends Controller {
             $req->closeCursor();
 
             if ($dbuserId !== null) {
+                // activity
+                $sessionObj = $this->sessionMapper->findByToken($dbtoken);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::PHONETRACK_OBJECT_SESSION, $sessionObj,
+                    ActivityManager::SUBJECT_SESSION_UNSHARE,
+                    ['who'=>$userId, 'type'=>'u']
+                );
+
                 // delete
                 $sqldel = '
                     DELETE FROM *PREFIX*phonetrack_shares

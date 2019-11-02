@@ -189,7 +189,7 @@ class PhonetrackProvider implements IProvider {
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
-				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['id'].')',
+				'name' => $subjectParams[$paramName]['name'],
 				'link' => $this->phonetrackUrl('?'),
 			];
 		}

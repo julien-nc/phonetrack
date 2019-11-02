@@ -16,12 +16,15 @@ use OCP\AppFramework\Db\Entity;
 
 class Session extends Entity {
 
-    protected $userid;
+    protected $user;
     protected $name;
-    protected $email;
-    protected $password;
+    protected $token;
+    protected $publicviewtoken;
+    protected $public;
+    protected $locked;
+    protected $creationversion;
     protected $autoexport;
-    protected $lastchanged;
+    protected $autopurge;
 
     public function __construct() {
         $this->addType('id', 'integer');

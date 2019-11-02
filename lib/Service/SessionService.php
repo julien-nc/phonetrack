@@ -43,7 +43,7 @@ class SessionService {
         $userIds = [];
         // get owner with mapper
         $session = $this->sessionMapper->find($id);
-        array_push($userIds, $proj->getUser());
+        array_push($userIds, $session->getUser());
 
         // get user shares from session token
         $token = $session->getToken();

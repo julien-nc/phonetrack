@@ -27,4 +27,10 @@ class SessionMapper extends Mapper {
         return $this->findEntity($sql, [$id]);
     }
 
+    public function findByToken($token) {
+        $sql = 'SELECT * FROM `*PREFIX*phonetrack_sessions` ' .
+            'WHERE `token` = ?';
+        return $this->findEntity($sql, [$token]);
+    }
+
 }

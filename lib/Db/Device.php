@@ -16,6 +16,13 @@ use OCP\AppFramework\Db\Entity;
 
 class Device extends Entity {
 
+    protected $name;
+    protected $alias;
+    protected $sessionid;
+    protected $color;
+    protected $shape;
+    protected $nametoken;
+
     public function __construct() {
         $this->addType('id', 'integer');
         $this->addType('name', 'string');
