@@ -1548,6 +1548,9 @@
         var traccarurl = OC.generateUrl('/apps/phonetrack/log/traccar/' + token + '/'+defaultName);
         traccarurl = window.location.origin + traccarurl;
 
+        var overlandurl = OC.generateUrl('/apps/phonetrack/log/overland/' + token + '/'+defaultName);
+        overlandurl = window.location.origin + overlandurl;
+
         var opengtsurl = OC.generateUrl('/apps/phonetrack/log/opengts/' + token + '/'+defaultName);
         opengtsurl = window.location.origin + opengtsurl;
 
@@ -1808,6 +1811,10 @@
                 '<button class="urlhelpbutton" logger="opengts"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
             divtxt = divtxt + '<input class="ro" role="opengtsurl" type="text" value="' + opengtsurl + '"></input><hr/>';
+            divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'Overland link') + ' : </span>' +
+                '<button class="urlhelpbutton" logger="overland"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
+                '</p>';
+            divtxt = divtxt + '<input class="ro" role="overlandurl" type="text" value="' + overlandurl + '"></input><hr/>';
             divtxt = divtxt + '<p class="moreLeft"><span>' + t('phonetrack', 'Locus Map link') + ' : </span>' +
                 '<button class="urlhelpbutton" logger="locusmap"><i class="fa fa-question"></i> <i class="fa fa-qrcode"></i></button>' +
                 '</p>';
@@ -5358,6 +5365,11 @@
             loggerName = 'OsmAnd';
             content = t('phonetrack', 'In OsmAnd, go to \'Plugins\' in the main menu, then activate \'Trip recording\' plugin and go to its settings.') +
             ' ' + t('phonetrack', 'Copy the link below into the \'Online tracking web address\' field.');
+        }
+        else if (logger === 'overland') {
+            loggerName = 'Overland IOS';
+            content = t('phonetrack', 'Go to \'settings\' in the app.') +
+                ' ' + t('phonetrack', 'Copy the link below into the \'server address\' field.');
         }
         else if (logger === 'gpslogger') {
             loggerName = 'GpsLogger';
