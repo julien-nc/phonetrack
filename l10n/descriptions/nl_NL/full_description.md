@@ -34,7 +34,7 @@ Op de PhoneTrack hoofdpagina, kun je terwijl je een sessie bekijkt:
 
 Openbare pagina's en openbare gefilterde pagina's werken zoals de hoofdpagina, behalve dat er slechts één sessie wordt weergegeven, alles wordt alleen-lezen en er hoeft niet ingelogd te worden.
 
-Deze app is getest op Nextcloud 15 met Firefox 57+ en Chromium.
+Deze app is getest op Nextcloud 17 met Firefox 57+ en Chromium.
 
 Deze app is compatibel met themakleuren en toegankelijkheidsthema's !
 

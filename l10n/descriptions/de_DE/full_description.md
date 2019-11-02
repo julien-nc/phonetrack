@@ -12,7 +12,7 @@ Wie PhoneTrack verwendet wird:
 
 * Tracking-Sitzung erstellen
 * Protokollierungslink\* an die mobilen Geräte weitergeben Bevorzugte [Protokollierungsmethode](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) auswählen
-* Beobachten Sie den Gerätestandort der Sitzung in Echtzeit (oder nicht) in PhoneTrack oder teilen Sie ihn mit öffentlichen Seiten.
+* Beobachten Sie den Gerätestandort der Sitzung in Echtzeit (oder später) in PhoneTrack oder teilen Sie ihn auf öffentlichen Webseiten.
 
 (\*) Vergessen Sie nicht, den Gerätenamen im Link (und nicht in den Einstellungen der Protokollierungsanwendung) einzustellen. Ersetzen Sie „MeinName” mit dem gewünschten Gerätenamen. Das Einstellen des Gerätenamens in den Einstellungen der Protokollieruns-App funktioniert nur mit Owntracks, Traccar und OpenGTS.
 
@@ -21,7 +21,7 @@ Auf der Hauptseite von PhoneTrack können Sie während einer Sitzung:
 * 📍 Standortverlauf anzeigen
 * ⛛ Datenpunkte filtern
 * ✎ Datenpunkte manuell bearbeiten/hinzufügen/löschen
-* ✎ Geräte bearbeiten (umbenennen, Farb/Form ändern, in andere Sitzung verschieben)
+* ✎ Geräte bearbeiten (umbenennen, Farbe und Form ändern, in andere Sitzung verschieben)
 * ⛶ Geofence-Zonen für Geräte festlegen
 * ⚇ Annäherungsbenachrichtigung für Gerätepaare festlegen
 * 🖧 Teilen Sie eine Sitzung mit anderen Nextcloud-Benutzern oder mit einem öffentlichen Link (nur lesend)
@@ -34,7 +34,7 @@ Auf der Hauptseite von PhoneTrack können Sie während einer Sitzung:
 
 Öffentliche Seite und öffentlich gefilterte Seite funktionieren wie die Hauptseite, außer dass nur eine Sitzung angezeigt wird, alles schreibgeschützt ist und keine Anmeldung erforderlich ist.
 
-Diese App wurde auf Nextcloud 15 mit Firefox 57+ und Chromium getestet.
+Diese App wurde unter Nextcloud 17 mit Firefox 57+ und Chromium getestet.
 
 Diese App ist kompatibel mit Farbthemen und Themen zur Barrierefreiheit!
 

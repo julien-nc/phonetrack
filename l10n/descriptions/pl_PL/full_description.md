@@ -32,9 +32,9 @@ Na stronie głównej PhoneTrack podczas oglądania sesji możesz:
 * 🗓 Przełączać automatyczne eksportowanie sesji i automatyczne oczyszczanie (codziennie/co tydzień/co miesiąc)
 * ◔ Wybrać, co ma zrobić, gdy zostanie osiągnięty limit liczby punktów (zablokować rejestrowanie lub usuwać najstarszy punkt)
 
-Strona publiczna i strona publiczna filtrowana działają jak strona główna, z wyjątkiem wyświetlania tylko jednej sesji, wszystko jest tylko do odczytu i nie trzeba się logować.
+Strona publiczna i strona filtrowana publicznie działa jak strona główna, tyle że wyświetlana jest tylko jedna sesja oraz wszystko jest tylko do odczytu. Nie trzeba się logować.
 
-Ta aplikacja jest testowana na Nextcloud 15 z Firefoxem 57+ i Chromium.
+Aplikacja jest testowana na Nextcloud 17 z Firefox 57+ i Chromium.
 
 Ta aplikacja jest kompatybilna z kolorami tematycznymi i dostępnymi motywami!
 

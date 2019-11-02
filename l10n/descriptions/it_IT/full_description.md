@@ -34,7 +34,7 @@ Nella pagina principale di PhoneTrack, mentre segui una sessione, è possibile:
 
 Pagina pubblica e pagina filtrata pubblica come pagina principale, ad eccezione di una sola sessione visualizzata, tutto è in sola lettura e non c'è bisogno di accedere.
 
-Questa app è testata su Nextcloud 15 con Firefox 57+ e Chromium.
+Questa app è testata su Nextcloud 17 con Firefox 57+ e Chromium.
 
 Questa app è compatibile con i colori tematici e i temi di accessibilità!
 

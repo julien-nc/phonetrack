@@ -4,7 +4,7 @@
 
 🗺 Elle reçoit des informations provenant d'applications de logging des téléphones mobiles et les affiche en direct sur une carte.
 
-🌍 Aidez-nous à traduire cette application sur [Nextcloud-Cospend/MoneyBuster Crowdin projet](https://crowdin.com/project/phonetrack).
+🌍 Aidez-nous à traduire cette application sur [le projet Crowdin de PhoneTrack Nextcloud](https://crowdin.com/project/phonetrack).
 
 ⚒ Découvrez d'autres façons d'aider dans les [indications de contribution](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
@@ -34,7 +34,7 @@ Sur la page principale de PhoneTrack, quand vous regardez une session, vous pouv
 
 Les pages publiques et les pages publiques filtrées fonctionnent comme la page principale, sauf qu'il n'y a qu'une session affichée, tout est en lecture seule et il n'y a pas besoin d'être connecté.
 
-Cette application est testée sur Nextcloud 15 avec Firefox 57+ et Chromium.
+Cette appli est testée sur Nextcloud 17 avec Firefox 57+ et Chromium.
 
 Cette application est compatible avec les thèmes de couleur et les thèmes d'accessibilité !
 

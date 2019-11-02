@@ -34,7 +34,7 @@ On PhoneTrack main page, while watching a session, you can :
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
-This app is tested on Nextcloud 15 with Firefox 57+ and Chromium.
+This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
 
 This app is compatible with theming colors and accessibility themes !
 
