@@ -21,21 +21,19 @@
  *
  */
 
-namespace OCA\Cospend\Activity;
+namespace OCA\Phonetrack\Activity;
 
-use OCA\Cospend\Activity\ActivityManager;
+use OCA\Phonetrack\Activity\ActivityManager;
 
-use cogpowered\FineDiff\Diff;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
-use OCP\Comments\NotFoundException;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\IL10N;
 
-class CospendProvider implements IProvider {
+class PhonetrackProvider implements IProvider {
 
 	/** @var string */
 	private $userId;
@@ -74,7 +72,7 @@ class CospendProvider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
-		if ($event->getApp() !== 'cospend') {
+		if ($event->getApp() !== 'phonetrack') {
 			throw new \InvalidArgumentException();
 		}
 
@@ -112,37 +110,37 @@ class CospendProvider implements IProvider {
 			];
 			$event->setAuthor($author);
 		}
-		if ($event->getObjectType() === ActivityManager::COSPEND_OBJECT_PROJECT) {
-			if (isset($subjectParams['project']) && $event->getObjectName() === '') {
-				$event->setObject($event->getObjectType(), $event->getObjectId(), $subjectParams['project']['name']);
+		if ($event->getObjectType() === ActivityManager::PHONETRACK_OBJECT_SESSION) {
+			if (isset($subjectParams['session']) && $event->getObjectName() === '') {
+				$event->setObject($event->getObjectType(), $event->getObjectId(), $subjectParams['session']['name']);
 			}
-			$project = [
+			$session = [
 				'type' => 'highlight',
 				'id' => $event->getObjectId(),
 				'name' => $event->getObjectName(),
-				'link' => $this->cospendUrl('/project/' . $event->getObjectId()),
+				'link' => $this->cospendUrl('/session/' . $event->getObjectId()),
 			];
-			$params['project'] = $project;
+			$params['session'] = $session;
 		}
 
-		if (isset($subjectParams['bill']) && $event->getObjectType() === ActivityManager::COSPEND_OBJECT_BILL) {
+		if (isset($subjectParams['device']) && $event->getObjectType() === ActivityManager::PHONETRACK_OBJECT_DEVICE) {
 			if ($event->getObjectName() === '') {
-				$event->setObject($event->getObjectType(), $event->getObjectId(), $subjectParams['bill']['name']);
+				$event->setObject($event->getObjectType(), $event->getObjectId(), $subjectParams['device']['name']);
 			}
-			$bill = [
+			$device = [
 				'type' => 'highlight',
 				'id' => $event->getObjectId(),
 				'name' => $event->getObjectName(),
 			];
 
-			if (array_key_exists('project', $subjectParams)) {
-				$bill['link'] = $this->cospendUrl('/project/' . $subjectParams['project']['id']);
+			if (array_key_exists('session', $subjectParams)) {
+				$device['link'] = $this->cospendUrl('/session/' . $subjectParams['session']['id']);
 			}
-			$params['bill'] = $bill;
+			$params['device'] = $device;
 		}
 
-		$params = $this->parseParamForProject('project', $subjectParams, $params);
-		$params = $this->parseParamForBill('bill', $subjectParams, $params);
+		$params = $this->parseParamForSession('session', $subjectParams, $params);
+		$params = $this->parseParamForDevice('device', $subjectParams, $params);
 		$params = $this->parseParamForWho($subjectParams, $params);
 
 		try {
@@ -176,37 +174,34 @@ class CospendProvider implements IProvider {
 	}
 
 	private function getIcon(IEvent $event) {
-		$event->setIcon($this->urlGenerator->imagePath('cospend', 'app_black.svg'));
-		if (strpos($event->getSubject(), '_update') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('files', 'change.svg'));
+		$event->setIcon($this->urlGenerator->imagePath('phonetrack', 'app_black.svg'));
+		if (strpos($event->getSubject(), 'geofence') !== false) {
+			$event->setIcon($this->urlGenerator->imagePath('phonetrack', 'geofence.svg'));
 		}
-		if (strpos($event->getSubject(), '_create') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('files', 'add-color.svg'));
-		}
-		if (strpos($event->getSubject(), '_delete') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('files', 'delete-color.svg'));
+		if (strpos($event->getSubject(), 'proximity') !== false) {
+			$event->setIcon($this->urlGenerator->imagePath('core', 'actions/group.svg'));
 		}
 		return $event;
 	}
 
-	private function parseParamForProject($paramName, $subjectParams, $params) {
+	private function parseParamForSession($paramName, $subjectParams, $params) {
 		if (array_key_exists($paramName, $subjectParams)) {
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
 				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['id'].')',
-				'link' => $this->cospendUrl('?project=' . $subjectParams[$paramName]['id']),
+				'link' => $this->phonetrackUrl('?'),
 			];
 		}
 		return $params;
 	}
-	private function parseParamForBill($paramName, $subjectParams, $params) {
+	private function parseParamForDevice($paramName, $subjectParams, $params) {
 		if (array_key_exists($paramName, $subjectParams)) {
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
-				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['amount'].')',
-				'link' => $this->cospendUrl('?project=' . $subjectParams['project']['id']) . '&bill='.$subjectParams[$paramName]['id'],
+				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['alias'].')',
+				'link' => $this->phonetrackUrl('?'),
 			];
 		}
 		return $params;
@@ -234,7 +229,7 @@ class CospendProvider implements IProvider {
 		return $params;
 	}
 
-	public function cospendUrl($endpoint) {
-		return $this->urlGenerator->linkToRouteAbsolute('cospend.page.index') . $endpoint;
+	public function phonetrackUrl($endpoint) {
+		return $this->urlGenerator->linkToRouteAbsolute('phonetrack.page.index') . $endpoint;
 	}
 }
