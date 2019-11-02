@@ -324,6 +324,17 @@ class LogController extends Controller {
                     $dev2name = $dev2alias.' ('.$dev2name.')';
                 }
 
+                // activity
+                $deviceObj = $this->deviceMapper->find($movingDevid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
+                    ActivityManager::SUBJECT_PROXIMITY_CLOSE,
+                    [
+                        'device2'=>['id'=>$otherDeviceId,'name'=>$dev2name],
+                        'meters'=>['id'=>0,'name'=>$lowlimit],
+                    ]
+                );
+
                 // NOTIFICATIONS
                 if ($sendnotif !== 0) {
                     $userIds = $this->getSessionSharedUserIdList($sessionid);
@@ -444,6 +455,17 @@ class LogController extends Controller {
                 if (!empty($dev2alias)) {
                     $dev2name = $dev2alias.' ('.$dev2name.')';
                 }
+
+                // activity
+                $deviceObj = $this->deviceMapper->find($movingDevid);
+                $this->activityManager->triggerEvent(
+                    ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
+                    ActivityManager::SUBJECT_PROXIMITY_FAR,
+                    [
+                        'device2'=>['id'=>$otherDeviceId,'name'=>$dev2name],
+                        'meters'=>['id'=>0,'name'=>$highlimit],
+                    ]
+                );
 
                 // NOTIFICATIONS
                 if ($sendnotif !== 0) {
