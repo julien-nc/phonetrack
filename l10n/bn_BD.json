@@ -1,6 +1,5 @@
 { "translations": {
     "PhoneTrack" : "ফোন ট্র্যাক",
-    "Geofencing alert" : "জিওফেনসিং সতর্কতা",
     "left" : "বামে",
     "right" : "ডানে",
     "Show lines" : "রেখা প্রদর্শন করা",
@@ -20,6 +19,7 @@
     "a month" : "এক মাস",
     "Share with user" : "ইউজার এর সাথে শেয়ার করুন",
     "Type user name and press 'Enter'" : "ব্যবহারকারীর নাম টাইপ করুন এবং \"এন্টার\" প্রেস করুন",
-    "Ok" : "ঠিক আছে"
+    "Ok" : "ঠিক আছে",
+    "Geofencing alert" : "জিওফেনসিং সতর্কতা"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -2,8 +2,6 @@ OC.L10N.register(
     "phonetrack",
     {
     "PhoneTrack" : "PhoneTrack",
-    "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack 近距离警报 (%s 和 %s)",
-    "Device \"%s\" is now closer than %sm to \"%s\"." : "设备 \"%s\" 现在比 %sm 接近 \"%s\"。",
     "Quota was successfully saved" : "配额已成功保存~",
     "Failed to save quota" : "配额存储失败",
     "left" : "左",
@@ -148,6 +146,8 @@ OC.L10N.register(
     "Failed to toggle session public status, session does not exist" : "无法切换会话公共状态, 会话不存在",
     "session does not exist" : "会话不存在",
     "Import gpx/kml session file" : "导入 gpx/kml 格式文件",
+    "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack 近距离警报 (%s 和 %s)",
+    "Device \"%s\" is now closer than %sm to \"%s\"." : "设备 \"%s\" 现在比 %sm 接近 \"%s\"。",
     "Main tab" : "主选项卡",
     "Filters" : "过滤器",
     "Stats" : "统计资料",

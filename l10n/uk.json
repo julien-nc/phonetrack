@@ -1,11 +1,5 @@
 { "translations": {
     "PhoneTrack" : "PhoneTrack",
-    "PhoneTrack proximity alert (%s and %s)" : "Попередження про наближення(%s та %s)",
-    "Device \"%s\" is now closer than %sm to \"%s\"." : "Пристрій \"%s\" тепер ближче ніж %sм від \"%s\".",
-    "Device \"%s\" is now farther than %sm from \"%s\"." : "Пристрій \"%s\" тепер дальший ніж %sм від \"%s\".",
-    "Geofencing alert" : "Порушення обмежувальної зони",
-    "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"." : "У сесії \"%s\" пристрій \"%s\" увійшов в обмежувальну зону \"%s\".",
-    "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"." : "У сесії \"%s\" пристрій \"%s\" вийшов з обмежувальної зони \"%s\".",
     "Quota was successfully saved" : "Квоту збережено успішно",
     "Failed to save quota" : "Не вдалося зберегти квоту",
     "left" : "ліворуч",
@@ -111,6 +105,12 @@
     "Shared with {u}" : "Поділилися з {u}",
     "URL to request when entering" : "URL-адреса для запиту під час входження",
     "URL to request when leaving" : "URL-адреса для запиту під час виходу",
+    "PhoneTrack proximity alert (%s and %s)" : "Попередження про наближення(%s та %s)",
+    "Geofencing alert" : "Порушення обмежувальної зони",
+    "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"." : "У сесії \"%s\" пристрій \"%s\" увійшов в обмежувальну зону \"%s\".",
+    "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"." : "У сесії \"%s\" пристрій \"%s\" вийшов з обмежувальної зони \"%s\".",
+    "Device \"%s\" is now closer than %sm to \"%s\"." : "Пристрій \"%s\" тепер ближче ніж %sм від \"%s\".",
+    "Device \"%s\" is now farther than %sm from \"%s\"." : "Пристрій \"%s\" тепер дальший ніж %sм від \"%s\".",
     "Server address" : "Адреса сервера",
     "Authors" : "Автори"
 },"pluralForm" :"nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));"
