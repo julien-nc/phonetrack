@@ -27,11 +27,4 @@ class DeviceMapper extends Mapper {
         return $this->findEntity($sql, [$id]);
     }
 
-    public function findSessionId($id) {
-        $sql = 'SELECT s.id FROM `*PREFIX*phonetrack_devices` d
-            INNER JOIN `*PREFIX*phonetrack_sessions` s ON s.token = d.sessionid
-            WHERE `d`.`id` = ?';
-        return $this->findEntity($sql, [$id])->getSessionid();
-    }
-
 }

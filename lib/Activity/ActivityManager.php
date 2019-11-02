@@ -111,12 +111,17 @@ class ActivityManager {
 
 	public function triggerEvent($objectType, $entity, $subject, $additionalParams = [], $author = null) {
 		try {
+			error_log('1');
 			$event = $this->createEvent($objectType, $entity, $subject, $additionalParams, $author);
+			error_log('2');
 			if ($event !== null) {
+			error_log('3');
 				$this->sendToUsers($event);
+			error_log('4');
 			}
 		} catch (\Exception $e) {
 			// Ignore exception for undefined activities on update events
+			error_log($e->getMessage());
 		}
 	}
 
@@ -139,6 +144,7 @@ class ActivityManager {
 			return null;
 		}
 
+			error_log('5');
 		/**
 		 * Automatically fetch related details for subject parameters
 		 * depending on the subject
@@ -151,7 +157,9 @@ class ActivityManager {
 			// No need to enhance parameters since entity already contains the required data
 			case self::SUBJECT_GEOFENCE_ENTER:
 			case self::SUBJECT_GEOFENCE_EXIT:
+				error_log('51');
 				$subjectParams = $this->findDetailsForDevice($entity->getId());
+				error_log('52');
 				$objectName = $object->getName();
 				$eventType = 'phonetrack_geofence_event';
 				break;
@@ -167,6 +175,7 @@ class ActivityManager {
 				$objectName = $object->getName();
 				break;
 			default:
+				error_log('6');
 				throw new \Exception('Unknown subject for activity.');
 				break;
 		}
@@ -180,6 +189,7 @@ class ActivityManager {
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setTimestamp(time());
 
+			error_log('7');
 		if ($message !== null) {
 			$event->setMessage($message);
 		}
@@ -195,7 +205,8 @@ class ActivityManager {
 		switch ($event->getObjectType()) {
 			case self::PHONETRACK_OBJECT_DEVICE:
 				$mapper = $this->deviceMapper;
-				$sessionId = $mapper->findSessionId($event->getObjectId());
+				$token = $mapper->find($event->getObjectId())->getSessionid();
+				$sessionId = $this->sessionMapper->findByToken($token)->getId();
 				break;
 			case self::PHONETRACK_OBJECT_SESSION:
 				$mapper = $this->sessionMapper;
@@ -205,6 +216,7 @@ class ActivityManager {
 		/** @var IUser $user */
 		foreach ($this->sessionService->findUsers($sessionId) as $user) {
 			$event->setAffectedUser($user);
+			error_log('PUB TO '.$user);
 			/** @noinspection DisconnectedForeachInstructionInspection */
 			$this->manager->publish($event);
 		}
@@ -245,7 +257,7 @@ class ActivityManager {
 
 	private function findDetailsForDevice($deviceId) {
 		$device = $this->deviceMapper->find($deviceId);
-		$session = $this->sessionMapper->find($device->getSessionid());
+		$session = $this->sessionMapper->findByToken($device->getSessionid());
 		$device = [
 			'id' => $device->getId(),
 			'name' => $device->getName(),

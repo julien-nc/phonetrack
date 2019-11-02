@@ -140,6 +140,7 @@ class PhonetrackProvider implements IProvider {
 		}
 
 		$params = $this->parseParamForSession('session', $subjectParams, $params);
+		$params = $this->parseParamForSession('geofence', $subjectParams, $params);
 		$params = $this->parseParamForDevice('device', $subjectParams, $params);
 		$params = $this->parseParamForWho($subjectParams, $params);
 
@@ -190,18 +191,19 @@ class PhonetrackProvider implements IProvider {
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
 				'name' => $subjectParams[$paramName]['name'],
-				'link' => $this->phonetrackUrl('?'),
+				//'link' => $this->phonetrackUrl('?'),
 			];
 		}
 		return $params;
 	}
 	private function parseParamForDevice($paramName, $subjectParams, $params) {
 		if (array_key_exists($paramName, $subjectParams)) {
+			$extraName = $subjectParams[$paramName]['alias'] ? ' ('.$subjectParams[$paramName]['alias'].')' : '';
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],
-				'name' => $subjectParams[$paramName]['name'].' ('.$subjectParams[$paramName]['alias'].')',
-				'link' => $this->phonetrackUrl('?'),
+				'name' => $subjectParams[$paramName]['name'].$extraName,
+				//'link' => $this->phonetrackUrl('?'),
 			];
 		}
 		return $params;

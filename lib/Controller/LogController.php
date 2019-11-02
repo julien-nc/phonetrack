@@ -32,6 +32,10 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
+use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Activity\ActivityManager;
+
 function DMStoDEC($dms, $longlat) {
     if ($longlat === 'latitude') {
         $deg = intval(substr($dms, 0, 3));
@@ -109,11 +113,17 @@ class LogController extends Controller {
                                 IUserManager $userManager,
                                 IL10N $trans,
                                 ILogger $ncLogger,
+                                ActivityManager $activityManager,
+                                SessionMapper $sessionMapper,
+                                DeviceMapper $deviceMapper,
                                 $UserId
                                 ){
         parent::__construct($AppName, $request);
         $this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
         $this->userId = $UserId;
+        $this->activityManager = $activityManager;
+        $this->sessionMapper = $sessionMapper;
+        $this->deviceMapper = $deviceMapper;
         $this->trans = $trans;
         $this->ncLogger = $ncLogger;
         $this->userManager = $userManager;
@@ -630,6 +640,14 @@ class LogController extends Controller {
                     $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
                     $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
+                    // activity
+                    $deviceObj = $this->deviceMapper->find($devid);
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
+                        ActivityManager::SUBJECT_GEOFENCE_ENTER,
+                        ['geofence'=>['id'=>$fenceid,'name'=>$fencename]]
+                    );
+
                     // NOTIFICATIONS
                     if ($sendnotif !== 0) {
                         $userIds = $this->getSessionSharedUserIdList($sessionid);
@@ -741,6 +759,14 @@ class LogController extends Controller {
                     $userEmail = $user->getEMailAddress();
                     $mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
                     $mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
+
+                    // activity
+                    $deviceObj = $this->deviceMapper->find($devid);
+                    $this->activityManager->triggerEvent(
+                        ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
+                        ActivityManager::SUBJECT_GEOFENCE_EXIT,
+                        ['geofence'=>['id'=>$fenceid,'name'=>$fencename]]
+                    );
 
                     // NOTIFICATIONS
                     if ($sendnotif !== 0) {
