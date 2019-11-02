@@ -330,7 +330,7 @@ class LogController extends Controller {
                     ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
                     ActivityManager::SUBJECT_PROXIMITY_CLOSE,
                     [
-                        'device2'=>['id'=>$otherDeviceId,'name'=>$dev2name],
+                        'device2'=>['id'=>$otherDeviceId],
                         'meters'=>['id'=>0,'name'=>$lowlimit],
                     ]
                 );
@@ -398,7 +398,13 @@ class LogController extends Controller {
                                     $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
                                     $message->setFrom([$mailfrom => 'PhoneTrack']);
                                     $message->setTo([trim($addrTo) => '']);
-                                    $message->setPlainBody($this->trans->t('Device "%s" is now closer than %sm to "%s".', array($dev1name, $lowlimit, $dev2name)));
+                                    $message->setPlainBody(
+                                        $this->trans->t('PhoneTrack device %s is now closer than %s m to %s.', [
+                                            $dev1name,
+                                            $lowlimit,
+                                            $dev2name
+                                        ])
+                                    );
                                     $mailer->send($message);
                                 }
                                 catch (\Exception $e) {
@@ -462,7 +468,7 @@ class LogController extends Controller {
                     ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
                     ActivityManager::SUBJECT_PROXIMITY_FAR,
                     [
-                        'device2'=>['id'=>$otherDeviceId,'name'=>$dev2name],
+                        'device2'=>['id'=>$otherDeviceId],
                         'meters'=>['id'=>0,'name'=>$highlimit],
                     ]
                 );
@@ -529,7 +535,13 @@ class LogController extends Controller {
                                     $message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
                                     $message->setFrom([$mailfrom => 'PhoneTrack']);
                                     $message->setTo([trim($addrTo) => '']);
-                                    $message->setPlainBody($this->trans->t('Device "%s" is now farther than %sm from "%s".', array($dev1name, $highlimit, $dev2name)));
+                                    $message->setPlainBody(
+                                        $this->trans->t('PhoneTrack device %s is now farther than %s m from %s.', [
+                                            $dev1name,
+                                            $highlimit,
+                                            $dev2name
+                                        ])
+                                    );
                                     $mailer->send($message);
                                 }
                                 catch (\Exception $e) {
@@ -726,7 +738,13 @@ class LogController extends Controller {
                                         $message->setSubject($this->trans->t('Geofencing alert'));
                                         $message->setFrom([$mailfrom => 'PhoneTrack']);
                                         $message->setTo([trim($addrTo) => '']);
-                                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" entered geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
+                                        $message->setPlainBody(
+                                            $this->trans->t('In PhoneTrack session %s, device %s has entered geofence %s.', [
+                                                $sessionname,
+                                                $devicename,
+                                                $fencename
+                                            ])
+                                        );
                                         $mailer->send($message);
                                     }
                                     catch (\Exception $e) {
@@ -846,7 +864,13 @@ class LogController extends Controller {
                                         $message->setSubject($this->trans->t('Geofencing alert'));
                                         $message->setFrom([$mailfrom => 'PhoneTrack']);
                                         $message->setTo([trim($addrTo) => '']);
-                                        $message->setPlainBody($this->trans->t('In session "%s", device "%s" exited geofencing zone "%s".', array($sessionname, $devicename, $fencename)));
+                                        $message->setPlainBody(
+                                            $this->trans->t('In PhoneTrack session %s, device %s exited geofence %s.', [
+                                                $sessionname,
+                                                $devicename,
+                                                $fencename
+                                            ])
+                                        );
                                         $mailer->send($message);
                                     }
                                     catch (\Exception $e) {

@@ -140,6 +140,7 @@ class PhonetrackProvider implements IProvider {
 		}
 
 		$params = $this->parseParamForSession('session', $subjectParams, $params);
+		$params = $this->parseParamForSession('session2', $subjectParams, $params);
 		$params = $this->parseParamForSession('geofence', $subjectParams, $params);
 		$params = $this->parseParamForDevice('device', $subjectParams, $params);
 		$params = $this->parseParamForDevice('device2', $subjectParams, $params);

@@ -86,16 +86,16 @@ class ActivityManager {
 		$subject = '';
 		switch ($subjectIdentifier) {
 			case self::SUBJECT_GEOFENCE_ENTER:
-				$subject = $this->l10n->t('In PhoneTrack session {session}, device {device} has entered geofence {geofence}');
+				$subject = $this->l10n->t('PhoneTrack device {device} of session {session} has entered geofence {geofence}');
 				break;
 			case self::SUBJECT_GEOFENCE_EXIT:
-				$subject = $this->l10n->t('In PhoneTrack session {session}, device {device} has exited geofence {geofence}');
+				$subject = $this->l10n->t('PhoneTrack device {device} of session {session} has exited geofence {geofence}');
 				break;
 			case self::SUBJECT_PROXIMITY_CLOSE:
-				$subject = $this->l10n->t('PhoneTrack device {device} is now closer than {meters} m to {device2}');
+				$subject = $this->l10n->t('PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}');
 				break;
 			case self::SUBJECT_PROXIMITY_FAR:
-				$subject = $this->l10n->t('PhoneTrack device {device} is now farther than {meters} m from {device2}');
+				$subject = $this->l10n->t('PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}');
 				break;
 			case self::SUBJECT_SESSION_SHARE:
 				$subject = $ownActivity ? $this->l10n->t('You shared PhoneTrack session {session} with {who}') : $this->l10n->t('PhoneTrack session {session} is now shared with {who}');
@@ -158,6 +158,12 @@ class ActivityManager {
 			case self::SUBJECT_PROXIMITY_FAR:
 			case self::SUBJECT_PROXIMITY_CLOSE:
 				$subjectParams = $this->findDetailsForDevice($entity->getId());
+				if (\array_key_exists('device2', $additionalParams)) {
+					$dev2id = $additionalParams['device2']['id'];
+					$dev2details = $this->findDetailsForDevice($dev2id);
+					$additionalParams['device2'] = $dev2details['device'];
+					$additionalParams['session2'] = $dev2details['session'];
+				}
 				$objectName = $object->getName();
 				$eventType = 'phonetrack_proximity_event';
 				break;
