@@ -5,16 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.5.5 – 2019-10-27
+## 0.5.8 – 2019-11-02
 ### Added
 - vector tiles support with Mapbox of OpenMapTile server
 - Overland IOS compatibility
 [#289](https://gitlab.com/eneiluj/phonetrack-oc/issues/289) @MarkusGe
 - display interactive elevation chart when zooming on specific device
 [#283](https://gitlab.com/eneiluj/phonetrack-oc/issues/283) @Akitou
+- activity stream for sharing, geofence, proximity events
 
 ### Changed
 - unit display in tooltips/popups
+- add placeholders
+- improve proximity icon
+- use NC database migration system
 
 ### Fixed
 - bug when theming color code is compacted
