@@ -3,7 +3,7 @@
     <id>phonetrack</id>
     <name>PhoneTrack</name>
     <summary> </summary><description> </description>
-    <version>0.5.5</version>
+    <version>0.5.6</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>PhoneTrack</namespace>
@@ -32,4 +32,17 @@
     <settings>
         <admin>OCA\PhoneTrack\Settings\Admin</admin>
     </settings>
+    <activity>
+        <settings>
+            <setting>OCA\PhoneTrack\Activity\Setting</setting>
+            <setting>OCA\PhoneTrack\Activity\GeofenceSetting</setting>
+            <setting>OCA\PhoneTrack\Activity\ProximitySetting</setting>
+        </settings>
+        <filters>
+            <filter>OCA\PhoneTrack\Activity\Filter</filter>
+        </filters>
+        <providers>
+            <provider>OCA\PhoneTrack\Activity\PhonetrackProvider</provider>
+        </providers>
+    </activity>
 </info>

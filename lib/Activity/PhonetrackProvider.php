@@ -21,9 +21,9 @@
  *
  */
 
-namespace OCA\Phonetrack\Activity;
+namespace OCA\PhoneTrack\Activity;
 
-use OCA\Phonetrack\Activity\ActivityManager;
+use OCA\PhoneTrack\Activity\ActivityManager;
 
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
@@ -118,7 +118,7 @@ class PhonetrackProvider implements IProvider {
 				'type' => 'highlight',
 				'id' => $event->getObjectId(),
 				'name' => $event->getObjectName(),
-				'link' => $this->cospendUrl('/session/' . $event->getObjectId()),
+				'link' => $this->phonetrackUrl('/session/' . $event->getObjectId()),
 			];
 			$params['session'] = $session;
 		}
@@ -134,7 +134,7 @@ class PhonetrackProvider implements IProvider {
 			];
 
 			if (array_key_exists('session', $subjectParams)) {
-				$device['link'] = $this->cospendUrl('/session/' . $subjectParams['session']['id']);
+				$device['link'] = $this->phonetrackUrl('/session/' . $subjectParams['session']['id']);
 			}
 			$params['device'] = $device;
 		}

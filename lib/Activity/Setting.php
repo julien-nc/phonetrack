@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Phonetrack\Activity;
+namespace OCA\PhoneTrack\Activity;
 
 
 use OCP\IL10N;

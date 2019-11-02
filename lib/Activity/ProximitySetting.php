@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Phonetrack\Activity;
+namespace OCA\PhoneTrack\Activity;
 
 
 class ProximitySetting extends Setting {

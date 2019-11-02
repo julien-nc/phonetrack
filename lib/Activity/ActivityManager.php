@@ -21,14 +21,14 @@
  *
  */
 
-namespace OCA\Phonetrack\Activity;
+namespace OCA\PhoneTrack\Activity;
 
 use InvalidArgumentException;
-use OCA\Phonetrack\Service\SessionService;
-use OCA\Phonetrack\Db\SessionMapper;
-use OCA\Phonetrack\Db\Session;
-use OCA\Phonetrack\Db\DeviceMapper;
-use OCA\Phonetrack\Db\Device;
+use OCA\PhoneTrack\Service\SessionService;
+use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\Session;
+use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\Device;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\IUserManager;
@@ -41,9 +41,9 @@ class ActivityManager {
 
 	private $manager;
 	private $userId;
-	private $projectService;
-	private $projectMapper;
-	private $billMapper;
+	private $sessionService;
+	private $sessionMapper;
+	private $deviceMapper;
 	private $l10n;
 
 	const PHONETRACK_OBJECT_SESSION = 'phonetrack_session';
@@ -197,7 +197,7 @@ class ActivityManager {
 				$mapper = $this->deviceMapper;
 				$sessionId = $mapper->findSessionId($event->getObjectId());
 				break;
-			case self::COSPEND_OBJECT_SESSION:
+			case self::PHONETRACK_OBJECT_SESSION:
 				$mapper = $this->sessionMapper;
 				$sessionId = $event->getObjectId();
 				break;
@@ -213,7 +213,7 @@ class ActivityManager {
 	/**
 	 * @param $objectType
 	 * @param $entity
-	 * @return null|\OCA\Phonetrack\Db\RelationalEntity|\OCP\AppFramework\Db\Entity
+	 * @return null|\OCA\PhoneTrack\Db\RelationalEntity|\OCP\AppFramework\Db\Entity
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException
 	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
 	 */

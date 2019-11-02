@@ -10,13 +10,13 @@
  * @copyright Julien Veyssier 2019
  */
 
-namespace OCA\Phonetrack\Service;
+namespace OCA\PhoneTrack\Service;
 
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
-use OCA\Phonetrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\SessionMapper;
 use OCP\IGroupManager;
 
 class SessionService {
