@@ -4580,19 +4580,22 @@
         el.addTo(phonetrack.map);
 
         var layers = phonetrack.sessionLineLayers[s][d].getLayers();
-        var times;
+        var times, elevations;
         var data, i, j, lls, pid;
         for (i=0; i < layers.length; i++) {
             data = layers[i].toGeoJSON();
             // add time information
             times = [];
+            elevations = [];
             lls = layers[i].getLatLngs();
             for (j=0; j < lls.length; j++) {
                 pid = lls[j].alt;
                 times.push(phonetrack.sessionPointsEntriesById[s][d][pid].timestamp);
+                elevations.push(phonetrack.sessionPointsEntriesById[s][d][pid].altitude);
             }
             console.log(times);
             for (j=0; j < data.geometry.coordinates.length; j++) {
+                data.geometry.coordinates[j][2] = elevations[j] || 0;
                 data.geometry.coordinates[j].push(times[j]);
             }
 
