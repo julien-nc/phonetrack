@@ -1731,7 +1731,9 @@
             divtxt = divtxt + '<div class="usersharediv">';
             divtxt = divtxt + '<p class="addusershareLabel">' + t('phonetrack', 'Share with user') + ' :</p>';
             divtxt = divtxt + '<input class="addusershare" type="text" title="' +
-                t('phonetrack', 'Type user name and press \'Enter\'') + '"></input>';
+                t('phonetrack', 'Type user name and press \'Enter\'') + '" ' +
+                'placeholder="'+ t('phonetrack', 'user name') +'" ' +
+                '></input>';
             divtxt = divtxt + '<ul class="usersharelist">';
 
             divtxt = divtxt + '</ul>';
@@ -3125,6 +3127,7 @@
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + '</label> ' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
                 '<input type="text" id="geoemail'+s+d+'" class="geoemail" maxlength="500"' +
+                'placeholder="'+ t('phonetrack', 'Coma separated e-email address list') +'" ' +
                 'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
                 t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
                 '<label for="urlenter'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when entering ("%loc" will be replaced by "latitude:longitude")') + '</b></label><br/>' +
@@ -3156,7 +3159,7 @@
                 '<label for="west'+s+d+'"> ' + t('phonetrack', 'West') + ' </label> ' +
                 '<input id="west'+s+d+'" class="fencewest" type="number" value="" min="-180" max="180" step="0.000001"/>' +
                 '</div>' +
-                '<input type="text" class="geofencename" value="' + t('phonetrack', 'Fence name') + '"/>' +
+                '<input type="text" class="geofencename" placeholder="' + t('phonetrack', 'Fence name') + '"/>' +
                 '<button class="addgeofencebutton" title="' + t('phonetrack', 'Use current map view as geofencing zone') + '">' +
                 '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add zone') +
                 '</button>' +
@@ -3172,7 +3175,7 @@
                 t('phonetrack', 'You will be notified when distance between devices gets bigger than high limit or smaller than low limit.') + '</p>' +
                 '<label>' + t('phonetrack', 'Session') + ' </label> ' +
                 '<select class="proximsession"></select>' +
-                '<input type="text" class="devicename" value="' + t('phonetrack', 'Device name') + '"/>' +
+                '<input type="text" class="devicename" placeholder="' + t('phonetrack', 'Device name') + '"/>' +
                 '<label for="lowlimit'+s+d+'"> ' + t('phonetrack', 'Low distance limit') + ' </label>' +
                 '<input id="lowlimit'+s+d+'" class="lowlimit" type="number" value="500" min="1" max="20000000"/>' +
                 t('phonetrack', 'meters') + '<br/>' +
@@ -3183,7 +3186,8 @@
                 '<input type="checkbox" class="sendnotif" id="sendnotif'+s+d+'" checked/><br/>' +
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + ' </label>' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
-                '<input type="text" id="proxemail'+s+d+'" class="proxemail" maxlength="500"' +
+                '<input type="text" id="proxemail'+s+d+'" class="proxemail" maxlength="500" ' +
+                'placeholder="'+ t('phonetrack', 'Coma separated e-email address list') +'" ' +
                 'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
                 t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
                 '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when devices get close') + '</b></label><br/>' +
@@ -7088,6 +7092,11 @@
             }
             var token = $(this).parent().parent().parent().parent().parent().attr('token');
             setPublicShareGeofencifyDb(token, filteredtoken, checked);
+        });
+
+        // select text when focus on some input
+        $('body').on('focus', '.publicWatchUrlDiv input[type=text], .moreUrls input[type=text]', function(e) {
+            $(this).select();
         });
 
         // close elevation char button
