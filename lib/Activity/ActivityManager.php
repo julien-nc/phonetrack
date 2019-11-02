@@ -101,7 +101,7 @@ class ActivityManager {
 				$subject = $ownActivity ? $this->l10n->t('You shared PhoneTrack session {session} with {who}') : $this->l10n->t('PhoneTrack session {session} is now shared with {who}');
 				break;
 			case self::SUBJECT_SESSION_UNSHARE:
-				$subject = $ownActivity ? $this->l10n->t('You have removed {who} from the session {session}') : $this->l10n->t('PhoneTrack session {session} is not shared with {who} anymore');
+				$subject = $ownActivity ? $this->l10n->t('You stopped sharing session {session} with {who}') : $this->l10n->t('PhoneTrack session {session} is not shared with {who} anymore');
 				break;
 			default:
 				break;
