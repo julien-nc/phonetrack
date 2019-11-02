@@ -835,6 +835,17 @@ label[for=viewmove] i {
     mask-size: 70% !important;
     -webkit-mask-size: 70% !important;
 }
+.toggleProxim {
+    width: 25px;
+    height: 25px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: var(--color-text-lighter);
+    mask: url('images/proximity.svg') no-repeat 50% 50% !important;
+    -webkit-mask:  url('images/proximity.svg') no-repeat 50% 50% !important;
+    mask-size: 70% !important;
+    -webkit-mask-size: 70% !important;
+}
 .toggleLineDevice {
     width: 25px;
     height: 25px;
@@ -846,6 +857,7 @@ label[for=viewmove] i {
     -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
 }
 .toggleGeofences:hover,
+.toggleProxim:hover,
 .toggleLineDevice.off:hover,
 .toggleAutoZoomDevice.off:hover {
     background-color: var(--color-text-light);

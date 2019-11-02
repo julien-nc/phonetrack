@@ -3168,7 +3168,7 @@
                 '</div>';
             proximLink = ' <button class="toggleProxim" ' +
                 'title="' + t('phonetrack', 'Device proximity notifications') + '">' +
-                '<i class="fa fa-user-friends" aria-hidden="true"></i></button>';
+                '</button>';
             proximDiv = '<div class="proximDiv">' +
                 '<div class="addproximdiv">' +
                 '<p>' + t('phonetrack', 'Select a session, a device name and a distance, set the notification settings, then validate.') + ' ' +
@@ -5911,12 +5911,12 @@
             var sharediv = $(this).parent().parent().find('.sharediv');
             if (nameDiv.is(':visible')) {
                 nameDiv.slideUp();
-                $(this).removeClass('activeButton');
+                $(this).removeClass('nc-theming-main-foreground');
             }
             else{
                 nameDiv.slideDown();
-                $(this).parent().find('.activeButton').removeClass('activeButton');
-                $(this).addClass('activeButton');
+                $(this).parent().find('.nc-theming-main-foreground').removeClass('nc-theming-main-foreground');
+                $(this).addClass('nc-theming-main-foreground');
                 urlDiv.slideUp();
                 sharediv.slideUp();
             }
@@ -5928,12 +5928,12 @@
             var sharediv = $(this).parent().parent().find('.sharediv');
             if (urlDiv.is(':visible')) {
                 urlDiv.slideUp();
-                $(this).removeClass('activeButton');
+                $(this).removeClass('nc-theming-main-foreground');
             }
             else{
                 urlDiv.slideDown().css('display', 'grid');
-                $(this).parent().find('.activeButton').removeClass('activeButton');
-                $(this).addClass('activeButton');
+                $(this).parent().find('.nc-theming-main-foreground').removeClass('nc-theming-main-foreground');
+                $(this).addClass('nc-theming-main-foreground');
                 nameDiv.slideUp();
                 sharediv.slideUp();
             }
@@ -5945,12 +5945,12 @@
             var moreurldiv = $(this).parent().parent().find('.moreUrls');
             if (sharediv.is(':visible')) {
                 sharediv.slideUp();
-                $(this).removeClass('activeButton');
+                $(this).removeClass('nc-theming-main-foreground');
             }
             else {
                 sharediv.slideDown();
-                $(this).parent().find('.activeButton').removeClass('activeButton');
-                $(this).addClass('activeButton');
+                $(this).parent().find('.nc-theming-main-foreground').removeClass('nc-theming-main-foreground');
+                $(this).addClass('nc-theming-main-foreground');
                 nameDiv.slideUp();
                 moreurldiv.slideUp();
             }
@@ -5960,16 +5960,16 @@
             var geoDiv = $(this).parent().parent().find('.geofencesDiv');
             if (geoDiv.is(':visible')) {
                 geoDiv.slideUp();
-                $(this).removeClass('activeMaskedButton');
+                $(this).removeClass('nc-theming-main-background');
             }
             else{
                 $('.geofencesDiv:visible, .proximDiv:visible').each(function() {
                     $(this).slideUp();
-                    $(this).parent().find('.toggleGeofences').removeClass('activeMaskedButton');
-                    $(this).parent().find('.toggleProxim').removeClass('activeButton');
+                    $(this).parent().find('.toggleGeofences').removeClass('nc-theming-main-background');
+                    $(this).parent().find('.toggleProxim').removeClass('nc-theming-main-background');
                 });
                 geoDiv.slideDown();
-                $(this).addClass('activeMaskedButton');
+                $(this).addClass('nc-theming-main-background');
             }
         });
 
@@ -5977,16 +5977,16 @@
             var prDiv = $(this).parent().parent().find('.proximDiv');
             if (prDiv.is(':visible')) {
                 prDiv.slideUp();
-                $(this).removeClass('activeButton');
+                $(this).removeClass('nc-theming-main-background');
             }
             else{
                 $('.geofencesDiv:visible, .proximDiv:visible').each(function() {
                     $(this).slideUp();
-                    $(this).parent().find('.toggleGeofences').removeClass('activeMaskedButton');
-                    $(this).parent().find('.toggleProxim').removeClass('activeButton');
+                    $(this).parent().find('.toggleGeofences').removeClass('nc-theming-main-background');
+                    $(this).parent().find('.toggleProxim').removeClass('nc-theming-main-background');
                 });
                 prDiv.slideDown();
-                $(this).addClass('activeButton');
+                $(this).addClass('nc-theming-main-background');
                 updateProximSessionsSelect($(this));
             }
         });
@@ -6968,10 +6968,12 @@
             else if (c.length === 7) {
                 phonetrack.themeColor = c;
             }
+            $('<style>.nc-theming-main-foreground i {color: '+phonetrack.themeColor+';}</style>').appendTo('body');
         }
         else {
             phonetrack.themeColor = '#0082C9';
-            $('<style>.nc-theming-main-background {background-color: blue;}</style>').appendTo('body');
+            $('<style>.nc-theming-main-background {background-color: blue;}' +
+            '         .nc-theming-main-foreground i {color: blue;}</style>').appendTo('body');
         }
         phonetrack.themeColorDark = hexToDarkerHex(phonetrack.themeColor);
 

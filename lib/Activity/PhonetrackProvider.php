@@ -183,7 +183,7 @@ class PhonetrackProvider implements IProvider {
 			$event->setIcon($this->urlGenerator->imagePath('phonetrack', 'geofence.svg'));
 		}
 		if (strpos($event->getSubject(), 'proximity') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('core', 'actions/group.svg'));
+			$event->setIcon($this->urlGenerator->imagePath('phonetrack', 'proximity.svg'));
 		}
 		return $event;
 	}
