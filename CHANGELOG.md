@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.5.8 – 2019-11-02
+## 0.5.8 – 2019-11-03
 ### Added
 - vector tiles support with Mapbox of OpenMapTile server
 - Overland IOS compatibility
@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - bug when theming color code is compacted
 [#284](https://gitlab.com/eneiluj/phonetrack-oc/issues/284) @DofTNet
-- make location DB insertion more robusy
+- make location DB insertion more robust
 [#281](https://gitlab.com/eneiluj/phonetrack-oc/issues/281) @maviar1981
 
 ## 0.5.4 – 2019-09-21
