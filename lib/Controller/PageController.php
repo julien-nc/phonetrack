@@ -134,7 +134,7 @@ class PageController extends Controller {
             $this->dbdblquotes = '';
         }
         $this->dbconnection = \OC::$server->getDatabaseConnection();
-        if ($UserId !== '' and $serverContainer !== null){
+        if ($UserId !== null and $UserId !== '' and $serverContainer !== null){
             // path of user files folder relative to DATA folder
             $this->userfolder = $serverContainer->getUserFolder($UserId);
             // absolute path to user files folder
