@@ -3134,7 +3134,7 @@
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + '</label> ' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
                 '<input type="text" id="geoemail'+s+d+'" class="geoemail" maxlength="500"' +
-                'placeholder="'+ t('phonetrack', 'Coma separated e-email address list') +'" ' +
+                'placeholder="'+ t('phonetrack', 'Comma separated e-mail address list') +'" ' +
                 'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
                 t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
                 '<label for="urlenter'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when entering ("%loc" will be replaced by "latitude:longitude")') + '</b></label><br/>' +
@@ -3194,7 +3194,7 @@
                 '<label for="sendemail'+s+d+'"> ' + t('phonetrack', 'Email notification') + ' </label>' +
                 '<input type="checkbox" class="sendemail" id="sendemail'+s+d+'" checked/><br/>' +
                 '<input type="text" id="proxemail'+s+d+'" class="proxemail" maxlength="500" ' +
-                'placeholder="'+ t('phonetrack', 'Coma separated e-email address list') +'" ' +
+                'placeholder="'+ t('phonetrack', 'Comma separated e-mail address list') +'" ' +
                 'title="' + t('phonetrack', 'An empty value means the session owner\'s email address.') + "\n" +
                 t('phonetrack', 'You can put multiple addresses separated by comas (,).') +'"/><br/>' +
                 '<label for="urlclose'+s+d+'"><b>' + t('phonetrack', 'HTTP address to request when devices get close') + '</b></label><br/>' +
