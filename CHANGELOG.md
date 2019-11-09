@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.5.10 – 2019-11-03
+### Fixed
+- missing DB field
+
 ## 0.5.8 – 2019-11-03
 ### Added
 - vector tiles support with Mapbox of OpenMapTile server
