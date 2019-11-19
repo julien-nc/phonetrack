@@ -68,16 +68,20 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $c = $this->container;
         $this->config = $c->query('ServerContainer')->getConfig();
 
+	$this->sessionService = new \OCA\PhoneTrack\Service\SessionService(
+            $c->query('ServerContainer')->getLogger(),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
+            new \OCA\PhoneTrack\Db\SessionMapper(
+                $c->query('ServerContainer')->getDatabaseConnection()
+            ),
+            $c->getServer()->getUserManager(),
+            $c->getServer()->getGroupManager(),
+            $c->query('ServerContainer')->getConfig()
+	);
+
         $this->activityManager = new \OCA\PhoneTrack\Activity\ActivityManager(
             $c->query('ServerContainer')->getActivityManager(),
-            new \OCA\PhoneTrack\Service\SessionService(
-                $c->query('ServerContainer')->getLogger(),
-                $c->query('ServerContainer')->getL10N($c->query('AppName')),
-                new \OCA\PhoneTrack\Db\SessionMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
-                ),
-                $c->getServer()->getGroupManager()
-            ),
+	    $this->sessionService,
             new \OCA\PhoneTrack\Db\SessionMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
             ),
@@ -91,14 +95,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
         $this->activityManager2 = new \OCA\PhoneTrack\Activity\ActivityManager(
             $c->query('ServerContainer')->getActivityManager(),
-            new \OCA\PhoneTrack\Service\SessionService(
-                $c->query('ServerContainer')->getLogger(),
-                $c->query('ServerContainer')->getL10N($c->query('AppName')),
-                new \OCA\PhoneTrack\Db\SessionMapper(
-                    $c->query('ServerContainer')->getDatabaseConnection()
-                ),
-                $c->getServer()->getGroupManager()
-            ),
+	    $this->sessionService,
             new \OCA\PhoneTrack\Db\SessionMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
             ),
@@ -126,6 +123,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             new \OCA\PhoneTrack\Db\DeviceMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
             ),
+	    $this->sessionService,
             'test'
         );
 
@@ -145,6 +143,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             new \OCA\PhoneTrack\Db\DeviceMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
             ),
+	    $this->sessionService,
             'test2'
         );
 
@@ -714,7 +713,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $pointListBeforePurge = $respSession[$token][$deviceid];
         $this->assertEquals(True, count($pointListBeforePurge) > 0);
 
-        $resp = $this->pageController->cronAutoExport();
+        $resp = $this->sessionService->cronAutoExport();
 
         // check number of points
         $sessions = array(array($token, array($deviceid => 400), null));
@@ -733,7 +732,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
         $search[0]->delete();
         $resp = $this->pageController->setSessionAutoExport($token, 'weekly');
         // do it again to test when export dir already exists and test weekly
-        $resp = $this->pageController->cronAutoExport();
+        $resp = $this->sessionService->cronAutoExport();
         $search = $userfolder->get('/autoex')->search('.gpx');
         $this->assertEquals(count($search), 1);
 

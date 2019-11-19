@@ -10,18 +10,19 @@
 namespace OCA\PhoneTrack\Cron;
 
 use \OCA\PhoneTrack\AppInfo\Application;
+use \OCA\PhoneTrack\Service\SessionService;
 
 class AutoExport extends \OC\BackgroundJob\TimedJob {
-#class AutoExport extends \OC\BackgroundJob\Job {
 
-    public function __construct() {
+    public function __construct(SessionService $sessionService) {
+	$this->sessionService = $sessionService;
         // Run each day
         $this->setInterval(24 * 60 * 60);
     }
 
     protected function run($argument) {
         $d = new \DateTime();
-        (new Application())->getContainer()->query('PageController')->cronAutoExport();
+        $this->sessionService->cronAutoExport();
     }
 
 }
