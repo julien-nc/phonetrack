@@ -2689,6 +2689,19 @@ class PageController extends Controller {
                         $done = 2;
                     }
                 }
+                else if (endswith($file->getName(), '.json') or endswith($file->getName(), '.JSON')) {
+                    $sessionName = str_replace(['.json', '.JSON'], '', $file->getName());
+                    $res = $this->createSession($sessionName);
+                    $response = $res->getData();
+                    if ($response['done'] === 1) {
+                        $token = $response['token'];
+                        $publicviewtoken = $response['publicviewtoken'];
+                        $done = $this->readJsonImportPoints($file, $file->getName(), $token);
+                    }
+                    else {
+                        $done = 2;
+                    }
+                }
             }
             else {
                 $done = 3;
@@ -2920,6 +2933,44 @@ class PageController extends Controller {
         if ($this->trackIndex === 1) {
             return 6;
         }
+        return 1;
+    }
+
+    private function readJsonImportPoints($json_file, $json_name, $token) {
+        $importDevName = 'importedDevice';
+        $jsonArray = json_decode($json_file->getContent(), true);
+
+        $currentPointList = [];
+        if (array_key_exists('locations', $jsonArray) and is_array($jsonArray['locations'])) {
+            foreach ($jsonArray['locations'] as $loc) {
+                // get point info
+                //$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
+                $point = [null, null, null, null, null, null,  null, null, null, null];
+                if (array_key_exists('timestampMs', $loc) and is_numeric($loc['timestampMs'])
+                    and array_key_exists('latitude', $loc) and is_numeric($loc['latitude'])
+                    and array_key_exists('longitude', $loc) and is_numeric($loc['longitude']))
+                {
+                    $point[0] = $loc['latitude'];
+                    $point[1] = $loc['longitude'];
+                    $ts = intval(intval($loc['timestampMs']) / 1000);
+                    $point[3] = $ts;
+                    if (array_key_exists('latitude', $loc) and is_numeric($loc['latitude'])) {
+                        $point[4] = $loc['accuracy'];
+                    }
+                }
+                // add point
+                array_push($currentPointList, $point);
+                if (count($currentPointList) >= 500) {
+                    $this->logMultiple($token, $importDevName, $currentPointList);
+                    unset($currentPointList);
+                    $currentPointList = [];
+                }
+            }
+            if (count($currentPointList) > 0) {
+                $this->logMultiple($token, $importDevName, $currentPointList);
+            }
+        }
+
         return 1;
     }
 

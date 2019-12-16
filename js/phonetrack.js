@@ -4337,8 +4337,8 @@
     }
 
     function importSession(path) {
-        if (!endsWith(path, '.gpx') && !endsWith(path, '.kml')) {
-            OC.Notification.showTemporary(t('phonetrack', 'File extension must be \'.gpx\' or \'.kml\' to be imported'));
+        if (!endsWith(path, '.gpx') && !endsWith(path, '.kml') && !endsWith(path, '.json')) {
+            OC.Notification.showTemporary(t('phonetrack', 'File extension must be \'.gpx\', \'.kml\' or \'.json\' to be imported'));
         }
         else {
             showLoadingAnimation();
@@ -6524,12 +6524,12 @@
 
         $('#importsession').click(function(e) {
             OC.dialogs.filepicker(
-                t('phonetrack', 'Import gpx/kml session file'),
+                t('phonetrack', 'Import gpx/kml/json session file'),
                 function(targetPath) {
                     importSession(targetPath);
                 },
                 false,
-                null,
+                ['application/gpx+xml', 'application/json', 'application/vnd.google-earth.kml+xml'],
                 true
             );
         });
