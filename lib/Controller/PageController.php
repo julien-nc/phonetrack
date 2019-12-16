@@ -168,10 +168,11 @@ class PageController extends Controller {
             AND type='.$this->db_quote_escape_string($type).';';
         $req = $this->dbconnection->prepare($sqlts);
         $req->execute();
-        $tss = Array();
+        $tss = [];
         while ($row = $req->fetch()){
-            $tss[$row["servername"]] = Array();
-            foreach (Array('servername', 'type', 'url', 'token', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution') as $field) {
+            $tss[$row["servername"]] = [];
+            foreach (['servername', 'type', 'url', 'token', 'layers', 'version', 'format',
+                      'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
                 $tss[$row['servername']][$field] = $row[$field];
             }
         }
@@ -234,7 +235,7 @@ class PageController extends Controller {
     }
 
     private function getReservedNames($token) {
-        $result = array();
+        $result = [];
 
         $sqlgetres = '
             SELECT name, nametoken
@@ -246,7 +247,7 @@ class PageController extends Controller {
             $dbdevicename = $row['name'];
             $dbnametoken = $row['nametoken'];
             if ($dbnametoken !== '' and $dbnametoken !== null) {
-                array_push($result, array('token'=>$dbnametoken, 'name'=>$dbdevicename));
+                array_push($result, ['token'=>$dbnametoken, 'name'=>$dbdevicename]);
             }
         }
         $req->closeCursor();
@@ -260,7 +261,7 @@ class PageController extends Controller {
      * get sessions owned by and shared with current user
      */
     public function getSessions() {
-        $sessions = array();
+        $sessions = [];
         // sessions owned by current user
         $sqlget = '
             SELECT name, token, publicviewtoken, public, autoexport, autopurge, locked
@@ -281,7 +282,10 @@ class PageController extends Controller {
             $reservedNames = $this->getReservedNames($dbtoken);
             $publicShares = $this->getPublicShares($dbtoken);
             $devices = $this->getDevices($dbtoken);
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge, $dblocked));
+            array_push($sessions, [
+                $dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic,
+                $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge, $dblocked
+            ]);
         }
         $req->closeCursor();
 
@@ -304,7 +308,7 @@ class PageController extends Controller {
                 $userNameDisplay = $ncUserList[$dbuserId];
             }
             $devices = $this->getDevices($dbsessionid);
-            array_push($sessions, array($dbname, $dbsharetoken, $userNameDisplay, $devices));
+            array_push($sessions, [$dbname, $dbsharetoken, $userNameDisplay, $devices]);
         }
         $req->closeCursor();
 
@@ -328,7 +332,7 @@ class PageController extends Controller {
      * get sessions owned by and shared with current user
      */
     public function APIgetSessions() {
-        $sessions = array();
+        $sessions = [];
         // sessions owned by current user
         $sqlget = '
             SELECT name, token, publicviewtoken, public, autoexport, autopurge
@@ -348,7 +352,10 @@ class PageController extends Controller {
             $reservedNames = $this->getReservedNames($dbtoken);
             $publicShares = $this->getPublicShares($dbtoken);
             $devices = $this->getDevices($dbtoken);
-            array_push($sessions, array($dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge));
+            array_push($sessions, [
+                $dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith,
+                $reservedNames, $publicShares, $dbautoexport, $dbautopurge
+            ]);
         }
         $req->closeCursor();
 
@@ -371,7 +378,7 @@ class PageController extends Controller {
             $dbpublic = is_numeric($row['public']) ? intval($row['public']) : 0;
             $dbpublicviewtoken = $row['publicviewtoken'];
             $devices = $this->getDevices($dbsessionid);
-            array_push($sessions, array($dbname, $dbsharetoken, $dbpublicviewtoken, $devices, $dbpublic, $dbuser));
+            array_push($sessions, [$dbname, $dbsharetoken, $dbpublicviewtoken, $devices, $dbpublic, $dbuser]);
         }
         $req->closeCursor();
 
@@ -387,7 +394,7 @@ class PageController extends Controller {
     }
 
     private function getDevices($sessionid) {
-        $devices = array();
+        $devices = [];
         $sqlget = '
             SELECT id, name, alias, color, nametoken, shape
             FROM *PREFIX*phonetrack_devices
@@ -485,13 +492,13 @@ class PageController extends Controller {
         while ($row = $req->fetch()){
             array_push(
                 $shares,
-                array(
+                [
                     'token'=>$row['sharetoken'],
                     'filters'=>$row['filters'],
                     'devicename'=>$row['devicename'],
                     'lastposonly'=>$row['lastposonly'],
                     'geofencify'=>$row['geofencify']
-                )
+                ]
             );
         }
         $req->closeCursor();
@@ -795,7 +802,7 @@ class PageController extends Controller {
 
         if ($dbname !== null) {
             // get all devices
-            $dids = array();
+            $dids = [];
             $sqlchk = '
                 SELECT id
                 FROM *PREFIX*phonetrack_devices
@@ -890,7 +897,7 @@ class PageController extends Controller {
 
             if ($dbdid !== null) {
                 if (count($pointids) > 0) {
-                    $escapedPointIds = array();
+                    $escapedPointIds = [];
                     foreach ($pointids as $pid) {
                         array_push($escapedPointIds, $this->db_quote_escape_string($pid));
                     }
@@ -1766,13 +1773,13 @@ class PageController extends Controller {
      * called by normal (logged) page
      */
     public function track($sessions) {
-        $result = array();
-        $colors = array();
-        $shapes = array();
-        $names = array();
-        $aliases = array();
-        $geofences = array();
-        $proxims = array();
+        $result = [];
+        $colors = [];
+        $shapes = [];
+        $names = [];
+        $aliases = [];
+        $geofences = [];
+        $proxims = [];
         // manage sql optim filters (time only)
         $fArray = $this->sessionService->getCurrentFilters($this->userId);
         $settingsTimeFilterSQL = '';
@@ -1823,7 +1830,7 @@ class PageController extends Controller {
                     // session exists
                     if ($dbtoken !== null) {
                         // get list of devices
-                        $devices = array();
+                        $devices = [];
                         $sqldev = '
                             SELECT id
                             FROM *PREFIX*phonetrack_devices
@@ -1836,10 +1843,10 @@ class PageController extends Controller {
                         $req->closeCursor();
 
                         // get the coords for each device
-                        $result[$token] = array();
+                        $result[$token] = [];
 
                         foreach ($devices as $devid) {
-                            $resultDevArray = array();
+                            $resultDevArray = [];
 
                             $firstDeviceTimeSQL = '';
                             if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
@@ -1884,35 +1891,35 @@ class PageController extends Controller {
                                 }
                                 $req->closeCursor();
                                 if (!array_key_exists($token, $shapes)) {
-                                    $shapes[$token] = array();
+                                    $shapes[$token] = [];
                                 }
                                 $shapes[$token][$devid] = $shape;
                                 if (!array_key_exists($token, $colors)) {
-                                    $colors[$token] = array();
+                                    $colors[$token] = [];
                                 }
                                 $colors[$token][$devid] = $col;
                                 if (!array_key_exists($token, $names)) {
-                                    $names[$token] = array();
+                                    $names[$token] = [];
                                 }
                                 $names[$token][$devid] = $name;
                                 if (!array_key_exists($token, $aliases)) {
-                                    $aliases[$token] = array();
+                                    $aliases[$token] = [];
                                 }
                                 $aliases[$token][$devid] = $alias;
                                 // geofences
                                 if (!array_key_exists($token, $geofences)) {
-                                    $geofences[$token] = array();
+                                    $geofences[$token] = [];
                                 }
                                 if (!array_key_exists($devid, $geofences[$token])) {
-                                    $geofences[$token][$devid] = array();
+                                    $geofences[$token][$devid] = [];
                                 }
                                 $geofences[$token][$devid] = $this->getGeofences($devid);
                                 // proxims
                                 if (!array_key_exists($token, $proxims)) {
-                                    $proxims[$token] = array();
+                                    $proxims[$token] = [];
                                 }
                                 if (!array_key_exists($devid, $proxims[$token])) {
-                                    $proxims[$token][$devid] = array();
+                                    $proxims[$token][$devid] = [];
                                 }
                                 $proxims[$token][$devid] = $this->getProxims($devid);
                             }
@@ -1934,7 +1941,7 @@ class PageController extends Controller {
                             $req = $this->dbconnection->prepare($sqlget);
                             $req->execute();
                             while ($row = $req->fetch()){
-                                $entry = array(
+                                $entry = [
                                     intval($row['id']),
                                     floatval($row['lat']),
                                     floatval($row['lon']),
@@ -1946,7 +1953,7 @@ class PageController extends Controller {
                                     $row['useragent'],
                                     is_numeric($row['speed']) ? floatval($row['speed']) : null,
                                     is_numeric($row['bearing']) ? floatval($row['bearing']) : null
-                                );
+                                ];
                                 array_unshift($resultDevArray, $entry);
                             }
                             $req->closeCursor();
@@ -1990,7 +1997,7 @@ class PageController extends Controller {
     }
 
     private function getGeofences($devid) {
-        $geofences = array();
+        $geofences = [];
         $sqlfences = '
             SELECT id, name, latmin, latmax, lonmin,
                    lonmax, urlenter, urlleave,
@@ -2001,7 +2008,7 @@ class PageController extends Controller {
         $req = $this->dbconnection->prepare($sqlfences);
         $req->execute();
         while ($row = $req->fetch()){
-            $fence = array();
+            $fence = [];
             foreach ($row as $k => $v) {
                 $fence[$k] = $v;
             }
@@ -2012,7 +2019,7 @@ class PageController extends Controller {
     }
 
     private function getProxims($devid) {
-        $proxims = array();
+        $proxims = [];
         $sqlproxims = '
             SELECT *PREFIX*phonetrack_proxims.id AS id, deviceid2, lowlimit, highlimit,
                 urlclose, urlfar,
@@ -2027,7 +2034,7 @@ class PageController extends Controller {
         $req = $this->dbconnection->prepare($sqlproxims);
         $req->execute();
         while ($row = $req->fetch()){
-            $proxim = array();
+            $proxim = [];
             foreach ($row as $k => $v) {
                 $proxim[$k] = $v;
             }
@@ -2061,11 +2068,11 @@ class PageController extends Controller {
      * called by publicWebLog page
      */
     public function publicWebLogTrack($sessions) {
-        $result = array();
-        $colors = array();
-        $shapes = array();
-        $names = array();
-        $aliases = array();
+        $result = [];
+        $colors = [];
+        $shapes = [];
+        $names = [];
+        $aliases = [];
         foreach ($sessions as $session) {
             $token = $session[0];
             if ($this->isSessionPublic($token)) {
@@ -2088,7 +2095,7 @@ class PageController extends Controller {
                 // session exists
                 if ($dbtoken !== null) {
                     // get list of devices
-                    $devices = array();
+                    $devices = [];
                     $sqldev = '
                         SELECT id
                         FROM *PREFIX*phonetrack_devices
@@ -2101,10 +2108,10 @@ class PageController extends Controller {
                     $req->closeCursor();
 
                     // get the coords for each device
-                    $result[$token] = array();
+                    $result[$token] = [];
 
                     foreach ($devices as $devid) {
-                        $resultDevArray = array();
+                        $resultDevArray = [];
 
                         $firstDeviceTimeSQL = '';
                         if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
@@ -2149,19 +2156,19 @@ class PageController extends Controller {
                             }
                             $req->closeCursor();
                             if (!array_key_exists($dbtoken, $shapes)) {
-                                $shapes[$dbtoken] = array();
+                                $shapes[$dbtoken] = [];
                             }
                             $shapes[$dbtoken][$devid] = $shape;
                             if (!array_key_exists($dbtoken, $colors)) {
-                                $colors[$dbtoken] = array();
+                                $colors[$dbtoken] = [];
                             }
                             $colors[$dbtoken][$devid] = $col;
                             if (!array_key_exists($dbtoken, $names)) {
-                                $names[$dbtoken] = array();
+                                $names[$dbtoken] = [];
                             }
                             $names[$dbtoken][$devid] = $name;
                             if (!array_key_exists($dbtoken, $aliases)) {
-                                $aliases[$dbtoken] = array();
+                                $aliases[$dbtoken] = [];
                             }
                             $aliases[$dbtoken][$devid] = $alias;
                         }
@@ -2178,7 +2185,7 @@ class PageController extends Controller {
                         $req = $this->dbconnection->prepare($sqlget);
                         $req->execute();
                         while ($row = $req->fetch()){
-                            $entry = array(
+                            $entry = [
                                 intval($row['id']),
                                 floatval($row['lat']),
                                 floatval($row['lon']),
@@ -2190,7 +2197,7 @@ class PageController extends Controller {
                                 $row['useragent'],
                                 is_numeric($row['speed']) ? floatval($row['speed']) : null,
                                 is_numeric($row['bearing']) ? floatval($row['bearing']) : null
-                            );
+                            ];
                             array_unshift($resultDevArray, $entry);
                         }
                         $req->closeCursor();
@@ -2236,11 +2243,11 @@ class PageController extends Controller {
      * called by publicSessionView page
      */
     public function publicViewTrack($sessions) {
-        $result = array();
-        $colors = array();
-        $shapes = array();
-        $names = array();
-        $aliases = array();
+        $result = [];
+        $colors = [];
+        $shapes = [];
+        $names = [];
+        $aliases = [];
         foreach ($sessions as $session) {
             $publicviewtoken = $session[0];
             $lastTime = $session[1];
@@ -2300,7 +2307,7 @@ class PageController extends Controller {
             // session exists and is public or shared by public share
             if ($dbpublicviewtoken !== null) {
                 // get list of devices
-                $devices = array();
+                $devices = [];
                 $sqldev = '
                     SELECT id
                     FROM *PREFIX*phonetrack_devices
@@ -2314,10 +2321,10 @@ class PageController extends Controller {
                 $req->closeCursor();
 
                 // get the coords for each device
-                $result[$dbpublicviewtoken] = array();
+                $result[$dbpublicviewtoken] = [];
 
                 foreach ($devices as $devid) {
-                    $resultDevArray = array();
+                    $resultDevArray = [];
 
                     $firstDeviceTimeSQL = '';
                     if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
@@ -2362,19 +2369,19 @@ class PageController extends Controller {
                         }
                         $req->closeCursor();
                         if (!array_key_exists($dbpublicviewtoken, $shapes)) {
-                            $shapes[$dbpublicviewtoken] = array();
+                            $shapes[$dbpublicviewtoken] = [];
                         }
                         $shapes[$dbpublicviewtoken][$devid] = $shape;
                         if (!array_key_exists($dbpublicviewtoken, $colors)) {
-                            $colors[$dbpublicviewtoken] = array();
+                            $colors[$dbpublicviewtoken] = [];
                         }
                         $colors[$dbpublicviewtoken][$devid] = $col;
                         if (!array_key_exists($dbpublicviewtoken, $names)) {
-                            $names[$dbpublicviewtoken] = array();
+                            $names[$dbpublicviewtoken] = [];
                         }
                         $names[$dbpublicviewtoken][$devid] = $name;
                         if (!array_key_exists($dbpublicviewtoken, $aliases)) {
-                            $aliases[$dbpublicviewtoken] = array();
+                            $aliases[$dbpublicviewtoken] = [];
                         }
                         $aliases[$dbpublicviewtoken][$devid] = $alias;
                     }
@@ -2403,7 +2410,7 @@ class PageController extends Controller {
                     $req->execute();
                     while ($row = $req->fetch()){
                         if ($filters === null or $this->filterPoint($row, $filters)) {
-                            $entry = array(
+                            $entry = [
                                 intval($row['id']),
                                 floatval($row['lat']),
                                 floatval($row['lon']),
@@ -2415,7 +2422,7 @@ class PageController extends Controller {
                                 $row['useragent'],
                                 is_numeric($row['speed']) ? floatval($row['speed']) : null,
                                 is_numeric($row['bearing']) ? floatval($row['bearing']) : null
-                            );
+                            ];
                             array_unshift($resultDevArray, $entry);
                         }
                     }
@@ -2458,7 +2465,7 @@ class PageController extends Controller {
     }
 
     private function getDeviceFencesCenter($devid) {
-        $fences = array();
+        $fences = [];
         $sqlget = '
             SELECT latmin, lonmin, latmax, lonmax, name
             FROM *PREFIX*phonetrack_geofences
@@ -2468,18 +2475,21 @@ class PageController extends Controller {
         while ($row = $req->fetch()){
             $lat = (floatval($row['latmin']) + floatval($row['latmax'])) / 2;
             $lon = (floatval($row['lonmin']) + floatval($row['lonmax'])) / 2;
-            $fences[$row['name']] = array($lat, $lon, floatval($row['latmin']), floatval($row['latmax']), floatval($row['lonmin']), floatval($row['lonmax']));
+            $fences[$row['name']] = [
+                $lat, $lon, floatval($row['latmin']), floatval($row['latmax']),
+                floatval($row['lonmin']), floatval($row['lonmax'])
+            ];
         }
         return $fences;
     }
 
     private function geofencify($token, $ptk, $devtab) {
-        $result = array();
+        $result = [];
         if (count($devtab) > 0) {
             foreach ($devtab as $devid => $entries) {
                 $geofencesCenter = $this->getDeviceFencesCenter($devid);
                 if (count($geofencesCenter) > 0) {
-                    $result[$devid] = array();
+                    $result[$devid] = [];
                     foreach ($entries as $entry) {
                         $sentry = $this->geofencifyPoint($entry, $geofencesCenter);
                         if ($sentry !== null) {
@@ -2513,7 +2523,10 @@ class PageController extends Controller {
             }
         }
         if ($nearestName !== null) {
-            return array($entry[0], $geofencesCenter[$nearestName][0], $geofencesCenter[$nearestName][1], $entry[3], null, null, null, null, null, null, null);
+            return [
+                $entry[0], $geofencesCenter[$nearestName][0], $geofencesCenter[$nearestName][1],
+                $entry[3], null, null, null, null, null, null, null
+            ];
         }
         else {
             return null;
@@ -2632,7 +2645,7 @@ class PageController extends Controller {
             'phonetrack_version'=>$this->appVersion
         ];
         $response = new TemplateResponse('phonetrack', 'main', $params);
-        $response->setHeaders(Array('X-Frame-Options'=>''));
+        $response->setHeaders(['X-Frame-Options'=>'']);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
             ->addAllowedMediaDomain('*')
@@ -2652,7 +2665,7 @@ class PageController extends Controller {
     public function importSession($path) {
         $done = 1;
         $userFolder = \OC::$server->getUserFolder($this->userId);
-        $cleanpath = str_replace(array('../', '..\\'), '',  $path);
+        $cleanpath = str_replace(['../', '..\\'], '',  $path);
 
         $file = null;
         $sessionName = null;
@@ -2743,10 +2756,10 @@ class PageController extends Controller {
         if ($name === 'TRK') {
             $this->importDevName = 'device'.$this->trackIndex;
             $this->pointIndex = 1;
-            $this->currentPointList = array();
+            $this->currentPointList = [];
         }
         else if ($name === 'TRKPT') {
-            $this->currentPoint = array(null, null, null, $this->pointIndex, null, null,  null, null, null, null);
+            $this->currentPoint = [null, null, null, $this->pointIndex, null, null,  null, null, null, null];
             if (array_key_exists('LAT', $attrs)) {
                 $this->currentPoint[0] = floatval($attrs['LAT']);
             }
@@ -2773,7 +2786,7 @@ class PageController extends Controller {
             if (count($this->currentPointList) >= 500) {
                 $this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
                 unset($this->currentPointList);
-                $this->currentPointList = array();
+                $this->currentPointList = [];
             }
             $this->pointIndex++;
         }
@@ -2831,7 +2844,7 @@ class PageController extends Controller {
                     'Exception in '.$gpx_name.' parsing at line '.
                       xml_get_current_line_number($xml_parser).' : '.
                       xml_error_string(xml_get_error_code($xml_parser)),
-                    array('app' => $this->appName)
+                    ['app' => $this->appName]
                 );
                 return 5;
             }
@@ -2855,10 +2868,10 @@ class PageController extends Controller {
                 $this->importDevName = 'device'.$this->trackIndex;
             }
             $this->pointIndex = 1;
-            $this->currentPointList = array();
+            $this->currentPointList = [];
         }
         else if ($name === 'WHEN') {
-            $this->currentPoint = array(null, null, null, $this->pointIndex, null, null,  null, null, null, null);
+            $this->currentPoint = [null, null, null, $this->pointIndex, null, null,  null, null, null, null];
         }
         //var_dump($attrs);
     }
@@ -2879,7 +2892,7 @@ class PageController extends Controller {
             if (count($this->currentPointList) >= 500) {
                 $this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
                 unset($this->currentPointList);
-                $this->currentPointList = array();
+                $this->currentPointList = [];
             }
             $this->pointIndex++;
         }
@@ -2923,7 +2936,7 @@ class PageController extends Controller {
                     'Exception in '.$kml_name.' parsing at line '.
                       xml_get_current_line_number($xml_parser).' : '.
                       xml_error_string(xml_get_error_code($xml_parser)),
-                    array('app' => $this->appName)
+                    ['app' => $this->appName]
                 );
                 return 5;
             }
@@ -4107,7 +4120,7 @@ class PageController extends Controller {
                 $req->closeCursor();
             }
 
-            $valuesStrings = array();
+            $valuesStrings = [];
             foreach ($points as $point) {
                 // correct timestamp if needed
                 $time = $point[3];
@@ -4199,7 +4212,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function APIgetLastPositionsPublic($sessionid) {
-        $result = array();
+        $result = [];
         // check if session exists
         $dbtoken = null;
         $sqlget = '
@@ -4218,7 +4231,7 @@ class PageController extends Controller {
         // session exists
         if ($dbtoken !== null) {
             // get list of devices
-            $devices = array();
+            $devices = [];
             $sqldev = '
                 SELECT id
                 FROM *PREFIX*phonetrack_devices
@@ -4231,7 +4244,7 @@ class PageController extends Controller {
             $req->closeCursor();
 
             // get the coords for each device
-            $result[$dbpubtoken] = array();
+            $result[$dbpubtoken] = [];
 
             foreach ($devices as $devid) {
                 $name = null;
@@ -4248,7 +4261,7 @@ class PageController extends Controller {
                 }
                 $req->closeCursor();
 
-                $entry = array();
+                $entry = [];
                 $sqlget = '
                     SELECT lat, lon, timestamp, batterylevel, useragent,
                            satellites, accuracy, altitude, speed, bearing
@@ -4285,7 +4298,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function APIgetPositionsPublic($sessionid, $limit=null) {
-        $result = array();
+        $result = [];
         // check if session exists
         $dbtoken = null;
         $sqlget = '
@@ -4326,7 +4339,7 @@ class PageController extends Controller {
         // session exists
         if ($dbtoken !== null) {
             // get list of devices
-            $devices = array();
+            $devices = [];
 
             $deviceNameRestriction = '';
             if ($dbDevicename !== null and $dbDevicename !== '') {
@@ -4345,7 +4358,7 @@ class PageController extends Controller {
             $req->closeCursor();
 
             // get the coords for each device
-            $result[$dbpubtoken] = array();
+            $result[$dbpubtoken] = [];
 
             foreach ($devices as $devid) {
                 $name = null;
@@ -4415,7 +4428,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function APIgetLastPositionsUser($sessionid) {
-        $result = array();
+        $result = [];
         // check if session exists
         $dbtoken = null;
         $sqlget = '
@@ -4448,7 +4461,7 @@ class PageController extends Controller {
         // session exists
         if ($dbtoken !== null) {
             // get list of devices
-            $devices = array();
+            $devices = [];
             $sqldev = '
                 SELECT id
                 FROM *PREFIX*phonetrack_devices
@@ -4461,7 +4474,7 @@ class PageController extends Controller {
             $req->closeCursor();
 
             // get the coords for each device
-            $result[$sessionid] = array();
+            $result[$sessionid] = [];
 
             foreach ($devices as $devid) {
                 $name = null;
@@ -4480,7 +4493,7 @@ class PageController extends Controller {
                 }
                 $req->closeCursor();
 
-                $entry = array();
+                $entry = [];
                 $sqlget = '
                     SELECT lat, lon, timestamp, batterylevel, useragent,
                            satellites, accuracy, altitude, speed, bearing
@@ -4518,7 +4531,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function APIgetPositionsUser($sessionid, $limit=null) {
-        $result = array();
+        $result = [];
         // check if session exists
         $dbtoken = null;
         $sqlget = '
@@ -4551,7 +4564,7 @@ class PageController extends Controller {
         // session exists
         if ($dbtoken !== null) {
             // get list of devices
-            $devices = array();
+            $devices = [];
             $sqldev = '
                 SELECT id
                 FROM *PREFIX*phonetrack_devices
@@ -4564,7 +4577,7 @@ class PageController extends Controller {
             $req->closeCursor();
 
             // get the coords for each device
-            $result[$sessionid] = array();
+            $result[$sessionid] = [];
 
             foreach ($devices as $devid) {
                 $name = null;
@@ -4632,7 +4645,7 @@ class PageController extends Controller {
      * @NoCSRFRequired
      */
     public function APIshareDevice($sessionid, $devicename) {
-        $result = array('code'=>0, 'sharetoken'=>'', 'done'=>0);
+        $result = ['code'=>0, 'sharetoken'=>'', 'done'=>0];
         // check if session exists and is owned by current user
         $sqlchk = '
             SELECT token
