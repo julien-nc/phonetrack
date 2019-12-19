@@ -2590,7 +2590,7 @@ class PageController extends Controller {
             }
         }
         else {
-            return 'There is no such session';
+            return 'Session does not exist or is not public';
         }
     }
 
@@ -2605,26 +2605,28 @@ class PageController extends Controller {
         if ($token !== '') {
             // check if session exists
             $sqlchk = '
-                SELECT name
+                SELECT name, public
                 FROM *PREFIX*phonetrack_sessions
                 WHERE token='.$this->db_quote_escape_string($token).' ;';
             $req = $this->dbconnection->prepare($sqlchk);
             $req->execute();
             $dbname = null;
+            $dbpublic = null;
             while ($row = $req->fetch()){
                 $dbname = $row['name'];
+                $dbpublic = $row['public'];
                 break;
             }
             $req->closeCursor();
 
-            if ($dbname !== null) {
+            if ($dbname !== null and intval($dbpublic) === 1) {
             }
             else {
-                return 'There is no such session';
+                return 'Session does not exist or is not public';
             }
         }
         else {
-            return 'There is no such session';
+            return 'Session does not exist or is not public';
         }
 
         require_once('tileservers.php');
