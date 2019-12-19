@@ -687,10 +687,10 @@ class SessionService {
                     $gpxText .= '   <ele>' . sprintf('%.2f', floatval($alt)) . '</ele>' . "\n";
                 }
                 if (is_numeric($speed) && floatval($speed) >= 0) {
-                    $gpxText .= '   <speed>' . sprintf('%.3f', floatval($speed)) . '</speed>' . "\n";
+                    $gpxExtension .= '     <speed>' . sprintf('%.3f', floatval($speed)) . '</speed>' . "\n";
                 }
                 if (is_numeric($bearing) && floatval($bearing) >= 0 && floatval($bearing) <= 360) {
-                    $gpxText .= '   <course>' . sprintf('%.3f', floatval($bearing)) . '</course>' . "\n";
+                    $gpxExtension .= '     <course>' . sprintf('%.3f', floatval($bearing)) . '</course>' . "\n";
                 }
                 if (is_numeric($sat) && intval($sat) >= 0) {
                     $gpxText .= '   <sat>' . intval($sat) . '</sat>' . "\n";
