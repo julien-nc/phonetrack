@@ -2637,6 +2637,7 @@ class PageController extends Controller {
             'username'=>'',
             'basetileservers'=>$baseTileServers,
             'usertileservers'=>[],
+            'usermapboxtileservers'=>[],
             'useroverlayservers'=>[],
             'usertileserverswms'=>[],
             'useroverlayserverswms'=>[],
