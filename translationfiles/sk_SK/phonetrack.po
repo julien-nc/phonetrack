@@ -2,16 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2019-11-03 14:49+0100\n"
-"PO-Revision-Date: 2019-11-03 13:52\n"
-"Last-Translator: Julien Veyssier (eneiluj)\n"
+"POT-Creation-Date: 2019-12-16 14:04+0100\n"
+"PO-Revision-Date: 2019-12-28 15:40\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3;\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Language: sk\n"
 "X-Crowdin-File: /master/translationfiles/templates/phonetrack.pot\n"
@@ -210,7 +209,7 @@ msgstr "Export do gpx"
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:1688
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Súbory sú vytvorené v '{exdir}'"
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:1689
 msgid "Automatic export"
@@ -290,7 +289,7 @@ msgstr "Napíšte používateľské meno a stlačte \"Enter\""
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:1738
 msgid "user name"
-msgstr ""
+msgstr "meno používateľa"
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:1745
 msgid "A private session is not visible on public browser logging page"
@@ -538,7 +537,7 @@ msgstr "Emailové upozornenie"
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:3137
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:3197
 msgid "Comma separated e-mail address list"
-msgstr ""
+msgstr "Zoznam emailových adries oddelených čiarkami"
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:3138
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:3198
@@ -786,8 +785,8 @@ msgid "Impossible to zoom, there is no point to zoom on for this session"
 msgstr "Nie je možné zväčšiť, v tomto sedení nie je bod, na ktorý by bolo možné priblížiť"
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:4341
-msgid "File extension must be '.gpx' or '.kml' to be imported"
-msgstr "Súbor musí mať príponu '.gpx' alebo '.kml' aby sa dal importovať"
+msgid "File extension must be '.gpx', '.kml' or '.json' to be imported"
+msgstr "Importovať sa dá len súbor s príponou '.gpx', '.kml' alebo '.json'"
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:4360
 msgid "Failed to create imported session"
@@ -1100,19 +1099,19 @@ msgstr "dní"
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:5369
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
-msgstr ""
+msgstr "V OsmAnd aktivujte zásuvný modul 'Zaznamenávanie výletov' a otvorte jeho nastavenia."
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:5370
 msgid "Copy the link below into the 'Online tracking web address' field."
-msgstr ""
+msgstr "Skopírujte nižšie uvedený odkaz do poľa 'Webová adresa stopovania naživo'."
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:5374
 msgid "Go to 'settings' in the app."
-msgstr ""
+msgstr "V aplikácii otvorte 'nastavenia'."
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:5375
 msgid "Copy the link below into the 'server address' field."
-msgstr ""
+msgstr "Skopírujte nižšie uvedený odkaz do poľa 'adresa servera'."
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:5379
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
@@ -1120,7 +1119,7 @@ msgstr ""
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:5380
 msgid "Copy the link below into the 'URL' field."
-msgstr ""
+msgstr "Skopírujte nižšie uvedený odkaz do poľa 'URL'."
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:5384
 msgid "In the Owntracks preferences menu, go to 'Connections'."
@@ -1257,8 +1256,8 @@ msgid "Failed to contact server to set session auto purge value"
 msgstr ""
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:6527
-msgid "Import gpx/kml session file"
-msgstr ""
+msgid "Import gpx/kml/json session file"
+msgstr "Importovať súbor gpx/kml/json"
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:7125
 msgid "Close elevation chart"
@@ -1302,7 +1301,7 @@ msgstr ""
 
 #: /var/www/html/n17/apps/phonetrack/lib/Activity/Filter.php:55
 msgid "Phonetrack"
-msgstr ""
+msgstr "Phonetrack"
 
 #: /var/www/html/n17/apps/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
