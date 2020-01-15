@@ -15,6 +15,7 @@ use OCP\App\IAppManager;
 
 use OCP\IURLGenerator;
 use OCP\IConfig;
+use \OCP\IL10N;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -28,6 +29,7 @@ use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -107,6 +109,7 @@ class PageController extends Controller {
                                 IAppManager $appManager,
                                 IUserManager $userManager,
                                 ILogger $logger,
+                                IL10N $trans,
                                 ActivityManager $activityManager,
                                 SessionMapper $sessionMapper,
                                 DeviceMapper $deviceMapper,
@@ -116,6 +119,7 @@ class PageController extends Controller {
         parent::__construct($AppName, $request);
         $this->logger = $logger;
         $this->appName = $AppName;
+        $this->trans = $trans;
         $this->activityManager = $activityManager;
         $this->sessionMapper = $sessionMapper;
         $this->sessionService = $sessionService;
@@ -2559,7 +2563,9 @@ class PageController extends Controller {
 
             if ($dbtoken !== null and $dbpublic === 1) {
                 // we give publicWebLog the real session id but then, the share token is used in the JS
-                return $this->publicWebLog($dbtoken, '');
+                $response = $this->publicWebLog($dbtoken, '');
+                $response->setHeaderDetails($this->trans->t('Watch session'));
+                return $response;
             }
             else {
                 // check if a public session has this publicviewtoken
@@ -2570,10 +2576,12 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
                 $dbtoken = null;
+                $dbname = null;
                 $dbpublic = null;
                 $filters = '';
                 while ($row = $req->fetch()){
                     $dbtoken = $row['sessionid'];
+                    $dbname = $row['name'];
                     $lastposonly = $row['lastposonly'];
                     $filters = $row['filters'];
                     break;
@@ -2582,7 +2590,9 @@ class PageController extends Controller {
 
                 if ($dbtoken !== null) {
                     // we give publicWebLog the real session id but then, the share token is used in the JS
-                    return $this->publicWebLog($dbtoken, '', $lastposonly, $filters);
+                    $response = $this->publicWebLog($dbtoken, '', $lastposonly, $filters);
+                    $response->setHeaderDetails($this->trans->t('Watch session'));
+                    return $response;
                 }
                 else {
                     return 'Session does not exist or is not public';
@@ -2647,7 +2657,10 @@ class PageController extends Controller {
             'filtersBookmarks'=>[],
             'phonetrack_version'=>$this->appVersion
         ];
-        $response = new TemplateResponse('phonetrack', 'main', $params);
+        $response = new PublicTemplateResponse('phonetrack', 'main', $params);
+        $response->setHeaderTitle($this->trans->t('PhoneTrack public access'));
+        $response->setHeaderDetails($this->trans->t('Log to session %s', [$dbname]));
+        $response->setFooterVisible(false);
         $response->setHeaders(['X-Frame-Options'=>'']);
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedImageDomain('*')
