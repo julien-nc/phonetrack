@@ -2576,12 +2576,10 @@ class PageController extends Controller {
                 $req = $this->dbconnection->prepare($sqlchk);
                 $req->execute();
                 $dbtoken = null;
-                $dbname = null;
                 $dbpublic = null;
                 $filters = '';
                 while ($row = $req->fetch()){
                     $dbtoken = $row['sessionid'];
-                    $dbname = $row['name'];
                     $lastposonly = $row['lastposonly'];
                     $filters = $row['filters'];
                     break;
