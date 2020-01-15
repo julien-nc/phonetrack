@@ -2564,7 +2564,9 @@ class PageController extends Controller {
             if ($dbtoken !== null and $dbpublic === 1) {
                 // we give publicWebLog the real session id but then, the share token is used in the JS
                 $response = $this->publicWebLog($dbtoken, '');
-                $response->setHeaderDetails($this->trans->t('Watch session'));
+                if (!is_string($response)) {
+                    $response->setHeaderDetails($this->trans->t('Watch session'));
+                }
                 return $response;
             }
             else {
@@ -2589,7 +2591,9 @@ class PageController extends Controller {
                 if ($dbtoken !== null) {
                     // we give publicWebLog the real session id but then, the share token is used in the JS
                     $response = $this->publicWebLog($dbtoken, '', $lastposonly, $filters);
-                    $response->setHeaderDetails($this->trans->t('Watch session'));
+                    if (!is_string($response)) {
+                        $response->setHeaderDetails($this->trans->t('Watch session'));
+                    }
                     return $response;
                 }
                 else {
