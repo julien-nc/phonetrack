@@ -1197,6 +1197,45 @@ class LogController extends Controller {
             }
             $req->closeCursor();
 
+            // is it a sharetoken?
+            if ($dbname === null) {
+                $dbtoken = null;
+                // get real token from sharetoken
+                $sqlget = '
+                    SELECT sessionid
+                    FROM *PREFIX*phonetrack_shares
+                    WHERE sharetoken='.$this->db_quote_escape_string($token).';';
+                $req = $this->dbconnection->prepare($sqlget);
+                $req->execute();
+                while ($row = $req->fetch()){
+                    $dbtoken = $row['sessionid'];
+                }
+                $req->closeCursor();
+                if ($dbtoken !== null) {
+                    $token = $dbtoken;
+                    // get session info
+                    $sqlchk = '
+                        SELECT `name`, `user`, `public`, `locked`
+                        FROM `*PREFIX*phonetrack_sessions`
+                        WHERE `token`=?
+                    ';
+                    $req = $this->dbconnection->prepare($sqlchk);
+                    $req->execute([$token]);
+                    $dbname = null;
+                    $userid = null;
+                    $locked = null;
+                    $isPublicSession = null;
+                    while ($row = $req->fetch()){
+                        $dbname = $row['name'];
+                        $userid = $row['user'];
+                        $locked = (intval($row['locked']) === 1);
+                        $isPublicSession = (bool)$row['public'];
+                        break;
+                    }
+                    $req->closeCursor();
+                }
+            }
+
             if ($dbname !== null) {
                 if (!$locked) {
                     $humanReadableDeviceName = $devicename;
