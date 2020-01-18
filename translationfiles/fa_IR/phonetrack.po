@@ -2,16 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2019-11-03 14:49+0100\n"
-"PO-Revision-Date: 2019-11-03 13:51\n"
-"Last-Translator: Julien Veyssier (eneiluj)\n"
+"POT-Creation-Date: 2019-12-16 14:04+0100\n"
+"PO-Revision-Date: 2019-12-16 13:11\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Language: fa\n"
 "X-Crowdin-File: /master/translationfiles/templates/phonetrack.pot\n"
@@ -786,7 +785,7 @@ msgid "Impossible to zoom, there is no point to zoom on for this session"
 msgstr ""
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:4341
-msgid "File extension must be '.gpx' or '.kml' to be imported"
+msgid "File extension must be '.gpx', '.kml' or '.json' to be imported"
 msgstr ""
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:4360
@@ -1257,7 +1256,7 @@ msgid "Failed to contact server to set session auto purge value"
 msgstr ""
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:6527
-msgid "Import gpx/kml session file"
+msgid "Import gpx/kml/json session file"
 msgstr ""
 
 #: /var/www/html/n17/apps/phonetrack/js/phonetrack.js:7125

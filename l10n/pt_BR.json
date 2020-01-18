@@ -161,7 +161,6 @@
     "Move" : "Mover",
     "Cancel" : "Cancelar",
     "Distance" : "Distância",
-    "File extension must be '.gpx' or '.kml' to be imported" : "Extensão do arquivo deve ser '.gpx' ou '.kml' para ser importada",
     "Failed to create imported session" : "Falha ao criar a sessão importada",
     "Failed to import session" : "Falha ao importar sessão",
     "File is not readable" : "Arquivo não é legível",

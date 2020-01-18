@@ -116,6 +116,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getLogger(),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $this->activityManager,
             new \OCA\PhoneTrack\Db\SessionMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()
@@ -136,6 +137,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
             $c->getServer()->getAppManager(),
             $c->getServer()->getUserManager(),
             $c->query('ServerContainer')->getLogger(),
+            $c->query('ServerContainer')->getL10N($c->query('AppName')),
             $this->activityManager2,
             new \OCA\PhoneTrack\Db\SessionMapper(
                 $c->query('ServerContainer')->getDatabaseConnection()

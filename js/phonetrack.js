@@ -7194,8 +7194,6 @@
             if (pageIsPublicSessionWatch()) {
                 $('#sidebar').toggleClass('collapsed');
                 $('#sidebar li.active').removeClass('active');
-                $('#header').hide();
-                $('div#content').css('padding-top', '0px');
             }
             if (pageIsPublic()) {
                 $('#colorthemeselect').hide();

@@ -120,7 +120,6 @@ OC.L10N.register(
     "Move" : "Přesunout",
     "Cancel" : "Zrušit",
     "Impossible to zoom, there is no point to zoom on for this session" : "Nelze přiblížit, v této relaci nejsou žádné body k přiblížení",
-    "File extension must be '.gpx' or '.kml' to be imported" : "Přípona importovaného souboru musí být '.gpx' nebo '.kml'",
     "Failed to create imported session" : "Chyba při vytváření importované relace",
     "'{n}' is already reserved" : "'{n}' je již rezervováno",
     "Failed to reserve '{n}'" : "Chyba při rezervaci '{n}'",

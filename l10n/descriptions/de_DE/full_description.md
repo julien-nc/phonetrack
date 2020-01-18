@@ -38,7 +38,7 @@ Diese App wurde unter Nextcloud 17 mit Firefox 57+ und Chromium getestet.
 
 Diese App ist kompatibel mit Farbthemen und Themen zur Barrierefreiheit!
 
-Diese App befindet sich in der Entwicklung.
+Die App wird aktiv weiterentwickelt.
 
 ## Installieren
 
