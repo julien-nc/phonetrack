@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## 0.5.12 – 2019-12-23
+## 0.6.0 – 2020-01-24
 ### Added
 - support google takeout json positions for import
 [#300](https://gitlab.com/eneiluj/phonetrack-oc/issues/300) @JDButler
@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - put `<speed>` and `<course>` in `<extensions>` when exporting to gpx
 [#285](https://gitlab.com/eneiluj/phonetrack-oc/issues/285) @florom
+- accept logging with a user share token
+- put correct templates for public pages
 
 ### Fixed
 - block public logging page if session is not public
