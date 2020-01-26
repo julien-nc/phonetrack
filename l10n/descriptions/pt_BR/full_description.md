@@ -1,4 +1,4 @@
-# Aplicativo Nextcloud para TelefoneTrack
+# Aplicativo PhoneTrack para Nextcloud
 
 📱 PhoneTrack é um aplicativo para Nextcloud para localizar e salvar a localização de dispositivos móveis.
 
@@ -10,8 +10,8 @@
 
 Como usar o PhoneTrack :
 
-* Criar uma sessão de rastreamento.
-* Hindi Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+* Create a tracking session.
+* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
 * Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
