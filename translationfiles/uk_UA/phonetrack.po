@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-01-24 17:32+0100\n"
-"PO-Revision-Date: 2020-01-24 16:34\n"
+"PO-Revision-Date: 2020-01-27 00:58\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -140,11 +140,11 @@ msgstr "Фільтр закладок повинен мати ім'я"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1387
 msgid "Failed to contact server to save filters bookmark"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для збереження фільтрів закладкок"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1430
 msgid "Failed to contact server to delete filters bookmark"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером щоб видалити сервер плиток карти"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1472
 msgid "Session name should not be empty"
@@ -160,7 +160,7 @@ msgstr "Не вдалося зв'язатися з сервером для ст�
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1529
 msgid "yourname"
-msgstr ""
+msgstr "ваше ім'я"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1617
 msgid "Watch this session"
@@ -172,7 +172,7 @@ msgstr "доступ отримано від {u}"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1632
 msgid "Forbid devices to log to this session"
-msgstr ""
+msgstr "Заборонити пристроям входити до цієї сесії"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1639
 msgid "Reserve device names"
@@ -180,11 +180,11 @@ msgstr "Зарезервовані імена пристроїв"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1646
 msgid "Links for logging apps"
-msgstr ""
+msgstr "Посилання для додатків журналювання"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1653
 msgid "Link to share session"
-msgstr ""
+msgstr "Посилання для поширення сесії"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1663
 msgid "Zoom on this session"
@@ -209,7 +209,7 @@ msgstr "Експортувати до gpx"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1688
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Файли створюються в '{exdir} '"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1689
 msgid "Automatic export"
@@ -233,7 +233,7 @@ msgstr "щомісячно"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1699
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr ""
+msgstr "Автоматичне очищення спрацьовує щодня і призведе до видалення точок старше вказаного терміну"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1700
 msgid "Automatic purge"
@@ -261,11 +261,11 @@ msgstr "Резервування найменування не є обов'яз�
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1715
 msgid "Name can be set directly in logging link if it is not reserved."
-msgstr ""
+msgstr "Ім'я можна вибрати безпосередньо у посиланні на журнал, якщо воно не зарезервоване."
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1716
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
-msgstr ""
+msgstr "Для ведення журналу із зарезервованим іменем, використовуйте \"name token\" у полі посилання (або в завданні журналювання PhoneTrack-Android \"ім'я пристрою\")."
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1717
 msgid "If a name is reserved, the only way to log with this name is with its token."
@@ -289,7 +289,7 @@ msgstr "Вкажіть ім'я користувача та натисніть 'E
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1738
 msgid "user name"
-msgstr ""
+msgstr "ім'я користувача"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1745
 msgid "A private session is not visible on public browser logging page"
@@ -297,19 +297,19 @@ msgstr "Приватна сесія не відображається на за�
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1747
 msgid "Public session"
-msgstr ""
+msgstr "Публічна сесія"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1754
 msgid "Public watch link"
-msgstr ""
+msgstr "Посилання для публічного перегляду"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1756
 msgid "API URL (JSON, last positions)"
-msgstr ""
+msgstr "API URL (JSON останні позиції)"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1758
 msgid "API URL (JSON, all positions)"
-msgstr ""
+msgstr "API URL (JSON всі позиції)"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1764
 msgid "Current active filters will be applied on shared view"
@@ -321,11 +321,11 @@ msgstr "Поділитися застосувавши фільтри"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1775
 msgid "Session token"
-msgstr ""
+msgstr "Токен сесії"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1781
 msgid "List of links to configure logging apps server settings."
-msgstr ""
+msgstr "Список посилань на налаштування сервера логування."
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1782
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:225
@@ -334,43 +334,43 @@ msgstr "Змініть 'yourname' бажаним ім'ям пристрою аб
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1784
 msgid "Public browser logging link"
-msgstr ""
+msgstr "Посилання для журналювання в інтернет-браузері"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1789
 msgid "OsmAnd link"
-msgstr ""
+msgstr "Посилання OsmAnd"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1794
 msgid "GpsLogger GET and POST link"
-msgstr ""
+msgstr "GpsLogger GET та POST посилання"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1798
 msgid "Owntracks (HTTP mode) link"
-msgstr ""
+msgstr "Owntracks (HTTP-режим) посилання"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1802
 msgid "Ulogger link"
-msgstr ""
+msgstr "Ulogger посилання"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1806
 msgid "Traccar link"
-msgstr ""
+msgstr "Traccar посилання"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1810
 msgid "OpenGTS link"
-msgstr ""
+msgstr "Посилання OpenGTS"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1814
 msgid "Overland link"
-msgstr ""
+msgstr "Посилання Overland"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1818
 msgid "Locus Map link"
-msgstr ""
+msgstr "Locus Map посилання"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1822
 msgid "HTTP GET link"
-msgstr ""
+msgstr "HTTP GET посилання"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1940
 msgid "The session you want to delete does not exist"
@@ -523,7 +523,7 @@ msgstr "Наведіть на зону обмежування, встанові�
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:5022
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:5041
 msgid "Nextcloud notification"
-msgstr ""
+msgstr "Сповіщення Nextcloud"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3134
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3194
@@ -537,7 +537,7 @@ msgstr "Email-сповіщення"
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3137
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3197
 msgid "Comma separated e-mail address list"
-msgstr ""
+msgstr "Адреси електронної пошти розділені комами"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3138
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3198
@@ -551,7 +551,7 @@ msgstr "Ви можете вказати декілька адрес через 
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3140
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr ""
+msgstr "HTTP-адреса для запиту при вході (\"%loс\" буде замінена на \"latitude:longitude\")"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3141
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3145
@@ -562,7 +562,7 @@ msgstr "Використовувати метод POST"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3144
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr ""
+msgstr "HTTP-адреса для запиту при виході (\"%loс\" буде замінена на \"latitude:longitude\")"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3148
 msgid "Geofencing zone coordinates"
@@ -570,47 +570,47 @@ msgstr "Координати зони обмеження"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3148
 msgid "leave blank to use current map bounds"
-msgstr ""
+msgstr "залиште порожнім, щоб використовувати дані границі карти"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3150
 msgid "North"
-msgstr ""
+msgstr "Північ"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3152
 msgid "South"
-msgstr ""
+msgstr "Південь"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3156
 msgid "Set North/East corner by clicking on the map"
-msgstr ""
+msgstr "Встановіть кут Північ/Схід, натиснувши на карті"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3157
 msgid "Set N/E"
-msgstr ""
+msgstr "Встановити Північ/Схід"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3159
 msgid "Set South/West corner by clicking on the map"
-msgstr ""
+msgstr "Встановіть кут Південь/Захід, натиснувши на карті"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3160
 msgid "Set S/W"
-msgstr ""
+msgstr "Встановити Південь/Захід"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3164
 msgid "East"
-msgstr ""
+msgstr "Схід"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3166
 msgid "West"
-msgstr ""
+msgstr "Захід"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3169
 msgid "Fence name"
-msgstr ""
+msgstr "Назва паркану"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3170
 msgid "Use current map view as geofencing zone"
-msgstr ""
+msgstr "Використовувати поточну карту в якості обмежувальної зони"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3171
 msgid "Add zone"
@@ -618,42 +618,42 @@ msgstr "Додати регіон"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3177
 msgid "Device proximity notifications"
-msgstr ""
+msgstr "Сповіщення про наближення пристрою"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3181
 msgid "Select a session, a device name and a distance, set the notification settings, then validate."
-msgstr ""
+msgstr "Виберіть сесію, назву пристрою і відстань, встановіть налаштування сповіщень і перевірте їх."
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3182
 msgid "You will be notified when distance between devices gets bigger than high limit or smaller than low limit."
-msgstr ""
+msgstr "Вас буде сповіщено, коли відстань між пристроями більша, ніж верхня межа або менша за меншу межу."
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3183
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:490
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:508
 msgid "Session"
-msgstr ""
+msgstr "Сесія"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3185
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:210
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:495
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:513
 msgid "Device name"
-msgstr ""
+msgstr "Назва пристрою"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3186
 msgid "Low distance limit"
-msgstr ""
+msgstr "Нижня межа відстані"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3188
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3191
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:77
 msgid "meters"
-msgstr ""
+msgstr "метри"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3189
 msgid "High distance limit"
-msgstr ""
+msgstr "Нижня межа відстані"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3200
 msgid "HTTP address to request when devices get close"
@@ -887,7 +887,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4715
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером щоб додати поширення користувача"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4725
 msgid "Shared with {u}"
@@ -895,7 +895,7 @@ msgstr "Поділилися з {u}"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4750
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "Не вдалося видалити поширення користувача"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4753
 msgid "Failed to contact server to delete user share"

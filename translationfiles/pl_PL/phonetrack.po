@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-01-24 17:32+0100\n"
-"PO-Revision-Date: 2020-01-25 11:09\n"
+"PO-Revision-Date: 2020-01-27 11:16\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -532,7 +532,7 @@ msgstr "Powiadomienie Nextcloud"
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:5023
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:5043
 msgid "Email notification"
-msgstr "Powiadomienie e-mailem"
+msgstr "Powiadomienie e-mail"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3137
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3197
@@ -1788,7 +1788,7 @@ msgstr "Usuń wiele punktów"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:506
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr "Wybierz sesję, urządzenie i ustaw filtry. Wszystkie wyświetlone punkty dla wybranego urządzenia zostaną usunięte. Brak nazwy urządzenia wybiera wszystkie."
+msgstr "Wybierz sesję i urządzenie oraz ustaw filtry. Wszystkie wyświetlone punkty dla wybranego urządzenia zostaną usunięte. Brak nazwy urządzenia wybiera je wszystkie."
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:514
 msgid "Delete points"
