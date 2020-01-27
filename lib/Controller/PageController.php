@@ -2978,14 +2978,22 @@ class PageController extends Controller {
                 //$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
                 $point = [null, null, null, null, null, null,  null, null, null, null];
                 if (array_key_exists('timestampMs', $loc) and is_numeric($loc['timestampMs'])
-                    and array_key_exists('latitude', $loc) and is_numeric($loc['latitude'])
-                    and array_key_exists('longitude', $loc) and is_numeric($loc['longitude']))
+                    and array_key_exists('latitudeE7', $loc) and is_numeric($loc['latitudeE7'])
+                    and array_key_exists('longitudeE7', $loc) and is_numeric($loc['longitudeE7']))
                 {
-                    $point[0] = $loc['latitude'];
-                    $point[1] = $loc['longitude'];
+                    $point[0] = floatval($loc['latitudeE7']);
+                    $point[1] = floatval($loc['longitudeE7']);
+                    if ($point[0] > 900000000) {
+                        $point[0] -= 4294967296;
+                    }
+                    if ($point[1] > 1800000000) {
+                        $point[1] -= 4294967296;
+                    }
+                    $point[0] /= 10000000;
+                    $point[1] /= 10000000;
                     $ts = intval(intval($loc['timestampMs']) / 1000);
                     $point[3] = $ts;
-                    if (array_key_exists('latitude', $loc) and is_numeric($loc['latitude'])) {
+                    if (array_key_exists('latitudeE7', $loc) and is_numeric($loc['latitudeE7'])) {
                         $point[4] = $loc['accuracy'];
                     }
                 }
@@ -4152,7 +4160,7 @@ class PageController extends Controller {
                 $lat        = $this->db_quote_escape_string(number_format($point[0], 8, '.', ''));
                 $lon        = $this->db_quote_escape_string(number_format($point[1], 8, '.', ''));
                 $alt        = is_numeric($point[2]) ? $this->db_quote_escape_string(number_format($point[2], 2, '.', '')) : 'NULL';
-                $time       = is_numeric($time) ? $this->db_quote_escape_string(number_format($time, 0, '.', '')) : 'NULL';
+                $time       = is_numeric($time) ? $this->db_quote_escape_string(number_format($time, 0, '.', '')) : 0;
                 $acc        = is_numeric($point[4]) ? $this->db_quote_escape_string(number_format($point[4], 2, '.', '')) : 'NULL';
                 $bat        = is_numeric($point[5]) ? $this->db_quote_escape_string(number_format($point[5], 2, '.', '')) : 'NULL';
                 $sat        = is_numeric($point[6]) ? $this->db_quote_escape_string(number_format($point[6], 0, '.', '')) : 'NULL';
