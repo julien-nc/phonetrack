@@ -1,0 +1,27 @@
+{ "translations": {
+    "PhoneTrack" : "PhoneTrack",
+    "left" : "esquerda",
+    "right" : "direita",
+    "Show lines" : "Mostrar linhas",
+    "Hide lines" : "Ocultar linhas",
+    "Activate automatic zoom" : "Ativar zoom automático",
+    "Disable automatic zoom" : "Desativar zoom automático",
+    "Delete" : "Eliminar",
+    "Reload this page" : "Recarregar esta página",
+    "Session name already used" : "Nome da sessão já usado",
+    "Reserve device names" : "Reservar nomes de dispositivo",
+    "More actions" : "Mais ações",
+    "Delete session" : "Apagar sessão",
+    "Rename session" : "Renomear sessão",
+    "Export to gpx" : "Exportar para gpx",
+    "Automatic export" : "Exportação automática",
+    "never" : "nunca",
+    "daily" : "diariamente",
+    "Automatic purge" : "Limpar automaticamente",
+    "don't purge" : "não limpar",
+    "Reserve this device name" : "Reserve o nome deste dispositivo",
+    "Public session" : "Sessão pública",
+    "Session token" : "Token de sessão",
+    "Ok" : "Ok"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
