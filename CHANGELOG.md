@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.6.1 – 2020-01-27
+### Fixed
+- support google takeout json positions for import
+[#300](https://gitlab.com/eneiluj/phonetrack-oc/issues/300) @MarkLi
+
 ## 0.6.0 – 2020-01-24
 ### Added
 - support google takeout json positions for import
