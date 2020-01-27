@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-01-24 17:32+0100\n"
-"PO-Revision-Date: 2020-01-27 00:58\n"
+"PO-Revision-Date: 2020-01-27 11:30\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -551,7 +551,7 @@ msgstr "Ви можете вказати декілька адрес через 
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3140
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr "HTTP-адреса для запиту при вході (\"%loс\" буде замінена на \"latitude:longitude\")"
+msgstr "HTTP-адреса для запиту при вході (\"%loc\" буде замінена на \"latitude:longitude\")"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3141
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3145
@@ -562,7 +562,7 @@ msgstr "Використовувати метод POST"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3144
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr "HTTP-адреса для запиту при виході (\"%loс\" буде замінена на \"latitude:longitude\")"
+msgstr "HTTP-адреса для запиту при виході (\"%loc\" буде замінена на \"latitude:longitude\")"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3148
 msgid "Geofencing zone coordinates"
