@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-01-24 17:32+0100\n"
-"PO-Revision-Date: 2020-01-24 16:34\n"
+"PO-Revision-Date: 2020-02-10 12:34\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -1297,7 +1297,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:179
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "PhoneTrack klient"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/Filter.php:55
 msgid "Phonetrack"
@@ -1349,16 +1349,16 @@ msgstr ""
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2568
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2595
 msgid "Watch session"
-msgstr ""
+msgstr "Sledovať záznam"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2663
 msgid "PhoneTrack public access"
-msgstr ""
+msgstr "PhoneTrack verejný prístup"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2664
 #, php-format
 msgid "Log to session %s"
-msgstr ""
+msgstr "Zaznamenať do záznamu %s"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Notification/Notifier.php:86
 #, php-format
@@ -1383,17 +1383,17 @@ msgstr "Zariadenie \"%s\" je teraz ďalej ako %sm k \"%s\"."
 #: /var/www/html/n18/apps/phonetrack/lib/Notification/Notifier.php:116
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
-msgstr ""
+msgstr "Limit počtu bodov (%s) bol dosiahnutý s bodom \"%s\" v zázname \"%s\"."
 
 #: /var/www/html/n18/apps/phonetrack/lib/Notification/Notifier.php:124
 #, php-format
 msgid "User \"%s\" shared PhoneTrack session \"%s\" with you."
-msgstr ""
+msgstr "Používateľ \"%s\" s vami zdieľa záznam PhoneTrack \"%s\"."
 
 #: /var/www/html/n18/apps/phonetrack/lib/Notification/Notifier.php:132
 #, php-format
 msgid "User \"%s\" stopped sharing PhoneTrack session \"%s\" with you."
-msgstr ""
+msgstr "Používateľ \"%s\" zastavil zdieľanie záznamu PhoneTrack \"%s\" s vami."
 
 #: /var/www/html/n18/apps/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -1401,19 +1401,19 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/admin.php:8
 msgid "Point number quota"
-msgstr ""
+msgstr "Limit počtu bodov"
 
 #: /var/www/html/n18/apps/phonetrack/templates/admin.php:9
 msgid "Set the maximum number of points each user can store/log."
-msgstr ""
+msgstr "Nastaví maximálny počet bodov, ktoré každý používateľ môže uložiť/zaznamenať."
 
 #: /var/www/html/n18/apps/phonetrack/templates/admin.php:10
 msgid "Each user can choose what happens when the quota is reached : block logging or delete oldest point."
-msgstr ""
+msgstr "Každý používateľ si môže vybrať čo sa stane, keď je dosiahnutý limit: blokovať záznam alebo vymazať najstarší bod."
 
 #: /var/www/html/n18/apps/phonetrack/templates/admin.php:11
 msgid "An empty value means no limit."
-msgstr ""
+msgstr "Prázdna hodnota znamená, že je bez limitu."
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:4
 msgid "Main tab"
@@ -1467,11 +1467,11 @@ msgstr "Obnoviť"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:69
 msgid "An empty value means no limit"
-msgstr ""
+msgstr "Prázdna hodnota znamená, že je bez limitu"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:71
 msgid "Max number of points per device to load on refresh"
-msgstr ""
+msgstr "Maximálny počet bodov na zariadenie, ktoré budú načítané pri obnove stránky"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:72
 msgid "points"
@@ -1496,19 +1496,19 @@ msgstr "sekundy"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:85
 msgid "When point quota is reached"
-msgstr ""
+msgstr "Keď je dosiahnutý limit bodov"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:87
 msgid "block logging"
-msgstr ""
+msgstr "blokovať záznam"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:88
 msgid "delete user's oldest point each time a new one is logged"
-msgstr ""
+msgstr "vymazať používateľov najstarší bod vždy, keď sa zaznamená nový"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:89
 msgid "delete device's oldest point each time a new one is logged"
-msgstr ""
+msgstr "vymazať najstarší bod zariadenia vždy, keď sa zaznamená nový"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:93
 msgid "Display"
@@ -1524,19 +1524,19 @@ msgstr "Zobraziť štítky"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:110
 msgid "Display first letter of device name on last position"
-msgstr ""
+msgstr "Zobraziť prvé písmeno názvu zariadenia na poslednej pozícii"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:114
 msgid "Show direction arrows along lines"
-msgstr ""
+msgstr "Zobraziť šípky smerovania na čiarach"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:118
 msgid "Draw line with color gradient"
-msgstr ""
+msgstr "Vykresliť čiar s farebným tieňovaním"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:122
 msgid "Show distance in tooltips"
-msgstr ""
+msgstr "Zobraziť vzdialenosť v popisoch"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:126
 msgid "Show accuracy in tooltips"
@@ -1544,7 +1544,7 @@ msgstr "Ukázať presnosť v popisoch"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:130
 msgid "Show speed in tooltips"
-msgstr ""
+msgstr "Zobraziť rýchlosť v popisoch"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:134
 msgid "Show bearing in tooltips"
@@ -1604,7 +1604,7 @@ msgstr "tmavá"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:187
 msgid "Show lines in public pages"
-msgstr ""
+msgstr "Zobraziť čiary na verejných stránkach"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:189
 msgid "reload page to make changes effective"
@@ -1612,15 +1612,15 @@ msgstr "aby sa uplatnili zmeny, obnovte stránku"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:193
 msgid "File export"
-msgstr ""
+msgstr "Export súboru"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:196
 msgid "Auto export path"
-msgstr ""
+msgstr "Automatická cesta exportu"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:202
 msgid "Export one file per device"
-msgstr ""
+msgstr "Exportovať jeden súbor z jedného zariadenia"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:217
 msgid "Tracking sessions"
@@ -1683,23 +1683,23 @@ msgstr "Váš mapový server"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:308
 msgid "Custom mapbox tile servers"
-msgstr ""
+msgstr "Vlastné servery vrstiev mapbox"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:313
 msgid "Style.json url"
-msgstr ""
+msgstr "Style.json url"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:314
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
-msgstr ""
+msgstr "Napríklad: mapbox://styles/mapbox/bright-v8 alebo https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:315
 msgid "Access token (API key)"
-msgstr ""
+msgstr "Prístupový token (API kľúč)"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:320
 msgid "Your mapbox tile servers"
-msgstr ""
+msgstr "Vaše servery vrstiev mapbox"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:347
 msgid "Custom overlay tile servers"
@@ -1865,19 +1865,19 @@ msgstr "Stav batérie max"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:633
 msgid "Minimum speed"
-msgstr ""
+msgstr "Minimálna rýchlosť"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:641
 msgid "Maximum speed"
-msgstr ""
+msgstr "Maximálna rýchlosť"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:649
 msgid "Minimum bearing"
-msgstr ""
+msgstr "Minimálny kurz"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:657
 msgid "Maximum bearing"
-msgstr ""
+msgstr "Maximálny kurz"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:665
 msgid "Minimum satellites"
@@ -1889,11 +1889,11 @@ msgstr "Maximálne satelitov"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:683
 msgid "bookmark name"
-msgstr ""
+msgstr "názov záložky"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:685
 msgid "Save filter bookmark"
-msgstr ""
+msgstr "Uložiť záložku filtra"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:718
 msgid "Statistics"

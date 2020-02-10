@@ -40,7 +40,7 @@ This app is compatible with theming colors and accessibility themes !
 
 This app is under development.
 
-## Install
+## Namesti
 
 See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
 
