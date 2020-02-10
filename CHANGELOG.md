@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.6.2 – 2020-02-10
+### Added
+- translations
+
+### Fixed
+- add 'locked' field in sessions table in case it's not present
+[#308](https://gitlab.com/eneiluj/phonetrack-oc/issues/308) @toastbrot612
+- mistake in activity provider
+
 ## 0.6.1 – 2020-01-27
 ### Fixed
 - support google takeout json positions for import
