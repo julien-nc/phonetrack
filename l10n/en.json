@@ -1,4 +1,5 @@
 { "translations": {
-    "PhoneTrack" : "PhoneTrack"
+    "PhoneTrack" : "PhoneTrack",
+    "Quota was successfully saved" : "Quota was successfully saved"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

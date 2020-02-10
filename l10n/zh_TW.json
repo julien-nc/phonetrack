@@ -119,6 +119,7 @@
     "Zoom on geofencing area, then set values, then validate." : "快速移動到地理圍欄區域，設定數值，啟用。",
     "Nextcloud notification" : "Nextcloud通知",
     "Email notification" : "電子郵件通知",
+    "Comma separated e-mail address list" : "以逗號分隔電子郵件地址。",
     "An empty value means the session owner's email address." : "空白代表追蹤任務擁有者的電子信箱",
     "You can put multiple addresses separated by comas (,)." : "可輸入多個位址，以逗號 (,) 分開。",
     "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")" : "當靠近時，HTTP 請求的網址。(\"%lo\"將被\"經度:緯度\"取代)",
