@@ -21,14 +21,14 @@ On PhoneTrack main page, while watching a session, you can :
 * 📍 Display location history
 * ⛛ Filter points
 * ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change colour/shape, move to another session)
+* ✎ Edit devices (rename, change color/shape, move to another session)
 * ⛶ Define geofencing zones for devices
 * ⚇ Define proximity alerts for device pairs
 * 🖧 Share a session to other Nextcloud users or with a public link (read-only)
 * 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
 * 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
 * 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorised user can log with this name
+* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 * 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
 * ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
 
@@ -36,7 +36,7 @@ Public page and public filtered page work like main page except there is only on
 
 This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
 
-This app is compatible with theming colours and accessibility themes !
+This app is compatible with theming colors and accessibility themes !
 
 This app is under development.
 

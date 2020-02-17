@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-01-24 17:32+0100\n"
-"PO-Revision-Date: 2020-01-27 11:30\n"
+"POT-Creation-Date: 2020-02-18 00:39+0100\n"
+"PO-Revision-Date: 2020-02-17 23:42\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -209,7 +209,7 @@ msgstr "Експортувати до gpx"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1688
 msgid "Files are created in '{exdir}'"
-msgstr "Файли створюються в '{exdir} '"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1689
 msgid "Automatic export"
@@ -233,7 +233,7 @@ msgstr "щомісячно"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1699
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr "Автоматичне очищення спрацьовує щодня і призведе до видалення точок старше вказаного терміну"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1700
 msgid "Automatic purge"
@@ -289,7 +289,7 @@ msgstr "Вкажіть ім'я користувача та натисніть 'E
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1738
 msgid "user name"
-msgstr "ім'я користувача"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1745
 msgid "A private session is not visible on public browser logging page"
@@ -362,7 +362,7 @@ msgstr "Посилання OpenGTS"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1814
 msgid "Overland link"
-msgstr "Посилання Overland"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1818
 msgid "Locus Map link"
@@ -537,7 +537,7 @@ msgstr "Email-сповіщення"
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3137
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3197
 msgid "Comma separated e-mail address list"
-msgstr "Адреси електронної пошти розділені комами"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3138
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3198

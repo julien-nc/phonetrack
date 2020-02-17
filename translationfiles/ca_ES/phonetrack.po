@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-01-24 17:32+0100\n"
-"PO-Revision-Date: 2020-01-24 16:33\n"
+"POT-Creation-Date: 2020-02-18 00:39+0100\n"
+"PO-Revision-Date: 2020-02-17 23:41\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -209,7 +209,7 @@ msgstr "Exportar a gpx"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1688
 msgid "Files are created in '{exdir}'"
-msgstr "Els arxius s'han creat a '{exdir}'"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1689
 msgid "Automatic export"
@@ -233,7 +233,7 @@ msgstr "mensualment"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1699
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr "La purga automàtica s'activa diàriament i eliminarà els punts anteriors a la durada seleccionada"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1700
 msgid "Automatic purge"
@@ -289,7 +289,7 @@ msgstr "Introduïu el nom d'usuari i premeu 'Enter'"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1738
 msgid "user name"
-msgstr "nom d'usuari"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1745
 msgid "A private session is not visible on public browser logging page"
@@ -362,7 +362,7 @@ msgstr "Enllanç OpenGTS"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1814
 msgid "Overland link"
-msgstr "Enllanç Overland"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1818
 msgid "Locus Map link"
@@ -537,7 +537,7 @@ msgstr "Notificació per email"
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3137
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3197
 msgid "Comma separated e-mail address list"
-msgstr "Llista d'adreces d'email separades per coma"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3138
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3198
@@ -778,7 +778,7 @@ msgstr "Cancel·lar"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4137
 msgid "Distance"
-msgstr "Distància"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4306
 msgid "Impossible to zoom, there is no point to zoom on for this session"
@@ -786,7 +786,7 @@ msgstr "Zoom impossible, no hi ha cap punt en aquest sessió per fer un zoom"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4341
 msgid "File extension must be '.gpx', '.kml' or '.json' to be imported"
-msgstr "L'extensió del fitxer ha de ser \".gpx\", \".kml\" o \".json\" per ser importats"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4360
 msgid "Failed to create imported session"
@@ -1107,11 +1107,11 @@ msgstr "Copia l'enllaç a continuació en el camp 'direcció web de seguiment en
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:5374
 msgid "Go to 'settings' in the app."
-msgstr "Ves a 'configuració' a l'aplicació."
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:5375
 msgid "Copy the link below into the 'server address' field."
-msgstr "Copieu l'enllaç següent al camp \"Adreça del servidor\"."
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:5379
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
@@ -1257,63 +1257,63 @@ msgstr "No es pot contactar amb el servidor per definir el valor de purga autom�
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:6527
 msgid "Import gpx/kml/json session file"
-msgstr "Importa un fitxer de sessió gpx/kml/json"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:7125
 msgid "Close elevation chart"
-msgstr "Gràfic d’altitud propera"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:89
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr "El dispositiu PhoneTrack {device} de la sessió {session} ha entrat a la zona de geolocalització {geofence}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:92
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr "El dispositiu PhoneTrack {device} de la sessió {session} ha deixat l'àrea geo-ubicació {geofence}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:95
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr "El dispositiu PhoneTrack {device} de la sessió {session} es troba ara a {meters} m de {device2} de la sessió {session2}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:98
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr "El dispositiu PhoneTrack {device} de sessió {session} ja està a més de {meters} m de {device2} de sessió {session2}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:101
 msgid "You shared PhoneTrack session {session} with {who}"
-msgstr "Heu compartit la sessió de PhoneTrack {session} amb {who}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:101
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr "La sessió de PhoneTrack {session} ara es comparteix amb {who}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:104
 msgid "You stopped sharing session {session} with {who}"
-msgstr "Has deixat de compartir la sessió {session} amb {who}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:104
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr "La sessió PhoneTrack {session} ja no es comparteix amb {who}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:179
 msgid "A PhoneTrack client"
-msgstr "Un client PhoneTrack"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/Filter.php:55
 msgid "Phonetrack"
-msgstr "Phonetrack"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr "esdeveniments <strong>PhoneTrack geofences</strong>"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
-msgstr "Esdeveniments <strong>PhoneTrack proximitat de dispositiu</strong>"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
-msgstr "Canvis en <strong>app PhoneTrack</strong>"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:398
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:535
@@ -1324,12 +1324,12 @@ msgstr "PhoneTrack alerta de proximitat (%s i %s)"
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:402
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
-msgstr "El dispositiu PhoneTrack %s és actualment a menys de %s m de %s."
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:539
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
-msgstr "El dispositiu PhoneTrack %s és ara a més de %s m de %s."
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:738
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:864
@@ -1339,12 +1339,12 @@ msgstr "Alerta de geolocalització"
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:742
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
-msgstr "En la sessió PhoneTrack %s, el dispositiu %s ha entrat en la zona de geolocalització %s."
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:868
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
-msgstr "En la sessió PhoneTrack %s, el dispositiu %s ha sortit de la zona de geolocalització %s."
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2568
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2595
@@ -1536,7 +1536,7 @@ msgstr "Dibuixar linea amb degradació de color"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:122
 msgid "Show distance in tooltips"
-msgstr "Mostrar distancia en marc emergent"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:126
 msgid "Show accuracy in tooltips"
@@ -1683,23 +1683,23 @@ msgstr "Els teus servidors de mosaics"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:308
 msgid "Custom mapbox tile servers"
-msgstr "Servidors de mapes personalitzats"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:313
 msgid "Style.json url"
-msgstr "Enllaç de style.json"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:314
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
-msgstr "Per exemple: mapbox://styles/mapbox/bright-v8 o https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:315
 msgid "Access token (API key)"
-msgstr "Token d'accés (clau API)"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:320
 msgid "Your mapbox tile servers"
-msgstr "Els teus servidors de mapes personalitzats"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:347
 msgid "Custom overlay tile servers"

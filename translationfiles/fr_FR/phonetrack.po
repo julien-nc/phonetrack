@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-01-24 17:32+0100\n"
-"PO-Revision-Date: 2020-01-24 16:43\n"
+"POT-Creation-Date: 2020-02-18 00:39+0100\n"
+"PO-Revision-Date: 2020-02-17 23:51\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -1269,7 +1269,7 @@ msgstr "L'appareil PhoneTrack {device} de la session {session} est entré dans l
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:92
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr "L'appareil PhoneTrack {device} de la session {session} est sortie de la zone de géorepérage {geofence}"
+msgstr "L'appareil PhoneTrack {device} de la session {session} est sorti de la zone de géorepérage {geofence}"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:95
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
@@ -1349,7 +1349,7 @@ msgstr "Dans la session PhoneTrack %s, l'appareil %s est sorti de la zone de gé
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2568
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2595
 msgid "Watch session"
-msgstr "Regarder la session"
+msgstr "Voir la session"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2663
 msgid "PhoneTrack public access"

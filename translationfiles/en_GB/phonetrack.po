@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-01-24 17:32+0100\n"
-"PO-Revision-Date: 2020-02-09 23:43\n"
+"POT-Creation-Date: 2020-02-18 00:39+0100\n"
+"PO-Revision-Date: 2020-02-17 23:42\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English, United Kingdom\n"
 "Language: en_GB\n"
@@ -24,65 +24,65 @@ msgstr "PhoneTrack"
 
 #: /var/www/html/n18/apps/phonetrack/js/admin.js:19
 msgid "Quota was successfully saved"
-msgstr "Quota was successfully saved"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/admin.js:23
 msgid "Failed to save quota"
-msgstr "Failed to save quota"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/leaflet.js:5
 msgid "left"
-msgstr "left"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/leaflet.js:5
 msgid "right"
-msgstr "right"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:627
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:102
 msgid "Show lines"
-msgstr "Show lines"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:635
 msgid "Hide lines"
-msgstr "Hide lines"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:656
 msgid "Activate automatic zoom"
-msgstr "Activate automatic zoom"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:664
 msgid "Disable automatic zoom"
-msgstr "Disable automatic zoom"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:685
 msgid "Show last point tooltip"
-msgstr "Show last point tooltip"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:693
 msgid "Hide last point tooltip"
-msgstr "Hide last point tooltip"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:714
 msgid "Zoom on all devices"
-msgstr "Zoom on all devices"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:727
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr "Click on the map to move the point, press ESC to cancel"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:974
 msgid "Server name or server address should not be empty"
-msgstr "Server name or server address should not be empty"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:977
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:986
 msgid "Impossible to add tile server"
-msgstr "Impossible to add tile server"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:983
 msgid "A server with this name already exists"
-msgstr "A server with this name already exists"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1021
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:4090
@@ -92,35 +92,35 @@ msgstr "A server with this name already exists"
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:426
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:475
 msgid "Delete"
-msgstr "Delete"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1066
 msgid "Tile server \"{ts}\" has been added"
-msgstr "Tile server \"{ts}\" has been added"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1069
 msgid "Failed to add tile server \"{ts}\""
-msgstr "Failed to add tile server \"{ts}\""
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1073
 msgid "Failed to contact server to add tile server"
-msgstr "Failed to contact server to add tile server"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1107
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr "Tile server \"{ts}\" has been deleted"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1110
 msgid "Failed to delete tile server \"{ts}\""
-msgstr "Failed to delete tile server \"{ts}\""
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1114
 msgid "Failed to contact server to delete tile server"
-msgstr "Failed to contact server to delete tile server"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1201
 msgid "Failed to contact server to restore options values"
-msgstr "Failed to contact server to restore options values"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1204
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1350
@@ -128,51 +128,51 @@ msgstr "Failed to contact server to restore options values"
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:6284
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:6315
 msgid "Reload this page"
-msgstr "Reload this page"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1347
 msgid "Failed to contact server to save options values"
-msgstr "Failed to contact server to save options values"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1359
 msgid "Filter bookmark should have a name"
-msgstr "Filter bookmark should have a name"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1387
 msgid "Failed to contact server to save filters bookmark"
-msgstr "Failed to contact server to save filters bookmark"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1430
 msgid "Failed to contact server to delete filters bookmark"
-msgstr "Failed to contact server to delete filters bookmark"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1472
 msgid "Session name should not be empty"
-msgstr "Session name should not be empty"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1489
 msgid "Session name already used"
-msgstr "Session name already used"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1493
 msgid "Failed to contact server to create session"
-msgstr "Failed to contact server to create session"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1529
 msgid "yourname"
-msgstr "yourname"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1617
 msgid "Watch this session"
-msgstr "Watch this session"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1623
 msgid "shared by {u}"
-msgstr "shared by {u}"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1632
 msgid "Forbid devices to log to this session"
-msgstr "Interdire des appareils de se connecter à cette cession"
+msgstr "Forbid devices to log to this session"
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:1639
 msgid "Reserve device names"
@@ -447,15 +447,15 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:2999
 msgid "Device's color successfully changed"
-msgstr "Device's colour successfully changed"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3002
 msgid "Failed to save device's color"
-msgstr "Failed to save device's colour"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3006
 msgid "Failed to contact server to change device's color"
-msgstr "Failed to contact server to change device's colour"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3078
 msgid "Geo link to open position in other app/software"
@@ -547,7 +547,7 @@ msgstr ""
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3139
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3199
 msgid "You can put multiple addresses separated by comas (,)."
-msgstr "You can put multiple addresses separated by commas (,)."
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/js/phonetrack.js:3140
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
@@ -1532,7 +1532,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:118
 msgid "Draw line with color gradient"
-msgstr "Draw line with colour gradient"
+msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:122
 msgid "Show distance in tooltips"
