@@ -162,7 +162,6 @@ OC.L10N.register(
     "Save" : "Salvar",
     "Move" : "Mover",
     "Cancel" : "Cancelar",
-    "Distance" : "Distância",
     "Failed to create imported session" : "Falha ao criar a sessão importada",
     "Failed to import session" : "Falha ao importar sessão",
     "File is not readable" : "Arquivo não é legível",

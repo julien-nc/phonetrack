@@ -52,7 +52,6 @@ OC.L10N.register(
     "Save" : "Lagr",
     "Move" : "Flytt",
     "Cancel" : "Avbryt",
-    "Distance" : "Avstand",
     "File is not readable" : "Filen er ikke lesbar",
     "File does not exist" : "Filen finnes ikke",
     "no" : "nei",
