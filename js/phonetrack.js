@@ -2607,9 +2607,12 @@
         var hourminstr, minminstr, secminstr, momMin;
         var hourmaxstr, minmaxstr, secmaxstr, momMax;
         if (dateminstr) {
-            hourminstr = parseInt(tab.find('input#hourmin').val()) || 0;
-            minminstr = parseInt(tab.find('input#minutemin').val()) || 0;
-            secminstr = parseInt(tab.find('input#secondmin').val()) || 0;
+            hourminstr = parseInt(tab.find('input#hourmin').val());
+            minminstr = parseInt(tab.find('input#minutemin').val());
+            secminstr = parseInt(tab.find('input#secondmin').val());
+            hourminstr = isNaN(hourminstr) ? 0 : hourminstr;
+            minminstr = isNaN(minminstr) ? 0 : minminstr;
+            secminstr = isNaN(secminstr) ? 0 : secminstr;
             var completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr);
             momMin = moment(completeDateMinStr);
             timestampMin = momMin.unix();
@@ -2630,10 +2633,14 @@
 
         var datemaxstr = tab.find('input#datemax').val();
         if (datemaxstr) {
-            hourmaxstr = parseInt(tab.find('input#hourmax').val()) || 23;
-            minmaxstr = parseInt(tab.find('input#minutemax').val()) || 59;
-            secmaxstr = parseInt(tab.find('input#secondmax').val()) || 59;
+            hourmaxstr = parseInt(tab.find('input#hourmax').val());
+            minmaxstr = parseInt(tab.find('input#minutemax').val());
+            secmaxstr = parseInt(tab.find('input#secondmax').val());
+            hourmaxstr = isNaN(hourmaxstr) ? 23 : hourmaxstr;
+            minmaxstr = isNaN(minmaxstr) ? 59 : minmaxstr;
+            secmaxstr = isNaN(secmaxstr) ? 59 : secmaxstr;
             var completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr);
+            console.log('compl date max '+completeDateMaxStr);
             momMax = moment(completeDateMaxStr);
             timestampMax = momMax.unix();
         }
@@ -2655,16 +2662,16 @@
         var lasthours = parseInt(tab.find('input#lasthours').val());
         var lastmins = parseInt(tab.find('input#lastmins').val());
         var momlast = moment();
-        if (lastdays) {
+        if (!isNaN(lastdays)) {
             momlast.subtract(lastdays, 'days');
         }
-        if (lasthours) {
+        if (!isNaN(lasthours)) {
             momlast.subtract(lasthours, 'hours');
         }
-        if (lastmins) {
+        if (!isNaN(lastmins)) {
             momlast.subtract(lastmins, 'minutes');
         }
-        if (lastdays || lasthours || lastmins) {
+        if (!isNaN(lastdays) || !isNaN(lasthours) || !isNaN(lastmins)) {
             var timestampLast = momlast.unix();
             // if there is no time min or if timelast is more recent than timemin
             if (!timestampMin || timestampLast > timestampMin) {
