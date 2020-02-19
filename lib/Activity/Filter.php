@@ -52,7 +52,7 @@ class Filter implements \OCP\Activity\IFilter {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l10n->t('Phonetrack');
+		return $this->l10n->t('PhoneTrack');
 	}
 
 	/**
