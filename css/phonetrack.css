@@ -1296,3 +1296,19 @@ input[type=range]:focus::-ms-fill-upper {
 .ui-autocomplete {
     z-index: 9999 !important;
 }
+.icon-shar.sharesession {
+    height: 34px;
+}
+.icon-shar.sharesession:hover {
+    background-color: var(--color-main-text) !important;
+}
+.icon-shar.sharesession.nc-theming-main-foreground {
+    background-color: var(--color-primary) !important;
+}
+.icon-shar {
+    background-color: var(--color-main-text) !important;
+    mask: url(images/shar.svg) no-repeat;
+    mask-size: 16px 16px;
+    background-color: var(--color-text-lighter) !important;
+    mask-position: center;
+}

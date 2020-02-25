@@ -1650,8 +1650,8 @@
             divtxt = divtxt + '<div></div>';
         }
         if (!pageIsPublic() && !isFromShare) {
-            divtxt = divtxt + '<button class="sharesession" title="'+t('phonetrack', 'Link to share session')+'">' +
-                '<i class="fa fa-share-alt" aria-hidden="true"></i></button>';
+            divtxt = divtxt + '<button class="sharesession icon-shar" title="'+t('phonetrack', 'Link to share session')+'">' +
+                '</button>';
         }
         else {
             divtxt = divtxt + '<div></div>';
