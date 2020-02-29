@@ -5808,7 +5808,7 @@
             }
         });
 
-        $('#tooltipshowdistance', '#tooltipshowaccuracy, #tooltipshowsatellites, #tooltipshowbattery, #tooltipshowelevation, #tooltipshowuseragent, #tooltipshowspeed, #tooltipshowbearing').click(function() {
+        $('#tooltipshowdistance, #tooltipshowaccuracy, #tooltipshowsatellites, #tooltipshowbattery, #tooltipshowelevation, #tooltipshowuseragent, #tooltipshowspeed, #tooltipshowbearing').click(function() {
             if (!pageIsPublic()) {
                 saveOptions($(this).attr('id'));
             }
