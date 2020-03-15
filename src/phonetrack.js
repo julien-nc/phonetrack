@@ -2417,8 +2417,9 @@ import { generateUrl } from '@nextcloud/router';
                 phonetrack.currentTimer.pause();
                 phonetrack.currentTimer = null;
             }
-            if ($('#countdown').hasClass('is-countdown')) {
-                $('#countdown').countdown('destroy');
+            // destroy countdown
+            if (phonetrack.countdown) {
+                phonetrack.countdown.targetTime = null;
             }
         }
         if (loop && uiVal !== 0 && !isNaN(uiVal)) {
@@ -2428,18 +2429,20 @@ import { generateUrl } from '@nextcloud/router';
                 updateinterval = parseInt(uiVal) * 1000;
             }
             // destroy countdown
+            if (phonetrack.countdown) {
+                phonetrack.countdown.targetTime = null;
+            }
             var targetMom = moment();
             targetMom.add('seconds', updateinterval/1000);
             // launch countdown
-            console.log('targ '+targetMom.format('YYYY-MM-DD HH:mm:ss'));
             phonetrack.countdown = new Countdown({
                 id: "countdown",
                 targetTime: targetMom.format('YYYY-MM-DD HH:mm:ss'),
                 noDay: false,
                 hideDayAtZero: true,
-                separator: '/',
+                separator: ':',
                 afterEnd() {
-                    console.log('Time over !');
+                    //console.log('Time over !');
                 }
             });
             // launch timer
