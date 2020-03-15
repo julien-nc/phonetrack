@@ -40,11 +40,6 @@ module.exports = {
 	plugins: [
 		//new VueLoaderPlugin(),
 		new CleanWebpackPlugin(),
-        new webpack.ProvidePlugin({
-            '$': 'jquery',
-            'jQuery': 'jquery',
-            'window.jQuery': 'jquery'
-        }),
 	],
 	resolve: {
 		//extensions: ['*', '.js', '.vue'],

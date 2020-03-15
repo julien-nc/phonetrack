@@ -17,7 +17,7 @@ import 'mapbox-gl/dist/mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import 'mapbox-gl-leaflet/leaflet-mapbox-gl';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import 'kjua/dist/kjua.min';
+import kjua from 'kjua/dist/kjua.min';
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min';
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css';
 import 'leaflet.elevation/dist/Leaflet.Elevation-0.0.2.min';
@@ -35,7 +35,7 @@ import 'leaflet-linear-measurement/sass/Leaflet.LinearMeasurement.scss';
 import 'leaflet-dialog/Leaflet.Dialog';
 import 'leaflet-dialog/Leaflet.Dialog.css';
 import 'leaflet-hotline/dist/leaflet.hotline.min';
-import 'jquery-countdown/dist/jquery.countdown';
+//import 'jquery-countdown/dist/jquery.countdown';
 
 import { generateUrl } from '@nextcloud/router';
 
