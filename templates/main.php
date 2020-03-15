@@ -1,5 +1,4 @@
 <?php
-//script('phonetrack', 'jquery.plugin.min');
 script('phonetrack', 'phonetrack');
 
 style('phonetrack', 'style');
