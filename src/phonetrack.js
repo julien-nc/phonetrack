@@ -9,6 +9,36 @@
  * @author Julien Veyssier <eneiluj@posteo.net>
  * @copyright Julien Veyssier 2017
  */
+
+import 'd3';
+import 'leaflet/dist/leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'mapbox-gl/dist/mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import 'mapbox-gl-leaflet/leaflet-mapbox-gl';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'kjua/dist/kjua.min';
+import 'leaflet.locatecontrol/dist/L.Control.Locate.min';
+import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css';
+import 'leaflet.elevation/dist/Leaflet.Elevation-0.0.2.min';
+import 'leaflet.elevation/dist/Leaflet.Elevation-0.0.2.css';
+import 'leaflet-mouse-position/src/L.Control.MousePosition';
+import 'leaflet-mouse-position/src/L.Control.MousePosition.css';
+import 'leaflet-easybutton/src/easy-button';
+import 'leaflet-easybutton/src/easy-button.css';
+import 'leaflet-polylinedecorator/dist/leaflet.polylineDecorator';
+import 'leaflet.active-layers/dist/leaflet.active-layers.min';
+import 'leaflet-sidebar-v2/js/leaflet-sidebar.min';
+import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
+import 'leaflet-linear-measurement/src/Leaflet.LinearMeasurement';
+import 'leaflet-linear-measurement/sass/Leaflet.LinearMeasurement.scss';
+import 'leaflet-dialog/Leaflet.Dialog';
+import 'leaflet-dialog/Leaflet.Dialog.css';
+import 'leaflet-hotline/dist/leaflet.hotline.min';
+import 'jquery-countdown/dist/jquery.countdown';
+
+import { generateUrl } from '@nextcloud/router';
+
 (function ($, OC) {
     'use strict';
 
@@ -1005,7 +1035,7 @@
             maxzoom: smaxzoom,
             attribution: ''
         };
-        var url = OC.generateUrl('/apps/phonetrack/addTileServer');
+        var url = generateUrl('/apps/phonetrack/addTileServer');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1080,7 +1110,7 @@
             servername: sname,
             type: type
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteTileServer');
+        var url = generateUrl('/apps/phonetrack/deleteTileServer');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1119,7 +1149,7 @@
 
     function restoreOptions() {
         var mom;
-        var url = OC.generateUrl('/apps/phonetrack/getOptionsValues');
+        var url = generateUrl('/apps/phonetrack/getOptionsValues');
         var req = {
         };
         var optionsValues = {};
@@ -1328,7 +1358,7 @@
             var req = {
                 options: options
             };
-            var url = OC.generateUrl('/apps/phonetrack/saveOptionValue');
+            var url = generateUrl('/apps/phonetrack/saveOptionValue');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -1372,7 +1402,7 @@
             name: name,
             filters: JSON.stringify(filters),
         };
-        var url = OC.generateUrl('/apps/phonetrack/addFiltersBookmark');
+        var url = generateUrl('/apps/phonetrack/addFiltersBookmark');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1415,7 +1445,7 @@
         var req = {
             bookid: bookid
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteFiltersBookmark');
+        var url = generateUrl('/apps/phonetrack/deleteFiltersBookmark');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1475,7 +1505,7 @@
         var req = {
             name: sessionName
         };
-        var url = OC.generateUrl('/apps/phonetrack/createSession');
+        var url = generateUrl('/apps/phonetrack/createSession');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1527,7 +1557,7 @@
             $('#deletePointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>');
         }
         var defaultName = t('phonetrack', 'yourname').replace(' ', '');
-        var gpsloggerUrl = OC.generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/'+defaultName+'?');
+        var gpsloggerUrl = generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/'+defaultName+'?');
         var gpsloggerParams = 'lat=%LAT&' +
             'lon=%LON&' +
             'sat=%SAT&' +
@@ -1539,25 +1569,25 @@
             'bat=%BATT';
         gpsloggerUrl = window.location.origin + gpsloggerUrl + gpsloggerParams;
 
-        var owntracksurl = OC.generateUrl('/apps/phonetrack/log/owntracks/' + token + '/'+defaultName);
+        var owntracksurl = generateUrl('/apps/phonetrack/log/owntracks/' + token + '/'+defaultName);
         owntracksurl = window.location.origin + owntracksurl;
 
-        var uloggerurl = OC.generateUrl('/apps/phonetrack/log/ulogger/' + token + '/'+defaultName);
+        var uloggerurl = generateUrl('/apps/phonetrack/log/ulogger/' + token + '/'+defaultName);
         uloggerurl = window.location.origin + uloggerurl;
 
-        var traccarurl = OC.generateUrl('/apps/phonetrack/log/traccar/' + token + '/'+defaultName);
+        var traccarurl = generateUrl('/apps/phonetrack/log/traccar/' + token + '/'+defaultName);
         traccarurl = window.location.origin + traccarurl;
 
-        var overlandurl = OC.generateUrl('/apps/phonetrack/log/overland/' + token + '/'+defaultName);
+        var overlandurl = generateUrl('/apps/phonetrack/log/overland/' + token + '/'+defaultName);
         overlandurl = window.location.origin + overlandurl;
 
-        var opengtsurl = OC.generateUrl('/apps/phonetrack/log/opengts/' + token + '/'+defaultName);
+        var opengtsurl = generateUrl('/apps/phonetrack/log/opengts/' + token + '/'+defaultName);
         opengtsurl = window.location.origin + opengtsurl;
 
-        var locusmapurl = OC.generateUrl('/apps/phonetrack/log/locusmap/' + token + '/'+defaultName);
+        var locusmapurl = generateUrl('/apps/phonetrack/log/locusmap/' + token + '/'+defaultName);
         locusmapurl =window.location.origin + locusmapurl;
 
-        var osmandurl = OC.generateUrl('/apps/phonetrack/log/osmand/' + token + '/'+defaultName+'?');
+        var osmandurl = generateUrl('/apps/phonetrack/log/osmand/' + token + '/'+defaultName+'?');
         osmandurl = osmandurl +
             'lat={0}&' +
             'lon={1}&' +
@@ -1568,7 +1598,7 @@
             'bearing={6}';
         osmandurl = window.location.origin + osmandurl;
 
-        var geturl = OC.generateUrl('/apps/phonetrack/logGet/' + token + '/'+defaultName+'?');
+        var geturl = generateUrl('/apps/phonetrack/logGet/' + token + '/'+defaultName+'?');
         geturl = geturl +
             'lat=LAT&' +
             'lon=LON&' +
@@ -1593,15 +1623,15 @@
         linePointParamsDict.nbpoints = 1000;
         var linePointParams = $.param(linePointParamsDict);
 
-        var publicTrackUrl = OC.generateUrl('/apps/phonetrack/publicWebLog/' + token + '/'+defaultName+'?');
+        var publicTrackUrl = generateUrl('/apps/phonetrack/publicWebLog/' + token + '/'+defaultName+'?');
         publicTrackUrl = window.location.origin + publicTrackUrl + linePointParams;
 
-        var publicWatchUrl = OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken + '?');
+        var publicWatchUrl = generateUrl('/apps/phonetrack/publicSessionWatch/' + publicviewtoken + '?');
         publicWatchUrl = window.location.origin + publicWatchUrl + linePointParams;
 
-        var APIUrl = OC.generateUrl('/apps/phonetrack/api/getlastpositions/' + publicviewtoken);
+        var APIUrl = generateUrl('/apps/phonetrack/api/getlastpositions/' + publicviewtoken);
         APIUrl = window.location.origin + APIUrl;
-        var APIUrlMultiple = OC.generateUrl('/apps/phonetrack/api/getpositions/' + publicviewtoken + '?limit=number');
+        var APIUrlMultiple = generateUrl('/apps/phonetrack/api/getpositions/' + publicviewtoken + '?limit=number');
         APIUrlMultiple = window.location.origin + APIUrlMultiple;
 
         var watchicon = 'fa-toggle-off';
@@ -1926,7 +1956,7 @@
         var req = {
             token: token
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteSession');
+        var url = generateUrl('/apps/phonetrack/deleteSession');
         $.ajax({
             type: 'POST',
             url: url,
@@ -1954,7 +1984,7 @@
             token: token,
             deviceid: deviceid
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteDevice');
+        var url = generateUrl('/apps/phonetrack/deleteDevice');
         $.ajax({
             type: 'POST',
             url: url,
@@ -2017,7 +2047,7 @@
             token: token,
             newname: newname
         };
-        var url = OC.generateUrl('/apps/phonetrack/renameSession');
+        var url = generateUrl('/apps/phonetrack/renameSession');
         $.ajax({
             type: 'POST',
             url: url,
@@ -2069,7 +2099,7 @@
             deviceid: deviceid,
             newname: newname
         };
-        var url = OC.generateUrl('/apps/phonetrack/renameDevice');
+        var url = generateUrl('/apps/phonetrack/renameDevice');
         $.ajax({
             type: 'POST',
             url: url,
@@ -2145,7 +2175,7 @@
             deviceid: deviceid,
             newalias: newalias
         };
-        var url = OC.generateUrl('/apps/phonetrack/setDeviceAlias');
+        var url = generateUrl('/apps/phonetrack/setDeviceAlias');
         $.ajax({
             type: 'POST',
             url: url,
@@ -2219,7 +2249,7 @@
             deviceid: deviceid,
             newSessionId: newSessionId
         };
-        var url = OC.generateUrl('/apps/phonetrack/reaffectDevice');
+        var url = generateUrl('/apps/phonetrack/reaffectDevice');
         $.ajax({
             type: 'POST',
             url: url,
@@ -2250,7 +2280,7 @@
         var selected;
         var req = {
         };
-        var url = OC.generateUrl('/apps/phonetrack/getSessions');
+        var url = generateUrl('/apps/phonetrack/getSessions');
         $.ajax({
             type: 'POST',
             url: url,
@@ -2344,13 +2374,13 @@
                 sessions: sessionsToWatch
             };
             if (pageIsPublicSessionWatch()) {
-                url = OC.generateUrl('/apps/phonetrack/publicViewTrack');
+                url = generateUrl('/apps/phonetrack/publicViewTrack');
             }
             else if (pageIsPublicWebLog()) {
-                url = OC.generateUrl('/apps/phonetrack/publicWebLogTrack');
+                url = generateUrl('/apps/phonetrack/publicWebLogTrack');
             }
             else {
-                url = OC.generateUrl('/apps/phonetrack/track');
+                url = generateUrl('/apps/phonetrack/track');
             }
             phonetrack.currentRefreshAjax = $.ajax({
                 type: 'POST',
@@ -2995,7 +3025,7 @@
                 device: d,
                 color: colorcode
             };
-            var url = OC.generateUrl('/apps/phonetrack/setDeviceColor');
+            var url = generateUrl('/apps/phonetrack/setDeviceColor');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -3667,7 +3697,7 @@
             speed: speed,
             bearing: bearing
         };
-        var url = OC.generateUrl('/apps/phonetrack/updatePoint');
+        var url = generateUrl('/apps/phonetrack/updatePoint');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3789,7 +3819,7 @@
             deviceid: deviceid,
             pointids: pidlist
         };
-        var url = OC.generateUrl('/apps/phonetrack/deletePoints');
+        var url = generateUrl('/apps/phonetrack/deletePoints');
         $.ajax({
             type: 'POST',
             url: url,
@@ -3897,7 +3927,7 @@
             speed: speed,
             bearing: bearing
         };
-        var url = OC.generateUrl('/apps/phonetrack/addPoint');
+        var url = generateUrl('/apps/phonetrack/addPoint');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4352,7 +4382,7 @@
             var req = {
                 path: path
             };
-            var url = OC.generateUrl('/apps/phonetrack/importSession');
+            var url = generateUrl('/apps/phonetrack/importSession');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -4405,7 +4435,7 @@
             token: token,
             target: targetPath+'/'+filename
         };
-        var url = OC.generateUrl('/apps/phonetrack/export');
+        var url = generateUrl('/apps/phonetrack/export');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4452,7 +4482,7 @@
                 timestamp: timestamp,
                 useragent: 'browser'
             };
-            var url = OC.generateUrl('/apps/phonetrack/logPost/' + phonetrack.token + '/' + deviceid);
+            var url = generateUrl('/apps/phonetrack/logPost/' + phonetrack.token + '/' + deviceid);
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -4637,7 +4667,7 @@
             token: token,
             devicename: devicename
         };
-        var url = OC.generateUrl('/apps/phonetrack/addNameReservation');
+        var url = generateUrl('/apps/phonetrack/addNameReservation');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4671,7 +4701,7 @@
             token: token,
             devicename: devicename
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteNameReservation');
+        var url = generateUrl('/apps/phonetrack/deleteNameReservation');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4702,7 +4732,7 @@
             token: token,
             userId: userId
         };
-        var url = OC.generateUrl('/apps/phonetrack/addUserShare');
+        var url = generateUrl('/apps/phonetrack/addUserShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4740,7 +4770,7 @@
             token: token,
             userId: userId
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteUserShare');
+        var url = generateUrl('/apps/phonetrack/deleteUserShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4767,7 +4797,7 @@
             sharetoken: sharetoken,
             geofencify: geofencify
         };
-        var url = OC.generateUrl('/apps/phonetrack/setPublicShareGeofencify');
+        var url = generateUrl('/apps/phonetrack/setPublicShareGeofencify');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4791,7 +4821,7 @@
             sharetoken: sharetoken,
             lastposonly: lastposonly
         };
-        var url = OC.generateUrl('/apps/phonetrack/setPublicShareLastOnly');
+        var url = generateUrl('/apps/phonetrack/setPublicShareLastOnly');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4815,7 +4845,7 @@
             sharetoken: sharetoken,
             devicename: devicename
         };
-        var url = OC.generateUrl('/apps/phonetrack/setPublicShareDevice');
+        var url = generateUrl('/apps/phonetrack/setPublicShareDevice');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4854,7 +4884,7 @@
             emailaddr: emailaddr,
             sendnotif: sendnotif
         };
-        var url = OC.generateUrl('/apps/phonetrack/addGeofence');
+        var url = generateUrl('/apps/phonetrack/addGeofence');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4939,7 +4969,7 @@
             device: device,
             fenceid: fenceid
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteGeofence');
+        var url = generateUrl('/apps/phonetrack/deleteGeofence');
         $.ajax({
             type: 'POST',
             url: url,
@@ -4976,7 +5006,7 @@
             emailaddr: emailaddr,
             sendnotif: sendnotif
         };
-        var url = OC.generateUrl('/apps/phonetrack/addProxim');
+        var url = generateUrl('/apps/phonetrack/addProxim');
         $.ajax({
             type: 'POST',
             url: url,
@@ -5067,7 +5097,7 @@
             device: device,
             proximid: proximid
         };
-        var url = OC.generateUrl('/apps/phonetrack/deleteProxim');
+        var url = generateUrl('/apps/phonetrack/deleteProxim');
         $.ajax({
             type: 'POST',
             url: url,
@@ -5092,7 +5122,7 @@
         var req = {
             token: token,
         };
-        var url = OC.generateUrl('/apps/phonetrack/addPublicShare');
+        var url = generateUrl('/apps/phonetrack/addPublicShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -5132,7 +5162,7 @@
         var linePointParams = $.param(linePointParamsDict);
 
         var publicurl = window.location.origin +
-            OC.generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken + '?') + linePointParams;
+            generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken + '?') + linePointParams;
         var li = '<li class="filteredshare" filteredtoken="' + escapeHTML(sharetoken) + '" title="' +
             filtersToTxt(filters) + '">' +
             '<input type="text" class="publicFilteredShareUrl" value="' + publicurl + '"/>' +
@@ -5170,7 +5200,7 @@
             token: token,
             sharetoken: sharetoken
         };
-        var url = OC.generateUrl('/apps/phonetrack/deletePublicShare');
+        var url = generateUrl('/apps/phonetrack/deletePublicShare');
         $.ajax({
             type: 'POST',
             url: url,
@@ -5194,7 +5224,7 @@
     function addUserAutocompletion(input) {
         var req = {
         };
-        var url = OC.generateUrl('/apps/phonetrack/getUserList');
+        var url = generateUrl('/apps/phonetrack/getUserList');
         $.ajax({
             type: 'POST',
             url: url,
@@ -6278,7 +6308,7 @@
                 token: token,
                 locked: dbNewLocked
             };
-            var url = OC.generateUrl('/apps/phonetrack/setSessionLocked');
+            var url = generateUrl('/apps/phonetrack/setSessionLocked');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -6305,7 +6335,7 @@
                 token: token,
                 public: isPublic
             };
-            var url = OC.generateUrl('/apps/phonetrack/setSessionPublic');
+            var url = generateUrl('/apps/phonetrack/setSessionPublic');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -6342,7 +6372,7 @@
                 device: d,
                 shape: shape
             };
-            var url = OC.generateUrl('/apps/phonetrack/setDeviceShape');
+            var url = generateUrl('/apps/phonetrack/setDeviceShape');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -6401,7 +6431,7 @@
                 token: token,
                 value: val
             };
-            var url = OC.generateUrl('/apps/phonetrack/setSessionAutoExport');
+            var url = generateUrl('/apps/phonetrack/setSessionAutoExport');
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -6428,7 +6458,7 @@
                 token: token,
                 value: val
             };
-            var url = OC.generateUrl('/apps/phonetrack/setSessionAutoPurge');
+            var url = generateUrl('/apps/phonetrack/setSessionAutoPurge');
             $.ajax({
                 type: 'POST',
                 url: url,

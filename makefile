@@ -7,7 +7,53 @@ cert_dir=$(HOME)/.nextcloud/certificates
 webserveruser ?= www-data
 occ_dir ?= /var/www/html/n18
 
-all: appstore
+build_tools_directory=$(CURDIR)/build/tools
+npm=$(shell which npm 2> /dev/null)
+composer=$(shell which composer 2> /dev/null)
+
+all: build
+
+.PHONY: build
+build:
+ifneq (,$(wildcard $(CURDIR)/composer.json))
+	make composer
+endif
+ifneq (,$(wildcard $(CURDIR)/package.json))
+	make npm
+endif
+
+.PHONY: dev
+dev:
+ifneq (,$(wildcard $(CURDIR)/composer.json))
+	make composer
+endif
+ifneq (,$(wildcard $(CURDIR)/package.json))
+	make npm-dev
+endif
+
+# Installs and updates the composer dependencies. If composer is not installed
+# a copy is fetched from the web
+.PHONY: composer
+composer:
+ifeq (, $(composer))
+	@echo "No composer command available, downloading a copy from the web"
+	mkdir -p $(build_tools_directory)
+	curl -sS https://getcomposer.org/installer | php
+	mv composer.phar $(build_tools_directory)
+	php $(build_tools_directory)/composer.phar install --prefer-dist
+else
+	composer install --prefer-dist
+endif
+
+.PHONY: npm
+npm:
+	$(npm) install
+	$(npm) run build
+
+.PHONY: npm-dev
+npm-dev:
+	$(npm) install
+	$(npm) run dev
 
 clean:
 	sudo rm -rf $(build_dir)
@@ -21,7 +67,6 @@ appstore: clean
 	--exclude=appinfo/signature.json \
 	--exclude=*.swp \
 	--exclude=build \
-	--exclude=README.md \
 	--exclude=.gitignore \
 	--exclude=.travis.yml \
 	--exclude=.scrutinizer.yml \
@@ -29,6 +74,13 @@ appstore: clean
 	--exclude=composer.json \
 	--exclude=composer.lock \
 	--exclude=composer.phar \
+	--exclude=package.json \
+	--exclude=package-lock.json \
+	--exclude=js/node_modules \
+	--exclude=node_modules \
+	--exclude=translationfiles \
+	--exclude=webpack.* \
+	--exclude=.gitlab-ci.yml \
 	--exclude=crowdin.yml \
 	--exclude=tools \
 	--exclude=l10n/.tx \
@@ -42,6 +94,7 @@ appstore: clean
 	--exclude=screenshots \
 	--exclude=phpunit*xml \
 	--exclude=tests \
+	--exclude=ci \
 	--exclude=vendor/bin \
 	$(project_dir) $(sign_dir)
 	# generate info.xml with translations

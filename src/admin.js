@@ -1,3 +1,5 @@
+import { generateUrl } from '@nextcloud/router';
+
 (function() {
     if (!OCA.PhoneTrack) {
         OCA.PhoneTrack = {};
@@ -5,7 +7,7 @@
 })();
 
 function setPhoneTrackQuota(val) {
-    var url = OC.generateUrl('/apps/phonetrack/setPointQuota');
+    var url = generateUrl('/apps/phonetrack/setPointQuota');
     var req = {
         quota: val
     }
