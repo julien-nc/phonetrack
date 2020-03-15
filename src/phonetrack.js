@@ -35,7 +35,7 @@ import 'leaflet-linear-measurement/sass/Leaflet.LinearMeasurement.scss';
 import 'leaflet-dialog/Leaflet.Dialog';
 import 'leaflet-dialog/Leaflet.Dialog.css';
 import 'leaflet-hotline/dist/leaflet.hotline.min';
-//import 'jquery-countdown/dist/jquery.countdown';
+import Countdown from 'ds-countdown/lib/countdown.bundle';
 
 import { generateUrl } from '@nextcloud/router';
 
@@ -2427,13 +2427,21 @@ import { generateUrl } from '@nextcloud/router';
             if (uiVal !== '' && !isNaN(uiVal) && parseInt(uiVal) > 1) {
                 updateinterval = parseInt(uiVal) * 1000;
             }
-            // display countdown
-            if ($('#countdown').hasClass('is-countdown')) {
-                $('#countdown').countdown('destroy');
-            }
-            var t = new Date();
-            t.setSeconds(t.getSeconds() + updateinterval/1000);
-            $('#countdown').countdown({until: t, format: 'HMS', compact: true});
+            // destroy countdown
+            var targetMom = moment();
+            targetMom.add('seconds', updateinterval/1000);
+            // launch countdown
+            console.log('targ '+targetMom.format('YYYY-MM-DD HH:mm:ss'));
+            phonetrack.countdown = new Countdown({
+                id: "countdown",
+                targetTime: targetMom.format('YYYY-MM-DD HH:mm:ss'),
+                noDay: false,
+                hideDayAtZero: true,
+                separator: '/',
+                afterEnd() {
+                    console.log('Time over !');
+                }
+            });
             // launch timer
             phonetrack.currentTimer = new Timer(function() {
                 refresh();
