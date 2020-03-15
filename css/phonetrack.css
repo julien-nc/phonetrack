@@ -1088,7 +1088,7 @@ input.geofencename {
 }
 /* measurement tool */
 a.icon-ruler {
-    background-image: none !important;
+    background-size: 70%;
 }
 a.icon-ruler span {
     color: var(--color-main-text);
@@ -1101,6 +1101,7 @@ a.icon-active span {
 .easy-button-button {
     margin: 0 !important;
     padding: 0 !important;
+    min-height: 30px !important;
 }
 .easy-button-button span.fa{
     margin-top: auto;
