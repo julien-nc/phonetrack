@@ -4615,6 +4615,7 @@ import { generateUrl } from '@nextcloud/router';
             phonetrack.elevationControl.remove();
             phonetrack.elevationControl = null;
             phonetrack.closeElevationButton.remove();
+            $('#hover-timestamp').remove();
         }
     }
 
@@ -4626,7 +4627,7 @@ import { generateUrl } from '@nextcloud/router';
             width: 700,
             margins: {
                 top: 10,
-                right: 120,
+                right: 60,
                 bottom: 23,
                 left: 60
             },
@@ -4639,29 +4640,46 @@ import { generateUrl } from '@nextcloud/router';
         el.addTo(phonetrack.map);
 
         var layers = phonetrack.sessionLineLayers[s][d].getLayers();
-        var times, elevations;
-        var data, i, j, lls, pid;
+        var elevations, pids;
+        var data, i, j, lls, pid, hackPid, elevation;
         for (i=0; i < layers.length; i++) {
             data = layers[i].toGeoJSON();
-            // add time information
-            times = [];
+            pids = [];
             elevations = [];
             lls = layers[i].getLatLngs();
             for (j=0; j < lls.length; j++) {
                 pid = lls[j].alt;
-                times.push(phonetrack.sessionPointsEntriesById[s][d][pid].timestamp);
+                pids.push(pid);
                 elevations.push(phonetrack.sessionPointsEntriesById[s][d][pid].altitude);
             }
             for (j=0; j < data.geometry.coordinates.length; j++) {
-                data.geometry.coordinates[j][2] = elevations[j] || 0;
-                data.geometry.coordinates[j].push(times[j]);
+                elevation = elevations[j] || 0;
+                // dirty hack to include pid in elevation...
+                hackPid = '0.' + ((pids[j]+'').length) + pids[j];
+                elevation += parseFloat(hackPid);
+                data.geometry.coordinates[j][2] = elevation;
             }
 
             el.addData(data, layers[i]);
         }
         phonetrack.closeElevationButton.addTo(phonetrack.map);
+        $('<div id="hover-timestamp"></div>').insertAfter(phonetrack.closeElevationButton._container);
 
         phonetrack.elevationControl = el;
+        el.s = s;
+        el.d = d;
+        el.on('elechart_hover', function(e) {
+            var hackPid = (e.data.z+"").split(".")[1];
+            var len = parseInt(hackPid[0]);
+            var pid = hackPid.substr(1);
+            var missingZeros = len - (pid+'').length;
+            pid = pid + Array(missingZeros+1).join('0');
+            var ts = phonetrack.sessionPointsEntriesById[e.target.s][e.target.d][pid].timestamp
+            $('#hover-timestamp').text(moment.unix(ts).format('YYYY-MM-DD HH:mm:ss Z'));
+        });
+        el.on('elechart_leave', function(e) {
+            $('#hover-timestamp').text('');
+        });
     }
 
     function hideAllDropDowns() {

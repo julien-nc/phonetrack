@@ -1316,3 +1316,9 @@ input[type=range]:focus::-ms-fill-upper {
 .fa-stack {
     width: 2em !important;
 }
+#hover-timestamp {
+    font-weight: bold;
+    height: 34px;
+    line-height: 34px;
+    padding-left: 50px;
+}
