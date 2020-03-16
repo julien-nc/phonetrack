@@ -40,6 +40,9 @@ module.exports = {
 	plugins: [
 		//new VueLoaderPlugin(),
 		new CleanWebpackPlugin(),
+        new webpack.ProvidePlugin({
+            d3: 'd3',
+        })
 	],
 	resolve: {
 		//extensions: ['*', '.js', '.vue'],

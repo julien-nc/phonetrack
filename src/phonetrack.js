@@ -10,7 +10,8 @@
  * @copyright Julien Veyssier 2017
  */
 
-import 'd3';
+// if we want to use d3 (but it's already exposed to leaflet-elevations with webpack plugin)
+//import * as d3 from 'd3/dist/d3.min';
 import 'leaflet/dist/leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'mapbox-gl/dist/mapbox-gl';
@@ -20,8 +21,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import kjua from 'kjua/dist/kjua.min';
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min';
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css';
-import 'leaflet.elevation/dist/Leaflet.Elevation-0.0.2.min';
-import 'leaflet.elevation/dist/Leaflet.Elevation-0.0.2.css';
+import '@raruto/leaflet-elevation/dist/leaflet-elevation';
+import '@raruto/leaflet-elevation/dist/leaflet-elevation.css'   ;
 import 'leaflet-mouse-position/src/L.Control.MousePosition';
 import 'leaflet-mouse-position/src/L.Control.MousePosition.css';
 import 'leaflet-easybutton/src/easy-button';
@@ -4630,6 +4631,9 @@ import { generateUrl } from '@nextcloud/router';
                 left: 60
             },
             //collapsed: true,
+            detached: false,
+            followMarker: false,
+            lazyLoadJS: false,
             theme: 'steelblue-theme'
         });
         el.addTo(phonetrack.map);
@@ -4648,7 +4652,6 @@ import { generateUrl } from '@nextcloud/router';
                 times.push(phonetrack.sessionPointsEntriesById[s][d][pid].timestamp);
                 elevations.push(phonetrack.sessionPointsEntriesById[s][d][pid].altitude);
             }
-            console.log(times);
             for (j=0; j < data.geometry.coordinates.length; j++) {
                 data.geometry.coordinates[j][2] = elevations[j] || 0;
                 data.geometry.coordinates[j].push(times[j]);
