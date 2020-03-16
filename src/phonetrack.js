@@ -27,7 +27,6 @@ import 'leaflet-mouse-position/src/L.Control.MousePosition.css';
 import 'leaflet-easybutton/src/easy-button';
 import 'leaflet-easybutton/src/easy-button.css';
 import 'leaflet-polylinedecorator/dist/leaflet.polylineDecorator';
-import 'leaflet.active-layers/dist/leaflet.active-layers.min';
 import 'leaflet-sidebar-v2/js/leaflet-sidebar.min';
 import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
 import 'leaflet-linear-measurement/src/Leaflet.LinearMeasurement';
@@ -629,9 +628,14 @@ import { generateUrl } from '@nextcloud/router';
             default_layer = 'OpenStreetMap';
         }
         phonetrack.map.addLayer(baseLayers[default_layer]);
+        phonetrack.currentLayerName = default_layer;
 
-        phonetrack.activeLayers = L.control.activeLayers(baseLayers, baseOverlays);
-        phonetrack.activeLayers.addTo(phonetrack.map);
+        phonetrack.controlLayers = L.control.layers(
+            baseLayers,
+            baseOverlays,
+            {position: 'topright', collapsed: true}
+        );
+        phonetrack.controlLayers.addTo(phonetrack.map);
 
         phonetrack.map.on('click', function (e) {
             if (phonetrack.editMarker) {
@@ -646,7 +650,10 @@ import { generateUrl } from '@nextcloud/router';
         //phonetrack.map.on('zoomend', updateTrackListFromBounds);
         //phonetrack.map.on('baselayerchange', updateTrackListFromBounds);
         if (! pageIsPublic()) {
-            phonetrack.map.on('baselayerchange', saveOptionTileLayer);
+            phonetrack.map.on('baselayerchange ', function(e) {
+                phonetrack.currentLayerName = e.name;
+                saveOptionTileLayer();
+            });
         }
 
         phonetrack.moveButton = L.easyButton({
@@ -1058,7 +1065,7 @@ import { generateUrl } from '@nextcloud/router';
                     // add tile server in leaflet control
                     newlayer = new L.TileLayer(surl,
                         {minZoom: sminzoom, maxZoom: smaxzoom, attribution: ''});
-                    phonetrack.activeLayers.addBaseLayer(newlayer, sname);
+                    phonetrack.controlLayers.addBaseLayer(newlayer, sname);
                     phonetrack.baseLayers[sname] = newlayer;
                 }
                 else if (type === 'mapboxtile'){
@@ -1069,28 +1076,28 @@ import { generateUrl } from '@nextcloud/router';
                         maxZoom: 22,
                         attribution: ''
                     });
-                    phonetrack.activeLayers.addBaseLayer(newlayer, sname);
+                    phonetrack.controlLayers.addBaseLayer(newlayer, sname);
                     phonetrack.baseLayers[sname] = newlayer;
                 }
                 else if (type === 'tilewms'){
                     // add tile server in leaflet control
                     newlayer = new L.tileLayer.wms(surl,
                         {format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: ''});
-                    phonetrack.activeLayers.addBaseLayer(newlayer, sname);
+                    phonetrack.controlLayers.addBaseLayer(newlayer, sname);
                     phonetrack.overlayLayers[sname] = newlayer;
                 }
                 if (type === 'overlay') {
                     // add tile server in leaflet control
                     newlayer = new L.TileLayer(surl,
                         {minZoom: sminzoom, maxZoom: smaxzoom, transparent: stransparent, opcacity: sopacity, attribution: ''});
-                    phonetrack.activeLayers.addOverlay(newlayer, sname);
+                    phonetrack.controlLayers.addOverlay(newlayer, sname);
                     phonetrack.baseLayers[sname] = newlayer;
                 }
                 else if (type === 'overlaywms'){
                     // add tile server in leaflet control
                     newlayer = new L.tileLayer.wms(surl,
                         {layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: '', minZoom: sminzoom, maxZoom: smaxzoom});
-                    phonetrack.activeLayers.addOverlay(newlayer, sname);
+                    phonetrack.controlLayers.addOverlay(newlayer, sname);
                     phonetrack.overlayLayers[sname] = newlayer;
                 }
                 OC.Notification.showTemporary(t('phonetrack', 'Tile server "{ts}" has been added', {ts: sname}));
@@ -1122,16 +1129,16 @@ import { generateUrl } from '@nextcloud/router';
                     li.remove();
                 });
                 if (type === 'tile') {
-                    var activeLayerName = phonetrack.activeLayers.getActiveBaseLayer().name;
+                    var activeLayerName = phonetrack.currentLayerName;
                     // if we delete the active layer, first select another
                     if (activeLayerName === sname) {
                         $('input.leaflet-control-layers-selector').first().click();
                     }
-                    phonetrack.activeLayers.removeLayer(phonetrack.baseLayers[sname]);
+                    phonetrack.controlLayers.removeLayer(phonetrack.baseLayers[sname]);
                     delete phonetrack.baseLayers[sname];
                 }
                 else {
-                    phonetrack.activeLayers.removeLayer(phonetrack.overlayLayers[sname]);
+                    phonetrack.controlLayers.removeLayer(phonetrack.overlayLayers[sname]);
                     delete phonetrack.overlayLayers[sname];
                 }
                 OC.Notification.showTemporary(t('phonetrack', 'Tile server "{ts}" has been deleted', {ts: sname}));
@@ -1307,7 +1314,7 @@ import { generateUrl } from '@nextcloud/router';
         for (i = 0; i < keys.length; i++) {
             key = keys[i];
             if (key === 'tilelayer') {
-                value = phonetrack.activeLayers.getActiveBaseLayer().name;
+                value = phonetrack.currentLayerName;
             }
             else if (key === 'showsidebar') {
                 value = !$('#sidebar').hasClass('collapsed');
