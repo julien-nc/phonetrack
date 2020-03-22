@@ -17,7 +17,7 @@ import 'leaflet/dist/leaflet.css';
 import 'mapbox-gl/dist/mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import 'mapbox-gl-leaflet/leaflet-mapbox-gl';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+//import '@fortawesome/fontawesome-free/css/all.min.css';
 import kjua from 'kjua/dist/kjua.min';
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min';
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css';
@@ -4669,6 +4669,7 @@ import { generateUrl } from '@nextcloud/router';
         el.s = s;
         el.d = d;
         el.on('elechart_hover', function(e) {
+            console.log(e);
             var hackPid = (e.data.z+"").split(".")[1];
             var len = parseInt(hackPid[0]);
             var pid = hackPid.substr(1);

@@ -1,6 +1,7 @@
 <?php
 script('phonetrack', 'phonetrack');
 
+style('phonetrack', '../node_modules/@fortawesome/fontawesome-free/css/all.min');
 style('phonetrack', 'style');
 style('phonetrack', 'phonetrack');
 
