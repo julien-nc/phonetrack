@@ -1,26 +1,9 @@
 #!/bin/bash
 
-rm -rf /tmp/phonetrackjs
-mv ../js /tmp/phonetrackjs
+rm -rf /tmp/phonetrack
+git clone https://gitlab.com/eneiluj/phonetrack-oc /tmp/phonetrack -b l10n_master
+cp -r /tmp/phonetrack/l10n/descriptions/[a-z][a-z]_[A-Z][A-Z] ./descriptions/
+cp -r /tmp/phonetrack/translationfiles/[a-z][a-z]_[A-Z][A-Z] ../translationfiles/
+rm -rf /tmp/phonetrack
 
-git checkout l10n_master
-git reset --hard HEAD~200
-git pull origin l10n_master
-rm -rf /tmp/translationfiles ; cp -r ../translationfiles /tmp
-rm -rf /tmp/descriptions ; mkdir /tmp/descriptions ; cp -r ./descriptions/[a-z][a-z]_[A-Z][A-Z] /tmp/descriptions/
-git checkout master
-cp -r /tmp/translationfiles ../
-cp -r /tmp/descriptions ./
-git commit -a -m "new translations from crowdin"
-
-mv /tmp/phonetrackjs ../js
-
-#git checkout l10n_master
-#git reset --hard HEAD~200
-#git pull http l10n_master
-#git rebase master
-#git reset --soft master
-#git commit -m "new translations from crowdin"
-#git checkout master
-#git merge l10n_master
-echo "MERGE DONE"
+echo "files copied"
