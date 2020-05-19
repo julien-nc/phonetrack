@@ -2,8 +2,6 @@ OC.L10N.register(
     "phonetrack",
     {
     "PhoneTrack" : "PhoneTrack",
-    "left" : "esquerda",
-    "right" : "direita",
     "Show lines" : "Mostrar linhas",
     "Hide lines" : "Ocultar linhas",
     "Activate automatic zoom" : "Ativar zoom automático",

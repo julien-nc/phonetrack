@@ -2,8 +2,6 @@ OC.L10N.register(
     "phonetrack",
     {
     "PhoneTrack" : "PhoneTrack",
-    "left" : "balra",
-    "right" : "jobbra",
     "Show lines" : "Sorok megjelenítése",
     "Hide lines" : "Sorok elrejtése",
     "Activate automatic zoom" : "Automatikus közelítés engedélyezése",

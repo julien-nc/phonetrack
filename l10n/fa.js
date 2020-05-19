@@ -1,8 +1,8 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "left" : "چپ",
-    "right" : "راست",
+    "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"." : "فى الجلسه \"%s\"، الجهاز \"%s\" خرج geofencing منطقة \"%s\".",
+    "Device \"%s\" is now closer than %sm to \"%s\"." : "الجهاز \"%s\"الان اقرب من %sمتر من \"%s\".",
     "Show lines" : "خطوط را نمایش بده",
     "Hide lines" : "خطوط را پنهان کن",
     "Zoom on all devices" : "زوم در همه دستگاه ها",
@@ -37,8 +37,6 @@ OC.L10N.register(
     "Move" : "حرکت",
     "Shared with {u}" : "با {u} به اشتراک گذاشته شده",
     "years" : "سال ها",
-    "days" : "روز ها",
-    "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"." : "فى الجلسه \"%s\"، الجهاز \"%s\" خرج geofencing منطقة \"%s\".",
-    "Device \"%s\" is now closer than %sm to \"%s\"." : "الجهاز \"%s\"الان اقرب من %sمتر من \"%s\"."
+    "days" : "روز ها"
 },
 "nplurals=2; plural=(n != 1);");

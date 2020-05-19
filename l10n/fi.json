@@ -1,7 +1,5 @@
 { "translations": {
     "PhoneTrack" : "PhoneTrack",
-    "left" : "vasen",
-    "right" : "oikea",
     "Show lines" : "Näytä rivit"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -2,8 +2,6 @@ OC.L10N.register(
     "phonetrack",
     {
     "PhoneTrack" : "تتبع الهاتف",
-    "left" : "يسار",
-    "right" : "يمين",
     "Show lines" : "إظهار الخطوط",
     "Hide lines" : "إخفاء الخطوط",
     "Activate automatic zoom" : "تنشيط التكبير التلقائي",
