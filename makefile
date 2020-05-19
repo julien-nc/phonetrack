@@ -49,11 +49,17 @@ endif
 npm:
 	$(npm) install
 	$(npm) run build
+	rm -rf css/fontawesome-free ; mkdir -p css/fontawesome-free/css ; mkdir css/fontawesome-free/webfonts
+	cp node_modules/@fortawesome/fontawesome-free/css/all.min.css css/fontawesome-free/css/
+	cp node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid* css/fontawesome-free/webfonts/
 
 .PHONY: npm-dev
 npm-dev:
 	$(npm) install
 	$(npm) run dev
+	rm -rf css/fontawesome-free ; mkdir -p css/fontawesome-free/css ; mkdir css/fontawesome-free/webfonts
+	cp node_modules/@fortawesome/fontawesome-free/css/all.min.css css/fontawesome-free/css/
+	cp node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid* css/fontawesome-free/webfonts/
 
 clean:
 	sudo rm -rf $(build_dir)
