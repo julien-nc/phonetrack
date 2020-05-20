@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.6.3 – 2020-05-19
+### Changed
+- switch to webpack+npm, replace/update some dependencies
+
+### Fixed
+- mistake in activity provider
+[#161](https://gitlab.com/eneiluj/phonetrack-android/issues/161) @markussvn
+- filter date min/max
+[#312](https://gitlab.com/eneiluj/phonetrack-oc/issues/312) @Valdnet
+- share icon blocked by some adblockers
+[#315](https://gitlab.com/eneiluj/phonetrack-oc/issues/315) @bourgeonnui
+- many option values were not actually saved
+[#318](https://gitlab.com/eneiluj/phonetrack-oc/issues/318) @huste
+
 ## 0.6.2 – 2020-02-10
 ### Added
 - translations
