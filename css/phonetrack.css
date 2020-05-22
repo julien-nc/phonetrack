@@ -177,8 +177,8 @@ div#options button {
     font-size:10px;
 }
 .leaflet-control-layers {
-    background-color: var(--color-main-background);
-    color: var(--color-main-text);
+    background-color: var(--color-main-background) !important;
+    color: var(--color-main-text) !important;
 }
 .leaflet-control-layers-selector,
 button.ui-button {
@@ -731,10 +731,10 @@ ul.devicelist {
     border-bottom-style: solid;
 }
 .sidebar-tabs, .sidebar-content {
-    background-color: var(--color-main-background);
+    background-color: var(--color-main-background) !important;
 }
 .sidebar-tabs>li:hover, .sidebar-tabs>ul>li:hover {
-    background-color: var(--color-background-dark);
+    background-color: var(--color-background-dark) !important;
 }
 .sidebar-tabs > li.active {
     background-color: var(--color-background-darker) !important;
@@ -1102,6 +1102,7 @@ a.icon-active span {
     margin: 0 !important;
     padding: 0 !important;
     min-height: 30px !important;
+    background-color: var(--color-background-dark) !important;
 }
 .easy-button-button span.fa{
     margin-top: auto;
