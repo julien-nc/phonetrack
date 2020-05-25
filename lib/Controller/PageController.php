@@ -4556,7 +4556,7 @@ class PageController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      */
-    public function APIgetPositionsUser($sessionid, $limit=null) {
+    public function APIgetPositionsUser($sessionid, $limit=null, $tsmin=null) {
         $result = [];
         // check if session exists
         $dbtoken = null;
@@ -4627,11 +4627,16 @@ class PageController extends Controller {
                 if (is_numeric($limit)) {
                     $sqlLimit = 'LIMIT '.intval($limit);
                 }
+                $tsminCondition = '';
+                if (is_numeric($tsmin)) {
+                    $tsminCondition = 'AND timestamp >= '.$this->db_quote_escape_string($tsmin).' ';
+                }
                 $sqlget = '
                     SELECT lat, lon, timestamp, batterylevel, useragent,
                            satellites, accuracy, altitude, speed, bearing
                     FROM *PREFIX*phonetrack_points
-                    WHERE deviceid='.$this->db_quote_escape_string($devid).'
+                    WHERE deviceid='.$this->db_quote_escape_string($devid).' '.
+                    $tsminCondition.'
                     ORDER BY timestamp DESC '.$sqlLimit.' ;';
                 $req = $this->dbconnection->prepare($sqlget);
                 $req->execute();
