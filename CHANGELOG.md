@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.6.4 – 2020-07-06
+### Added
+- parameter to filter points retrieved by PT-Android
+
+### Fixed
+- dark mode and breeze dark theme
+[#339](https://gitlab.com/eneiluj/phonetrack-oc/issues/339) @GLLM1
+
 ## 0.6.3 – 2020-05-19
 ### Changed
 - switch to webpack+npm, replace/update some dependencies

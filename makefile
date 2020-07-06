@@ -5,7 +5,7 @@ build_dir=/tmp/build
 sign_dir=/tmp/sign
 cert_dir=$(HOME)/.nextcloud/certificates
 webserveruser ?= www-data
-occ_dir ?= /var/www/html/n18
+occ_dir ?= /var/www/html/n19
 
 build_tools_directory=$(CURDIR)/build/tools
 npm=$(shell which npm 2> /dev/null)
