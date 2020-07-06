@@ -53,6 +53,7 @@ npm:
 	cp node_modules/@fortawesome/fontawesome-free/css/all.min.css css/fontawesome-free/css/
 	cp node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid* css/fontawesome-free/webfonts/
 	cp node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular* css/fontawesome-free/webfonts/
+	cp node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands* css/fontawesome-free/webfonts/
 
 .PHONY: npm-dev
 npm-dev:
@@ -62,6 +63,7 @@ npm-dev:
 	cp node_modules/@fortawesome/fontawesome-free/css/all.min.css css/fontawesome-free/css/
 	cp node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid* css/fontawesome-free/webfonts/
 	cp node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular* css/fontawesome-free/webfonts/
+	cp node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands* css/fontawesome-free/webfonts/
 
 clean:
 	sudo rm -rf $(build_dir)
