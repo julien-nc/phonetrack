@@ -746,7 +746,7 @@ ul.devicelist {
     color: var(--color-main-text);
 }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-    background-color: var(--color-main-background);
+    background-color: var(--color-main-background) !important;
 }
 .networkicon {
     width: 30px;
@@ -1322,4 +1322,8 @@ input[type=range]:focus::-ms-fill-upper {
     height: 34px;
     line-height: 34px;
     padding-left: 50px;
+}
+.popupButtons {
+    display: grid;
+    grid-template: 1fr / 1fr 1fr;
 }

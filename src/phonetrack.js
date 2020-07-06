@@ -4141,10 +4141,12 @@ import { generateUrl } from '@nextcloud/router';
         res = res + '<td><input role="dms" type="text" value="' + convertDMS(entry.lat, entry.lon) + '" readonly/></td>';
         res = res + '</tr>';
         res = res + '</table>';
+        res = res + '<div class="popupButtons">';
         res = res + '<button class="valideditpoint"><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Save') + '</button>';
         res = res + '<button class="deletepoint"><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Delete') + '</button>';
-        res = res + '<br/><button class="movepoint"><i class="fa fa-arrows-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Move') + '</button>';
+        res = res + '<button class="movepoint"><i class="fa fa-arrows-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Move') + '</button>';
         res = res + '<button class="canceleditpoint"><i class="fa fa-undo" aria-hidden="true" style="color:red;"></i> ' + t('phonetrack', 'Cancel') + '</button>';
+        res = res + '</div>';
         return res;
     }
 
@@ -6522,7 +6524,7 @@ import { generateUrl } from '@nextcloud/router';
         });
 
         $('body').on('click','.movepoint', function(e) {
-            var tab = $(this).parent().find('table');
+            var tab = $(this).parent().parent().find('table');
             var token = tab.attr('token');
             var deviceid = tab.attr('deviceid');
             var pointid = parseInt(tab.attr('pid'));
@@ -6534,7 +6536,7 @@ import { generateUrl } from '@nextcloud/router';
         });
 
         $('body').on('click','.valideditpoint', function(e) {
-            var tab = $(this).parent().find('table');
+            var tab = $(this).parent().parent().find('table');
             var token = tab.attr('token');
             var deviceid = parseInt(tab.attr('deviceid'));
             var pointid = parseInt(tab.attr('pid'));
@@ -6570,7 +6572,7 @@ import { generateUrl } from '@nextcloud/router';
         });
 
         $('body').on('click', '.deletepoint', function(e) {
-            var tab = $(this).parent().find('table');
+            var tab = $(this).parent().parent().find('table');
             var s = tab.attr('token');
             var d = tab.attr('deviceid');
             var pid = parseInt(tab.attr('pid'));
