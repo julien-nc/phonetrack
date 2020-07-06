@@ -2909,7 +2909,7 @@ class PageController extends Controller {
             // store track point
             array_push($this->currentPointList, $this->currentPoint);
             // if we have enough points, we log them and clean the points array
-            if (count($this->currentPointList) >= 500) {
+            if (count($this->currentPointList) >= 100) {
                 $this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
                 unset($this->currentPointList);
                 $this->currentPointList = [];
@@ -3001,7 +3001,7 @@ class PageController extends Controller {
                 }
                 // add point
                 array_push($currentPointList, $point);
-                if (count($currentPointList) >= 500) {
+                if (count($currentPointList) >= 100) {
                     $this->logMultiple($token, $importDevName, $currentPointList);
                     unset($currentPointList);
                     $currentPointList = [];

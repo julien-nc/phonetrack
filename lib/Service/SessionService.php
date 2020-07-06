@@ -712,6 +712,7 @@ class SessionService {
             // write the chunk !
             fwrite($fd, $gpxText);
             $pointIndex = $pointIndex + $chunkSize;
+            //$this->logger->info('EXPORT MEM USAGE '.memory_get_usage(), ['app' => $this->appName]);
         }
         $gpxText  = ' </trkseg>' . "\n";
         $gpxText .= '</trk>' . "\n";
