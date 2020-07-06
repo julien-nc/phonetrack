@@ -30,12 +30,12 @@ class SessionService {
     private $dbconnection;
 
     public function __construct (
-	    ILogger $logger,
-	    IL10N $l10n,
-	    SessionMapper $sessionMapper,
-	    IUserManager $userManager,
-	    IGroupManager $groupManager,
-	    IConfig $config
+        ILogger $logger,
+        IL10N $l10n,
+        SessionMapper $sessionMapper,
+        IUserManager $userManager,
+        IGroupManager $groupManager,
+        IConfig $config
     ) {
         $this->l10n = $l10n;
         $this->logger = $logger;
@@ -279,10 +279,9 @@ class SessionService {
         if ($username !== ''){
             $userFolder = \OC::$server->getUserFolder($username);
             $userId = $username;
-	}
-	else {
-            return [false, 0];
-	}
+        } else {
+                return [false, 0];
+        }
         // get options to know if we should export one file per device
         $ofpd = $this->config->getUserValue($userId, 'phonetrack', 'exportoneperdev', 'false');
         $oneFilePerDevice = ($ofpd === 'true');
@@ -442,7 +441,7 @@ class SessionService {
             }
         }
 
-	return [$done, $warning];
+    return [$done, $warning];
     }
 
     public function getCurrentFilters($userId) {
