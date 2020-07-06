@@ -2801,7 +2801,7 @@ class PageController extends Controller {
             // store track point
             array_push($this->currentPointList, $this->currentPoint);
             // if we have enough points, we log them and clean the points array
-            if (count($this->currentPointList) >= 500) {
+            if (count($this->currentPointList) >= 100) {
                 $this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
                 unset($this->currentPointList);
                 $this->currentPointList = [];
@@ -2857,6 +2857,7 @@ class PageController extends Controller {
         $fp = $gpx_file->fopen('r');
 
         while ($data = fread($fp, 4096000)) {
+            //$this->logger->info('MEM USAGE '.memory_get_usage(), ['app' => $this->appName]);
             if (!xml_parse($xml_parser, $data, feof($fp))) {
                 $this->logger->error(
                     'Exception in '.$gpx_name.' parsing at line '.
@@ -2869,6 +2870,7 @@ class PageController extends Controller {
         }
         fclose($fp);
         xml_parser_free($xml_parser);
+        unset($xml_parser);
         if ($this->trackIndex === 1) {
             return 6;
         }
