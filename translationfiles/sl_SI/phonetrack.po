@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-05-19 21:40+0200\n"
-"PO-Revision-Date: 2020-05-19 19:41\n"
+"PO-Revision-Date: 2020-05-22 14:24\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Slovenian\n"
 "Language: sl_SI\n"
@@ -57,7 +57,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/ActivityManager.php:179
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "Odjemalec PhoneTrack"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
@@ -1313,7 +1313,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:5720
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite izbrisati sejo {session} ?"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:5723
 msgid "Confirm session deletion"
@@ -1329,11 +1329,11 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:6181
 msgid "Geo QRcode : last position of {dname}"
-msgstr ""
+msgstr "Koda Geo QR : zadnji položaj {dname}"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:6303
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Ali ste prepričani, da želite izbrisati napravo {device}?"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:6306
 msgid "Confirm device deletion"
@@ -1448,7 +1448,7 @@ msgstr "Splošno"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:64
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Osveževanje (sekunde)"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:67
 msgid "Refresh"
@@ -1521,39 +1521,39 @@ msgstr "Pokaži smerne puščice na črtah"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:118
 msgid "Draw line with color gradient"
-msgstr ""
+msgstr "Nariši črto v barvnem prelivu"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:122
 msgid "Show distance in tooltips"
-msgstr "Pokaži razdaljo med podatki"
+msgstr "Pokaži razdaljo"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:126
 msgid "Show accuracy in tooltips"
-msgstr "Pokaži natančnost med podatki"
+msgstr "Pokaži natančnost"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:130
 msgid "Show speed in tooltips"
-msgstr "Pokaži hitrost med podatki"
+msgstr "Pokaži hitrost"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:134
 msgid "Show bearing in tooltips"
-msgstr "Pokaži smer med podatki"
+msgstr "Pokaži smer"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:138
 msgid "Show satellites in tooltips"
-msgstr "Pokaži satelite med podatki"
+msgstr "Pokaži podatke satelitov"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:142
 msgid "Show battery level in tooltips"
-msgstr "Pokaži polnost baterije med podatki"
+msgstr "Pokaži polnost baterije"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:146
 msgid "Show elevation in tooltips"
-msgstr "Pokaži nadmorsko višino med podatki"
+msgstr "Pokaži nadmorsko višino"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:150
 msgid "Show user-agent in tooltips"
-msgstr "Pokaži odjemalca med podatki"
+msgstr "Pokaži odjemalca"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:154
 msgid "Make points draggable in edition mode"
@@ -1561,7 +1561,7 @@ msgstr "Točke naj bodo premakljive v načinu urejanja"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:158
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Ob prehodu miške pokaži točnost lokacije"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:162
 msgid "Line width"
@@ -1773,7 +1773,7 @@ msgstr "Prekliči dodajanje točke"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:503
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Izbriši več točk"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:506
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
@@ -1785,11 +1785,11 @@ msgstr "Izbriši točke"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:515
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Izbriši le vidne točke"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:522
 msgid "Filter points"
-msgstr ""
+msgstr "Filtriraj točke"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:529
 msgid "Apply filters"
@@ -1826,7 +1826,7 @@ msgstr "Min++ in Max++"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:578
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Zadnji dan:ura:minuta"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:585
 msgid "Minimum accuracy"
@@ -1886,7 +1886,7 @@ msgstr "Shrani ime zaznamka"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:718
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:722
 msgid "Show stats"

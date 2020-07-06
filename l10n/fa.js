@@ -1,6 +1,8 @@
 OC.L10N.register(
     "phonetrack",
     {
+    "PhoneTrack" : "English",
+    "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "PhoneTrack device {device} of session {session} has entered geofence {geofence}",
     "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"." : "فى الجلسه \"%s\"، الجهاز \"%s\" خرج geofencing منطقة \"%s\".",
     "Device \"%s\" is now closer than %sm to \"%s\"." : "الجهاز \"%s\"الان اقرب من %sمتر من \"%s\".",
     "Show lines" : "خطوط را نمایش بده",

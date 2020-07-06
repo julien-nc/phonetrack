@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-05-19 21:40+0200\n"
-"PO-Revision-Date: 2020-05-19 19:42\n"
+"PO-Revision-Date: 2020-05-24 16:00\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -313,7 +313,7 @@ msgstr "Link do sesji udostępniania"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1700
 msgid "Zoom on this session"
-msgstr "Zbliżenie na tą sesję"
+msgstr "Zbliżenie na sesję"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1703
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:3142
@@ -430,11 +430,11 @@ msgstr "Link do publicznego oglądania"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1793
 msgid "API URL (JSON, last positions)"
-msgstr "URL API (JSON, ostatnie pozycje)"
+msgstr "Adres URL interfejsu API (JSON, ostatnie pozycje)"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1795
 msgid "API URL (JSON, all positions)"
-msgstr "URL API (JSON, wszystkie pozycje)"
+msgstr "Adres URL interfejsu API (JSON, wszystkie pozycje)"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1801
 msgid "Current active filters will be applied on shared view"
@@ -455,7 +455,7 @@ msgstr "Lista linków do konfiguracji ustawień rejestracji serwera dla aplikacj
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1819
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:225
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr "Zastąp 'yourname' na nazwę wybranego urządzenia lub na token zarezerwowanej nazwy"
+msgstr "Zastąp 'yourname' na nazwę wybranego urządzenia lub na token zarezerwowanej nazwy."
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1821
 msgid "Public browser logging link"
@@ -1067,11 +1067,11 @@ msgstr "Nie udało się połączyć z serwerem, aby dodać wyznaczoną strefę o
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:4958
 msgid "URL to request when entering"
-msgstr "URL uruchamiany w momencie wejścia w strefę"
+msgstr "Adres URL uruchamiany w momencie wejścia w strefę"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:4962
 msgid "URL to request when leaving"
-msgstr "URL uruchamiany w momencie wyjścia ze strefy"
+msgstr "Adres URL uruchamiany w momencie wyjścia ze strefy"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:4965
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:4969

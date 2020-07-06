@@ -62,7 +62,7 @@ OC.L10N.register(
     "yourname" : "votrenom",
     "Watch this session" : "Voir cette session",
     "shared by {u}" : "Partagé par {u}",
-    "Forbid devices to log to this session" : "Interdire les appareils de loguer dans cette session",
+    "Forbid devices to log to this session" : "Interdire aux appareils de loguer dans cette session",
     "Reserve device names" : "Réserver des noms d'appareil",
     "Links for logging apps" : "Liens pour les applications de logging",
     "Link to share session" : "Lien de partage de session",

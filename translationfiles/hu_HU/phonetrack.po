@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-05-19 21:40+0200\n"
-"PO-Revision-Date: 2020-05-19 19:42\n"
+"PO-Revision-Date: 2020-06-05 20:39\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -90,7 +90,7 @@ msgstr ""
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:738
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:864
 msgid "Geofencing alert"
-msgstr ""
+msgstr "Virtuális kerítés figyelmeztetés"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/LogController.php:742
 #, php-format
@@ -105,11 +105,11 @@ msgstr ""
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2568
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2595
 msgid "Watch session"
-msgstr ""
+msgstr "Munkamenet figyelése"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2663
 msgid "PhoneTrack public access"
-msgstr ""
+msgstr "PhoneTrack nyilvános hozzáférés"
 
 #: /var/www/html/n18/apps/phonetrack/lib/Controller/PageController.php:2664
 #, php-format
@@ -157,11 +157,11 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/admin.js:21
 msgid "Quota was successfully saved"
-msgstr ""
+msgstr "Sikeres mentés"
 
 #: /var/www/html/n18/apps/phonetrack/src/admin.js:25
 msgid "Failed to save quota"
-msgstr ""
+msgstr "Sikertelen mentés"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:664
 #: /var/www/html/n18/apps/phonetrack/templates/maincontent.php:102
@@ -207,7 +207,7 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1020
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Egy szerver már létezik ilyen névvel"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1058
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:4145
@@ -273,11 +273,11 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1509
 msgid "Session name should not be empty"
-msgstr ""
+msgstr "Munkamenet név nincs kitöltve"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1526
 msgid "Session name already used"
-msgstr ""
+msgstr "A Név már foglalt"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1530
 msgid "Failed to contact server to create session"
@@ -285,11 +285,11 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1566
 msgid "yourname"
-msgstr ""
+msgstr "neved"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1654
 msgid "Watch this session"
-msgstr ""
+msgstr "Munkamenet figyelése"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1660
 msgid "shared by {u}"
@@ -297,7 +297,7 @@ msgstr "segosztva tőle: {u}"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1669
 msgid "Forbid devices to log to this session"
-msgstr ""
+msgstr "Eszköz loggolás tiltása"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1676
 msgid "Reserve device names"
@@ -370,19 +370,19 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1740
 msgid "a day"
-msgstr ""
+msgstr "egy nap"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1741
 msgid "a week"
-msgstr ""
+msgstr "egy hét"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1742
 msgid "a month"
-msgstr ""
+msgstr "egy hónap"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1751
 msgid "Name reservation is optional."
-msgstr ""
+msgstr "Névfoglalás lehetséges."
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1752
 msgid "Name can be set directly in logging link if it is not reserved."
@@ -398,23 +398,23 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1757
 msgid "Reserve this device name"
-msgstr ""
+msgstr "Eszköznév lefoglalása"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1759
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "Írd be a foglalt nevet és nyomj 'Entert'"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1772
 msgid "Share with user"
-msgstr ""
+msgstr "Megosztás felhasználóval"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1774
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "Írd be a felhasználónevet és nyomj 'Entert'"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1775
 msgid "user name"
-msgstr ""
+msgstr "felhasználónév"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1782
 msgid "A private session is not visible on public browser logging page"
@@ -422,27 +422,27 @@ msgstr ""
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1784
 msgid "Public session"
-msgstr ""
+msgstr "Nyilvános"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1791
 msgid "Public watch link"
-msgstr ""
+msgstr "Nyilvános megfigyelő link"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1793
 msgid "API URL (JSON, last positions)"
-msgstr ""
+msgstr "API URL (JSON, utolsó pozíció)"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1795
 msgid "API URL (JSON, all positions)"
-msgstr ""
+msgstr "API URL (JSON, összes pozíció)"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1801
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "Jelenlegi szűrők alkalmazva lesznek a megosztott nézeten"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1803
 msgid "Add public filtered share"
-msgstr ""
+msgstr "Szűrt nyilvános megosztás"
 
 #: /var/www/html/n18/apps/phonetrack/src/phonetrack.js:1812
 msgid "Session token"
