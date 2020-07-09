@@ -2243,6 +2243,7 @@ class PageController extends Controller {
     /**
      * @NoAdminRequired
      * @PublicPage
+     * @NoCSRFRequired
      *
      * called by publicSessionView page
      */
@@ -2673,6 +2674,7 @@ class PageController extends Controller {
             ->addAllowedObjectDomain('*')
             ->addAllowedScriptDomain('*')
             ->addAllowedConnectDomain('*');
+        $csp->addAllowedFrameAncestorDomain('*');
         $response->setContentSecurityPolicy($csp);
         return $response;
     }
