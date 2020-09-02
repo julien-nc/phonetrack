@@ -38,6 +38,8 @@ import Countdown from 'ds-countdown/lib/countdown.bundle';
 
 import { generateUrl } from '@nextcloud/router';
 
+import { escapeHtml } from './utils'
+
 (function ($, OC) {
     'use strict';
 
@@ -392,7 +394,7 @@ import { generateUrl } from '@nextcloud/router';
         var minutes = Math.floor(minutesNotTruncated);
         var seconds = Math.floor((minutesNotTruncated - minutes) * 60);
 
-        return degrees + "°" + minutes + "'" + seconds + escapeHTML('"');
+        return degrees + "°" + minutes + "'" + seconds + escapeHtml('"');
     }
 
     function convertDMS(lat, lng) {
@@ -1051,9 +1053,9 @@ import { generateUrl } from '@nextcloud/router';
         }).done(function (response) {
             if (response.done) {
                 $('#'+type+'serverlist ul').prepend(
-                    '<li style="display:none;" servername="' + escapeHTML(sname || '') +
-                    '" title="' + escapeHTML(surl || '') + '">' +
-                    escapeHTML(sname || '') + ' <button>' +
+                    '<li style="display:none;" servername="' + escapeHtml(sname || '') +
+                    '" title="' + escapeHtml(surl || '') + '">' +
+                    escapeHtml(sname || '') + ' <button>' +
                     '<i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ' +
                     t('phonetrack', 'Delete') +
                     '</button></li>'
@@ -1432,12 +1434,12 @@ import { generateUrl } from '@nextcloud/router';
     function addFiltersBookmark(name, filters, bookid) {
         var f = filters;
 
-        var li = '<li bookid="' + bookid + '" name="' + escapeHTML(name || '') + '" title="';
+        var li = '<li bookid="' + bookid + '" name="' + escapeHtml(name || '') + '" title="';
         for (var fname in f) {
             li = li + fname + ' : ' + f[fname] + '\n';
         }
         li = li + '">' +
-            '<label class="booklabel">'+escapeHTML(name || '')+'</label>' +
+            '<label class="booklabel">'+escapeHtml(name || '')+'</label>' +
             '<button class="applybookbutton"><i class="fa fa-filter"></i></button>' +
             '<button class="deletebookbutton"><i class="fa fa-trash"></i></button>' +
             '<p class="filterstxt" style="display:none;">' + JSON.stringify(filters) + '</p>' +
@@ -1718,11 +1720,11 @@ import { generateUrl } from '@nextcloud/router';
             }
             divtxt = divtxt + '<div><button class="export">' +
                 '<i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Export to gpx') + '</button>';
-            divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHTML(name) + '.gpx"/></div>';
+            divtxt = divtxt + '<input role="exportname" type="text" value="' + escapeHtml(name) + '.gpx"/></div>';
 
             if (!isFromShare) {
                 divtxt = divtxt + '<div class="autoexportdiv" title="' +
-                    t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: escapeHTML($('#autoexportpath').val())}) + '">' +
+                    t('phonetrack', 'Files are created in \'{exdir}\'', {exdir: escapeHtml($('#autoexportpath').val())}) + '">' +
                     '<div><i class="fa fa-save" aria-hidden="true"></i> ' + t('phonetrack', 'Automatic export') + '</div>';
                 divtxt = divtxt + '<select role="autoexport">';
                 divtxt = divtxt + '<option value="no">' + t('phonetrack', 'never') + '</option>';
@@ -1759,7 +1761,7 @@ import { generateUrl } from '@nextcloud/router';
                 t('phonetrack', 'Type reserved name and press \'Enter\'') + '"></input>';
             divtxt = divtxt + '<ul class="namereservlist">';
             for (i = 0; i < reservedNames.length; i++) {
-                divtxt = divtxt + '<li name="' + escapeHTML(reservedNames[i].name) + '"><label>' +
+                divtxt = divtxt + '<li name="' + escapeHtml(reservedNames[i].name) + '"><label>' +
                     reservedNames[i].name + ' : ' + reservedNames[i].token + '</label>' +
                     '<button class="deletereservedname"><i class="fa fa-trash"></i></li>';
             }
@@ -2117,7 +2119,7 @@ import { generateUrl } from '@nextcloud/router';
                 renameDeviceSuccess(token, deviceid, oldname, newname);
             }
             else {
-                OC.Notification.showTemporary(t('phonetrack', 'Impossible to rename device') + ' ' + escapeHTML(oldname));
+                OC.Notification.showTemporary(t('phonetrack', 'Impossible to rename device') + ' ' + escapeHtml(oldname));
             }
         }).always(function() {
         }).fail(function() {
@@ -3154,10 +3156,10 @@ import { generateUrl } from '@nextcloud/router';
                 '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete this device') + '</button>';
             renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-pencil-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Rename this device') + '</button>';
-            renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHTML(name) + '"/> ';
+            renameInput = '<input type="text" class="renameDeviceInput" value="' + escapeHtml(name) + '"/> ';
             aliasLink = ' <button class="aliasDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-pencil-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Set device alias') + '</button>';
-            aliasInput = '<input type="text" class="aliasDeviceInput" value="' + escapeHTML(alias || '') + '"/> ';
+            aliasInput = '<input type="text" class="aliasDeviceInput" value="' + escapeHtml(alias || '') + '"/> ';
             reaffectLink = ' <button class="reaffectDevice" token="' + s + '" device="' + d + '">' +
                 '<i class="fa fa-exchange-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Move to another session') + '</button>';
             reaffectSelect = '<div class="reaffectDeviceDiv"><select class="reaffectDeviceSelect"></select>' +
@@ -3298,14 +3300,14 @@ import { generateUrl } from '@nextcloud/router';
                 '<div class="devinteractline">' +
                 '<div class="devicecolor ' + shape + 'devicecolor devicecolor' + s + d + '"></div> ' +
                 '<div class="deviceLabel" title="' +
-                t('phonetrack', 'Center map on device') + '">' + escapeHTML(nameLabelTxt) + '</div> ' +
+                t('phonetrack', 'Center map on device') + '">' + escapeHtml(nameLabelTxt) + '</div> ' +
                 renameInput +
                 aliasInput +
                 ghostSpace +
                 lineDeviceLink +
                 autoZoomLink +
                 '<button class="zoomdevicebutton" title="' +
-                t('phonetrack', 'Center map on device') + ' \'' + escapeHTML(name) + '\'">' +
+                t('phonetrack', 'Center map on device') + ' \'' + escapeHtml(name) + '\'">' +
                 '<i class="fa fa-search" aria-hidden="true"></i></button>' +
                 geofencesLink +
                 proximLink +
@@ -3341,8 +3343,8 @@ import { generateUrl } from '@nextcloud/router';
 
         // manage names/ids
         var intDid = parseInt(d);
-        phonetrack.deviceNames[s][intDid] = escapeHTML(name);
-        phonetrack.deviceAliases[s][intDid] = escapeHTML(alias || '');
+        phonetrack.deviceNames[s][intDid] = escapeHtml(name);
+        phonetrack.deviceAliases[s][intDid] = escapeHtml(alias || '');
         phonetrack.deviceIds[s][name] = intDid;
 
         phonetrack.sessionPointsLayers[s][d] = L.featureGroup();
@@ -4226,7 +4228,7 @@ import { generateUrl } from '@nextcloud/router';
         }
         if ($('#tooltipshowuseragent').is(':checked') && entry.useragent !== '' && entry.useragent !== null && entry.useragent !== 'nothing') {
             pointtooltip = pointtooltip + '<br/>' +
-                t('phonetrack', 'User-agent') + ' : ' + escapeHTML(entry.useragent);
+                t('phonetrack', 'User-agent') + ' : ' + escapeHtml(entry.useragent);
         }
 
         return pointtooltip;
@@ -4730,8 +4732,8 @@ import { generateUrl } from '@nextcloud/router';
     }
 
     function addNameReservation(token, devicename, nametoken) {
-        var li = '<li name="' + escapeHTML(devicename) + '"><label>' +
-            escapeHTML(devicename) + ' : '+ escapeHTML(nametoken) + '</label>' +
+        var li = '<li name="' + escapeHtml(devicename) + '"><label>' +
+            escapeHtml(devicename) + ' : '+ escapeHtml(nametoken) + '</label>' +
             '<button class="deletereservedname"><i class="fa fa-trash"></i></li>';
         $('.session[token="' + token + '"]').find('.namereservlist').append(li);
         $('.session[token="' + token + '"]').find('.addnamereserv').val('');
@@ -4799,9 +4801,9 @@ import { generateUrl } from '@nextcloud/router';
         if (userId !== username) {
             displayString = username + ' (' + userId + ')';
         }
-        var li = '<li userid="'+escapeHTML(userId)+'" username="' + escapeHTML(username) + '"><label>' +
+        var li = '<li userid="'+escapeHtml(userId)+'" username="' + escapeHtml(username) + '"><label>' +
             t('phonetrack', 'Shared with {u}', {'u': displayString}) + '</label>' +
-            '<button class="deleteusershare" userid="'+escapeHTML(userId)+'"><i class="fa fa-trash"></i></li>';
+            '<button class="deleteusershare" userid="'+escapeHtml(userId)+'"><i class="fa fa-trash"></i></li>';
         $('.session[token="' + token + '"]').find('.usersharelist').append(li);
         $('.session[token="' + token + '"]').find('.addusershare').val('');
     }
@@ -4957,11 +4959,11 @@ import { generateUrl } from '@nextcloud/router';
         }
         var urlentertxt = '';
         if (urlenter && urlenter !== '') {
-            urlentertxt = t('phonetrack', 'URL to request when entering') + ' ' + enterpostTxt + ' : ' + escapeHTML(urlenter) + '\n';
+            urlentertxt = t('phonetrack', 'URL to request when entering') + ' ' + enterpostTxt + ' : ' + escapeHtml(urlenter) + '\n';
         }
         var urlleavetxt = '';
         if (urlleave && urlleave !== '') {
-            urlleavetxt = t('phonetrack', 'URL to request when leaving') + ' ' + leavepostTxt + ' : ' + escapeHTML(urlleave) + '\n';
+            urlleavetxt = t('phonetrack', 'URL to request when leaving') + ' ' + leavepostTxt + ' : ' + escapeHtml(urlleave) + '\n';
         }
 
         var sendemailTxt = t('phonetrack', 'no');
@@ -4980,10 +4982,10 @@ import { generateUrl } from '@nextcloud/router';
             t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n';
         if (parseInt(sendemail) !== 0) {
-            li = li + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address'));
+            li = li + t('phonetrack', 'Email address(es)') + ' : ' + escapeHtml(emailaddr || t('phonetrack', 'account mail address'));
         }
         li = li + '">' +
-            '<label class="geofencelabel"><i class="fa fa-caret-right"></i> '+escapeHTML(fencename || '') +
+            '<label class="geofencelabel"><i class="fa fa-caret-right"></i> '+escapeHtml(fencename || '') +
             '</label>' +
             '<button class="deletegeofencebutton"><i class="fa fa-trash"></i></button>' +
             '<button class="zoomgeofencebutton"><i class="fa fa-search"></i></button>' +
@@ -4998,7 +5000,7 @@ import { generateUrl } from '@nextcloud/router';
             '<li>' + t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '</li>';
         if (parseInt(sendemail) !== 0) {
             li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' +
-            escapeHTML(emailaddr || t('phonetrack', 'account mail address')) + '</li>';
+            escapeHtml(emailaddr || t('phonetrack', 'account mail address')) + '</li>';
         }
         li = li + '</ul></li>';
         $('.session[token="' + token + '"] .devicelist li[device='+device+'] .geofencesDiv .geofencelist').append(li);
@@ -5092,28 +5094,28 @@ import { generateUrl } from '@nextcloud/router';
         var li = '<li proximid="' + proximid + '"' +
             'title="';
         if (urlclose) {
-            li = li + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') + '\n';
+            li = li + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHtml(urlclose || '') + '\n';
         }
         if (urlfar) {
-            li = li + t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') + '\n';
+            li = li + t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHtml(urlfar || '') + '\n';
         }
         li = li + t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt + '\n' +
             t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '\n';
         if (parseInt(sendemail) !== 0) {
-            li = li + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) + '\n';
+            li = li + t('phonetrack', 'Email address(es)') + ' : ' + escapeHtml(emailaddr || t('phonetrack', 'account mail address')) + '\n';
         }
         li = li + t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) + '\n' +
             t('phonetrack', 'High distance limit : {nbmeters}m', {'nbmeters': highlimit}) +
             '">' +
-            '<label class="proximlabel"><i class="fa fa-caret-right"></i> '+escapeHTML(sname + ' -> ' + dname)+'</label>' +
+            '<label class="proximlabel"><i class="fa fa-caret-right"></i> '+escapeHtml(sname + ' -> ' + dname)+'</label>' +
             '<button class="deleteproximbutton"><i class="fa fa-trash"></i></button>' +
             '<ul class="proximTextValues">';
         if (urlclose) {
-            li = li + '<li>' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHTML(urlclose || '') +
+            li = li + '<li>' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHtml(urlclose || '') +
             '</li>';
         }
         if (urlfar) {
-            li = li + '<li>' + t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHTML(urlfar || '') +
+            li = li + '<li>' + t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHtml(urlfar || '') +
             '</li>';
         }
         li = li + '<li>' + t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt +
@@ -5121,7 +5123,7 @@ import { generateUrl } from '@nextcloud/router';
             '<li>' + t('phonetrack', 'Email notification') + ' : ' + sendemailTxt +
             '</li>';
         if (parseInt(sendemail) !== 0) {
-            li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' + escapeHTML(emailaddr || t('phonetrack', 'account mail address')) +
+            li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' + escapeHtml(emailaddr || t('phonetrack', 'account mail address')) +
             '</li>';
         }
         li = li + '<li>' + t('phonetrack', 'Low distance limit : {nbmeters}m', {'nbmeters': lowlimit}) +
@@ -5204,12 +5206,12 @@ import { generateUrl } from '@nextcloud/router';
 
         var publicurl = window.location.origin +
             generateUrl('/apps/phonetrack/publicSessionWatch/' + sharetoken + '?') + linePointParams;
-        var li = '<li class="filteredshare" filteredtoken="' + escapeHTML(sharetoken) + '" title="' +
+        var li = '<li class="filteredshare" filteredtoken="' + escapeHtml(sharetoken) + '" title="' +
             filtersToTxt(filters) + '">' +
             '<input type="text" class="publicFilteredShareUrl" value="' + publicurl + '"/>' +
             '<button class="deletePublicFilteredShare"><i class="fa fa-trash"></i></button><br/>' +
             '<label>' + t('phonetrack', 'Show this device only') + ' : </label>' +
-            '<input type="text" role="device" value="' + escapeHTML(name || '') + '"/>' +
+            '<input type="text" role="device" value="' + escapeHtml(name || '') + '"/>' +
             '<br/><label for="fil'+sharetoken+'">' + t('phonetrack', 'Show last positions only') + ' : </label>' +
             '<input id="fil'+sharetoken+'" type="checkbox" role="lastposonly" ' + lastposonlyChecked + '/>' +
             '<br/><label for="geo'+sharetoken+'">' + t('phonetrack', 'Simplify positions to nearest geofencing zone center') + ' : </label>' +
