@@ -1,4 +1,4 @@
-image: ubuntu:19.10
+image: ubuntu:20.04
 
 stages:
   - test
@@ -8,8 +8,8 @@ stages:
 before_script:
 - bash ci/docker_install.sh
 
-# test with NC18 and produce coverage report
-test_nc18_sqlite:
+# test and produce coverage report
+test_nc_sqlite:
   stage: test
   only:
     refs:
@@ -23,7 +23,7 @@ test_nc18_sqlite:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable18 nextcloud
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -37,7 +37,7 @@ test_nc18_sqlite:
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html coverage
 
-test_nc18_pgsql:
+test_nc_pgsql:
   stage: test
   only:
     refs:
@@ -50,11 +50,11 @@ test_nc18_pgsql:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "toto"
   script:
-    - DEBIAN_FRONTEND=noninteractive apt-get install php7.3-pgsql postgresql-client -yqq > /dev/null 2>&1
+    - DEBIAN_FRONTEND=noninteractive apt-get install php7.4-pgsql postgresql-client -yqq > /dev/null 2>&1
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable18 nextcloud
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -68,7 +68,7 @@ test_nc18_pgsql:
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
 
-test_nc18_mysql:
+test_nc_mysql:
   stage: test
   only:
     refs:
@@ -76,7 +76,7 @@ test_nc18_mysql:
       - test
   script:
     # DB
-    - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.3-mysql -yqq > /dev/null 2>&1
+    - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.4-mysql -yqq > /dev/null 2>&1
     - service mysql start
     - mysql -u root -e 'create database oc_autotest;'
     - mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"
@@ -84,7 +84,7 @@ test_nc18_mysql:
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
-    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b stable18 nextcloud
+    - git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b master nextcloud
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
@@ -101,7 +101,7 @@ test_nc18_mysql:
 pages:
   stage: deploy
   dependencies:
-    - test_nc18_sqlite
+    - test_nc_sqlite
   before_script:
     - echo 'nothing to install for pages jobs'
   only:
