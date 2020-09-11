@@ -60,7 +60,7 @@
     "yourname" : "MeinName",
     "Watch this session" : "Diese Sitzung ansehen",
     "shared by {u}" : "Geteilt von {u}",
-    "Forbid devices to log to this session" : "Geräten verbieten, sich an dieser Sitzung anzumelden",
+    "Forbid devices to log to this session" : "Geräten verbieten, Daten dieser Sitzung zu protokollieren",
     "Reserve device names" : "Gerätenamen reservieren",
     "Links for logging apps" : "Links für Protokollierungs-Apps",
     "Link to share session" : "Link um Sitzung zu teilen",

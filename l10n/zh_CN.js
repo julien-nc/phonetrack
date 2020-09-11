@@ -2,6 +2,8 @@ OC.L10N.register(
     "phonetrack",
     {
     "PhoneTrack" : "PhoneTrack",
+    "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "PhoneTrack 设备 {device} 的会话 {session} 已输入地理围栏 {geofence}",
+    "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "PhoneTrack 设备 {device} 的会话 {session} 已经退出 {geofence}",
     "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack 近距离警报 (%s 和 %s)",
     "Device \"%s\" is now closer than %sm to \"%s\"." : "设备 \"%s\" 现在比 %sm 接近 \"%s\"。",
     "Quota was successfully saved" : "配额已成功保存~",
