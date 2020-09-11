@@ -29,12 +29,13 @@ import 'leaflet-easybutton/src/easy-button.css';
 import 'leaflet-polylinedecorator/dist/leaflet.polylineDecorator';
 import 'leaflet-sidebar-v2/js/leaflet-sidebar.min';
 import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css';
-import 'leaflet-linear-measurement/src/Leaflet.LinearMeasurement';
-import 'leaflet-linear-measurement/sass/Leaflet.LinearMeasurement.scss';
 import 'leaflet-dialog/Leaflet.Dialog';
 import 'leaflet-dialog/Leaflet.Dialog.css';
 import 'leaflet-hotline/dist/leaflet.hotline.min';
 import Countdown from 'ds-countdown/lib/countdown.bundle';
+import { getLocale } from '@nextcloud/l10n'
+import 'leaflet-measure'
+import 'leaflet-measure/dist/leaflet-measure.css'
 
 import { generateUrl } from '@nextcloud/router';
 
@@ -617,11 +618,19 @@ import { escapeHtml } from './utils'
         if (OCA.Theming) {
             linearcolor = OCA.Theming.color;
         }
-        phonetrack.map.addControl(new L.Control.LinearMeasurement({
-            unitSystem: 'metric',
-            color: linearcolor,
-            type: 'line'
-        }));
+        const loc = getLocale()
+        const measureOptions = {
+            position: 'topleft',
+        }
+        if (['en', 'en_UK'].includes(loc)) {
+            measureOptions.primaryLengthUnit = 'feet'
+            measureOptions.secondaryLengthUnit = 'miles'
+        } else {
+            measureOptions.primaryLengthUnit = 'meters'
+            measureOptions.secondaryLengthUnit = 'kilometers'
+        }
+        const measureControl = new L.Control.Measure(measureOptions);
+        measureControl.addTo(phonetrack.map);
         L.control.sidebar('sidebar').addTo(phonetrack.map);
 
         phonetrack.map.setView(new L.LatLng(27, 5), 3);
@@ -4626,7 +4635,7 @@ import { escapeHtml } from './utils'
         clearElevationControl();
         var el = L.control.elevation({
             position: 'bottomleft',
-            height: 100,
+            height: 150,
             width: 700,
             margins: {
                 top: 10,

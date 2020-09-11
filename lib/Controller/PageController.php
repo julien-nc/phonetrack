@@ -222,9 +222,9 @@ class PageController extends Controller {
         $response = new TemplateResponse('phonetrack', 'main', $params);
         $response->addHeader("Access-Control-Allow-Origin", "*");
         $csp = new ContentSecurityPolicy();
-        $csp->allowInlineScript()
-        ->allowEvalScript()
-        ->allowInlineStyle()
+        $csp->allowInlineScript(true)
+        ->allowEvalScript(true)
+        ->allowInlineStyle(true)
         ->addAllowedScriptDomain('*')
         ->addAllowedStyleDomain('*')
         ->addAllowedFontDomain('*')
