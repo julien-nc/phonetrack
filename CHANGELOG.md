@@ -5,9 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.6.5 – 2020-09-28
+### Changed
+- allow public view page to be in a frame
+- get rid of deprecated escapeHTML
+- adapt to NC 20
+- replace measurement tool (leaflet-linear-measurement) with leaflet-measure
+
+### Fixed
+- reduce memory usage when importing files
+- mapbox-gl loading with NC 20
+
 ## 0.6.4 – 2020-07-06
 ### Added
 - parameter to filter points retrieved by PT-Android
+[#342](https://gitlab.com/eneiluj/phonetrack-oc/issues/342) @torkelatgenet
 
 ### Fixed
 - dark mode and breeze dark theme
