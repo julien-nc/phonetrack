@@ -17,20 +17,20 @@ use OCP\AppFramework\Db\Mapper;
 
 class SessionMapper extends Mapper {
 
-    public function __construct(IDBConnection $db) {
-        parent::__construct($db, 'phonetrack_sessions');
-    }
+	public function __construct(IDBConnection $db) {
+		parent::__construct($db, 'phonetrack_sessions');
+	}
 
-    public function find($id) {
-        $sql = 'SELECT * FROM `*PREFIX*phonetrack_sessions` ' .
-            'WHERE `id` = ?';
-        return $this->findEntity($sql, [$id]);
-    }
+	public function find($id) {
+		$sql = 'SELECT * FROM `*PREFIX*phonetrack_sessions` ' .
+			'WHERE `id` = ?';
+		return $this->findEntity($sql, [$id]);
+	}
 
-    public function findByToken($token) {
-        $sql = 'SELECT * FROM `*PREFIX*phonetrack_sessions` ' .
-            'WHERE `token` = ?';
-        return $this->findEntity($sql, [$token]);
-    }
+	public function findByToken($token) {
+		$sql = 'SELECT * FROM `*PREFIX*phonetrack_sessions` ' .
+			'WHERE `token` = ?';
+		return $this->findEntity($sql, [$token]);
+	}
 
 }

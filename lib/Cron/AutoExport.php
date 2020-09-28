@@ -14,15 +14,15 @@ use \OCA\PhoneTrack\Service\SessionService;
 
 class AutoExport extends \OC\BackgroundJob\TimedJob {
 
-    public function __construct(SessionService $sessionService) {
+	public function __construct(SessionService $sessionService) {
 	$this->sessionService = $sessionService;
-        // Run each day
-        $this->setInterval(24 * 60 * 60);
-    }
+		// Run each day
+		$this->setInterval(24 * 60 * 60);
+	}
 
-    protected function run($argument) {
-        $d = new \DateTime();
-        $this->sessionService->cronAutoExport();
-    }
+	protected function run($argument) {
+		$d = new \DateTime();
+		$this->sessionService->cronAutoExport();
+	}
 
 }

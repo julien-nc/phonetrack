@@ -1,111 +1,111 @@
 html {
-    min-height: 100%;
-    position: relative;
+	min-height: 100%;
+	position: relative;
 }
 body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
+	margin: 0;
+	width: 100%;
+	height: 100%;
 }
 div#map {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 div#logo div{
-    position:absolute;
-    bottom:0;
-    width:100%;
+	position:absolute;
+	bottom:0;
+	width:100%;
 }
 div#logo div p{
-    width:100%;
-    text-align:center;
-    float:right;
-    font-size:10px;
+	width:100%;
+	text-align:center;
+	float:right;
+	font-size:10px;
 }
 div#logo{
-    position:relative;
+	position:relative;
 }
 div#logo p{
-    margin-top: 0px;
-    margin-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 div#logo {
-    mask: url('images/phonetrack.svg');
-    -webkit-mask: url('images/phonetrack.svg');
-    background-color: var(--color-main-text);
-    width: 65px;
-    -webkit-mask-size: 65px;
-    -webkit-mask-repeat: no-repeat;
+	mask: url('images/phonetrack.svg');
+	-webkit-mask: url('images/phonetrack.svg');
+	background-color: var(--color-main-text);
+	width: 65px;
+	-webkit-mask-size: 65px;
+	-webkit-mask-repeat: no-repeat;
 }
 #optiontitle{
-    width:100%;
-    float:left;
-    cursor: pointer;
+	width:100%;
+	float:left;
+	cursor: pointer;
 }
 h1.sectiontitle {
-    font-size: 18px;
-    font-weight: bold;
+	font-size: 18px;
+	font-weight: bold;
 }
 h2.sectiontitle {
-    font-size: 14px;
-    font-weight: bold;
+	font-size: 14px;
+	font-weight: bold;
 }
 h3.sectiontitle {
-    font-size: 16px;
-    font-weight: bold;
+	font-size: 16px;
+	font-weight: bold;
 }
 div#phonetrackstats {
-    overflow: scroll;
+	overflow: scroll;
 }
 div#phonetracksettings h1,
 div#phonetrackfilters h1,
 div#phonetrackstats h1,
 div#help h1 {
-    /*margin-left:30px;*/
-    text-align:center;
+	/*margin-left:30px;*/
+	text-align:center;
 }
 ul,hr {
-    margin-top : 3px;
-    margin-bottom : 3px;
+	margin-top : 3px;
+	margin-bottom : 3px;
 }
 h3 {
-    margin-top : 5px;
-    margin-bottom : 5px;
+	margin-top : 5px;
+	margin-bottom : 5px;
 }
 .transparent {
-    opacity : 0.6;
+	opacity : 0.6;
 }
 .uibutton {
-    font-size: 13px;
-    height : 28px;
+	font-size: 13px;
+	height : 28px;
 }
 .disclist{
-    margin-left:20px;
-    list-style-type:disc;
+	margin-left:20px;
+	list-style-type:disc;
 }
 .circlist{
-    margin-left:20px;
-    list-style-type:circle;
+	margin-left:20px;
+	list-style-type:circle;
 }
 #loadingpc {
-    width: 100%;
-    text-align: center;
-    display: block;
-    line-height: 10px;
+	width: 100%;
+	text-align: center;
+	display: block;
+	line-height: 10px;
 }
 i.display {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 .clear {
-    clear:both;
+	clear:both;
 }
 .spinning {
-    -moz-animation:spin 0.7s linear infinite;
-    -webkit-animation:spin 0.7s linear infinite;
-    animation:spin 0.7s linear infinite;
+	-moz-animation:spin 0.7s linear infinite;
+	-webkit-animation:spin 0.7s linear infinite;
+	animation:spin 0.7s linear infinite;
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
@@ -113,239 +113,239 @@ i.display {
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 .toplink:link {
-    color: blue;
-    text-decoration: underline;
+	color: blue;
+	text-decoration: underline;
 }
 .toplink:visited {
-    color: blue;
-    text-decoration: underline;
+	color: blue;
+	text-decoration: underline;
 }
 .toplink:hover {
-    color: hotpink;
-    text-decoration: underline;
+	color: hotpink;
+	text-decoration: underline;
 }
 .toplink:active {
-    color: green;
-    text-decoration: underline;
+	color: green;
+	text-decoration: underline;
 }
 
 /* adapt right leaflet controls when sidebar pushes them */
 @media screen and (max-width: 767px) {
-    .leaflet-top.leaflet-right { right:40px; }
+	.leaflet-top.leaflet-right { right:40px; }
 }
 @media screen and (max-width: 767px) {
-    .sidebar {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: auto;
-        bottom: auto;
-    }
+	.sidebar {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: auto;
+		bottom: auto;
+	}
 }
 .ui-widget-header {
-    background: none;
-    background-color: var(--color-primary);
+	background: none;
+	background-color: var(--color-primary);
 }
 
 div#filterDiv input[type=checkbox] {
-    margin-left: 5px;
+	margin-left: 5px;
 }
 div#phonetrackstats input[type=checkbox],
 div#options input[type=checkbox],
 .followdevice,
 div#filterDiv input[type=checkbox] {
-    /* Double-sized Checkboxes */
-    -ms-transform: scale(1.5); /* IE */
-    -moz-transform: scale(1.5); /* FF */
-    -webkit-transform: scale(1.5); /* Safari and Chrome */
-    -o-transform: scale(1.5); /* Opera */
-    padding: 5px;
-    min-height: 0px;
+	/* Double-sized Checkboxes */
+	-ms-transform: scale(1.5); /* IE */
+	-moz-transform: scale(1.5); /* FF */
+	-webkit-transform: scale(1.5); /* Safari and Chrome */
+	-o-transform: scale(1.5); /* Opera */
+	padding: 5px;
+	min-height: 0px;
 }
 div#options input {
-    padding: 5px;
-    min-height: 0px;
+	padding: 5px;
+	min-height: 0px;
 }
 div#options button {
-    padding: 7px 4px;
+	padding: 7px 4px;
 }
 #linkhint {
-    font-size: 10px;
-    font-style: italic;
+	font-size: 10px;
+	font-style: italic;
 }
 .smallbutton {
-    font-size:10px;
+	font-size:10px;
 }
 .leaflet-control-layers {
-    background-color: var(--color-main-background) !important;
-    color: var(--color-main-text) !important;
+	background-color: var(--color-main-background) !important;
+	color: var(--color-main-text) !important;
 }
 .leaflet-control-layers-selector,
 button.ui-button {
-    min-height: 0px;
+	min-height: 0px;
 }
 div#logofolder {
-    display: grid;
-    grid-template: 85% 15% / min-content 1fr;
+	display: grid;
+	grid-template: 85% 15% / min-content 1fr;
 }
 div#logofolder p.version {
-    grid-row: 2;
-    text-align: center;
+	grid-row: 2;
+	text-align: center;
 }
 div#logo{
-    grid-column: 1;
-    grid-row: 1/2;
+	grid-column: 1;
+	grid-row: 1/2;
 }
 div#logofolder label {
-    padding: 0px 5px 0px 5px;
-    text-align: right;
-    margin-top: auto;
-    margin-bottom: auto;
+	padding: 0px 5px 0px 5px;
+	text-align: right;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 #lastlegend {
-    grid-column: 1/3;
+	grid-column: 1/3;
 }
 #overlayserveradd, #mapboxtileserveradd, #tileserveradd, #tilewmsserveradd, #overlaywmsserveradd {
-    display: grid;
-    grid-template-columns: 35% 65%;
+	display: grid;
+	grid-template-columns: 35% 65%;
 }
 #mapboxtileserveradd       p,
 #tileserveradd       p,
 #tilewmsserveradd    p,
 #overlaywmsserveradd p,
 #overlayserveradd    p{
-    margin-top: auto;
-    margin-bottom: auto;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 #mapboxtileserveradd input[type=checkbox],
 #tileserveradd input[type=checkbox],
 #tilewmsserveradd input[type=checkbox],
 #overlaywmsserveradd input[type=checkbox],
 #overlayserveradd input[type=checkbox]{
-    margin-right: auto;
+	margin-right: auto;
 }
 #mapboxtileserveradd input[type=text],
 #tileserveradd input[type=text],
 #tilewmsserveradd input[type=text],
 #overlaywmsserveradd input[type=text],
 #overlayserveradd input[type=text]{
-    width:100%;
+	width:100%;
 }
 .metadatalink {
-    display: block;
-    text-align: center;
+	display: block;
+	text-align: center;
 }
 #mapboxtileserverdiv, #tileserverdiv, #tilewmsserverdiv,
 #overlayserverdiv, #overlaywmsserverdiv {
-    display: none;
+	display: none;
 }
 input[type=checkbox],
 .customtiletitle {
-    cursor: pointer !important;
+	cursor: pointer !important;
 }
 .sidebar {
-    z-index: 1990;
-    border-radius: var(--border-radius, 4px);
+	z-index: 1990;
+	border-radius: var(--border-radius, 4px);
 }
 .sharediv {
-    width: 100%;
+	width: 100%;
 }
 .namereservlist label,
 .usersharelist label {
-    cursor: default;
+	cursor: default;
 }
 .namereservlist li,
 .usersharelist li {
-    text-align: right;
+	text-align: right;
 }
 .usersharelist {
-    grid-column: 1/3;
+	grid-column: 1/3;
 }
 .usersharediv,
 .publicWatchUrlDiv {
-    display: grid;
-    grid-template-columns: 48% 48%;
+	display: grid;
+	grid-template-columns: 48% 48%;
 }
 .session {
-    border: 1px solid var(--color-text-lighter);
-    border-radius: var(--border-radius, 5px);
-    padding: 0 4px 0 4px;
-    margin-bottom: 5px;
+	border: 1px solid var(--color-text-lighter);
+	border-radius: var(--border-radius, 5px);
+	padding: 0 4px 0 4px;
+	margin-bottom: 5px;
 }
 .session h3 {
-    text-align: center;
+	text-align: center;
 }
 .session .moreUrls {
-    grid-column: 1/3;
+	grid-column: 1/3;
 }
 .moreUrls {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 }
 hr {
-    border: 0;
-    height: 1px;
-    background-color: var(--color-text-lighter);
+	border: 0;
+	height: 1px;
+	background-color: var(--color-text-lighter);
 }
 .moreUrls hr {
-    width: 100%;
-    color: var(--color-text-lighter);
+	width: 100%;
+	color: var(--color-text-lighter);
 }
 .moreUrls hr,
 .urlhint {
-    grid-column: 1/3;
+	grid-column: 1/3;
 }
 .moreUrls span {
-    width: 79%;
-    display: block;
-    float: left;
-    text-align: left;
+	width: 79%;
+	display: block;
+	float: left;
+	text-align: left;
 }
 .moreUrls button {
-    width: 19%;
-    float: left;
+	width: 19%;
+	float: left;
 }
 .moreLeft {
-    display: table-cell;
-    vertical-align: middle;
+	display: table-cell;
+	vertical-align: middle;
 }
 div.session input[type=text]{
-    width: 100%;
+	width: 100%;
 }
 input.addnamereserv {
-    width: 50% !important;
+	width: 50% !important;
 }
 div.session label,
 div.session p,
 .watchlabel,
 #logmediv label {
-    margin-top: auto;
-    margin-bottom: auto;
-    text-align: center;
+	margin-top: auto;
+	margin-bottom: auto;
+	text-align: center;
 }
 .watchSession i{
-    color: blue;
+	color: blue;
 }
 /*.sessionBar b {
-    float: left;
-    line-height: 40px;
+	float: left;
+	line-height: 40px;
 }
 .sessionBar > button {
-    float: right;
+	float: right;
 }*/
 .watchbutton {
-    float: left !important;
+	float: left !important;
 }
 .watchbutton i {
-    font-size: 16px;
+	font-size: 16px;
 }
 .watchbutton i.fa-toggle-off {
-    color: var(--color-text-lighter);
+	color: var(--color-text-lighter);
 }
 .deletereservedname:hover i,
 .deletePublicFilteredShare:hover i,
 .deleteusershare:hover i {
-    color: red;
+	color: red;
 }
 .watchbutton:hover i,
 .off:hover i,
@@ -358,7 +358,7 @@ div.session p,
 .zoomsession:hover i,
 .dropdowndevicebutton:hover i,
 .dropdownbutton:hover i {
-    color: var(--color-text-light);
+	color: var(--color-text-light);
 }
 .deletereservedname i,
 .deleteusershare i,
@@ -370,64 +370,64 @@ div.session p,
 .dropdownbutton i,
 .dropdowndevicebutton i,
 .sharediv i {
-    color: var(--color-text-lighter);
-    font-size: 16px;
+	color: var(--color-text-lighter);
+	font-size: 16px;
 }
 .publicsessionbutton .fa-toggle-off {
-    color: var(--color-text-lighter);
+	color: var(--color-text-lighter);
 }
 .publicsessionbutton .fa-toggle-on {
-    color: var(--color-primary);
+	color: var(--color-primary);
 }
 .reaffectDeviceDiv select {
-    width: 100%;
-    text-align: center;
+	width: 100%;
+	text-align: center;
 }
 .reaffectDeviceDiv button {
-    width: 15px;
-    height: 20px;
-    min-height: 20px;
-    text-align: center !important;
+	width: 15px;
+	height: 20px;
+	min-height: 20px;
+	text-align: center !important;
 }
 .reaffectDeviceDiv * {
-    padding: 0;
-    min-height: 12px;
-    height: 25px;
+	padding: 0;
+	min-height: 12px;
+	height: 25px;
 }
 .renameSessionInput {
-    display: none;
+	display: none;
 }
 .aliasDeviceInput,
 .renameDeviceInput {
-    display: none;
-    height: 28px;
-    min-height: 28px;
-    padding: 0 !important;
+	display: none;
+	height: 28px;
+	min-height: 28px;
+	padding: 0 !important;
 }
 .deletereservedname,
 .deleteusershare,
 .sessionBar button {
-    padding: 0;
-    margin-left: 0px;
-    margin-right: 2px;
-    width: 25px;
-    height: 25px;
-    border: 0px;
-    background: none;
+	padding: 0;
+	margin-left: 0px;
+	margin-right: 2px;
+	width: 25px;
+	height: 25px;
+	border: 0px;
+	background: none;
 }
 label[for=nbpointsload],
 label[for=cuttime],
 label[for=cutdistance] {
-    width: 50%;
-    display: inline-block;
+	width: 50%;
+	display: inline-block;
 }
 #nbpointsload,
 #cutdistance,
 #cuttime,
 #updateinterval {
-    width: 80px;
-    -moz-appearance: number-input;
-    -webkit-appearance: initial;
+	width: 80px;
+	-moz-appearance: number-input;
+	-webkit-appearance: initial;
 }
 input[role=altitude],
 input[role=speed],
@@ -435,123 +435,123 @@ input[role=bearing],
 input[role=satellites],
 input[role=battery],
 input[role=precision] {
-    width: 70px !important;
-    height: 15px !important;
+	width: 70px !important;
+	height: 15px !important;
 }
 #filterPointsTable {
-    width: 100%;
-    border-radius: var(--border-radius, 4px);
-    padding: 5px;
+	width: 100%;
+	border-radius: var(--border-radius, 4px);
+	padding: 5px;
 }
 #filterPointsTable td {
-    padding: 3px;
+	padding: 3px;
 }
 #filterPointsTable input[type=number].time {
-    width: 44px !important;
+	width: 44px !important;
 }
 #filterPointsTable td {
-    word-wrap: break-word;
-    white-space: normal;
+	word-wrap: break-word;
+	white-space: normal;
 }
 .filterDelimiterLine td {
-    border-top: solid 1px var(--color-border);
+	border-top: solid 1px var(--color-border);
 }
 .dateminmaxcell td {
    text-align: center;
 }
 .editPoint td {
-    height: 29px !important;
+	height: 29px !important;
 }
 .editPoint td * {
-    margin: 1px 1px 1px 0 !important;
+	margin: 1px 1px 1px 0 !important;
 }
 .leaflet-popup-content button {
-    min-height: 10px !important;
-    height: 27px !important;
-    padding: 3px 3px 3px 3px !important;
+	min-height: 10px !important;
+	height: 27px !important;
+	padding: 3px 3px 3px 3px !important;
 }
 .editPoint input[role=minute],
 .editPoint input[role=hour],
 .editPoint input[role=second] {
-    width: 42px !important;
-    height: 27px !important;
+	width: 42px !important;
+	height: 27px !important;
 }
 table.editPoint input[type=text] {
-    height: 27px;
-    width: 100%;
-    padding: 0px 3px 0px 3px;
+	height: 27px;
+	width: 100%;
+	padding: 0px 3px 0px 3px;
 }
 input[role=date] {
-    height: 15px;
-    padding: 0px;
+	height: 15px;
+	padding: 0px;
 }
 .valideditpoint, .deletepoint, .canceleditpoint, #validaddpoint, .movepoint {
-    height: 15px;
-    padding: 1px 8px 1px 8px;
+	height: 15px;
+	padding: 1px 8px 1px 8px;
 }
 #addPointSession, #addPointDevice {
-    max-width: 60%;
+	max-width: 60%;
 }
 input[type=date] {
-    width: 150px;
+	width: 150px;
 }
 .proximDiv input[type=number],
 #filterPointsTable input[type=number],
 .editPoint input[type=number] {
-    -moz-appearance: number-input !important;
-    -webkit-appearance: initial !important;
-    padding: 5px !important;
+	-moz-appearance: number-input !important;
+	-webkit-appearance: initial !important;
+	padding: 5px !important;
 }
 .editPoint input[type=number] {
-    min-height: 0px !important;
-    height: 27px !important;
+	min-height: 0px !important;
+	height: 27px !important;
 }
 .watchlabeldiv {
-    display: grid;
-    grid-template-columns: 80% 20%;
+	display: grid;
+	grid-template-columns: 80% 20%;
 }
 .numberMarker, .numberBeginMarker {
-    text-align: center;
-    width: 12px !important;
-    height: 12px !important;
-    border-radius: 50%;
-    line-height:12px;
+	text-align: center;
+	width: 12px !important;
+	height: 12px !important;
+	border-radius: 50%;
+	line-height:12px;
 }
 .numberMarker {
-    background-color: rgba(0, 255, 0, 0.6);
+	background-color: rgba(0, 255, 0, 0.6);
 }
 #sessionnameinput {
-    width: 100px;
+	width: 100px;
 }
 #logmediv {
-    display: none;
+	display: none;
 }
 #logmesubdiv {
-    display: grid;
-    grid-template-columns: 65% 35%;
+	display: grid;
+	grid-template-columns: 65% 35%;
 }
 ul.devicelist li .deviceLabel{
-    cursor: pointer;
+	cursor: pointer;
 }
 .filteredshare {
-    padding: 5px 5px 5px 5px;
+	padding: 5px 5px 5px 5px;
 }
 #filterbookmarks li,
 ul.devicelist > li {
-    /*height: 40px;*/
-    padding: 5px 0px 5px 0px;
+	/*height: 40px;*/
+	padding: 5px 0px 5px 0px;
 }
 ul.devicelist {
-    margin-left: 20px;
+	margin-left: 20px;
 }
 .followdevice {
-    height: 16px !important;
-    min-height: 16px !important;
-    padding: 0px 0px 0px 0px !important;
-    margin: 5px 5px 5px 5px !important;
-    line-height: 16px !important;
-    float: right;
-    margin-left: 4px !important;
+	height: 16px !important;
+	min-height: 16px !important;
+	padding: 0px 0px 0px 0px !important;
+	margin: 5px 5px 5px 5px !important;
+	line-height: 16px !important;
+	float: right;
+	margin-left: 4px !important;
 }
 .toggleLineDevice,
 .toggleAutoZoomDevice,
@@ -559,631 +559,631 @@ ul.devicelist {
 .toggleProxim,
 .zoomdevicebutton,
 .dropdowndevicebutton {
-    padding: 0;
-    margin: 0;
-    width: 25px;
-    height: 25px;
-    min-height: 0px;
-    margin-right: 2px;
-    border: 0px;
-    background: none;
+	padding: 0;
+	margin: 0;
+	width: 25px;
+	height: 25px;
+	min-height: 0px;
+	margin-right: 2px;
+	border: 0px;
+	background: none;
 }
 .off i,
 .toggleGeofences i,
 .toggleProxim i,
 .zoomdevicebutton i {
-    color: var(--color-text-lighter);
+	color: var(--color-text-lighter);
 }
 .off i {
-    color: var(--color-text-lighter);
+	color: var(--color-text-lighter);
 }
 .deleteDevice:hover i {
-    color: red;
+	color: red;
 }
 .deviceLabel {
-    margin: 0 !important;
-    padding-left: 5px;
+	margin: 0 !important;
+	padding-left: 5px;
 }
 .sessionBar {
-    font-size: 14px;
-    height: 40px;
+	font-size: 14px;
+	height: 40px;
 }
 .deviceLabel {
-    overflow-x: auto;
-    overflow-y: hidden;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 .devinteractline button {
-    margin-top: auto;
-    margin-bottom: auto;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 .devinteractline {
-    display: grid;
-    grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	display: grid;
+	grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .sessionBar {
-    display: grid;
-    grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	display: grid;
+	grid-template-columns: 1fr 20fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 .renameSessionInput,
 .sessionName {
-    /*width: 30% !important;*/
-    padding-top: 8px;
-    height: 40px;
-    /*float: left;*/
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
+	/*width: 30% !important;*/
+	padding-top: 8px;
+	height: 40px;
+	/*float: left;*/
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
 }
 .renameSessionInput {
-    margin: 0px;
-    height: 30px;
+	margin: 0px;
+	height: 30px;
 }
 #zoomallbutton {
-    height: 50px !important;
+	height: 50px !important;
 }
 #newsessiondiv {
-    display: none;
+	display: none;
 }
 .devicecolor {
-    width: 15px;
-    height: 15px;
-    margin: 5px 0px 5px 0px;
-    cursor: pointer;
-    margin-top: auto;
-    margin-bottom: auto;
+	width: 15px;
+	height: 15px;
+	margin: 5px 0px 5px 0px;
+	cursor: pointer;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 
 /*.dropdownbutton:hover,*/
 .dropdowndevicebutton:focus,
 .dropdownbutton:focus {
-    background-color: var(--color-background-dark);
+	background-color: var(--color-background-dark);
 }
 .reaffectDeviceDiv,
 .devicelist .dropdown-content {
-    margin-top: 30px;
+	margin-top: 30px;
 }
 .reaffectDeviceDiv,
 .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 8px;
-    padding: 3px 7px 3px 7px;
-    background-color: var(--color-main-background);
-    width: 250px;
-    filter: drop-shadow(0 1px 3px var(--color-box-shadow));
-    z-index: 1;
-    border-radius: var(--border-radius, 4px);
+	display: none;
+	position: absolute;
+	right: 8px;
+	padding: 3px 7px 3px 7px;
+	background-color: var(--color-main-background);
+	width: 250px;
+	filter: drop-shadow(0 1px 3px var(--color-box-shadow));
+	z-index: 1;
+	border-radius: var(--border-radius, 4px);
 }
 .reaffectDeviceDiv button i,
 .dropdown-content button i {
-    color: var(--color-main-text);
-    font-size: 16px;
+	color: var(--color-main-text);
+	font-size: 16px;
 }
 .publicsessionbutton,
 .reaffectDeviceDiv button,
 .dropdown-content > button {
-    width: 100%;
-    text-align: left;
-    display: block;
-    border: 0px;
-    margin-top: 4px;
+	width: 100%;
+	text-align: left;
+	display: block;
+	border: 0px;
+	margin-top: 4px;
 }
 .dropdown-content button.export {
-    border: 0px;
+	border: 0px;
 }
 .dropdown-content button.export,
 .dropdown-content input[role=exportname] {
-    width:45% !important;
+	width:45% !important;
 }
 .show {display:block;}
 .ui-widget {
-    z-index: 9999;
+	z-index: 9999;
 }
 #canceladdpoint, #explainaddpoint {
-    display: none;
+	display: none;
 }
 .stattable {
-    width: 100%;
+	width: 100%;
 }
 .stattable th {
-    text-align: center;
-    font-weight: bold;
+	text-align: center;
+	font-weight: bold;
 }
 .stattable th,
 .stattable td {
-    border: 1px solid var(--color-border);
-    padding: 0px 5px 0px 5px;
-    border-radius: 0;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: initial;
+	border: 1px solid var(--color-border);
+	padding: 0px 5px 0px 5px;
+	border-radius: 0;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	white-space: initial;
 }
 .stattable td {
-    max-width: 120px;
+	max-width: 120px;
 
 }
 .rmarker, .smarker, .tmarker {
-    text-align: center;
-    font-size: 16px;
+	text-align: center;
+	font-size: 16px;
 }
 .rmarker, .smarker {
-    border-width: 4px;
-    border-style: solid;
+	border-width: 4px;
+	border-style: solid;
 }
 .rmarker {
-    border-radius: 50%;
+	border-radius: 50%;
 }
 .tmarker b {
-    position: absolute;
-    left: -4px;
+	position: absolute;
+	left: -4px;
 }
 .rdevicecolor {
-    border-radius: 50%;
+	border-radius: 50%;
 }
 .sdevicecolor {
 }
 .tdevicecolor {
-    width: 0px !important;
-    height: 0px !important;
-    border-left: 7px solid transparent !important;
-    border-right: 7px solid transparent !important;
-    border-bottom-width: 15px;
-    border-bottom-style: solid;
+	width: 0px !important;
+	height: 0px !important;
+	border-left: 7px solid transparent !important;
+	border-right: 7px solid transparent !important;
+	border-bottom-width: 15px;
+	border-bottom-style: solid;
 }
 .sidebar-tabs, .sidebar-content {
-    background-color: var(--color-main-background) !important;
+	background-color: var(--color-main-background) !important;
 }
 .sidebar-tabs>li:hover, .sidebar-tabs>ul>li:hover {
-    background-color: var(--color-background-dark) !important;
+	background-color: var(--color-background-dark) !important;
 }
 .sidebar-tabs > li.active {
-    background-color: var(--color-background-darker) !important;
+	background-color: var(--color-background-darker) !important;
 }
 .leaflet-control-locate.active .fa {
-    color: var(--color-primary);
+	color: var(--color-primary);
 }
 .leaflet-control-locate .fa {
-    color: var(--color-main-text);
+	color: var(--color-main-text);
 }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-    background-color: var(--color-main-background) !important;
+	background-color: var(--color-main-background) !important;
 }
 .networkicon {
-    width: 30px;
-    height: 30px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: var(--color-main-text);
-    mask: url('images/network.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
+	width: 30px;
+	height: 30px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: var(--color-main-text);
+	mask: url('images/network.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
 }
 .normalzoomicon {
-    width: 30px;
-    height: 30px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: var(--color-main-text);
-    mask: url('images/normalzoom.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/normalzoom.svg') no-repeat 50% 50% !important;
+	width: 30px;
+	height: 30px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: var(--color-main-text);
+	mask: url('images/normalzoom.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/normalzoom.svg') no-repeat 50% 50% !important;
 }
 .pointtooltipicon {
-    width: 30px;
-    height: 30px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: var(--color-main-text);
-    mask: url('images/pointtooltip.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/pointtooltip.svg') no-repeat 50% 50% !important;
+	width: 30px;
+	height: 30px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: var(--color-main-text);
+	mask: url('images/pointtooltip.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/pointtooltip.svg') no-repeat 50% 50% !important;
 }
 .autozoomicon {
-    width: 30px;
-    height: 30px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: var(--color-main-text);
-    mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
+	width: 30px;
+	height: 30px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: var(--color-main-text);
+	mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
 }
 label[for=autozoom] i {
-    width: 20px;
-    height: 16px;
-    min-height: 2px;
-    margin-left: 0px;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-    mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
-    mask-size: 20px !important;
-    -webkit-mask-size: 20px !important;
+	width: 20px;
+	height: 16px;
+	min-height: 2px;
+	margin-left: 0px;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	padding: 0 !important;
+	mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
+	mask-size: 20px !important;
+	-webkit-mask-size: 20px !important;
 }
 label[for=showtime] i {
-    width: 20px;
-    height: 16px;
-    min-height: 2px;
-    margin-left: 0px;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-    mask: url('images/pointtooltip.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/pointtooltip.svg') no-repeat 50% 50% !important;
-    mask-size: 19px !important;
-    -webkit-mask-size: 19px !important;
+	width: 20px;
+	height: 16px;
+	min-height: 2px;
+	margin-left: 0px;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	padding: 0 !important;
+	mask: url('images/pointtooltip.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/pointtooltip.svg') no-repeat 50% 50% !important;
+	mask-size: 19px !important;
+	-webkit-mask-size: 19px !important;
 }
 label[for=pubviewline] i ,
 label[for=viewmove] i {
-    width: 20px;
-    height: 16px;
-    min-height: 2px;
-    margin-left: 0px;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-    mask: url('images/network.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
-    mask-size: 19px !important;
-    -webkit-mask-size: 19px !important;
+	width: 20px;
+	height: 16px;
+	min-height: 2px;
+	margin-left: 0px;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	padding: 0 !important;
+	mask: url('images/network.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
+	mask-size: 19px !important;
+	-webkit-mask-size: 19px !important;
 }
 .toggleGeofences {
-    width: 25px;
-    height: 25px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: var(--color-text-lighter);
-    mask: url('images/geofence.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/geofence.svg') no-repeat 50% 50% !important;
-    mask-size: 70% !important;
-    -webkit-mask-size: 70% !important;
+	width: 25px;
+	height: 25px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: var(--color-text-lighter);
+	mask: url('images/geofence.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/geofence.svg') no-repeat 50% 50% !important;
+	mask-size: 70% !important;
+	-webkit-mask-size: 70% !important;
 }
 .toggleProxim {
-    width: 25px;
-    height: 25px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: var(--color-text-lighter);
-    mask: url('images/proximity.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/proximity.svg') no-repeat 50% 50% !important;
-    mask-size: 70% !important;
-    -webkit-mask-size: 70% !important;
+	width: 25px;
+	height: 25px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: var(--color-text-lighter);
+	mask: url('images/proximity.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/proximity.svg') no-repeat 50% 50% !important;
+	mask-size: 70% !important;
+	-webkit-mask-size: 70% !important;
 }
 .toggleLineDevice {
-    width: 25px;
-    height: 25px;
-    margin-left: 4px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: var(--color-text-lighter);
-    mask: url('images/network.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
+	width: 25px;
+	height: 25px;
+	margin-left: 4px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: var(--color-text-lighter);
+	mask: url('images/network.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
 }
 .toggleGeofences:hover,
 .toggleProxim:hover,
 .toggleLineDevice.off:hover,
 .toggleAutoZoomDevice.off:hover {
-    background-color: var(--color-text-light);
+	background-color: var(--color-text-light);
 }
 .toggleAutoZoomDevice {
-    width: 25px;
-    height: 25px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background-color: var(--color-text-lighter);
-    mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
-    -webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
+	width: 25px;
+	height: 25px;
+	margin-top: auto;
+	margin-bottom: auto;
+	background-color: var(--color-text-lighter);
+	mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
+	-webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
 }
 .geofencesDiv {
-    clear: both;
+	clear: both;
 }
 .addgeofencecenter {
-    float:left;
+	float:left;
 }
 .geonortheastbutton,
 .geosouthwestbutton {
-    padding: 2px;
+	padding: 2px;
 }
 .resetFilterButton {
-    width: 25px;
-    height: 25px;
-    padding: 0;
+	width: 25px;
+	height: 25px;
+	padding: 0;
 }
 #sidebarFdis {
-    color: var(--color-main-text);
+	color: var(--color-main-text);
 }
 #sidebarFen,
 #sidebarFdis {
-    font-size: 10px;
-    float: right;
-    margin-right: 7px;
-    margin-top: 2px;
+	font-size: 10px;
+	float: right;
+	margin-right: 7px;
+	margin-top: 2px;
 }
 .editPoint td > i {
-    margin-right: 5px
+	margin-right: 5px
 }
 .dropdown-content button:hover,
 .reaffectDeviceDiv button:hover {
-    border: 1px solid var(--color-border);
+	border: 1px solid var(--color-border);
 }
 div#createimportsessiondiv button {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
 }
 .publicFilteredShareUrl {
-    width: 80% !important;
+	width: 80% !important;
 }
 #filterbookmarks li button:hover i,
 .proximlist li button:hover i,
 .geofencelist li button:hover i{
-    color: var(--color-main-text);
+	color: var(--color-main-text);
 }
 #filterbookmarks li button i,
 .proximlist li button i,
 .geofencelist li button i{
-    color: var(--color-text-lighter);
+	color: var(--color-text-lighter);
 }
 #filterbookmarks li button,
 .proximlist li button,
 .geofencelist li button,
 .deletePublicFilteredShare {
-    padding: 5px 5px 5px 5px;
-    margin: 0;
-    border: 0px;
-    background: none;
+	padding: 5px 5px 5px 5px;
+	margin: 0;
+	border: 0px;
+	background: none;
 }
 input[role=geofencify],
 input[role=lastposonly] {
-    min-height: 14px;
-    height: 14px;
+	min-height: 14px;
+	height: 14px;
 }
 .autopurgediv {
-    clear:both;
+	clear:both;
 }
 .autopurgediv div,
 .autopurgediv select,
 .autoexportdiv div,
 .shapediv div,
 .autoexportdiv select {
-    width: 45%;
-    float: left;
+	width: 45%;
+	float: left;
 }
 .autopurgediv div,
 .shapediv div,
 .autoexportdiv div {
-    padding: 0px 8px 0px 8px;
-    font-weight: bold;
-    color: var(--color-text-lighter);
+	padding: 0px 8px 0px 8px;
+	font-weight: bold;
+	color: var(--color-text-lighter);
 }
 .information {
-    text-align: left !important;
-    font-size: 12px;
-    line-height: normal;
+	text-align: left !important;
+	font-size: 12px;
+	line-height: normal;
 }
 label[for=autoexportpath], #autoexportpath {
-    width: 49%;
+	width: 49%;
 }
 .urlhelpbutton {
-    padding: 0;
-    margin: 0;
-    width: 25px;
-    height: 25px;
-    border: 0px;
-    background: none;
+	padding: 0;
+	margin: 0;
+	width: 25px;
+	height: 25px;
+	border: 0px;
+	background: none;
 }
 .urlhelpbutton i {
-    float: right;
+	float: right;
 }
 #trackurlinput {
-    width: 100%;
+	width: 100%;
 }
 #trackurldialog {
-    background-color: var(--color-main-background);
-    color: var(--color-main-text);
-    font-size: 12px;
+	background-color: var(--color-main-background);
+	color: var(--color-main-text);
+	font-size: 12px;
 }
 #trackurlqrcode {
-    width: 200px;
+	width: 200px;
 }
 #countdown {
-    display: inline;
+	display: inline;
 }
 #filterbookmarks li,
 .proximlist > li,
 .geofencelist > li {
-    padding: 0 !important;
+	padding: 0 !important;
 }
 #filterbookmarks li,
 .proximlist li,
 .geofencelist li,
 .filteredshare {
-    border: solid 1px var(--color-text-lighter);
-    border-radius: var(--border-radius, 4px);
+	border: solid 1px var(--color-text-lighter);
+	border-radius: var(--border-radius, 4px);
 }
 .filteredshare input[role=device] {
-    width: 49% !important;
+	width: 49% !important;
 }
 button.addgeofencebutton,
 input.geofencename {
-    width: 49% !important;
+	width: 49% !important;
 }
 .leaflet-control-dialog-contents {
-    padding: 2px 0px !important;
-    overflow: visible !important;
+	padding: 2px 0px !important;
+	overflow: visible !important;
 }
 .leaflet-control-dialog-inner {
-    padding: 0px 0px !important;
-    overflow: visible !important;
+	padding: 0px 0px !important;
+	overflow: visible !important;
 }
 .leaflet-control-dialog i:not(.display) {
-    display: none;
+	display: none;
 }
 #loadingnotification {
-    padding-top: 7px;
+	padding-top: 7px;
 }
 .deletebookbutton,
 .applybookbutton,
 .deleteproximbutton,
 .zoomgeofencebutton,
 .deletegeofencebutton {
-    float: right;
+	float: right;
 }
 .booklabel,
 .proximlabel,
 .geofencelabel {
-    float: left;
-    line-height: 30px;
-    padding: 0px 10px 0px 10px;
+	float: left;
+	line-height: 30px;
+	padding: 0px 10px 0px 10px;
 }
 #filterbookmarks li,
 .proximlist li,
 .geofencelist li {
-    display: flow-root;
+	display: flow-root;
 }
 #statlabel {
-    display: none;
-    text-align: center;
+	display: none;
+	text-align: center;
 }
 .addproximdiv,
 .addgeofencediv {
-    border: 1px solid var(--color-border-dark);
-    border-radius: var(--border-radius, 4px);
-    padding: 5px;
+	border: 1px solid var(--color-border-dark);
+	border-radius: var(--border-radius, 4px);
+	padding: 5px;
 }
 .addgeofenceleft {
-    float: left;
+	float: left;
 }
 .addgeofenceright {
-    float: right;
+	float: right;
 }
 .leaflet-bottom {
-    position: fixed;
+	position: fixed;
 }
 .leaflet-popup-content {
-    margin: 7px 7px !important;
-    color: var(--color-main-text);
+	margin: 7px 7px !important;
+	color: var(--color-main-text);
 }
 .urlclosepost, .urlfarpost,
 .urlleavepost, .urlenterpost, .sendemail, .sendnotif {
-    min-height: 14px;
-    margin: 0;
+	min-height: 14px;
+	margin: 0;
 }
 .fencenorth, .fenceeast, .fencesouth, .fencewest {
-    width: 85px !important;
-    -moz-appearance: number-input !important;
-    -webkit-appearance: initial !important;
+	width: 85px !important;
+	-moz-appearance: number-input !important;
+	-webkit-appearance: initial !important;
 }
 #colorinput {
-    opacity: 0;
-    width: 0px;
-    height: 0px;
-    min-height: 0px;
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
+	opacity: 0;
+	width: 0px;
+	height: 0px;
+	min-height: 0px;
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
 }
 .sidebar.collapsed {
-    width: 42px;
+	width: 42px;
 }
 .lowlimit, .highlimit {
-    width: 80px;
+	width: 80px;
 }
 /* measurement tool */
 a.icon-ruler {
-    background-size: 70%;
+	background-size: 70%;
 }
 a.icon-ruler span {
-    color: var(--color-main-text);
+	color: var(--color-main-text);
 }
 /*.leaflet-bar.active span.fa,*/
 a.icon-active span {
-    color: var(--color-primary);
+	color: var(--color-primary);
 }
 /* easy button */
 .easy-button-button {
-    margin: 0 !important;
-    padding: 0 !important;
-    min-height: 30px !important;
-    background-color: var(--color-background-dark) !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	min-height: 30px !important;
+	background-color: var(--color-background-dark) !important;
 }
 .easy-button-button span.fa{
-    margin-top: auto;
-    margin-bottom: auto;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 .leaflet-bar {
-    background-color: var(--color-main-background);
+	background-color: var(--color-main-background);
 }
 .leaflet-bar button, .leaflet-bar button:hover,
 .leaflet-touch .leaflet-bar a, .leaflet-touch .leaflet-bar a:hover {
-    background-color: var(--color-main-background);
-    border: 1px solid var(--color-border-dark);
-    color: var(--color-main-text);
+	background-color: var(--color-main-background);
+	border: 1px solid var(--color-border-dark);
+	color: var(--color-main-text);
 }
 .leaflet-bar button:hover, leaflet-bar a:hover {
   background-color: var(--color-background-darker);
 }
 #dummylogo {
-    display: none;
-    content: url("images/phonetrack.png");
+	display: none;
+	content: url("images/phonetrack.png");
 }
 /* jquery dialog */
 .ui-dialog-titlebar-close {
-    height: 22px !important;
-    background-image: none !important;
-    background-color: var(--color-main-background) !important;
+	height: 22px !important;
+	background-image: none !important;
+	background-color: var(--color-main-background) !important;
 }
 .ui-dialog-titlebar-close i{
-    color: var(--color-main-text) !important;
+	color: var(--color-main-text) !important;
 }
 .ui-dialog-titlebar {
-    background: none;
-    border: 0px;
-    background-color: var(--color-primary);
+	background: none;
+	border: 0px;
+	background-color: var(--color-primary);
 }
 .ui-dialog-content {
-    background-color: var(--color-main-background) !important;
-    color: var(--color-main-text) !important;
+	background-color: var(--color-main-background) !important;
+	color: var(--color-main-text) !important;
 }
 .ui-dialog{
-    z-index: 2001 !important ;
+	z-index: 2001 !important ;
 }
 #quotareached {
-    width: 100%;
+	width: 100%;
 }
 .geofenceTextValues, .proximTextValues {
-    text-align: left !important;
-    padding: 0px 10px 5px 10px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    clear: both;
-    display: none;
+	text-align: left !important;
+	padding: 0px 10px 5px 10px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	clear: both;
+	display: none;
 }
 .geofenceTextValues li, .proximTextValues li {
-    padding: 5px 5px 5px 5px;
-    border-radius: var(--border-radius, 4px);
+	padding: 5px 5px 5px 5px;
+	border-radius: var(--border-radius, 4px);
 }
 .checkboxes {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 100%;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 100%;
 }
 .checkboxes * {
-    margin-top: 5px;
-    margin-bottom: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 /* RANGE */
 #linewidthlabel,
 #pointradiuslabel,
 #pointlinealphalabel {
-    text-align: center;
+	text-align: center;
 }
 .rangediv {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    display: grid;
-    grid-template: 1fr 1fr 1fr / 35% 15% 50%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	display: grid;
+	grid-template: 1fr 1fr 1fr / 35% 15% 50%;
 }
 .rangediv * {
-    margin-top: auto;
-    margin-bottom: auto;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 input[type=range] {
   background: var(--color-main-background, white);
@@ -1278,52 +1278,52 @@ input[type=range]:focus::-ms-fill-upper {
 }
 /* END RANGE */
 #topbuttons {
-    min-height: 70px;
+	min-height: 70px;
 }
 .activeMaskedButton {
-    background: var(--color-main-text) !important;
+	background: var(--color-main-text) !important;
 }
 .activeButton i {
-    color: var(--color-main-text) !important;
+	color: var(--color-main-text) !important;
 }
 .shareCompleteIcon {
-    background-color: inherit;
-    border: 0px;
-    height: 35px;
-    padding-top: 13px;
+	background-color: inherit;
+	border: 0px;
+	height: 35px;
+	padding-top: 13px;
 }
 .shareCompleteLink {
-    line-height: 35px;
+	line-height: 35px;
 }
 .ui-autocomplete {
-    z-index: 9999 !important;
+	z-index: 9999 !important;
 }
 .icon-shar.sharesession {
-    height: 34px;
+	height: 34px;
 }
 .icon-shar.sharesession:hover {
-    background-color: var(--color-main-text) !important;
+	background-color: var(--color-main-text) !important;
 }
 .icon-shar.sharesession.nc-theming-main-foreground {
-    background-color: var(--color-primary) !important;
+	background-color: var(--color-primary) !important;
 }
 .icon-shar {
-    background-color: var(--color-main-text) !important;
-    mask: url(images/shar.svg) no-repeat;
-    mask-size: 16px 16px;
-    background-color: var(--color-text-lighter) !important;
-    mask-position: center;
+	background-color: var(--color-main-text) !important;
+	mask: url(images/shar.svg) no-repeat;
+	mask-size: 16px 16px;
+	background-color: var(--color-text-lighter) !important;
+	mask-position: center;
 }
 .fa-stack {
-    width: 2em !important;
+	width: 2em !important;
 }
 #hover-timestamp {
-    font-weight: bold;
-    height: 34px;
-    line-height: 34px;
-    padding-left: 50px;
+	font-weight: bold;
+	height: 34px;
+	line-height: 34px;
+	padding-left: 50px;
 }
 .popupButtons {
-    display: grid;
-    grid-template: 1fr / 1fr 1fr;
+	display: grid;
+	grid-template: 1fr / 1fr 1fr;
 }

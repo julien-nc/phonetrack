@@ -17,14 +17,14 @@ use OCP\AppFramework\Db\Mapper;
 
 class DeviceMapper extends Mapper {
 
-    public function __construct(IDBConnection $db) {
-        parent::__construct($db, 'phonetrack_devices');
-    }
+	public function __construct(IDBConnection $db) {
+		parent::__construct($db, 'phonetrack_devices');
+	}
 
-    public function find($id) {
-        $sql = 'SELECT * FROM `*PREFIX*phonetrack_devices` ' .
-            'WHERE `id` = ?';
-        return $this->findEntity($sql, [$id]);
-    }
+	public function find($id) {
+		$sql = 'SELECT * FROM `*PREFIX*phonetrack_devices` ' .
+			'WHERE `id` = ?';
+		return $this->findEntity($sql, [$id]);
+	}
 
 }

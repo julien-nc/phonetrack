@@ -1,10 +1,10 @@
 #app {
-    width: 100%;
+	width: 100%;
 }
 #map *{
-    box-sizing: content-box;
+	box-sizing: content-box;
 }
 /* jquery dialog */
 .ui-dialog{
-    z-index: 2001 !important ;
+	z-index: 2001 !important ;
 }

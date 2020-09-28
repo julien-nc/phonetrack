@@ -16,20 +16,20 @@ use OCP\AppFramework\Db\Entity;
 
 class Device extends Entity {
 
-    protected $name;
-    protected $alias;
-    protected $sessionid;
-    protected $color;
-    protected $shape;
-    protected $nametoken;
+	protected $name;
+	protected $alias;
+	protected $sessionid;
+	protected $color;
+	protected $shape;
+	protected $nametoken;
 
-    public function __construct() {
-        $this->addType('id', 'integer');
-        $this->addType('name', 'string');
-        $this->addType('alias', 'string');
-        $this->addType('sessionid', 'string');
-        $this->addType('color', 'string');
-        $this->addType('shape', 'string');
-        $this->addType('nametoken', 'string');
-    }
+	public function __construct() {
+		$this->addType('id', 'integer');
+		$this->addType('name', 'string');
+		$this->addType('alias', 'string');
+		$this->addType('sessionid', 'string');
+		$this->addType('color', 'string');
+		$this->addType('shape', 'string');
+		$this->addType('nametoken', 'string');
+	}
 }
