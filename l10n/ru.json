@@ -1,5 +1,4 @@
 { "translations": {
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "Устройство {device} сессии {session} вошел в зону {geofence}",
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "Устройство {device} сессии {session} вышел из зоны {geofence}",
     "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "Устройство {device} сессии {session} находится ближе чем {meters} м от устройства {device2} сессии {session2}",
@@ -9,6 +8,7 @@
     "You stopped sharing session {session} with {who}" : "Вы перестали делиться сеансом {session} с {who}",
     "PhoneTrack session {session} is not shared with {who} anymore" : "Сеанс PhoneTrack {session} больше не разделен с {who}",
     "A PhoneTrack client" : "Клиент PhoneTrack",
+    "PhoneTrack" : "PhoneTrack",
     "Changes in the <strong>PhoneTrack app</strong>" : "Изменения в приложении <strong>PhoneTrack</strong>",
     "PhoneTrack proximity alert (%s and %s)" : "Предупреждение о сближении (%s и %s)",
     "PhoneTrack device %s is now closer than %s m to %s." : "Устройство PhoneTrack %s ближе чем %s м к %s.",

@@ -1,18 +1,18 @@
 # PhoneTrack Nextcloud application
 
-📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
+PhoneTrack është një aplikacion Nextcloud për të gjurmuar dhe ruajtur vendndodhjet e pajisjeve mobile.
 
-🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
+Ai merr informacion nga aplikacionet e regjistrimit të celularëve dhe i shfaq ato në mënyrë dinamike në hartë.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+Na ndihmoni ta përkthejmë këtë aplikacion te [Projekti PhoneTrack Crowding](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+Shikoni mënyra të tjera për të ndihmuar te [udhëzimet për ndihmë](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-How to use PhoneTrack :
+Si të përdorni PhoneTrack:
 
-* Create a tracking session.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+* Krijoni një seancë gjurmimi.
+* Vendosni lidhjen e regjistrimit \ * te pajisjet e lëvizshëme. Zgjidhni [ metodën e regjistrimit ](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) që preferoni.
+* Shikoni vendndodhjen e pajisjeve të seancave në kohë reale (ose jo) në PhoneTrack ose ndani atë me faqet publike.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
 

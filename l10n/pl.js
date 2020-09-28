@@ -1,7 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "Urządzenie {device} z sesji {session} w PhoneTrack weszło w wyznaczoną strefę obszaru {geofence}",
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "Urządzenie {device} z sesji {session} w PhoneTrack wyszło z wyznaczonej strefy obszaru {geofence}",
     "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "Urządzenie {device} z sesji {session} w PhoneTrack jest teraz bliżej niż {meters} m od {device2} z sesji {session2}",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "You stopped sharing session {session} with {who}" : "Przestałeś udostępniać sesję {session} dla {who}",
     "PhoneTrack session {session} is not shared with {who} anymore" : "Sesja {session} w PhoneTrack nie jest już udostępniana dla {who}",
     "A PhoneTrack client" : "Klient PhoneTrack",
+    "PhoneTrack" : "PhoneTrack",
     "<strong>PhoneTrack geofences</strong> events" : "Zdarzenia <strong>wyznaczonej strefy obszaru PhoneTrack</strong>",
     "<strong>PhoneTrack device proximity</strong> events" : "Wydarzenia <strong>zbliżeniowe urządzenia w PhoneTrack</strong>",
     "Changes in the <strong>PhoneTrack app</strong>" : "Zmiany w aplikacji <strong>PhoneTrack</strong>",
@@ -23,8 +23,8 @@ OC.L10N.register(
     "Watch session" : "Oglądaj sesję",
     "PhoneTrack public access" : "Dostęp publiczny PhoneTrack",
     "Log to session %s" : "Zaloguj się do sesji %s",
-    "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"." : "W sesji \"%s\", urządzenie \"%s\" weszło w wyznaczoną strefę \"%s\".",
-    "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"." : "W sesji \"%s\", urządzenie \"%s\" opuściło wyznaczoną strefę \"%s\".",
+    "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"." : "W sesji \"%s\" urządzenie \"%s\" weszło w wyznaczoną strefę \"%s\".",
+    "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"." : "W sesji \"%s\" urządzenie \"%s\" opuściło wyznaczoną strefę \"%s\".",
     "Device \"%s\" is now closer than %sm to \"%s\"." : "Urządzenie \"%s\" jest bliżej niż %sm do \"%s\".",
     "Device \"%s\" is now farther than %sm from \"%s\"." : "Urządzenie \"%s\" jest dalej niż %sm od \"%s\".",
     "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"." : "Limit ilości punktu (%s) został osiągnięty dla urządzenia \"%s\" w sesji \"%s\".",

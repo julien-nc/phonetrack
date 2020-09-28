@@ -1,9 +1,9 @@
 { "translations": {
-    "PhoneTrack" : "Phonetrack",
     "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "PhoneTrack zařízení {device} relace {session} vstoupilo do geooplocení {geofence}",
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "PhoneTrack zařízení {device} relace {session} opustilo geooplocení {geofence}",
     "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "PhoneTrack zařízení {device} relace {session} je nyní blíže než {meters} m od {device2} relace {session2}",
     "A PhoneTrack client" : "PhoneTrack klient",
+    "PhoneTrack" : "Phonetrack",
     "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack přiblížení (%s a %s)",
     "Geofencing alert" : "Geofencing výstraha",
     "Watch session" : "Sledovat relaci",

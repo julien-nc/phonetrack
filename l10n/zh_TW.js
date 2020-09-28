@@ -1,7 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "手機追蹤",
     "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "手機追蹤設備 {device} 的追蹤任務 {session} 已進入地理圍欄 {geofence}",
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "手機追蹤設備 {device} 的追蹤任務 {session} 已離開地理圍欄{geofence}",
     "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "手機追蹤設備 {device} 的追蹤任務 {session} 距離設備 {device2} 的追蹤任務 {session2} 小於 {meters} 米",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "You stopped sharing session {session} with {who}" : "你停止與 {who} 分享追蹤任務 {session}",
     "PhoneTrack session {session} is not shared with {who} anymore" : "手機追蹤已停止與 {who} 分享追蹤任務 {session}",
     "A PhoneTrack client" : "手機追蹤客戶",
+    "PhoneTrack" : "手機追蹤",
     "<strong>PhoneTrack geofences</strong> events" : "<strong>手機追蹤地理圍欄</strong> 事件",
     "<strong>PhoneTrack device proximity</strong> events" : "<strong>手機追蹤近接</strong> 事件",
     "PhoneTrack proximity alert (%s and %s)" : "手機追蹤近接警報(%s及%s)",

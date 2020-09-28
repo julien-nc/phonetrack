@@ -1,8 +1,8 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "PhoneTrack",
     "A PhoneTrack client" : "Odjemalec PhoneTrack",
+    "PhoneTrack" : "PhoneTrack",
     "Watch session" : "Seja za spremljanje",
     "Quota was successfully saved" : "Količinska omejitev je uspešno shranjena",
     "Failed to save quota" : "Shranjevanje količinske omejitve je spodletelo",

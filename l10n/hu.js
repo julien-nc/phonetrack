@@ -1,7 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "A {session} munkamenethez tartozó {device} PhoneTrack eszköz belépett a {geofence} geokerítésbe",
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "A {session} munkamenethez tartozó {device} PhoneTrack eszköz kilépett a {geofence} geokerítésből",
     "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "A {session} munkamenethez tartozó {device} PhoneTrack eszköz {meters} méteres közelségbe került a {session2} munkamenethez tartozó {device2} eszközhöz",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "You stopped sharing session {session} with {who}" : "A {session} PhoneTrack munkamenet megosztást visszavontad tőle: {who}",
     "PhoneTrack session {session} is not shared with {who} anymore" : "A {session} PhoneTrack munkamenet megosztását sikeresen visszavontad tőle: {who}",
     "A PhoneTrack client" : "PhoneTrack alkalmazás",
+    "PhoneTrack" : "PhoneTrack",
     "<strong>PhoneTrack geofences</strong> events" : "<strong>PhoneTrack geokerítés</strong> események",
     "<strong>PhoneTrack device proximity</strong> events" : "<strong>PhoneTrack eszközközelségi</strong> események",
     "Changes in the <strong>PhoneTrack app</strong>" : "Változások a <strong>PhoneTrack alkalmazásban</strong>",

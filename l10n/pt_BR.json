@@ -1,5 +1,4 @@
 { "translations": {
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "O dispositivo PhoneTrack {device} da sessão {session} inseriu a cerca geográfica {geofence}",
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "O dispositivo PhoneTrack {device} da sessão {session} saiu da cerca geográfica {geofence}",
     "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "O dispositivo PhoneTrack {device} da sessão {session} agora está mais próximo do que {meters} m do {device2} da sessão {session2}",
@@ -9,6 +8,7 @@
     "You stopped sharing session {session} with {who}" : "Você parou de compartilhar a sessão {session} com {who}",
     "PhoneTrack session {session} is not shared with {who} anymore" : "A sessão do PhoneTrack {session} não está sendo mais compartilhada com {who}",
     "A PhoneTrack client" : "Um cliente PhoneTrack",
+    "PhoneTrack" : "PhoneTrack",
     "<strong>PhoneTrack geofences</strong> events" : "eventos <strong> PhoneTrack geofences </strong>",
     "<strong>PhoneTrack device proximity</strong> events" : "Eventos de <strong> proximidade de dispositivo PhoneTrack </strong>",
     "Changes in the <strong>PhoneTrack app</strong>" : "Alterações no <strong> aplicativo PhoneTrack </strong>",
