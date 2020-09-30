@@ -8,3 +8,10 @@
 .ui-dialog{
 	z-index: 2001 !important ;
 }
+.ui-button-icon-only {
+	text-indent: unset !important;
+}
+.ui-button-icon-only .far,
+.ui-button-icon-only .fa {
+	padding-left: 1px;
+}
