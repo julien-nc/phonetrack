@@ -15,3 +15,6 @@
 .ui-button-icon-only .fa {
 	padding-left: 1px;
 }
+#body-public #content {
+	min-height: 100% !important;
+}

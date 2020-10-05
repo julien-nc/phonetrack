@@ -2463,6 +2463,8 @@ class PageController extends Controller {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
+			->allowEvalScript(true)
+			->addAllowedScriptDomain('*')
 			->addAllowedConnectDomain('*');
 		$response->setContentSecurityPolicy($csp);
 		return $response;
@@ -2667,11 +2669,12 @@ class PageController extends Controller {
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
-			//->addAllowedChildSrcDomain('*')
+			->addAllowedChildSrcDomain('*')
 			->addAllowedFrameDomain('*')
 			->addAllowedWorkerSrcDomain('*')
 			->addAllowedObjectDomain('*')
 			->addAllowedScriptDomain('*')
+			->allowEvalScript(true)
 			->addAllowedConnectDomain('*');
 		$csp->addAllowedFrameAncestorDomain('*');
 		$response->setContentSecurityPolicy($csp);
