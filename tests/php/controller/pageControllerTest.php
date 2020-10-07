@@ -17,6 +17,8 @@
  */
 namespace OCA\PhoneTrack\Controller;
 
+use Psr\Log\LoggerInterface;
+
 use \OCA\PhoneTrack\AppInfo\Application;
 
 class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
@@ -69,7 +71,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 		$this->config = $c->query('ServerContainer')->getConfig();
 
 	$this->sessionService = new \OCA\PhoneTrack\Service\SessionService(
-			$c->query('ServerContainer')->getLogger(),
+			$this->createMock(LoggerInterface::class),
 			$c->query('ServerContainer')->getL10N($c->query('AppName')),
 			new \OCA\PhoneTrack\Db\SessionMapper(
 				$c->query('ServerContainer')->getDatabaseConnection()
@@ -115,7 +117,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 			$c->getServer()->getShareManager(),
 			$c->getServer()->getAppManager(),
 			$c->getServer()->getUserManager(),
-			$c->query('ServerContainer')->getLogger(),
+			$this->createMock(LoggerInterface::class),
 			$c->query('ServerContainer')->getL10N($c->query('AppName')),
 			$this->activityManager,
 			new \OCA\PhoneTrack\Db\SessionMapper(
@@ -136,7 +138,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 			$c->getServer()->getShareManager(),
 			$c->getServer()->getAppManager(),
 			$c->getServer()->getUserManager(),
-			$c->query('ServerContainer')->getLogger(),
+			$this->createMock(LoggerInterface::class),
 			$c->query('ServerContainer')->getL10N($c->query('AppName')),
 			$this->activityManager2,
 			new \OCA\PhoneTrack\Db\SessionMapper(
@@ -158,7 +160,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 			$c->getServer()->getAppManager(),
 			$c->getServer()->getUserManager(),
 			$c->query('ServerContainer')->getL10N('phonetrack'),
-			$c->query('ServerContainer')->getLogger(),
+			$this->createMock(LoggerInterface::class),
 			$this->activityManager,
 			new \OCA\PhoneTrack\Db\SessionMapper(
 				$c->query('ServerContainer')->getDatabaseConnection()
@@ -178,7 +180,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 			$c->getServer()->getAppManager(),
 			$c->getServer()->getUserManager(),
 			$c->query('ServerContainer')->getL10N('phonetrack'),
-			$c->query('ServerContainer')->getLogger(),
+			$this->createMock(LoggerInterface::class),
 			$this->activityManager2,
 			new \OCA\PhoneTrack\Db\SessionMapper(
 				$c->query('ServerContainer')->getDatabaseConnection()
