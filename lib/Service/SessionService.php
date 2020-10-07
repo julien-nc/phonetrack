@@ -13,7 +13,7 @@
 namespace OCA\PhoneTrack\Service;
 
 use OCP\IL10N;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCA\PhoneTrack\Db\SessionMapper;
@@ -30,7 +30,7 @@ class SessionService {
 	private $dbconnection;
 
 	public function __construct (
-		ILogger $logger,
+		LoggerInterface $logger,
 		IL10N $l10n,
 		SessionMapper $sessionMapper,
 		IUserManager $userManager,

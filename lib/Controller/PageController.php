@@ -26,7 +26,7 @@ use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\IServerContainer;
 use OCP\IGroupManager;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
@@ -108,7 +108,7 @@ class PageController extends Controller {
 								IManager $shareManager,
 								IAppManager $appManager,
 								IUserManager $userManager,
-								ILogger $logger,
+								LoggerInterface $logger,
 								IL10N $trans,
 								ActivityManager $activityManager,
 								SessionMapper $sessionMapper,

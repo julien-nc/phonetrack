@@ -16,7 +16,7 @@ use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\IConfig;
 use \OCP\IL10N;
-use \OCP\ILogger;
+use \OCP\LoggerInterface;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -112,7 +112,7 @@ class LogController extends Controller {
 								IAppManager $appManager,
 								IUserManager $userManager,
 								IL10N $trans,
-								ILogger $ncLogger,
+								LoggerInterface $ncLogger,
 								ActivityManager $activityManager,
 								SessionMapper $sessionMapper,
 								DeviceMapper $deviceMapper,
