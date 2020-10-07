@@ -16,7 +16,7 @@ use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\IConfig;
 use \OCP\IL10N;
-use \OCP\LoggerInterface;
+use Psr\Log\LoggerInterface;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\RedirectResponse;

@@ -70,7 +70,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 		$c = $this->container;
 		$this->config = $c->query('ServerContainer')->getConfig();
 
-	$this->sessionService = new \OCA\PhoneTrack\Service\SessionService(
+		$this->sessionService = new \OCA\PhoneTrack\Service\SessionService(
 			$this->createMock(LoggerInterface::class),
 			$c->query('ServerContainer')->getL10N($c->query('AppName')),
 			new \OCA\PhoneTrack\Db\SessionMapper(
@@ -79,7 +79,7 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 			$c->getServer()->getUserManager(),
 			$c->getServer()->getGroupManager(),
 			$c->query('ServerContainer')->getConfig()
-	);
+		);
 
 		$this->activityManager = new \OCA\PhoneTrack\Activity\ActivityManager(
 			$c->query('ServerContainer')->getActivityManager(),
