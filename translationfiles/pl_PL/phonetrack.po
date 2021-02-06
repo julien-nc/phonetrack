@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:35\n"
+"PO-Revision-Date: 2021-01-26 13:29\n"
 "Last-Translator: \n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -1170,7 +1170,7 @@ msgstr "Pokaż tylko to urządzenie"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5224
 msgid "Show last positions only"
-msgstr "Pokaż tylko ostatnie lokalizacje"
+msgstr "Pokaż tylko ostatnie pozycje"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5226
 msgid "Simplify positions to nearest geofencing zone center"

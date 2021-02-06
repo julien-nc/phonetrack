@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:36\n"
+"PO-Revision-Date: 2020-12-13 07:42\n"
 "Last-Translator: \n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -51,7 +51,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:179
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "کلاینت ردیابی تلفن"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/Filter.php:55
 #: /var/www/html/dev/server/apps/phonetrack/lib/AppInfo/Application.php:66
@@ -255,7 +255,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6373
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6404
 msgid "Reload this page"
-msgstr ""
+msgstr "بارگذاری مجدد این صفحه"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1395
 msgid "Failed to contact server to save options values"
@@ -287,7 +287,7 @@ msgstr "عدم موفقیت در تماس با سرور جهت ایجاد جلس
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1577
 msgid "yourname"
-msgstr ""
+msgstr "نام شما"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1665
 msgid "Watch this session"
@@ -299,19 +299,19 @@ msgstr "توسط {u} به اشتراک گذاشته شده"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1680
 msgid "Forbid devices to log to this session"
-msgstr ""
+msgstr "منع دستگاه برای ثبت در این سشن"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1687
 msgid "Reserve device names"
-msgstr ""
+msgstr "ررزو نام‌های دستگاه"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1694
 msgid "Links for logging apps"
-msgstr ""
+msgstr "لینک برای اپلیکیشن‌های ثبت"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1701
 msgid "Link to share session"
-msgstr ""
+msgstr "لینک برای به اشتراک گذاری این سشن"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1711
 msgid "Zoom on this session"
@@ -380,11 +380,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1753
 msgid "a month"
-msgstr ""
+msgstr "یک ماه"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1762
 msgid "Name reservation is optional."
-msgstr ""
+msgstr "رزرو نام گزینه دلخواه است."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1763
 msgid "Name can be set directly in logging link if it is not reserved."
@@ -416,7 +416,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1786
 msgid "user name"
-msgstr ""
+msgstr "نام کاربر"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1793
 msgid "A private session is not visible on public browser logging page"
@@ -424,11 +424,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1795
 msgid "Public session"
-msgstr ""
+msgstr "سشن عمومی"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1802
 msgid "Public watch link"
-msgstr ""
+msgstr "لینک مشاهده عمومی"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1804
 msgid "API URL (JSON, last positions)"
@@ -448,7 +448,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1823
 msgid "Session token"
-msgstr ""
+msgstr "توکن‌های سشن"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1829
 msgid "List of links to configure logging apps server settings."
@@ -701,11 +701,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3216
 msgid "North"
-msgstr ""
+msgstr "شمال"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3218
 msgid "South"
-msgstr ""
+msgstr "جنوب"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3222
 msgid "Set North/East corner by clicking on the map"
@@ -725,11 +725,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3230
 msgid "East"
-msgstr ""
+msgstr "شرق"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3232
 msgid "West"
-msgstr ""
+msgstr "غرب"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3235
 msgid "Fence name"
@@ -759,7 +759,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:490
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:508
 msgid "Session"
-msgstr ""
+msgstr "سشن"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3251
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:210
@@ -861,7 +861,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4131
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4221
 msgid "Speed"
-msgstr ""
+msgstr "سرعت"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4134
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4226

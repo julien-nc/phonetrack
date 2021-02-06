@@ -38,9 +38,9 @@ This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
 
 This app is compatible with theming colors and accessibility themes !
 
-This app is under development.
+Appen är under utveckling.
 
-## Install
+## Installera
 
 See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
 
@@ -48,7 +48,7 @@ Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG
 
 Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
-## Known issues
+## Kända problem
 
 * PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 

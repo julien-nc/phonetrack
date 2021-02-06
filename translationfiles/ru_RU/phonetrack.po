@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:37\n"
+"PO-Revision-Date: 2021-01-07 09:45\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -63,11 +63,11 @@ msgstr "PhoneTrack"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr ""
+msgstr "События <strong>PhoneTrack ограничительных зон</strong>"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
-msgstr ""
+msgstr "<strong>PhoneTrack сближения устройств</strong> события"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
@@ -1690,7 +1690,7 @@ msgstr "Токен доступа (API key)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:320
 msgid "Your mapbox tile servers"
-msgstr ""
+msgstr "Ваш сервер карт"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:347
 msgid "Custom overlay tile servers"

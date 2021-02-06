@@ -6,7 +6,7 @@ Informace získává ze záznamových aplikací pro mobilní telefony a průbě�
 
 🌍 Pomozte nám s překládáním textů v rozhraní této aplikace v rámci [projektu PhoneTrack na službě Crowdin](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Podívejte se na další způsoby, jak pomoci v [pokynech pro přispěvatele](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
 Jak PhoneTrack používat:
 
@@ -16,7 +16,7 @@ Jak PhoneTrack používat:
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
 
-On PhoneTrack main page, while watching a session, you can :
+Na hlavní stránce PhoneTrack můžete během sledování relace:
 
 * 📍 Zobrazí historii polohy
 * ⛛ Filtrovat body
@@ -25,14 +25,14 @@ On PhoneTrack main page, while watching a session, you can :
 * ⛶ Definovat oblasti geooplocení pro zařízení
 * ⚇ Definovat výstrahy přiblížení pro dvojice zařízení
 * 🖧 Sdílet relaci ostatním uživatelům Nextcloud nebo veřejným odkazem (pouze pro čtení)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
+* 🔗 Generovat veřejné odkazy s volitelnými omezeními (filtry, název zařízení, poslední pozice, geooplocení)
+* 🖫 Importovat/Exportovat relace ve formátu GPX (jeden soubor s jednou trasou nebo jeden soubor na zařízení)
 * 🗠 Zobrazit statistiky relace
 * 🔒 [Zarezervovat název zařízení](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) abyste se ujistili, že pouze pověřený uživatel se může tímto názvem přihlásit
 * 🗓 Přepnout automatický export relace a automatické vyčištění (denně/týdně/měsíčně)
 * ◔ Zvolte co dělat, když je dosaženo kvóty počtu bodů (blokovat zaznamenávání nebo smazání nejstaršího bodu)
 
-Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
+Veřejná a veřejně filtrovaná stránka fungují stejně jako hlavní stránka ale je zobrazena pouze jedna relace, vše je pouze pro čtení a není třeba být přihlášen.
 
 Tato aplikace je zkoušená na Nextcloud 17 a prohlížečích Firefox 57 a novějším a Chromium.
 
@@ -44,12 +44,12 @@ Na této aplikaci stále ještě probíhá intenzivní vývoj.
 
 Podrobnosti ohledně instalace naleznete v [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc).
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Co je nového a co se chystá v příštím vydání naleznete v souboru [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log).
 
-Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Všechny autory naleznete v souboru [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors).
 
 ## Známé problémy
 
-* PhoneTrack **now works** with Nextcloud group restriction activated. Viz [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+* PhoneTrack **nyní funguje** s aktivním skupinovým omezením v Nextcloud. Viz [dokumntace pro administrátory](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Any feedback will be appreciated.
+Jakákoliv zpětná vazba bude vítána.

@@ -1,55 +1,55 @@
-# PhoneTrack Nextcloud application
+# Aplicația PhoneTrack Nextcloud
 
-PhoneTrack este o aplicatie pentru Nextcloud care ajuta la urmarirea si stocarea informatiilor de urmarire a dispozitivelor mobile.
+PhoneTrack este o aplicație pentru Nextcloud care ajută la urmărirea și stocarea informațiilor de urmărire a dispozitivelor mobile.
 
-Aplicatia primeste informatii de autentificare de la aplicatiile instalate pe telefonul mobil si le afiseaza in mod dinamic pe harta.
+Aplicația primește informații de autentificare de la aplicațiile instalate pe telefonul mobil și le afișează în mod dinamic pe hartă.
 
-Ajuta-ne sa traducem aceasta aplicatie pe [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+Ajută-ne să traducem această aplicație pe [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-Vezi si alte moduri de a ajuta în [ghid de contributii](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+Vezi și alte moduri de a ajuta în [ghid de contribuții](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-Cum să utilizaţi PhoneTrack:
+Cum să utilizați PhoneTrack:
 
-* Creati o sesiune de urmărire.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+* Creați o sesiune de urmărire.
+* Dați linkul de logare\* către dispozitivele mobile. Alege [metoda de logare](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) pe care o preferi.
+* Urmăriți locația dispozitivelor sesiunii în timp real (sau nu) în PhoneTrack sau partajați-o cu pagini publice.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) Nu uitați să setați numele dispozitivului în link (mai degrabă decât în setările aplicației de logare). Înlocuiți "numele" cu numele dispozitivului dorit. Setarea numelui dispozitivului în setările aplicaţiei de logare funcţionează doar cu Owntracks, Traccar şi OpenGTS.
 
-On PhoneTrack main page, while watching a session, you can :
+Pe pagina principală PhoneTrack, în timp ce urmărești o sesiune, puteți să:
 
-* 📍 Display location history
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-* 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+* 📍 Afișați istoricul locațiilor
+* ⧩ Filtrați punctele înregistrate
+* ✎ Editați/adăugați/ștergeți puncte manual
+* ✎ Editați dispozitivele (redenumire, schimbare culoare/formă, mutare la o altă sesiune)
+* 💠 Definiți zone de geofencing pentru dispozitive
+* ⚇ Definiți alerte de proximitate pentru dispozitive pereche
+* ⇴ Distribuiți o sesiune către alți utilizatori Nextcloud sau folosind un link public (doar pentru vizualizare)
+* 🔗 Generați link-uri de partajare publică cu restricții opționale (filtre, nume de dispozitiv, doar ultimele poziții, simplificare geofencing)
+* ⇋ Importați/exportați o sesiune în format GPX (un fișier cu o pistă per dispozitiv sau un fișier per dispozitiv)
+* 📈 Afișați statisticile sesiunilor
+* 🔒 [Rezervați un nume de dispozitiv](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) pentru a vă asigura că numai utilizatorul autorizat se poate conecta cu acest nume
+* 🗓 Comutați sesiunile de export automat și ștergere automată (zilnic/săptămânal/lunar)
+* ◔ Alegeți ce să faceți când se atinge pragul numeric (blochează logarea de puncte sau șterge cel mai vechi punct)
 
-Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
+Pagina publică și pagina publică filtrată funcționează la fel ca și pagina principală, exceptând faptul că o singură sesiune este afișată, că se permite doar citirea și că nu este necesar să fi autentificat.
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+Această aplicație este testată pe Nextcloud 17 cu Firefox 57+ și Chromium.
 
-This app is compatible with theming colors and accessibility themes !
+Această aplicație este compatibilă cu tematica culorilor și temelor de accesibilitate !
 
-This app is under development.
+Această aplicație este în curs de dezvoltare.
 
 ## Instalare
 
-Vezi [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) pentru mai multe detalii despre instalare.
+Vezi [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) pentru detalii de instalare.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Verificați fișierul [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) pentru a vedea ce este nou și ce urmează în următoarea versiune.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Verificați fișierul [AUTORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) pentru a vedea lista completă a autorilor.
 
-## Known issues
+## Probleme cunoscute
 
-* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+* PhoneTrack **funcționează acum** cu restricția de grup Nextcloud activată. Vedeți [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Any feedback will be appreciated.
+Orice părere este apreciată.

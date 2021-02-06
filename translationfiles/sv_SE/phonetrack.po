@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:37\n"
+"PO-Revision-Date: 2020-12-28 00:13\n"
 "Last-Translator: \n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
@@ -180,7 +180,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:712
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "Inaktivera automatisk zoom"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:733
 msgid "Show last point tooltip"
@@ -209,7 +209,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1031
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "En server med detta namn finns redan"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1069
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4157
@@ -219,7 +219,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:426
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:475
 msgid "Delete"
-msgstr ""
+msgstr "Ta bort"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1114
 msgid "Tile server \"{ts}\" has been added"
@@ -255,7 +255,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6373
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6404
 msgid "Reload this page"
-msgstr ""
+msgstr "Ladda om denna sida"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1395
 msgid "Failed to contact server to save options values"
@@ -320,7 +320,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1714
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3153
 msgid "More actions"
-msgstr ""
+msgstr "Fler åtgärder"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1726
 msgid "Delete session"
@@ -332,7 +332,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1731
 msgid "Export to gpx"
-msgstr ""
+msgstr "Exportera till gpx"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1736
 msgid "Files are created in '{exdir}'"
@@ -344,19 +344,19 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1739
 msgid "never"
-msgstr ""
+msgstr "aldrig"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1740
 msgid "daily"
-msgstr ""
+msgstr "dagligen"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1741
 msgid "weekly"
-msgstr ""
+msgstr "veckovis"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1742
 msgid "monthly"
-msgstr ""
+msgstr "månadsvis"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1747
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
@@ -372,15 +372,15 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1751
 msgid "a day"
-msgstr ""
+msgstr "en dag"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1752
 msgid "a week"
-msgstr ""
+msgstr "en vecka"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1753
 msgid "a month"
-msgstr ""
+msgstr "en månad"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1762
 msgid "Name reservation is optional."
@@ -408,7 +408,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1783
 msgid "Share with user"
-msgstr ""
+msgstr "Dela med användare"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1785
 msgid "Type user name and press 'Enter'"
@@ -465,7 +465,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1837
 msgid "OsmAnd link"
-msgstr ""
+msgstr "OsmAnd-länk"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1842
 msgid "GpsLogger GET and POST link"
@@ -477,27 +477,27 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1850
 msgid "Ulogger link"
-msgstr ""
+msgstr "Ulogger-länk"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1854
 msgid "Traccar link"
-msgstr ""
+msgstr "Traccar-länk"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1858
 msgid "OpenGTS link"
-msgstr ""
+msgstr "OpenGTS-länk"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1862
 msgid "Overland link"
-msgstr ""
+msgstr "Overland-länk"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1866
 msgid "Locus Map link"
-msgstr ""
+msgstr "Locus Map-länk"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1870
 msgid "HTTP GET link"
-msgstr ""
+msgstr "HTTP GET-länk"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1988
 msgid "The session you want to delete does not exist"
@@ -604,11 +604,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3159
 msgid "Round"
-msgstr ""
+msgstr "Rund"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3160
 msgid "Square"
-msgstr ""
+msgstr "Kvadrat"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3161
 msgid "Triangle"
@@ -616,11 +616,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3165
 msgid "Delete this device"
-msgstr ""
+msgstr "Ta bort denna enhet"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3167
 msgid "Rename this device"
-msgstr ""
+msgstr "Byt namn på denna enhet"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3170
 msgid "Set device alias"
@@ -633,7 +633,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3176
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:44
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3193
 msgid "Device geofencing zones"
@@ -685,7 +685,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3267
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3271
 msgid "Use POST method"
-msgstr ""
+msgstr "Använd POST-metod"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3210
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
@@ -759,7 +759,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:490
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:508
 msgid "Session"
-msgstr ""
+msgstr "Session"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3251
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:210
@@ -796,7 +796,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3291
 msgid "Toggle lines"
-msgstr ""
+msgstr "Växla linjer"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3299
 msgid "Follow this device (autozoom)"
@@ -842,11 +842,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4117
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4120
 msgid "Time"
-msgstr ""
+msgstr "Tid"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4125
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4209
@@ -861,7 +861,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4131
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4221
 msgid "Speed"
-msgstr ""
+msgstr "Hastighet"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4134
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4226
@@ -876,7 +876,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4140
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4236
 msgid "Battery"
-msgstr ""
+msgstr "Batteri"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4143
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4240
@@ -893,15 +893,15 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4156
 msgid "Save"
-msgstr ""
+msgstr "Spara"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4158
 msgid "Move"
-msgstr ""
+msgstr "Flytta"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4159
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4205
 msgid "Distance"
@@ -928,11 +928,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4433
 msgid "File is not readable"
-msgstr ""
+msgstr "Filen är inte läsbar"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4439
 msgid "File does not exist"
-msgstr ""
+msgstr "Filen finns inte"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4445
 msgid "Malformed XML file"
@@ -1006,7 +1006,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4798
 msgid "User does not exist"
-msgstr ""
+msgstr "Användare finns inte"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4801
 msgid "Failed to add user share"
@@ -1018,7 +1018,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4814
 msgid "Shared with {u}"
-msgstr ""
+msgstr "Delad med {u}"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4839
 msgid "Failed to delete user share"
@@ -1080,21 +1080,21 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5095
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5099
 msgid "no"
-msgstr ""
+msgstr "nej"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4980
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4984
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5097
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5101
 msgid "yes"
-msgstr ""
+msgstr "ja"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4994
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5011
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5114
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5135
 msgid "Email address(es)"
-msgstr ""
+msgstr "E-postadress(er)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4994
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5012
@@ -1218,11 +1218,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5432
 msgid "years"
-msgstr ""
+msgstr "år"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5435
 msgid "days"
-msgstr ""
+msgstr "dagar"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5458
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
@@ -1327,7 +1327,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5972
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Välj lagringsplats för '{fname}'"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6194
 msgid "Geo QRcode : last position of {dname}"
@@ -1412,11 +1412,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Filter"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Statistik"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:15
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:263
@@ -1426,7 +1426,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:16
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:730
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "Om PhoneTrack"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:32
 msgid "Import session"
@@ -1438,15 +1438,15 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:40
 msgid "Session name"
-msgstr ""
+msgstr "Sessionsnamn"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:53
 msgid "Options"
-msgstr ""
+msgstr "Alternativ"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:61
 msgid "General"
-msgstr ""
+msgstr "Allmänt"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:64
 msgid "Refresh each (sec)"
@@ -1454,7 +1454,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:67
 msgid "Refresh"
-msgstr ""
+msgstr "Uppdatera"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:69
 msgid "An empty value means no limit"
@@ -1466,7 +1466,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:72
 msgid "points"
-msgstr ""
+msgstr "poäng"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:74
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:79
@@ -1483,7 +1483,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:82
 msgid "seconds"
-msgstr ""
+msgstr "sekunder"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:85
 msgid "When point quota is reached"
@@ -1579,7 +1579,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:177
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:179
 msgid "bright"
@@ -1591,7 +1591,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:181
 msgid "dark"
-msgstr ""
+msgstr "mörk"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:187
 msgid "Show lines in public pages"
@@ -1639,7 +1639,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:273
 msgid "Server address"
-msgstr ""
+msgstr "Serveradress"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:274
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:396
@@ -1666,7 +1666,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:407
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:456
 msgid "Add"
-msgstr ""
+msgstr "Lägg till"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:282
 msgid "Your tile servers"
@@ -1728,7 +1728,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:401
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:450
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:403
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:452
@@ -1738,7 +1738,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:405
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:454
 msgid "Layers to display"
-msgstr ""
+msgstr "Lager att visa"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:410
 msgid "Your WMS tile servers"
@@ -1759,7 +1759,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:494
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:512
 msgid "Device"
-msgstr ""
+msgstr "Enhet"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:496
 msgid "Add a point"
@@ -1804,7 +1804,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:541
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:559
 msgid "today"
-msgstr ""
+msgstr "idag"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:546
 msgid "Begin time"
@@ -1848,19 +1848,19 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:617
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Minsta batterinivå"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:625
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Maximal batterinivå"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:633
 msgid "Minimum speed"
-msgstr ""
+msgstr "Minsta hastighet"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:641
 msgid "Maximum speed"
-msgstr ""
+msgstr "Högsta hastighet"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:649
 msgid "Minimum bearing"
@@ -1872,15 +1872,15 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:665
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Minsta antal satelliter"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:673
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Maximalt antal satelliter"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:683
 msgid "bookmark name"
-msgstr ""
+msgstr "bokmärkesnamn"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:685
 msgid "Save filter bookmark"
@@ -1900,15 +1900,15 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:734
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Växla sidofält"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:738
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentation"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:746
 msgid "Source management"
-msgstr ""
+msgstr "Källhantering"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:760
 msgid "Authors"

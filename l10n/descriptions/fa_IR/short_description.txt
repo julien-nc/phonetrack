@@ -1,1 +1,1 @@
-Track and display phones positions in real time
+ردیابی و نمایش موقعیت تلفن ها به صورت زنده
