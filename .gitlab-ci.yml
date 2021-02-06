@@ -32,8 +32,6 @@ test_nc_sqlite:
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
     # check code with occ
     - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code phonetrack
-    # check JS code
-    - jshint --verbose phonetrack/js/phonetrack.js && echo "jshint OK" || echo "jshint has complaints"
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html coverage
 
@@ -63,8 +61,6 @@ test_nc_pgsql:
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
     # check code with occ
     - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code phonetrack
-    # check JS code
-    - jshint --verbose phonetrack/js/phonetrack.js && echo "jshint OK" || echo "jshint has complaints"
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
 
@@ -93,8 +89,6 @@ test_nc_mysql:
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
     # check code with occ
     - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code phonetrack
-    # check JS code
-    - jshint --verbose phonetrack/js/phonetrack.js && echo "jshint OK" || echo "jshint has complaints"
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
 

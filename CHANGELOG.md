@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.6.6 – 2021-02-07
+### Changed
+- use PSR logger interface
+- use axios instead of jquery to make requests in UI
+- use lint/webpack configs provided by NC
+- upgrade dependencies
+
+### Fixed
+- qrcode dialog style
+- public pages
+
 ## 0.6.5 – 2020-09-28
 ### Changed
 - allow public view page to be in a frame
