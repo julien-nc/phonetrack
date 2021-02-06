@@ -2078,20 +2078,15 @@ import { escapeHtml } from './utils'
 			} else {
 				url = generateUrl('/apps/phonetrack/track')
 			}
-			axios.post(url, req, { cancelToken: phonetrack.refreshAjaxSource.token }).then((response) => {
-				/*
-				xhr() {
-					const xhr = new window.XMLHttpRequest()
-					xhr.addEventListener('progress', function(evt) {
-						if (evt.lengthComputable) {
-							const percentComplete = evt.loaded / evt.total * 100
-							$('#loadingpc').text(parseInt(percentComplete) + '%')
-						}
-					}, false)
-
-					return xhr
+			axios.post(url, req, {
+				cancelToken: phonetrack.refreshAjaxSource.token,
+				onDownloadProgress: (e) => {
+					if (e.lengthComputable) {
+						const percentComplete = e.loaded / e.total * 100
+						$('#loadingpc').text(parseInt(percentComplete) + '%')
+					}
 				},
-				*/
+			}).then((response) => {
 				displayNewPoints(response.data.sessions, response.data.colors, response.data.names, response.data.geofences, response.data.aliases, response.data.proxims, response.data.shapes)
 			}).catch((error) => {
 				if (axios.isCancel(error)) {
