@@ -37,6 +37,7 @@ import 'leaflet-hotline/dist/leaflet.hotline.min'
 import Countdown from 'ds-countdown/lib/countdown.bundle'
 import { getLocale } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
+import axios from '@nextcloud/axios'
 import 'leaflet-measure'
 import 'leaflet-measure/dist/leaflet-measure.css'
 
@@ -114,7 +115,7 @@ import { escapeHtml } from './utils'
 		sessionMarkerLayers: {},
 		sessionColors: {},
 		sessionShapes: {},
-		currentRefreshAjax: null,
+		refreshAjaxSource: axios.CancelToken.source(),
 		currentTimer: null,
 		// remember the oldest and newest point of each device
 		lastTime: {},
@@ -861,13 +862,8 @@ import { escapeHtml } from './utils'
 			attribution: '',
 		}
 		const url = generateUrl('/apps/phonetrack/addTileServer')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done) {
 				$('#' + type + 'serverlist ul').prepend(
 					'<li style="display:none;" servername="' + escapeHtml(sname || '')
 					+ '" title="' + escapeHtml(surl || '') + '">'
@@ -921,8 +917,8 @@ import { escapeHtml } from './utils'
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to add tile server "{ts}"', { ts: sname }))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add tile server'))
 		})
 	}
@@ -934,13 +930,8 @@ import { escapeHtml } from './utils'
 			type,
 		}
 		const url = generateUrl('/apps/phonetrack/deleteTileServer')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done) {
 				li.fadeOut('normal', function() {
 					li.remove()
 				})
@@ -960,8 +951,8 @@ import { escapeHtml } from './utils'
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete tile server "{ts}"', { ts: sname }))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete tile server'))
 		})
 	}
@@ -974,13 +965,8 @@ import { escapeHtml } from './utils'
 		const req = {
 		}
 		let optionsValues = {}
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			optionsValues = response.values
+		axios.post(url, req).then((response) => {
+			optionsValues = response.data.values
 			if (optionsValues) {
 				let elem, tag, type, k
 				for (k in optionsValues) {
@@ -1035,7 +1021,8 @@ import { escapeHtml } from './utils'
 			}
 			// quite important ;-)
 			main()
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(
 				t('phonetrack', 'Failed to contact server to restore options values')
 			)
@@ -1162,12 +1149,7 @@ import { escapeHtml } from './utils'
 				options,
 			}
 			const url = generateUrl('/apps/phonetrack/saveOptionValue')
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function() {
+			axios.post(url, req).then((response) => {
 				if (refreshAfter === true) {
 					if (phonetrack.currentTimer !== null) {
 						phonetrack.currentTimer.pause()
@@ -1175,7 +1157,8 @@ import { escapeHtml } from './utils'
 					}
 					refresh()
 				}
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(
 					t('phonetrack', 'Failed to contact server to save options values')
 				)
@@ -1206,16 +1189,12 @@ import { escapeHtml } from './utils'
 			filters: JSON.stringify(filters),
 		}
 		const url = generateUrl('/apps/phonetrack/addFiltersBookmark')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
-				addFiltersBookmark(name, filters, response.bookid)
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
+				addFiltersBookmark(name, filters, response.data.bookid)
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(
 				t('phonetrack', 'Failed to contact server to save filters bookmark')
 			)
@@ -1248,16 +1227,12 @@ import { escapeHtml } from './utils'
 			bookid,
 		}
 		const url = generateUrl('/apps/phonetrack/deleteFiltersBookmark')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				$('#filterbookmarks li[bookid=' + bookid + ']').remove()
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(
 				t('phonetrack', 'Failed to contact server to delete filters bookmark')
 			)
@@ -1299,19 +1274,14 @@ import { escapeHtml } from './utils'
 			name: sessionName,
 		}
 		const url = generateUrl('/apps/phonetrack/createSession')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
-				addSession(response.token, sessionName, response.publicviewtoken, 1, [])
-			} else if (response.done === 2) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
+				addSession(response.data.token, sessionName, response.data.publicviewtoken, 1, [])
+			} else if (response.data.done === 2) {
 				OC.Notification.showTemporary(t('phonetrack', 'Session name already used'))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to create session'))
 		})
 	}
@@ -1740,21 +1710,16 @@ import { escapeHtml } from './utils'
 			token,
 		}
 		const url = generateUrl('/apps/phonetrack/deleteSession')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				removeSession(div)
-			} else if (response.done === 2) {
+			} else if (response.data.done === 2) {
 				OC.Notification.showTemporary(t('phonetrack', 'The session you want to delete does not exist'))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete session'))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).error((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete session'))
 		})
 	}
@@ -1766,21 +1731,16 @@ import { escapeHtml } from './utils'
 			deviceid,
 		}
 		const url = generateUrl('/apps/phonetrack/deleteDevice')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
+		axios.post(url, req).then((response) => {
 			const devicename = getDeviceName(token, deviceid)
-			if (response.done === 1) {
+			if (response.data.done === 1) {
 				removeDevice(token, deviceid)
 				OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', { d: devicename, s: sessionName }))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', { d: devicename, s: sessionName }))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete device'))
 		})
 	}
@@ -1828,19 +1788,14 @@ import { escapeHtml } from './utils'
 			newname,
 		}
 		const url = generateUrl('/apps/phonetrack/renameSession')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				renameSessionSuccess(token, oldname, newname)
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Impossible to rename session') + ' ' + oldname)
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to rename session'))
 		})
 	}
@@ -1878,19 +1833,14 @@ import { escapeHtml } from './utils'
 			newname,
 		}
 		const url = generateUrl('/apps/phonetrack/renameDevice')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				renameDeviceSuccess(token, deviceid, oldname, newname)
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Impossible to rename device') + ' ' + escapeHtml(oldname))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to rename device'))
 		})
 	}
@@ -1949,19 +1899,14 @@ import { escapeHtml } from './utils'
 			newalias,
 		}
 		const url = generateUrl('/apps/phonetrack/setDeviceAlias')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				setDeviceAliasSuccess(token, deviceid, newalias)
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Impossible to set device alias for {n}'), { n: getDeviceName(token, deviceid) })
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set device alias'))
 		})
 	}
@@ -2018,21 +1963,16 @@ import { escapeHtml } from './utils'
 			newSessionId,
 		}
 		const url = generateUrl('/apps/phonetrack/reaffectDevice')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				reaffectDeviceSessionSuccess(token, deviceid)
-			} else if (response.done === 3) {
+			} else if (response.data.done === 3) {
 				OC.Notification.showTemporary(t('phonetrack', 'Device already exists in target session'))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Impossible to move device to another session'))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to move device'))
 		})
 	}
@@ -2047,52 +1987,47 @@ import { escapeHtml } from './utils'
 		const req = {
 		}
 		const url = generateUrl('/apps/phonetrack/getSessions')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
+		axios.post(url, req).then((response) => {
 			let s
-			if (response.sessions.length > 0) {
-				for (s in response.sessions) {
+			if (response.data.sessions.length > 0) {
+				for (s in response.data.sessions) {
 					selected = false
 					if (phonetrack.sessionsFromSavedOptions
-						&& response.sessions[s][1] in phonetrack.sessionsFromSavedOptions
+						&& response.data.sessions[s][1] in phonetrack.sessionsFromSavedOptions
 					) {
 						selected = true
 					}
 					// session is shared by someone else
-					if (response.sessions[s].length < 5) {
+					if (response.data.sessions[s].length < 5) {
 						addSession(
-							response.sessions[s][1],
-							response.sessions[s][0],
+							response.data.sessions[s][1],
+							response.data.sessions[s][0],
 							'',
 							0,
-							response.sessions[s][3],
+							response.data.sessions[s][3],
 							{},
 							selected,
 							true,
-							response.sessions[s][2],
+							response.data.sessions[s][2],
 							[]
 						)
 					} else {
 						// session is mine !
 						addSession(
-							response.sessions[s][1],
-							response.sessions[s][0],
-							response.sessions[s][2],
-							response.sessions[s][4],
-							response.sessions[s][3],
-							response.sessions[s][5],
+							response.data.sessions[s][1],
+							response.data.sessions[s][0],
+							response.data.sessions[s][2],
+							response.data.sessions[s][4],
+							response.data.sessions[s][3],
+							response.data.sessions[s][5],
 							selected,
 							false,
 							'',
-							response.sessions[s][6],
-							response.sessions[s][7],
-							response.sessions[s][8],
-							response.sessions[s][9],
-							response.sessions[s][10]
+							response.data.sessions[s][6],
+							response.data.sessions[s][7],
+							response.data.sessions[s][8],
+							response.data.sessions[s][9],
+							response.data.sessions[s][10]
 						)
 					}
 				}
@@ -2100,8 +2035,8 @@ import { escapeHtml } from './utils'
 			// in case some sessions are selected
 			// refresh but don't loop
 			refresh(false)
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get sessions'))
 		})
 	}
@@ -2128,9 +2063,8 @@ import { escapeHtml } from './utils'
 			}
 		})
 
-		if (phonetrack.currentRefreshAjax !== null) {
-			phonetrack.currentRefreshAjax.abort()
-		}
+		phonetrack.refreshAjaxSource.cancel()
+		phonetrack.refreshAjaxSource = axios.CancelToken.source()
 
 		if (sessionsToWatch.length > 0) {
 			showLoadingAnimation()
@@ -2144,11 +2078,8 @@ import { escapeHtml } from './utils'
 			} else {
 				url = generateUrl('/apps/phonetrack/track')
 			}
-			phonetrack.currentRefreshAjax = $.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
+			axios.post(url, req, { cancelToken: phonetrack.refreshAjaxSource.token }).then((response) => {
+				/*
 				xhr() {
 					const xhr = new window.XMLHttpRequest()
 					xhr.addEventListener('progress', function(evt) {
@@ -2160,14 +2091,15 @@ import { escapeHtml } from './utils'
 
 					return xhr
 				},
-			}).done(function(response) {
-				displayNewPoints(response.sessions, response.colors, response.names, response.geofences, response.aliases, response.proxims, response.shapes)
-			}).always(function() {
-				hideLoadingAnimation()
-				phonetrack.currentRefreshAjax = null
-			}).fail(function() {
+				*/
+				displayNewPoints(response.data.sessions, response.data.colors, response.data.names, response.data.geofences, response.data.aliases, response.data.proxims, response.data.shapes)
+			}).catch((error) => {
+				console.error('REFRESH error')
+				console.error(error)
 				// TODO check how to make it work when called from an ajax "done"
 				// OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to refresh sessions'))
+			}).then(() => {
+				hideLoadingAnimation()
 			})
 		}
 		// we always update the view
@@ -2778,19 +2710,14 @@ import { escapeHtml } from './utils'
 				color: colorcode,
 			}
 			const url = generateUrl('/apps/phonetrack/setDeviceColor')
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function(response) {
-				if (response.done === 1) {
+			axios.post(url, req).then((response) => {
+				if (response.data.done === 1) {
 					OC.Notification.showTemporary(t('phonetrack', 'Device\'s color successfully changed'))
 				} else {
 					OC.Notification.showTemporary(t('phonetrack', 'Failed to save device\'s color'))
 				}
-			}).always(function() {
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to change device\'s color'))
 			})
 		}
@@ -3432,19 +3359,14 @@ import { escapeHtml } from './utils'
 			bearing,
 		}
 		const url = generateUrl('/apps/phonetrack/updatePoint')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing)
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'The point you want to edit does not exist or you\'re not allowed to edit it'))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to edit point'))
 		})
 	}
@@ -3548,19 +3470,14 @@ import { escapeHtml } from './utils'
 			pointids: pidlist,
 		}
 		const url = generateUrl('/apps/phonetrack/deletePoints')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				deletePointsMap(s, d, pidlist)
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'The point you want to delete does not exist or you\'re not allowed to delete it'))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete point'))
 		})
 	}
@@ -3649,24 +3566,19 @@ import { escapeHtml } from './utils'
 			bearing,
 		}
 		const url = generateUrl('/apps/phonetrack/addPoint')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				// add the point on the map only if the session was displayed at least once
 				if (token in phonetrack.sessionLineLayers) {
-					addPointMap(response.pointid, lat, lon, alt, acc, sat, bat, speed, bearing, timestamp, response.deviceid)
+					addPointMap(response.data.pointid, lat, lon, alt, acc, sat, bat, speed, bearing, timestamp, response.data.deviceid)
 				}
-			} else if (response.done === 2) {
+			} else if (response.data.done === 2) {
 				OC.Notification.showTemporary(t('phonetrack', 'Impossible to add this point'))
-			} else if (response.done === 5) {
+			} else if (response.data.done === 5) {
 				OC.Notification.showTemporary(t('phonetrack', 'User quota was reached'))
 			}
-		}).always(function() {
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add point'))
 		})
 	}

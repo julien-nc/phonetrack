@@ -198,6 +198,9 @@ class UtilsController extends Controller {
 	 */
 	public function saveOptionValue($options) {
 		foreach ($options as $key => $value) {
+			if (is_bool($value)) {
+				$value = $value ? 'true' : 'false';
+			}
 			$this->config->setUserValue($this->userId, 'phonetrack', $key, $value);
 		}
 
@@ -219,7 +222,7 @@ class UtilsController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function getOptionsValues() {
-		$ov = array();
+		$ov = [];
 		$keys = $this->config->getUserKeys($this->userId, 'phonetrack');
 		foreach ($keys as $key) {
 			$value = $this->config->getUserValue($this->userId, 'phonetrack', $key);
