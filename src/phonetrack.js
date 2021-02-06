@@ -4004,42 +4004,38 @@ import { escapeHtml } from './utils'
 				path,
 			}
 			const url = generateUrl('/apps/phonetrack/importSession')
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function(response) {
-				if (response.done === 1) {
+			axios.post(url, req).then((response) => {
+				if (response.data.done === 1) {
 					// TODO fix that
-					addSession(response.token, response.sessionName, response.publicviewtoken, 1, response.devices)
-				} else if (response.done === 2) {
+					addSession(response.data.token, response.data.sessionName, response.data.publicviewtoken, 1, response.data.devices)
+				} else if (response.data.done === 2) {
 					OC.Notification.showTemporary(t('phonetrack', 'Failed to create imported session'))
-				} else if (response.done === 3) {
+				} else if (response.data.done === 3) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to import session') + '. '
 						+ t('phonetrack', 'File is not readable')
 					)
-				} else if (response.done === 4) {
+				} else if (response.data.done === 4) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to import session') + '. '
 						+ t('phonetrack', 'File does not exist')
 					)
-				} else if (response.done === 5) {
+				} else if (response.data.done === 5) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to import session') + '. '
 						+ t('phonetrack', 'Malformed XML file')
 					)
-				} else if (response.done === 6) {
+				} else if (response.data.done === 6) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to import session') + '. '
 						+ t('phonetrack', 'There is no device to import in submitted file')
 					)
 				}
-			}).always(function() {
-				hideLoadingAnimation()
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to import session'))
+			}).then(() => {
+				hideLoadingAnimation()
 			})
 		}
 	}
@@ -4052,29 +4048,25 @@ import { escapeHtml } from './utils'
 			target: targetPath + '/' + filename,
 		}
 		const url = generateUrl('/apps/phonetrack/export')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done) {
-				if (response.warning === 0) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done) {
+				if (response.data.warning === 0) {
 					OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in')
 						+ ' ' + targetPath + '/' + filename)
-				} else if (response.warning === 1) {
+				} else if (response.data.warning === 1) {
 					OC.Notification.showTemporary(t('phonetrack', 'There is no point to export for this session'))
-				} else if (response.warning === 2) {
+				} else if (response.data.warning === 2) {
 					OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in')
 						+ ' ' + targetPath + '/' + filename + ', ' + t('phonetrack', 'but there was no point to export for some devices'))
 				}
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to export session'))
 			}
-		}).always(function() {
-			hideLoadingAnimation()
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to export session'))
+		}).then(() => {
+			hideLoadingAnimation()
 		})
 	}
 
@@ -4095,15 +4087,10 @@ import { escapeHtml } from './utils'
 				useragent: 'browser',
 			}
 			const url = generateUrl('/apps/phonetrack/logPost/' + phonetrack.token + '/' + deviceid)
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function() {
+			axios.post(url, req).then((response) => {
 				// console.log(response)
-			}).always(function() {
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to log position'))
 			})
 		}
@@ -4290,20 +4277,16 @@ import { escapeHtml } from './utils'
 			devicename,
 		}
 		const url = generateUrl('/apps/phonetrack/addNameReservation')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
-				addNameReservation(token, devicename, response.nametoken)
-			} else if (response.done === 2) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
+				addNameReservation(token, devicename, response.data.nametoken)
+			} else if (response.data.done === 2) {
 				OC.Notification.showTemporary(t('phonetrack', '\'{n}\' is already reserved', { n: devicename }))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to reserve \'{n}\'', { n: devicename }))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to reserve device name'))
 		})
 	}
@@ -4322,25 +4305,21 @@ import { escapeHtml } from './utils'
 			devicename,
 		}
 		const url = generateUrl('/apps/phonetrack/deleteNameReservation')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				const li = $('.session[token="' + token + '"]').find('.namereservlist li[name=' + devicename + ']')
 				li.fadeOut('normal', function() {
 					li.remove()
 				})
-			} else if (response.done === 2) {
+			} else if (response.data.done === 2) {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name')
 				+ '. ' + t('phonetrack', 'This device does not exist'))
-			} else if (response.done === 3) {
+			} else if (response.data.done === 3) {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name')
 				+ '. ' + t('phonetrack', 'This device name is not reserved, please reload this page'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete reserved name'))
 		})
 	}
@@ -4351,20 +4330,16 @@ import { escapeHtml } from './utils'
 			userId,
 		}
 		const url = generateUrl('/apps/phonetrack/addUserShare')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				addUserShare(token, userId, userName)
-			} else if (response.done === 4) {
+			} else if (response.data.done === 4) {
 				OC.Notification.showTemporary(t('phonetrack', 'User does not exist'))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to add user share'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add user share'))
 		})
 	}
@@ -4387,13 +4362,8 @@ import { escapeHtml } from './utils'
 			userId,
 		}
 		const url = generateUrl('/apps/phonetrack/deleteUserShare')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				const li = $('.session[token="' + token + '"]').find('.usersharelist li[userid=' + userId + ']')
 				li.fadeOut('normal', function() {
 					li.remove()
@@ -4401,7 +4371,8 @@ import { escapeHtml } from './utils'
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete user share'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete user share'))
 		})
 	}
@@ -4413,18 +4384,14 @@ import { escapeHtml } from './utils'
 			geofencify,
 		}
 		const url = generateUrl('/apps/phonetrack/setPublicShareGeofencify')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				OC.Notification.showTemporary(t('phonetrack', 'Public share has been successfully modified'))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to modify public share'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to modify public share'))
 		})
 	}
@@ -4436,18 +4403,14 @@ import { escapeHtml } from './utils'
 			lastposonly,
 		}
 		const url = generateUrl('/apps/phonetrack/setPublicShareLastOnly')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				OC.Notification.showTemporary(t('phonetrack', 'Public share has been successfully modified'))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to modify public share'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to modify public share'))
 		})
 	}
@@ -4459,18 +4422,14 @@ import { escapeHtml } from './utils'
 			devicename,
 		}
 		const url = generateUrl('/apps/phonetrack/setPublicShareDevice')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				OC.Notification.showTemporary(t('phonetrack', 'Device name restriction has been successfully set'))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to set public share device name restriction'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set public share device name restriction'))
 		})
 	}
@@ -4497,21 +4456,17 @@ import { escapeHtml } from './utils'
 			sendnotif,
 		}
 		const url = generateUrl('/apps/phonetrack/addGeofence')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1 || response.done === 4) {
-				addGeoFence(token, device, fencename, response.fenceid, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif)
-				if (response.done === 4) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1 || response.data.done === 4) {
+				addGeoFence(token, device, fencename, response.data.fenceid, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif)
+				if (response.data.done === 4) {
 					OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofencing alerts.'))
 				}
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to add geofencing zone'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add geofencing zone'))
 		})
 	}
@@ -4581,13 +4536,8 @@ import { escapeHtml } from './utils'
 			fenceid,
 		}
 		const url = generateUrl('/apps/phonetrack/deleteGeofence')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				const li = $('.session[token="' + token + '"] .devicelist li[device=' + device + '] .geofencelist').find('li[fenceid=' + fenceid + ']')
 				li.fadeOut('normal', function() {
 					li.remove()
@@ -4595,7 +4545,8 @@ import { escapeHtml } from './utils'
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete geofencing zone'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete geofencing zone'))
 		})
 	}
@@ -4617,24 +4568,20 @@ import { escapeHtml } from './utils'
 			sendnotif,
 		}
 		const url = generateUrl('/apps/phonetrack/addProxim')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1 || response.done === 4) {
-				addProxim(token, device, response.proximid, sname, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail, emailaddr, sendnotif)
-				if (response.done === 4) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1 || response.data.done === 4) {
+				addProxim(token, device, response.data.proximid, sname, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail, emailaddr, sendnotif)
+				if (response.data.done === 4) {
 					OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'))
 				}
-			} else if (response.done === 3 || response.done === 5) {
+			} else if (response.data.done === 3 || response.data.done === 5) {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to add proximity alert'))
 				OC.Notification.showTemporary(t('phonetrack', 'Device or session does not exist'))
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to add proximity alert'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add proximity alert'))
 		})
 	}
@@ -4706,13 +4653,8 @@ import { escapeHtml } from './utils'
 			proximid,
 		}
 		const url = generateUrl('/apps/phonetrack/deleteProxim')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				const li = $('.session[token="' + token + '"] .devicelist li[device=' + device + '] .proximlist').find('li[proximid=' + proximid + ']')
 				li.fadeOut('normal', function() {
 					li.remove()
@@ -4720,7 +4662,8 @@ import { escapeHtml } from './utils'
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete proximity alert'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete proximity alert'))
 		})
 	}
@@ -4730,18 +4673,14 @@ import { escapeHtml } from './utils'
 			token,
 		}
 		const url = generateUrl('/apps/phonetrack/addPublicShare')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
-				addPublicSessionShare(token, response.sharetoken, response.filters)
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
+				addPublicSessionShare(token, response.data.sharetoken, response.data.filters)
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to add public share'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add public share'))
 		})
 	}
@@ -4806,13 +4745,8 @@ import { escapeHtml } from './utils'
 			sharetoken,
 		}
 		const url = generateUrl('/apps/phonetrack/deletePublicShare')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			if (response.done === 1) {
+		axios.post(url, req).then((response) => {
+			if (response.data.done === 1) {
 				const li = $('.session[token="' + token + '"]').find('.publicfilteredsharelist li[filteredtoken=' + sharetoken + ']')
 				li.fadeOut('normal', function() {
 					li.remove()
@@ -4820,7 +4754,8 @@ import { escapeHtml } from './utils'
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete public share'))
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete public share'))
 		})
 	}
@@ -4829,18 +4764,13 @@ import { escapeHtml } from './utils'
 		const req = {
 		}
 		const url = generateUrl('/apps/phonetrack/getUserList')
-		$.ajax({
-			type: 'POST',
-			url,
-			data: req,
-			async: true,
-		}).done(function(response) {
-			phonetrack.userIdName = response.users
+		axios.post(url, req).then((response) => {
+			phonetrack.userIdName = response.data.users
 			phonetrack.shareInputToId = {}
 			const nameList = []
 			let name, complString
-			for (const id in response.users) {
-				name = response.users[id]
+			for (const id in response.data.users) {
+				name = response.data.users[id]
 				if (id !== name) {
 					complString = name + ' (' + id + ')'
 					nameList.push(complString)
@@ -4860,7 +4790,8 @@ import { escapeHtml } from './utils'
 					.appendTo(ul)
 				return listItem
 			}
-		}).fail(function() {
+		}).catch((error) => {
+			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get user list'))
 		})
 	}
@@ -5879,14 +5810,10 @@ import { escapeHtml } from './utils'
 				locked: dbNewLocked,
 			}
 			const url = generateUrl('/apps/phonetrack/setSessionLocked')
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function() {
+			axios.post(url, req).then((response) => {
 				icon.toggleClass('fa-lock').toggleClass('fa-lock-open')
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to change session lock status'))
 				OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
 			})
@@ -5905,18 +5832,14 @@ import { escapeHtml } from './utils'
 				public: isPublic,
 			}
 			const url = generateUrl('/apps/phonetrack/setSessionPublic')
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function(response) {
-				if (response.done === 1) {
+			axios.post(url, req).then((response) => {
+				if (response.data.done === 1) {
 					// nothing
-				} else if (response.done === 2) {
+				} else if (response.data.done === 2) {
 					OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public status, session does not exist'))
 				}
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to toggle session public status'))
 				OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
 			})
@@ -5941,13 +5864,8 @@ import { escapeHtml } from './utils'
 				shape,
 			}
 			const url = generateUrl('/apps/phonetrack/setDeviceShape')
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function(response) {
-				if (response.done === 1) {
+			axios.post(url, req).then((response) => {
+				if (response.data.done === 1) {
 					phonetrack.sessionShapes[s + d] = shape
 					const radius = $('#pointradius').val()
 					const opacity = $('#pointlinealpha').val()
@@ -5982,10 +5900,11 @@ import { escapeHtml } from './utils'
 					// dev styles
 					setDeviceCss(s, d, phonetrack.sessionColors[s + d], opacity, shape)
 					$('.session[token=' + s + '] ul.devicelist li[device=' + d + '] .devicecolor').removeClass('rdevicecolor').removeClass('sdevicecolor').removeClass('tdevicecolor').addClass(shape + 'devicecolor')
-				} else if (response.done === 2) {
+				} else if (response.data.done === 2) {
 					OC.Notification.showTemporary(t('phonetrack', 'Failed to set device shape'))
 				}
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set device shape'))
 			})
 		})
@@ -5998,21 +5917,17 @@ import { escapeHtml } from './utils'
 				value: val,
 			}
 			const url = generateUrl('/apps/phonetrack/setSessionAutoExport')
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function(response) {
-				if (response.done === 1) {
+			axios.post(url, req).then((response) => {
+				if (response.data.done === 1) {
 					// nothing
-				} else if (response.done === 2) {
+				} else if (response.data.done === 2) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to set session auto export value')
 						+ '. ' + t('phonetrack', 'session does not exist')
 					)
 				}
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set session auto export value'))
 			})
 		})
@@ -6025,21 +5940,17 @@ import { escapeHtml } from './utils'
 				value: val,
 			}
 			const url = generateUrl('/apps/phonetrack/setSessionAutoPurge')
-			$.ajax({
-				type: 'POST',
-				url,
-				data: req,
-				async: true,
-			}).done(function(response) {
-				if (response.done === 1) {
+			axios.post(url, req).then((response) => {
+				if (response.data.done === 1) {
 					// nothing
-				} else if (response.done === 2) {
+				} else if (response.data.done === 2) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to set session auto purge value')
 						+ '. ' + t('phonetrack', 'session does not exist')
 					)
 				}
-			}).fail(function() {
+			}).catch((error) => {
+				console.error(error)
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set session auto purge value'))
 			})
 		})
