@@ -12,6 +12,7 @@
 
 // if we want to use d3 (but it's already exposed to leaflet-elevations with webpack plugin)
 // import * as d3 from 'd3/dist/d3.min'
+import $ from 'jquery'
 import L from 'leaflet'
 // import 'leaflet/dist/leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -142,123 +143,6 @@ import { escapeHtml } from './utils'
 
 	const offset = L.point(-7, 0)
 
-
-
-	const symbolIcons = {
-		'Dot, White': L.divIcon({
-			iconSize: L.point(7, 7),
-		}),
-		'Pin, Blue': L.divIcon({
-			className: 'pin-blue',
-			iconAnchor: [5, 30],
-		}),
-		'Pin, Green': L.divIcon({
-			className: 'pin-green',
-			iconAnchor: [5, 30],
-		}),
-		'Pin, Red': L.divIcon({
-			className: 'pin-red',
-			iconAnchor: [5, 30],
-		}),
-		'Flag, Green': L.divIcon({
-			className: 'flag-green',
-			iconAnchor: [1, 25],
-		}),
-		'Flag, Red': L.divIcon({
-			className: 'flag-red',
-			iconAnchor: [1, 25],
-		}),
-		'Flag, Blue': L.divIcon({
-			className: 'flag-blue',
-			iconAnchor: [1, 25],
-		}),
-		'Block, Blue': L.divIcon({
-			className: 'block-blue',
-			iconAnchor: [8, 8],
-		}),
-		'Block, Green': L.divIcon({
-			className: 'block-green',
-			iconAnchor: [8, 8],
-		}),
-		'Block, Red': L.divIcon({
-			className: 'block-red',
-			iconAnchor: [8, 8],
-		}),
-		'Blue Diamond': L.divIcon({
-			className: 'diamond-blue',
-			iconAnchor: [9, 9],
-		}),
-		'Green Diamond': L.divIcon({
-			className: 'diamond-green',
-			iconAnchor: [9, 9],
-		}),
-		'Red Diamond': L.divIcon({
-			className: 'diamond-red',
-			iconAnchor: [9, 9],
-		}),
-		Residence: L.divIcon({
-			className: 'residence',
-			iconAnchor: [12, 12],
-		}),
-		'Drinking Water': L.divIcon({
-			className: 'drinking-water',
-			iconAnchor: [12, 12],
-		}),
-		'Trail Head': L.divIcon({
-			className: 'hike',
-			iconAnchor: [12, 12],
-		}),
-		'Bike Trail': L.divIcon({
-			className: 'bike-trail',
-			iconAnchor: [12, 12],
-		}),
-		Campground: L.divIcon({
-			className: 'campground',
-			iconAnchor: [12, 12],
-		}),
-		Bar: L.divIcon({
-			className: 'bar',
-			iconAnchor: [10, 12],
-		}),
-		'Skull and Crossbones': L.divIcon({
-			className: 'skullcross',
-			iconAnchor: [12, 12],
-		}),
-		Geocache: L.divIcon({
-			className: 'geocache',
-			iconAnchor: [11, 10],
-		}),
-		'Geocache Found': L.divIcon({
-			className: 'geocache-open',
-			iconAnchor: [11, 10],
-		}),
-		'Medical Facility': L.divIcon({
-			className: 'medical',
-			iconAnchor: [13, 11],
-		}),
-		'Contact, Alien': L.divIcon({
-			className: 'contact-alien',
-			iconAnchor: [12, 12],
-		}),
-		'Contact, Big Ears': L.divIcon({
-			className: 'contact-bigears',
-			iconAnchor: [12, 12],
-		}),
-		'Contact, Female3': L.divIcon({
-			className: 'contact-female3',
-			iconAnchor: [12, 12],
-		}),
-		'Contact, Cat': L.divIcon({
-			className: 'contact-cat',
-			iconAnchor: [12, 12],
-		}),
-		'Contact, Dog': L.divIcon({
-			className: 'contact-dog',
-			iconAnchor: [12, 12],
-		}),
-	}
-
-
 	/// ///////////// UTILS /////////////////////
 
 	function pad(n) {
@@ -268,7 +152,6 @@ import { escapeHtml } from './utils'
 	function endsWith(str, suffix) {
 		return str.indexOf(suffix, str.length - suffix.length) !== -1
 	}
-
 
 	function hexToRgb(hex) {
 		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
@@ -283,7 +166,7 @@ import { escapeHtml } from './utils'
 
 	function componentToHex(c) {
 		const hex = c.toString(16)
-		return hex.length == 1 ? '0' + hex : hex
+		return hex.length === 1 ? '0' + hex : hex
 	}
 
 	function rgbToHex(r, g, b) {
@@ -304,7 +187,6 @@ import { escapeHtml } from './utils'
 	function getColorBrightness(rgb) {
 		return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b
 	}
-
 
 	function Timer(callback, delay) {
 		let timerId; let start; let remaining = delay
@@ -345,17 +227,17 @@ import { escapeHtml } from './utils'
 
 	/// ///////////// MAP /////////////////////
 
-	function load_map() {
+	function loadMap() {
 		// change meta to send referrer
 		// usefull for IGN tiles authentication !
 		$('meta[name=referrer]').attr('content', 'origin')
 
 		const layer = getUrlParameter('layer')
-		let default_layer = 'OpenStreetMap'
+		let defaultLayer = 'OpenStreetMap'
 		if (phonetrack.restoredTileLayer !== null) {
-			default_layer = phonetrack.restoredTileLayer
+			defaultLayer = phonetrack.restoredTileLayer
 		} else if (typeof layer !== 'undefined') {
-			default_layer = layer
+			defaultLayer = layer
 		}
 
 		const baseLayers = {}
@@ -408,6 +290,7 @@ import { escapeHtml } from './utils'
 				sopacity = 1
 			}
 			const sattrib = $(this).attr('attribution') || ''
+			// eslint-disable-next-line
 			baseLayers[sname] = new L.tileLayer.wms(surl, { layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: sattrib })
 		})
 		// add custom layers
@@ -442,6 +325,7 @@ import { escapeHtml } from './utils'
 			const sversion = $(this).attr('version') || '1.1.1'
 			const sformat = $(this).attr('format') || 'image/png'
 			const sattrib = $(this).attr('attribution') || ''
+			// eslint-disable-next-line
 			baseLayers[sname] = new L.tileLayer.wms(surl,
 				{ format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: sattrib })
 		})
@@ -479,6 +363,7 @@ import { escapeHtml } from './utils'
 			}
 			const sformat = $(this).attr('format') || 'image/png'
 			const sattrib = $(this).attr('attribution') || ''
+			// eslint-disable-next-line
 			baseOverlays[sname] = new L.tileLayer.wms(surl, { layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: sattrib })
 		})
 		// add custom overlays
@@ -514,6 +399,7 @@ import { escapeHtml } from './utils'
 				sopacity = 0.4
 			}
 			const sattrib = $(this).attr('attribution') || ''
+			// eslint-disable-next-line
 			baseOverlays[sname] = new L.tileLayer.wms(surl, { layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: sattrib, minZoom: sminzoom, maxZoom: smaxzoom })
 		})
 		phonetrack.overlayLayers = baseOverlays
@@ -542,6 +428,7 @@ import { escapeHtml } from './utils'
 		phonetrack.locateControl.addTo(phonetrack.map)
 		phonetrack.map.on('locationfound', locationFound)
 		if (OCA.Theming) {
+			// what?
 		}
 		const loc = getLocale()
 		const measureOptions = {
@@ -560,11 +447,11 @@ import { escapeHtml } from './utils'
 
 		phonetrack.map.setView(new L.LatLng(27, 5), 3)
 
-		if (!baseLayers.hasOwnProperty(default_layer)) {
-			default_layer = 'OpenStreetMap'
+		if (!(defaultLayer in baseLayers)) {
+			defaultLayer = 'OpenStreetMap'
 		}
-		phonetrack.map.addLayer(baseLayers[default_layer])
-		phonetrack.currentLayerName = default_layer
+		phonetrack.map.addLayer(baseLayers[defaultLayer])
+		phonetrack.currentLayerName = defaultLayer
 
 		phonetrack.controlLayers = L.control.layers(
 			baseLayers,
@@ -811,9 +698,9 @@ import { escapeHtml } from './utils'
 	}
 
 	function deleteMultiplePoints(bounds = null) {
-		let pidlist, pidsToDelete, cpt, did, dname, layers, l, i
+		let pidlist, pidsToDelete, cpt, did, layers, l, i
 		const s = $('#deletePointSession option:selected').attr('token')
-		dname = $('#deletePointDevice').val()
+		const dname = $('#deletePointDevice').val()
 		did = getDeviceId(s, dname)
 		// if session is watched, if device exists, for all displayed points
 		if ($('.session[token=' + s + '] .watchbutton i').hasClass('fa-toggle-on')) {
@@ -842,7 +729,7 @@ import { escapeHtml } from './utils'
 					}
 				}
 			} else {
-				if (phonetrack.sessionLineLayers[s].hasOwnProperty(did)) {
+				if (did in phonetrack.sessionLineLayers[s]) {
 					pidlist = []
 					layers = phonetrack.sessionPointsLayers[s][did].getLayers()
 					for (i = 0; i < layers.length; i++) {
@@ -1010,6 +897,7 @@ import { escapeHtml } from './utils'
 					phonetrack.baseLayers[sname] = newlayer
 				} else if (type === 'tilewms') {
 					// add tile server in leaflet control
+					// eslint-disable-next-line
 					newlayer = new L.tileLayer.wms(surl,
 						{ format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: '' })
 					phonetrack.controlLayers.addBaseLayer(newlayer, sname)
@@ -1023,6 +911,7 @@ import { escapeHtml } from './utils'
 					phonetrack.baseLayers[sname] = newlayer
 				} else if (type === 'overlaywms') {
 					// add tile server in leaflet control
+					// eslint-disable-next-line
 					newlayer = new L.tileLayer.wms(surl,
 						{ layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: '', minZoom: sminzoom, maxZoom: smaxzoom })
 					phonetrack.controlLayers.addOverlay(newlayer, sname)
@@ -1233,8 +1122,8 @@ import { escapeHtml } from './utils'
 			} else if (key === 'activeSessions') {
 				value = {}
 				$('.session').each(function() {
-					let s, d, zoom, line
-					s = $(this).attr('token')
+					let d, zoom, line
+					const s = $(this).attr('token')
 					if (isSessionActive(s)) {
 						value[s] = {}
 						$(this).find('.devicelist li').each(function() {
@@ -1396,7 +1285,6 @@ import { escapeHtml } from './utils'
 	}
 
 	/// ///////////// SYMBOLS /////////////////////
-
 
 	/// ///////////// SESSIONS ///////////////////
 
@@ -1802,7 +1690,7 @@ import { escapeHtml } from './utils'
 			)
 		}
 		/// ////////////////////////////////////////////////////////
-		if (!phonetrack.sessionLineLayers.hasOwnProperty(token)) {
+		if (!(token in phonetrack.sessionLineLayers)) {
 			phonetrack.sessionLineLayers[token] = {}
 			phonetrack.sessionDisplayedLatlngs[token] = {}
 			phonetrack.sessionLatlngs[token] = {}
@@ -1810,7 +1698,7 @@ import { escapeHtml } from './utils'
 			phonetrack.sessionPointsLayersById[token] = {}
 			phonetrack.sessionPointsEntriesById[token] = {}
 		}
-		if (!phonetrack.sessionMarkerLayers.hasOwnProperty(token)) {
+		if (!(token in phonetrack.sessionMarkerLayers)) {
 			phonetrack.sessionMarkerLayers[token] = {}
 		}
 		/// /////////////////////////////////////////////////////////
@@ -1827,8 +1715,8 @@ import { escapeHtml } from './utils'
 			devshape = dev[7]
 
 			if (phonetrack.sessionsFromSavedOptions
-				&& phonetrack.sessionsFromSavedOptions.hasOwnProperty(token)
-				&& phonetrack.sessionsFromSavedOptions[token].hasOwnProperty(devid)) {
+				&& token in phonetrack.sessionsFromSavedOptions
+				&& devid in phonetrack.sessionsFromSavedOptions[token]) {
 				addDevice(
 					token, devid, name, devcolor, devname, devgeofences,
 					phonetrack.sessionsFromSavedOptions[token][devid].zoom,
@@ -2170,7 +2058,7 @@ import { escapeHtml } from './utils'
 				for (s in response.sessions) {
 					selected = false
 					if (phonetrack.sessionsFromSavedOptions
-						&& phonetrack.sessionsFromSavedOptions.hasOwnProperty(response.sessions[s][1])
+						&& response.sessions[s][1] in phonetrack.sessionsFromSavedOptions
 					) {
 						selected = true
 					}
@@ -2188,9 +2076,8 @@ import { escapeHtml } from './utils'
 							response.sessions[s][2],
 							[]
 						)
-					}
-					// session is mine !
-					else {
+					} else {
+						// session is mine !
 						addSession(
 							response.sessions[s][1],
 							response.sessions[s][0],
@@ -2366,9 +2253,8 @@ import { escapeHtml } from './utils'
 					// there are more points
 					if (i < ll.length) {
 						currentEntry = phonetrack.sessionPointsEntriesById[s][d][ll[i][2]]
-					}
-					// there is no more point after this one
-					else {
+					} else {
+						// there is no more point after this one
 						segments.push(currentSegment)
 					}
 				}
@@ -2377,7 +2263,9 @@ import { escapeHtml } from './utils'
 			for (i = 0; i < segments.length; i++) {
 				cl = cl + segments[i].length
 			}
-			console.assert(ll.length === cl, 'Warning : segmentation went wrong')
+			if (ll.length !== cl) {
+				console.error('Warning : segmentation went wrong')
+			}
 			return segments
 		}
 	}
@@ -2527,9 +2415,8 @@ import { escapeHtml } from './utils'
 			const completeDateMinStr = dateminstr + ' ' + pad(hourminstr) + ':' + pad(minminstr) + ':' + pad(secminstr)
 			momMin = moment(completeDateMinStr)
 			timestampMin = momMin.unix()
-		}
-		// if no date is set but hour:min:sec is set, make it today
-		else {
+		} else {
+			// if no date is set but hour:min:sec is set, make it today
 			hourminstr = parseInt(tab.find('input#hourmin').val())
 			minminstr = parseInt(tab.find('input#minutemin').val())
 			secminstr = parseInt(tab.find('input#secondmin').val())
@@ -2551,12 +2438,11 @@ import { escapeHtml } from './utils'
 			minmaxstr = isNaN(minmaxstr) ? 59 : minmaxstr
 			secmaxstr = isNaN(secmaxstr) ? 59 : secmaxstr
 			const completeDateMaxStr = datemaxstr + ' ' + pad(hourmaxstr) + ':' + pad(minmaxstr) + ':' + pad(secmaxstr)
-			console.log('compl date max ' + completeDateMaxStr)
+			console.debug('compl date max ' + completeDateMaxStr)
 			momMax = moment(completeDateMaxStr)
 			timestampMax = momMax.unix()
-		}
-		// if no date is set but hour:min:sec is set, make it today
-		else {
+		} else {
+			// if no date is set but hour:min:sec is set, make it today
 			hourmaxstr = parseInt(tab.find('input#hourmax').val())
 			minmaxstr = parseInt(tab.find('input#minutemax').val())
 			secmaxstr = parseInt(tab.find('input#secondmax').val())
@@ -2607,7 +2493,7 @@ import { escapeHtml } from './utils'
 		}
 		// $('#filterPointsTable input[type=number]').prop('disabled', filtersEnabled)
 		// $('#filterPointsTable input[type=date]').prop('disabled', filtersEnabled)
-		var s, d, id, i, displayedLatlngs, cutLines
+		let s, d, id, i, displayedLatlngs, cutLines
 		if (filtersEnabled) {
 			$('#sidebarFen').show()
 			$('#sidebarFdis').hide()
@@ -2643,9 +2529,8 @@ import { escapeHtml } from './utils'
 				}
 			}
 			$('#statlabel').text(t('phonetrack', 'Stats of all points'))
-		}
-		// there is at least a filter
-		else {
+		} else {
+			// there is at least a filter
 			for (s in phonetrack.sessionLineLayers) {
 				for (d in phonetrack.sessionLineLayers[s]) {
 					// put filtered coordinates in lines
@@ -2659,7 +2544,7 @@ import { escapeHtml } from './utils'
 
 					// filter sessionPointsLayers
 					phonetrack.sessionPointsLayers[s][d].clearLayers()
-					for (i = 0; i < displayedLatlngs.length; i++) {
+					for (i = 0; i < displayedLatlngs.length; i++) {
 						id = displayedLatlngs[i][2]
 						phonetrack.sessionPointsLayers[s][d].addLayer(phonetrack.sessionPointsLayersById[s][d][id])
 					}
@@ -2674,7 +2559,6 @@ import { escapeHtml } from './utils'
 
 		// anyway, filter or not, we adapt the markers
 		for (s in phonetrack.sessionLineLayers) {
-			const sessionname = getSessionName(s)
 			for (d in phonetrack.sessionLineLayers[s]) {
 				updateMarker(s, d)
 			}
@@ -2685,9 +2569,9 @@ import { escapeHtml } from './utils'
 		changeTooltipStyle()
 		// potentially remove the hover marker
 		if (phonetrack.editMarker) {
-			var d = phonetrack.editMarker.device
-			var s = phonetrack.editMarker.session
-			if (!phonetrack.sessionPointsLayers[s][d].hasLayer(phonetrack.editMarker)) {
+			const dd = phonetrack.editMarker.device
+			const ss = phonetrack.editMarker.session
+			if (!phonetrack.sessionPointsLayers[ss][dd].hasLayer(phonetrack.editMarker)) {
 				phonetrack.editMarker.remove()
 			}
 		}
@@ -2755,26 +2639,26 @@ import { escapeHtml } from './utils'
 			// for all devices
 			for (d in sessions[s]) {
 				// add line and marker if necessary
-				if (!phonetrack.sessionLineLayers[s].hasOwnProperty(d)) {
+				if (!(d in phonetrack.sessionLineLayers[s])) {
 					devcol = ''
 					devgeofences = []
 					devproxims = []
 					devshape = ''
-					if (colors.hasOwnProperty(s) && colors[s].hasOwnProperty(d)) {
+					if (s in colors && d in colors[s]) {
 						devcol = colors[s][d]
 					}
-					if (proxims.hasOwnProperty(s) && proxims[s].hasOwnProperty(d)) {
+					if (s in proxims && d in proxims[s]) {
 						devproxims = proxims[s][d]
 					}
-					if (shapes.hasOwnProperty(s) && shapes[s].hasOwnProperty(d)) {
+					if (s in shapes && d in shapes[s]) {
 						devshape = shapes[s][d]
 					}
-					if (geofences.hasOwnProperty(s) && geofences[s].hasOwnProperty(d)) {
+					if (s in geofences && d in geofences[s]) {
 						devgeofences = geofences[s][d]
 					}
 					if (phonetrack.sessionsFromSavedOptions
-						&& phonetrack.sessionsFromSavedOptions.hasOwnProperty(s)
-						&& phonetrack.sessionsFromSavedOptions[s].hasOwnProperty(d)) {
+						&& s in phonetrack.sessionsFromSavedOptions
+						&& d in phonetrack.sessionsFromSavedOptions[s]) {
 						addDevice(
 							s, d, sessionname, devcol, names[s][d], devgeofences,
 							phonetrack.sessionsFromSavedOptions[s][d].zoom,
@@ -5362,7 +5246,7 @@ import { escapeHtml } from './utils'
 	function main() {
 		phonetrack.username = $('p#username').html()
 		phonetrack.token = $('p#token').html()
-		load_map()
+		loadMap()
 
 		$('body').on('change', '#autozoomcheck', function() {
 			if (!pageIsPublic()) {
@@ -7011,4 +6895,4 @@ import { escapeHtml } from './utils'
 
 	}
 
-})(jQuery, OC)
+})($, OC)
