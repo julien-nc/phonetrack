@@ -7,16 +7,16 @@ import { generateUrl } from '@nextcloud/router'
 })()
 
 function setPhoneTrackQuota(val) {
-	var url = generateUrl('/apps/phonetrack/setPointQuota')
-	var req = {
+	const url = generateUrl('/apps/phonetrack/setPointQuota')
+	const req = {
 		quota: val,
 	}
 	$.ajax({
 		type: 'POST',
-		url: url,
+		url,
 		data: req,
 		async: true,
-	}).done(function (response) {
+	}).done(function(response) {
 		OC.Notification.showTemporary(
 			t('phonetrack', 'Quota was successfully saved')
 		)
