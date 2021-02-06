@@ -2094,8 +2094,11 @@ import { escapeHtml } from './utils'
 				*/
 				displayNewPoints(response.data.sessions, response.data.colors, response.data.names, response.data.geofences, response.data.aliases, response.data.proxims, response.data.shapes)
 			}).catch((error) => {
-				console.error('REFRESH error')
-				console.error(error)
+				if (axios.isCancel(error)) {
+					console.debug('refresh was canceled')
+				} else {
+					console.error(error)
+				}
 				// TODO check how to make it work when called from an ajax "done"
 				// OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to refresh sessions'))
 			}).then(() => {
@@ -2146,6 +2149,10 @@ import { escapeHtml } from './utils'
 		}
 	}
 
+	function isPointInSegment(cutdistance, distanceToPrev, cuttime, timeToPrev) {
+		return (cutdistance === null || distanceToPrev < cutdistance)
+			&& (cuttime === null || timeToPrev < cuttime)
+	}
 	// transform a list of latlngs into multiple segments based on time/distance thresholds
 	function segmentLines(ll, s, d) {
 		const cuttime = parseInt($('#cuttime').val()) || null
@@ -2165,8 +2172,7 @@ import { escapeHtml } from './utils'
 			while (i < ll.length) {
 				// fill current segment while possible
 				while (i < ll.length
-					   && (cutdistance === null || phonetrack.map.distance(ll[i - 1], ll[i]) < cutdistance)
-					   && (cuttime === null || ((currentEntry.timestamp - lastEntry.timestamp) < cuttime))
+						&& isPointInSegment(cutdistance, phonetrack.map.distance(ll[i - 1], ll[i]), cuttime, currentEntry.timestamp - lastEntry.timestamp)
 				) {
 					currentSegment.push(ll[i])
 					i++
