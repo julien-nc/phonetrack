@@ -1,12 +1,12 @@
 function escapeHtml(text) {
-	var map = {
+	const map = {
 		'&': '&amp;',
 		'<': '&lt;',
 		'>': '&gt;',
 		'"': '&quot;',
-		"'": '&#039;'
-	};
-	return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+		"'": '&#039;',
+	}
+	return text.replace(/[&<>"']/g, (m) => { return map[m] })
 }
 
 export {
