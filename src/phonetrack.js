@@ -13,6 +13,7 @@
 // if we want to use d3 (but it's already exposed to leaflet-elevations with webpack plugin)
 // import * as d3 from 'd3/dist/d3.min'
 import $ from 'jquery'
+import 'webpack-jquery-ui'
 import L from 'leaflet'
 // import 'leaflet/dist/leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -4762,8 +4763,7 @@ import { escapeHtml } from './utils'
 	}
 
 	function addUserAutocompletion(input) {
-		const req = {
-		}
+		const req = {}
 		const url = generateUrl('/apps/phonetrack/getUserList')
 		axios.post(url, req).then((response) => {
 			phonetrack.userIdName = response.data.users

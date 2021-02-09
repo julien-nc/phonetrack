@@ -53,7 +53,8 @@
     "leaflet.locatecontrol": "^0.72.0",
     "lodash": "^4.17.20",
     "mapbox-gl": "^2.1.0",
-    "mapbox-gl-leaflet": "^0.0.14"
+    "mapbox-gl-leaflet": "^0.0.14",
+    "webpack-jquery-ui": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.0",
