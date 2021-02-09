@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.6.7 – 2021-02-09
+### Fixed
+- jquery-ui import (was breaking autocomplete)
+[#391](https://gitlab.com/eneiluj/phonetrack-oc/issues/391) @swilms
+
 ## 0.6.6 – 2021-02-07
 ### Changed
 - use PSR logger interface
