@@ -232,7 +232,16 @@ import { escapeHtml } from './utils'
 	function loadMap() {
 		// change meta to send referrer
 		// usefull for IGN tiles authentication !
-		$('meta[name=referrer]').attr('content', 'origin')
+		if ($('meta[name=referrer]').length) {
+			// Change tag if already present
+			$('meta[name=referrer]').attr('content', 'origin')
+		} else {
+			// Insert new meta tag if no referrer tag was already found
+			const meta = document.createElement('meta')
+			meta.name = 'referrer'
+			meta.content = 'origin'
+			document.getElementsByTagName('head')[0].appendChild(meta)
+		}
 
 		const layer = getUrlParameter('layer')
 		let defaultLayer = 'OpenStreetMap'
