@@ -36,6 +36,7 @@
     "@nextcloud/moment": "^1.1.1",
     "@nextcloud/router": "^1.2.0",
     "@raruto/leaflet-elevation": "^1.5.3",
+    "babel-eslint": "^10.1.0",
     "d3": "^5.15.0",
     "ds-countdown": "^1.1.1",
     "interactjs": "^1.10.3",
