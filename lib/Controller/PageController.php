@@ -154,24 +154,27 @@ class PageController extends Controller {
 
 	private function getUserTileServers($type){
 		// custom tile servers management
-		$sqlts = '
-			SELECT servername, type, url, layers, token,
-				   version, format, opacity, transparent,
-				   minzoom, maxzoom, attribution
-			FROM *PREFIX*phonetrack_tileserver
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-			AND type='.$this->db_quote_escape_string($type).';';
-		$req = $this->dbconnection->prepare($sqlts);
-		$req->execute();
-		$tss = [];
-		while ($row = $req->fetch()){
+		$qb = $this->dbconnection->getQueryBuilder();
+		$qb->select('servername', 'type', 'url', 'layers', 'token',
+				   'version', 'format', 'opacity', 'transparent',
+				   'minzoom', 'maxzoom', 'attribution')
+			->from('phonetrack_tileserver', 'ts')
+			->where(
+				$qb->expr()->eq('user', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
 			$tss[$row["servername"]] = [];
 			foreach (['servername', 'type', 'url', 'token', 'layers', 'version', 'format',
-					  'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
+						 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
 				$tss[$row['servername']][$field] = $row[$field];
 			}
 		}
 		$req->closeCursor();
+		$qb = $qb->resetQueryParts();
 		return $tss;
 	}
 
@@ -232,20 +235,25 @@ class PageController extends Controller {
 	private function getReservedNames($token) {
 		$result = [];
 
-		$sqlgetres = '
-			SELECT name, nametoken
-			FROM *PREFIX*phonetrack_devices
-			WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlgetres);
-		$req->execute();
-		while ($row = $req->fetch()){
+		$qb = $this->dbconnection->getQueryBuilder();
+		$qb->select('name', 'nametoken')
+			->from('phonetrack_devices', 'd')
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
 			$dbdevicename = $row['name'];
 			$dbnametoken = $row['nametoken'];
-			if ($dbnametoken !== '' and $dbnametoken !== null) {
-				array_push($result, ['token'=>$dbnametoken, 'name'=>$dbdevicename]);
+			if ($dbnametoken !== '' && $dbnametoken !== null) {
+				$result[] = [
+					'token' => $dbnametoken,
+					'name' => $dbdevicename,
+				];
 			}
 		}
 		$req->closeCursor();
+		$qb = $qb->resetQueryParts();
 
 		return $result;
 	}
