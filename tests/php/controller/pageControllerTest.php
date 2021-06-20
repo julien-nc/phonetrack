@@ -17,15 +17,29 @@
  */
 namespace OCA\PhoneTrack\Controller;
 
+use OCP\App\IAppManager;
+use OCP\Files\IRootFolder;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\IRequest;
+use OCP\IServerContainer;
+use OCP\IUserManager;
+use OCP\Share\IManager as IShareManager;
+
 use Psr\Log\LoggerInterface;
 
-use \OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Activity\ActivityManager;
+use OCA\PhoneTrack\Service\SessionService;
+use OCA\PhoneTrack\AppInfo\Application;
 
 class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 
 	private $appName;
 	private $request;
-	private $contacts;
 
 	private $container;
 	private $config;
@@ -50,152 +64,149 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 		$c = $app->getContainer();
 
 		// CREATE DUMMY USERS
-		$u1 = $c->getServer()->getUserManager()->createUser('test', 'T0T0T0');
+		$userManager = $c->get(IUserManager::class);
+		$u1 = $userManager->createUser('test', 'T0T0T0');
 		$u1->setEMailAddress('toto@toto.net');
-		$c->getServer()->getUserManager()->createUser('test2', 'T0T0T0');
-		$c->getServer()->getUserManager()->createUser('test3', 'T0T0T0');
+		$userManager->createUser('test2', 'T0T0T0');
+		$userManager->createUser('test3', 'T0T0T0');
 	}
 
 	protected function setUp(): void {
-		$this->appName = 'phonetrack';
-		$this->request = $this->getMockBuilder('\OCP\IRequest')
-			->disableOriginalConstructor()
-			->getMock();
-		$this->contacts = $this->getMockBuilder('OCP\Contacts\IManager')
-			->disableOriginalConstructor()
-			->getMock();
-
 		$this->app = new Application();
 		$this->container = $this->app->getContainer();
 		$c = $this->container;
-		$this->config = $c->query('ServerContainer')->getConfig();
+		$sc = $c->get(IServerContainer::class);
+		$this->config = $c->get(IConfig::class);
 
-		$this->sessionService = new \OCA\PhoneTrack\Service\SessionService(
-			$this->createMock(LoggerInterface::class),
-			$c->query('ServerContainer')->getL10N($c->query('AppName')),
-			new \OCA\PhoneTrack\Db\SessionMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+		$this->appName = 'phonetrack';
+		$this->request = $c->get(IRequest::class);
+
+		$this->sessionService = new SessionService(
+			$c->get(LoggerInterface::class),
+			$c->get(IL10N::class),
+			new SessionMapper(
+				$c->get(IDBConnection::class)
 			),
-			$c->getServer()->getUserManager(),
-			$c->getServer()->getGroupManager(),
-			$c->query('ServerContainer')->getConfig()
+			$c->get(IUserManager::class),
+			$c->get(IGroupManager::class),
+			$c->get(IConfig::class)
 		);
 
-		$this->activityManager = new \OCA\PhoneTrack\Activity\ActivityManager(
-			$c->query('ServerContainer')->getActivityManager(),
-		$this->sessionService,
-			new \OCA\PhoneTrack\Db\SessionMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+		$this->activityManager = new ActivityManager(
+			$sc->getActivityManager(),
+			$this->sessionService,
+			new SessionMapper(
+				$c->get(IDBConnection::class)
 			),
-			new \OCA\PhoneTrack\Db\DeviceMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			new DeviceMapper(
+				$c->get(IDBConnection::class)
 			),
-			$c->query('ServerContainer')->getL10N($c->query('AppName')),
-			$c->getServer()->getUserManager(),
+			$c->get(IL10N::class),
+			$c->get(IUserManager::class),
 			'test'
 		);
 
-		$this->activityManager2 = new \OCA\PhoneTrack\Activity\ActivityManager(
-			$c->query('ServerContainer')->getActivityManager(),
-		$this->sessionService,
-			new \OCA\PhoneTrack\Db\SessionMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+		$this->activityManager2 = new ActivityManager(
+			$sc->getActivityManager(),
+			$this->sessionService,
+			new SessionMapper(
+				$c->get(IDBConnection::class)
 			),
-			new \OCA\PhoneTrack\Db\DeviceMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			new DeviceMapper(
+				$c->get(IDBConnection::class)
 			),
-			$c->query('ServerContainer')->getL10N($c->query('AppName')),
-			$c->getServer()->getUserManager(),
+			$c->get(IL10N::class),
+			$c->get(IUserManager::class),
 			'test2'
 		);
 
 		$this->pageController = new PageController(
 			$this->appName,
 			$this->request,
-			$c->query('ServerContainer'),
-			$c->query('ServerContainer')->getConfig(),
-			$c->getServer()->getShareManager(),
-			$c->getServer()->getAppManager(),
-			$c->getServer()->getUserManager(),
-			$this->createMock(LoggerInterface::class),
-			$c->query('ServerContainer')->getL10N($c->query('AppName')),
+			$c->get(IConfig::class),
+			$c->get(IShareManager::class),
+			$c->get(IAppManager::class),
+			$c->get(IUserManager::class),
+			$c->get(LoggerInterface::class),
+			$c->get(IL10N::class),
 			$this->activityManager,
-			new \OCA\PhoneTrack\Db\SessionMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			new SessionMapper(
+				$c->get(IDBConnection::class)
 			),
-			new \OCA\PhoneTrack\Db\DeviceMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			new DeviceMapper(
+				$c->get(IDBConnection::class)
 			),
-		$this->sessionService,
+			$this->sessionService,
+			$c->get(IDBConnection::class),
+			$c->get(IRootFolder::class),
 			'test'
 		);
 
 		$this->pageController2 = new PageController(
 			$this->appName,
 			$this->request,
-			$c->query('ServerContainer'),
-			$c->query('ServerContainer')->getConfig(),
-			$c->getServer()->getShareManager(),
-			$c->getServer()->getAppManager(),
-			$c->getServer()->getUserManager(),
-			$this->createMock(LoggerInterface::class),
-			$c->query('ServerContainer')->getL10N($c->query('AppName')),
-			$this->activityManager2,
-			new \OCA\PhoneTrack\Db\SessionMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			$c->get(IConfig::class),
+			$c->get(IShareManager::class),
+			$c->get(IAppManager::class),
+			$c->get(IUserManager::class),
+			$c->get(LoggerInterface::class),
+			$c->get(IL10N::class),
+			$this->activityManager,
+			new SessionMapper(
+				$c->get(IDBConnection::class)
 			),
-			new \OCA\PhoneTrack\Db\DeviceMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			new DeviceMapper(
+				$c->get(IDBConnection::class)
 			),
-		$this->sessionService,
+			$this->sessionService,
+			$c->get(IDBConnection::class),
+			$c->get(IRootFolder::class),
 			'test2'
 		);
 
 		$this->logController = new LogController(
 			$this->appName,
 			$this->request,
-			$c->query('ServerContainer'),
-			$c->query('ServerContainer')->getConfig(),
-			$c->getServer()->getShareManager(),
-			$c->getServer()->getAppManager(),
-			$c->getServer()->getUserManager(),
-			$c->query('ServerContainer')->getL10N('phonetrack'),
-			$this->createMock(LoggerInterface::class),
+			$c->get(IConfig::class),
+			$c->get(IShareManager::class),
+			$c->get(IUserManager::class),
+			$c->get(IL10N::class),
+			$c->get(LoggerInterface::class),
 			$this->activityManager,
-			new \OCA\PhoneTrack\Db\SessionMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			new SessionMapper(
+				$c->get(IDBConnection::class)
 			),
-			new \OCA\PhoneTrack\Db\DeviceMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			new DeviceMapper(
+				$c->get(IDBConnection::class)
 			),
+			$c->get(IDBConnection::class),
 			'test'
 		);
 
 		$this->logController2 = new LogController(
 			$this->appName,
 			$this->request,
-			$c->query('ServerContainer'),
-			$c->query('ServerContainer')->getConfig(),
-			$c->getServer()->getShareManager(),
-			$c->getServer()->getAppManager(),
-			$c->getServer()->getUserManager(),
-			$c->query('ServerContainer')->getL10N('phonetrack'),
-			$this->createMock(LoggerInterface::class),
-			$this->activityManager2,
-			new \OCA\PhoneTrack\Db\SessionMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			$c->get(IConfig::class),
+			$c->get(IShareManager::class),
+			$c->get(IUserManager::class),
+			$c->get(IL10N::class),
+			$c->get(LoggerInterface::class),
+			$this->activityManager,
+			new SessionMapper(
+				$c->get(IDBConnection::class)
 			),
-			new \OCA\PhoneTrack\Db\DeviceMapper(
-				$c->query('ServerContainer')->getDatabaseConnection()
+			new DeviceMapper(
+				$c->get(IDBConnection::class)
 			),
+			$c->get(IDBConnection::class),
 			'test2'
 		);
 
 		$this->utilsController = new UtilsController(
 			$this->appName,
 			$this->request,
-			$c->query('ServerContainer')->getConfig(),
-			$c->getServer()->getAppManager(),
+			$c->get(IConfig::class),
+			$c->get(IDBConnection::class),
 			'test'
 		);
 	}
@@ -203,11 +214,12 @@ class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
 	public static function tearDownAfterClass(): void {
 		$app = new Application();
 		$c = $app->getContainer();
-		$user = $c->getServer()->getUserManager()->get('test');
+		$userManager = $c->get(IUserManager::class);
+		$user = $userManager->get('test');
 		$user->delete();
-		$user = $c->getServer()->getUserManager()->get('test2');
+		$user = $userManager->get('test2');
 		$user->delete();
-		$user = $c->getServer()->getUserManager()->get('test3');
+		$user = $userManager->get('test3');
 		$user->delete();
 	}
 

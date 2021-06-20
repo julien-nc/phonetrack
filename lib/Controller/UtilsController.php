@@ -11,16 +11,11 @@
 
 namespace OCA\PhoneTrack\Controller;
 
-use OCP\App\IAppManager;
-
-use OCP\IURLGenerator;
 use OCP\IConfig;
-
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\RedirectResponse;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
+use OCP\IDBConnection;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
@@ -36,10 +31,10 @@ class UtilsController extends Controller {
 	public function __construct(string $AppName,
 								IRequest $request,
 								IConfig $config,
-								IAppManager $appManager,
-								?string $UserId) {
+								IDBConnection $dbconnection,
+								?string $userId) {
 		parent::__construct($AppName, $request);
-		$this->userId = $UserId;
+		$this->userId = $userId;
 		$this->dbtype = $config->getSystemValue('dbtype');
 		if ($this->dbtype === 'pgsql'){
 			$this->dbdblquotes = '"';
@@ -49,7 +44,7 @@ class UtilsController extends Controller {
 		}
 		// IConfig object
 		$this->config = $config;
-		$this->dbconnection = \OC::$server->getDatabaseConnection();
+		$this->dbconnection = $dbconnection;
 	}
 
 	/*

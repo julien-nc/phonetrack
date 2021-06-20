@@ -13,22 +13,16 @@ namespace OCA\PhoneTrack\Controller;
 
 use OCP\App\IAppManager;
 
-use OCP\IURLGenerator;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use \OCP\IL10N;
 use Psr\Log\LoggerInterface;
-
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\RedirectResponse;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IUserManager;
 use OCP\Share\IManager;
-use OCP\IServerContainer;
-use OCP\IGroupManager;
 use OCP\IRequest;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
@@ -89,10 +83,8 @@ function distance2($lat1, $long1, $lat2, $long2){
 class LogController extends Controller {
 
 	private $userId;
-	private $userfolder;
 	private $config;
 	private $appVersion;
-	private $userAbsoluteDataPath;
 	private $shareManager;
 	private $dbconnection;
 	private $dbtype;
@@ -106,16 +98,15 @@ class LogController extends Controller {
 
 	public function __construct(string $AppName,
 								IRequest $request,
-								IServerContainer $serverContainer,
 								IConfig $config,
 								IManager $shareManager,
-								IAppManager $appManager,
 								IUserManager $userManager,
 								IL10N $trans,
 								LoggerInterface $ncLogger,
 								ActivityManager $activityManager,
 								SessionMapper $sessionMapper,
 								DeviceMapper $deviceMapper,
+								IDBConnection $dbconnection,
 								?string $UserId) {
 		parent::__construct($AppName, $request);
 		$this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
@@ -136,15 +127,7 @@ class LogController extends Controller {
 		else{
 			$this->dbdblquotes = '';
 		}
-		$this->dbconnection = \OC::$server->getDatabaseConnection();
-		if ($UserId !== null and $UserId !== '' and $serverContainer !== null){
-			// path of user files folder relative to DATA folder
-			$this->userfolder = $serverContainer->getUserFolder($UserId);
-			// absolute path to user files folder
-			$this->userAbsoluteDataPath =
-				$this->config->getSystemValue('datadirectory').
-				rtrim($this->userfolder->getFullPath(''), '/');
-		}
+		$this->dbconnection = $dbconnection;
 		$this->shareManager = $shareManager;
 		$this->defaultDeviceName = ['yourname', 'devicename', 'name'];
 	}

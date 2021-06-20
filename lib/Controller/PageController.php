@@ -13,19 +13,15 @@ namespace OCA\PhoneTrack\Controller;
 
 use OCP\App\IAppManager;
 
-use OCP\IURLGenerator;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
-use \OCP\IL10N;
-
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\RedirectResponse;
+use OCP\IDBConnection;
+use OCP\IL10N;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IUserManager;
 use OCP\Share\IManager;
-use OCP\IServerContainer;
-use OCP\IGroupManager;
 use Psr\Log\LoggerInterface;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -83,7 +79,6 @@ class PageController extends Controller {
 	private $userfolder;
 	private $config;
 	private $appVersion;
-	private $userAbsoluteDataPath;
 	private $shareManager;
 	private $userManager;
 	private $dbconnection;
@@ -100,10 +95,13 @@ class PageController extends Controller {
 	private $currentPointList;
 	private $trackIndex;
 	private $pointIndex;
+	/**
+	 * @var IRootFolder
+	 */
+	private $root;
 
 	public function __construct(string $AppName,
 								IRequest $request,
-								IServerContainer $serverContainer,
 								IConfig $config,
 								IManager $shareManager,
 								IAppManager $appManager,
@@ -114,6 +112,8 @@ class PageController extends Controller {
 								SessionMapper $sessionMapper,
 								DeviceMapper $deviceMapper,
 								SessionService $sessionService,
+								IDBConnection $dbconnection,
+								IRootFolder $root,
 								?string $UserId) {
 		parent::__construct($AppName, $request);
 		$this->logger = $logger;
@@ -139,18 +139,10 @@ class PageController extends Controller {
 		else{
 			$this->dbdblquotes = '';
 		}
-		$this->dbconnection = \OC::$server->getDatabaseConnection();
-		if ($UserId !== null and $UserId !== '' and $serverContainer !== null){
-			// path of user files folder relative to DATA folder
-			$this->userfolder = $serverContainer->getUserFolder($UserId);
-			// absolute path to user files folder
-			$this->userAbsoluteDataPath =
-				$this->config->getSystemValue('datadirectory').
-				rtrim($this->userfolder->getFullPath(''), '/');
-		}
-		//$this->shareManager = \OC::$server->getShareManager();
+		$this->dbconnection = $dbconnection;
 		$this->shareManager = $shareManager;
 		$this->defaultDeviceId = ['yourname', 'deviceid'];
+		$this->root = $root;
 	}
 
 	/*
