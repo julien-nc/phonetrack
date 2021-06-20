@@ -363,7 +363,7 @@ class LogController extends Controller {
 					$emailaddrArray = explode(',', $emailaddr);
 					if (
 						(count($emailaddrArray) === 0
-						 or (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+						 || (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
 						and !empty($userEmail)
 					) {
 						array_push($emailaddrArray, $userEmail);
@@ -500,7 +500,7 @@ class LogController extends Controller {
 					$emailaddrArray = explode(',', $emailaddr);
 					if (
 						(count($emailaddrArray) === 0
-						 or (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+						 || (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
 						and !empty($userEmail)
 					) {
 						array_push($emailaddrArray, $userEmail);
@@ -704,7 +704,7 @@ class LogController extends Controller {
 						$emailaddrArray = explode(',', $emailaddr);
 						if (
 							(count($emailaddrArray) === 0
-							 or (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+							 || (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
 							and !empty($userEmail)
 						) {
 							array_push($emailaddrArray, $userEmail);
@@ -830,7 +830,7 @@ class LogController extends Controller {
 						$emailaddrArray = explode(',', $emailaddr);
 						if (
 							(count($emailaddrArray) === 0
-							 or (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+							 || (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
 							and !empty($userEmail)
 						) {
 							array_push($emailaddrArray, $userEmail);
@@ -1006,7 +1006,7 @@ class LogController extends Controller {
 
 			// if rotateglob
 			// or if rotatedev was not enough to free the space we need
-			if ($userChoice === 'rotateglob' or $nbExceedingPoints > 0) {
+			if ($userChoice === 'rotateglob' || $nbExceedingPoints > 0) {
 				if ($this->dbtype === 'mysql') {
 					$sqldel = '
 						SELECT p.id AS id

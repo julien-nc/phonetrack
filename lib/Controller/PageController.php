@@ -37,7 +37,7 @@ use OCA\PhoneTrack\Activity\ActivityManager;
 
 function distance($lat1, $long1, $lat2, $long2){
 
-	if ($lat1 === $lat2 and $long1 === $long2){
+	if ($lat1 === $lat2 && $long1 === $long2){
 		return 0;
 	}
 
@@ -153,6 +153,7 @@ class PageController extends Controller {
 	}
 
 	private function getUserTileServers($type){
+		$tss = [];
 		// custom tile servers management
 		$qb = $this->dbconnection->getQueryBuilder();
 		$qb->select('servername', 'type', 'url', 'layers', 'token',
@@ -167,7 +168,7 @@ class PageController extends Controller {
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			$tss[$row["servername"]] = [];
+			$tss[$row['servername']] = [];
 			foreach (['servername', 'type', 'url', 'token', 'layers', 'version', 'format',
 						 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
 				$tss[$row['servername']][$field] = $row[$field];
@@ -194,7 +195,6 @@ class PageController extends Controller {
 		$ossw = $this->getUserTileServers('overlaywms');
 
 		// PARAMS to view
-
 		require_once('tileservers.php');
 		if (!isset($baseTileServers) ) {
 			$baseTileServers = '';
@@ -742,7 +742,7 @@ class PageController extends Controller {
 		}
 		$req->closeCursor();
 
-		if ($dbname === null and $name !== '') {
+		if ($dbname === null && $name !== '') {
 			// determine token
 			$token = md5($this->userId.$name.rand());
 			$publicviewtoken = md5($this->userId.$name.rand());
@@ -1042,7 +1042,7 @@ class PageController extends Controller {
 	 */
 	public function setSessionPublic($token, $public) {
 		$ok = 0;
-		if (intval($public) === 1 or intval($public) === 0) {
+		if (intval($public) === 1 || intval($public) === 0) {
 			// check if session exists
 			$sqlchk = '
 				SELECT name
@@ -1096,7 +1096,7 @@ class PageController extends Controller {
 	 */
 	public function setSessionLocked($token, $locked) {
 		$ilocked = intval($locked);
-		if ($ilocked === 1 or $ilocked === 0) {
+		if ($ilocked === 1 || $ilocked === 0) {
 			// check if session exists
 			$qb = $this->dbconnection->getQueryBuilder();
 			// is the project shared with the user ?
@@ -1380,7 +1380,7 @@ class PageController extends Controller {
 	 */
 	public function renameSession($token, $newname) {
 		$ok = 0;
-		if ($newname !== '' and $newname !== null) {
+		if ($newname !== '' && $newname !== null) {
 			// check if session exists
 			$sqlchk = '
 				SELECT name
@@ -1434,7 +1434,7 @@ class PageController extends Controller {
 	 */
 	public function renameDevice($token, $deviceid, $newname) {
 		$ok = 0;
-		if ($newname !== '' and $newname !== null) {
+		if ($newname !== '' && $newname !== null) {
 			// check if session exists
 			$sqlchk = '
 				SELECT name, token
@@ -1797,7 +1797,7 @@ class PageController extends Controller {
 
 		if (is_array($sessions)) {
 			foreach ($sessions as $session) {
-				if (is_array($session) and count($session) === 3) {
+				if (is_array($session) && count($session) === 3) {
 					$token = $session[0];
 					$lastTime = $session[1];
 					$firstTime = $session[2];
@@ -1966,7 +1966,7 @@ class PageController extends Controller {
 							else {
 								// if device has no new point and no last time
 								// it means it was probably reserved : we don't give its name
-								if (!is_array($lastTime) or !array_key_exists($devid, $lastTime)) {
+								if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
 									unset($names[$dbtoken][$devid]);
 									unset($aliases[$dbtoken][$devid]);
 									unset($colors[$dbtoken][$devid]);
@@ -2061,7 +2061,7 @@ class PageController extends Controller {
 		}
 		$req->closeCursor();
 
-		return ($dbpublic === '1' or $dbpublic === 1);
+		return ($dbpublic === '1' || $dbpublic === 1);
 	}
 
 	/**
@@ -2210,7 +2210,7 @@ class PageController extends Controller {
 						else {
 							// if device has no new point and no last time
 							// it means it was probably reserved : we don't give its name
-							if (!is_array($lastTime) or !array_key_exists($devid, $lastTime)) {
+							if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
 								unset($names[$dbtoken][$devid]);
 								unset($aliases[$dbtoken][$devid]);
 								unset($colors[$dbtoken][$devid]);
@@ -2301,7 +2301,7 @@ class PageController extends Controller {
 					$filters = json_decode($row['filters'], True);
 					$lastposonly = $row['lastposonly'];
 					$geofencify = $row['geofencify'];
-					if ($row['devicename'] !== null and $row['devicename'] !== '') {
+					if ($row['devicename'] !== null && $row['devicename'] !== '') {
 						$deviceNameRestriction = ' AND name='.$this->db_quote_escape_string($row['devicename']).' ';
 					}
 				}
@@ -2413,7 +2413,7 @@ class PageController extends Controller {
 					$req = $this->dbconnection->prepare($sqlget);
 					$req->execute();
 					while ($row = $req->fetch()){
-						if ($filters === null or $this->filterPoint($row, $filters)) {
+						if ($filters === null || $this->filterPoint($row, $filters)) {
 							$entry = [
 								intval($row['id']),
 								floatval($row['lat']),
@@ -2437,7 +2437,7 @@ class PageController extends Controller {
 					else {
 						// if device has no new point and no last time
 						// it means it was probably reserved : we don't give its name
-						if (!is_array($lastTime) or !array_key_exists($devid, $lastTime)) {
+						if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
 							unset($names[$dbpublicviewtoken][$devid]);
 							unset($aliases[$dbpublicviewtoken][$devid]);
 							unset($colors[$dbpublicviewtoken][$devid]);
@@ -2522,7 +2522,7 @@ class PageController extends Controller {
 				and $entry[2] <= $coords[5]
 			) {
 				$dist = distance($coords[0], $coords[1], $entry[1], $entry[2]);
-				if ($nearestName === null or $dist < $distMin) {
+				if ($nearestName === null || $dist < $distMin) {
 					$distMin = $dist;
 					$nearestName = $name;
 				}
@@ -2563,7 +2563,7 @@ class PageController extends Controller {
 			}
 			$req->closeCursor();
 
-			if ($dbtoken !== null and $dbpublic === 1) {
+			if ($dbtoken !== null && $dbpublic === 1) {
 				// we give publicWebLog the real session id but then, the share token is used in the JS
 				$response = $this->publicWebLog($dbtoken, '');
 				if (!is_string($response)) {
@@ -2633,7 +2633,7 @@ class PageController extends Controller {
 			}
 			$req->closeCursor();
 
-			if ($dbname !== null and intval($dbpublic) === 1) {
+			if ($dbname !== null && intval($dbpublic) === 1) {
 			}
 			else {
 				return 'Session does not exist or is not public';
@@ -2698,7 +2698,7 @@ class PageController extends Controller {
 			$file = $userFolder->get($cleanpath);
 			if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
 				$file->isReadable()){
-				if (endswith($file->getName(), '.gpx') or endswith($file->getName(), '.GPX')) {
+				if (endswith($file->getName(), '.gpx') || endswith($file->getName(), '.GPX')) {
 					$sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
 					$res = $this->createSession($sessionName);
 					$response = $res->getData();
@@ -2711,7 +2711,7 @@ class PageController extends Controller {
 						$done = 2;
 					}
 				}
-				else if (endswith($file->getName(), '.kml') or endswith($file->getName(), '.KML')) {
+				else if (endswith($file->getName(), '.kml') || endswith($file->getName(), '.KML')) {
 					$sessionName = str_replace(['.kml', '.KML'], '', $file->getName());
 					$res = $this->createSession($sessionName);
 					$response = $res->getData();
@@ -2724,7 +2724,7 @@ class PageController extends Controller {
 						$done = 2;
 					}
 				}
-				else if (endswith($file->getName(), '.json') or endswith($file->getName(), '.JSON')) {
+				else if (endswith($file->getName(), '.json') || endswith($file->getName(), '.JSON')) {
 					$sessionName = str_replace(['.json', '.JSON'], '', $file->getName());
 					$res = $this->createSession($sessionName);
 					$response = $res->getData();
@@ -2978,14 +2978,14 @@ class PageController extends Controller {
 		$jsonArray = json_decode($json_file->getContent(), true);
 
 		$currentPointList = [];
-		if (array_key_exists('locations', $jsonArray) and is_array($jsonArray['locations'])) {
+		if (array_key_exists('locations', $jsonArray) && is_array($jsonArray['locations'])) {
 			foreach ($jsonArray['locations'] as $loc) {
 				// get point info
 				//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 				$point = [null, null, null, null, null, null,  null, null, null, null];
-				if (array_key_exists('timestampMs', $loc) and is_numeric($loc['timestampMs'])
-					and array_key_exists('latitudeE7', $loc) and is_numeric($loc['latitudeE7'])
-					and array_key_exists('longitudeE7', $loc) and is_numeric($loc['longitudeE7']))
+				if (array_key_exists('timestampMs', $loc) && is_numeric($loc['timestampMs'])
+					and array_key_exists('latitudeE7', $loc) && is_numeric($loc['latitudeE7'])
+					and array_key_exists('longitudeE7', $loc) && is_numeric($loc['longitudeE7']))
 				{
 					$point[0] = floatval($loc['latitudeE7']);
 					$point[1] = floatval($loc['longitudeE7']);
@@ -2999,7 +2999,7 @@ class PageController extends Controller {
 					$point[1] /= 10000000;
 					$ts = intval(intval($loc['timestampMs']) / 1000);
 					$point[3] = $ts;
-					if (array_key_exists('latitudeE7', $loc) and is_numeric($loc['latitudeE7'])) {
+					if (array_key_exists('latitudeE7', $loc) && is_numeric($loc['latitudeE7'])) {
 						$point[4] = $loc['accuracy'];
 					}
 				}
@@ -3025,7 +3025,7 @@ class PageController extends Controller {
 	public function export($name, $token, $target, $username='', $filterArray=null) {
 	$warning = 0;
 	$done = false;
-		if ($this->userId !== null and $this->userId !== '') {
+		if ($this->userId !== null && $this->userId !== '') {
 			$userId = $this->userId;
 		$doneAndWarning = $this->sessionService->export($name, $token, $target, $userId, $filterArray);
 		$done = $doneAndWarning[0];
@@ -3048,20 +3048,20 @@ class PageController extends Controller {
 
 	private function filterPoint($p, $fArray) {
 		return (
-				(!array_key_exists('tsmin', $fArray) or intval($p['timestamp']) >= $fArray['tsmin'])
-			and (!array_key_exists('tsmax', $fArray) or intval($p['timestamp']) <= $fArray['tsmax'])
-			and (!array_key_exists('elevationmax', $fArray) or intval($p['altitude']) <= $fArray['elevationmax'])
-			and (!array_key_exists('elevationmin', $fArray) or intval($p['altitude']) >= $fArray['elevationmin'])
-			and (!array_key_exists('accuracymax', $fArray) or intval($p['accuracy']) <= $fArray['accuracymax'])
-			and (!array_key_exists('accuracymin', $fArray) or intval($p['accuracy']) >= $fArray['accuracymin'])
-			and (!array_key_exists('satellitesmax', $fArray) or intval($p['satellites']) <= $fArray['satellitesmax'])
-			and (!array_key_exists('satellitesmin', $fArray) or intval($p['satellites']) >= $fArray['satellitesmin'])
-			and (!array_key_exists('batterymax', $fArray) or intval($p['batterylevel']) <= $fArray['batterymax'])
-			and (!array_key_exists('batterymin', $fArray) or intval($p['batterylevel']) >= $fArray['batterymin'])
-			and (!array_key_exists('speedmax', $fArray) or floatval($p['speed']) <= $fArray['speedmax'])
-			and (!array_key_exists('speedmin', $fArray) or floatval($p['speed']) >= $fArray['speedmin'])
-			and (!array_key_exists('bearingmax', $fArray) or floatval($p['bearing']) <= $fArray['bearingmax'])
-			and (!array_key_exists('bearingmin', $fArray) or floatval($p['bearing']) >= $fArray['bearingmin'])
+				(!array_key_exists('tsmin', $fArray) || intval($p['timestamp']) >= $fArray['tsmin'])
+			and (!array_key_exists('tsmax', $fArray) || intval($p['timestamp']) <= $fArray['tsmax'])
+			and (!array_key_exists('elevationmax', $fArray) || intval($p['altitude']) <= $fArray['elevationmax'])
+			and (!array_key_exists('elevationmin', $fArray) || intval($p['altitude']) >= $fArray['elevationmin'])
+			and (!array_key_exists('accuracymax', $fArray) || intval($p['accuracy']) <= $fArray['accuracymax'])
+			and (!array_key_exists('accuracymin', $fArray) || intval($p['accuracy']) >= $fArray['accuracymin'])
+			and (!array_key_exists('satellitesmax', $fArray) || intval($p['satellites']) <= $fArray['satellitesmax'])
+			and (!array_key_exists('satellitesmin', $fArray) || intval($p['satellites']) >= $fArray['satellitesmin'])
+			and (!array_key_exists('batterymax', $fArray) || intval($p['batterylevel']) <= $fArray['batterymax'])
+			and (!array_key_exists('batterymin', $fArray) || intval($p['batterylevel']) >= $fArray['batterymin'])
+			and (!array_key_exists('speedmax', $fArray) || floatval($p['speed']) <= $fArray['speedmax'])
+			and (!array_key_exists('speedmin', $fArray) || floatval($p['speed']) >= $fArray['speedmin'])
+			and (!array_key_exists('bearingmax', $fArray) || floatval($p['bearing']) <= $fArray['bearingmax'])
+			and (!array_key_exists('bearingmin', $fArray) || floatval($p['bearing']) >= $fArray['bearingmin'])
 		);
 	}
 
@@ -3077,7 +3077,7 @@ class PageController extends Controller {
 				array_push($userIds, $u->getUID());
 			}
 		}
-		if ($userId !== '' and in_array($userId, $userIds)) {
+		if ($userId !== '' && in_array($userId, $userIds)) {
 			// check if session exists and owned by current user
 			$sqlchk = '
 				SELECT name, token
@@ -3095,7 +3095,7 @@ class PageController extends Controller {
 			}
 			$req->closeCursor();
 
-			if ($token !== '' and $dbname !== null) {
+			if ($token !== '' && $dbname !== null) {
 				// check if user share exists
 				$sqlchk = '
 					SELECT username, sessionid
@@ -3280,7 +3280,7 @@ class PageController extends Controller {
 		}
 		$req->closeCursor();
 
-		if ($token !== '' and $dbname !== null) {
+		if ($token !== '' && $dbname !== null) {
 			// check if user share exists
 			$sqlchk = '
 				SELECT username, sessionid
@@ -3437,7 +3437,7 @@ class PageController extends Controller {
 	public function addNameReservation($token, $devicename) {
 		$ok = 0;
 		$nametoken = null;
-		if ($devicename !== '' and $devicename !== null) {
+		if ($devicename !== '' && $devicename !== null) {
 			// check if session exists and owned by current user
 			$sqlchk = '
 				SELECT name, token
@@ -3495,7 +3495,7 @@ class PageController extends Controller {
 				}
 				// if there is an entry but no token, name is free to be reserved
 				// so we update the entry
-				else if ($dbdevicenametoken === '' or $dbdevicenametoken === null) {
+				else if ($dbdevicenametoken === '' || $dbdevicenametoken === null) {
 					$nametoken = md5('nametoken'.$this->userId.$dbdevicename.rand());
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
@@ -3540,7 +3540,7 @@ class PageController extends Controller {
 	 */
 	public function deleteNameReservation($token, $devicename) {
 		$ok = 0;
-		if ($devicename !== '' and $devicename !== null) {
+		if ($devicename !== '' && $devicename !== null) {
 			// check if session exists
 			$sqlchk = '
 				SELECT name, token
@@ -3581,7 +3581,7 @@ class PageController extends Controller {
 					$ok = 2;
 				}
 				// the device exists and is has a nametoken
-				else if ($dbdevicenametoken !== '' and $dbdevicenametoken !== null) {
+				else if ($dbdevicenametoken !== '' && $dbdevicenametoken !== null) {
 					// delete
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
@@ -3777,7 +3777,7 @@ class PageController extends Controller {
 								$urlenter, $urlleave, $urlenterpost, $urlleavepost, $sendemail, $emailaddr, $sendnotif) {
 		$ok = 0;
 		$fenceid = null;
-		if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
 			// check there is no fence with this name already
 			$sqlchk = '
 				SELECT name
@@ -3868,7 +3868,7 @@ class PageController extends Controller {
 	 */
 	public function deleteGeofence($token, $device, $fenceid) {
 		$ok = 0;
-		if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_geofences
 				WHERE deviceid='.$this->db_quote_escape_string($device).'
@@ -3904,7 +3904,7 @@ class PageController extends Controller {
 		$ok = 0;
 		$proximid = null;
 		$targetDeviceId = null;
-		if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
 			// check if target session id is owned by current user or if it's shared with him/her
 			$targetSessionId = null;
 			$ownsTargetSession = $this->sessionExists($sid, $this->userId);
@@ -4018,7 +4018,7 @@ class PageController extends Controller {
 	 */
 	public function deleteProxim($token, $device, $proximid) {
 		$ok = 0;
-		if ($this->sessionExists($token, $this->userId) and $this->deviceExists($device, $token)) {
+		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
 			$dbproximid = null;
 			$sqlchk = '
 				SELECT id, deviceid1
@@ -4191,14 +4191,14 @@ class PageController extends Controller {
 			}
 
 			// insert by packets of 500
-			while ($valuesStrings !== null and count($valuesStrings) > 0) {
+			while ($valuesStrings !== null && count($valuesStrings) > 0) {
 				$c = 0;
 				$values = '';
-				if ($valuesStrings !== null and count($valuesStrings) > 0) {
+				if ($valuesStrings !== null && count($valuesStrings) > 0) {
 					$values .= array_shift($valuesStrings);
 					$c++;
 				}
-				while ($valuesStrings !== null and count($valuesStrings) > 0 and $c < 500) {
+				while ($valuesStrings !== null && count($valuesStrings) > 0 && $c < 500) {
 					$values .= ', '.array_shift($valuesStrings);
 					$c++;
 				}
@@ -4374,7 +4374,7 @@ class PageController extends Controller {
 			$devices = [];
 
 			$deviceNameRestriction = '';
-			if ($dbDevicename !== null and $dbDevicename !== '') {
+			if ($dbDevicename !== null && $dbDevicename !== '') {
 				$deviceNameRestriction = ' AND name='.$this->db_quote_escape_string($dbDevicename).' ';
 			}
 			$sqldev = '
@@ -4426,7 +4426,7 @@ class PageController extends Controller {
 				$req = $this->dbconnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()){
-					if ($dbFilters === null or $this->filterPoint($row, $dbFilters)) {
+					if ($dbFilters === null || $this->filterPoint($row, $dbFilters)) {
 						$entry = [];
 						$entry['useragent'] = $row['useragent'];
 						unset($row['useragent']);
