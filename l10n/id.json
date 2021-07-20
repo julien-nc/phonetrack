@@ -1,4 +1,13 @@
 { "translations": {
+    "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "Perangkat PhoneTrack {device} atas {session} memasuki area {geofence}",
+    "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "Perangkat PhoneTrack {device} atas {session} telah keluar dari area {geofence}",
+    "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "Perangkat PhoneTrack {device} atas sesi {session} mendekati {meters} m kepada {device2} atas sesi {session2}",
+    "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}" : "Perangkat PhoneTrack {device} atas sesi {session} menjauh {meters} m kepada {device2} atas sesi {session2}",
+    "You shared PhoneTrack session {session} with {who}" : "Anda telah berbagi sesi PhoneTrack {session} dengan {who}",
+    "PhoneTrack session {session} is now shared with {who}" : "Sesi PhoneTrack {session} telah di bagi dengan {who}",
+    "You stopped sharing session {session} with {who}" : "Anda telah berhenti berbagi sesi {session} dengan {who}",
+    "PhoneTrack session {session} is not shared with {who} anymore" : "Sesi PhoneTrack {session} tidak di bagi dengan {who}",
+    "A PhoneTrack client" : "Sebuah klien PhoneTrack",
     "PhoneTrack" : "PhoneTrack",
     "Geofencing alert" : "Peringatan Geofence",
     "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"." : "Dalam sesi %s, perangkat %s memasuki zona geofencing %s.",

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:36\n"
+"PO-Revision-Date: 2021-05-08 16:10\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -1384,27 +1384,27 @@ msgstr "Falha ao contatar servidor para definir o valor de exportação automát
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6616
 msgid "Import gpx/kml/json session file"
-msgstr ""
+msgstr "Importar arquivo gpx/kml/json de sessão"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:7214
 msgid "Close elevation chart"
-msgstr ""
+msgstr "Fechar gráfico de elevação"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:8
 msgid "Point number quota"
-msgstr ""
+msgstr "Quota de número de pontos"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:9
 msgid "Set the maximum number of points each user can store/log."
-msgstr ""
+msgstr "Defina o número máximo de pontos que cada usuário pode armazenar/registrar."
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:10
 msgid "Each user can choose what happens when the quota is reached : block logging or delete oldest point."
-msgstr ""
+msgstr "Cada usuário pode escolher o que acontece quando a cota é atingida: bloqueie de registro ou exclusão de pontos mais antigos."
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:11
 msgid "An empty value means no limit."
-msgstr ""
+msgstr "Um valor vazio significa sem limite."
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:4
 msgid "Main tab"
@@ -1446,7 +1446,7 @@ msgstr "Opções"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:61
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:64
 msgid "Refresh each (sec)"
@@ -1454,32 +1454,32 @@ msgstr "Atualizar a cada (seg)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:67
 msgid "Refresh"
-msgstr ""
+msgstr "Atualizar"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:69
 msgid "An empty value means no limit"
-msgstr ""
+msgstr "Um valor vazio significa sem limite"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:71
 msgid "Max number of points per device to load on refresh"
-msgstr ""
+msgstr "Número máximo de pontos por dispositivo para carregar quando atualizado"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:72
 msgid "points"
-msgstr ""
+msgstr "pontos"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:74
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:79
 msgid "Cutting lines only affects map view and stats table"
-msgstr ""
+msgstr "Cortar linhas apenas afeta a visualização do mapa e a tabela de estatísticas"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:76
 msgid "Minimum distance to cut between two points"
-msgstr ""
+msgstr "Distância mínima para cortar entre dois pontos"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:81
 msgid "Minimum time to cut between two points"
-msgstr ""
+msgstr "Tempo mínimo para cortar entre dois pontos"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:82
 msgid "seconds"
@@ -1503,7 +1503,7 @@ msgstr "remover último ponto do dispositivo quando um novo é registrado"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:93
 msgid "Display"
-msgstr ""
+msgstr "Exibir"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:98
 msgid "Auto zoom"
@@ -1527,7 +1527,7 @@ msgstr "Desenhar linha com cor gradiente"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:122
 msgid "Show distance in tooltips"
-msgstr ""
+msgstr "Mostrar distância nas dicas"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:126
 msgid "Show accuracy in tooltips"
@@ -1539,7 +1539,7 @@ msgstr "Mostrar velocidade nas dicas"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:134
 msgid "Show bearing in tooltips"
-msgstr ""
+msgstr "Mostrar rumo nas dicas de ferramentas"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:138
 msgid "Show satellites in tooltips"
@@ -1619,7 +1619,7 @@ msgstr "Sessões de rastreio"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:268
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Servidores de blocos personalizados"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:271
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:311
@@ -1856,11 +1856,11 @@ msgstr "Nível máximo da bateria"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:633
 msgid "Minimum speed"
-msgstr ""
+msgstr "Velocidade mínima"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:641
 msgid "Maximum speed"
-msgstr ""
+msgstr "Velocidade máxima"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:649
 msgid "Minimum bearing"

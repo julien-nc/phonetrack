@@ -1,7 +1,7 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "PhoneTrack device {device} of session {session} has entered geofence {geofence}",
+    "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "PhoneTrack device {device} of session {session} has exited geofence {geofence}",
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "PhoneTrack device {device} of session {session} has exited geofence {geofence}",
     "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}",
     "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}" : "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}",

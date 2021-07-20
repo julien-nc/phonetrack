@@ -1,55 +1,55 @@
-# PhoneTrack Nextcloud application
+# Aplicação PhoneTrack Nextcloud
 
-📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
+📱 PhoneTrack é uma aplicação Nextcloud para rastreamento e armazenamento de localizações de dispositivos móveis.
 
-🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
+🗺 Recebe informações de aplicações de registo de telemóveis e apresenta-as dinamicamente num mapa.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+🌍 Ajude-nos a traduzir esta aplicação no [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+Veja outras formas de ajudar no [guia para contribuições](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-How to use PhoneTrack :
+Como usar o PhoneTrack :
 
-* Create a tracking session.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+* Criar uma sessão de rastreamento.
+* Forneca o link* de registo ao dispositivo móvel. Escolha o [método de registo](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) que prefere.
+* Observe a sessão de localização do dispositivo em tempo real (ou não) no PhoneTrack ou partilhe através das páginas públicas.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(*) Não se esqueça de definir o nome do dispositivo no link (ao invés de nas definições da aplicação de registo). Substitua "o seu nome" pelo nome de dispositivo desejado. Definir o nome de dispositivo nas definições da aplicação de registo apenas funcionam com o Owntracks, Traccar e OpenGTS.
 
-On PhoneTrack main page, while watching a session, you can :
+Na página principal do PhoneTrack, durante uma sessão, é possível:
 
-* 📍 Display location history
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-* 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+* 📍 Visualizar histórico de localizações
+* ⛛ Filtrar pontos
+* ✎ Adicionar/editar/remover pontos
+* ✎ Editar dispositivos (renomear, mudar cor/formato, mover para outra sessão)
+* ⛶ Definir delimitações geográficas para dispositivos
+* ⚇ Definir alertas de proximidade para dispositivos emparelhados
+* 🖧 Partilhar uma sessão com outros utilizadores Nextcloud ou através de um link público (apenas leitura)
+* 🔗 Gerar links de partilha públicos com restrições opcionais (filtros, nome do dispositivo, apenas última localização, simplificação de delimitação geográfica)
+* 🖫 Importar/exportar uma sessão no formato GPX (um ficheiro com um rastreamento por dispositivo ou um ficheiro por dispositivo)
+* 🗠 Visualizar estatísticas da sessão
+* 🔒 [Reservar um nome de dispositivo](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) para garantir que apenas utilizadores autorizados podem utilizar este nome
+* 🗓 Alterar exportação e limpeza automática de sessão (diária/semanal/mensal)
+* ◔ Escolher o que fazer quando o limite da quota do número de pontos é atingida (bloquear registo ou eliminar os pontos mais antigos)
 
-Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
+A página pública e a página pública filtrada funcionam como a página principal mas apresentam apenas uma sessão, é tudo apenas de leitura e não é necessário iniciar sessão.
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+Esta aplicação foi testada no Nextcloud 17 com o Firefox 57+ e o Chromium.
 
-This app is compatible with theming colors and accessibility themes !
+Esta aplicação é compatível com temática e temas de acessibilidade!
 
-This app is under development.
+Esta aplicação encontra-se em desenvolvimento.
 
-## Install
+## Instalação
 
-See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
+Consulte [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) para detalhes sobre a instalação.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Consulte o ficheiro [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) para verificar as novidades e futuras funcionalidades.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Consulte o ficheiro [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) para ver a lista completa de autores.
 
-## Known issues
+## Problemas conhecidos
 
-* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+* O PhoneTrack **já funciona** com as restrições de grupo do Nextcloud ativas. Consultar [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Any feedback will be appreciated.
+Qualquer comentário será apreciado.
