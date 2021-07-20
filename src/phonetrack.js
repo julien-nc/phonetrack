@@ -4780,7 +4780,7 @@ import { escapeHtml } from './utils'
 			const nameList = []
 			let name, complString
 			for (const id in response.data.users) {
-				name = response.data.users[id]
+				name = escapeHtml(response.data.users[id])
 				if (id !== name) {
 					complString = name + ' (' + id + ')'
 					nameList.push(complString)
