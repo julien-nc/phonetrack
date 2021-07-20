@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.6.8 – 2021-07-20
+### Fixed
+- XSS issue
+- send referrer header
+
 ## 0.6.7 – 2021-02-09
 ### Fixed
 - jquery-ui import (was breaking autocomplete)
