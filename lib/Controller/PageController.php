@@ -166,7 +166,7 @@ class PageController extends Controller {
 			->andWhere(
 				$qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->executeQuery();
+		$req = $qb->execute();
 		while ($row = $req->fetch()) {
 			$tss[$row['servername']] = [];
 			foreach (['servername', 'type', 'url', 'token', 'layers', 'version', 'format',
@@ -241,7 +241,7 @@ class PageController extends Controller {
 			->where(
 				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->executeQuery();
+		$req = $qb->execute();
 		while ($row = $req->fetch()) {
 			$dbdevicename = $row['name'];
 			$dbnametoken = $row['nametoken'];
