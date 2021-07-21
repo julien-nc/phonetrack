@@ -4,7 +4,6 @@ script('phonetrack', 'phonetrack');
 // fontawesome/fortawesome
 style('phonetrack', 'fontawesome-free/css/all.min');
 style('phonetrack', 'style');
-style('phonetrack', 'phonetrack');
 
 ?>
 

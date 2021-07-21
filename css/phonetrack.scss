@@ -1309,11 +1309,13 @@ input[type=range]:focus::-ms-fill-upper {
 	background-color: var(--color-primary) !important;
 }
 .icon-shar {
-	background-color: var(--color-main-text) !important;
-	mask: url(images/shar.svg) no-repeat;
-	mask-size: 16px 16px;
+	mask: url('./images/shar.svg') no-repeat !important;
+	mask-size: 16px 16px !important;
+	mask-position: center !important;
+	-webkit-mask: url('./images/shar.svg') no-repeat !important;
+	-webkit-mask-size: 16px 16px !important;
+	-webkit-mask-position: center !important;
 	background-color: var(--color-text-lighter) !important;
-	mask-position: center;
 }
 .fa-stack {
 	width: 2em !important;

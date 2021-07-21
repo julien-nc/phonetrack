@@ -46,6 +46,8 @@ import { generateUrl } from '@nextcloud/router'
 
 import { escapeHtml } from './utils'
 
+import '../css/phonetrack.scss'
+
 (function($, OC) {
 	'use strict'
 
