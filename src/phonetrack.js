@@ -829,14 +829,14 @@ import '../css/phonetrack.scss'
 	function addTileServer(type) {
 		const sname = $('#' + type + 'servername').val()
 		const surl = $('#' + type + 'serverurl').val()
-		const stoken = $('#' + type + 'token').val()
-		const sminzoom = $('#' + type + 'minzoom').val() || ''
-		const smaxzoom = $('#' + type + 'maxzoom').val() || ''
+		const stoken = $('#' + type + 'token').val() || undefined
+		const sminzoom = $('#' + type + 'minzoom').val() || undefined
+		const smaxzoom = $('#' + type + 'maxzoom').val() || undefined
 		const stransparent = $('#' + type + 'transparent').is(':checked')
-		const sopacity = $('#' + type + 'opacity').val() || ''
-		const sformat = $('#' + type + 'format').val() || ''
-		const sversion = $('#' + type + 'version').val() || ''
-		const slayers = $('#' + type + 'layers').val() || ''
+		const sopacity = $('#' + type + 'opacity').val() || undefined
+		const sformat = $('#' + type + 'format').val() || undefined
+		const sversion = $('#' + type + 'version').val() || undefined
+		const slayers = $('#' + type + 'layers').val() || undefined
 		if (sname === '' || surl === '') {
 			OC.Notification.showTemporary(
 				t('phonetrack', 'Server name or server address should not be empty')

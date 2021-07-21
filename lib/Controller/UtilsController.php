@@ -76,9 +76,9 @@ class UtilsController extends Controller {
 	 * Add one tile server to the DB for current user
 	 * @NoAdminRequired
 	 */
-	public function addTileServer($servername, $serverurl, $type, $token,
-					$layers, $version, $tformat, $opacity, $transparent,
-					$minzoom, $maxzoom, $attribution) {
+	public function addTileServer(string $servername, string $serverurl, string $type, string $token = '',
+					string $layers = '', string $version = '', string $tformat = '', string $opacity = '', bool $transparent = false,
+					int $minzoom = 1, int $maxzoom = 18, string $attribution = '') {
 		// first we check it does not already exist
 		$sqlts = '
 			SELECT servername
