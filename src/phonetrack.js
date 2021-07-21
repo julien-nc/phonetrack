@@ -1325,8 +1325,8 @@ import { escapeHtml } from './utils'
 		phonetrack.firstTime[token] = {}
 		// if session is not shared (we have write access)
 		if (!isFromShare) {
-			$('#addPointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>')
-			$('#deletePointSession').append('<option value="' + name + '" token="' + token + '">' + name + '</option>')
+			$('#addPointSession').append('<option value="' + escapeHtml(name) + '" token="' + token + '">' + escapeHtml(name) + '</option>')
+			$('#deletePointSession').append('<option value="' + escapeHtml(name) + '" token="' + token + '">' + escapeHtml(name) + '</option>')
 		}
 		const defaultName = t('phonetrack', 'yourname').replace(' ', '')
 		let gpsloggerUrl = generateUrl('/apps/phonetrack/log/gpslogger/' + token + '/' + defaultName + '?')
@@ -1425,7 +1425,7 @@ import { escapeHtml } from './utils'
 				+ t('phonetrack', 'shared by {u}', { u: isSharedBy })
 				+ ')'
 		}
-		divtxt = divtxt + '<div class="sessionName" title="' + name + sharedByText + '">' + name + '</div><input class="renameSessionInput" type="text"/>'
+		divtxt = divtxt + '<div class="sessionName" title="' + escapeHtml(name) + sharedByText + '">' + escapeHtml(name) + '</div><input class="renameSessionInput" type="text"/>'
 		if (!pageIsPublic() && !isFromShare) {
 			let iconLocked = 'lock-open'
 			if (locked === 1) {
@@ -1520,7 +1520,7 @@ import { escapeHtml } from './utils'
 			divtxt = divtxt + '<ul class="namereservlist">'
 			for (i = 0; i < reservedNames.length; i++) {
 				divtxt = divtxt + '<li name="' + escapeHtml(reservedNames[i].name) + '"><label>'
-					+ reservedNames[i].name + ' : ' + reservedNames[i].token + '</label>'
+					+ escapeHtml(reservedNames[i].name) + ' : ' + reservedNames[i].token + '</label>'
 					+ '<button class="deletereservedname"><i class="fa fa-trash"></i></li>'
 			}
 			divtxt = divtxt + '</ul>'
@@ -3023,7 +3023,7 @@ import { escapeHtml } from './utils'
 		}
 		const linetooltip = sessionname + ' | ' + nameTxt
 		phonetrack.sessionLineLayers[s][d].bindTooltip(
-			linetooltip,
+			escapeHtml(linetooltip),
 			{
 				permanent: false,
 				sticky: true,
