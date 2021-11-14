@@ -3,7 +3,7 @@
     <id>phonetrack</id>
     <name>PhoneTrack</name>
     <summary> </summary><description> </description>
-    <version>0.6.9</version>
+    <version>0.7.0</version>
     <licence>agpl</licence>
     <author mail="eneiluj@posteo.net">Julien Veyssier</author>
     <namespace>PhoneTrack</namespace>
@@ -21,10 +21,7 @@
     <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/24b55acc14b6785f2380dcf5e84648d8/p2.jpg</screenshot>
     <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/47ac89131d8fc434c53ba6baac2beb74/p3.jpg</screenshot>
     <dependencies>
-        <database min-version="9.4">pgsql</database>
-        <database>sqlite</database>
-        <database min-version="5.5">mysql</database>
-        <nextcloud min-version="20" max-version="23"/>
+        <nextcloud min-version="20" max-version="24"/>
     </dependencies>
     <background-jobs>
         <job>OCA\PhoneTrack\Cron\AutoExport</job>

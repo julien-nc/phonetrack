@@ -6498,11 +6498,12 @@ import '../css/phonetrack.scss'
 				// normal
 				phonetrack.themeColor = c
 			}
-			$('<style>.nc-theming-main-foreground i {color: ' + phonetrack.themeColor + ';}</style>').appendTo('body')
+			$('<style>.nc-theming-main-foreground i { color: ' + phonetrack.themeColor + ' !important; }'
+				+ '.nc-theming-main-background { background-color: ' + phonetrack.themeColor + ' !important; }</style>').appendTo('body')
 		} else {
 			phonetrack.themeColor = '#0082C9'
-			$('<style>.nc-theming-main-background {background-color: blue;}'
-				+ '         .nc-theming-main-foreground i {color: blue;}</style>').appendTo('body')
+			$('<style>.nc-theming-main-background { background-color: blue !important; }'
+				+ '.nc-theming-main-foreground i { color: blue !important; }</style>').appendTo('body')
 		}
 		phonetrack.themeColorDark = hexToDarkerHex(phonetrack.themeColor)
 

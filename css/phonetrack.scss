@@ -531,6 +531,7 @@ input[type=date] {
 	grid-template-columns: 65% 35%;
 }
 ul.devicelist li .deviceLabel{
+	line-height: 34px;
 	cursor: pointer;
 }
 .filteredshare {
@@ -559,14 +560,14 @@ ul.devicelist {
 .toggleProxim,
 .zoomdevicebutton,
 .dropdowndevicebutton {
-	padding: 0;
-	margin: 0;
-	width: 25px;
-	height: 25px;
+	padding: 0 !important;
+	margin: 0 !important;
+	width: 25px !important;
+	height: 25px !important;
 	min-height: 0px;
-	margin-right: 2px;
-	border: 0px;
-	background: none;
+	margin-right: 2px !important;
+	border: 0px !important;
+	background: none !important;
 }
 .off i,
 .toggleGeofences i,
@@ -825,34 +826,34 @@ label[for=viewmove] i {
 	-webkit-mask-size: 19px !important;
 }
 .toggleGeofences {
-	width: 25px;
-	height: 25px;
-	margin-top: auto;
-	margin-bottom: auto;
-	background-color: var(--color-text-lighter);
+	width: 25px !important;
+	height: 25px !important;
+	margin-top: auto !important;
+	margin-bottom: auto !important;
+	background-color: var(--color-text-lighter) !important;
 	mask: url('images/geofence.svg') no-repeat 50% 50% !important;
 	-webkit-mask:  url('images/geofence.svg') no-repeat 50% 50% !important;
 	mask-size: 70% !important;
 	-webkit-mask-size: 70% !important;
 }
 .toggleProxim {
-	width: 25px;
-	height: 25px;
-	margin-top: auto;
-	margin-bottom: auto;
-	background-color: var(--color-text-lighter);
+	width: 25px !important;
+	height: 25px !important;
+	margin-top: auto !important;
+	margin-bottom: auto !important;
+	background-color: var(--color-text-lighter) !important;
 	mask: url('images/proximity.svg') no-repeat 50% 50% !important;
 	-webkit-mask:  url('images/proximity.svg') no-repeat 50% 50% !important;
 	mask-size: 70% !important;
 	-webkit-mask-size: 70% !important;
 }
 .toggleLineDevice {
-	width: 25px;
-	height: 25px;
-	margin-left: 4px;
-	margin-top: auto;
-	margin-bottom: auto;
-	background-color: var(--color-text-lighter);
+	width: 25px !important;
+	height: 25px !important;
+	margin-left: 4px !important;
+	margin-top: auto !important;
+	margin-bottom: auto !important;
+	background-color: var(--color-text-lighter) !important;
 	mask: url('images/network.svg') no-repeat 50% 50% !important;
 	-webkit-mask:  url('images/network.svg') no-repeat 50% 50% !important;
 }
@@ -860,14 +861,14 @@ label[for=viewmove] i {
 .toggleProxim:hover,
 .toggleLineDevice.off:hover,
 .toggleAutoZoomDevice.off:hover {
-	background-color: var(--color-text-light);
+	background-color: var(--color-text-light) !important;
 }
 .toggleAutoZoomDevice {
-	width: 25px;
-	height: 25px;
-	margin-top: auto;
-	margin-bottom: auto;
-	background-color: var(--color-text-lighter);
+	width: 25px !important;
+	height: 25px !important;
+	margin-top: auto !important;
+	margin-bottom: auto !important;
+	background-color: var(--color-text-lighter) !important;
 	mask: url('images/autozoom.svg') no-repeat 50% 50% !important;
 	-webkit-mask:  url('images/autozoom.svg') no-repeat 50% 50% !important;
 }
