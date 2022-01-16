@@ -1,6 +1,6 @@
-# PhoneTrack Nextcloud application
+# PhoneTrack Nextcloud 应用程序
 
-📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
+📱 PhoneTrack 是跟踪和存储移动设备位置的 Nextcloud 应用程序。
 
 🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
 

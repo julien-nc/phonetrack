@@ -1,6 +1,7 @@
 OC.L10N.register(
     "phonetrack",
     {
+    "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "جهاز تتبع الهاتف {device} من الجلسة {session} قد دخل جرعة {geofence}",
     "PhoneTrack" : "تتبع الهاتف",
     "Show lines" : "إظهار الخطوط",
     "Hide lines" : "إخفاء الخطوط",

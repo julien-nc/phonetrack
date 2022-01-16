@@ -321,7 +321,7 @@ OC.L10N.register(
     "Close elevation chart" : "Zavřít graf převýšení",
     "Point number quota" : "Kvóta počtu bodů",
     "Set the maximum number of points each user can store/log." : "Nastavte nejvyšší umožněný počet bodů, které každý z uživatelů může uložit/zaznamenat.",
-    "Each user can choose what happens when the quota is reached : block logging or delete oldest point." : "Každý uživatel si může vybrat co se stane, když dojde k dosažení kvóty: odmítnutí dalšího záznamu nebo smazání nejstaršího bodu.",
+    "Each user can choose what happens when the quota is reached : block logging or delete oldest point." : "Jednotliví uživatelé si mohou vybrat co se stane, když dojde k dosažení kvóty: odmítnutí dalšího záznamu nebo smazání nejstaršího bodu.",
     "An empty value means no limit." : "Prázdná hodnota znamená bez omezení.",
     "Main tab" : "Hlavní karta",
     "Filters" : "Filtry",

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:36\n"
+"PO-Revision-Date: 2021-10-22 22:30\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -299,7 +299,7 @@ msgstr "Partagé par {u}"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1680
 msgid "Forbid devices to log to this session"
-msgstr "Interdire aux appareils de loguer dans cette session"
+msgstr "Interdire aux appareils de se loguer dans cette session"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1687
 msgid "Reserve device names"
@@ -392,7 +392,7 @@ msgstr "Le nom peut être défini directement dans le lien de logging s'il n'est
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1764
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
-msgstr "Pour loguer avec un nom réservé, utilisez son \"token de nom\" dans le lien de logging (ou dans le champs \"nom d'appareil\" d'un log job de PhoneTrack-Android)."
+msgstr "Pour se loguer avec un nom réservé, utilisez le \"nom du token\" dans le lien de logging (ou dans le champs \"nom d'appareil\" d'un log job de PhoneTrack-Android)."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1765
 msgid "If a name is reserved, the only way to log with this name is with its token."

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2021-05-08 16:10\n"
+"PO-Revision-Date: 2021-08-02 12:22\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -1639,7 +1639,7 @@ msgstr "Por exemplo: meu servidor personalizado"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:273
 msgid "Server address"
-msgstr ""
+msgstr "Endereço do servidor"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:274
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:396
@@ -1670,31 +1670,31 @@ msgstr "Adicionar"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:282
 msgid "Your tile servers"
-msgstr ""
+msgstr "Seus servidores lado a lado"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:308
 msgid "Custom mapbox tile servers"
-msgstr ""
+msgstr "Servidores de mapbox personalizados"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:313
 msgid "Style.json url"
-msgstr ""
+msgstr "Style.json url"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:314
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
-msgstr ""
+msgstr "Por exemplo: mapbox://styles/mapbox/bright-v8 ou https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:315
 msgid "Access token (API key)"
-msgstr ""
+msgstr "Token de acesso (chave API)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:320
 msgid "Your mapbox tile servers"
-msgstr ""
+msgstr "Seus servidores do mapbox"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:347
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Servidores de sobreposição personalizados"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:352
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:395
@@ -1719,11 +1719,11 @@ msgstr "Opacidade (0,0-1,0)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:365
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Seus servidores de sobreposição"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:390
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Servidores de blocos WMS personalizados"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:401
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:450
@@ -1742,15 +1742,15 @@ msgstr "Camadas para exibir"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:410
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Seus servidores de telhos WMS"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:435
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Servidores de sobreposição WMS personalizados"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:459
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Seus servidores de sobreposição WMS"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:488
 msgid "Manually add a point"
@@ -1864,11 +1864,11 @@ msgstr "Velocidade máxima"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:649
 msgid "Minimum bearing"
-msgstr ""
+msgstr "Rumo mínimo"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:657
 msgid "Maximum bearing"
-msgstr ""
+msgstr "Rumo máximo"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:665
 msgid "Minimum satellites"
@@ -1880,11 +1880,11 @@ msgstr "Máximo de satélites"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:683
 msgid "bookmark name"
-msgstr ""
+msgstr "nome do favorito"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:685
 msgid "Save filter bookmark"
-msgstr ""
+msgstr "Salvar filtro de favoritos"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:718
 msgid "Statistics"
