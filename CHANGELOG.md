@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## 0.7.0 – 2022-01-16
+### Fixed
+- style issues
+[#412](https://gitlab.com/eneiluj/phonetrack-oc/issues/412) @Valdnet @florom
+
 ## 0.6.9 – 2021-07-20
 ### Fixed
 - other XSS issues
