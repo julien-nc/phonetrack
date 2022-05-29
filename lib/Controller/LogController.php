@@ -144,16 +144,14 @@ class LogController extends Controller {
 	 * else
 	 */
 	private function chooseDeviceName($devicename, $tid) {
-		if ( (!in_array($devicename, $this->defaultDeviceName)) and
-			 $devicename !== '' and
-			 (!is_null($devicename))
+		if ( (!in_array($devicename, $this->defaultDeviceName))
+			&& $devicename !== ''
+			&& (!is_null($devicename))
 		) {
 			$dname = $devicename;
-		}
-		else if ($tid !== '' and !is_null($tid)){
+		} elseif ($tid !== '' && !is_null($tid)) {
 			$dname = $tid;
-		}
-		else {
+		} else {
 			$dname = 'unknown';
 		}
 		return $dname;
@@ -1891,7 +1889,7 @@ class LogController extends Controller {
 	 *
 	 * @return array;
 	 **/
-	public function logOwntracks($token, $devicename='', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
+	public function logOwntracks($token, $devicename = '', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
 		$dname = $this->chooseDeviceName($devicename, $tid);
 		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
 		return $res['friends'];
@@ -1907,7 +1905,7 @@ class LogController extends Controller {
 	public function logOverland($token, $devicename, $locations) {
 		foreach ($locations as $loc) {
 			if ($loc['type'] === 'Feature' and $loc['geometry']['type'] === 'Point') {
-				$dname = $this->chooseDeviceName($loc['properties']['device_id'], $devicename);
+				$dname = $this->chooseDeviceName($loc['properties']['device_id'] ?? '', $devicename);
 				$lat = $loc['geometry']['coordinates'][1];
 				$lon = $loc['geometry']['coordinates'][0];
 				$datetime = new \Datetime($loc['properties']['timestamp']);
