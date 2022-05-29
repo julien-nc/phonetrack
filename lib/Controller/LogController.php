@@ -11,6 +11,7 @@
 
 namespace OCA\PhoneTrack\Controller;
 
+use DateTime;
 use OCP\App\IAppManager;
 
 use OCP\IConfig;
@@ -49,35 +50,35 @@ function startsWith($haystack, $needle) {
 	return (substr($haystack, 0, $length) === $needle);
 }
 
-function distance2($lat1, $long1, $lat2, $long2){
+function distance2($lat1, $long1, $lat2, $long2) {
 
-	if ($lat1 === $lat2 and $long1 === $long2){
+	if ($lat1 === $lat2 && $long1 === $long2){
 		return 0;
 	}
 
 	// Convert latitude and longitude to
 	// spherical coordinates in radians.
-	$degrees_to_radians = pi()/180.0;
+	$degrees_to_radians = pi() / 180.0;
 
 	// phi = 90 - latitude
-	$phi1 = (90.0 - $lat1)*$degrees_to_radians;
-	$phi2 = (90.0 - $lat2)*$degrees_to_radians;
+	$phi1 = (90.0 - $lat1) * $degrees_to_radians;
+	$phi2 = (90.0 - $lat2) * $degrees_to_radians;
 
 	// theta = longitude
-	$theta1 = $long1*$degrees_to_radians;
-	$theta2 = $long2*$degrees_to_radians;
+	$theta1 = $long1 * $degrees_to_radians;
+	$theta2 = $long2 * $degrees_to_radians;
 
-	$cos = (sin($phi1)*sin($phi2)*cos($theta1 - $theta2) +
-		   cos($phi1)*cos($phi2));
+	$cos = sin($phi1) * sin($phi2) * cos($theta1 - $theta2)
+		+ cos($phi1) * cos($phi2);
 	// why some cosinus are > than 1 ?
-	if ($cos > 1.0){
+	if ($cos > 1.0) {
 		$cos = 1.0;
 	}
 	$arc = acos($cos);
 
 	// Remember to multiply arc by the radius of the earth
 	// in your favorite set of units to get length.
-	return $arc*6371000;
+	return $arc * 6371000;
 }
 
 class LogController extends Controller {
@@ -107,10 +108,10 @@ class LogController extends Controller {
 								SessionMapper $sessionMapper,
 								DeviceMapper $deviceMapper,
 								IDBConnection $dbconnection,
-								?string $UserId) {
+								?string $userId) {
 		parent::__construct($AppName, $request);
 		$this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
-		$this->userId = $UserId;
+		$this->userId = $userId;
 		$this->activityManager = $activityManager;
 		$this->sessionMapper = $sessionMapper;
 		$this->deviceMapper = $deviceMapper;
@@ -318,7 +319,7 @@ class LogController extends Controller {
 				// NOTIFICATIONS
 				if ($sendnotif !== 0) {
 					$userIds = $this->getSessionSharedUserIdList($sessionid);
-					array_push($userIds, $userid);
+					$userIds[] = $userid;
 
 					try {
 						$manager = \OC::$server->getNotificationManager();
@@ -335,7 +336,7 @@ class LogController extends Controller {
 
 							$notification->setApp('phonetrack')
 								->setUser($aUserId)
-								->setDateTime(new \DateTime())
+								->setDateTime(new DateTime())
 								->setObject('closeproxim', $proximid)
 								->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
 								->addAction($acceptAction)
@@ -361,21 +362,21 @@ class LogController extends Controller {
 					$emailaddrArray = explode(',', $emailaddr);
 					if (
 						(count($emailaddrArray) === 0
-						 || (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
-						and !empty($userEmail)
+						 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
+						&& !empty($userEmail)
 					) {
-						array_push($emailaddrArray, $userEmail);
+						$emailaddrArray[] = $userEmail;
 					}
 
-					if (!empty($mailFromA) and !empty($mailFromD)) {
+					if (!empty($mailFromA) && !empty($mailFromD)) {
 						$mailfrom = $mailFromA.'@'.$mailFromD;
 
 						foreach ($emailaddrArray as $addrTo) {
-							if ($addrTo !== null and $addrTo !== '' and filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
+							if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 								try {
 									$mailer = \OC::$server->getMailer();
 									$message = $mailer->createMessage();
-									$message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
+									$message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', [$dev1name, $dev2name]));
 									$message->setFrom([$mailfrom => 'PhoneTrack']);
 									$message->setTo([trim($addrTo) => '']);
 									$message->setPlainBody(
@@ -386,49 +387,45 @@ class LogController extends Controller {
 										])
 									);
 									$mailer->send($message);
-								}
-								catch (\Exception $e) {
-									$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+								} catch (\Exception $e) {
+									$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, ['app' => $this->appName]);
 								}
 							}
 						}
 					}
 				}
-				if ($urlclose !== '' and startsWith($urlclose, 'http')) {
+				if ($urlclose !== '' && startsWith($urlclose, 'http')) {
 					// GET
 					if ($urlclosepost === 0) {
 						try {
 							$xml = file_get_contents($urlclose);
-						}
-						catch (\Exception $e) {
+						} catch (\Exception $e) {
 							$this->ncLogger->warning('Error during PhoneTrack proxim URL query : '.$e, array('app' => $this->appName));
 						}
-					}
-					// POST
-					else {
+					} else {
+						// POST
 						try {
 							$parts = parse_url($urlclose);
 							parse_str($parts['query'], $data);
 
 							$url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
 
-							$options = array(
-								'http' => array(
+							$options = [
+								'http' => [
 									'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
 									'method'  => 'POST',
-									'content' => http_build_query($data)
-								)
-							);
+									'content' => http_build_query($data),
+								]
+							];
 							$context  = stream_context_create($options);
 							$result = file_get_contents($url, false, $context);
 						}
 						catch (\Exception $e) {
-							$this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, array('app' => $this->appName));
+							$this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, ['app' => $this->appName]);
 						}
 					}
 				}
-			}
-			else if ($highlimit !== 0 and $prevDist <= $highlimit and $currDist > $highlimit) {
+			} elseif ($highlimit !== 0 && $prevDist <= $highlimit && $currDist > $highlimit) {
 				// devices are now far !
 
 				// if the observed device is 'deviceid2', then we might have the wrong userId
@@ -473,7 +470,7 @@ class LogController extends Controller {
 
 							$notification->setApp('phonetrack')
 								->setUser($aUserId)
-								->setDateTime(new \DateTime())
+								->setDateTime(new DateTime())
 								->setObject('farproxim', $proximid)
 								->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
 								->addAction($acceptAction)
@@ -482,8 +479,7 @@ class LogController extends Controller {
 
 							$manager->notify($notification);
 						}
-					}
-					catch (\Exception $e) {
+					} catch (\Exception $e) {
 						$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
 					}
 				}
@@ -498,21 +494,21 @@ class LogController extends Controller {
 					$emailaddrArray = explode(',', $emailaddr);
 					if (
 						(count($emailaddrArray) === 0
-						 || (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
-						and !empty($userEmail)
+						 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
+						&& !empty($userEmail)
 					) {
 						array_push($emailaddrArray, $userEmail);
 					}
 
-					if (!empty($mailFromA) and !empty($mailFromD)) {
+					if (!empty($mailFromA) && !empty($mailFromD)) {
 						$mailfrom = $mailFromA.'@'.$mailFromD;
 
 						foreach ($emailaddrArray as $addrTo) {
-							if ($addrTo !== null and $addrTo !== '' and filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
+							if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 								try {
 									$mailer = \OC::$server->getMailer();
 									$message = $mailer->createMessage();
-									$message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', array($dev1name, $dev2name)));
+									$message->setSubject($this->trans->t('PhoneTrack proximity alert (%s and %s)', [$dev1name, $dev2name]));
 									$message->setFrom([$mailfrom => 'PhoneTrack']);
 									$message->setTo([trim($addrTo) => '']);
 									$message->setPlainBody(
@@ -523,44 +519,40 @@ class LogController extends Controller {
 										])
 									);
 									$mailer->send($message);
-								}
-								catch (\Exception $e) {
-									$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+								} catch (\Exception $e) {
+									$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, ['app' => $this->appName]);
 								}
 							}
 						}
 					}
 				}
-				if ($urlfar !== '' and startsWith($urlfar, 'http')) {
+				if ($urlfar !== '' && startsWith($urlfar, 'http')) {
 					// GET
 					if ($urlfarpost === 0) {
 						try {
 							$xml = file_get_contents($urlfar);
+						} catch (\Exception $e) {
+							$this->ncLogger->warning('Error during PhoneTrack proxim URL query : ' . $e, ['app' => $this->appName]);
 						}
-						catch (\Exception $e) {
-							$this->ncLogger->warning('Error during PhoneTrack proxim URL query : '.$e, array('app' => $this->appName));
-						}
-					}
-					// POST
-					else {
+					} else {
+						// POST
 						try {
 							$parts = parse_url($urlfar);
 							parse_str($parts['query'], $data);
 
 							$url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
 
-							$options = array(
-								'http' => array(
+							$options = [
+								'http' => [
 									'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
 									'method'  => 'POST',
-									'content' => http_build_query($data)
-								)
-							);
+									'content' => http_build_query($data),
+								]
+							];
 							$context  = stream_context_create($options);
 							$result = file_get_contents($url, false, $context);
-						}
-						catch (\Exception $e) {
-							$this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, array('app' => $this->appName));
+						} catch (\Exception $e) {
+							$this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, ['app' => $this->appName]);
 						}
 					}
 				}
@@ -569,7 +561,7 @@ class LogController extends Controller {
 	}
 
 	private function getDeviceFences($devid) {
-		$fences = array();
+		$fences = [];
 		$sqlget = '
 			SELECT id, latmin, lonmin, latmax, lonmax,
 				   name, urlenter, urlleave,
@@ -579,8 +571,8 @@ class LogController extends Controller {
 			WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
-			array_push($fences, $row);
+		while ($row = $req->fetch()) {
+			$fences[] = $row;
 		}
 		$req->closeCursor();
 		return $fences;
@@ -590,7 +582,7 @@ class LogController extends Controller {
 	 * returns user ids the session is shared with
 	 */
 	private function getSessionSharedUserIdList($token) {
-		$userids = array();
+		$userids = [];
 		$sqlget = '
 			SELECT username
 			FROM *PREFIX*phonetrack_shares
@@ -1904,11 +1896,11 @@ class LogController extends Controller {
 	 **/
 	public function logOverland($token, $devicename, $locations) {
 		foreach ($locations as $loc) {
-			if ($loc['type'] === 'Feature' and $loc['geometry']['type'] === 'Point') {
+			if ($loc['type'] === 'Feature' && $loc['geometry']['type'] === 'Point') {
 				$dname = $this->chooseDeviceName($loc['properties']['device_id'] ?? '', $devicename);
 				$lat = $loc['geometry']['coordinates'][1];
 				$lon = $loc['geometry']['coordinates'][0];
-				$datetime = new \Datetime($loc['properties']['timestamp']);
+				$datetime = new Datetime($loc['properties']['timestamp']);
 				$timestamp = $datetime->getTimestamp();
 				$alt = $loc['properties']['altitude'];
 				$acc = $loc['properties']['horizontal_accuracy'];
