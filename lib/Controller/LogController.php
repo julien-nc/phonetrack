@@ -12,6 +12,7 @@
 namespace OCA\PhoneTrack\Controller;
 
 use DateTime;
+use Exception;
 use OCP\App\IAppManager;
 
 use OCP\IConfig;
@@ -30,6 +31,7 @@ use OCP\AppFramework\Controller;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Activity\ActivityManager;
+use Throwable;
 
 function DMStoDEC($dms, $longlat) {
 	if ($longlat === 'latitude') {
@@ -1139,14 +1141,15 @@ class LogController extends Controller {
 	 * @return array;
 	 *
 	 **/
-	public function logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed=null, $bearing=null) {
+	public function logPost($token, $devicename, $lat, $lon, $alt, ?int $timestamp = null, $acc, $bat, $sat, $useragent,
+							$speed = null, $bearing = null, ?string $datetime = null) {
 		$res = ['done'=>0, 'friends'=>[]];
 		// TODO insert speed and bearing in m/s and degrees
-		if (!is_null($devicename) and $devicename !== '' and
-			!is_null($token) and $token !== '' and
-			!is_null($lat) and $lat !== '' and is_numeric($lat) and
-			!is_null($lon) and $lon !== '' and is_numeric($lon) and
-			!is_null($timestamp) and $timestamp !== '' and is_numeric($timestamp)
+		if (!is_null($devicename) && $devicename !== '' &&
+			!is_null($token) && $token !== '' &&
+			!is_null($lat) && $lat !== '' && is_numeric($lat) &&
+			!is_null($lon) && $lon !== '' && is_numeric($lon) &&
+			(!is_null($timestamp) || !is_null($datetime))
 		) {
 			// check if session exists
 			$sqlchk = '
@@ -1314,12 +1317,22 @@ class LogController extends Controller {
 						}
 					}
 
-					// correct timestamp if needed
-					$time = $timestamp;
-					if (is_numeric($time)) {
-						$time = floatval($time);
-						if ($time > 10000000000.0) {
-							$time = $time / 1000;
+					if (!is_null($timestamp)) {
+						// correct timestamp if needed
+						$time = $timestamp;
+						if (is_numeric($time)) {
+							$time = floatval($time);
+							if ($time > 10000000000.0) {
+								$time = $time / 1000;
+							}
+						}
+					} else {
+						// we have a datetime
+						try {
+							$d = new DateTime($datetime);
+							$time = $d->getTimestamp();
+						} catch (Exception | Throwable $e) {
+							return $res;
 						}
 					}
 
@@ -1802,9 +1815,10 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed=null, $bearing=null) {
+	public function logGet($token, $devicename, $lat, $lon, ?int $timestamp = null, $bat, $sat, $acc, $alt,
+						   $speed=null, $bearing=null, ?string $datetime = null) {
 		$dname = $this->chooseDeviceName($devicename, null);
-		return $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger', $speed, $bearing);
+		return $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger', $speed, $bearing, $datetime);
 	}
 
 	/**
