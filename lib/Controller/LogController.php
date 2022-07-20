@@ -1332,7 +1332,12 @@ class LogController extends Controller {
 							$d = new DateTime($datetime);
 							$time = $d->getTimestamp();
 						} catch (Exception | Throwable $e) {
-							return $res;
+							try {
+								$d = DateTime::createFromFormat('F d, Y \a\t h:iA', $datetime);
+								$time = $d->getTimestamp();
+							} catch (Exception | Throwable $e) {
+								return $res;
+							}
 						}
 					}
 
