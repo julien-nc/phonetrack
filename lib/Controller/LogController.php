@@ -12,7 +12,9 @@
 namespace OCA\PhoneTrack\Controller;
 
 use DateTime;
+use DateTimeZone;
 use Exception;
+use OCA\PhoneTrack\AppInfo\Application;
 use OCP\App\IAppManager;
 
 use OCP\IConfig;
@@ -1333,7 +1335,14 @@ class LogController extends Controller {
 							$time = $d->getTimestamp();
 						} catch (Exception | Throwable $e) {
 							try {
-								$d = DateTime::createFromFormat('F d, Y \a\t h:iA', $datetime);
+								$dateTimeZone = null;
+								if (($userid ?? '') !== '') {
+									$timezone = $this->config->getUserValue($userid, 'core', 'timezone');
+									if ($timezone !== '') {
+										$dateTimeZone = new DateTimeZone($timezone);
+									}
+								}
+								$d = DateTime::createFromFormat('F d, Y \a\t h:iA', $datetime, $dateTimeZone);
 								$time = $d->getTimestamp();
 							} catch (Exception | Throwable $e) {
 								return $res;
