@@ -1730,7 +1730,7 @@ import '../css/phonetrack.scss'
 			} else {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete session'))
 			}
-		}).error((error) => {
+		}).catch((error) => {
 			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete session'))
 		})
@@ -5212,7 +5212,7 @@ import '../css/phonetrack.scss'
 					{ session: sessionname }
 				),
 				t('phonetrack', 'Confirm session deletion'),
-				function(result) {
+				(result) => {
 					if (result) {
 						deleteSession(token)
 					}
@@ -5776,11 +5776,11 @@ import '../css/phonetrack.scss'
 			const devicename = getDeviceName(token, deviceid)
 			OC.dialogs.confirm(
 				t('phonetrack',
-					'Are you sure you want to delete the device {device} ?',
+					'Are you sure you want to delete the device {device}?',
 					{ device: devicename }
 				),
 				t('phonetrack', 'Confirm device deletion'),
-				function(result) {
+				(result) => {
 					if (result) {
 						deleteDevice(token, deviceid)
 					}
