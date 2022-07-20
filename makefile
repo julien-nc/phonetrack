@@ -105,6 +105,9 @@ appstore: clean
 	--exclude=screenshots \
 	--exclude=phpunit*xml \
 	--exclude=tests \
+	--exclude=/.idea \
+	--exclude=/.eslintrc.js \
+	--exclude=/stylelint.config.js \
 	--exclude=ci \
 	--exclude=vendor/bin \
 	$(project_dir) $(sign_dir)/$(app_name)
