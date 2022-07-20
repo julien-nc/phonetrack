@@ -460,10 +460,16 @@ import '../css/phonetrack.scss'
 
 		phonetrack.map.setView(new L.LatLng(27, 5), 3)
 
+		// change max zoom
+		phonetrack.map.on('baselayerchange', (e) => {
+			phonetrack.map.setMaxZoom(e.layer.options.maxZoom)
+		})
+
 		if (!(defaultLayer in baseLayers)) {
 			defaultLayer = 'OpenStreetMap'
 		}
 		phonetrack.map.addLayer(baseLayers[defaultLayer])
+		phonetrack.map.setMaxZoom(baseLayers[defaultLayer].options.maxZoom)
 		phonetrack.currentLayerName = defaultLayer
 
 		phonetrack.controlLayers = L.control.layers(
