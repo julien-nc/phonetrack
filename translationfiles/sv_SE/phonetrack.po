@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-12-28 00:13\n"
+"PO-Revision-Date: 2022-04-19 23:00\n"
 "Last-Translator: \n"
 "Language-Team: Swedish\n"
 "Language: sv_SE\n"
@@ -19,19 +19,19 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:89
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr ""
+msgstr "PhoneTrack-enhet {device} i sessionen {session} har angett geofence {geofence}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:92
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr ""
+msgstr "PhoneTrack-enhet {device} i sessionen {session} har avslutat geofence {geofence}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:95
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr ""
+msgstr "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:98
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr ""
+msgstr "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:101
 msgid "You shared PhoneTrack session {session} with {who}"

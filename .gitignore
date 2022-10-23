@@ -2,3 +2,4 @@ js/
 *.bak
 node_modules
 css/fontawesome-free
+/.idea

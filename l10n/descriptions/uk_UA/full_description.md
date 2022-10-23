@@ -1,55 +1,55 @@
-# PhoneTrack Nextcloud application
+# PhoneTrack додаток для Nextcloud
 
-📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
+📱 PhoneTrack це додаток Nextcloud для відстеження і зберігання геолокації мобільних пристроїв.
 
-🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
+🗺 отримує інформацію від додатків для мобільних телефонів і динамічно відображає її на карті.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+🌍 Допоможіть нам перекласти цей додаток на [PhoneTrack Crowdin](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Перегляньте інші способи допомогти в [інструкціях з контрибуції](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-How to use PhoneTrack :
+Як використовувати PhoneTrack:
 
-* Create a tracking session.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+* Створіть сесію трекінгу.
+* Надайте посилання\* для збереження історії геолокації на мобільний пристрій. Оберіть [метод передачі інформації про геолокацію](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods), який вам підходить.
+* Переглядайте місце розташування пристроїв у реальному часі (або ні) у PhoneTrack або діліться нею на загальнодоступних сторінках.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) Не забудьте встановити ім'я пристрою в посиланні (а не в налаштуваннях додатка для передачі геоданих). Замініть "yourname" ім'ям пристрою. Встановлення назви пристрою в налаштуваннях додатку працює тільки в Owntracks, Traccar та OpenGTS.
 
-On PhoneTrack main page, while watching a session, you can :
+На головній сторінці PhoneTrack під час перегляду сесії ви можете:
 
-* 📍 Display location history
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-* 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+* 📍 Переглядати історію місцезнаходжень
+* ⛛ Фільтрувати точки
+* ✎ Вручну редагувати/додавати/видаляти точки
+* ✎ Редагувати пристрої (перейменувати, змінити колір/форму, перемістити в іншу сесію)
+* ⛶ Визначити зони віртуального паркану (geofencing) для пристроїв
+* ⚇ Визначати сповіщення про наближення для пар пристроїв
+* 🖧 Надати доступ до сесії для інших користувачів Nextcloud або для публічного перегляду (лише для читання)
+* 🔗 Створювати посилання для публічного перегляду з обмеженнями (фільтри, назва пристрою, лише останні позиції, спрощені геопаркани)
+* 🖫 Імпортувати/експортувати сесії у форматі GPX (потреково для пристрою чи одним файлам)
+* 🗠 Переглядати статистику сесії
+* 🔒 [Зарезервувати ім'я пристрою](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation), щоб переконатися, що тільки авторизований користувач може використовувати це ім'я
+* 🗓 Налаштувати автоматичний експорт та автоочищення (щодня/щотижнево/щомісячно)
+* ◔ Обирати, що робити при досягненні квоти точок (блокувати подальше збирання чи видаляти найстаріші точки)
 
-Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
+Публічна сторінка та публічна сторінка з фільтрами працюють як головна сторінка, за винятком того, що відображається лише одна сесія, все доступне лише для читання, і немає необхідності авторизуватися.
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+Цей додаток протестований на Nextcloud 17 з Firefox 57+ та Chromium.
 
-This app is compatible with theming colors and accessibility themes !
+Цей додаток сумісний з кольорами тем і темами для людей з особливими потребами!
 
-This app is under development.
+Цей додаток в стадії розробки.
 
-## Install
+## Встановлення
 
-See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
+Дивіться [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) з детальною інформацією про встановлення.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Перевірте [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log), щоб побачити, що нового і що буде в наступному релізі.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Перевірте [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) щоб побачити повний список авторів.
 
-## Known issues
+## Відомі проблеми
 
-* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+* PhoneTrack **тепер працює** з активованими обмеженням груп NextCloud. Дивіться [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Any feedback will be appreciated.
+Будемо вдячні за будь-який відгук.

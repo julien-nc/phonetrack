@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:37\n"
+"PO-Revision-Date: 2022-04-26 15:23\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
@@ -19,39 +19,39 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:89
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr ""
+msgstr "セッション {session} の PhoneTrack デバイス {device} が {geofence} に入りました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:92
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr ""
+msgstr "セッション {session} の PhoneTrack デバイス {device} が {geofence} から離れました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:95
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr ""
+msgstr "セッション {session} の PhoneTrack デバイス {device} がセッション {session2} のデバイス {device2} から {meters} メートル以内に入りました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:98
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr ""
+msgstr "セッション {session} の PhoneTrack デバイス {device} がセッション {session2} のデバイス {device2} から {meters} メートル以上離れました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:101
 msgid "You shared PhoneTrack session {session} with {who}"
-msgstr ""
+msgstr "PhoneTrack セッション {session} を {who} と共有しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:101
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr ""
+msgstr "PhoneTrack セッション {session} が {who} と共有されました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:104
 msgid "You stopped sharing session {session} with {who}"
-msgstr ""
+msgstr "{who} とのセッション {session} の共有を停止しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:104
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr ""
+msgstr "PhoneTrack セッション {session} は {who} とは共有されていません"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:179
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "PhoneTrack クライアント"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/Filter.php:55
 #: /var/www/html/dev/server/apps/phonetrack/lib/AppInfo/Application.php:66
@@ -59,99 +59,99 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:7
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr ""
+msgstr "<strong>PhoneTrack ジオフェンス</strong>イベント"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
-msgstr ""
+msgstr "<strong>PhoneTrack デバイス接近</strong>イベント"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
-msgstr ""
+msgstr "<strong>PhoneTrack アプリ</strong>の変更点"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:397
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:534
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
-msgstr ""
+msgstr "PhoneTrack 近接アラート (%s と %s)"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:401
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
-msgstr ""
+msgstr "PhoneTrack デバイス %s の %s メートル以内に %s が近づきました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:538
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
-msgstr ""
+msgstr "PhoneTrack デバイス %s から %s メートル以上 %s が離れました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:737
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:863
 msgid "Geofencing alert"
-msgstr ""
+msgstr "ジオフェンスアラート"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:741
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
-msgstr ""
+msgstr "PhoneTrack セッション %s で、デバイス %s がジオフェンス %s に入りました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:867
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
-msgstr ""
+msgstr "PhoneTrack セッション %s で、デバイス %s がジオフェンス %s から離れました"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2568
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2595
 msgid "Watch session"
-msgstr ""
+msgstr "セッションを見る"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2663
 msgid "PhoneTrack public access"
-msgstr ""
+msgstr "PhoneTrack 公開アクセス"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2664
 #, php-format
 msgid "Log to session %s"
-msgstr ""
+msgstr "セッション %s に記録"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:88
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
-msgstr ""
+msgstr "セッション \"%s\" で、デバイス \"%s\" がジオフェンスゾーン \"%s\" に入りました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:96
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
-msgstr ""
+msgstr "セッション \"%s\" で、デバイス \"%s\" がジオフェンスゾーン \"%s\" から離れました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:105
 #, php-format
 msgid "Device \"%s\" is now closer than %sm to \"%s\"."
-msgstr ""
+msgstr "デバイス \"%s\" の %s メートル以内に \"%s\" が近づきました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:113
 #, php-format
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
-msgstr ""
+msgstr "デバイス \"%s\" から %s メートル以上 \"%s\" が離れました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:122
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
-msgstr ""
+msgstr "計測値点数の上限 (%s) に \"%s\" の計測点で達しました (セッション \"%s\")"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:131
 #, php-format
 msgid "User \"%s\" shared PhoneTrack session \"%s\" with you."
-msgstr ""
+msgstr "ユーザ \"%s\" が PhoneTrack セッション \"%s\" をあなたと共有しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:140
 #, php-format
 msgid "User \"%s\" stopped sharing PhoneTrack session \"%s\" with you."
-msgstr ""
+msgstr "ユーザ \"%s\" が、あなたとの PhoneTrack セッション \"%s\" の共有を停止しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -159,57 +159,57 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/admin.js:21
 msgid "Quota was successfully saved"
-msgstr ""
+msgstr "上限は正常に保存されました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/admin.js:25
 msgid "Failed to save quota"
-msgstr ""
+msgstr "上限を保存するのに失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:675
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:102
 msgid "Show lines"
-msgstr ""
+msgstr "軌跡を表示する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:683
 msgid "Hide lines"
-msgstr ""
+msgstr "軌跡を非表示にする"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:704
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "自動ズームを有効化する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:712
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "自動ズームを無効化する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:733
 msgid "Show last point tooltip"
-msgstr ""
+msgstr "終着地点のツールチップを表示する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:741
 msgid "Hide last point tooltip"
-msgstr ""
+msgstr "終着点のツールチップを表示しない"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:762
 msgid "Zoom on all devices"
-msgstr ""
+msgstr "すべてのデバイスにズームする"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:775
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr ""
+msgstr "地図をクリックして点を移動させる (ESCでキャンセル)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1022
 msgid "Server name or server address should not be empty"
-msgstr ""
+msgstr "サーバー名またはサーバーアドレスは空にできません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1025
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1034
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "タイルサーバーを追加できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1031
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "この名前のサーバーは既に存在します"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1069
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4157
@@ -219,35 +219,35 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:426
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:475
 msgid "Delete"
-msgstr ""
+msgstr "削除"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1114
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "タイルサーバー \"{ts}\" が追加されました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1117
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "タイルサーバー \"{ts}\" の追加に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1121
 msgid "Failed to contact server to add tile server"
-msgstr ""
+msgstr "サーバーに接続できずタイルサーバーを追加できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1155
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr ""
+msgstr "タイルサーバー \"{ts}\" が削除されました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1158
 msgid "Failed to delete tile server \"{ts}\""
-msgstr ""
+msgstr "タイルサーバー \"{ts}\" の削除に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1162
 msgid "Failed to contact server to delete tile server"
-msgstr ""
+msgstr "サーバーに接続できずタイルサーバーを削除できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1249
 msgid "Failed to contact server to restore options values"
-msgstr ""
+msgstr "サーバーに接続できずオプションの値を復元できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1252
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1398
@@ -255,393 +255,393 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6373
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6404
 msgid "Reload this page"
-msgstr ""
+msgstr "ページを再読み込みする"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1395
 msgid "Failed to contact server to save options values"
-msgstr ""
+msgstr "サーバに接続できずオプションの値を保存できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1407
 msgid "Filter bookmark should have a name"
-msgstr ""
+msgstr "フィルタブックマークには名前が必要です"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1435
 msgid "Failed to contact server to save filters bookmark"
-msgstr ""
+msgstr "サーバーに接続できずフィルタブックマークを保存できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1478
 msgid "Failed to contact server to delete filters bookmark"
-msgstr ""
+msgstr "サーバーに接続できずフィルタブックマークを削除できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1520
 msgid "Session name should not be empty"
-msgstr ""
+msgstr "セッション名を入力してください"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1537
 msgid "Session name already used"
-msgstr ""
+msgstr "そのセッション名は既に使用されています"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1541
 msgid "Failed to contact server to create session"
-msgstr ""
+msgstr "サーバーに接続できずセッションを作成できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1577
 msgid "yourname"
-msgstr ""
+msgstr "あなたの名前"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1665
 msgid "Watch this session"
-msgstr ""
+msgstr "このセッションを見る"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1671
 msgid "shared by {u}"
-msgstr ""
+msgstr "{u} から共有"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1680
 msgid "Forbid devices to log to this session"
-msgstr ""
+msgstr "デバイスのこのセッションへの記録を禁止する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1687
 msgid "Reserve device names"
-msgstr ""
+msgstr "デバイス名を予約する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1694
 msgid "Links for logging apps"
-msgstr ""
+msgstr "ロギングアプリのリンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1701
 msgid "Link to share session"
-msgstr ""
+msgstr "セッションの共有リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1711
 msgid "Zoom on this session"
-msgstr ""
+msgstr "このセッションにズーム"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1714
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3153
 msgid "More actions"
-msgstr ""
+msgstr "その他のアクション"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1726
 msgid "Delete session"
-msgstr ""
+msgstr "セッションを削除"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1728
 msgid "Rename session"
-msgstr ""
+msgstr "セッション名の変更"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1731
 msgid "Export to gpx"
-msgstr ""
+msgstr "GPX へエクスポート"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1736
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "ファイルは '{exdir} ' に作成されます"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1737
 msgid "Automatic export"
-msgstr ""
+msgstr "自動エクスポート"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1739
 msgid "never"
-msgstr ""
+msgstr "無効"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1740
 msgid "daily"
-msgstr ""
+msgstr "毎日"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1741
 msgid "weekly"
-msgstr ""
+msgstr "毎週"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1742
 msgid "monthly"
-msgstr ""
+msgstr "毎月"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1747
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr ""
+msgstr "自動削除を毎日実行し、選択した期間よりも古い計測値点を削除する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1748
 msgid "Automatic purge"
-msgstr ""
+msgstr "自動削除"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1750
 msgid "don't purge"
-msgstr ""
+msgstr "削除しない"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1751
 msgid "a day"
-msgstr ""
+msgstr "1日"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1752
 msgid "a week"
-msgstr ""
+msgstr "1週間"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1753
 msgid "a month"
-msgstr ""
+msgstr "1ヶ月"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1762
 msgid "Name reservation is optional."
-msgstr ""
+msgstr "名前予約は任意です。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1763
 msgid "Name can be set directly in logging link if it is not reserved."
-msgstr ""
+msgstr "予約済みでない場合は、ログリンクで直接名前を設定できます。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1764
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
-msgstr ""
+msgstr "予約した名前で記録するには、ログリンク (あるいはPhoneTrack-Androidログジョブの「デバイス名」) フィールドで「名前トークン」を使用します。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1765
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr ""
+msgstr "名前が予約されている場合、この名前で記録するにはそれのトークンを使用する必要があります。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1768
 msgid "Reserve this device name"
-msgstr ""
+msgstr "このデバイス名を予約する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1770
 msgid "Type reserved name and press 'Enter'"
-msgstr ""
+msgstr "予約した名前を入力し、Enterキーを押します"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1783
 msgid "Share with user"
-msgstr ""
+msgstr "ユーザーと共有"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1785
 msgid "Type user name and press 'Enter'"
-msgstr ""
+msgstr "ユーザー名を入力し、Enterキーを押します"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1786
 msgid "user name"
-msgstr ""
+msgstr "ユーザー名"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1793
 msgid "A private session is not visible on public browser logging page"
-msgstr ""
+msgstr "公開ブラウザログページでは、プライベートセッションは表示されません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1795
 msgid "Public session"
-msgstr ""
+msgstr "公開セッション"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1802
 msgid "Public watch link"
-msgstr ""
+msgstr "公開ウォッチリンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1804
 msgid "API URL (JSON, last positions)"
-msgstr ""
+msgstr "API URL (JSON, 最終地点)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1806
 msgid "API URL (JSON, all positions)"
-msgstr ""
+msgstr "API URL (JSON, 全地点)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1812
 msgid "Current active filters will be applied on shared view"
-msgstr ""
+msgstr "現在のアクティブなフィルターは共有ビューに適用されます"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1814
 msgid "Add public filtered share"
-msgstr ""
+msgstr "フィルターが適用された公開共有リンクを追加"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1823
 msgid "Session token"
-msgstr ""
+msgstr "セッショントークン"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1829
 msgid "List of links to configure logging apps server settings."
-msgstr ""
+msgstr "ロギングアプリのサーバー設定用のリンク一覧"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1830
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:225
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr ""
+msgstr "「あなたの名前」を希望するデバイス名または名前予約トークンに置き換えてください"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1832
 msgid "Public browser logging link"
-msgstr ""
+msgstr "ブラウザ用公開ログリンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1837
 msgid "OsmAnd link"
-msgstr ""
+msgstr "OsmAnd リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1842
 msgid "GpsLogger GET and POST link"
-msgstr ""
+msgstr "GpsLogger GET・POSTリンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1846
 msgid "Owntracks (HTTP mode) link"
-msgstr ""
+msgstr "Owntracks (HTTPモード) リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1850
 msgid "Ulogger link"
-msgstr ""
+msgstr "Ulogger リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1854
 msgid "Traccar link"
-msgstr ""
+msgstr "Traccar リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1858
 msgid "OpenGTS link"
-msgstr ""
+msgstr "OpenGTS リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1862
 msgid "Overland link"
-msgstr ""
+msgstr "Overland リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1866
 msgid "Locus Map link"
-msgstr ""
+msgstr "Locus Map リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1870
 msgid "HTTP GET link"
-msgstr ""
+msgstr "HTTP GET リンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1988
 msgid "The session you want to delete does not exist"
-msgstr ""
+msgstr "削除したいセッションは存在しません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1991
 msgid "Failed to delete session"
-msgstr ""
+msgstr "セッションの削除に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1995
 msgid "Failed to contact server to delete session"
-msgstr ""
+msgstr "サーバー接続に失敗して、セッションを削除できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2015
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr ""
+msgstr "セッション '{s}' のデバイス '{d}' が削除されました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2018
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "セッション '{s}' のデバイス '{d}' の削除に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2022
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "サーバーに接続できずデバイスを削除できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2079
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "セッション名を変更できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2083
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "サーバーに接続できずセッション名を変更できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2131
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "デバイス名を変更できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2135
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "サーバーに接続できずデバイス名を変更できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2207
 msgid "Impossible to set device alias for {n}"
-msgstr ""
+msgstr "{n} にデバイスエイリアスを設定できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2211
 msgid "Failed to contact server to set device alias"
-msgstr ""
+msgstr "サーバーに接続できずデバイスエイリアスを設定できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2281
 msgid "Device already exists in target session"
-msgstr ""
+msgstr "デバイスはすでにターゲットセッションに存在します"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2284
 msgid "Impossible to move device to another session"
-msgstr ""
+msgstr "デバイスを別のセッションに移動できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2288
 msgid "Failed to contact server to move device"
-msgstr ""
+msgstr "サーバーに接続できずデバイスを移動できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2358
 msgid "Failed to contact server to get sessions"
-msgstr ""
+msgstr "サーバーに接続できずセッションを取得できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2798
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2825
 msgid "Stats of all points"
-msgstr ""
+msgstr "全計測値点の統計"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2822
 msgid "Stats of filtered points"
-msgstr ""
+msgstr "フィルターを適用した計測値点の統計"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3065
 msgid "Device's color successfully changed"
-msgstr ""
+msgstr "デバイスの色の変更に成功しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3068
 msgid "Failed to save device's color"
-msgstr ""
+msgstr "デバイスの色を保存できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3072
 msgid "Failed to contact server to change device's color"
-msgstr ""
+msgstr "サーバーに接続できず、デバイスの色を変更できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3144
 msgid "Geo link to open position in other app/software"
-msgstr ""
+msgstr "他のアプリやソフトウェアで位置を開くためのジオリンク"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3146
 msgid "Geo link QRcode to open position with a QRcode scanner"
-msgstr ""
+msgstr "QRコードスキャナーで位置を開くためのジオリンクQRコード"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3148
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3150
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3152
 msgid "Get driving direction to this device with {s}"
-msgstr ""
+msgstr "{s} でこのデバイスの運転方向を取得する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3157
 msgid "Set device shape"
-msgstr ""
+msgstr "デバイスの形を設定する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3159
 msgid "Round"
-msgstr ""
+msgstr "丸"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3160
 msgid "Square"
-msgstr ""
+msgstr "四角形"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3161
 msgid "Triangle"
-msgstr ""
+msgstr "三角形"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3165
 msgid "Delete this device"
-msgstr ""
+msgstr "このデバイスを削除"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3167
 msgid "Rename this device"
-msgstr ""
+msgstr "このデバイスの名前を変更"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3170
 msgid "Set device alias"
-msgstr ""
+msgstr "デバイスエイリアスを設定"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3173
 msgid "Move to another session"
-msgstr ""
+msgstr "別のセッションに移動"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3176
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:44
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3193
 msgid "Device geofencing zones"
-msgstr ""
+msgstr "デバイスのジオフェンスゾーン"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3197
 msgid "Zoom on geofencing area, then set values, then validate."
-msgstr ""
+msgstr "ジオフェンスエリアをズームし、値を設定し、検証します。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3198
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3258
@@ -650,7 +650,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5111
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5130
 msgid "Nextcloud notification"
-msgstr ""
+msgstr "Nextcloud通知"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3200
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3260
@@ -659,233 +659,233 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5112
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5132
 msgid "Email notification"
-msgstr ""
+msgstr "メール通知"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3203
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3263
 msgid "Comma separated e-mail address list"
-msgstr ""
+msgstr "カンマ区切りの電子メールアドレスリスト"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3204
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3264
 msgid "An empty value means the session owner's email address."
-msgstr ""
+msgstr "空の値はセッション所有者のメールアドレスを意味します。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3205
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3265
 msgid "You can put multiple addresses separated by comas (,)."
-msgstr ""
+msgstr "コンマ (,) で区切られた複数のアドレスを置くことができます。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3206
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr ""
+msgstr "進入時にリクエストを送信するHTTPアドレス (\"%loc\" は \"緯度:経度\" に置換されます)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3207
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3211
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3267
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3271
 msgid "Use POST method"
-msgstr ""
+msgstr "POSTメソッドを使う"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3210
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr ""
+msgstr "離れる時にリクエストを送信するHTTPアドレス (\"%loc\" は \"緯度:経度\" に置換されます)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3214
 msgid "Geofencing zone coordinates"
-msgstr ""
+msgstr "ジオフェンスゾーン座標"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3214
 msgid "leave blank to use current map bounds"
-msgstr ""
+msgstr "現在の地図境界を使用するには空白のままにしてください"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3216
 msgid "North"
-msgstr ""
+msgstr "北"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3218
 msgid "South"
-msgstr ""
+msgstr "南"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3222
 msgid "Set North/East corner by clicking on the map"
-msgstr ""
+msgstr "地図をクリックして北東の角を設定する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3223
 msgid "Set N/E"
-msgstr ""
+msgstr "北東を設定"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3225
 msgid "Set South/West corner by clicking on the map"
-msgstr ""
+msgstr "地図をクリックして南西の角を設定"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3226
 msgid "Set S/W"
-msgstr ""
+msgstr "南西を設定"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3230
 msgid "East"
-msgstr ""
+msgstr "東"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3232
 msgid "West"
-msgstr ""
+msgstr "西"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3235
 msgid "Fence name"
-msgstr ""
+msgstr "フェンス名"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3236
 msgid "Use current map view as geofencing zone"
-msgstr ""
+msgstr "ジオフェンスゾーンとして現在のマップビューを使用する"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3237
 msgid "Add zone"
-msgstr ""
+msgstr "ゾーンを追加"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3243
 msgid "Device proximity notifications"
-msgstr ""
+msgstr "デバイス近接通知"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3247
 msgid "Select a session, a device name and a distance, set the notification settings, then validate."
-msgstr ""
+msgstr "セッション、デバイス名と距離を選択し、通知設定を行い、検証します。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3248
 msgid "You will be notified when distance between devices gets bigger than high limit or smaller than low limit."
-msgstr ""
+msgstr "デバイス間の距離が上限よりも大きくなった場合、または下限よりも小さくなった場合に通知されます。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3249
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:490
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:508
 msgid "Session"
-msgstr ""
+msgstr "セッション"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3251
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:210
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:495
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:513
 msgid "Device name"
-msgstr ""
+msgstr "デバイス名"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3252
 msgid "Low distance limit"
-msgstr ""
+msgstr "距離の下限"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3254
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3257
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:77
 msgid "meters"
-msgstr ""
+msgstr "メートル"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3255
 msgid "High distance limit"
-msgstr ""
+msgstr "距離の上限"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3266
 msgid "HTTP address to request when devices get close"
-msgstr ""
+msgstr "デバイスが近づいたときにリクエストを送信する HTTP アドレス"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3270
 msgid "HTTP address to request when devices get far"
-msgstr ""
+msgstr "デバイスが離れたときにリクエストを送信する HTTP アドレス"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3275
 msgid "Add proximity notification"
-msgstr ""
+msgstr "近接通知を追加"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3291
 msgid "Toggle lines"
-msgstr ""
+msgstr "軌跡表示を切り替える"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3299
 msgid "Follow this device (autozoom)"
-msgstr ""
+msgstr "このデバイスを追従 (オートズーム)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3312
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3319
 msgid "Center map on device"
-msgstr ""
+msgstr "デバイスをマップの中心にする"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3740
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "編集したい点が存在しないか、編集権限がありません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3744
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "サーバーに接続できず、計測値点を修正できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3862
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "削除したい計測値点が存在しないか、削除権限がありません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3866
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "サーバーに接続できず、計測値点を削除できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3955
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3992
 msgid "Manually added"
-msgstr ""
+msgstr "手動で追加"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3973
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "この点を追加できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3976
 msgid "User quota was reached"
-msgstr ""
+msgstr "ユーザー上限に達しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3980
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "サーバーに接続できず計測値点を追加できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4117
 msgid "Date"
-msgstr ""
+msgstr "日付"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4120
 msgid "Time"
-msgstr ""
+msgstr "時刻"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4125
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4209
 msgid "Altitude"
-msgstr ""
+msgstr "高度"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4128
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4214
 msgid "Precision"
-msgstr ""
+msgstr "精度"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4131
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4221
 msgid "Speed"
-msgstr ""
+msgstr "速度"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4134
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4226
 msgid "Bearing"
-msgstr ""
+msgstr "方位"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4137
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4231
 msgid "Satellites"
-msgstr ""
+msgstr "衛星"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4140
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4236
 msgid "Battery"
-msgstr ""
+msgstr "バッテリー"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4143
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4240
 msgid "User-agent"
-msgstr ""
+msgstr "ユーザーエージェント"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4146
 msgid "lat : lng"
-msgstr ""
+msgstr "緯度 : 経度"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4150
 msgid "DMS coords"
@@ -893,50 +893,50 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4156
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4158
 msgid "Move"
-msgstr ""
+msgstr "移動"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4159
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4205
 msgid "Distance"
-msgstr ""
+msgstr "距離"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4374
 msgid "Impossible to zoom, there is no point to zoom on for this session"
-msgstr ""
+msgstr "ズームできません。ズームする計測地点がこのセッションにありません。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4409
 msgid "File extension must be '.gpx', '.kml' or '.json' to be imported"
-msgstr ""
+msgstr "インポートするにはファイル拡張子は '.gpx' または '.kml' または '.json' でなければなりません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4428
 msgid "Failed to create imported session"
-msgstr ""
+msgstr "インポートされたセッションを作成できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4432
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4438
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4444
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4450
 msgid "Failed to import session"
-msgstr ""
+msgstr "セッションのインポートに失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4433
 msgid "File is not readable"
-msgstr ""
+msgstr "ファイルが読み込めません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4439
 msgid "File does not exist"
-msgstr ""
+msgstr "ファイルが存在しません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4445
 msgid "Malformed XML file"
-msgstr ""
+msgstr "不正な形式の XML ファイル"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4451
 msgid "There is no device to import in submitted file"
@@ -1069,92 +1069,92 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4971
 msgid "URL to request when entering"
-msgstr ""
+msgstr "進入時にリクエストを送信するURL"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4975
 msgid "URL to request when leaving"
-msgstr ""
+msgstr "離れる時にリクエストを送信するURL"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4978
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4982
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5095
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5099
 msgid "no"
-msgstr ""
+msgstr "いいえ"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4980
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4984
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5097
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5101
 msgid "yes"
-msgstr ""
+msgstr "はい"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4994
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5011
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5114
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5135
 msgid "Email address(es)"
-msgstr ""
+msgstr "メールアドレス"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4994
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5012
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5114
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5135
 msgid "account mail address"
-msgstr ""
+msgstr "アカウントのメールアドレス"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5038
 msgid "Failed to delete geofencing zone"
-msgstr ""
+msgstr "ジオフェンスゾーンの削除に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5041
 msgid "Failed to contact server to delete geofencing zone"
-msgstr ""
+msgstr "サーバー接続に失敗してジオフェンスゾーンを削除できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5071
 msgid "Warning : User email and server admin email must be set to receive proximity alerts."
-msgstr ""
+msgstr "警告: 近接アラートを受信するには、ユーザーのメールとサーバー管理者のメールを設定する必要があります。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5075
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5079
 msgid "Failed to add proximity alert"
-msgstr ""
+msgstr "近接アラートの追加に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5076
 msgid "Device or session does not exist"
-msgstr ""
+msgstr "デバイスまたはセッションが存在しません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5082
 msgid "Failed to contact server to add proximity alert"
-msgstr ""
+msgstr "サーバーに接続できず近接アラートを追加できません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5106
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5123
 msgid "URL to request when devices get close"
-msgstr ""
+msgstr "デバイスが近づいたときにリクエストを送信するURL"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5109
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5127
 msgid "URL to request when devices get far"
-msgstr ""
+msgstr "デバイスが離れたときにリクエストを送信するURL"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5116
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5138
 msgid "Low distance limit : {nbmeters}m"
-msgstr ""
+msgstr "距離の下限：{nbmeters}メートル"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5117
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5140
 msgid "High distance limit : {nbmeters}m"
-msgstr ""
+msgstr "距離の上限：{nbmeters}メートル"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5166
 msgid "Failed to delete proximity alert"
-msgstr ""
+msgstr "近接アラートの削除に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5169
 msgid "Failed to contact server to delete proximity alert"
-msgstr ""
+msgstr "サーバーに接続できず近接アラートを削除できませんでした"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5188
 msgid "Failed to add public share"
@@ -1166,11 +1166,11 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5222
 msgid "Show this device only"
-msgstr ""
+msgstr "このデバイスのみを表示"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5224
 msgid "Show last positions only"
-msgstr ""
+msgstr "最終地点のみを表示"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5226
 msgid "Simplify positions to nearest geofencing zone center"
@@ -1178,7 +1178,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5245
 msgid "No filters"
-msgstr ""
+msgstr "フィルターなし"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5269
 msgid "Failed to delete public share"
@@ -1194,35 +1194,35 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5355
 msgid "device name"
-msgstr ""
+msgstr "デバイス名"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5356
 msgid "distance (km)"
-msgstr ""
+msgstr "距離 (km)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5357
 msgid "duration"
-msgstr ""
+msgstr "期間"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5358
 msgid "#points"
-msgstr ""
+msgstr "計測値点数"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5359
 msgid "avg speed (km/h)"
-msgstr ""
+msgstr "平均速度 (km/h)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5360
 msgid "max speed (km/h)"
-msgstr ""
+msgstr "最高速度 (km/h)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5432
 msgid "years"
-msgstr ""
+msgstr "年"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5435
 msgid "days"
-msgstr ""
+msgstr "日"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5458
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
@@ -1298,7 +1298,7 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5501
 msgid "the browser"
-msgstr ""
+msgstr "ブラウザー"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5502
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:212

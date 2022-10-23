@@ -1,1 +1,1 @@
-Track and display phones positions in real time
+携帯電話の位置をリアルタイムで追跡して表示します

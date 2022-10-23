@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:37\n"
+"PO-Revision-Date: 2022-04-10 20:30\n"
 "Last-Translator: \n"
 "Language-Team: Ukrainian\n"
 "Language: uk_UA\n"
@@ -19,39 +19,39 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:89
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr ""
+msgstr "Пристрій PhoneTrack {device} у сесії {session} увійшов в геопаркан {geofence}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:92
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr ""
+msgstr "Пристрій PhoneTrack {device} в сесії {session} вийшов з геопаркану {geofence}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:95
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr ""
+msgstr "Пристрій PhoneTrack {device} в сесії {session} тепер ближчий ніж {meters} м від {device2} в сесії {session2}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:98
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr ""
+msgstr "Пристрій PhoneTrack {device} в сесії {session} тепер далі ніж {meters} м від {device2} в сесії {session2}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:101
 msgid "You shared PhoneTrack session {session} with {who}"
-msgstr ""
+msgstr "Ви надіслали {who} сесію PhoneTrack {session}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:101
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr ""
+msgstr "Сесія PhoneTrack {session} доступна для {who}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:104
 msgid "You stopped sharing session {session} with {who}"
-msgstr ""
+msgstr "Ви припинили спільний доступ {session} для {who}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:104
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr ""
+msgstr "Сесія PhoneTrack {session} більше не доступна для {who}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:179
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "Клієнт PhoneTrack"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/Filter.php:55
 #: /var/www/html/dev/server/apps/phonetrack/lib/AppInfo/Application.php:66
@@ -63,15 +63,15 @@ msgstr "PhoneTrack"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr ""
+msgstr "<strong>події геопарканів PhoneTrack</strong>"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
-msgstr ""
+msgstr "Події <strong>Наближення пристрою PhoneTrack</strong>"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
-msgstr ""
+msgstr "Зміни <strong>в додатку PhoneTrack</strong>"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:397
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:534
@@ -82,12 +82,12 @@ msgstr "Попередження про наближення(%s та %s)"
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:401
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
-msgstr ""
+msgstr "Пристрій PhoneTrack %s тепер ближче ніж %s м до %s."
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:538
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
-msgstr ""
+msgstr "Пристрій PhoneTrack %s тепер далі ніж %s м від %s."
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:737
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:863
@@ -97,26 +97,26 @@ msgstr "Порушення обмежувальної зони"
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:741
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
-msgstr ""
+msgstr "У сесії PhoneTrack %s, пристрій %s увійшов у геопаркан %s."
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:867
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
-msgstr ""
+msgstr "У сесії PhoneTrack %s, пристрій %s вийшов за геопаркан %s."
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2568
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2595
 msgid "Watch session"
-msgstr ""
+msgstr "Переглянути сесію"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2663
 msgid "PhoneTrack public access"
-msgstr ""
+msgstr "Публічний доступ до PhoneTrack"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2664
 #, php-format
 msgid "Log to session %s"
-msgstr ""
+msgstr "Зберігати до сесії %s"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:88
 #, php-format
@@ -141,17 +141,17 @@ msgstr "Пристрій \"%s\" тепер дальший ніж %sм від \"%
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:122
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
-msgstr ""
+msgstr "Квота на кількість точок (%s) була досягнута з точкою \"%s\" у сесії \"%s."
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:131
 #, php-format
 msgid "User \"%s\" shared PhoneTrack session \"%s\" with you."
-msgstr ""
+msgstr "Користувач \"%s\" надіслав вам сесію PhoneTrack \"%s\"."
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:140
 #, php-format
 msgid "User \"%s\" stopped sharing PhoneTrack session \"%s\" with you."
-msgstr ""
+msgstr "Користувач \"%s\"перестав ділитися сесією PhoneTrack\"%s\" з вами."
 
 #: /var/www/html/dev/server/apps/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid " "
@@ -336,7 +336,7 @@ msgstr "Експортувати до gpx"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1736
 msgid "Files are created in '{exdir}'"
-msgstr ""
+msgstr "Файли створені в '{exdir}'"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1737
 msgid "Automatic export"
@@ -360,7 +360,7 @@ msgstr "щомісячно"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1747
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr ""
+msgstr "Автоматичне очищення спрацьовує щодня і призведе до видалення точок старших вказаного терміну"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1748
 msgid "Automatic purge"
@@ -416,7 +416,7 @@ msgstr "Вкажіть ім'я користувача та натисніть 'E
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1786
 msgid "user name"
-msgstr ""
+msgstr "ім'я користувача"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1793
 msgid "A private session is not visible on public browser logging page"
@@ -489,7 +489,7 @@ msgstr "Посилання OpenGTS"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1862
 msgid "Overland link"
-msgstr ""
+msgstr "Посилання Overland"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1866
 msgid "Locus Map link"
@@ -664,7 +664,7 @@ msgstr "Email-сповіщення"
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3203
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3263
 msgid "Comma separated e-mail address list"
-msgstr ""
+msgstr "Список адрес e-mail розділених комами"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3204
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3264
@@ -784,15 +784,15 @@ msgstr "Нижня межа відстані"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3266
 msgid "HTTP address to request when devices get close"
-msgstr ""
+msgstr "HTTP-адреса для запиту коли пристрій наблизився"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3270
 msgid "HTTP address to request when devices get far"
-msgstr ""
+msgstr "HTTP-адреса для запиту коли пристрій віддалився"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3275
 msgid "Add proximity notification"
-msgstr ""
+msgstr "Додати сповіщення про наближення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3291
 msgid "Toggle lines"
@@ -809,200 +809,200 @@ msgstr "Відцентрувати карту на пристрої"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3740
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr ""
+msgstr "Точка, яку ви хочете редагувати, не існує або ви не маєте дозволу редагувати"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3744
 msgid "Failed to contact server to edit point"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для редагування точки"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3862
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr ""
+msgstr "Точка, яку ви хочете видалити, не існує або ви не маєте дозволу видаляти"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3866
 msgid "Failed to contact server to delete point"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для видалення точки"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3955
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3992
 msgid "Manually added"
-msgstr ""
+msgstr "Додано вручну"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3973
 msgid "Impossible to add this point"
-msgstr ""
+msgstr "Неможливо додати цю точку"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3976
 msgid "User quota was reached"
-msgstr ""
+msgstr "Квоту користувача досягнуто"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3980
 msgid "Failed to contact server to add point"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для додавання точки"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4117
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4120
 msgid "Time"
-msgstr ""
+msgstr "Час"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4125
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4209
 msgid "Altitude"
-msgstr ""
+msgstr "Висота"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4128
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4214
 msgid "Precision"
-msgstr ""
+msgstr "Точність"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4131
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4221
 msgid "Speed"
-msgstr ""
+msgstr "Швидкість"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4134
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4226
 msgid "Bearing"
-msgstr ""
+msgstr "Азимут"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4137
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4231
 msgid "Satellites"
-msgstr ""
+msgstr "Супутників"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4140
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4236
 msgid "Battery"
-msgstr ""
+msgstr "Акумулятор"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4143
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4240
 msgid "User-agent"
-msgstr ""
+msgstr "Ідентифікатор браузера"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4146
 msgid "lat : lng"
-msgstr ""
+msgstr "шир : дов"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4150
 msgid "DMS coords"
-msgstr ""
+msgstr "DMS кординати"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4156
 msgid "Save"
-msgstr ""
+msgstr "Зберегти"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4158
 msgid "Move"
-msgstr ""
+msgstr "Перемістити"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4159
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4205
 msgid "Distance"
-msgstr ""
+msgstr "Відстань"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4374
 msgid "Impossible to zoom, there is no point to zoom on for this session"
-msgstr ""
+msgstr "Неможливо збільшити, не має точок для збільшеня у цій сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4409
 msgid "File extension must be '.gpx', '.kml' or '.json' to be imported"
-msgstr ""
+msgstr "Розширення файлу для імпорту має бути '.gpx', '.kml' або '.json'"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4428
 msgid "Failed to create imported session"
-msgstr ""
+msgstr "Не вдалося створити імпортовану сесію"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4432
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4438
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4444
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4450
 msgid "Failed to import session"
-msgstr ""
+msgstr "Не вдалося імпортувати сесію"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4433
 msgid "File is not readable"
-msgstr ""
+msgstr "Файл неможливо прочитати"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4439
 msgid "File does not exist"
-msgstr ""
+msgstr "Файлу не існує"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4445
 msgid "Malformed XML file"
-msgstr ""
+msgstr "Неправильний XML-файл"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4451
 msgid "There is no device to import in submitted file"
-msgstr ""
+msgstr "Немає пристрою для імпорту у надісланому файлі"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4457
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для імпорту сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4478
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4485
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "Сесію успішно експортовано в"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4482
 msgid "There is no point to export for this session"
-msgstr ""
+msgstr "Немає точок для експорту у цій сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4486
 msgid "but there was no point to export for some devices"
-msgstr ""
+msgstr "але не було жодної точки для експорту для деяких пристроїв"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4490
 msgid "Failed to export session"
-msgstr ""
+msgstr "Не вдалося експортувати сесію"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4495
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для експорту сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4526
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для збереження позиції"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4620
 msgid "Impossible to zoom, there is no point to zoom on for this device"
-msgstr ""
+msgstr "Неможливо збільшити, не має точок для збільшеня по цьому пристрою"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4733
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' вже зарезервовано"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4736
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "Не вдалося зарезервувати '{n}'"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4739
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для резервування імені пристрою"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4770
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4774
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "Не вдалося видалити зарезервоване ім'я"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4771
 msgid "This device does not exist"
-msgstr ""
+msgstr "Такого пристрою не існує"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4775
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "Назву пристрою не зарезервовано, будь ласка, оновіть цю сторінку"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4778
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером, щоб видалити зарезервоване ім'я"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4798
 msgid "User does not exist"
@@ -1010,7 +1010,7 @@ msgstr "Користувача не існує"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4801
 msgid "Failed to add user share"
-msgstr ""
+msgstr "Не вдалося додати поширення користувача"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4804
 msgid "Failed to contact server to add user share"
@@ -1026,46 +1026,46 @@ msgstr "Не вдалося видалити поширення користув
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4842
 msgid "Failed to contact server to delete user share"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для видалення спільного доступу користувача"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4860
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4884
 msgid "Public share has been successfully modified"
-msgstr ""
+msgstr "Публічне поширення успішно змінено"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4863
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4887
 msgid "Failed to modify public share"
-msgstr ""
+msgstr "Не вдалося змінити спільне поширення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4866
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4890
 msgid "Failed to contact server to modify public share"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для зміни публічного поширення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4908
 msgid "Device name restriction has been successfully set"
-msgstr ""
+msgstr "Обмеження імен пристрою було вдало встановлено"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4911
 msgid "Failed to set public share device name restriction"
-msgstr ""
+msgstr "Не вдалося встановити обмеження на назву пристрою публічного поширення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4914
 msgid "Failed to contact server to set public share device name restriction"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для встановлення обмеження назви пристрою публічного спільного використання"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4949
 msgid "Warning : User email and server admin email must be set to receive geofencing alerts."
-msgstr ""
+msgstr "Увага! для отримання повідомлень з тривогами геопарканів, email користувача та адміністратора серверу повинні бути встановлені."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4953
 msgid "Failed to add geofencing zone"
-msgstr ""
+msgstr "Не вдалося додати обмежувальну зону"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4956
 msgid "Failed to contact server to add geofencing zone"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для додавання обмежувальної зони"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4971
 msgid "URL to request when entering"
@@ -1080,546 +1080,546 @@ msgstr "URL-адреса для запиту під час виходу"
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5095
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5099
 msgid "no"
-msgstr ""
+msgstr "ні"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4980
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4984
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5097
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5101
 msgid "yes"
-msgstr ""
+msgstr "так"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4994
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5011
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5114
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5135
 msgid "Email address(es)"
-msgstr ""
+msgstr "E-mail адреса(си)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4994
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5012
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5114
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5135
 msgid "account mail address"
-msgstr ""
+msgstr "адреса електронної пошти облікового запису"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5038
 msgid "Failed to delete geofencing zone"
-msgstr ""
+msgstr "Не вдалося видалити обмежувальну зону"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5041
 msgid "Failed to contact server to delete geofencing zone"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для видалення обмежувальної зони"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5071
 msgid "Warning : User email and server admin email must be set to receive proximity alerts."
-msgstr ""
+msgstr "Увага! для отримання повідомлень про наближення, email користувача та адміністратора серверу повинні бути встановлені."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5075
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5079
 msgid "Failed to add proximity alert"
-msgstr ""
+msgstr "Не вдалося додати попередження про наближення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5076
 msgid "Device or session does not exist"
-msgstr ""
+msgstr "Пристрій або сесія не існує"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5082
 msgid "Failed to contact server to add proximity alert"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для додавання сповіщення про наближення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5106
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5123
 msgid "URL to request when devices get close"
-msgstr ""
+msgstr "URL для запиту коли пристрій наблизився"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5109
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5127
 msgid "URL to request when devices get far"
-msgstr ""
+msgstr "URL для запиту коли пристрій віддалився"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5116
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5138
 msgid "Low distance limit : {nbmeters}m"
-msgstr ""
+msgstr "Ліміт короткої дистанції : {nbmeters}м"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5117
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5140
 msgid "High distance limit : {nbmeters}m"
-msgstr ""
+msgstr "Ліміт довгої дистанції : {nbmeters}м"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5166
 msgid "Failed to delete proximity alert"
-msgstr ""
+msgstr "Не вдалося видалити попередження про наближення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5169
 msgid "Failed to contact server to delete proximity alert"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для видалення сповіщення про наближення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5188
 msgid "Failed to add public share"
-msgstr ""
+msgstr "Не вдалося додати спільне поширення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5191
 msgid "Failed to contact server to add public share"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для додавання публічного поширення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5222
 msgid "Show this device only"
-msgstr ""
+msgstr "Показати лише цей пристрій"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5224
 msgid "Show last positions only"
-msgstr ""
+msgstr "Показати тільки останні позиції"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5226
 msgid "Simplify positions to nearest geofencing zone center"
-msgstr ""
+msgstr "Спростити позиції до найближчого центру геопаркану"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5245
 msgid "No filters"
-msgstr ""
+msgstr "Немає фільтрів"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5269
 msgid "Failed to delete public share"
-msgstr ""
+msgstr "Не вдалося видалити спільне поширення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5272
 msgid "Failed to contact server to delete public share"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для видалення публічного поширення"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5313
 msgid "Failed to contact server to get user list"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для отримання списку користувачів"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5355
 msgid "device name"
-msgstr ""
+msgstr "назва пристрою"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5356
 msgid "distance (km)"
-msgstr ""
+msgstr "відстань (км)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5357
 msgid "duration"
-msgstr ""
+msgstr "тривалість"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5358
 msgid "#points"
-msgstr ""
+msgstr "#точок"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5359
 msgid "avg speed (km/h)"
-msgstr ""
+msgstr "середня швидкість (км/год)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5360
 msgid "max speed (km/h)"
-msgstr ""
+msgstr "максимальна швидкість (км/год)"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5432
 msgid "years"
-msgstr ""
+msgstr "років"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5435
 msgid "days"
-msgstr ""
+msgstr "днів"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5458
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
-msgstr ""
+msgstr "У OsmAnd, перейдіть до 'Плагіни' у головному меню, активуйте плагін 'Trip recording' та перейдіть до його налаштувань."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5459
 msgid "Copy the link below into the 'Online tracking web address' field."
-msgstr ""
+msgstr "Скопіюйте посилання нижче в поле \"Веб-адреса онлайн відстежування\"."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5463
 msgid "Go to 'settings' in the app."
-msgstr ""
+msgstr "Перейти в \"налаштування\" у додатку."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5464
 msgid "Copy the link below into the 'server address' field."
-msgstr ""
+msgstr "Скопіюйте посилання нижче в поле \"Адреса сервера\"."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5468
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
-msgstr ""
+msgstr "У GpsLogger, перейдіть до \"Logging details\" в меню бічної панелі, а потім активуйте 'Log to custom URL'."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5469
 msgid "Copy the link below into the 'URL' field."
-msgstr ""
+msgstr "Скопіювати посилання нижче у поле 'URL'."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5473
 msgid "In the Owntracks preferences menu, go to 'Connections'."
-msgstr ""
+msgstr "У меню налаштувань Owntracks, перейдіть до \"Connections\"."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5474
 msgid "Change the connection Mode to 'Private HTTP', Copy the link below into the 'Host' field."
-msgstr ""
+msgstr "Змініть режим підключення на 'Приватний HTTP', Копіюйте посилання нижче у поле 'Хост'."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5475
 msgid "Leave settings under 'Identification' blank as they are not required."
-msgstr ""
+msgstr "Залиште налаштування в розділі «Identification» порожніми, оскільки вони не потрібні."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5479
 msgid "In Ulogger, go to settings menu and copy the link below into the 'Server URL' field."
-msgstr ""
+msgstr "У Ulogger перейдіть в меню налаштувань і скопіюйте посилання нижче в поле \"URL-адреса сервера\"."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5480
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
-msgstr ""
+msgstr "Встановіть в обов'язкові поля \"Ім'я користувача\" та \"Пароль\" будь-які значення, оскільки вони будуть ігноруватися в PhoneTrack."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5481
 msgid "Activate 'Live synchronization'."
-msgstr ""
+msgstr "Активуйте 'Live synchronization'."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5485
 msgid "In Traccar client, copy the link below into the 'server URL' field."
-msgstr ""
+msgstr "У клієнті Traccar, скопіюйте посилання нижче у поле \"server URL\"."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5489
 msgid "In LocusMap, copy the link below into the 'server URL' field. It works with POST and GET methods."
-msgstr ""
+msgstr "У LocusMap, скопіюйте посилання нижче в поле 'server URL'. Воно працює з методами POST і GET."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5493
 msgid "You can log with any other client with a simple HTTP request."
-msgstr ""
+msgstr "Ви можете зберігати точки з будь-яким іншим клієнтом за допомогою простого HTTP-запиту."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5494
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
-msgstr ""
+msgstr "Переконайтеся, що система збереження геоданних встановлює значення принаймні для 'timestamp', 'lat' та 'lon' параметрів GET."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5497
 msgid "Use this link as the server URL in your OpenGTS compatible logging app."
-msgstr ""
+msgstr "Використовуйте це посилання як посилання на сервер в програмі, сумісній з OpenGTS."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5498
 msgid "OpenGTS compatible logger"
-msgstr ""
+msgstr "OpenGTS сумісна програма"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5501
 msgid "the browser"
-msgstr ""
+msgstr "браузер"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5502
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:212
 msgid "Log my position in this session"
-msgstr ""
+msgstr "Зберігати мою геопозицію в цій сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5503
 msgid "Visit this link with a web browser and check \"{loglabel}\"."
-msgstr ""
+msgstr "Перейдіть за цим посиланням у веб-браузері і перевірте \"{loglabel}\"."
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5506
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
-msgstr ""
+msgstr "Налаштування {loggingApp} для журналювання в сесію '{sessionName}"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5733
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr ""
+msgstr "Ви впевнені, що бажаєте видалити сесію {session}?"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5736
 msgid "Confirm session deletion"
-msgstr ""
+msgstr "Підтвердіть видалення сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5792
 msgid "Choose auto export target path"
-msgstr ""
+msgstr "Оберіть шлях авто екпорту"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5972
 msgid "Select storage location for '{fname}'"
-msgstr ""
+msgstr "Виберіть місце зберігання для '{fname}'"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6194
 msgid "Geo QRcode : last position of {dname}"
-msgstr ""
+msgstr "QR-код Geo : остання позиція {dname}"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6316
 msgid "Are you sure you want to delete the device {device} ?"
-msgstr ""
+msgstr "Ви дійсно бажаєте видалити пристрій {device}?"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6319
 msgid "Confirm device deletion"
-msgstr ""
+msgstr "Підтвердіть видалення пристрою"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6372
 msgid "Failed to change session lock status"
-msgstr ""
+msgstr "Не вдалося змінити статус блокування сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6400
 msgid "Failed to toggle session public status, session does not exist"
-msgstr ""
+msgstr "Не вдалося переключити публічний статус сесії, сесія не існує"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6403
 msgid "Failed to contact server to toggle session public status"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для переключення публічного статусу сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6472
 msgid "Failed to set device shape"
-msgstr ""
+msgstr "Не вдалося встановити форму пристрою"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6475
 msgid "Failed to contact server to set device shape"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для встановлення форми пристрою"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6497
 msgid "Failed to set session auto export value"
-msgstr ""
+msgstr "Не вдалося встановити значення автоматичного експорту сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6498
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6525
 msgid "session does not exist"
-msgstr ""
+msgstr "сесія не існує"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6502
 msgid "Failed to contact server to set session auto export value"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для встановлення значення автоматичного експорту сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6524
 msgid "Failed to set session auto purge value"
-msgstr ""
+msgstr "Не вдалося встановити значення автоматичного очищення сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6529
 msgid "Failed to contact server to set session auto purge value"
-msgstr ""
+msgstr "Не вдалося зв'язатися з сервером для встановлення значення автоматичного очищення сеансу"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6616
 msgid "Import gpx/kml/json session file"
-msgstr ""
+msgstr "Імпорт файлу сесії gpx/kml/json"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:7214
 msgid "Close elevation chart"
-msgstr ""
+msgstr "Закрити діаграму висот"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:8
 msgid "Point number quota"
-msgstr ""
+msgstr "Квота кількості точок"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:9
 msgid "Set the maximum number of points each user can store/log."
-msgstr ""
+msgstr "Встановлює максимальну кількість точок для зберігання кожним користувачем."
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:10
 msgid "Each user can choose what happens when the quota is reached : block logging or delete oldest point."
-msgstr ""
+msgstr "Кожен користувач може вибрати, що станеться при досягненні квоти: заблокувати збереження або видаляти найстаріші точки."
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:11
 msgid "An empty value means no limit."
-msgstr ""
+msgstr "Порожнє значення означає відсутність обмежень."
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:4
 msgid "Main tab"
-msgstr ""
+msgstr "Головна вкладка"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:5
 msgid "Filters"
-msgstr ""
+msgstr "Фільтри"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:14
 msgid "Stats"
-msgstr ""
+msgstr "Статистика"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:15
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:263
 msgid "Settings and extra actions"
-msgstr ""
+msgstr "Налаштування та додаткові дії"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:16
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:730
 msgid "About PhoneTrack"
-msgstr ""
+msgstr "Про PhoneTrack"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:32
 msgid "Import session"
-msgstr ""
+msgstr "Імпорт сесії"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:36
 msgid "Create session"
-msgstr ""
+msgstr "Створити сесію"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:40
 msgid "Session name"
-msgstr ""
+msgstr "Назва сесii"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:53
 msgid "Options"
-msgstr ""
+msgstr "Налаштування"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:61
 msgid "General"
-msgstr ""
+msgstr "Загальне"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:64
 msgid "Refresh each (sec)"
-msgstr ""
+msgstr "Оновлювати кожні (сек)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:67
 msgid "Refresh"
-msgstr ""
+msgstr "Оновити"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:69
 msgid "An empty value means no limit"
-msgstr ""
+msgstr "Порожнє значення означає відсутність обмежень"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:71
 msgid "Max number of points per device to load on refresh"
-msgstr ""
+msgstr "Максимальна кількість точок на пристрій для завантаження при оновленні"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:72
 msgid "points"
-msgstr ""
+msgstr "точок"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:74
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:79
 msgid "Cutting lines only affects map view and stats table"
-msgstr ""
+msgstr "Скорочення рядків впливає лише на вигляд карти та таблицю статистики"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:76
 msgid "Minimum distance to cut between two points"
-msgstr ""
+msgstr "Мінімальна відстань для скорочення між двома точками"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:81
 msgid "Minimum time to cut between two points"
-msgstr ""
+msgstr "Мінімальний час для скорочення між двома точками"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:82
 msgid "seconds"
-msgstr ""
+msgstr "секунд"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:85
 msgid "When point quota is reached"
-msgstr ""
+msgstr "Коли досягнуто квоти за точками"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:87
 msgid "block logging"
-msgstr ""
+msgstr "блокувати журналювання"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:88
 msgid "delete user's oldest point each time a new one is logged"
-msgstr ""
+msgstr "видаляти найстарішу точку користувача кожного разу, коли з'являються нові"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:89
 msgid "delete device's oldest point each time a new one is logged"
-msgstr ""
+msgstr "видаляти найстарішу точку пристрою кожного разу, коли з'являються нові"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:93
 msgid "Display"
-msgstr ""
+msgstr "Вигляд"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:98
 msgid "Auto zoom"
-msgstr ""
+msgstr "Авто зум"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:106
 msgid "Show tooltips"
-msgstr ""
+msgstr "Показувати підказки"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:110
 msgid "Display first letter of device name on last position"
-msgstr ""
+msgstr "Виводити першу букву назви пристрою на останній позиції"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:114
 msgid "Show direction arrows along lines"
-msgstr ""
+msgstr "Відобразити стрілки напряму вздовж ліній"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:118
 msgid "Draw line with color gradient"
-msgstr ""
+msgstr "Малювати лінію градієнтом кольору"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:122
 msgid "Show distance in tooltips"
-msgstr ""
+msgstr "Показувати відстань у підказках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:126
 msgid "Show accuracy in tooltips"
-msgstr ""
+msgstr "Показувати точність в підказках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:130
 msgid "Show speed in tooltips"
-msgstr ""
+msgstr "Показувати швидкість у підказках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:134
 msgid "Show bearing in tooltips"
-msgstr ""
+msgstr "Показувати напрям у підказках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:138
 msgid "Show satellites in tooltips"
-msgstr ""
+msgstr "Показати супутники в підказках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:142
 msgid "Show battery level in tooltips"
-msgstr ""
+msgstr "Показувати рівень заряду акумулятора в підказках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:146
 msgid "Show elevation in tooltips"
-msgstr ""
+msgstr "Показувати висоту в підказках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:150
 msgid "Show user-agent in tooltips"
-msgstr ""
+msgstr "Показувати user-agent в підказках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:154
 msgid "Make points draggable in edition mode"
-msgstr ""
+msgstr "Дозволити перетягування точоки в режимі редагування"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:158
 msgid "Show accuracy circle on hover"
-msgstr ""
+msgstr "Показувати коло точності при наведенні"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:162
 msgid "Line width"
-msgstr ""
+msgstr "Ширина лінії"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:167
 msgid "Point radius"
-msgstr ""
+msgstr "Радіус точки"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:172
 msgid "Points and lines opacity"
-msgstr ""
+msgstr "Прозорість точок та ліній"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:177
 msgid "Theme"
-msgstr ""
+msgstr "Тема"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:179
 msgid "bright"
-msgstr ""
+msgstr "яскравий"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:180
 msgid "pastel"
-msgstr ""
+msgstr "пастель"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:181
 msgid "dark"
-msgstr ""
+msgstr "темна"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:187
 msgid "Show lines in public pages"
-msgstr ""
+msgstr "Показувати лінії в загальнодоступних сторінках"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:189
 msgid "reload page to make changes effective"
-msgstr ""
+msgstr "перезавантажте сторінку, щоб застосувати зміни"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:193
 msgid "File export"
-msgstr ""
+msgstr "Експорт файлу"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:196
 msgid "Auto export path"
-msgstr ""
+msgstr "Шлях автоматичного експорту"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:202
 msgid "Export one file per device"
-msgstr ""
+msgstr "Експортувати один файл на пристрій"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:217
 msgid "Tracking sessions"
-msgstr ""
+msgstr "Сесії трекінгу"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:268
 msgid "Custom tile servers"
-msgstr ""
+msgstr "Користувацькі tile-сервери"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:271
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:311
@@ -1627,7 +1627,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:393
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:438
 msgid "Server name"
-msgstr ""
+msgstr "Назва сервера"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:272
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:312
@@ -1635,7 +1635,7 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:394
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:439
 msgid "For example : my custom server"
-msgstr ""
+msgstr "Наприклад: мій власний сервер"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:273
 msgid "Server address"
@@ -1644,21 +1644,21 @@ msgstr "Адреса сервера"
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:274
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:396
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Наприклад: http://tile.server.org/cycle/{z}/{x}/{y}.png"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:275
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:354
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:397
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:442
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Мін. масштаб (1-20)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:277
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:356
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:399
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:444
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Макс масштаб (1-20)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:279
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:317
@@ -1666,249 +1666,249 @@ msgstr ""
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:407
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:456
 msgid "Add"
-msgstr ""
+msgstr "Додати"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:282
 msgid "Your tile servers"
-msgstr ""
+msgstr "Ваші tile-сервери"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:308
 msgid "Custom mapbox tile servers"
-msgstr ""
+msgstr "Користувацькі mapbox tile-сервери"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:313
 msgid "Style.json url"
-msgstr ""
+msgstr "Адреса Style.json"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:314
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
-msgstr ""
+msgstr "Наприклад: mapbox://styles/mapbox/bright-v8 або https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:315
 msgid "Access token (API key)"
-msgstr ""
+msgstr "Токен доступу (ключ API)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:320
 msgid "Your mapbox tile servers"
-msgstr ""
+msgstr "Ваші mapbox tile-сервери"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:347
 msgid "Custom overlay tile servers"
-msgstr ""
+msgstr "Користувацькі tile-сервери шарів"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:352
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:395
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:440
 msgid "Server url"
-msgstr ""
+msgstr "Url-адреса серверу"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:353
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:441
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr ""
+msgstr "Наприклад: http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:358
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:446
 msgid "Transparent"
-msgstr ""
+msgstr "Прозорий"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:360
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:448
 msgid "Opacity (0.0-1.0)"
-msgstr ""
+msgstr "Прозорість (0.0-1.0)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:365
 msgid "Your overlay tile servers"
-msgstr ""
+msgstr "Ваші tile-сервери шарів"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:390
 msgid "Custom WMS tile servers"
-msgstr ""
+msgstr "Користувацькі tile-сервери WMS"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:401
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:450
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:403
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:452
 msgid "WMS version"
-msgstr ""
+msgstr "Версія WMS"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:405
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:454
 msgid "Layers to display"
-msgstr ""
+msgstr "Шари для відображення"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:410
 msgid "Your WMS tile servers"
-msgstr ""
+msgstr "Ваші WMS tile-сервери"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:435
 msgid "Custom WMS overlay servers"
-msgstr ""
+msgstr "Користувацькі сервери WMS шарів"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:459
 msgid "Your WMS overlay tile servers"
-msgstr ""
+msgstr "Ваші tile-сервери WMS шарів"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:488
 msgid "Manually add a point"
-msgstr ""
+msgstr "Додати точку вручну"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:494
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:512
 msgid "Device"
-msgstr ""
+msgstr "Пристрій"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:496
 msgid "Add a point"
-msgstr ""
+msgstr "Додати точку"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:497
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr ""
+msgstr "Тепер натисніть на карті, щоб додати точку (якщо сесія не активована, ви не побачите додану точку)"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:498
 msgid "Cancel add point"
-msgstr ""
+msgstr "Скасувати додавання точки"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:503
 msgid "Delete multiple points"
-msgstr ""
+msgstr "Видалити кілька точок"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:506
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr ""
+msgstr "Оберіть сесію, пристрій і налаштуйте фільтри. Всі точки для вибраного пристрою будуть видалені. Порожнє ім'я пристрою обирає їх усі."
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:514
 msgid "Delete points"
-msgstr ""
+msgstr "Видалити точки"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:515
 msgid "Delete only visible points"
-msgstr ""
+msgstr "Видалити лише видимі точки"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:522
 msgid "Filter points"
-msgstr ""
+msgstr "Фільтрувати точки"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:529
 msgid "Apply filters"
-msgstr ""
+msgstr "Застосувати фільтри"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:534
 msgid "Begin date"
-msgstr ""
+msgstr "Дата початку"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:541
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:559
 msgid "today"
-msgstr ""
+msgstr "сьогодні"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:546
 msgid "Begin time"
-msgstr ""
+msgstr "Час початку"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:552
 msgid "End date"
-msgstr ""
+msgstr "Кінцева дата"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:564
 msgid "End time"
-msgstr ""
+msgstr "Кінцевий час"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:571
 msgid "Min-- and Max--"
-msgstr ""
+msgstr "Мін-- і макс-"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:574
 msgid "Min++ and Max++"
-msgstr ""
+msgstr "Мін++ і макс++"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:578
 msgid "Last day:hour:min"
-msgstr ""
+msgstr "Останній день:год:хв"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:585
 msgid "Minimum accuracy"
-msgstr ""
+msgstr "Мінімальна точність"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:593
 msgid "Maximum accuracy"
-msgstr ""
+msgstr "Максимальна точність"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:601
 msgid "Minimum elevation"
-msgstr ""
+msgstr "Мінімальна висота"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:609
 msgid "Maximum elevation"
-msgstr ""
+msgstr "Максимальна висота"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:617
 msgid "Minimum battery level"
-msgstr ""
+msgstr "Мінімальний рівень заряду батареї"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:625
 msgid "Maximum battery level"
-msgstr ""
+msgstr "Максимальний рівень заряду батареї"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:633
 msgid "Minimum speed"
-msgstr ""
+msgstr "Мінімальна швидкість"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:641
 msgid "Maximum speed"
-msgstr ""
+msgstr "Максимальна швидкість"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:649
 msgid "Minimum bearing"
-msgstr ""
+msgstr "Мінімальний азимут"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:657
 msgid "Maximum bearing"
-msgstr ""
+msgstr "Максимальний азимут"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:665
 msgid "Minimum satellites"
-msgstr ""
+msgstr "Мінімум супутників"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:673
 msgid "Maximum satellites"
-msgstr ""
+msgstr "Максимум супутників"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:683
 msgid "bookmark name"
-msgstr ""
+msgstr "назва закладки"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:685
 msgid "Save filter bookmark"
-msgstr ""
+msgstr "Зберегти фільтр закладок"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:718
 msgid "Statistics"
-msgstr ""
+msgstr "Статистика"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:722
 msgid "Show stats"
-msgstr ""
+msgstr "Показати статистику"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:732
 msgid "Shortcuts"
-msgstr ""
+msgstr "Комбінації клавіш"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:734
 msgid "Toggle sidebar"
-msgstr ""
+msgstr "Увімкнути/Вимкнути бічну панель"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:738
 msgid "Documentation"
-msgstr ""
+msgstr "Документація"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:746
 msgid "Source management"
-msgstr ""
+msgstr "Вихідний код"
 
 #: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:760
 msgid "Authors"

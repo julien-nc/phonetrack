@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2021-09-23 05:30\n"
+"PO-Revision-Date: 2022-03-07 10:51\n"
 "Last-Translator: \n"
 "Language-Team: Arabic\n"
 "Language: ar_SA\n"
@@ -23,7 +23,7 @@ msgstr "جهاز تتبع الهاتف {device} من الجلسة {session} قد
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:92
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr ""
+msgstr "جهاز تتبع الهاتف {device} من الجلسة {session} قد خرج/دخل جرعة {geofence}"
 
 #: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:95
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
