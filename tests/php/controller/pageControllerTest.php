@@ -28,6 +28,7 @@ use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Share\IManager as IShareManager;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 use OCA\PhoneTrack\Db\SessionMapper;
@@ -36,7 +37,7 @@ use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\AppInfo\Application;
 
-class PageNLogControllerTest extends \PHPUnit\Framework\TestCase {
+class PageNLogControllerTest extends TestCase {
 
 	private $appName;
 	private $request;

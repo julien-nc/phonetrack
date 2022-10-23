@@ -12,19 +12,26 @@
 
  namespace OCA\PhoneTrack\Db;
 
+use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\AppFramework\Db\Mapper;
 
-class DeviceMapper extends Mapper {
+class DeviceMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'phonetrack_devices');
+		parent::__construct($db, 'phonetrack_devices', Device::class);
 	}
 
 	public function find($id) {
-		$sql = 'SELECT * FROM `*PREFIX*phonetrack_devices` ' .
-			'WHERE `id` = ?';
-		return $this->findEntity($sql, [$id]);
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntities($qb);
 	}
 
 }

@@ -12,25 +12,37 @@
 
  namespace OCA\PhoneTrack\Db;
 
+use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\AppFramework\Db\Mapper;
 
-class SessionMapper extends Mapper {
+class SessionMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'phonetrack_sessions');
+		parent::__construct($db, 'phonetrack_sessions', Session::class);
 	}
 
 	public function find($id) {
-		$sql = 'SELECT * FROM `*PREFIX*phonetrack_sessions` ' .
-			'WHERE `id` = ?';
-		return $this->findEntity($sql, [$id]);
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntities($qb);
 	}
 
 	public function findByToken($token) {
-		$sql = 'SELECT * FROM `*PREFIX*phonetrack_sessions` ' .
-			'WHERE `token` = ?';
-		return $this->findEntity($sql, [$token]);
-	}
+		$qb = $this->db->getQueryBuilder();
 
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntities($qb);
+	}
 }
