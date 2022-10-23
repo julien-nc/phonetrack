@@ -1055,7 +1055,7 @@ class LogController extends Controller {
 		$dbid = null;
 		$dbdevid = null;
 		if ($token !== '' and $devicename !== '') {
-			$logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
+			$logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, $useragent, $speed, $bearing);
 			if ($logres['done'] === 1) {
 				$sqlchk = '
 					SELECT id
@@ -1843,7 +1843,7 @@ class LogController extends Controller {
 	 **/
 	public function logLocusmapGet($token, $devicename, $lat, $lon, $time, $battery, $acc, $alt, $speed, $bearing) {
 		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $time ? (int)$time : null, $acc, $battery, null, 'LocusMap', $speed, $bearing);
 	}
 
 	/**
@@ -1854,7 +1854,7 @@ class LogController extends Controller {
 	 **/
 	public function logLocusmapPost($token, $devicename, $lat, $lon, $time, $battery, $acc, $alt, $speed, $bearing) {
 		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $time ? (int)$time : null, $acc, $battery, null, 'LocusMap', $speed, $bearing);
 	}
 
 	/**
@@ -1865,7 +1865,7 @@ class LogController extends Controller {
 	 **/
 	public function logOsmand($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed=null, $bearing=null) {
 		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
 	}
 
 	/**
@@ -1876,7 +1876,7 @@ class LogController extends Controller {
 	 **/
 	public function logGpsloggerGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed=null, $bearing=null) {
 		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
 	}
 
 	/**
@@ -1887,7 +1887,7 @@ class LogController extends Controller {
 	 **/
 	public function logGpsloggerPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $speed=null, $bearing=null) {
 		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
 	}
 
 	/**
@@ -1911,7 +1911,7 @@ class LogController extends Controller {
 	 **/
 	public function logOwntracks($token, $devicename = '', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
 		$dname = $this->chooseDeviceName($devicename, $tid);
-		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
+		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst ? (int)$tst : null, $acc, $batt, null, self::LOG_OWNTRACKS);
 		return $res['friends'];
 	}
 
@@ -1954,7 +1954,7 @@ class LogController extends Controller {
 							   $pass, $user, $action, $speed=null, $bearing=null) {
 		if ($action === 'addpos') {
 			$dname = $this->chooseDeviceName($devicename, null);
-			$this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null,'Ulogger', $speed, $bearing);
+			$this->logPost($token, $dname, $lat, $lon, $altitude, $time ? (int)$time : null, $accuracy, null, null,'Ulogger', $speed, $bearing);
 		}
 		return array("error" => false, "trackid" => 1);
 	}
@@ -1974,7 +1974,7 @@ class LogController extends Controller {
 			// convert back to meter/s
 			$speedp = floatval($speed) / 1.943844;
 		}
-		$this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, null, 'Traccar', $speedp, $bearing);
+		$this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp ? (int)$timestamp : null, $accuracy, $batt, null, 'Traccar', $speedp, $bearing);
 	}
 
 	/**
