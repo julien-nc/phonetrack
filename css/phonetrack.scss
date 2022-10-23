@@ -179,6 +179,11 @@ div#options button {
 .leaflet-control-layers {
 	background-color: var(--color-main-background) !important;
 	color: var(--color-main-text) !important;
+
+	input[type=checkbox],
+	input[type=radio] {
+		height: auto !important;
+	}
 }
 .leaflet-control-layers-selector,
 button.ui-button {
