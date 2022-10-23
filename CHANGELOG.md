@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 0.7.1 – 2022-10-23
+## 0.7.2 – 2022-10-23
 ### Added
 - optional datetime param to logGet and logPost
 
