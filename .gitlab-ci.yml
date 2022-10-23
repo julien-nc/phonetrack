@@ -30,8 +30,6 @@ test_nc_sqlite:
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-    # check code with occ
-    - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code phonetrack
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html coverage
 
@@ -59,8 +57,6 @@ test_nc_pgsql:
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "pgsql" --database-host "postgres:5432" --database-name oc_autotest --database-user postgres --database-pass="toto" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-    # check code with occ
-    - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code phonetrack
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
 
@@ -87,8 +83,6 @@ test_nc_mysql:
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "mysql" --database-name oc_autotest --database-user oc_autotest --database-pass="" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
-    # check code with occ
-    - sudo -u www-data php /var/www/html/nextcloud/occ app:check-code phonetrack
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
 

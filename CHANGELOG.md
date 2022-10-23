@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## 0.7.1 – 2022-10-23
+### Added
+- optional datetime param to logGet and logPost
+
+### Changed
+- bump js libs
+- adjust layer control radio/checkbox style
+
+### Fixed
+- fix device_id not defined with Overland logger
+  [#399](https://gitlab.com/eneiluj/phonetrack-oc/issues/399) @Naweap
+- url help button style
+- bug on session deletion
+- change max zoom on layer change, set init value according to default layer
+
 ## 0.7.0 – 2022-01-16
 ### Fixed
 - style issues
