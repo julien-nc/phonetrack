@@ -26,7 +26,7 @@ phpunit_tests:
   parallel:
     matrix:
       - PHP_VERSION: ['7.4', '8.0', '8.1']
-        SERVER_VERSION: ['stable24', 'stable25', 'master']
+        SERVER_VERSION: ['stable25', 'master']
         DATABASE: ['pgsql', 'mysql', 'sqlite']
   image: php:$PHP_VERSION
   stage: test
