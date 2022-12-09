@@ -106,6 +106,7 @@ build_release: clean
 	--exclude=phpunit*xml \
 	--exclude=tests \
 	--exclude=/.idea \
+	--exclude=/.github \
 	--exclude=/.eslintrc.js \
 	--exclude=/stylelint.config.js \
 	--exclude=ci \
