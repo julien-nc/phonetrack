@@ -23,6 +23,7 @@ variables:
 
 # test and produce coverage report
 test_nc_sqlite:
+  image: php:7.4
   stage: test
   only:
     refs:
@@ -33,6 +34,8 @@ test_nc_sqlite:
       - coverage
   coverage: '/^\s*Lines:\s*(\d+.\d+)\%/'
   script:
+    - pecl install xdebug
+    - docker-php-ext-enable xdebug
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
@@ -40,20 +43,21 @@ test_nc_sqlite:
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
-    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+    - php /var/www/html/nextcloud/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
+    - php /var/www/html/nextcloud/occ app:enable phonetrack
+    - php /var/www/html/nextcloud/occ maintenance:mode --off
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml --coverage-text --color=never --coverage-html coverage
 
 test_nc_pgsql:
+  image: php:7.4
   stage: test
   only:
     refs:
       - master
       - test
   script:
-    - DEBIAN_FRONTEND=noninteractive apt-get install php7.4-pgsql -yqq > /dev/null 2>&1
+    - docker-php-ext-install pdo_pgsql
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
@@ -61,25 +65,21 @@ test_nc_pgsql:
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "pgsql" --database-host "postgres" --database-name "$POSTGRES_DB" --database-user "$POSTGRES_USER" --database-pass="$POSTGRES_PASSWORD" --admin-user "admin" --admin-pass "password"
-    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+    - php /var/www/html/nextcloud/occ maintenance:install --database "pgsql" --database-host "postgres" --database-name "$POSTGRES_DB" --database-user "$POSTGRES_USER" --database-pass="$POSTGRES_PASSWORD" --admin-user "admin" --admin-pass "password"
+    - php /var/www/html/nextcloud/occ app:enable phonetrack
+    - php /var/www/html/nextcloud/occ maintenance:mode --off
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
 
 test_nc_mysql:
+  image: php:7.4
   stage: test
   only:
     refs:
       - master
       - test
   script:
-    # DB
-    - DEBIAN_FRONTEND=noninteractive apt-get install php7.4-mysql -yqq > /dev/null 2>&1
-    #- service mysql start
-    #- mysql -u root -e 'create database oc_autotest;'
-    #- mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"
-    #- mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"
+    - docker-php-ext-install  pdo_mysql
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
@@ -87,9 +87,9 @@ test_nc_mysql:
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "mysql" --database-host "mariadb" --database-name "$MYSQL_DATABASE" --database-user "$MYSQL_USER" --database-pass="$MYSQL_ROOT_PASSWORD" --admin-user "admin" --admin-pass "password"
-    - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
+    - php /var/www/html/nextcloud/occ maintenance:install --database "mysql" --database-host "mariadb" --database-name "$MYSQL_DATABASE" --database-user "$MYSQL_USER" --database-pass="$MYSQL_ROOT_PASSWORD" --admin-user "admin" --admin-pass "password"
+    - php /var/www/html/nextcloud/occ app:enable phonetrack
+    - php /var/www/html/nextcloud/occ maintenance:mode --off
     - popd ; popd ; mkdir coverage
     - phpunit --configuration /var/www/html/nextcloud/apps/phonetrack/phpunit.xml
 
