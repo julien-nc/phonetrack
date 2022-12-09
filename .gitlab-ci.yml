@@ -40,7 +40,7 @@ test_nc_pgsql:
       - master
       - test
   services:
-      - postgres:latest
+      - postgres:14
   variables:
       POSTGRES_DB: plop
       POSTGRES_USER: postgres
