@@ -8,6 +8,19 @@ stages:
 before_script:
 - bash ci/docker_install.sh
 
+services:
+  - mariadb:latest
+  - postgres:14
+
+variables:
+  MYSQL_DATABASE: nextcloud
+  MYSQL_USER: root
+  MYSQL_ROOT_PASSWORD: mysql
+  POSTGRES_DB: nextcloud
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+
+
 # test and produce coverage report
 test_nc_sqlite:
   stage: test
@@ -39,14 +52,8 @@ test_nc_pgsql:
     refs:
       - master
       - test
-  services:
-      - postgres:14
-  variables:
-      POSTGRES_DB: plop
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "toto"
   script:
-    - DEBIAN_FRONTEND=noninteractive apt-get install php7.4-pgsql postgresql-client -yqq > /dev/null 2>&1
+    - DEBIAN_FRONTEND=noninteractive apt-get install php7.4-pgsql -yqq > /dev/null 2>&1
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
@@ -54,7 +61,7 @@ test_nc_pgsql:
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "pgsql" --database-host "postgres:5432" --database-name oc_autotest --database-user postgres --database-pass="toto" --admin-user "admin" --admin-pass "password"
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "pgsql" --database-host "postgres" --database-name "$POSTGRES_DB" --database-user "$POSTGRES_USER" --database-pass="$POSTGRES_PASSWORD" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
     - popd ; popd ; mkdir coverage
@@ -68,11 +75,11 @@ test_nc_mysql:
       - test
   script:
     # DB
-    - DEBIAN_FRONTEND=noninteractive apt-get install mariadb-server php7.4-mysql -yqq > /dev/null 2>&1
-    - service mysql start
-    - mysql -u root -e 'create database oc_autotest;'
-    - mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"
-    - mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"
+    - DEBIAN_FRONTEND=noninteractive apt-get install php7.4-mysql -yqq > /dev/null 2>&1
+    #- service mysql start
+    #- mysql -u root -e 'create database oc_autotest;'
+    #- mysql -u root -e "CREATE USER 'oc_autotest'@'localhost' IDENTIFIED BY '';"
+    #- mysql -u root -e "grant all on oc_autotest.* to 'oc_autotest'@'localhost';"
     # copy local copy that has been cloned already
     - cp -r . /tmp/phonetrack
     - mkdir -p /var/www/html ; pushd /var/www/html
@@ -80,7 +87,7 @@ test_nc_mysql:
     # temporary fix of autoloader.php
     - sed -i $'s|if (substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|if (is_string($root) and substr($fullPath, 0, strlen($root) + 1) === $root . \'/\')|g' nextcloud/lib/autoloader.php
     - chown -R www-data:www-data nextcloud && pushd nextcloud/apps && mv /tmp/phonetrack ./
-    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "mysql" --database-name oc_autotest --database-user oc_autotest --database-pass="" --admin-user "admin" --admin-pass "password"
+    - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install --database "mysql" --database-host "mariadb" --database-name "$MYSQL_DATABASE" --database-user "$MYSQL_USER" --database-pass="$MYSQL_ROOT_PASSWORD" --admin-user "admin" --admin-pass "password"
     - sudo -u www-data php /var/www/html/nextcloud/occ app:enable phonetrack
     - sudo -u www-data php /var/www/html/nextcloud/occ maintenance:mode --off
     - popd ; popd ; mkdir coverage
