@@ -14,8 +14,6 @@ namespace OCA\PhoneTrack\Controller;
 use DateTime;
 use DateTimeZone;
 use Exception;
-use OCA\PhoneTrack\AppInfo\Application;
-use OCP\App\IAppManager;
 
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -25,7 +23,6 @@ use Psr\Log\LoggerInterface;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IUserManager;
-use OCP\Share\IManager;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
@@ -89,8 +86,6 @@ class LogController extends Controller {
 
 	private $userId;
 	private $config;
-	private $appVersion;
-	private $shareManager;
 	private $dbconnection;
 	private $dbtype;
 	private $dbdblquotes;
@@ -104,7 +99,6 @@ class LogController extends Controller {
 	public function __construct(string $AppName,
 								IRequest $request,
 								IConfig $config,
-								IManager $shareManager,
 								IUserManager $userManager,
 								IL10N $trans,
 								LoggerInterface $ncLogger,
@@ -114,7 +108,6 @@ class LogController extends Controller {
 								IDBConnection $dbconnection,
 								?string $userId) {
 		parent::__construct($AppName, $request);
-		$this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
 		$this->userId = $userId;
 		$this->activityManager = $activityManager;
 		$this->sessionMapper = $sessionMapper;
@@ -133,7 +126,6 @@ class LogController extends Controller {
 			$this->dbdblquotes = '';
 		}
 		$this->dbconnection = $dbconnection;
-		$this->shareManager = $shareManager;
 		$this->defaultDeviceName = ['yourname', 'devicename', 'name'];
 	}
 
@@ -295,7 +287,7 @@ class LogController extends Controller {
 			$currDist = distance2($newLat, $newLon, $latOther, $lonOther);
 
 			// if distance was not close and is now close
-			if ($lowlimit !== 0 and $prevDist >= $lowlimit and $currDist < $lowlimit) {
+			if ($lowlimit !== 0 && $prevDist >= $lowlimit && $currDist < $lowlimit) {
 				// devices are now close !
 
 				// if the observed device is 'deviceid2', then we might have the wrong userId
@@ -641,9 +633,9 @@ class LogController extends Controller {
 			$lastLon = floatval($lastPoint['lon']);
 
 			// if previous point not in fence
-			if (!($lastLat > $latmin and $lastLat < $latmax and $lastLon > $lonmin and $lastLon < $lonmax)) {
+			if (!($lastLat > $latmin && $lastLat < $latmax && $lastLon > $lonmin && $lastLon < $lonmax)) {
 				// and new point in fence
-				if ($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax) {
+				if ($lat > $latmin && $lat < $latmax && $lon > $lonmin && $lon < $lonmax) {
 					// device ENTERED the fence !
 					$user = $this->userManager->get($userid);
 					$userEmail = $user->getEMailAddress();
@@ -698,16 +690,16 @@ class LogController extends Controller {
 						$emailaddrArray = explode(',', $emailaddr);
 						if (
 							(count($emailaddrArray) === 0
-							 || (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+							 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
 							and !empty($userEmail)
 						) {
 							array_push($emailaddrArray, $userEmail);
 						}
-						if (!empty($mailFromA) and !empty($mailFromD)) {
+						if (!empty($mailFromA) && !empty($mailFromD)) {
 							$mailfrom = $mailFromA.'@'.$mailFromD;
 
 							foreach ($emailaddrArray as $addrTo) {
-								if ($addrTo !== null and $addrTo !== '' and filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
+								if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 									try {
 										$mailer = \OC::$server->getMailer();
 										$message = $mailer->createMessage();
@@ -730,7 +722,7 @@ class LogController extends Controller {
 							}
 						}
 					}
-					if ($urlenter !== '' and startsWith($urlenter, 'http')) {
+					if ($urlenter !== '' && startsWith($urlenter, 'http')) {
 						// GET
 						$urlenter = str_replace(array('%loc'), $lat.':'.$lon,  $urlenter);
 						if ($urlenterpost === 0) {
@@ -769,7 +761,7 @@ class LogController extends Controller {
 			// previous point in fence
 			else {
 				// if new point NOT in fence
-				if (!($lat > $latmin and $lat < $latmax and $lon > $lonmin and $lon < $lonmax)) {
+				if (!($lat > $latmin && $lat < $latmax && $lon > $lonmin && $lon < $lonmax)) {
 					// device EXITED the fence !
 					$user = $this->userManager->get($userid);
 					$userEmail = $user->getEMailAddress();
@@ -824,16 +816,16 @@ class LogController extends Controller {
 						$emailaddrArray = explode(',', $emailaddr);
 						if (
 							(count($emailaddrArray) === 0
-							 || (count($emailaddrArray) === 1 and $emailaddrArray[0] === ''))
+							 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
 							and !empty($userEmail)
 						) {
 							array_push($emailaddrArray, $userEmail);
 						}
-						if (!empty($mailFromA) and !empty($mailFromD)) {
+						if (!empty($mailFromA) && !empty($mailFromD)) {
 							$mailfrom = $mailFromA.'@'.$mailFromD;
 
 							foreach ($emailaddrArray as $addrTo) {
-								if ($addrTo !== null and $addrTo !== '' and filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
+								if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 									try {
 										$mailer = \OC::$server->getMailer();
 										$message = $mailer->createMessage();
@@ -856,7 +848,7 @@ class LogController extends Controller {
 							}
 						}
 					}
-					if ($urlleave !== '' and startsWith($urlleave, 'http')) {
+					if ($urlleave !== '' && startsWith($urlleave, 'http')) {
 						// GET
 						if ($urlleavepost === 0) {
 							$urlleave = str_replace(array('%loc'), $lat.':'.$lon,  $urlleave);
@@ -1054,7 +1046,7 @@ class LogController extends Controller {
 		$done = 0;
 		$dbid = null;
 		$dbdevid = null;
-		if ($token !== '' and $devicename !== '') {
+		if ($token !== '' && $devicename !== '') {
 			$logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, $useragent, $speed, $bearing);
 			if ($logres['done'] === 1) {
 				$sqlchk = '
@@ -1143,9 +1135,9 @@ class LogController extends Controller {
 	 * @return array;
 	 *
 	 **/
-	public function logPost($token, $devicename, $lat, $lon, $alt, ?int $timestamp = null, $acc, $bat, $sat, $useragent,
+	public function logPost($token, $devicename, $lat, $lon, $alt, ?int $timestamp, $acc, $bat, $sat, $useragent,
 							$speed = null, $bearing = null, ?string $datetime = null) {
-		$res = ['done'=>0, 'friends'=>[]];
+		$res = ['done' => 0, 'friends' => []];
 		// TODO insert speed and bearing in m/s and degrees
 		if (!is_null($devicename) && $devicename !== '' &&
 			!is_null($token) && $token !== '' &&
@@ -1245,9 +1237,9 @@ class LogController extends Controller {
 							$humanReadableDeviceName = $dbdevicename;
 						}
 						// this device id reserved => logging refused if the request does not come from correct user
-						if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
+						if ($dbdevicenametoken !== null && $dbdevicenametoken !== '') {
 							// here, we check if we're logged in as the session owner
-							if ($this->userId !== '' and $this->userId !== null and $userid === $this->userId) {
+							if ($this->userId !== '' && $this->userId !== null && $userid === $this->userId) {
 								// if so, accept to (manually) log with name and not nametoken
 								$deviceidToInsert = $dbdeviceid;
 							}
@@ -1281,7 +1273,7 @@ class LogController extends Controller {
 						$req->closeCursor();
 
 						// there is a device which has this nametoken => we log for this device
-						if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
+						if ($dbdevicenametoken !== null && $dbdevicenametoken !== '') {
 							$deviceidToInsert = $dbdeviceid;
 							if (!empty($dbdevicealias)) {
 								$humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
@@ -1480,9 +1472,12 @@ class LogController extends Controller {
 	 *
 	 **/
 	public function logPostMultiple($token, $devicename, $points) {
-		$res = ['done'=>0, 'friends'=>[]];
-		if (!is_null($devicename) and $devicename !== '' and
-			!is_null($token) and $token !== '') {
+		$res = [
+			'done' => 0,
+			'friends' => [],
+		];
+		if (!is_null($devicename) && $devicename !== '' &&
+			!is_null($token) && $token !== '') {
 			// check if session exists
 			$sqlchk = '
 				SELECT `name`, `user`, `public`, `locked`
@@ -1575,9 +1570,9 @@ class LogController extends Controller {
 							$humanReadableDeviceName = $dbdevicename;
 						}
 						// this device id reserved => logging refused if the request does not come from correct user
-						if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
+						if ($dbdevicenametoken !== null && $dbdevicenametoken !== '') {
 							// here, we check if we're logged in as the session owner
-							if ($this->userId !== '' and $this->userId !== null and $userid === $this->userId) {
+							if ($this->userId !== '' && $this->userId !== null && $userid === $this->userId) {
 								// if so, accept to (manually) log with name and not nametoken
 								$deviceidToInsert = $dbdeviceid;
 							}
@@ -1611,7 +1606,7 @@ class LogController extends Controller {
 						$req->closeCursor();
 
 						// there is a device which has this nametoken => we log for this device
-						if ($dbdevicenametoken !== null and $dbdevicenametoken !== '') {
+						if ($dbdevicenametoken !== null && $dbdevicenametoken !== '') {
 							$deviceidToInsert = $dbdeviceid;
 							if (!empty($dbdevicealias)) {
 								$humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
@@ -1681,11 +1676,11 @@ class LogController extends Controller {
 						$speed      = $point[8];
 						$bearing    = $point[9];
 
-						if (!is_null($devicename) and $devicename !== '' and
-							!is_null($token) and $token !== '' and
-							!is_null($lat) and $lat !== '' and is_numeric($lat) and
-							!is_null($lon) and $lon !== '' and is_numeric($lon) and
-							!is_null($timestamp) and $timestamp !== '' and is_numeric($timestamp)
+						if (!is_null($devicename) && $devicename !== ''
+							&& !is_null($token) && $token !== ''
+							&& !is_null($lat) && $lat !== '' && is_numeric($lat)
+							&& !is_null($lon) && $lon !== '' && is_numeric($lon)
+							&& !is_null($timestamp) && $timestamp !== '' && is_numeric($timestamp)
 						) {
 							// correct timestamp if needed
 							$time = $timestamp;
@@ -1829,7 +1824,7 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logGet($token, $devicename, $lat, $lon, ?int $timestamp = null, $bat, $sat, $acc, $alt,
+	public function logGet($token, $devicename, $lat, $lon, ?int $timestamp, $bat, $sat, $acc, $alt,
 						   $speed=null, $bearing=null, ?string $datetime = null) {
 		$dname = $this->chooseDeviceName($devicename, null);
 		return $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger', $speed, $bearing, $datetime);
@@ -1909,7 +1904,7 @@ class LogController extends Controller {
 	 *
 	 * @return array;
 	 **/
-	public function logOwntracks($token, $devicename = '', $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
+	public function logOwntracks($token, $devicename, $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
 		$dname = $this->chooseDeviceName($devicename, $tid);
 		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst ? (int)$tst : null, $acc, $batt, null, self::LOG_OWNTRACKS);
 		return $res['friends'];
@@ -1966,7 +1961,7 @@ class LogController extends Controller {
 	 *
 	 * traccar Android/IOS
 	 **/
-	public function logTraccar($token, $devicename='', $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt, $speed, $bearing) {
+	public function logTraccar($token, $devicename, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt, $speed, $bearing) {
 		$dname = $this->chooseDeviceName($devicename, $id);
 		$speedp = $speed;
 		if (is_numeric($speed)) {
@@ -1984,7 +1979,7 @@ class LogController extends Controller {
 	 *
 	 * any Opengts-compliant app
 	 **/
-	public function logOpengts($token, $devicename='', $id, $dev, $acct, $alt, $batt, $gprmc) {
+	public function logOpengts($token, $devicename, $id, $dev, $acct, $alt, $batt, $gprmc) {
 		$dname = $this->chooseDeviceName($devicename, $id);
 		$gprmca = explode(',', $gprmc);
 		$time = sprintf("%06d", (int)$gprmca[1]);
