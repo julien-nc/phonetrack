@@ -5,11 +5,8 @@
 
 set -xe
 
-php -m
-
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -yqq
-#apt-get install rsync npm nodejs wget > /dev/null 2>&1
 apt-get install git sed curl unzip libzip-dev libpq-dev sqlite3 libsqlite3-dev libcurl4-openssl-dev libxml2-dev libpng-dev zip -yqq > /dev/null 2>&1
 #apt-get install php-xdebug php-sqlite3 php-curl php-xml php-mbstring php-json php-zip php-gd php-intl -yqq
 #docker-php-ext-install json
