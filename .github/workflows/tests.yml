@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 env:
-  APP_ID: cospend
+  APP_ID: phonetrack
 
 jobs:
   tests:
@@ -18,11 +18,14 @@ jobs:
       fail-fast: false
       matrix:
         php-versions: ['7.4', '8.0', '8.1']
+#        php-versions: ['7.4', '8.1']
         databases: ['sqlite', 'mysql', 'pgsql']
+#        databases: ['sqlite']
         server-versions: ['stable23', 'stable24', 'stable25', 'master']
+#        server-versions: ['master']
         #exclude:
         #  - php-versions: 7.3
-        #    server-versions: stable24
+        #    server-versions: stable23
 
     name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 

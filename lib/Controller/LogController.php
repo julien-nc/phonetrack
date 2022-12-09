@@ -304,11 +304,15 @@ class LogController extends Controller {
 				// activity
 				$deviceObj = $this->deviceMapper->find($movingDevid);
 				$this->activityManager->triggerEvent(
-					ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
+					ActivityManager::PHONETRACK_OBJECT_DEVICE,
+					$deviceObj,
 					ActivityManager::SUBJECT_PROXIMITY_CLOSE,
 					[
-						'device2'=>['id'=>$otherDeviceId],
-						'meters'=>['id'=>0,'name'=>$lowlimit],
+						'device2' => ['id' => $otherDeviceId],
+						'meters' => [
+							'id' => 0,
+							'name'=>$lowlimit,
+						],
 					]
 				);
 
@@ -438,11 +442,15 @@ class LogController extends Controller {
 				// activity
 				$deviceObj = $this->deviceMapper->find($movingDevid);
 				$this->activityManager->triggerEvent(
-					ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
+					ActivityManager::PHONETRACK_OBJECT_DEVICE,
+					$deviceObj,
 					ActivityManager::SUBJECT_PROXIMITY_FAR,
 					[
-						'device2'=>['id'=>$otherDeviceId],
-						'meters'=>['id'=>0,'name'=>$highlimit],
+						'device2' => ['id' => $otherDeviceId],
+						'meters' => [
+							'id' => 0,
+							'name' => $highlimit,
+						],
 					]
 				);
 
@@ -645,9 +653,15 @@ class LogController extends Controller {
 					// activity
 					$deviceObj = $this->deviceMapper->find($devid);
 					$this->activityManager->triggerEvent(
-						ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
+						ActivityManager::PHONETRACK_OBJECT_DEVICE,
+						$deviceObj,
 						ActivityManager::SUBJECT_GEOFENCE_ENTER,
-						['geofence'=>['id'=>$fenceid,'name'=>$fencename]]
+						[
+							'geofence' => [
+								'id' => $fenceid,
+								'name' => $fencename,
+							],
+						]
 					);
 
 					// NOTIFICATIONS
@@ -771,9 +785,15 @@ class LogController extends Controller {
 					// activity
 					$deviceObj = $this->deviceMapper->find($devid);
 					$this->activityManager->triggerEvent(
-						ActivityManager::PHONETRACK_OBJECT_DEVICE, $deviceObj,
+						ActivityManager::PHONETRACK_OBJECT_DEVICE,
+						$deviceObj,
 						ActivityManager::SUBJECT_GEOFENCE_EXIT,
-						['geofence'=>['id'=>$fenceid,'name'=>$fencename]]
+						[
+							'geofence' => [
+								'id' => $fenceid,
+								'name' => $fencename,
+							],
+						]
 					);
 
 					// NOTIFICATIONS

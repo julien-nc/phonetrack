@@ -31,7 +31,7 @@ class DeviceMapper extends QBMapper {
 				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
 			);
 
-		return $this->findEntities($qb);
+		return $this->findEntity($qb);
 	}
 
 }

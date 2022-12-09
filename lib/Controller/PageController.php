@@ -3304,9 +3304,13 @@ class PageController extends Controller {
 				// activity
 				$sessionObj = $this->sessionMapper->findByToken($dbtoken);
 				$this->activityManager->triggerEvent(
-					ActivityManager::PHONETRACK_OBJECT_SESSION, $sessionObj,
+					ActivityManager::PHONETRACK_OBJECT_SESSION,
+					$sessionObj,
 					ActivityManager::SUBJECT_SESSION_UNSHARE,
-					['who'=>$userId, 'type'=>'u']
+					[
+						'who' => $userId,
+						'type' => 'u',
+					]
 				);
 
 				// delete

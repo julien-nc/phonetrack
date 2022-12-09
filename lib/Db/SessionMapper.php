@@ -31,7 +31,7 @@ class SessionMapper extends QBMapper {
 				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
 			);
 
-		return $this->findEntities($qb);
+		return $this->findEntity($qb);
 	}
 
 	public function findByToken($token) {
@@ -43,6 +43,6 @@ class SessionMapper extends QBMapper {
 				$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
 
-		return $this->findEntities($qb);
+		return $this->findEntity($qb);
 	}
 }
