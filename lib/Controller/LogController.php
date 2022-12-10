@@ -34,24 +34,24 @@ use Throwable;
 
 function DMStoDEC($dms, $longlat) {
 	if ($longlat === 'latitude') {
-		$deg = intval(substr($dms, 0, 3));
-		$min = floatval(substr($dms, 3, 8));
+		$deg = (int)substr($dms, 0, 3);
+		$min = (float)substr($dms, 3, 8);
 		$sec = 0;
 	}
 	if ($longlat === 'longitude') {
-		$deg = intval(substr($dms, 0, 3));
-		$min = floatval(substr($dms, 3, 8));
+		$deg = (int)substr($dms, 0, 3);
+		$min = (float)substr($dms, 3, 8);
 		$sec = 0;
 	}
 	return $deg + ((($min * 60) + ($sec)) / 3600);
 }
 
-function startsWith($haystack, $needle) {
+function startsWith(string $haystack, string $needle) {
 	$length = strlen($needle);
 	return (substr($haystack, 0, $length) === $needle);
 }
 
-function distance2($lat1, $long1, $lat2, $long2) {
+function distance2(float $lat1, float $long1, float $lat2, float $long2) {
 
 	if ($lat1 === $lat2 && $long1 === $long2){
 		return 0;
@@ -127,7 +127,6 @@ class LogController extends Controller {
 		$this->ncLogger = $ncLogger;
 		$this->userManager = $userManager;
 		$this->dbtype = $config->getSystemValue('dbtype');
-		// IConfig object
 		$this->config = $config;
 
 		if ($this->dbtype === 'pgsql'){
@@ -184,7 +183,7 @@ class LogController extends Controller {
 		return $therow;
 	}
 
-	private function getDeviceProxims($devid) {
+	private function getDeviceProxims(int $devid) {
 		$proxims = [];
 		$sqlget = '
 			SELECT id, deviceid1, deviceid2, highlimit,
@@ -203,7 +202,7 @@ class LogController extends Controller {
 		return $proxims;
 	}
 
-	private function checkProxims($lat, $lon, $devid, $userid, $devicename, $sessionname, $sessionid) {
+	private function checkProxims(float $lat, float $lon, int $devid, string $userid, string $devicename, string $sessionname, $sessionid) {
 		$lastPoint = $this->getLastDevicePoint($devid);
 		$proxims = $this->getDeviceProxims($devid);
 		foreach ($proxims as $proxim) {
@@ -244,7 +243,7 @@ class LogController extends Controller {
 		return $dbalias;
 	}
 
-	private function getDeviceName($devid) {
+	private function getDeviceName(int $devid) {
 		$dbname = null;
 		$sqlget = '
 			SELECT name
@@ -260,15 +259,16 @@ class LogController extends Controller {
 		return $dbname;
 	}
 
-	private function checkProxim($newLat, $newLon, $movingDevid, $proxim, $userid, $lastPoint, $movingDeviceName, $sessionid) {
-		$highlimit = intval($proxim['highlimit']);
-		$lowlimit = intval($proxim['lowlimit']);
+	private function checkProxim(float $newLat, float $newLon, int $movingDevid, array $proxim, $userid,
+								 ?array $lastPoint, string $movingDeviceName, string $sessionToken) {
+		$highlimit = (int)$proxim['highlimit'];
+		$lowlimit = (int)$proxim['lowlimit'];
 		$urlclose = $proxim['urlclose'];
 		$urlfar = $proxim['urlfar'];
-		$urlclosepost = intval($proxim['urlclosepost']);
-		$urlfarpost = intval($proxim['urlfarpost']);
-		$sendemail = intval($proxim['sendemail']);
-		$sendnotif = intval($proxim['sendnotif']);
+		$urlclosepost = (int)$proxim['urlclosepost'];
+		$urlfarpost = (int)$proxim['urlfarpost'];
+		$sendemail = (int)$proxim['sendemail'];
+		$sendnotif = (int)$proxim['sendnotif'];
 		$emailaddr = $proxim['emailaddr'];
 		if ($emailaddr === null) {
 			$emailaddr = '';
@@ -277,22 +277,21 @@ class LogController extends Controller {
 
 		$otherDeviceId = null;
 		// get the deviceid of other device
-		if (intval($movingDevid) === intval($proxim['deviceid1'])) {
-			$otherDeviceId = intval($proxim['deviceid2']);
-		}
-		else {
-			$otherDeviceId = intval($proxim['deviceid1']);
+		if (((int)$movingDevid) === ((int)$proxim['deviceid1'])) {
+			$otherDeviceId = (int)$proxim['deviceid2'];
+		} else {
+			$otherDeviceId = (int)$proxim['deviceid1'];
 		}
 
 		// get coords of other device
 		$lastOtherPoint = $this->getLastDevicePoint($otherDeviceId);
-		$latOther = floatval($lastOtherPoint['lat']);
-		$lonOther = floatval($lastOtherPoint['lon']);
+		$latOther = (float)$lastOtherPoint['lat'];
+		$lonOther = (float)$lastOtherPoint['lon'];
 
 		if ($lastPoint !== null) {
 			// previous coords of observed device
-			$prevLat = floatval($lastPoint['lat']);
-			$prevLon = floatval($lastPoint['lon']);
+			$prevLat = (float)$lastPoint['lat'];
+			$prevLon = (float)$lastPoint['lon'];
 
 			$prevDist = distance2($prevLat, $prevLon, $latOther, $lonOther);
 			$currDist = distance2($newLat, $newLon, $latOther, $lonOther);
@@ -302,7 +301,7 @@ class LogController extends Controller {
 				// devices are now close !
 
 				// if the observed device is 'deviceid2', then we might have the wrong userId
-				if (intval($movingDevid) === intval($proxim['deviceid2'])) {
+				if (((int)$movingDevid) === ((int)$proxim['deviceid2'])) {
 					$userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
 				}
 				$dev1name = $movingDeviceName;
@@ -329,7 +328,7 @@ class LogController extends Controller {
 
 				// NOTIFICATIONS
 				if ($sendnotif !== 0) {
-					$userIds = $this->getSessionSharedUserIdList($sessionid);
+					$userIds = $this->getSessionSharedUserIdList($sessionToken);
 					$userIds[] = $userid;
 
 					try {
@@ -439,7 +438,7 @@ class LogController extends Controller {
 				// devices are now far !
 
 				// if the observed device is 'deviceid2', then we might have the wrong userId
-				if (intval($movingDevid) === intval($proxim['deviceid2'])) {
+				if (((int)$movingDevid) === ((int)$proxim['deviceid2'])) {
 					$userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
 				}
 				$dev1name = $movingDeviceName;
@@ -466,7 +465,7 @@ class LogController extends Controller {
 
 				// NOTIFICATIONS
 				if ($sendnotif !== 0) {
-					$userIds = $this->getSessionSharedUserIdList($sessionid);
+					$userIds = $this->getSessionSharedUserIdList($sessionToken);
 					$userIds[] = $userid;
 
 					try {
@@ -573,7 +572,7 @@ class LogController extends Controller {
 		}
 	}
 
-	private function getDeviceFences($devid) {
+	private function getDeviceFences(int $devid) {
 		$fences = [];
 		$sqlget = '
 			SELECT id, latmin, lonmin, latmax, lonmax,
@@ -594,7 +593,7 @@ class LogController extends Controller {
 	/**
 	 * returns user ids the session is shared with
 	 */
-	private function getSessionSharedUserIdList($token) {
+	private function getSessionSharedUserIdList(string $token) {
 		$userids = [];
 		$sqlget = '
 			SELECT username
@@ -609,25 +608,27 @@ class LogController extends Controller {
 		return $userids;
 	}
 
-	private function checkGeoFences($lat, $lon, $devid, $userid, $devicename, $sessionname, $sessionid) {
+	private function checkGeoFences(float $lat, float $lon, int $devid, string $userid, string $devicename,
+									string $sessionname, string $sessionToken) {
 		$lastPoint = $this->getLastDevicePoint($devid);
 		$fences = $this->getDeviceFences($devid);
 		foreach ($fences as $fence) {
-			$this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname, $sessionid);
+			$this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname, $sessionToken);
 		}
 	}
 
-	private function checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname, $sessionid) {
-		$latmin = floatval($fence['latmin']);
-		$latmax = floatval($fence['latmax']);
-		$lonmin = floatval($fence['lonmin']);
-		$lonmax = floatval($fence['lonmax']);
+	private function checkGeoGence(float $lat, float $lon, ?array $lastPoint, int $devid, array $fence,
+								   string $userid, string $devicename, string $sessionname, string $sessionToken) {
+		$latmin = (float)$fence['latmin'];
+		$latmax = (float)$fence['latmax'];
+		$lonmin = (float)$fence['lonmin'];
+		$lonmax = (float)$fence['lonmax'];
 		$urlenter = $fence['urlenter'];
 		$urlleave = $fence['urlleave'];
-		$urlenterpost = intval($fence['urlenterpost']);
-		$urlleavepost = intval($fence['urlleavepost']);
-		$sendemail = intval($fence['sendemail']);
-		$sendnotif = intval($fence['sendnotif']);
+		$urlenterpost = (int)$fence['urlenterpost'];
+		$urlleavepost = (int)$fence['urlleavepost'];
+		$sendemail = (int)$fence['sendemail'];
+		$sendnotif = (int)$fence['sendnotif'];
 		$emailaddr = $fence['emailaddr'];
 		if ($emailaddr === null) {
 			$emailaddr = '';
@@ -677,7 +678,7 @@ class LogController extends Controller {
 
 					// NOTIFICATIONS
 					if ($sendnotif !== 0) {
-						$userIds = $this->getSessionSharedUserIdList($sessionid);
+						$userIds = $this->getSessionSharedUserIdList($sessionToken);
 						$userIds[] = $userid;
 
 						try {
@@ -807,7 +808,7 @@ class LogController extends Controller {
 
 					// NOTIFICATIONS
 					if ($sendnotif !== 0) {
-						$userIds = $this->getSessionSharedUserIdList($sessionid);
+						$userIds = $this->getSessionSharedUserIdList($sessionToken);
 						$userIds[] = $userid;
 
 						try {
@@ -916,7 +917,7 @@ class LogController extends Controller {
 	}
 
 	private function checkQuota($deviceidToInsert, $userid, $devicename, $sessionname, $nbPointsToInsert=1) {
-		$quota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
+		$quota = (int)$this->config->getAppValue('phonetrack', 'pointQuota', '0');
 		if ($quota === 0) {
 			return true;
 		}
@@ -932,7 +933,7 @@ class LogController extends Controller {
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
-			$nbPoints = intval($row['co']);
+			$nbPoints = (int)$row['co'];
 		}
 
 		// if there is enough 'space'
@@ -1187,7 +1188,7 @@ class LogController extends Controller {
 			while ($row = $req->fetch()){
 				$dbname = $row['name'];
 				$userid = $row['user'];
-				$locked = (intval($row['locked']) === 1);
+				$locked = (((int)$row['locked']) === 1);
 				$isPublicSession = (bool)$row['public'];
 				break;
 			}
@@ -1224,7 +1225,7 @@ class LogController extends Controller {
 					while ($row = $req->fetch()){
 						$dbname = $row['name'];
 						$userid = $row['user'];
-						$locked = (intval($row['locked']) === 1);
+						$locked = (((int)$row['locked']) === 1);
 						$isPublicSession = (bool)$row['public'];
 						break;
 					}
@@ -1292,7 +1293,7 @@ class LogController extends Controller {
 						$req = $this->dbconnection->prepare($sqlgetres);
 						$req->execute();
 						while ($row = $req->fetch()){
-							$dbdeviceid = $row['id'];
+							$dbdeviceid = (int)$row['id'];
 							$dbdevicename = $row['name'];
 							$dbdevicealias = $row['alias'];
 							$dbdevicenametoken = $row['nametoken'];
@@ -1332,7 +1333,7 @@ class LogController extends Controller {
 							$req = $this->dbconnection->prepare($sqlgetdid);
 							$req->execute();
 							while ($row = $req->fetch()){
-								$deviceidToInsert = $row['id'];
+								$deviceidToInsert = (int)$row['id'];
 							}
 							$req->closeCursor();
 						}
@@ -1342,7 +1343,7 @@ class LogController extends Controller {
 						// correct timestamp if needed
 						$time = $timestamp;
 						if (is_numeric($time)) {
-							$time = floatval($time);
+							$time = (float)$time;
 							if ($time > 10000000000.0) {
 								$time = $time / 1000;
 							}
@@ -1374,8 +1375,8 @@ class LogController extends Controller {
 					}
 
 					// geofences, proximity alerts, quota
-					$this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
-					$this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+					$this->checkGeoFences((float)$lat, (float)$lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+					$this->checkProxims((float)$lat, (float)$lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
 					$quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
 
 					if (!$quotaClearance) {
@@ -1520,7 +1521,7 @@ class LogController extends Controller {
 			while ($row = $req->fetch()){
 				$dbname = $row['name'];
 				$userid = $row['user'];
-				$locked = (intval($row['locked']) === 1);
+				$locked = (((int)$row['locked']) === 1);
 				$isPublicSession = (bool)$row['public'];
 				break;
 			}
@@ -1557,7 +1558,7 @@ class LogController extends Controller {
 					while ($row = $req->fetch()){
 						$dbname = $row['name'];
 						$userid = $row['user'];
-						$locked = (intval($row['locked']) === 1);
+						$locked = (((int)$row['locked']) === 1);
 						$isPublicSession = (bool)$row['public'];
 						break;
 					}
@@ -1625,7 +1626,7 @@ class LogController extends Controller {
 						$req = $this->dbconnection->prepare($sqlgetres);
 						$req->execute();
 						while ($row = $req->fetch()){
-							$dbdeviceid = $row['id'];
+							$dbdeviceid = (int)$row['id'];
 							$dbdevicename = $row['name'];
 							$dbdevicealias = $row['alias'];
 							$dbdevicenametoken = $row['nametoken'];
@@ -1665,7 +1666,7 @@ class LogController extends Controller {
 							$req = $this->dbconnection->prepare($sqlgetdid);
 							$req->execute();
 							while ($row = $req->fetch()){
-								$deviceidToInsert = $row['id'];
+								$deviceidToInsert = (int)$row['id'];
 							}
 							$req->closeCursor();
 						}
@@ -1685,8 +1686,8 @@ class LogController extends Controller {
 						$lastPointToInsert = $points[count($points) - 1];
 						$lat = $lastPointToInsert[0];
 						$lon = $lastPointToInsert[1];
-						$this->checkGeoFences(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
-						$this->checkProxims(floatval($lat), floatval($lon), $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+						$this->checkGeoFences((float)$lat, (float)$lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+						$this->checkProxims((float)$lat, (float)$lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
 					}
 
 					$valuesToInsert = [];
@@ -1712,7 +1713,7 @@ class LogController extends Controller {
 							// correct timestamp if needed
 							$time = $timestamp;
 							if (is_numeric($time)) {
-								$time = floatval($time);
+								$time = (float)$time;
 								if ($time > 10000000000.0) {
 									$time = $time / 1000;
 								}
@@ -1954,7 +1955,7 @@ class LogController extends Controller {
 				$timestamp = $datetime->getTimestamp();
 				$alt = $loc['properties']['altitude'];
 				$acc = $loc['properties']['horizontal_accuracy'];
-				$bat = floatval($loc['properties']['battery_level']) * 100;
+				$bat = ((float)$loc['properties']['battery_level']) * 100;
 				$speed = $loc['properties']['speed'];
 				$bearing = null;
 				$sat = null;
@@ -1994,7 +1995,7 @@ class LogController extends Controller {
 		if (is_numeric($speed)) {
 			// according to traccar sources, speed is converted in knots...
 			// convert back to meter/s
-			$speedp = floatval($speed) / 1.943844;
+			$speedp = ((float)$speed) / 1.943844;
 		}
 		$this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp ? (int)$timestamp : null, $accuracy, $batt, null, 'Traccar', $speedp, $bearing);
 	}
