@@ -18,6 +18,7 @@ use Exception;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use \OCP\IL10N;
+use OCP\Notification\IManager;
 use Psr\Log\LoggerInterface;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -27,7 +28,6 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
-use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use Throwable;
@@ -95,22 +95,33 @@ class LogController extends Controller {
 	private $ncLogger;
 
 	const LOG_OWNTRACKS = 'Owntracks';
+	/**
+	 * @var ActivityManager
+	 */
+	private $activityManager;
+	/**
+	 * @var DeviceMapper
+	 */
+	private $deviceMapper;
+	/**
+	 * @var IManager
+	 */
+	private $notificationManager;
 
 	public function __construct(string $AppName,
 								IRequest $request,
 								IConfig $config,
+								IManager $notificationManager,
 								IUserManager $userManager,
 								IL10N $trans,
 								LoggerInterface $ncLogger,
 								ActivityManager $activityManager,
-								SessionMapper $sessionMapper,
 								DeviceMapper $deviceMapper,
 								IDBConnection $dbconnection,
 								?string $userId) {
 		parent::__construct($AppName, $request);
 		$this->userId = $userId;
 		$this->activityManager = $activityManager;
-		$this->sessionMapper = $sessionMapper;
 		$this->deviceMapper = $deviceMapper;
 		$this->trans = $trans;
 		$this->ncLogger = $ncLogger;
@@ -127,6 +138,7 @@ class LogController extends Controller {
 		}
 		$this->dbconnection = $dbconnection;
 		$this->defaultDeviceName = ['yourname', 'devicename', 'name'];
+		$this->notificationManager = $notificationManager;
 	}
 
 	/*
@@ -173,7 +185,7 @@ class LogController extends Controller {
 	}
 
 	private function getDeviceProxims($devid) {
-		$proxims = array();
+		$proxims = [];
 		$sqlget = '
 			SELECT id, deviceid1, deviceid2, highlimit,
 				   lowlimit, urlclose, urlfar,
@@ -185,7 +197,7 @@ class LogController extends Controller {
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
-			array_push($proxims, $row);
+			$proxims[] = $row;
 		}
 		$req->closeCursor();
 		return $proxims;
@@ -321,9 +333,8 @@ class LogController extends Controller {
 					$userIds[] = $userid;
 
 					try {
-						$manager = \OC::$server->getNotificationManager();
 						foreach ($userIds as $aUserId) {
-							$notification = $manager->createNotification();
+							$notification = $this->notificationManager->createNotification();
 
 							$acceptAction = $notification->createAction();
 							$acceptAction->setLabel('accept')
@@ -342,7 +353,7 @@ class LogController extends Controller {
 								->addAction($declineAction)
 								;
 
-							$manager->notify($notification);
+							$this->notificationManager->notify($notification);
 						}
 					}
 					catch (\Exception $e) {
@@ -456,12 +467,11 @@ class LogController extends Controller {
 				// NOTIFICATIONS
 				if ($sendnotif !== 0) {
 					$userIds = $this->getSessionSharedUserIdList($sessionid);
-					array_push($userIds, $userid);
+					$userIds[] = $userid;
 
 					try {
-						$manager = \OC::$server->getNotificationManager();
 						foreach ($userIds as $aUserId) {
-							$notification = $manager->createNotification();
+							$notification = $this->notificationManager->createNotification();
 
 							$acceptAction = $notification->createAction();
 							$acceptAction->setLabel('accept')
@@ -480,7 +490,7 @@ class LogController extends Controller {
 								->addAction($declineAction)
 								;
 
-							$manager->notify($notification);
+							$this->notificationManager->notify($notification);
 						}
 					} catch (\Exception $e) {
 						$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
@@ -500,7 +510,7 @@ class LogController extends Controller {
 						 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
 						&& !empty($userEmail)
 					) {
-						array_push($emailaddrArray, $userEmail);
+						$emailaddrArray[] = $userEmail;
 					}
 
 					if (!empty($mailFromA) && !empty($mailFromD)) {
@@ -593,7 +603,7 @@ class LogController extends Controller {
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
-			array_push($userids, $row['username']);
+			$userids[] = $row['username'];
 		}
 		$req->closeCursor();
 		return $userids;
@@ -625,19 +635,21 @@ class LogController extends Controller {
 		$fencename = $fence['name'];
 		$fenceid = $fence['id'];
 
+		/*
 		// first point of this device
 		if ($lastPoint === null) {
-			if (    $lat > $latmin
-				and $lat < $latmax
-				and $lon > $lonmin
-				and $lon < $lonmax
+			if (   $lat > $latmin
+				&& $lat < $latmax
+				&& $lon > $lonmin
+				&& $lon < $lonmax
 			) {
 			}
 		}
+		*/
 		// not the first point
-		else {
-			$lastLat = floatval($lastPoint['lat']);
-			$lastLon = floatval($lastPoint['lon']);
+		if ($lastPoint !== null) {
+			$lastLat = (float)$lastPoint['lat'];
+			$lastLon = (float)$lastPoint['lon'];
 
 			// if previous point not in fence
 			if (!($lastLat > $latmin && $lastLat < $latmax && $lastLon > $lonmin && $lastLon < $lonmax)) {
@@ -666,12 +678,11 @@ class LogController extends Controller {
 					// NOTIFICATIONS
 					if ($sendnotif !== 0) {
 						$userIds = $this->getSessionSharedUserIdList($sessionid);
-						array_push($userIds, $userid);
+						$userIds[] = $userid;
 
 						try {
-							$manager = \OC::$server->getNotificationManager();
 							foreach ($userIds as $aUserId) {
-								$notification = $manager->createNotification();
+								$notification = $this->notificationManager->createNotification();
 
 								$acceptAction = $notification->createAction();
 								$acceptAction->setLabel('accept')
@@ -683,14 +694,14 @@ class LogController extends Controller {
 
 								$notification->setApp('phonetrack')
 									->setUser($aUserId)
-									->setDateTime(new \DateTime())
+									->setDateTime(new DateTime())
 									->setObject('entergeofence', $fenceid) // $type and $id
 									->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
 									->addAction($acceptAction)
 									->addAction($declineAction)
 									;
 
-								$manager->notify($notification);
+								$this->notificationManager->notify($notification);
 							}
 						}
 						catch (\Exception $e) {
@@ -702,11 +713,10 @@ class LogController extends Controller {
 					if ($sendemail !== 0) {
 						$emailaddrArray = explode(',', $emailaddr);
 						if (
-							(count($emailaddrArray) === 0
-							 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
-							and !empty($userEmail)
+							(count($emailaddrArray) === 0 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
+							&& !empty($userEmail)
 						) {
-							array_push($emailaddrArray, $userEmail);
+							$emailaddrArray[] = $userEmail;
 						}
 						if (!empty($mailFromA) && !empty($mailFromD)) {
 							$mailfrom = $mailFromA.'@'.$mailFromD;
@@ -798,12 +808,11 @@ class LogController extends Controller {
 					// NOTIFICATIONS
 					if ($sendnotif !== 0) {
 						$userIds = $this->getSessionSharedUserIdList($sessionid);
-						array_push($userIds, $userid);
+						$userIds[] = $userid;
 
 						try {
-							$manager = \OC::$server->getNotificationManager();
 							foreach ($userIds as $aUserId) {
-								$notification = $manager->createNotification();
+								$notification = $this->notificationManager->createNotification();
 
 								$acceptAction = $notification->createAction();
 								$acceptAction->setLabel('accept')
@@ -815,14 +824,14 @@ class LogController extends Controller {
 
 								$notification->setApp('phonetrack')
 									->setUser($aUserId)
-									->setDateTime(new \DateTime())
+									->setDateTime(new DateTime())
 									->setObject('leavegeofence', $fenceid) // $type and $id
 									->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
 									->addAction($acceptAction)
 									->addAction($declineAction)
 									;
 
-								$manager->notify($notification);
+								$this->notificationManager->notify($notification);
 							}
 						}
 						catch (\Exception $e) {
@@ -838,7 +847,7 @@ class LogController extends Controller {
 							 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
 							and !empty($userEmail)
 						) {
-							array_push($emailaddrArray, $userEmail);
+							$emailaddrArray[] = $userEmail;
 						}
 						if (!empty($mailFromA) && !empty($mailFromD)) {
 							$mailfrom = $mailFromA.'@'.$mailFromD;
@@ -930,8 +939,7 @@ class LogController extends Controller {
 		if ($nbPoints + $nbPointsToInsert <= $quota) {
 			// if we just reached the quota : notify the user
 			if ($nbPoints + $nbPointsToInsert === $quota) {
-				$manager = \OC::$server->getNotificationManager();
-				$notification = $manager->createNotification();
+				$notification = $this->notificationManager->createNotification();
 
 				$acceptAction = $notification->createAction();
 				$acceptAction->setLabel('accept')
@@ -943,14 +951,14 @@ class LogController extends Controller {
 
 				$notification->setApp('phonetrack')
 					->setUser($userid)
-					->setDateTime(new \DateTime())
+					->setDateTime(new DateTime())
 					->setObject('quotareached', $nbPoints)
 					->setSubject('quota_reached', [$quota, $devicename, $sessionname])
 					->addAction($acceptAction)
 					->addAction($declineAction)
 					;
 
-				$manager->notify($notification);
+				$this->notificationManager->notify($notification);
 			}
 
 			return true;
@@ -1024,7 +1032,7 @@ class LogController extends Controller {
 					$req->execute();
 					$pids = [];
 					while ($row = $req->fetch()){
-						array_push($pids, $row['id']);
+						$pids[] = $row['id'];
 					}
 					$req->closeCursor();
 
@@ -1263,7 +1271,7 @@ class LogController extends Controller {
 								$deviceidToInsert = $dbdeviceid;
 							}
 							else {
-								return;
+								return $res;
 							}
 						}
 						else {
@@ -1596,7 +1604,7 @@ class LogController extends Controller {
 								$deviceidToInsert = $dbdeviceid;
 							}
 							else {
-								return;
+								return $res;
 							}
 						}
 						else {
@@ -1733,7 +1741,7 @@ class LogController extends Controller {
 									  $speed.','.
 									  $bearing.'
 							  )';
-							array_push($valuesToInsert, $value);
+							$valuesToInsert[] = $value;
 							$nbToInsert++;
 
 							// insert by bunch of 50 points
@@ -2003,7 +2011,7 @@ class LogController extends Controller {
 		$gprmca = explode(',', $gprmc);
 		$time = sprintf("%06d", (int)$gprmca[1]);
 		$date = sprintf("%06d", (int)$gprmca[9]);
-		$datetime = \DateTime::createFromFormat('dmy His', $date.' '.$time);
+		$datetime = DateTime::createFromFormat('dmy His', $date.' '.$time);
 		$timestamp = $datetime->getTimestamp();
 		$lat = DMStoDEC(sprintf('%010.4f', (float)$gprmca[3]), 'latitude');
 		if ($gprmca[4] === 'S') {

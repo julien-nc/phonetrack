@@ -26,6 +26,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IUserManager;
+use OCP\Notification\IManager;
 use OCP\Share\IManager as IShareManager;
 
 use PHPUnit\Framework\TestCase;
@@ -169,13 +170,11 @@ class PageNLogControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
+			$c->get(IManager::class),
 			$c->get(IUserManager::class),
 			$c->get(IL10N::class),
 			$c->get(LoggerInterface::class),
 			$this->activityManager,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
@@ -187,13 +186,11 @@ class PageNLogControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
+			$c->get(IManager::class),
 			$c->get(IUserManager::class),
 			$c->get(IL10N::class),
 			$c->get(LoggerInterface::class),
 			$this->activityManager,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
