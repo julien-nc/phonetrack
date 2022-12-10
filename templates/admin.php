@@ -1,6 +1,9 @@
 <?php
-OCP\Util::addscript('phonetrack', 'admin');
-OCP\Util::addstyle('phonetrack', 'admin');
+use OCP\Util;
+
+$appId = OCA\Phonetrack\AppInfo\Application::APP_ID;
+Util::addscript($appId, $appId . '-admin');
+Util::addstyle($appId, 'admin');
 ?>
 
 <div class="section" id="phonetrack">

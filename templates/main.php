@@ -1,9 +1,12 @@
 <?php
-script('phonetrack', 'phonetrack');
+use OCP\Util;
+
+$appId = OCA\Phonetrack\AppInfo\Application::APP_ID;
+Util::addScript($appId, $appId . '-phonetrack');
 
 // fontawesome/fortawesome
-style('phonetrack', 'fontawesome-free/css/all.min');
-style('phonetrack', 'style');
+Util::addStyle($appId, 'fontawesome-free/css/all.min');
+Util::addStyle($appId, 'style');
 
 ?>
 
