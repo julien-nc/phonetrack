@@ -138,9 +138,8 @@ class LogController extends Controller {
 
 	/**
 	 * if devicename is not set to default value, we take it
-	 * else
 	 */
-	private function chooseDeviceName($devicename, $tid) {
+	private function chooseDeviceName(?string $devicename, ?string $tid): string {
 		if ( (!in_array($devicename, $this->defaultDeviceName))
 			&& $devicename !== ''
 			&& (!is_null($devicename))
@@ -1845,9 +1844,9 @@ class LogController extends Controller {
 	 *
 	 **/
 	public function logGet($token, $devicename, $lat, $lon, ?int $timestamp, $bat, $sat, $acc, $alt,
-						   $speed=null, $bearing=null, ?string $datetime = null) {
+						   $speed = null, $bearing = null, ?string $datetime = null, string $useragent = 'unknown GET logger') {
 		$dname = $this->chooseDeviceName($devicename, null);
-		return $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'unknown GET logger', $speed, $bearing, $datetime);
+		return $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing, $datetime);
 	}
 
 	/**
