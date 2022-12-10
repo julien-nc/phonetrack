@@ -1,10 +1,10 @@
 # Aplicativo PhoneTrack para Nextcloud
 
-📱 PhoneTrack é um aplicativo para Nextcloud para localizar e salvar a localização de dispositivos móveis.
+📱 PhoneTrack é um aplicativo de Nextcloud para rastrear e armazenar a localização de dispositivos móveis.
 
-🗺 Recebe informações de aplicativos de registro em telefones celulares e mostra dinamicamente em um mapa.
+🗺 Recebe informações do aplicativo e exibe dinamicamente no mapa.
 
-🌍 Ajude-nos a traduzir este aplicativo no [projeto PhoneTrack no Crowdin](https://crowdin.com/project/phonetrack).
+🌍 Ajude-nos a traduzir este aplicativo no [projeto PhoneTrack no Crowdin ](https://crowdin.com/project/phonetrack).
 
 ⚒Confira outras maneiras de ajudar nas [diretrizes de contribuição](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
@@ -25,12 +25,12 @@ Na página principal do PhoneTrack, enquanto assiste a uma sessão, você pode:
 * ⛶ Definir zonas de cercas geográficas para dispositivos
 * ⚇ Definir alertas de proximidade para pares de dispositivos
 * 🖧 Compartilhe uma sessão com outros usuários Nextcloud ou com um link público (somente leitura)
-* 🔗 Gere links de compartilhamento público com restrições opcionais (filtros, nome do dispositivo, apenas últimas posições, simplificação de cercas geográficas)
+* 🔗 Gene rate public. Share link with opcional restricionista (filtres, dispositivo nane, last positions only, geofencing simplification)
 * 🖫 Importar / exportar uma sessão no formato GPX (um arquivo com uma faixa por dispositivo ou um arquivo por dispositivo)
 * 🗠 Exibir estatísticas de sessões
 * 🔒 [ Reserve um nome de dispositivo ](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) para garantir que apenas usuários autorizados possam fazer logon com este nome
-* 🗓 Alternar exportação automática e limpeza automática da sessão (diariamente / semanalmente / mensalmente)
-* ◔ Escolha o que fazer quando a cota do número de pontos for atingida (bloquear o registro ou excluir o ponto mais antigo)
+* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
+* ◔ Cada usuário pode escolher o que acontece quando a cota é atingida: bloqueie de registro ou exclusão de pontos mais antigos)
 
 A página pública e a página pública filtrada funcionam como a página principal, exceto que apenas uma sessão é exibida, tudo é somente leitura e não é necessário fazer login.
 

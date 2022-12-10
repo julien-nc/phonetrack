@@ -8,7 +8,7 @@ OC.L10N.register(
     "You shared PhoneTrack session {session} with {who}" : "Nasdíleli jste relaci PhoneTrack {session} uživateli {who}",
     "PhoneTrack session {session} is now shared with {who}" : "PhoneTrack relace {session} je nyní sdílena s {who}",
     "You stopped sharing session {session} with {who}" : "Přestali jste sdílet relace {session} uživateli {who}",
-    "PhoneTrack session {session} is not shared with {who} anymore" : "PhoneTrack relace {session} už není sdílena s {who}",
+    "PhoneTrack session {session} is not shared with {who} anymore" : "PhoneTrack relace {session} je nyní sdílena s {who}",
     "A PhoneTrack client" : "PhoneTrack klient",
     "PhoneTrack" : "Phonetrack",
     "<strong>PhoneTrack geofences</strong> events" : "události ohledně <strong>PhoneTrack vymezených oblastí</strong>",

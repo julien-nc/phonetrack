@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2022-04-26 15:23\n"
+"PO-Revision-Date: 2022-12-10 04:23\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
@@ -944,85 +944,85 @@ msgstr ""
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4457
 msgid "Failed to contact server to import session"
-msgstr ""
+msgstr "セッションのインポートのためのサーバーへの接続は失敗しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4478
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4485
 msgid "Session successfully exported in"
-msgstr ""
+msgstr "セッションのエクスポートは成功しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4482
 msgid "There is no point to export for this session"
-msgstr ""
+msgstr "このセッションにエクスポートするポイントがありません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4486
 msgid "but there was no point to export for some devices"
-msgstr ""
+msgstr "いくつかのデバイスのためのエクスポートするポイントは存在しませんでした。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4490
 msgid "Failed to export session"
-msgstr ""
+msgstr "セッションのエクスポートに失敗しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4495
 msgid "Failed to contact server to export session"
-msgstr ""
+msgstr "セッションをエクスポートするためのサーバー接続は失敗しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4526
 msgid "Failed to contact server to log position"
-msgstr ""
+msgstr "位置情報をログするためのサーバー接続は失敗しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4620
 msgid "Impossible to zoom, there is no point to zoom on for this device"
-msgstr ""
+msgstr "ズームできません。このデバイスをズームする座標が存在しません。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4733
 msgid "'{n}' is already reserved"
-msgstr ""
+msgstr "'{n}' は既に予約されています"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4736
 msgid "Failed to reserve '{n}'"
-msgstr ""
+msgstr "'{n}' の予約に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4739
 msgid "Failed to contact server to reserve device name"
-msgstr ""
+msgstr "デバイス名を予約するためのサーバー接続は失敗しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4770
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4774
 msgid "Failed to delete reserved name"
-msgstr ""
+msgstr "予約名の削除に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4771
 msgid "This device does not exist"
-msgstr ""
+msgstr "デバイスは存在しません。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4775
 msgid "This device name is not reserved, please reload this page"
-msgstr ""
+msgstr "このデバイス名は予約されていません。このページを再読み込みしてください。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4778
 msgid "Failed to contact server to delete reserved name"
-msgstr ""
+msgstr "予約名を削除するためのサーバー接続は失敗しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4798
 msgid "User does not exist"
-msgstr ""
+msgstr "ユーザーが存在しません"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4801
 msgid "Failed to add user share"
-msgstr ""
+msgstr "ユーザー共有の追加に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4804
 msgid "Failed to contact server to add user share"
-msgstr ""
+msgstr "ユーザー共有を追加するためのサーバー接続に失敗しました。"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4814
 msgid "Shared with {u}"
-msgstr ""
+msgstr "{u} と共有済み"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4839
 msgid "Failed to delete user share"
-msgstr ""
+msgstr "ユーザー共有の削除に失敗しました"
 
 #: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4842
 msgid "Failed to contact server to delete user share"

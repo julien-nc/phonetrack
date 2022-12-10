@@ -11,10 +11,10 @@
 如何使用手機追蹤：
 
 * 建立一段追蹤任務。
-* 把記錄連結\*傳給移動裝置 選擇你喜歡的[記錄方法](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods)
+* 把記錄連結\*傳給移動裝置 把記錄連結\*傳給移動裝置 選擇你喜歡的[記錄方法](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods)
 * 在手機追蹤程式地圖上觀看裝置及時(或最近的)位置，或分享至公開的網頁。
 
-(\*)記得在連結中設定裝置名稱(而不是在記錄程式中設定) 替換 ‘‘你的名稱’’ 只有在Owntracks, Traccar and OpenGTS這3款程式的設定中設定裝置名稱才有效。
+(\*)記得在連結中設定裝置名稱(而不是在記錄程式中設定) 替換 ‘‘你的名稱’’ (\*)記得在連結中設定裝置名稱(而不是在記錄程式中設定) 替換 ‘‘你的名稱’’ 只有在Owntracks, Traccar and OpenGTS這3款程式的設定中設定裝置名稱才有效。
 
 在手機追蹤程式主畫面檢視一段追蹤任務時，你可以：
 
@@ -50,6 +50,6 @@
 
 ## 已知待解決的問題
 
-* 手機追蹤**現在可以**給Nextcloud特定群組成員使用。 請查閱[admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud)
+* 手機追蹤**現在可以**給Nextcloud特定群組成員使用。 請查閱[admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud) 請查閱[admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud)
 
 非常感謝你的回饋，請不吝提供意思。

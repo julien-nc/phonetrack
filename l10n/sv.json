@@ -3,6 +3,7 @@
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "PhoneTrack-enhet {device} i sessionen {session} har avslutat geofence {geofence}",
     "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}" : "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}",
     "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}" : "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}",
+    "<strong>PhoneTrack geofences</strong> events" : "<strong>PhoneTrack geofences</strong> events",
     "Disable automatic zoom" : "Inaktivera automatisk zoom",
     "A server with this name already exists" : "En server med detta namn finns redan",
     "Delete" : "Ta bort",
