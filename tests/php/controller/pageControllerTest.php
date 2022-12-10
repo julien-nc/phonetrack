@@ -17,6 +17,7 @@
  */
 namespace OCA\PhoneTrack\Controller;
 
+use Exception;
 use OCP\App\IAppManager;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
@@ -37,6 +38,8 @@ use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\AppInfo\Application;
+use Throwable;
+use TypeError;
 
 class PageNLogControllerTest extends TestCase {
 
@@ -249,19 +252,27 @@ class PageNLogControllerTest extends TestCase {
 		// log
 		$now = new \DateTime();
 		$timestamp = $now->getTimestamp();
-		$resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp-10, 100, 80, 12, 'test', 2, 180);
+		$resp = $this->logController->addPoint(
+			$token, 'dev1', 45.5, 3.4, 111, $timestamp-10, 100, 80, 12, 'test', 2, 180
+		);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$pointid = $data['pointid'];
 		$devid1 = $data['deviceid'];
-		$resp = $this->logController->addPoint($token, 'dev2', 45.5, 3.4, 111, $timestamp-11, 100, 80, 12, 'test', 2, 180);
+		$resp = $this->logController->addPoint(
+			$token, 'dev2', 45.5, 3.4, 111, $timestamp-11, 100, 80, 12, 'test', 2, 180
+		);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$devid2 = $data['deviceid'];
 		$this->config->setAppValue('phonetrack', 'pointQuota', 300);
 		for ($i=9; $i>0; $i--) {
-			$resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp-$i, 100, 80, 12, 'test', 2, 180);
-			$resp = $this->logController->addPoint($token, 'dev2', 45.5, 3.4, 111, $timestamp-$i-1, 100, 80, 12, 'test', 2, 180);
+			$resp = $this->logController->addPoint(
+				$token, 'dev1', 45.5, 3.4, 111, $timestamp-$i, 100, 80, 12, 'test', 2, 180
+			);
+			$resp = $this->logController->addPoint(
+				$token, 'dev2', 45.5, 3.4, 111, $timestamp-$i-1, 100, 80, 12, 'test', 2, 180
+			);
 		}
 		// number of points
 		$sessions = array(array($token, null, null));
@@ -279,8 +290,10 @@ class PageNLogControllerTest extends TestCase {
 
 		// test when user chose to block new points
 		$resp = $this->utilsController->saveOptionValue(['quotareached' => 'block']);
-		$resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp, 100, 80, 12, 'test', 2, 180);
-		$sessions = array(array($token, null, null));
+		$resp = $this->logController->addPoint(
+			$token, 'dev1', 45.5, 3.4, 111, $timestamp, 100, 80, 12, 'test', 2, 180
+		);
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -289,8 +302,10 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($timestamp-1, $respSession[$token][$devid1][9][3]);
 
 		$resp = $this->utilsController->saveOptionValue(['quotareached' => 'rotatedev']);
-		$resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp, 100, 80, 12, 'test', 2, 180);
-		$sessions = array(array($token, null, null));
+		$resp = $this->logController->addPoint(
+			$token, 'dev1', 45.5, 3.4, 111, $timestamp, 100, 80, 12, 'test', 2, 180
+		);
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -300,8 +315,10 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($timestamp, $respSession[$token][$devid1][4][3]);
 
 		$resp = $this->utilsController->saveOptionValue(['quotareached' => 'rotateglob']);
-		$resp = $this->logController->addPoint($token, 'dev1', 45.5, 3.4, 111, $timestamp+1, 100, 80, 12, 'test', 2, 180);
-		$sessions = array(array($token, null, null));
+		$resp = $this->logController->addPoint(
+			$token, 'dev1', 45.5, 3.4, 111, $timestamp+1, 100, 80, 12, 'test', 2, 180
+		);
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -399,18 +416,18 @@ class PageNLogControllerTest extends TestCase {
 		// LOG
 		$this->logController->logOsmand($token, 'dev1', 44.4, 3.33, 450, 60, 10, 200, 199);
 		$this->logController->logGpsloggerGet($token, 'dev1', 44.5, 3.34, 460, 55, 10, 200, 198);
-		$this->logController->logOwntracks($token, 'dev1', 'dev1', 44.6, 3.35, 197, 470, 200, 50);
-		$this->logController->logUlogger($token, 'dev1', 'tid', 44.7, 3.36, 480, 200, 196, 'pwd', 'user', 'addpos');
-		$this->logController->logTraccar($token, 'dev1', 'id', 44.6, 3.35, 470, 200, 195, 45, 2, 180);
+		$this->logController->logOwntracks($token, 44.6, 3.35, 'dev1', 'dev1', 197, 470, 200, 50);
+		$this->logController->logUlogger($token, 44.7, 3.36, 480, 'dev1', 200, 196, 'addpos');
+		$this->logController->logTraccar($token, 44.6, 3.35, 470, 'dev1', 'id', 200, 195, 45, 2, 180);
 		$gprmc = '$GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3,E*62';
-		$this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
+		$this->logController->logOpengts($token, $gprmc, 'dev1', 'dev1', 195, 40);
 		$this->logController->logGpsloggerPost($token, 'dev1', 44.5, 3.34, 200, 490, 35, 10, 199);
-		$this->logController->logGet($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200, 198, 2, 180, 2, 180);
+		$this->logController->logGet($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200, 198, 2, 180);
 
-		$this->logController->logOpengtsPost($token, 'dev1', 44.5, 3.344, 499, 25, 10, 200);
+		$this->logController->logOpengtsPost($token, 'dev1', 'id', 'dev', 44.5, 3.344, 25, $gprmc);
 
 		// get deviceid
-		$sessions = array(array($token, null, null));
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -479,8 +496,11 @@ class PageNLogControllerTest extends TestCase {
 		}
 
 		// empty lat
-		$this->logController->logOsmand($token, 'dev1', '', 3.33, 450, 60, 10, 200, 199);
-		$sessions = array(array($token, null, null));
+		try {
+			$this->logController->logOsmand($token, 'dev1', '', 3.33, 450, 60, 10, 200, 199);
+		} catch (Exception | Throwable $e) {
+		}
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -492,7 +512,10 @@ class PageNLogControllerTest extends TestCase {
 		}
 
 		// empty lon
-		$this->logController->logOsmand($token, 'dev1', 4.44, '', 450, 60, 10, 200, 199);
+		try {
+			$this->logController->logOsmand($token, 'dev1', 4.44, '', 450, 60, 10, 200, 199);
+		} catch (Exception | Throwable $e) {
+		}
 		$sessions = array(array($token, null, null));
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
@@ -505,8 +528,8 @@ class PageNLogControllerTest extends TestCase {
 		}
 
 		// empty timestamp
-		$this->logController->logOsmand($token, 'dev1', 4.44, 3.33, '', 60, 10, 200, 199);
-		$sessions = array(array($token, null, null));
+		$this->logController->logOsmand($token, 'dev1', 4.44, 3.33, null, 60, 10, 200, 199);
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -518,8 +541,8 @@ class PageNLogControllerTest extends TestCase {
 		}
 
 		// empty battery, sat, acc, alt and too big timestamp
-		$this->logController->logOsmand($token, 'dev1', 4.44, 3.33, 10000000001, '', '', '', '');
-		$sessions = array(array($token, null, null));
+		$this->logController->logOsmand($token, 'dev1', 4.44, 3.33, 10000000001);
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -531,8 +554,8 @@ class PageNLogControllerTest extends TestCase {
 		}
 
 		// empty user agent
-		$this->logController->logPost($token, 'dev1', 4.44, 3.33, 100, 470, 60, 10, 200, '');
-		$sessions = array(array($token, null, null));
+		$this->logController->logPost($token, 'dev1', 4.44, 3.33, 100, 470, 60, 10, 200);
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -544,15 +567,18 @@ class PageNLogControllerTest extends TestCase {
 		}
 
 		// wrong session and logGet
-		$this->logController->logOsmand($token.'a', 'dev1', 44.4, 3.33, 450, 60, 10, 200, 199);
+		$this->logController->logOsmand($token . 'a', 'dev1', 44.4, 3.33, 450, 60, 10, 200, 199);
 		$resp = $this->pageController->getSessions();
 		$data = $resp->getData();
 		$this->assertEquals(count($data['sessions']), 1);
 
 		// SQL INJECTION
 		// using device name
-		$this->logController->logOsmand($token, 'dev1; DELETE FROM oc_phonetrack_points WHERE deviceid='.$deviceid.';', '44.9', 3.33, 450, 60, 10, 200, 199);
-		$sessions = array(array($token, null, null));
+		$this->logController->logOsmand(
+			$token, 'dev1; DELETE FROM oc_phonetrack_points WHERE deviceid=' . $deviceid . ';',
+			44.9, 3.33, 450, 60, 10, 200, 199
+		);
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -567,8 +593,11 @@ class PageNLogControllerTest extends TestCase {
 
 		// SQL INJECTION
 		// with token
-		$this->logController->logOsmand($token.'; DELETE FROM oc_phonetrack_points WHERE deviceid='.$deviceid.';', 'dev1', '44.9', 3.33, 450, 60, 10, 200, 199);
-		$sessions = array(array($token, null, null));
+		$this->logController->logOsmand(
+			$token . '; DELETE FROM oc_phonetrack_points WHERE deviceid=' . $deviceid . ';', 'dev1',
+			44.9, 3.33, 450, 60, 10, 200, 199
+		);
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -622,37 +651,37 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(count($respSession[$token]), 4);
 
 		// no device name but one tid
-		$this->logController->logOwntracks($token, '', 'dev1', 44.6, 3.35, 197, 470, 200, 50);
+		$this->logController->logOwntracks($token, 44.6, 3.35, '', 'dev1', 197, 470, 200, 50);
 
 		// no device name but one tid
 		$this->logController->logPost($token, 'dev1', 44.6, 3.35, 197, 470, 200, 50, 10, 'browser');
 
 		// GPRMC
 		$gprmc = '$GPRMC,081839,A,3751.65,S,14507.36,W,000.0,360.0,130998,011.3,E*62';
-		$this->logController->logOpengts($token, 'dev1', 'dev1', 'dev1', 'whateverthatis', '195', 40, $gprmc);
+		$this->logController->logOpengts($token, $gprmc, 'dev1', 'dev1', 195, 40);
 
 		// log multiple
-		$sessions = array(array($token, null, null));
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
 		$nbPoints = count($respSession[$token][$deviceid]);
 
 		$points = [
-			[43.65339660644531,3.8572182655334473,1547460652,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
-			[43.65339660644532,3.8572182655334473,1547460653,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
-			[43.65339660644533,3.8572182655334473,1547460654,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
-			[43.65339660644534,3.8572182655334473,1547460655,"",20,"43.0","0","PhoneTrack\/0.0.6","0.0","0.0"],
+			[43.65339660644531,3.8572182655334473,1547460652,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
+			[43.65339660644532,3.8572182655334473,1547460653,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
+			[43.65339660644533,3.8572182655334473,1547460654,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
+			[43.65339660644534,3.8572182655334473,1547460655,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
 		];
-		$resp = $this->utilsController->setPointQuota(300);
-		$resp = $this->logController->logPostMultiple($token, 'dev1', $points);
+		$this->utilsController->setPointQuota(300);
+		$this->logController->logPostMultiple($token, 'dev1', $points);
 
-		$sessions = array(array($token, null, null));
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
 
-		$this->assertEquals($nbPoints+4, count($respSession[$token][$deviceid]));
+		$this->assertEquals($nbPoints + 4, count($respSession[$token][$deviceid]));
 	}
 
 	public function testPage() {
@@ -712,29 +741,32 @@ class PageNLogControllerTest extends TestCase {
 			$this->logController->logPost($token, 'devautoex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, 'testUA');
 		}
 		// just get the deviceid
-		$resp = $this->logController->addPoint($token, 'devautoex', 45.5, 3.4, 111, $timestamp-(3*604700), 100, 80, 12, 'AAAAAAAAtest', 2, 180);
+		$resp = $this->logController->addPoint(
+			$token, 'devautoex', 45.5, 3.4, 111, $timestamp - (3*604700), 100, 80, 12,
+			'AAAAAAAAtest', 2, 180
+		);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$pointid = $data['pointid'];
 		$deviceid = $data['deviceid'];
 		// check number of points
-		$sessions = array(array($token, array($deviceid => 400), null));
+		$sessions = [[$token, [$deviceid => 400], null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
 		$pointListBeforePurge = $respSession[$token][$deviceid];
-		$this->assertEquals(True, count($pointListBeforePurge) > 0);
+		$this->assertTrue(count($pointListBeforePurge) > 0);
 
-		$resp = $this->sessionService->cronAutoExport();
+		$this->sessionService->cronAutoExport();
 
 		// check number of points
-		$sessions = array(array($token, array($deviceid => 400), null));
+		$sessions = [[$token, [$deviceid => 400], null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
 		$pointListAfterPurge = $respSession[$token][$deviceid];
-		$this->assertEquals(True, count($pointListAfterPurge) > 0);
-		$this->assertEquals(True, count($pointListAfterPurge) < count($pointListBeforePurge));
+		$this->assertTrue(count($pointListAfterPurge) > 0);
+		$this->assertTrue(count($pointListAfterPurge) < count($pointListBeforePurge));
 
 		//echo $userfolder->search('.gpx')[0]->getContent();
 		// check something was exported
@@ -744,7 +776,7 @@ class PageNLogControllerTest extends TestCase {
 		$search[0]->delete();
 		$resp = $this->pageController->setSessionAutoExport($token, 'weekly');
 		// do it again to test when export dir already exists and test weekly
-		$resp = $this->sessionService->cronAutoExport();
+		$this->sessionService->cronAutoExport();
 		$search = $userfolder->get('/autoex')->search('.gpx');
 		$this->assertEquals(count($search), 1);
 
@@ -1770,7 +1802,7 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($done, 1);
 
 		// reserved name should not be given
-		$sessions = array(array($token, null, null));
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->publicWebLogTrack($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -1780,10 +1812,12 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(False, in_array('resName', $respNames[$token]));
 
 		// coverage on publicWebLogTrack
-		$resp = $this->logController->addPoint($token, 'todelll', 45.5, 3.4, '', 500, '', '', '', '', 2, 180);
+		$resp = $this->logController->addPoint(
+			$token, 'todelll', 45.5, 3.4, null, 500, null, null, null, null, 2, 180
+		);
 		$data = $resp->getData();
 		$deviceidtodelll = $data['deviceid'];
-		$sessions = array(array($token, [$deviceidtodelll=>200], [$deviceidtodelll=>100]));
+		$sessions = [[$token, [$deviceidtodelll => 200], [$deviceidtodelll => 100]]];
 		$resp = $this->pageController->publicWebLogTrack($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -1791,7 +1825,9 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(1, count($respSession[$token][$deviceidtodelll]));
 
 		// add point with reservation token
-		$resp = $this->logController->addPoint($token, $nameToken, 45.5, 3.4, '', 10000000001, '', '', '', '', 2, 180);
+		$resp = $this->logController->addPoint(
+			$token, $nameToken, 45.5, 3.4, null, 10000000001, null, null, null, null, 2, 180
+		);
 		$data = $resp->getData();
 		$this->assertEquals(1, $data['done']);
 
@@ -2012,9 +2048,12 @@ class PageNLogControllerTest extends TestCase {
 		$resp = $this->pageController->publicSessionWatch($publicviewtoken);
 
 		// COVERAGE OF addNameReservation
-		$resp = $this->logController->addPoint($token, 'futurRes', 45.5, 3.4, '', 10000000001, '', '', '', '', 2, 180);
-		$resp = $this->logController->addPoint($token, 'futurRes', 45.5, 3.4, '', 10000000001, '', '', '', 'browser', 2, 180);
-		$resp = $this->logController->addPoint($token, 'futurRes', '', 3.4, '', 10000000001, '', '', '', 'browser', 2, 180);
+		$resp = $this->logController->addPoint(
+			$token, 'futurRes', 45.5, 3.4, null, 10000000001, null, null, null, null, 2, 180
+		);
+		$resp = $this->logController->addPoint(
+			$token, 'futurRes', 45.5, 3.4, null, 10000000001, null, null, null, 'browser', 2, 180
+		);
 		$resp = $this->pageController->addNameReservation($token, 'futurRes');
 		$data = $resp->getData();
 		$done = $data['done'];

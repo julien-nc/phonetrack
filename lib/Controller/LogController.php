@@ -17,7 +17,7 @@ use Exception;
 
 use OCP\IConfig;
 use OCP\IDBConnection;
-use \OCP\IL10N;
+use OCP\IL10N;
 use OCP\Notification\IManager;
 use Psr\Log\LoggerInterface;
 
@@ -32,7 +32,7 @@ use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use Throwable;
 
-function DMStoDEC($dms, $longlat) {
+function DMStoDEC(string $dms, string $longlat): float {
 	if ($longlat === 'latitude') {
 		$deg = (int)substr($dms, 0, 3);
 		$min = (float)substr($dms, 3, 8);
@@ -46,12 +46,12 @@ function DMStoDEC($dms, $longlat) {
 	return $deg + ((($min * 60) + ($sec)) / 3600);
 }
 
-function startsWith(string $haystack, string $needle) {
+function startsWith(string $haystack, string $needle): bool {
 	$length = strlen($needle);
 	return (substr($haystack, 0, $length) === $needle);
 }
 
-function distance2(float $lat1, float $long1, float $lat2, float $long2) {
+function distance2(float $lat1, float $long1, float $lat2, float $long2): float {
 
 	if ($lat1 === $lat2 && $long1 === $long2){
 		return 0;
@@ -150,7 +150,7 @@ class LogController extends Controller {
 	/**
 	 * if devicename is not set to default value, we take it
 	 */
-	private function chooseDeviceName(?string $devicename, ?string $tid): string {
+	private function chooseDeviceName(?string $devicename, ?string $tid = null): string {
 		if ( (!in_array($devicename, $this->defaultDeviceName))
 			&& $devicename !== ''
 			&& (!is_null($devicename))
@@ -259,7 +259,7 @@ class LogController extends Controller {
 		return $dbname;
 	}
 
-	private function checkProxim(float $newLat, float $newLon, int $movingDevid, array $proxim, $userid,
+	private function checkProxim(float $newLat, float $newLon, int $movingDevid, array $proxim, string $userid,
 								 ?array $lastPoint, string $movingDeviceName, string $sessionToken) {
 		$highlimit = (int)$proxim['highlimit'];
 		$lowlimit = (int)$proxim['lowlimit'];
@@ -275,9 +275,8 @@ class LogController extends Controller {
 		}
 		$proximid = $proxim['id'];
 
-		$otherDeviceId = null;
 		// get the deviceid of other device
-		if (((int)$movingDevid) === ((int)$proxim['deviceid1'])) {
+		if (($movingDevid) === ((int)$proxim['deviceid1'])) {
 			$otherDeviceId = (int)$proxim['deviceid2'];
 		} else {
 			$otherDeviceId = (int)$proxim['deviceid1'];
@@ -301,7 +300,7 @@ class LogController extends Controller {
 				// devices are now close !
 
 				// if the observed device is 'deviceid2', then we might have the wrong userId
-				if (((int)$movingDevid) === ((int)$proxim['deviceid2'])) {
+				if (($movingDevid) === ((int)$proxim['deviceid2'])) {
 					$userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
 				}
 				$dev1name = $movingDeviceName;
@@ -354,8 +353,7 @@ class LogController extends Controller {
 
 							$this->notificationManager->notify($notification);
 						}
-					}
-					catch (\Exception $e) {
+					} catch (Exception $e) {
 						$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
 					}
 				}
@@ -396,7 +394,7 @@ class LogController extends Controller {
 										])
 									);
 									$mailer->send($message);
-								} catch (\Exception $e) {
+								} catch (Exception $e) {
 									$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, ['app' => $this->appName]);
 								}
 							}
@@ -408,7 +406,7 @@ class LogController extends Controller {
 					if ($urlclosepost === 0) {
 						try {
 							$xml = file_get_contents($urlclose);
-						} catch (\Exception $e) {
+						} catch (Exception $e) {
 							$this->ncLogger->warning('Error during PhoneTrack proxim URL query : '.$e, array('app' => $this->appName));
 						}
 					} else {
@@ -429,7 +427,7 @@ class LogController extends Controller {
 							$context  = stream_context_create($options);
 							$result = file_get_contents($url, false, $context);
 						}
-						catch (\Exception $e) {
+						catch (Exception $e) {
 							$this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, ['app' => $this->appName]);
 						}
 					}
@@ -438,7 +436,7 @@ class LogController extends Controller {
 				// devices are now far !
 
 				// if the observed device is 'deviceid2', then we might have the wrong userId
-				if (((int)$movingDevid) === ((int)$proxim['deviceid2'])) {
+				if (($movingDevid) === ((int)$proxim['deviceid2'])) {
 					$userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
 				}
 				$dev1name = $movingDeviceName;
@@ -491,7 +489,7 @@ class LogController extends Controller {
 
 							$this->notificationManager->notify($notification);
 						}
-					} catch (\Exception $e) {
+					} catch (Exception $e) {
 						$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
 					}
 				}
@@ -531,7 +529,7 @@ class LogController extends Controller {
 										])
 									);
 									$mailer->send($message);
-								} catch (\Exception $e) {
+								} catch (Exception $e) {
 									$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, ['app' => $this->appName]);
 								}
 							}
@@ -543,7 +541,7 @@ class LogController extends Controller {
 					if ($urlfarpost === 0) {
 						try {
 							$xml = file_get_contents($urlfar);
-						} catch (\Exception $e) {
+						} catch (Exception $e) {
 							$this->ncLogger->warning('Error during PhoneTrack proxim URL query : ' . $e, ['app' => $this->appName]);
 						}
 					} else {
@@ -563,7 +561,7 @@ class LogController extends Controller {
 							];
 							$context  = stream_context_create($options);
 							$result = file_get_contents($url, false, $context);
-						} catch (\Exception $e) {
+						} catch (Exception $e) {
 							$this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, ['app' => $this->appName]);
 						}
 					}
@@ -705,7 +703,7 @@ class LogController extends Controller {
 								$this->notificationManager->notify($notification);
 							}
 						}
-						catch (\Exception $e) {
+						catch (Exception $e) {
 							$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
 						}
 					}
@@ -739,7 +737,7 @@ class LogController extends Controller {
 										);
 										$mailer->send($message);
 									}
-									catch (\Exception $e) {
+									catch (Exception $e) {
 										$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
 									}
 								}
@@ -753,7 +751,7 @@ class LogController extends Controller {
 							try {
 								$xml = file_get_contents($urlenter);
 							}
-							catch (\Exception $e) {
+							catch (Exception $e) {
 								$this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, array('app' => $this->appName));
 							}
 						}
@@ -775,7 +773,7 @@ class LogController extends Controller {
 								$context  = stream_context_create($options);
 								$result = file_get_contents($url, false, $context);
 							}
-							catch (\Exception $e) {
+							catch (Exception $e) {
 								$this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, array('app' => $this->appName));
 							}
 						}
@@ -835,7 +833,7 @@ class LogController extends Controller {
 								$this->notificationManager->notify($notification);
 							}
 						}
-						catch (\Exception $e) {
+						catch (Exception $e) {
 							$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
 						}
 					}
@@ -870,7 +868,7 @@ class LogController extends Controller {
 										);
 										$mailer->send($message);
 									}
-									catch (\Exception $e) {
+									catch (Exception $e) {
 										$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
 									}
 								}
@@ -884,7 +882,7 @@ class LogController extends Controller {
 							try {
 								$xml = file_get_contents($urlleave);
 							}
-							catch (\Exception $e) {
+							catch (Exception $e) {
 								$this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, array('app' => $this->appName));
 							}
 						}
@@ -906,7 +904,7 @@ class LogController extends Controller {
 								$context  = stream_context_create($options);
 								$result = file_get_contents($url, false, $context);
 							}
-							catch (\Exception $e) {
+							catch (Exception $e) {
 								$this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, array('app' => $this->appName));
 							}
 						}
@@ -916,7 +914,8 @@ class LogController extends Controller {
 		}
 	}
 
-	private function checkQuota($deviceidToInsert, $userid, $devicename, $sessionname, $nbPointsToInsert=1) {
+	private function checkQuota(int $deviceidToInsert, string $userid, string $devicename, string $sessionname,
+								int $nbPointsToInsert = 1) {
 		$quota = (int)$this->config->getAppValue('phonetrack', 'pointQuota', '0');
 		if ($quota === 0) {
 			return true;
@@ -987,12 +986,7 @@ class LogController extends Controller {
 				}
 
 				// delete what we can
-				if ($count >= $nbExceedingPoints) {
-					$nbToDelete = $nbExceedingPoints;
-				}
-				else {
-					$nbToDelete = $count;
-				}
+				$nbToDelete = min($count, $nbExceedingPoints);
 				if ($nbToDelete > 0) {
 					if ($this->dbtype === 'pgsql') {
 						$sqldel = '
@@ -1003,8 +997,7 @@ class LogController extends Controller {
 								WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
 								ORDER BY timestamp ASC LIMIT '.$nbToDelete.'
 							);';
-					}
-					else {
+					} else {
 						$sqldel = '
 							 DELETE FROM *PREFIX*phonetrack_points
 							 WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
@@ -1045,8 +1038,7 @@ class LogController extends Controller {
 						$req->execute();
 						$req->closeCursor();
 					}
-				}
-				else {
+				} else {
 					$sqldel = '
 						DELETE FROM *PREFIX*phonetrack_points
 						WHERE *PREFIX*phonetrack_points.id IN
@@ -1070,12 +1062,13 @@ class LogController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addPoint($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing) {
+	public function addPoint(string $token, string $devicename, float $lat, float $lon, ?float $alt, ?int $timestamp,
+							 ?float $acc, ?float $bat, ?int $sat, ?string $useragent, ?float $speed, ?float $bearing) {
 		$done = 0;
 		$dbid = null;
 		$dbdevid = null;
 		if ($token !== '' && $devicename !== '') {
-			$logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, $useragent, $speed, $bearing);
+			$logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
 			if ($logres['done'] === 1) {
 				$sqlchk = '
 					SELECT id
@@ -1160,17 +1153,31 @@ class LogController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 *
+	 * @param string $token
+	 * @param string $devicename
+	 * @param float $lat
+	 * @param float $lon
+	 * @param float|null $alt
+	 * @param int|null $timestamp
+	 * @param float|null $acc
+	 * @param int|null $bat
+	 * @param int|null $sat
+	 * @param string|null $useragent
+	 * @param float|null $speed
+	 * @param float|null $bearing
+	 * @param string|null $datetime
 	 * @return array;
-	 *
-	 **/
-	public function logPost($token, $devicename, $lat, $lon, $alt, ?int $timestamp, $acc, $bat, $sat, $useragent,
-							$speed = null, $bearing = null, ?string $datetime = null) {
+	 * @throws \Doctrine\DBAL\Exception
+	 * @throws \OCP\DB\Exception
+	 */
+	public function logPost(string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
+							?int $timestamp = null, ?float $acc = null, ?int $bat = null, ?int $sat = null,
+							?string $useragent = '', ?float $speed = null, ?float $bearing = null,
+							?string $datetime = null) {
 		$res = ['done' => 0, 'friends' => []];
 		// TODO insert speed and bearing in m/s and degrees
-		if (!is_null($devicename) && $devicename !== '' &&
-			!is_null($token) && $token !== '' &&
-			!is_null($lat) && $lat !== '' && is_numeric($lat) &&
-			!is_null($lon) && $lon !== '' && is_numeric($lon) &&
+		if ($devicename !== '' &&
+			$token !== '' &&
 			(!is_null($timestamp) || !is_null($datetime))
 		) {
 			// check if session exists
@@ -1249,7 +1256,7 @@ class LogController extends Controller {
 					$req = $this->dbconnection->prepare($sqlgetres);
 					$req->execute();
 					while ($row = $req->fetch()){
-						$dbdeviceid = $row['id'];
+						$dbdeviceid = (int)$row['id'];
 						$dbdevicename = $row['name'];
 						$dbdevicealias = $row['alias'];
 						$dbdevicenametoken = $row['nametoken'];
@@ -1305,12 +1312,10 @@ class LogController extends Controller {
 							$deviceidToInsert = $dbdeviceid;
 							if (!empty($dbdevicealias)) {
 								$humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
-							}
-							else {
+							} else {
 								$humanReadableDeviceName = $dbdevicename;
 							}
-						}
-						else {
+						} else {
 							// device does not exist and there is no reservation corresponding
 							// => we create it
 							$sql = '
@@ -1375,8 +1380,8 @@ class LogController extends Controller {
 					}
 
 					// geofences, proximity alerts, quota
-					$this->checkGeoFences((float)$lat, (float)$lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
-					$this->checkProxims((float)$lat, (float)$lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+					$this->checkGeoFences($lat, $lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+					$this->checkProxims($lat, $lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
 					$quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
 
 					if (!$quotaClearance) {
@@ -1496,16 +1501,19 @@ class LogController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 *
-	 * @return array;
-	 *
-	 **/
-	public function logPostMultiple($token, $devicename, $points) {
+	 * @param string $token
+	 * @param string $devicename
+	 * @param array $points
+	 * @return array
+	 * @throws \Doctrine\DBAL\Exception
+	 * @throws \OCP\DB\Exception
+	 */
+	public function logPostMultiple(string $token, string $devicename, array $points) {
 		$res = [
 			'done' => 0,
 			'friends' => [],
 		];
-		if (!is_null($devicename) && $devicename !== '' &&
-			!is_null($token) && $token !== '') {
+		if ($devicename !== '' && $token !== '') {
 			// check if session exists
 			$sqlchk = '
 				SELECT `name`, `user`, `public`, `locked`
@@ -1638,12 +1646,10 @@ class LogController extends Controller {
 							$deviceidToInsert = $dbdeviceid;
 							if (!empty($dbdevicealias)) {
 								$humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
-							}
-							else {
+							} else {
 								$humanReadableDeviceName = $dbdevicename;
 							}
-						}
-						else {
+						} else {
 							// device does not exist and there is no reservation corresponding
 							// => we create it
 							$sql = '
@@ -1704,19 +1710,16 @@ class LogController extends Controller {
 						$speed      = $point[8];
 						$bearing    = $point[9];
 
-						if (!is_null($devicename) && $devicename !== ''
-							&& !is_null($token) && $token !== ''
-							&& !is_null($lat) && $lat !== '' && is_numeric($lat)
-							&& !is_null($lon) && $lon !== '' && is_numeric($lon)
-							&& !is_null($timestamp) && $timestamp !== '' && is_numeric($timestamp)
+						if ($devicename !== ''
+							&& $token !== ''
+							&& $lat !== '' && is_numeric($lat)
+							&& $lon !== '' && is_numeric($lon)
+							&& $timestamp !== '' && is_numeric($timestamp)
 						) {
 							// correct timestamp if needed
-							$time = $timestamp;
-							if (is_numeric($time)) {
-								$time = (float)$time;
-								if ($time > 10000000000.0) {
-									$time = $time / 1000;
-								}
+							$time = (float)$timestamp;
+							if ($time > 10000000000.0) {
+								$time = $time / 1000;
 							}
 
 							$lat        = $this->db_quote_escape_string(number_format($lat, 8, '.', ''));
@@ -1790,7 +1793,7 @@ class LogController extends Controller {
 						$friendReq = $this->dbconnection->prepare($friendSQL);
 						$friendReq->execute([$token]);
 						$result = [];
-						while ($row = $friendReq->fetch()){
+						while ($row = $friendReq->fetch()) {
 							// we don't store the tid, so we fall back to the last
 							// two chars of the nametoken
 							// TODO feels far from unique, currently 32 ids max
@@ -1837,8 +1840,7 @@ class LogController extends Controller {
 						}
 						$res['friends'] = $result;
 					}
-				}
-				else {
+				} else {
 					$res['done'] = 3;
 				}
 			}
@@ -1852,9 +1854,11 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logGet($token, $devicename, $lat, $lon, ?int $timestamp, $bat, $sat, $acc, $alt,
-						   $speed = null, $bearing = null, ?string $datetime = null, string $useragent = 'unknown GET logger') {
-		$dname = $this->chooseDeviceName($devicename, null);
+	public function logGet(string $token, string $devicename, float $lat, float $lon, ?int $timestamp, ?float $bat = null,
+						   ?int $sat = null, ?float $acc = null, ?float $alt = null,
+						   ?float $speed = null, ?float $bearing = null, ?string $datetime = null,
+						   string $useragent = 'unknown GET logger') {
+		$dname = $this->chooseDeviceName($devicename);
 		return $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing, $datetime);
 	}
 
@@ -1864,9 +1868,11 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logLocusmapGet($token, $devicename, $lat, $lon, $time, $battery, $acc, $alt, $speed, $bearing) {
-		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $time ? (int)$time : null, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+	public function logLocusmapGet(string $token, string $devicename, float $lat, float $lon, ?int $time = null,
+								   ?float $battery = null, ?float $acc = null, ?float $alt = null,
+								   ?float $speed = null, ?float $bearing = null) {
+		$dname = $this->chooseDeviceName($devicename);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
 	}
 
 	/**
@@ -1875,9 +1881,11 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logLocusmapPost($token, $devicename, $lat, $lon, $time, $battery, $acc, $alt, $speed, $bearing) {
-		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $time ? (int)$time : null, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+	public function logLocusmapPost(string $token, string $devicename, float $lat, float $lon, ?int $time = null,
+									?float $battery = null, ?float $acc = null, ?float $alt = null,
+									?float $speed = null, ?float $bearing = null) {
+		$dname = $this->chooseDeviceName($devicename);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
 	}
 
 	/**
@@ -1886,9 +1894,11 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logOsmand($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed=null, $bearing=null) {
-		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
+	public function logOsmand(string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
+							  ?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
+							  ?float $speed = null, ?float $bearing = null) {
+		$dname = $this->chooseDeviceName($devicename);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
 	}
 
 	/**
@@ -1897,9 +1907,11 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logGpsloggerGet($token, $devicename, $lat, $lon, $timestamp, $bat, $sat, $acc, $alt, $speed=null, $bearing=null) {
-		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
+	public function logGpsloggerGet(string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
+									?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
+									?float $speed = null, ?float $bearing = null) {
+		$dname = $this->chooseDeviceName($devicename);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
 	}
 
 	/**
@@ -1908,9 +1920,11 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logGpsloggerPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $speed=null, $bearing=null) {
-		$dname = $this->chooseDeviceName($devicename, null);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp ? (int)$timestamp : null, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
+	public function logGpsloggerPost(string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
+									 ?int $timestamp = null, ?float $acc = null, ?float $bat = null, $sat = null,
+									 ?float $speed = null, ?float $bearing = null) {
+		$dname = $this->chooseDeviceName($devicename);
+		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
 	}
 
 	/**
@@ -1919,22 +1933,21 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 * Owntracks IOS
-	 *
 	 * @param string $token
-	 * @param string $devicename
-	 * @param string $tid
 	 * @param float $lat
 	 * @param float $lon
-	 * @param float $alt
-	 * @param int $tst
-	 * @param float $acc
-	 * @param float $batt
-	 *
-	 * @return array;
-	 **/
-	public function logOwntracks($token, $devicename, $tid, $lat, $lon, $alt, $tst, $acc, $batt) {
+	 * @param string|null $devicename
+	 * @param string|null $tid
+	 * @param float|null $alt
+	 * @param int|null $tst
+	 * @param float|null $acc
+	 * @param float|null $batt
+	 * @return mixed
+	 */
+	public function logOwntracks(string $token, float $lat, float $lon, ?string $devicename = null, ?string $tid = null,
+								 ?float $alt = null, ?int $tst = null, ?float $acc = null, ?float $batt = null) {
 		$dname = $this->chooseDeviceName($devicename, $tid);
-		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst ? (int)$tst : null, $acc, $batt, null, self::LOG_OWNTRACKS);
+		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
 		return $res['friends'];
 	}
 
@@ -1945,7 +1958,7 @@ class LogController extends Controller {
 	 *
 	 * Overland Ios
 	 **/
-	public function logOverland($token, $devicename, $locations) {
+	public function logOverland(string $token, array $locations, ?string $devicename = null) {
 		foreach ($locations as $loc) {
 			if ($loc['type'] === 'Feature' && $loc['geometry']['type'] === 'Point') {
 				$dname = $this->chooseDeviceName($loc['properties']['device_id'] ?? '', $devicename);
@@ -1953,7 +1966,6 @@ class LogController extends Controller {
 				$lon = $loc['geometry']['coordinates'][0];
 				$datetime = new Datetime($loc['properties']['timestamp']);
 				$timestamp = $datetime->getTimestamp();
-				$alt = $loc['properties']['altitude'];
 				$acc = $loc['properties']['horizontal_accuracy'];
 				$bat = ((float)$loc['properties']['battery_level']) * 100;
 				$speed = $loc['properties']['speed'];
@@ -1963,7 +1975,7 @@ class LogController extends Controller {
 				$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat,'Overland', $speed, $bearing);
 			}
 		}
-		return array('result' => 'ok');
+		return ['result' => 'ok'];
 	}
 
 	/**
@@ -1973,13 +1985,17 @@ class LogController extends Controller {
 	 *
 	 * Ulogger Android
 	 **/
-	public function logUlogger($token, $devicename, $trackid, $lat, $lon, $time, $accuracy, $altitude,
-							   $pass, $user, $action, $speed=null, $bearing=null) {
+	public function logUlogger(string $token, float $lat, float $lon, ?int $time = null, ?string $devicename = null,
+							   ?float $accuracy = null, ?float $altitude = null,
+							   ?string $action = null, ?float $speed = null, ?float $bearing = null) {
 		if ($action === 'addpos') {
-			$dname = $this->chooseDeviceName($devicename, null);
-			$this->logPost($token, $dname, $lat, $lon, $altitude, $time ? (int)$time : null, $accuracy, null, null,'Ulogger', $speed, $bearing);
+			$dname = $this->chooseDeviceName($devicename);
+			$this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null,'Ulogger', $speed, $bearing);
 		}
-		return array("error" => false, "trackid" => 1);
+		return [
+			'error' => false,
+			'trackid' => 1,
+		];
 	}
 
 	/**
@@ -1989,15 +2005,17 @@ class LogController extends Controller {
 	 *
 	 * traccar Android/IOS
 	 **/
-	public function logTraccar($token, $devicename, $id, $lat, $lon, $timestamp, $accuracy, $altitude, $batt, $speed, $bearing) {
+	public function logTraccar(string $token, float $lat, float $lon, ?int $timestamp = null,
+							   ?string $devicename = null, ?string $id = null, ?float $accuracy = null,
+							   ?float $altitude = null, ?float $batt = null, ?float $speed = null, ?float $bearing = null) {
 		$dname = $this->chooseDeviceName($devicename, $id);
 		$speedp = $speed;
-		if (is_numeric($speed)) {
+		if ($speed !== null) {
 			// according to traccar sources, speed is converted in knots...
 			// convert back to meter/s
-			$speedp = ((float)$speed) / 1.943844;
+			$speedp = $speed / 1.943844;
 		}
-		$this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp ? (int)$timestamp : null, $accuracy, $batt, null, 'Traccar', $speedp, $bearing);
+		$this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, null, 'Traccar', $speedp, $bearing);
 	}
 
 	/**
@@ -2007,11 +2025,12 @@ class LogController extends Controller {
 	 *
 	 * any Opengts-compliant app
 	 **/
-	public function logOpengts($token, $devicename, $id, $dev, $acct, $alt, $batt, $gprmc) {
+	public function logOpengts(string $token, string $gprmc,
+							   ?string $devicename = null, ?string $id = null, ?float $alt = null, ?float $batt = null) {
 		$dname = $this->chooseDeviceName($devicename, $id);
 		$gprmca = explode(',', $gprmc);
-		$time = sprintf("%06d", (int)$gprmca[1]);
-		$date = sprintf("%06d", (int)$gprmca[9]);
+		$time = sprintf('%06d', (int)$gprmca[1]);
+		$date = sprintf('%06d', (int)$gprmca[9]);
 		$datetime = DateTime::createFromFormat('dmy His', $date.' '.$time);
 		$timestamp = $datetime->getTimestamp();
 		$lat = DMStoDEC(sprintf('%010.4f', (float)$gprmca[3]), 'latitude');
@@ -2036,5 +2055,4 @@ class LogController extends Controller {
 	public function logOpengtsPost($token, $devicename, $id, $dev, $acct, $alt, $batt, $gprmc) {
 		return [];
 	}
-
 }
