@@ -122,4 +122,28 @@ class SessionMapper extends QBMapper {
 
 		return null;
 	}
+
+	/**
+	 * @param string $token
+	 * @param array|null $filters
+	 * @return int
+	 * @throws Exception
+	 */
+	public function countPointsPerSession(string $token, ?array $filters = null): int {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_points')
+			->from('phonetrack_devices', 'dev')
+			->innerJoin('dev', 'phonetrack_points', 'poi', $qb->expr()->eq('dev.id', 'poi.deviceid'))
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token))
+			);
+
+		if ($filters !== null) {
+			$qb = DeviceMapper::applyQueryFilters($qb, $filters);
+		}
+
+		$req = $qb->executeQuery();
+		return (int) $req->fetchOne();
+	}
 }

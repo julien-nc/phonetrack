@@ -1784,13 +1784,15 @@ class PageController extends Controller {
 		$geofences = [];
 		$proxims = [];
 		// manage sql optim filters (time only)
-		$fArray = $this->sessionService->getCurrentFilters($this->userId);
+		$filters = $this->sessionService->getCurrentFilters2($this->userId);
 		$settingsTimeFilterSQL = '';
-		if (isset($fArray['tsmin'])) {
-			$settingsTimeFilterSQL .= 'AND timestamp >= '.$this->db_quote_escape_string($fArray['tsmin']).' ';
-		}
-		if (isset($fArray['tsmax'])) {
-			$settingsTimeFilterSQL .= 'AND timestamp <= '.$this->db_quote_escape_string($fArray['tsmax']).' ';
+		if (isset($filters['timestamp'])) {
+			if (isset($filters['timestamp']['min'])) {
+				$settingsTimeFilterSQL .= 'AND timestamp >= ' . $this->db_quote_escape_string($filters['timestamp']['min']) . ' ';
+			}
+			if (isset($filters['timestamp']['max'])) {
+				$settingsTimeFilterSQL .= 'AND timestamp <= '.$this->db_quote_escape_string($filters['timestamp']['max']).' ';
+			}
 		}
 		// get option value
 		$nbpointsload = $this->config->getUserValue($this->userId, 'phonetrack', 'nbpointsload', '10000');
@@ -2415,17 +2417,17 @@ class PageController extends Controller {
 					while ($row = $req->fetch()){
 						if ($filters === null || $this->filterPoint($row, $filters)) {
 							$entry = [
-								intval($row['id']),
-								floatval($row['lat']),
-								floatval($row['lon']),
-								intval($row['timestamp']),
-								is_numeric($row['accuracy']) ? floatval($row['accuracy']) : null,
-								is_numeric($row['satellites']) ? intval($row['satellites']) : null,
-								is_numeric($row['altitude']) ? floatval($row['altitude']) : null,
-								is_numeric($row['batterylevel']) ? floatval($row['batterylevel']) : null,
+								(int) $row['id'],
+								(float)$row['lat'],
+								(float)$row['lon'],
+								(int)$row['timestamp'],
+								is_numeric($row['accuracy']) ? (float)$row['accuracy'] : null,
+								is_numeric($row['satellites']) ? (int)$row['satellites'] : null,
+								is_numeric($row['altitude']) ? (float)$row['altitude'] : null,
+								is_numeric($row['batterylevel']) ? (float)$row['batterylevel'] : null,
 								$row['useragent'],
-								is_numeric($row['speed']) ? floatval($row['speed']) : null,
-								is_numeric($row['bearing']) ? floatval($row['bearing']) : null
+								is_numeric($row['speed']) ? (float)$row['speed'] : null,
+								is_numeric($row['bearing']) ? (float)$row['bearing'] : null
 							];
 							array_unshift($resultDevArray, $entry);
 						}
@@ -3022,20 +3024,20 @@ class PageController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function export($name, $token, $target, $username='', $filterArray=null) {
+	public function export(string $name, string $token, string $target, string $username = '', ?array $filterArray = null) {
 	$warning = 0;
 	$done = false;
 		if ($this->userId !== null && $this->userId !== '') {
 			$userId = $this->userId;
-		$doneAndWarning = $this->sessionService->export($name, $token, $target, $userId, $filterArray);
-		$done = $doneAndWarning[0];
-		$warning = $doneAndWarning[1];
+			$doneAndWarning = $this->sessionService->export($name, $token, $target, $userId, $filterArray);
+			$done = $doneAndWarning[0];
+			$warning = $doneAndWarning[1];
 		}
 
 		$response = new DataResponse(
 			[
-				'done'=>$done,
-				'warning'=>$warning
+				'done' => $done,
+				'warning' => $warning,
 			]
 		);
 		$csp = new ContentSecurityPolicy();
@@ -3046,7 +3048,7 @@ class PageController extends Controller {
 		return $response;
 	}
 
-	private function filterPoint($p, $fArray) {
+	private function filterPoint($p, $fArray): bool {
 		return (
 				(!array_key_exists('tsmin', $fArray) || intval($p['timestamp']) >= $fArray['tsmin'])
 			and (!array_key_exists('tsmax', $fArray) || intval($p['timestamp']) <= $fArray['tsmax'])
@@ -3194,7 +3196,7 @@ class PageController extends Controller {
 	 * Used to build public tokens with filters (then accessed by publicWatchUrl)
 	 * @NoAdminRequired
 	 */
-	public function addPublicShare($token, $ignoreFilters=false) {
+	public function addPublicShare(string $token, bool $ignoreFilters = false) {
 		$ok = 0;
 		$filters = '';
 		$sharetoken = '';
@@ -3202,14 +3204,14 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name, token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbconnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		$dbtoken = null;
 		$sharetoken = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
 			break;
