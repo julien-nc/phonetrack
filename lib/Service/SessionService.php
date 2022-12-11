@@ -433,81 +433,84 @@ class SessionService {
 		if (array_key_exists('applyfilters', $f) && $f['applyfilters'] === 'true') {
 			$fArray = array();
 			if (array_key_exists('datemin', $f) && $f['datemin'] !== '') {
-				$hourmin =   (array_key_exists('hourmin', $f)   && $f['hourmin']   !== '') ? intval($f['hourmin']) : 0;
-				$minutemin = (array_key_exists('minutemin', $f) && $f['minutemin'] !== '') ? intval($f['minutemin']) : 0;
-				$secondmin = (array_key_exists('secondmin', $f) && $f['secondmin'] !== '') ? intval($f['secondmin']) : 0;
-				$fArray['tsmin'] = intval($f['datemin']) + 3600*$hourmin + 60*$minutemin + $secondmin;
+				$hourmin =   (array_key_exists('hourmin', $f)   && $f['hourmin']   !== '') ? (int)$f['hourmin'] : 0;
+				$minutemin = (array_key_exists('minutemin', $f) && $f['minutemin'] !== '') ? (int)$f['minutemin'] : 0;
+				$secondmin = (array_key_exists('secondmin', $f) && $f['secondmin'] !== '') ? (int)$f['secondmin'] : 0;
+				$fArray['tsmin'] = ((int)$f['datemin']) + (3600 * $hourmin) + (60 * $minutemin) + $secondmin;
 			}
 			else {
-				if (    array_key_exists('hourmin', $f)   && $f['hourmin'] !== ''
-					and array_key_exists('minutemin', $f) && $f['minutemin'] !== ''
-					and array_key_exists('secondmin', $f) && $f['secondmin'] !== ''
+				if (   array_key_exists('hourmin', $f)   && $f['hourmin'] !== ''
+					&& array_key_exists('minutemin', $f) && $f['minutemin'] !== ''
+					&& array_key_exists('secondmin', $f) && $f['secondmin'] !== ''
 				) {
 					$dtz = ini_get('date.timezone');
 					if ($dtz === '') {
 						$dtz = 'UTC';
 					}
 					date_default_timezone_set($dtz);
-					$now = new \DateTime();
+					$now = new DateTime();
 					$y = $now->format('Y');
 					$m = $now->format('m');
 					$d = $now->format('d');
 					$h = intval($f['hourmin']);
 					$mi = intval($f['minutemin']);
 					$s = intval($f['secondmin']);
-					$dmin = new \DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
+					$dmin = new DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
 					$fArray['tsmin'] = $dmin->getTimestamp();
 				}
 			}
 			if (array_key_exists('datemax', $f) && $f['datemax'] !== '') {
-				$hourmax =   (array_key_exists('hourmax', $f)   && $f['hourmax'] !== '')   ? intval($f['hourmax']) : 23;
-				$minutemax = (array_key_exists('minutemax', $f) && $f['minutemax'] !== '') ? intval($f['minutemax']) : 59;
-				$secondmax = (array_key_exists('secondmax', $f) && $f['secondmax'] !== '') ? intval($f['secondmax']) : 59;
-				$fArray['tsmax'] = intval($f['datemax']) + 3600*$hourmax + 60*$minutemax + $secondmax;
-			}
-			else {
-				if (    array_key_exists('hourmax', $f)   && $f['hourmax'] !== ''
-					and array_key_exists('minutemax', $f) && $f['minutemax'] !== ''
-					and array_key_exists('secondmax', $f) && $f['secondmax'] !== ''
+				$hourmax =   (array_key_exists('hourmax', $f)   && $f['hourmax'] !== '')   ? (int)$f['hourmax'] : 23;
+				$minutemax = (array_key_exists('minutemax', $f) && $f['minutemax'] !== '') ? (int)$f['minutemax'] : 59;
+				$secondmax = (array_key_exists('secondmax', $f) && $f['secondmax'] !== '') ? (int)$f['secondmax'] : 59;
+				$fArray['tsmax'] = ((int)$f['datemax']) + (3600 * $hourmax) + (60 * $minutemax) + $secondmax;
+			} else {
+				if (   array_key_exists('hourmax', $f)   && $f['hourmax'] !== ''
+					&& array_key_exists('minutemax', $f) && $f['minutemax'] !== ''
+					&& array_key_exists('secondmax', $f) && $f['secondmax'] !== ''
 				) {
 					$dtz = ini_get('date.timezone');
 					if ($dtz === '') {
 						$dtz = 'UTC';
 					}
 					date_default_timezone_set($dtz);
-					$now = new \DateTime();
+					$now = new DateTime();
 					$y = $now->format('Y');
 					$m = $now->format('m');
 					$d = $now->format('d');
 					$h = intval($f['hourmax']);
 					$mi = intval($f['minutemax']);
 					$s = intval($f['secondmax']);
-					$dmax = new \DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
+					$dmax = new DateTime($y . '-' . $m . '-' . $d . ' ' . $h . ':' . $mi . ':' . $s);
 					$fArray['tsmax'] = $dmax->getTimestamp();
 				}
 			}
 			date_default_timezone_set('UTC');
-			$lastTS = new \DateTime();
+			$lastTS = new DateTime();
 			$lastTS = $lastTS->getTimestamp();
 			$lastTSset = false;
 			if (array_key_exists('lastdays', $f) && $f['lastdays'] !== '') {
-				$lastTS = $lastTS - 24*3600*intval($f['lastdays']);
+				$lastTS = $lastTS - (24 * 3600 * (int)$f['lastdays']);
 				$lastTSset = true;
 			}
 			if (array_key_exists('lasthours', $f) && $f['lasthours'] !== '') {
-				$lastTS = $lastTS - 3600*intval($f['lasthours']);
+				$lastTS = $lastTS - (3600 * (int)$f['lasthours']);
 				$lastTSset = true;
 			}
 			if (array_key_exists('lastmins', $f) && $f['lastmins'] !== '') {
-				$lastTS = $lastTS - 60*intval($f['lastmins']);
+				$lastTS = $lastTS - (60 * (int)$f['lastmins']);
 				$lastTSset = true;
 			}
-			if ($lastTSset && (!array_key_exists('tsmin', $fArray) or $lastTS > $fArray['tsmin'])) {
+			if ($lastTSset && (!array_key_exists('tsmin', $fArray) || $lastTS > $fArray['tsmin'])) {
 				$fArray['tsmin'] = $lastTS;
 			}
-			foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays', 'lasthours', 'lastmins'] as $k) {
+			foreach ([
+				'elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax',
+				'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays',
+				'lasthours', 'lastmins',
+			 ] as $k) {
 				if (array_key_exists($k, $f) && $f[$k] !== '') {
-					$fArray[$k] = intval($f[$k]);
+					$fArray[$k] = (int)$f[$k];
 				}
 			}
 		}
@@ -519,20 +522,20 @@ class SessionService {
 		$sql = '';
 		if ($fArray !== null) {
 			$cond = array();
-			if (array_key_exists('tsmin', $fArray)) { array_push($cond, 'timestamp >= '.$this->db_quote_escape_string($fArray['tsmin'])); }
-			if (array_key_exists('tsmax', $fArray)) { array_push($cond, 'timestamp <= '.$this->db_quote_escape_string($fArray['tsmax'])); }
-			if (array_key_exists('elevationmax', $fArray)) { array_push($cond, 'altitude <= '.$this->db_quote_escape_string($fArray['elevationmax'])); }
-			if (array_key_exists('elevationmin', $fArray)) { array_push($cond, 'altitude >= '.$this->db_quote_escape_string($fArray['elvationmin'])); }
-			if (array_key_exists('accuracymax', $fArray)) { array_push($cond, 'accuracy <= '.$this->db_quote_escape_string($fArray['accuracymax'])); }
-			if (array_key_exists('accuracymin', $fArray)) { array_push($cond, 'accuracy >= '.$this->db_quote_escape_string($fArray['accuracymin'])); }
-			if (array_key_exists('satellitesmax', $fArray)) { array_push($cond, 'satellites <= '.$this->db_quote_escape_string($fArray['satellitesmax'])); }
-			if (array_key_exists('satellitesmin', $fArray)) { array_push($cond, 'satellites >= '.$this->db_quote_escape_string($fArray['satellitesmin'])); }
-			if (array_key_exists('batterymax', $fArray)) { array_push($cond, 'batterylevel <= '.$this->db_quote_escape_string($fArray['batterymax'])); }
-			if (array_key_exists('batterymin', $fArray)) { array_push($cond, 'batterylevel >= '.$this->db_quote_escape_string($fArray['batterymin'])); }
-			if (array_key_exists('speedmax', $fArray)) { array_push($cond, 'speed <= '.$this->db_quote_escape_string($fArray['speedmax'])); }
-			if (array_key_exists('speedmin', $fArray)) { array_push($cond, 'speed >= '.$this->db_quote_escape_string($fArray['speedmin'])); }
-			if (array_key_exists('bearingmax', $fArray)) { array_push($cond, 'bearing <= '.$this->db_quote_escape_string($fArray['bearingmax'])); }
-			if (array_key_exists('bearingmin', $fArray)) { array_push($cond, 'bearing >= '.$this->db_quote_escape_string($fArray['bearingmin'])); }
+			if (array_key_exists('tsmin', $fArray)) { $cond[] = 'timestamp >= ' . $this->db_quote_escape_string($fArray['tsmin']); }
+			if (array_key_exists('tsmax', $fArray)) { $cond[] = 'timestamp <= ' . $this->db_quote_escape_string($fArray['tsmax']); }
+			if (array_key_exists('elevationmax', $fArray)) { $cond[] = 'altitude <= ' . $this->db_quote_escape_string($fArray['elevationmax']); }
+			if (array_key_exists('elevationmin', $fArray)) { $cond[] = 'altitude >= ' . $this->db_quote_escape_string($fArray['elvationmin']); }
+			if (array_key_exists('accuracymax', $fArray)) { $cond[] = 'accuracy <= ' . $this->db_quote_escape_string($fArray['accuracymax']); }
+			if (array_key_exists('accuracymin', $fArray)) { $cond[] = 'accuracy >= ' . $this->db_quote_escape_string($fArray['accuracymin']); }
+			if (array_key_exists('satellitesmax', $fArray)) { $cond[] = 'satellites <= ' . $this->db_quote_escape_string($fArray['satellitesmax']); }
+			if (array_key_exists('satellitesmin', $fArray)) { $cond[] = 'satellites >= ' . $this->db_quote_escape_string($fArray['satellitesmin']); }
+			if (array_key_exists('batterymax', $fArray)) { $cond[] = 'batterylevel <= ' . $this->db_quote_escape_string($fArray['batterymax']); }
+			if (array_key_exists('batterymin', $fArray)) { $cond[] = 'batterylevel >= ' . $this->db_quote_escape_string($fArray['batterymin']); }
+			if (array_key_exists('speedmax', $fArray)) { $cond[] = 'speed <= ' . $this->db_quote_escape_string($fArray['speedmax']); }
+			if (array_key_exists('speedmin', $fArray)) { $cond[] = 'speed >= ' . $this->db_quote_escape_string($fArray['speedmin']); }
+			if (array_key_exists('bearingmax', $fArray)) { $cond[] = 'bearing <= ' . $this->db_quote_escape_string($fArray['bearingmax']); }
+			if (array_key_exists('bearingmin', $fArray)) { $cond[] = 'bearing >= ' . $this->db_quote_escape_string($fArray['bearingmin']); }
 			$sql = implode(' AND ', $cond);
 		}
 		return $sql;
@@ -572,7 +575,7 @@ class SessionService {
 
 	private function generateGpxHeader($name, $nbdev=0) {
 		date_default_timezone_set('UTC');
-		$dt = new \DateTime();
+		$dt = new DateTime();
 		$date = $dt->format('Y-m-d\TH:i:s\Z');
 		$gpxText = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>' . "\n";
 		$gpxText .= '<gpx xmlns="http://www.topografix.com/GPX/1/1"' .
@@ -643,8 +646,8 @@ class SessionService {
 				$epoch = $row['timestamp'];
 				$date = '';
 				if (is_numeric($epoch)) {
-					$epoch = intval($epoch);
-					$dt = new \DateTime("@$epoch");
+					$epoch = (int)$epoch;
+					$dt = new DateTime("@$epoch");
 					$date = $dt->format('Y-m-d\TH:i:s\Z');
 				}
 				$lat = $row['lat'];
