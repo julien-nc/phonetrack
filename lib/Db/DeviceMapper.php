@@ -34,4 +34,27 @@ class DeviceMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
+	public function findBySessionId(string $sessionId) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntities($qb);
+	}
+
+	public function deletePointsOlderThan(int $deviceId, int $timestamp) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('phonetrack_points')
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->lt('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+	}
 }

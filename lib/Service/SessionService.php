@@ -12,6 +12,15 @@
 
 namespace OCA\PhoneTrack\Service;
 
+use DateTime;
+use OC\Files\Node\File;
+use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\Session;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\Files\Folder;
+use OCP\Files\IRootFolder;
+use OCP\IDBConnection;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -26,21 +35,32 @@ class SessionService {
 
 	private $l10n;
 	private $logger;
-	private $qb;
-	private $dbconnection;
+	/**
+	 * @var IDBConnection
+	 */
+	private $db;
+	/**
+	 * @var IRootFolder
+	 */
+	private $root;
+	/**
+	 * @var DeviceMapper
+	 */
+	private $deviceMapper;
 
 	public function __construct (
 		LoggerInterface $logger,
 		IL10N $l10n,
 		SessionMapper $sessionMapper,
+		DeviceMapper $deviceMapper,
 		IUserManager $userManager,
 		IGroupManager $groupManager,
+		IDBConnection $db,
+		IRootFolder $root,
 		IConfig $config
 	) {
 		$this->l10n = $l10n;
 		$this->logger = $logger;
-		$this->qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$this->dbconnection = \OC::$server->getDatabaseConnection();
 		$this->sessionMapper = $sessionMapper;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -53,11 +73,14 @@ class SessionService {
 		else{
 			$this->dbdblquotes = '';
 		}
-		$this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
+		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
+		$this->db = $db;
+		$this->root = $root;
+		$this->deviceMapper = $deviceMapper;
 	}
 
 	private function db_quote_escape_string($str){
-		return $this->dbconnection->quote($str);
+		return $this->db->quote($str);
 	}
 
 	public function findUsers($id) {
@@ -68,7 +91,7 @@ class SessionService {
 
 		// get user shares from session token
 		$token = $session->getToken();
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->select('username')
 			->from('phonetrack_shares', 's')
 			->where(
@@ -86,20 +109,19 @@ class SessionService {
 		return $userIds;
 	}
 
-	private function getOrCreateExportDir($userId) {
+	private function getOrCreateExportDir($userId): Folder {
 		$dir = null;
-		$userFolder = \OC::$server->getUserFolder($userId);
+		$userFolder = $this->root->getUserFolder($userId);
 
-		$dirpath = $this->config->getUserValue($userId, 'phonetrack', 'autoexportpath', '/PhoneTrack_export');
+		$dirpath = $this->config->getUserValue($userId, Application::APP_ID, 'autoexportpath', '/PhoneTrack_export');
 
 		if ($userFolder->nodeExists($dirpath)){
 			$tmp = $userFolder->get($dirpath);
-			if ($tmp->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
-				$tmp->isCreatable()){
+			if ($tmp instanceof Folder
+				&& $tmp->isCreatable()){
 				$dir = $tmp;
 			}
-		}
-		else {
+		} else {
 			$userFolder->newFolder($dirpath);
 			$dir = $userFolder->get($dirpath);
 		}
@@ -108,45 +130,24 @@ class SessionService {
 
 	private function cronAutoPurge() {
 		date_default_timezone_set('UTC');
-		foreach (array('day'=>'1', 'week'=>'7', 'month'=>'31') as $s => $nbDays) {
-			$now = new \DateTime();
-			$now->modify('-'.$nbDays.' day');
+		foreach (['day' => '1', 'week' => '7', 'month' => '31'] as $s => $nbDays) {
+			$now = new DateTime();
+			$now->modify('-' . $nbDays . ' day');
 			$ts = $now->getTimestamp();
 
 			// get all sessions with this auto purge value
-			$sessions = array();
-			$sqlget = '
-				SELECT token FROM *PREFIX*phonetrack_sessions
-				WHERE autopurge='.$this->db_quote_escape_string($s).' ;';
-			$req = $this->dbconnection->prepare($sqlget);
-			$req->execute();
-			while ($row = $req->fetch()){
-				array_push($sessions, $row['token']);
-			}
-			$req->closeCursor();
+			$sessions = $this->sessionMapper->findByAutoPurge($s);
 
-			$devices = array();
-			foreach ($sessions as $token) {
-				$sqlget = '
-					SELECT id
-					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
-				$req = $this->dbconnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()){
-					array_push($devices, $row['id']);
+			$deviceIds = [];
+			foreach ($sessions as $session) {
+				$sessionDevices = $this->deviceMapper->findBySessionId($session->getToken());
+				foreach ($sessionDevices as $device) {
+					$deviceIds[] = $device->getId();
 				}
-				$req->closeCursor();
 			}
 
-			foreach ($devices as $did) {
-				$sqldel = '
-					DELETE FROM *PREFIX*phonetrack_points
-					WHERE deviceid='.$this->db_quote_escape_string($did).'
-						  AND timestamp<'.$this->db_quote_escape_string($ts).' ;';
-				$req = $this->dbconnection->prepare($sqldel);
-				$req->execute();
-				$req->closeCursor();
+			foreach ($deviceIds as $deviceId) {
+				$this->deviceMapper->deletePointsOlderThan($deviceId, $ts);
 			}
 		}
 	}
@@ -166,82 +167,83 @@ class SessionService {
 		$userNames = [];
 
 		// last day
-		$now = new \DateTime();
+		$now = new DateTime();
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
 		$timestamp = $now->getTimestamp();
 
 		// get begining of today
-		$dateMaxDay = new \DateTime($y.'-'.$m.'-'.$d);
+		$dateMaxDay = new DateTime($y . '-' . $m . '-' . $d);
 		$maxDayTimestamp = $dateMaxDay->getTimestamp();
 		$minDayTimestamp = $maxDayTimestamp - 24*60*60;
 
 		$dateMaxDay->modify('-1 day');
-		$dailySuffix = '_daily_'.$dateMaxDay->format('Y-m-d');
+		$dailySuffix = '_daily_' . $dateMaxDay->format('Y-m-d');
 		//$dailySuffix = '_daily_'.$y.'-'.sprintf('%02d', intval($m)).'-'.sprintf('%02d', intval($d)-1);
 
 		// last week
-		$now = new \DateTime();
+		$now = new DateTime();
 		while (intval($now->format('N')) !== 1) {
 			$now->modify('-1 day');
 		}
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
-		$dateWeekMax = new \DateTime($y.'-'.$m.'-'.$d);
+		$dateWeekMax = new DateTime($y . '-' . $m . '-' . $d);
 		$maxWeekTimestamp = $dateWeekMax->getTimestamp();
-		$minWeekTimestamp = $maxWeekTimestamp - 7*24*60*60;
-		$dateWeekMin = new \DateTime($y.'-'.$m.'-'.$d);
+		$minWeekTimestamp = $maxWeekTimestamp - (7 * 24 * 60 * 60);
+		$dateWeekMin = new DateTime($y . '-' . $m . '-' . $d);
 		$dateWeekMin->modify('-7 day');
-		$weeklySuffix = '_weekly_'.$dateWeekMin->format('Y-m-d');
+		$weeklySuffix = '_weekly_' . $dateWeekMin->format('Y-m-d');
 
 		// last month
-		$now = new \DateTime();
+		$now = new DateTime();
 		while (intval($now->format('d')) !== 1) {
 			$now->modify('-1 day');
 		}
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
-		$dateMonthMax = new \DateTime($y.'-'.$m.'-'.$d);
+		$dateMonthMax = new DateTime($y . '-' . $m . '-' . $d);
 		$maxMonthTimestamp = $dateMonthMax->getTimestamp();
 		$now->modify('-1 day');
 		while (intval($now->format('d')) !== 1) {
 			$now->modify('-1 day');
 		}
-		$y = intval($now->format('Y'));
-		$m = intval($now->format('m'));
-		$d = intval($now->format('d'));
-		$dateMonthMin = new \DateTime($y.'-'.$m.'-'.$d);
+		$y = (int)$now->format('Y');
+		$m = (int)$now->format('m');
+		$d = (int)$now->format('d');
+		$dateMonthMin = new DateTime($y . '-' . $m . '-' . $d);
 		$minMonthTimestamp = $dateMonthMin->getTimestamp();
-		$monthlySuffix = '_monthly_'.$dateMonthMin->format('Y-m');
+		$monthlySuffix = '_monthly_' . $dateMonthMin->format('Y-m');
 
-		$weekFilterArray = array();
-		$weekFilterArray['tsmin'] = $minWeekTimestamp;
-		$weekFilterArray['tsmax'] = $maxWeekTimestamp;
-		$dayFilterArray = array();
-		$dayFilterArray['tsmin'] = $minDayTimestamp;
-		$dayFilterArray['tsmax'] = $maxDayTimestamp;
-		$monthFilterArray = array();
-		$monthFilterArray['tsmin'] = $minMonthTimestamp;
-		$monthFilterArray['tsmax'] = $maxMonthTimestamp;
+		$weekFilterArray = [
+			'tsmin' => $minWeekTimestamp,
+			'tsmax' => $maxWeekTimestamp,
+		];
+		$dayFilterArray = [
+			'tsmin' => $minDayTimestamp,
+			'tsmax' => $maxDayTimestamp,
+		];
+		$monthFilterArray = [
+			'tsmin' => $minMonthTimestamp,
+			'tsmax' => $maxMonthTimestamp,
+		];
 
 		date_default_timezone_set('UTC');
 
 		foreach($this->userManager->search('') as $u) {
-			$userName = $u->getUID();
+			$userId = $u->getUID();
+			$userFolder = $this->root->getUserFolder($userId);
 
-			$sqlget = '
-				SELECT name, token, autoexport
-				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userName).' ;';
-			$req = $this->dbconnection->prepare($sqlget);
-			$req->execute();
-			while ($row = $req->fetch()){
-				$dbname = $row['name'];
-				$dbtoken = $row['token'];
-				$dbexportType = $row['autoexport'];
+			/** @var Session[] $sessions */
+			$sessions = $this->sessionMapper->findByUser($userId);
+
+			foreach ($sessions as $session) {
+				$dbname = $session->getName();
+				$dbtoken = $session->getToken();
+				$dbexportType = $session->getAutoexport();
 				// export if autoexport is set
 				if ($dbexportType !== 'no') {
 					$suffix = $dailySuffix;
@@ -249,19 +251,18 @@ class SessionService {
 					if ($dbexportType === 'weekly') {
 						$suffix = $weeklySuffix;
 						$filterArray = $weekFilterArray;
-					}
-					else if ($dbexportType === 'monthly') {
+					} elseif ($dbexportType === 'monthly') {
 						$suffix = $monthlySuffix;
 						$filterArray = $monthFilterArray;
 					}
-					$dir = $this->getOrCreateExportDir($userName);
+					$dir = $this->getOrCreateExportDir($userId);
 					// check if file already exists
 					$exportName = $dbname.$suffix.'.gpx';
 
-					$rel_path = str_replace(\OC::$server->getUserFolder($userName)->getPath(), '', $dir->getPath());
+					$rel_path = str_replace($userFolder->getPath(), '', $dir->getPath());
 					$exportPath = $rel_path.'/'.$exportName;
-					if (! $dir->nodeExists($exportName)) {
-						$this->export($dbname, $dbtoken, $exportPath, $userName, $filterArray);
+					if (!$dir->nodeExists($exportName)) {
+						$this->export($dbname, $dbtoken, $exportPath, $userId, $filterArray);
 					}
 				}
 			}
@@ -271,23 +272,23 @@ class SessionService {
 		$this->cronAutoPurge();
 	}
 
-	public function export($name, $token, $target, $username='', $filterArray=null) {
+	public function export(string $name, string $token, string $target, string $username = '', ?array $filterArray = null) {
 		date_default_timezone_set('UTC');
 		$done = false;
 		$warning = 0;
 		$userFolder = null;
 		if ($username !== ''){
-			$userFolder = \OC::$server->getUserFolder($username);
+			$userFolder = $this->root->getUserFolder($username);
 			$userId = $username;
 		} else {
-				return [false, 0];
+			return [false, 0];
 		}
 		// get options to know if we should export one file per device
-		$ofpd = $this->config->getUserValue($userId, 'phonetrack', 'exportoneperdev', 'false');
+		$ofpd = $this->config->getUserValue($userId, Application::APP_ID, 'exportoneperdev', 'false');
 		$oneFilePerDevice = ($ofpd === 'true');
 
 		$path = $target;
-		$cleanpath = str_replace(array('../', '..\\'), '',  $path);
+		$cleanpath = str_replace(['../', '..\\'], '',  $path);
 
 		if ($userFolder !== null) {
 			$file = null;
@@ -295,28 +296,23 @@ class SessionService {
 			$dirpath = dirname($cleanpath);
 			$newFileName = basename($cleanpath);
 			if ($oneFilePerDevice) {
-				if ($userFolder->nodeExists($dirpath)){
+				if ($userFolder->nodeExists($dirpath)) {
 					$dir = $userFolder->get($dirpath);
-					if ($dir->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
-						$dir->isCreatable()){
+					if ($dir instanceof Folder && $dir->isCreatable()) {
 						$filePossible = true;
 					}
 				}
-			}
-			else {
+			} else {
 				if ($userFolder->nodeExists($cleanpath)){
 					$dir = $userFolder->get($dirpath);
 					$file = $userFolder->get($cleanpath);
-					if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
-						$file->isUpdateable()){
+					if ($file instanceof File && $file->isUpdateable()) {
 						$filePossible = true;
 					}
-				}
-				else{
+				} else {
 					if ($userFolder->nodeExists($dirpath)){
 						$dir = $userFolder->get($dirpath);
-						if ($dir->getType() === \OCP\Files\FileInfo::TYPE_FOLDER and
-							$dir->isCreatable()){
+						if ($dir instanceof Folder && $dir->isCreatable()) {
 							$filePossible = true;
 						}
 					}
@@ -325,53 +321,37 @@ class SessionService {
 
 			if ($filePossible) {
 				// check if session exists
-				$dbtoken = null;
-				$sqlget = '
-					SELECT token
-					FROM *PREFIX*phonetrack_sessions
-					WHERE name='.$this->db_quote_escape_string($name).'
-						  AND token='.$this->db_quote_escape_string($token).' ;';
-				$req = $this->dbconnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()){
-					$dbtoken = $row['token'];
+				try {
+					$dbSession = $this->sessionMapper->findByToken($token);
+					$found = true;
+				} catch (DoesNotExistException $e) {
+					$found = false;
 				}
-				$req->closeCursor();
 
 				// if not, check it is a shared session
-				if ($dbtoken === null) {
-					$sqlget = '
-						SELECT sessionid
-						FROM *PREFIX*phonetrack_shares
-						WHERE sharetoken='.$this->db_quote_escape_string($token).'
-							  AND username='.$this->db_quote_escape_string($userId).' ;';
-					$req = $this->dbconnection->prepare($sqlget);
-					$req->execute();
-					while ($row = $req->fetch()){
-						$dbtoken = $row['sessionid'];
-					}
-					$req->closeCursor();
+				if (!$found) {
+					$found = $this->sessionMapper->isSharedWith($token, $userId);
 				}
 
 				// session exists
-				if ($dbtoken !== null) {
+				if ($found) {
 					// indexed by track name
-					$coords = array();
+					$coords = [];
 					// get list of all devices which have points in this session (without filters)
-					$devices = array();
+					$devices = [];
 					$sqldev = '
 						SELECT dev.id AS id, dev.name AS name
 						FROM *PREFIX*phonetrack_devices AS dev, *PREFIX*phonetrack_points AS po
-						WHERE dev.sessionid='.$this->db_quote_escape_string($dbtoken).' AND dev.id=po.deviceid GROUP BY dev.id;';
-					$req = $this->dbconnection->prepare($sqldev);
+						WHERE dev.sessionid='.$this->db_quote_escape_string($token).' AND dev.id=po.deviceid GROUP BY dev.id;';
+					$req = $this->db->prepare($sqldev);
 					$req->execute();
-					while ($row = $req->fetch()){
-						array_push($devices, array($row['id'], $row['name']));
+					while ($row = $req->fetch()) {
+						$devices[] = [$row['id'], $row['name']];
 					}
 					$req->closeCursor();
 
 					// get the coords for each device
-					$result[$name] = array();
+					$result[$name] = [];
 
 					// get filters
 					if ($filterArray === null) {
@@ -380,15 +360,15 @@ class SessionService {
 					$filterSql = $this->getSqlFilter($filterArray);
 
 					// check if there are points in this session (with filters)
-					if ($this->countPointsPerSession($dbtoken, $filterSql) > 0) {
+					if ($this->countPointsPerSession($token, $filterSql) > 0) {
 						// check if all devices of this session (not filtered) have points
-						if ($this->countDevicesPerSession($dbtoken) > count($devices)) {
+						if ($this->countDevicesPerSession($token) > count($devices)) {
 							$warning = 2;
 						}
 						// one file for the whole session
 						if (!$oneFilePerDevice) {
 							$gpxHeader = $this->generateGpxHeader($name, count($devices));
-							if (! $dir->nodeExists($newFileName)) {
+							if (!$dir->nodeExists($newFileName)) {
 								$dir->newFile($newFileName);
 							}
 							$file = $dir->get($newFileName);
@@ -406,8 +386,8 @@ class SessionService {
 								if ($oneFilePerDevice) {
 									$gpxHeader = $this->generateGpxHeader($name);
 									// generate file name for this device
-									$devFileName = str_replace(array('.gpx', '.GPX'), '_'.$devname.'.gpx',  $newFileName);
-									if (! $dir->nodeExists($devFileName)) {
+									$devFileName = str_replace(['.gpx', '.GPX'], '_' . $devname . '.gpx',  $newFileName);
+									if (!$dir->nodeExists($devFileName)) {
 										$dir->newFile($devFileName);
 									}
 									$file = $dir->get($devFileName);
@@ -422,8 +402,7 @@ class SessionService {
 									fclose($fd);
 									$file->touch();
 								}
-							}
-							else {
+							} else {
 								$warning = 2;
 							}
 						}
@@ -432,8 +411,7 @@ class SessionService {
 							fclose($fd);
 							$file->touch();
 						}
-					}
-					else {
+					} else {
 						$warning = 1;
 					}
 					$done = true;
@@ -441,29 +419,29 @@ class SessionService {
 			}
 		}
 
-	return [$done, $warning];
+		return [$done, $warning];
 	}
 
 	public function getCurrentFilters($userId) {
 		$fArray = null;
-		$f = array();
-		$keys = $this->config->getUserKeys($userId, 'phonetrack');
+		$f = [];
+		$keys = $this->config->getUserKeys($userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$value = $this->config->getUserValue($userId, 'phonetrack', $key);
+			$value = $this->config->getUserValue($userId, Application::APP_ID, $key);
 			$f[$key] = $value;
 		}
-		if (array_key_exists('applyfilters', $f) and $f['applyfilters'] === 'true') {
+		if (array_key_exists('applyfilters', $f) && $f['applyfilters'] === 'true') {
 			$fArray = array();
-			if (array_key_exists('datemin', $f) and $f['datemin'] !== '') {
-				$hourmin =   (array_key_exists('hourmin', $f)   and $f['hourmin']   !== '') ? intval($f['hourmin']) : 0;
-				$minutemin = (array_key_exists('minutemin', $f) and $f['minutemin'] !== '') ? intval($f['minutemin']) : 0;
-				$secondmin = (array_key_exists('secondmin', $f) and $f['secondmin'] !== '') ? intval($f['secondmin']) : 0;
+			if (array_key_exists('datemin', $f) && $f['datemin'] !== '') {
+				$hourmin =   (array_key_exists('hourmin', $f)   && $f['hourmin']   !== '') ? intval($f['hourmin']) : 0;
+				$minutemin = (array_key_exists('minutemin', $f) && $f['minutemin'] !== '') ? intval($f['minutemin']) : 0;
+				$secondmin = (array_key_exists('secondmin', $f) && $f['secondmin'] !== '') ? intval($f['secondmin']) : 0;
 				$fArray['tsmin'] = intval($f['datemin']) + 3600*$hourmin + 60*$minutemin + $secondmin;
 			}
 			else {
-				if (    array_key_exists('hourmin', $f)   and $f['hourmin'] !== ''
-					and array_key_exists('minutemin', $f) and $f['minutemin'] !== ''
-					and array_key_exists('secondmin', $f) and $f['secondmin'] !== ''
+				if (    array_key_exists('hourmin', $f)   && $f['hourmin'] !== ''
+					and array_key_exists('minutemin', $f) && $f['minutemin'] !== ''
+					and array_key_exists('secondmin', $f) && $f['secondmin'] !== ''
 				) {
 					$dtz = ini_get('date.timezone');
 					if ($dtz === '') {
@@ -481,16 +459,16 @@ class SessionService {
 					$fArray['tsmin'] = $dmin->getTimestamp();
 				}
 			}
-			if (array_key_exists('datemax', $f) and $f['datemax'] !== '') {
-				$hourmax =   (array_key_exists('hourmax', $f)   and $f['hourmax'] !== '')   ? intval($f['hourmax']) : 23;
-				$minutemax = (array_key_exists('minutemax', $f) and $f['minutemax'] !== '') ? intval($f['minutemax']) : 59;
-				$secondmax = (array_key_exists('secondmax', $f) and $f['secondmax'] !== '') ? intval($f['secondmax']) : 59;
+			if (array_key_exists('datemax', $f) && $f['datemax'] !== '') {
+				$hourmax =   (array_key_exists('hourmax', $f)   && $f['hourmax'] !== '')   ? intval($f['hourmax']) : 23;
+				$minutemax = (array_key_exists('minutemax', $f) && $f['minutemax'] !== '') ? intval($f['minutemax']) : 59;
+				$secondmax = (array_key_exists('secondmax', $f) && $f['secondmax'] !== '') ? intval($f['secondmax']) : 59;
 				$fArray['tsmax'] = intval($f['datemax']) + 3600*$hourmax + 60*$minutemax + $secondmax;
 			}
 			else {
-				if (    array_key_exists('hourmax', $f)   and $f['hourmax'] !== ''
-					and array_key_exists('minutemax', $f) and $f['minutemax'] !== ''
-					and array_key_exists('secondmax', $f) and $f['secondmax'] !== ''
+				if (    array_key_exists('hourmax', $f)   && $f['hourmax'] !== ''
+					and array_key_exists('minutemax', $f) && $f['minutemax'] !== ''
+					and array_key_exists('secondmax', $f) && $f['secondmax'] !== ''
 				) {
 					$dtz = ini_get('date.timezone');
 					if ($dtz === '') {
@@ -512,23 +490,23 @@ class SessionService {
 			$lastTS = new \DateTime();
 			$lastTS = $lastTS->getTimestamp();
 			$lastTSset = false;
-			if (array_key_exists('lastdays', $f) and $f['lastdays'] !== '') {
+			if (array_key_exists('lastdays', $f) && $f['lastdays'] !== '') {
 				$lastTS = $lastTS - 24*3600*intval($f['lastdays']);
 				$lastTSset = true;
 			}
-			if (array_key_exists('lasthours', $f) and $f['lasthours'] !== '') {
+			if (array_key_exists('lasthours', $f) && $f['lasthours'] !== '') {
 				$lastTS = $lastTS - 3600*intval($f['lasthours']);
 				$lastTSset = true;
 			}
-			if (array_key_exists('lastmins', $f) and $f['lastmins'] !== '') {
+			if (array_key_exists('lastmins', $f) && $f['lastmins'] !== '') {
 				$lastTS = $lastTS - 60*intval($f['lastmins']);
 				$lastTSset = true;
 			}
-			if ($lastTSset and (!array_key_exists('tsmin', $fArray) or $lastTS > $fArray['tsmin'])) {
+			if ($lastTSset && (!array_key_exists('tsmin', $fArray) or $lastTS > $fArray['tsmin'])) {
 				$fArray['tsmin'] = $lastTS;
 			}
 			foreach (['elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax', 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays', 'lasthours', 'lastmins'] as $k) {
-				if (array_key_exists($k, $f) and $f[$k] !== '') {
+				if (array_key_exists($k, $f) && $f[$k] !== '') {
 					$fArray[$k] = intval($f[$k]);
 				}
 			}
@@ -569,7 +547,7 @@ class SessionService {
 			$sqlget .= 'AND '.$filterSql;
 		}
 		$sqlget .= ' ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->db->prepare($sqlget);
 		$req->execute();
 		$nbPoints = 0;
 		while ($row = $req->fetch()) {
@@ -583,7 +561,7 @@ class SessionService {
 			SELECT count(*) AS co
 			FROM *PREFIX*phonetrack_devices
 			WHERE sessionid='.$this->db_quote_escape_string($dbtoken).';';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->db->prepare($sqlget);
 		$req->execute();
 		$nbDevices = 0;
 		while ($row = $req->fetch()) {
@@ -630,7 +608,7 @@ class SessionService {
 			$sqlget .= 'AND '.$filterSql;
 		}
 		$sqlget .= ' ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->db->prepare($sqlget);
 		$req->execute();
 		$nbPoints = 0;
 		while ($row = $req->fetch()) {
@@ -659,7 +637,7 @@ class SessionService {
 				$sqlget .= 'AND '.$filterSql;
 			}
 			$sqlget .= ' ORDER BY timestamp ASC LIMIT '.$chunkSize.' OFFSET '.$pointIndex.' ;';
-			$req = $this->dbconnection->prepare($sqlget);
+			$req = $this->db->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()) {
 				$epoch = $row['timestamp'];

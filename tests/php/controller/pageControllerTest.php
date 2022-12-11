@@ -92,8 +92,13 @@ class PageNLogControllerTest extends TestCase {
 			new SessionMapper(
 				$c->get(IDBConnection::class)
 			),
+			new DeviceMapper(
+				$c->get(IDBConnection::class)
+			),
 			$c->get(IUserManager::class),
 			$c->get(IGroupManager::class),
+			$c->get(IDBConnection::class),
+			$c->get(IRootFolder::class),
 			$c->get(IConfig::class)
 		);
 

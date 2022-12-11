@@ -14,6 +14,28 @@ namespace OCA\PhoneTrack\Db;
 
 use OCP\AppFramework\Db\Entity;
 
+/**
+ * @method int getId()
+ * @method void setId(int $id)
+ * @method string getUser()
+ * @method void setUser(string $user)
+ * @method string getName()
+ * @method void setName(string $name)
+ * @method string getToken()
+ * @method void setToken(string $token)
+ * @method string getPublicviewtoken()
+ * @method void setPublicviewtoken(string $publicviewtoken)
+ * @method int getPublic()
+ * @method void setPublic(int $public)
+ * @method int getLocked()
+ * @method void setLocked(int $locked)
+ * @method string getCreationversion()
+ * @method void setCreationversion(string $creationversion)
+ * @method string getAutoexport()
+ * @method void setAutoexport(string $autoexport)
+ * @method string getAutopurge()
+ * @method void setAutopurge(string $autopurge)
+ */
 class Session extends Entity {
 
 	protected $user;
