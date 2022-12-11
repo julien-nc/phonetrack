@@ -101,10 +101,10 @@ class SessionMapper extends QBMapper {
 	/**
 	 * @param string $token
 	 * @param string $userId
-	 * @return bool
+	 * @return string|null
 	 * @throws Exception
 	 */
-	public function isSharedWith(string $token, string $userId): bool {
+	public function isSharedWith(string $token, string $userId): ?string {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -117,9 +117,9 @@ class SessionMapper extends QBMapper {
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			return true;
+			return $row['sessionid'];
 		}
 
-		return false;
+		return null;
 	}
 }

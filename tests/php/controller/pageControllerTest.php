@@ -1916,7 +1916,7 @@ class PageNLogControllerTest extends TestCase {
 		$this->testSessionToken5 = $tokenu2;
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
-		for ($i=5; $i>0; $i--) {
+		for ($i = 5; $i > 0; $i--) {
 			$this->logController2->logPost($tokenu2, 'devmanex', 4.46, 3.28, 100, $timestamp - (604800*$i), 60, 10, 200, '');
 		}
 
@@ -1938,18 +1938,18 @@ class PageNLogControllerTest extends TestCase {
 				$stoken = $ses[1];
 			}
 		}
-		$this->assertEquals($stoken === '', False);
+		$this->assertEquals($stoken === '', false);
 
 		// test export with session shared
 		$resp = $this->pageController->export('super', $stoken, '/super.gpx');
 		$data = $resp->getData();
 		$done = $data['done'];
-		$this->assertEquals(True, $done);
-		$this->assertEquals(True, $userfolder->nodeExists('/super.gpx'));
+		$this->assertEquals(true, $done);
+		$this->assertEquals(true, $userfolder->nodeExists('/super.gpx'));
 		$userfolder->get('/super.gpx')->delete();
 
 		// TRACK AND FIND SHARED SESSION
-		$sessions = array(array($stoken, null, null));
+		$sessions = [[$stoken, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];
@@ -1968,34 +1968,34 @@ class PageNLogControllerTest extends TestCase {
 
 		// OPTIONS
 		$resp = $this->utilsController->saveOptionValue([
-			"autoexportpath" => "/plop",
-			"hourmin" => "",
-			"minutemin" => "",
-			"secondmin" => "",
-			"hourmax" => "",
-			"minutemax" => "",
-			"secondmax" => "",
-			"lastdays" => "3",
-			"lasthours" => "",
-			"lastmins" => "",
-			"accuracymin" => "",
-			"accuracymax" => "",
-			"elevationmin" => "",
-			"elevationmax" => "",
-			"batterymin" => "",
-			"batterymax" => "",
-			"satellitesmin" => "",
-			"satellitesmax" => "",
-			"datemin" => 1515798000,
-			"datemax" => 1516748400,
-			"applyfilters" => 'true',
-			"activeSessions" => '{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
+			'autoexportpath' => '/plop',
+			'hourmin' => '',
+			'minutemin' => '',
+			'secondmin' => '',
+			'hourmax' => '',
+			'minutemax' => '',
+			'secondmax' => '',
+			'lastdays' => '3',
+			'lasthours' => '',
+			'lastmins' => '',
+			'accuracymin' => '',
+			'accuracymax' => '',
+			'elevationmin' => '',
+			'elevationmax' => '',
+			'batterymin' => '',
+			'batterymax' => '',
+			'satellitesmin' => '',
+			'satellitesmax' => '',
+			'datemin' => 1515798000,
+			'datemax' => 1516748400,
+			'applyfilters' => 'true',
+			'activeSessions' => '{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}',
 		]);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
-		$sessions = array(array($token, null, null));
+		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
 		$data = $resp->getData();
 		$respSession = $data['sessions'];

@@ -321,20 +321,20 @@ class SessionService {
 
 			if ($filePossible) {
 				// check if session exists
+				$sessionToken = null;
 				try {
 					$dbSession = $this->sessionMapper->findByToken($token);
-					$found = true;
+					$sessionToken = $token;
 				} catch (DoesNotExistException $e) {
-					$found = false;
 				}
 
 				// if not, check it is a shared session
-				if (!$found) {
-					$found = $this->sessionMapper->isSharedWith($token, $userId);
+				if ($sessionToken === null) {
+					$sessionToken = $this->sessionMapper->isSharedWith($token, $userId);
 				}
 
 				// session exists
-				if ($found) {
+				if ($sessionToken !== null) {
 					// indexed by track name
 					$coords = [];
 					// get list of all devices which have points in this session (without filters)
@@ -342,7 +342,7 @@ class SessionService {
 					$sqldev = '
 						SELECT dev.id AS id, dev.name AS name
 						FROM *PREFIX*phonetrack_devices AS dev, *PREFIX*phonetrack_points AS po
-						WHERE dev.sessionid='.$this->db_quote_escape_string($token).' AND dev.id=po.deviceid GROUP BY dev.id;';
+						WHERE dev.sessionid='.$this->db_quote_escape_string($sessionToken).' AND dev.id=po.deviceid GROUP BY dev.id;';
 					$req = $this->db->prepare($sqldev);
 					$req->execute();
 					while ($row = $req->fetch()) {
@@ -360,9 +360,9 @@ class SessionService {
 					$filterSql = $this->getSqlFilter($filterArray);
 
 					// check if there are points in this session (with filters)
-					if ($this->countPointsPerSession($token, $filterSql) > 0) {
+					if ($this->countPointsPerSession($sessionToken, $filterSql) > 0) {
 						// check if all devices of this session (not filtered) have points
-						if ($this->countDevicesPerSession($token) > count($devices)) {
+						if ($this->countDevicesPerSession($sessionToken) > count($devices)) {
 							$warning = 2;
 						}
 						// one file for the whole session
