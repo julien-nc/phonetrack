@@ -13,6 +13,7 @@
  namespace OCA\PhoneTrack\Db;
 
 use OCP\AppFramework\Db\QBMapper;
+use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
@@ -56,5 +57,110 @@ class DeviceMapper extends QBMapper {
 				$qb->expr()->lt('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
 			);
 		$qb->executeStatement();
+	}
+
+	public function countDevicesPerSession(string $token): int {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_devs')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token))
+			);
+
+		$req = $qb->executeQuery();
+		return (int) $req->fetchOne();
+	}
+
+	/**
+	 * @param int $deviceId
+	 * @param array|null $filters
+	 * @return int
+	 * @throws Exception
+	 */
+	public function countPointsPerDevice(int $deviceId, ?array $filters = null): int {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_points')
+			->from('phonetrack_points')
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		if ($filters !== null) {
+			$qb = self::applyQueryFilters($qb, $filters);
+		}
+
+		$req = $qb->executeQuery();
+		return (int) $req->fetchOne();
+	}
+
+	/**
+	 * @param int $deviceId
+	 * @param array|null $filters
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getDevicePoints(int $deviceId, ?array $filters = null, ?int $limit = null, ?int $offset = null): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from('phonetrack_points')
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		if ($filters !== null) {
+			$qb = self::applyQueryFilters($qb, $filters);
+		}
+
+		if ($limit !== null) {
+			$qb->setMaxResults($limit);
+		}
+		if ($offset !== null) {
+			$qb->setFirstResult($offset);
+		}
+
+		$req = $qb->executeQuery();
+		$points = $req->fetchAll();
+		$qb->resetQueryParts();
+		return $points;
+	}
+
+	/**
+	 * @param IQueryBuilder $qb
+	 * @param array $filters
+	 * @return IQueryBuilder
+	 */
+	public static function applyQueryFilters(IQueryBuilder $qb, array $filters): IQueryBuilder {
+		if (isset($filters['satellites'])) {
+			if (isset($filters['satellites']['min'])) {
+				$qb->andWhere(
+					$qb->expr()->gte('satellites', $qb->createNamedParameter($filters['satellites']['min'], IQueryBuilder::PARAM_INT))
+				);
+			}
+			if (isset($filters['satellites']['max'])) {
+				$qb->andWhere(
+					$qb->expr()->lte('satellites', $qb->createNamedParameter($filters['satellites']['max'], IQueryBuilder::PARAM_INT))
+				);
+			}
+		}
+		foreach (['timestamp', 'altitude', 'accuracy', 'batterylevel', 'speed', 'bearing'] as $column) {
+			if (isset($filters[$column])) {
+				if (isset($filters[$column]['min'])) {
+					$qb->andWhere(
+						$qb->expr()->gte($column, $qb->createNamedParameter($filters[$column]['min']))
+					);
+				}
+				if (isset($filters[$column]['max'])) {
+					$qb->andWhere(
+						$qb->expr()->lte($column, $qb->createNamedParameter($filters[$column]['max']))
+					);
+				}
+			}
+		}
+		return $qb;
 	}
 }

@@ -18,6 +18,7 @@ use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Session;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\DB\Exception;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
@@ -33,8 +34,6 @@ use OCP\IConfig;
 
 class SessionService {
 
-	private $l10n;
-	private $logger;
 	/**
 	 * @var IDBConnection
 	 */
@@ -47,36 +46,39 @@ class SessionService {
 	 * @var DeviceMapper
 	 */
 	private $deviceMapper;
+	/**
+	 * @var string
+	 */
+	private $appVersion;
+	/**
+	 * @var SessionMapper
+	 */
+	private $sessionMapper;
+	/**
+	 * @var IUserManager
+	 */
+	private $userManager;
+	/**
+	 * @var IConfig
+	 */
+	private $config;
 
 	public function __construct (
-		LoggerInterface $logger,
-		IL10N $l10n,
 		SessionMapper $sessionMapper,
 		DeviceMapper $deviceMapper,
 		IUserManager $userManager,
-		IGroupManager $groupManager,
 		IDBConnection $db,
 		IRootFolder $root,
 		IConfig $config
 	) {
-		$this->l10n = $l10n;
-		$this->logger = $logger;
 		$this->sessionMapper = $sessionMapper;
 		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
 		$this->config = $config;
-
-		$this->dbtype = $config->getSystemValue('dbtype');
-		if ($this->dbtype === 'pgsql'){
-			$this->dbdblquotes = '"';
-		}
-		else{
-			$this->dbdblquotes = '';
-		}
-		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
 		$this->db = $db;
 		$this->root = $root;
 		$this->deviceMapper = $deviceMapper;
+
+		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
 	}
 
 	private function db_quote_escape_string($str){
@@ -87,7 +89,7 @@ class SessionService {
 		$userIds = [];
 		// get owner with mapper
 		$session = $this->sessionMapper->find($id);
-		array_push($userIds, $session->getUser());
+		$userIds[] = $session->getUser();
 
 		// get user shares from session token
 		$token = $session->getToken();
@@ -100,7 +102,7 @@ class SessionService {
 		$req = $qb->execute();
 		while ($row = $req->fetch()) {
 			if (!in_array($row['username'], $userIds)) {
-				array_push($userIds, $row['username']);
+				$userIds[] = $row['username'];
 			}
 		}
 		$req->closeCursor();
@@ -218,17 +220,23 @@ class SessionService {
 		$minMonthTimestamp = $dateMonthMin->getTimestamp();
 		$monthlySuffix = '_monthly_' . $dateMonthMin->format('Y-m');
 
-		$weekFilterArray = [
-			'tsmin' => $minWeekTimestamp,
-			'tsmax' => $maxWeekTimestamp,
+		$weekFilters = [
+			'timestamp' => [
+				'min' => $minWeekTimestamp,
+				'max' => $maxWeekTimestamp,
+			],
 		];
-		$dayFilterArray = [
-			'tsmin' => $minDayTimestamp,
-			'tsmax' => $maxDayTimestamp,
+		$dayFilters = [
+			'timestamp' => [
+				'min' => $minDayTimestamp,
+				'max' => $maxDayTimestamp,
+			],
 		];
-		$monthFilterArray = [
-			'tsmin' => $minMonthTimestamp,
-			'tsmax' => $maxMonthTimestamp,
+		$monthFilters = [
+			'timestamp' => [
+				'min' => $minMonthTimestamp,
+				'max' => $maxMonthTimestamp,
+			],
 		];
 
 		date_default_timezone_set('UTC');
@@ -247,22 +255,22 @@ class SessionService {
 				// export if autoexport is set
 				if ($dbexportType !== 'no') {
 					$suffix = $dailySuffix;
-					$filterArray = $dayFilterArray;
+					$filters = $dayFilters;
 					if ($dbexportType === 'weekly') {
 						$suffix = $weeklySuffix;
-						$filterArray = $weekFilterArray;
+						$filters = $weekFilters;
 					} elseif ($dbexportType === 'monthly') {
 						$suffix = $monthlySuffix;
-						$filterArray = $monthFilterArray;
+						$filters = $monthFilters;
 					}
 					$dir = $this->getOrCreateExportDir($userId);
 					// check if file already exists
 					$exportName = $dbname.$suffix.'.gpx';
 
 					$rel_path = str_replace($userFolder->getPath(), '', $dir->getPath());
-					$exportPath = $rel_path.'/'.$exportName;
+					$exportPath = $rel_path . '/' . $exportName;
 					if (!$dir->nodeExists($exportName)) {
-						$this->export($dbname, $dbtoken, $exportPath, $userId, $filterArray);
+						$this->export($dbname, $dbtoken, $exportPath, $userId, $filters);
 					}
 				}
 			}
@@ -272,7 +280,7 @@ class SessionService {
 		$this->cronAutoPurge();
 	}
 
-	public function export(string $name, string $token, string $target, string $username = '', ?array $filterArray = null) {
+	public function export(string $name, string $token, string $target, string $username = '', ?array $filters = null) {
 		date_default_timezone_set('UTC');
 		$done = false;
 		$warning = 0;
@@ -354,15 +362,15 @@ class SessionService {
 					$result[$name] = [];
 
 					// get filters
-					if ($filterArray === null) {
-						$filterArray = $this->getCurrentFilters($userId);
+					if ($filters === null) {
+						$filters = $this->getCurrentFilters2($userId);
 					}
-					$filterSql = $this->getSqlFilter($filterArray);
 
 					// check if there are points in this session (with filters)
-					if ($this->countPointsPerSession($sessionToken, $filterSql) > 0) {
+					$sessionPointNumber = $this->sessionMapper->countPointsPerSession($sessionToken, $filters);
+					if ($sessionPointNumber > 0) {
 						// check if all devices of this session (not filtered) have points
-						if ($this->countDevicesPerSession($sessionToken) > count($devices)) {
+						if ($this->deviceMapper->countDevicesPerSession($sessionToken) > count($devices)) {
 							$warning = 2;
 						}
 						// one file for the whole session
@@ -380,7 +388,7 @@ class SessionService {
 							$devname = $d[1];
 
 							// check if there are coords for this device (with filters)
-							$nbPoints = $this->countPointsPerDevice($devid, $filterSql);
+							$nbPoints = $this->deviceMapper->countPointsPerDevice($devid, $filters);
 							if ($nbPoints > 0) {
 								// generate a file for this device if needed
 								if ($oneFilePerDevice) {
@@ -395,7 +403,7 @@ class SessionService {
 									fwrite($fd, $gpxHeader);
 								}
 
-								$this->getAndWriteDevicePoints($devid, $devname, $filterSql, $fd, $nbPoints);
+								$this->getAndWriteDevicePoints($devid, $devname, $filters, $fd, $nbPoints);
 
 								if ($oneFilePerDevice) {
 									fwrite($fd, '</gpx>');
@@ -423,25 +431,24 @@ class SessionService {
 	}
 
 	public function getCurrentFilters($userId) {
-		$fArray = null;
-		$f = [];
+		$filters = null;
+		$options = [];
 		$keys = $this->config->getUserKeys($userId, Application::APP_ID);
 		foreach ($keys as $key) {
 			$value = $this->config->getUserValue($userId, Application::APP_ID, $key);
-			$f[$key] = $value;
+			$options[$key] = $value;
 		}
-		if (array_key_exists('applyfilters', $f) && $f['applyfilters'] === 'true') {
-			$fArray = array();
-			if (array_key_exists('datemin', $f) && $f['datemin'] !== '') {
-				$hourmin =   (array_key_exists('hourmin', $f)   && $f['hourmin']   !== '') ? (int)$f['hourmin'] : 0;
-				$minutemin = (array_key_exists('minutemin', $f) && $f['minutemin'] !== '') ? (int)$f['minutemin'] : 0;
-				$secondmin = (array_key_exists('secondmin', $f) && $f['secondmin'] !== '') ? (int)$f['secondmin'] : 0;
-				$fArray['tsmin'] = ((int)$f['datemin']) + (3600 * $hourmin) + (60 * $minutemin) + $secondmin;
-			}
-			else {
-				if (   array_key_exists('hourmin', $f)   && $f['hourmin'] !== ''
-					&& array_key_exists('minutemin', $f) && $f['minutemin'] !== ''
-					&& array_key_exists('secondmin', $f) && $f['secondmin'] !== ''
+		if (array_key_exists('applyfilters', $options) && $options['applyfilters'] === 'true') {
+			$filters = [];
+			if (array_key_exists('datemin', $options) && $options['datemin'] !== '') {
+				$hourmin =   (array_key_exists('hourmin', $options)   && $options['hourmin']   !== '') ? (int)$options['hourmin'] : 0;
+				$minutemin = (array_key_exists('minutemin', $options) && $options['minutemin'] !== '') ? (int)$options['minutemin'] : 0;
+				$secondmin = (array_key_exists('secondmin', $options) && $options['secondmin'] !== '') ? (int)$options['secondmin'] : 0;
+				$filters['tsmin'] = ((int)$options['datemin']) + (3600 * $hourmin) + (60 * $minutemin) + $secondmin;
+			} else {
+				if (   array_key_exists('hourmin', $options)   && $options['hourmin'] !== ''
+					&& array_key_exists('minutemin', $options) && $options['minutemin'] !== ''
+					&& array_key_exists('secondmin', $options) && $options['secondmin'] !== ''
 				) {
 					$dtz = ini_get('date.timezone');
 					if ($dtz === '') {
@@ -452,22 +459,22 @@ class SessionService {
 					$y = $now->format('Y');
 					$m = $now->format('m');
 					$d = $now->format('d');
-					$h = intval($f['hourmin']);
-					$mi = intval($f['minutemin']);
-					$s = intval($f['secondmin']);
-					$dmin = new DateTime($y.'-'.$m.'-'.$d.' '.$h.':'.$mi.':'.$s);
-					$fArray['tsmin'] = $dmin->getTimestamp();
+					$h = (int)$options['hourmin'];
+					$mi = (int)$options['minutemin'];
+					$s = (int)$options['secondmin'];
+					$dmin = new DateTime($y . '-' . $m . '-' . $d . ' ' . $h . ':' . $mi . ':' . $s);
+					$filters['tsmin'] = $dmin->getTimestamp();
 				}
 			}
-			if (array_key_exists('datemax', $f) && $f['datemax'] !== '') {
-				$hourmax =   (array_key_exists('hourmax', $f)   && $f['hourmax'] !== '')   ? (int)$f['hourmax'] : 23;
-				$minutemax = (array_key_exists('minutemax', $f) && $f['minutemax'] !== '') ? (int)$f['minutemax'] : 59;
-				$secondmax = (array_key_exists('secondmax', $f) && $f['secondmax'] !== '') ? (int)$f['secondmax'] : 59;
-				$fArray['tsmax'] = ((int)$f['datemax']) + (3600 * $hourmax) + (60 * $minutemax) + $secondmax;
+			if (array_key_exists('datemax', $options) && $options['datemax'] !== '') {
+				$hourmax =   (array_key_exists('hourmax', $options)   && $options['hourmax'] !== '')   ? (int)$options['hourmax'] : 23;
+				$minutemax = (array_key_exists('minutemax', $options) && $options['minutemax'] !== '') ? (int)$options['minutemax'] : 59;
+				$secondmax = (array_key_exists('secondmax', $options) && $options['secondmax'] !== '') ? (int)$options['secondmax'] : 59;
+				$filters['tsmax'] = ((int)$options['datemax']) + (3600 * $hourmax) + (60 * $minutemax) + $secondmax;
 			} else {
-				if (   array_key_exists('hourmax', $f)   && $f['hourmax'] !== ''
-					&& array_key_exists('minutemax', $f) && $f['minutemax'] !== ''
-					&& array_key_exists('secondmax', $f) && $f['secondmax'] !== ''
+				if (   array_key_exists('hourmax', $options)   && $options['hourmax'] !== ''
+					&& array_key_exists('minutemax', $options) && $options['minutemax'] !== ''
+					&& array_key_exists('secondmax', $options) && $options['secondmax'] !== ''
 				) {
 					$dtz = ini_get('date.timezone');
 					if ($dtz === '') {
@@ -478,102 +485,166 @@ class SessionService {
 					$y = $now->format('Y');
 					$m = $now->format('m');
 					$d = $now->format('d');
-					$h = intval($f['hourmax']);
-					$mi = intval($f['minutemax']);
-					$s = intval($f['secondmax']);
+					$h = (int)$options['hourmax'];
+					$mi = (int)$options['minutemax'];
+					$s = (int)$options['secondmax'];
 					$dmax = new DateTime($y . '-' . $m . '-' . $d . ' ' . $h . ':' . $mi . ':' . $s);
-					$fArray['tsmax'] = $dmax->getTimestamp();
+					$filters['tsmax'] = $dmax->getTimestamp();
 				}
 			}
 			date_default_timezone_set('UTC');
 			$lastTS = new DateTime();
 			$lastTS = $lastTS->getTimestamp();
 			$lastTSset = false;
-			if (array_key_exists('lastdays', $f) && $f['lastdays'] !== '') {
-				$lastTS = $lastTS - (24 * 3600 * (int)$f['lastdays']);
+			if (array_key_exists('lastdays', $options) && $options['lastdays'] !== '') {
+				$lastTS = $lastTS - (24 * 3600 * (int)$options['lastdays']);
 				$lastTSset = true;
 			}
-			if (array_key_exists('lasthours', $f) && $f['lasthours'] !== '') {
-				$lastTS = $lastTS - (3600 * (int)$f['lasthours']);
+			if (array_key_exists('lasthours', $options) && $options['lasthours'] !== '') {
+				$lastTS = $lastTS - (3600 * (int)$options['lasthours']);
 				$lastTSset = true;
 			}
-			if (array_key_exists('lastmins', $f) && $f['lastmins'] !== '') {
-				$lastTS = $lastTS - (60 * (int)$f['lastmins']);
+			if (array_key_exists('lastmins', $options) && $options['lastmins'] !== '') {
+				$lastTS = $lastTS - (60 * (int)$options['lastmins']);
 				$lastTSset = true;
 			}
-			if ($lastTSset && (!array_key_exists('tsmin', $fArray) || $lastTS > $fArray['tsmin'])) {
-				$fArray['tsmin'] = $lastTS;
+			if ($lastTSset && (!array_key_exists('tsmin', $filters) || $lastTS > $filters['tsmin'])) {
+				$filters['tsmin'] = $lastTS;
 			}
 			foreach ([
-				'elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax',
-				'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays',
-				'lasthours', 'lastmins',
-			 ] as $k) {
-				if (array_key_exists($k, $f) && $f[$k] !== '') {
-					$fArray[$k] = (int)$f[$k];
+						 'elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax',
+						 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays',
+						 'lasthours', 'lastmins',
+					 ] as $k) {
+				if (array_key_exists($k, $options) && $options[$k] !== '') {
+					$filters[$k] = (int)$options[$k];
 				}
 			}
 		}
 
-		return $fArray;
+		return $filters;
 	}
 
-	private function getSqlFilter($fArray) {
-		$sql = '';
-		if ($fArray !== null) {
-			$cond = array();
-			if (array_key_exists('tsmin', $fArray)) { $cond[] = 'timestamp >= ' . $this->db_quote_escape_string($fArray['tsmin']); }
-			if (array_key_exists('tsmax', $fArray)) { $cond[] = 'timestamp <= ' . $this->db_quote_escape_string($fArray['tsmax']); }
-			if (array_key_exists('elevationmax', $fArray)) { $cond[] = 'altitude <= ' . $this->db_quote_escape_string($fArray['elevationmax']); }
-			if (array_key_exists('elevationmin', $fArray)) { $cond[] = 'altitude >= ' . $this->db_quote_escape_string($fArray['elvationmin']); }
-			if (array_key_exists('accuracymax', $fArray)) { $cond[] = 'accuracy <= ' . $this->db_quote_escape_string($fArray['accuracymax']); }
-			if (array_key_exists('accuracymin', $fArray)) { $cond[] = 'accuracy >= ' . $this->db_quote_escape_string($fArray['accuracymin']); }
-			if (array_key_exists('satellitesmax', $fArray)) { $cond[] = 'satellites <= ' . $this->db_quote_escape_string($fArray['satellitesmax']); }
-			if (array_key_exists('satellitesmin', $fArray)) { $cond[] = 'satellites >= ' . $this->db_quote_escape_string($fArray['satellitesmin']); }
-			if (array_key_exists('batterymax', $fArray)) { $cond[] = 'batterylevel <= ' . $this->db_quote_escape_string($fArray['batterymax']); }
-			if (array_key_exists('batterymin', $fArray)) { $cond[] = 'batterylevel >= ' . $this->db_quote_escape_string($fArray['batterymin']); }
-			if (array_key_exists('speedmax', $fArray)) { $cond[] = 'speed <= ' . $this->db_quote_escape_string($fArray['speedmax']); }
-			if (array_key_exists('speedmin', $fArray)) { $cond[] = 'speed >= ' . $this->db_quote_escape_string($fArray['speedmin']); }
-			if (array_key_exists('bearingmax', $fArray)) { $cond[] = 'bearing <= ' . $this->db_quote_escape_string($fArray['bearingmax']); }
-			if (array_key_exists('bearingmin', $fArray)) { $cond[] = 'bearing >= ' . $this->db_quote_escape_string($fArray['bearingmin']); }
-			$sql = implode(' AND ', $cond);
+	/**
+	 * @param string $userId
+	 * @return array|null
+	 * @throws \Exception
+	 */
+	public function getCurrentFilters2(string $userId): ?array {
+		$filters = null;
+		$options = [];
+		$keys = $this->config->getUserKeys($userId, Application::APP_ID);
+		foreach ($keys as $key) {
+			$value = $this->config->getUserValue($userId, Application::APP_ID, $key);
+			$options[$key] = $value;
 		}
-		return $sql;
+		if (isset($options['applyfilters']) && $options['applyfilters'] === 'true') {
+			$filters = [];
+			$filters['timestamp'] = [];
+			if (isset($options['datemin']) && $options['datemin'] !== '') {
+				$hourmin =   (isset($options['hourmin'])   && $options['hourmin']   !== '') ? (int)$options['hourmin'] : 0;
+				$minutemin = (isset($options['minutemin']) && $options['minutemin'] !== '') ? (int)$options['minutemin'] : 0;
+				$secondmin = (isset($options['secondmin']) && $options['secondmin'] !== '') ? (int)$options['secondmin'] : 0;
+				$filters['timestamp']['min'] = ((int)$options['datemin']) + (3600 * $hourmin) + (60 * $minutemin) + $secondmin;
+			} else {
+				if (   isset($options['hourmin'])   && $options['hourmin'] !== ''
+					&& isset($options['minutemin']) && $options['minutemin'] !== ''
+					&& isset($options['secondmin']) && $options['secondmin'] !== ''
+				) {
+					$dtz = ini_get('date.timezone');
+					if ($dtz === '') {
+						$dtz = 'UTC';
+					}
+					date_default_timezone_set($dtz);
+					$now = new DateTime();
+					$y = $now->format('Y');
+					$m = $now->format('m');
+					$d = $now->format('d');
+					$h = (int)$options['hourmin'];
+					$mi = (int)$options['minutemin'];
+					$s = (int)$options['secondmin'];
+					$dmin = new DateTime($y . '-' . $m . '-' . $d . ' ' . $h . ':' . $mi . ':' . $s);
+					$filters['timestamp']['min'] = $dmin->getTimestamp();
+				}
+			}
+			if (isset($options['datemax']) && $options['datemax'] !== '') {
+				$hourmax =   (isset($options['hourmax'])   && $options['hourmax'] !== '')   ? (int)$options['hourmax'] : 23;
+				$minutemax = (isset($options['minutemax']) && $options['minutemax'] !== '') ? (int)$options['minutemax'] : 59;
+				$secondmax = (isset($options['secondmax']) && $options['secondmax'] !== '') ? (int)$options['secondmax'] : 59;
+				$filters['timestamp']['max'] = ((int)$options['datemax']) + (3600 * $hourmax) + (60 * $minutemax) + $secondmax;
+			} else {
+				if (   isset($options['hourmax'])   && $options['hourmax'] !== ''
+					&& isset($options['minutemax']) && $options['minutemax'] !== ''
+					&& isset($options['secondmax']) && $options['secondmax'] !== ''
+				) {
+					$dtz = ini_get('date.timezone');
+					if ($dtz === '') {
+						$dtz = 'UTC';
+					}
+					date_default_timezone_set($dtz);
+					$now = new DateTime();
+					$y = $now->format('Y');
+					$m = $now->format('m');
+					$d = $now->format('d');
+					$h = (int)$options['hourmax'];
+					$mi = (int)$options['minutemax'];
+					$s = (int)$options['secondmax'];
+					$dmax = new DateTime($y . '-' . $m . '-' . $d . ' ' . $h . ':' . $mi . ':' . $s);
+					$filters['timestamp']['max'] = $dmax->getTimestamp();
+				}
+			}
+			date_default_timezone_set('UTC');
+			$lastTS = new DateTime();
+			$lastTS = $lastTS->getTimestamp();
+			$lastTSset = false;
+			if (isset($options['lastdays']) && $options['lastdays'] !== '') {
+				$lastTS = $lastTS - (24 * 3600 * (int)$options['lastdays']);
+				$lastTSset = true;
+			}
+			if (isset($options['lasthours']) && $options['lasthours'] !== '') {
+				$lastTS = $lastTS - (3600 * (int)$options['lasthours']);
+				$lastTSset = true;
+			}
+			if (isset($options['lastmins']) && $options['lastmins'] !== '') {
+				$lastTS = $lastTS - (60 * (int)$options['lastmins']);
+				$lastTSset = true;
+			}
+			if ($lastTSset && (!isset($filters['timestamp']['min']) || $lastTS > $filters['timestamp']['min'])) {
+				$filters['timestamp']['min'] = $lastTS;
+			}
+			foreach (['accuracy', 'satellites', 'speed', 'bearing'] as $k) {
+				$minKey = $k . 'min';
+				if (isset($options[$minKey]) && $options[$minKey] !== '') {
+					$filters[$k]['min'] = (int)$options[$minKey];
+				}
+				$maxKey = $k . 'max';
+				if (isset($options[$maxKey]) && $options[$maxKey] !== '') {
+					$filters[$k]['max'] = (int)$options[$maxKey];
+				}
+			}
+			if (isset($options['elevationmin']) && $options['elevationmin'] !== '') {
+				$filters['altitude']['min'] = (int)$options['elevationmin'];
+			}
+			if (isset($options['elevationmax']) && $options['elevationmax'] !== '') {
+				$filters['altitude']['max'] = (int)$options['elevationmax'];
+			}
+			if (isset($options['batterymin']) && $options['batterymin'] !== '') {
+				$filters['batterylevel']['min'] = (int)$options['batterymin'];
+			}
+			if (isset($options['batterymax']) && $options['batterymax'] !== '') {
+				$filters['batterylevel']['max'] = (int)$options['batterymax'];
+			}
+		}
+
+		return $filters;
 	}
 
-	private function countPointsPerSession($dbtoken, $filterSql) {
-		$sqlget = '
-			SELECT count(*) AS co
-			FROM *PREFIX*phonetrack_devices AS dev, *PREFIX*phonetrack_points AS po
-			WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' AND dev.id=po.deviceid ';
-		if ($filterSql !== '') {
-			$sqlget .= 'AND '.$filterSql;
-		}
-		$sqlget .= ' ;';
-		$req = $this->db->prepare($sqlget);
-		$req->execute();
-		$nbPoints = 0;
-		while ($row = $req->fetch()) {
-			$nbPoints = intval($row['co']);
-		}
-		return $nbPoints;
-	}
-
-	private function countDevicesPerSession($dbtoken) {
-		$sqlget = '
-			SELECT count(*) AS co
-			FROM *PREFIX*phonetrack_devices
-			WHERE sessionid='.$this->db_quote_escape_string($dbtoken).';';
-		$req = $this->db->prepare($sqlget);
-		$req->execute();
-		$nbDevices = 0;
-		while ($row = $req->fetch()) {
-			$nbDevices = intval($row['co']);
-		}
-		return $nbDevices;
-	}
-
-	private function generateGpxHeader($name, $nbdev=0) {
+	/**
+	 * @param string $name
+	 * @param int $nbdev
+	 * @return string
+	 */
+	private function generateGpxHeader(string $name, int $nbdev = 0): string {
 		date_default_timezone_set('UTC');
 		$dt = new DateTime();
 		$date = $dt->format('Y-m-d\TH:i:s\Z');
@@ -620,7 +691,16 @@ class SessionService {
 		return $nbPoints;
 	}
 
-	private function getAndWriteDevicePoints($devid, $devname, $filterSql, $fd, $nbPoints) {
+	/**
+	 * @param int $devid
+	 * @param string $devname
+	 * @param array|null $filters
+	 * @param $fd
+	 * @param int $nbPoints
+	 * @return int
+	 * @throws Exception
+	 */
+	private function getAndWriteDevicePoints(int $devid, string $devname, ?array $filters, $fd, int $nbPoints): int {
 		$done = 0;
 
 		$gpxText  = '<trk>' . "\n" . ' <name>' . $devname . '</name>' . "\n";
@@ -632,33 +712,26 @@ class SessionService {
 
 		while ($pointIndex < $nbPoints) {
 			$gpxText = '';
-			$sqlget = '
-				SELECT *
-				FROM *PREFIX*phonetrack_points
-				WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
-			if ($filterSql !== '') {
-				$sqlget .= 'AND '.$filterSql;
-			}
-			$sqlget .= ' ORDER BY timestamp ASC LIMIT '.$chunkSize.' OFFSET '.$pointIndex.' ;';
-			$req = $this->db->prepare($sqlget);
-			$req->execute();
-			while ($row = $req->fetch()) {
-				$epoch = $row['timestamp'];
+
+			$points = $this->deviceMapper->getDevicePoints($devid, $filters, $chunkSize, $pointIndex);
+
+			foreach ($points as $point) {
+				$epoch = $point['timestamp'];
 				$date = '';
 				if (is_numeric($epoch)) {
 					$epoch = (int)$epoch;
-					$dt = new DateTime("@$epoch");
+					$dt = new DateTime('@' . $epoch);
 					$date = $dt->format('Y-m-d\TH:i:s\Z');
 				}
-				$lat = $row['lat'];
-				$lon = $row['lon'];
-				$alt = $row['altitude'];
-				$acc = $row['accuracy'];
-				$bat = $row['batterylevel'];
-				$ua  = $row['useragent'];
-				$sat = $row['satellites'];
-				$speed = $row['speed'];
-				$bearing = $row['bearing'];
+				$lat = $point['lat'];
+				$lon = $point['lon'];
+				$alt = $point['altitude'];
+				$acc = $point['accuracy'];
+				$bat = $point['batterylevel'];
+				$ua  = $point['useragent'];
+				$sat = $point['satellites'];
+				$speed = $point['speed'];
+				$bearing = $point['bearing'];
 
 				$gpxExtension = '';
 				$gpxText .= '  <trkpt lat="'.$lat.'" lon="'.$lon.'">' . "\n";

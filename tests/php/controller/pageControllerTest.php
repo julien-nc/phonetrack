@@ -87,8 +87,6 @@ class PageNLogControllerTest extends TestCase {
 		$this->request = $c->get(IRequest::class);
 
 		$this->sessionService = new SessionService(
-			$c->get(LoggerInterface::class),
-			$c->get(IL10N::class),
 			new SessionMapper(
 				$c->get(IDBConnection::class)
 			),
@@ -96,7 +94,6 @@ class PageNLogControllerTest extends TestCase {
 				$c->get(IDBConnection::class)
 			),
 			$c->get(IUserManager::class),
-			$c->get(IGroupManager::class),
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
 			$c->get(IConfig::class)
