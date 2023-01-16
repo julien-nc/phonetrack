@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.7.3 – 2023-01-16
+### Changed
+- polish log controller...a lot
+- replace many old queries by calls to mapper methods
+
+### Fixed
+- fix DB mappers returning multiple entities on find
+
 ## 0.7.2 – 2022-10-23
 ### Added
 - optional datetime param to logGet and logPost
