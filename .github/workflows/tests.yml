@@ -21,11 +21,9 @@ jobs:
 #        php-versions: ['7.4', '8.1']
         databases: ['sqlite', 'mysql', 'pgsql']
 #        databases: ['sqlite']
-        server-versions: ['stable23', 'stable24', 'stable25', 'stable26', 'master']
+        server-versions: ['stable24', 'stable25', 'stable26', 'master']
 #        server-versions: ['master']
         exclude:
-          - php-versions: 8.1
-            server-versions: stable23
           - php-versions: 7.4
             server-versions: stable26
           - php-versions: 7.4
@@ -72,10 +70,9 @@ jobs:
       - name: Setup Nextcloud
         run: |
           export DEBIAN_FRONTEND=noninteractive
-          sudo apt update -y
-          sudo apt install python3-pip git sudo \
-            unzip curl wget sed make rsync -y
-          sudo -H pip3 install anybadge
+          #sudo apt update -y
+          sudo apt install python3-pip git unzip curl wget sed make rsync -y
+          pip3 install anybadge
           mkdir -p ~/html
           echo "git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud"
           git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud

@@ -5,21 +5,21 @@
     <summary> </summary><description> </description>
     <version>0.7.4</version>
     <licence>agpl</licence>
-    <author mail="eneiluj@posteo.net">Julien Veyssier</author>
+    <author mail="julien-nc@posteo.net">Julien Veyssier</author>
     <namespace>PhoneTrack</namespace>
     <documentation>
-        <user>https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc</user>
-        <admin>https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc</admin>
-        <developer>https://gitlab.com/eneiluj/phonetrack-oc/wikis/devdoc</developer>
+        <user>https://github.com/julien-nc/phonetrack-oc/wikis/userdoc</user>
+        <admin>https://github.com/julien-nc/phonetrack-oc/wikis/admindoc</admin>
+        <developer>https://github.com/julien-nc/phonetrack-oc/wikis/devdoc</developer>
     </documentation>
     <category>tools</category>
     <category>social</category>
     <category>multimedia</category>
-    <website>https://gitlab.com/eneiluj/phonetrack-oc</website>
-    <bugs>https://gitlab.com/eneiluj/phonetrack-oc/issues</bugs>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/745bc0a7e6ba21b65703e383709c3d97/p1.jpg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/24b55acc14b6785f2380dcf5e84648d8/p2.jpg</screenshot>
-    <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/47ac89131d8fc434c53ba6baac2beb74/p3.jpg</screenshot>
+    <website>https://github.com/julien-nc/phonetrack-oc</website>
+    <bugs>https://github.com/julien-nc/phonetrack-oc/issues</bugs>
+    <screenshot>https://github.com/julien-nc/phonetrack/raw/main/img/screenshot1.jpg</screenshot>
+    <screenshot>https://github.com/julien-nc/phonetrack/raw/main/img/screenshot2.jpg</screenshot>
+    <screenshot>https://github.com/julien-nc/phonetrack/raw/main/img/screenshot3.jpg</screenshot>
     <dependencies>
         <nextcloud min-version="20" max-version="27"/>
     </dependencies>
