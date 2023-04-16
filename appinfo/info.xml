@@ -21,7 +21,7 @@
     <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/24b55acc14b6785f2380dcf5e84648d8/p2.jpg</screenshot>
     <screenshot>https://gitlab.com/eneiluj/phonetrack-oc/wikis/uploads/47ac89131d8fc434c53ba6baac2beb74/p3.jpg</screenshot>
     <dependencies>
-        <nextcloud min-version="20" max-version="26"/>
+        <nextcloud min-version="20" max-version="27"/>
     </dependencies>
     <background-jobs>
         <job>OCA\PhoneTrack\Cron\AutoExport</job>
@@ -42,4 +42,13 @@
             <provider>OCA\PhoneTrack\Activity\PhonetrackProvider</provider>
         </providers>
     </activity>
+    <navigations>
+        <navigation>
+            <id>phonetrack</id>
+            <name>Phonetrack</name>
+            <route>phonetrack.page.index</route>
+            <icon>app.svg</icon>
+            <order>10</order>
+        </navigation>
+    </navigations>
 </info>
