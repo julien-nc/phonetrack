@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master, test ]
+    branches: [ main, test ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   APP_ID: phonetrack
@@ -116,7 +116,7 @@ jobs:
       - name: Perform PhpUnit tests
         if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.1' && matrix.server-versions == 'master') }}
         run: |
-          phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit.xml && SUCCESS=yes || SUCCESS=no
+          ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit.xml && SUCCESS=yes || SUCCESS=no
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
 
       #- name: Upload coverage
