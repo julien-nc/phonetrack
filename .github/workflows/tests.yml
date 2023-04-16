@@ -101,7 +101,7 @@ jobs:
           mkdir /tmp/coverage
           cd /tmp
           echo "##### PHPunit"
-          XDEBUG_MODE=coverage phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt && SUCCESS=yes || SUCCESS=no
+          XDEBUG_MODE=coverage ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt && SUCCESS=yes || SUCCESS=no
           echo "phpunit finished ############################"
           cat /tmp/cov.txt
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
