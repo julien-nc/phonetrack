@@ -74,8 +74,6 @@ jobs:
           sudo apt install python3-pip git sudo \
             unzip curl wget sed make rsync -y
           sudo -H pip3 install anybadge
-          sudo curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
-          sudo chmod +x /usr/local/bin/phpunit
           mkdir -p ~/html
           echo "git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud"
           git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.server-versions }} ~/html/nextcloud
@@ -91,6 +89,9 @@ jobs:
           php ~/html/nextcloud/occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
           php ~/html/nextcloud/occ app:enable --force ${{ env.APP_ID }}
           php ~/html/nextcloud/occ maintenance:mode --off
+          cd ~/html/nextcloud/apps/${{ env.APP_ID }}
+          curl --location --output ./phpunit https://phar.phpunit.de/phpunit-9.5.phar
+          chmod +x ./phpunit
           echo "##### App is installed"
 
       - name: Perform PhpUnit tests with coverage
