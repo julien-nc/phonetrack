@@ -10,7 +10,7 @@
  */
 
 // if we want to use d3 (but it's already exposed to leaflet-elevations with webpack plugin)
-// import * as d3 from 'd3/dist/d3.min'
+// import * as d3 from 'd3'
 import $ from 'jquery'
 import 'webpack-jquery-ui'
 import L from 'leaflet'
@@ -4208,6 +4208,7 @@ import '../css/phonetrack.scss'
 
 	function showDeviceElevation(s, d) {
 		clearElevationControl()
+
 		const el = L.control.elevation({
 			position: 'bottomleft',
 			height: 150,
@@ -4225,6 +4226,11 @@ import '../css/phonetrack.scss'
 			theme: 'steelblue-theme',
 		})
 		el.addTo(phonetrack.map)
+
+		setTimeout(() => {
+			phonetrack.closeElevationButton.addTo(phonetrack.map)
+			$('<div id="hover-timestamp"></div>').insertAfter(phonetrack.closeElevationButton._container)
+		}, 1000)
 
 		const layers = phonetrack.sessionLineLayers[s][d].getLayers()
 		let elevations, pids
@@ -4249,14 +4255,12 @@ import '../css/phonetrack.scss'
 
 			el.addData(data, layers[i])
 		}
-		phonetrack.closeElevationButton.addTo(phonetrack.map)
-		$('<div id="hover-timestamp"></div>').insertAfter(phonetrack.closeElevationButton._container)
 
 		phonetrack.elevationControl = el
 		el.s = s
 		el.d = d
-		el.on('elechart_hover', function(e) {
-			console.debug(e)
+		el.on('elechart_hover', (e) => {
+			// console.debug(e)
 			const hackPid = (e.data.z + '').split('.')[1]
 			const len = parseInt(hackPid[0])
 			let pid = hackPid.substr(1)

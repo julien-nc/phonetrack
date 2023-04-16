@@ -1331,6 +1331,11 @@ input[type=range]:focus::-ms-fill-upper {
 	height: 34px;
 	line-height: 34px;
 	padding-left: 50px;
+	color: black;
+	text-shadow: 1.5px 0 0 #FFF, -1.5px 0 0 #FFF, 0 1.5px 0 #FFF, 0 -1.5px 0 #FFF, 1px 1px #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF;
+}
+.elevation-summary {
+	color: black;
 }
 .popupButtons {
 	display: grid;
