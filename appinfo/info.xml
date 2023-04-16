@@ -8,9 +8,9 @@
     <author mail="julien-nc@posteo.net">Julien Veyssier</author>
     <namespace>PhoneTrack</namespace>
     <documentation>
-        <user>https://github.com/julien-nc/phonetrack-oc/wikis/userdoc</user>
-        <admin>https://github.com/julien-nc/phonetrack-oc/wikis/admindoc</admin>
-        <developer>https://github.com/julien-nc/phonetrack-oc/wikis/devdoc</developer>
+        <user>https://github.com/julien-nc/phonetrack/blob/main/doc/user.md</user>
+        <admin>https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md</admin>
+        <developer>https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md</developer>
     </documentation>
     <category>tools</category>
     <category>social</category>
