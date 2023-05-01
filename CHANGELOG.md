@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.7.5 – 2023-05-01
+
+### Fixed
+
+- crash when receiving Ulogger account check requests
+  [#460](https://gitlab.com/eneiluj/phonetrack-oc/issues/460) @
+
 ## 0.7.4 – 2023-01-16
 ### Changed
 - polish log controller...a lot
