@@ -76,6 +76,14 @@ $baseTileServers = [
 		'maxzoom' => '22'
 	],
 	[
+		'name' => 'OpenCycleMap HighRes',
+		'type' => 'tile',
+		'url' => 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}@2x.png',
+		'attribution' => '&copy; <a href="https://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+		'minzoom' => '1',
+		'maxzoom' => '22'
+	],
+	[
 		'name' => 'OpenStreetMap Transport',
 		'type' => 'tile',
 		'url' => 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
