@@ -51,31 +51,39 @@ $baseTileServers = [
 	//    'opacity' => '1',
 	//    'transparent' => 'false'
 	//),
-	Array(
+	[
 		'name' => 'OpenStreetMap',
 		'type' => 'tile',
 		'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		'attribution' => 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+		'minzoom' => '1',
+		'maxzoom' => '19'
+	],
+	[
+		'name' => 'OpenStreetMap HighRes by OsmAnd',
+		'type' => 'tile',
+		'url' => 'https://tile.osmand.net/hd/{z}/{x}/{y}.png',
 		'attribution' => 'Map data &copy; 2013 <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
 		'minzoom' => '1',
 		'maxzoom' => '19'
-	),
-	Array(
+	],
+	[
 		'name' => 'OpenCycleMap',
 		'type' => 'tile',
 		'url' => 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png',
 		'attribution' => '&copy; <a href="https://www.opencyclemap.org">OpenCycleMap</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 		'minzoom' => '1',
 		'maxzoom' => '22'
-	),
-	Array(
+	],
+	[
 		'name' => 'OpenStreetMap Transport',
 		'type' => 'tile',
 		'url' => 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
 		'attribution' => 'Map data &copy; 2013 <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
 		'minzoom' => '1',
 		'maxzoom' => '22'
-	),
-	Array(
+	],
+	[
 		'name' => 'ESRI Aerial',
 		'type' => 'tile',
 		'url' => 'https://server.arcgisonline.com/ArcGIS/rest/services' .
@@ -85,8 +93,8 @@ $baseTileServers = [
 						 ' GIS User Community',
 		'minzoom' => '1',
 		'maxzoom' => '19'
-	),
-	Array(
+	],
+	[
 		'name' => 'ESRI Topo with relief',
 		'type' => 'tile',
 		'url' => 'https://server.arcgisonline.com/ArcGIS/rest/services/World' .
@@ -97,32 +105,32 @@ $baseTileServers = [
 						  ' Community',
 		'minzoom' => '1',
 		'maxzoom' => '19'
-	),
-	Array(
+	],
+	[
 		'name' => 'OpenTopoMap',
 		'type' => 'tile',
 		'url' => 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
 		'attribution' => 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramass.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
 		'minzoom' => '1',
 		'maxzoom' => '17'
-	),
-	Array(
+	],
+	[
 		'name' => 'Hike & bike',
 		'type' => 'tile',
 		'url' => 'http://a.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png',
 		'attribution' => 'Map data &copy; 2013 <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
 		'minzoom' => '1',
 		'maxzoom' => '18'
-	),
-	Array(
+	],
+	[
 		'name' => 'OpenStreetMap France',
 		'type' => 'tile',
 		'url' => 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
 		'attribution' => 'Map data &copy; 2013 <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
 		'minzoom' => '1',
 		'maxzoom' => '19'
-	),
-	Array(
+	],
+	[
 		'name' => 'IGN France',
 		'type' => 'tile',
 		'url' => 'https://wxs.ign.fr/ljthe66m795pr2v2g8p7faxt/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS' .
@@ -132,8 +140,8 @@ $baseTileServers = [
 		'attribution' => '&copy; <a href="https://www.ign.fr/">IGN-France</a>',
 		'minzoom' => '1',
 		'maxzoom' => '18'
-	),
-	Array(
+	],
+	[
 		'name' => 'Dark',
 		'type' => 'tile',
 		'url' => 'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
@@ -141,8 +149,8 @@ $baseTileServers = [
 						 ' OpenStreetMap, under ODbL.',
 		'minzoom' => '1',
 		'maxzoom' => '18'
-	),
-	Array(
+	],
+	[
 		'name' => 'WaterColor',
 		'type' => 'tile',
 		'url' => 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
@@ -154,8 +162,8 @@ $baseTileServers = [
 		'>CC BY SA</a>.',
 		'minzoom' => '1',
 		'maxzoom' => '18'
-	),
-	Array(
+	],
+	[
 		'name' => 'Toner',
 		'type' => 'tile|overlay',
 		'url' => 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.jpg',
@@ -167,8 +175,8 @@ $baseTileServers = [
 		'>CC BY SA</a>.',
 		'minzoom' => '1',
 		'maxzoom' => '18'
-	),
-	Array(
+	],
+	[
 		'name' => 'OsmFr Route500',
 		'type' => 'overlay',
 		'url' => 'https://{s}.tile.openstreetmap.fr/route500/{z}/{x}/{y}.png',
@@ -176,6 +184,6 @@ $baseTileServers = [
 		'opacity' => '0.5',
 		'minzoom' => '1',
 		'maxzoom' => '20'
-	),
+	],
 ];
 ?>
