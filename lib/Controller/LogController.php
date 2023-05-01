@@ -1985,10 +1985,10 @@ class LogController extends Controller {
 	 *
 	 * Ulogger Android
 	 **/
-	public function logUlogger(string $token, float $lat, float $lon, ?int $time = null, ?string $devicename = null,
+	public function logUlogger(string $token, ?float $lat = null, ?float $lon = null, ?int $time = null, ?string $devicename = null,
 							   ?float $accuracy = null, ?float $altitude = null,
 							   ?string $action = null, ?float $speed = null, ?float $bearing = null) {
-		if ($action === 'addpos') {
+		if ($action === 'addpos' && $lat !== null && $lon !== null) {
 			$dname = $this->chooseDeviceName($devicename);
 			$this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null,'Ulogger', $speed, $bearing);
 		}
