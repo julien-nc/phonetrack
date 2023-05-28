@@ -1934,8 +1934,8 @@ class LogController extends Controller {
 	 *
 	 * Owntracks IOS
 	 * @param string $token
-	 * @param float $lat
-	 * @param float $lon
+	 * @param float|null $lat
+	 * @param float|null $lon
 	 * @param string|null $devicename
 	 * @param string|null $tid
 	 * @param float|null $alt
@@ -1944,8 +1944,12 @@ class LogController extends Controller {
 	 * @param float|null $batt
 	 * @return mixed
 	 */
-	public function logOwntracks(string $token, float $lat, float $lon, ?string $devicename = null, ?string $tid = null,
+	public function logOwntracks(string $token, ?float $lat, ?float $lon, ?string $devicename = null, ?string $tid = null,
 								 ?float $alt = null, ?int $tst = null, ?float $acc = null, ?float $batt = null) {
+		if (is_null($lat)) {
+			// empty message (control message?) - ignore
+			return ['result' => 'ok'];
+		}
 		$dname = $this->chooseDeviceName($devicename, $tid);
 		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
 		return $res['friends'];
