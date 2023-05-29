@@ -1946,7 +1946,7 @@ class LogController extends Controller {
 	 */
 	public function logOwntracks(string $token, ?float $lat, ?float $lon, ?string $devicename = null, ?string $tid = null,
 								 ?float $alt = null, ?int $tst = null, ?float $acc = null, ?float $batt = null) {
-		if (is_null($lat)) {
+		if (is_null($lat) || is_null($lon)) {
 			// empty message (control message?) - ignore
 			return ['result' => 'ok'];
 		}
