@@ -12,7 +12,7 @@ curl --location --output /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.
 chmod +x /usr/local/bin/phpunit
 
 cd /var/www/html/custom_apps/
-git clone https://gitlab.com/eneiluj/phonetrack-oc phonetrack
+git clone https://github.com/julien-nc/phonetrack phonetrack
 
 sudo -u www-data php /var/www/html/occ maintenance:install --database "sqlite" --admin-user "admin" --admin-pass "password"
 sudo -u www-data php /var/www/html/occ app:enable phonetrack
