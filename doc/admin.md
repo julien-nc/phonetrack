@@ -27,7 +27,7 @@ If you want to be on the bleeding edge :
 
 ```
 cd /path/to/nextcloud/apps
-git clone https://gitlab.com/eneiluj/phonetrack-oc.git phonetrack
+git clone https://github.com/julien-nc/phonetrack.git phonetrack
 ```
 
 ### Download from Nextcloud apps website or the project's wiki

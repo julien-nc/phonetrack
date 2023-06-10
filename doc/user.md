@@ -2,7 +2,7 @@
 
 # Logging methods
 
-If you know a good and free ([as in "free speech"](https://www.gnu.org/philosophy/free-sw.en.html)) app which can log position to custom URL in background, [create an issue](https://gitlab.com/eneiluj/phonetrack-oc/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=) to let us know !
+If you know a good and free ([as in "free speech"](https://www.gnu.org/philosophy/free-sw.en.html)) app which can log position to custom URL in background, [create an issue](https://github.com/julien-nc/phonetrack/issues/new) to let us know !
 
 **Warning** : part of what follows is extremely subjective or ironic :grin:.
 
