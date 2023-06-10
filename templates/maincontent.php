@@ -745,10 +745,10 @@ foreach ($_['filtersBookmarks'] as $bookid => $e) {
 	<br/><hr/><br/>
 	<h3 class="sectiontitle"><?php p($l->t('Source management')); ?></h3>
 	<ul class="disclist">
-		<li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc">
+		<li><a class="toplink" target="_blank" href="https://github.com/julien-nc/phonetrack">
 		<i class="fab fa-gitlab" aria-hidden="true"></i>
 		Gitlab project main page</a></li>
-		<li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/issues">
+		<li><a class="toplink" target="_blank" href="https://github.com/julien-nc/phonetrack/issues">
 		<i class="fab fa-gitlab" aria-hidden="true"></i>
 		Gitlab project issue tracker</a></li>
 		<li><a class="toplink" target="_blank" href="https://crowdin.com/project/phonetrack">
@@ -763,7 +763,7 @@ foreach ($_['filtersBookmarks'] as $bookid => $e) {
 		<li>@mjanssens (Dutch translations)</li>
 		<li>@AndyKl (German translations)</li>
 		<li>@oswolf (German translations)</li>
-		<li>See <a class="toplink" href="https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md"
+		<li>See <a class="toplink" href="https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md"
 		target="_blank">AUTHORS file</a></li>
 	</ul>
 
