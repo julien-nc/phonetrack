@@ -6,7 +6,7 @@
 
 🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/cospend-nc/blob/master/Contributing.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md).
 
 How to use PhoneTrack :
 
