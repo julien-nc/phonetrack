@@ -6,7 +6,7 @@ PhoneTrack to aplikacja Nextcloud służąca do śledzenia i przechowywania loka
 
 🌍 Pomóż nam przetłumaczyć tę aplikację w [projekcie PhoneTrack Crowdin](https://crowdin.com/project/phonetrack).
 
-⚒ Sprawdź inne sposoby, aby pomóc w [wytycznych dotyczących wkładu](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Sprawdź inne sposoby, aby pomóc w [wytycznych dotyczących wkładu](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md).
 
 Jak korzystać z PhoneTrack:
 
@@ -44,9 +44,9 @@ Ta aplikacja jest w trakcie opracowywania.
 
 Zobacz szczegóły instalacji w [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc).
 
-Sprawdź plik [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log), aby zobaczyć, co nowego i co nadchodzi w następnym wydaniu.
+Sprawdź plik [CHANGELOG](https://github.com/julien-nc/phonetrack/blob/main/CHANGELOG.md#change-log), aby zobaczyć, co nowego i co nadchodzi w następnym wydaniu.
 
-Sprawdź plik [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors), aby wyświetlić pełną listę autorów.
+Sprawdź plik [AUTHORS](https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md#authors), aby wyświetlić pełną listę autorów.
 
 ## Znane problemy
 

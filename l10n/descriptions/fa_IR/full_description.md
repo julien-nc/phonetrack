@@ -6,7 +6,7 @@
 
 🌍 به ما ترجمه این برنامه را روی [PhoneTrack Crowdin پروژه](https://crowdin.com/project/phonetrack) کمک کند.
 
-⚒ بررسی کنید راه های دیگر برای کمک در [مشاهده تمام سهم](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ بررسی کنید راه های دیگر برای کمک در [مشاهده تمام سهم](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md).
 
 طريقة استعمال PhoneTrack:
 
@@ -44,9 +44,9 @@ This app is under development.
 
 برای مضاهده جزئیات بیشتر [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) را مشاهده کنید.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+Check [CHANGELOG](https://github.com/julien-nc/phonetrack/blob/main/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+Check [AUTHORS](https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md#authors) file to see complete list of authors.
 
 ## مشکلات شناخته شده
 

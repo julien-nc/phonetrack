@@ -6,7 +6,7 @@
 
 🌍 Help ons deze app te vertalen op [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Bekijk andere manieren om te helpen in de [bijdragerichtlijnen](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Bekijk andere manieren om te helpen in de [bijdragerichtlijnen](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md).
 
 Hoe gebruik je PhoneTrack:
 
@@ -44,9 +44,9 @@ Deze app is in ontwikkeling.
 
 Zie de [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) voor de installatiedetails.
 
-Controleer [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) bestand om te zien wat er nieuw is en wat er in de volgende release komt.
+Controleer [CHANGELOG](https://github.com/julien-nc/phonetrack/blob/main/CHANGELOG.md#change-log) bestand om te zien wat er nieuw is en wat er in de volgende release komt.
 
-Controleer het bestand [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) om de volledige lijst van auteurs te zien.
+Controleer het bestand [AUTHORS](https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md#authors) om de volledige lijst van auteurs te zien.
 
 ## Bekende problemen
 

@@ -6,7 +6,7 @@
 
 🌍 Помогнете ни да преведем това приложение на [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Вижте други начини за помощ в [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Вижте други начини за помощ в [contribution guidelines](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md).
 
 Как да използваме PhoneTrack:
 
@@ -44,9 +44,9 @@
 
 Вижте [ AdminDoc ](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) за подробности за инсталирането.
 
-Проверете [ CHANGELOG ](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) файла, за да видите какво има ново и какво предстои в следващото издание.
+Проверете [ CHANGELOG ](https://github.com/julien-nc/phonetrack/blob/main/CHANGELOG.md#change-log) файла, за да видите какво има ново и какво предстои в следващото издание.
 
-Проверете [ AUTHORS ](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) файла, за да видите пълния списък с автори.
+Проверете [ AUTHORS ](https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md#authors) файла, за да видите пълния списък с автори.
 
 ## Известни проблеми
 

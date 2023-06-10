@@ -6,7 +6,7 @@ PhoneTrack menerima informasi log dari perangkat mobile dan menampilkan-nya seca
 
 🌍 Bantu kami untuk alih bahasa di [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Silahkan kunjungi alternatif lain untuk membantu kami di [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Silahkan kunjungi alternatif lain untuk membantu kami di [contribution guidelines](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md).
 
 Bagaimana cara menggunakan PhoneTrack :
 
@@ -44,9 +44,9 @@ Fitur ini dalam pengembangan.
 
 Silahkan mengunjungi [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) untuk lebih detail tentang pemasangan.
 
-Silahkan periksa berkas [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) untuk melihat daftar perubahan dan rencana pengembangan.
+Silahkan periksa berkas [CHANGELOG](https://github.com/julien-nc/phonetrack/blob/main/CHANGELOG.md#change-log) untuk melihat daftar perubahan dan rencana pengembangan.
 
-Silahkan periksa berkas [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) untuk melihat daftar para pengarang.
+Silahkan periksa berkas [AUTHORS](https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md#authors) untuk melihat daftar para pengarang.
 
 ## Kendala yang Diketahui
 

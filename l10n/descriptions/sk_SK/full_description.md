@@ -6,7 +6,7 @@
 
 🌍 Pomôžte nám prekladať túto aplikáciu na [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Pozrite si iné možnosti ako pomôcť na [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Pozrite si iné možnosti ako pomôcť na [contribution guidelines](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md).
 
 Ako používať PhoneTrack :
 
@@ -44,9 +44,9 @@ Táto aplikácia je ešte vo vývoji.
 
 Pozrite si [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) pre detaily inštalácie.
 
-Pozrite si súbor [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) čo je nové a čo sa chystá do ďalšej verzie.
+Pozrite si súbor [CHANGELOG](https://github.com/julien-nc/phonetrack/blob/main/CHANGELOG.md#change-log) čo je nové a čo sa chystá do ďalšej verzie.
 
-Pozrite si súbor [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) a zobrazte si kompletný list autorov.
+Pozrite si súbor [AUTHORS](https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md#authors) a zobrazte si kompletný list autorov.
 
 ## Známe problémy
 

@@ -6,7 +6,7 @@
 
 🌍 請利用[PhoneTrack Crowdin 計畫](https://crowdin.com/project/phonetrack)幫助翻譯
 
-⚒ 在 [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md)中也有提供協助的方法
+⚒ 在 [contribution guidelines](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md)中也有提供協助的方法
 
 如何使用手機追蹤：
 
@@ -44,9 +44,9 @@
 
 安裝細節請查閱[AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc)
 
-下次更新版本中添加的新功能，請查閱[CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log)。
+下次更新版本中添加的新功能，請查閱[CHANGELOG](https://github.com/julien-nc/phonetrack/blob/main/CHANGELOG.md#change-log)。
 
-查閱[AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors)可得知所有作者。
+查閱[AUTHORS](https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md#authors)可得知所有作者。
 
 ## 已知待解決的問題
 

@@ -6,7 +6,7 @@ Aplicația primește informații de autentificare de la aplicațiile instalate p
 
 Ajută-ne să traducem această aplicație pe [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-Vezi și alte moduri de a ajuta în [ghid de contribuții](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+Vezi și alte moduri de a ajuta în [ghid de contribuții](https://github.com/julien-nc/phonetrack/blob/main/CONTRIBUTING.md).
 
 Cum să utilizați PhoneTrack:
 
@@ -44,9 +44,9 @@ Această aplicație este în curs de dezvoltare.
 
 Vezi [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) pentru detalii de instalare.
 
-Verificați fișierul [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) pentru a vedea ce este nou și ce urmează în următoarea versiune.
+Verificați fișierul [CHANGELOG](https://github.com/julien-nc/phonetrack/blob/main/CHANGELOG.md#change-log) pentru a vedea ce este nou și ce urmează în următoarea versiune.
 
-Verificați fișierul [AUTORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) pentru a vedea lista completă a autorilor.
+Verificați fișierul [AUTORS](https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md#authors) pentru a vedea lista completă a autorilor.
 
 ## Probleme cunoscute
 
