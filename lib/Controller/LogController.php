@@ -1428,14 +1428,14 @@ class LogController extends Controller {
 								`timestamp`
 							FROM `*PREFIX*phonetrack_points` p
 							JOIN (
-								SELECT `deviceid`, `nametoken`, `name`,
+								SELECT `deviceid`,
 									MAX(`timestamp`) `lastupdate`
 								FROM `*PREFIX*phonetrack_points` po
-								JOIN `*PREFIX*phonetrack_devices` d ON po.`deviceid` = d.`id`
-								WHERE `sessionid` = ?
-								GROUP BY `deviceid`, `nametoken`, `name`
+								GROUP BY `deviceid`
 							) l ON p.`deviceid` = l.`deviceid`
 							AND p.`timestamp` = l.`lastupdate`
+							JOIN `*PREFIX*phonetrack_devices` d ON p.`deviceid` = d.`id`
+							WHERE `sessionid` = ?
 						';
 						$friendReq = $this->dbconnection->prepare($friendSQL);
 						$friendReq->execute([$token]);
