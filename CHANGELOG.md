@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.7.7 – 2023-12-13
+
+### Changed
+
+- Bump min NC version to 27
+- Remove leaflet-measure because it uses eval
+
+### Fixed
+
+- Make app compatible with NC >= 28
+
 ## 0.7.6 – 2023-05-01
 
 ### Fixed
