@@ -35,11 +35,8 @@ import 'leaflet-dialog/Leaflet.Dialog.js'
 import 'leaflet-dialog/Leaflet.Dialog.css'
 import 'leaflet-hotline/dist/leaflet.hotline.min.js'
 import Countdown from 'ds-countdown/lib/countdown.bundle.js'
-import { getLocale } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
-import 'leaflet-measure'
-import 'leaflet-measure/dist/leaflet-measure.css'
 
 import { generateUrl } from '@nextcloud/router'
 
@@ -442,19 +439,6 @@ import '../css/phonetrack.scss'
 		if (OCA.Theming) {
 			// what?
 		}
-		const loc = getLocale()
-		const measureOptions = {
-			position: 'topleft',
-		}
-		if (['en', 'en_UK'].includes(loc)) {
-			measureOptions.primaryLengthUnit = 'feet'
-			measureOptions.secondaryLengthUnit = 'miles'
-		} else {
-			measureOptions.primaryLengthUnit = 'meters'
-			measureOptions.secondaryLengthUnit = 'kilometers'
-		}
-		const measureControl = new L.Control.Measure(measureOptions)
-		measureControl.addTo(phonetrack.map)
 		L.control.sidebar('sidebar').addTo(phonetrack.map)
 
 		phonetrack.map.setView(new L.LatLng(27, 5), 3)
