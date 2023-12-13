@@ -21,7 +21,7 @@ jobs:
 #        php-versions: ['8.2']
         databases: ['sqlite', 'mysql', 'pgsql']
 #        databases: ['sqlite']
-        server-versions: ['stable26', 'stable27', 'stable28', 'master']
+        server-versions: ['stable27', 'stable28', 'master']
 #        server-versions: ['master']
 #        exclude:
 #          - php-versions: 7.4

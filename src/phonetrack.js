@@ -458,7 +458,7 @@ import '../css/phonetrack.scss'
 		phonetrack.controlLayers = L.control.layers(
 			baseLayers,
 			baseOverlays,
-			{ position: 'topright', collapsed: true }
+			{ position: 'topright', collapsed: true },
 		)
 		phonetrack.controlLayers.addTo(phonetrack.map)
 
@@ -614,7 +614,7 @@ import '../css/phonetrack.scss'
 			entry.timestamp,
 			entry.useragent,
 			entry.speed,
-			entry.bearing
+			entry.bearing,
 		)
 		leaveMovePointMode()
 	}
@@ -640,7 +640,7 @@ import '../css/phonetrack.scss'
 			entry.timestamp,
 			entry.useragent,
 			entry.speed,
-			entry.bearing
+			entry.bearing,
 		)
 	}
 
@@ -828,19 +828,19 @@ import '../css/phonetrack.scss'
 		const slayers = $('#' + type + 'layers').val() || undefined
 		if (sname === '' || surl === '') {
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Server name or server address should not be empty')
+				t('phonetrack', 'Server name or server address should not be empty'),
 			)
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Impossible to add tile server')
+				t('phonetrack', 'Impossible to add tile server'),
 			)
 			return
 		}
 		if ($('#' + type + 'serverlist ul li[servername="' + sname + '"]').length > 0) {
 			OC.Notification.showTemporary(
-				t('phonetrack', 'A server with this name already exists')
+				t('phonetrack', 'A server with this name already exists'),
 			)
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Impossible to add tile server')
+				t('phonetrack', 'Impossible to add tile server'),
 			)
 			return
 		}
@@ -871,7 +871,7 @@ import '../css/phonetrack.scss'
 					+ escapeHtml(sname || '') + ' <button>'
 					+ '<i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> '
 					+ t('phonetrack', 'Delete')
-					+ '</button></li>'
+					+ '</button></li>',
 				)
 				$('#' + type + 'serverlist ul li[servername="' + sname + '"]').fadeIn()
 
@@ -1025,10 +1025,10 @@ import '../css/phonetrack.scss'
 		}).catch((error) => {
 			console.error(error)
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Failed to contact server to restore options values')
+				t('phonetrack', 'Failed to contact server to restore options values'),
 			)
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Reload this page')
+				t('phonetrack', 'Reload this page'),
 			)
 		})
 	}
@@ -1161,10 +1161,10 @@ import '../css/phonetrack.scss'
 			}).catch((error) => {
 				console.error(error)
 				OC.Notification.showTemporary(
-					t('phonetrack', 'Failed to contact server to save options values')
+					t('phonetrack', 'Failed to contact server to save options values'),
 				)
 				OC.Notification.showTemporary(
-					t('phonetrack', 'Reload this page')
+					t('phonetrack', 'Reload this page'),
 				)
 			})
 		}
@@ -1197,10 +1197,10 @@ import '../css/phonetrack.scss'
 		}).catch((error) => {
 			console.error(error)
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Failed to contact server to save filters bookmark')
+				t('phonetrack', 'Failed to contact server to save filters bookmark'),
 			)
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Reload this page')
+				t('phonetrack', 'Reload this page'),
 			)
 		})
 	}
@@ -1235,7 +1235,7 @@ import '../css/phonetrack.scss'
 		}).catch((error) => {
 			console.error(error)
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Failed to contact server to delete filters bookmark')
+				t('phonetrack', 'Failed to contact server to delete filters bookmark'),
 			)
 		})
 	}
@@ -1657,7 +1657,7 @@ import '../css/phonetrack.scss'
 				publicFilteredShares[i].filters,
 				publicFilteredShares[i].devicename,
 				publicFilteredShares[i].lastposonly,
-				publicFilteredShares[i].geofencify
+				publicFilteredShares[i].geofencify,
 			)
 		}
 		/// ////////////////////////////////////////////////////////
@@ -1694,7 +1694,7 @@ import '../css/phonetrack.scss'
 					phonetrack.sessionsFromSavedOptions[token][devid].line,
 					devalias,
 					devproxims,
-					devshape
+					devshape,
 				)
 				// once restored, get rid of the data
 				delete phonetrack.sessionsFromSavedOptions[token][devid]
@@ -1813,7 +1813,7 @@ import '../css/phonetrack.scss'
 			to = phonetrack.sessionLineLayers[token][d].getTooltip()._content
 			to = to.replace(
 				oldname + ' | ',
-				newname + ' | '
+				newname + ' | ',
 			)
 			phonetrack.sessionLineLayers[token][d].unbindTooltip()
 			phonetrack.sessionLineLayers[token][d].bindTooltip(
@@ -1822,7 +1822,7 @@ import '../css/phonetrack.scss'
 					permanent: false,
 					sticky: true,
 					className: 'tooltip' + token + d,
-				}
+				},
 			)
 		}
 	}
@@ -1871,7 +1871,7 @@ import '../css/phonetrack.scss'
 				permanent: false,
 				sticky: true,
 				className: 'tooltip' + token + d,
-			}
+			},
 		)
 		// update main marker letter
 		const mletter = $('#markerletter').is(':checked')
@@ -1935,7 +1935,7 @@ import '../css/phonetrack.scss'
 				permanent: false,
 				sticky: true,
 				className: 'tooltip' + token + d,
-			}
+			},
 		)
 		// update main marker letter
 		let letter = ''
@@ -2010,7 +2010,7 @@ import '../css/phonetrack.scss'
 							selected,
 							true,
 							response.data.sessions[s][2],
-							[]
+							[],
 						)
 					} else {
 						// session is mine !
@@ -2028,7 +2028,7 @@ import '../css/phonetrack.scss'
 							response.data.sessions[s][7],
 							response.data.sessions[s][8],
 							response.data.sessions[s][9],
-							response.data.sessions[s][10]
+							response.data.sessions[s][10],
 						)
 					}
 				}
@@ -2599,7 +2599,7 @@ import '../css/phonetrack.scss'
 							phonetrack.sessionsFromSavedOptions[s][d].line,
 							aliases[s][d],
 							devproxims,
-							devshape
+							devshape,
 						)
 						// once restored, get rid of the data
 						delete phonetrack.sessionsFromSavedOptions[s][d]
@@ -3019,7 +3019,7 @@ import '../css/phonetrack.scss'
 				permanent: false,
 				sticky: true,
 				className: 'tooltip' + s + d,
-			}
+			},
 		)
 		phonetrack.sessionLineLayers[s][d].on('mouseover', lineOver)
 		phonetrack.sessionLineLayers[s][d].on('mouseout', lineOut)
@@ -3165,7 +3165,7 @@ import '../css/phonetrack.scss'
 				for (e = entries.length - 1; e < entries.length; e++) {
 					entry = entries[e]
 					m = L.marker([entry.lat, entry.lon, entry.id],
-						{ icon }
+						{ icon },
 					)
 					m.session = s
 					m.device = d
@@ -3218,7 +3218,7 @@ import '../css/phonetrack.scss'
 			for (e = 0; e < entries.length; e++) {
 				entry = entries[e]
 				m = L.marker([entry.lat, entry.lon, entry.id],
-					{ icon }
+					{ icon },
 				)
 				m.session = s
 				m.device = d
@@ -3403,7 +3403,7 @@ import '../css/phonetrack.scss'
 			phonetrack.sessionPointsLayersById[token][deviceid][pointid].setLatLng([lat, lon, pointid])
 			if (!filter) {
 				phonetrack.sessionPointsLayers[token][deviceid].removeLayer(
-					phonetrack.sessionPointsLayersById[token][deviceid][pointid]
+					phonetrack.sessionPointsLayersById[token][deviceid][pointid],
 				)
 			}
 		}
@@ -3621,7 +3621,7 @@ import '../css/phonetrack.scss'
 			const icon = phonetrack.devicePointIcons[token][deviceid]
 			const m = L.marker(
 				[entry.lat, entry.lon, entry.id],
-				{ icon }
+				{ icon },
 			)
 			m.session = token
 			m.device = deviceid
@@ -4015,22 +4015,22 @@ import '../css/phonetrack.scss'
 				} else if (response.data.done === 3) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to import session') + '. '
-						+ t('phonetrack', 'File is not readable')
+						+ t('phonetrack', 'File is not readable'),
 					)
 				} else if (response.data.done === 4) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to import session') + '. '
-						+ t('phonetrack', 'File does not exist')
+						+ t('phonetrack', 'File does not exist'),
 					)
 				} else if (response.data.done === 5) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to import session') + '. '
-						+ t('phonetrack', 'Malformed XML file')
+						+ t('phonetrack', 'Malformed XML file'),
 					)
 				} else if (response.data.done === 6) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to import session') + '. '
-						+ t('phonetrack', 'There is no device to import in submitted file')
+						+ t('phonetrack', 'There is no device to import in submitted file'),
 					)
 				}
 			}).catch((error) => {
@@ -4980,7 +4980,7 @@ import '../css/phonetrack.scss'
 		}
 		const title = t('phonetrack',
 			'Configure {loggingApp} for logging to session \'{sessionName}\'',
-			{ sessionName, loggingApp: loggerName }
+			{ sessionName, loggingApp: loggerName },
 		)
 
 		$('#trackurlinput').show().val(url)
@@ -5202,7 +5202,7 @@ import '../css/phonetrack.scss'
 			OC.dialogs.confirm(
 				t('phonetrack',
 					'Are you sure you want to delete the session {session} ?',
-					{ session: sessionname }
+					{ session: sessionname },
 				),
 				t('phonetrack', 'Confirm session deletion'),
 				(result) => {
@@ -5210,7 +5210,7 @@ import '../css/phonetrack.scss'
 						deleteSession(token)
 					}
 				},
-				true
+				true,
 			)
 		})
 
@@ -5264,7 +5264,7 @@ import '../css/phonetrack.scss'
 					$('#autoexportpath').val(targetPath)
 					$('#autoexportpath').change()
 				},
-				false, 'httpd/unix-directory', true
+				false, 'httpd/unix-directory', true,
 			)
 		})
 
@@ -5439,7 +5439,7 @@ import '../css/phonetrack.scss'
 				function(targetPath) {
 					saveAction(name, token, targetPath, filename)
 				},
-				false, 'httpd/unix-directory', true
+				false, 'httpd/unix-directory', true,
 			)
 		})
 
@@ -5668,7 +5668,7 @@ import '../css/phonetrack.scss'
 				const lat = p[0]
 				const lon = p[1]
 				window.open(
-					'geo:' + lat + ',' + lon
+					'geo:' + lat + ',' + lon,
 				)
 			}
 		})
@@ -5684,7 +5684,7 @@ import '../css/phonetrack.scss'
 				'https://graphhopper.com/maps/?point=::where_are_you::&'
 				+ 'point=' + lat + '%2C' + lon + '&locale=fr&vehicle=car&'
 				+ 'weighting=fastest&elevation=true&use_miles=false&layer=Omniscale',
-				'_blank'
+				'_blank',
 			)
 		})
 
@@ -5697,7 +5697,7 @@ import '../css/phonetrack.scss'
 			const lon = p[1]
 			window.open(
 				'https://map.project-osrm.org/?z=12&center=' + lat + '%2C' + lon + '&loc=0.000000%2C0.000000&loc=' + lat + '%2C' + lon + '&hl=en&alt=0',
-				'_blank'
+				'_blank',
 			)
 		})
 
@@ -5710,7 +5710,7 @@ import '../css/phonetrack.scss'
 			const lon = p[1]
 			window.open(
 				'https://maps.openrouteservice.org/directions?n1=' + lat + '&n2=' + lon + '&n3=12&a=null,null,' + lat + ',' + lon + '&b=0&c=0&k1=en-US&k2=km',
-				'_blank'
+				'_blank',
 			)
 		})
 
@@ -5770,7 +5770,7 @@ import '../css/phonetrack.scss'
 			OC.dialogs.confirm(
 				t('phonetrack',
 					'Are you sure you want to delete the device {device}?',
-					{ device: devicename }
+					{ device: devicename },
 				),
 				t('phonetrack', 'Confirm device deletion'),
 				(result) => {
@@ -5778,7 +5778,7 @@ import '../css/phonetrack.scss'
 						deleteDevice(token, deviceid)
 					}
 				},
-				true
+				true,
 			)
 		})
 
@@ -5786,7 +5786,7 @@ import '../css/phonetrack.scss'
 			$(this).parent().parent().find('.sessionName').hide()
 			$(this).parent().parent().find('.renameSessionInput').show()
 			$(this).parent().parent().find('.renameSessionInput').val(
-				$(this).parent().parent().find('.sessionName').text()
+				$(this).parent().parent().find('.sessionName').text(),
 			)
 			$(this).parent().parent().find('.renameSessionInput').select()
 		})
@@ -5928,7 +5928,7 @@ import '../css/phonetrack.scss'
 				} else if (response.data.done === 2) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to set session auto export value')
-						+ '. ' + t('phonetrack', 'session does not exist')
+						+ '. ' + t('phonetrack', 'session does not exist'),
 					)
 				}
 			}).catch((error) => {
@@ -5951,7 +5951,7 @@ import '../css/phonetrack.scss'
 				} else if (response.data.done === 2) {
 					OC.Notification.showTemporary(
 						t('phonetrack', 'Failed to set session auto purge value')
-						+ '. ' + t('phonetrack', 'session does not exist')
+						+ '. ' + t('phonetrack', 'session does not exist'),
 					)
 				}
 			}).catch((error) => {
@@ -6049,7 +6049,7 @@ import '../css/phonetrack.scss'
 				},
 				false,
 				['application/gpx+xml', 'application/json', 'application/vnd.google-earth.kml+xml'],
-				true
+				true,
 			)
 		})
 
@@ -6442,7 +6442,7 @@ import '../css/phonetrack.scss'
 				+ 'border-bottom-width: ' + diam + 'px;'
 				+ 'border-bottom-style: solid;'
 				+ 'line-height: ' + (diam) + 'px;'
-				+ '}'
+				+ '}',
 			)
 			// change iconanchor
 			let s, d, pid, icon, iconMarker, shape, dname, dalias, letter

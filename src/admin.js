@@ -16,13 +16,13 @@ function setPhoneTrackQuota(val) {
 	axios.post(url, req)
 		.then((response) => {
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Quota was successfully saved')
+				t('phonetrack', 'Quota was successfully saved'),
 			)
 		})
 		.catch((error) => {
 			console.error(error)
 			OC.Notification.showTemporary(
-				t('phonetrack', 'Failed to save quota')
+				t('phonetrack', 'Failed to save quota'),
 			)
 		})
 }

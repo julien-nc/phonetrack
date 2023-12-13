@@ -32,8 +32,8 @@
 		"extends @nextcloud/browserslist-config"
 	],
 	"engines": {
-		"node": "^16.0.0",
-		"npm": "^7.0.0 || ^8.0.0"
+		"node": "^20.0.0",
+		"npm": "^8 || ^9 || ^10"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.1.1",
@@ -63,10 +63,10 @@
 	},
 	"devDependencies": {
 		"@nextcloud/babel-config": "^1.0.0",
-		"@nextcloud/browserslist-config": "^2.2.0",
+		"@nextcloud/browserslist-config": "^3.0.0",
 		"@nextcloud/eslint-config": "^8.0.0",
 		"@nextcloud/stylelint-config": "^2.1.2",
-		"@nextcloud/webpack-vue-config": "^5.1.0",
+		"@nextcloud/webpack-vue-config": "^6.0.0",
 		"eslint-webpack-plugin": "^4.0.1",
 		"stylelint-webpack-plugin": "^4.1.1"
 	}
