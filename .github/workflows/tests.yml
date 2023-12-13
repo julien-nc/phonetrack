@@ -17,17 +17,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.4', '8.0', '8.1']
-#        php-versions: ['7.4', '8.1']
+        php-versions: ['8.0', '8.1', '8.2']
+#        php-versions: ['8.2']
         databases: ['sqlite', 'mysql', 'pgsql']
 #        databases: ['sqlite']
-        server-versions: ['stable24', 'stable25', 'stable26', 'master']
+        server-versions: ['stable26', 'stable27', 'stable28', 'master']
 #        server-versions: ['master']
-        exclude:
-          - php-versions: 7.4
-            server-versions: stable26
-          - php-versions: 7.4
-            server-versions: master
+#        exclude:
+#          - php-versions: 7.4
+#            server-versions: stable26
+#          - php-versions: 7.4
+#            server-versions: master
 
     name: php${{ matrix.php-versions }}-${{ matrix.databases }}-${{ matrix.server-versions }}
 
