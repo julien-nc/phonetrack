@@ -37,9 +37,9 @@ Here is a brief description of the `fork and merge request` workflow (or at leas
 * Create a branch from your up-to-date master to make a bunch of commits **related to one single topic**. Name the branch explicitly.
 * Create a merge request from this branch to master branch of the original project
 
-Here is a memo of git commands to run after having forked the project on gitlab.com :
+Here is a memo of git commands to run after having forked the project on github.com :
 ``` bash
-git clone https://gitlab.com/yourlogin/phonetrack-oc phonetrack
+git clone https://github.com/yourlogin/phonetrack phonetrack
 cd phonetrack
 
 # on your local branch master, to get changes from master branch of original project :
@@ -77,7 +77,7 @@ git rebase master
 
 ## Tests
 
-If you want to trigger Continuous Integration tests on Gitlab, just push to your branch `test`
+If you want to trigger Continuous Integration tests on GitHub, just push to your branch `test`
 
 ``` bash
 # from any branch, for example from branch 'new_feature1'
