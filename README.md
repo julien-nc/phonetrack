@@ -1,7 +1,7 @@
 # PhoneTrack Nextcloud application
 
-[![Build status](https://gitlab.com/eneiluj/phonetrack-oc/badges/master/build.svg)](https://github.com/julien-nc/phonetrack/commits/main)
 [![coverage report](https://gitlab.com/eneiluj/phonetrack-oc/badges/master/coverage.svg)](https://eneiluj.gitlab.io/phonetrack-oc/coverage/)
+[![Build status](https://github.com/julien-nc/phonetrack/actions/workflows/release.yml/badge.svg)](https://github.com/julien-nc/phonetrack/commits/main)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/phonetrack/localized.svg)](https://crowdin.com/project/phonetrack)
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack
