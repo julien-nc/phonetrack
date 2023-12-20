@@ -91,7 +91,6 @@ build_release: clean
 	--exclude=src \
 	--exclude=translationfiles \
 	--exclude=webpack.* \
-	--exclude=.gitlab-ci.yml \
 	--exclude=crowdin.yml \
 	--exclude=tools \
 	--exclude=l10n/.tx \
