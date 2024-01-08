@@ -11,9 +11,11 @@
 
 namespace OCA\PhoneTrack\Controller;
 
-use OCP\App\IAppManager;
-
-use OCP\Files\IRootFolder;
+use OCA\PhoneTrack\AppInfo\Application;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -21,7 +23,6 @@ use OCP\IL10N;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
 use OCP\IUserManager;
-use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -32,62 +33,41 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\Db\SessionMapper;
-use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Activity\ActivityManager;
 
-function distance($lat1, $long1, $lat2, $long2){
-
+function distance(float $lat1, float $long1, float $lat2, float $long2): float {
 	if ($lat1 === $lat2 && $long1 === $long2){
 		return 0;
 	}
 
-	// Convert latitude and longitude to
-	// spherical coordinates in radians.
-	$degrees_to_radians = pi()/180.0;
+	// Convert latitude and longitude to spherical coordinates in radians
+	$degrees_to_radians = pi() / 180.0;
 
 	// phi = 90 - latitude
-	$phi1 = (90.0 - $lat1)*$degrees_to_radians;
-	$phi2 = (90.0 - $lat2)*$degrees_to_radians;
+	$phi1 = (90.0 - $lat1) * $degrees_to_radians;
+	$phi2 = (90.0 - $lat2) * $degrees_to_radians;
 
 	// theta = longitude
 	$theta1 = $long1*$degrees_to_radians;
 	$theta2 = $long2*$degrees_to_radians;
 
-	$cos = (sin($phi1)*sin($phi2)*cos($theta1 - $theta2) +
-		   cos($phi1)*cos($phi2));
-	// why some cosinus are > than 1 ?
+	$cos = (sin($phi1) * sin($phi2) * cos($theta1 - $theta2) +
+		   cos($phi1) * cos($phi2));
+	// why are some cosinuses > than 1?
 	if ($cos > 1.0){
 		$cos = 1.0;
 	}
 	$arc = acos($cos);
 
-	// Remember to multiply arc by the radius of the earth
-	// in your favorite set of units to get length.
-	return $arc*6371000;
-}
-
-function endswith($string, $test) {
-	$strlen = strlen($string);
-	$testlen = strlen($test);
-	if ($testlen > $strlen) return false;
-	return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
+	// Remember to multiply arc by the radius of the earth in your favorite set of units to get length
+	return $arc * 6371000;
 }
 
 class PageController extends Controller {
 
-	private $userId;
-	private $userfolder;
-	private $config;
 	private $appVersion;
-	private $shareManager;
-	private $userManager;
-	private $dbconnection;
 	private $dbtype;
 	private $dbdblquotes;
-	private $appPath;
-	private $defaultDeviceId;
-	private $logger;
-	protected $appName;
 	private $currentXmlTag;
 	private $importToken;
 	private $importDevName;
@@ -95,67 +75,41 @@ class PageController extends Controller {
 	private $currentPointList;
 	private $trackIndex;
 	private $pointIndex;
-	/**
-	 * @var IRootFolder
-	 */
-	private $root;
 
-	public function __construct(string $AppName,
-								IRequest $request,
-								IConfig $config,
-								IManager $shareManager,
-								IAppManager $appManager,
-								IUserManager $userManager,
-								LoggerInterface $logger,
-								IL10N $trans,
-								ActivityManager $activityManager,
-								SessionMapper $sessionMapper,
-								DeviceMapper $deviceMapper,
-								SessionService $sessionService,
-								IDBConnection $dbconnection,
-								IRootFolder $root,
-								?string $UserId) {
-		parent::__construct($AppName, $request);
-		$this->logger = $logger;
-		$this->appName = $AppName;
-		$this->trans = $trans;
-		$this->activityManager = $activityManager;
-		$this->sessionMapper = $sessionMapper;
-		$this->sessionService = $sessionService;
-		$this->deviceMapper = $deviceMapper;
-		$this->appVersion = $config->getAppValue('phonetrack', 'installed_version');
-		if (method_exists($appManager, 'getAppPath')){
-			$this->appPath = $appManager->getAppPath('phonetrack');
-		}
-		$this->userId = $UserId;
-		$this->userManager = $userManager;
+	public function __construct(
+		string                  $appName,
+		IRequest                $request,
+		private IConfig         $config,
+		private IUserManager    $userManager,
+		private LoggerInterface $logger,
+		private IL10N           $trans,
+		private ActivityManager $activityManager,
+		private SessionMapper   $sessionMapper,
+		private SessionService  $sessionService,
+		private IDBConnection   $dbConnection,
+		private ?string         $userId
+	) {
+		parent::__construct($appName, $request);
+		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
 		$this->dbtype = $config->getSystemValue('dbtype');
-		// IConfig object
-		$this->config = $config;
-
 		if ($this->dbtype === 'pgsql'){
 			$this->dbdblquotes = '"';
-		}
-		else{
+		} else {
 			$this->dbdblquotes = '';
 		}
-		$this->dbconnection = $dbconnection;
-		$this->shareManager = $shareManager;
-		$this->defaultDeviceId = ['yourname', 'deviceid'];
-		$this->root = $root;
 	}
 
 	/*
 	 * quote and choose string escape function depending on database used
 	 */
 	private function db_quote_escape_string($str){
-		return $this->dbconnection->quote($str);
+		return $this->dbConnection->quote($str);
 	}
 
 	private function getUserTileServers($type){
 		$tss = [];
 		// custom tile servers management
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('servername', 'type', 'url', 'layers', 'token',
 				   'version', 'format', 'opacity', 'transparent',
 				   'minzoom', 'maxzoom', 'attribution')
@@ -182,9 +136,9 @@ class PageController extends Controller {
 	/**
 	 * Welcome page.
 	 * Get session list
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function index() {
 		//date_default_timezone_set('Europe/Paris');
 		//phpinfo();
@@ -213,7 +167,7 @@ class PageController extends Controller {
 			'filtersBookmarks'=>$this->getFiltersBookmarks(),
 			'phonetrack_version'=>$this->appVersion
 		];
-		$response = new TemplateResponse('phonetrack', 'main', $params);
+		$response = new TemplateResponse(Application::APP_ID, 'main', $params);
 		$response->addHeader("Access-Control-Allow-Origin", "*");
 		$csp = new ContentSecurityPolicy();
 		$csp
@@ -236,7 +190,7 @@ class PageController extends Controller {
 	private function getReservedNames($token) {
 		$result = [];
 
-		$qb = $this->dbconnection->getQueryBuilder();
+		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('name', 'nametoken')
 			->from('phonetrack_devices', 'd')
 			->where(
@@ -260,10 +214,9 @@ class PageController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * get sessions owned by and shared with current user
 	 */
+	#[NoAdminRequired]
 	public function getSessions() {
 		$sessions = [];
 		// sessions owned by current user
@@ -272,7 +225,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 			ORDER BY LOWER(name) ASC ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbname = $row['name'];
@@ -286,10 +239,10 @@ class PageController extends Controller {
 			$reservedNames = $this->getReservedNames($dbtoken);
 			$publicShares = $this->getPublicShares($dbtoken);
 			$devices = $this->getDevices($dbtoken);
-			array_push($sessions, [
+			$sessions[] = [
 				$dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic,
 				$sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge, $dblocked
-			]);
+			];
 		}
 		$req->closeCursor();
 
@@ -299,7 +252,7 @@ class PageController extends Controller {
 			SELECT sessionid, sharetoken
 			FROM *PREFIX*phonetrack_shares
 			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
-		$req = $this->dbconnection->prepare($sqlgetshares);
+		$req = $this->dbConnection->prepare($sqlgetshares);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbsessionid = $row['sessionid'];
@@ -316,25 +269,16 @@ class PageController extends Controller {
 		}
 		$req->closeCursor();
 
-		$response = new DataResponse(
-			[
-				'sessions'=>$sessions
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'sessions' => $sessions,
+		]);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
 	 * get sessions owned by and shared with current user
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function APIgetSessions() {
 		$sessions = [];
 		// sessions owned by current user
@@ -343,7 +287,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 			ORDER BY LOWER(name) ASC ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbname = $row['name'];
@@ -356,10 +300,10 @@ class PageController extends Controller {
 			$reservedNames = $this->getReservedNames($dbtoken);
 			$publicShares = $this->getPublicShares($dbtoken);
 			$devices = $this->getDevices($dbtoken);
-			array_push($sessions, [
+			$sessions[] = [
 				$dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith,
 				$reservedNames, $publicShares, $dbautoexport, $dbautopurge
-			]);
+			];
 		}
 		$req->closeCursor();
 
@@ -371,7 +315,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_shares
 			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_shares.sessionid=*PREFIX*phonetrack_sessions.token
 			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
-		$req = $this->dbconnection->prepare($sqlgetshares);
+		$req = $this->dbConnection->prepare($sqlgetshares);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbsessionid = $row['sessionid'];
@@ -404,7 +348,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_devices
 			WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
 			ORDER BY LOWER(name) ASC ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbid = $row['id'];
@@ -429,7 +373,7 @@ class PageController extends Controller {
 			SELECT name, '.$this->dbdblquotes.'user'.$this->dbdblquotes.'
 			FROM *PREFIX*phonetrack_sessions
 			WHERE token='.$this->db_quote_escape_string($sessionid).';';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbname = $row['name'];
@@ -451,7 +395,7 @@ class PageController extends Controller {
 			SELECT username
 			FROM *PREFIX*phonetrack_shares
 			WHERE sessionid='.$this->db_quote_escape_string($sessionid).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbusername = null;
 		while ($row = $req->fetch()){
@@ -473,7 +417,7 @@ class PageController extends Controller {
 				DELETE FROM *PREFIX*phonetrack_shares
 				WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
 					AND username='.$this->db_quote_escape_string($uid).' ;';
-			$req = $this->dbconnection->prepare($sqldel);
+			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
 		}
@@ -490,29 +434,23 @@ class PageController extends Controller {
 			SELECT *
 			FROM *PREFIX*phonetrack_pubshares
 			WHERE sessionid='.$this->db_quote_escape_string($sessionid).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
-		$dbusername = null;
 		while ($row = $req->fetch()){
-			array_push(
-				$shares,
-				[
-					'token'=>$row['sharetoken'],
-					'filters'=>$row['filters'],
-					'devicename'=>$row['devicename'],
-					'lastposonly'=>$row['lastposonly'],
-					'geofencify'=>$row['geofencify']
-				]
-			);
+			$shares[] = [
+				'token' => $row['sharetoken'],
+				'filters' => $row['filters'],
+				'devicename' => $row['devicename'],
+				'lastposonly' => $row['lastposonly'],
+				'geofencify' => $row['geofencify'],
+			];
 		}
 		$req->closeCursor();
 
 		return $shares;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setPublicShareDevice($token, $sharetoken, $devicename) {
 		$done = 0;
 		// check if sessions exists
@@ -521,7 +459,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -537,7 +475,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_pubshares
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 				AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbshareid = null;
 			while ($row = $req->fetch()){
@@ -551,36 +489,27 @@ class PageController extends Controller {
 					UPDATE *PREFIX*phonetrack_pubshares
 					SET devicename='.$this->db_quote_escape_string($devicename).'
 					WHERE id='.$this->db_quote_escape_string($dbshareid).' ;';
-				$req = $this->dbconnection->prepare($sqlupd);
+				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
 
 				$done = 1;
-			}
-			else {
+			} else {
 				$done = 3;
 			}
-		}
-		else {
+		} else {
 			$done = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$done
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $done,
+		]);
 	}
 
 	/**
 	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function setPublicShareGeofencify($token, $sharetoken, $geofencify) {
 		$done = 0;
 		// check if sessions exists
@@ -589,7 +518,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -605,7 +534,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_pubshares
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 					  AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbshareid = null;
 			while ($row = $req->fetch()){
@@ -619,36 +548,24 @@ class PageController extends Controller {
 					UPDATE *PREFIX*phonetrack_pubshares
 					SET geofencify='.$this->db_quote_escape_string($geofencify).'
 					WHERE id='.$this->db_quote_escape_string($dbshareid).' ;';
-				$req = $this->dbconnection->prepare($sqlupd);
+				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
 
 				$done = 1;
-			}
-			else {
+			} else {
 				$done = 3;
 			}
-		}
-		else {
+		} else {
 			$done = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$done
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $done,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setPublicShareLastOnly($token, $sharetoken, $lastposonly) {
 		$done = 0;
 		// check if sessions exists
@@ -657,7 +574,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -673,7 +590,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_pubshares
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 					  AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbshareid = null;
 			while ($row = $req->fetch()){
@@ -687,44 +604,30 @@ class PageController extends Controller {
 					UPDATE *PREFIX*phonetrack_pubshares
 					SET lastposonly='.$this->db_quote_escape_string($lastposonly).'
 					WHERE id='.$this->db_quote_escape_string($dbshareid).' ;';
-				$req = $this->dbconnection->prepare($sqlupd);
+				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
 
 				$done = 1;
-			}
-			else {
+			} else {
 				$done = 3;
 			}
-		}
-		else {
+		} else {
 			$done = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$done
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $done,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function APIcreateSession($sessionname) {
 		return $this->createSession($sessionname);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function createSession($name) {
 		$token = '';
 		$publicviewtoken = '';
@@ -734,7 +637,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 			AND name='.$this->db_quote_escape_string($name).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -759,34 +662,23 @@ class PageController extends Controller {
 						  $this->db_quote_escape_string('1').','.
 						  $this->db_quote_escape_string($this->appVersion).'
 				);';
-			$req = $this->dbconnection->prepare($sql);
+			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
 			$req->closeCursor();
 
 			$ok = 1;
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-				'token'=>$token,
-				'publicviewtoken'=>$publicviewtoken
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+			'token' => $token,
+			'publicviewtoken' => $publicviewtoken,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deleteSession($token) {
 		$ok = 0;
 		// check if session exists
@@ -795,7 +687,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -811,7 +703,7 @@ class PageController extends Controller {
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
 			while ($row = $req->fetch()){
@@ -826,14 +718,14 @@ class PageController extends Controller {
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_shares
 				WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqldel);
+			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
 
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_pubshares
 				WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqldel);
+			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
 
@@ -841,32 +733,21 @@ class PageController extends Controller {
 				DELETE FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqldel);
+			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
 
 			$ok = 1;
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deletePoints($token, $deviceid, $pointids) {
 		$ok = 0;
 		// check if session exists
@@ -875,7 +756,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -892,7 +773,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 					  AND id='.$this->db_quote_escape_string($deviceid).' ;';
-			$req = $this->dbconnection->prepare($sqldev);
+			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbdid =  $row['id'];
@@ -909,40 +790,27 @@ class PageController extends Controller {
 						DELETE FROM *PREFIX*phonetrack_points
 						WHERE deviceid='.$this->db_quote_escape_string($dbdid).'
 							  AND (id='.implode(' OR id=', $escapedPointIds).');';
-					$req = $this->dbconnection->prepare($sqldel);
+					$req = $this->dbConnection->prepare($sqldel);
 					$req->execute();
 					$req->closeCursor();
 
 					$ok = 1;
-				}
-				else {
+				} else {
 					$ok = 2;
 				}
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 4;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function updatePoint($token, $deviceid, $pointid,
 		$lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing) {
 		// check if session exists
@@ -951,7 +819,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				   AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -968,7 +836,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 					  AND id='.$this->db_quote_escape_string($deviceid).' ;';
-			$req = $this->dbconnection->prepare($sqldev);
+			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbdid =  $row['id'];
@@ -982,7 +850,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_points
 					WHERE deviceid='.$this->db_quote_escape_string($dbdid).'
 						  AND id='.$this->db_quote_escape_string($pointid).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbpid = null;
 				while ($row = $req->fetch()){
@@ -1007,40 +875,27 @@ class PageController extends Controller {
 							 bearing='.(is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').'
 						WHERE deviceid='.$this->db_quote_escape_string($dbdid).'
 							  AND id='.$this->db_quote_escape_string($dbpid).' ;';
-					$req = $this->dbconnection->prepare($sqlupd);
+					$req = $this->dbConnection->prepare($sqlupd);
 					$req->execute();
 					$req->closeCursor();
 
 					$ok = 1;
-				}
-				else {
+				} else {
 					$ok = 2;
 				}
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 4;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setSessionPublic($token, $public) {
 		$ok = 0;
 		if (intval($public) === 1 || intval($public) === 0) {
@@ -1050,7 +905,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
 			while ($row = $req->fetch()){
@@ -1065,41 +920,29 @@ class PageController extends Controller {
 					SET public='.$this->db_quote_escape_string($public).'
 					WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 						  AND token='.$this->db_quote_escape_string($token).' ;';
-				$req = $this->dbconnection->prepare($sqlren);
+				$req = $this->dbConnection->prepare($sqlren);
 				$req->execute();
 				$req->closeCursor();
 
 				$ok = 1;
-			}
-			else {
+			} else {
 				$ok = 2;
 			}
-		}
-		else {
+		} else {
 			$ok = 3;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setSessionLocked($token, $locked) {
 		$ilocked = intval($locked);
 		if ($ilocked === 1 || $ilocked === 0) {
 			// check if session exists
-			$qb = $this->dbconnection->getQueryBuilder();
+			$qb = $this->dbConnection->getQueryBuilder();
 			// is the project shared with the user ?
 			$qb->select('name')
 				->from('phonetrack_sessions', 's')
@@ -1130,23 +973,18 @@ class PageController extends Controller {
 				$req = $qb->execute();
 				$qb = $qb->resetQueryParts();
 
-				$response = new DataResponse(['done'=>1]);
-				return $response;
+				return new DataResponse(['done' => 1]);
 			}
 			else {
-				$response = new DataResponse(['done'=>2], 400);
-				return $response;
+				return new DataResponse(['done' => 2], Http::STATUS_BAD_REQUEST);
 			}
 		}
 		else {
-			$response = new DataResponse(['done'=>3], 400);
-			return $response;
+			return new DataResponse(['done' => 3], Http::STATUS_BAD_REQUEST);
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setSessionAutoExport($token, $value) {
 		// check if session exists
 		$sqlchk = '
@@ -1154,7 +992,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -1169,32 +1007,21 @@ class PageController extends Controller {
 				SET autoexport='.$this->db_quote_escape_string($value).'
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlren);
+			$req = $this->dbConnection->prepare($sqlren);
 			$req->execute();
 			$req->closeCursor();
 
 			$ok = 1;
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setSessionAutoPurge($token, $value) {
 		// check if session exists
 		$sqlchk = '
@@ -1202,7 +1029,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -1217,32 +1044,21 @@ class PageController extends Controller {
 				SET autopurge='.$this->db_quote_escape_string($value).'
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlren);
+			$req = $this->dbConnection->prepare($sqlren);
 			$req->execute();
 			$req->closeCursor();
 
 			$ok = 1;
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setDeviceColor($session, $device, $color) {
 		$ok = 0;
 		// check if session exists
@@ -1251,7 +1067,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($session).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -1267,7 +1083,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($session).'
 					  AND id='.$this->db_quote_escape_string($device).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
 			while ($row = $req->fetch()){
@@ -1282,35 +1098,23 @@ class PageController extends Controller {
 					SET color='.$this->db_quote_escape_string($color).'
 					WHERE id='.$this->db_quote_escape_string($device).'
 						  AND sessionid='.$this->db_quote_escape_string($session).' ;';
-				$req = $this->dbconnection->prepare($sqlupd);
+				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
 				$ok = 1;
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setDeviceShape($session, $device, $shape) {
 		$ok = 0;
 		// check if session exists
@@ -1319,7 +1123,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($session).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -1335,7 +1139,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($session).'
 					  AND id='.$this->db_quote_escape_string($device).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
 			while ($row = $req->fetch()){
@@ -1350,35 +1154,23 @@ class PageController extends Controller {
 					SET shape='.$this->db_quote_escape_string($shape).'
 					WHERE id='.$this->db_quote_escape_string($device).'
 						  AND sessionid='.$this->db_quote_escape_string($session).' ;';
-				$req = $this->dbconnection->prepare($sqlupd);
+				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
 				$ok = 1;
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function renameSession($token, $newname) {
 		$ok = 0;
 		if ($newname !== '' && $newname !== null) {
@@ -1388,7 +1180,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
 			while ($row = $req->fetch()){
@@ -1403,36 +1195,24 @@ class PageController extends Controller {
 					SET name='.$this->db_quote_escape_string($newname).'
 					WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 						  AND token='.$this->db_quote_escape_string($token).' ;';
-				$req = $this->dbconnection->prepare($sqlren);
+				$req = $this->dbConnection->prepare($sqlren);
 				$req->execute();
 				$req->closeCursor();
 
 				$ok = 1;
-			}
-			else {
+			} else {
 				$ok = 2;
 			}
-		}
-		else {
+		} else {
 			$ok = 3;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function renameDevice($token, $deviceid, $newname) {
 		$ok = 0;
 		if ($newname !== '' && $newname !== null) {
@@ -1442,7 +1222,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbtoken = null;
 			while ($row = $req->fetch()){
@@ -1458,7 +1238,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND id='.$this->db_quote_escape_string($deviceid).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdeviceid = null;
 				while ($row = $req->fetch()){
@@ -1472,40 +1252,27 @@ class PageController extends Controller {
 						SET name='.$this->db_quote_escape_string($newname).'
 						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 							  AND id='.$this->db_quote_escape_string($dbdeviceid).' ;';
-					$req = $this->dbconnection->prepare($sqlren);
+					$req = $this->dbConnection->prepare($sqlren);
 					$req->execute();
 					$req->closeCursor();
 
 					$ok = 1;
-				}
-				else {
+				} else {
 					$ok = 2;
 				}
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 4;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function setDeviceAlias($token, $deviceid, $newalias) {
 		$ok = 0;
 		if ($newalias !== null) {
@@ -1515,7 +1282,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbtoken = null;
 			while ($row = $req->fetch()){
@@ -1531,7 +1298,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND id='.$this->db_quote_escape_string($deviceid).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdeviceid = null;
 				while ($row = $req->fetch()){
@@ -1545,40 +1312,27 @@ class PageController extends Controller {
 						SET alias='.$this->db_quote_escape_string($newalias).'
 						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 							  AND id='.$this->db_quote_escape_string($dbdeviceid).' ;';
-					$req = $this->dbconnection->prepare($sqlren);
+					$req = $this->dbConnection->prepare($sqlren);
 					$req->execute();
 					$req->closeCursor();
 
 					$ok = 1;
-				}
-				else {
+				} else {
 					$ok = 2;
 				}
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 4;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done'=>$ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function reaffectDevice($token, $deviceid, $newSessionId) {
 		$ok = 0;
 		// check if session exists
@@ -1587,7 +1341,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbtoken = null;
 		while ($row = $req->fetch()){
@@ -1603,7 +1357,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($newSessionId).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdesttoken = null;
 			while ($row = $req->fetch()){
@@ -1618,7 +1372,7 @@ class PageController extends Controller {
 					SELECT id, name FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND id='.$this->db_quote_escape_string($deviceid).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdeviceid = null;
 				$dbdevicename = null;
@@ -1635,7 +1389,7 @@ class PageController extends Controller {
 						FROM *PREFIX*phonetrack_devices
 						WHERE sessionid='.$this->db_quote_escape_string($dbdesttoken).'
 							  AND name='.$this->db_quote_escape_string($dbdevicename).' ;';
-					$req = $this->dbconnection->prepare($sqlchk);
+					$req = $this->dbConnection->prepare($sqlchk);
 					$req->execute();
 					$dbdestname = null;
 					while ($row = $req->fetch()){
@@ -1649,44 +1403,30 @@ class PageController extends Controller {
 							SET sessionid='.$this->db_quote_escape_string($dbdesttoken).'
 							WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 								  AND id='.$this->db_quote_escape_string($dbdeviceid).' ;';
-						$req = $this->dbconnection->prepare($sqlreaff);
+						$req = $this->dbConnection->prepare($sqlreaff);
 						$req->execute();
 						$req->closeCursor();
 
 						$ok = 1;
-					}
-					else {
+					} else {
 						$ok = 3;
 					}
-				}
-				else {
+				} else {
 					$ok = 4;
 				}
-			}
-			else {
+			} else {
 				$ok = 5;
 			}
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deleteDevice($token, $deviceid) {
 		$ok = 0;
 		// check if session exists
@@ -1695,7 +1435,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -1711,7 +1451,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 					  AND id='.$this->db_quote_escape_string($deviceid).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdeviceid = null;
 			while ($row = $req->fetch()){
@@ -1723,14 +1463,14 @@ class PageController extends Controller {
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_points
 					WHERE deviceid='.$this->db_quote_escape_string($dbdeviceid).' ;';
-				$req = $this->dbconnection->prepare($sqldel);
+				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_geofences
 					WHERE deviceid='.$this->db_quote_escape_string($dbdeviceid).' ;';
-				$req = $this->dbconnection->prepare($sqldel);
+				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
@@ -1738,44 +1478,33 @@ class PageController extends Controller {
 					DELETE FROM *PREFIX*phonetrack_proxims
 					WHERE deviceid1='.$this->db_quote_escape_string($dbdeviceid).'
 						  OR deviceid2='.$this->db_quote_escape_string($dbdeviceid).' ;';
-				$req = $this->dbconnection->prepare($sqldel);
+				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_devices
 					WHERE id='.$this->db_quote_escape_string($dbdeviceid).' ;';
-				$req = $this->dbconnection->prepare($sqldel);
+				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 				$ok = 1;
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+		]);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 *
 	 * called by normal (logged) page
 	 */
+	#[NoAdminRequired]
 	public function track($sessions) {
 		$result = [];
 		$colors = [];
@@ -1796,7 +1525,7 @@ class PageController extends Controller {
 			}
 		}
 		// get option value
-		$nbpointsload = $this->config->getUserValue($this->userId, 'phonetrack', 'nbpointsload', '10000');
+		$nbpointsload = $this->config->getUserValue($this->userId, Application::APP_ID, 'nbpointsload', '10000');
 
 		if (is_array($sessions)) {
 			foreach ($sessions as $session) {
@@ -1811,7 +1540,7 @@ class PageController extends Controller {
 						SELECT token
 						FROM *PREFIX*phonetrack_sessions
 						WHERE token='.$this->db_quote_escape_string($token).' ;';
-					$req = $this->dbconnection->prepare($sqlget);
+					$req = $this->dbConnection->prepare($sqlget);
 					$req->execute();
 					while ($row = $req->fetch()){
 						$dbtoken = $row['token'];
@@ -1825,7 +1554,7 @@ class PageController extends Controller {
 							FROM *PREFIX*phonetrack_shares
 							WHERE sharetoken='.$this->db_quote_escape_string($token).'
 								  AND username='.$this->db_quote_escape_string($this->userId).' ;';
-						$req = $this->dbconnection->prepare($sqlget);
+						$req = $this->dbConnection->prepare($sqlget);
 						$req->execute();
 						while ($row = $req->fetch()){
 							$dbtoken = $row['sessionid'];
@@ -1841,7 +1570,7 @@ class PageController extends Controller {
 							SELECT id
 							FROM *PREFIX*phonetrack_devices
 							WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
-						$req = $this->dbconnection->prepare($sqldev);
+						$req = $this->dbConnection->prepare($sqldev);
 						$req->execute();
 						while ($row = $req->fetch()){
 							array_push($devices, intval($row['id']));
@@ -1886,7 +1615,7 @@ class PageController extends Controller {
 									FROM *PREFIX*phonetrack_devices
 									WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 										  AND id='.$this->db_quote_escape_string($devid).' ;';
-								$req = $this->dbconnection->prepare($sqlcolor);
+								$req = $this->dbConnection->prepare($sqlcolor);
 								$req->execute();
 								$col = '';
 								while ($row = $req->fetch()){
@@ -1944,7 +1673,7 @@ class PageController extends Controller {
 							else {
 								$sqlget .= 'ORDER BY timestamp DESC';
 							}
-							$req = $this->dbconnection->prepare($sqlget);
+							$req = $this->dbConnection->prepare($sqlget);
 							$req->execute();
 							while ($row = $req->fetch()){
 								$entry = [
@@ -1983,23 +1712,15 @@ class PageController extends Controller {
 			}
 		}
 
-		$response = new DataResponse(
-			[
-				'sessions'=>$result,
-				'colors'=>$colors,
-				'shapes'=>$shapes,
-				'names'=>$names,
-				'aliases'=>$aliases,
-				'geofences'=>$geofences,
-				'proxims'=>$proxims
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'sessions' => $result,
+			'colors' => $colors,
+			'shapes' => $shapes,
+			'names' => $names,
+			'aliases' => $aliases,
+			'geofences' => $geofences,
+			'proxims' => $proxims
+		]);
 	}
 
 	private function getGeofences($devid) {
@@ -2011,7 +1732,7 @@ class PageController extends Controller {
 				   sendemail, emailaddr, sendnotif
 			FROM *PREFIX*phonetrack_geofences
 			WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlfences);
+		$req = $this->dbConnection->prepare($sqlfences);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$fence = [];
@@ -2037,7 +1758,7 @@ class PageController extends Controller {
 			INNER JOIN *PREFIX*phonetrack_devices ON deviceid2=*PREFIX*phonetrack_devices.id
 			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
 			WHERE deviceid1='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlproxims);
+		$req = $this->dbConnection->prepare($sqlproxims);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$proxim = [];
@@ -2056,7 +1777,7 @@ class PageController extends Controller {
 			SELECT token, public
 			FROM *PREFIX*phonetrack_sessions
 			WHERE token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbtoken = $row['token'];
@@ -2068,11 +1789,10 @@ class PageController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 *
 	 * called by publicWebLog page
 	 */
+	#[NoAdminRequired]
+	#[PublicPage]
 	public function publicWebLogTrack($sessions) {
 		$result = [];
 		$colors = [];
@@ -2091,7 +1811,7 @@ class PageController extends Controller {
 					SELECT token
 					FROM *PREFIX*phonetrack_sessions
 					WHERE token='.$this->db_quote_escape_string($token).' ;';
-				$req = $this->dbconnection->prepare($sqlget);
+				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$dbtoken = $row['token'];
@@ -2106,7 +1826,7 @@ class PageController extends Controller {
 						SELECT id
 						FROM *PREFIX*phonetrack_devices
 						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
-					$req = $this->dbconnection->prepare($sqldev);
+					$req = $this->dbConnection->prepare($sqldev);
 					$req->execute();
 					while ($row = $req->fetch()){
 						array_push($devices, intval($row['id']));
@@ -2151,7 +1871,7 @@ class PageController extends Controller {
 								FROM *PREFIX*phonetrack_devices
 								WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 									  AND id='.$this->db_quote_escape_string($devid).' ;';
-							$req = $this->dbconnection->prepare($sqlcolor);
+							$req = $this->dbConnection->prepare($sqlcolor);
 							$req->execute();
 							$col = '';
 							while ($row = $req->fetch()){
@@ -2188,7 +1908,7 @@ class PageController extends Controller {
 							WHERE deviceid='.$this->db_quote_escape_string($devid).' '.
 							$firstLastSQL.'
 							ORDER BY timestamp DESC LIMIT 1000 ;';
-						$req = $this->dbconnection->prepare($sqlget);
+						$req = $this->dbConnection->prepare($sqlget);
 						$req->execute();
 						while ($row = $req->fetch()){
 							$entry = [
@@ -2225,30 +1945,21 @@ class PageController extends Controller {
 			}
 		}
 
-		$response = new DataResponse(
-			[
-				'sessions'=>$result,
-				'colors'=>$colors,
-				'shapes'=>$shapes,
-				'names'=>$names,
-				'aliases'=>$aliases
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'sessions' => $result,
+			'colors' => $colors,
+			'shapes' => $shapes,
+			'names' => $names,
+			'aliases' => $aliases
+		]);
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 *
 	 * called by publicSessionView page
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function publicViewTrack($sessions) {
 		$result = [];
 		$colors = [];
@@ -2276,7 +1987,7 @@ class PageController extends Controller {
 				SELECT publicviewtoken, token, public
 				FROM *PREFIX*phonetrack_sessions
 				WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
-			$req = $this->dbconnection->prepare($sqlget);
+			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbpublicviewtoken = $row['publicviewtoken'];
@@ -2296,7 +2007,7 @@ class PageController extends Controller {
 						   devicename, lastposonly, geofencify
 					FROM *PREFIX*phonetrack_pubshares
 					WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
-				$req = $this->dbconnection->prepare($sqlget);
+				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$dbpublicviewtoken = $row['sharetoken'];
@@ -2320,7 +2031,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' '.
 					$deviceNameRestriction.' ;';
-				$req = $this->dbconnection->prepare($sqldev);
+				$req = $this->dbConnection->prepare($sqldev);
 				$req->execute();
 				while ($row = $req->fetch()){
 					array_push($devices, intval($row['id']));
@@ -2365,7 +2076,7 @@ class PageController extends Controller {
 							FROM *PREFIX*phonetrack_devices
 							WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 								  AND id='.$this->db_quote_escape_string($devid).' ;';
-						$req = $this->dbconnection->prepare($sqlcolor);
+						$req = $this->dbConnection->prepare($sqlcolor);
 						$req->execute();
 						$col = '';
 						while ($row = $req->fetch()){
@@ -2413,7 +2124,7 @@ class PageController extends Controller {
 					else {
 						$sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
 					}
-					$req = $this->dbconnection->prepare($sqlget);
+					$req = $this->dbConnection->prepare($sqlget);
 					$req->execute();
 					while ($row = $req->fetch()){
 						if ($filters === null || $this->filterPoint($row, $filters)) {
@@ -2454,23 +2165,13 @@ class PageController extends Controller {
 			}
 		}
 
-		$response = new DataResponse(
-			[
-				'sessions'=>$result,
-				'colors'=>$colors,
-				'shapes'=>$shapes,
-				'names'=>$names,
-				'aliases'=>$aliases
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->allowEvalScript(true)
-			->addAllowedScriptDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'sessions' => $result,
+			'colors' => $colors,
+			'shapes' => $shapes,
+			'names' => $names,
+			'aliases' => $aliases
+		]);
 	}
 
 	private function getDeviceFencesCenter($devid) {
@@ -2479,7 +2180,7 @@ class PageController extends Controller {
 			SELECT latmin, lonmin, latmax, lonmax, name
 			FROM *PREFIX*phonetrack_geofences
 			WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$lat = (floatval($row['latmin']) + floatval($row['latmax'])) / 2;
@@ -2519,10 +2220,10 @@ class PageController extends Controller {
 		$distMin = null;
 		foreach ($geofencesCenter as $name=>$coords) {
 			// if point is inside geofencing zone
-			if (    $entry[1] >= $coords[2]
-				and $entry[1] <= $coords[3]
-				and $entry[2] >= $coords[4]
-				and $entry[2] <= $coords[5]
+			if (   $entry[1] >= $coords[2]
+				&& $entry[1] <= $coords[3]
+				&& $entry[2] >= $coords[4]
+				&& $entry[2] <= $coords[5]
 			) {
 				$dist = distance($coords[0], $coords[1], $entry[1], $entry[2]);
 				if ($nearestName === null || $dist < $distMin) {
@@ -2536,17 +2237,14 @@ class PageController extends Controller {
 				$entry[0], $geofencesCenter[$nearestName][0], $geofencesCenter[$nearestName][1],
 				$entry[3], null, null, null, null, null, null, null
 			];
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function publicSessionWatch($publicviewtoken) {
 		if ($publicviewtoken !== '') {
 			$lastposonly = 0;
@@ -2555,7 +2253,7 @@ class PageController extends Controller {
 				SELECT token, public
 				FROM *PREFIX*phonetrack_sessions
 				WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbtoken = null;
 			$dbpublic = null;
@@ -2573,14 +2271,13 @@ class PageController extends Controller {
 					$response->setHeaderDetails($this->trans->t('Watch session'));
 				}
 				return $response;
-			}
-			else {
+			} else {
 				// check if a public session has this publicviewtoken
 				$sqlchk = '
 					SELECT sessionid, sharetoken, lastposonly, filters
 					FROM *PREFIX*phonetrack_pubshares
 					WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbtoken = null;
 				$dbpublic = null;
@@ -2600,24 +2297,21 @@ class PageController extends Controller {
 						$response->setHeaderDetails($this->trans->t('Watch session'));
 					}
 					return $response;
-				}
-				else {
+				} else {
 					return 'Session does not exist or is not public';
 				}
 			}
-		}
-		else {
+		} else {
 			return 'Session does not exist or is not public';
 		}
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * lastposonly is given to the page, it makes the page delete all points but the last for each device
 	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function publicWebLog($token, $devicename, $lastposonly=0, $filters='') {
 		if ($token !== '') {
 			// check if session exists
@@ -2625,7 +2319,7 @@ class PageController extends Controller {
 				SELECT name, public
 				FROM *PREFIX*phonetrack_sessions
 				WHERE token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
 			$dbpublic = null;
@@ -2637,12 +2331,10 @@ class PageController extends Controller {
 			$req->closeCursor();
 
 			if ($dbname !== null && intval($dbpublic) === 1) {
-			}
-			else {
+			} else {
 				return 'Session does not exist or is not public';
 			}
-		}
-		else {
+		} else {
 			return 'Session does not exist or is not public';
 		}
 
@@ -2651,20 +2343,20 @@ class PageController extends Controller {
 			$baseTileServers = '';
 		}
 		$params = [
-			'username'=>'',
-			'basetileservers'=>$baseTileServers,
-			'usertileservers'=>[],
-			'usermapboxtileservers'=>[],
-			'useroverlayservers'=>[],
-			'usertileserverswms'=>[],
-			'useroverlayserverswms'=>[],
-			'publicsessionname'=>$dbname,
-			'lastposonly'=>$lastposonly,
-			'sharefilters'=>$filters,
-			'filtersBookmarks'=>[],
-			'phonetrack_version'=>$this->appVersion
+			'username' => '',
+			'basetileservers' => $baseTileServers,
+			'usertileservers' => [],
+			'usermapboxtileservers' => [],
+			'useroverlayservers' => [],
+			'usertileserverswms' => [],
+			'useroverlayserverswms' => [],
+			'publicsessionname' => $dbname,
+			'lastposonly' => $lastposonly,
+			'sharefilters' => $filters,
+			'filtersBookmarks' => [],
+			'phonetrack_version' => $this->appVersion
 		];
-		$response = new PublicTemplateResponse('phonetrack', 'main', $params);
+		$response = new PublicTemplateResponse(Application::APP_ID, 'main', $params);
 		$response->setHeaderTitle($this->trans->t('PhoneTrack public access'));
 		$response->setHeaderDetails($this->trans->t('Log to session %s', [$dbname]));
 		$response->setFooterVisible(false);
@@ -2684,9 +2376,7 @@ class PageController extends Controller {
 		return $response;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function importSession($path) {
 		$done = 1;
 		$userFolder = \OC::$server->getUserFolder($this->userId);
@@ -2701,7 +2391,7 @@ class PageController extends Controller {
 			$file = $userFolder->get($cleanpath);
 			if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
 				$file->isReadable()){
-				if (endswith($file->getName(), '.gpx') || endswith($file->getName(), '.GPX')) {
+				if (str_ends_with($file->getName(), '.gpx') || str_ends_with($file->getName(), '.GPX')) {
 					$sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
 					$res = $this->createSession($sessionName);
 					$response = $res->getData();
@@ -2709,12 +2399,10 @@ class PageController extends Controller {
 						$token = $response['token'];
 						$publicviewtoken = $response['publicviewtoken'];
 						$done = $this->readGpxImportPoints($file, $file->getName(), $token);
-					}
-					else {
+					} else {
 						$done = 2;
 					}
-				}
-				else if (endswith($file->getName(), '.kml') || endswith($file->getName(), '.KML')) {
+				} elseif (str_ends_with($file->getName(), '.kml') || str_ends_with($file->getName(), '.KML')) {
 					$sessionName = str_replace(['.kml', '.KML'], '', $file->getName());
 					$res = $this->createSession($sessionName);
 					$response = $res->getData();
@@ -2726,8 +2414,7 @@ class PageController extends Controller {
 					else {
 						$done = 2;
 					}
-				}
-				else if (endswith($file->getName(), '.json') || endswith($file->getName(), '.JSON')) {
+				} elseif (str_ends_with($file->getName(), '.json') || str_ends_with($file->getName(), '.JSON')) {
 					$sessionName = str_replace(['.json', '.JSON'], '', $file->getName());
 					$res = $this->createSession($sessionName);
 					$response = $res->getData();
@@ -2735,17 +2422,14 @@ class PageController extends Controller {
 						$token = $response['token'];
 						$publicviewtoken = $response['publicviewtoken'];
 						$done = $this->readJsonImportPoints($file, $file->getName(), $token);
-					}
-					else {
+					} else {
 						$done = 2;
 					}
 				}
-			}
-			else {
+			} else {
 				$done = 3;
 			}
-		}
-		else {
+		} else {
 			$done = 4;
 		}
 
@@ -2758,21 +2442,13 @@ class PageController extends Controller {
 			$devices = $this->getDevices($token);
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$done,
-				'token'=>$token,
-				'devices'=>$devices,
-				'sessionName'=>$sessionName,
-				'publicviewtoken'=>$publicviewtoken
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $done,
+			'token' => $token,
+			'devices' => $devices,
+			'sessionName' => $sessionName,
+			'publicviewtoken' => $publicviewtoken
+		]);
 	}
 
 	private function gpxStartElement($parser, $name, $attrs) {
@@ -3022,9 +2698,7 @@ class PageController extends Controller {
 		return 1;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function export(string $name, string $token, string $target, string $username = '', ?array $filterArray = null) {
 	$warning = 0;
 	$done = false;
@@ -3035,18 +2709,10 @@ class PageController extends Controller {
 			$warning = $doneAndWarning[1];
 		}
 
-		$response = new DataResponse(
-			[
-				'done' => $done,
-				'warning' => $warning,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $done,
+			'warning' => $warning,
+		]);
 	}
 
 	private function filterPoint($p, $fArray): bool {
@@ -3068,9 +2734,7 @@ class PageController extends Controller {
 		);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function addUserShare($token, $userId) {
 		$ok = 0;
 		// check if userId exists
@@ -3087,7 +2751,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
 			$dbtoken = null;
@@ -3105,7 +2769,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_shares
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND username='.$this->db_quote_escape_string($userId).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbusername = null;
 				while ($row = $req->fetch()){
@@ -3127,7 +2791,7 @@ class PageController extends Controller {
 							$this->db_quote_escape_string($userId).','.
 							$this->db_quote_escape_string($sharetoken).
 						') ;';
-					$req = $this->dbconnection->prepare($sql);
+					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
 					$req->closeCursor();
 
@@ -3157,7 +2821,7 @@ class PageController extends Controller {
 					$declineAction->setLabel('decline')
 						->setLink('/apps/phonetrack', 'GET');
 
-					$notification->setApp('phonetrack')
+					$notification->setApp(Application::APP_ID)
 						->setUser($userId)
 						->setDateTime(new \DateTime())
 						->setObject('addusershare', $dbtoken)
@@ -3167,36 +2831,25 @@ class PageController extends Controller {
 						;
 
 					$manager->notify($notification);
-				}
-				else {
+				} else {
 					$ok = 2;
 				}
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 4;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok
+		]);
 	}
 
 	/**
 	 * Used to build public tokens with filters (then accessed by publicWatchUrl)
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function addPublicShare(string $token, bool $ignoreFilters = false) {
 		$ok = 0;
 		$filters = '';
@@ -3207,7 +2860,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		$dbtoken = null;
@@ -3240,34 +2893,23 @@ class PageController extends Controller {
 					$this->db_quote_escape_string($sharetoken).','.
 					$this->db_quote_escape_string($filters).
 				') ;';
-			$req = $this->dbconnection->prepare($sql);
+			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
 			$req->closeCursor();
 
 			$ok = 1;
-		}
-		else {
+		} else {
 			$ok = 3;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-				'sharetoken'=>$sharetoken,
-				'filters'=>$filters
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+			'sharetoken' => $sharetoken,
+			'filters' => $filters
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deleteUserShare($token, $userId) {
 		$ok = 0;
 		// check if session exists
@@ -3276,7 +2918,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		$dbtoken = null;
@@ -3294,7 +2936,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_shares
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 					  AND username='.$this->db_quote_escape_string($userId).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbuserId = null;
 			while ($row = $req->fetch()){
@@ -3321,7 +2963,7 @@ class PageController extends Controller {
 					DELETE FROM *PREFIX*phonetrack_shares
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND username='.$this->db_quote_escape_string($userId).' ;';
-				$req = $this->dbconnection->prepare($sqldel);
+				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
@@ -3339,7 +2981,7 @@ class PageController extends Controller {
 				$declineAction->setLabel('decline')
 					->setLink('/apps/phonetrack', 'GET');
 
-				$notification->setApp('phonetrack')
+				$notification->setApp(Application::APP_ID)
 					->setUser($userId)
 					->setDateTime(new \DateTime())
 					->setObject('deleteusershare', $dbtoken)
@@ -3349,31 +2991,19 @@ class PageController extends Controller {
 					;
 
 				$manager->notify($notification);
-			}
-			else {
+			} else {
 				$ok = 2;
 			}
-		}
-		else {
+		} else {
 			$ok = 3;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done'=>$ok
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deletePublicShare($token, $sharetoken) {
 		$ok = 0;
 		// check if session exists
@@ -3382,7 +3012,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		$dbtoken = null;
@@ -3400,7 +3030,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_pubshares
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 					  AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbsharetoken = null;
 			while ($row = $req->fetch()){
@@ -3415,36 +3045,24 @@ class PageController extends Controller {
 					DELETE FROM *PREFIX*phonetrack_pubshares
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND sharetoken='.$this->db_quote_escape_string($dbsharetoken).' ;';
-				$req = $this->dbconnection->prepare($sqldel);
+				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
 				$ok = 1;
-			}
-			else {
+			} else {
 				$ok = 2;
 			}
-		}
-		else {
+		} else {
 			$ok = 3;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done'=>$ok
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function addNameReservation($token, $devicename) {
 		$ok = 0;
 		$nametoken = null;
@@ -3455,7 +3073,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
 			$dbtoken = null;
@@ -3473,7 +3091,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND name='.$this->db_quote_escape_string($devicename).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdevicename = null;
 				$dbdevicenametoken = null;
@@ -3498,57 +3116,43 @@ class PageController extends Controller {
 						$this->db_quote_escape_string($devicename).','.
 						$this->db_quote_escape_string($nametoken).
 						') ;';
-					$req = $this->dbconnection->prepare($sql);
+					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
 					$req->closeCursor();
 
 					$ok = 1;
-				}
-				// if there is an entry but no token, name is free to be reserved
-				// so we update the entry
-				else if ($dbdevicenametoken === '' || $dbdevicenametoken === null) {
+				} else if ($dbdevicenametoken === '' || $dbdevicenametoken === null) {
+					// if there is an entry but no token, name is free to be reserved
+					// so we update the entry
 					$nametoken = md5('nametoken'.$this->userId.$dbdevicename.rand());
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
 						SET nametoken='.$this->db_quote_escape_string($nametoken).'
 						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 							  AND name='.$this->db_quote_escape_string($dbdevicename).' ;';
-					$req = $this->dbconnection->prepare($sqlupd);
+					$req = $this->dbConnection->prepare($sqlupd);
 					$req->execute();
 					$req->closeCursor();
 
 					$ok = 1;
-				}
-				// the name is already reserved
-				else {
+				} else {
+					// the name is already reserved
 					$ok = 2;
 				}
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 4;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-				'nametoken'=>$nametoken
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+			'nametoken' => $nametoken
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deleteNameReservation($token, $devicename) {
 		$ok = 0;
 		if ($devicename !== '' && $devicename !== null) {
@@ -3558,7 +3162,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 					  AND token='.$this->db_quote_escape_string($token).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
 			$dbtoken = null;
@@ -3576,7 +3180,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND name='.$this->db_quote_escape_string($devicename).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdevicename = null;
 				$dbdevicenametoken = null;
@@ -3590,44 +3194,32 @@ class PageController extends Controller {
 				// there is no such device
 				if ($dbdevicename === null) {
 					$ok = 2;
-				}
-				// the device exists and is has a nametoken
-				else if ($dbdevicenametoken !== '' && $dbdevicenametoken !== null) {
+				} else if ($dbdevicenametoken !== '' && $dbdevicenametoken !== null) {
+					// the device exists and is has a nametoken
 					// delete
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
 						SET nametoken='.$this->db_quote_escape_string('').'
 						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 							  AND name='.$this->db_quote_escape_string($dbdevicename).' ;';
-					$req = $this->dbconnection->prepare($sqlupd);
+					$req = $this->dbConnection->prepare($sqlupd);
 					$req->execute();
 					$req->closeCursor();
 
 					$ok = 1;
-				}
-				else {
+				} else {
 					$ok = 3;
 				}
-			}
-			else {
+			} else {
 				$ok = 4;
 			}
-		}
-		else {
+		} else {
 			$ok = 5;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done'=>$ok
+		]);
 	}
 
 	private function sessionExists($token, $userid) {
@@ -3636,7 +3228,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -3654,7 +3246,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_devices
 			WHERE sessionid='.$this->db_quote_escape_string($token).'
 				  AND id='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -3666,9 +3258,7 @@ class PageController extends Controller {
 		return ($dbname !== null);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function addFiltersBookmark($name, $filters) {
 		$ok = 0;
 		$bookid = null;
@@ -3678,7 +3268,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_filtersb
 			WHERE name='.$this->db_quote_escape_string($name).'
 				  AND username='.$this->db_quote_escape_string($this->userId).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbbookname = null;
 		while ($row = $req->fetch()){
@@ -3697,7 +3287,7 @@ class PageController extends Controller {
 					 $this->db_quote_escape_string($name).','.
 					 $this->db_quote_escape_string($filters).'
 				) ;';
-			$req = $this->dbconnection->prepare($sql);
+			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
 			$req->closeCursor();
 
@@ -3706,7 +3296,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_filtersb
 				WHERE name='.$this->db_quote_escape_string($name).'
 					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$bookid = $row['id'];
@@ -3715,51 +3305,32 @@ class PageController extends Controller {
 			$req->closeCursor();
 
 			$ok = 1;
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-				'bookid'=>$bookid
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+			'bookid' => $bookid
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deleteFiltersBookmark($bookid) {
 		$ok = 0;
 		$sqldel = '
 			DELETE FROM *PREFIX*phonetrack_filtersb
 			WHERE id='.$this->db_quote_escape_string($bookid).'
 				  AND username='.$this->db_quote_escape_string($this->userId).' ;';
-		$req = $this->dbconnection->prepare($sqldel);
+		$req = $this->dbConnection->prepare($sqldel);
 		$req->execute();
 		$req->closeCursor();
 
 		$ok = 1;
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok
+		]);
 	}
 
 	private function getFiltersBookmarks() {
@@ -3768,7 +3339,7 @@ class PageController extends Controller {
 			SELECT id, username, name, filterjson
 			FROM *PREFIX*phonetrack_filtersb
 			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
-		$req = $this->dbconnection->prepare($sql);
+		$req = $this->dbConnection->prepare($sql);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$bookid = $row['id'];
@@ -3781,9 +3352,7 @@ class PageController extends Controller {
 		return $res;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax,
 								$urlenter, $urlleave, $urlenterpost, $urlleavepost, $sendemail, $emailaddr, $sendnotif) {
 		$ok = 0;
@@ -3795,7 +3364,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_geofences
 				WHERE name='.$this->db_quote_escape_string($fencename).'
 					  AND deviceid='.$this->db_quote_escape_string($device).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbfencename = null;
 			while ($row = $req->fetch()){
@@ -3826,7 +3395,7 @@ class PageController extends Controller {
 						 $this->db_quote_escape_string($emailaddr).','.
 						 $this->db_quote_escape_string(intval($sendnotif)).'
 					) ;';
-				$req = $this->dbconnection->prepare($sql);
+				$req = $this->dbConnection->prepare($sql);
 				$req->execute();
 				$req->closeCursor();
 
@@ -3835,7 +3404,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_geofences
 					WHERE name='.$this->db_quote_escape_string($fencename).'
 						  AND deviceid='.$this->db_quote_escape_string($device).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$fenceid = $row['id'];
@@ -3847,36 +3416,23 @@ class PageController extends Controller {
 				$userEmail = $user->getEMailAddress();
 				if (!empty($userEmail)) {
 					$ok = 1;
-				}
-				else {
+				} else {
 					$ok = 4;
 				}
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-				'fenceid'=>$fenceid
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+			'fenceid' => $fenceid
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deleteGeofence($token, $device, $fenceid) {
 		$ok = 0;
 		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
@@ -3884,32 +3440,21 @@ class PageController extends Controller {
 				DELETE FROM *PREFIX*phonetrack_geofences
 				WHERE deviceid='.$this->db_quote_escape_string($device).'
 					  AND id='.$this->db_quote_escape_string($fenceid).' ;';
-			$req = $this->dbconnection->prepare($sqldel);
+			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
 
 			$ok = 1;
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function addProxim($token, $device, $sid, $dname, $lowlimit, $highlimit,
 								$urlclose, $urlfar, $urlclosepost, $urlfarpost, $sendemail, $emailaddr, $sendnotif) {
 		$ok = 0;
@@ -3921,14 +3466,13 @@ class PageController extends Controller {
 			$ownsTargetSession = $this->sessionExists($sid, $this->userId);
 			if ($ownsTargetSession) {
 				$targetSessionId = $sid;
-			}
-			else {
+			} else {
 				$sqlchk = '
 					SELECT id, sessionid, sharetoken
 					FROM *PREFIX*phonetrack_shares
 					WHERE username='.$this->db_quote_escape_string($this->userId).'
 						  AND sharetoken='.$this->db_quote_escape_string($sid).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$targetSessionId = $row['sessionid'];
@@ -3944,7 +3488,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE name='.$this->db_quote_escape_string($dname).'
 						  AND sessionid='.$this->db_quote_escape_string($targetSessionId).' ;';
-				$req = $this->dbconnection->prepare($sqlchk);
+				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$targetDeviceId = $row['id'];
@@ -3971,7 +3515,7 @@ class PageController extends Controller {
 							$this->db_quote_escape_string($emailaddr).','.
 							$this->db_quote_escape_string(intval($sendnotif)).
 						') ;';
-					$req = $this->dbconnection->prepare($sql);
+					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
 					$req->closeCursor();
 
@@ -3980,7 +3524,7 @@ class PageController extends Controller {
 						FROM *PREFIX*phonetrack_proxims
 						WHERE deviceid1='.$this->db_quote_escape_string($device).'
 							  AND deviceid2='.$this->db_quote_escape_string($targetDeviceId).' ;';
-					$req = $this->dbconnection->prepare($sqlchk);
+					$req = $this->dbConnection->prepare($sqlchk);
 					$req->execute();
 					while ($row = $req->fetch()){
 						$proximid = $row['maxid'];
@@ -3992,41 +3536,27 @@ class PageController extends Controller {
 					$userEmail = $user->getEMailAddress();
 					if (!empty($userEmail)) {
 						$ok = 1;
-					}
-					else {
+					} else {
 						$ok = 4;
 					}
-				}
-				else {
+				} else {
 					$ok = 5;
 				}
-			}
-			else {
+			} else {
 				$ok = 3;
 			}
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok,
-				'proximid'=>$proximid,
-				'targetdeviceid'=>$targetDeviceId
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok,
+			'proximid' => $proximid,
+			'targetdeviceid' => $targetDeviceId
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function deleteProxim($token, $device, $proximid) {
 		$ok = 0;
 		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
@@ -4036,7 +3566,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_proxims
 				WHERE id='.$this->db_quote_escape_string($proximid).'
 					  AND deviceid1='.$this->db_quote_escape_string($device).' ;';
-			$req = $this->dbconnection->prepare($sqlchk);
+			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbproximid = $row['id'];
@@ -4049,33 +3579,22 @@ class PageController extends Controller {
 					DELETE FROM *PREFIX*phonetrack_proxims
 					WHERE id='.$this->db_quote_escape_string($dbproximid).'
 						  AND deviceid1='.$this->db_quote_escape_string($device).' ;';
-				$req = $this->dbconnection->prepare($sqldel);
+				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
 				$ok = 1;
 			}
-		}
-		else {
+		} else {
 			$ok = 2;
 		}
 
-		$response = new DataResponse(
-			[
-				'done'=>$ok
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $ok
+		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
+	#[NoAdminRequired]
 	public function getUserList() {
 		$userNames = [];
 		try {
@@ -4085,25 +3604,13 @@ class PageController extends Controller {
 					$userNames[$u->getUID()] = $u->getDisplayName();
 				}
 			}
+		} catch (\Throwable $t) {
 		}
-		catch (\Throwable $t) {
-		}
-		$response = new DataResponse(
-			[
-				'users'=>$userNames
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'users' => $userNames
+		]);
 	}
 
-	/**
-	 *
-	 **/
 	private function logMultiple($token, $devicename, $points) {
 		$done = 0;
 		// check if session exists
@@ -4111,7 +3618,7 @@ class PageController extends Controller {
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
 			WHERE token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
 		while ($row = $req->fetch()){
@@ -4127,7 +3634,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 					  AND name='.$this->db_quote_escape_string($devicename).' ;';
-			$req = $this->dbconnection->prepare($sqlgetres);
+			$req = $this->dbConnection->prepare($sqlgetres);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbdeviceid = $row['id'];
@@ -4145,7 +3652,7 @@ class PageController extends Controller {
 						$this->db_quote_escape_string($devicename).','.
 						$this->db_quote_escape_string($token).
 					') ;';
-				$req = $this->dbconnection->prepare($sql);
+				$req = $this->dbConnection->prepare($sql);
 				$req->execute();
 				$req->closeCursor();
 
@@ -4155,7 +3662,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($token).'
 						  AND name='.$this->db_quote_escape_string($devicename).' ;';
-				$req = $this->dbconnection->prepare($sqlgetdid);
+				$req = $this->dbConnection->prepare($sqlgetdid);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$dbdeviceid = $row['id'];
@@ -4220,40 +3727,27 @@ class PageController extends Controller {
 					 accuracy, satellites, altitude, batterylevel,
 					 useragent, speed, bearing)
 					VALUES '.$values.' ;';
-				$req = $this->dbconnection->prepare($sql);
+				$req = $this->dbConnection->prepare($sql);
 				$req->execute();
 				$req->closeCursor();
 			}
 
 			$done = 1;
-		}
-		else {
+		} else {
 			$done = 3;
 		}
 		return $done;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function APIPing() {
-		$response = new DataResponse(
-			[$this->userId]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([$this->userId]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function APIgetLastPositionsPublic($sessionid) {
 		$result = [];
 		// check if session exists
@@ -4263,7 +3757,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE publicviewtoken='.$this->db_quote_escape_string($sessionid).'
 				  AND public=1 ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbtoken = $row['token'];
@@ -4279,7 +3773,7 @@ class PageController extends Controller {
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
-			$req = $this->dbconnection->prepare($sqldev);
+			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()){
 				array_push($devices, $row['id']);
@@ -4296,7 +3790,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND id='.$this->db_quote_escape_string($devid).' ;';
-				$req = $this->dbconnection->prepare($sqlname);
+				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
 				while ($row = $req->fetch()){
@@ -4311,7 +3805,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_points
 					WHERE deviceid='.$this->db_quote_escape_string($devid).'
 					ORDER BY timestamp DESC LIMIT 1 ;';
-				$req = $this->dbconnection->prepare($sqlget);
+				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$entry['useragent'] = $row['useragent'];
@@ -4326,20 +3820,12 @@ class PageController extends Controller {
 				}
 			}
 		}
-		$response = new DataResponse($result);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse($result);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 */
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
 	public function APIgetPositionsPublic($sessionid, $limit=null) {
 		$result = [];
 		// check if session exists
@@ -4349,7 +3835,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE publicviewtoken='.$this->db_quote_escape_string($sessionid).'
 				  AND public=1 ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbtoken = $row['token'];
@@ -4366,7 +3852,7 @@ class PageController extends Controller {
 			SELECT sessionid, sharetoken, filters, devicename, lastposonly, geofencify
 			FROM *PREFIX*phonetrack_pubshares
 			WHERE sharetoken='.$this->db_quote_escape_string($sessionid).' ;';
-			$req = $this->dbconnection->prepare($sqlget);
+			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbtoken = $row['sessionid'];
@@ -4393,7 +3879,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 				'.$deviceNameRestriction.' ;';
-			$req = $this->dbconnection->prepare($sqldev);
+			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()){
 				array_push($devices, $row['id']);
@@ -4411,7 +3897,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND id='.$this->db_quote_escape_string($devid).' ;';
-				$req = $this->dbconnection->prepare($sqlname);
+				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
 				while ($row = $req->fetch()){
@@ -4424,8 +3910,7 @@ class PageController extends Controller {
 				$sqlLimit = '';
 				if (intval($dbLastPosOnly) === 1) {
 					$sqlLimit = 'LIMIT 1';
-				}
-				elseif (is_numeric($limit)) {
+				} elseif (is_numeric($limit)) {
 					$sqlLimit = 'LIMIT '.intval($limit);
 				}
 				$sqlget = '
@@ -4434,7 +3919,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_points
 					WHERE deviceid='.$this->db_quote_escape_string($devid).'
 					ORDER BY timestamp DESC '.$sqlLimit.' ;';
-				$req = $this->dbconnection->prepare($sqlget);
+				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()){
 					if ($dbFilters === null || $this->filterPoint($row, $dbFilters)) {
@@ -4456,20 +3941,14 @@ class PageController extends Controller {
 				}
 			}
 		}
-		$response = new DataResponse($result);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse($result);
 	}
 
 	/**
 	 * get last positions of a user's session
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function APIgetLastPositionsUser($sessionid) {
 		$result = [];
 		// check if session exists
@@ -4479,7 +3958,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE token='.$this->db_quote_escape_string($sessionid).'
 				  AND '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbtoken = $row['token'];
@@ -4493,7 +3972,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_shares
 				WHERE sharetoken='.$this->db_quote_escape_string($sessionid).'
 					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
-			$req = $this->dbconnection->prepare($sqlget);
+			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbtoken = $row['sessionid'];
@@ -4509,7 +3988,7 @@ class PageController extends Controller {
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
-			$req = $this->dbconnection->prepare($sqldev);
+			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()){
 				array_push($devices, $row['id']);
@@ -4527,7 +4006,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND id='.$this->db_quote_escape_string($devid).' ;';
-				$req = $this->dbconnection->prepare($sqlname);
+				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
 				while ($row = $req->fetch()){
@@ -4543,7 +4022,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_points
 					WHERE deviceid='.$this->db_quote_escape_string($devid).'
 					ORDER BY timestamp DESC LIMIT 1 ;';
-				$req = $this->dbconnection->prepare($sqlget);
+				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$entry['useragent'] = $row['useragent'];
@@ -4559,21 +4038,15 @@ class PageController extends Controller {
 				}
 			}
 		}
-		$response = new DataResponse($result);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse($result);
 	}
 
 	/**
 	 * get positions of a user's session
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
-	public function APIgetPositionsUser($sessionid, $limit=null, $tsmin=null) {
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function APIgetPositionsUser($sessionid, $limit = null, $tsmin = null) {
 		$result = [];
 		// check if session exists
 		$dbtoken = null;
@@ -4582,7 +4055,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE token='.$this->db_quote_escape_string($sessionid).'
 				  AND '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
+		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()){
 			$dbtoken = $row['token'];
@@ -4596,7 +4069,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_shares
 				WHERE sharetoken='.$this->db_quote_escape_string($sessionid).'
 					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
-			$req = $this->dbconnection->prepare($sqlget);
+			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbtoken = $row['sessionid'];
@@ -4612,7 +4085,7 @@ class PageController extends Controller {
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
-			$req = $this->dbconnection->prepare($sqldev);
+			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()){
 				array_push($devices, $row['id']);
@@ -4630,7 +4103,7 @@ class PageController extends Controller {
 					FROM *PREFIX*phonetrack_devices
 					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
 						  AND id='.$this->db_quote_escape_string($devid).' ;';
-				$req = $this->dbconnection->prepare($sqlname);
+				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
 				while ($row = $req->fetch()){
@@ -4655,7 +4128,7 @@ class PageController extends Controller {
 					WHERE deviceid='.$this->db_quote_escape_string($devid).' '.
 					$tsminCondition.'
 					ORDER BY timestamp DESC '.$sqlLimit.' ;';
-				$req = $this->dbconnection->prepare($sqlget);
+				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()){
 					$entry = [];
@@ -4675,23 +4148,16 @@ class PageController extends Controller {
 				}
 			}
 		}
-		$response = new DataResponse($result);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse($result);
 	}
 
 	/**
 	 * check if there already is a public share restricted on that device
 	 * if not => add it
 	 * returns the share token
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
 	public function APIshareDevice($sessionid, $devicename) {
 		$result = ['code'=>0, 'sharetoken'=>'', 'done'=>0];
 		// check if session exists and is owned by current user
@@ -4700,7 +4166,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($sessionid).' ;';
-		$req = $this->dbconnection->prepare($sqlchk);
+		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbtoken = null;
 		while ($row = $req->fetch()){
@@ -4716,7 +4182,7 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_pubshares
 				WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
 					  AND devicename='.$this->db_quote_escape_string($devicename).' ;';
-			$req = $this->dbconnection->prepare($sqlget);
+			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()){
 				$dbsharetoken = $row['sharetoken'];
@@ -4728,8 +4194,7 @@ class PageController extends Controller {
 				$result['sharetoken'] = $dbsharetoken;
 				$result['code'] = 1;
 				$result['done'] = 1;
-			}
-			else {
+			} else {
 				// let's create the public share without filters
 				$resp = $this->addPublicShare($dbtoken, true);
 				$data = $resp->getData();
@@ -4746,13 +4211,7 @@ class PageController extends Controller {
 				}
 			}
 		}
-		$response = new DataResponse($result);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse($result);
 	}
 
 }

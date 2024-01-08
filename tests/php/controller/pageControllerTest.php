@@ -18,17 +18,14 @@
 namespace OCA\PhoneTrack\Controller;
 
 use Exception;
-use OCP\App\IAppManager;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
-use OCP\Share\IManager as IShareManager;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -39,7 +36,6 @@ use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\AppInfo\Application;
 use Throwable;
-use TypeError;
 
 class PageNLogControllerTest extends TestCase {
 
@@ -131,8 +127,6 @@ class PageNLogControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
-			$c->get(IShareManager::class),
-			$c->get(IAppManager::class),
 			$c->get(IUserManager::class),
 			$c->get(LoggerInterface::class),
 			$c->get(IL10N::class),
@@ -140,12 +134,8 @@ class PageNLogControllerTest extends TestCase {
 			new SessionMapper(
 				$c->get(IDBConnection::class)
 			),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
 			$this->sessionService,
 			$c->get(IDBConnection::class),
-			$c->get(IRootFolder::class),
 			'test'
 		);
 
@@ -153,8 +143,6 @@ class PageNLogControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
-			$c->get(IShareManager::class),
-			$c->get(IAppManager::class),
 			$c->get(IUserManager::class),
 			$c->get(LoggerInterface::class),
 			$c->get(IL10N::class),
@@ -162,12 +150,8 @@ class PageNLogControllerTest extends TestCase {
 			new SessionMapper(
 				$c->get(IDBConnection::class)
 			),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
 			$this->sessionService,
 			$c->get(IDBConnection::class),
-			$c->get(IRootFolder::class),
 			'test2'
 		);
 
