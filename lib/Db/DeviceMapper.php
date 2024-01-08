@@ -116,6 +116,8 @@ class DeviceMapper extends QBMapper {
 			$qb = self::applyQueryFilters($qb, $filters);
 		}
 
+		$qb->orderBy('timestamp', 'ASC');
+
 		if ($limit !== null) {
 			$qb->setMaxResults($limit);
 		}
