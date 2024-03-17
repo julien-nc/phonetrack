@@ -190,9 +190,8 @@ class ActivityManager {
 				$sessionId = $event->getObjectId();
 				break;
 		}
-		/** @var IUser $user */
 		foreach ($this->sessionService->findUsers($sessionId) as $user) {
-			$event->setAffectedUser($user->getUID());
+			$event->setAffectedUser($user);
 			/** @noinspection DisconnectedForeachInstructionInspection */
 			$this->manager->publish($event);
 		}
