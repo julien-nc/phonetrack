@@ -35,30 +35,15 @@ use OCP\IL10N;
 
 class PhonetrackProvider implements IProvider {
 
-	/** @var string */
-	private $userId;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var ActivityManager */
-	private $activityManager;
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IL10N */
-	private $l10n;
-	/** @var IConfig */
-	private $config;
-
-	public function __construct(IURLGenerator $urlGenerator,
-								ActivityManager $activityManager,
-								IUserManager $userManager, IGroupManager $groupManager,
-								IL10N $l10n, IConfig $config, $userId) {
-		$this->userId = $userId;
-		$this->urlGenerator = $urlGenerator;
-		$this->activityManager = $activityManager;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->l10n = $l10n;
-		$this->config = $config;
+	public function __construct(
+		private IURLGenerator $urlGenerator,
+		private ActivityManager $activityManager,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IL10N $l10n,
+		private IConfig $config,
+		private ?string $userId,
+	) {
 	}
 
 	/**
