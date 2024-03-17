@@ -105,7 +105,6 @@ class PageNLogControllerTest extends TestCase {
 				$c->get(IDBConnection::class)
 			),
 			$c->get(IL10N::class),
-			$c->get(IUserManager::class),
 			'test'
 		);
 
@@ -119,7 +118,6 @@ class PageNLogControllerTest extends TestCase {
 				$c->get(IDBConnection::class)
 			),
 			$c->get(IL10N::class),
-			$c->get(IUserManager::class),
 			'test2'
 		);
 
