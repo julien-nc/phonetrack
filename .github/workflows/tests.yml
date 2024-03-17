@@ -63,7 +63,7 @@ jobs:
           extensions: mbstring, intl, sqlite3, curl, xml, json, zip, gd
           ini-values: post_max_size=256M, max_execution_time=180
           coverage: xdebug
-          tools: php-cs-fixer, phpunit
+          tools: php-cs-fixer
 
       - uses: actions/checkout@v2
 
@@ -86,21 +86,19 @@ jobs:
           fi
           echo "php ~/html/nextcloud/occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin"
           php ~/html/nextcloud/occ maintenance:install --verbose --database=${{ matrix.databases }} --database-name=nextcloud --database-host=127.0.0.1 --database-port=$DB_PORT --database-user=root --database-pass=rootpassword --admin-user admin --admin-pass admin
+          cd ~/html/nextcloud/apps/${{ env.APP_ID }}
+          make composer
           php ~/html/nextcloud/occ app:enable --force ${{ env.APP_ID }}
           php ~/html/nextcloud/occ maintenance:mode --off
-          cd ~/html/nextcloud/apps/${{ env.APP_ID }}
-          curl --location --output ./phpunit https://phar.phpunit.de/phpunit-9.5.phar
-          chmod +x ./phpunit
-          echo "##### App is installed"
+          echo "##### App is installed and enabled"
 
       - name: Perform PhpUnit tests with coverage
         if: ${{ matrix.databases == 'sqlite' && matrix.php-versions == '8.1' && matrix.server-versions == 'master' }}
         run: |
-          #php ~/html/nextcloud/occ app:check-code ${{ env.APP_ID }}
           mkdir /tmp/coverage
           cd /tmp
           echo "##### PHPunit"
-          XDEBUG_MODE=coverage ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt && SUCCESS=yes || SUCCESS=no
+          XDEBUG_MODE=coverage ~/html/nextcloud/apps/${{ env.APP_ID }}/vendor/bin/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/tests/phpunit.xml --coverage-text --color=never --coverage-html coverage > /tmp/cov.txt && SUCCESS=yes || SUCCESS=no
           echo "phpunit finished ############################"
           cat /tmp/cov.txt
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
@@ -115,7 +113,7 @@ jobs:
       - name: Perform PhpUnit tests
         if: ${{ !(matrix.databases == 'sqlite' && matrix.php-versions == '8.1' && matrix.server-versions == 'master') }}
         run: |
-          ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/phpunit.xml && SUCCESS=yes || SUCCESS=no
+          ~/html/nextcloud/apps/${{ env.APP_ID }}/vendor/bin/phpunit --configuration ~/html/nextcloud/apps/${{ env.APP_ID }}/tests/phpunit.xml && SUCCESS=yes || SUCCESS=no
           if [ $SUCCESS = "yes" ]; then echo "TESTS PASSED"; else echo "TESTS FAILED"; exit 1; fi
 
       #- name: Upload coverage

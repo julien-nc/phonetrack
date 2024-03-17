@@ -150,9 +150,6 @@ class PageController extends Controller {
 
 		// PARAMS to view
 		require_once('tileservers.php');
-		if (!isset($baseTileServers) ) {
-			$baseTileServers = '';
-		}
 		$params = [
 			'username'=>$this->userId,
 			'basetileservers'=>$baseTileServers,
@@ -2339,9 +2336,6 @@ class PageController extends Controller {
 		}
 
 		require_once('tileservers.php');
-		if (!isset($baseTileServers) ) {
-			$baseTileServers = '';
-		}
 		$params = [
 			'username' => '',
 			'basetileservers' => $baseTileServers,
@@ -2360,7 +2354,7 @@ class PageController extends Controller {
 		$response->setHeaderTitle($this->trans->t('PhoneTrack public access'));
 		$response->setHeaderDetails($this->trans->t('Log to session %s', [$dbname]));
 		$response->setFooterVisible(false);
-		$response->setHeaders(['X-Frame-Options'=>'']);
+		// $response->setHeaders(['X-Frame-Options'=>'']);
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedImageDomain('*')
 			->addAllowedMediaDomain('*')
@@ -3663,11 +3657,11 @@ class PageController extends Controller {
 					WHERE sessionid='.$this->db_quote_escape_string($token).'
 						  AND name='.$this->db_quote_escape_string($devicename).' ;';
 				$req = $this->dbConnection->prepare($sqlgetdid);
-				$req->execute();
+				$res = $req->execute();
 				while ($row = $req->fetch()){
 					$dbdeviceid = $row['id'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 			}
 
 			$valuesStrings = [];
@@ -3684,7 +3678,7 @@ class PageController extends Controller {
 				$lat        = $this->db_quote_escape_string(number_format($point[0], 8, '.', ''));
 				$lon        = $this->db_quote_escape_string(number_format($point[1], 8, '.', ''));
 				$alt        = is_numeric($point[2]) ? $this->db_quote_escape_string(number_format($point[2], 2, '.', '')) : 'NULL';
-				$time       = is_numeric($time) ? $this->db_quote_escape_string(number_format($time, 0, '.', '')) : 0;
+				$time       = is_numeric($time) ? $this->db_quote_escape_string(number_format((float) $time, 0, '.', '')) : 0;
 				$acc        = is_numeric($point[4]) ? $this->db_quote_escape_string(number_format($point[4], 2, '.', '')) : 'NULL';
 				$bat        = is_numeric($point[5]) ? $this->db_quote_escape_string(number_format($point[5], 2, '.', '')) : 'NULL';
 				$sat        = is_numeric($point[6]) ? $this->db_quote_escape_string(number_format($point[6], 0, '.', '')) : 'NULL';
@@ -3705,19 +3699,17 @@ class PageController extends Controller {
 				$oneVal .= $speed.',';
 				$oneVal .= $bearing.') ';
 
-				array_push($valuesStrings, $oneVal);
+				$valuesStrings[] = $oneVal;
 			}
 
 			// insert by packets of 500
-			while ($valuesStrings !== null && count($valuesStrings) > 0) {
+			while (count($valuesStrings) > 0) {
 				$c = 0;
 				$values = '';
-				if ($valuesStrings !== null && count($valuesStrings) > 0) {
-					$values .= array_shift($valuesStrings);
-					$c++;
-				}
-				while ($valuesStrings !== null && count($valuesStrings) > 0 && $c < 500) {
-					$values .= ', '.array_shift($valuesStrings);
+				$values .= array_shift($valuesStrings);
+				$c++;
+				while (count($valuesStrings) > 0 && $c < 500) {
+					$values .= ', ' . array_shift($valuesStrings);
 					$c++;
 				}
 
@@ -3728,8 +3720,8 @@ class PageController extends Controller {
 					 useragent, speed, bearing)
 					VALUES '.$values.' ;';
 				$req = $this->dbConnection->prepare($sql);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 			}
 
 			$done = 1;

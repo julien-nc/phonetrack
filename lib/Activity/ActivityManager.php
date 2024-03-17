@@ -31,20 +31,12 @@ use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Device;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
-use OCP\IUserManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
 use OCP\IUser;
 
 class ActivityManager {
-
-	private $manager;
-	private $userId;
-	private $sessionService;
-	private $sessionMapper;
-	private $deviceMapper;
-	private $l10n;
 
 	const PHONETRACK_OBJECT_SESSION = 'phonetrack_session';
 	const PHONETRACK_OBJECT_DEVICE = 'phonetrack_device';
@@ -59,21 +51,13 @@ class ActivityManager {
 	const SUBJECT_SESSION_UNSHARE = 'session_unshare';
 
 	public function __construct(
-		IManager $manager,
-		SessionService $sessionService,
-		SessionMapper $sessionMapper,
-		DeviceMapper $deviceMapper,
-		IL10N $l10n,
-		IUserManager $userManager,
-		$userId
+		private IManager $manager,
+		private SessionService $sessionService,
+		private SessionMapper $sessionMapper,
+		private DeviceMapper $deviceMapper,
+		private IL10N $l10n,
+		private ?string $userId,
 	) {
-		$this->manager = $manager;
-		$this->sessionService = $sessionService;
-		$this->sessionMapper = $sessionMapper;
-		$this->deviceMapper = $deviceMapper;
-		$this->l10n = $l10n;
-		$this->userId = $userId;
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -186,9 +170,6 @@ class ActivityManager {
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
 			->setTimestamp(time());
 
-		if ($message !== null) {
-			$event->setMessage($message);
-		}
 		return $event;
 	}
 
@@ -211,7 +192,7 @@ class ActivityManager {
 		}
 		/** @var IUser $user */
 		foreach ($this->sessionService->findUsers($sessionId) as $user) {
-			$event->setAffectedUser($user);
+			$event->setAffectedUser($user->getUID());
 			/** @noinspection DisconnectedForeachInstructionInspection */
 			$this->manager->publish($event);
 		}
@@ -220,7 +201,7 @@ class ActivityManager {
 	/**
 	 * @param $objectType
 	 * @param $entity
-	 * @return null|\OCA\PhoneTrack\Db\RelationalEntity|\OCP\AppFramework\Db\Entity
+	 * @return null|Session
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException
 	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
 	 */

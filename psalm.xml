@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<psalm
+	errorBaseline="tests/psalm-baseline.xml"
+	errorLevel="4"
+	findUnusedBaselineEntry="true"
+	findUnusedCode="false"
+	resolveFromConfigFile="true"
+	phpVersion="8.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/psalm/vendor/vimeo/psalm/config.xsd"
+>
+	<projectFiles>
+		<directory name="lib" />
+		<ignoreFiles>
+			<directory name="vendor" />
+		</ignoreFiles>
+	</projectFiles>
+	<extraFiles>
+		<directory name="vendor" />
+	</extraFiles>
+	<issueHandlers>
+		<LessSpecificReturnStatement errorLevel="error"/>
+		<LessSpecificReturnType errorLevel="error"/>
+		<LessSpecificImplementedReturnType errorLevel="error"/>
+		<MoreSpecificReturnType errorLevel="error"/>
+		<UndefinedClass>
+			<errorLevel type="suppress">
+				<referencedClass name="OC" />
+				<referencedClass name="Symfony\Component\Console\Input\InputOption" />
+				<referencedClass name="Symfony\Component\Console\Input\InputArgument" />
+				<referencedClass name="Symfony\Component\Console\Input\InputInterface" />
+				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
+				<referencedClass name="Doctrine\DBAL\Types\Type" />
+			</errorLevel>
+		</UndefinedClass>
+		<UndefinedDocblockClass>
+			<errorLevel type="suppress">
+				<referencedClass name="Doctrine\DBAL\Schema\Table" />
+				<referencedClass name="OC\User\NoUserException" />
+				<referencedClass name="OCA\Circles\Exceptions\RequestBuilderException" />
+				<referencedClass name="OCA\Circles\Exceptions\InitiatorNotFoundException" />
+				<referencedClass name="Doctrine\DBAL\Schema\Schema" />
+				<referencedClass name="Doctrine\DBAL\Types\Type" />
+				<referencedClass name="Doctrine\DBAL\Exception" />
+			</errorLevel>
+		</UndefinedDocblockClass>
+		<InvalidClass>
+			<errorLevel type="suppress">
+				<referencedClass name="OCP\Db\Exception" />
+				<referencedClass name="OCP\AppFramework\Db\QBMapper" />
+			</errorLevel>
+		</InvalidClass>
+	</issueHandlers>
+	<stubs>
+		<file name="tests/stubs/oc_hooks_emitter.php" />
+		<!--file name="tests/stubs/oc_core_command_base.php" />
+		<file name="tests/stubs/oc_filesystem.php" />
+		<file name="tests/stubs/oc_core_command_base.php" /-->
+	</stubs>
+</psalm>

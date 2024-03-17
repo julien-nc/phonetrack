@@ -1,38 +1,15 @@
 <?php
 namespace OCA\PhoneTrack\Settings;
 
-use bantu\IniGetWrapper\IniGetWrapper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IRequest;
-use OCP\IL10N;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
-use OCP\Util;
-use OCP\IURLGenerator;
 
 class Admin implements ISettings {
 
-	/** @var IniGetWrapper */
-	private $iniWrapper;
-
-	/** @var IRequest */
-	private $request;
-	private $config;
-	private $dataDirPath;
-	private $urlGenerator;
-	private $l;
-
 	public function __construct(
-						IniGetWrapper $iniWrapper,
-						IL10N $l,
-						IRequest $request,
-						IConfig $config,
-						IURLGenerator $urlGenerator) {
-		$this->urlGenerator = $urlGenerator;
-		$this->iniWrapper = $iniWrapper;
-		$this->request = $request;
-		$this->l = $l;
-		$this->config = $config;
+		private IConfig $config,
+	) {
 	}
 
 	/**
@@ -64,26 +41,4 @@ class Admin implements ISettings {
 	public function getPriority() {
 		return 5;
 	}
-
-	/**
-	 * @return TemplateResponse
-	 * for ownCloud 10+
-	 */
-	public function getPanel() {
-		$quota = $this->config->getAppValue('phonetrack', 'pointQuota');
-
-		$parameters = [
-			'phonetrackPointQuota' => $quota
-		];
-		return new TemplateResponse('phonetrack', 'admin', $parameters, '');
-	}
-
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 * for ownCloud 10+
-	 */
-	public function getSectionID() {
-		return 'additional';
-	}
-
 }

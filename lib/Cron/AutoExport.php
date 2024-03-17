@@ -9,19 +9,22 @@
 
 namespace OCA\PhoneTrack\Cron;
 
-use \OCA\PhoneTrack\AppInfo\Application;
-use \OCA\PhoneTrack\Service\SessionService;
+use OCA\PhoneTrack\Service\SessionService;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\BackgroundJob\TimedJob;
 
-class AutoExport extends \OC\BackgroundJob\TimedJob {
+class AutoExport extends TimedJob {
 
-	public function __construct(SessionService $sessionService) {
-	$this->sessionService = $sessionService;
+	public function __construct(
+		ITimeFactory $time,
+		private SessionService $sessionService
+	) {
+		parent::__construct($time);
 		// Run each day
 		$this->setInterval(24 * 60 * 60);
 	}
 
-	protected function run($argument) {
-		$d = new \DateTime();
+	protected function run($argument): void {
 		$this->sessionService->cronAutoExport();
 	}
 

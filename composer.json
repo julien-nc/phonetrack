@@ -1,0 +1,36 @@
+{
+	"name": "julien-nc/phonetrack",
+	"authors": [
+		{
+			"name": "Julien Veyssier",
+			"email": "julien-nc@posteo.net"
+		}
+	],
+	"scripts": {
+		"lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
+		"cs:check": "php-cs-fixer fix --dry-run --diff",
+		"cs:fix": "php-cs-fixer fix",
+		"psalm": "psalm.phar --no-cache",
+		"psalm:update-baseline": "psalm --threads=1 --update-baseline",
+		"psalm:update-baseline:force": "psalm --threads=1 --update-baseline --set-baseline=tests/psalm-baseline.xml",
+		"test:unit": "phpunit --config tests/phpunit.xml",
+		"openapi": "generate-spec --verbose --allow-missing-docs --continue-on-error"
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/nextcloud/openapi-extractor"
+		}
+	],
+	"require": {
+		"php": "^8.0",
+		"ext-xml": "*"
+	},
+	"require-dev": {
+		"nextcloud/coding-standard": "^1.1",
+		"psalm/phar": "^5.16",
+		"nextcloud/ocp": "dev-master",
+		"phpunit/phpunit": "^9.5",
+		"nextcloud/openapi-extractor": "dev-feat/openapitype/better-error-messages"
+	}
+}

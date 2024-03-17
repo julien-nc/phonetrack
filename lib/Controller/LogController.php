@@ -368,8 +368,7 @@ class LogController extends Controller {
 					// EMAIL
 					$emailaddrArray = explode(',', $emailaddr);
 					if (
-						(count($emailaddrArray) === 0
-						 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
+						(count($emailaddrArray) === 1 && $emailaddrArray[0] === '')
 						&& !empty($userEmail)
 					) {
 						$emailaddrArray[] = $userEmail;
@@ -503,8 +502,7 @@ class LogController extends Controller {
 
 					$emailaddrArray = explode(',', $emailaddr);
 					if (
-						(count($emailaddrArray) === 0
-						 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
+						(count($emailaddrArray) === 1 && $emailaddrArray[0] === '')
 						&& !empty($userEmail)
 					) {
 						$emailaddrArray[] = $userEmail;
@@ -710,23 +708,23 @@ class LogController extends Controller {
 
 					// EMAIL
 					if ($sendemail !== 0) {
-						$emailaddrArray = explode(',', $emailaddr);
+						$emailAddrArray = explode(',', $emailaddr);
 						if (
-							(count($emailaddrArray) === 0 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
+							(count($emailAddrArray) === 1 && $emailAddrArray[0] === '')
 							&& !empty($userEmail)
 						) {
-							$emailaddrArray[] = $userEmail;
+							$emailAddrArray[] = $userEmail;
 						}
 						if (!empty($mailFromA) && !empty($mailFromD)) {
-							$mailfrom = $mailFromA.'@'.$mailFromD;
+							$mailFrom = $mailFromA.'@'.$mailFromD;
 
-							foreach ($emailaddrArray as $addrTo) {
+							foreach ($emailAddrArray as $addrTo) {
 								if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 									try {
 										$mailer = \OC::$server->getMailer();
 										$message = $mailer->createMessage();
 										$message->setSubject($this->trans->t('Geofencing alert'));
-										$message->setFrom([$mailfrom => 'PhoneTrack']);
+										$message->setFrom([$mailFrom => 'PhoneTrack']);
 										$message->setTo([trim($addrTo) => '']);
 										$message->setPlainBody(
 											$this->trans->t('In PhoneTrack session %s, device %s has entered geofence %s.', [
@@ -840,24 +838,23 @@ class LogController extends Controller {
 
 					// EMAIL
 					if ($sendemail !== 0) {
-						$emailaddrArray = explode(',', $emailaddr);
+						$emailAddrArray = explode(',', $emailaddr);
 						if (
-							(count($emailaddrArray) === 0
-							 || (count($emailaddrArray) === 1 && $emailaddrArray[0] === ''))
-							and !empty($userEmail)
+							(count($emailAddrArray) === 1 && $emailAddrArray[0] === '')
+							&& !empty($userEmail)
 						) {
-							$emailaddrArray[] = $userEmail;
+							$emailAddrArray[] = $userEmail;
 						}
 						if (!empty($mailFromA) && !empty($mailFromD)) {
-							$mailfrom = $mailFromA.'@'.$mailFromD;
+							$mailFrom = $mailFromA . '@' . $mailFromD;
 
-							foreach ($emailaddrArray as $addrTo) {
+							foreach ($emailAddrArray as $addrTo) {
 								if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 									try {
 										$mailer = \OC::$server->getMailer();
 										$message = $mailer->createMessage();
 										$message->setSubject($this->trans->t('Geofencing alert'));
-										$message->setFrom([$mailfrom => 'PhoneTrack']);
+										$message->setFrom([$mailFrom => 'PhoneTrack']);
 										$message->setTo([trim($addrTo) => '']);
 										$message->setPlainBody(
 											$this->trans->t('In PhoneTrack session %s, device %s exited geofence %s.', [
@@ -867,8 +864,7 @@ class LogController extends Controller {
 											])
 										);
 										$mailer->send($message);
-									}
-									catch (Exception $e) {
+									} catch (Exception $e) {
 										$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
 									}
 								}
@@ -881,13 +877,11 @@ class LogController extends Controller {
 							$urlleave = str_replace(array('%loc'), $lat.':'.$lon,  $urlleave);
 							try {
 								$xml = file_get_contents($urlleave);
-							}
-							catch (Exception $e) {
+							} catch (Exception $e) {
 								$this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, array('app' => $this->appName));
 							}
-						}
-						// POST
-						else {
+						} else {
+							// POST
 							try {
 								$parts = parse_url($urlleave);
 								parse_str($parts['query'], $data);
@@ -903,8 +897,7 @@ class LogController extends Controller {
 								);
 								$context  = stream_context_create($options);
 								$result = file_get_contents($url, false, $context);
-							}
-							catch (Exception $e) {
+							} catch (Exception $e) {
 								$this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, array('app' => $this->appName));
 							}
 						}
@@ -952,7 +945,7 @@ class LogController extends Controller {
 				$notification->setApp('phonetrack')
 					->setUser($userid)
 					->setDateTime(new DateTime())
-					->setObject('quotareached', $nbPoints)
+					->setObject('quotareached', (string) $nbPoints)
 					->setSubject('quota_reached', [$quota, $devicename, $sessionname])
 					->addAction($acceptAction)
 					->addAction($declineAction)
@@ -1062,12 +1055,17 @@ class LogController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function addPoint(string $token, string $devicename, float $lat, float $lon, ?float $alt, ?int $timestamp,
-							 ?float $acc, ?float $bat, ?int $sat, ?string $useragent, ?float $speed, ?float $bearing) {
+	public function addPoint(
+		string $token, string $devicename, float $lat, float $lon, ?float $alt, ?int $timestamp,
+		?float $acc, ?float $bat, ?int $sat, ?string $useragent, ?float $speed, ?float $bearing
+	) {
 		$done = 0;
 		$dbid = null;
 		$dbdevid = null;
 		if ($token !== '' && $devicename !== '') {
+			if ($bat !== null) {
+				$bat = (int) $bat;
+			}
 			$logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
 			if ($logres['done'] === 1) {
 				$sqlchk = '
@@ -1166,14 +1164,16 @@ class LogController extends Controller {
 	 * @param float|null $speed
 	 * @param float|null $bearing
 	 * @param string|null $datetime
-	 * @return array;
+	 * @return array
 	 * @throws \Doctrine\DBAL\Exception
 	 * @throws \OCP\DB\Exception
 	 */
-	public function logPost(string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
-							?int $timestamp = null, ?float $acc = null, ?int $bat = null, ?int $sat = null,
-							?string $useragent = '', ?float $speed = null, ?float $bearing = null,
-							?string $datetime = null) {
+	public function logPost(
+		string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
+		?int $timestamp = null, ?float $acc = null, ?int $bat = null, ?int $sat = null,
+		?string $useragent = '', ?float $speed = null, ?float $bearing = null,
+		?string $datetime = null
+	): array {
 		$res = ['done' => 0, 'friends' => []];
 		// TODO insert speed and bearing in m/s and degrees
 		if ($devicename !== '' &&
@@ -1344,14 +1344,11 @@ class LogController extends Controller {
 						}
 					}
 
-					if (!is_null($timestamp)) {
+					if ($timestamp !== null) {
 						// correct timestamp if needed
-						$time = $timestamp;
-						if (is_numeric($time)) {
-							$time = (float)$time;
-							if ($time > 10000000000.0) {
-								$time = $time / 1000;
-							}
+						$time = (float) $timestamp;
+						if ($time > 10000000000.0) {
+							$time = $time / 1000;
 						}
 					} else {
 						// we have a datetime
@@ -1375,8 +1372,8 @@ class LogController extends Controller {
 						}
 					}
 
-					if (is_numeric($acc)) {
-						$acc = sprintf('%.2f', (float)$acc);
+					if ($acc !== null) {
+						$acc = (float) sprintf('%.2f', $acc);
 					}
 
 					// geofences, proximity alerts, quota
@@ -1393,7 +1390,7 @@ class LogController extends Controller {
 					$lon        = $this->db_quote_escape_string(number_format($lon, 8, '.', ''));
 					$time       = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
 					$alt        = is_numeric($alt) ? $this->db_quote_escape_string(number_format($alt, 2, '.', '')) : 'NULL';
-					$acc        = is_numeric($acc) ? $this->db_quote_escape_string(number_format($acc, 2, '.', '')) : 'NULL';
+					$acc        = $acc !== null ? $this->db_quote_escape_string(number_format($acc, 2, '.', '')) : 'NULL';
 					$bat        = is_numeric($bat) ? $this->db_quote_escape_string(number_format($bat, 2, '.', '')) : 'NULL';
 					$sat        = is_numeric($sat) ? $this->db_quote_escape_string(number_format($sat, 0, '.', '')) : 'NULL';
 					$speed      = is_numeric($speed) ? $this->db_quote_escape_string(number_format($speed, 3, '.', '')) : 'NULL';
@@ -1710,8 +1707,7 @@ class LogController extends Controller {
 						$speed      = $point[8];
 						$bearing    = $point[9];
 
-						if ($devicename !== ''
-							&& $token !== ''
+						if ($token !== ''
 							&& $lat !== '' && is_numeric($lat)
 							&& $lon !== '' && is_numeric($lon)
 							&& $timestamp !== '' && is_numeric($timestamp)
@@ -1722,15 +1718,15 @@ class LogController extends Controller {
 								$time = $time / 1000;
 							}
 
-							$lat        = $this->db_quote_escape_string(number_format($lat, 8, '.', ''));
-							$lon        = $this->db_quote_escape_string(number_format($lon, 8, '.', ''));
+							$lat        = $this->db_quote_escape_string(number_format((float) $lat, 8, '.', ''));
+							$lon        = $this->db_quote_escape_string(number_format((float) $lon, 8, '.', ''));
 							$time       = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
-							$alt        = is_numeric($alt) ? $this->db_quote_escape_string(number_format($alt, 2, '.', '')) : 'NULL';
-							$acc        = is_numeric($acc) ? $this->db_quote_escape_string(number_format($acc, 2, '.', '')) : 'NULL';
-							$bat        = is_numeric($bat) ? $this->db_quote_escape_string(number_format($bat, 2, '.', '')) : 'NULL';
-							$sat        = is_numeric($sat) ? $this->db_quote_escape_string(number_format($sat, 0, '.', '')) : 'NULL';
-							$speed      = is_numeric($speed) ? $this->db_quote_escape_string(number_format($speed, 3, '.', '')) : 'NULL';
-							$bearing    = is_numeric($bearing) ? $this->db_quote_escape_string(number_format($bearing, 2, '.', '')) : 'NULL';
+							$alt        = is_numeric($alt) ? $this->db_quote_escape_string(number_format((float) $alt, 2, '.', '')) : 'NULL';
+							$acc        = is_numeric($acc) ? $this->db_quote_escape_string(number_format((float) $acc, 2, '.', '')) : 'NULL';
+							$bat        = is_numeric($bat) ? $this->db_quote_escape_string(number_format((float) $bat, 2, '.', '')) : 'NULL';
+							$sat        = is_numeric($sat) ? $this->db_quote_escape_string(number_format((float) $sat, 0, '.', '')) : 'NULL';
+							$speed      = is_numeric($speed) ? $this->db_quote_escape_string(number_format((float) $speed, 3, '.', '')) : 'NULL';
+							$bearing    = is_numeric($bearing) ? $this->db_quote_escape_string(number_format((float) $bearing, 2, '.', '')) : 'NULL';
 
 							$value = '('.
 									  $this->db_quote_escape_string($deviceidToInsert).','.
@@ -1858,8 +1854,11 @@ class LogController extends Controller {
 						   ?int $sat = null, ?float $acc = null, ?float $alt = null,
 						   ?float $speed = null, ?float $bearing = null, ?string $datetime = null,
 						   string $useragent = 'unknown GET logger') {
-		$dname = $this->chooseDeviceName($devicename);
-		return $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing, $datetime);
+		$dName = $this->chooseDeviceName($devicename);
+		if ($bat !== null) {
+			$bat = (int) $bat;
+		}
+		return $this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing, $datetime);
 	}
 
 	/**
@@ -1868,11 +1867,16 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logLocusmapGet(string $token, string $devicename, float $lat, float $lon, ?int $time = null,
-								   ?float $battery = null, ?float $acc = null, ?float $alt = null,
-								   ?float $speed = null, ?float $bearing = null) {
-		$dname = $this->chooseDeviceName($devicename);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+	public function logLocusmapGet(
+		string $token, string $devicename, float $lat, float $lon, ?int $time = null,
+		?float $battery = null, ?float $acc = null, ?float $alt = null,
+		?float $speed = null, ?float $bearing = null
+	) {
+		$dName = $this->chooseDeviceName($devicename);
+		if ($battery !== null) {
+			$battery = (int) $battery;
+		}
+		$this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
 	}
 
 	/**
@@ -1884,8 +1888,11 @@ class LogController extends Controller {
 	public function logLocusmapPost(string $token, string $devicename, float $lat, float $lon, ?int $time = null,
 									?float $battery = null, ?float $acc = null, ?float $alt = null,
 									?float $speed = null, ?float $bearing = null) {
-		$dname = $this->chooseDeviceName($devicename);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+		$dName = $this->chooseDeviceName($devicename);
+		if ($battery !== null) {
+			$battery = (int) $battery;
+		}
+		$this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
 	}
 
 	/**
@@ -1894,11 +1901,16 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logOsmand(string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
-							  ?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
-							  ?float $speed = null, ?float $bearing = null) {
-		$dname = $this->chooseDeviceName($devicename);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
+	public function logOsmand(
+		string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
+		?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
+		?float $speed = null, ?float $bearing = null
+	) {
+		$dName = $this->chooseDeviceName($devicename);
+		if ($bat !== null) {
+			$bat = (int) $bat;
+		}
+		$this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
 	}
 
 	/**
@@ -1907,11 +1919,16 @@ class LogController extends Controller {
 	 * @PublicPage
 	 *
 	 **/
-	public function logGpsloggerGet(string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
-									?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
-									?float $speed = null, ?float $bearing = null) {
-		$dname = $this->chooseDeviceName($devicename);
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
+	public function logGpsloggerGet(
+		string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
+		?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
+		?float $speed = null, ?float $bearing = null
+	) {
+		$dName = $this->chooseDeviceName($devicename);
+		if ($bat !== null) {
+			$bat = (int) $bat;
+		}
+		$this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
 	}
 
 	/**
@@ -1924,6 +1941,9 @@ class LogController extends Controller {
 									 ?int $timestamp = null, ?float $acc = null, ?float $bat = null, $sat = null,
 									 ?float $speed = null, ?float $bearing = null) {
 		$dname = $this->chooseDeviceName($devicename);
+		if ($bat !== null) {
+			$bat = (int) $bat;
+		}
 		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
 	}
 
@@ -1944,13 +1964,18 @@ class LogController extends Controller {
 	 * @param float|null $batt
 	 * @return mixed
 	 */
-	public function logOwntracks(string $token, ?float $lat, ?float $lon, ?string $devicename = null, ?string $tid = null,
-								 ?float $alt = null, ?int $tst = null, ?float $acc = null, ?float $batt = null) {
+	public function logOwntracks(
+		string $token, ?float $lat, ?float $lon, ?string $devicename = null, ?string $tid = null,
+		?float $alt = null, ?int $tst = null, ?float $acc = null, ?float $batt = null
+	) {
 		if (is_null($lat) || is_null($lon)) {
 			// empty message (control message?) - ignore
 			return ['result' => 'ok'];
 		}
 		$dname = $this->chooseDeviceName($devicename, $tid);
+		if ($batt !== null) {
+			$batt = (int) $batt;
+		}
 		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
 		return $res['friends'];
 	}
@@ -1976,7 +2001,7 @@ class LogController extends Controller {
 				$bearing = null;
 				$sat = null;
 				$alt = $loc['properties']['altitude'];
-				$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat,'Overland', $speed, $bearing);
+				$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, (int) $bat, $sat,'Overland', $speed, $bearing);
 			}
 		}
 		return ['result' => 'ok'];
@@ -2009,15 +2034,20 @@ class LogController extends Controller {
 	 *
 	 * traccar Android/IOS
 	 **/
-	public function logTraccar(string $token, float $lat, float $lon, ?int $timestamp = null,
-							   ?string $devicename = null, ?string $id = null, ?float $accuracy = null,
-							   ?float $altitude = null, ?float $batt = null, ?float $speed = null, ?float $bearing = null) {
+	public function logTraccar(
+		string $token, float $lat, float $lon, ?int $timestamp = null,
+		?string $devicename = null, ?string $id = null, ?float $accuracy = null,
+		?float $altitude = null, ?float $batt = null, ?float $speed = null, ?float $bearing = null
+	) {
 		$dname = $this->chooseDeviceName($devicename, $id);
 		$speedp = $speed;
 		if ($speed !== null) {
 			// according to traccar sources, speed is converted in knots...
 			// convert back to meter/s
 			$speedp = $speed / 1.943844;
+		}
+		if ($batt !== null) {
+			$batt = (int) $batt;
 		}
 		$this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, null, 'Traccar', $speedp, $bearing);
 	}
@@ -2027,10 +2057,12 @@ class LogController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 *
-	 * any Opengts-compliant app
+	 * any OpenGTS-compliant app
 	 **/
-	public function logOpengts(string $token, string $gprmc,
-							   ?string $devicename = null, ?string $id = null, ?float $alt = null, ?float $batt = null) {
+	public function logOpengts(
+		string $token, string $gprmc,
+		?string $devicename = null, ?string $id = null, ?float $alt = null, ?float $batt = null
+	) {
 		$dname = $this->chooseDeviceName($devicename, $id);
 		$gprmca = explode(',', $gprmc);
 		$time = sprintf('%06d', (int)$gprmca[1]);
@@ -2044,6 +2076,9 @@ class LogController extends Controller {
 		$lon = DMStoDEC(sprintf('%010.4f', (float)$gprmca[5]), 'longitude');
 		if ($gprmca[6] === 'W') {
 			$lon = - $lon;
+		}
+		if ($batt !== null) {
+			$batt = (int) $batt;
 		}
 		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, null, $batt, null, 'OpenGTS client');
 		return true;

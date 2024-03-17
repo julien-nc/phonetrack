@@ -1,5 +1,11 @@
+/vendor
 /js/
-*.bak
-node_modules
-/css/fontawesome-free
-/.idea
+.code-workspace
+.DS_Store
+.idea/
+.vscode/
+.vscode-upload.json
+.*.sw*
+/node_modules
+/composer.lock
+.php*.cache

@@ -20,6 +20,9 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * @extends QBMapper<Session>
+ */
 class SessionMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
@@ -66,7 +69,7 @@ class SessionMapper extends QBMapper {
 
 	/**
 	 * @param string $userId
-	 * @return array|Entity
+	 * @return Session[]
 	 * @throws Exception
 	 */
 	public function findByUser(string $userId): array {
@@ -83,7 +86,7 @@ class SessionMapper extends QBMapper {
 
 	/**
 	 * @param $value
-	 * @return array|Entity
+	 * @return Session[]
 	 * @throws Exception
 	 */
 	public function findByAutoPurge($value): array {

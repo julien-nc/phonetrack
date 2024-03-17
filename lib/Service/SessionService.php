@@ -13,22 +13,19 @@
 namespace OCA\PhoneTrack\Service;
 
 use DateTime;
-use OC\Files\Node\File;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Session;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB\Exception;
+use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
-use OCP\IL10N;
-use Psr\Log\LoggerInterface;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCP\IUserManager;
-use OCP\IGroupManager;
 
 use OCP\IConfig;
 
@@ -111,23 +108,20 @@ class SessionService {
 		return $userIds;
 	}
 
-	private function getOrCreateExportDir($userId): Folder {
-		$dir = null;
+	private function getOrCreateExportDir(string $userId): Folder {
 		$userFolder = $this->root->getUserFolder($userId);
 
-		$dirpath = $this->config->getUserValue($userId, Application::APP_ID, 'autoexportpath', '/PhoneTrack_export');
+		$dirPath = $this->config->getUserValue($userId, Application::APP_ID, 'autoexportpath', '/PhoneTrack_export');
 
-		if ($userFolder->nodeExists($dirpath)){
-			$tmp = $userFolder->get($dirpath);
-			if ($tmp instanceof Folder
-				&& $tmp->isCreatable()){
-				$dir = $tmp;
-			}
-		} else {
-			$userFolder->newFolder($dirpath);
-			$dir = $userFolder->get($dirpath);
+		if (!$userFolder->nodeExists($dirPath)){
+			return $userFolder->newFolder($dirPath);
 		}
-		return $dir;
+
+		$dir = $userFolder->get($dirPath);
+		if ($dir instanceof Folder && $dir->isCreatable()){
+			return $dir;
+		}
+		throw new \Exception('Impossible to create export directory');
 	}
 
 	private function cronAutoPurge() {
@@ -296,30 +290,30 @@ class SessionService {
 		$oneFilePerDevice = ($ofpd === 'true');
 
 		$path = $target;
-		$cleanpath = str_replace(['../', '..\\'], '',  $path);
+		$cleanPath = str_replace(['../', '..\\'], '',  $path);
 
 		if ($userFolder !== null) {
 			$file = null;
 			$filePossible = false;
-			$dirpath = dirname($cleanpath);
-			$newFileName = basename($cleanpath);
+			$dirPath = dirname($cleanPath);
+			$newFileName = basename($cleanPath);
 			if ($oneFilePerDevice) {
-				if ($userFolder->nodeExists($dirpath)) {
-					$dir = $userFolder->get($dirpath);
+				if ($userFolder->nodeExists($dirPath)) {
+					$dir = $userFolder->get($dirPath);
 					if ($dir instanceof Folder && $dir->isCreatable()) {
 						$filePossible = true;
 					}
 				}
 			} else {
-				if ($userFolder->nodeExists($cleanpath)){
-					$dir = $userFolder->get($dirpath);
-					$file = $userFolder->get($cleanpath);
+				if ($userFolder->nodeExists($cleanPath)){
+					$dir = $userFolder->get($dirPath);
+					$file = $userFolder->get($cleanPath);
 					if ($file instanceof File && $file->isUpdateable()) {
 						$filePossible = true;
 					}
 				} else {
-					if ($userFolder->nodeExists($dirpath)){
-						$dir = $userFolder->get($dirpath);
+					if ($userFolder->nodeExists($dirPath)){
+						$dir = $userFolder->get($dirPath);
 						if ($dir instanceof Folder && $dir->isCreatable()) {
 							$filePossible = true;
 						}

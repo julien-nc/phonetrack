@@ -17,6 +17,9 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * @extends QBMapper<Device>
+ */
 class DeviceMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {

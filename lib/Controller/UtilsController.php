@@ -22,36 +22,29 @@ use OCP\AppFramework\Controller;
 
 class UtilsController extends Controller {
 
+	private string $dbDoubleQuotes;
 
-	private $userId;
-	private $config;
-	private $dbconnection;
-	private $dbtype;
-
-	public function __construct(string $AppName,
-								IRequest $request,
-								IConfig $config,
-								IDBConnection $dbconnection,
-								?string $userId) {
-		parent::__construct($AppName, $request);
-		$this->userId = $userId;
-		$this->dbtype = $config->getSystemValue('dbtype');
-		if ($this->dbtype === 'pgsql'){
-			$this->dbdblquotes = '"';
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IConfig $config,
+		private IDBConnection $dbConnection,
+		private ?string $userId,
+	) {
+		parent::__construct($appName, $request);
+		$dbType = $config->getSystemValue('dbtype');
+		if ($dbType === 'pgsql'){
+			$this->dbDoubleQuotes = '"';
+		} else{
+			$this->dbDoubleQuotes = '';
 		}
-		else{
-			$this->dbdblquotes = '';
-		}
-		// IConfig object
-		$this->config = $config;
-		$this->dbconnection = $dbconnection;
 	}
 
 	/*
 	 * quote and choose string escape function depending on database used
 	 */
 	private function db_quote_escape_string($str){
-		return $this->dbconnection->quote($str);
+		return $this->dbConnection->quote($str);
 	}
 
 	/**
@@ -83,10 +76,10 @@ class UtilsController extends Controller {
 		$sqlts = '
 			SELECT servername
 			FROM *PREFIX*phonetrack_tileserver
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
+			WHERE '.$this->dbDoubleQuotes.'user'.$this->dbDoubleQuotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND servername='.$this->db_quote_escape_string($servername).'
 				  AND type='.$this->db_quote_escape_string($type).' ;';
-		$req = $this->dbconnection->prepare($sqlts);
+		$req = $this->dbConnection->prepare($sqlts);
 		$req->execute();
 		$ts = null;
 		while ($row = $req->fetch()){
@@ -99,7 +92,7 @@ class UtilsController extends Controller {
 		if ($ts === null){
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_tileserver
-				('.$this->dbdblquotes.'user'.$this->dbdblquotes.', type, servername, url, token, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
+				('.$this->dbDoubleQuotes.'user'.$this->dbDoubleQuotes.', type, servername, url, token, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
 				VALUES ('.
 					$this->db_quote_escape_string($this->userId).','.
 					$this->db_quote_escape_string($type).','.
@@ -115,7 +108,7 @@ class UtilsController extends Controller {
 					$this->db_quote_escape_string($maxzoom).','.
 					$this->db_quote_escape_string($attribution).'
 				) ;';
-			$req = $this->dbconnection->prepare($sql);
+			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
 			$req->closeCursor();
 			$ok = 1;
@@ -144,10 +137,10 @@ class UtilsController extends Controller {
 	public function deleteTileServer($servername, $type) {
 		$sqldel = '
 			DELETE FROM *PREFIX*phonetrack_tileserver
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
+			WHERE '.$this->dbDoubleQuotes.'user'.$this->dbDoubleQuotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND servername='.$this->db_quote_escape_string($servername).'
 				  AND type='.$this->db_quote_escape_string($type).' ;';
-		$req = $this->dbconnection->prepare($sqldel);
+		$req = $this->dbConnection->prepare($sqldel);
 		$req->execute();
 		$req->closeCursor();
 

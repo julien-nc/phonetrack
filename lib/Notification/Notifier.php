@@ -11,11 +11,8 @@
 
 namespace OCA\PhoneTrack\Notification;
 
-
 use OCP\IURLGenerator;
-use OCP\IUserManager;
 use OCP\L10N\IFactory;
-use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
@@ -23,29 +20,10 @@ use OCA\PhoneTrack\AppInfo\Application;
 
 class Notifier implements INotifier {
 
-	/** @var IFactory */
-	protected $factory;
-
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var INotificationManager */
-	protected $notificationManager;
-
-	/** @var IURLGenerator */
-	protected $url;
-
-	/**
-	 * @param IFactory $factory
-	 * @param IUserManager $userManager
-	 * @param INotificationManager $notificationManager
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct(IFactory $factory, IUserManager $userManager, INotificationManager $notificationManager, IURLGenerator $urlGenerator) {
-		$this->factory = $factory;
-		$this->userManager = $userManager;
-		$this->notificationManager = $notificationManager;
-		$this->url = $urlGenerator;
+	public function __construct(
+		private IFactory $lFactory,
+		private IURLGenerator $url,
+	) {
 	}
 
 	/**
@@ -80,12 +58,12 @@ class Notifier implements INotifier {
 			throw new \InvalidArgumentException();
 		}
 
-		$l = $this->factory->get('phonetrack', $languageCode);
+		$l10n = $this->lFactory->get('phonetrack', $languageCode);
 
 		switch ($notification->getSubject()) {
 		case 'enter_geofence':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('In session "%s", device "%s" entered geofencing zone "%s".', [$p[0], $p[1], $p[2]]);
+			$content = $l10n->t('In session "%s", device "%s" entered geofencing zone "%s".', [$p[0], $p[1], $p[2]]);
 
 			$notification->setParsedSubject($content)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
@@ -93,7 +71,7 @@ class Notifier implements INotifier {
 			return $notification;
 		case 'leave_geofence':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('In session "%s", device "%s" exited geofencing zone "%s".', [$p[0], $p[1], $p[2]]);
+			$content = $l10n->t('In session "%s", device "%s" exited geofencing zone "%s".', [$p[0], $p[1], $p[2]]);
 
 			$notification->setParsedSubject($content)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
@@ -102,7 +80,7 @@ class Notifier implements INotifier {
 
 		case 'close_proxim':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('Device "%s" is now closer than %sm to "%s".', [$p[0], $p[1], $p[2]]);
+			$content = $l10n->t('Device "%s" is now closer than %sm to "%s".', [$p[0], $p[1], $p[2]]);
 
 			$notification->setParsedSubject($content)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
@@ -110,7 +88,7 @@ class Notifier implements INotifier {
 			return $notification;
 		case 'far_proxim':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('Device "%s" is now farther than %sm from "%s".', [$p[0], $p[1], $p[2]]);
+			$content = $l10n->t('Device "%s" is now farther than %sm from "%s".', [$p[0], $p[1], $p[2]]);
 
 			$notification->setParsedSubject($content)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
@@ -119,7 +97,7 @@ class Notifier implements INotifier {
 
 		case 'quota_reached':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('Point number quota (%s) was reached with a point of "%s" in session "%s".', [$p[0], $p[1], $p[2]]);
+			$content = $l10n->t('Point number quota (%s) was reached with a point of "%s" in session "%s".', [$p[0], $p[1], $p[2]]);
 
 			$notification->setParsedSubject($content)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
@@ -128,7 +106,7 @@ class Notifier implements INotifier {
 
 		case 'add_user_share':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('User "%s" shared PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
+			$content = $l10n->t('User "%s" shared PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
 
 			$notification->setParsedSubject($content)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
@@ -137,7 +115,7 @@ class Notifier implements INotifier {
 
 		case 'delete_user_share':
 			$p = $notification->getSubjectParameters();
-			$content = $l->t('User "%s" stopped sharing PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
+			$content = $l10n->t('User "%s" stopped sharing PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
 
 			$notification->setParsedSubject($content)
 				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
