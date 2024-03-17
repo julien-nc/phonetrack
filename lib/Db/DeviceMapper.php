@@ -10,7 +10,7 @@
  * @copyright Julien Veyssier 2019
  */
 
- namespace OCA\PhoneTrack\Db;
+namespace OCA\PhoneTrack\Db;
 
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;

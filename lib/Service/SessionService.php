@@ -16,18 +16,18 @@ use DateTime;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Session;
+use OCA\PhoneTrack\Db\SessionMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB\Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\IDBConnection;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-
-use OCA\PhoneTrack\Db\SessionMapper;
-use OCP\IUserManager;
 
 use OCP\IConfig;
+use OCP\IDBConnection;
+
+use OCP\IUserManager;
 
 class SessionService {
 
@@ -60,7 +60,7 @@ class SessionService {
 	 */
 	private $config;
 
-	public function __construct (
+	public function __construct(
 		SessionMapper $sessionMapper,
 		DeviceMapper $deviceMapper,
 		IUserManager $userManager,
@@ -78,7 +78,7 @@ class SessionService {
 		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
 	}
 
-	private function db_quote_escape_string($str){
+	private function db_quote_escape_string($str) {
 		return $this->db->quote($str);
 	}
 
@@ -113,12 +113,12 @@ class SessionService {
 
 		$dirPath = $this->config->getUserValue($userId, Application::APP_ID, 'autoexportpath', '/PhoneTrack_export');
 
-		if (!$userFolder->nodeExists($dirPath)){
+		if (!$userFolder->nodeExists($dirPath)) {
 			return $userFolder->newFolder($dirPath);
 		}
 
 		$dir = $userFolder->get($dirPath);
-		if ($dir instanceof Folder && $dir->isCreatable()){
+		if ($dir instanceof Folder && $dir->isCreatable()) {
 			return $dir;
 		}
 		throw new \Exception('Impossible to create export directory');
@@ -172,7 +172,7 @@ class SessionService {
 		// get begining of today
 		$dateMaxDay = new DateTime($y . '-' . $m . '-' . $d);
 		$maxDayTimestamp = $dateMaxDay->getTimestamp();
-		$minDayTimestamp = $maxDayTimestamp - 24*60*60;
+		$minDayTimestamp = $maxDayTimestamp - 24 * 60 * 60;
 
 		$dateMaxDay->modify('-1 day');
 		$dailySuffix = '_daily_' . $dateMaxDay->format('Y-m-d');
@@ -279,7 +279,7 @@ class SessionService {
 		$done = false;
 		$warning = 0;
 		$userFolder = null;
-		if ($username !== ''){
+		if ($username !== '') {
 			$userFolder = $this->root->getUserFolder($username);
 			$userId = $username;
 		} else {
@@ -290,7 +290,7 @@ class SessionService {
 		$oneFilePerDevice = ($ofpd === 'true');
 
 		$path = $target;
-		$cleanPath = str_replace(['../', '..\\'], '',  $path);
+		$cleanPath = str_replace(['../', '..\\'], '', $path);
 
 		if ($userFolder !== null) {
 			$file = null;
@@ -305,14 +305,14 @@ class SessionService {
 					}
 				}
 			} else {
-				if ($userFolder->nodeExists($cleanPath)){
+				if ($userFolder->nodeExists($cleanPath)) {
 					$dir = $userFolder->get($dirPath);
 					$file = $userFolder->get($cleanPath);
 					if ($file instanceof File && $file->isUpdateable()) {
 						$filePossible = true;
 					}
 				} else {
-					if ($userFolder->nodeExists($dirPath)){
+					if ($userFolder->nodeExists($dirPath)) {
 						$dir = $userFolder->get($dirPath);
 						if ($dir instanceof Folder && $dir->isCreatable()) {
 							$filePossible = true;
@@ -388,7 +388,7 @@ class SessionService {
 								if ($oneFilePerDevice) {
 									$gpxHeader = $this->generateGpxHeader($name);
 									// generate file name for this device
-									$devFileName = str_replace(['.gpx', '.GPX'], '_' . $devname . '.gpx',  $newFileName);
+									$devFileName = str_replace(['.gpx', '.GPX'], '_' . $devname . '.gpx', $newFileName);
 									if (!$dir->nodeExists($devFileName)) {
 										$dir->newFile($devFileName);
 									}
@@ -435,12 +435,12 @@ class SessionService {
 		if (array_key_exists('applyfilters', $options) && $options['applyfilters'] === 'true') {
 			$filters = [];
 			if (array_key_exists('datemin', $options) && $options['datemin'] !== '') {
-				$hourmin =   (array_key_exists('hourmin', $options)   && $options['hourmin']   !== '') ? (int)$options['hourmin'] : 0;
+				$hourmin = (array_key_exists('hourmin', $options) && $options['hourmin'] !== '') ? (int)$options['hourmin'] : 0;
 				$minutemin = (array_key_exists('minutemin', $options) && $options['minutemin'] !== '') ? (int)$options['minutemin'] : 0;
 				$secondmin = (array_key_exists('secondmin', $options) && $options['secondmin'] !== '') ? (int)$options['secondmin'] : 0;
 				$filters['tsmin'] = ((int)$options['datemin']) + (3600 * $hourmin) + (60 * $minutemin) + $secondmin;
 			} else {
-				if (   array_key_exists('hourmin', $options)   && $options['hourmin'] !== ''
+				if (array_key_exists('hourmin', $options) && $options['hourmin'] !== ''
 					&& array_key_exists('minutemin', $options) && $options['minutemin'] !== ''
 					&& array_key_exists('secondmin', $options) && $options['secondmin'] !== ''
 				) {
@@ -461,12 +461,12 @@ class SessionService {
 				}
 			}
 			if (array_key_exists('datemax', $options) && $options['datemax'] !== '') {
-				$hourmax =   (array_key_exists('hourmax', $options)   && $options['hourmax'] !== '')   ? (int)$options['hourmax'] : 23;
+				$hourmax = (array_key_exists('hourmax', $options) && $options['hourmax'] !== '')   ? (int)$options['hourmax'] : 23;
 				$minutemax = (array_key_exists('minutemax', $options) && $options['minutemax'] !== '') ? (int)$options['minutemax'] : 59;
 				$secondmax = (array_key_exists('secondmax', $options) && $options['secondmax'] !== '') ? (int)$options['secondmax'] : 59;
 				$filters['tsmax'] = ((int)$options['datemax']) + (3600 * $hourmax) + (60 * $minutemax) + $secondmax;
 			} else {
-				if (   array_key_exists('hourmax', $options)   && $options['hourmax'] !== ''
+				if (array_key_exists('hourmax', $options) && $options['hourmax'] !== ''
 					&& array_key_exists('minutemax', $options) && $options['minutemax'] !== ''
 					&& array_key_exists('secondmax', $options) && $options['secondmax'] !== ''
 				) {
@@ -506,10 +506,10 @@ class SessionService {
 				$filters['tsmin'] = $lastTS;
 			}
 			foreach ([
-						 'elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax',
-						 'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays',
-						 'lasthours', 'lastmins',
-					 ] as $k) {
+				'elevationmin', 'elevationmax', 'accuracymin', 'accuracymax', 'satellitesmin', 'satellitesmax',
+				'batterymin', 'batterymax', 'speedmax', 'speedmin', 'bearingmax', 'bearingmin', 'lastdays',
+				'lasthours', 'lastmins',
+			] as $k) {
 				if (array_key_exists($k, $options) && $options[$k] !== '') {
 					$filters[$k] = (int)$options[$k];
 				}
@@ -536,12 +536,12 @@ class SessionService {
 			$filters = [];
 			$filters['timestamp'] = [];
 			if (isset($options['datemin']) && $options['datemin'] !== '') {
-				$hourmin =   (isset($options['hourmin'])   && $options['hourmin']   !== '') ? (int)$options['hourmin'] : 0;
+				$hourmin = (isset($options['hourmin']) && $options['hourmin'] !== '') ? (int)$options['hourmin'] : 0;
 				$minutemin = (isset($options['minutemin']) && $options['minutemin'] !== '') ? (int)$options['minutemin'] : 0;
 				$secondmin = (isset($options['secondmin']) && $options['secondmin'] !== '') ? (int)$options['secondmin'] : 0;
 				$filters['timestamp']['min'] = ((int)$options['datemin']) + (3600 * $hourmin) + (60 * $minutemin) + $secondmin;
 			} else {
-				if (   isset($options['hourmin'])   && $options['hourmin'] !== ''
+				if (isset($options['hourmin']) && $options['hourmin'] !== ''
 					&& isset($options['minutemin']) && $options['minutemin'] !== ''
 					&& isset($options['secondmin']) && $options['secondmin'] !== ''
 				) {
@@ -562,12 +562,12 @@ class SessionService {
 				}
 			}
 			if (isset($options['datemax']) && $options['datemax'] !== '') {
-				$hourmax =   (isset($options['hourmax'])   && $options['hourmax'] !== '')   ? (int)$options['hourmax'] : 23;
+				$hourmax = (isset($options['hourmax']) && $options['hourmax'] !== '')   ? (int)$options['hourmax'] : 23;
 				$minutemax = (isset($options['minutemax']) && $options['minutemax'] !== '') ? (int)$options['minutemax'] : 59;
 				$secondmax = (isset($options['secondmax']) && $options['secondmax'] !== '') ? (int)$options['secondmax'] : 59;
 				$filters['timestamp']['max'] = ((int)$options['datemax']) + (3600 * $hourmax) + (60 * $minutemax) + $secondmax;
 			} else {
-				if (   isset($options['hourmax'])   && $options['hourmax'] !== ''
+				if (isset($options['hourmax']) && $options['hourmax'] !== ''
 					&& isset($options['minutemax']) && $options['minutemax'] !== ''
 					&& isset($options['secondmax']) && $options['secondmax'] !== ''
 				) {
@@ -697,7 +697,7 @@ class SessionService {
 	private function getAndWriteDevicePoints(int $devid, string $devname, ?array $filters, $fd, int $nbPoints): int {
 		$done = 0;
 
-		$gpxText  = '<trk>' . "\n" . ' <name>' . $devname . '</name>' . "\n";
+		$gpxText = '<trk>' . "\n" . ' <name>' . $devname . '</name>' . "\n";
 		$gpxText .= ' <trkseg>' . "\n";
 		fwrite($fd, $gpxText);
 
@@ -722,7 +722,7 @@ class SessionService {
 				$alt = $point['altitude'];
 				$acc = $point['accuracy'];
 				$bat = $point['batterylevel'];
-				$ua  = $point['useragent'];
+				$ua = $point['useragent'];
 				$sat = $point['satellites'];
 				$speed = $point['speed'];
 				$bearing = $point['bearing'];
@@ -762,7 +762,7 @@ class SessionService {
 			$pointIndex = $pointIndex + $chunkSize;
 			//$this->logger->info('EXPORT MEM USAGE '.memory_get_usage(), ['app' => $this->appName]);
 		}
-		$gpxText  = ' </trkseg>' . "\n";
+		$gpxText = ' </trkseg>' . "\n";
 		$gpxText .= '</trk>' . "\n";
 		fwrite($fd, $gpxText);
 

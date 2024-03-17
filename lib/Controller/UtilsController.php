@@ -11,14 +11,14 @@
 
 namespace OCA\PhoneTrack\Controller;
 
-use OCP\IConfig;
+use OCP\AppFramework\Controller;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 
+use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Controller;
 
 class UtilsController extends Controller {
 
@@ -33,9 +33,9 @@ class UtilsController extends Controller {
 	) {
 		parent::__construct($appName, $request);
 		$dbType = $config->getSystemValue('dbtype');
-		if ($dbType === 'pgsql'){
+		if ($dbType === 'pgsql') {
 			$this->dbDoubleQuotes = '"';
-		} else{
+		} else {
 			$this->dbDoubleQuotes = '';
 		}
 	}
@@ -43,7 +43,7 @@ class UtilsController extends Controller {
 	/*
 	 * quote and choose string escape function depending on database used
 	 */
-	private function db_quote_escape_string($str){
+	private function db_quote_escape_string($str) {
 		return $this->dbConnection->quote($str);
 	}
 
@@ -54,7 +54,7 @@ class UtilsController extends Controller {
 		$this->config->setAppValue('phonetrack', 'pointQuota', $quota);
 		$response = new DataResponse(
 			[
-				'done'=>'1'
+				'done' => '1'
 			]
 		);
 		$csp = new ContentSecurityPolicy();
@@ -70,8 +70,8 @@ class UtilsController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function addTileServer(string $servername, string $serverurl, string $type, string $token = '',
-					string $layers = '', string $version = '', string $tformat = '', string $opacity = '', bool $transparent = false,
-					int $minzoom = 1, int $maxzoom = 18, string $attribution = '') {
+		string $layers = '', string $version = '', string $tformat = '', string $opacity = '', bool $transparent = false,
+		int $minzoom = 1, int $maxzoom = 18, string $attribution = '') {
 		// first we check it does not already exist
 		$sqlts = '
 			SELECT servername
@@ -82,14 +82,14 @@ class UtilsController extends Controller {
 		$req = $this->dbConnection->prepare($sqlts);
 		$req->execute();
 		$ts = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$ts = $row['servername'];
 			break;
 		}
 		$req->closeCursor();
 
 		// then if not, we insert it
-		if ($ts === null){
+		if ($ts === null) {
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_tileserver
 				('.$this->dbDoubleQuotes.'user'.$this->dbDoubleQuotes.', type, servername, url, token, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
@@ -112,14 +112,13 @@ class UtilsController extends Controller {
 			$req->execute();
 			$req->closeCursor();
 			$ok = 1;
-		}
-		else{
+		} else {
 			$ok = 0;
 		}
 
 		$response = new DataResponse(
 			[
-				'done'=>$ok
+				'done' => $ok
 			]
 		);
 		$csp = new ContentSecurityPolicy();
@@ -146,7 +145,7 @@ class UtilsController extends Controller {
 
 		$response = new DataResponse(
 			[
-				'done'=>1
+				'done' => 1
 			]
 		);
 		$csp = new ContentSecurityPolicy();
@@ -169,7 +168,7 @@ class UtilsController extends Controller {
 
 		$response = new DataResponse(
 			[
-				'done'=>1
+				'done' => 1
 			]
 		);
 		$csp = new ContentSecurityPolicy();
@@ -194,7 +193,7 @@ class UtilsController extends Controller {
 
 		$response = new DataResponse(
 			[
-				'done'=>true
+				'done' => true
 			]
 		);
 		$csp = new ContentSecurityPolicy();
@@ -219,7 +218,7 @@ class UtilsController extends Controller {
 
 		$response = new DataResponse(
 			[
-				'values'=>$ov
+				'values' => $ov
 			]
 		);
 		$csp = new ContentSecurityPolicy();

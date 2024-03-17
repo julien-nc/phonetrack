@@ -23,15 +23,13 @@
 
 namespace OCA\PhoneTrack\Activity;
 
-use OCA\PhoneTrack\Activity\ActivityManager;
-
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
 use OCP\IConfig;
-use OCP\IURLGenerator;
-use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
 
 class PhonetrackProvider implements IProvider {
 
@@ -56,7 +54,7 @@ class PhonetrackProvider implements IProvider {
 	 * @throws \InvalidArgumentException Should be thrown if your provider does not know this event
 	 * @since 11.0.0
 	 */
-	public function parse($language, IEvent $event, IEvent $previousEvent = null) {
+	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
 		if ($event->getApp() !== 'phonetrack') {
 			throw new \InvalidArgumentException();
 		}
@@ -208,8 +206,7 @@ class PhonetrackProvider implements IProvider {
 					'id' => $subjectParams['who'],
 					'name' => $user !== null ? $user->getDisplayName() : $subjectParams['who']
 				];
-			}
-			else {
+			} else {
 				$group = $this->groupManager->get($subjectParams['who']);
 				$params['who'] = [
 					'type' => 'highlight',

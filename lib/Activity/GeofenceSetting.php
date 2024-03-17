@@ -23,7 +23,6 @@
 
 namespace OCA\PhoneTrack\Activity;
 
-
 class GeofenceSetting extends Setting {
 
 	/**

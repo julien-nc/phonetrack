@@ -15,21 +15,21 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 
+use OCA\PhoneTrack\Activity\ActivityManager;
+use OCA\PhoneTrack\Db\DeviceMapper;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\DataResponse;
+
 use OCP\IConfig;
+
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IRequest;
+use OCP\IUserManager;
+
 use OCP\Notification\IManager;
 use Psr\Log\LoggerInterface;
-
-use OCP\AppFramework\Http\ContentSecurityPolicy;
-
-use OCP\IUserManager;
-use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Controller;
-
-use OCA\PhoneTrack\Db\DeviceMapper;
-use OCA\PhoneTrack\Activity\ActivityManager;
 use Throwable;
 
 function DMStoDEC(string $dms, string $longlat): float {
@@ -53,7 +53,7 @@ function startsWith(string $haystack, string $needle): bool {
 
 function distance2(float $lat1, float $long1, float $lat2, float $long2): float {
 
-	if ($lat1 === $lat2 && $long1 === $long2){
+	if ($lat1 === $lat2 && $long1 === $long2) {
 		return 0;
 	}
 
@@ -94,7 +94,7 @@ class LogController extends Controller {
 	private $userManager;
 	private $ncLogger;
 
-	const LOG_OWNTRACKS = 'Owntracks';
+	public const LOG_OWNTRACKS = 'Owntracks';
 	/**
 	 * @var ActivityManager
 	 */
@@ -109,16 +109,16 @@ class LogController extends Controller {
 	private $notificationManager;
 
 	public function __construct(string $AppName,
-								IRequest $request,
-								IConfig $config,
-								IManager $notificationManager,
-								IUserManager $userManager,
-								IL10N $trans,
-								LoggerInterface $ncLogger,
-								ActivityManager $activityManager,
-								DeviceMapper $deviceMapper,
-								IDBConnection $dbconnection,
-								?string $userId) {
+		IRequest $request,
+		IConfig $config,
+		IManager $notificationManager,
+		IUserManager $userManager,
+		IL10N $trans,
+		LoggerInterface $ncLogger,
+		ActivityManager $activityManager,
+		DeviceMapper $deviceMapper,
+		IDBConnection $dbconnection,
+		?string $userId) {
 		parent::__construct($AppName, $request);
 		$this->userId = $userId;
 		$this->activityManager = $activityManager;
@@ -129,10 +129,9 @@ class LogController extends Controller {
 		$this->dbtype = $config->getSystemValue('dbtype');
 		$this->config = $config;
 
-		if ($this->dbtype === 'pgsql'){
+		if ($this->dbtype === 'pgsql') {
 			$this->dbdblquotes = '"';
-		}
-		else{
+		} else {
 			$this->dbdblquotes = '';
 		}
 		$this->dbconnection = $dbconnection;
@@ -143,7 +142,7 @@ class LogController extends Controller {
 	/*
 	 * quote and choose string escape function depending on database used
 	 */
-	private function db_quote_escape_string($str){
+	private function db_quote_escape_string($str) {
 		return $this->dbconnection->quote($str);
 	}
 
@@ -151,7 +150,7 @@ class LogController extends Controller {
 	 * if devicename is not set to default value, we take it
 	 */
 	private function chooseDeviceName(?string $devicename, ?string $tid = null): string {
-		if ( (!in_array($devicename, $this->defaultDeviceName))
+		if ((!in_array($devicename, $this->defaultDeviceName))
 			&& $devicename !== ''
 			&& (!is_null($devicename))
 		) {
@@ -176,7 +175,7 @@ class LogController extends Controller {
 			ORDER BY timestamp DESC LIMIT 1 ;';
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$therow = $row;
 		}
 		$req->closeCursor();
@@ -195,7 +194,7 @@ class LogController extends Controller {
 				  OR deviceid2='.$this->db_quote_escape_string($devid).' ;';
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$proxims[] = $row;
 		}
 		$req->closeCursor();
@@ -220,7 +219,7 @@ class LogController extends Controller {
 			WHERE *PREFIX*phonetrack_devices.id='.$this->db_quote_escape_string($devid).' ;';
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$owner = $row['user'];
 		}
 		$req->closeCursor();
@@ -235,7 +234,7 @@ class LogController extends Controller {
 			WHERE id='.$this->db_quote_escape_string($devid).' ;';
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbalias = $row['alias'];
 		}
 		$req->closeCursor();
@@ -251,7 +250,7 @@ class LogController extends Controller {
 			WHERE id='.$this->db_quote_escape_string($devid).' ;';
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 		}
 		$req->closeCursor();
@@ -260,7 +259,7 @@ class LogController extends Controller {
 	}
 
 	private function checkProxim(float $newLat, float $newLon, int $movingDevid, array $proxim, string $userid,
-								 ?array $lastPoint, string $movingDeviceName, string $sessionToken) {
+		?array $lastPoint, string $movingDeviceName, string $sessionToken) {
 		$highlimit = (int)$proxim['highlimit'];
 		$lowlimit = (int)$proxim['lowlimit'];
 		$urlclose = $proxim['urlclose'];
@@ -320,7 +319,7 @@ class LogController extends Controller {
 						'device2' => ['id' => $otherDeviceId],
 						'meters' => [
 							'id' => 0,
-							'name'=>$lowlimit,
+							'name' => $lowlimit,
 						],
 					]
 				);
@@ -349,12 +348,12 @@ class LogController extends Controller {
 								->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
 								->addAction($acceptAction)
 								->addAction($declineAction)
-								;
+							;
 
 							$this->notificationManager->notify($notification);
 						}
 					} catch (Exception $e) {
-						$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
+						$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, ['app' => $this->appName]);
 					}
 				}
 
@@ -406,7 +405,7 @@ class LogController extends Controller {
 						try {
 							$xml = file_get_contents($urlclose);
 						} catch (Exception $e) {
-							$this->ncLogger->warning('Error during PhoneTrack proxim URL query : '.$e, array('app' => $this->appName));
+							$this->ncLogger->warning('Error during PhoneTrack proxim URL query : '.$e, ['app' => $this->appName]);
 						}
 					} else {
 						// POST
@@ -418,15 +417,14 @@ class LogController extends Controller {
 
 							$options = [
 								'http' => [
-									'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-									'method'  => 'POST',
+									'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+									'method' => 'POST',
 									'content' => http_build_query($data),
 								]
 							];
-							$context  = stream_context_create($options);
+							$context = stream_context_create($options);
 							$result = file_get_contents($url, false, $context);
-						}
-						catch (Exception $e) {
+						} catch (Exception $e) {
 							$this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, ['app' => $this->appName]);
 						}
 					}
@@ -484,12 +482,12 @@ class LogController extends Controller {
 								->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
 								->addAction($acceptAction)
 								->addAction($declineAction)
-								;
+							;
 
 							$this->notificationManager->notify($notification);
 						}
 					} catch (Exception $e) {
-						$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
+						$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, ['app' => $this->appName]);
 					}
 				}
 
@@ -552,12 +550,12 @@ class LogController extends Controller {
 
 							$options = [
 								'http' => [
-									'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-									'method'  => 'POST',
+									'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+									'method' => 'POST',
 									'content' => http_build_query($data),
 								]
 							];
-							$context  = stream_context_create($options);
+							$context = stream_context_create($options);
 							$result = file_get_contents($url, false, $context);
 						} catch (Exception $e) {
 							$this->ncLogger->warning('Error during PhoneTrack proxim POST URL query : '.$e, ['app' => $this->appName]);
@@ -597,7 +595,7 @@ class LogController extends Controller {
 			WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$userids[] = $row['username'];
 		}
 		$req->closeCursor();
@@ -605,7 +603,7 @@ class LogController extends Controller {
 	}
 
 	private function checkGeoFences(float $lat, float $lon, int $devid, string $userid, string $devicename,
-									string $sessionname, string $sessionToken) {
+		string $sessionname, string $sessionToken) {
 		$lastPoint = $this->getLastDevicePoint($devid);
 		$fences = $this->getDeviceFences($devid);
 		foreach ($fences as $fence) {
@@ -614,7 +612,7 @@ class LogController extends Controller {
 	}
 
 	private function checkGeoGence(float $lat, float $lon, ?array $lastPoint, int $devid, array $fence,
-								   string $userid, string $devicename, string $sessionname, string $sessionToken) {
+		string $userid, string $devicename, string $sessionname, string $sessionToken) {
 		$latmin = (float)$fence['latmin'];
 		$latmax = (float)$fence['latmax'];
 		$lonmin = (float)$fence['lonmin'];
@@ -696,13 +694,12 @@ class LogController extends Controller {
 									->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
 									->addAction($acceptAction)
 									->addAction($declineAction)
-									;
+								;
 
 								$this->notificationManager->notify($notification);
 							}
-						}
-						catch (Exception $e) {
-							$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
+						} catch (Exception $e) {
+							$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, ['app' => $this->appName]);
 						}
 					}
 
@@ -734,9 +731,8 @@ class LogController extends Controller {
 											])
 										);
 										$mailer->send($message);
-									}
-									catch (Exception $e) {
-										$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+									} catch (Exception $e) {
+										$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, ['app' => $this->appName]);
 									}
 								}
 							}
@@ -744,13 +740,12 @@ class LogController extends Controller {
 					}
 					if ($urlenter !== '' && startsWith($urlenter, 'http')) {
 						// GET
-						$urlenter = str_replace(array('%loc'), $lat.':'.$lon,  $urlenter);
+						$urlenter = str_replace(['%loc'], $lat.':'.$lon, $urlenter);
 						if ($urlenterpost === 0) {
 							try {
 								$xml = file_get_contents($urlenter);
-							}
-							catch (Exception $e) {
-								$this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, array('app' => $this->appName));
+							} catch (Exception $e) {
+								$this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, ['app' => $this->appName]);
 							}
 						}
 						// POST
@@ -761,18 +756,17 @@ class LogController extends Controller {
 
 								$url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
 
-								$options = array(
-									'http' => array(
-										'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-										'method'  => 'POST',
+								$options = [
+									'http' => [
+										'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+										'method' => 'POST',
 										'content' => http_build_query($data)
-									)
-								);
-								$context  = stream_context_create($options);
+									]
+								];
+								$context = stream_context_create($options);
 								$result = file_get_contents($url, false, $context);
-							}
-							catch (Exception $e) {
-								$this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, array('app' => $this->appName));
+							} catch (Exception $e) {
+								$this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, ['app' => $this->appName]);
 							}
 						}
 					}
@@ -826,13 +820,12 @@ class LogController extends Controller {
 									->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
 									->addAction($acceptAction)
 									->addAction($declineAction)
-									;
+								;
 
 								$this->notificationManager->notify($notification);
 							}
-						}
-						catch (Exception $e) {
-							$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, array('app' => $this->appName));
+						} catch (Exception $e) {
+							$this->ncLogger->warning('Error sending PhoneTrack notification : '.$e, ['app' => $this->appName]);
 						}
 					}
 
@@ -865,7 +858,7 @@ class LogController extends Controller {
 										);
 										$mailer->send($message);
 									} catch (Exception $e) {
-										$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, array('app' => $this->appName));
+										$this->ncLogger->warning('Error during PhoneTrack mail sending : '.$e, ['app' => $this->appName]);
 									}
 								}
 							}
@@ -874,11 +867,11 @@ class LogController extends Controller {
 					if ($urlleave !== '' && startsWith($urlleave, 'http')) {
 						// GET
 						if ($urlleavepost === 0) {
-							$urlleave = str_replace(array('%loc'), $lat.':'.$lon,  $urlleave);
+							$urlleave = str_replace(['%loc'], $lat.':'.$lon, $urlleave);
 							try {
 								$xml = file_get_contents($urlleave);
 							} catch (Exception $e) {
-								$this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, array('app' => $this->appName));
+								$this->ncLogger->warning('Error during PhoneTrack geofence URL query : '.$e, ['app' => $this->appName]);
 							}
 						} else {
 							// POST
@@ -888,17 +881,17 @@ class LogController extends Controller {
 
 								$url = $parts['scheme'].'://'.$parts['host'].$parts['path'];
 
-								$options = array(
-									'http' => array(
-										'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-										'method'  => 'POST',
+								$options = [
+									'http' => [
+										'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+										'method' => 'POST',
 										'content' => http_build_query($data)
-									)
-								);
-								$context  = stream_context_create($options);
+									]
+								];
+								$context = stream_context_create($options);
 								$result = file_get_contents($url, false, $context);
 							} catch (Exception $e) {
-								$this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, array('app' => $this->appName));
+								$this->ncLogger->warning('Error during PhoneTrack geofence POST URL query : '.$e, ['app' => $this->appName]);
 							}
 						}
 					}
@@ -908,7 +901,7 @@ class LogController extends Controller {
 	}
 
 	private function checkQuota(int $deviceidToInsert, string $userid, string $devicename, string $sessionname,
-								int $nbPointsToInsert = 1) {
+		int $nbPointsToInsert = 1) {
 		$quota = (int)$this->config->getAppValue('phonetrack', 'pointQuota', '0');
 		if ($quota === 0) {
 			return true;
@@ -924,7 +917,7 @@ class LogController extends Controller {
 			WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).' ;';
 		$req = $this->dbconnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$nbPoints = (int)$row['co'];
 		}
 
@@ -949,7 +942,7 @@ class LogController extends Controller {
 					->setSubject('quota_reached', [$quota, $devicename, $sessionname])
 					->addAction($acceptAction)
 					->addAction($declineAction)
-					;
+				;
 
 				$this->notificationManager->notify($notification);
 			}
@@ -974,7 +967,7 @@ class LogController extends Controller {
 					;';
 				$req = $this->dbconnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$count = $row['co'];
 				}
 
@@ -1018,7 +1011,7 @@ class LogController extends Controller {
 					$req = $this->dbconnection->prepare($sqldel);
 					$req->execute();
 					$pids = [];
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$pids[] = $row['id'];
 					}
 					$req->closeCursor();
@@ -1075,7 +1068,7 @@ class LogController extends Controller {
 						  AND name='.$this->db_quote_escape_string($devicename).' ;';
 				$req = $this->dbconnection->prepare($sqlchk);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbdevid = $row['id'];
 					break;
 				}
@@ -1090,7 +1083,7 @@ class LogController extends Controller {
 							  AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
 					$req = $this->dbconnection->prepare($sqlchk);
 					$req->execute();
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$dbdevid = $row['id'];
 						break;
 					}
@@ -1107,18 +1100,16 @@ class LogController extends Controller {
 							  AND timestamp='.$this->db_quote_escape_string($timestamp).' ;';
 					$req = $this->dbconnection->prepare($sqlchk);
 					$req->execute();
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$dbid = $row['maxid'];
 						break;
 					}
 					$req->closeCursor();
 					$done = 1;
-				}
-				else {
+				} else {
 					$done = 4;
 				}
-			}
-			else {
+			} else {
 				// logpost didn't work
 				$done = 3;
 				// because of quota
@@ -1126,16 +1117,15 @@ class LogController extends Controller {
 					$done = 5;
 				}
 			}
-		}
-		else {
+		} else {
 			$done = 2;
 		}
 
 		$response = new DataResponse(
 			[
-				'done'=>$done,
-				'pointid'=>$dbid,
-				'deviceid'=>$dbdevid
+				'done' => $done,
+				'pointid' => $dbid,
+				'deviceid' => $dbdevid
 			]
 		);
 		$csp = new ContentSecurityPolicy();
@@ -1192,7 +1182,7 @@ class LogController extends Controller {
 			$userid = null;
 			$locked = null;
 			$isPublicSession = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				$userid = $row['user'];
 				$locked = (((int)$row['locked']) === 1);
@@ -1211,7 +1201,7 @@ class LogController extends Controller {
 					WHERE sharetoken='.$this->db_quote_escape_string($token).';';
 				$req = $this->dbconnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbtoken = $row['sessionid'];
 				}
 				$req->closeCursor();
@@ -1229,7 +1219,7 @@ class LogController extends Controller {
 					$userid = null;
 					$locked = null;
 					$isPublicSession = null;
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$dbname = $row['name'];
 						$userid = $row['user'];
 						$locked = (((int)$row['locked']) === 1);
@@ -1255,7 +1245,7 @@ class LogController extends Controller {
 							  AND name='.$this->db_quote_escape_string($devicename).' ;';
 					$req = $this->dbconnection->prepare($sqlgetres);
 					$req->execute();
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$dbdeviceid = (int)$row['id'];
 						$dbdevicename = $row['name'];
 						$dbdevicealias = $row['alias'];
@@ -1267,8 +1257,7 @@ class LogController extends Controller {
 					if ($dbdevicename !== null) {
 						if (!empty($dbdevicealias)) {
 							$humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
-						}
-						else {
+						} else {
 							$humanReadableDeviceName = $dbdevicename;
 						}
 						// this device id reserved => logging refused if the request does not come from correct user
@@ -1277,12 +1266,10 @@ class LogController extends Controller {
 							if ($this->userId !== '' && $this->userId !== null && $userid === $this->userId) {
 								// if so, accept to (manually) log with name and not nametoken
 								$deviceidToInsert = $dbdeviceid;
-							}
-							else {
+							} else {
 								return $res;
 							}
-						}
-						else {
+						} else {
 							$deviceidToInsert = $dbdeviceid;
 						}
 					}
@@ -1299,7 +1286,7 @@ class LogController extends Controller {
 								  AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
 						$req = $this->dbconnection->prepare($sqlgetres);
 						$req->execute();
-						while ($row = $req->fetch()){
+						while ($row = $req->fetch()) {
 							$dbdeviceid = (int)$row['id'];
 							$dbdevicename = $row['name'];
 							$dbdevicealias = $row['alias'];
@@ -1337,7 +1324,7 @@ class LogController extends Controller {
 									  AND name='.$this->db_quote_escape_string($devicename).' ;';
 							$req = $this->dbconnection->prepare($sqlgetdid);
 							$req->execute();
-							while ($row = $req->fetch()){
+							while ($row = $req->fetch()) {
 								$deviceidToInsert = (int)$row['id'];
 							}
 							$req->closeCursor();
@@ -1386,15 +1373,15 @@ class LogController extends Controller {
 						return $res;
 					}
 
-					$lat        = $this->db_quote_escape_string(number_format($lat, 8, '.', ''));
-					$lon        = $this->db_quote_escape_string(number_format($lon, 8, '.', ''));
-					$time       = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
-					$alt        = is_numeric($alt) ? $this->db_quote_escape_string(number_format($alt, 2, '.', '')) : 'NULL';
-					$acc        = $acc !== null ? $this->db_quote_escape_string(number_format($acc, 2, '.', '')) : 'NULL';
-					$bat        = is_numeric($bat) ? $this->db_quote_escape_string(number_format($bat, 2, '.', '')) : 'NULL';
-					$sat        = is_numeric($sat) ? $this->db_quote_escape_string(number_format($sat, 0, '.', '')) : 'NULL';
-					$speed      = is_numeric($speed) ? $this->db_quote_escape_string(number_format($speed, 3, '.', '')) : 'NULL';
-					$bearing    = is_numeric($bearing) ? $this->db_quote_escape_string(number_format($bearing, 2, '.', '')) : 'NULL';
+					$lat = $this->db_quote_escape_string(number_format($lat, 8, '.', ''));
+					$lon = $this->db_quote_escape_string(number_format($lon, 8, '.', ''));
+					$time = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
+					$alt = is_numeric($alt) ? $this->db_quote_escape_string(number_format($alt, 2, '.', '')) : 'NULL';
+					$acc = $acc !== null ? $this->db_quote_escape_string(number_format($acc, 2, '.', '')) : 'NULL';
+					$bat = is_numeric($bat) ? $this->db_quote_escape_string(number_format($bat, 2, '.', '')) : 'NULL';
+					$sat = is_numeric($sat) ? $this->db_quote_escape_string(number_format($sat, 0, '.', '')) : 'NULL';
+					$speed = is_numeric($speed) ? $this->db_quote_escape_string(number_format($speed, 3, '.', '')) : 'NULL';
+					$bearing = is_numeric($bearing) ? $this->db_quote_escape_string(number_format($bearing, 2, '.', '')) : 'NULL';
 
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_points
@@ -1419,7 +1406,7 @@ class LogController extends Controller {
 					$res['done'] = 1;
 
 					if ($isPublicSession && $useragent === self::LOG_OWNTRACKS) {
-						$friendSQL  = '
+						$friendSQL = '
 							SELECT p.`deviceid`, `nametoken`, `name`, `lat`, `lon`,
 								`speed`, `altitude`, `batterylevel`, `accuracy`,
 								`timestamp`
@@ -1437,13 +1424,13 @@ class LogController extends Controller {
 						$friendReq = $this->dbconnection->prepare($friendSQL);
 						$friendReq->execute([$token]);
 						$result = [];
-						while ($row = $friendReq->fetch()){
+						while ($row = $friendReq->fetch()) {
 							// we don't store the tid, so we fall back to the last
 							// two chars of the nametoken
 							// TODO feels far from unique, currently 32 ids max
-							$tid = substr($row['nametoken'],-2);
+							$tid = substr($row['nametoken'], -2);
 							$location = [
-								'_type'=>'location',
+								'_type' => 'location',
 
 								// Tracker ID used to display the initials of a user (iOS,Android/string/optional) required for http mode
 								'tid' => $tid,
@@ -1476,7 +1463,7 @@ class LogController extends Controller {
 							}
 							$result[] = $location;
 							$result[] = [
-								'_type'=>'card',
+								'_type' => 'card',
 								'tid' => $tid,
 								//'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
 								'name' => $row['name'],
@@ -1484,8 +1471,7 @@ class LogController extends Controller {
 						}
 						$res['friends'] = $result;
 					}
-				}
-				else {
+				} else {
 					$res['done'] = 3;
 				}
 			}
@@ -1523,7 +1509,7 @@ class LogController extends Controller {
 			$userid = null;
 			$locked = null;
 			$isPublicSession = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				$userid = $row['user'];
 				$locked = (((int)$row['locked']) === 1);
@@ -1542,7 +1528,7 @@ class LogController extends Controller {
 					WHERE sharetoken='.$this->db_quote_escape_string($token).';';
 				$req = $this->dbconnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbtoken = $row['sessionid'];
 				}
 				$req->closeCursor();
@@ -1560,7 +1546,7 @@ class LogController extends Controller {
 					$userid = null;
 					$locked = null;
 					$isPublicSession = null;
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$dbname = $row['name'];
 						$userid = $row['user'];
 						$locked = (((int)$row['locked']) === 1);
@@ -1586,7 +1572,7 @@ class LogController extends Controller {
 							  AND name='.$this->db_quote_escape_string($devicename).' ;';
 					$req = $this->dbconnection->prepare($sqlgetres);
 					$req->execute();
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$dbdeviceid = $row['id'];
 						$dbdevicename = $row['name'];
 						$dbdevicealias = $row['alias'];
@@ -1598,8 +1584,7 @@ class LogController extends Controller {
 					if ($dbdevicename !== null) {
 						if (!empty($dbdevicealias)) {
 							$humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
-						}
-						else {
+						} else {
 							$humanReadableDeviceName = $dbdevicename;
 						}
 						// this device id reserved => logging refused if the request does not come from correct user
@@ -1608,12 +1593,10 @@ class LogController extends Controller {
 							if ($this->userId !== '' && $this->userId !== null && $userid === $this->userId) {
 								// if so, accept to (manually) log with name and not nametoken
 								$deviceidToInsert = $dbdeviceid;
-							}
-							else {
+							} else {
 								return $res;
 							}
-						}
-						else {
+						} else {
 							$deviceidToInsert = $dbdeviceid;
 						}
 					}
@@ -1630,7 +1613,7 @@ class LogController extends Controller {
 								  AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
 						$req = $this->dbconnection->prepare($sqlgetres);
 						$req->execute();
-						while ($row = $req->fetch()){
+						while ($row = $req->fetch()) {
 							$dbdeviceid = (int)$row['id'];
 							$dbdevicename = $row['name'];
 							$dbdevicealias = $row['alias'];
@@ -1668,7 +1651,7 @@ class LogController extends Controller {
 									  AND name='.$this->db_quote_escape_string($devicename).' ;';
 							$req = $this->dbconnection->prepare($sqlgetdid);
 							$req->execute();
-							while ($row = $req->fetch()){
+							while ($row = $req->fetch()) {
 								$deviceidToInsert = (int)$row['id'];
 							}
 							$req->closeCursor();
@@ -1696,16 +1679,16 @@ class LogController extends Controller {
 					$valuesToInsert = [];
 					$nbToInsert = 0;
 					foreach ($points as $point) {
-						$lat        = $point[0];
-						$lon        = $point[1];
-						$timestamp  = $point[2];
-						$alt        = $point[3];
-						$acc        = $point[4];
-						$bat        = $point[5];
-						$sat        = $point[6];
-						$useragent  = $point[7];
-						$speed      = $point[8];
-						$bearing    = $point[9];
+						$lat = $point[0];
+						$lon = $point[1];
+						$timestamp = $point[2];
+						$alt = $point[3];
+						$acc = $point[4];
+						$bat = $point[5];
+						$sat = $point[6];
+						$useragent = $point[7];
+						$speed = $point[8];
+						$bearing = $point[9];
 
 						if ($token !== ''
 							&& $lat !== '' && is_numeric($lat)
@@ -1718,15 +1701,15 @@ class LogController extends Controller {
 								$time = $time / 1000;
 							}
 
-							$lat        = $this->db_quote_escape_string(number_format((float) $lat, 8, '.', ''));
-							$lon        = $this->db_quote_escape_string(number_format((float) $lon, 8, '.', ''));
-							$time       = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
-							$alt        = is_numeric($alt) ? $this->db_quote_escape_string(number_format((float) $alt, 2, '.', '')) : 'NULL';
-							$acc        = is_numeric($acc) ? $this->db_quote_escape_string(number_format((float) $acc, 2, '.', '')) : 'NULL';
-							$bat        = is_numeric($bat) ? $this->db_quote_escape_string(number_format((float) $bat, 2, '.', '')) : 'NULL';
-							$sat        = is_numeric($sat) ? $this->db_quote_escape_string(number_format((float) $sat, 0, '.', '')) : 'NULL';
-							$speed      = is_numeric($speed) ? $this->db_quote_escape_string(number_format((float) $speed, 3, '.', '')) : 'NULL';
-							$bearing    = is_numeric($bearing) ? $this->db_quote_escape_string(number_format((float) $bearing, 2, '.', '')) : 'NULL';
+							$lat = $this->db_quote_escape_string(number_format((float) $lat, 8, '.', ''));
+							$lon = $this->db_quote_escape_string(number_format((float) $lon, 8, '.', ''));
+							$time = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
+							$alt = is_numeric($alt) ? $this->db_quote_escape_string(number_format((float) $alt, 2, '.', '')) : 'NULL';
+							$acc = is_numeric($acc) ? $this->db_quote_escape_string(number_format((float) $acc, 2, '.', '')) : 'NULL';
+							$bat = is_numeric($bat) ? $this->db_quote_escape_string(number_format((float) $bat, 2, '.', '')) : 'NULL';
+							$sat = is_numeric($sat) ? $this->db_quote_escape_string(number_format((float) $sat, 0, '.', '')) : 'NULL';
+							$speed = is_numeric($speed) ? $this->db_quote_escape_string(number_format((float) $speed, 3, '.', '')) : 'NULL';
+							$bearing = is_numeric($bearing) ? $this->db_quote_escape_string(number_format((float) $bearing, 2, '.', '')) : 'NULL';
 
 							$value = '('.
 									  $this->db_quote_escape_string($deviceidToInsert).','.
@@ -1745,7 +1728,7 @@ class LogController extends Controller {
 							$nbToInsert++;
 
 							// insert by bunch of 50 points
-							if ($nbToInsert%50 === 0) {
+							if ($nbToInsert % 50 === 0) {
 								$sql = '
 									INSERT INTO *PREFIX*phonetrack_points
 									(deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
@@ -1771,7 +1754,7 @@ class LogController extends Controller {
 					$res['done'] = 1;
 
 					if ($isPublicSession && $useragent === self::LOG_OWNTRACKS) {
-						$friendSQL  = '
+						$friendSQL = '
 							SELECT p.`deviceid`, `nametoken`, `name`, `lat`, `lon`,
 								`speed`, `altitude`, `batterylevel`, `accuracy`,
 								`timestamp`
@@ -1793,9 +1776,9 @@ class LogController extends Controller {
 							// we don't store the tid, so we fall back to the last
 							// two chars of the nametoken
 							// TODO feels far from unique, currently 32 ids max
-							$tid = substr($row['nametoken'],-2);
+							$tid = substr($row['nametoken'], -2);
 							$location = [
-								'_type'=>'location',
+								'_type' => 'location',
 
 								// Tracker ID used to display the initials of a user (iOS,Android/string/optional) required for http mode
 								'tid' => $tid,
@@ -1828,7 +1811,7 @@ class LogController extends Controller {
 							}
 							$result[] = $location;
 							$result[] = [
-								'_type'=>'card',
+								'_type' => 'card',
 								'tid' => $tid,
 								//'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
 								'name' => $row['name'],
@@ -1851,9 +1834,9 @@ class LogController extends Controller {
 	 *
 	 **/
 	public function logGet(string $token, string $devicename, float $lat, float $lon, ?int $timestamp, ?float $bat = null,
-						   ?int $sat = null, ?float $acc = null, ?float $alt = null,
-						   ?float $speed = null, ?float $bearing = null, ?string $datetime = null,
-						   string $useragent = 'unknown GET logger') {
+		?int $sat = null, ?float $acc = null, ?float $alt = null,
+		?float $speed = null, ?float $bearing = null, ?string $datetime = null,
+		string $useragent = 'unknown GET logger') {
 		$dName = $this->chooseDeviceName($devicename);
 		if ($bat !== null) {
 			$bat = (int) $bat;
@@ -1886,8 +1869,8 @@ class LogController extends Controller {
 	 *
 	 **/
 	public function logLocusmapPost(string $token, string $devicename, float $lat, float $lon, ?int $time = null,
-									?float $battery = null, ?float $acc = null, ?float $alt = null,
-									?float $speed = null, ?float $bearing = null) {
+		?float $battery = null, ?float $acc = null, ?float $alt = null,
+		?float $speed = null, ?float $bearing = null) {
 		$dName = $this->chooseDeviceName($devicename);
 		if ($battery !== null) {
 			$battery = (int) $battery;
@@ -1938,8 +1921,8 @@ class LogController extends Controller {
 	 *
 	 **/
 	public function logGpsloggerPost(string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
-									 ?int $timestamp = null, ?float $acc = null, ?float $bat = null, $sat = null,
-									 ?float $speed = null, ?float $bearing = null) {
+		?int $timestamp = null, ?float $acc = null, ?float $bat = null, $sat = null,
+		?float $speed = null, ?float $bearing = null) {
 		$dname = $this->chooseDeviceName($devicename);
 		if ($bat !== null) {
 			$bat = (int) $bat;
@@ -2001,7 +1984,7 @@ class LogController extends Controller {
 				$bearing = null;
 				$sat = null;
 				$alt = $loc['properties']['altitude'];
-				$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, (int) $bat, $sat,'Overland', $speed, $bearing);
+				$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, (int) $bat, $sat, 'Overland', $speed, $bearing);
 			}
 		}
 		return ['result' => 'ok'];
@@ -2015,11 +1998,11 @@ class LogController extends Controller {
 	 * Ulogger Android
 	 **/
 	public function logUlogger(string $token, ?float $lat = null, ?float $lon = null, ?int $time = null, ?string $devicename = null,
-							   ?float $accuracy = null, ?float $altitude = null,
-							   ?string $action = null, ?float $speed = null, ?float $bearing = null) {
+		?float $accuracy = null, ?float $altitude = null,
+		?string $action = null, ?float $speed = null, ?float $bearing = null) {
 		if ($action === 'addpos' && $lat !== null && $lon !== null) {
 			$dname = $this->chooseDeviceName($devicename);
-			$this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null,'Ulogger', $speed, $bearing);
+			$this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null, 'Ulogger', $speed, $bearing);
 		}
 		return [
 			'error' => false,

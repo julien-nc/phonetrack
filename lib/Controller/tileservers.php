@@ -1,4 +1,5 @@
 <?php
+
 // list of base tile and overlay servers to be included
 $baseTileServers = [
 	//Array(
@@ -194,4 +195,3 @@ $baseTileServers = [
 		'maxzoom' => '20'
 	],
 ];
-?>

@@ -11,32 +11,32 @@
 
 namespace OCA\PhoneTrack\Controller;
 
+use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Service\SessionService;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+
 use OCP\AppFramework\Http\Attribute\PublicPage;
+
+use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 
-use OCP\AppFramework\Http\ContentSecurityPolicy;
-
+use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
-use OCP\IRequest;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\Template\PublicTemplateResponse;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Controller;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-
-use OCA\PhoneTrack\Service\SessionService;
-use OCA\PhoneTrack\Db\SessionMapper;
-use OCA\PhoneTrack\Activity\ActivityManager;
 
 function distance(float $lat1, float $long1, float $lat2, float $long2): float {
-	if ($lat1 === $lat2 && $long1 === $long2){
+	if ($lat1 === $lat2 && $long1 === $long2) {
 		return 0;
 	}
 
@@ -48,13 +48,13 @@ function distance(float $lat1, float $long1, float $lat2, float $long2): float {
 	$phi2 = (90.0 - $lat2) * $degrees_to_radians;
 
 	// theta = longitude
-	$theta1 = $long1*$degrees_to_radians;
-	$theta2 = $long2*$degrees_to_radians;
+	$theta1 = $long1 * $degrees_to_radians;
+	$theta2 = $long2 * $degrees_to_radians;
 
 	$cos = (sin($phi1) * sin($phi2) * cos($theta1 - $theta2) +
 		   cos($phi1) * cos($phi2));
 	// why are some cosinuses > than 1?
-	if ($cos > 1.0){
+	if ($cos > 1.0) {
 		$cos = 1.0;
 	}
 	$arc = acos($cos);
@@ -92,7 +92,7 @@ class PageController extends Controller {
 		parent::__construct($appName, $request);
 		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
 		$this->dbtype = $config->getSystemValue('dbtype');
-		if ($this->dbtype === 'pgsql'){
+		if ($this->dbtype === 'pgsql') {
 			$this->dbdblquotes = '"';
 		} else {
 			$this->dbdblquotes = '';
@@ -102,17 +102,17 @@ class PageController extends Controller {
 	/*
 	 * quote and choose string escape function depending on database used
 	 */
-	private function db_quote_escape_string($str){
+	private function db_quote_escape_string($str) {
 		return $this->dbConnection->quote($str);
 	}
 
-	private function getUserTileServers($type){
+	private function getUserTileServers($type) {
 		$tss = [];
 		// custom tile servers management
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('servername', 'type', 'url', 'layers', 'token',
-				   'version', 'format', 'opacity', 'transparent',
-				   'minzoom', 'maxzoom', 'attribution')
+			'version', 'format', 'opacity', 'transparent',
+			'minzoom', 'maxzoom', 'attribution')
 			->from('phonetrack_tileserver', 'ts')
 			->where(
 				$qb->expr()->eq('user', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
@@ -124,7 +124,7 @@ class PageController extends Controller {
 		while ($row = $req->fetch()) {
 			$tss[$row['servername']] = [];
 			foreach (['servername', 'type', 'url', 'token', 'layers', 'version', 'format',
-						 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
+				'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
 				$tss[$row['servername']][$field] = $row[$field];
 			}
 		}
@@ -151,18 +151,18 @@ class PageController extends Controller {
 		// PARAMS to view
 		require_once('tileservers.php');
 		$params = [
-			'username'=>$this->userId,
-			'basetileservers'=>$baseTileServers,
-			'usertileservers'=>$tss,
-			'usermapboxtileservers'=>$mbtss,
-			'useroverlayservers'=>$oss,
-			'usertileserverswms'=>$tssw,
-			'useroverlayserverswms'=>$ossw,
-			'publicsessionname'=>'',
-			'lastposonly'=>'',
-			'sharefilters'=>'',
-			'filtersBookmarks'=>$this->getFiltersBookmarks(),
-			'phonetrack_version'=>$this->appVersion
+			'username' => $this->userId,
+			'basetileservers' => $baseTileServers,
+			'usertileservers' => $tss,
+			'usermapboxtileservers' => $mbtss,
+			'useroverlayservers' => $oss,
+			'usertileserverswms' => $tssw,
+			'useroverlayserverswms' => $ossw,
+			'publicsessionname' => '',
+			'lastposonly' => '',
+			'sharefilters' => '',
+			'filtersBookmarks' => $this->getFiltersBookmarks(),
+			'phonetrack_version' => $this->appVersion
 		];
 		$response = new TemplateResponse(Application::APP_ID, 'main', $params);
 		$response->addHeader("Access-Control-Allow-Origin", "*");
@@ -224,7 +224,7 @@ class PageController extends Controller {
 			ORDER BY LOWER(name) ASC ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
 			$sharedWith = $this->getUserShares($dbtoken);
@@ -251,7 +251,7 @@ class PageController extends Controller {
 			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
 		$req = $this->dbConnection->prepare($sqlgetshares);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbsessionid = $row['sessionid'];
 			$dbsharetoken = $row['sharetoken'];
 			$sessionInfo = $this->getSessionInfo($dbsessionid);
@@ -286,7 +286,7 @@ class PageController extends Controller {
 			ORDER BY LOWER(name) ASC ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
 			$sharedWith = $this->getUserShares($dbtoken);
@@ -314,7 +314,7 @@ class PageController extends Controller {
 			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
 		$req = $this->dbConnection->prepare($sqlgetshares);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbsessionid = $row['sessionid'];
 			$dbsharetoken = $row['sharetoken'];
 			$sessionInfo = $this->getSessionInfo($dbsessionid);
@@ -347,7 +347,7 @@ class PageController extends Controller {
 			ORDER BY LOWER(name) ASC ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbid = $row['id'];
 			$dbname = $row['name'];
 			$dbalias = $row['alias'];
@@ -372,13 +372,13 @@ class PageController extends Controller {
 			WHERE token='.$this->db_quote_escape_string($sessionid).';';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			$dbuser = $row['user'];
 		}
 		$req->closeCursor();
 
-		return ['user'=>$dbuser, 'name'=>$dbname];
+		return ['user' => $dbuser, 'name' => $dbname];
 	}
 
 	/**
@@ -395,14 +395,13 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbusername = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			//array_push($sharedWith, $row['username']);
 			$userId = $row['username'];
 			if (array_key_exists($userId, $ncUserList)) {
 				$userName = $ncUserList[$userId];
 				$sharedWith[$userId] = $userName;
-			}
-			else {
+			} else {
 				array_push($sharesToDelete, $userId);
 			}
 		}
@@ -433,7 +432,7 @@ class PageController extends Controller {
 			WHERE sessionid='.$this->db_quote_escape_string($sessionid).' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$shares[] = [
 				'token' => $row['sharetoken'],
 				'filters' => $row['filters'],
@@ -459,7 +458,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -475,7 +474,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbshareid = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbshareid = $row['id'];
 			}
 			$req->closeCursor();
@@ -518,7 +517,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -534,7 +533,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbshareid = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbshareid = $row['id'];
 			}
 			$req->closeCursor();
@@ -574,7 +573,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -590,7 +589,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbshareid = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbshareid = $row['id'];
 			}
 			$req->closeCursor();
@@ -637,7 +636,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -687,7 +686,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -703,7 +702,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				array_push($dids, $row['id']);
 			}
 			$req->closeCursor();
@@ -756,7 +755,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -772,8 +771,8 @@ class PageController extends Controller {
 					  AND id='.$this->db_quote_escape_string($deviceid).' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
-			while ($row = $req->fetch()){
-				$dbdid =  $row['id'];
+			while ($row = $req->fetch()) {
+				$dbdid = $row['id'];
 			}
 			$req->closeCursor();
 
@@ -819,7 +818,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -835,8 +834,8 @@ class PageController extends Controller {
 					  AND id='.$this->db_quote_escape_string($deviceid).' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
-			while ($row = $req->fetch()){
-				$dbdid =  $row['id'];
+			while ($row = $req->fetch()) {
+				$dbdid = $row['id'];
 			}
 			$req->closeCursor();
 
@@ -850,7 +849,7 @@ class PageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbpid = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbpid = $row['id'];
 					break;
 				}
@@ -905,7 +904,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				break;
 			}
@@ -951,7 +950,7 @@ class PageController extends Controller {
 				);
 			$req = $qb->execute();
 			$dbname = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				break;
 			}
@@ -962,21 +961,19 @@ class PageController extends Controller {
 				$qb->update('phonetrack_sessions');
 				$qb->set('locked', $qb->createNamedParameter($ilocked, IQueryBuilder::PARAM_INT))
 				   ->where(
-					   $qb->expr()->eq('user', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
+				   	$qb->expr()->eq('user', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
 				   )
 				   ->andWhere(
-					   $qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+				   	$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 				   );
 				$req = $qb->execute();
 				$qb = $qb->resetQueryParts();
 
 				return new DataResponse(['done' => 1]);
-			}
-			else {
+			} else {
 				return new DataResponse(['done' => 2], Http::STATUS_BAD_REQUEST);
 			}
-		}
-		else {
+		} else {
 			return new DataResponse(['done' => 3], Http::STATUS_BAD_REQUEST);
 		}
 	}
@@ -992,7 +989,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -1029,7 +1026,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -1067,7 +1064,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -1083,7 +1080,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbdevid = $row['id'];
 				break;
 			}
@@ -1123,7 +1120,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -1139,7 +1136,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbdevid = $row['id'];
 				break;
 			}
@@ -1180,7 +1177,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				break;
 			}
@@ -1222,7 +1219,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbtoken = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbtoken = $row['token'];
 				break;
 			}
@@ -1238,7 +1235,7 @@ class PageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdeviceid = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbdeviceid = $row['id'];
 				}
 				$req->closeCursor();
@@ -1282,7 +1279,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbtoken = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbtoken = $row['token'];
 				break;
 			}
@@ -1298,7 +1295,7 @@ class PageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdeviceid = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbdeviceid = $row['id'];
 				}
 				$req->closeCursor();
@@ -1325,7 +1322,7 @@ class PageController extends Controller {
 		}
 
 		return new DataResponse([
-			'done'=>$ok,
+			'done' => $ok,
 		]);
 	}
 
@@ -1341,7 +1338,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbtoken = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbtoken = $row['token'];
 			break;
 		}
@@ -1357,7 +1354,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdesttoken = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbdesttoken = $row['token'];
 				break;
 			}
@@ -1373,7 +1370,7 @@ class PageController extends Controller {
 				$req->execute();
 				$dbdeviceid = null;
 				$dbdevicename = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbdeviceid = $row['id'];
 					$dbdevicename = $row['name'];
 				}
@@ -1389,7 +1386,7 @@ class PageController extends Controller {
 					$req = $this->dbConnection->prepare($sqlchk);
 					$req->execute();
 					$dbdestname = null;
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$dbdestname = $row['name'];
 					}
 					$req->closeCursor();
@@ -1435,7 +1432,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -1451,7 +1448,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdeviceid = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbdeviceid = $row['id'];
 			}
 			$req->closeCursor();
@@ -1539,7 +1536,7 @@ class PageController extends Controller {
 						WHERE token='.$this->db_quote_escape_string($token).' ;';
 					$req = $this->dbConnection->prepare($sqlget);
 					$req->execute();
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$dbtoken = $row['token'];
 					}
 					$req->closeCursor();
@@ -1553,7 +1550,7 @@ class PageController extends Controller {
 								  AND username='.$this->db_quote_escape_string($this->userId).' ;';
 						$req = $this->dbConnection->prepare($sqlget);
 						$req->execute();
-						while ($row = $req->fetch()){
+						while ($row = $req->fetch()) {
 							$dbtoken = $row['sessionid'];
 						}
 						$req->closeCursor();
@@ -1569,7 +1566,7 @@ class PageController extends Controller {
 							WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
 						$req = $this->dbConnection->prepare($sqldev);
 						$req->execute();
-						while ($row = $req->fetch()){
+						while ($row = $req->fetch()) {
 							array_push($devices, intval($row['id']));
 						}
 						$req->closeCursor();
@@ -1597,12 +1594,10 @@ class PageController extends Controller {
 							if ($firstDeviceTimeSQL !== '') {
 								if ($lastDeviceTimeSQL !== '') {
 									$firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
-								}
-								else {
+								} else {
 									$firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
 								}
-							}
-							else if ($lastDeviceTimeSQL !== '') {
+							} elseif ($lastDeviceTimeSQL !== '') {
 								$firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
 							}
 							// we give color (first point given)
@@ -1615,7 +1610,7 @@ class PageController extends Controller {
 								$req = $this->dbConnection->prepare($sqlcolor);
 								$req->execute();
 								$col = '';
-								while ($row = $req->fetch()){
+								while ($row = $req->fetch()) {
 									$shape = $row['shape'];
 									$col = $row['color'];
 									$name = $row['name'];
@@ -1666,13 +1661,12 @@ class PageController extends Controller {
 							// get max number of points to load
 							if (is_numeric($nbpointsload)) {
 								$sqlget .= 'ORDER BY timestamp DESC LIMIT '.intval($nbpointsload);
-							}
-							else {
+							} else {
 								$sqlget .= 'ORDER BY timestamp DESC';
 							}
 							$req = $this->dbConnection->prepare($sqlget);
 							$req->execute();
-							while ($row = $req->fetch()){
+							while ($row = $req->fetch()) {
 								$entry = [
 									intval($row['id']),
 									floatval($row['lat']),
@@ -1691,8 +1685,7 @@ class PageController extends Controller {
 							$req->closeCursor();
 							if (count($resultDevArray) > 0) {
 								$result[$token][$devid] = $resultDevArray;
-							}
-							else {
+							} else {
 								// if device has no new point and no last time
 								// it means it was probably reserved : we don't give its name
 								if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
@@ -1731,7 +1724,7 @@ class PageController extends Controller {
 			WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
 		$req = $this->dbConnection->prepare($sqlfences);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$fence = [];
 			foreach ($row as $k => $v) {
 				$fence[$k] = $v;
@@ -1757,7 +1750,7 @@ class PageController extends Controller {
 			WHERE deviceid1='.$this->db_quote_escape_string($devid).' ;';
 		$req = $this->dbConnection->prepare($sqlproxims);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$proxim = [];
 			foreach ($row as $k => $v) {
 				$proxim[$k] = $v;
@@ -1776,7 +1769,7 @@ class PageController extends Controller {
 			WHERE token='.$this->db_quote_escape_string($token).' ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbtoken = $row['token'];
 			$dbpublic = $row['public'];
 		}
@@ -1810,7 +1803,7 @@ class PageController extends Controller {
 					WHERE token='.$this->db_quote_escape_string($token).' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbtoken = $row['token'];
 				}
 				$req->closeCursor();
@@ -1825,7 +1818,7 @@ class PageController extends Controller {
 						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
 					$req = $this->dbConnection->prepare($sqldev);
 					$req->execute();
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						array_push($devices, intval($row['id']));
 					}
 					$req->closeCursor();
@@ -1853,12 +1846,10 @@ class PageController extends Controller {
 						if ($firstDeviceTimeSQL !== '') {
 							if ($lastDeviceTimeSQL !== '') {
 								$firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
-							}
-							else {
+							} else {
 								$firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
 							}
-						}
-						else if ($lastDeviceTimeSQL !== '') {
+						} elseif ($lastDeviceTimeSQL !== '') {
 							$firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
 						}
 						// we give color (first point given)
@@ -1871,7 +1862,7 @@ class PageController extends Controller {
 							$req = $this->dbConnection->prepare($sqlcolor);
 							$req->execute();
 							$col = '';
-							while ($row = $req->fetch()){
+							while ($row = $req->fetch()) {
 								$col = $row['color'];
 								$shape = $row['shape'];
 								$name = $row['name'];
@@ -1907,7 +1898,7 @@ class PageController extends Controller {
 							ORDER BY timestamp DESC LIMIT 1000 ;';
 						$req = $this->dbConnection->prepare($sqlget);
 						$req->execute();
-						while ($row = $req->fetch()){
+						while ($row = $req->fetch()) {
 							$entry = [
 								intval($row['id']),
 								floatval($row['lat']),
@@ -1926,8 +1917,7 @@ class PageController extends Controller {
 						$req->closeCursor();
 						if (count($resultDevArray) > 0) {
 							$result[$token][$devid] = $resultDevArray;
-						}
-						else {
+						} else {
 							// if device has no new point and no last time
 							// it means it was probably reserved : we don't give its name
 							if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
@@ -1986,7 +1976,7 @@ class PageController extends Controller {
 				WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbpublicviewtoken = $row['publicviewtoken'];
 				$dbtoken = $row['token'];
 				$dbpublic = intval($row['public']);
@@ -2006,10 +1996,10 @@ class PageController extends Controller {
 					WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbpublicviewtoken = $row['sharetoken'];
 					$dbtoken = $row['sessionid'];
-					$filters = json_decode($row['filters'], True);
+					$filters = json_decode($row['filters'], true);
 					$lastposonly = $row['lastposonly'];
 					$geofencify = $row['geofencify'];
 					if ($row['devicename'] !== null && $row['devicename'] !== '') {
@@ -2030,7 +2020,7 @@ class PageController extends Controller {
 					$deviceNameRestriction.' ;';
 				$req = $this->dbConnection->prepare($sqldev);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					array_push($devices, intval($row['id']));
 				}
 				$req->closeCursor();
@@ -2058,12 +2048,10 @@ class PageController extends Controller {
 					if ($firstDeviceTimeSQL !== '') {
 						if ($lastDeviceTimeSQL !== '') {
 							$firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
-						}
-						else {
+						} else {
 							$firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
 						}
-					}
-					else if ($lastDeviceTimeSQL !== '') {
+					} elseif ($lastDeviceTimeSQL !== '') {
 						$firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
 					}
 					// we give color (first point given)
@@ -2076,7 +2064,7 @@ class PageController extends Controller {
 						$req = $this->dbConnection->prepare($sqlcolor);
 						$req->execute();
 						$col = '';
-						while ($row = $req->fetch()){
+						while ($row = $req->fetch()) {
 							$col = $row['color'];
 							$shape = $row['shape'];
 							$name = $row['name'];
@@ -2113,17 +2101,15 @@ class PageController extends Controller {
 					if (intval($lastposonly) === 0) {
 						if (intval($nbPointsLoad) === 0) {
 							$sqlget .= 'ORDER BY timestamp DESC ;';
-						}
-						else {
+						} else {
 							$sqlget .= 'ORDER BY timestamp DESC LIMIT '.intval($nbPointsLoad).' ;';
 						}
-					}
-					else {
+					} else {
 						$sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
 					}
 					$req = $this->dbConnection->prepare($sqlget);
 					$req->execute();
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						if ($filters === null || $this->filterPoint($row, $filters)) {
 							$entry = [
 								(int) $row['id'],
@@ -2144,8 +2130,7 @@ class PageController extends Controller {
 					$req->closeCursor();
 					if (count($resultDevArray) > 0) {
 						$result[$dbpublicviewtoken][$devid] = $resultDevArray;
-					}
-					else {
+					} else {
 						// if device has no new point and no last time
 						// it means it was probably reserved : we don't give its name
 						if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
@@ -2179,7 +2164,7 @@ class PageController extends Controller {
 			WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$lat = (floatval($row['latmin']) + floatval($row['latmax'])) / 2;
 			$lon = (floatval($row['lonmin']) + floatval($row['lonmax'])) / 2;
 			$fences[$row['name']] = [
@@ -2215,9 +2200,9 @@ class PageController extends Controller {
 	private function geofencifyPoint($entry, $geofencesCenter) {
 		$nearestName = null;
 		$distMin = null;
-		foreach ($geofencesCenter as $name=>$coords) {
+		foreach ($geofencesCenter as $name => $coords) {
 			// if point is inside geofencing zone
-			if (   $entry[1] >= $coords[2]
+			if ($entry[1] >= $coords[2]
 				&& $entry[1] <= $coords[3]
 				&& $entry[2] >= $coords[4]
 				&& $entry[2] <= $coords[5]
@@ -2254,7 +2239,7 @@ class PageController extends Controller {
 			$req->execute();
 			$dbtoken = null;
 			$dbpublic = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbtoken = $row['token'];
 				$dbpublic = intval($row['public']);
 				break;
@@ -2279,7 +2264,7 @@ class PageController extends Controller {
 				$dbtoken = null;
 				$dbpublic = null;
 				$filters = '';
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbtoken = $row['sessionid'];
 					$lastposonly = $row['lastposonly'];
 					$filters = $row['filters'];
@@ -2309,7 +2294,7 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function publicWebLog($token, $devicename, $lastposonly=0, $filters='') {
+	public function publicWebLog($token, $devicename, $lastposonly = 0, $filters = '') {
 		if ($token !== '') {
 			// check if session exists
 			$sqlchk = '
@@ -2320,7 +2305,7 @@ class PageController extends Controller {
 			$req->execute();
 			$dbname = null;
 			$dbpublic = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				$dbpublic = $row['public'];
 				break;
@@ -2374,17 +2359,17 @@ class PageController extends Controller {
 	public function importSession($path) {
 		$done = 1;
 		$userFolder = \OC::$server->getUserFolder($this->userId);
-		$cleanpath = str_replace(['../', '..\\'], '',  $path);
+		$cleanpath = str_replace(['../', '..\\'], '', $path);
 
 		$file = null;
 		$sessionName = null;
 		$token = null;
 		$devices = null;
 		$publicviewtoken = null;
-		if ($userFolder->nodeExists($cleanpath)){
+		if ($userFolder->nodeExists($cleanpath)) {
 			$file = $userFolder->get($cleanpath);
 			if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
-				$file->isReadable()){
+				$file->isReadable()) {
 				if (str_ends_with($file->getName(), '.gpx') || str_ends_with($file->getName(), '.GPX')) {
 					$sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
 					$res = $this->createSession($sessionName);
@@ -2404,8 +2389,7 @@ class PageController extends Controller {
 						$token = $response['token'];
 						$publicviewtoken = $response['publicviewtoken'];
 						$done = $this->readKmlImportPoints($file, $file->getName(), $token);
-					}
-					else {
+					} else {
 						$done = 2;
 					}
 				} elseif (str_ends_with($file->getName(), '.json') || str_ends_with($file->getName(), '.JSON')) {
@@ -2452,8 +2436,7 @@ class PageController extends Controller {
 			$this->importDevName = 'device'.$this->trackIndex;
 			$this->pointIndex = 1;
 			$this->currentPointList = [];
-		}
-		else if ($name === 'TRKPT') {
+		} elseif ($name === 'TRKPT') {
 			$this->currentPoint = [null, null, null, $this->pointIndex, null, null,  null, null, null, null];
 			if (array_key_exists('LAT', $attrs)) {
 				$this->currentPoint[0] = floatval($attrs['LAT']);
@@ -2473,8 +2456,7 @@ class PageController extends Controller {
 			}
 			$this->trackIndex++;
 			unset($this->currentPointList);
-		}
-		else if ($name === 'TRKPT') {
+		} elseif ($name === 'TRKPT') {
 			// store track point
 			array_push($this->currentPointList, $this->currentPoint);
 			// if we have enough points, we log them and clean the points array
@@ -2493,31 +2475,23 @@ class PageController extends Controller {
 		if (!empty($d)) {
 			if ($this->currentXmlTag === 'ELE') {
 				$this->currentPoint[2] = floatval($d);
-			}
-			else if ($this->currentXmlTag === 'SPEED') {
+			} elseif ($this->currentXmlTag === 'SPEED') {
 				$this->currentPoint[8] = floatval($d);
-			}
-			else if ($this->currentXmlTag === 'SAT') {
+			} elseif ($this->currentXmlTag === 'SAT') {
 				$this->currentPoint[6] = intval($d);
-			}
-			else if ($this->currentXmlTag === 'COURSE') {
+			} elseif ($this->currentXmlTag === 'COURSE') {
 				$this->currentPoint[9] = floatval($d);
-			}
-			else if ($this->currentXmlTag === 'USERAGENT') {
+			} elseif ($this->currentXmlTag === 'USERAGENT') {
 				$this->currentPoint[7] = $d;
-			}
-			else if ($this->currentXmlTag === 'BATTERYLEVEL') {
+			} elseif ($this->currentXmlTag === 'BATTERYLEVEL') {
 				$this->currentPoint[5] = floatval($d);
-			}
-			else if ($this->currentXmlTag === 'ACCURACY') {
+			} elseif ($this->currentXmlTag === 'ACCURACY') {
 				$this->currentPoint[4] = floatval($d);
-			}
-			else if ($this->currentXmlTag === 'TIME') {
+			} elseif ($this->currentXmlTag === 'TIME') {
 				$time = new \DateTime($d);
 				$timestamp = $time->getTimestamp();
 				$this->currentPoint[3] = $timestamp;
-			}
-			else if ($this->currentXmlTag === 'NAME') {
+			} elseif ($this->currentXmlTag === 'NAME') {
 				$this->importDevName = $d;
 			}
 		}
@@ -2560,14 +2534,12 @@ class PageController extends Controller {
 		if ($name === 'GX:TRACK') {
 			if (array_key_exists('ID', $attrs)) {
 				$this->importDevName = $attrs['ID'];
-			}
-			else {
+			} else {
 				$this->importDevName = 'device'.$this->trackIndex;
 			}
 			$this->pointIndex = 1;
 			$this->currentPointList = [];
-		}
-		else if ($name === 'WHEN') {
+		} elseif ($name === 'WHEN') {
 			$this->currentPoint = [null, null, null, $this->pointIndex, null, null,  null, null, null, null];
 		}
 		//var_dump($attrs);
@@ -2581,8 +2553,7 @@ class PageController extends Controller {
 			}
 			$this->trackIndex++;
 			unset($this->currentPointList);
-		}
-		else if ($name === 'GX:COORD') {
+		} elseif ($name === 'GX:COORD') {
 			// store track point
 			array_push($this->currentPointList, $this->currentPoint);
 			// if we have enough points, we log them and clean the points array
@@ -2603,8 +2574,7 @@ class PageController extends Controller {
 				$time = new \DateTime($d);
 				$timestamp = $time->getTimestamp();
 				$this->currentPoint[3] = $timestamp;
-			}
-			else if ($this->currentXmlTag === 'GX:COORD') {
+			} elseif ($this->currentXmlTag === 'GX:COORD') {
 				$spl = explode(' ', $d);
 				if (count($spl) > 1) {
 					$this->currentPoint[0] = floatval($spl[1]);
@@ -2658,8 +2628,7 @@ class PageController extends Controller {
 				$point = [null, null, null, null, null, null,  null, null, null, null];
 				if (array_key_exists('timestampMs', $loc) && is_numeric($loc['timestampMs'])
 					and array_key_exists('latitudeE7', $loc) && is_numeric($loc['latitudeE7'])
-					and array_key_exists('longitudeE7', $loc) && is_numeric($loc['longitudeE7']))
-				{
+					and array_key_exists('longitudeE7', $loc) && is_numeric($loc['longitudeE7'])) {
 					$point[0] = floatval($loc['latitudeE7']);
 					$point[1] = floatval($loc['longitudeE7']);
 					if ($point[0] > 900000000) {
@@ -2694,8 +2663,8 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	public function export(string $name, string $token, string $target, string $username = '', ?array $filterArray = null) {
-	$warning = 0;
-	$done = false;
+		$warning = 0;
+		$done = false;
 		if ($this->userId !== null && $this->userId !== '') {
 			$userId = $this->userId;
 			$doneAndWarning = $this->sessionService->export($name, $token, $target, $userId, $filterArray);
@@ -2711,7 +2680,7 @@ class PageController extends Controller {
 
 	private function filterPoint($p, $fArray): bool {
 		return (
-				(!array_key_exists('tsmin', $fArray) || intval($p['timestamp']) >= $fArray['tsmin'])
+			(!array_key_exists('tsmin', $fArray) || intval($p['timestamp']) >= $fArray['tsmin'])
 			and (!array_key_exists('tsmax', $fArray) || intval($p['timestamp']) <= $fArray['tsmax'])
 			and (!array_key_exists('elevationmax', $fArray) || intval($p['altitude']) <= $fArray['elevationmax'])
 			and (!array_key_exists('elevationmin', $fArray) || intval($p['altitude']) >= $fArray['elevationmin'])
@@ -2749,7 +2718,7 @@ class PageController extends Controller {
 			$req->execute();
 			$dbname = null;
 			$dbtoken = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				$dbtoken = $row['token'];
 				break;
@@ -2766,7 +2735,7 @@ class PageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbusername = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbusername = $row['username'];
 					break;
 				}
@@ -2822,7 +2791,7 @@ class PageController extends Controller {
 						->setSubject('add_user_share', [$this->userId, $dbname])
 						->addAction($acceptAction)
 						->addAction($declineAction)
-						;
+					;
 
 					$manager->notify($notification);
 				} else {
@@ -2916,7 +2885,7 @@ class PageController extends Controller {
 		$req->execute();
 		$dbname = null;
 		$dbtoken = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
 			break;
@@ -2933,7 +2902,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbuserId = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbuserId = $row['username'];
 				break;
 			}
@@ -2982,7 +2951,7 @@ class PageController extends Controller {
 					->setSubject('delete_user_share', [$this->userId, $dbname])
 					->addAction($acceptAction)
 					->addAction($declineAction)
-					;
+				;
 
 				$manager->notify($notification);
 			} else {
@@ -2993,7 +2962,7 @@ class PageController extends Controller {
 		}
 
 		return new DataResponse([
-			'done'=>$ok
+			'done' => $ok
 		]);
 	}
 
@@ -3010,7 +2979,7 @@ class PageController extends Controller {
 		$req->execute();
 		$dbname = null;
 		$dbtoken = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
 			break;
@@ -3027,7 +2996,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbsharetoken = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbsharetoken = $row['sharetoken'];
 				break;
 			}
@@ -3052,7 +3021,7 @@ class PageController extends Controller {
 		}
 
 		return new DataResponse([
-			'done'=>$ok
+			'done' => $ok
 		]);
 	}
 
@@ -3071,7 +3040,7 @@ class PageController extends Controller {
 			$req->execute();
 			$dbname = null;
 			$dbtoken = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				$dbtoken = $row['token'];
 				break;
@@ -3089,7 +3058,7 @@ class PageController extends Controller {
 				$req->execute();
 				$dbdevicename = null;
 				$dbdevicenametoken = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbdevicename = $row['name'];
 					$dbdevicenametoken = $row['nametoken'];
 					break;
@@ -3115,7 +3084,7 @@ class PageController extends Controller {
 					$req->closeCursor();
 
 					$ok = 1;
-				} else if ($dbdevicenametoken === '' || $dbdevicenametoken === null) {
+				} elseif ($dbdevicenametoken === '' || $dbdevicenametoken === null) {
 					// if there is an entry but no token, name is free to be reserved
 					// so we update the entry
 					$nametoken = md5('nametoken'.$this->userId.$dbdevicename.rand());
@@ -3160,7 +3129,7 @@ class PageController extends Controller {
 			$req->execute();
 			$dbname = null;
 			$dbtoken = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				$dbtoken = $row['token'];
 				break;
@@ -3178,7 +3147,7 @@ class PageController extends Controller {
 				$req->execute();
 				$dbdevicename = null;
 				$dbdevicenametoken = null;
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbdevicename = $row['name'];
 					$dbdevicenametoken = $row['nametoken'];
 					break;
@@ -3188,7 +3157,7 @@ class PageController extends Controller {
 				// there is no such device
 				if ($dbdevicename === null) {
 					$ok = 2;
-				} else if ($dbdevicenametoken !== '' && $dbdevicenametoken !== null) {
+				} elseif ($dbdevicenametoken !== '' && $dbdevicenametoken !== null) {
 					// the device exists and is has a nametoken
 					// delete
 					$sqlupd = '
@@ -3212,7 +3181,7 @@ class PageController extends Controller {
 		}
 
 		return new DataResponse([
-			'done'=>$ok
+			'done' => $ok
 		]);
 	}
 
@@ -3225,7 +3194,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -3243,7 +3212,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -3265,7 +3234,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbbookname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbbookname = $row['name'];
 			break;
 		}
@@ -3292,7 +3261,7 @@ class PageController extends Controller {
 					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$bookid = $row['id'];
 				break;
 			}
@@ -3335,7 +3304,7 @@ class PageController extends Controller {
 			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
 		$req = $this->dbConnection->prepare($sql);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$bookid = $row['id'];
 			$name = $row['name'];
 			$filters = $row['filterjson'];
@@ -3348,7 +3317,7 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax,
-								$urlenter, $urlleave, $urlenterpost, $urlleavepost, $sendemail, $emailaddr, $sendnotif) {
+		$urlenter, $urlleave, $urlenterpost, $urlleavepost, $sendemail, $emailaddr, $sendnotif) {
 		$ok = 0;
 		$fenceid = null;
 		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
@@ -3361,7 +3330,7 @@ class PageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbfencename = null;
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbfencename = $row['name'];
 				break;
 			}
@@ -3400,7 +3369,7 @@ class PageController extends Controller {
 						  AND deviceid='.$this->db_quote_escape_string($device).' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$fenceid = $row['id'];
 					break;
 				}
@@ -3450,7 +3419,7 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	public function addProxim($token, $device, $sid, $dname, $lowlimit, $highlimit,
-								$urlclose, $urlfar, $urlclosepost, $urlfarpost, $sendemail, $emailaddr, $sendnotif) {
+		$urlclose, $urlfar, $urlclosepost, $urlfarpost, $sendemail, $emailaddr, $sendnotif) {
 		$ok = 0;
 		$proximid = null;
 		$targetDeviceId = null;
@@ -3468,7 +3437,7 @@ class PageController extends Controller {
 						  AND sharetoken='.$this->db_quote_escape_string($sid).' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$targetSessionId = $row['sessionid'];
 					break;
 				}
@@ -3484,7 +3453,7 @@ class PageController extends Controller {
 						  AND sessionid='.$this->db_quote_escape_string($targetSessionId).' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$targetDeviceId = $row['id'];
 					break;
 				}
@@ -3520,7 +3489,7 @@ class PageController extends Controller {
 							  AND deviceid2='.$this->db_quote_escape_string($targetDeviceId).' ;';
 					$req = $this->dbConnection->prepare($sqlchk);
 					$req->execute();
-					while ($row = $req->fetch()){
+					while ($row = $req->fetch()) {
 						$proximid = $row['maxid'];
 						break;
 					}
@@ -3562,7 +3531,7 @@ class PageController extends Controller {
 					  AND deviceid1='.$this->db_quote_escape_string($device).' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbproximid = $row['id'];
 				break;
 			}
@@ -3615,7 +3584,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -3630,7 +3599,7 @@ class PageController extends Controller {
 					  AND name='.$this->db_quote_escape_string($devicename).' ;';
 			$req = $this->dbConnection->prepare($sqlgetres);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbdeviceid = $row['id'];
 				$dbdevicename = $row['name'];
 			}
@@ -3658,7 +3627,7 @@ class PageController extends Controller {
 						  AND name='.$this->db_quote_escape_string($devicename).' ;';
 				$req = $this->dbConnection->prepare($sqlgetdid);
 				$res = $req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$dbdeviceid = $row['id'];
 				}
 				$res->closeCursor();
@@ -3675,16 +3644,16 @@ class PageController extends Controller {
 					}
 				}
 
-				$lat        = $this->db_quote_escape_string(number_format($point[0], 8, '.', ''));
-				$lon        = $this->db_quote_escape_string(number_format($point[1], 8, '.', ''));
-				$alt        = is_numeric($point[2]) ? $this->db_quote_escape_string(number_format($point[2], 2, '.', '')) : 'NULL';
-				$time       = is_numeric($time) ? $this->db_quote_escape_string(number_format((float) $time, 0, '.', '')) : 0;
-				$acc        = is_numeric($point[4]) ? $this->db_quote_escape_string(number_format($point[4], 2, '.', '')) : 'NULL';
-				$bat        = is_numeric($point[5]) ? $this->db_quote_escape_string(number_format($point[5], 2, '.', '')) : 'NULL';
-				$sat        = is_numeric($point[6]) ? $this->db_quote_escape_string(number_format($point[6], 0, '.', '')) : 'NULL';
-				$speed      = is_numeric($point[8]) ? $this->db_quote_escape_string(number_format($point[8], 3, '.', '')) : 'NULL';
-				$bearing    = is_numeric($point[9]) ? $this->db_quote_escape_string(number_format($point[9], 2, '.', '')) : 'NULL';
-				$useragent  = $point[7];
+				$lat = $this->db_quote_escape_string(number_format($point[0], 8, '.', ''));
+				$lon = $this->db_quote_escape_string(number_format($point[1], 8, '.', ''));
+				$alt = is_numeric($point[2]) ? $this->db_quote_escape_string(number_format($point[2], 2, '.', '')) : 'NULL';
+				$time = is_numeric($time) ? $this->db_quote_escape_string(number_format((float) $time, 0, '.', '')) : 0;
+				$acc = is_numeric($point[4]) ? $this->db_quote_escape_string(number_format($point[4], 2, '.', '')) : 'NULL';
+				$bat = is_numeric($point[5]) ? $this->db_quote_escape_string(number_format($point[5], 2, '.', '')) : 'NULL';
+				$sat = is_numeric($point[6]) ? $this->db_quote_escape_string(number_format($point[6], 0, '.', '')) : 'NULL';
+				$speed = is_numeric($point[8]) ? $this->db_quote_escape_string(number_format($point[8], 3, '.', '')) : 'NULL';
+				$bearing = is_numeric($point[9]) ? $this->db_quote_escape_string(number_format($point[9], 2, '.', '')) : 'NULL';
+				$useragent = $point[7];
 
 				$oneVal = '(';
 				$oneVal .= $this->db_quote_escape_string($dbdeviceid).',';
@@ -3751,7 +3720,7 @@ class PageController extends Controller {
 				  AND public=1 ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbtoken = $row['token'];
 			$dbpubtoken = $row['publicviewtoken'];
 		}
@@ -3767,7 +3736,7 @@ class PageController extends Controller {
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				array_push($devices, $row['id']);
 			}
 			$req->closeCursor();
@@ -3785,7 +3754,7 @@ class PageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$name = $row['name'];
 				}
 				$req->closeCursor();
@@ -3799,7 +3768,7 @@ class PageController extends Controller {
 					ORDER BY timestamp DESC LIMIT 1 ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$entry['useragent'] = $row['useragent'];
 					unset($row['useragent']);
 					foreach ($row as $k => $v) {
@@ -3818,7 +3787,7 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[NoCSRFRequired]
-	public function APIgetPositionsPublic($sessionid, $limit=null) {
+	public function APIgetPositionsPublic($sessionid, $limit = null) {
 		$result = [];
 		// check if session exists
 		$dbtoken = null;
@@ -3829,7 +3798,7 @@ class PageController extends Controller {
 				  AND public=1 ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbtoken = $row['token'];
 			$dbpubtoken = $row['publicviewtoken'];
 		}
@@ -3846,10 +3815,10 @@ class PageController extends Controller {
 			WHERE sharetoken='.$this->db_quote_escape_string($sessionid).' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbtoken = $row['sessionid'];
 				$dbpubtoken = $row['sharetoken'];
-				$dbFilters = json_decode($row['filters'], True);
+				$dbFilters = json_decode($row['filters'], true);
 				$dbDevicename = $row['devicename'];
 				$dbLastPosOnly = $row['lastposonly'];
 				$dbGeofencify = $row['geofencify'];
@@ -3873,7 +3842,7 @@ class PageController extends Controller {
 				'.$deviceNameRestriction.' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				array_push($devices, $row['id']);
 			}
 			$req->closeCursor();
@@ -3892,7 +3861,7 @@ class PageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$name = $row['name'];
 					$color = $row['color'];
 				}
@@ -3913,7 +3882,7 @@ class PageController extends Controller {
 					ORDER BY timestamp DESC '.$sqlLimit.' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					if ($dbFilters === null || $this->filterPoint($row, $dbFilters)) {
 						$entry = [];
 						$entry['useragent'] = $row['useragent'];
@@ -3952,7 +3921,7 @@ class PageController extends Controller {
 				  AND '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbtoken = $row['token'];
 		}
 		$req->closeCursor();
@@ -3966,7 +3935,7 @@ class PageController extends Controller {
 					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbtoken = $row['sessionid'];
 			}
 			$req->closeCursor();
@@ -3982,7 +3951,7 @@ class PageController extends Controller {
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				array_push($devices, $row['id']);
 			}
 			$req->closeCursor();
@@ -4001,7 +3970,7 @@ class PageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$name = $row['name'];
 					$color = $row['color'];
 				}
@@ -4016,7 +3985,7 @@ class PageController extends Controller {
 					ORDER BY timestamp DESC LIMIT 1 ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$entry['useragent'] = $row['useragent'];
 					unset($row['useragent']);
 					foreach ($row as $k => $v) {
@@ -4049,7 +4018,7 @@ class PageController extends Controller {
 				  AND '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbtoken = $row['token'];
 		}
 		$req->closeCursor();
@@ -4063,7 +4032,7 @@ class PageController extends Controller {
 					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbtoken = $row['sessionid'];
 			}
 			$req->closeCursor();
@@ -4079,7 +4048,7 @@ class PageController extends Controller {
 				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				array_push($devices, $row['id']);
 			}
 			$req->closeCursor();
@@ -4098,7 +4067,7 @@ class PageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$name = $row['name'];
 					$color = $row['color'];
 				}
@@ -4122,7 +4091,7 @@ class PageController extends Controller {
 					ORDER BY timestamp DESC '.$sqlLimit.' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
-				while ($row = $req->fetch()){
+				while ($row = $req->fetch()) {
 					$entry = [];
 					$entry['useragent'] = $row['useragent'];
 					unset($row['useragent']);
@@ -4151,7 +4120,7 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function APIshareDevice($sessionid, $devicename) {
-		$result = ['code'=>0, 'sharetoken'=>'', 'done'=>0];
+		$result = ['code' => 0, 'sharetoken' => '', 'done' => 0];
 		// check if session exists and is owned by current user
 		$sqlchk = '
 			SELECT token
@@ -4161,7 +4130,7 @@ class PageController extends Controller {
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbtoken = null;
-		while ($row = $req->fetch()){
+		while ($row = $req->fetch()) {
 			$dbtoken = $row['token'];
 			break;
 		}
@@ -4176,7 +4145,7 @@ class PageController extends Controller {
 					  AND devicename='.$this->db_quote_escape_string($devicename).' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
-			while ($row = $req->fetch()){
+			while ($row = $req->fetch()) {
 				$dbsharetoken = $row['sharetoken'];
 			}
 			$req->closeCursor();

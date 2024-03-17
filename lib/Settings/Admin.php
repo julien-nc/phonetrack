@@ -1,4 +1,5 @@
 <?php
+
 namespace OCA\PhoneTrack\Settings;
 
 use OCP\AppFramework\Http\TemplateResponse;

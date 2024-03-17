@@ -10,10 +10,9 @@
  * @copyright Julien Veyssier 2019
  */
 
- namespace OCA\PhoneTrack\Db;
+namespace OCA\PhoneTrack\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;

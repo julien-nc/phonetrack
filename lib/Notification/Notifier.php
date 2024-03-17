@@ -11,12 +11,12 @@
 
 namespace OCA\PhoneTrack\Notification;
 
+use OCA\PhoneTrack\AppInfo\Application;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
-use OCP\Notification\INotifier;
 
-use OCA\PhoneTrack\AppInfo\Application;
+use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
 
@@ -61,70 +61,70 @@ class Notifier implements INotifier {
 		$l10n = $this->lFactory->get('phonetrack', $languageCode);
 
 		switch ($notification->getSubject()) {
-		case 'enter_geofence':
-			$p = $notification->getSubjectParameters();
-			$content = $l10n->t('In session "%s", device "%s" entered geofencing zone "%s".', [$p[0], $p[1], $p[2]]);
+			case 'enter_geofence':
+				$p = $notification->getSubjectParameters();
+				$content = $l10n->t('In session "%s", device "%s" entered geofencing zone "%s".', [$p[0], $p[1], $p[2]]);
 
-			$notification->setParsedSubject($content)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-				->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
-			return $notification;
-		case 'leave_geofence':
-			$p = $notification->getSubjectParameters();
-			$content = $l10n->t('In session "%s", device "%s" exited geofencing zone "%s".', [$p[0], $p[1], $p[2]]);
+				$notification->setParsedSubject($content)
+					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
+					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+				return $notification;
+			case 'leave_geofence':
+				$p = $notification->getSubjectParameters();
+				$content = $l10n->t('In session "%s", device "%s" exited geofencing zone "%s".', [$p[0], $p[1], $p[2]]);
 
-			$notification->setParsedSubject($content)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-				->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
-			return $notification;
+				$notification->setParsedSubject($content)
+					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
+					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+				return $notification;
 
-		case 'close_proxim':
-			$p = $notification->getSubjectParameters();
-			$content = $l10n->t('Device "%s" is now closer than %sm to "%s".', [$p[0], $p[1], $p[2]]);
+			case 'close_proxim':
+				$p = $notification->getSubjectParameters();
+				$content = $l10n->t('Device "%s" is now closer than %sm to "%s".', [$p[0], $p[1], $p[2]]);
 
-			$notification->setParsedSubject($content)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-				->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
-			return $notification;
-		case 'far_proxim':
-			$p = $notification->getSubjectParameters();
-			$content = $l10n->t('Device "%s" is now farther than %sm from "%s".', [$p[0], $p[1], $p[2]]);
+				$notification->setParsedSubject($content)
+					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
+					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+				return $notification;
+			case 'far_proxim':
+				$p = $notification->getSubjectParameters();
+				$content = $l10n->t('Device "%s" is now farther than %sm from "%s".', [$p[0], $p[1], $p[2]]);
 
-			$notification->setParsedSubject($content)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-				->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
-			return $notification;
+				$notification->setParsedSubject($content)
+					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
+					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+				return $notification;
 
-		case 'quota_reached':
-			$p = $notification->getSubjectParameters();
-			$content = $l10n->t('Point number quota (%s) was reached with a point of "%s" in session "%s".', [$p[0], $p[1], $p[2]]);
+			case 'quota_reached':
+				$p = $notification->getSubjectParameters();
+				$content = $l10n->t('Point number quota (%s) was reached with a point of "%s" in session "%s".', [$p[0], $p[1], $p[2]]);
 
-			$notification->setParsedSubject($content)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-				->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
-			return $notification;
+				$notification->setParsedSubject($content)
+					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
+					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+				return $notification;
 
-		case 'add_user_share':
-			$p = $notification->getSubjectParameters();
-			$content = $l10n->t('User "%s" shared PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
+			case 'add_user_share':
+				$p = $notification->getSubjectParameters();
+				$content = $l10n->t('User "%s" shared PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
 
-			$notification->setParsedSubject($content)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-				->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
-			return $notification;
+				$notification->setParsedSubject($content)
+					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
+					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+				return $notification;
 
-		case 'delete_user_share':
-			$p = $notification->getSubjectParameters();
-			$content = $l10n->t('User "%s" stopped sharing PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
+			case 'delete_user_share':
+				$p = $notification->getSubjectParameters();
+				$content = $l10n->t('User "%s" stopped sharing PhoneTrack session "%s" with you.', [$p[0], $p[1]]);
 
-			$notification->setParsedSubject($content)
-				->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-				->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
-			return $notification;
+				$notification->setParsedSubject($content)
+					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
+					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+				return $notification;
 
-		default:
-			// Unknown subject => Unknown notification => throw
-			throw new \InvalidArgumentException();
+			default:
+				// Unknown subject => Unknown notification => throw
+				throw new \InvalidArgumentException();
 		}
 	}
 }

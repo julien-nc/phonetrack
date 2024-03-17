@@ -11,12 +11,12 @@
 
 namespace OCA\PhoneTrack\AppInfo;
 
+use OCA\PhoneTrack\Notification\Notifier;
 use OCP\AppFramework\App;
-use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 
-use OCA\PhoneTrack\Notification\Notifier;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
 class Application extends App implements IBootstrap {
 
@@ -34,4 +34,3 @@ class Application extends App implements IBootstrap {
 	}
 
 }
-

@@ -24,11 +24,11 @@
 namespace OCA\PhoneTrack\Activity;
 
 use InvalidArgumentException;
-use OCA\PhoneTrack\Service\SessionService;
-use OCA\PhoneTrack\Db\SessionMapper;
-use OCA\PhoneTrack\Db\Session;
-use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Device;
+use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\Session;
+use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Service\SessionService;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -38,17 +38,17 @@ use OCP\IUser;
 
 class ActivityManager {
 
-	const PHONETRACK_OBJECT_SESSION = 'phonetrack_session';
-	const PHONETRACK_OBJECT_DEVICE = 'phonetrack_device';
+	public const PHONETRACK_OBJECT_SESSION = 'phonetrack_session';
+	public const PHONETRACK_OBJECT_DEVICE = 'phonetrack_device';
 
-	const SUBJECT_GEOFENCE_ENTER = 'geofence_enter';
-	const SUBJECT_GEOFENCE_EXIT = 'geofence_exit';
+	public const SUBJECT_GEOFENCE_ENTER = 'geofence_enter';
+	public const SUBJECT_GEOFENCE_EXIT = 'geofence_exit';
 
-	const SUBJECT_PROXIMITY_CLOSE = 'proximity_close';
-	const SUBJECT_PROXIMITY_FAR = 'proximity_far';
+	public const SUBJECT_PROXIMITY_CLOSE = 'proximity_close';
+	public const SUBJECT_PROXIMITY_FAR = 'proximity_far';
 
-	const SUBJECT_SESSION_SHARE = 'session_share';
-	const SUBJECT_SESSION_UNSHARE = 'session_unshare';
+	public const SUBJECT_SESSION_SHARE = 'session_share';
+	public const SUBJECT_SESSION_UNSHARE = 'session_unshare';
 
 	public function __construct(
 		private IManager $manager,

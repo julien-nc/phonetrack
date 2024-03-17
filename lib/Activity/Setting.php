@@ -23,7 +23,6 @@
 
 namespace OCA\PhoneTrack\Activity;
 
-
 use OCP\IL10N;
 
 class Setting implements \OCP\Activity\ISetting {
