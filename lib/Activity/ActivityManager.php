@@ -34,7 +34,6 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
-use OCP\IUser;
 
 class ActivityManager {
 

@@ -11,6 +11,7 @@
 
 namespace OCA\PhoneTrack\Controller;
 
+use DateTime;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\SessionMapper;
@@ -27,6 +28,8 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -34,6 +37,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
+use XMLParser;
 
 function distance(float $lat1, float $long1, float $lat2, float $long2): float {
 	if ($lat1 === $lat2 && $long1 === $long2) {
@@ -66,8 +70,7 @@ function distance(float $lat1, float $long1, float $lat2, float $long2): float {
 class PageController extends Controller {
 
 	private $appVersion;
-	private $dbtype;
-	private $dbdblquotes;
+	private string $dbdblquotes;
 	private $currentXmlTag;
 	private $importToken;
 	private $importDevName;
@@ -87,12 +90,13 @@ class PageController extends Controller {
 		private SessionMapper   $sessionMapper,
 		private SessionService  $sessionService,
 		private IDBConnection   $dbConnection,
+		private IRootFolder 	$root,
 		private ?string         $userId
 	) {
 		parent::__construct($appName, $request);
 		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
-		$this->dbtype = $config->getSystemValue('dbtype');
-		if ($this->dbtype === 'pgsql') {
+		$dbType = $config->getSystemValue('dbtype');
+		if ($dbType === 'pgsql') {
 			$this->dbdblquotes = '"';
 		} else {
 			$this->dbdblquotes = '';
@@ -120,7 +124,7 @@ class PageController extends Controller {
 			->andWhere(
 				$qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			$tss[$row['servername']] = [];
 			foreach (['servername', 'type', 'url', 'token', 'layers', 'version', 'format',
@@ -167,21 +171,37 @@ class PageController extends Controller {
 		$response = new TemplateResponse(Application::APP_ID, 'main', $params);
 		$response->addHeader("Access-Control-Allow-Origin", "*");
 		$csp = new ContentSecurityPolicy();
-		$csp
-			// ->allowInlineScript(true)
-//			->allowEvalScript(true)
-			->allowInlineStyle(true)
-			->addAllowedScriptDomain('*')
-			->addAllowedStyleDomain('*')
-			->addAllowedFontDomain('*')
-			->addAllowedImageDomain('*')
-			->addAllowedConnectDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedObjectDomain('*')
-			->addAllowedFrameDomain('*')
-			->addAllowedWorkerSrcDomain('* blob:');
+		//		$csp
+		//			->allowInlineStyle(true)
+		//			->addAllowedScriptDomain('*')
+		//			->addAllowedStyleDomain('*')
+		//			->addAllowedFontDomain('*')
+		//			->addAllowedImageDomain('*')
+		//			->addAllowedConnectDomain('*')
+		//			->addAllowedMediaDomain('*')
+		//			->addAllowedObjectDomain('*')
+		//			->addAllowedFrameDomain('*')
+		//			->addAllowedWorkerSrcDomain('* blob:')
+		//		;
+		$tsUrls = array_map(static function (array $ts) {
+			return $ts['url'];
+		}, array_merge($baseTileServers, $mbtss, $oss, $tssw, $ossw));
+		$this->addCspForTiles($csp, $tsUrls);
 		$response->setContentSecurityPolicy($csp);
 		return $response;
+	}
+
+	private function addCspForTiles(ContentSecurityPolicy $csp, array $tsUrls): void {
+		foreach ($tsUrls as $url) {
+			$domain = parse_url($url, PHP_URL_HOST);
+			$domain = str_replace('{s}', '*', $domain);
+			$scheme = parse_url($url, PHP_URL_SCHEME);
+			if ($scheme === 'http') {
+				$csp->addAllowedImageDomain('http://' . $domain);
+			} else {
+				$csp->addAllowedImageDomain('https://' . $domain);
+			}
+		};
 	}
 
 	private function getReservedNames($token) {
@@ -279,143 +299,134 @@ class PageController extends Controller {
 	public function APIgetSessions() {
 		$sessions = [];
 		// sessions owned by current user
-		$sqlget = '
+		$sqlGet = '
 			SELECT name, token, publicviewtoken, public, autoexport, autopurge
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 			ORDER BY LOWER(name) ASC ;';
-		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
-			$dbname = $row['name'];
-			$dbtoken = $row['token'];
-			$sharedWith = $this->getUserShares($dbtoken);
-			$dbpublicviewtoken = $row['publicviewtoken'];
-			$dbpublic = $row['public'];
-			$dbautoexport = $row['autoexport'];
-			$dbautopurge = $row['autopurge'];
-			$reservedNames = $this->getReservedNames($dbtoken);
-			$publicShares = $this->getPublicShares($dbtoken);
-			$devices = $this->getDevices($dbtoken);
+		$req = $this->dbConnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$dbName = $row['name'];
+			$dbToken = $row['token'];
+			$sharedWith = $this->getUserShares($dbToken);
+			$dbPublicViewToken = $row['publicviewtoken'];
+			$dbPublic = $row['public'];
+			$dbAutoExport = $row['autoexport'];
+			$dbAutoPurge = $row['autopurge'];
+			$reservedNames = $this->getReservedNames($dbToken);
+			$publicShares = $this->getPublicShares($dbToken);
+			$devices = $this->getDevices($dbToken);
 			$sessions[] = [
-				$dbname, $dbtoken, $dbpublicviewtoken, $devices, $dbpublic, $sharedWith,
-				$reservedNames, $publicShares, $dbautoexport, $dbautopurge
+				$dbName, $dbToken, $dbPublicViewToken, $devices, $dbPublic, $sharedWith,
+				$reservedNames, $publicShares, $dbAutoExport, $dbAutoPurge
 			];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		// sessions shared with current user
-		$sqlgetshares = '
+		$sqlGetShares = '
 			SELECT sessionid, sharetoken,
 				   *PREFIX*phonetrack_sessions.publicviewtoken AS publicviewtoken,
 				   *PREFIX*phonetrack_sessions.public AS public
 			FROM *PREFIX*phonetrack_shares
 			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_shares.sessionid=*PREFIX*phonetrack_sessions.token
 			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
-		$req = $this->dbConnection->prepare($sqlgetshares);
-		$req->execute();
-		while ($row = $req->fetch()) {
-			$dbsessionid = $row['sessionid'];
-			$dbsharetoken = $row['sharetoken'];
-			$sessionInfo = $this->getSessionInfo($dbsessionid);
-			$dbname = $sessionInfo['name'];
-			$dbuser = $sessionInfo['user'];
-			$dbpublic = is_numeric($row['public']) ? intval($row['public']) : 0;
-			$dbpublicviewtoken = $row['publicviewtoken'];
-			$devices = $this->getDevices($dbsessionid);
-			array_push($sessions, [$dbname, $dbsharetoken, $dbpublicviewtoken, $devices, $dbpublic, $dbuser]);
+		$req = $this->dbConnection->prepare($sqlGetShares);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$dbSessionId = $row['sessionid'];
+			$dbShareToken = $row['sharetoken'];
+			$sessionInfo = $this->getSessionInfo($dbSessionId);
+			$dbName = $sessionInfo['name'];
+			$dbUser = $sessionInfo['user'];
+			$dbPublic = is_numeric($row['public']) ? intval($row['public']) : 0;
+			$dbPublicViewToken = $row['publicviewtoken'];
+			$devices = $this->getDevices($dbSessionId);
+			$sessions[] = [$dbName, $dbShareToken, $dbPublicViewToken, $devices, $dbPublic, $dbUser];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
-		$response = new DataResponse(
-			$sessions
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse($sessions);
 	}
 
 	private function getDevices($sessionid) {
 		$devices = [];
-		$sqlget = '
+		$sqlGet = '
 			SELECT id, name, alias, color, nametoken, shape
 			FROM *PREFIX*phonetrack_devices
 			WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
 			ORDER BY LOWER(name) ASC ;';
-		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
-			$dbid = $row['id'];
-			$dbname = $row['name'];
-			$dbalias = $row['alias'];
-			$dbcolor = $row['color'];
-			$dbnametoken = $row['nametoken'];
-			$dbshape = $row['shape'];
-			$geofences = $this->getGeofences($dbid);
-			$proxims = $this->getProxims($dbid);
-			$oneDev = [$dbid, $dbname, $dbalias, $dbcolor, $dbnametoken, $geofences, $proxims, $dbshape];
-			array_push($devices, $oneDev);
+		$req = $this->dbConnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$dbId = $row['id'];
+			$dbName = $row['name'];
+			$dbAlias = $row['alias'];
+			$dbColor = $row['color'];
+			$dbNameToken = $row['nametoken'];
+			$dbShape = $row['shape'];
+			$geofences = $this->getGeofences($dbId);
+			$proxims = $this->getProxims($dbId);
+			$oneDev = [$dbId, $dbName, $dbAlias, $dbColor, $dbNameToken, $geofences, $proxims, $dbShape];
+			$devices[] = $oneDev;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		return $devices;
 	}
 
-	private function getSessionInfo($sessionid) {
-		$dbname = null;
-		$sqlget = '
+	private function getSessionInfo(string $sessionId): array {
+		$dbName = null;
+		$dbUser = null;
+		$sqlGet = '
 			SELECT name, '.$this->dbdblquotes.'user'.$this->dbdblquotes.'
 			FROM *PREFIX*phonetrack_sessions
-			WHERE token='.$this->db_quote_escape_string($sessionid).';';
-		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
-			$dbname = $row['name'];
-			$dbuser = $row['user'];
+			WHERE token='.$this->db_quote_escape_string($sessionId).';';
+		$req = $this->dbConnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$dbName = $row['name'];
+			$dbUser = $row['user'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
-		return ['user' => $dbuser, 'name' => $dbname];
+		return ['user' => $dbUser, 'name' => $dbName];
 	}
 
 	/**
 	 * with whom is this session shared ?
 	 */
-	private function getUserShares($sessionid) {
+	private function getUserShares(string $sessionId): array {
 		$ncUserList = $this->getUserList()->getData()['users'];
 		$sharesToDelete = [];
 		$sharedWith = [];
 		$sqlchk = '
 			SELECT username
 			FROM *PREFIX*phonetrack_shares
-			WHERE sessionid='.$this->db_quote_escape_string($sessionid).' ;';
+			WHERE sessionid='.$this->db_quote_escape_string($sessionId).' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
-		$dbusername = null;
-		while ($row = $req->fetch()) {
-			//array_push($sharedWith, $row['username']);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$userId = $row['username'];
 			if (array_key_exists($userId, $ncUserList)) {
 				$userName = $ncUserList[$userId];
 				$sharedWith[$userId] = $userName;
 			} else {
-				array_push($sharesToDelete, $userId);
+				$sharesToDelete[] = $userId;
 			}
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		// delete useless shares (with unexisting users)
 		foreach ($sharesToDelete as $uid) {
-			$sqldel = '
+			$sqlDel = '
 				DELETE FROM *PREFIX*phonetrack_shares
-				WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
+				WHERE sessionid='.$this->db_quote_escape_string($sessionId).'
 					AND username='.$this->db_quote_escape_string($uid).' ;';
-			$req = $this->dbConnection->prepare($sqldel);
-			$req->execute();
-			$req->closeCursor();
+			$req = $this->dbConnection->prepare($sqlDel);
+			$res = $req->execute();
+			$res->closeCursor();
 		}
 
 		return $sharedWith;
@@ -424,15 +435,15 @@ class PageController extends Controller {
 	/**
 	 * get the public shares for a session
 	 */
-	private function getPublicShares($sessionid) {
+	private function getPublicShares(string $sessionId): array {
 		$shares = [];
-		$sqlchk = '
+		$sqlGet = '
 			SELECT *
 			FROM *PREFIX*phonetrack_pubshares
-			WHERE sessionid='.$this->db_quote_escape_string($sessionid).' ;';
-		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
-		while ($row = $req->fetch()) {
+			WHERE sessionid='.$this->db_quote_escape_string($sessionId).' ;';
+		$req = $this->dbConnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$shares[] = [
 				'token' => $row['sharetoken'],
 				'filters' => $row['filters'],
@@ -441,13 +452,13 @@ class PageController extends Controller {
 				'geofencify' => $row['geofencify'],
 			];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		return $shares;
 	}
 
 	#[NoAdminRequired]
-	public function setPublicShareDevice($token, $sharetoken, $devicename) {
+	public function setPublicShareDevice(string $token, string $sharetoken, string $devicename): DataResponse {
 		$done = 0;
 		// check if sessions exists
 		$sqlchk = '
@@ -456,13 +467,13 @@ class PageController extends Controller {
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if sharetoken exists
@@ -472,22 +483,22 @@ class PageController extends Controller {
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 				AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
-			$dbshareid = null;
-			while ($row = $req->fetch()) {
-				$dbshareid = $row['id'];
+			$res = $req->execute();
+			$dbShareId = null;
+			while ($row = $res->fetch()) {
+				$dbShareId = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
-			if ($dbshareid !== null) {
+			if ($dbShareId !== null) {
 				// set device name
-				$sqlupd = '
+				$sqlUpd = '
 					UPDATE *PREFIX*phonetrack_pubshares
 					SET devicename='.$this->db_quote_escape_string($devicename).'
-					WHERE id='.$this->db_quote_escape_string($dbshareid).' ;';
-				$req = $this->dbConnection->prepare($sqlupd);
-				$req->execute();
-				$req->closeCursor();
+					WHERE id='.$this->db_quote_escape_string($dbShareId).' ;';
+				$req = $this->dbConnection->prepare($sqlUpd);
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$done = 1;
 			} else {
@@ -502,51 +513,48 @@ class PageController extends Controller {
 		]);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 */
 	#[NoAdminRequired]
-	public function setPublicShareGeofencify($token, $sharetoken, $geofencify) {
+	public function setPublicShareGeofencify(string $token, string $sharetoken, int $geofencify): DataResponse {
 		$done = 0;
 		// check if sessions exists
-		$sqlchk = '
+		$sqlCheck = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
 			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
 				  AND token='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$req = $this->dbConnection->prepare($sqlCheck);
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if sharetoken exists
-			$sqlchk = '
+			$sqlCheck = '
 				SELECT *
 				FROM *PREFIX*phonetrack_pubshares
 				WHERE sessionid='.$this->db_quote_escape_string($token).'
 					  AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
-			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
-			$dbshareid = null;
-			while ($row = $req->fetch()) {
-				$dbshareid = $row['id'];
+			$req = $this->dbConnection->prepare($sqlCheck);
+			$res = $req->execute();
+			$dbShareId = null;
+			while ($row = $res->fetch()) {
+				$dbShareId = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
-			if ($dbshareid !== null) {
+			if ($dbShareId !== null) {
 				// set device name
-				$sqlupd = '
+				$sqlUpd = '
 					UPDATE *PREFIX*phonetrack_pubshares
 					SET geofencify='.$this->db_quote_escape_string($geofencify).'
-					WHERE id='.$this->db_quote_escape_string($dbshareid).' ;';
-				$req = $this->dbConnection->prepare($sqlupd);
-				$req->execute();
-				$req->closeCursor();
+					WHERE id='.$this->db_quote_escape_string($dbShareId).' ;';
+				$req = $this->dbConnection->prepare($sqlUpd);
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$done = 1;
 			} else {
@@ -556,9 +564,7 @@ class PageController extends Controller {
 			$done = 2;
 		}
 
-		return new DataResponse([
-			'done' => $done,
-		]);
+		return new DataResponse(['done' => $done]);
 	}
 
 	#[NoAdminRequired]
@@ -2302,17 +2308,17 @@ class PageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE token='.$this->db_quote_escape_string($token).' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbname = null;
-			$dbpublic = null;
-			while ($row = $req->fetch()) {
+			$dbPublic = null;
+			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
-				$dbpublic = $row['public'];
+				$dbPublic = $row['public'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
-			if ($dbname !== null && intval($dbpublic) === 1) {
+			if ($dbname !== null && intval($dbPublic) === 1) {
 			} else {
 				return 'Session does not exist or is not public';
 			}
@@ -2333,7 +2339,7 @@ class PageController extends Controller {
 			'lastposonly' => $lastposonly,
 			'sharefilters' => $filters,
 			'filtersBookmarks' => [],
-			'phonetrack_version' => $this->appVersion
+			'phonetrack_version' => $this->appVersion,
 		];
 		$response = new PublicTemplateResponse(Application::APP_ID, 'main', $params);
 		$response->setHeaderTitle($this->trans->t('PhoneTrack public access'));
@@ -2341,43 +2347,49 @@ class PageController extends Controller {
 		$response->setFooterVisible(false);
 		// $response->setHeaders(['X-Frame-Options'=>'']);
 		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedChildSrcDomain('*')
-			->addAllowedFrameDomain('*')
-			->addAllowedWorkerSrcDomain('*')
-			->addAllowedObjectDomain('*')
-			->addAllowedScriptDomain('*')
-			->allowEvalScript(true)
-			->addAllowedConnectDomain('*');
+		//		$csp
+		//			->addAllowedImageDomain('*')
+		//			->addAllowedMediaDomain('*')
+		//			->addAllowedChildSrcDomain('*')
+		//			->addAllowedFrameDomain('*')
+		//			->addAllowedWorkerSrcDomain('*')
+		//			->addAllowedObjectDomain('*')
+		//			->addAllowedScriptDomain('*')
+		//			->allowEvalScript(true)
+		//			->addAllowedConnectDomain('*');
 		$csp->addAllowedFrameAncestorDomain('*');
+
+		$tsUrls = array_map(static function (array $ts) {
+			return $ts['url'];
+		}, $baseTileServers);
+		$this->addCspForTiles($csp, $tsUrls);
+
 		$response->setContentSecurityPolicy($csp);
 		return $response;
 	}
 
 	#[NoAdminRequired]
-	public function importSession($path) {
+	public function importSession(string $path): DataResponse {
 		$done = 1;
-		$userFolder = \OC::$server->getUserFolder($this->userId);
-		$cleanpath = str_replace(['../', '..\\'], '', $path);
+		$userFolder = $this->root->getUserFolder($this->userId);
+		$cleanPath = str_replace(['../', '..\\'], '', $path);
 
 		$file = null;
 		$sessionName = null;
 		$token = null;
 		$devices = null;
-		$publicviewtoken = null;
-		if ($userFolder->nodeExists($cleanpath)) {
-			$file = $userFolder->get($cleanpath);
-			if ($file->getType() === \OCP\Files\FileInfo::TYPE_FILE and
-				$file->isReadable()) {
+		$publicViewToken = null;
+		if ($userFolder->nodeExists($cleanPath)) {
+			$file = $userFolder->get($cleanPath);
+			if ($file instanceof File && $file->isReadable()) {
 				if (str_ends_with($file->getName(), '.gpx') || str_ends_with($file->getName(), '.GPX')) {
 					$sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
 					$res = $this->createSession($sessionName);
 					$response = $res->getData();
 					if ($response['done'] === 1) {
 						$token = $response['token'];
-						$publicviewtoken = $response['publicviewtoken'];
-						$done = $this->readGpxImportPoints($file, $file->getName(), $token);
+						$publicViewToken = $response['publicviewtoken'];
+						$done = $this->readGpxImportPoints($file, $token);
 					} else {
 						$done = 2;
 					}
@@ -2387,8 +2399,8 @@ class PageController extends Controller {
 					$response = $res->getData();
 					if ($response['done'] === 1) {
 						$token = $response['token'];
-						$publicviewtoken = $response['publicviewtoken'];
-						$done = $this->readKmlImportPoints($file, $file->getName(), $token);
+						$publicViewToken = $response['publicviewtoken'];
+						$done = $this->readKmlImportPoints($file, $token);
 					} else {
 						$done = 2;
 					}
@@ -2398,8 +2410,8 @@ class PageController extends Controller {
 					$response = $res->getData();
 					if ($response['done'] === 1) {
 						$token = $response['token'];
-						$publicviewtoken = $response['publicviewtoken'];
-						$done = $this->readJsonImportPoints($file, $file->getName(), $token);
+						$publicViewToken = $response['publicviewtoken'];
+						$done = $this->readJsonImportPoints($file, $token);
 					} else {
 						$done = 2;
 					}
@@ -2425,11 +2437,11 @@ class PageController extends Controller {
 			'token' => $token,
 			'devices' => $devices,
 			'sessionName' => $sessionName,
-			'publicviewtoken' => $publicviewtoken
+			'publicviewtoken' => $publicViewToken,
 		]);
 	}
 
-	private function gpxStartElement($parser, $name, $attrs) {
+	private function gpxStartElement(XMLParser $parser, string $name, array $attrs): void {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$this->currentXmlTag = $name;
 		if ($name === 'TRK') {
@@ -2448,7 +2460,7 @@ class PageController extends Controller {
 		//var_dump($attrs);
 	}
 
-	private function gpxEndElement($parser, $name) {
+	private function gpxEndElement(XMLParser $parser, string $name) {
 		if ($name === 'TRK') {
 			// log last track points
 			if (count($this->currentPointList) > 0) {
@@ -2469,7 +2481,7 @@ class PageController extends Controller {
 		}
 	}
 
-	private function gpxDataElement($parser, $data) {
+	private function gpxDataElement(XMLParser $parser, string $data): void {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$d = trim($data);
 		if (!empty($d)) {
@@ -2488,7 +2500,7 @@ class PageController extends Controller {
 			} elseif ($this->currentXmlTag === 'ACCURACY') {
 				$this->currentPoint[4] = floatval($d);
 			} elseif ($this->currentXmlTag === 'TIME') {
-				$time = new \DateTime($d);
+				$time = new DateTime($d);
 				$timestamp = $time->getTimestamp();
 				$this->currentPoint[3] = $timestamp;
 			} elseif ($this->currentXmlTag === 'NAME') {
@@ -2497,7 +2509,7 @@ class PageController extends Controller {
 		}
 	}
 
-	private function readGpxImportPoints($gpx_file, $gpx_name, $token) {
+	private function readGpxImportPoints(File $gpxFile, string $token): int {
 		$this->importToken = $token;
 		$this->trackIndex = 1;
 		$xml_parser = xml_parser_create();
@@ -2505,13 +2517,13 @@ class PageController extends Controller {
 		xml_set_element_handler($xml_parser, 'gpxStartElement', 'gpxEndElement');
 		xml_set_character_data_handler($xml_parser, 'gpxDataElement');
 
-		$fp = $gpx_file->fopen('r');
+		$fp = $gpxFile->fopen('r');
 
 		while ($data = fread($fp, 4096000)) {
 			//$this->logger->info('MEM USAGE '.memory_get_usage(), ['app' => $this->appName]);
 			if (!xml_parse($xml_parser, $data, feof($fp))) {
 				$this->logger->error(
-					'Exception in '.$gpx_name.' parsing at line '.
+					'Exception in ' . $gpxFile->getName() . ' parsing at line '.
 					  xml_get_current_line_number($xml_parser).' : '.
 					  xml_error_string(xml_get_error_code($xml_parser)),
 					['app' => $this->appName]
@@ -2528,7 +2540,7 @@ class PageController extends Controller {
 		return 1;
 	}
 
-	private function kmlStartElement($parser, $name, $attrs) {
+	private function kmlStartElement(XMLParser $parser, string $name, array $attrs): void {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$this->currentXmlTag = $name;
 		if ($name === 'GX:TRACK') {
@@ -2545,7 +2557,7 @@ class PageController extends Controller {
 		//var_dump($attrs);
 	}
 
-	private function kmlEndElement($parser, $name) {
+	private function kmlEndElement(XMLParser $parser, string $name): void {
 		if ($name === 'GX:TRACK') {
 			// log last track points
 			if (count($this->currentPointList) > 0) {
@@ -2555,7 +2567,7 @@ class PageController extends Controller {
 			unset($this->currentPointList);
 		} elseif ($name === 'GX:COORD') {
 			// store track point
-			array_push($this->currentPointList, $this->currentPoint);
+			$this->currentPointList[] = $this->currentPoint;
 			// if we have enough points, we log them and clean the points array
 			if (count($this->currentPointList) >= 100) {
 				$this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
@@ -2566,12 +2578,12 @@ class PageController extends Controller {
 		}
 	}
 
-	private function kmlDataElement($parser, $data) {
+	private function kmlDataElement(XMLParser $parser, string $data) {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$d = trim($data);
 		if (!empty($d)) {
 			if ($this->currentXmlTag === 'WHEN') {
-				$time = new \DateTime($d);
+				$time = new DateTime($d);
 				$timestamp = $time->getTimestamp();
 				$this->currentPoint[3] = $timestamp;
 			} elseif ($this->currentXmlTag === 'GX:COORD') {
@@ -2587,7 +2599,7 @@ class PageController extends Controller {
 		}
 	}
 
-	private function readKmlImportPoints($kml_file, $kml_name, $token) {
+	private function readKmlImportPoints(File $kmlFile, string $token): int {
 		$this->importToken = $token;
 		$this->trackIndex = 1;
 		$xml_parser = xml_parser_create();
@@ -2595,12 +2607,12 @@ class PageController extends Controller {
 		xml_set_element_handler($xml_parser, 'kmlStartElement', 'kmlEndElement');
 		xml_set_character_data_handler($xml_parser, 'kmlDataElement');
 
-		$fp = $kml_file->fopen('r');
+		$fp = $kmlFile->fopen('r');
 
 		while ($data = fread($fp, 4096000)) {
 			if (!xml_parse($xml_parser, $data, feof($fp))) {
 				$this->logger->error(
-					'Exception in '.$kml_name.' parsing at line '.
+					'Exception in ' . $kmlFile->getName() . ' parsing at line '.
 					  xml_get_current_line_number($xml_parser).' : '.
 					  xml_error_string(xml_get_error_code($xml_parser)),
 					['app' => $this->appName]
@@ -2616,9 +2628,9 @@ class PageController extends Controller {
 		return 1;
 	}
 
-	private function readJsonImportPoints($json_file, $json_name, $token) {
+	private function readJsonImportPoints(File $jsonFile, string $token): int {
 		$importDevName = 'importedDevice';
-		$jsonArray = json_decode($json_file->getContent(), true);
+		$jsonArray = json_decode($jsonFile->getContent(), true);
 
 		$currentPointList = [];
 		if (array_key_exists('locations', $jsonArray) && is_array($jsonArray['locations'])) {
@@ -2627,8 +2639,8 @@ class PageController extends Controller {
 				//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 				$point = [null, null, null, null, null, null,  null, null, null, null];
 				if (array_key_exists('timestampMs', $loc) && is_numeric($loc['timestampMs'])
-					and array_key_exists('latitudeE7', $loc) && is_numeric($loc['latitudeE7'])
-					and array_key_exists('longitudeE7', $loc) && is_numeric($loc['longitudeE7'])) {
+					&& array_key_exists('latitudeE7', $loc) && is_numeric($loc['latitudeE7'])
+					&& array_key_exists('longitudeE7', $loc) && is_numeric($loc['longitudeE7'])) {
 					$point[0] = floatval($loc['latitudeE7']);
 					$point[1] = floatval($loc['longitudeE7']);
 					if ($point[0] > 900000000) {
@@ -2646,7 +2658,7 @@ class PageController extends Controller {
 					}
 				}
 				// add point
-				array_push($currentPointList, $point);
+				$currentPointList[] = $point;
 				if (count($currentPointList) >= 100) {
 					$this->logMultiple($token, $importDevName, $currentPointList);
 					unset($currentPointList);

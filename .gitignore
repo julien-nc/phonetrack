@@ -9,3 +9,4 @@
 /node_modules
 /composer.lock
 .php*.cache
+/css/fontawesome-free

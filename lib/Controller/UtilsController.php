@@ -12,9 +12,6 @@
 namespace OCA\PhoneTrack\Controller;
 
 use OCP\AppFramework\Controller;
-
-use OCP\AppFramework\Http\ContentSecurityPolicy;
-
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -52,17 +49,7 @@ class UtilsController extends Controller {
 	 */
 	public function setPointQuota($quota) {
 		$this->config->setAppValue('phonetrack', 'pointQuota', $quota);
-		$response = new DataResponse(
-			[
-				'done' => '1'
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['done' => '1']);
 	}
 
 	/**
@@ -116,17 +103,7 @@ class UtilsController extends Controller {
 			$ok = 0;
 		}
 
-		$response = new DataResponse(
-			[
-				'done' => $ok
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['done' => $ok]);
 	}
 
 	/**
@@ -143,17 +120,7 @@ class UtilsController extends Controller {
 		$req->execute();
 		$req->closeCursor();
 
-		$response = new DataResponse(
-			[
-				'done' => 1
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['done' => 1]);
 	}
 
 	/**
@@ -165,18 +132,7 @@ class UtilsController extends Controller {
 		foreach ($keys as $key) {
 			$this->config->deleteUserValue($this->userId, 'phonetrack', $key);
 		}
-
-		$response = new DataResponse(
-			[
-				'done' => 1
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['done' => 1]);
 	}
 
 	/**
@@ -190,18 +146,7 @@ class UtilsController extends Controller {
 			}
 			$this->config->setUserValue($this->userId, 'phonetrack', $key, $value);
 		}
-
-		$response = new DataResponse(
-			[
-				'done' => true
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['done' => true]);
 	}
 
 	/**
@@ -215,18 +160,6 @@ class UtilsController extends Controller {
 			$value = $this->config->getUserValue($this->userId, 'phonetrack', $key);
 			$ov[$key] = $value;
 		}
-
-		$response = new DataResponse(
-			[
-				'values' => $ov
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse(['values' => $ov]);
 	}
-
 }

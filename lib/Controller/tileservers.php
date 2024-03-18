@@ -162,7 +162,8 @@ $baseTileServers = [
 	[
 		'name' => 'WaterColor',
 		'type' => 'tile',
-		'url' => 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
+		//		'url' => 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
+		'url' => 'https://tiles.stadiamaps.com/styles/stamen_watercolor/{z}/{x}/{y}.jpg',
 		'attribution' => '<a href="https://leafletjs.com" title="A JS library' .
 		' for interactive maps">Leaflet</a> | © Map tiles by <a href="https://stamen' .
 		'.com">Stamen Design</a>, under <a href="https://creativecommons.org/license' .

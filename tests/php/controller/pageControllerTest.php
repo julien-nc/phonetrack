@@ -134,6 +134,7 @@ class PageNLogControllerTest extends TestCase {
 			),
 			$this->sessionService,
 			$c->get(IDBConnection::class),
+			$c->get(IRootFolder::class),
 			'test'
 		);
 
@@ -150,6 +151,7 @@ class PageNLogControllerTest extends TestCase {
 			),
 			$this->sessionService,
 			$c->get(IDBConnection::class),
+			$c->get(IRootFolder::class),
 			'test2'
 		);
 
@@ -715,7 +717,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
 
-		$userfolder = $this->container->query('ServerContainer')->getUserFolder('test');
+		$userFolder = $this->container->get('ServerContainer')->getUserFolder('test');
 		$now = new \DateTime();
 		$timestamp = $now->getTimestamp();
 
@@ -754,14 +756,14 @@ class PageNLogControllerTest extends TestCase {
 
 		//echo $userfolder->search('.gpx')[0]->getContent();
 		// check something was exported
-		$this->assertEquals(count($userfolder->get('/autoex')->getDirectoryListing()), 1);
-		$search = $userfolder->get('/autoex')->search('.gpx');
+		$this->assertEquals(count($userFolder->get('/autoex')->getDirectoryListing()), 1);
+		$search = $userFolder->get('/autoex')->search('.gpx');
 		$this->assertEquals(count($search), 1);
 		$search[0]->delete();
 		$resp = $this->pageController->setSessionAutoExport($token, 'weekly');
 		// do it again to test when export dir already exists and test weekly
 		$this->sessionService->cronAutoExport();
-		$search = $userfolder->get('/autoex')->search('.gpx');
+		$search = $userFolder->get('/autoex')->search('.gpx');
 		$this->assertEquals(count($search), 1);
 
 		$this->pageController->deleteDevice($token, $deviceid);
@@ -781,23 +783,23 @@ class PageNLogControllerTest extends TestCase {
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals(true, $done);
-		$this->assertEquals(true, $userfolder->nodeExists('/sessionToExport.gpx'));
+		$this->assertEquals(true, $userFolder->nodeExists('/sessionToExport.gpx'));
 		// do it again to overwrite the file
 		$resp = $this->pageController->export('sessionToExport', $exportToken, '/sessionToExport.gpx');
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals(true, $done);
-		$this->assertEquals(true, $userfolder->nodeExists('/sessionToExport.gpx'));
+		$this->assertEquals(true, $userFolder->nodeExists('/sessionToExport.gpx'));
 		//echo $userfolder->get('/sessionToExport.gpx')->getContent();
-		$userfolder->get('/sessionToExport.gpx')->delete();
+		$userFolder->get('/sessionToExport.gpx')->delete();
 		// do it again with one file per device
 		$resp = $this->utilsController->saveOptionValue(['exportoneperdev' => 'true']);
 		$resp = $this->pageController->export('sessionToExport', $exportToken, '/sessionToExport.gpx');
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals(true, $done);
-		$this->assertEquals(true, $userfolder->nodeExists('/sessionToExport_devmanex.gpx'));
-		$this->assertEquals(true, $userfolder->nodeExists('/sessionToExport_devmanex2222.gpx'));
+		$this->assertEquals(true, $userFolder->nodeExists('/sessionToExport_devmanex.gpx'));
+		$this->assertEquals(true, $userFolder->nodeExists('/sessionToExport_devmanex2222.gpx'));
 
 		$resp = $this->pageController->deleteSession($exportToken);
 		$data = $resp->getData();
@@ -1924,8 +1926,8 @@ class PageNLogControllerTest extends TestCase {
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals(true, $done);
-		$this->assertEquals(true, $userfolder->nodeExists('/super.gpx'));
-		$userfolder->get('/super.gpx')->delete();
+		$this->assertEquals(true, $userFolder->nodeExists('/super.gpx'));
+		$userFolder->get('/super.gpx')->delete();
 
 		// TRACK AND FIND SHARED SESSION
 		$sessions = [[$stoken, null, null]];
@@ -2162,7 +2164,7 @@ class PageNLogControllerTest extends TestCase {
  </trkseg>
 </trk>
 </gpx>';
-		$userfolder->newFile('session.gpx')->putContent($txt);
+		$userFolder->newFile('session.gpx')->putContent($txt);
 		$resp = $this->pageController->importSession('/session.gpx');
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -2187,7 +2189,7 @@ class PageNLogControllerTest extends TestCase {
  <desc>4 devices</desc>
 </metadata>
 </gpx>';
-		$userfolder->newFile('session2.gpx')->putContent($txt);
+		$userFolder->newFile('session2.gpx')->putContent($txt);
 		$resp = $this->pageController->importSession('/session2.gpx');
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -2195,7 +2197,7 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(6, $done);
 
 		$txt = '<?xml version="1.0"';
-		$userfolder->newFile('session3.gpx')->putContent($txt);
+		$userFolder->newFile('session3.gpx')->putContent($txt);
 		$resp = $this->pageController->importSession('/session3.gpx');
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -2227,7 +2229,7 @@ class PageNLogControllerTest extends TestCase {
  </trkseg>
 </trk>
 </gpx>';
-		$userfolder->newFile('session4.gpx')->putContent($txt);
+		$userFolder->newFile('session4.gpx')->putContent($txt);
 		$resp = $this->pageController->importSession('/session4.gpx');
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -2266,7 +2268,7 @@ class PageNLogControllerTest extends TestCase {
  </trkseg>
 </trk>
 </gpx>';
-		$userfolder->newFile('session5.gpx')->putContent($txt);
+		$userFolder->newFile('session5.gpx')->putContent($txt);
 		$resp = $this->pageController->importSession('/session5.gpx');
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -2335,7 +2337,7 @@ class PageNLogControllerTest extends TestCase {
 		</Placemark>
 	</Document>
 </kml>";
-		$userfolder->newFile('sessionTL.kml')->putContent($txt);
+		$userFolder->newFile('sessionTL.kml')->putContent($txt);
 		$resp = $this->pageController->importSession('/sessionTL.kml');
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -2355,7 +2357,7 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(1, $done);
 
 		$txt = "<?xml version='1.0'";
-		$userfolder->newFile('sessionTLwrong.kml')->putContent($txt);
+		$userFolder->newFile('sessionTLwrong.kml')->putContent($txt);
 		$resp = $this->pageController->importSession('/sessionTLwrong.kml');
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -2370,7 +2372,7 @@ class PageNLogControllerTest extends TestCase {
 		</Placemark>
 	</Document>
 </kml>";
-		$userfolder->newFile('sessionTLempty.kml')->putContent($txt);
+		$userFolder->newFile('sessionTLempty.kml')->putContent($txt);
 		$resp = $this->pageController->importSession('/sessionTLempty.kml');
 		$data = $resp->getData();
 		$done = $data['done'];
