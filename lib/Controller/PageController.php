@@ -3721,75 +3721,78 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[NoCSRFRequired]
-	public function APIgetLastPositionsPublic($sessionid) {
+	public function APIgetLastDevicePositionPublic(string $sessionId, ?string $deviceName = null) {
+		return $this->APIgetLastPositionsPublic($sessionId, $deviceName);
+	}
+
+	#[NoAdminRequired]
+	#[PublicPage]
+	#[NoCSRFRequired]
+	public function APIgetLastPositionsPublic(string $sessionId, ?string $deviceName = null) {
 		$result = [];
 		// check if session exists
-		$dbtoken = null;
-		$sqlget = '
+		$dbToken = null;
+		$sqlGet = '
 			SELECT publicviewtoken, token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE publicviewtoken='.$this->db_quote_escape_string($sessionid).'
+			WHERE publicviewtoken=' . $this->db_quote_escape_string($sessionId).'
 				  AND public=1 ;';
-		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
-			$dbtoken = $row['token'];
-			$dbpubtoken = $row['publicviewtoken'];
+		$req = $this->dbConnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$dbToken = $row['token'];
+			$dbPubToken = $row['publicviewtoken'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		// session exists
-		if ($dbtoken !== null) {
+		if ($dbToken !== null) {
 			// get list of devices
 			$devices = [];
-			$sqldev = '
-				SELECT id
+			$sqlDev = '
+				SELECT name, id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
-			$req = $this->dbConnection->prepare($sqldev);
-			$req->execute();
-			while ($row = $req->fetch()) {
-				array_push($devices, $row['id']);
+				WHERE sessionid=' . $this->db_quote_escape_string($dbToken);
+			if ($deviceName !== null) {
+				$sqlDev .= ' AND name=' . $this->db_quote_escape_string($deviceName);
 			}
-			$req->closeCursor();
+			$sqlDev	.= ' ;';
+			$req = $this->dbConnection->prepare($sqlDev);
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$devices[] = [
+					'id' => $row['id'],
+					'name' => $row['name'],
+				];
+			}
+			$res->closeCursor();
 
 			// get the coords for each device
-			$result[$dbpubtoken] = [];
+			$result[$dbPubToken] = [];
 
-			foreach ($devices as $devid) {
-				$name = null;
-				$sqlname = '
-					SELECT name
-					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND id='.$this->db_quote_escape_string($devid).' ;';
-				$req = $this->dbConnection->prepare($sqlname);
-				$req->execute();
-				$col = '';
-				while ($row = $req->fetch()) {
-					$name = $row['name'];
-				}
-				$req->closeCursor();
+			foreach ($devices as $device) {
+				$deviceName = $device['name'];
+				$deviceId = $device['id'];
 
 				$entry = [];
-				$sqlget = '
+				$sqlGet = '
 					SELECT lat, lon, timestamp, batterylevel, useragent,
 						   satellites, accuracy, altitude, speed, bearing
 					FROM *PREFIX*phonetrack_points
-					WHERE deviceid='.$this->db_quote_escape_string($devid).'
+					WHERE deviceid=' . $this->db_quote_escape_string($deviceId) . '
 					ORDER BY timestamp DESC LIMIT 1 ;';
-				$req = $this->dbConnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$req = $this->dbConnection->prepare($sqlGet);
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$entry['useragent'] = $row['useragent'];
 					unset($row['useragent']);
 					foreach ($row as $k => $v) {
 						$entry[$k] = is_numeric($v) ? floatval($v) : null;
 					}
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 				if (count($entry) > 0) {
-					$result[$dbpubtoken][$name] = $entry;
+					$result[$dbPubToken][$deviceName] = $entry;
 				}
 			}
 		}
