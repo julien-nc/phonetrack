@@ -440,7 +440,7 @@ input[role=bearing],
 input[role=satellites],
 input[role=battery],
 input[role=precision] {
-	width: 70px !important;
+	width: 90px !important;
 	height: 15px !important;
 }
 #filterPointsTable {
@@ -478,7 +478,7 @@ input[role=precision] {
 .editPoint input[role=minute],
 .editPoint input[role=hour],
 .editPoint input[role=second] {
-	width: 42px !important;
+	width: 50px !important;
 	height: 27px !important;
 }
 table.editPoint input[type=text] {
