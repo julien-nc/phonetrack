@@ -79,7 +79,7 @@ git push origin new-feature-1 -f
 
 ## Tests
 
-If you want to trigger Continuous Integration tests on Gitlab, just push to your branch `test`
+If you want to trigger Continuous Integration tests on GitHub, just push to your branch `test`
 
 ``` bash
 # from any branch, for example from branch 'new-feature-1'
