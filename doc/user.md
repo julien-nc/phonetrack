@@ -2,9 +2,9 @@
 
 # Logging methods
 
-If you know a good and free ([as in "free speech"](https://www.gnu.org/philosophy/free-sw.en.html)) app which can log position to custom URL in background, [create an issue](https://gitlab.com/eneiluj/phonetrack-oc/issues/new?issue%5Bassignee_id%5D=&issue%5Bmilestone_id%5D=) to let us know !
+If you know a good and free ([as in "free speech"](https://www.gnu.org/philosophy/free-sw.en.html)) app which can log position to custom URL in background, [create an issue](https://github.com/julien-nc/phonetrack/issues) to let us know!
 
-**Warning** : part of what follows is extremely subjective or ironic :grin:.
+**Warning**: part of what follows is extremely subjective or ironic :grin:.
 
 ## Recommended :+1: 
 
@@ -12,7 +12,13 @@ If you know a good and free ([as in "free speech"](https://www.gnu.org/philosoph
 
 (available on F-Droid)
 
-Am i objective to judge this one ? It is different than all the other loggers because you can log to multiple destinations with different settings. Positions are stored if there is no network (**\***). It has a [very small impact on battery life](https://gitlab.com/eneiluj/phonetrack-oc/issues/175#note_130338568). To log with this app, create a new "PhoneTrack log job". If account settings are configured, just select a session and let the magic happen. Otherwise set the log job fields manually or import any PhoneTrack logging URL. Check the [PhoneTrack-Android user doc](https://gitlab.com/eneiluj/phonetrack-android/wikis/userdoc) for more details.
+Am i objective to judge this one?
+It is different than all the other loggers because you can log to multiple destinations with different settings. 
+Positions are stored if there is no network (**\***). 
+It has a [very small impact on battery life](https://gitlab.com/eneiluj/phonetrack-oc/issues/175#note_130338568). 
+To log with this app, create a new "PhoneTrack log job". If account settings are configured, just select a session and let the magic happen.
+Otherwise set the log job fields manually or import any PhoneTrack logging URL.
+Check the [PhoneTrack-Android user doc](https://gitlab.com/eneiluj/phonetrack-android/wikis/userdoc) for more details.
 
 Pros :
 
@@ -24,7 +30,7 @@ Pros :
 * simple interface
 * Free Software, it's as yours as mine
 
-Cons :
+Cons:
 
 * it does not clean my house
 

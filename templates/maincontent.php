@@ -555,7 +555,7 @@ if (count($_['useroverlayserverswms']) > 0) {
 </tr><tr>
 	<td></td>
 	<td>
-		<button id="datemaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>        
+		<button id="datemaxminus"><i class="fa fa-calendar-minus" aria-hidden="true"></i></button>
 		<button id="datemaxtoday"><i class="fa fa-calendar-alt" aria-hidden="true"></i> <?php p($l->t('today')); ?></button>
 		<button id="datemaxplus"><i class="fa fa-calendar-plus" aria-hidden="true"></i></button>
 	</td>
@@ -736,7 +736,7 @@ foreach ($_['filtersBookmarks'] as $bookid => $e) {
 
 	<br/><hr/><br/>
 	<h3 class="sectiontitle"><?php p($l->t('Documentation')); ?></h3>
-	<a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/wikis/home">
+	<a class="toplink" target="_blank" href="https://github.com/julien-nc/phonetrack/tree/main/doc">
 	<i class="fab fa-gitlab" aria-hidden="true"></i>
 	Project wiki
 	</a>
@@ -745,15 +745,15 @@ foreach ($_['filtersBookmarks'] as $bookid => $e) {
 	<br/><hr/><br/>
 	<h3 class="sectiontitle"><?php p($l->t('Source management')); ?></h3>
 	<ul class="disclist">
-		<li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc">
+		<li><a class="toplink" target="_blank" href="https://github.com/julien-nc/phonetrack">
 		<i class="fab fa-gitlab" aria-hidden="true"></i>
-		Gitlab project main page</a></li>
-		<li><a class="toplink" target="_blank" href="https://gitlab.com/eneiluj/phonetrack-oc/issues">
+		GitHub project's main page</a></li>
+		<li><a class="toplink" target="_blank" href="https://github.com/julien-nc/phonetrack/issues">
 		<i class="fab fa-gitlab" aria-hidden="true"></i>
-		Gitlab project issue tracker</a></li>
+		GitHub project's issue tracker</a></li>
 		<li><a class="toplink" target="_blank" href="https://crowdin.com/project/phonetrack">
 		<i class="fa fa-globe-africa" aria-hidden="true"></i>
-		Help us to translate this app on Crowdin !</a></li>
+		Help us to translate this app on Crowdin!</a></li>
 	</ul>
 
 	<br/><hr/><br/>
@@ -763,7 +763,7 @@ foreach ($_['filtersBookmarks'] as $bookid => $e) {
 		<li>@mjanssens (Dutch translations)</li>
 		<li>@AndyKl (German translations)</li>
 		<li>@oswolf (German translations)</li>
-		<li>See <a class="toplink" href="https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md"
+		<li>See <a class="toplink" href="https://github.com/julien-nc/phonetrack/blob/main/AUTHORS.md"
 		target="_blank">AUTHORS file</a></li>
 	</ul>
 

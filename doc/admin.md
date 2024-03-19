@@ -27,13 +27,14 @@ If you want to be on the bleeding edge :
 
 ```
 cd /path/to/nextcloud/apps
-git clone https://gitlab.com/eneiluj/phonetrack-oc.git phonetrack
+git clone https://github.com/julien-nc/phonetrack
+cd phonetrack
+make
 ```
 
-### Download from Nextcloud apps website or the project's wiki
+### Download from Nextcloud apps website
 
-* https://apps.nextcloud.com
-* [project's wiki](https://gitlab.com/eneiluj/phonetrack-oc/wikis/home#releases-for-nextcloud)
+* https://apps.nextcloud.com/apps/phonetrack
 
 Extract the archive at the right place :
 ```
