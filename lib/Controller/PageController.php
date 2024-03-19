@@ -3756,7 +3756,7 @@ class PageController extends Controller {
 			if ($deviceName !== null) {
 				$sqlDev .= ' AND name=' . $this->db_quote_escape_string($deviceName);
 			}
-			$sqlDev	.= ' ;';
+			$sqlDev .= ' ;';
 			$req = $this->dbConnection->prepare($sqlDev);
 			$res = $req->execute();
 			while ($row = $res->fetch()) {
