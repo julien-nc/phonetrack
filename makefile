@@ -111,6 +111,10 @@ build_release: clean
 	--exclude=/stylelint.config.js \
 	--exclude=ci \
 	--exclude=vendor/bin \
+	--exclude=vendor/ \
+	--exclude=.l10nignore \
+	--exclude=psalm.xml \
+	--exclude=.php* \
 	$(project_dir) $(sign_dir)/$(app_name)
 	# generate info.xml with translations
 	cd $(sign_dir)/$(app_name)/l10n/descriptions && ./gen_info.xml.sh && mv info.xml ../../appinfo/
