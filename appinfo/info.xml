@@ -3,7 +3,7 @@
     <id>phonetrack</id>
     <name>PhoneTrack</name>
     <summary> </summary><description> </description>
-    <version>0.8.0</version>
+    <version>0.8.1</version>
     <licence>agpl</licence>
     <author mail="julien-nc@posteo.net">Julien Veyssier</author>
     <namespace>PhoneTrack</namespace>
