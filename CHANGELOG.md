@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.8.0 – 2024-04-28
+
+### Added
+
+- new endpoint to get last position of one specific device (/api/getlastpositions/{sessionId}/{deviceName})
+
+### Changed
+
+- max nc version is now 30
+- order points by date when exporting
+- cleanup backend code
+- reorder OwnTracks friends SQL query for improved performance
+
 ## 0.7.7 – 2023-12-13
 
 ### Changed
