@@ -262,7 +262,7 @@ class LogController extends Controller {
 	}
 
 	private function checkProxim(float  $newLat, float $newLon, int $movingDeviceId, array $proxim, string $userid,
-								 ?array $lastPoint, string $movingDeviceName, string $sessionToken) {
+		?array $lastPoint, string $movingDeviceName, string $sessionToken) {
 		$highlimit = (int)$proxim['highlimit'];
 		$lowlimit = (int)$proxim['lowlimit'];
 		$urlclose = $proxim['urlclose'];
@@ -606,7 +606,7 @@ class LogController extends Controller {
 	}
 
 	private function checkGeoFences(float  $lat, float $lon, int $deviceId, string $userid, string $deviceName,
-									string $sessionname, string $sessionToken) {
+		string $sessionname, string $sessionToken) {
 		$lastPoint = $this->getLastDevicePoint($deviceId);
 		$fences = $this->getDeviceFences($deviceId);
 		foreach ($fences as $fence) {
