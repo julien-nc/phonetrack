@@ -167,16 +167,14 @@ class SessionService {
 		$y = $now->format('Y');
 		$m = $now->format('m');
 		$d = $now->format('d');
-		$timestamp = $now->getTimestamp();
 
-		// get begining of today
+		// get beginning of today
 		$dateMaxDay = new DateTime($y . '-' . $m . '-' . $d);
 		$maxDayTimestamp = $dateMaxDay->getTimestamp();
-		$minDayTimestamp = $maxDayTimestamp - 24 * 60 * 60;
+		$minDayTimestamp = $maxDayTimestamp - (24 * 60 * 60);
 
 		$dateMaxDay->modify('-1 day');
 		$dailySuffix = '_daily_' . $dateMaxDay->format('Y-m-d');
-		//$dailySuffix = '_daily_'.$y.'-'.sprintf('%02d', intval($m)).'-'.sprintf('%02d', intval($d)-1);
 
 		// last week
 		$now = new DateTime();
@@ -259,7 +257,7 @@ class SessionService {
 					}
 					$dir = $this->getOrCreateExportDir($userId);
 					// check if file already exists
-					$exportName = $dbname.$suffix.'.gpx';
+					$exportName = $dbname . $suffix . '.gpx';
 
 					$rel_path = str_replace($userFolder->getPath(), '', $dir->getPath());
 					$exportPath = $rel_path . '/' . $exportName;
@@ -344,13 +342,13 @@ class SessionService {
 					$sqldev = '
 						SELECT dev.id AS id, dev.name AS name
 						FROM *PREFIX*phonetrack_devices AS dev, *PREFIX*phonetrack_points AS po
-						WHERE dev.sessionid='.$this->db_quote_escape_string($sessionToken).' AND dev.id=po.deviceid GROUP BY dev.id;';
+						WHERE dev.sessionid=' . $this->db_quote_escape_string($sessionToken) . ' AND dev.id = po.deviceid GROUP BY dev.id;';
 					$req = $this->db->prepare($sqldev);
-					$req->execute();
-					while ($row = $req->fetch()) {
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
 						$devices[] = [$row['id'], $row['name']];
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 
 					// get the coords for each device
 					$result[$name] = [];

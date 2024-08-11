@@ -18,6 +18,9 @@ use Exception;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
+use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 
@@ -163,103 +166,103 @@ class LogController extends Controller {
 		return $dname;
 	}
 
-	private function getLastDevicePoint($devid) {
-		$therow = null;
-		$sqlget = '
+	private function getLastDevicePoint(int $deviceId) {
+		$theRow = null;
+		$sqlGet = '
 			SELECT lat, lon, timestamp,
 				   batterylevel, satellites,
 				   accuracy, altitude,
 				   speed, bearing
 			FROM *PREFIX*phonetrack_points
-			WHERE deviceid='.$this->db_quote_escape_string($devid).'
+			WHERE deviceid='.$this->db_quote_escape_string($deviceId).'
 			ORDER BY timestamp DESC LIMIT 1 ;';
-		$req = $this->dbconnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
-			$therow = $row;
+		$req = $this->dbconnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$theRow = $row;
 		}
-		$req->closeCursor();
-		return $therow;
+		$res->closeCursor();
+		return $theRow;
 	}
 
-	private function getDeviceProxims(int $devid) {
+	private function getDeviceProxims(int $deviceId) {
 		$proxims = [];
-		$sqlget = '
+		$sqlGet = '
 			SELECT id, deviceid1, deviceid2, highlimit,
 				   lowlimit, urlclose, urlfar,
 				   urlclosepost, urlfarpost,
 				   sendemail, emailaddr, sendnotif
 			FROM *PREFIX*phonetrack_proxims
-			WHERE deviceid1='.$this->db_quote_escape_string($devid).'
-				  OR deviceid2='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+			WHERE deviceid1='.$this->db_quote_escape_string($deviceId).'
+				  OR deviceid2='.$this->db_quote_escape_string($deviceId).' ;';
+		$req = $this->dbconnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$proxims[] = $row;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 		return $proxims;
 	}
 
-	private function checkProxims(float $lat, float $lon, int $devid, string $userid, string $devicename, string $sessionname, $sessionid) {
-		$lastPoint = $this->getLastDevicePoint($devid);
-		$proxims = $this->getDeviceProxims($devid);
+	private function checkProxims(float $lat, float $lon, int $deviceId, string $userid, string $deviceName, string $sessionName, $sessionId) {
+		$lastPoint = $this->getLastDevicePoint($deviceId);
+		$proxims = $this->getDeviceProxims($deviceId);
 		foreach ($proxims as $proxim) {
-			$this->checkProxim($lat, $lon, $devid, $proxim, $userid, $lastPoint, $devicename, $sessionid);
+			$this->checkProxim($lat, $lon, $deviceId, $proxim, $userid, $lastPoint, $deviceName, $sessionId);
 		}
 	}
 
-	private function getSessionOwnerOfDevice($devid) {
+	private function getSessionOwnerOfDevice(int $deviceId) {
 		$owner = null;
-		$sqlget = '
+		$sqlGet = '
 			SELECT '.$this->dbdblquotes.'user'.$this->dbdblquotes.'
 			FROM *PREFIX*phonetrack_devices
 			INNER JOIN *PREFIX*phonetrack_sessions
 				ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
-			WHERE *PREFIX*phonetrack_devices.id='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+			WHERE *PREFIX*phonetrack_devices.id='.$this->db_quote_escape_string($deviceId).' ;';
+		$req = $this->dbconnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$owner = $row['user'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 		return $owner;
 	}
 
-	private function getDeviceAlias($devid) {
-		$dbalias = null;
-		$sqlget = '
+	private function getDeviceAlias(int $deviceId) {
+		$dbAlias = null;
+		$sqlGet = '
 			SELECT alias
 			FROM *PREFIX*phonetrack_devices
-			WHERE id='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
-			$dbalias = $row['alias'];
+			WHERE id='.$this->db_quote_escape_string($deviceId).' ;';
+		$req = $this->dbconnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$dbAlias = $row['alias'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
-		return $dbalias;
+		return $dbAlias;
 	}
 
-	private function getDeviceName(int $devid) {
+	private function getDeviceName(int $deviceId) {
 		$dbname = null;
-		$sqlget = '
+		$sqlGet = '
 			SELECT name
 			FROM *PREFIX*phonetrack_devices
-			WHERE id='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+			WHERE id='.$this->db_quote_escape_string($deviceId).' ;';
+		$req = $this->dbconnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		return $dbname;
 	}
 
-	private function checkProxim(float $newLat, float $newLon, int $movingDevid, array $proxim, string $userid,
-		?array $lastPoint, string $movingDeviceName, string $sessionToken) {
+	private function checkProxim(float  $newLat, float $newLon, int $movingDeviceId, array $proxim, string $userid,
+								 ?array $lastPoint, string $movingDeviceName, string $sessionToken) {
 		$highlimit = (int)$proxim['highlimit'];
 		$lowlimit = (int)$proxim['lowlimit'];
 		$urlclose = $proxim['urlclose'];
@@ -275,7 +278,7 @@ class LogController extends Controller {
 		$proximid = $proxim['id'];
 
 		// get the deviceid of other device
-		if (($movingDevid) === ((int)$proxim['deviceid1'])) {
+		if (($movingDeviceId) === ((int)$proxim['deviceid1'])) {
 			$otherDeviceId = (int)$proxim['deviceid2'];
 		} else {
 			$otherDeviceId = (int)$proxim['deviceid1'];
@@ -299,7 +302,7 @@ class LogController extends Controller {
 				// devices are now close !
 
 				// if the observed device is 'deviceid2', then we might have the wrong userId
-				if (($movingDevid) === ((int)$proxim['deviceid2'])) {
+				if (($movingDeviceId) === ((int)$proxim['deviceid2'])) {
 					$userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
 				}
 				$dev1name = $movingDeviceName;
@@ -310,7 +313,7 @@ class LogController extends Controller {
 				}
 
 				// activity
-				$deviceObj = $this->deviceMapper->find($movingDevid);
+				$deviceObj = $this->deviceMapper->find($movingDeviceId);
 				$this->activityManager->triggerEvent(
 					ActivityManager::PHONETRACK_OBJECT_DEVICE,
 					$deviceObj,
@@ -433,7 +436,7 @@ class LogController extends Controller {
 				// devices are now far !
 
 				// if the observed device is 'deviceid2', then we might have the wrong userId
-				if (($movingDevid) === ((int)$proxim['deviceid2'])) {
+				if (($movingDeviceId) === ((int)$proxim['deviceid2'])) {
 					$userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
 				}
 				$dev1name = $movingDeviceName;
@@ -444,7 +447,7 @@ class LogController extends Controller {
 				}
 
 				// activity
-				$deviceObj = $this->deviceMapper->find($movingDevid);
+				$deviceObj = $this->deviceMapper->find($movingDeviceId);
 				$this->activityManager->triggerEvent(
 					ActivityManager::PHONETRACK_OBJECT_DEVICE,
 					$deviceObj,
@@ -568,19 +571,19 @@ class LogController extends Controller {
 
 	private function getDeviceFences(int $devid) {
 		$fences = [];
-		$sqlget = '
+		$sqlGet = '
 			SELECT id, latmin, lonmin, latmax, lonmax,
 				   name, urlenter, urlleave,
 				   urlenterpost, urlleavepost,
 				   sendemail, emailaddr, sendnotif
 			FROM *PREFIX*phonetrack_geofences
 			WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$req = $this->dbconnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$fences[] = $row;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 		return $fences;
 	}
 
@@ -588,26 +591,26 @@ class LogController extends Controller {
 	 * returns user ids the session is shared with
 	 */
 	private function getSessionSharedUserIdList(string $token) {
-		$userids = [];
-		$sqlget = '
+		$userIds = [];
+		$sqlGet = '
 			SELECT username
 			FROM *PREFIX*phonetrack_shares
 			WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
-		$req = $this->dbconnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
-			$userids[] = $row['username'];
+		$req = $this->dbconnection->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$userIds[] = $row['username'];
 		}
-		$req->closeCursor();
-		return $userids;
+		$res->closeCursor();
+		return $userIds;
 	}
 
-	private function checkGeoFences(float $lat, float $lon, int $devid, string $userid, string $devicename,
-		string $sessionname, string $sessionToken) {
-		$lastPoint = $this->getLastDevicePoint($devid);
-		$fences = $this->getDeviceFences($devid);
+	private function checkGeoFences(float  $lat, float $lon, int $deviceId, string $userid, string $deviceName,
+									string $sessionname, string $sessionToken) {
+		$lastPoint = $this->getLastDevicePoint($deviceId);
+		$fences = $this->getDeviceFences($deviceId);
 		foreach ($fences as $fence) {
-			$this->checkGeoGence($lat, $lon, $lastPoint, $devid, $fence, $userid, $devicename, $sessionname, $sessionToken);
+			$this->checkGeoGence($lat, $lon, $lastPoint, $deviceId, $fence, $userid, $deviceName, $sessionname, $sessionToken);
 		}
 	}
 
@@ -916,8 +919,8 @@ class LogController extends Controller {
 			INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
 			WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).' ;';
 		$req = $this->dbconnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$nbPoints = (int)$row['co'];
 		}
 
@@ -966,8 +969,8 @@ class LogController extends Controller {
 					WHERE deviceid='.$this->db_quote_escape_string($deviceidToInsert).'
 					;';
 				$req = $this->dbconnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$count = $row['co'];
 				}
 
@@ -991,7 +994,6 @@ class LogController extends Controller {
 					}
 					$req = $this->dbconnection->prepare($sqldel);
 					$req->execute();
-					$req->closeCursor();
 				}
 				// update the space we need after this deletion
 				$nbExceedingPoints = $nbExceedingPoints - $nbToDelete;
@@ -1009,12 +1011,12 @@ class LogController extends Controller {
 						WHERE s.'.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).'
 						ORDER BY timestamp ASC LIMIT '.$nbExceedingPoints.' ;';
 					$req = $this->dbconnection->prepare($sqldel);
-					$req->execute();
+					$res = $req->execute();
 					$pids = [];
-					while ($row = $req->fetch()) {
+					while ($row = $res->fetch()) {
 						$pids[] = $row['id'];
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 
 					foreach ($pids as $pid) {
 						$sqldel = '
@@ -1046,8 +1048,8 @@ class LogController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function addPoint(
 		string $token, string $devicename, float $lat, float $lon, ?float $alt, ?int $timestamp,
 		?float $acc, ?float $bat, ?int $sat, ?string $useragent, ?float $speed, ?float $bearing
@@ -1067,12 +1069,12 @@ class LogController extends Controller {
 					WHERE sessionid='.$this->db_quote_escape_string($token).'
 						  AND name='.$this->db_quote_escape_string($devicename).' ;';
 				$req = $this->dbconnection->prepare($sqlchk);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$dbdevid = $row['id'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				// if it's reserved and a device token was given
 				if ($dbdevid === null) {
@@ -1082,12 +1084,12 @@ class LogController extends Controller {
 						WHERE sessionid='.$this->db_quote_escape_string($token).'
 							  AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
 					$req = $this->dbconnection->prepare($sqlchk);
-					$req->execute();
-					while ($row = $req->fetch()) {
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
 						$dbdevid = $row['id'];
 						break;
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 				}
 
 				if ($dbdevid !== null) {
@@ -1099,12 +1101,12 @@ class LogController extends Controller {
 							  AND lon='.$this->db_quote_escape_string($lon).'
 							  AND timestamp='.$this->db_quote_escape_string($timestamp).' ;';
 					$req = $this->dbconnection->prepare($sqlchk);
-					$req->execute();
-					while ($row = $req->fetch()) {
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
 						$dbid = $row['maxid'];
 						break;
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 					$done = 1;
 				} else {
 					$done = 4;
@@ -1137,10 +1139,6 @@ class LogController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * @param string $token
 	 * @param string $devicename
 	 * @param float $lat
@@ -1158,75 +1156,78 @@ class LogController extends Controller {
 	 * @throws \Doctrine\DBAL\Exception
 	 * @throws \OCP\DB\Exception
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logPost(
 		string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
 		?int $timestamp = null, ?float $acc = null, ?int $bat = null, ?int $sat = null,
 		?string $useragent = '', ?float $speed = null, ?float $bearing = null,
 		?string $datetime = null
 	): array {
-		$res = ['done' => 0, 'friends' => []];
+		$result = ['done' => 0, 'friends' => []];
 		// TODO insert speed and bearing in m/s and degrees
 		if ($devicename !== '' &&
 			$token !== '' &&
 			(!is_null($timestamp) || !is_null($datetime))
 		) {
 			// check if session exists
-			$sqlchk = '
+			$sqlCheck = '
 				SELECT `name`, `user`, `public`, `locked`
 				FROM `*PREFIX*phonetrack_sessions`
 				WHERE `token`=?
 			';
-			$req = $this->dbconnection->prepare($sqlchk);
-			$req->execute([$token]);
+			$req = $this->dbconnection->prepare($sqlCheck);
+			$res = $req->execute([$token]);
 			$dbname = null;
 			$userid = null;
 			$locked = null;
 			$isPublicSession = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				$userid = $row['user'];
 				$locked = (((int)$row['locked']) === 1);
 				$isPublicSession = (bool)$row['public'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
-			// is it a sharetoken?
+			// is it a share token?
 			if ($dbname === null) {
 				$dbtoken = null;
 				// get real token from sharetoken
-				$sqlget = '
+				$sqlGet = '
 					SELECT sessionid
 					FROM *PREFIX*phonetrack_shares
 					WHERE sharetoken='.$this->db_quote_escape_string($token).';';
-				$req = $this->dbconnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$req = $this->dbconnection->prepare($sqlGet);
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$dbtoken = $row['sessionid'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 				if ($dbtoken !== null) {
 					$token = $dbtoken;
 					// get session info
-					$sqlchk = '
+					$sqlCheck = '
 						SELECT `name`, `user`, `public`, `locked`
 						FROM `*PREFIX*phonetrack_sessions`
 						WHERE `token`=?
 					';
-					$req = $this->dbconnection->prepare($sqlchk);
-					$req->execute([$token]);
+					$req = $this->dbconnection->prepare($sqlCheck);
+					$res = $req->execute([$token]);
 					$dbname = null;
 					$userid = null;
 					$locked = null;
 					$isPublicSession = null;
-					while ($row = $req->fetch()) {
+					while ($row = $res->fetch()) {
 						$dbname = $row['name'];
 						$userid = $row['user'];
 						$locked = (((int)$row['locked']) === 1);
 						$isPublicSession = (bool)$row['public'];
 						break;
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 				}
 			}
 
@@ -1237,21 +1238,21 @@ class LogController extends Controller {
 					$dbdevicename = null;
 					$dbdevicealias = null;
 					$dbdevicenametoken = null;
-					$deviceidToInsert = null;
-					$sqlgetres = '
+					$deviceIdToInsert = null;
+					$sqlGetRes = '
 						SELECT id, name, nametoken, alias
 						FROM *PREFIX*phonetrack_devices
 						WHERE sessionid='.$this->db_quote_escape_string($token).'
 							  AND name='.$this->db_quote_escape_string($devicename).' ;';
-					$req = $this->dbconnection->prepare($sqlgetres);
-					$req->execute();
-					while ($row = $req->fetch()) {
-						$dbdeviceid = (int)$row['id'];
+					$req = $this->dbconnection->prepare($sqlGetRes);
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
+						$dbdeviceId = (int)$row['id'];
 						$dbdevicename = $row['name'];
 						$dbdevicealias = $row['alias'];
 						$dbdevicenametoken = $row['nametoken'];
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 
 					// the device exists
 					if ($dbdevicename !== null) {
@@ -1265,38 +1266,38 @@ class LogController extends Controller {
 							// here, we check if we're logged in as the session owner
 							if ($this->userId !== '' && $this->userId !== null && $userid === $this->userId) {
 								// if so, accept to (manually) log with name and not nametoken
-								$deviceidToInsert = $dbdeviceid;
+								$deviceIdToInsert = $dbdeviceId;
 							} else {
-								return $res;
+								return $result;
 							}
 						} else {
-							$deviceidToInsert = $dbdeviceid;
+							$deviceIdToInsert = $dbdeviceId;
 						}
 					}
 					// the device with this device name does not exist
 					else {
-						// check if the device name corresponds to a nametoken
+						// check if the device name corresponds to a name token
 						$dbdevicenametoken = null;
 						$dbdevicename = null;
 						$dbdevicealias = null;
-						$sqlgetres = '
+						$sqlGetRes = '
 							SELECT id, name, nametoken, alias
 							FROM *PREFIX*phonetrack_devices
 							WHERE sessionid='.$this->db_quote_escape_string($token).'
 								  AND nametoken='.$this->db_quote_escape_string($devicename).' ;';
-						$req = $this->dbconnection->prepare($sqlgetres);
-						$req->execute();
-						while ($row = $req->fetch()) {
-							$dbdeviceid = (int)$row['id'];
+						$req = $this->dbconnection->prepare($sqlGetRes);
+						$res = $req->execute();
+						while ($row = $res->fetch()) {
+							$dbdeviceId = (int)$row['id'];
 							$dbdevicename = $row['name'];
 							$dbdevicealias = $row['alias'];
 							$dbdevicenametoken = $row['nametoken'];
 						}
-						$req->closeCursor();
+						$res->closeCursor();
 
 						// there is a device which has this nametoken => we log for this device
 						if ($dbdevicenametoken !== null && $dbdevicenametoken !== '') {
-							$deviceidToInsert = $dbdeviceid;
+							$deviceIdToInsert = $dbdeviceId;
 							if (!empty($dbdevicealias)) {
 								$humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
 							} else {
@@ -1314,20 +1315,19 @@ class LogController extends Controller {
 								') ;';
 							$req = $this->dbconnection->prepare($sql);
 							$req->execute();
-							$req->closeCursor();
 
 							// get the newly created device id
-							$sqlgetdid = '
+							$sqlGetdeviceId = '
 								SELECT id
 								FROM *PREFIX*phonetrack_devices
 								WHERE sessionid='.$this->db_quote_escape_string($token).'
 									  AND name='.$this->db_quote_escape_string($devicename).' ;';
-							$req = $this->dbconnection->prepare($sqlgetdid);
-							$req->execute();
-							while ($row = $req->fetch()) {
-								$deviceidToInsert = (int)$row['id'];
+							$req = $this->dbconnection->prepare($sqlGetdeviceId);
+							$res = $req->execute();
+							while ($row = $res->fetch()) {
+								$deviceIdToInsert = (int)$row['id'];
 							}
-							$req->closeCursor();
+							$res->closeCursor();
 						}
 					}
 
@@ -1354,7 +1354,7 @@ class LogController extends Controller {
 								$d = DateTime::createFromFormat('F d, Y \a\t h:iA', $datetime, $dateTimeZone);
 								$time = $d->getTimestamp();
 							} catch (Exception | Throwable $e) {
-								return $res;
+								return $result;
 							}
 						}
 					}
@@ -1364,13 +1364,13 @@ class LogController extends Controller {
 					}
 
 					// geofences, proximity alerts, quota
-					$this->checkGeoFences($lat, $lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
-					$this->checkProxims($lat, $lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
-					$quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname);
+					$this->checkGeoFences($lat, $lon, $deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+					$this->checkProxims($lat, $lon, $deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+					$quotaClearance = $this->checkQuota($deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname);
 
 					if (!$quotaClearance) {
-						$res['done'] = 2;
-						return $res;
+						$result['done'] = 2;
+						return $result;
 					}
 
 					$lat = $this->db_quote_escape_string(number_format($lat, 8, '.', ''));
@@ -1387,7 +1387,7 @@ class LogController extends Controller {
 						INSERT INTO *PREFIX*phonetrack_points
 						(deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
 						VALUES ('.
-							$this->db_quote_escape_string($deviceidToInsert).','.
+							$this->db_quote_escape_string($deviceIdToInsert).','.
 							$lat.','.
 							$lon.','.
 							$time.','.
@@ -1401,9 +1401,8 @@ class LogController extends Controller {
 						) ;';
 					$req = $this->dbconnection->prepare($sql);
 					$req->execute();
-					$req->closeCursor();
 
-					$res['done'] = 1;
+					$result['done'] = 1;
 
 					if ($isPublicSession && $useragent === self::LOG_OWNTRACKS) {
 						$friendSQL = '
@@ -1421,10 +1420,10 @@ class LogController extends Controller {
 							JOIN `*PREFIX*phonetrack_devices` d ON p.`deviceid` = d.`id`
 							WHERE `sessionid` = ?
 						';
-						$friendReq = $this->dbconnection->prepare($friendSQL);
-						$friendReq->execute([$token]);
-						$result = [];
-						while ($row = $friendReq->fetch()) {
+						$friendRequest = $this->dbconnection->prepare($friendSQL);
+						$res = $friendRequest->execute([$token]);
+						$friends = [];
+						while ($row = $res->fetch()) {
 							// we don't store the tid, so we fall back to the last
 							// two chars of the nametoken
 							// TODO feels far from unique, currently 32 ids max
@@ -1461,29 +1460,25 @@ class LogController extends Controller {
 								// Accuracy of the reported location in meters without unit (iOS/integer/meters/optional)
 								$location['acc'] = (int)$row['accuracy'];
 							}
-							$result[] = $location;
-							$result[] = [
+							$friends[] = $location;
+							$friends[] = [
 								'_type' => 'card',
 								'tid' => $tid,
 								//'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
 								'name' => $row['name'],
 							];
 						}
-						$res['friends'] = $result;
+						$result['friends'] = $friends;
 					}
 				} else {
-					$res['done'] = 3;
+					$result['done'] = 3;
 				}
 			}
 		}
-		return $res;
+		return $result;
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * @param string $token
 	 * @param string $devicename
 	 * @param array $points
@@ -1491,94 +1486,97 @@ class LogController extends Controller {
 	 * @throws \Doctrine\DBAL\Exception
 	 * @throws \OCP\DB\Exception
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logPostMultiple(string $token, string $devicename, array $points) {
-		$res = [
+		$result = [
 			'done' => 0,
 			'friends' => [],
 		];
 		if ($devicename !== '' && $token !== '') {
 			// check if session exists
-			$sqlchk = '
+			$sqlCheck = '
 				SELECT `name`, `user`, `public`, `locked`
 				FROM `*PREFIX*phonetrack_sessions`
 				WHERE `token`=?
 			';
-			$req = $this->dbconnection->prepare($sqlchk);
-			$req->execute([$token]);
+			$req = $this->dbconnection->prepare($sqlCheck);
+			$res = $req->execute([$token]);
 			$dbname = null;
 			$userid = null;
 			$locked = null;
 			$isPublicSession = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				$userid = $row['user'];
 				$locked = (((int)$row['locked']) === 1);
 				$isPublicSession = (bool)$row['public'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
-			// is it a sharetoken?
+			// is it a share token?
 			if ($dbname === null) {
-				$dbtoken = null;
+				$dbToken = null;
 				// get real token from sharetoken
-				$sqlget = '
+				$sqlGet = '
 					SELECT sessionid
 					FROM *PREFIX*phonetrack_shares
 					WHERE sharetoken='.$this->db_quote_escape_string($token).';';
-				$req = $this->dbconnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
-					$dbtoken = $row['sessionid'];
+				$req = $this->dbconnection->prepare($sqlGet);
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
+					$dbToken = $row['sessionid'];
 				}
-				$req->closeCursor();
-				if ($dbtoken !== null) {
-					$token = $dbtoken;
+				$res->closeCursor();
+				if ($dbToken !== null) {
+					$token = $dbToken;
 					// get session info
-					$sqlchk = '
+					$sqlCheck = '
 						SELECT `name`, `user`, `public`, `locked`
 						FROM `*PREFIX*phonetrack_sessions`
 						WHERE `token`=?
 					';
-					$req = $this->dbconnection->prepare($sqlchk);
-					$req->execute([$token]);
+					$req = $this->dbconnection->prepare($sqlCheck);
+					$res = $req->execute([$token]);
 					$dbname = null;
 					$userid = null;
 					$locked = null;
 					$isPublicSession = null;
-					while ($row = $req->fetch()) {
+					while ($row = $res->fetch()) {
 						$dbname = $row['name'];
 						$userid = $row['user'];
 						$locked = (((int)$row['locked']) === 1);
 						$isPublicSession = (bool)$row['public'];
 						break;
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 				}
 			}
 
 			if ($dbname !== null) {
 				if (!$locked) {
 					$humanReadableDeviceName = $devicename;
-					// check if this devicename is reserved or exists
+					// check if this device name is reserved or exists
 					$dbdevicename = null;
 					$dbdevicealias = null;
 					$dbdevicenametoken = null;
-					$deviceidToInsert = null;
+					$deviceIdToInsert = null;
 					$sqlgetres = '
 						SELECT id, name, nametoken, alias
 						FROM *PREFIX*phonetrack_devices
 						WHERE sessionid='.$this->db_quote_escape_string($token).'
 							  AND name='.$this->db_quote_escape_string($devicename).' ;';
 					$req = $this->dbconnection->prepare($sqlgetres);
-					$req->execute();
-					while ($row = $req->fetch()) {
-						$dbdeviceid = $row['id'];
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
+						$dbDeviceId = $row['id'];
 						$dbdevicename = $row['name'];
 						$dbdevicealias = $row['alias'];
 						$dbdevicenametoken = $row['nametoken'];
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 
 					// the device exists
 					if ($dbdevicename !== null) {
@@ -1592,12 +1590,12 @@ class LogController extends Controller {
 							// here, we check if we're logged in as the session owner
 							if ($this->userId !== '' && $this->userId !== null && $userid === $this->userId) {
 								// if so, accept to (manually) log with name and not nametoken
-								$deviceidToInsert = $dbdeviceid;
+								$deviceIdToInsert = $dbDeviceId;
 							} else {
-								return $res;
+								return $result;
 							}
 						} else {
-							$deviceidToInsert = $dbdeviceid;
+							$deviceIdToInsert = $dbDeviceId;
 						}
 					}
 					// the device with this device name does not exist
@@ -1614,7 +1612,7 @@ class LogController extends Controller {
 						$req = $this->dbconnection->prepare($sqlgetres);
 						$req->execute();
 						while ($row = $req->fetch()) {
-							$dbdeviceid = (int)$row['id'];
+							$dbDeviceId = (int)$row['id'];
 							$dbdevicename = $row['name'];
 							$dbdevicealias = $row['alias'];
 							$dbdevicenametoken = $row['nametoken'];
@@ -1623,9 +1621,9 @@ class LogController extends Controller {
 
 						// there is a device which has this nametoken => we log for this device
 						if ($dbdevicenametoken !== null && $dbdevicenametoken !== '') {
-							$deviceidToInsert = $dbdeviceid;
+							$deviceIdToInsert = $dbDeviceId;
 							if (!empty($dbdevicealias)) {
-								$humanReadableDeviceName = $dbdevicealias.' ('.$dbdevicename.')';
+								$humanReadableDeviceName = $dbdevicealias . ' (' . $dbdevicename . ')';
 							} else {
 								$humanReadableDeviceName = $dbdevicename;
 							}
@@ -1641,30 +1639,29 @@ class LogController extends Controller {
 								') ;';
 							$req = $this->dbconnection->prepare($sql);
 							$req->execute();
-							$req->closeCursor();
 
 							// get the newly created device id
-							$sqlgetdid = '
+							$sqlGetDeviceId = '
 								SELECT id
 								FROM *PREFIX*phonetrack_devices
 								WHERE sessionid='.$this->db_quote_escape_string($token).'
 									  AND name='.$this->db_quote_escape_string($devicename).' ;';
-							$req = $this->dbconnection->prepare($sqlgetdid);
-							$req->execute();
-							while ($row = $req->fetch()) {
-								$deviceidToInsert = (int)$row['id'];
+							$req = $this->dbconnection->prepare($sqlGetDeviceId);
+							$res = $req->execute();
+							while ($row = $res->fetch()) {
+								$deviceIdToInsert = (int)$row['id'];
 							}
-							$req->closeCursor();
+							$res->closeCursor();
 						}
 					}
 
 					// check quota once before inserting anything
 					// it will delete points to make room if needed
-					$quotaClearance = $this->checkQuota($deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, count($points));
+					$quotaClearance = $this->checkQuota($deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname, count($points));
 
 					if (!$quotaClearance) {
-						$res['done'] = 2;
-						return $res;
+						$result['done'] = 2;
+						return $result;
 					}
 
 					// check geofences and proxims only once with the last point
@@ -1672,8 +1669,8 @@ class LogController extends Controller {
 						$lastPointToInsert = $points[count($points) - 1];
 						$lat = $lastPointToInsert[0];
 						$lon = $lastPointToInsert[1];
-						$this->checkGeoFences((float)$lat, (float)$lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
-						$this->checkProxims((float)$lat, (float)$lon, $deviceidToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+						$this->checkGeoFences((float)$lat, (float)$lon, $deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
+						$this->checkProxims((float)$lat, (float)$lon, $deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
 					}
 
 					$valuesToInsert = [];
@@ -1712,7 +1709,7 @@ class LogController extends Controller {
 							$bearing = is_numeric($bearing) ? $this->db_quote_escape_string(number_format((float) $bearing, 2, '.', '')) : 'NULL';
 
 							$value = '('.
-									  $this->db_quote_escape_string($deviceidToInsert).','.
+									  $this->db_quote_escape_string($deviceIdToInsert).','.
 									  $lat.','.
 									  $lon.','.
 									  $time.','.
@@ -1735,7 +1732,6 @@ class LogController extends Controller {
 									VALUES '.implode(', ', $valuesToInsert).' ;';
 								$req = $this->dbconnection->prepare($sql);
 								$req->execute();
-								$req->closeCursor();
 								$valuesToInsert = [];
 							}
 						}
@@ -1748,10 +1744,9 @@ class LogController extends Controller {
 							VALUES '.implode(', ', $valuesToInsert).' ;';
 						$req = $this->dbconnection->prepare($sql);
 						$req->execute();
-						$req->closeCursor();
 					}
 
-					$res['done'] = 1;
+					$result['done'] = 1;
 
 					if ($isPublicSession && $useragent === self::LOG_OWNTRACKS) {
 						$friendSQL = '
@@ -1770,9 +1765,9 @@ class LogController extends Controller {
 							AND p.`timestamp` = l.`lastupdate`
 						';
 						$friendReq = $this->dbconnection->prepare($friendSQL);
-						$friendReq->execute([$token]);
-						$result = [];
-						while ($row = $friendReq->fetch()) {
+						$res = $friendReq->execute([$token]);
+						$friends = [];
+						while ($row = $res->fetch()) {
 							// we don't store the tid, so we fall back to the last
 							// two chars of the nametoken
 							// TODO feels far from unique, currently 32 ids max
@@ -1809,34 +1804,33 @@ class LogController extends Controller {
 								// Accuracy of the reported location in meters without unit (iOS/integer/meters/optional)
 								$location['acc'] = (int)$row['accuracy'];
 							}
-							$result[] = $location;
-							$result[] = [
+							$friends[] = $location;
+							$friends[] = [
 								'_type' => 'card',
 								'tid' => $tid,
 								//'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
 								'name' => $row['name'],
 							];
 						}
-						$res['friends'] = $result;
+						$result['friends'] = $friends;
 					}
 				} else {
-					$res['done'] = 3;
+					$result['done'] = 3;
 				}
 			}
 		}
-		return $res;
+		return $result;
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 **/
-	public function logGet(string $token, string $devicename, float $lat, float $lon, ?int $timestamp, ?float $bat = null,
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
+	public function logGet(
+		string $token, string $devicename, float $lat, float $lon, ?int $timestamp, ?float $bat = null,
 		?int $sat = null, ?float $acc = null, ?float $alt = null,
 		?float $speed = null, ?float $bearing = null, ?string $datetime = null,
-		string $useragent = 'unknown GET logger') {
+		string $useragent = 'unknown GET logger'
+	) {
 		$dName = $this->chooseDeviceName($devicename);
 		if ($bat !== null) {
 			$bat = (int) $bat;
@@ -1844,12 +1838,9 @@ class LogController extends Controller {
 		return $this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing, $datetime);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logLocusmapGet(
 		string $token, string $devicename, float $lat, float $lon, ?int $time = null,
 		?float $battery = null, ?float $acc = null, ?float $alt = null,
@@ -1862,12 +1853,9 @@ class LogController extends Controller {
 		$this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logLocusmapPost(string $token, string $devicename, float $lat, float $lon, ?int $time = null,
 		?float $battery = null, ?float $acc = null, ?float $alt = null,
 		?float $speed = null, ?float $bearing = null) {
@@ -1878,12 +1866,9 @@ class LogController extends Controller {
 		$this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logOsmand(
 		string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
 		?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
@@ -1896,12 +1881,9 @@ class LogController extends Controller {
 		$this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logGpsloggerGet(
 		string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
 		?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
@@ -1914,12 +1896,9 @@ class LogController extends Controller {
 		$this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
 	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logGpsloggerPost(string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
 		?int $timestamp = null, ?float $acc = null, ?float $bat = null, $sat = null,
 		?float $speed = null, ?float $bearing = null) {
@@ -1931,11 +1910,8 @@ class LogController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * Owntracks IOS
+	 *
 	 * @param string $token
 	 * @param float|null $lat
 	 * @param float|null $lon
@@ -1947,6 +1923,9 @@ class LogController extends Controller {
 	 * @param float|null $batt
 	 * @return mixed
 	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logOwntracks(
 		string $token, ?float $lat, ?float $lon, ?string $devicename = null, ?string $tid = null,
 		?float $alt = null, ?int $tst = null, ?float $acc = null, ?float $batt = null
@@ -1964,12 +1943,11 @@ class LogController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * Overland Ios
 	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logOverland(string $token, array $locations, ?string $devicename = null) {
 		foreach ($locations as $loc) {
 			if ($loc['type'] === 'Feature' && $loc['geometry']['type'] === 'Point') {
@@ -1991,12 +1969,11 @@ class LogController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * Ulogger Android
 	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logUlogger(string $token, ?float $lat = null, ?float $lon = null, ?int $time = null, ?string $devicename = null,
 		?float $accuracy = null, ?float $altitude = null,
 		?string $action = null, ?float $speed = null, ?float $bearing = null) {
@@ -2011,12 +1988,11 @@ class LogController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
 	 * traccar Android/IOS
 	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logTraccar(
 		string $token, float $lat, float $lon, ?int $timestamp = null,
 		?string $devicename = null, ?string $id = null, ?float $accuracy = null,
@@ -2036,12 +2012,11 @@ class LogController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * any OpenGTS-compliant app
+	 * Any OpenGTS-compliant app
 	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logOpengts(
 		string $token, string $gprmc,
 		?string $devicename = null, ?string $id = null, ?float $alt = null, ?float $batt = null
@@ -2068,12 +2043,11 @@ class LogController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 *
-	 * in case there is a POST request (like celltrackGTS does)
+	 * In case there is a POST request (like celltrackGTS does)
 	 **/
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[PublicPage]
 	public function logOpengtsPost($token, $devicename, $id, $dev, $acct, $alt, $batt, $gprmc) {
 		return [];
 	}

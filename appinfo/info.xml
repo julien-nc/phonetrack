@@ -29,6 +29,9 @@
     <settings>
         <admin>OCA\PhoneTrack\Settings\Admin</admin>
     </settings>
+	<commands>
+		<command>OCA\PhoneTrack\Command\AutoExport</command>
+	</commands>
     <activity>
         <settings>
             <setting>OCA\PhoneTrack\Activity\Setting</setting>
