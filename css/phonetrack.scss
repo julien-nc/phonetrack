@@ -448,11 +448,17 @@ input[role=precision] {
 	border-radius: var(--border-radius, 4px);
 	padding: 5px;
 }
+#filterPointsTable td:nth-child(2) {
+	display: flex;
+	align-items: center;
+	gap: 2px;
+}
 #filterPointsTable td {
 	padding: 3px;
 }
 #filterPointsTable input[type=number].time {
 	width: 44px !important;
+	margin: 0 !important;
 }
 #filterPointsTable td {
 	word-wrap: break-word;
@@ -504,7 +510,7 @@ input[type=date] {
 #filterPointsTable input[type=number],
 .editPoint input[type=number] {
 	-moz-appearance: number-input !important;
-	-webkit-appearance: initial !important;
+	//-webkit-appearance: initial !important;
 	padding: 5px !important;
 }
 .editPoint input[type=number] {
