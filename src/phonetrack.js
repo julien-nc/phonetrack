@@ -12,9 +12,7 @@
 // if we want to use d3 (but it's already exposed to leaflet-elevations with webpack plugin)
 // import * as d3 from 'd3'
 import $ from 'jquery'
-import 'webpack-jquery-ui'
 import L from 'leaflet'
-// import 'leaflet/dist/leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'mapbox-gl/dist/mapbox-gl.js'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -38,7 +36,7 @@ import Countdown from 'ds-countdown/lib/countdown.bundle.js'
 import moment from '@nextcloud/moment'
 import axios from '@nextcloud/axios'
 
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, imagePath } from '@nextcloud/router'
 
 import { escapeHtml } from './utils.js'
 
@@ -424,6 +422,7 @@ import '../css/phonetrack.scss'
 			// minSize: [70, 70],
 			// maxSize: [70, 70],
 			size: [55, 55],
+			initOpen: true,
 		})
 			.setContent(notificationText)
 
@@ -794,7 +793,10 @@ import '../css/phonetrack.scss'
 	/// ///////////// ANIMATIONS /////////////////////
 
 	function showLoadingAnimation() {
-		phonetrack.notificationDialog.addTo(phonetrack.map)
+		phonetrack.notificationDialog
+			.addTo(phonetrack.map)
+			.freeze()
+			.hideClose()
 		$('#loadingpc').text('')
 	}
 
@@ -4985,9 +4987,41 @@ import '../css/phonetrack.scss'
 			{ sessionName, loggingApp: loggerName },
 		)
 
-		$('#trackurlinput').show().val(url)
-		$('#trackurlhint').show()
-		$('#trackurlqrcode').html('')
+		const dialogContent = document.createElement('div')
+		dialogContent.style = 'padding: 10px; display: flex; flex-direction: column; align-items: center;'
+		const titleElem = document.createElement('p')
+		titleElem.style = 'font-weight: bold;'
+		titleElem.textContent = title
+		dialogContent.appendChild(titleElem)
+		const text1 = document.createElement('p')
+		text1.textContent = content
+		dialogContent.appendChild(text1)
+
+		const input = document.createElement('input')
+		input.setAttribute('type', 'text')
+		input.value = url
+		input.style = 'width: 100%;'
+		dialogContent.appendChild(input)
+
+		const text2 = document.createElement('p')
+		text2.textContent = t('phonetrack', 'Replace \'yourname\' with the desired device name or with the name reservation token')
+		dialogContent.appendChild(text2)
+
+		const dialog = L.control.dialog({
+			anchor: [0, 0],
+			position: 'topleft',
+			// minSize: [70, 70],
+			// maxSize: [70, 70],
+			size: [500, 350],
+			initOpen: true,
+		})
+			.setContent(dialogContent)
+			.addTo(phonetrack.map)
+			.showClose()
+			.unfreeze()
+
+		input.select()
+
 		const img = new Image()
 		// wait for the image to be loaded to generate the QRcode
 		img.onload = function() {
@@ -5009,7 +5043,7 @@ import '../css/phonetrack.scss'
 				image: img,
 				label: 'no label',
 			})
-			$('#trackurlqrcode').append(qr)
+			dialogContent.appendChild(qr)
 		}
 		img.onerror = function() {
 			const qr = kjua({
@@ -5031,25 +5065,9 @@ import '../css/phonetrack.scss'
 				label: logger,
 				fontcolor: '#000000',
 			})
-			$('#trackurlqrcode').append(qr)
+			dialogContent.appendChild(qr)
 		}
-		// dirty trick to get image URL from css url()... Anyone knows better ?
-		let srcurl = $('#dummylogo').css('content').replace('url("', '').replace('")', '')
-		if (logger !== 'opengts') {
-			srcurl = srcurl.replace('phonetrack.png', 'ext_logos/' + logger + '.png')
-		}
-		img.src = srcurl
-		$('#trackurllabel').text(content)
-
-		$('#trackurldialog').dialog({
-			title,
-			width: 500,
-			height: 450,
-			open(ui) {
-				$('.ui-dialog-titlebar-close', ui.dialog | ui).html('<i class="far fa-times-circle"></i>')
-			},
-		})
-		$('#trackurlinput').select()
+		img.src = imagePath('phonetrack', 'ext_logos/' + logger + '.png')
 	}
 
 	function updateProximSessionsSelect(tog) {
@@ -5600,9 +5618,29 @@ import '../css/phonetrack.scss'
 				const lat = p[0]
 				const lon = p[1]
 				const geourl = 'geo:' + lat + ',' + lon
-				$('#trackurlinput').hide()
-				$('#trackurlhint').hide()
-				$('#trackurlqrcode').html('')
+
+				const dialogContent = document.createElement('div')
+				dialogContent.style = 'display: flex; flex-direction: column; align-items: center;'
+				const title = document.createElement('p')
+				title.textContent = t('phonetrack', 'Geo QRcode : last position of {dname}', { dname })
+				dialogContent.appendChild(title)
+				const geoText = document.createElement('p')
+				geoText.textContent = geourl
+				dialogContent.appendChild(geoText)
+
+				const urlDialog = L.control.dialog({
+					anchor: [0, 0],
+					position: 'topleft',
+					// minSize: [70, 70],
+					// maxSize: [70, 70],
+					size: [250, 260],
+					initOpen: true,
+				})
+					.setContent(dialogContent)
+					.addTo(phonetrack.map)
+					.showClose()
+					.unfreeze()
+
 				const img = new Image()
 				// wait for the image to be loaded to generate the QRcode
 				img.onload = function() {
@@ -5624,7 +5662,7 @@ import '../css/phonetrack.scss'
 						image: img,
 						label: 'no label',
 					})
-					$('#trackurlqrcode').append(qr)
+					dialogContent.appendChild(qr)
 				}
 				img.onerror = function() {
 					const qr = kjua({
@@ -5646,21 +5684,9 @@ import '../css/phonetrack.scss'
 						label: '===>',
 						fontcolor: '#000000',
 					})
-					$('#trackurlqrcode').append(qr)
+					dialogContent.appendChild(qr)
 				}
-				// dirty trick to get image URL from css url()... Anyone knows better ?
-				img.src = $('#dummylogo').css('content').replace('url("', '').replace('")', '').replace('phonetrack.png', 'marker-icon.png')
-
-				$('#trackurllabel').text(geourl)
-
-				$('#trackurldialog').dialog({
-					title: t('phonetrack', 'Geo QRcode : last position of {dname}', { dname }),
-					width: 250,
-					height: 300,
-					open(ui) {
-						$('.ui-dialog-titlebar-close', ui.dialog | ui).html('<i class="far fa-times-circle"></i>')
-					},
-				})
+				img.src = imagePath('phonetrack', 'marker-icon.png')
 			}
 		})
 

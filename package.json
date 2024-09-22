@@ -59,8 +59,7 @@
 		"leaflet.locatecontrol": "^0.81.1",
 		"lodash": "^4.17.21",
 		"mapbox-gl": "2.4.1",
-		"mapbox-gl-leaflet": "^0.0.15",
-		"webpack-jquery-ui": "^2.0.1"
+		"mapbox-gl-leaflet": "^0.0.15"
 	},
 	"devDependencies": {
 		"@nextcloud/babel-config": "^1.0.0",

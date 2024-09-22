@@ -18,7 +18,10 @@ export default createAppConfig({
 				localsConvention: 'camelCase',
 			},
 		},
-		// plugins: [eslint(), stylelint()],
+		plugins: [
+			// eslint(),
+			// stylelint(),
+		],
 	},
 	inlineCSS: { relativeCSSInjection: true },
 	minify: isProduction,

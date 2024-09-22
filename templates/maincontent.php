@@ -230,7 +230,6 @@
 			</div>
 			<input id="tracknamecolor" type="text" style="display:none;"></input>
 			<input id="colorinput" type="color"></input>
-			<img id="dummylogo"/>
 			<?php
 
 			echo '<p id="username" style="display:none">';

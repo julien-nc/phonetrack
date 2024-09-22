@@ -1021,14 +1021,16 @@ input.geofencename {
 .leaflet-control-dialog-contents {
 	padding: 2px 0px !important;
 	overflow: visible !important;
+	color: var(--color-main-text);
+	background-color: var(--color-main-background);
 }
 .leaflet-control-dialog-inner {
 	padding: 0px 0px !important;
 	overflow: visible !important;
 }
-.leaflet-control-dialog i:not(.display) {
-	display: none;
-}
+//.leaflet-control-dialog i:not(.display) {
+//	display: none;
+//}
 #loadingnotification {
 	padding-top: 7px;
 }
@@ -1132,10 +1134,6 @@ a.icon-active span {
 }
 .leaflet-bar button:hover, leaflet-bar a:hover {
   background-color: var(--color-background-darker);
-}
-#dummylogo {
-	display: none;
-	content: url("images/phonetrack.png");
 }
 /* jquery dialog */
 .ui-dialog-titlebar-close {
