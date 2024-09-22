@@ -19,8 +19,8 @@ export default createAppConfig({
 			},
 		},
 		plugins: [
-			// eslint(),
-			// stylelint(),
+			eslint(),
+			stylelint(),
 		],
 	},
 	inlineCSS: { relativeCSSInjection: true },

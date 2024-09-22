@@ -438,10 +438,14 @@ import '../css/phonetrack.scss'
 		}
 		// L.control.sidebar('sidebar').addTo(phonetrack.map)
 		L.control.sidebar({
-			autopan: false,       // whether to maintain the centered map point when opening the sidebar
-			closeButton: true,    // whether t add a close button to the panes
-			container: 'sidebar', // the DOM container or #ID of a predefined sidebar container that should be used
-			position: 'left',     // left or right
+			// whether to maintain the centered map point when opening the sidebar
+			autopan: false,
+			// whether t add a close button to the panes
+			closeButton: true,
+			// the DOM container or #ID of a predefined sidebar container that should be used
+			container: 'sidebar',
+			// left or right
+			position: 'left',
 		}).addTo(phonetrack.map)
 
 		phonetrack.map.setView(new L.LatLng(27, 5), 3)
@@ -5007,7 +5011,7 @@ import '../css/phonetrack.scss'
 		text2.textContent = t('phonetrack', 'Replace \'yourname\' with the desired device name or with the name reservation token')
 		dialogContent.appendChild(text2)
 
-		const dialog = L.control.dialog({
+		L.control.dialog({
 			anchor: [0, 0],
 			position: 'topleft',
 			// minSize: [70, 70],
@@ -5628,7 +5632,7 @@ import '../css/phonetrack.scss'
 				geoText.textContent = geourl
 				dialogContent.appendChild(geoText)
 
-				const urlDialog = L.control.dialog({
+				L.control.dialog({
 					anchor: [0, 0],
 					position: 'topleft',
 					// minSize: [70, 70],
