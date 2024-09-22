@@ -29,8 +29,8 @@ import 'leaflet-mouse-position/src/L.Control.MousePosition.css'
 import 'leaflet-easybutton/src/easy-button.js'
 import 'leaflet-easybutton/src/easy-button.css'
 import 'leaflet-polylinedecorator/dist/leaflet.polylineDecorator.js'
-import 'leaflet-sidebar-v2/js/leaflet-sidebar.min.js'
-import 'leaflet-sidebar-v2/css/leaflet-sidebar.min.css'
+import 'leaflet-sidebar-v2/js/leaflet-sidebar.js'
+import 'leaflet-sidebar-v2/css/leaflet-sidebar.css'
 import 'leaflet-dialog/Leaflet.Dialog.js'
 import 'leaflet-dialog/Leaflet.Dialog.css'
 import 'leaflet-hotline/dist/leaflet.hotline.min.js'
@@ -45,8 +45,6 @@ import { escapeHtml } from './utils.js'
 import '../css/phonetrack.scss'
 
 (function($, OC) {
-	'use strict'
-
 	/// ///////////// VAR DEFINITION /////////////////////
 
 	const colorCodeBright = [
@@ -966,7 +964,7 @@ import '../css/phonetrack.scss'
 		const req = {
 		}
 		let optionsValues = {}
-		axios.post(url, req).then((response) => {
+		return axios.post(url, req).then((response) => {
 			optionsValues = response.data.values
 			if (optionsValues) {
 				let elem, tag, type, k
@@ -1020,8 +1018,6 @@ import '../css/phonetrack.scss'
 					}
 				}
 			}
-			// quite important ;-)
-			main()
 		}).catch((error) => {
 			console.error(error)
 			OC.Notification.showTemporary(
@@ -5084,7 +5080,10 @@ import '../css/phonetrack.scss'
 		phonetrack.pageIsPublicWebLog = (document.URL.indexOf('/publicWebLog') !== -1)
 		phonetrack.pageIsPublicSessionWatch = (document.URL.indexOf('/publicSessionWatch') !== -1)
 		if (!pageIsPublic()) {
-			restoreOptions()
+			restoreOptions().then(() => {
+				// quite important ;-)
+				main()
+			})
 		} else {
 			restoreOptionsFromUrlParams()
 			main()
