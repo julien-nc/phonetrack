@@ -437,7 +437,13 @@ import '../css/phonetrack.scss'
 		if (OCA.Theming) {
 			// what?
 		}
-		L.control.sidebar('sidebar').addTo(phonetrack.map)
+		// L.control.sidebar('sidebar').addTo(phonetrack.map)
+		L.control.sidebar({
+			autopan: false,       // whether to maintain the centered map point when opening the sidebar
+			closeButton: true,    // whether t add a close button to the panes
+			container: 'sidebar', // the DOM container or #ID of a predefined sidebar container that should be used
+			position: 'left',     // left or right
+		}).addTo(phonetrack.map)
 
 		phonetrack.map.setView(new L.LatLng(27, 5), 3)
 
