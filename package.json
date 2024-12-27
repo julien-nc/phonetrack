@@ -6,11 +6,10 @@
 	"directories": {
 		"test": "tests"
 	},
-	"type": "module",
 	"scripts": {
-		"build": "NODE_ENV=production vite --mode production build",
-		"dev": "NODE_ENV=development vite --mode development build",
-		"watch": "NODE_ENV=development vite --mode development build --watch",
+    "dev": "NODE_ENV=development npx webpack --progress --config webpack.js",
+		"watch": "NODE_ENV=development npx webpack --progress --watch --config webpack.js",
+		"build": "NODE_ENV=production npx webpack --progress --config webpack.js",
 		"lint": "eslint --ext .js,.vue src",
 		"lint:fix": "eslint --ext .js,.vue src --fix",
 		"stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css",
@@ -67,6 +66,9 @@
 		"@nextcloud/eslint-config": "^8.0.0",
 		"@nextcloud/stylelint-config": "^3.0.1",
 		"@nextcloud/vite-config": "^1.4.2",
+    "@nextcloud/webpack-vue-config": "^6.2.0",
+		"eslint-webpack-plugin": "^4.2.0",
+		"stylelint-webpack-plugin": "^5.0.1",
 		"vite-plugin-eslint": "^1.8.1",
 		"vite-plugin-stylelint": "^5.3.1"
 	}

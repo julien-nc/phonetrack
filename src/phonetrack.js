@@ -34,7 +34,7 @@ import 'leaflet-dialog/Leaflet.Dialog.css'
 import 'leaflet-hotline/dist/leaflet.hotline.min.js'
 import Countdown from 'ds-countdown/lib/countdown.bundle.js'
 import moment from '@nextcloud/moment'
-import axios from '@nextcloud/axios'
+import axios, { isCancel } from '@nextcloud/axios'
 
 import { generateUrl, imagePath } from '@nextcloud/router'
 
@@ -2098,7 +2098,7 @@ import '../css/phonetrack.scss'
 			}).then((response) => {
 				displayNewPoints(response.data.sessions, response.data.colors, response.data.names, response.data.geofences, response.data.aliases, response.data.proxims, response.data.shapes)
 			}).catch((error) => {
-				if (axios.isCancel(error)) {
+				if (isCancel(error)) {
 					console.debug('refresh was canceled')
 				} else {
 					console.error(error)
