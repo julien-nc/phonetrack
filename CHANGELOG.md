@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.8.2 – 2024-12-27
+
+### Added
+
+- command to manually trigger auto export
+
+### Changed
+
+- set max NC version to 31
+- get rid of jquery-ui
+
+### Fixed
+
+- small style issues in filters
+
 ## 0.8.1 – 2024-04-28
 
 ### Added
