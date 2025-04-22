@@ -4089,7 +4089,7 @@ class PageController extends Controller {
 				$req->closeCursor();
 
 				$entries = [];
-				$sqlLimit = '';
+				$sqlLimit = 'LIMIT 1000';
 				if (is_numeric($limit)) {
 					$sqlLimit = 'LIMIT '.intval($limit);
 				}
