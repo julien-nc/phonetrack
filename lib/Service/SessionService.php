@@ -66,7 +66,7 @@ class SessionService {
 		IUserManager $userManager,
 		IDBConnection $db,
 		IRootFolder $root,
-		IConfig $config
+		IConfig $config,
 	) {
 		$this->sessionMapper = $sessionMapper;
 		$this->userManager = $userManager;
@@ -233,7 +233,7 @@ class SessionService {
 
 		date_default_timezone_set('UTC');
 
-		foreach($this->userManager->search('') as $u) {
+		foreach ($this->userManager->search('') as $u) {
 			$userId = $u->getUID();
 			$userFolder = $this->root->getUserFolder($userId);
 
@@ -646,7 +646,7 @@ class SessionService {
 			' xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1"' .
 			' xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"' .
 			' creator="PhoneTrack Nextcloud app ' .
-			$this->appVersion. '" version="1.1"' .
+			$this->appVersion . '" version="1.1"' .
 			' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
 			' xsi:schemaLocation="http://www.topografix.com/GPX/1/1' .
 			' http://www.topografix.com/GPX/1/1/gpx.xsd' .
@@ -659,7 +659,7 @@ class SessionService {
 		$gpxText .= '<metadata>' . "\n" . ' <time>' . $date . '</time>' . "\n";
 		$gpxText .= ' <name>' . $name . '</name>' . "\n";
 		if ($nbdev > 0) {
-			$gpxText .= ' <desc>' . $nbdev . ' device'.($nbdev > 1 ? 's' : '').'</desc>' . "\n";
+			$gpxText .= ' <desc>' . $nbdev . ' device' . ($nbdev > 1 ? 's' : '') . '</desc>' . "\n";
 		}
 		$gpxText .= '</metadata>' . "\n";
 		return $gpxText;
@@ -669,9 +669,9 @@ class SessionService {
 		$sqlget = '
 			SELECT count(*) AS co
 			FROM *PREFIX*phonetrack_points
-			WHERE deviceid='.$this->db_quote_escape_string($devid).' ';
+			WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ';
 		if ($filterSql !== '') {
-			$sqlget .= 'AND '.$filterSql;
+			$sqlget .= 'AND ' . $filterSql;
 		}
 		$sqlget .= ' ;';
 		$req = $this->db->prepare($sqlget);
@@ -726,7 +726,7 @@ class SessionService {
 				$bearing = $point['bearing'];
 
 				$gpxExtension = '';
-				$gpxText .= '  <trkpt lat="'.$lat.'" lon="'.$lon.'">' . "\n";
+				$gpxText .= '  <trkpt lat="' . $lat . '" lon="' . $lon . '">' . "\n";
 				$gpxText .= '   <time>' . $date . '</time>' . "\n";
 				if (is_numeric($alt)) {
 					$gpxText .= '   <ele>' . sprintf('%.2f', floatval($alt)) . '</ele>' . "\n";
@@ -750,7 +750,7 @@ class SessionService {
 					$gpxExtension .= '     <useragent>' . $ua . '</useragent>' . "\n";
 				}
 				if ($gpxExtension !== '') {
-					$gpxText .= '   <extensions>'. "\n" . $gpxExtension;
+					$gpxText .= '   <extensions>' . "\n" . $gpxExtension;
 					$gpxText .= '   </extensions>' . "\n";
 				}
 				$gpxText .= '  </trkpt>' . "\n";

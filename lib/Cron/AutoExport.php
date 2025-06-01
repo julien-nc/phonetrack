@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Nextcloud - PhoneTrack
  *
@@ -17,7 +18,7 @@ class AutoExport extends TimedJob {
 
 	public function __construct(
 		ITimeFactory $time,
-		private SessionService $sessionService
+		private SessionService $sessionService,
 	) {
 		parent::__construct($time);
 		// Run each day

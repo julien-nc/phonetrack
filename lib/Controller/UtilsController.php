@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Nextcloud - phonetrack
  *
@@ -63,9 +64,9 @@ class UtilsController extends Controller {
 		$sqlts = '
 			SELECT servername
 			FROM *PREFIX*phonetrack_tileserver
-			WHERE '.$this->dbDoubleQuotes.'user'.$this->dbDoubleQuotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND servername='.$this->db_quote_escape_string($servername).'
-				  AND type='.$this->db_quote_escape_string($type).' ;';
+			WHERE ' . $this->dbDoubleQuotes . 'user' . $this->dbDoubleQuotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND servername=' . $this->db_quote_escape_string($servername) . '
+				  AND type=' . $this->db_quote_escape_string($type) . ' ;';
 		$req = $this->dbConnection->prepare($sqlts);
 		$req->execute();
 		$ts = null;
@@ -79,21 +80,21 @@ class UtilsController extends Controller {
 		if ($ts === null) {
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_tileserver
-				('.$this->dbDoubleQuotes.'user'.$this->dbDoubleQuotes.', type, servername, url, token, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
-				VALUES ('.
-					$this->db_quote_escape_string($this->userId).','.
-					$this->db_quote_escape_string($type).','.
-					$this->db_quote_escape_string($servername).','.
-					$this->db_quote_escape_string($serverurl).','.
-					$this->db_quote_escape_string($token).','.
-					$this->db_quote_escape_string($layers).','.
-					$this->db_quote_escape_string($version).','.
-					$this->db_quote_escape_string($tformat).','.
-					$this->db_quote_escape_string($opacity).','.
-					$this->db_quote_escape_string($transparent).','.
-					$this->db_quote_escape_string($minzoom).','.
-					$this->db_quote_escape_string($maxzoom).','.
-					$this->db_quote_escape_string($attribution).'
+				(' . $this->dbDoubleQuotes . 'user' . $this->dbDoubleQuotes . ', type, servername, url, token, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
+				VALUES (' .
+					$this->db_quote_escape_string($this->userId) . ',' .
+					$this->db_quote_escape_string($type) . ',' .
+					$this->db_quote_escape_string($servername) . ',' .
+					$this->db_quote_escape_string($serverurl) . ',' .
+					$this->db_quote_escape_string($token) . ',' .
+					$this->db_quote_escape_string($layers) . ',' .
+					$this->db_quote_escape_string($version) . ',' .
+					$this->db_quote_escape_string($tformat) . ',' .
+					$this->db_quote_escape_string($opacity) . ',' .
+					$this->db_quote_escape_string($transparent) . ',' .
+					$this->db_quote_escape_string($minzoom) . ',' .
+					$this->db_quote_escape_string($maxzoom) . ',' .
+					$this->db_quote_escape_string($attribution) . '
 				) ;';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
@@ -113,9 +114,9 @@ class UtilsController extends Controller {
 	public function deleteTileServer($servername, $type) {
 		$sqldel = '
 			DELETE FROM *PREFIX*phonetrack_tileserver
-			WHERE '.$this->dbDoubleQuotes.'user'.$this->dbDoubleQuotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND servername='.$this->db_quote_escape_string($servername).'
-				  AND type='.$this->db_quote_escape_string($type).' ;';
+			WHERE ' . $this->dbDoubleQuotes . 'user' . $this->dbDoubleQuotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND servername=' . $this->db_quote_escape_string($servername) . '
+				  AND type=' . $this->db_quote_escape_string($type) . ' ;';
 		$req = $this->dbConnection->prepare($sqldel);
 		$req->execute();
 		$req->closeCursor();

@@ -5,7 +5,8 @@
 	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
 	resolveFromConfigFile="true"
-	phpVersion="8.0"
+	ensureOverrideAttribute="false"
+	phpVersion="8.1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
 	xsi:schemaLocation="https://getpsalm.org/schema/config vendor-bin/psalm/vendor/vimeo/psalm/config.xsd"
@@ -45,12 +46,12 @@
 				<referencedClass name="Doctrine\DBAL\Exception" />
 			</errorLevel>
 		</UndefinedDocblockClass>
-		<InvalidClass>
+		<!--InvalidClass>
 			<errorLevel type="suppress">
 				<referencedClass name="OCP\Db\Exception" />
 				<referencedClass name="OCP\AppFramework\Db\QBMapper" />
 			</errorLevel>
-		</InvalidClass>
+		</InvalidClass-->
 	</issueHandlers>
 	<stubs>
 		<file name="tests/stubs/oc_hooks_emitter.php" />

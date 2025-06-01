@@ -72,7 +72,7 @@ class DeviceMapper extends QBMapper {
 			);
 
 		$req = $qb->executeQuery();
-		return (int) $req->fetchOne();
+		return (int)$req->fetchOne();
 	}
 
 	/**
@@ -95,7 +95,7 @@ class DeviceMapper extends QBMapper {
 		}
 
 		$req = $qb->executeQuery();
-		return (int) $req->fetchOne();
+		return (int)$req->fetchOne();
 	}
 
 	/**

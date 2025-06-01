@@ -146,6 +146,6 @@ class SessionMapper extends QBMapper {
 		}
 
 		$req = $qb->executeQuery();
-		return (int) $req->fetchOne();
+		return (int)$req->fetchOne();
 	}
 }

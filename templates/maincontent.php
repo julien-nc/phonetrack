@@ -25,7 +25,7 @@
 				<p class="version">v
 					<?php
 					p($_['phonetrack_version']);
-					?>
+			?>
 				</p>
 				<div id="topbuttons">
 					<div id="createimportsessiondiv">
@@ -234,29 +234,29 @@
 
 			echo '<p id="username" style="display:none">';
 			p($_['username']);
-			echo '</p>'."\n";
+			echo '</p>' . "\n";
 			echo '<p id="publicsessionname" style="display:none">';
 			p($_['publicsessionname']);
-			echo '</p>'."\n";
+			echo '</p>' . "\n";
 			echo '<p id="lastposonly" style="display:none">';
 			p($_['lastposonly']);
-			echo '</p>'."\n";
+			echo '</p>' . "\n";
 			echo '<p id="sharefilters" style="display:none">';
 			p($_['sharefilters']);
-			echo '</p>'."\n";
+			echo '</p>' . "\n";
 			echo '<ul id="basetileservers" style="display:none">';
-			foreach($_['basetileservers'] as $ts) {
+			foreach ($_['basetileservers'] as $ts) {
 				echo '<li';
 				foreach (['name', 'type', 'url', 'token', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
 					if (array_key_exists($field, $ts)) {
-						echo ' '.$field.'="';
+						echo ' ' . $field . '="';
 						p($ts[$field]);
 						echo '"';
 					}
 				}
 				echo '></li>';
 			}
-			echo '</ul>'."\n";
+			echo '</ul>' . "\n";
 
 			?>
 		</div>
@@ -284,11 +284,11 @@
 						<ul class="disclist">
 							<?php
 							if (count($_['usertileservers']) > 0) {
-								foreach($_['usertileservers'] as $ts) {
-									echo '<li title="'.$ts['url'].'"';
+								foreach ($_['usertileservers'] as $ts) {
+									echo '<li title="' . $ts['url'] . '"';
 									foreach (['servername', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
 										if (array_key_exists($field, $ts)) {
-											echo ' '.$field.'="';
+											echo ' ' . $field . '="';
 											p($ts[$field]);
 											echo '"';
 										}
@@ -300,7 +300,7 @@
 									echo '</button></li>';
 								}
 							}
-							?>
+			?>
 						</ul>
 					</div>
 				</div>
@@ -321,24 +321,24 @@
 						<h3><?php p($l->t('Your mapbox tile servers')); ?></h3>
 						<ul class="disclist">
 							<?php
-							if (count($_['usermapboxtileservers']) > 0) {
-								foreach($_['usermapboxtileservers'] as $ts) {
-									echo '<li title="'.$ts['url'].'"';
-									foreach (['servername', 'type', 'url', 'token', 'attribution'] as $field) {
-										if (array_key_exists($field, $ts)) {
-											echo ' '.$field.'="';
-											p($ts[$field]);
-											echo '"';
-										}
-									}
-									echo '>';
-									p($ts['servername']);
-									echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
-									p($l->t('Delete'));
-									echo '</button></li>';
-								}
-							}
-							?>
+			if (count($_['usermapboxtileservers']) > 0) {
+				foreach ($_['usermapboxtileservers'] as $ts) {
+					echo '<li title="' . $ts['url'] . '"';
+					foreach (['servername', 'type', 'url', 'token', 'attribution'] as $field) {
+						if (array_key_exists($field, $ts)) {
+							echo ' ' . $field . '="';
+							p($ts[$field]);
+							echo '"';
+						}
+					}
+					echo '>';
+					p($ts['servername']);
+					echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
+					p($l->t('Delete'));
+					echo '</button></li>';
+				}
+			}
+			?>
 						</ul>
 					</div>
 				</div>
@@ -366,24 +366,24 @@
 						<h3><?php p($l->t('Your overlay tile servers')); ?></h3>
 						<ul class="disclist">
 							<?php
-							if (count($_['useroverlayservers']) > 0) {
-								foreach($_['useroverlayservers'] as $ts) {
-									echo '<li title="'.$ts['url'].'"';
-									foreach (['servername', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
-										if (array_key_exists($field, $ts)) {
-											echo ' '.$field.'="';
-											p($ts[$field]);
-											echo '"';
-										}
-									}
-									echo '>';
-									p($ts['servername']);
-									echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
-									p($l->t('Delete'));
-									echo '</button></li>';
-								}
-							}
-							?>
+			if (count($_['useroverlayservers']) > 0) {
+				foreach ($_['useroverlayservers'] as $ts) {
+					echo '<li title="' . $ts['url'] . '"';
+					foreach (['servername', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
+						if (array_key_exists($field, $ts)) {
+							echo ' ' . $field . '="';
+							p($ts[$field]);
+							echo '"';
+						}
+					}
+					echo '>';
+					p($ts['servername']);
+					echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
+					p($l->t('Delete'));
+					echo '</button></li>';
+				}
+			}
+			?>
 						</ul>
 					</div>
 				</div>
@@ -411,24 +411,24 @@
 						<h3><?php p($l->t('Your WMS tile servers')); ?></h3>
 						<ul class="disclist">
 							<?php
-							if (count($_['usertileserverswms']) > 0) {
-								foreach($_['usertileserverswms'] as $ts) {
-									echo '<li title="'.$ts['url'].'"';
-									foreach (['servername', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
-										if (array_key_exists($field, $ts)) {
-											echo ' '.$field.'="';
-											p($ts[$field]);
-											echo '"';
-										}
-									}
-									echo '>';
-									p($ts['servername']);
-									echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
-									p($l->t('Delete'));
-									echo '</button></li>';
-								}
-							}
-							?>
+			if (count($_['usertileserverswms']) > 0) {
+				foreach ($_['usertileserverswms'] as $ts) {
+					echo '<li title="' . $ts['url'] . '"';
+					foreach (['servername', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
+						if (array_key_exists($field, $ts)) {
+							echo ' ' . $field . '="';
+							p($ts[$field]);
+							echo '"';
+						}
+					}
+					echo '>';
+					p($ts['servername']);
+					echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
+					p($l->t('Delete'));
+					echo '</button></li>';
+				}
+			}
+			?>
 						</ul>
 					</div>
 				</div>
@@ -460,24 +460,24 @@
 						<h3><?php p($l->t('Your WMS overlay tile servers')); ?></h3>
 						<ul class="disclist">
 							<?php
-							if (count($_['useroverlayserverswms']) > 0) {
-								foreach($_['useroverlayserverswms'] as $ts) {
-									echo '<li title="'.$ts['url'].'"';
-									foreach (['servername', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
-										if (array_key_exists($field, $ts)) {
-											echo ' '.$field.'="';
-											p($ts[$field]);
-											echo '"';
-										}
-									}
-									echo '>';
-									p($ts['servername']);
-									echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
-									p($l->t('Delete'));
-									echo '</button></li>';
-								}
-							}
-							?>
+			if (count($_['useroverlayserverswms']) > 0) {
+				foreach ($_['useroverlayserverswms'] as $ts) {
+					echo '<li title="' . $ts['url'] . '"';
+					foreach (['servername', 'type', 'url', 'layers', 'version', 'format', 'opacity', 'transparent', 'minzoom', 'maxzoom', 'attribution'] as $field) {
+						if (array_key_exists($field, $ts)) {
+							echo ' ' . $field . '="';
+							p($ts[$field]);
+							echo '"';
+						}
+					}
+					echo '>';
+					p($ts['servername']);
+					echo '&nbsp <button><i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> ';
+					p($l->t('Delete'));
+					echo '</button></li>';
+				}
+			}
+			?>
 						</ul>
 					</div>
 				</div>
@@ -709,7 +709,7 @@
 						p($e[1]);
 						echo '</p></li>';
 					}
-					?>
+			?>
 				</ul>
 			</div>
 

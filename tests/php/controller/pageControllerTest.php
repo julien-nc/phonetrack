@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * This library is free software; you can redistribute it and/or
@@ -425,28 +426,28 @@ class PageNLogControllerTest extends TestCase {
 
 		// save options
 		$resp = $this->utilsController->saveOptionValue([
-			"autoexportpath" => "/plop",
-			"hourmin" => "",
-			"minutemin" => "",
-			"secondmin" => "",
-			"hourmax" => "",
-			"minutemax" => "",
-			"secondmax" => "",
-			"lastdays" => "3",
-			"lasthours" => "4",
-			"lastmins" => "3",
-			"accuracymin" => "",
-			"accuracymax" => "",
-			"elevationmin" => "",
-			"elevationmax" => "",
-			"batterymin" => "",
-			"batterymax" => "",
-			"satellitesmin" => "",
-			"satellitesmax" => "",
-			"datemin" => 8000,
-			"datemax" => 1516748400,
-			"applyfilters" => 'false',
-			"activeSessions" => '{"'.$token.'":{"'.$deviceid.'":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
+			'autoexportpath' => '/plop',
+			'hourmin' => '',
+			'minutemin' => '',
+			'secondmin' => '',
+			'hourmax' => '',
+			'minutemax' => '',
+			'secondmax' => '',
+			'lastdays' => '3',
+			'lasthours' => '4',
+			'lastmins' => '3',
+			'accuracymin' => '',
+			'accuracymax' => '',
+			'elevationmin' => '',
+			'elevationmax' => '',
+			'batterymin' => '',
+			'batterymax' => '',
+			'satellitesmin' => '',
+			'satellitesmax' => '',
+			'datemin' => 8000,
+			'datemax' => 1516748400,
+			'applyfilters' => 'false',
+			'activeSessions' => '{"' . $token . '":{"' . $deviceid . '":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
 		]);
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -484,7 +485,7 @@ class PageNLogControllerTest extends TestCase {
 		// empty lat
 		try {
 			$this->logController->logOsmand($token, 'dev1', '', 3.33, 450, 60, 10, 200, 199);
-		} catch (Exception | Throwable $e) {
+		} catch (Exception|Throwable $e) {
 		}
 		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
@@ -500,7 +501,7 @@ class PageNLogControllerTest extends TestCase {
 		// empty lon
 		try {
 			$this->logController->logOsmand($token, 'dev1', 4.44, '', 450, 60, 10, 200, 199);
-		} catch (Exception | Throwable $e) {
+		} catch (Exception|Throwable $e) {
 		}
 		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
@@ -702,7 +703,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
-		$resp = $this->pageController->setSessionAutoExport($token.'a', 'monthly');
+		$resp = $this->pageController->setSessionAutoExport($token . 'a', 'monthly');
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -712,7 +713,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
-		$resp = $this->pageController->setSessionAutoPurge($token.'a', 'month');
+		$resp = $this->pageController->setSessionAutoPurge($token . 'a', 'month');
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -812,7 +813,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
-		$resp = $this->pageController->setSessionAutoPurge($token.'a', 'monthly');
+		$resp = $this->pageController->setSessionAutoPurge($token . 'a', 'monthly');
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -954,29 +955,29 @@ class PageNLogControllerTest extends TestCase {
 
 		// save options
 		$resp = $this->utilsController->saveOptionValue([
-			"autoexportpath" => "/plop",
-			"acccirclecheck" => 'true',
-			"hourmin" => "",
-			"minutemin" => "",
-			"secondmin" => "",
-			"hourmax" => "",
-			"minutemax" => "",
-			"secondmax" => "",
-			"lastdays" => "3",
-			"lasthours" => "4",
-			"lastmins" => "3",
-			"accuracymin" => "",
-			"accuracymax" => "",
-			"elevationmin" => "",
-			"elevationmax" => "",
-			"batterymin" => "",
-			"batterymax" => "",
-			"satellitesmin" => "",
-			"satellitesmax" => "",
-			"datemin" => 8000,
-			"datemax" => 1516748400,
-			"applyfilters" => 'false',
-			"activeSessions" => '{"'.$token.'":{"'.$deviceid.'":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
+			'autoexportpath' => '/plop',
+			'acccirclecheck' => 'true',
+			'hourmin' => '',
+			'minutemin' => '',
+			'secondmin' => '',
+			'hourmax' => '',
+			'minutemax' => '',
+			'secondmax' => '',
+			'lastdays' => '3',
+			'lasthours' => '4',
+			'lastmins' => '3',
+			'accuracymin' => '',
+			'accuracymax' => '',
+			'elevationmin' => '',
+			'elevationmax' => '',
+			'batterymin' => '',
+			'batterymax' => '',
+			'satellitesmin' => '',
+			'satellitesmax' => '',
+			'datemin' => 8000,
+			'datemax' => 1516748400,
+			'applyfilters' => 'false',
+			'activeSessions' => '{"' . $token . '":{"' . $deviceid . '":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
 		]);
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -1005,7 +1006,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 3);
 
-		$resp = $this->pageController->addGeofence($token.'a', $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 1);
+		$resp = $this->pageController->addGeofence($token . 'a', $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1015,7 +1016,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
 
-		$resp = $this->pageController->deleteGeofence($token.'a', $deviceid, $fenceid);
+		$resp = $this->pageController->deleteGeofence($token . 'a', $deviceid, $fenceid);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1049,12 +1050,12 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 5);
 
-		$resp = $this->pageController->addProxim($token, $deviceid, $token.'a', 'testDevProx', 400, 1000, '', '', 0, 0, 0, '', 1);
+		$resp = $this->pageController->addProxim($token, $deviceid, $token . 'a', 'testDevProx', 400, 1000, '', '', 0, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 3);
 
-		$resp = $this->pageController->addProxim($token.'a', $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '', 1);
+		$resp = $this->pageController->addProxim($token . 'a', $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1064,7 +1065,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
 
-		$resp = $this->pageController->deleteProxim($token.'a', $deviceid, $proxid);
+		$resp = $this->pageController->deleteProxim($token . 'a', $deviceid, $proxid);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1090,26 +1091,26 @@ class PageNLogControllerTest extends TestCase {
 		// no point load limit
 		$resp = $this->utilsController->saveOptionValue([
 			'nbpointsload' => '',
-			"hourmin" => "",
-			"minutemin" => "",
-			"secondmin" => "",
-			"hourmax" => "",
-			"minutemax" => "",
-			"secondmax" => "",
-			"lastdays" => "3",
-			"lasthours" => "4",
-			"lastmins" => "3",
-			"accuracymin" => "",
-			"accuracymax" => "",
-			"elevationmin" => "",
-			"elevationmax" => "",
-			"batterymin" => "",
-			"batterymax" => "",
-			"satellitesmin" => "",
-			"satellitesmax" => "",
-			"datemin" => "",
-			"datemax" => "",
-			"applyfilters" => 'true',
+			'hourmin' => '',
+			'minutemin' => '',
+			'secondmin' => '',
+			'hourmax' => '',
+			'minutemax' => '',
+			'secondmax' => '',
+			'lastdays' => '3',
+			'lasthours' => '4',
+			'lastmins' => '3',
+			'accuracymin' => '',
+			'accuracymax' => '',
+			'elevationmin' => '',
+			'elevationmax' => '',
+			'batterymin' => '',
+			'batterymax' => '',
+			'satellitesmin' => '',
+			'satellitesmax' => '',
+			'datemin' => '',
+			'datemax' => '',
+			'applyfilters' => 'true',
 		]);
 		$sessions = [[$token, null, null]];
 		$resp = $this->pageController->track($sessions);
@@ -1177,7 +1178,7 @@ class PageNLogControllerTest extends TestCase {
 		$resp = $data['done'];
 		$this->assertEquals($resp, 3);
 
-		$resp = $this->pageController->setDeviceShape($token.'a', $deviceid, 't');
+		$resp = $this->pageController->setDeviceShape($token . 'a', $deviceid, 't');
 		$data = $resp->getData();
 		$resp = $data['done'];
 		$this->assertEquals($resp, 2);
@@ -1193,7 +1194,7 @@ class PageNLogControllerTest extends TestCase {
 		$resp = $data['done'];
 		$this->assertEquals($resp, 2);
 
-		$resp = $this->pageController->setDeviceAlias($token.'a', $deviceid, 'superalias');
+		$resp = $this->pageController->setDeviceAlias($token . 'a', $deviceid, 'superalias');
 		$data = $resp->getData();
 		$resp = $data['done'];
 		$this->assertEquals($resp, 3);
@@ -1522,7 +1523,7 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals((count($data) === 0), true);
 
 		// ADD PUBLIC SHARE
-		$resp = $this->pageController->addPublicShare($token2.'a');
+		$resp = $this->pageController->addPublicShare($token2 . 'a');
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 3);
@@ -1540,7 +1541,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
-		$resp = $this->pageController->setPublicShareDevice($token2.'a', $publictoken1, 'plop2');
+		$resp = $this->pageController->setPublicShareDevice($token2 . 'a', $publictoken1, 'plop2');
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1561,12 +1562,12 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
-		$resp = $this->pageController->setPublicShareLastOnly($token2, $publictoken1.'a', 1);
+		$resp = $this->pageController->setPublicShareLastOnly($token2, $publictoken1 . 'a', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 3);
 
-		$resp = $this->pageController->setPublicShareLastOnly($token2.'a', $publictoken1, 1);
+		$resp = $this->pageController->setPublicShareLastOnly($token2 . 'a', $publictoken1, 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1582,12 +1583,12 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
-		$resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1.'a', 1);
+		$resp = $this->pageController->setPublicShareGeofencify($token2, $publictoken1 . 'a', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 3);
 
-		$resp = $this->pageController->setPublicShareGeofencify($token2.'a', $publictoken1, 1);
+		$resp = $this->pageController->setPublicShareGeofencify($token2 . 'a', $publictoken1, 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1633,28 +1634,28 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(strlen($publictoken2) > 0, true);
 
 		$resp = $this->utilsController->saveOptionValue([
-			"autoexportpath" => "/plop",
-			"hourmin" => "",
-			"minutemin" => "",
-			"secondmin" => "",
-			"hourmax" => "",
-			"minutemax" => "",
-			"secondmax" => "",
-			"lastdays" => "3",
-			"lasthours" => "4",
-			"lastmins" => "3",
-			"accuracymin" => "",
-			"accuracymax" => "",
-			"elevationmin" => "",
-			"elevationmax" => "",
-			"batterymin" => "",
-			"batterymax" => "",
-			"satellitesmin" => "",
-			"satellitesmax" => "",
-			"datemin" => 8000,
-			"datemax" => 1516748400,
-			"applyfilters" => 'true',
-			"activeSessions" => '{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
+			'autoexportpath' => '/plop',
+			'hourmin' => '',
+			'minutemin' => '',
+			'secondmin' => '',
+			'hourmax' => '',
+			'minutemax' => '',
+			'secondmax' => '',
+			'lastdays' => '3',
+			'lasthours' => '4',
+			'lastmins' => '3',
+			'accuracymin' => '',
+			'accuracymax' => '',
+			'elevationmin' => '',
+			'elevationmax' => '',
+			'batterymin' => '',
+			'batterymax' => '',
+			'satellitesmin' => '',
+			'satellitesmax' => '',
+			'datemin' => 8000,
+			'datemax' => 1516748400,
+			'applyfilters' => 'true',
+			'activeSessions' => '{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
 		]);
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -1679,7 +1680,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
-		$resp = $this->pageController->deletePublicShare($token2.'a', $publictoken2);
+		$resp = $this->pageController->deletePublicShare($token2 . 'a', $publictoken2);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 3);
@@ -1983,28 +1984,28 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(count($respSession), 1);
 
 		$resp = $this->utilsController->saveOptionValue([
-			"autoexportpath" => "/plop",
-			"hourmin" => "",
-			"minutemin" => "",
-			"secondmin" => "",
-			"hourmax" => "",
-			"minutemax" => "",
-			"secondmax" => "",
-			"lastdays" => "",
-			"lasthours" => "",
-			"lastmins" => "",
-			"accuracymin" => "",
-			"accuracymax" => "",
-			"elevationmin" => "",
-			"elevationmax" => "",
-			"batterymin" => "",
-			"batterymax" => "",
-			"satellitesmin" => "",
-			"satellitesmax" => "",
-			"datemin" => "",
-			"datemax" => 1516748400,
-			"applyfilters" => 'true',
-			"activeSessions" => '{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
+			'autoexportpath' => '/plop',
+			'hourmin' => '',
+			'minutemin' => '',
+			'secondmin' => '',
+			'hourmax' => '',
+			'minutemax' => '',
+			'secondmax' => '',
+			'lastdays' => '',
+			'lasthours' => '',
+			'lastmins' => '',
+			'accuracymin' => '',
+			'accuracymax' => '',
+			'elevationmin' => '',
+			'elevationmax' => '',
+			'batterymin' => '',
+			'batterymax' => '',
+			'satellitesmin' => '',
+			'satellitesmax' => '',
+			'datemin' => '',
+			'datemax' => 1516748400,
+			'applyfilters' => 'true',
+			'activeSessions' => '{"9500c72c6825c160bab732df219dec6a":{"1":{"zoom":false,"line":true,"point":true},"2":{"zoom":false,"line":true,"point":true},"582":{"zoom":false,"line":true,"point":false}}}'
 		]);
 		$data = $resp->getData();
 		$done = $data['done'];
@@ -2101,7 +2102,7 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(is_string($resp), true);
 
 		$resp = $this->utilsController->saveOptionValue([
-			"applyfilters" => 'false',
+			'applyfilters' => 'false',
 		]);
 
 		// IMPORT

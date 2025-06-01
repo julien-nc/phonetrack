@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Copyright (c) 2019 Julien Veyssier <eneiluj@posteo.net>
  *
@@ -212,7 +213,7 @@ class ActivityManager {
 					$objectId = $entity->getId();
 					break;
 				default:
-					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
+					throw new InvalidArgumentException('No entity relation present for ' . $className . ' to ' . $objectType);
 			}
 			return $this->deviceMapper->find($objectId);
 		}
@@ -222,11 +223,11 @@ class ActivityManager {
 					$objectId = $entity->getId();
 					break;
 				default:
-					throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
+					throw new InvalidArgumentException('No entity relation present for ' . $className . ' to ' . $objectType);
 			}
 			return $this->sessionMapper->find($objectId);
 		}
-		throw new InvalidArgumentException('No entity relation present for '. $className . ' to ' . $objectType);
+		throw new InvalidArgumentException('No entity relation present for ' . $className . ' to ' . $objectType);
 	}
 
 	private function findDetailsForDevice($deviceId) {

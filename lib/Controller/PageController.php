@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Nextcloud - phonetrack
  *
@@ -64,7 +65,7 @@ function distance(float $lat1, float $long1, float $lat2, float $long2): float {
 	$arc = acos($cos);
 
 	// Remember to multiply arc by the radius of the earth in your favorite set of units to get length
-	return $arc * 6371000;
+	return $arc * 6371000.0;
 }
 
 class PageController extends Controller {
@@ -80,18 +81,18 @@ class PageController extends Controller {
 	private $pointIndex;
 
 	public function __construct(
-		string                  $appName,
-		IRequest                $request,
-		private IConfig         $config,
-		private IUserManager    $userManager,
+		string $appName,
+		IRequest $request,
+		private IConfig $config,
+		private IUserManager $userManager,
 		private LoggerInterface $logger,
-		private IL10N           $trans,
+		private IL10N $trans,
 		private ActivityManager $activityManager,
-		private SessionMapper   $sessionMapper,
-		private SessionService  $sessionService,
-		private IDBConnection   $dbConnection,
-		private IRootFolder 	$root,
-		private ?string         $userId
+		private SessionMapper $sessionMapper,
+		private SessionService $sessionService,
+		private IDBConnection $dbConnection,
+		private IRootFolder $root,
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
@@ -169,7 +170,7 @@ class PageController extends Controller {
 			'phonetrack_version' => $this->appVersion
 		];
 		$response = new TemplateResponse(Application::APP_ID, 'main', $params);
-		$response->addHeader("Access-Control-Allow-Origin", "*");
+		$response->addHeader('Access-Control-Allow-Origin', '*');
 		$csp = new ContentSecurityPolicy();
 		//		$csp
 		//			->allowInlineStyle(true)
@@ -240,7 +241,7 @@ class PageController extends Controller {
 		$sqlget = '
 			SELECT name, token, publicviewtoken, public, autoexport, autopurge, locked
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 			ORDER BY LOWER(name) ASC ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
@@ -268,7 +269,7 @@ class PageController extends Controller {
 		$sqlgetshares = '
 			SELECT sessionid, sharetoken
 			FROM *PREFIX*phonetrack_shares
-			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
+			WHERE username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlgetshares);
 		$req->execute();
 		while ($row = $req->fetch()) {
@@ -302,7 +303,7 @@ class PageController extends Controller {
 		$sqlGet = '
 			SELECT name, token, publicviewtoken, public, autoexport, autopurge
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 			ORDER BY LOWER(name) ASC ;';
 		$req = $this->dbConnection->prepare($sqlGet);
 		$res = $req->execute();
@@ -331,7 +332,7 @@ class PageController extends Controller {
 				   *PREFIX*phonetrack_sessions.public AS public
 			FROM *PREFIX*phonetrack_shares
 			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_shares.sessionid=*PREFIX*phonetrack_sessions.token
-			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
+			WHERE username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlGetShares);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
@@ -355,7 +356,7 @@ class PageController extends Controller {
 		$sqlGet = '
 			SELECT id, name, alias, color, nametoken, shape
 			FROM *PREFIX*phonetrack_devices
-			WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionid) . '
 			ORDER BY LOWER(name) ASC ;';
 		$req = $this->dbConnection->prepare($sqlGet);
 		$res = $req->execute();
@@ -380,9 +381,9 @@ class PageController extends Controller {
 		$dbName = null;
 		$dbUser = null;
 		$sqlGet = '
-			SELECT name, '.$this->dbdblquotes.'user'.$this->dbdblquotes.'
+			SELECT name, ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '
 			FROM *PREFIX*phonetrack_sessions
-			WHERE token='.$this->db_quote_escape_string($sessionId).';';
+			WHERE token=' . $this->db_quote_escape_string($sessionId) . ';';
 		$req = $this->dbConnection->prepare($sqlGet);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
@@ -404,7 +405,7 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT username
 			FROM *PREFIX*phonetrack_shares
-			WHERE sessionid='.$this->db_quote_escape_string($sessionId).' ;';
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
@@ -422,8 +423,8 @@ class PageController extends Controller {
 		foreach ($sharesToDelete as $uid) {
 			$sqlDel = '
 				DELETE FROM *PREFIX*phonetrack_shares
-				WHERE sessionid='.$this->db_quote_escape_string($sessionId).'
-					AND username='.$this->db_quote_escape_string($uid).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . '
+					AND username=' . $this->db_quote_escape_string($uid) . ' ;';
 			$req = $this->dbConnection->prepare($sqlDel);
 			$res = $req->execute();
 			$res->closeCursor();
@@ -440,7 +441,7 @@ class PageController extends Controller {
 		$sqlGet = '
 			SELECT *
 			FROM *PREFIX*phonetrack_pubshares
-			WHERE sessionid='.$this->db_quote_escape_string($sessionId).' ;';
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlGet);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
@@ -464,8 +465,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$res = $req->execute();
 		$dbname = null;
@@ -480,8 +481,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT *
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid='.$this->db_quote_escape_string($token).'
-				AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				AND sharetoken=' . $this->db_quote_escape_string($sharetoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$res = $req->execute();
 			$dbShareId = null;
@@ -494,8 +495,8 @@ class PageController extends Controller {
 				// set device name
 				$sqlUpd = '
 					UPDATE *PREFIX*phonetrack_pubshares
-					SET devicename='.$this->db_quote_escape_string($devicename).'
-					WHERE id='.$this->db_quote_escape_string($dbShareId).' ;';
+					SET devicename=' . $this->db_quote_escape_string($devicename) . '
+					WHERE id=' . $this->db_quote_escape_string($dbShareId) . ' ;';
 				$req = $this->dbConnection->prepare($sqlUpd);
 				$res = $req->execute();
 				$res->closeCursor();
@@ -520,8 +521,8 @@ class PageController extends Controller {
 		$sqlCheck = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlCheck);
 		$res = $req->execute();
 		$dbname = null;
@@ -536,8 +537,8 @@ class PageController extends Controller {
 			$sqlCheck = '
 				SELECT *
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid='.$this->db_quote_escape_string($token).'
-					  AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+					  AND sharetoken=' . $this->db_quote_escape_string($sharetoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlCheck);
 			$res = $req->execute();
 			$dbShareId = null;
@@ -550,8 +551,8 @@ class PageController extends Controller {
 				// set device name
 				$sqlUpd = '
 					UPDATE *PREFIX*phonetrack_pubshares
-					SET geofencify='.$this->db_quote_escape_string($geofencify).'
-					WHERE id='.$this->db_quote_escape_string($dbShareId).' ;';
+					SET geofencify=' . $this->db_quote_escape_string($geofencify) . '
+					WHERE id=' . $this->db_quote_escape_string($dbShareId) . ' ;';
 				$req = $this->dbConnection->prepare($sqlUpd);
 				$res = $req->execute();
 				$res->closeCursor();
@@ -574,8 +575,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -590,8 +591,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT *
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid='.$this->db_quote_escape_string($token).'
-					  AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+					  AND sharetoken=' . $this->db_quote_escape_string($sharetoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbshareid = null;
@@ -604,8 +605,8 @@ class PageController extends Controller {
 				// set device name
 				$sqlupd = '
 					UPDATE *PREFIX*phonetrack_pubshares
-					SET lastposonly='.$this->db_quote_escape_string($lastposonly).'
-					WHERE id='.$this->db_quote_escape_string($dbshareid).' ;';
+					SET lastposonly=' . $this->db_quote_escape_string($lastposonly) . '
+					WHERE id=' . $this->db_quote_escape_string($dbshareid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
@@ -637,8 +638,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-			AND name='.$this->db_quote_escape_string($name).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+			AND name=' . $this->db_quote_escape_string($name) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -650,19 +651,19 @@ class PageController extends Controller {
 
 		if ($dbname === null && $name !== '') {
 			// determine token
-			$token = md5($this->userId.$name.rand());
-			$publicviewtoken = md5($this->userId.$name.rand());
+			$token = md5($this->userId . $name . rand());
+			$publicviewtoken = md5($this->userId . $name . rand());
 
 			// insert
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_sessions
-				('.$this->dbdblquotes.'user'.$this->dbdblquotes.', name, token, publicviewtoken, public, creationversion)
-				VALUES ('.$this->db_quote_escape_string($this->userId).','.
-						  $this->db_quote_escape_string($name).','.
-						  $this->db_quote_escape_string($token).','.
-						  $this->db_quote_escape_string($publicviewtoken).','.
-						  $this->db_quote_escape_string('1').','.
-						  $this->db_quote_escape_string($this->appVersion).'
+				(' . $this->dbdblquotes . 'user' . $this->dbdblquotes . ', name, token, publicviewtoken, public, creationversion)
+				VALUES (' . $this->db_quote_escape_string($this->userId) . ',' .
+						  $this->db_quote_escape_string($name) . ',' .
+						  $this->db_quote_escape_string($token) . ',' .
+						  $this->db_quote_escape_string($publicviewtoken) . ',' .
+						  $this->db_quote_escape_string('1') . ',' .
+						  $this->db_quote_escape_string($this->appVersion) . '
 				);';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
@@ -687,8 +688,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -704,7 +705,7 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
@@ -719,22 +720,22 @@ class PageController extends Controller {
 
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_shares
-				WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
 
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid='.$this->db_quote_escape_string($token).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
 
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
@@ -756,8 +757,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -773,8 +774,8 @@ class PageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($token).'
-					  AND id='.$this->db_quote_escape_string($deviceid).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+					  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -790,8 +791,8 @@ class PageController extends Controller {
 					}
 					$sqldel = '
 						DELETE FROM *PREFIX*phonetrack_points
-						WHERE deviceid='.$this->db_quote_escape_string($dbdid).'
-							  AND (id='.implode(' OR id=', $escapedPointIds).');';
+						WHERE deviceid=' . $this->db_quote_escape_string($dbdid) . '
+							  AND (id=' . implode(' OR id=', $escapedPointIds) . ');';
 					$req = $this->dbConnection->prepare($sqldel);
 					$req->execute();
 					$req->closeCursor();
@@ -819,8 +820,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				   AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				   AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -836,8 +837,8 @@ class PageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($token).'
-					  AND id='.$this->db_quote_escape_string($deviceid).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+					  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -850,8 +851,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_points
-					WHERE deviceid='.$this->db_quote_escape_string($dbdid).'
-						  AND id='.$this->db_quote_escape_string($pointid).' ;';
+					WHERE deviceid=' . $this->db_quote_escape_string($dbdid) . '
+						  AND id=' . $this->db_quote_escape_string($pointid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbpid = null;
@@ -865,18 +866,18 @@ class PageController extends Controller {
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_points
 						SET
-							 lat='.$this->db_quote_escape_string($lat).',
-							 lon='.$this->db_quote_escape_string($lon).',
-							 altitude='.(is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL').',
-							 timestamp='.$this->db_quote_escape_string($timestamp).',
-							 accuracy='.(is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL').',
-							 batterylevel='.(is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL').',
-							 satellites='.(is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL').',
-							 useragent='.$this->db_quote_escape_string($useragent).',
-							 speed='.(is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL').',
-							 bearing='.(is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL').'
-						WHERE deviceid='.$this->db_quote_escape_string($dbdid).'
-							  AND id='.$this->db_quote_escape_string($dbpid).' ;';
+							 lat=' . $this->db_quote_escape_string($lat) . ',
+							 lon=' . $this->db_quote_escape_string($lon) . ',
+							 altitude=' . (is_numeric($alt) ? $this->db_quote_escape_string(floatval($alt)) : 'NULL') . ',
+							 timestamp=' . $this->db_quote_escape_string($timestamp) . ',
+							 accuracy=' . (is_numeric($acc) ? $this->db_quote_escape_string(floatval($acc)) : 'NULL') . ',
+							 batterylevel=' . (is_numeric($bat) ? $this->db_quote_escape_string(floatval($bat)) : 'NULL') . ',
+							 satellites=' . (is_numeric($sat) ? $this->db_quote_escape_string(intval($sat)) : 'NULL') . ',
+							 useragent=' . $this->db_quote_escape_string($useragent) . ',
+							 speed=' . (is_numeric($speed) ? $this->db_quote_escape_string(floatval($speed)) : 'NULL') . ',
+							 bearing=' . (is_numeric($bearing) ? $this->db_quote_escape_string(floatval($bearing)) : 'NULL') . '
+						WHERE deviceid=' . $this->db_quote_escape_string($dbdid) . '
+							  AND id=' . $this->db_quote_escape_string($dbpid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlupd);
 					$req->execute();
 					$req->closeCursor();
@@ -905,8 +906,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name
 				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
@@ -919,9 +920,9 @@ class PageController extends Controller {
 			if ($dbname !== null) {
 				$sqlren = '
 					UPDATE *PREFIX*phonetrack_sessions
-					SET public='.$this->db_quote_escape_string($public).'
-					WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-						  AND token='.$this->db_quote_escape_string($token).' ;';
+					SET public=' . $this->db_quote_escape_string($public) . '
+					WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+						  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 				$req = $this->dbConnection->prepare($sqlren);
 				$req->execute();
 				$req->closeCursor();
@@ -966,12 +967,12 @@ class PageController extends Controller {
 			if ($dbname !== null) {
 				$qb->update('phonetrack_sessions');
 				$qb->set('locked', $qb->createNamedParameter($ilocked, IQueryBuilder::PARAM_INT))
-				   ->where(
-				   	$qb->expr()->eq('user', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
-				   )
-				   ->andWhere(
-				   	$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
-				   );
+					->where(
+						$qb->expr()->eq('user', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
+					)
+					->andWhere(
+						$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+					);
 				$req = $qb->execute();
 				$qb = $qb->resetQueryParts();
 
@@ -990,8 +991,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -1004,9 +1005,9 @@ class PageController extends Controller {
 		if ($dbname !== null) {
 			$sqlren = '
 				UPDATE *PREFIX*phonetrack_sessions
-				SET autoexport='.$this->db_quote_escape_string($value).'
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				SET autoexport=' . $this->db_quote_escape_string($value) . '
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlren);
 			$req->execute();
 			$req->closeCursor();
@@ -1027,8 +1028,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -1041,9 +1042,9 @@ class PageController extends Controller {
 		if ($dbname !== null) {
 			$sqlren = '
 				UPDATE *PREFIX*phonetrack_sessions
-				SET autopurge='.$this->db_quote_escape_string($value).'
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				SET autopurge=' . $this->db_quote_escape_string($value) . '
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlren);
 			$req->execute();
 			$req->closeCursor();
@@ -1065,8 +1066,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($session).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($session) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -1081,8 +1082,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($session).'
-					  AND id='.$this->db_quote_escape_string($device).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($session) . '
+					  AND id=' . $this->db_quote_escape_string($device) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
@@ -1095,9 +1096,9 @@ class PageController extends Controller {
 			if ($dbdevid !== null) {
 				$sqlupd = '
 					UPDATE *PREFIX*phonetrack_devices
-					SET color='.$this->db_quote_escape_string($color).'
-					WHERE id='.$this->db_quote_escape_string($device).'
-						  AND sessionid='.$this->db_quote_escape_string($session).' ;';
+					SET color=' . $this->db_quote_escape_string($color) . '
+					WHERE id=' . $this->db_quote_escape_string($device) . '
+						  AND sessionid=' . $this->db_quote_escape_string($session) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
@@ -1121,8 +1122,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($session).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($session) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -1137,8 +1138,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($session).'
-					  AND id='.$this->db_quote_escape_string($device).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($session) . '
+					  AND id=' . $this->db_quote_escape_string($device) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdevid = null;
@@ -1151,9 +1152,9 @@ class PageController extends Controller {
 			if ($dbdevid !== null) {
 				$sqlupd = '
 					UPDATE *PREFIX*phonetrack_devices
-					SET shape='.$this->db_quote_escape_string($shape).'
-					WHERE id='.$this->db_quote_escape_string($device).'
-						  AND sessionid='.$this->db_quote_escape_string($session).' ;';
+					SET shape=' . $this->db_quote_escape_string($shape) . '
+					WHERE id=' . $this->db_quote_escape_string($device) . '
+						  AND sessionid=' . $this->db_quote_escape_string($session) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
@@ -1178,8 +1179,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name
 				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
@@ -1192,9 +1193,9 @@ class PageController extends Controller {
 			if ($dbname !== null) {
 				$sqlren = '
 					UPDATE *PREFIX*phonetrack_sessions
-					SET name='.$this->db_quote_escape_string($newname).'
-					WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-						  AND token='.$this->db_quote_escape_string($token).' ;';
+					SET name=' . $this->db_quote_escape_string($newname) . '
+					WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+						  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 				$req = $this->dbConnection->prepare($sqlren);
 				$req->execute();
 				$req->closeCursor();
@@ -1220,8 +1221,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name, token
 				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbtoken = null;
@@ -1236,8 +1237,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND id='.$this->db_quote_escape_string($deviceid).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdeviceid = null;
@@ -1249,9 +1250,9 @@ class PageController extends Controller {
 				if ($dbdeviceid !== null) {
 					$sqlren = '
 						UPDATE *PREFIX*phonetrack_devices
-						SET name='.$this->db_quote_escape_string($newname).'
-						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-							  AND id='.$this->db_quote_escape_string($dbdeviceid).' ;';
+						SET name=' . $this->db_quote_escape_string($newname) . '
+						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+							  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlren);
 					$req->execute();
 					$req->closeCursor();
@@ -1280,8 +1281,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name, token
 				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbtoken = null;
@@ -1296,8 +1297,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND id='.$this->db_quote_escape_string($deviceid).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdeviceid = null;
@@ -1309,9 +1310,9 @@ class PageController extends Controller {
 				if ($dbdeviceid !== null) {
 					$sqlren = '
 						UPDATE *PREFIX*phonetrack_devices
-						SET alias='.$this->db_quote_escape_string($newalias).'
-						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-							  AND id='.$this->db_quote_escape_string($dbdeviceid).' ;';
+						SET alias=' . $this->db_quote_escape_string($newalias) . '
+						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+							  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlren);
 					$req->execute();
 					$req->closeCursor();
@@ -1339,8 +1340,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name, token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbtoken = null;
@@ -1355,8 +1356,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name, token
 				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($newSessionId).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($newSessionId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdesttoken = null;
@@ -1370,8 +1371,8 @@ class PageController extends Controller {
 				// check if device exists
 				$sqlchk = '
 					SELECT id, name FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND id='.$this->db_quote_escape_string($deviceid).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdeviceid = null;
@@ -1387,8 +1388,8 @@ class PageController extends Controller {
 					$sqlchk = '
 						SELECT id, name
 						FROM *PREFIX*phonetrack_devices
-						WHERE sessionid='.$this->db_quote_escape_string($dbdesttoken).'
-							  AND name='.$this->db_quote_escape_string($dbdevicename).' ;';
+						WHERE sessionid=' . $this->db_quote_escape_string($dbdesttoken) . '
+							  AND name=' . $this->db_quote_escape_string($dbdevicename) . ' ;';
 					$req = $this->dbConnection->prepare($sqlchk);
 					$req->execute();
 					$dbdestname = null;
@@ -1400,9 +1401,9 @@ class PageController extends Controller {
 					if ($dbdestname === null) {
 						$sqlreaff = '
 							UPDATE *PREFIX*phonetrack_devices
-							SET sessionid='.$this->db_quote_escape_string($dbdesttoken).'
-							WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-								  AND id='.$this->db_quote_escape_string($dbdeviceid).' ;';
+							SET sessionid=' . $this->db_quote_escape_string($dbdesttoken) . '
+							WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+								  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 						$req = $this->dbConnection->prepare($sqlreaff);
 						$req->execute();
 						$req->closeCursor();
@@ -1433,8 +1434,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name, token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -1449,8 +1450,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($token).'
-					  AND id='.$this->db_quote_escape_string($deviceid).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+					  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbdeviceid = null;
@@ -1462,29 +1463,29 @@ class PageController extends Controller {
 			if ($dbdeviceid !== null) {
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_points
-					WHERE deviceid='.$this->db_quote_escape_string($dbdeviceid).' ;';
+					WHERE deviceid=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_geofences
-					WHERE deviceid='.$this->db_quote_escape_string($dbdeviceid).' ;';
+					WHERE deviceid=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_proxims
-					WHERE deviceid1='.$this->db_quote_escape_string($dbdeviceid).'
-						  OR deviceid2='.$this->db_quote_escape_string($dbdeviceid).' ;';
+					WHERE deviceid1=' . $this->db_quote_escape_string($dbdeviceid) . '
+						  OR deviceid2=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
 
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_devices
-					WHERE id='.$this->db_quote_escape_string($dbdeviceid).' ;';
+					WHERE id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
@@ -1521,7 +1522,7 @@ class PageController extends Controller {
 				$settingsTimeFilterSQL .= 'AND timestamp >= ' . $this->db_quote_escape_string($filters['timestamp']['min']) . ' ';
 			}
 			if (isset($filters['timestamp']['max'])) {
-				$settingsTimeFilterSQL .= 'AND timestamp <= '.$this->db_quote_escape_string($filters['timestamp']['max']).' ';
+				$settingsTimeFilterSQL .= 'AND timestamp <= ' . $this->db_quote_escape_string($filters['timestamp']['max']) . ' ';
 			}
 		}
 		// get option value
@@ -1539,7 +1540,7 @@ class PageController extends Controller {
 					$sqlget = '
 						SELECT token
 						FROM *PREFIX*phonetrack_sessions
-						WHERE token='.$this->db_quote_escape_string($token).' ;';
+						WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 					$req = $this->dbConnection->prepare($sqlget);
 					$req->execute();
 					while ($row = $req->fetch()) {
@@ -1552,8 +1553,8 @@ class PageController extends Controller {
 						$sqlget = '
 							SELECT sessionid
 							FROM *PREFIX*phonetrack_shares
-							WHERE sharetoken='.$this->db_quote_escape_string($token).'
-								  AND username='.$this->db_quote_escape_string($this->userId).' ;';
+							WHERE sharetoken=' . $this->db_quote_escape_string($token) . '
+								  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 						$req = $this->dbConnection->prepare($sqlget);
 						$req->execute();
 						while ($row = $req->fetch()) {
@@ -1569,7 +1570,7 @@ class PageController extends Controller {
 						$sqldev = '
 							SELECT id
 							FROM *PREFIX*phonetrack_devices
-							WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+							WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ;';
 						$req = $this->dbConnection->prepare($sqldev);
 						$req->execute();
 						while ($row = $req->fetch()) {
@@ -1586,33 +1587,33 @@ class PageController extends Controller {
 							$firstDeviceTimeSQL = '';
 							if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
 								$firstDeviceTime = $firstTime[$devid];
-								$firstDeviceTimeSQL = 'timestamp<'.$this->db_quote_escape_string($firstDeviceTime);
+								$firstDeviceTimeSQL = 'timestamp<' . $this->db_quote_escape_string($firstDeviceTime);
 							}
 
 							$lastDeviceTime = 0;
 							$lastDeviceTimeSQL = '';
 							if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
 								$lastDeviceTime = $lastTime[$devid];
-								$lastDeviceTimeSQL = 'timestamp>'.$this->db_quote_escape_string($lastDeviceTime);
+								$lastDeviceTimeSQL = 'timestamp>' . $this->db_quote_escape_string($lastDeviceTime);
 							}
 							// build SQL condition for first/last
 							$firstLastSQL = '';
 							if ($firstDeviceTimeSQL !== '') {
 								if ($lastDeviceTimeSQL !== '') {
-									$firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
+									$firstLastSQL = 'AND (' . $firstDeviceTimeSQL . ' OR ' . $lastDeviceTimeSQL . ') ';
 								} else {
-									$firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
+									$firstLastSQL = 'AND ' . $firstDeviceTimeSQL . ' ';
 								}
 							} elseif ($lastDeviceTimeSQL !== '') {
-								$firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
+								$firstLastSQL = 'AND ' . $lastDeviceTimeSQL . ' ';
 							}
 							// we give color (first point given)
 							else {
 								$sqlcolor = '
 									SELECT color, name, alias, shape
 									FROM *PREFIX*phonetrack_devices
-									WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-										  AND id='.$this->db_quote_escape_string($devid).' ;';
+									WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+										  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 								$req = $this->dbConnection->prepare($sqlcolor);
 								$req->execute();
 								$col = '';
@@ -1661,12 +1662,12 @@ class PageController extends Controller {
 								SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,
 									   altitude, batterylevel, useragent, speed, bearing
 								FROM *PREFIX*phonetrack_points
-								WHERE deviceid='.$this->db_quote_escape_string($devid).' '.
-								$firstLastSQL.' '.
-								$settingsTimeFilterSQL.' ';
+								WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ' .
+								$firstLastSQL . ' ' .
+								$settingsTimeFilterSQL . ' ';
 							// get max number of points to load
 							if (is_numeric($nbpointsload)) {
-								$sqlget .= 'ORDER BY timestamp DESC LIMIT '.intval($nbpointsload);
+								$sqlget .= 'ORDER BY timestamp DESC LIMIT ' . intval($nbpointsload);
 							} else {
 								$sqlget .= 'ORDER BY timestamp DESC';
 							}
@@ -1727,7 +1728,7 @@ class PageController extends Controller {
 				   urlenterpost, urlleavepost,
 				   sendemail, emailaddr, sendnotif
 			FROM *PREFIX*phonetrack_geofences
-			WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+			WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ;';
 		$req = $this->dbConnection->prepare($sqlfences);
 		$req->execute();
 		while ($row = $req->fetch()) {
@@ -1753,7 +1754,7 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_proxims
 			INNER JOIN *PREFIX*phonetrack_devices ON deviceid2=*PREFIX*phonetrack_devices.id
 			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
-			WHERE deviceid1='.$this->db_quote_escape_string($devid).' ;';
+			WHERE deviceid1=' . $this->db_quote_escape_string($devid) . ' ;';
 		$req = $this->dbConnection->prepare($sqlproxims);
 		$req->execute();
 		while ($row = $req->fetch()) {
@@ -1772,7 +1773,7 @@ class PageController extends Controller {
 		$sqlget = '
 			SELECT token, public
 			FROM *PREFIX*phonetrack_sessions
-			WHERE token='.$this->db_quote_escape_string($token).' ;';
+			WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()) {
@@ -1806,7 +1807,7 @@ class PageController extends Controller {
 				$sqlget = '
 					SELECT token
 					FROM *PREFIX*phonetrack_sessions
-					WHERE token='.$this->db_quote_escape_string($token).' ;';
+					WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -1821,7 +1822,7 @@ class PageController extends Controller {
 					$sqldev = '
 						SELECT id
 						FROM *PREFIX*phonetrack_devices
-						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ;';
 					$req = $this->dbConnection->prepare($sqldev);
 					$req->execute();
 					while ($row = $req->fetch()) {
@@ -1838,33 +1839,33 @@ class PageController extends Controller {
 						$firstDeviceTimeSQL = '';
 						if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
 							$firstDeviceTime = $firstTime[$devid];
-							$firstDeviceTimeSQL = 'timestamp<'.$this->db_quote_escape_string($firstDeviceTime);
+							$firstDeviceTimeSQL = 'timestamp<' . $this->db_quote_escape_string($firstDeviceTime);
 						}
 
 						$lastDeviceTime = 0;
 						$lastDeviceTimeSQL = '';
 						if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
 							$lastDeviceTime = $lastTime[$devid];
-							$lastDeviceTimeSQL = 'timestamp>'.$this->db_quote_escape_string($lastDeviceTime);
+							$lastDeviceTimeSQL = 'timestamp>' . $this->db_quote_escape_string($lastDeviceTime);
 						}
 						// build SQL condition for first/last
 						$firstLastSQL = '';
 						if ($firstDeviceTimeSQL !== '') {
 							if ($lastDeviceTimeSQL !== '') {
-								$firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
+								$firstLastSQL = 'AND (' . $firstDeviceTimeSQL . ' OR ' . $lastDeviceTimeSQL . ') ';
 							} else {
-								$firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
+								$firstLastSQL = 'AND ' . $firstDeviceTimeSQL . ' ';
 							}
 						} elseif ($lastDeviceTimeSQL !== '') {
-							$firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
+							$firstLastSQL = 'AND ' . $lastDeviceTimeSQL . ' ';
 						}
 						// we give color (first point given)
 						else {
 							$sqlcolor = '
 								SELECT color, name, alias, shape
 								FROM *PREFIX*phonetrack_devices
-								WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-									  AND id='.$this->db_quote_escape_string($devid).' ;';
+								WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+									  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 							$req = $this->dbConnection->prepare($sqlcolor);
 							$req->execute();
 							$col = '';
@@ -1899,8 +1900,8 @@ class PageController extends Controller {
 								   altitude, batterylevel,
 								   useragent, speed, bearing
 							FROM *PREFIX*phonetrack_points
-							WHERE deviceid='.$this->db_quote_escape_string($devid).' '.
-							$firstLastSQL.'
+							WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ' .
+							$firstLastSQL . '
 							ORDER BY timestamp DESC LIMIT 1000 ;';
 						$req = $this->dbConnection->prepare($sqlget);
 						$req->execute();
@@ -1979,7 +1980,7 @@ class PageController extends Controller {
 			$sqlget = '
 				SELECT publicviewtoken, token, public
 				FROM *PREFIX*phonetrack_sessions
-				WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
+				WHERE publicviewtoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -1999,7 +2000,7 @@ class PageController extends Controller {
 					SELECT sharetoken, sessionid, filters,
 						   devicename, lastposonly, geofencify
 					FROM *PREFIX*phonetrack_pubshares
-					WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
+					WHERE sharetoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -2009,7 +2010,7 @@ class PageController extends Controller {
 					$lastposonly = $row['lastposonly'];
 					$geofencify = $row['geofencify'];
 					if ($row['devicename'] !== null && $row['devicename'] !== '') {
-						$deviceNameRestriction = ' AND name='.$this->db_quote_escape_string($row['devicename']).' ';
+						$deviceNameRestriction = ' AND name=' . $this->db_quote_escape_string($row['devicename']) . ' ';
 					}
 				}
 				$req->closeCursor();
@@ -2022,8 +2023,8 @@ class PageController extends Controller {
 				$sqldev = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' '.
-					$deviceNameRestriction.' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ' .
+					$deviceNameRestriction . ' ;';
 				$req = $this->dbConnection->prepare($sqldev);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -2040,33 +2041,33 @@ class PageController extends Controller {
 					$firstDeviceTimeSQL = '';
 					if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
 						$firstDeviceTime = $firstTime[$devid];
-						$firstDeviceTimeSQL = 'timestamp<'.$this->db_quote_escape_string($firstDeviceTime);
+						$firstDeviceTimeSQL = 'timestamp<' . $this->db_quote_escape_string($firstDeviceTime);
 					}
 
 					$lastDeviceTime = 0;
 					$lastDeviceTimeSQL = '';
 					if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
 						$lastDeviceTime = $lastTime[$devid];
-						$lastDeviceTimeSQL = 'timestamp>'.$this->db_quote_escape_string($lastDeviceTime);
+						$lastDeviceTimeSQL = 'timestamp>' . $this->db_quote_escape_string($lastDeviceTime);
 					}
 					// build SQL condition for first/last
 					$firstLastSQL = '';
 					if ($firstDeviceTimeSQL !== '') {
 						if ($lastDeviceTimeSQL !== '') {
-							$firstLastSQL = 'AND ('.$firstDeviceTimeSQL.' OR '.$lastDeviceTimeSQL.') ';
+							$firstLastSQL = 'AND (' . $firstDeviceTimeSQL . ' OR ' . $lastDeviceTimeSQL . ') ';
 						} else {
-							$firstLastSQL = 'AND '.$firstDeviceTimeSQL.' ';
+							$firstLastSQL = 'AND ' . $firstDeviceTimeSQL . ' ';
 						}
 					} elseif ($lastDeviceTimeSQL !== '') {
-						$firstLastSQL = 'AND '.$lastDeviceTimeSQL.' ';
+						$firstLastSQL = 'AND ' . $lastDeviceTimeSQL . ' ';
 					}
 					// we give color (first point given)
 					else {
 						$sqlcolor = '
 							SELECT color, name, alias, shape
 							FROM *PREFIX*phonetrack_devices
-							WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-								  AND id='.$this->db_quote_escape_string($devid).' ;';
+							WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+								  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 						$req = $this->dbConnection->prepare($sqlcolor);
 						$req->execute();
 						$col = '';
@@ -2102,13 +2103,13 @@ class PageController extends Controller {
 							   altitude, batterylevel, useragent,
 							   speed, bearing
 						FROM *PREFIX*phonetrack_points
-						WHERE deviceid='.$this->db_quote_escape_string($devid).' '.
-						$firstLastSQL.' ';
+						WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ' .
+						$firstLastSQL . ' ';
 					if (intval($lastposonly) === 0) {
 						if (intval($nbPointsLoad) === 0) {
 							$sqlget .= 'ORDER BY timestamp DESC ;';
 						} else {
-							$sqlget .= 'ORDER BY timestamp DESC LIMIT '.intval($nbPointsLoad).' ;';
+							$sqlget .= 'ORDER BY timestamp DESC LIMIT ' . intval($nbPointsLoad) . ' ;';
 						}
 					} else {
 						$sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
@@ -2118,7 +2119,7 @@ class PageController extends Controller {
 					while ($row = $req->fetch()) {
 						if ($filters === null || $this->filterPoint($row, $filters)) {
 							$entry = [
-								(int) $row['id'],
+								(int)$row['id'],
 								(float)$row['lat'],
 								(float)$row['lon'],
 								(int)$row['timestamp'],
@@ -2167,12 +2168,12 @@ class PageController extends Controller {
 		$sqlget = '
 			SELECT latmin, lonmin, latmax, lonmax, name
 			FROM *PREFIX*phonetrack_geofences
-			WHERE deviceid='.$this->db_quote_escape_string($devid).' ;';
+			WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()) {
-			$lat = (floatval($row['latmin']) + floatval($row['latmax'])) / 2;
-			$lon = (floatval($row['lonmin']) + floatval($row['lonmax'])) / 2;
+			$lat = (floatval($row['latmin']) + floatval($row['latmax'])) / 2.0;
+			$lon = (floatval($row['lonmin']) + floatval($row['lonmax'])) / 2.0;
 			$fences[$row['name']] = [
 				$lat, $lon, floatval($row['latmin']), floatval($row['latmax']),
 				floatval($row['lonmin']), floatval($row['lonmax'])
@@ -2240,7 +2241,7 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT token, public
 				FROM *PREFIX*phonetrack_sessions
-				WHERE publicviewtoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
+				WHERE publicviewtoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbtoken = null;
@@ -2264,7 +2265,7 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT sessionid, sharetoken, lastposonly, filters
 					FROM *PREFIX*phonetrack_pubshares
-					WHERE sharetoken='.$this->db_quote_escape_string($publicviewtoken).' ;';
+					WHERE sharetoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbtoken = null;
@@ -2306,7 +2307,7 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name, public
 				FROM *PREFIX*phonetrack_sessions
-				WHERE token='.$this->db_quote_escape_string($token).' ;';
+				WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$res = $req->execute();
 			$dbname = null;
@@ -2445,7 +2446,7 @@ class PageController extends Controller {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$this->currentXmlTag = $name;
 		if ($name === 'TRK') {
-			$this->importDevName = 'device'.$this->trackIndex;
+			$this->importDevName = 'device' . $this->trackIndex;
 			$this->pointIndex = 1;
 			$this->currentPointList = [];
 		} elseif ($name === 'TRKPT') {
@@ -2523,8 +2524,8 @@ class PageController extends Controller {
 			//$this->logger->info('MEM USAGE '.memory_get_usage(), ['app' => $this->appName]);
 			if (!xml_parse($xml_parser, $data, feof($fp))) {
 				$this->logger->error(
-					'Exception in ' . $gpxFile->getName() . ' parsing at line '.
-					  xml_get_current_line_number($xml_parser).' : '.
+					'Exception in ' . $gpxFile->getName() . ' parsing at line ' .
+					  xml_get_current_line_number($xml_parser) . ' : ' .
 					  xml_error_string(xml_get_error_code($xml_parser)),
 					['app' => $this->appName]
 				);
@@ -2547,7 +2548,7 @@ class PageController extends Controller {
 			if (array_key_exists('ID', $attrs)) {
 				$this->importDevName = $attrs['ID'];
 			} else {
-				$this->importDevName = 'device'.$this->trackIndex;
+				$this->importDevName = 'device' . $this->trackIndex;
 			}
 			$this->pointIndex = 1;
 			$this->currentPointList = [];
@@ -2612,8 +2613,8 @@ class PageController extends Controller {
 		while ($data = fread($fp, 4096000)) {
 			if (!xml_parse($xml_parser, $data, feof($fp))) {
 				$this->logger->error(
-					'Exception in ' . $kmlFile->getName() . ' parsing at line '.
-					  xml_get_current_line_number($xml_parser).' : '.
+					'Exception in ' . $kmlFile->getName() . ' parsing at line ' .
+					  xml_get_current_line_number($xml_parser) . ' : ' .
 					  xml_error_string(xml_get_error_code($xml_parser)),
 					['app' => $this->appName]
 				);
@@ -2644,13 +2645,13 @@ class PageController extends Controller {
 					$point[0] = floatval($loc['latitudeE7']);
 					$point[1] = floatval($loc['longitudeE7']);
 					if ($point[0] > 900000000) {
-						$point[0] -= 4294967296;
+						$point[0] -= 4294967296.0;
 					}
 					if ($point[1] > 1800000000) {
-						$point[1] -= 4294967296;
+						$point[1] -= 4294967296.0;
 					}
-					$point[0] /= 10000000;
-					$point[1] /= 10000000;
+					$point[0] /= 10000000.0;
+					$point[1] /= 10000000.0;
 					$ts = intval(intval($loc['timestampMs']) / 1000);
 					$point[3] = $ts;
 					if (array_key_exists('latitudeE7', $loc) && is_numeric($loc['latitudeE7'])) {
@@ -2714,7 +2715,7 @@ class PageController extends Controller {
 		$ok = 0;
 		// check if userId exists
 		$userIds = [];
-		foreach($this->userManager->search('') as $u) {
+		foreach ($this->userManager->search('') as $u) {
 			if ($u->getUID() !== $this->userId) {
 				array_push($userIds, $u->getUID());
 			}
@@ -2724,8 +2725,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name, token
 				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
@@ -2742,8 +2743,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT username, sessionid
 					FROM *PREFIX*phonetrack_shares
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND username='.$this->db_quote_escape_string($userId).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND username=' . $this->db_quote_escape_string($userId) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbusername = null;
@@ -2755,16 +2756,16 @@ class PageController extends Controller {
 
 				if ($dbusername === null) {
 					// determine share token
-					$sharetoken = md5('share'.$this->userId.$dbname.rand());
+					$sharetoken = md5('share' . $this->userId . $dbname . rand());
 
 					// insert
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_shares
 						(sessionid, username, sharetoken)
-						VALUES ('.
-							$this->db_quote_escape_string($dbtoken).','.
-							$this->db_quote_escape_string($userId).','.
-							$this->db_quote_escape_string($sharetoken).
+						VALUES (' .
+							$this->db_quote_escape_string($dbtoken) . ',' .
+							$this->db_quote_escape_string($userId) . ',' .
+							$this->db_quote_escape_string($sharetoken) .
 						') ;';
 					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
@@ -2857,16 +2858,16 @@ class PageController extends Controller {
 			}
 
 			// determine share token
-			$sharetoken = md5('share'.$this->userId.$dbname.rand());
+			$sharetoken = md5('share' . $this->userId . $dbname . rand());
 
 			// insert
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_pubshares
 				(sessionid, sharetoken, filters)
-				VALUES ('.
-					$this->db_quote_escape_string($dbtoken).','.
-					$this->db_quote_escape_string($sharetoken).','.
-					$this->db_quote_escape_string($filters).
+				VALUES (' .
+					$this->db_quote_escape_string($dbtoken) . ',' .
+					$this->db_quote_escape_string($sharetoken) . ',' .
+					$this->db_quote_escape_string($filters) .
 				') ;';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
@@ -2891,8 +2892,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name, token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -2909,8 +2910,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT username, sessionid
 				FROM *PREFIX*phonetrack_shares
-				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-					  AND username='.$this->db_quote_escape_string($userId).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					  AND username=' . $this->db_quote_escape_string($userId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbuserId = null;
@@ -2936,8 +2937,8 @@ class PageController extends Controller {
 				// delete
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_shares
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND username='.$this->db_quote_escape_string($userId).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND username=' . $this->db_quote_escape_string($userId) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
@@ -2985,8 +2986,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name, token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -3003,8 +3004,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT sharetoken, sessionid
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-					  AND sharetoken='.$this->db_quote_escape_string($sharetoken).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					  AND sharetoken=' . $this->db_quote_escape_string($sharetoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbsharetoken = null;
@@ -3018,8 +3019,8 @@ class PageController extends Controller {
 				// delete
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_pubshares
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND sharetoken='.$this->db_quote_escape_string($dbsharetoken).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND sharetoken=' . $this->db_quote_escape_string($dbsharetoken) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
@@ -3046,8 +3047,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name, token
 				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
@@ -3064,8 +3065,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT name, sessionid, nametoken
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND name='.$this->db_quote_escape_string($devicename).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdevicename = null;
@@ -3080,16 +3081,16 @@ class PageController extends Controller {
 				// no entry in DB : we create it
 				if ($dbdevicename === null) {
 					// determine name token
-					$nametoken = md5('nametoken'.$this->userId.$dbdevicename.rand());
+					$nametoken = md5('nametoken' . $this->userId . $dbdevicename . rand());
 
 					// insert
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_devices
 						(sessionid, name, nametoken)
-						VALUES ('.
-						$this->db_quote_escape_string($dbtoken).','.
-						$this->db_quote_escape_string($devicename).','.
-						$this->db_quote_escape_string($nametoken).
+						VALUES (' .
+						$this->db_quote_escape_string($dbtoken) . ',' .
+						$this->db_quote_escape_string($devicename) . ',' .
+						$this->db_quote_escape_string($nametoken) .
 						') ;';
 					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
@@ -3099,12 +3100,12 @@ class PageController extends Controller {
 				} elseif ($dbdevicenametoken === '' || $dbdevicenametoken === null) {
 					// if there is an entry but no token, name is free to be reserved
 					// so we update the entry
-					$nametoken = md5('nametoken'.$this->userId.$dbdevicename.rand());
+					$nametoken = md5('nametoken' . $this->userId . $dbdevicename . rand());
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
-						SET nametoken='.$this->db_quote_escape_string($nametoken).'
-						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-							  AND name='.$this->db_quote_escape_string($dbdevicename).' ;';
+						SET nametoken=' . $this->db_quote_escape_string($nametoken) . '
+						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+							  AND name=' . $this->db_quote_escape_string($dbdevicename) . ' ;';
 					$req = $this->dbConnection->prepare($sqlupd);
 					$req->execute();
 					$req->closeCursor();
@@ -3135,8 +3136,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name, token
 				FROM *PREFIX*phonetrack_sessions
-				WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-					  AND token='.$this->db_quote_escape_string($token).' ;';
+				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbname = null;
@@ -3153,8 +3154,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT name, sessionid, nametoken
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND name='.$this->db_quote_escape_string($devicename).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				$dbdevicename = null;
@@ -3174,9 +3175,9 @@ class PageController extends Controller {
 					// delete
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
-						SET nametoken='.$this->db_quote_escape_string('').'
-						WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-							  AND name='.$this->db_quote_escape_string($dbdevicename).' ;';
+						SET nametoken=' . $this->db_quote_escape_string('') . '
+						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+							  AND name=' . $this->db_quote_escape_string($dbdevicename) . ' ;';
 					$req = $this->dbConnection->prepare($sqlupd);
 					$req->execute();
 					$req->closeCursor();
@@ -3201,8 +3202,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($userid).'
-				  AND token='.$this->db_quote_escape_string($token).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . '
+				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -3219,8 +3220,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_devices
-			WHERE sessionid='.$this->db_quote_escape_string($token).'
-				  AND id='.$this->db_quote_escape_string($devid).' ;';
+			WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -3241,8 +3242,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_filtersb
-			WHERE name='.$this->db_quote_escape_string($name).'
-				  AND username='.$this->db_quote_escape_string($this->userId).' ;';
+			WHERE name=' . $this->db_quote_escape_string($name) . '
+				  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbbookname = null;
@@ -3257,10 +3258,10 @@ class PageController extends Controller {
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_filtersb
 				(username, name, filterjson)
-				VALUES ('.
-					 $this->db_quote_escape_string($this->userId).','.
-					 $this->db_quote_escape_string($name).','.
-					 $this->db_quote_escape_string($filters).'
+				VALUES (' .
+					 $this->db_quote_escape_string($this->userId) . ',' .
+					 $this->db_quote_escape_string($name) . ',' .
+					 $this->db_quote_escape_string($filters) . '
 				) ;';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
@@ -3269,8 +3270,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_filtersb
-				WHERE name='.$this->db_quote_escape_string($name).'
-					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
+				WHERE name=' . $this->db_quote_escape_string($name) . '
+					  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -3295,8 +3296,8 @@ class PageController extends Controller {
 		$ok = 0;
 		$sqldel = '
 			DELETE FROM *PREFIX*phonetrack_filtersb
-			WHERE id='.$this->db_quote_escape_string($bookid).'
-				  AND username='.$this->db_quote_escape_string($this->userId).' ;';
+			WHERE id=' . $this->db_quote_escape_string($bookid) . '
+				  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqldel);
 		$req->execute();
 		$req->closeCursor();
@@ -3313,7 +3314,7 @@ class PageController extends Controller {
 		$sql = '
 			SELECT id, username, name, filterjson
 			FROM *PREFIX*phonetrack_filtersb
-			WHERE username='.$this->db_quote_escape_string($this->userId).' ;';
+			WHERE username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sql);
 		$req->execute();
 		while ($row = $req->fetch()) {
@@ -3337,8 +3338,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT name
 				FROM *PREFIX*phonetrack_geofences
-				WHERE name='.$this->db_quote_escape_string($fencename).'
-					  AND deviceid='.$this->db_quote_escape_string($device).' ;';
+				WHERE name=' . $this->db_quote_escape_string($fencename) . '
+					  AND deviceid=' . $this->db_quote_escape_string($device) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			$dbfencename = null;
@@ -3355,20 +3356,20 @@ class PageController extends Controller {
 					(name, deviceid, latmin, latmax,
 					 lonmin, lonmax, urlenter, urlleave,
 					 urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif)
-					VALUES ('.
-						 $this->db_quote_escape_string($fencename).','.
-						 $this->db_quote_escape_string($device).','.
-						 $this->db_quote_escape_string(floatval($latmin)).','.
-						 $this->db_quote_escape_string(floatval($latmax)).','.
-						 $this->db_quote_escape_string(floatval($lonmin)).','.
-						 $this->db_quote_escape_string(floatval($lonmax)).','.
-						 $this->db_quote_escape_string($urlenter).','.
-						 $this->db_quote_escape_string($urlleave).','.
-						 $this->db_quote_escape_string(intval($urlenterpost)).','.
-						 $this->db_quote_escape_string(intval($urlleavepost)).','.
-						 $this->db_quote_escape_string(intval($sendemail)).','.
-						 $this->db_quote_escape_string($emailaddr).','.
-						 $this->db_quote_escape_string(intval($sendnotif)).'
+					VALUES (' .
+						 $this->db_quote_escape_string($fencename) . ',' .
+						 $this->db_quote_escape_string($device) . ',' .
+						 $this->db_quote_escape_string(floatval($latmin)) . ',' .
+						 $this->db_quote_escape_string(floatval($latmax)) . ',' .
+						 $this->db_quote_escape_string(floatval($lonmin)) . ',' .
+						 $this->db_quote_escape_string(floatval($lonmax)) . ',' .
+						 $this->db_quote_escape_string($urlenter) . ',' .
+						 $this->db_quote_escape_string($urlleave) . ',' .
+						 $this->db_quote_escape_string(intval($urlenterpost)) . ',' .
+						 $this->db_quote_escape_string(intval($urlleavepost)) . ',' .
+						 $this->db_quote_escape_string(intval($sendemail)) . ',' .
+						 $this->db_quote_escape_string($emailaddr) . ',' .
+						 $this->db_quote_escape_string(intval($sendnotif)) . '
 					) ;';
 				$req = $this->dbConnection->prepare($sql);
 				$req->execute();
@@ -3377,8 +3378,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_geofences
-					WHERE name='.$this->db_quote_escape_string($fencename).'
-						  AND deviceid='.$this->db_quote_escape_string($device).' ;';
+					WHERE name=' . $this->db_quote_escape_string($fencename) . '
+						  AND deviceid=' . $this->db_quote_escape_string($device) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -3413,8 +3414,8 @@ class PageController extends Controller {
 		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_geofences
-				WHERE deviceid='.$this->db_quote_escape_string($device).'
-					  AND id='.$this->db_quote_escape_string($fenceid).' ;';
+				WHERE deviceid=' . $this->db_quote_escape_string($device) . '
+					  AND id=' . $this->db_quote_escape_string($fenceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
@@ -3445,8 +3446,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT id, sessionid, sharetoken
 					FROM *PREFIX*phonetrack_shares
-					WHERE username='.$this->db_quote_escape_string($this->userId).'
-						  AND sharetoken='.$this->db_quote_escape_string($sid).' ;';
+					WHERE username=' . $this->db_quote_escape_string($this->userId) . '
+						  AND sharetoken=' . $this->db_quote_escape_string($sid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -3461,8 +3462,8 @@ class PageController extends Controller {
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE name='.$this->db_quote_escape_string($dname).'
-						  AND sessionid='.$this->db_quote_escape_string($targetSessionId).' ;';
+					WHERE name=' . $this->db_quote_escape_string($dname) . '
+						  AND sessionid=' . $this->db_quote_escape_string($targetSessionId) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -3477,18 +3478,18 @@ class PageController extends Controller {
 						INSERT INTO *PREFIX*phonetrack_proxims
 						(deviceid1, deviceid2, lowlimit, highlimit, urlclose, urlfar,
 						 urlclosepost, urlfarpost, sendemail, emailaddr, sendnotif)
-						VALUES ('.
-							$this->db_quote_escape_string($device).','.
-							$this->db_quote_escape_string($targetDeviceId).','.
-							$this->db_quote_escape_string(intval($lowlimit)).','.
-							$this->db_quote_escape_string(intval($highlimit)).','.
-							$this->db_quote_escape_string($urlclose).','.
-							$this->db_quote_escape_string($urlfar).','.
-							$this->db_quote_escape_string(intval($urlclosepost)).','.
-							$this->db_quote_escape_string(intval($urlfarpost)).','.
-							$this->db_quote_escape_string(intval($sendemail)).','.
-							$this->db_quote_escape_string($emailaddr).','.
-							$this->db_quote_escape_string(intval($sendnotif)).
+						VALUES (' .
+							$this->db_quote_escape_string($device) . ',' .
+							$this->db_quote_escape_string($targetDeviceId) . ',' .
+							$this->db_quote_escape_string(intval($lowlimit)) . ',' .
+							$this->db_quote_escape_string(intval($highlimit)) . ',' .
+							$this->db_quote_escape_string($urlclose) . ',' .
+							$this->db_quote_escape_string($urlfar) . ',' .
+							$this->db_quote_escape_string(intval($urlclosepost)) . ',' .
+							$this->db_quote_escape_string(intval($urlfarpost)) . ',' .
+							$this->db_quote_escape_string(intval($sendemail)) . ',' .
+							$this->db_quote_escape_string($emailaddr) . ',' .
+							$this->db_quote_escape_string(intval($sendnotif)) .
 						') ;';
 					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
@@ -3497,8 +3498,8 @@ class PageController extends Controller {
 					$sqlchk = '
 						SELECT MAX(id) as maxid
 						FROM *PREFIX*phonetrack_proxims
-						WHERE deviceid1='.$this->db_quote_escape_string($device).'
-							  AND deviceid2='.$this->db_quote_escape_string($targetDeviceId).' ;';
+						WHERE deviceid1=' . $this->db_quote_escape_string($device) . '
+							  AND deviceid2=' . $this->db_quote_escape_string($targetDeviceId) . ' ;';
 					$req = $this->dbConnection->prepare($sqlchk);
 					$req->execute();
 					while ($row = $req->fetch()) {
@@ -3539,8 +3540,8 @@ class PageController extends Controller {
 			$sqlchk = '
 				SELECT id, deviceid1
 				FROM *PREFIX*phonetrack_proxims
-				WHERE id='.$this->db_quote_escape_string($proximid).'
-					  AND deviceid1='.$this->db_quote_escape_string($device).' ;';
+				WHERE id=' . $this->db_quote_escape_string($proximid) . '
+					  AND deviceid1=' . $this->db_quote_escape_string($device) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -3552,8 +3553,8 @@ class PageController extends Controller {
 			if ($dbproximid !== null) {
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_proxims
-					WHERE id='.$this->db_quote_escape_string($dbproximid).'
-						  AND deviceid1='.$this->db_quote_escape_string($device).' ;';
+					WHERE id=' . $this->db_quote_escape_string($dbproximid) . '
+						  AND deviceid1=' . $this->db_quote_escape_string($device) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
 				$req->closeCursor();
@@ -3573,7 +3574,7 @@ class PageController extends Controller {
 	public function getUserList() {
 		$userNames = [];
 		try {
-			foreach($this->userManager->search('') as $u) {
+			foreach ($this->userManager->search('') as $u) {
 				if ($u->getUID() !== $this->userId) {
 					//array_push($userNames, $u->getUID());
 					$userNames[$u->getUID()] = $u->getDisplayName();
@@ -3592,7 +3593,7 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_sessions
-			WHERE token='.$this->db_quote_escape_string($token).' ;';
+			WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbname = null;
@@ -3607,8 +3608,8 @@ class PageController extends Controller {
 			$sqlgetres = '
 				SELECT id, name
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($token).'
-					  AND name='.$this->db_quote_escape_string($devicename).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+					  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 			$req = $this->dbConnection->prepare($sqlgetres);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -3623,9 +3624,9 @@ class PageController extends Controller {
 				$sql = '
 					INSERT INTO *PREFIX*phonetrack_devices
 					(name, sessionid)
-					VALUES ('.
-						$this->db_quote_escape_string($devicename).','.
-						$this->db_quote_escape_string($token).
+					VALUES (' .
+						$this->db_quote_escape_string($devicename) . ',' .
+						$this->db_quote_escape_string($token) .
 					') ;';
 				$req = $this->dbConnection->prepare($sql);
 				$req->execute();
@@ -3635,8 +3636,8 @@ class PageController extends Controller {
 				$sqlgetdid = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($token).'
-						  AND name='.$this->db_quote_escape_string($devicename).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 				$req = $this->dbConnection->prepare($sqlgetdid);
 				$res = $req->execute();
 				while ($row = $req->fetch()) {
@@ -3652,14 +3653,14 @@ class PageController extends Controller {
 				if (is_numeric($time)) {
 					$time = floatval($time);
 					if ($time > 10000000000.0) {
-						$time = $time / 1000;
+						$time = $time / 1000.0;
 					}
 				}
 
 				$lat = $this->db_quote_escape_string(number_format($point[0], 8, '.', ''));
 				$lon = $this->db_quote_escape_string(number_format($point[1], 8, '.', ''));
 				$alt = is_numeric($point[2]) ? $this->db_quote_escape_string(number_format($point[2], 2, '.', '')) : 'NULL';
-				$time = is_numeric($time) ? $this->db_quote_escape_string(number_format((float) $time, 0, '.', '')) : 0;
+				$time = is_numeric($time) ? $this->db_quote_escape_string(number_format((float)$time, 0, '.', '')) : 0;
 				$acc = is_numeric($point[4]) ? $this->db_quote_escape_string(number_format($point[4], 2, '.', '')) : 'NULL';
 				$bat = is_numeric($point[5]) ? $this->db_quote_escape_string(number_format($point[5], 2, '.', '')) : 'NULL';
 				$sat = is_numeric($point[6]) ? $this->db_quote_escape_string(number_format($point[6], 0, '.', '')) : 'NULL';
@@ -3668,17 +3669,17 @@ class PageController extends Controller {
 				$useragent = $point[7];
 
 				$oneVal = '(';
-				$oneVal .= $this->db_quote_escape_string($dbdeviceid).',';
-				$oneVal .= $lat.',';
-				$oneVal .= $lon.',';
-				$oneVal .= $time.',';
-				$oneVal .= $acc.',';
-				$oneVal .= $sat.',';
-				$oneVal .= $alt.',';
-				$oneVal .= $bat.',';
-				$oneVal .= $this->db_quote_escape_string($useragent).',';
-				$oneVal .= $speed.',';
-				$oneVal .= $bearing.') ';
+				$oneVal .= $this->db_quote_escape_string($dbdeviceid) . ',';
+				$oneVal .= $lat . ',';
+				$oneVal .= $lon . ',';
+				$oneVal .= $time . ',';
+				$oneVal .= $acc . ',';
+				$oneVal .= $sat . ',';
+				$oneVal .= $alt . ',';
+				$oneVal .= $bat . ',';
+				$oneVal .= $this->db_quote_escape_string($useragent) . ',';
+				$oneVal .= $speed . ',';
+				$oneVal .= $bearing . ') ';
 
 				$valuesStrings[] = $oneVal;
 			}
@@ -3699,7 +3700,7 @@ class PageController extends Controller {
 					(deviceid, lat, lon, timestamp,
 					 accuracy, satellites, altitude, batterylevel,
 					 useragent, speed, bearing)
-					VALUES '.$values.' ;';
+					VALUES ' . $values . ' ;';
 				$req = $this->dbConnection->prepare($sql);
 				$res = $req->execute();
 				$res->closeCursor();
@@ -3735,7 +3736,7 @@ class PageController extends Controller {
 		$sqlGet = '
 			SELECT publicviewtoken, token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE publicviewtoken=' . $this->db_quote_escape_string($sessionId).'
+			WHERE publicviewtoken=' . $this->db_quote_escape_string($sessionId) . '
 				  AND public=1 ;';
 		$req = $this->dbConnection->prepare($sqlGet);
 		$res = $req->execute();
@@ -3809,7 +3810,7 @@ class PageController extends Controller {
 		$sqlget = '
 			SELECT publicviewtoken, token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE publicviewtoken='.$this->db_quote_escape_string($sessionid).'
+			WHERE publicviewtoken=' . $this->db_quote_escape_string($sessionid) . '
 				  AND public=1 ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
@@ -3827,7 +3828,7 @@ class PageController extends Controller {
 			$sqlget = '
 			SELECT sessionid, sharetoken, filters, devicename, lastposonly, geofencify
 			FROM *PREFIX*phonetrack_pubshares
-			WHERE sharetoken='.$this->db_quote_escape_string($sessionid).' ;';
+			WHERE sharetoken=' . $this->db_quote_escape_string($sessionid) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -3848,13 +3849,13 @@ class PageController extends Controller {
 
 			$deviceNameRestriction = '';
 			if ($dbDevicename !== null && $dbDevicename !== '') {
-				$deviceNameRestriction = ' AND name='.$this->db_quote_escape_string($dbDevicename).' ';
+				$deviceNameRestriction = ' AND name=' . $this->db_quote_escape_string($dbDevicename) . ' ';
 			}
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-				'.$deviceNameRestriction.' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+				' . $deviceNameRestriction . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -3871,8 +3872,8 @@ class PageController extends Controller {
 				$sqlname = '
 					SELECT name, color
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND id='.$this->db_quote_escape_string($devid).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
@@ -3887,14 +3888,14 @@ class PageController extends Controller {
 				if (intval($dbLastPosOnly) === 1) {
 					$sqlLimit = 'LIMIT 1';
 				} elseif (is_numeric($limit)) {
-					$sqlLimit = 'LIMIT '.intval($limit);
+					$sqlLimit = 'LIMIT ' . intval($limit);
 				}
 				$sqlget = '
 					SELECT lat, lon, timestamp, batterylevel, useragent,
 						   satellites, accuracy, altitude, speed, bearing
 					FROM *PREFIX*phonetrack_points
-					WHERE deviceid='.$this->db_quote_escape_string($devid).'
-					ORDER BY timestamp DESC '.$sqlLimit.' ;';
+					WHERE deviceid=' . $this->db_quote_escape_string($devid) . '
+					ORDER BY timestamp DESC ' . $sqlLimit . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -3932,8 +3933,8 @@ class PageController extends Controller {
 		$sqlget = '
 			SELECT token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE token='.$this->db_quote_escape_string($sessionid).'
-				  AND '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+			WHERE token=' . $this->db_quote_escape_string($sessionid) . '
+				  AND ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()) {
@@ -3946,8 +3947,8 @@ class PageController extends Controller {
 			$sqlget = '
 				SELECT sessionid
 				FROM *PREFIX*phonetrack_shares
-				WHERE sharetoken='.$this->db_quote_escape_string($sessionid).'
-					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
+				WHERE sharetoken=' . $this->db_quote_escape_string($sessionid) . '
+					  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -3963,7 +3964,7 @@ class PageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -3980,8 +3981,8 @@ class PageController extends Controller {
 				$sqlname = '
 					SELECT name, color
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND id='.$this->db_quote_escape_string($devid).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
@@ -3996,7 +3997,7 @@ class PageController extends Controller {
 					SELECT lat, lon, timestamp, batterylevel, useragent,
 						   satellites, accuracy, altitude, speed, bearing
 					FROM *PREFIX*phonetrack_points
-					WHERE deviceid='.$this->db_quote_escape_string($devid).'
+					WHERE deviceid=' . $this->db_quote_escape_string($devid) . '
 					ORDER BY timestamp DESC LIMIT 1 ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
@@ -4029,8 +4030,8 @@ class PageController extends Controller {
 		$sqlget = '
 			SELECT token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE token='.$this->db_quote_escape_string($sessionid).'
-				  AND '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).' ;';
+			WHERE token=' . $this->db_quote_escape_string($sessionid) . '
+				  AND ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlget);
 		$req->execute();
 		while ($row = $req->fetch()) {
@@ -4043,8 +4044,8 @@ class PageController extends Controller {
 			$sqlget = '
 				SELECT sessionid
 				FROM *PREFIX*phonetrack_shares
-				WHERE sharetoken='.$this->db_quote_escape_string($sessionid).'
-					  AND username='.$this->db_quote_escape_string($this->userId).' ;';
+				WHERE sharetoken=' . $this->db_quote_escape_string($sessionid) . '
+					  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -4060,7 +4061,7 @@ class PageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid='.$this->db_quote_escape_string($dbtoken).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
 			while ($row = $req->fetch()) {
@@ -4077,8 +4078,8 @@ class PageController extends Controller {
 				$sqlname = '
 					SELECT name, color
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid='.$this->db_quote_escape_string($dbtoken).'
-						  AND id='.$this->db_quote_escape_string($devid).' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlname);
 				$req->execute();
 				$col = '';
@@ -4091,19 +4092,19 @@ class PageController extends Controller {
 				$entries = [];
 				$sqlLimit = '';
 				if (is_numeric($limit)) {
-					$sqlLimit = 'LIMIT '.intval($limit);
+					$sqlLimit = 'LIMIT ' . intval($limit);
 				}
 				$tsminCondition = '';
 				if (is_numeric($tsmin)) {
-					$tsminCondition = 'AND timestamp >= '.$this->db_quote_escape_string($tsmin).' ';
+					$tsminCondition = 'AND timestamp >= ' . $this->db_quote_escape_string($tsmin) . ' ';
 				}
 				$sqlget = '
 					SELECT lat, lon, timestamp, batterylevel, useragent,
 						   satellites, accuracy, altitude, speed, bearing
 					FROM *PREFIX*phonetrack_points
-					WHERE deviceid='.$this->db_quote_escape_string($devid).' '.
-					$tsminCondition.'
-					ORDER BY timestamp DESC '.$sqlLimit.' ;';
+					WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ' .
+					$tsminCondition . '
+					ORDER BY timestamp DESC ' . $sqlLimit . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -4140,8 +4141,8 @@ class PageController extends Controller {
 		$sqlchk = '
 			SELECT token
 			FROM *PREFIX*phonetrack_sessions
-			WHERE '.$this->dbdblquotes.'user'.$this->dbdblquotes.'='.$this->db_quote_escape_string($this->userId).'
-				  AND token='.$this->db_quote_escape_string($sessionid).' ;';
+			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
+				  AND token=' . $this->db_quote_escape_string($sessionid) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$req->execute();
 		$dbtoken = null;
@@ -4156,8 +4157,8 @@ class PageController extends Controller {
 			$sqlget = '
 				SELECT sharetoken
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid='.$this->db_quote_escape_string($sessionid).'
-					  AND devicename='.$this->db_quote_escape_string($devicename).' ;';
+				WHERE sessionid=' . $this->db_quote_escape_string($sessionid) . '
+					  AND devicename=' . $this->db_quote_escape_string($devicename) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()) {

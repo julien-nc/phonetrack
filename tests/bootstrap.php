@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PhoneTrack
  *
@@ -12,7 +13,7 @@ define('PHPUNIT_RUN', 1);
 $_SERVER['REQUEST_URI'] = '/index.php/apps/phonetrack/';
 $_SERVER['SCRIPT_NAME'] = '/index.php';
 
-require_once __DIR__.'/../../../lib/base.php';
+require_once __DIR__ . '/../../../lib/base.php';
 
 if (version_compare(implode('.', \OCP\Util::getVersion()), '8.2', '>=')) {
 	\OC::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
