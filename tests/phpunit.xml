@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="./bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
   <coverage>
     <include>
-      <directory suffix=".php">lib</directory>
+      <directory suffix=".php">../lib</directory>
     </include>
     <exclude>
-      <directory suffix=".php">appinfo</directory>
-      <directory suffix=".php">templates</directory>
+      <directory suffix=".php">../appinfo</directory>
+      <directory suffix=".php">../templates</directory>
     </exclude>
   </coverage>
   <testsuite name="unit">
-    <directory suffix=".php">tests/php</directory>
+    <directory suffix=".php">./php</directory>
   </testsuite>
 </phpunit>
