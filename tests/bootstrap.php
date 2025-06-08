@@ -1,27 +1,15 @@
 <?php
 
 /**
- * PhoneTrack
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-define('PHPUNIT_RUN', 1);
 
-// ugly hack to fix issues with template code using static code
-$_SERVER['REQUEST_URI'] = '/index.php/apps/phonetrack/';
-$_SERVER['SCRIPT_NAME'] = '/index.php';
+require_once __DIR__ . '/../../../tests/bootstrap.php';
 
-require_once __DIR__ . '/../../../lib/base.php';
+use OCA\Assistant\AppInfo\Application;
+use OCP\App\IAppManager;
 
-if (version_compare(implode('.', \OCP\Util::getVersion()), '8.2', '>=')) {
-	\OC::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
-	\OC_App::loadApp('phonetrack');
-}
-
-//if(!class_exists('PHPUnit_Framework_TestCase')) {
-//	require_once('PHPUnit/Autoload.php');
-//}
-
+\OC::$server->get(IAppManager::class)->loadApp(Application::APP_ID);
+//\OC_App::loadApp(Application::APP_ID);
 OC_Hook::clear();
