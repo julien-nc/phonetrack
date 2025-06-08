@@ -11,6 +11,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 export default createAppConfig({
 	admin: 'src/admin.js',
 	phonetrack: 'src/phonetrack.js',
+    mainVue: 'src/mainVue.js',
 }, {
 	config: {
 		css: {
