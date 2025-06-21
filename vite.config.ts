@@ -18,11 +18,16 @@ export default createAppConfig({
 			modules: {
 				localsConvention: 'camelCase',
 			},
+            preprocessorOptions: {
+				scss: {
+					api: 'modern-compiler',
+				},
+			},
 		},
-		plugins: [
-			eslint(),
-			stylelint(),
-		],
+		plugins: [eslint(),stylelint()],
+        build: {
+			cssCodeSplit: true,
+		},
 	},
 	inlineCSS: { relativeCSSInjection: true },
 	minify: isProduction,

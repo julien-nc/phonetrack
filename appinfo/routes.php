@@ -21,6 +21,7 @@
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'page#indexVue', 'url' => '/vue', 'verb' => 'GET'],
 		['name' => 'page#publicWebLog', 'url' => '/publicWebLog/{token}/{devicename}', 'verb' => 'GET'],
 		['name' => 'page#publicSessionWatch', 'url' => '/publicSessionWatch/{publicviewtoken}', 'verb' => 'GET'],
 		['name' => 'page#createSession', 'url' => '/createSession', 'verb' => 'POST'],

@@ -17,6 +17,7 @@ use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Service\SessionService;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
@@ -28,9 +29,11 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
@@ -70,7 +73,6 @@ function distance(float $lat1, float $long1, float $lat2, float $long2): float {
 
 class PageController extends Controller {
 
-	private $appVersion;
 	private string $dbdblquotes;
 	private $currentXmlTag;
 	private $importToken;
@@ -92,10 +94,12 @@ class PageController extends Controller {
 		private SessionService $sessionService,
 		private IDBConnection $dbConnection,
 		private IRootFolder $root,
+		private IAppManager $appManager,
+		private IInitialState $initialStateService,
+		private IAppConfig $appConfig,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
-		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
 		$dbType = $config->getSystemValue('dbtype');
 		if ($dbType === 'pgsql') {
 			$this->dbdblquotes = '"';
@@ -134,14 +138,74 @@ class PageController extends Controller {
 			}
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
 		return $tss;
 	}
 
-	/**
-	 * Welcome page.
-	 * Get session list
-	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function indexVue() {
+		$settings = [];
+		$adminMaptilerApiKey = $this->appConfig->getValueString(Application::APP_ID, 'maptiler_api_key', Application::DEFAULT_MAPTILER_API_KEY) ?: Application::DEFAULT_MAPTILER_API_KEY;
+		$maptilerApiKey = $this->config->getUserValue($this->userId, Application::APP_ID, 'maptiler_api_key') ?: $adminMaptilerApiKey;
+		$settings['maptiler_api_key'] = $maptilerApiKey;
+		$settings['proxy_osm'] = false;
+
+		$state = [
+			'sessions' => [],
+			'settings' => $settings,
+		];
+		$this->initialStateService->provideInitialState(
+			'phonetrack-state',
+			$state
+		);
+		$response = new TemplateResponse(Application::APP_ID, 'mainVue');
+		$csp = new ContentSecurityPolicy();
+		$this->addPageCsp($csp);
+		$response->setContentSecurityPolicy($csp);
+		return $response;
+	}
+
+	public function addPageCsp(ContentSecurityPolicy $csp, array $extraTileServers = []): void {
+		$csp
+			// raster tiles
+			->addAllowedConnectDomain('https://*.openstreetmap.org')
+			->addAllowedConnectDomain('https://server.arcgisonline.com')
+			->addAllowedConnectDomain('https://*.tile.thunderforest.com')
+			->addAllowedConnectDomain('https://stamen-tiles.a.ssl.fastly.net')
+			->addAllowedConnectDomain('https://tiles.stadiamaps.com')
+			// vector tiles
+			->addAllowedConnectDomain('https://api.maptiler.com')
+			// for https://api.maptiler.com/resources/logo.svg
+			->addAllowedImageDomain('https://api.maptiler.com')
+			// nominatim (not needed, we proxy requests through the server)
+			//->addAllowedConnectDomain('https://nominatim.openstreetmap.org')
+			// maplibre-gl
+			->addAllowedWorkerSrcDomain('blob:');
+
+		foreach ($extraTileServers as $ts) {
+			$type = $ts->getType();
+			$url = $ts->getUrl();
+			$domain = parse_url($url, PHP_URL_HOST);
+			$scheme = parse_url($url, PHP_URL_SCHEME);
+			// extra raster tile servers
+			if ($type === Application::TILE_SERVER_RASTER) {
+				$domain = str_replace('{s}', '*', $domain);
+				if ($scheme === 'http') {
+					$csp->addAllowedConnectDomain('http://' . $domain);
+				} else {
+					$csp->addAllowedConnectDomain('https://' . $domain);
+				}
+			} else {
+				// extra vector tile servers
+				if ($scheme === 'http') {
+					$csp->addAllowedConnectDomain('http://' . $domain);
+				} else {
+					$csp->addAllowedConnectDomain('https://' . $domain);
+				}
+			}
+		};
+	}
+
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function index() {
@@ -167,7 +231,7 @@ class PageController extends Controller {
 			'lastposonly' => '',
 			'sharefilters' => '',
 			'filtersBookmarks' => $this->getFiltersBookmarks(),
-			'phonetrack_version' => $this->appVersion
+			'phonetrack_version' => $this->appManager->getAppVersion(Application::APP_ID)
 		];
 		$response = new TemplateResponse(Application::APP_ID, 'main', $params);
 		$response->addHeader('Access-Control-Allow-Origin', '*');
@@ -663,7 +727,7 @@ class PageController extends Controller {
 						  $this->db_quote_escape_string($token) . ',' .
 						  $this->db_quote_escape_string($publicviewtoken) . ',' .
 						  $this->db_quote_escape_string('1') . ',' .
-						  $this->db_quote_escape_string($this->appVersion) . '
+						  $this->db_quote_escape_string($this->appManager->getAppVersion(Application::APP_ID)) . '
 				);';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
@@ -2340,7 +2404,7 @@ class PageController extends Controller {
 			'lastposonly' => $lastposonly,
 			'sharefilters' => $filters,
 			'filtersBookmarks' => [],
-			'phonetrack_version' => $this->appVersion,
+			'phonetrack_version' => $this->appManager->getAppVersion(Application::APP_ID),
 		];
 		$response = new PublicTemplateResponse(Application::APP_ID, 'main', $params);
 		$response->setHeaderTitle($this->trans->t('PhoneTrack public access'));

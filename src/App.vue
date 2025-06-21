@@ -28,8 +28,8 @@
 					:is-mobile="isMobile" /-->
 			</template>
 			<MaplibreMap ref="map"
-				:settings="state.settings"
-				:show-mouse-position-control="state.settings.show_mouse_position_control === '1'"
+				:settings="state?.settings"
+				:show-mouse-position-control="state?.settings.show_mouse_position_control === '1'"
 				:tracks-to-draw="enabledDevices"
 				:unit="distanceUnit"
 				:with-top-left-button="mapWithTopLeftButton"
@@ -80,13 +80,13 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
+import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 
 import { COLOR_CRITERIAS } from './constants.js'
 
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
-import NcEmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
+import NcContent from '@nextcloud/vue/components/NcContent'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
 // import PhonetrackSettingsDialog from './components/GpxpodSettingsDialog.vue'
 import Navigation from './components/Navigation.vue'
@@ -113,8 +113,6 @@ export default {
 		FolderOffOutlineIcon,
 	},
 
-	mixins: [isMobile],
-
 	provide: {
 		// isPublicPage: ('shareToken' in loadState('gpxpod', 'gpxpod-state')),
 	},
@@ -124,7 +122,8 @@ export default {
 
 	data() {
 		return {
-			state: loadState('gpxpod', 'phonetrack-state'),
+			isMobile: useIsMobile(),
+			state: loadState('phonetrack', 'phonetrack-state', {}),
 			mapNorth: null,
 			mapEast: null,
 			mapSouth: null,
@@ -147,10 +146,10 @@ export default {
 			return this.isCompactMode || this.isMobile
 		},
 		distanceUnit() {
-			return this.state.settings.distance_unit ?? 'metric'
+			return this.state?.settings?.distance_unit ?? 'metric'
 		},
 		isCompactMode() {
-			return this.state.settings.compact_mode === '1'
+			return this.state?.settings?.compact_mode === '1'
 		},
 	},
 
@@ -221,6 +220,7 @@ export default {
 		},
 		*/
 		saveOptions(values) {
+			/*
 			Object.assign(this.state.settings, values)
 			// console.debug('[phonetrack] settings saved', this.state.settings)
 			if (this.isPublicPage) {
@@ -235,6 +235,7 @@ export default {
 				showError(t('phonetrack', 'Failed to save settings'))
 				console.debug(error)
 			})
+			*/
 		},
 		onUpdateActiveTab(tabId) {
 			console.debug('active tab change', tabId)

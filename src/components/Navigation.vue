@@ -63,11 +63,11 @@ import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
 
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcAppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcAppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAppNavigationSearch from '@nextcloud/vue/dist/Components/NcAppNavigationSearch.js'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 
 // import NavigationSessionItem from './NavigationSessionItem.vue'
 
