@@ -15,6 +15,7 @@ namespace OCA\PhoneTrack\Controller;
 use DateTime;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\Session;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Service\SessionService;
 use OCP\App\IAppManager;
@@ -144,14 +145,16 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function indexVue() {
-		$settings = [];
+		$settings = $this->getOptionsValues();
 		$adminMaptilerApiKey = $this->appConfig->getValueString(Application::APP_ID, 'maptiler_api_key', Application::DEFAULT_MAPTILER_API_KEY) ?: Application::DEFAULT_MAPTILER_API_KEY;
 		$maptilerApiKey = $this->config->getUserValue($this->userId, Application::APP_ID, 'maptiler_api_key') ?: $adminMaptilerApiKey;
 		$settings['maptiler_api_key'] = $maptilerApiKey;
 		$settings['proxy_osm'] = false;
 
+		$sessions = $this->getSessions2();
+
 		$state = [
-			'sessions' => [],
+			'sessions' => count($sessions) === 0 ? new \stdClass() : $sessions,
 			'settings' => $settings,
 		];
 		$this->initialStateService->provideInitialState(
@@ -163,6 +166,16 @@ class PageController extends Controller {
 		$this->addPageCsp($csp);
 		$response->setContentSecurityPolicy($csp);
 		return $response;
+	}
+
+	private function getOptionsValues() {
+		$ov = [];
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
+		foreach ($keys as $key) {
+			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
+			$ov[$key] = $value;
+		}
+		return $ov;
 	}
 
 	public function addPageCsp(ContentSecurityPolicy $csp, array $extraTileServers = []): void {
@@ -278,7 +291,7 @@ class PageController extends Controller {
 			->where(
 				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			$dbdevicename = $row['name'];
 			$dbnametoken = $row['nametoken'];
@@ -290,9 +303,47 @@ class PageController extends Controller {
 			}
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
 
 		return $result;
+	}
+
+	public function getSessions2(): array {
+		$sessions = $this->sessionMapper->findByUser($this->userId);
+		$sessions = array_map(function (Session $session) {
+			$json = $session->jsonSerialize();
+			$json['shared_with'] = $this->getUserShares($session->getToken());
+			$json['reserved_names'] = $this->getReservedNames($session->getToken());
+			$json['public_shares'] = $this->getPublicShares($session->getToken());
+			$json['devices'] = $this->getDevices($session->getToken());
+			return $json;
+		}, $sessions);
+
+		// sessions shared with current user
+		$sidToShareToken = [];
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('sessionid', 'sharetoken')
+			->from('phonetrack_shares')
+			->where(
+				$qb->expr()->eq('username', $qb->createNamedParameter($this->userId, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
+			$sidToShareToken[$row['sessionid']] = $row['sharetoken'];
+		}
+		$req->closeCursor();
+
+		$sharedSessions = $this->sessionMapper->getSessionsById(array_keys($sidToShareToken));
+		$sharedSessions = array_map(function (Session $session) use ($sidToShareToken) {
+			$json = $session->jsonSerialize();
+			$json['shared_with'] = $this->getUserShares($session->getToken());
+			$json['reserved_names'] = $this->getReservedNames($session->getToken());
+			$json['public_shares'] = $this->getPublicShares($session->getToken());
+			$json['devices'] = $this->getDevices($session->getToken());
+			$json['token'] = $sidToShareToken[$json['id']];
+			return $json;
+		}, $sharedSessions);
+
+		return array_merge($sessions, $sharedSessions);
 	}
 
 	/**
@@ -308,8 +359,8 @@ class PageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 			ORDER BY LOWER(name) ASC ;';
 		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
 			$sharedWith = $this->getUserShares($dbtoken);
@@ -326,7 +377,6 @@ class PageController extends Controller {
 				$sharedWith, $reservedNames, $publicShares, $dbautoexport, $dbautopurge, $dblocked
 			];
 		}
-		$req->closeCursor();
 
 		$ncUserList = $this->getUserList()->getData()['users'];
 		// sessions shared with current user
@@ -335,8 +385,8 @@ class PageController extends Controller {
 			FROM *PREFIX*phonetrack_shares
 			WHERE username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlgetshares);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$dbsessionid = $row['sessionid'];
 			$dbsharetoken = $row['sharetoken'];
 			$sessionInfo = $this->getSessionInfo($dbsessionid);
@@ -347,9 +397,8 @@ class PageController extends Controller {
 				$userNameDisplay = $ncUserList[$dbuserId];
 			}
 			$devices = $this->getDevices($dbsessionid);
-			array_push($sessions, [$dbname, $dbsharetoken, $userNameDisplay, $devices]);
+			$sessions[] = [$dbname, $dbsharetoken, $userNameDisplay, $devices];
 		}
-		$req->closeCursor();
 
 		return new DataResponse([
 			'sessions' => $sessions,

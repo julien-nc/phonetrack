@@ -36,7 +36,7 @@ use OCP\AppFramework\Db\Entity;
  * @method string getAutopurge()
  * @method void setAutopurge(string $autopurge)
  */
-class Session extends Entity {
+class Session extends Entity implements \JsonSerializable {
 
 	protected $user;
 	protected $name;
@@ -59,5 +59,21 @@ class Session extends Entity {
 		$this->addType('creationversion', 'string');
 		$this->addType('autoexport', 'string');
 		$this->addType('autopurge', 'string');
+	}
+
+	#[\ReturnTypeWillChange]
+	public function jsonSerialize() {
+		return [
+			'id' => $this->getId(),
+			'user' => $this->getUser(),
+			'name' => $this->getName(),
+			'token' => $this->getToken(),
+			'publicviewtoken' => $this->getPublicviewtoken(),
+			'public' => $this->getPublic(),
+			'locked' => $this->getLocked(),
+			'creationversion' => $this->getCreationversion(),
+			'autoexport' => $this->getAutoexport(),
+			'autopurge' => $this->getAutopurge(),
+		];
 	}
 }

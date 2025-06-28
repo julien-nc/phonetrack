@@ -84,6 +84,23 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
+	 * @param array $sessionIds
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getSessionsById(array $sessionIds): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->in('id', $qb->createNamedParameter($sessionIds, IQueryBuilder::PARAM_INT_ARRAY))
+			);
+
+		return $this->findEntities($qb);
+	}
+
+	/**
 	 * @param $value
 	 * @return Session[]
 	 * @throws Exception
