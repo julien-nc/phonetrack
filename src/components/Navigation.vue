@@ -32,12 +32,12 @@
 			</NcAppNavigationSearch>
 		</template>
 		<template #list>
-			<!--NavigationSessionItem v-for="s in filteredSessions"
+			<NavigationSessionItem v-for="s in filteredSessions"
 				:key="s.id"
 				class="sessionItem"
 				:session="s"
 				:compact="compact"
-				:selected="!compact && s.id === selectedDirectoryId" /-->
+				:selected="!compact && s.id === selectedDirectoryId" />
 		</template>
 		<!--template #footer></template-->
 		<template #footer>
@@ -69,7 +69,7 @@ import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 
-// import NavigationSessionItem from './NavigationSessionItem.vue'
+import NavigationSessionItem from './NavigationSessionItem.vue'
 
 import { getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
@@ -79,7 +79,7 @@ export default {
 	name: 'Navigation',
 
 	components: {
-		// NavigationSessionItem,
+		NavigationSessionItem,
 		NcAppNavigationItem,
 		NcAppNavigation,
 		NcActionButton,

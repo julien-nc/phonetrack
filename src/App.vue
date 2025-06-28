@@ -160,11 +160,6 @@ export default {
 	},
 
 	beforeMount() {
-		// empty Php array => array instead of object
-		if (Array.isArray(this.state.sessions)) {
-			this.state.sessions = {}
-		}
-
 		// handle GET params
 		const paramString = window.location.search.slice(1)
 		// eslint-disable-next-line
@@ -220,9 +215,8 @@ export default {
 		},
 		*/
 		saveOptions(values) {
-			/*
 			Object.assign(this.state.settings, values)
-			// console.debug('[phonetrack] settings saved', this.state.settings)
+			console.debug('[phonetrack] settings saved', this.state.settings)
 			if (this.isPublicPage) {
 				return
 			}
@@ -235,7 +229,6 @@ export default {
 				showError(t('phonetrack', 'Failed to save settings'))
 				console.debug(error)
 			})
-			*/
 		},
 		onUpdateActiveTab(tabId) {
 			console.debug('active tab change', tabId)

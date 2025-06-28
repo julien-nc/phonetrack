@@ -1,25 +1,13 @@
 import { translate as t } from '@nextcloud/l10n'
 
-export const TRACK_SORT_ORDER = {
+export const DEVICE_SORT_ORDER = {
 	name: {
 		value: 0,
 		label: t('phonetrack', 'Name'),
 	},
 	date: {
 		value: 1,
-		label: t('phonetrack', 'Date'),
-	},
-	distance: {
-		value: 2,
-		label: t('phonetrack', 'Total distance'),
-	},
-	duration: {
-		value: 3,
-		label: t('phonetrack', 'Total duration'),
-	},
-	elevationGain: {
-		value: 4,
-		label: t('phonetrack', 'Cumulative elevation gain'),
+		label: t('phonetrack', 'Most recent activity'),
 	},
 }
 

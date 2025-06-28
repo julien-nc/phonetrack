@@ -18,6 +18,7 @@ use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\Session;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Service\SessionService;
+use OCA\PhoneTrack\Service\ToolsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -98,6 +99,7 @@ class PageController extends Controller {
 		private IAppManager $appManager,
 		private IInitialState $initialStateService,
 		private IAppConfig $appConfig,
+		private ToolsService $toolsService,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -147,20 +149,17 @@ class PageController extends Controller {
 	public function indexVue() {
 		$settings = $this->getOptionsValues();
 		$adminMaptilerApiKey = $this->appConfig->getValueString(Application::APP_ID, 'maptiler_api_key', Application::DEFAULT_MAPTILER_API_KEY) ?: Application::DEFAULT_MAPTILER_API_KEY;
-		$maptilerApiKey = $this->config->getUserValue($this->userId, Application::APP_ID, 'maptiler_api_key') ?: $adminMaptilerApiKey;
+		$maptilerApiKey = $this->toolsService->getEncryptedUserValue($this->userId, 'maptiler_api_key') ?: $adminMaptilerApiKey;
 		$settings['maptiler_api_key'] = $maptilerApiKey;
 		$settings['proxy_osm'] = false;
 
 		$sessions = $this->getSessions2();
 
 		$state = [
-			'sessions' => count($sessions) === 0 ? new \stdClass() : $sessions,
+			'sessions' => $sessions,
 			'settings' => $settings,
 		];
-		$this->initialStateService->provideInitialState(
-			'phonetrack-state',
-			$state
-		);
+		$this->initialStateService->provideInitialState('phonetrack-state', $state);
 		$response = new TemplateResponse(Application::APP_ID, 'mainVue');
 		$csp = new ContentSecurityPolicy();
 		$this->addPageCsp($csp);
