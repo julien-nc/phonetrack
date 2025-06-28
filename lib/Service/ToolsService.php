@@ -26,13 +26,13 @@ class ToolsService {
 	}
 
 	public function setEncryptedUserValue(string $userId, string $key, string $value): void {
-        if ($value === '') {
-            $this->config->setUserValue($userId, Application::APP_ID, $key, '');
-            return;
-        }
-        $encryptedValue = $this->crypto->encrypt($value);
-        $this->config->setUserValue($userId, Application::APP_ID, $key, $encryptedValue);
-    }
+		if ($value === '') {
+			$this->config->setUserValue($userId, Application::APP_ID, $key, '');
+			return;
+		}
+		$encryptedValue = $this->crypto->encrypt($value);
+		$this->config->setUserValue($userId, Application::APP_ID, $key, $encryptedValue);
+	}
 
 	public function getOptionsValues(string $userId): array {
 		$ov = [];
@@ -60,8 +60,8 @@ class ToolsService {
 		$theta1 = $long1 * $degrees_to_radians;
 		$theta2 = $long2 * $degrees_to_radians;
 
-		$cos = (sin($phi1) * sin($phi2) * cos($theta1 - $theta2) +
-			cos($phi1) * cos($phi2));
+		$cos = (sin($phi1) * sin($phi2) * cos($theta1 - $theta2)
+			+ cos($phi1) * cos($phi2));
 		// why are some cosinuses > than 1?
 		if ($cos > 1.0) {
 			$cos = 1.0;

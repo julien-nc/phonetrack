@@ -946,8 +946,7 @@ class PageNLogControllerTest extends TestCase {
 					and $data['sessions'][1][1] === $token
 					and count($data['sessions'][1][5]) > 0
 					and $data['sessions'][1][5]['test2'] === 'test2')
-				or
-				(count($data['sessions'][0]) > 4
+				or (count($data['sessions'][0]) > 4
 					and $data['sessions'][0][1] === $token
 					and count($data['sessions'][0][5]) > 0
 					and $data['sessions'][0][5]['test2'] === 'test2');

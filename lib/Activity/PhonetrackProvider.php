@@ -185,9 +185,9 @@ class PhonetrackProvider implements IProvider {
 	}
 	private function parseParamForDevice($paramName, $subjectParams, $params) {
 		if (array_key_exists($paramName, $subjectParams)) {
-			$name = array_key_exists('alias', $subjectParams[$paramName]) ?
-						$subjectParams[$paramName]['alias'] . ' (' . $subjectParams[$paramName]['name'] . ')' :
-						$subjectParams[$paramName]['name'];
+			$name = array_key_exists('alias', $subjectParams[$paramName])
+						? $subjectParams[$paramName]['alias'] . ' (' . $subjectParams[$paramName]['name'] . ')'
+						: $subjectParams[$paramName]['name'];
 			$params[$paramName] = [
 				'type' => 'highlight',
 				'id' => $subjectParams[$paramName]['id'],

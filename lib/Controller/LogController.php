@@ -1143,9 +1143,9 @@ class LogController extends Controller {
 	): array {
 		$result = ['done' => 0, 'friends' => []];
 		// TODO insert speed and bearing in m/s and degrees
-		if ($devicename !== '' &&
-			$token !== '' &&
-			(!is_null($timestamp) || !is_null($datetime))
+		if ($devicename !== ''
+			&& $token !== ''
+			&& (!is_null($timestamp) || !is_null($datetime))
 		) {
 			// check if session exists
 			$sqlCheck = '
@@ -1285,10 +1285,10 @@ class LogController extends Controller {
 							$sql = '
 								INSERT INTO *PREFIX*phonetrack_devices
 								(name, sessionid)
-								VALUES (' .
-									$this->db_quote_escape_string($devicename) . ',' .
-									$this->db_quote_escape_string($token) .
-								') ;';
+								VALUES ('
+									. $this->db_quote_escape_string($devicename) . ','
+									. $this->db_quote_escape_string($token)
+								. ') ;';
 							$req = $this->db->prepare($sql);
 							$req->execute();
 
@@ -1362,18 +1362,18 @@ class LogController extends Controller {
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_points
 						(deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
-						VALUES (' .
-							$this->db_quote_escape_string($deviceIdToInsert) . ',' .
-							$lat . ',' .
-							$lon . ',' .
-							$time . ',' .
-							$acc . ',' .
-							$sat . ',' .
-							$alt . ',' .
-							$bat . ',' .
-							$this->db_quote_escape_string($useragent) . ',' .
-							$speed . ',' .
-							$bearing . '
+						VALUES ('
+							. $this->db_quote_escape_string($deviceIdToInsert) . ','
+							. $lat . ','
+							. $lon . ','
+							. $time . ','
+							. $acc . ','
+							. $sat . ','
+							. $alt . ','
+							. $bat . ','
+							. $this->db_quote_escape_string($useragent) . ','
+							. $speed . ','
+							. $bearing . '
 						) ;';
 					$req = $this->db->prepare($sql);
 					$req->execute();
@@ -1609,10 +1609,10 @@ class LogController extends Controller {
 							$sql = '
 								INSERT INTO *PREFIX*phonetrack_devices
 								(name, sessionid)
-								VALUES (' .
-									$this->db_quote_escape_string($devicename) . ',' .
-									$this->db_quote_escape_string($token) .
-								') ;';
+								VALUES ('
+									. $this->db_quote_escape_string($devicename) . ','
+									. $this->db_quote_escape_string($token)
+								. ') ;';
 							$req = $this->db->prepare($sql);
 							$req->execute();
 
@@ -1684,18 +1684,18 @@ class LogController extends Controller {
 							$speed = is_numeric($speed) ? $this->db_quote_escape_string(number_format((float)$speed, 3, '.', '')) : 'NULL';
 							$bearing = is_numeric($bearing) ? $this->db_quote_escape_string(number_format((float)$bearing, 2, '.', '')) : 'NULL';
 
-							$value = '(' .
-									  $this->db_quote_escape_string($deviceIdToInsert) . ',' .
-									  $lat . ',' .
-									  $lon . ',' .
-									  $time . ',' .
-									  $acc . ',' .
-									  $sat . ',' .
-									  $alt . ',' .
-									  $bat . ',' .
-									  $this->db_quote_escape_string($useragent) . ',' .
-									  $speed . ',' .
-									  $bearing . '
+							$value = '('
+									  . $this->db_quote_escape_string($deviceIdToInsert) . ','
+									  . $lat . ','
+									  . $lon . ','
+									  . $time . ','
+									  . $acc . ','
+									  . $sat . ','
+									  . $alt . ','
+									  . $bat . ','
+									  . $this->db_quote_escape_string($useragent) . ','
+									  . $speed . ','
+									  . $bearing . '
 							  )';
 							$valuesToInsert[] = $value;
 							$nbToInsert++;

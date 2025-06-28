@@ -85,20 +85,20 @@ class UtilsController extends Controller {
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_tileserver
 				(' . $this->dbDoubleQuotes . 'user' . $this->dbDoubleQuotes . ', type, servername, url, token, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
-				VALUES (' .
-					$this->db_quote_escape_string($this->userId) . ',' .
-					$this->db_quote_escape_string($type) . ',' .
-					$this->db_quote_escape_string($servername) . ',' .
-					$this->db_quote_escape_string($serverurl) . ',' .
-					$this->db_quote_escape_string($token) . ',' .
-					$this->db_quote_escape_string($layers) . ',' .
-					$this->db_quote_escape_string($version) . ',' .
-					$this->db_quote_escape_string($tformat) . ',' .
-					$this->db_quote_escape_string($opacity) . ',' .
-					$this->db_quote_escape_string($transparent) . ',' .
-					$this->db_quote_escape_string($minzoom) . ',' .
-					$this->db_quote_escape_string($maxzoom) . ',' .
-					$this->db_quote_escape_string($attribution) . '
+				VALUES ('
+					. $this->db_quote_escape_string($this->userId) . ','
+					. $this->db_quote_escape_string($type) . ','
+					. $this->db_quote_escape_string($servername) . ','
+					. $this->db_quote_escape_string($serverurl) . ','
+					. $this->db_quote_escape_string($token) . ','
+					. $this->db_quote_escape_string($layers) . ','
+					. $this->db_quote_escape_string($version) . ','
+					. $this->db_quote_escape_string($tformat) . ','
+					. $this->db_quote_escape_string($opacity) . ','
+					. $this->db_quote_escape_string($transparent) . ','
+					. $this->db_quote_escape_string($minzoom) . ','
+					. $this->db_quote_escape_string($maxzoom) . ','
+					. $this->db_quote_escape_string($attribution) . '
 				) ;';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();

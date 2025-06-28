@@ -57,8 +57,8 @@ function distance(float $lat1, float $long1, float $lat2, float $long2): float {
 	$theta1 = $long1 * $degrees_to_radians;
 	$theta2 = $long2 * $degrees_to_radians;
 
-	$cos = (sin($phi1) * sin($phi2) * cos($theta1 - $theta2) +
-		   cos($phi1) * cos($phi2));
+	$cos = (sin($phi1) * sin($phi2) * cos($theta1 - $theta2)
+		   + cos($phi1) * cos($phi2));
 	// why are some cosinuses > than 1?
 	if ($cos > 1.0) {
 		$cos = 1.0;
@@ -536,12 +536,12 @@ class OldPageController extends Controller {
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_sessions
 				(' . $this->dbdblquotes . 'user' . $this->dbdblquotes . ', name, token, publicviewtoken, public, creationversion)
-				VALUES (' . $this->db_quote_escape_string($this->userId) . ',' .
-						  $this->db_quote_escape_string($name) . ',' .
-						  $this->db_quote_escape_string($token) . ',' .
-						  $this->db_quote_escape_string($publicviewtoken) . ',' .
-						  $this->db_quote_escape_string('1') . ',' .
-						  $this->db_quote_escape_string($this->appManager->getAppVersion(Application::APP_ID)) . '
+				VALUES (' . $this->db_quote_escape_string($this->userId) . ','
+						  . $this->db_quote_escape_string($name) . ','
+						  . $this->db_quote_escape_string($token) . ','
+						  . $this->db_quote_escape_string($publicviewtoken) . ','
+						  . $this->db_quote_escape_string('1') . ','
+						  . $this->db_quote_escape_string($this->appManager->getAppVersion(Application::APP_ID)) . '
 				);';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
@@ -1540,9 +1540,9 @@ class OldPageController extends Controller {
 								SELECT id, deviceid, lat, lon, timestamp, accuracy, satellites,
 									   altitude, batterylevel, useragent, speed, bearing
 								FROM *PREFIX*phonetrack_points
-								WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ' .
-								$firstLastSQL . ' ' .
-								$settingsTimeFilterSQL . ' ';
+								WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' '
+								. $firstLastSQL . ' '
+								. $settingsTimeFilterSQL . ' ';
 							// get max number of points to load
 							if (is_numeric($nbpointsload)) {
 								$sqlget .= 'ORDER BY timestamp DESC LIMIT ' . intval($nbpointsload);
@@ -1730,8 +1730,8 @@ class OldPageController extends Controller {
 								   altitude, batterylevel,
 								   useragent, speed, bearing
 							FROM *PREFIX*phonetrack_points
-							WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ' .
-							$firstLastSQL . '
+							WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' '
+							. $firstLastSQL . '
 							ORDER BY timestamp DESC LIMIT 1000 ;';
 						$req = $this->dbConnection->prepare($sqlget);
 						$req->execute();
@@ -1853,8 +1853,8 @@ class OldPageController extends Controller {
 				$sqldev = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ' .
-					$deviceNameRestriction . ' ;';
+					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' '
+					. $deviceNameRestriction . ' ;';
 				$req = $this->dbConnection->prepare($sqldev);
 				$req->execute();
 				while ($row = $req->fetch()) {
@@ -1933,8 +1933,8 @@ class OldPageController extends Controller {
 							   altitude, batterylevel, useragent,
 							   speed, bearing
 						FROM *PREFIX*phonetrack_points
-						WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ' .
-						$firstLastSQL . ' ';
+						WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' '
+						. $firstLastSQL . ' ';
 					if (intval($lastposonly) === 0) {
 						if (intval($nbPointsLoad) === 0) {
 							$sqlget .= 'ORDER BY timestamp DESC ;';
@@ -2354,9 +2354,9 @@ class OldPageController extends Controller {
 			//$this->logger->info('MEM USAGE '.memory_get_usage(), ['app' => $this->appName]);
 			if (!xml_parse($xml_parser, $data, feof($fp))) {
 				$this->logger->error(
-					'Exception in ' . $gpxFile->getName() . ' parsing at line ' .
-					  xml_get_current_line_number($xml_parser) . ' : ' .
-					  xml_error_string(xml_get_error_code($xml_parser)),
+					'Exception in ' . $gpxFile->getName() . ' parsing at line '
+					  . xml_get_current_line_number($xml_parser) . ' : '
+					  . xml_error_string(xml_get_error_code($xml_parser)),
 					['app' => $this->appName]
 				);
 				return 5;
@@ -2443,9 +2443,9 @@ class OldPageController extends Controller {
 		while ($data = fread($fp, 4096000)) {
 			if (!xml_parse($xml_parser, $data, feof($fp))) {
 				$this->logger->error(
-					'Exception in ' . $kmlFile->getName() . ' parsing at line ' .
-					  xml_get_current_line_number($xml_parser) . ' : ' .
-					  xml_error_string(xml_get_error_code($xml_parser)),
+					'Exception in ' . $kmlFile->getName() . ' parsing at line '
+					  . xml_get_current_line_number($xml_parser) . ' : '
+					  . xml_error_string(xml_get_error_code($xml_parser)),
 					['app' => $this->appName]
 				);
 				return 5;
@@ -2592,11 +2592,11 @@ class OldPageController extends Controller {
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_shares
 						(sessionid, username, sharetoken)
-						VALUES (' .
-							$this->db_quote_escape_string($dbtoken) . ',' .
-							$this->db_quote_escape_string($userId) . ',' .
-							$this->db_quote_escape_string($sharetoken) .
-						') ;';
+						VALUES ('
+							. $this->db_quote_escape_string($dbtoken) . ','
+							. $this->db_quote_escape_string($userId) . ','
+							. $this->db_quote_escape_string($sharetoken)
+						. ') ;';
 					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
 					$req->closeCursor();
@@ -2694,11 +2694,11 @@ class OldPageController extends Controller {
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_pubshares
 				(sessionid, sharetoken, filters)
-				VALUES (' .
-					$this->db_quote_escape_string($dbtoken) . ',' .
-					$this->db_quote_escape_string($sharetoken) . ',' .
-					$this->db_quote_escape_string($filters) .
-				') ;';
+				VALUES ('
+					. $this->db_quote_escape_string($dbtoken) . ','
+					. $this->db_quote_escape_string($sharetoken) . ','
+					. $this->db_quote_escape_string($filters)
+				. ') ;';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
 			$req->closeCursor();
@@ -2917,11 +2917,11 @@ class OldPageController extends Controller {
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_devices
 						(sessionid, name, nametoken)
-						VALUES (' .
-						$this->db_quote_escape_string($dbtoken) . ',' .
-						$this->db_quote_escape_string($devicename) . ',' .
-						$this->db_quote_escape_string($nametoken) .
-						') ;';
+						VALUES ('
+						. $this->db_quote_escape_string($dbtoken) . ','
+						. $this->db_quote_escape_string($devicename) . ','
+						. $this->db_quote_escape_string($nametoken)
+						. ') ;';
 					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
 					$req->closeCursor();
@@ -3088,10 +3088,10 @@ class OldPageController extends Controller {
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_filtersb
 				(username, name, filterjson)
-				VALUES (' .
-					 $this->db_quote_escape_string($this->userId) . ',' .
-					 $this->db_quote_escape_string($name) . ',' .
-					 $this->db_quote_escape_string($filters) . '
+				VALUES ('
+					 . $this->db_quote_escape_string($this->userId) . ','
+					 . $this->db_quote_escape_string($name) . ','
+					 . $this->db_quote_escape_string($filters) . '
 				) ;';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
@@ -3186,20 +3186,20 @@ class OldPageController extends Controller {
 					(name, deviceid, latmin, latmax,
 					 lonmin, lonmax, urlenter, urlleave,
 					 urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif)
-					VALUES (' .
-						 $this->db_quote_escape_string($fencename) . ',' .
-						 $this->db_quote_escape_string($device) . ',' .
-						 $this->db_quote_escape_string(floatval($latmin)) . ',' .
-						 $this->db_quote_escape_string(floatval($latmax)) . ',' .
-						 $this->db_quote_escape_string(floatval($lonmin)) . ',' .
-						 $this->db_quote_escape_string(floatval($lonmax)) . ',' .
-						 $this->db_quote_escape_string($urlenter) . ',' .
-						 $this->db_quote_escape_string($urlleave) . ',' .
-						 $this->db_quote_escape_string(intval($urlenterpost)) . ',' .
-						 $this->db_quote_escape_string(intval($urlleavepost)) . ',' .
-						 $this->db_quote_escape_string(intval($sendemail)) . ',' .
-						 $this->db_quote_escape_string($emailaddr) . ',' .
-						 $this->db_quote_escape_string(intval($sendnotif)) . '
+					VALUES ('
+						 . $this->db_quote_escape_string($fencename) . ','
+						 . $this->db_quote_escape_string($device) . ','
+						 . $this->db_quote_escape_string(floatval($latmin)) . ','
+						 . $this->db_quote_escape_string(floatval($latmax)) . ','
+						 . $this->db_quote_escape_string(floatval($lonmin)) . ','
+						 . $this->db_quote_escape_string(floatval($lonmax)) . ','
+						 . $this->db_quote_escape_string($urlenter) . ','
+						 . $this->db_quote_escape_string($urlleave) . ','
+						 . $this->db_quote_escape_string(intval($urlenterpost)) . ','
+						 . $this->db_quote_escape_string(intval($urlleavepost)) . ','
+						 . $this->db_quote_escape_string(intval($sendemail)) . ','
+						 . $this->db_quote_escape_string($emailaddr) . ','
+						 . $this->db_quote_escape_string(intval($sendnotif)) . '
 					) ;';
 				$req = $this->dbConnection->prepare($sql);
 				$req->execute();
@@ -3308,19 +3308,19 @@ class OldPageController extends Controller {
 						INSERT INTO *PREFIX*phonetrack_proxims
 						(deviceid1, deviceid2, lowlimit, highlimit, urlclose, urlfar,
 						 urlclosepost, urlfarpost, sendemail, emailaddr, sendnotif)
-						VALUES (' .
-							$this->db_quote_escape_string($device) . ',' .
-							$this->db_quote_escape_string($targetDeviceId) . ',' .
-							$this->db_quote_escape_string(intval($lowlimit)) . ',' .
-							$this->db_quote_escape_string(intval($highlimit)) . ',' .
-							$this->db_quote_escape_string($urlclose) . ',' .
-							$this->db_quote_escape_string($urlfar) . ',' .
-							$this->db_quote_escape_string(intval($urlclosepost)) . ',' .
-							$this->db_quote_escape_string(intval($urlfarpost)) . ',' .
-							$this->db_quote_escape_string(intval($sendemail)) . ',' .
-							$this->db_quote_escape_string($emailaddr) . ',' .
-							$this->db_quote_escape_string(intval($sendnotif)) .
-						') ;';
+						VALUES ('
+							. $this->db_quote_escape_string($device) . ','
+							. $this->db_quote_escape_string($targetDeviceId) . ','
+							. $this->db_quote_escape_string(intval($lowlimit)) . ','
+							. $this->db_quote_escape_string(intval($highlimit)) . ','
+							. $this->db_quote_escape_string($urlclose) . ','
+							. $this->db_quote_escape_string($urlfar) . ','
+							. $this->db_quote_escape_string(intval($urlclosepost)) . ','
+							. $this->db_quote_escape_string(intval($urlfarpost)) . ','
+							. $this->db_quote_escape_string(intval($sendemail)) . ','
+							. $this->db_quote_escape_string($emailaddr) . ','
+							. $this->db_quote_escape_string(intval($sendnotif))
+						. ') ;';
 					$req = $this->dbConnection->prepare($sql);
 					$req->execute();
 					$req->closeCursor();
@@ -3444,10 +3444,10 @@ class OldPageController extends Controller {
 				$sql = '
 					INSERT INTO *PREFIX*phonetrack_devices
 					(name, sessionid)
-					VALUES (' .
-						$this->db_quote_escape_string($devicename) . ',' .
-						$this->db_quote_escape_string($token) .
-					') ;';
+					VALUES ('
+						. $this->db_quote_escape_string($devicename) . ','
+						. $this->db_quote_escape_string($token)
+					. ') ;';
 				$req = $this->dbConnection->prepare($sql);
 				$req->execute();
 				$req->closeCursor();
@@ -3922,8 +3922,8 @@ class OldPageController extends Controller {
 					SELECT lat, lon, timestamp, batterylevel, useragent,
 						   satellites, accuracy, altitude, speed, bearing
 					FROM *PREFIX*phonetrack_points
-					WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ' .
-					$tsminCondition . '
+					WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' '
+					. $tsminCondition . '
 					ORDER BY timestamp DESC ' . $sqlLimit . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$req->execute();

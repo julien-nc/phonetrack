@@ -95,23 +95,23 @@ $baseTileServers = [
 	[
 		'name' => 'ESRI Aerial',
 		'type' => 'tile',
-		'url' => 'https://server.arcgisonline.com/ArcGIS/rest/services' .
-				 '/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-		'attribution' => 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, ' .
-						 'USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the' .
-						 ' GIS User Community',
+		'url' => 'https://server.arcgisonline.com/ArcGIS/rest/services'
+				 . '/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+		'attribution' => 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, '
+						 . 'USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the'
+						 . ' GIS User Community',
 		'minzoom' => '1',
 		'maxzoom' => '19'
 	],
 	[
 		'name' => 'ESRI Topo with relief',
 		'type' => 'tile',
-		'url' => 'https://server.arcgisonline.com/ArcGIS/rest/services/World' .
-				  '_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-		'attribution' => 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, ' .
-						  'TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ord' .
-						  'nance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User' .
-						  ' Community',
+		'url' => 'https://server.arcgisonline.com/ArcGIS/rest/services/World'
+				  . '_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+		'attribution' => 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, '
+						  . 'TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ord'
+						  . 'nance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User'
+						  . ' Community',
 		'minzoom' => '1',
 		'maxzoom' => '19'
 	],
@@ -142,10 +142,10 @@ $baseTileServers = [
 	[
 		'name' => 'IGN France',
 		'type' => 'tile',
-		'url' => 'https://wxs.ign.fr/ljthe66m795pr2v2g8p7faxt/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS' .
-			'&EXCEPTIONS=text/xml&FORMAT=image/jpeg' .
-			'&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal' .
-			'&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}',
+		'url' => 'https://wxs.ign.fr/ljthe66m795pr2v2g8p7faxt/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS'
+			. '&EXCEPTIONS=text/xml&FORMAT=image/jpeg'
+			. '&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal'
+			. '&TILEMATRIXSET=PM&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}',
 		'attribution' => '&copy; <a href="https://www.ign.fr/">IGN-France</a>',
 		'minzoom' => '1',
 		'maxzoom' => '18'
@@ -154,8 +154,8 @@ $baseTileServers = [
 		'name' => 'Dark',
 		'type' => 'tile',
 		'url' => 'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-		'attribution' => '&copy; Map tiles by CartoDB, under CC BY 3.0. Data by' .
-						 ' OpenStreetMap, under ODbL.',
+		'attribution' => '&copy; Map tiles by CartoDB, under CC BY 3.0. Data by'
+						 . ' OpenStreetMap, under ODbL.',
 		'minzoom' => '1',
 		'maxzoom' => '18'
 	],
@@ -164,12 +164,12 @@ $baseTileServers = [
 		'type' => 'tile',
 		//		'url' => 'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
 		'url' => 'https://tiles.stadiamaps.com/styles/stamen_watercolor/{z}/{x}/{y}.jpg',
-		'attribution' => '<a href="https://leafletjs.com" title="A JS library' .
-		' for interactive maps">Leaflet</a> | © Map tiles by <a href="https://stamen' .
-		'.com">Stamen Design</a>, under <a href="https://creativecommons.org/license' .
-		's/by/3.0">CC BY 3.0</a>, Data by <a href="https://openstreetmap.org">OpenSt' .
-		'reetMap</a>, under <a href="https://creativecommons.org/licenses/by-sa/3.0"' .
-		'>CC BY SA</a>.',
+		'attribution' => '<a href="https://leafletjs.com" title="A JS library'
+		. ' for interactive maps">Leaflet</a> | © Map tiles by <a href="https://stamen'
+		. '.com">Stamen Design</a>, under <a href="https://creativecommons.org/license'
+		. 's/by/3.0">CC BY 3.0</a>, Data by <a href="https://openstreetmap.org">OpenSt'
+		. 'reetMap</a>, under <a href="https://creativecommons.org/licenses/by-sa/3.0"'
+		. '>CC BY SA</a>.',
 		'minzoom' => '1',
 		'maxzoom' => '18'
 	],
@@ -177,12 +177,12 @@ $baseTileServers = [
 		'name' => 'Toner',
 		'type' => 'tile|overlay',
 		'url' => 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.jpg',
-		'attribution' => '<a href="https://leafletjs.com" title="A JS library' .
-		' for interactive maps">Leaflet</a> | © Map tiles by <a href="https://stamen' .
-		'.com">Stamen Design</a>, under <a href="https://creativecommons.org/license' .
-		's/by/3.0">CC BY 3.0</a>, Data by <a href="https://openstreetmap.org">OpenSt' .
-		'reetMap</a>, under <a href="https://creativecommons.org/licenses/by-sa/3.0"' .
-		'>CC BY SA</a>.',
+		'attribution' => '<a href="https://leafletjs.com" title="A JS library'
+		. ' for interactive maps">Leaflet</a> | © Map tiles by <a href="https://stamen'
+		. '.com">Stamen Design</a>, under <a href="https://creativecommons.org/license'
+		. 's/by/3.0">CC BY 3.0</a>, Data by <a href="https://openstreetmap.org">OpenSt'
+		. 'reetMap</a>, under <a href="https://creativecommons.org/licenses/by-sa/3.0"'
+		. '>CC BY SA</a>.',
 		'minzoom' => '1',
 		'maxzoom' => '18'
 	],
