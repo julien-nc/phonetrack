@@ -24,6 +24,8 @@ use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Service\SessionService;
+use OCA\PhoneTrack\Service\ToolsService;
+use OCP\App\IAppManager;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -122,7 +124,7 @@ class PageNLogControllerTest extends TestCase {
 			'test2'
 		);
 
-		$this->pageController = new PageController(
+		$this->pageController = new OldPageController(
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
@@ -136,10 +138,11 @@ class PageNLogControllerTest extends TestCase {
 			$this->sessionService,
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
+			$c->get(IAppManager::class),
 			'test'
 		);
 
-		$this->pageController2 = new PageController(
+		$this->pageController2 = new OldPageController(
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
@@ -153,6 +156,7 @@ class PageNLogControllerTest extends TestCase {
 			$this->sessionService,
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
+			$c->get(IAppManager::class),
 			'test2'
 		);
 
@@ -193,6 +197,7 @@ class PageNLogControllerTest extends TestCase {
 			$this->request,
 			$c->get(IConfig::class),
 			$c->get(IDBConnection::class),
+			$c->get(ToolsService::class),
 			'test'
 		);
 	}
@@ -946,7 +951,7 @@ class PageNLogControllerTest extends TestCase {
 					and $data['sessions'][1][1] === $token
 					and count($data['sessions'][1][5]) > 0
 					and $data['sessions'][1][5]['test2'] === 'test2')
-				or (count($data['sessions'][0]) > 4
+				|| (count($data['sessions'][0]) > 4
 					and $data['sessions'][0][1] === $token
 					and count($data['sessions'][0][5]) > 0
 					and $data['sessions'][0][5]['test2'] === 'test2');
@@ -1749,7 +1754,7 @@ class PageNLogControllerTest extends TestCase {
 		$respNames = $data['names'];
 		$respColors = $data['colors'];
 
-		$cond = array_key_exists($token, $data['names']) and array_key_exists($deldeviceid, $data['names'][$token]);
+		$cond = array_key_exists($token, $data['names']) && array_key_exists($deldeviceid, $data['names'][$token]);
 		$this->assertEquals($cond, true);
 		$this->assertEquals($data['names'][$token][$deldeviceid], 'delDev');
 
@@ -1777,7 +1782,7 @@ class PageNLogControllerTest extends TestCase {
 		$respNames = $data['names'];
 		$respColors = $data['colors'];
 
-		$cond = (!array_key_exists($token, $data['names'])) or (!array_key_exists($deldeviceid, $data['names'][$token]));
+		$cond = (!array_key_exists($token, $data['names'])) || (!array_key_exists($deldeviceid, $data['names'][$token]));
 		$this->assertEquals(true, $cond);
 
 		// NAME RESERVATION
