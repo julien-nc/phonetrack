@@ -767,4 +767,178 @@ class SessionService {
 		return $done;
 	}
 
+	/**
+	 * with whom is this session shared ?
+	 */
+	public function getUserShares(string $sessionId): array {
+		$ncUserList = $this->getUserList();
+		$sharesToDelete = [];
+		$sharedWith = [];
+		$sqlchk = '
+			SELECT username
+			FROM *PREFIX*phonetrack_shares
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . ' ;';
+		$req = $this->db->prepare($sqlchk);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$userId = $row['username'];
+			if (array_key_exists($userId, $ncUserList)) {
+				$userName = $ncUserList[$userId];
+				$sharedWith[$userId] = $userName;
+			} else {
+				$sharesToDelete[] = $userId;
+			}
+		}
+		$res->closeCursor();
+
+		// delete useless shares (with unexisting users)
+		foreach ($sharesToDelete as $uid) {
+			$sqlDel = '
+				DELETE FROM *PREFIX*phonetrack_shares
+				WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . '
+					AND username=' . $this->db_quote_escape_string($uid) . ' ;';
+			$req = $this->db->prepare($sqlDel);
+			$res = $req->execute();
+			$res->closeCursor();
+		}
+
+		return $sharedWith;
+	}
+
+	public function getReservedNames(string $token): array {
+		$result = [];
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('name', 'nametoken')
+			->from('phonetrack_devices', 'd')
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
+			$dbdevicename = $row['name'];
+			$dbnametoken = $row['nametoken'];
+			if ($dbnametoken !== '' && $dbnametoken !== null) {
+				$result[] = [
+					'token' => $dbnametoken,
+					'name' => $dbdevicename,
+				];
+			}
+		}
+		$req->closeCursor();
+
+		return $result;
+	}
+
+	/**
+	 * get the public shares for a session
+	 */
+	public function getPublicShares(string $sessionId): array {
+		$shares = [];
+		$sqlGet = '
+			SELECT *
+			FROM *PREFIX*phonetrack_pubshares
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . ' ;';
+		$req = $this->db->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$shares[] = [
+				'token' => $row['sharetoken'],
+				'filters' => $row['filters'],
+				'devicename' => $row['devicename'],
+				'lastposonly' => $row['lastposonly'],
+				'geofencify' => $row['geofencify'],
+			];
+		}
+		$res->closeCursor();
+
+		return $shares;
+	}
+
+	public function getDevices(string $sessionid): array {
+		$devices = [];
+		$sqlGet = '
+			SELECT id, name, alias, color, nametoken, shape
+			FROM *PREFIX*phonetrack_devices
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionid) . '
+			ORDER BY LOWER(name) ASC ;';
+		$req = $this->db->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$dbId = $row['id'];
+			$dbName = $row['name'];
+			$dbAlias = $row['alias'];
+			$dbColor = $row['color'];
+			$dbNameToken = $row['nametoken'];
+			$dbShape = $row['shape'];
+			$geofences = $this->getGeofences($dbId);
+			$proxims = $this->getProxims($dbId);
+			$oneDev = [$dbId, $dbName, $dbAlias, $dbColor, $dbNameToken, $geofences, $proxims, $dbShape];
+			$devices[] = $oneDev;
+		}
+		$res->closeCursor();
+
+		return $devices;
+	}
+
+	public function getUserList(?string $currentUserId = null): array {
+		$userNames = [];
+		try {
+			foreach ($this->userManager->search('') as $u) {
+				if ($currentUserId === null || $u->getUID() !== $currentUserId) {
+					$userNames[$u->getUID()] = $u->getDisplayName();
+				}
+			}
+		} catch (\Throwable $t) {
+		}
+		return $userNames;
+	}
+
+	public function getGeofences(int $deviceId): array {
+		$geofences = [];
+		$sqlfences = '
+			SELECT id, name, latmin, latmax, lonmin,
+				   lonmax, urlenter, urlleave,
+				   urlenterpost, urlleavepost,
+				   sendemail, emailaddr, sendnotif
+			FROM *PREFIX*phonetrack_geofences
+			WHERE deviceid=' . $this->db_quote_escape_string($deviceId) . ' ;';
+		$req = $this->db->prepare($sqlfences);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$fence = [];
+			foreach ($row as $k => $v) {
+				$fence[$k] = $v;
+			}
+			$geofences[] = $fence;
+		}
+		$res->closeCursor();
+		return $geofences;
+	}
+
+	public function getProxims(int $deviceId): array {
+		$proxims = [];
+		$sqlproxims = '
+			SELECT *PREFIX*phonetrack_proxims.id AS id, deviceid2, lowlimit, highlimit,
+				urlclose, urlfar,
+				urlclosepost, urlfarpost,
+				sendemail, emailaddr, sendnotif,
+				*PREFIX*phonetrack_devices.name AS dname2,
+				*PREFIX*phonetrack_sessions.name AS sname2
+			FROM *PREFIX*phonetrack_proxims
+			INNER JOIN *PREFIX*phonetrack_devices ON deviceid2=*PREFIX*phonetrack_devices.id
+			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
+			WHERE deviceid1=' . $this->db_quote_escape_string($deviceId) . ' ;';
+		$req = $this->db->prepare($sqlproxims);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$proxim = [];
+			foreach ($row as $k => $v) {
+				$proxim[$k] = $v;
+			}
+			$proxims[] = $proxim;
+		}
+		$res->closeCursor();
+		return $proxims;
+	}
 }
