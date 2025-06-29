@@ -44,7 +44,7 @@
 			<div id="app-settings">
 				<div id="app-settings-header">
 					<NcAppNavigationItem
-						:name="t('phonetrack', 'GpxPod settings')"
+						:name="t('phonetrack', 'PhoneTrack settings')"
 						@click="showSettings">
 						<template #icon>
 							<CogIcon

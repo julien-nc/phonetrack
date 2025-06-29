@@ -91,7 +91,7 @@ export default {
 			return this.track.onTop
 		},
 		trackGeojsonData() {
-			console.debug('[gpxpod] compute track geojson', this.track.geojson)
+			console.debug('[phonetrack] compute track geojson', this.track.geojson)
 			// use short point list for hovered track when we don't have the data yet
 			if (!this.track.geojson) {
 				return {
@@ -190,7 +190,7 @@ export default {
 			}
 		},
 		trackGeojsonData() {
-			console.debug('[gpxpod] trackGeojsonData has changed')
+			console.debug('[phonetrack] trackGeojsonData has changed')
 			this.remove()
 			this.init()
 		},
@@ -226,12 +226,12 @@ export default {
 	},
 
 	mounted() {
-		console.debug('[gpxpod] track mounted!!!!!', String(this.track.id))
+		console.debug('[phonetrack] track mounted!!!!!', String(this.track.id))
 		this.init()
 	},
 
 	destroyed() {
-		console.debug('[gpxpod] destroy track', String(this.track.id))
+		console.debug('[phonetrack] destroy track', String(this.track.id))
 		this.remove()
 	},
 
@@ -254,7 +254,7 @@ export default {
 			}
 		},
 		getColorSteps(coords, pointValues, min, max) {
-			console.debug('[gpxpod] simple gradient pointvalues', pointValues, 'min', min, 'max', max)
+			console.debug('[phonetrack] simple gradient pointvalues', pointValues, 'min', min, 'max', max)
 			const result = []
 			const accTraveledDistances = [0]
 			let prevLL = new LngLat(coords[0][0], coords[0][1])

@@ -43,7 +43,7 @@ export default {
 
 	computed: {
 		polygonGeojsonData() {
-			console.debug('[gpxpod] compute polygon geojson', this.lngLatsList)
+			console.debug('[phonetrack] compute polygon geojson', this.lngLatsList)
 			return {
 				type: 'FeatureCollection',
 				features: [
@@ -76,19 +76,19 @@ export default {
 			}
 		},
 		polygonGeojsonData() {
-			console.debug('[gpxpod] polygonGeojsonData has changed')
+			console.debug('[phonetrack] polygonGeojsonData has changed')
 			this.remove()
 			this.init()
 		},
 	},
 
 	mounted() {
-		console.debug('[gpxpod] polygon mounted!!!!!', this.layerId)
+		console.debug('[phonetrack] polygon mounted!!!!!', this.layerId)
 		this.init()
 	},
 
 	destroyed() {
-		console.debug('[gpxpod] destroy polygon', this.layerId)
+		console.debug('[phonetrack] destroy polygon', this.layerId)
 		this.remove()
 	},
 

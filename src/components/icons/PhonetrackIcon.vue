@@ -1,7 +1,7 @@
 <template>
 	<span :aria-hidden="!title"
 		:aria-label="title"
-		class="material-design-icon gpxpod-icon"
+		class="material-design-icon phonetrack-icon"
 		role="img"
 		v-bind="$attrs"
 		@click="$emit('click', $event)">

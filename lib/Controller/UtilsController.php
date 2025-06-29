@@ -1,22 +1,17 @@
 <?php
 
-/**
- * Nextcloud - phonetrack
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <eneiluj@posteo.net>
- * @copyright Julien Veyssier 2017
- */
-
 namespace OCA\PhoneTrack\Controller;
 
 use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\ToolsService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Exceptions\AppConfigTypeConflictException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -29,8 +24,10 @@ class UtilsController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IDBConnection $dbConnection,
 		private ToolsService $toolsService,
+		private TileServerMapper $tileServerMapper,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -61,7 +58,7 @@ class UtilsController extends Controller {
 	 * Add one tile server to the DB for current user
 	 */
 	#[NoAdminRequired]
-	public function addTileServer(string $servername, string $serverurl, string $type, string $token = '',
+	public function oldAddTileServer(string $servername, string $serverurl, string $type, string $token = '',
 		string $layers = '', string $version = '', string $tformat = '', string $opacity = '', bool $transparent = false,
 		int $minzoom = 1, int $maxzoom = 18, string $attribution = '') {
 		// first we check it does not already exist
@@ -115,7 +112,7 @@ class UtilsController extends Controller {
 	 * Delete one tile server entry from DB for current user
 	 */
 	#[NoAdminRequired]
-	public function deleteTileServer($servername, $type) {
+	public function oldDeleteTileServer($servername, $type) {
 		$sqldel = '
 			DELETE FROM *PREFIX*phonetrack_tileserver
 			WHERE ' . $this->dbDoubleQuotes . 'user' . $this->dbDoubleQuotes . '=' . $this->db_quote_escape_string($this->userId) . '
@@ -185,5 +182,107 @@ class UtilsController extends Controller {
 			$ov[$key] = $value;
 		}
 		return new DataResponse(['values' => $ov]);
+	}
+
+	/**
+	 * Set admin config values
+	 *
+	 * @param array $values
+	 * @return DataResponse
+	 * @throws AppConfigTypeConflictException
+	 */
+	public function setAdminConfig(array $values): DataResponse {
+		foreach ($values as $key => $value) {
+			if (in_array($key, ['maptiler_api_key'], true)) {
+				return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			}
+			$this->appConfig->setValueString(Application::APP_ID, $key, $value);
+		}
+		return new DataResponse('');
+	}
+
+	/**
+	 * Set sensitive admin config values
+	 *
+	 * @param array $values
+	 * @return DataResponse
+	 * @throws AppConfigTypeConflictException
+	 */
+	#[PasswordConfirmationRequired]
+	public function setSensitiveAdminConfig(array $values): DataResponse {
+		foreach ($values as $key => $value) {
+			if ($key === 'maptiler_api_key') {
+				$this->appConfig->setValueString(Application::APP_ID, $key, $value, false, true);
+			} else {
+				$this->appConfig->setValueString(Application::APP_ID, $key, $value);
+			}
+		}
+		return new DataResponse('');
+	}
+
+	/**
+	 * @param int $type
+	 * @param string $name
+	 * @param string $url
+	 * @param string|null $attribution
+	 * @param int|null $min_zoom
+	 * @param int|null $max_zoom
+	 * @return DataResponse
+	 */
+	#[NoAdminRequired]
+	public function addTileServer(int $type, string $name, string $url, ?string $attribution = null,
+		?int $min_zoom = null, ?int $max_zoom = null): DataResponse {
+		try {
+			$tileServer = $this->tileServerMapper->createTileServer($this->userId, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
+			return new DataResponse($tileServer);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @return DataResponse
+	 */
+	#[NoAdminRequired]
+	public function deleteTileServer(int $id): DataResponse {
+		try {
+			$this->tileServerMapper->deleteTileserver($id, $this->userId);
+			return new DataResponse(1);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $type
+	 * @param string $name
+	 * @param string $url
+	 * @param string|null $attribution
+	 * @param int|null $min_zoom
+	 * @param int|null $max_zoom
+	 * @return DataResponse
+	 */
+	public function adminAddTileServer(int $type, string $name, string $url, ?string $attribution = null,
+		?int $min_zoom = null, ?int $max_zoom = null): DataResponse {
+		try {
+			$tileServer = $this->tileServerMapper->createTileServer(null, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
+			return new DataResponse($tileServer);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @return DataResponse
+	 */
+	public function adminDeleteTileServer(int $id): DataResponse {
+		try {
+			$this->tileServerMapper->deleteTileserver($id, null);
+			return new DataResponse(1);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
 	}
 }

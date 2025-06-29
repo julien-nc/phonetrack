@@ -31,7 +31,7 @@ export default {
 	},
 
 	destroyed() {
-		console.debug('[gpxpod] destroy WAYPOINTS')
+		console.debug('[phonetrack] destroy WAYPOINTS')
 		this.removeWaypoints()
 	},
 
@@ -82,17 +82,17 @@ export default {
 			const props = e.features[0].properties
 			if (this.track.name) {
 				const tmpNode = document.createTextNode(this.track.name)
-				dataHtml += '<strong>' + t('gpxpod', 'Track') + '</strong>: ' + tmpNode.textContent + '<br>'
+				dataHtml += '<strong>' + t('phonetrack', 'Track') + '</strong>: ' + tmpNode.textContent + '<br>'
 			}
 			if (props.name) {
 				const tmpNode = document.createTextNode(props.name)
-				dataHtml += '<strong>' + t('gpxpod', 'Waypoint') + '</strong>: ' + tmpNode.textContent + '<br>'
+				dataHtml += '<strong>' + t('phonetrack', 'Waypoint') + '</strong>: ' + tmpNode.textContent + '<br>'
 			}
 			if (props.time) {
-				dataHtml += '<strong>' + t('gpxpod', 'Date') + '</strong>: ' + moment.unix(props.time).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>'
+				dataHtml += '<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(props.time).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>'
 			}
 			if (props.elevation) {
-				dataHtml += '<strong>' + t('gpxpod', 'Altitude') + '</strong>: ' + metersToElevation(props.elevation) + '<br>'
+				dataHtml += '<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(props.elevation) + '<br>'
 			}
 			const html = '<div ' + containerClass + ' style="border-color: ' + this.track.color + ';">'
 				+ dataHtml

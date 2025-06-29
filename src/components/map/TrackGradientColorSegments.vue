@@ -132,7 +132,7 @@ export default {
 	},
 
 	destroyed() {
-		console.debug('[gpxpod] destroy COLORSEGMENT track', this.layerId)
+		console.debug('[phonetrack] destroy COLORSEGMENT track', this.layerId)
 		this.remove()
 	},
 

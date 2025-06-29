@@ -9,7 +9,7 @@ import stylelint from 'vite-plugin-stylelint'
 const isProduction = process.env.NODE_ENV === 'production'
 
 export default createAppConfig({
-	admin: 'src/admin.js',
+	adminSettings: 'src/adminSettings.js',
 	phonetrack: 'src/phonetrack.js',
     mainVue: 'src/mainVue.js',
 }, {

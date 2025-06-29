@@ -38,7 +38,7 @@
 					<template #icon>
 						<InformationOutlineIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Details') }}
+					{{ t('phonetrack', 'Details') }}
 				</NcActionButton>
 				<NcActionButton v-if="!isPublicPage"
 					:close-after-click="true"
@@ -46,7 +46,7 @@
 					<template #icon>
 						<ShareVariantIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Share') }}
+					{{ t('phonetrack', 'Share') }}
 				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
@@ -54,7 +54,7 @@
 					<template #icon>
 						<MagnifyExpandIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Zoom to bounds') }}
+					{{ t('phonetrack', 'Zoom to bounds') }}
 				</NcActionButton>
 				<NcActionLink
 					:close-after-click="true"
@@ -63,7 +63,7 @@
 					<template #icon>
 						<DownloadIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Download') }}
+					{{ t('phonetrack', 'Download') }}
 				</NcActionLink>
 				<NcActionButton
 					:close-after-click="true"
@@ -71,7 +71,7 @@
 					<template #icon>
 						<PaletteIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Change color') }}
+					{{ t('phonetrack', 'Change color') }}
 				</NcActionButton>
 				<NcActionButton
 					:close-after-click="false"
@@ -80,7 +80,7 @@
 					<template #icon>
 						<BrushIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Change color criteria') }}
+					{{ t('phonetrack', 'Change color criteria') }}
 				</NcActionButton>
 				<NcActionButton v-if="!isPublicPage"
 					:close-after-click="true"
@@ -88,7 +88,7 @@
 					<template #icon>
 						<ChartAreasplineVariantIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Correct elevations') }}
+					{{ t('phonetrack', 'Correct elevations') }}
 				</NcActionButton>
 				<NcActionButton v-if="!isPublicPage"
 					:close-after-click="true"
@@ -96,7 +96,7 @@
 					<template #icon>
 						<DeleteIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Delete this file') }}
+					{{ t('phonetrack', 'Delete this file') }}
 				</NcActionButton>
 			</template>
 			<template v-else>
@@ -105,7 +105,7 @@
 					<template #icon>
 						<ChevronLeftIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Back') }}
+					{{ t('phonetrack', 'Back') }}
 				</NcActionButton>
 				<NcActionRadio v-for="(c, ckey) in COLOR_CRITERIAS"
 					:key="ckey"

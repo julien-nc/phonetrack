@@ -16,7 +16,7 @@
 			<template v-if="!isCompactMode" #list>
 				<NcEmptyContent v-if="false"
 					:name="t('phonetrack', 'No device')"
-					:title="t('gpxpod', 'No device')"
+					:title="t('phonetrack', 'No device')"
 					class="list-empty-content">
 					<template #icon>
 						<FolderOffOutlineIcon />
@@ -114,7 +114,7 @@ export default {
 	},
 
 	provide: {
-		// isPublicPage: ('shareToken' in loadState('gpxpod', 'gpxpod-state')),
+		// isPublicPage: ('shareToken' in loadState('phonetrack', 'phonetrack-state')),
 	},
 
 	props: {

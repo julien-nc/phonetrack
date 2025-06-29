@@ -12,7 +12,7 @@
 
 return [
 	'routes' => [
-		['name' => 'page#indexVue', 'url' => '/vue', 'verb' => 'GET'],
+		['name' => 'page#index', 'url' => '/vue', 'verb' => 'GET'],
 
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],
 		['name' => 'oldPage#publicWebLog', 'url' => '/publicWebLog/{token}/{devicename}', 'verb' => 'GET'],
@@ -81,11 +81,26 @@ return [
 		['name' => 'oldPage#deleteDevice', 'url' => '/deleteDevice', 'verb' => 'POST'],
 		['name' => 'oldPage#getUserList', 'url' => '/getUserList', 'verb' => 'POST'],
 
-		['name' => 'utils#setPointQuota', 'url' => '/setPointQuota', 'verb' => 'POST'],
-		['name' => 'utils#addTileServer', 'url' => '/addTileServer', 'verb' => 'POST'],
-		['name' => 'utils#deleteTileServer', 'url' => '/deleteTileServer', 'verb' => 'POST'],
+		['name' => 'utils#oldAddTileServer', 'url' => '/old/addTileServer', 'verb' => 'POST'],
+		['name' => 'utils#oldDeleteTileServer', 'url' => '/old/deleteTileServer', 'verb' => 'POST'],
+
+		['name' => 'utils#addTileServer', 'url' => '/tileservers', 'verb' => 'POST'],
+		['name' => 'utils#deleteTileServer', 'url' => '/tileservers/{id}', 'verb' => 'DELETE'],
+		['name' => 'utils#adminAddTileServer', 'url' => '/admin/tileservers', 'verb' => 'POST'],
+		['name' => 'utils#AdminDeleteTileServer', 'url' => '/admin/tileservers/{id}', 'verb' => 'DELETE'],
 		['name' => 'utils#getOptionsValues', 'url' => '/getOptionsValues', 'verb' => 'POST'],
 		['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],
 		['name' => 'utils#saveOptionValues', 'url' => '/saveOptionValues', 'verb' => 'PUT'],
+		['name' => 'utils#setAdminConfig', 'url' => '/admin-config', 'verb' => 'PUT'],
+		['name' => 'utils#setSensitiveAdminConfig', 'url' => '/admin-config/sensitive', 'verb' => 'PUT'],
+
+		['name' => 'map#getRasterTile', 'url' => '/tiles/{service}/{x}/{y}/{z}', 'verb' => 'GET'],
+		['name' => 'map#nominatimSearch', 'url' => '/nominatim/search', 'verb' => 'GET'],
+		['name' => 'map#getMapTilerStyle', 'url' => '/maptiler/maps/{version}/style.json', 'verb' => 'GET'],
+		['name' => 'map#getMapTilerFont', 'url' => '/maptiler/fonts/{fontstack}/{range}.pbf', 'verb' => 'GET'],
+		['name' => 'map#getMapTilerTiles', 'url' => '/maptiler/tiles/{version}/tiles.json', 'verb' => 'GET'],
+		['name' => 'map#getMapTilerTile', 'url' => '/maptiler/tiles/{version}/{z}/{x}/{y}.{ext}', 'verb' => 'GET'],
+		['name' => 'map#getMapTilerSprite', 'url' => '/maptiler/maps/{version}/sprite.{ext}', 'verb' => 'GET'],
+		['name' => 'map#getMapTilerResource', 'url' => '/maptiler/resources/{name}', 'verb' => 'GET'],
 	]
 ];

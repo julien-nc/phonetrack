@@ -76,7 +76,7 @@ export function metersToDistance(m, unit = 'metric') {
 
 export function metersToElevation(m, unit = 'metric') {
 	if (m === null) {
-		return t('gpxpod', 'No elevation data')
+		return t('phonetrack', 'No elevation data')
 	}
 	const n = parseFloat(m)
 	if (unit === 'metric' || unit === 'nautical') {
@@ -106,7 +106,7 @@ export function metersToElevationRaw(m, unit) {
 
 export function kmphToSpeed(kmph, unit = 'metric') {
 	if (kmph === null) {
-		return t('gpxpod', 'No speed data')
+		return t('phonetrack', 'No speed data')
 	}
 	const nkmph = parseFloat(kmph)
 	if (unit === 'metric') {
@@ -296,13 +296,13 @@ export function getPointExtensions(geojson) {
 
 export function formatExtensionKey(key) {
 	return key === 'speed'
-		? t('gpxpod', 'GPS speed')
+		? t('phonetrack', 'GPS speed')
 		: key === 'heart_rate'
-			? t('gpxpod', 'Heart rate')
+			? t('phonetrack', 'Heart rate')
 			: key === 'temperature'
-				? t('gpxpod', 'Temperature')
+				? t('phonetrack', 'Temperature')
 				: key === 'distance'
-					? t('gpxpod', 'Traveled distance (device)')
+					? t('phonetrack', 'Traveled distance (device)')
 					: key
 }
 
@@ -310,7 +310,7 @@ export function formatExtensionValue(key, value, unit = 'metric') {
 	return key === 'speed'
 		? kmphToSpeed(parseFloat(value), unit)
 		: key === 'heart_rate'
-			? value + ' ' + t('gpxpod', 'bpm')
+			? value + ' ' + t('phonetrack', 'bpm')
 			: key === 'temperature'
 				? value + '°'
 				: key === 'distance'

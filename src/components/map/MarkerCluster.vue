@@ -79,7 +79,7 @@ export default {
 
 	watch: {
 		clusterGeojsonData(n) {
-			console.debug('[gpxpod] CLUSTER tracks changed', n)
+			console.debug('[phonetrack] CLUSTER tracks changed', n)
 			this.remove()
 			this.init()
 		},
@@ -90,7 +90,7 @@ export default {
 	},
 
 	destroyed() {
-		console.debug('[gpxpod] destroy marker cluster')
+		console.debug('[phonetrack] destroy marker cluster')
 		this.remove()
 	},
 
@@ -277,11 +277,11 @@ export default {
 		},
 		getPopupContent(track) {
 			return '<div class="with-button" style="border-color: ' + (track.color ?? 'blue') + ';">'
-				+ '<strong>' + t('gpxpod', 'Name') + '</strong>: ' + track.name
+				+ '<strong>' + t('phonetrack', 'Name') + '</strong>: ' + track.name
 				+ '<br>'
-				+ '<strong>' + t('gpxpod', 'Start') + '</strong>: ' + moment.unix(track.date_begin).format('YYYY-MM-DD HH:mm:ss (Z)')
+				+ '<strong>' + t('phonetrack', 'Start') + '</strong>: ' + moment.unix(track.date_begin).format('YYYY-MM-DD HH:mm:ss (Z)')
 				+ '<br>'
-				+ '<strong>' + t('gpxpod', 'Total distance') + '</strong>: ' + metersToDistance(track.total_distance, this.settings.distance_unit)
+				+ '<strong>' + t('phonetrack', 'Total distance') + '</strong>: ' + metersToDistance(track.total_distance, this.settings.distance_unit)
 				+ '</div>'
 		},
 		onUnclusteredPointClick(e) {

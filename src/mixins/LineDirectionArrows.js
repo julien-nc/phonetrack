@@ -29,13 +29,13 @@ export default {
 	},
 
 	destroyed() {
-		console.debug('[gpxpod] destroy ARROWS')
+		console.debug('[phonetrack] destroy ARROWS')
 		this.removeArrows()
 	},
 
 	methods: {
 		bringArrowsToTop() {
-			console.debug('[gpxpod] bring track ARROWS to top', String(this.track.id))
+			console.debug('[phonetrack] bring track ARROWS to top', String(this.track.id))
 			if (this.map.getLayer(this.layerId + '-arrows')) {
 				this.map.moveLayer(this.layerId + '-arrows')
 			}

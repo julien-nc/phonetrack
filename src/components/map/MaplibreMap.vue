@@ -5,7 +5,7 @@
 			<img :src="logoUrl"
 				alt="MapTiler logo">
 		</a>
-		<div id="gpxpod-map" ref="mapContainer" />
+		<div id="phonetrack-map" ref="mapContainer" />
 		<div v-if="map"
 			class="map-content">
 			<VMarker v-if="positionMarkerEnabled && positionMarkerLngLat"
@@ -118,7 +118,7 @@ export default {
 			positionMarkerLngLat: null,
 			logoUrl: this.isPublicPage
 				? 'https://api.maptiler.com/resources/logo.svg'
-				: generateUrl('/apps/gpxpod/maptiler/resources/logo.svg'),
+				: generateUrl('/apps/phonetrack/maptiler/resources/logo.svg'),
 		}
 	},
 
@@ -192,7 +192,7 @@ export default {
 				? [parseFloat(this.settings.centerLng), parseFloat(this.settings.centerLat)]
 				: [0, 0]
 			const mapOptions = {
-				container: 'gpxpod-map',
+				container: 'phonetrack-map',
 				style: restoredStyleObj.uri ? restoredStyleObj.uri : restoredStyleObj,
 				center: centerLngLat,
 				zoom: this.settings.zoom ?? 1,
@@ -219,7 +219,7 @@ export default {
 			this.map.addControl(
 				new MaplibreGeocoder({ forwardGeocode: maplibreForwardGeocode }, {
 					maplibregl,
-					placeholder: t('gpxpod', 'Search a location'),
+					placeholder: t('phonetrack', 'Search a location'),
 					minLength: 4,
 					debounceSearch: 400,
 					popup: true,
@@ -366,7 +366,7 @@ export default {
 				})
 		},
 		loadImage(imgKey) {
-			return this.map.loadImage(imagePath('gpxpod', mapImages[imgKey]))
+			return this.map.loadImage(imagePath('phonetrack', mapImages[imgKey]))
 				.then(response => {
 					this.map.addImage(imgKey, response.data)
 				})
@@ -381,7 +381,7 @@ export default {
 				svgIcon.onerror = () => {
 					reject(new Error('Failed to load ' + imgKey))
 				}
-				svgIcon.src = imagePath('gpxpod', mapVectorImages[imgKey])
+				svgIcon.src = imagePath('phonetrack', mapVectorImages[imgKey])
 			})
 		},
 		reRenderLayersAndTerrain() {
@@ -475,7 +475,7 @@ export default {
 				this.map.addSource('terrain', {
 					type: 'raster-dem',
 					// url: 'https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=' + this.settings.maptiler_api_key,
-					url: generateUrl('/apps/gpxpod/maptiler/tiles/terrain-rgb-v2/tiles.json?key=' + this.settings.maptiler_api_key),
+					url: generateUrl('/apps/phonetrack/maptiler/tiles/terrain-rgb-v2/tiles.json?key=' + this.settings.maptiler_api_key),
 				})
 
 				// Setting up the terrain with a 0 exaggeration factor
@@ -664,11 +664,11 @@ export default {
 			const containerClass = persist ? 'class="with-button"' : ''
 			const extraPointInfo = point[point.length - 1]
 			const dataHtml = (point[3] === null && point[2] === null)
-				? t('gpxpod', 'No data')
-				: (point[3] !== null ? ('<strong>' + t('gpxpod', 'Date') + '</strong>: ' + moment.unix(point[3]).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
-				+ (point[2] !== null ? ('<strong>' + t('gpxpod', 'Altitude') + '</strong>: ' + metersToElevation(point[2], this.settings.distance_unit) + '<br>') : '')
-				+ (extraPointInfo.speed ? ('<strong>' + t('gpxpod', 'Speed') + '</strong>: ' + kmphToSpeed(extraPointInfo.speed, this.settings.distance_unit) + '<br>') : '')
-				+ (extraPointInfo.pace ? ('<strong>' + t('gpxpod', 'Pace') + '</strong>: ' + minPerKmToPace(extraPointInfo.pace, this.settings.distance_unit) + '<br>') : '')
+				? t('phonetrack', 'No data')
+				: (point[3] !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point[3]).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
+				+ (point[2] !== null ? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point[2], this.settings.distance_unit) + '<br>') : '')
+				+ (extraPointInfo.speed ? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(extraPointInfo.speed, this.settings.distance_unit) + '<br>') : '')
+				+ (extraPointInfo.pace ? ('<strong>' + t('phonetrack', 'Pace') + '</strong>: ' + minPerKmToPace(extraPointInfo.pace, this.settings.distance_unit) + '<br>') : '')
 				+ (extraPointInfo.extension
 					? ('<strong>' + formatExtensionKey(extraPointInfo.extension.key) + '</strong>: '
 						+ formatExtensionValue(extraPointInfo.extension.key, extraPointInfo.extension.value, this.settings.distance_unit))
@@ -721,7 +721,7 @@ export default {
 	height: 100%;
 	//height: calc(100vh - 77px); /* calculate height of the screen minus the heading */
 
-	#gpxpod-map {
+	#phonetrack-map {
 		width: 100%;
 		height: 100%;
 	}

@@ -76,7 +76,7 @@ export default {
 
 	watch: {
 		clusterGeojsonData(n) {
-			console.debug('[gpxpod] Cluster pictures changed', n)
+			console.debug('[phonetrack] Cluster pictures changed', n)
 			this.remove()
 			this.init()
 			this.updateMarkers()
@@ -328,10 +328,10 @@ export default {
 				+ '<strong>' + formattedDate + '</strong>'
 				+ '<p class="tooltip-photo-name">' + escapeHtml(basename(picture.path)) + '</p>'
 				+ (picture.direction !== null && picture.direction !== undefined
-					? '<p><b>' + t('gpxpod', 'Direction') + ': </b><span class="photo-direction" style="display: inline-block; '
+					? '<p><b>' + t('phonetrack', 'Direction') + ': </b><span class="photo-direction" style="display: inline-block; '
 						+ 'transform: rotate(' + picture.direction + 'deg);">⬆</span> ' + picture.direction + '°</p>'
 					: '')
-				+ (persistent ? '<a href="' + generateUrl('/f/' + picture.file_id) + '" target="_blank">' + t('gpxpod', 'Open in Files') + '</a>' : '')
+				+ (persistent ? '<a href="' + generateUrl('/f/' + picture.file_id) + '" target="_blank">' + t('phonetrack', 'Open in Files') + '</a>' : '')
 				+ '</div>'
 				+ '</div>'
 		},

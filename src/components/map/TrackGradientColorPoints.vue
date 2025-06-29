@@ -119,7 +119,7 @@ export default {
 	},
 
 	destroyed() {
-		console.debug('[gpxpod] destroy COLORPOINT track ' + this.layerId)
+		console.debug('[phonetrack] destroy COLORPOINT track ' + this.layerId)
 		this.remove()
 	},
 
@@ -186,7 +186,7 @@ export default {
 				const cleanValues = pointValues.filter(v => v !== undefined)
 				const min = cleanValues.reduce((acc, val) => Math.min(acc, val))
 				const max = cleanValues.reduce((acc, val) => Math.max(acc, val))
-				console.debug('[gpxpod] pointvalues', pointValues, 'min', min, 'max', max)
+				console.debug('[phonetrack] pointvalues', pointValues, 'min', min, 'max', max)
 				// process the first pair outside the loop, we need 2 color indexes to form a pair :-)
 				let colorIndex = this.getColorIndex(min, max, pointValues[0])
 				colorIndex = this.processPair(geojsons, min, max, colorIndex, coords[0], coords[1], pointValues[1])
@@ -304,7 +304,7 @@ export default {
 
 			// colored lines
 			const pairData = this.$options.geojsonsPerColorPair
-			console.debug('[gpxpod] TrackGradientColorPoints: pair data', pairData)
+			console.debug('[phonetrack] TrackGradientColorPoints: pair data', pairData)
 			Object.keys(pairData).forEach((ci1) => {
 				Object.keys(pairData[ci1]).forEach((ci2) => {
 					const pairId = this.layerId + '-cpoint-' + ci1 + '-' + ci2

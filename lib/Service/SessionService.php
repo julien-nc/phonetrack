@@ -941,4 +941,43 @@ class SessionService {
 		$res->closeCursor();
 		return $proxims;
 	}
+
+	public function getSessions2(string $userId): array {
+		$sessions = $this->sessionMapper->findByUser($userId);
+		$sessions = array_map(function (Session $session) {
+			$json = $session->jsonSerialize();
+			$json['shared_with'] = $this->getUserShares($session->getToken());
+			$json['reserved_names'] = $this->getReservedNames($session->getToken());
+			$json['public_shares'] = $this->getPublicShares($session->getToken());
+			$json['devices'] = $this->getDevices($session->getToken());
+			return $json;
+		}, $sessions);
+
+		// sessions shared with current user
+		$sidToShareToken = [];
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('sessionid', 'sharetoken')
+			->from('phonetrack_shares')
+			->where(
+				$qb->expr()->eq('username', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
+			$sidToShareToken[$row['sessionid']] = $row['sharetoken'];
+		}
+		$req->closeCursor();
+
+		$sharedSessions = $this->sessionMapper->getSessionsById(array_keys($sidToShareToken));
+		$sharedSessions = array_map(function (Session $session) use ($sidToShareToken) {
+			$json = $session->jsonSerialize();
+			$json['shared_with'] = $this->getUserShares($session->getToken());
+			$json['reserved_names'] = $this->getReservedNames($session->getToken());
+			$json['public_shares'] = $this->getPublicShares($session->getToken());
+			$json['devices'] = $this->getDevices($session->getToken());
+			$json['token'] = $sidToShareToken[$json['id']];
+			return $json;
+		}, $sharedSessions);
+
+		return array_merge($sessions, $sharedSessions);
+	}
 }

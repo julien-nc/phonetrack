@@ -33,7 +33,7 @@
 					<template #icon>
 						<ChevronLeftIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Back') }}
+					{{ t('phonetrack', 'Back') }}
 				</NcActionButton>
 				<NcActionRadio v-for="(so, soId) in DEVICE_SORT_ORDER"
 					:key="soId"
@@ -49,14 +49,14 @@
 					:model-value="session.sortAscending"
 					:value="true"
 					@change="onSortAscendingChange(true)">
-					⬇ {{ t('gpxpod', 'Sort ascending') }}
+					⬇ {{ t('phonetrack', 'Sort ascending') }}
 				</NcActionRadio>
 				<NcActionRadio
 					name="sortAscending"
 					:model-value="session.sortAscending"
 					:value="false"
 					@change="onSortAscendingChange(false)">
-					⬆ {{ t('gpxpod', 'Sort descending') }}
+					⬆ {{ t('phonetrack', 'Sort descending') }}
 				</NcActionRadio>
 			</template>
 			<template v-else-if="extraActionsOpen && !isPublicPage">
@@ -65,7 +65,7 @@
 					<template #icon>
 						<ChevronLeftIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Back') }}
+					{{ t('phonetrack', 'Back') }}
 				</NcActionButton>
 				<NcActionLink
 					:close-after-click="true"
@@ -74,7 +74,7 @@
 					<template #icon>
 						<DownloadIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Download') }}
+					{{ t('phonetrack', 'Download') }}
 				</NcActionLink>
 				<NcActionLink
 					key="downloadKmlLink"
@@ -84,7 +84,7 @@
 					<template #icon>
 						<DownloadIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Download as KML') }}
+					{{ t('phonetrack', 'Download as KML') }}
 				</NcActionLink>
 				<NcActionLink
 					key="downloadKmzLink"
@@ -94,7 +94,7 @@
 					<template #icon>
 						<DownloadIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Download as KMZ (with photos)') }}
+					{{ t('phonetrack', 'Download as KMZ (with photos)') }}
 				</NcActionLink>
 			</template>
 			<template v-else-if="!isPublicPage">
@@ -104,7 +104,7 @@
 					<template #icon>
 						<InformationOutlineIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Details') }}
+					{{ t('phonetrack', 'Details') }}
 				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
@@ -112,7 +112,7 @@
 					<template #icon>
 						<ShareVariantIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Share') }}
+					{{ t('phonetrack', 'Share') }}
 				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
@@ -121,7 +121,7 @@
 						<ToggleSwitchIcon v-if="allDevicesSelected" :size="20" />
 						<ToggleSwitchOffOutlineIcon v-else :size="20" />
 					</template>
-					{{ t('gpxpod', 'Toggle all') }}
+					{{ t('phonetrack', 'Toggle all') }}
 				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
@@ -129,7 +129,7 @@
 					<template #icon>
 						<MagnifyExpandIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'Zoom to bounds') }}
+					{{ t('phonetrack', 'Zoom to bounds') }}
 				</NcActionButton>
 				<NcActionButton :close-after-click="false"
 					:is-menu="true"
@@ -137,7 +137,7 @@
 					<template #icon>
 						<SortAscending :size="20" />
 					</template>
-					{{ t('gpxpod', 'Change device sort order') }}
+					{{ t('phonetrack', 'Change device sort order') }}
 				</NcActionButton>
 				<NcActionButton v-if="true"
 					:close-after-click="true"
@@ -153,7 +153,7 @@
 					<template #icon>
 						<DotsHorizontalIcon :size="20" />
 					</template>
-					{{ t('gpxpod', 'More actions') }}
+					{{ t('phonetrack', 'More actions') }}
 				</NcActionButton>
 			</template>
 		</template>
@@ -262,13 +262,13 @@ export default {
 		},
 		downloadKmlLink() {
 			return generateUrl(
-				'/apps/gpxpod/directories/{dirId}/kml',
+				'/apps/phonetrack/directories/{dirId}/kml',
 				{ dirId: this.session.id },
 			)
 		},
 		downloadKmzLink() {
 			return generateUrl(
-				'/apps/gpxpod/directories/{dirId}/kmz',
+				'/apps/phonetrack/directories/{dirId}/kmz',
 				{ dirId: this.session.id },
 			)
 		},

@@ -77,7 +77,7 @@ export default {
 			return this.track.onTop
 		},
 		trackGeojsonData() {
-			console.debug('[gpxpod] compute track geojson', this.track.geojson)
+			console.debug('[phonetrack] compute track geojson', this.track.geojson)
 			// use short point list for hovered track when we don't have the data yet
 			if (!this.track.geojson) {
 				return {
@@ -110,7 +110,7 @@ export default {
 			}
 		},
 		trackGeojsonData() {
-			console.debug('[gpxpod] trackGeojsonData has changed')
+			console.debug('[phonetrack] trackGeojsonData has changed')
 			this.remove()
 			this.init()
 		},
@@ -135,18 +135,18 @@ export default {
 	},
 
 	mounted() {
-		console.debug('[gpxpod] track mounted!!!!!', String(this.track.id))
+		console.debug('[phonetrack] track mounted!!!!!', String(this.track.id))
 		this.init()
 	},
 
 	destroyed() {
-		console.debug('[gpxpod] destroy track', String(this.track.id))
+		console.debug('[phonetrack] destroy track', String(this.track.id))
 		this.remove()
 	},
 
 	methods: {
 		bringToTop() {
-			console.debug('[gpxpod] bring track to top', String(this.track.id))
+			console.debug('[phonetrack] bring track to top', String(this.track.id))
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.moveLayer(this.borderLayerId)
 			}
