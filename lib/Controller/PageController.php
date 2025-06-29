@@ -59,6 +59,8 @@ class PageController extends Controller {
 		$adminProxyOsm = $this->appConfig->getValueString(Application::APP_ID, 'proxy_osm', '1') === '1';
 		$settings['proxy_osm'] = $adminProxyOsm;
 
+		$settings['app_version'] = $this->appConfig->getValueString(Application::APP_ID, 'installed_version');
+
 		$sessions = $this->sessionService->getSessions2($this->userId);
 
 		$userTileServers = $this->tileServerMapper->getTileServersOfUser($this->userId);

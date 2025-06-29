@@ -66,9 +66,9 @@
 			:settings="state.settings"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" /-->
-		<!--PhonetrackSettingsDialog
+		<PhonetrackSettingsDialog
 			:settings="state.settings"
-			@save-options="saveOptions" /-->
+			@save-options="saveOptions" />
 	</NcContent>
 </template>
 
@@ -88,7 +88,7 @@ import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
-// import PhonetrackSettingsDialog from './components/GpxpodSettingsDialog.vue'
+import PhonetrackSettingsDialog from './components/PhonetrackSettingsDialog.vue'
 import Navigation from './components/Navigation.vue'
 // import SessionSidebar from './components/SessionSidebar.vue'
 // import DeviceSidebar from './components/DeviceSidebar.vue'
@@ -105,7 +105,7 @@ export default {
 		// DeviceSidebar,
 		// SessionSidebar,
 		Navigation,
-		// PhonetrackSettingsDialog,
+		PhonetrackSettingsDialog,
 		NcAppContent,
 		NcContent,
 		// DeviceList,
