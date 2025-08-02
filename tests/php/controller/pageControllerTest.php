@@ -23,10 +23,13 @@ use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\Service\ToolsService;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 
@@ -196,8 +199,10 @@ class PageNLogControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
+			$c->get(IAppConfig::class),
 			$c->get(IDBConnection::class),
 			$c->get(ToolsService::class),
+			$c->get(TileServerMapper::class),
 			'test'
 		);
 	}
@@ -349,33 +354,28 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($values['lala'], 'lolo');
 
 		// ADD TILE SERVER
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
-		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		// $resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		// $data = $resp->getData();
+		// $done = $data['done'];
+		// $this->assertEquals($done, 1);
 
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$tsId = $data->jsonSerialize()['id'];
 
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 0);
+		$tsId2 = $data->jsonSerialize()['id'];
 
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		$resp = $this->utilsController->deleteTileServer($tsId);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$this->assertEquals($data, 1);
 
 		// SQL INJECTION
 		// TODO find something else than deleting options
@@ -2085,21 +2085,18 @@ class PageNLogControllerTest extends TestCase {
 
 		// JUST to increase coverage
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$tsId = $data->jsonSerialize()['id'];
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 
 		// INDEX
 		$resp = $this->pageController->index();
 
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		$resp = $this->utilsController->deleteTileServer($tsId);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$this->assertEquals($data, 1);
 
 		// PUBLIC WEB LOG with non existent session
 		$resp = $this->pageController->publicWebLog('', '');
