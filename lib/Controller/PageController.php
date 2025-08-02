@@ -13,17 +13,23 @@
 namespace OCA\PhoneTrack\Controller;
 
 use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\MapService;
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\Service\ToolsService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\DB\Exception;
 use OCP\IAppConfig;
 use OCP\IL10N;
 
@@ -37,6 +43,7 @@ class PageController extends Controller {
 		IRequest $request,
 		private LoggerInterface $logger,
 		private IL10N $l10n,
+		private SessionMapper $sessionMapper,
 		private SessionService $sessionService,
 		private IInitialState $initialStateService,
 		private IAppConfig $appConfig,
@@ -78,5 +85,42 @@ class PageController extends Controller {
 		$this->mapService->addPageCsp($csp, $extraTileServers);
 		$response->setContentSecurityPolicy($csp);
 		return $response;
+	}
+
+	/**
+	 * @param string $name
+	 * @return DataResponse
+	 * @throws MultipleObjectsReturnedException
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	public function createSession(string $name): DataResponse {
+		// check if session name is not already used
+		try {
+			$session = $this->sessionMapper->getUserSessionByName($this->userId, $name);
+			return new DataResponse(['error' => 'already_exists'], Http::STATUS_BAD_REQUEST);
+		} catch (DoesNotExistException $e) {
+		}
+
+		// determine token
+		$token = md5($this->userId . $name . rand());
+		$publicViewToken = md5($this->userId . $name . rand());
+
+		$newSession = $this->sessionMapper->createSession($this->userId, $name, $token, $publicViewToken, true);
+		$newSession = $newSession->jsonSerialize();
+		$newSession['shared_with'] = [];
+		$newSession['reserved_names'] = [];
+		$newSession['public_shares'] = [];
+		$newSession['devices'] = [];
+		return new DataResponse(['session' => $newSession]);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @return DataResponse
+	 */
+	public function deleteSession(int $sessionId): DataResponse {
+		$this->sessionMapper->deleteSession($this->userId, $sessionId);
+		return new DataResponse([]);
 	}
 }

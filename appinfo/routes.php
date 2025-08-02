@@ -13,6 +13,8 @@
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/vue', 'verb' => 'GET'],
+		['name' => 'page#createSession', 'url' => '/session', 'verb' => 'POST'],
+		['name' => 'page#deleteSession', 'url' => '/session/{sessionId}', 'verb' => 'DELETE'],
 
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],
 		['name' => 'oldPage#publicWebLog', 'url' => '/publicWebLog/{token}/{devicename}', 'verb' => 'GET'],

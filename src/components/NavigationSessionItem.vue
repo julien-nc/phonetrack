@@ -335,7 +335,7 @@ export default {
 			emit('session-hover-out', this.session.id)
 		},
 		onDelete() {
-			emit('session-delete', this.session.id)
+			emit('delete-session', { sessionId: this.session.id, sessionName: this.session.name })
 		},
 	},
 }

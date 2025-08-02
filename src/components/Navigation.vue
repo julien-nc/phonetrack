@@ -13,7 +13,7 @@
 						</template>
 						<NcActionButton
 							:close-after-click="true"
-							@click="onCreateSessionClick">
+							@click="showCreationModal = true">
 							<template #icon>
 								<PlusIcon :size="20" />
 							</template>
@@ -32,6 +32,8 @@
 			</NcAppNavigationSearch>
 		</template>
 		<template #list>
+			<NewSessionModal v-if="showCreationModal"
+				@close="showCreationModal = false" />
 			<NavigationSessionItem v-for="s in filteredSessions"
 				:key="s.id"
 				class="sessionItem"
@@ -70,6 +72,7 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 
 import NavigationSessionItem from './NavigationSessionItem.vue'
+import NewSessionModal from './NewSessionModal.vue'
 
 import { getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
@@ -80,6 +83,7 @@ export default {
 
 	components: {
 		NavigationSessionItem,
+		NewSessionModal,
 		NcAppNavigationItem,
 		NcAppNavigation,
 		NcActionButton,
@@ -108,6 +112,7 @@ export default {
 			addMenuOpen: false,
 			lastBrowsePath: null,
 			sessionFilterQuery: '',
+			showCreationModal: false,
 		}
 	},
 
@@ -140,9 +145,6 @@ export default {
 			if (!open) {
 				this.addMenuOpen = false
 			}
-		},
-		onCreateSessionClick() {
-			console.debug('create session')
 		},
 		onImportSessionClick() {
 			const picker = getFilePickerBuilder(t('phonetrack', 'Import gpx/kml/json session file'))

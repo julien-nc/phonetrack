@@ -178,6 +178,8 @@ export default {
 		subscribe('save-settings', this.saveOptions)
 		subscribe('tile-server-deleted', this.onTileServerDeleted)
 		subscribe('tile-server-added', this.onTileServerAdded)
+		subscribe('create-session', this.onCreateSession)
+		subscribe('delete-session', this.onDeleteSession)
 		emit('nav-toggled')
 	},
 
@@ -185,6 +187,8 @@ export default {
 		unsubscribe('save-settings', this.saveOptions)
 		unsubscribe('tile-server-deleted', this.onTileServerDeleted)
 		unsubscribe('tile-server-added', this.onTileServerAdded)
+		unsubscribe('create-session', this.onCreateSession)
+		unsubscribe('delete-session', this.onDeleteSession)
 	},
 
 	methods: {
@@ -233,6 +237,50 @@ export default {
 		onUpdateActiveTab(tabId) {
 			console.debug('active tab change', tabId)
 			this.activeSidebarTab = tabId
+		},
+		onCreateSession(name) {
+			if (!name) {
+				showError(t('phonetrack', 'Invalid session name'))
+				return
+			}
+			const req = {
+				name,
+			}
+			const url = generateUrl('/apps/phonetrack/session')
+			axios.post(url, req).then((response) => {
+				this.state.sessions.push(response.data.session)
+			}).catch((error) => {
+				console.error(error)
+				if (error.response.data.error === 'already_exists') {
+					showError(t('phonetrack', 'Session name already used'))
+				} else {
+					showError(t('phonetrack', 'Failed to create session'))
+				}
+			})
+		},
+		onDeleteSession({ sessionId, sessionName }) {
+			OC.dialogs.confirm(
+				t('phonetrack', 'Are you sure you want to delete the session {sessionName} ?', { sessionName }),
+				t('phonetrack', 'Confirm session deletion'),
+				(result) => {
+					if (result) {
+						this.deleteSession(sessionId)
+					}
+				},
+				true,
+			)
+		},
+		deleteSession(sessionId) {
+			const url = generateUrl('/apps/phonetrack/session/' + sessionId)
+			axios.delete(url).then((response) => {
+				const i = this.state.sessions.findIndex(s => s.id === sessionId)
+				if (i !== -1) {
+					this.state.sessions.splice(i, 1)
+				}
+			}).catch((error) => {
+				console.error(error)
+				showError(t('phonetrack', 'Failed to delete session'))
+			})
 		},
 		onTileServerDeleted(id) {
 			const url = generateUrl('/apps/phonetrack/tileservers/{id}', { id })
