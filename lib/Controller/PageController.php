@@ -134,6 +134,7 @@ class PageController extends Controller {
 	 * @param int $sessionId
 	 * @param bool|null $enabled
 	 * @param bool|null $locked
+	 * @param bool|null $public
 	 * @param string|null $name
 	 * @param string|null $autoExport
 	 * @param string|null $autoPurge

@@ -139,6 +139,12 @@
 					</template>
 					{{ t('phonetrack', 'Change device sort order') }}
 				</NcActionButton>
+				<NcActionCheckbox
+					:close-after-click="true"
+					:model-value="session.locked"
+					@update:model-value="onChangeLocked">
+					{{ t('phonetrack', 'Locked') }}
+				</NcActionCheckbox>
 				<NcActionButton v-if="true"
 					:close-after-click="true"
 					@click="onDelete">
@@ -189,6 +195,7 @@ import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -207,6 +214,7 @@ export default {
 		// NavigationDeviceItem,
 		NcAppNavigationItem,
 		NcActionButton,
+		NcActionCheckbox,
 		NcActionLink,
 		NcActionRadio,
 		NcActionSeparator,
@@ -315,6 +323,9 @@ export default {
 		},
 		onSortAscendingChange(sortAscending) {
 			emit('session-sort-changed', { sessionId: this.session.id, sortAscending })
+		},
+		onChangeLocked(locked) {
+			emit('update-session', { sessionId: this.session.id, values: { locked } })
 		},
 		onZoomToBounds() {
 			emit('session-zoom', this.session.id)

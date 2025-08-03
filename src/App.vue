@@ -194,6 +194,7 @@ export default {
 		subscribe('tile-server-added', this.onTileServerAdded)
 		subscribe('create-session', this.onCreateSession)
 		subscribe('delete-session', this.onDeleteSession)
+		subscribe('update-session', this.onUpdateSession)
 		subscribe('session-click', this.onSessionClick)
 		emit('nav-toggled')
 	},
@@ -204,6 +205,7 @@ export default {
 		unsubscribe('tile-server-added', this.onTileServerAdded)
 		unsubscribe('create-session', this.onCreateSession)
 		unsubscribe('delete-session', this.onDeleteSession)
+		unsubscribe('update-session', this.onUpdateSession)
 		unsubscribe('session-click', this.onSessionClick)
 	},
 
@@ -298,16 +300,19 @@ export default {
 				showError(t('phonetrack', 'Failed to delete session'))
 			})
 		},
-		updateSession(sessionId, values) {
+		async updateSession(sessionId, values) {
 			const req = {
 				...values,
 			}
 			const url = generateUrl('/apps/phonetrack/session/' + sessionId)
-			axios.put(url, req).then((response) => {
-			}).catch((error) => {
+			try {
+				const response = await axios.put(url, req)
+				return response
+			} catch (error) {
 				console.error(error)
 				showError(t('phonetrack', 'Failed to save session'))
-			})
+				throw error
+			}
 		},
 		onSessionClick(sessionId) {
 			const session = this.state.sessions[sessionId]
@@ -347,6 +352,14 @@ export default {
 			if (!this.isPublicPage) {
 				this.updateSession(sessionId, { enabled: false })
 			}
+		},
+		onUpdateSession(data) {
+			this.updateSession(data.sessionId, data.values).then(() => {
+				this.state.sessions[data.sessionId] = {
+					...this.state.sessions[data.sessionId],
+					...data.values,
+				}
+			})
 		},
 		onTileServerDeleted(id) {
 			const url = generateUrl('/apps/phonetrack/tileservers/{id}', { id })
