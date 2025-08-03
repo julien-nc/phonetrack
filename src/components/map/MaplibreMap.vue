@@ -400,7 +400,6 @@ export default {
 			}
 		},
 		toggleGlobe() {
-			console.debug('aaaaaaaaaaaa globe current', this.settings.use_globe)
 			const newEnabled = this.settings.use_globe !== '1'
 			this.$emit('save-options', { use_globe: newEnabled ? '1' : '0' })
 			this.map.setProjection({

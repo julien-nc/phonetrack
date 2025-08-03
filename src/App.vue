@@ -53,17 +53,17 @@
 				</template-->
 			</MaplibreMap>
 		</NcAppContent>
-		<!--SessionSidebar v-if="sidebarDirectory"
+		<SessionSidebar v-if="sidebarSessionId !== null && sidebarDeviceId === null"
 			:show="showSidebar"
 			:active-tab="activeSidebarTab"
-			:directory="sidebarDirectory"
+			:session="sidebarSession"
 			:settings="state.settings"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" />
-		<DeviceSidebar v-if="sidebarTrack"
+		<!--DeviceSidebar v-else-if="sidebarSessionId !== null && sidebarDeviceId !== null"
 			:show="showSidebar"
 			:active-tab="activeSidebarTab"
-			:track="sidebarTrack"
+			:device="sidebarDevice"
 			:settings="state.settings"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" /-->
@@ -91,7 +91,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
 import PhonetrackSettingsDialog from './components/PhonetrackSettingsDialog.vue'
 import Navigation from './components/Navigation.vue'
-// import SessionSidebar from './components/SessionSidebar.vue'
+import SessionSidebar from './components/SessionSidebar.vue'
 // import DeviceSidebar from './components/DeviceSidebar.vue'
 // import DeviceList from './components/DeviceList.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
@@ -104,7 +104,7 @@ export default {
 		// TrackSingleColor,
 		MaplibreMap,
 		// DeviceSidebar,
-		// SessionSidebar,
+		SessionSidebar,
 		Navigation,
 		PhonetrackSettingsDialog,
 		NcAppContent,
@@ -115,7 +115,7 @@ export default {
 	},
 
 	provide: {
-		// isPublicPage: ('shareToken' in loadState('phonetrack', 'phonetrack-state')),
+		isPublicPage: ('shareToken' in loadState('phonetrack', 'phonetrack-state', {})),
 	},
 
 	props: {
@@ -132,8 +132,8 @@ export default {
 			COLOR_CRITERIAS,
 			showSidebar: false,
 			activeSidebarTab: '',
-			sidebarSession: null,
-			sidebarDevice: null,
+			sidebarSessionId: null,
+			sidebarDeviceId: null,
 			isEmbedded: false,
 			showDetails: true,
 		}
@@ -164,6 +164,18 @@ export default {
 		},
 		selectedSession() {
 			return this.state.sessions[this.selectedSessionId] ?? null
+		},
+		sidebarSession() {
+			if (this.sidebarSessionId === null) {
+				return null
+			}
+			return this.state.sessions[this.sidebarSessionId] ?? null
+		},
+		sidebarDevice() {
+			if (this.sidebarSessionId === null || this.sidebarDeviceId === null) {
+				return null
+			}
+			return this.state.sessions[this.sidebarSessionId]?.find(d => d.id === this.sidebarDeviceId) ?? null
 		},
 	},
 
@@ -196,6 +208,7 @@ export default {
 		subscribe('delete-session', this.onDeleteSession)
 		subscribe('update-session', this.onUpdateSession)
 		subscribe('session-click', this.onSessionClick)
+		subscribe('session-details-click', this.onSessionDetailsClicked)
 		emit('nav-toggled')
 	},
 
@@ -207,6 +220,7 @@ export default {
 		unsubscribe('delete-session', this.onDeleteSession)
 		unsubscribe('update-session', this.onUpdateSession)
 		unsubscribe('session-click', this.onSessionClick)
+		unsubscribe('session-details-click', this.onSessionDetailsClicked)
 	},
 
 	methods: {
@@ -255,6 +269,13 @@ export default {
 		onUpdateActiveTab(tabId) {
 			console.debug('active tab change', tabId)
 			this.activeSidebarTab = tabId
+		},
+		onSessionDetailsClicked(sessionId) {
+			this.sidebarDeviceId = null
+			this.sidebarSessionId = sessionId
+			this.showSidebar = true
+			this.activeSidebarTab = 'session-details'
+			console.debug('[phonetrack] details click', sessionId)
 		},
 		onCreateSession(name) {
 			if (!name) {

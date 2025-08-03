@@ -135,7 +135,7 @@
 					:is-menu="true"
 					@click="sortActionsOpen = true">
 					<template #icon>
-						<SortAscending :size="20" />
+						<SortAscendingIcon :size="20" />
 					</template>
 					{{ t('phonetrack', 'Change device sort order') }}
 				</NcActionButton>
@@ -186,7 +186,7 @@ import MagnifyExpandIcon from 'vue-material-design-icons/MagnifyExpand.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
-import SortAscending from 'vue-material-design-icons/SortAscending.vue'
+import SortAscendingIcon from 'vue-material-design-icons/SortAscending.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 
 import PhonetrackIcon from './icons/PhonetrackIcon.vue'
@@ -222,7 +222,7 @@ export default {
 		ShareVariantIcon,
 		TrashCanOutlineIcon,
 		ChevronLeftIcon,
-		SortAscending,
+		SortAscendingIcon,
 		MagnifyExpandIcon,
 		DownloadIcon,
 		ToggleSwitchIcon,
