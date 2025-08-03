@@ -19,12 +19,14 @@ use Exception;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 
 use OCP\IDBConnection;
@@ -1968,21 +1970,37 @@ class LogController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	public function logTraccar(
-		string $token, float $lat, float $lon, ?int $timestamp = null,
-		?string $devicename = null, ?string $id = null, ?float $accuracy = null,
+		string $token, ?float $lat = null, ?float $lon = null, ?int $timestamp = null,
+		?string $deviceName = null, ?string $id = null, ?float $accuracy = null,
 		?float $altitude = null, ?float $batt = null, ?float $speed = null, ?float $bearing = null,
 	) {
-		$dname = $this->chooseDeviceName($devicename, $id);
-		$speedp = $speed;
-		if ($speed !== null) {
-			// according to traccar sources, speed is converted in knots...
-			// convert back to meter/s
-			$speedp = $speed / 1.943844;
+		$input = json_decode(file_get_contents('php://input'), true);
+
+		if (is_array($input) && isset($input['location']['coords']['latitude'], $input['location']['coords']['longitude'])) {
+			$lat = $input['location']['coords']['latitude'];
+			$lon = $input['location']['coords']['longitude'];
+
+			$altitude = $input['location']['coords']['altitude'] ?? $altitude;
+			$speed = $input['location']['coords']['speed'] ?? $speed;
+			$bearing = $input['location']['coords']['heading'] ?? $bearing;
+			$accuracy = $input['location']['coords']['accuracy'] ?? $accuracy;
+			$timestamp = isset($input['location']['timestamp']) ? strtotime($input['location']['timestamp']) : $timestamp;
+			$batt = isset($input['location']['battery']['level']) ? $input['location']['battery']['level'] * 100 : $batt;
 		}
+
+		if ($lat === null || $lon === null) {
+			return new JSONResponse(['error' => 'Latitude or longitude missing'], Http::STATUS_BAD_REQUEST);
+		}
+		$dName = $this->chooseDeviceName($deviceName, $id);
+		// according to traccar sources, speed is converted in knots...
+		// convert back to meter/s
+		$speedMS = $speed === null ? null : $speed / 1.943844;
 		if ($batt !== null) {
 			$batt = (int)$batt;
 		}
-		$this->logPost($token, $dname, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, null, 'Traccar', $speedp, $bearing);
+		$this->logPost($token, $dName, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, null, 'Traccar', $speedMS, $bearing);
+
+		return new JSONResponse(['status' => 'success']);
 	}
 
 	/**
