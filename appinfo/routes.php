@@ -56,7 +56,7 @@ return [
 		['name' => 'log#logOwntracks', 'url' => '/log/owntracks/{token}/{devicename}', 'verb' => 'POST', 'defaults' => ['devicename' => '']],
 		['name' => 'log#logUlogger', 'url' => '/log/ulogger/{token}/{devicename}/client/index.php', 'verb' => 'POST'],
 		['name' => 'log#logOverland', 'url' => '/log/overland/{token}/{devicename}', 'verb' => 'POST'],
-		['name' => 'log#logTraccar', 'url' => '/log/traccar/{token}/{devicename}', 'verb' => 'POST', 'defaults' => ['devicename' => '']],
+		['name' => 'log#logTraccar', 'url' => '/log/traccar/{token}/{deviceName}', 'verb' => 'POST', 'defaults' => ['deviceName' => '']],
 		['name' => 'log#logOpengts', 'url' => '/log/opengts/{token}/{devicename}', 'verb' => 'GET', 'defaults' => ['devicename' => '']],
 		['name' => 'log#logOpengtsPost', 'url' => '/log/opengts/{token}/{devicename}', 'verb' => 'POST'],
 		['name' => 'page#track', 'url' => '/track', 'verb' => 'POST'],
