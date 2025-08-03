@@ -35,6 +35,7 @@ use OCP\IL10N;
 
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
+use stdClass;
 
 class PageController extends Controller {
 
@@ -69,6 +70,10 @@ class PageController extends Controller {
 		$settings['app_version'] = $this->appConfig->getValueString(Application::APP_ID, 'installed_version');
 
 		$sessions = $this->sessionService->getSessions2($this->userId);
+		$sessionsById = [];
+		foreach ($sessions as $session) {
+			$sessionsById[$session['id']] = $session;
+		}
 
 		$userTileServers = $this->tileServerMapper->getTileServersOfUser($this->userId);
 		$adminTileServers = $this->tileServerMapper->getTileServersOfUser(null);
@@ -76,7 +81,7 @@ class PageController extends Controller {
 		$settings['extra_tile_servers'] = $extraTileServers;
 
 		$state = [
-			'sessions' => $sessions,
+			'sessions' => empty($sessionsById) ? new stdClass() : $sessionsById,
 			'settings' => $settings,
 		];
 		$this->initialStateService->provideInitialState('phonetrack-state', $state);
@@ -112,15 +117,59 @@ class PageController extends Controller {
 		$newSession['reserved_names'] = [];
 		$newSession['public_shares'] = [];
 		$newSession['devices'] = [];
-		return new DataResponse(['session' => $newSession]);
+		return new DataResponse($newSession);
 	}
 
 	/**
 	 * @param int $sessionId
 	 * @return DataResponse
 	 */
+	#[NoAdminRequired]
 	public function deleteSession(int $sessionId): DataResponse {
 		$this->sessionMapper->deleteSession($this->userId, $sessionId);
 		return new DataResponse([]);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param bool|null $enabled
+	 * @param bool|null $locked
+	 * @param string|null $name
+	 * @param string|null $autoExport
+	 * @param string|null $autoPurge
+	 * @return DataResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	#[NoAdminRequired]
+	public function updateSession(
+		int $sessionId, ?bool $enabled = null, ?bool $locked = null, ?bool $public = null,
+		?string $name = null, ?string $autoExport = null, ?string $autoPurge = null,
+	): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+		}
+		if ($enabled !== null) {
+			$session->setEnabled($enabled ? 1 : 0);
+		}
+		if ($locked !== null) {
+			$session->setLocked($locked ? 1 : 0);
+		}
+		if ($public !== null) {
+			$session->setPublic($public ? 1 : 0);
+		}
+		if ($name !== null) {
+			$session->setName($name);
+		}
+		if ($autoExport !== null) {
+			$session->setAutoexport($autoExport);
+		}
+		if ($autoPurge !== null) {
+			$session->setAutopurge($autoPurge);
+		}
+		$this->sessionMapper->update($session);
+		return new DataResponse($session);
 	}
 }

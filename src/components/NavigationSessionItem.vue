@@ -2,11 +2,11 @@
 	<NcAppNavigationItem
 		:name="session.name"
 		:title="sessionItemTitle"
-		:class="{ openSession: session.isOpen }"
+		:class="{ openSession: session.enabled }"
 		:active="selected"
 		:loading="session.loading"
 		:allow-collapse="compact"
-		:open="session.isOpen"
+		:open="session.enabled"
 		:force-menu="true"
 		:force-display-actions="true"
 		:menu-open="menuOpen"
@@ -17,7 +17,7 @@
 		@mouseenter.native="onHoverIn"
 		@mouseleave.native="onHoverOut">
 		<template #icon>
-			<ToggleSwitchIcon v-if="session.isOpen"
+			<ToggleSwitchIcon v-if="session.enabled"
 				:size="20" />
 			<ToggleSwitchOffOutlineIcon v-else
 				:size="20" />

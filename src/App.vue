@@ -2,8 +2,9 @@
 	<NcContent app-name="phonetrack"
 		:class="{ 'app-phonetrack-embedded': isEmbedded }">
 		<Navigation
-			:sessions="state.sessions"
-			:compact="isCompactMode" />
+			:sessions="sessionList"
+			:compact="isCompactMode"
+			:selected-session-id="selectedSessionId" />
 		<NcAppContent
 			class="phonetrack-app-content"
 			:class="{ mapWithTopLeftButton }"
@@ -151,6 +152,19 @@ export default {
 		isCompactMode() {
 			return this.state?.settings?.compact_mode === '1'
 		},
+		sessionList() {
+			return Object.values(this.state.sessions)
+		},
+		selectedSessionId() {
+			if (this.state.settings.selected_session_id === '') {
+				return 0
+			}
+			const parsedValue = parseInt(this.state.settings.selected_session_id)
+			return isNaN(parsedValue) ? this.state.settings.selected_session_id : parsedValue
+		},
+		selectedSession() {
+			return this.state.sessions[this.selectedSessionId] ?? null
+		},
 	},
 
 	watch: {
@@ -180,6 +194,7 @@ export default {
 		subscribe('tile-server-added', this.onTileServerAdded)
 		subscribe('create-session', this.onCreateSession)
 		subscribe('delete-session', this.onDeleteSession)
+		subscribe('session-click', this.onSessionClick)
 		emit('nav-toggled')
 	},
 
@@ -189,6 +204,7 @@ export default {
 		unsubscribe('tile-server-added', this.onTileServerAdded)
 		unsubscribe('create-session', this.onCreateSession)
 		unsubscribe('delete-session', this.onDeleteSession)
+		unsubscribe('session-click', this.onSessionClick)
 	},
 
 	methods: {
@@ -248,7 +264,8 @@ export default {
 			}
 			const url = generateUrl('/apps/phonetrack/session')
 			axios.post(url, req).then((response) => {
-				this.state.sessions.push(response.data.session)
+				const session = response.data
+				this.state.sessions[session.id] = session
 			}).catch((error) => {
 				console.error(error)
 				if (error.response.data.error === 'already_exists') {
@@ -273,14 +290,63 @@ export default {
 		deleteSession(sessionId) {
 			const url = generateUrl('/apps/phonetrack/session/' + sessionId)
 			axios.delete(url).then((response) => {
-				const i = this.state.sessions.findIndex(s => s.id === sessionId)
-				if (i !== -1) {
-					this.state.sessions.splice(i, 1)
+				if (this.state.sessions[sessionId]) {
+					delete this.state.sessions[sessionId]
 				}
 			}).catch((error) => {
 				console.error(error)
 				showError(t('phonetrack', 'Failed to delete session'))
 			})
+		},
+		updateSession(sessionId, values) {
+			const req = {
+				...values,
+			}
+			const url = generateUrl('/apps/phonetrack/session/' + sessionId)
+			axios.put(url, req).then((response) => {
+			}).catch((error) => {
+				console.error(error)
+				showError(t('phonetrack', 'Failed to save session'))
+			})
+		},
+		onSessionClick(sessionId) {
+			const session = this.state.sessions[sessionId]
+			if (this.isCompactMode) {
+				if (session.enabled) {
+					this.onDisableSession(sessionId)
+				} else {
+					this.onEnableSession(sessionId)
+				}
+			} else {
+				if (sessionId === this.selectedSessionId) {
+					if (session.enabled) {
+						this.onDisableSession(sessionId)
+						this.saveOptions({ selected_session_id: '' })
+					} else {
+						this.onEnableSession(sessionId)
+						this.saveOptions({ selected_session_id: sessionId })
+					}
+				} else {
+					if (!session.enabled) {
+						this.onEnableSession(sessionId)
+					}
+					this.saveOptions({ selected_session_id: sessionId })
+				}
+			}
+		},
+		onEnableSession(sessionId) {
+			// TODO
+			// this.loadSession(sessionId, true)
+			this.state.sessions[sessionId].enabled = true
+			if (!this.isPublicPage) {
+				this.updateSession(sessionId, { enabled: true })
+			}
+		},
+		onDisableSession(sessionId) {
+			this.state.sessions[sessionId].enabled = false
+			if (!this.isPublicPage) {
+				this.updateSession(sessionId, { enabled: false })
+			}
 		},
 		onTileServerDeleted(id) {
 			const url = generateUrl('/apps/phonetrack/tileservers/{id}', { id })

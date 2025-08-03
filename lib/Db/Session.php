@@ -35,6 +35,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setAutoexport(string $autoexport)
  * @method string getAutopurge()
  * @method void setAutopurge(string $autopurge)
+ * @method int getEnabled()
+ * @method void setEnabled(int $enabled)
  */
 class Session extends Entity implements \JsonSerializable {
 
@@ -47,6 +49,7 @@ class Session extends Entity implements \JsonSerializable {
 	protected $creationversion;
 	protected $autoexport;
 	protected $autopurge;
+	protected $enabled;
 
 	public function __construct() {
 		$this->addType('id', 'integer');
@@ -59,6 +62,7 @@ class Session extends Entity implements \JsonSerializable {
 		$this->addType('creationversion', 'string');
 		$this->addType('autoexport', 'string');
 		$this->addType('autopurge', 'string');
+		$this->addType('enabled', 'integer');
 	}
 
 	#[\ReturnTypeWillChange]
@@ -69,11 +73,12 @@ class Session extends Entity implements \JsonSerializable {
 			'name' => $this->getName(),
 			'token' => $this->getToken(),
 			'publicviewtoken' => $this->getPublicviewtoken(),
-			'public' => $this->getPublic(),
-			'locked' => $this->getLocked(),
+			'public' => $this->getPublic() !== 0,
+			'locked' => $this->getLocked() !== 0,
 			'creationversion' => $this->getCreationversion(),
 			'autoexport' => $this->getAutoexport(),
 			'autopurge' => $this->getAutopurge(),
+			'enabled' => $this->getEnabled() !== 0,
 		];
 	}
 }

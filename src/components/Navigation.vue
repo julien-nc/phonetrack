@@ -39,7 +39,7 @@
 				class="sessionItem"
 				:session="s"
 				:compact="compact"
-				:selected="!compact && s.id === selectedDirectoryId" />
+				:selected="!compact && s.id === selectedSessionId" />
 		</template>
 		<!--template #footer></template-->
 		<template #footer>
@@ -104,6 +104,10 @@ export default {
 		compact: {
 			type: Boolean,
 			default: false,
+		},
+		selectedSessionId: {
+			type: [String, Number],
+			default: 0,
 		},
 	},
 

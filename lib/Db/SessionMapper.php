@@ -106,6 +106,14 @@ class SessionMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
+	/**
+	 * @param string $userId
+	 * @param int $id
+	 * @return Session
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
 	public function getUserSessionById(string $userId, int $id): Session {
 		$qb = $this->db->getQueryBuilder();
 
@@ -137,10 +145,20 @@ class SessionMapper extends QBMapper {
 		$session->setToken($token);
 		$session->setPublicviewtoken($publicViewToken);
 		$session->setPublic($isPublic ? 1 : 0);
+		$session->setEnabled(0);
+		$session->setLocked(0);
 
 		return $this->insert($session);
 	}
 
+	/**
+	 * @param string $userId
+	 * @param int $id
+	 * @return void
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
 	public function deleteSession(string $userId, int $id): void {
 		$session = $this->getUserSessionById($userId, $id);
 
