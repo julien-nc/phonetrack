@@ -151,6 +151,22 @@
 				</div>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!isPublicPage"
+				id="export"
+				:name="t('phonetrack', 'Export location')"
+				:title="t('phonetrack', 'Export location')"
+				class="app-settings-section">
+				<h3 class="app-settings-section__hint">
+					{{ t('phonetrack', 'Select export directory') }}
+				</h3>
+				<input
+					type="text"
+					class="app-settings-section__input"
+					:value="settings.autoexportpath"
+					:disabled="false"
+					:readonly="true"
+					@click="onExportDirClick">
+			</NcAppSettingsSection>
+			<NcAppSettingsSection v-if="!isPublicPage"
 				id="api-keys"
 				:name="t('phonetrack', 'API keys')"
 				:title="t('phonetrack', 'API keys')"
@@ -274,9 +290,10 @@ import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import {
-	// getFilePickerBuilder,
-	// showError,
+	getFilePickerBuilder,
+	FilePickerType,
 	showSuccess,
+	// showError,
 } from '@nextcloud/dialogs'
 
 export default {
@@ -366,6 +383,30 @@ export default {
 		},
 		onInputChange(e, key) {
 			this.$emit('save-options', { [key]: e.target.value })
+		},
+		onExportDirClick() {
+			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to write auto export files'))
+				.setMultiSelect(false)
+				.setType(FilePickerType.Choose)
+				.addMimeTypeFilter('httpd/unix-directory')
+				.allowDirectories()
+				// .startAt(this.outputDir)
+				.addButton({
+					label: t('phonetrack', 'Pick current directory'),
+					variant: 'primary',
+					callback: (nodes) => {
+						const node = nodes[0]
+						let path = node.path
+						if (path === '') {
+							path = '/'
+						}
+						path = path.replace(/^\/+/, '/')
+						// this.outputDir = path
+						this.$emit('save-options', { autoexportpath: path })
+					},
+				})
+				.build()
+			picker.pick()
 		},
 	},
 }

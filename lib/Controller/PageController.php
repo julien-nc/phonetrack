@@ -136,8 +136,8 @@ class PageController extends Controller {
 	 * @param bool|null $locked
 	 * @param bool|null $public
 	 * @param string|null $name
-	 * @param string|null $autoExport
-	 * @param string|null $autoPurge
+	 * @param string|null $autoexport
+	 * @param string|null $autopurge
 	 * @return DataResponse
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -145,7 +145,7 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	public function updateSession(
 		int $sessionId, ?bool $enabled = null, ?bool $locked = null, ?bool $public = null,
-		?string $name = null, ?string $autoExport = null, ?string $autoPurge = null,
+		?string $name = null, ?string $autoexport = null, ?string $autopurge = null,
 	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
@@ -164,11 +164,11 @@ class PageController extends Controller {
 		if ($name !== null) {
 			$session->setName($name);
 		}
-		if ($autoExport !== null) {
-			$session->setAutoexport($autoExport);
+		if ($autoexport !== null) {
+			$session->setAutoexport($autoexport);
 		}
-		if ($autoPurge !== null) {
-			$session->setAutopurge($autoPurge);
+		if ($autopurge !== null) {
+			$session->setAutopurge($autopurge);
 		}
 		$this->sessionMapper->update($session);
 		return new DataResponse($session);

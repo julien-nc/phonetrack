@@ -12,22 +12,23 @@
 		@update:active="$emit('update:active', $event)"
 		@close="$emit('close')">
 		<!--template #description /-->
-		<!--NcAppSidebarTab v-if="!isPublicPage"
+		<NcAppSidebarTab v-if="!isPublicPage"
 			id="session-share"
 			:name="t('phonetrack', 'Sharing')"
 			:order="1">
 			<template #icon>
 				<ShareVariantIcon :size="20" />
 			</template>
-			<SharingSidebarTab
-				:path="directory.path" />
-		</NcAppSidebarTab-->
+			<SessionSharingSidebarTab
+				:session="session"
+				:settings="settings" />
+		</NcAppSidebarTab>
 		<NcAppSidebarTab
 			id="session-settings"
 			:name="t('phonetrack', 'Settings')"
 			:order="2">
 			<template #icon>
-				<CogIcon :size="20" />
+				<CogOutlineIcon :size="20" />
 			</template>
 			<SessionSettingsSidebarTab
 				ref="sessionDetailsTab"
@@ -38,25 +39,25 @@
 </template>
 
 <script>
-import CogIcon from 'vue-material-design-icons/Cog.vue'
-// import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
+import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
+import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 
 import { generateUrl } from '@nextcloud/router'
 import SessionSettingsSidebarTab from './SessionSettingsSidebarTab.vue'
-// import SharingSidebarTab from './SharingSidebarTab.vue'
+import SessionSharingSidebarTab from './SessionSharingSidebarTab.vue'
 
 export default {
 	name: 'SessionSidebar',
 	components: {
-		// SharingSidebarTab,
+		SessionSharingSidebarTab,
 		SessionSettingsSidebarTab,
 		NcAppSidebar,
 		NcAppSidebarTab,
-		// ShareVariantIcon,
-		CogIcon,
+		ShareVariantIcon,
+		CogOutlineIcon,
 	},
 	inject: ['isPublicPage'],
 	props: {
