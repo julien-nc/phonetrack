@@ -26,7 +26,9 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\DB\Exception;
@@ -172,5 +174,24 @@ class PageController extends Controller {
 		}
 		$this->sessionMapper->update($session);
 		return new DataResponse($session);
+	}
+
+	/**
+	 * @param string $fileName
+	 * @param string $color
+	 * @return NotFoundResponse|DataDisplayResponse
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function getSvgFromApp(string $fileName, string $color = 'ffffff') {
+		try {
+			$svg = $this->toolsService->getSvgFromApp($fileName, $color);
+		} catch (\Exception $e) {
+			return new NotFoundResponse();
+		}
+
+		$response = new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
+		$response->cacheFor(31536000);
+		return $response;
 	}
 }

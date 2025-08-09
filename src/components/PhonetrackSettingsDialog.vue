@@ -187,7 +187,9 @@
 					:show-trailing-button="!!settings.maptiler_api_key"
 					@update:model-value="onMaptilerApiKeyChange"
 					@trailing-button-click="saveApiKey('')">
-					<KeyIcon :size="20" />
+					<template #icon>
+						<KeyIcon :size="20" />
+					</template>
 				</NcTextField>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection

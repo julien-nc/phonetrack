@@ -23,6 +23,41 @@ export function hexToRgb(hex) {
 		: null
 }
 
+function rgbToHex(r, g, b) {
+	return '#' + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b))
+}
+
+function componentToHex(c) {
+	const hex = c.toString(16)
+	return hex.length === 1 ? '0' + hex : hex
+}
+
+export function hexToDarkerHex(hex, lowerTo = 100) {
+	const rgb = hexToRgb(hex)
+	while (getColorBrightness(rgb) > lowerTo) {
+		if (rgb.r > 0) {
+			rgb.r--
+		}
+		if (rgb.g > 0) {
+			rgb.g--
+		}
+		if (rgb.b > 0) {
+			rgb.b--
+		}
+	}
+	return rgbToHex(rgb.r, rgb.g, rgb.b)
+}
+
+export function getColorBrightness(rgb) {
+	return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b
+}
+
+export function getComplementaryColor(hex) {
+	const rgb = hexToRgb(hex)
+	return rgbToHex(255 - rgb.r, 255 - rgb.g, 255 - rgb.b)
+
+}
+
 export function brify(str, linesize) {
 	let res = ''
 	const words = str.split(' ')

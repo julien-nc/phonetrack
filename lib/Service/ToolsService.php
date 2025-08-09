@@ -2,7 +2,12 @@
 
 namespace OCA\PhoneTrack\Service;
 
+use Exception;
+use OC\Files\Filesystem;
 use OCA\PhoneTrack\AppInfo\Application;
+use OCP\App\AppPathNotFoundException;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\IConfig;
 use OCP\Security\ICrypto;
 
@@ -11,6 +16,7 @@ class ToolsService {
 	public function __construct(
 		private ICrypto $crypto,
 		private IConfig $config,
+		private IAppManager $appManager,
 	) {
 	}
 
@@ -70,5 +76,55 @@ class ToolsService {
 
 		// Remember to multiply arc by the radius of the earth in your favorite set of units to get length
 		return $arc * 6371000.0;
+	}
+
+	/**
+	 * @param string $fileName
+	 * @param string $color
+	 * @return string
+	 * @throws AppPathNotFoundException
+	 */
+	public function getSvgFromApp(string $fileName, string $color = 'ffffff'): string {
+		$appPath = $this->appManager->getAppPath(Application::APP_ID);
+		$path = $appPath . "/img/$fileName.svg";
+		return $this->getSvg($path, $color, $fileName);
+	}
+
+	private function getSvg(string $path, string $color, string $fileName): string {
+		if (!Filesystem::isValidPath($path)) {
+			throw new Exception('not_found', Http::STATUS_NOT_FOUND);
+		}
+
+		if (!file_exists($path)) {
+			throw new Exception('not_found', Http::STATUS_NOT_FOUND);
+		}
+
+		$svg = file_get_contents($path);
+
+		if ($svg === false) {
+			throw new Exception('not_found', Http::STATUS_NOT_FOUND);
+		}
+
+		return $this->colorizeSvg($svg, $color);
+	}
+
+	private function colorizeSvg(string $svg, string $color): string {
+		if (!preg_match('/^[0-9a-f]{3,6}$/i', $color)) {
+			// Prevent not-sane colors from being written into the SVG
+			$color = '000';
+		}
+
+		// add fill (fill is not present on black elements)
+		$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;,])+)\/>/mi';
+		try {
+			$colorizedSvg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
+
+			// replace any fill or stroke colors
+			$colorizedSvg = preg_replace('/stroke="#([a-z0-9]{3,6})"/mi', 'stroke="#' . $color . '"', $colorizedSvg);
+			$colorizedSvg = preg_replace('/fill="#([a-z0-9]{3,6})"/mi', 'fill="#' . $color . '"', $colorizedSvg);
+			return $colorizedSvg ?? $svg;
+		} catch (\Exception|\Throwable $e) {
+			return $svg;
+		}
 	}
 }

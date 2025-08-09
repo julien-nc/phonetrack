@@ -10,7 +10,10 @@
 		:force-menu="true"
 		:force-display-actions="true"
 		:menu-open="menuOpen"
+		:editable="true"
+		:edit-label="t('phonetrack', 'Rename session')"
 		@click="onItemClick"
+		@update:name="onRename"
 		@update:open="onUpdateOpen"
 		@contextmenu.native.stop.prevent="menuOpen = true"
 		@update:menuOpen="onUpdateMenuOpen"
@@ -347,6 +350,9 @@ export default {
 		},
 		onDelete() {
 			emit('delete-session', { sessionId: this.session.id, sessionName: this.session.name })
+		},
+		onRename(newName) {
+			emit('update-session', { sessionId: this.session.id, values: { name: newName } })
 		},
 	},
 }

@@ -57,6 +57,7 @@
 		"ds-countdown": "^1.1.1",
 		"jquery": "^3.5.1",
 		"kjua": "^0.10.0",
+		"kjua-svg": "^1.13.1",
 		"leaflet": "^1.9.4",
 		"leaflet-dialog": "^1.0.5",
 		"leaflet-easybutton": "^2.4.0",
