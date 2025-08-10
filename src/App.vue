@@ -209,6 +209,8 @@ export default {
 		subscribe('update-session', this.onUpdateSession)
 		subscribe('session-click', this.onSessionClick)
 		subscribe('session-details-click', this.onSessionDetailsClicked)
+		subscribe('session-share-click', this.onSessionShareClicked)
+		subscribe('session-link-click', this.onSessionLinkClicked)
 		emit('nav-toggled')
 	},
 
@@ -221,6 +223,8 @@ export default {
 		unsubscribe('update-session', this.onUpdateSession)
 		unsubscribe('session-click', this.onSessionClick)
 		unsubscribe('session-details-click', this.onSessionDetailsClicked)
+		unsubscribe('session-share-click', this.onSessionShareClicked)
+		unsubscribe('session-link-click', this.onSessionLinkClicked)
 	},
 
 	methods: {
@@ -274,8 +278,22 @@ export default {
 			this.sidebarDeviceId = null
 			this.sidebarSessionId = sessionId
 			this.showSidebar = true
-			this.activeSidebarTab = 'session-details'
+			this.activeSidebarTab = 'session-settings'
 			console.debug('[phonetrack] details click', sessionId)
+		},
+		onSessionShareClicked(sessionId) {
+			this.sidebarDeviceId = null
+			this.sidebarSessionId = sessionId
+			this.showSidebar = true
+			this.activeSidebarTab = 'session-share'
+			console.debug('[phonetrack] share click', sessionId)
+		},
+		onSessionLinkClicked(sessionId) {
+			this.sidebarDeviceId = null
+			this.sidebarSessionId = sessionId
+			this.showSidebar = true
+			this.activeSidebarTab = 'session-links'
+			console.debug('[phonetrack] links click', sessionId)
 		},
 		onCreateSession(name) {
 			if (!name) {

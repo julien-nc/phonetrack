@@ -119,6 +119,14 @@
 				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
+					@click="onLinkClick">
+					<template #icon>
+						<LinkVariantIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Links for devices') }}
+				</NcActionButton>
+				<NcActionButton
+					:close-after-click="true"
 					@click="onToggleAllClick">
 					<template #icon>
 						<ToggleSwitchIcon v-if="allDevicesSelected" :size="20" />
@@ -191,6 +199,7 @@ import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import SortAscendingIcon from 'vue-material-design-icons/SortAscending.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 
 import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 
@@ -232,6 +241,7 @@ export default {
 		ToggleSwitchOffOutlineIcon,
 		InformationOutlineIcon,
 		DotsHorizontalIcon,
+		LinkVariantIcon,
 	},
 	inject: ['isPublicPage'],
 	props: {
@@ -341,6 +351,9 @@ export default {
 		},
 		onShareClick() {
 			emit('session-share-click', this.session.id)
+		},
+		onLinkClick() {
+			emit('session-link-click', this.session.id)
 		},
 		onHoverIn() {
 			emit('session-hover-in', this.session.id)

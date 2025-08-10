@@ -13,21 +13,23 @@
 			<hr>
 			<label>{{ link.name }}</label>
 			<NcTextField
-				:model-value="getLink(k)"
+				:model-value="link.url"
 				:label="t('phonetrack', 'Link')"
-				:title="getLink(k)"
+				:title="link.url"
 				:readonly="true">
 				<template #icon>
 					<LinkVariantIcon :size="20" />
 				</template>
 			</NcTextField>
 			<div class="buttons">
-				<NcButton @click="showQrcodeForLink = k">
+				<NcButton :title="t('phonetrack', 'Show link QrCode')"
+					@click="showQrcodeForLink = k">
 					<template #icon>
 						<QrcodeIcon :size="20" />
 					</template>
 				</NcButton>
-				<NcButton @click="onCopyLink(k)">
+				<NcButton :title="t('phonetrack', 'Copy link to clipboard')"
+					@click="onCopyLink(k)">
 					<template #icon>
 						<ClipboardCheckOutlineIcon v-if="link.copied" class="success" :size="20" />
 						<ContentCopyIcon v-else :size="20" />
@@ -36,14 +38,14 @@
 			</div>
 		</div>
 		<NcModal v-if="showQrcodeForLink"
-			size="small"
+			size="normal"
 			@close="showQrcodeForLink = null">
 			<div class="qrcode-modal-content">
 				<div class="qrcode-wrapper">
 					<QRCode render="svg"
-						:link="getLink(showQrcodeForLink)"
+						:link="links[showQrcodeForLink]?.url"
 						:fgcolor="qrcodeColor"
-						:image-url="qrcodeImageUrl"
+						:image-url="links[showQrcodeForLink]?.imageUrl ?? defaultQrcodeImageUrl"
 						:rounded="100" />
 				</div>
 				<hr>
@@ -51,9 +53,15 @@
 					{{ t('phonetrack', 'bla') }}
 				</p>
 				<hr>
-				<p>
-					{{ t('phonetrack', 'QRCode content: ') + getLink(showQrcodeForLink) }}
-				</p>
+				<NcTextField
+					:model-value="links[showQrcodeForLink]?.url"
+					:label="t('phonetrack', 'QRCode content')"
+					:title="links[showQrcodeForLink]?.url"
+					:readonly="true">
+					<template #icon>
+						<LinkVariantIcon :size="20" />
+					</template>
+				</NcTextField>
 			</div>
 		</NcModal>
 	</div>
@@ -71,9 +79,11 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 
 import QRCode from './QRCode.vue'
 
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, imagePath } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 import { hexToDarkerHex, getComplementaryColor } from '../utils.js'
+
+const HOST = window.location.protocol + '//' + window.location.host
 
 export default {
 	name: 'SessionLinkSidebarTab',
@@ -104,52 +114,68 @@ export default {
 		return {
 			qrcodeColor: OCA.Phonetrack.themeColorDark,
 			// the svg api is dead, glory to the svg api
-			qrcodeImageUrl: generateUrl(
-				'/apps/phonetrack/svg/app?color='
+			defaultQrcodeImageUrl: generateUrl(
+				'/apps/phonetrack/svg/phonetrack_square_bg?color='
 					+ hexToDarkerHex(getComplementaryColor(OCA.Phonetrack.themeColorDark)).replace('#', ''),
 			),
 			showQrcodeForLink: null,
-			host: window.location.protocol + '//' + window.location.host,
 			links: {
 				public: {
 					name: t('phonetrack', 'Public browser logging'),
-					url: '/publicWebLog/{token}/yourname?lineToggle=0&refresh=15&arrow=0&gradient=0&autozoom=1&tooltip=0&linewidth=4&pointradius=8&nbpoints=1000',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/publicWebLog/${this.session.token}/yourname?lineToggle=0&refresh=15&arrow=0&gradient=0&autozoom=1&tooltip=0&linewidth=4&pointradius=8&nbpoints=1000`,
 				},
 				osmand: {
 					name: t('phonetrack', 'OsmAnd'),
-					url: '/log/osmand/{token}/yourname?lat={0}&lon={1}&alt={4}&acc={3}&timestamp={2}&speed={5}&bearing={6}',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/log/osmand/${this.session.token}/yourname?lat={0}&lon={1}&alt={4}&acc={3}&timestamp={2}&speed={5}&bearing={6}`,
+					imageUrl: imagePath('phonetrack', 'ext_logos/osmand.png'),
 				},
 				gpslogger: {
 					name: t('phonetrack', 'GpsLogger GET and POST'),
-					url: '/log/gpslogger/{token}/yourname?lat=%LAT&lon=%LON&sat=%SAT&alt=%ALT&acc=%ACC&speed=%SPD&bearing=%DIR&timestamp=%TIMESTAMP&bat=%BATT',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/log/gpslogger/${this.session.token}/yourname?lat=%LAT&lon=%LON&sat=%SAT&alt=%ALT&acc=%ACC&speed=%SPD&bearing=%DIR&timestamp=%TIMESTAMP&bat=%BATT`,
+					imageUrl: imagePath('phonetrack', 'ext_logos/gpslogger.png'),
 				},
 				owntracks: {
 					name: t('phonetrack', 'Owntracks (HTTP mode)'),
-					url: '/log/owntracks/{token}/yourname',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/log/owntracks/${this.session.token}/yourname`,
+					imageUrl: imagePath('phonetrack', 'ext_logos/owntracks.png'),
 				},
 				ulogger: {
 					name: t('phonetrack', 'Ulogger'),
-					url: '/log/ulogger/{token}/yourname',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/log/ulogger/${this.session.token}/yourname`,
+					imageUrl: imagePath('phonetrack', 'ext_logos/ulogger.png'),
 				},
 				traccar: {
 					name: t('phonetrack', 'Traccar'),
-					url: '/log/traccar/{token}/yourname',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/log/traccar/${this.session.token}/yourname`,
+					imageUrl: imagePath('phonetrack', 'ext_logos/traccar.png'),
 				},
 				opengts: {
 					name: t('phonetrack', 'OpenGTS'),
-					url: '/log/opengts/{token}/yourname',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/log/opengts/${this.session.token}/yourname`,
 				},
 				overland: {
 					name: t('phonetrack', 'Overland'),
-					url: '/log/overland/{token}/yourname',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/log/overland/${this.session.token}/yourname`,
 				},
 				locusmap: {
 					name: t('phonetrack', 'Locus Map'),
-					url: '/log/locusmap/{token}/yourname',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/log/locusmap/${this.session.token}/yourname`,
+					imageUrl: imagePath('phonetrack', 'ext_logos/locusmap.png'),
 				},
 				httpget: {
 					name: t('phonetrack', 'HTTP GET'),
-					url: '/logGet/{token}/yourname?lat=LAT&lon=LON&alt=ALT&acc=ACC&bat=BAT&sat=SAT&speed=SPD&bearing=DIR&timestamp=TIME',
+					url: HOST + generateUrl('/apps/phonetrack')
+						+ `/logGet/${this.session.token}/yourname?lat=LAT&lon=LON&alt=ALT&acc=ACC&bat=BAT&sat=SAT&speed=SPD&bearing=DIR&timestamp=TIME`,
+					imageUrl: imagePath('phonetrack', 'ext_logos/get.png'),
 				},
 			},
 		}
@@ -165,14 +191,10 @@ export default {
 		onQrcodeClick(key) {
 			console.debug('onQrcodeClick', key)
 		},
-		getLink(key) {
-			console.debug('getLink2', generateUrl('/apps/phonetrack'), generateUrl('/apps/phonetrack/'))
-			return this.host + generateUrl('/apps/phonetrack') + this.links[key].url.replace('{token}', this.session.token)
-		},
 		async onCopyLink(key) {
-			const link = this.getLink(key)
+			const url = this.links[key].url
 			try {
-				await navigator.clipboard.writeText(link)
+				await navigator.clipboard.writeText(url)
 				this.links[key].copied = true
 				setTimeout(() => {
 					this.links[key].copied = false
@@ -204,9 +226,16 @@ export default {
 	}
 
 	.link {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
 		.buttons {
 			display: flex;
+			gap: 4px;
 			justify-content: start;
+		}
+		hr {
+			width: 100%;
 		}
 	}
 }
