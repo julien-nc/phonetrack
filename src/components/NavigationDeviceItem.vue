@@ -1,6 +1,6 @@
 <template>
 	<NcAppNavigationItem
-		:name="device.name"
+		:name="formattedName"
 		:active="device.enabled"
 		:loading="device.loading"
 		:editable="false"
@@ -153,6 +153,12 @@ export default {
 			return this.device.colorCriteria === COLOR_CRITERIAS.none.id
 				? this.device.color || '#0693e3'
 				: 'gradient'
+		},
+		formattedName() {
+			if (this.device.alias) {
+				return this.device.alias + ` (${this.device.name})`
+			}
+			return this.device.name
 		},
 	},
 
