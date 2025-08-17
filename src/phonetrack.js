@@ -872,7 +872,7 @@ import '../css/phonetrack.scss'
 			maxzoom: smaxzoom,
 			attribution: '',
 		}
-		const url = generateUrl('/apps/phonetrack/addTileServer')
+		const url = generateUrl('/apps/phonetrack/old/addTileServer')
 		axios.post(url, req).then((response) => {
 			if (response.data.done) {
 				$('#' + type + 'serverlist ul').prepend(
@@ -940,7 +940,7 @@ import '../css/phonetrack.scss'
 			servername: sname,
 			type,
 		}
-		const url = generateUrl('/apps/phonetrack/deleteTileServer')
+		const url = generateUrl('/apps/phonetrack/old/deleteTileServer')
 		axios.post(url, req).then((response) => {
 			if (response.data.done) {
 				li.fadeOut('normal', function() {

@@ -167,18 +167,18 @@ class OldPageController extends Controller {
 		$response = new TemplateResponse(Application::APP_ID, 'main', $params);
 		$response->addHeader('Access-Control-Allow-Origin', '*');
 		$csp = new ContentSecurityPolicy();
-		//		$csp
+		$csp
 		//			->allowInlineStyle(true)
 		//			->addAllowedScriptDomain('*')
 		//			->addAllowedStyleDomain('*')
 		//			->addAllowedFontDomain('*')
-		//			->addAllowedImageDomain('*')
+			->addAllowedImageDomain('*')
 		//			->addAllowedConnectDomain('*')
 		//			->addAllowedMediaDomain('*')
 		//			->addAllowedObjectDomain('*')
 		//			->addAllowedFrameDomain('*')
 		//			->addAllowedWorkerSrcDomain('* blob:')
-		//		;
+		;
 		$tsUrls = array_map(static function (array $ts) {
 			return $ts['url'];
 		}, array_merge($baseTileServers, $mbtss, $oss, $tssw, $ossw));
