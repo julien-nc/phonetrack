@@ -60,13 +60,14 @@
 			:settings="state.settings"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" />
-		<!--DeviceSidebar v-else-if="sidebarSessionId !== null && sidebarDeviceId !== null"
+		<DeviceSidebar v-else-if="sidebarSessionId !== null && sidebarDeviceId !== null"
 			:show="showSidebar"
 			:active-tab="activeSidebarTab"
 			:device="sidebarDevice"
+			:session="sidebarSession"
 			:settings="state.settings"
 			@update:active="onUpdateActiveTab"
-			@close="showSidebar = false" /-->
+			@close="showSidebar = false" />
 		<PhonetrackSettingsDialog
 			:settings="state.settings"
 			@save-options="saveOptions" />
@@ -92,7 +93,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import PhonetrackSettingsDialog from './components/PhonetrackSettingsDialog.vue'
 import Navigation from './components/Navigation.vue'
 import SessionSidebar from './components/SessionSidebar.vue'
-// import DeviceSidebar from './components/DeviceSidebar.vue'
+import DeviceSidebar from './components/DeviceSidebar.vue'
 // import DeviceList from './components/DeviceList.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
 // import TrackSingleColor from './components/map/TrackSingleColor.vue'
@@ -103,7 +104,7 @@ export default {
 	components: {
 		// TrackSingleColor,
 		MaplibreMap,
-		// DeviceSidebar,
+		DeviceSidebar,
 		SessionSidebar,
 		Navigation,
 		PhonetrackSettingsDialog,
@@ -175,7 +176,7 @@ export default {
 			if (this.sidebarSessionId === null || this.sidebarDeviceId === null) {
 				return null
 			}
-			return this.state.sessions[this.sidebarSessionId]?.find(d => d.id === this.sidebarDeviceId) ?? null
+			return this.state.sessions[this.sidebarSessionId]?.devices[this.sidebarDeviceId] ?? null
 		},
 	},
 
@@ -213,6 +214,7 @@ export default {
 		subscribe('session-link-click', this.onSessionLinkClicked)
 		subscribe('update-device', this.onUpdateDevice)
 		subscribe('device-clicked', this.onDeviceClicked)
+		subscribe('device-details-click', this.onDeviceDetailsClicked)
 		emit('nav-toggled')
 	},
 
@@ -278,12 +280,19 @@ export default {
 			console.debug('active tab change', tabId)
 			this.activeSidebarTab = tabId
 		},
+		onDeviceDetailsClicked({ deviceId, sessionId }) {
+			this.sidebarDeviceId = deviceId
+			this.sidebarSessionId = sessionId
+			this.showSidebar = true
+			this.activeSidebarTab = 'device-details'
+			console.debug('[phonetrack] device details click', sessionId, deviceId)
+		},
 		onSessionDetailsClicked(sessionId) {
 			this.sidebarDeviceId = null
 			this.sidebarSessionId = sessionId
 			this.showSidebar = true
 			this.activeSidebarTab = 'session-settings'
-			console.debug('[phonetrack] details click', sessionId)
+			console.debug('[phonetrack] session details click', sessionId)
 		},
 		onSessionShareClicked(sessionId) {
 			this.sidebarDeviceId = null
