@@ -13,6 +13,7 @@
 namespace OCA\PhoneTrack\Controller;
 
 use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\MapService;
@@ -48,6 +49,7 @@ class PageController extends Controller {
 		private IL10N $l10n,
 		private SessionMapper $sessionMapper,
 		private SessionService $sessionService,
+		private DeviceMapper $deviceMapper,
 		private IInitialState $initialStateService,
 		private IAppConfig $appConfig,
 		private ToolsService $toolsService,
@@ -174,6 +176,76 @@ class PageController extends Controller {
 		}
 		$this->sessionMapper->update($session);
 		return new DataResponse($session);
+	}
+
+
+	/**
+	 * @param int $sessionId
+	 * @param int $deviceId
+	 * @return DataResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	#[NoAdminRequired]
+	public function deleteDevice(int $sessionId, int $deviceId): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$this->deviceMapper->deleteDevice($session->getToken(), $deviceId);
+		return new DataResponse([]);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param int $deviceId
+	 * @param bool|null $enabled
+	 * @param int|null $colorCriteria
+	 * @param string|null $color
+	 * @param string|null $alias
+	 * @param string|null $name
+	 * @param string|null $shape
+	 * @param string|null $sessionToken
+	 * @return DataResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	#[NoAdminRequired]
+	public function updateDevice(int $sessionId, int $deviceId,
+		?bool $enabled = null, ?int $colorCriteria = null, ?string $color = null,
+		?string $alias = null, ?string $name = null, ?string $shape = null,
+		?string $sessionToken = null,
+	): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		if ($enabled !== null) {
+			$device->setEnabled($enabled ? 1 : 0);
+		}
+		if ($colorCriteria !== null) {
+			$device->setColorCriteria($colorCriteria);
+		}
+		if ($color !== null) {
+			$device->setColor($color);
+		}
+		if ($alias !== null) {
+			$device->setAlias($alias);
+		}
+		if ($name !== null) {
+			$device->setName($name);
+		}
+		if ($shape !== null) {
+			$device->setShape($shape);
+		}
+		if ($sessionToken !== null) {
+			$device->setSessionid($sessionToken);
+		}
+		$this->deviceMapper->update($device);
+		return new DataResponse($device);
 	}
 
 	/**

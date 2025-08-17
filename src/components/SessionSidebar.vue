@@ -105,7 +105,7 @@ export default {
 			return this.session.name
 		},
 		subtitle() {
-			const nbDevices = this.session.devices.length
+			const nbDevices = Object.keys(this.session.devices).length
 			return n('phonetrack', '{n} device', '{n} devices', nbDevices, { n: nbDevices })
 		},
 	},

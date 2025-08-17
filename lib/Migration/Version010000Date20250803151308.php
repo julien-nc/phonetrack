@@ -43,6 +43,24 @@ class Version010000Date20250803151308 extends SimpleMigrationStep {
 			}
 		}
 
+		if ($schema->hasTable('phonetrack_devices')) {
+			$table = $schema->getTable('phonetrack_devices');
+			if (!$table->hasColumn('enabled')) {
+				$table->addColumn('enabled', Types::SMALLINT, [
+					'notnull' => true,
+					'default' => 0,
+				]);
+				$schemaChanged = true;
+			}
+			if (!$table->hasColumn('color_criteria')) {
+				$table->addColumn('color_criteria', Types::SMALLINT, [
+					'notnull' => true,
+					'default' => 0,
+				]);
+				$schemaChanged = true;
+			}
+		}
+
 		return $schemaChanged ? $schema : null;
 	}
 

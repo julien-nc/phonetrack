@@ -13,6 +13,7 @@
 namespace OCA\PhoneTrack\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * @method int getId()
@@ -52,17 +53,17 @@ class Session extends Entity implements \JsonSerializable {
 	protected $enabled;
 
 	public function __construct() {
-		$this->addType('id', 'integer');
-		$this->addType('user', 'string');
-		$this->addType('name', 'string');
-		$this->addType('token', 'string');
-		$this->addType('publicviewtoken', 'string');
-		$this->addType('public', 'integer');
-		$this->addType('locked', 'integer');
-		$this->addType('creationversion', 'string');
-		$this->addType('autoexport', 'string');
-		$this->addType('autopurge', 'string');
-		$this->addType('enabled', 'integer');
+		$this->addType('id', Types::INTEGER);
+		$this->addType('user', Types::STRING);
+		$this->addType('name', Types::STRING);
+		$this->addType('token', Types::STRING);
+		$this->addType('publicviewtoken', Types::STRING);
+		$this->addType('public', Types::INTEGER);
+		$this->addType('locked', Types::INTEGER);
+		$this->addType('creationversion', Types::STRING);
+		$this->addType('autoexport', Types::STRING);
+		$this->addType('autopurge', Types::STRING);
+		$this->addType('enabled', Types::INTEGER);
 	}
 
 	#[\ReturnTypeWillChange]

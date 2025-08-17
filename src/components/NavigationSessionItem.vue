@@ -27,7 +27,7 @@
 		</template>
 		<template #counter>
 			<NcCounterBubble
-				:count="session.devices.length" />
+				:count="Object.keys(session.devices).length" />
 		</template>
 		<template #actions>
 			<template v-if="sortActionsOpen && !isPublicPage">
@@ -175,15 +175,16 @@
 			</template>
 		</template>
 		<template #default>
-			<NcAppNavigationItem v-if="compact && session.devices.length === 0"
+			<NcAppNavigationItem v-if="compact && Object.keys(session.devices).length === 0"
 				:name="t('phonetrack', 'No device')">
 				<template #icon>
 					<PhonetrackIcon :size="20" />
 				</template>
 			</NcAppNavigationItem>
-			<!--NavigationDeviceItem v-for="device in sortedDevices"
-				:key="device.id"
-				:device="device" /-->
+			<NavigationDeviceItem v-for="device in sortedDevices"
+				:key="session.id + '-' + device.id"
+				:device="device"
+				:session="session" />
 		</template>
 	</NcAppNavigationItem>
 </template>
@@ -203,7 +204,7 @@ import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 
 import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 
-// import NavigationDeviceItem from './NavigationDeviceItem.vue'
+import NavigationDeviceItem from './NavigationDeviceItem.vue'
 
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
@@ -223,7 +224,7 @@ export default {
 	name: 'NavigationSessionItem',
 	components: {
 		PhonetrackIcon,
-		// NavigationDeviceItem,
+		NavigationDeviceItem,
 		NcAppNavigationItem,
 		NcActionButton,
 		NcActionCheckbox,
@@ -268,7 +269,7 @@ export default {
 	},
 	computed: {
 		sessionItemTitle() {
-			const devices = this.session.devices
+			const devices = Object.values(this.session.devices)
 			const nbDevices = devices.length
 			return this.session.name
 				+ (nbDevices > 0
@@ -295,8 +296,8 @@ export default {
 		},
 		allDevicesSelected() {
 			let allSelected = true
-			this.session.devices.every(d => {
-				if (!d.isEnabled) {
+			Object.values(this.session.devices).every(d => {
+				if (!d.enabled) {
 					allSelected = false
 					return false
 				}
@@ -308,7 +309,7 @@ export default {
 			if (!this.compact) {
 				return []
 			}
-			return sortDevices(this.session.devices, this.session.sortOrder, this.session.sortAscending)
+			return sortDevices(Object.values(this.session.devices), this.session.sortOrder, this.session.sortAscending)
 		},
 	},
 	beforeMount() {

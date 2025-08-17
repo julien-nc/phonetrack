@@ -211,6 +211,8 @@ export default {
 		subscribe('session-details-click', this.onSessionDetailsClicked)
 		subscribe('session-share-click', this.onSessionShareClicked)
 		subscribe('session-link-click', this.onSessionLinkClicked)
+		subscribe('update-device', this.onUpdateDevice)
+		subscribe('device-clicked', this.onDeviceClicked)
 		emit('nav-toggled')
 	},
 
@@ -225,6 +227,8 @@ export default {
 		unsubscribe('session-details-click', this.onSessionDetailsClicked)
 		unsubscribe('session-share-click', this.onSessionShareClicked)
 		unsubscribe('session-link-click', this.onSessionLinkClicked)
+		unsubscribe('update-device', this.onUpdateDevice)
+		unsubscribe('device-clicked', this.onDeviceClicked)
 	},
 
 	methods: {
@@ -399,6 +403,33 @@ export default {
 					...data.values,
 				}
 			})
+		},
+		onUpdateDevice(data) {
+			this.updateDevice(data.sessionId, data.deviceId, data.values).then(() => {
+				this.state.sessions[data.sessionId].devices[data.deviceId] = {
+					...this.state.sessions[data.sessionId].devices[data.deviceId],
+					...data.values,
+				}
+			})
+		},
+		onDeviceClicked({ sessionId, deviceId, saveEnable = true }) {
+			const device = this.state.sessions[sessionId].devices[deviceId]
+			device.enabled = !device.enabled
+			this.updateDevice(sessionId, deviceId, { enabled: device.enabled })
+		},
+		async updateDevice(sessionId, deviceId, values) {
+			const req = {
+				...values,
+			}
+			const url = generateUrl('/apps/phonetrack/session/' + sessionId + '/device/' + deviceId)
+			try {
+				const response = await axios.put(url, req)
+				return response
+			} catch (error) {
+				console.error(error)
+				showError(t('phonetrack', 'Failed to save device'))
+				throw error
+			}
 		},
 		onTileServerDeleted(id) {
 			const url = generateUrl('/apps/phonetrack/tileservers/{id}', { id })

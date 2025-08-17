@@ -1,10 +1,8 @@
 <template>
 	<NcAppNavigationItem
-		:name="decodedTrackName"
-		:title="track.trackpath"
-		:class="{ trackItem: true }"
-		:active="track.isEnabled"
-		:loading="track.loading"
+		:name="device.name"
+		:active="device.enabled"
+		:loading="device.loading"
 		:editable="false"
 		:force-menu="true"
 		:force-display-actions="true"
@@ -14,10 +12,10 @@
 		@mouseleave.native="onHoverOut"
 		@contextmenu.native.stop.prevent="menuOpen = true"
 		@click="onClick">
-		<template v-if="track.isEnabled" #icon>
+		<template v-if="device.enabled" #icon>
 			<NcColorPicker
 				class="app-navigation-entry-bullet-wrapper"
-				:model-value="track.color"
+				:model-value="device.color"
 				@update:model-value="updateColor">
 				<template #default="{ attrs }">
 					<ColoredDot
@@ -29,7 +27,6 @@
 				</template>
 			</NcColorPicker>
 		</template>
-		<!-- weird behaviour when using <template #actions> -->
 		<template #actions>
 			<template v-if="!criteriaActionsOpen">
 				<NcActionButton
@@ -40,14 +37,6 @@
 					</template>
 					{{ t('phonetrack', 'Details') }}
 				</NcActionButton>
-				<NcActionButton v-if="!isPublicPage"
-					:close-after-click="true"
-					@click="onShareClick">
-					<template #icon>
-						<ShareVariantIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Share') }}
-				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
 					@click="onZoomClick">
@@ -56,15 +45,6 @@
 					</template>
 					{{ t('phonetrack', 'Zoom to bounds') }}
 				</NcActionButton>
-				<NcActionLink
-					:close-after-click="true"
-					:href="downloadLink"
-					target="_blank">
-					<template #icon>
-						<DownloadIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Download') }}
-				</NcActionLink>
 				<NcActionButton
 					:close-after-click="true"
 					@click="onMenuColorClick">
@@ -84,19 +64,11 @@
 				</NcActionButton>
 				<NcActionButton v-if="!isPublicPage"
 					:close-after-click="true"
-					@click="onCorrectElevationClick">
+					@click="onDeleteDeviceClick">
 					<template #icon>
-						<ChartAreasplineVariantIcon :size="20" />
+						<TrashCanOutlineIcon :size="20" />
 					</template>
-					{{ t('phonetrack', 'Correct elevations') }}
-				</NcActionButton>
-				<NcActionButton v-if="!isPublicPage"
-					:close-after-click="true"
-					@click="onDeleteTrackClick">
-					<template #icon>
-						<DeleteIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Delete this file') }}
+					{{ t('phonetrack', 'Delete') }}
 				</NcActionButton>
 			</template>
 			<template v-else>
@@ -110,26 +82,10 @@
 				<NcActionRadio v-for="(c, ckey) in COLOR_CRITERIAS"
 					:key="ckey"
 					name="criteria"
-					:model-value="track.colorExtensionCriteria === '' ? track.colorCriteria : null"
+					:model-value="device.colorCriteria"
 					:value="c.id"
 					@change="onCriteriaChange(c.id)">
 					{{ c.label }}
-				</NcActionRadio>
-				<NcActionRadio v-for="ext in track.extensions?.trackpoint"
-					:key="'extension-trackpoint-' + ext"
-					name="criteria2"
-					:model-value="track.colorExtensionCriteriaType === 'trackpoint' ? track.colorExtensionCriteria : null"
-					:value="ext"
-					@change="onColorExtensionCriteriaChange(ext, 'trackpoint')">
-					{{ getExtensionLabel(ext) }}
-				</NcActionRadio>
-				<NcActionRadio v-for="ext in track.extensions?.unsupported"
-					:key="'extension-unsupported-' + ext"
-					name="criteria3"
-					:model-value="track.colorExtensionCriteriaType === 'unsupported' ? track.colorExtensionCriteria : null"
-					:value="ext"
-					@change="onColorExtensionCriteriaChange(ext, 'unsupported')">
-					{{ getExtensionLabel(ext) }}
 				</NcActionRadio>
 			</template>
 		</template>
@@ -137,56 +93,48 @@
 </template>
 
 <script>
-import DownloadIcon from 'vue-material-design-icons/Download.vue'
 import MagnifyExpandIcon from 'vue-material-design-icons/MagnifyExpand.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import PaletteIcon from 'vue-material-design-icons/Palette.vue'
 import BrushIcon from 'vue-material-design-icons/Brush.vue'
-import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
-import ChartAreasplineVariantIcon from 'vue-material-design-icons/ChartAreasplineVariant.vue'
 
-import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
+
 import ColoredDot from './ColoredDot.vue'
 
-import { emit } from '@nextcloud/event-bus'
-
 import { COLOR_CRITERIAS } from '../constants.js'
-import TrackItem from '../mixins/TrackItem.js'
+import { emit } from '@nextcloud/event-bus'
+import debounce from 'debounce'
 
 export default {
-	name: 'NavigationTrackItem',
+	name: 'NavigationDeviceItem',
 	components: {
 		ColoredDot,
 		NcAppNavigationItem,
 		NcActionButton,
 		NcActionRadio,
-		NcActionLink,
 		NcColorPicker,
 		PaletteIcon,
-		DeleteIcon,
-		ShareVariantIcon,
+		TrashCanOutlineIcon,
 		InformationOutlineIcon,
 		ChevronLeftIcon,
 		BrushIcon,
 		MagnifyExpandIcon,
-		DownloadIcon,
-		ChartAreasplineVariantIcon,
 	},
-
-	mixins: [
-		TrackItem,
-	],
 
 	inject: ['isPublicPage'],
 
 	props: {
-		track: {
+		device: {
+			type: Object,
+			required: true,
+		},
+		session: {
 			type: Object,
 			required: true,
 		},
@@ -201,29 +149,60 @@ export default {
 	},
 
 	computed: {
-		// to make sure it works with tracks created before the vue rewrite (url-encoded values in the marker)
-		decodedTrackName() {
-			return decodeURIComponent(this.track.name)
-		},
-		decodedFolder() {
-			return decodeURIComponent(this.track.folder)
+		dotColor() {
+			return this.device.colorCriteria === COLOR_CRITERIAS.none.id
+				? this.device.color || '#0693e3'
+				: 'gradient'
 		},
 	},
 
 	methods: {
 		onClick(e) {
 			if (e.target.tagName !== 'DIV') {
-				emit('track-clicked', { trackId: this.track.id, dirId: this.track.directoryId })
+				emit('device-clicked', { deviceId: this.device.id, sessionId: this.session.id })
 			}
 		},
-		onDeleteTrackClick() {
-			emit('delete-track', this.track)
+		onDeleteDeviceClick() {
+			emit('delete-device', this.device)
 		},
 		onUpdateMenuOpen(isOpen) {
 			if (!isOpen) {
 				this.criteriaActionsOpen = false
 			}
 			this.menuOpen = isOpen
+		},
+		onZoomClick() {
+			emit('zoom-on-bounds', { deviceId: this.device.id, sessionId: this.session.id })
+		},
+		onDetailsClick() {
+			emit('device-details-click', { deviceId: this.device.id, sessionId: this.session.id })
+		},
+		onHoverIn() {
+			emit('device-hover-in', { deviceId: this.device.id, sessionId: this.session.id })
+		},
+		onHoverOut() {
+			emit('device-hover-out', { deviceId: this.device.id, sessionId: this.session.id })
+		},
+		onMenuColorClick() {
+			this.menuOpen = false
+			if (this.$refs.colorDot) {
+				this.$refs.colorDot.$el.click()
+			}
+		},
+		updateColor: debounce(function(color) {
+			this.applyUpdateColor(color)
+		}, 1000),
+		applyUpdateColor(color) {
+			emit('update-device', { deviceId: this.device.id, sessionId: this.session.id, values: { color } })
+		},
+		onCriteriaChange(colorCriteria) {
+			emit('update-device', {
+				deviceId: this.device.id,
+				sessionId: this.session.id,
+				values: {
+					colorCriteria,
+				},
+			})
 		},
 	},
 

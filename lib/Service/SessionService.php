@@ -28,6 +28,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 use OCP\IUserManager;
+use stdClass;
 
 class SessionService {
 
@@ -949,7 +950,14 @@ class SessionService {
 			$json['shared_with'] = $this->getUserShares($session->getToken());
 			$json['reserved_names'] = $this->getReservedNames($session->getToken());
 			$json['public_shares'] = $this->getPublicShares($session->getToken());
-			$json['devices'] = $this->getDevices($session->getToken());
+			$json['devices'] = [];
+			$devices = $this->deviceMapper->findBySessionId($session->getToken());
+			foreach ($devices as $device) {
+				$json['devices'][$device->getId()] = $device;
+			}
+			if (empty($json['devices'])) {
+				$json['devices'] = new stdClass();
+			}
 			return $json;
 		}, $sessions);
 
@@ -973,7 +981,14 @@ class SessionService {
 			$json['shared_with'] = $this->getUserShares($session->getToken());
 			$json['reserved_names'] = $this->getReservedNames($session->getToken());
 			$json['public_shares'] = $this->getPublicShares($session->getToken());
-			$json['devices'] = $this->getDevices($session->getToken());
+			$json['devices'] = [];
+			$devices = $this->deviceMapper->findBySessionId($session->getToken());
+			foreach ($devices as $device) {
+				$json['devices'][$device->getId()] = $device;
+			}
+			if (empty($json['devices'])) {
+				$json['devices'] = new stdClass();
+			}
 			$json['token'] = $sidToShareToken[$json['id']];
 			return $json;
 		}, $sharedSessions);

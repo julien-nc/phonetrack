@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\PhoneTrack\Db;
 
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 /**
  * @method string|null getUserId()
@@ -33,13 +34,13 @@ class TileServer extends Entity implements \JsonSerializable {
 	protected $attribution;
 
 	public function __construct() {
-		$this->addType('user_id', 'string');
-		$this->addType('type', 'integer');
-		$this->addType('name', 'string');
-		$this->addType('url', 'string');
-		$this->addType('min_zoom', 'integer');
-		$this->addType('max_zoom', 'integer');
-		$this->addType('attribution', 'string');
+		$this->addType('user_id', Types::STRING);
+		$this->addType('type', Types::INTEGER);
+		$this->addType('name', Types::STRING);
+		$this->addType('url', Types::STRING);
+		$this->addType('min_zoom', Types::INTEGER);
+		$this->addType('max_zoom', Types::INTEGER);
+		$this->addType('attribution', Types::STRING);
 	}
 
 	#[\ReturnTypeWillChange]

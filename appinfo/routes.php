@@ -16,6 +16,8 @@ return [
 		['name' => 'page#createSession', 'url' => '/session', 'verb' => 'POST'],
 		['name' => 'page#deleteSession', 'url' => '/session/{sessionId}', 'verb' => 'DELETE'],
 		['name' => 'page#updateSession', 'url' => '/session/{sessionId}', 'verb' => 'PUT'],
+		['name' => 'page#deleteDevice', 'url' => '/session/{sessionId}/device/{deviceId}', 'verb' => 'DELETE'],
+		['name' => 'page#updateDevice', 'url' => '/session/{sessionId}/device/{deviceId}', 'verb' => 'PUT'],
 		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],

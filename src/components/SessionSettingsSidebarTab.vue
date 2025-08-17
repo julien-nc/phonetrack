@@ -134,7 +134,7 @@ export default {
 
 	computed: {
 		hasDevices() {
-			return this.session.devices.length > 0
+			return Object.keys(this.session.devices).length > 0
 		},
 		selectedAutoExport() {
 			return this.autoExportOptions.find(o => o.value === this.session.autoexport)

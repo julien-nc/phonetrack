@@ -50,6 +50,45 @@ class DeviceMapper extends QBMapper {
 		return $this->findEntities($qb);
 	}
 
+
+	public function getBySessionTokenAndDeviceId(string $sessionToken, int $deviceId): Device {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	public function deleteDevice(string $sessionToken, int $deviceId): void {
+		$this->deleteDevicePoints($deviceId);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('phonetrack_devices')
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+	}
+
+	public function deleteDevicePoints(int $deviceId) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('phonetrack_points')
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+	}
+
 	public function deletePointsOlderThan(int $deviceId, int $timestamp) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('phonetrack_points')
