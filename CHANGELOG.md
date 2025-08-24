@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 0.9.1 – 2025-08-24
+
+### Changed
+
+- Add support for NC 32
+- Drop support for NC < 30
+
+### Fixed
+
+- Add jquery-ui back to fix sharing sessions
+- Support new traccar data format (in the request body) [#103](https://github.com/julien-nc/phonetrack/pull/103)
+- Fix release action
+
 ## 0.8.2 – 2024-12-27
 
 ### Added
