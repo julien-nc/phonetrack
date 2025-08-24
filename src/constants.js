@@ -1,5 +1,13 @@
 import { translate as t } from '@nextcloud/l10n'
 
+export const SHARE_TYPE = {
+	PUBLIC_LINK: 'l',
+	USER: 'u',
+	GROUP: 'g',
+	CIRCLE: 'c',
+	FEDERATED: 'f',
+}
+
 export const DEVICE_SORT_ORDER = {
 	name: {
 		value: 0,

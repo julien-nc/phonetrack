@@ -22,6 +22,8 @@ return [
 		['name' => 'page#createPublicShare', 'url' => '/session/{sessionId}/pub-share', 'verb' => 'POST'],
 		['name' => 'page#updatePublicShare', 'url' => '/session/{sessionId}/pub-share/{pubShareId}', 'verb' => 'PUT'],
 		['name' => 'page#deletePublicShare', 'url' => '/session/{sessionId}/pub-share/{pubShareId}', 'verb' => 'DELETE'],
+		['name' => 'page#createShare', 'url' => '/session/{sessionId}/share', 'verb' => 'POST'],
+		['name' => 'page#deleteShare', 'url' => '/session/{sessionId}/share/{shareId}', 'verb' => 'DELETE'],
 		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],

@@ -24,6 +24,7 @@ use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\ShareMapper;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\Service\ToolsService;
@@ -97,6 +98,7 @@ class PageNLogControllerTest extends TestCase {
 				$c->get(IDBConnection::class)
 			),
 			$c->get(PublicShareMapper::class),
+			$c->get(ShareMapper::class),
 			$c->get(IUserManager::class),
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),

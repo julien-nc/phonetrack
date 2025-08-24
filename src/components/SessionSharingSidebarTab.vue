@@ -3,6 +3,9 @@
 		<h3>
 			{{ t('phonetrack', 'Session sharing') }}
 		</h3>
+		<SharingSelect :session="session"
+			:model-value="selectedSharee"
+			@update:model-value="onSelectSharee" />
 		<ul
 			id="publicShareList"
 			ref="publicShareList"
@@ -99,6 +102,35 @@
 					</NcActionButton>
 				</NcActions>
 			</li>
+			<li v-for="share in session.shares" :key="share.id">
+				<NcAvatar
+					v-if="share.type === constants.SHARE_TYPE.USER"
+					:user="share.username"
+					:disable-menu="true"
+					:disable-tooltip="true" />
+				<!--div v-if="access.type === constants.SHARE_TYPE.GROUP"
+					 class="avatardiv link-icon">
+					<AccountGroupIcon :size="20" />
+				</div>
+				<div v-if="access.type === constants.SHARE_TYPE.CIRCLE"
+					 class="avatardiv link-icon">
+					<GoogleCirclesCommunitiesIcon :size="20" />
+				</div-->
+				<span class="line-label">
+					<span>{{ share.display_name ? (share.display_name + ' (' + share.username + ')') : share.username }}</span>
+				</span>
+
+				<NcActions :force-menu="true"
+					placement="bottom">
+					<NcActionButton
+						@click="clickDeleteUgcShare(share)">
+						<template #icon>
+							<TrashCanOutlineIcon :size="20" />
+						</template>
+						{{ t('phonetrack', 'Delete access') }}
+					</NcActionButton>
+				</NcActions>
+			</li>
 		</ul>
 		<hr>
 		<NcCheckboxRadioSwitch
@@ -192,6 +224,11 @@ import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+
+import SharingSelect from './SharingSelect.vue'
+
+import * as constants from '../constants.js'
 
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
@@ -221,6 +258,8 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcTextField,
 		NcButton,
+		NcAvatar,
+		SharingSelect,
 	},
 
 	props: {
@@ -236,6 +275,8 @@ export default {
 
 	data() {
 		return {
+			constants,
+			selectedSharee: null,
 			addingPublicLink: false,
 			linkCopied: {},
 			publicWatchLinkCopied: false,
@@ -263,6 +304,29 @@ export default {
 	},
 
 	methods: {
+		onSelectSharee(value) {
+			console.debug('onSelectSharee', value)
+			const req = {
+				userId: value.user,
+			}
+			const url = generateUrl('/apps/phonetrack/session/' + this.session.id + '/share')
+			axios.post(url, req).then((response) => {
+				emit('add-share', { sessionId: this.session.id, share: response.data })
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to create share'))
+				console.error(error)
+			})
+		},
+		clickDeleteUgcShare(share) {
+			console.debug('clickDeleteUgcShare', share)
+			const url = generateUrl('/apps/phonetrack/session/' + this.session.id + '/share/' + share.id)
+			axios.delete(url).then((response) => {
+				emit('delete-share', { sessionId: this.session.id, shareId: share.id })
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to delete share'))
+				console.error(error)
+			})
+		},
 		generatePublicLink(access) {
 			return HOST + generateUrl('/apps/phonetrack/publicSessionWatch/' + access.sharetoken)
 		},

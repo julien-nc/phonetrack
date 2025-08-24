@@ -18,6 +18,8 @@ use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\PublicShare;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\Share;
+use OCA\PhoneTrack\Db\ShareMapper;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\MapService;
 use OCA\PhoneTrack\Service\SessionService;
@@ -40,6 +42,7 @@ use OCP\IAppConfig;
 use OCP\IL10N;
 
 use OCP\IRequest;
+use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use stdClass;
 
@@ -54,8 +57,10 @@ class PageController extends Controller {
 		private SessionService $sessionService,
 		private DeviceMapper $deviceMapper,
 		private PublicShareMapper $publicShareMapper,
+		private ShareMapper $shareMapper,
 		private IInitialState $initialStateService,
 		private IAppConfig $appConfig,
+		private IUserManager $userManager,
 		private ToolsService $toolsService,
 		private MapService $mapService,
 		private TileServerMapper $tileServerMapper,
@@ -385,6 +390,64 @@ class PageController extends Controller {
 		}
 		$publicShare = $this->publicShareMapper->findByIdAndSessionToken($pubShareId, $session->getToken());
 		$this->publicShareMapper->delete($publicShare);
+		return new DataResponse([]);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param string $userId
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	public function createShare(int $sessionId, string $userId): DataResponse {
+		// check if session exists
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		// check if already shared
+		try {
+			$share = $this->shareMapper->findBySessionTokenAndUser($userId, $session->getToken());
+		} catch (DoesNotExistException) {
+		}
+
+		$shareToken = md5('share' . $this->userId . $session->getName() . rand());
+
+		$newShare = new Share();
+		$newShare->setSessionid($session->getToken());
+		$newShare->setSharetoken($shareToken);
+		$newShare->setUsername($userId);
+		$newShare = $this->shareMapper->insert($newShare);
+		$jsonNewShare = $newShare->jsonSerialize();
+		$jsonNewShare['type'] = 'u';
+		$user = $this->userManager->get($userId);
+		if ($user !== null) {
+			$jsonNewShare['display_name'] = $user->getDisplayName();
+		} else {
+			$this->shareMapper->delete($newShare);
+			return new DataResponse(['error' => 'user_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		return new DataResponse($jsonNewShare);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param int $shareId
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	public function deleteShare(int $sessionId, int $shareId): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$share = $this->shareMapper->findByIdAndSessionToken($shareId, $session->getToken());
+		$this->shareMapper->delete($share);
 		return new DataResponse([]);
 	}
 

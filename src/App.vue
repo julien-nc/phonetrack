@@ -219,6 +219,8 @@ export default {
 		subscribe('add-public-share', this.onAddPublicShare)
 		subscribe('update-public-share', this.onUpdatePublicShare)
 		subscribe('delete-public-share', this.onDeletePublicShare)
+		subscribe('add-share', this.onAddShare)
+		subscribe('delete-share', this.onDeleteShare)
 		emit('nav-toggled')
 	},
 
@@ -239,6 +241,8 @@ export default {
 		unsubscribe('add-public-share', this.onAddPublicShare)
 		unsubscribe('update-public-share', this.onUpdatePublicShare)
 		unsubscribe('delete-public-share', this.onDeletePublicShare)
+		unsubscribe('add-share', this.onAddShare)
+		unsubscribe('delete-share', this.onDeleteShare)
 	},
 
 	methods: {
@@ -496,6 +500,17 @@ export default {
 			const publicShareIndex = this.state.sessions[sessionId].public_shares.findIndex(pubShare => pubShare.id === publicShareId)
 			if (publicShareIndex !== -1) {
 				this.state.sessions[sessionId].public_shares.splice(publicShareIndex, 1)
+			}
+		},
+		onAddShare({ sessionId, share }) {
+			console.debug('onAddShare', sessionId, share)
+			this.state.sessions[sessionId].shares.push(share)
+		},
+		onDeleteShare({ sessionId, shareId }) {
+			console.debug('onDeleteShare', sessionId, shareId)
+			const shareIndex = this.state.sessions[sessionId].shares.findIndex(share => share.id === shareId)
+			if (shareIndex !== -1) {
+				this.state.sessions[sessionId].shares.splice(shareIndex, 1)
 			}
 		},
 		onUpdateShowDetails(val) {

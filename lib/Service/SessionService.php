@@ -18,6 +18,7 @@ use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\Session;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\ShareMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -40,6 +41,7 @@ class SessionService {
 		private SessionMapper $sessionMapper,
 		private DeviceMapper $deviceMapper,
 		private PublicShareMapper $publicShareMapper,
+		private ShareMapper $shareMapper,
 		private IUserManager $userManager,
 		private IDBConnection $db,
 		private IRootFolder $root,
@@ -916,8 +918,7 @@ class SessionService {
 		$sessions = $this->sessionMapper->findByUser($userId);
 		$sessions = array_map(function (Session $session) {
 			$json = $session->jsonSerialize();
-			$json['shared_with'] = $this->getUserShares($session->getToken());
-			$json['reserved_names'] = $this->getReservedNames($session->getToken());
+			$json['shares'] = $this->getSessionShares($session->getToken());
 			$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getToken());
 			$json['devices'] = [];
 			$devices = $this->deviceMapper->findBySessionId($session->getToken());
@@ -947,9 +948,8 @@ class SessionService {
 		$sharedSessions = $this->sessionMapper->getSessionsById(array_keys($sidToShareToken));
 		$sharedSessions = array_map(function (Session $session) use ($sidToShareToken) {
 			$json = $session->jsonSerialize();
-			$json['shared_with'] = $this->getUserShares($session->getToken());
-			$json['reserved_names'] = $this->getReservedNames($session->getToken());
-			$json['public_shares'] = $this->getPublicShares($session->getToken());
+			$json['shares'] = $this->shareMapper->findBySessionToken($session->getToken());
+			$json['public_shares'] = $this->getSessionShares($session->getToken());
 			$json['devices'] = [];
 			$devices = $this->deviceMapper->findBySessionId($session->getToken());
 			foreach ($devices as $device) {
@@ -963,5 +963,32 @@ class SessionService {
 		}, $sharedSessions);
 
 		return array_merge($sessions, $sharedSessions);
+	}
+
+	private function getSessionShares(string $sessionToken): array {
+		$userIdToName = [];
+		$jsonShares = [];
+
+		$shares = $this->shareMapper->findBySessionToken($sessionToken);
+		foreach ($shares as $share) {
+			if (array_key_exists($share->getUsername(), $userIdToName)) {
+				$name = $userIdToName[$share->getUsername()];
+			} else {
+				$user = $this->userManager->get($share->getUsername());
+				if ($user !== null) {
+					$userIdToName[$user->getUID()] = $user->getDisplayName();
+					$name = $user->getDisplayName();
+				} else {
+					$this->shareMapper->delete($share);
+					continue;
+				}
+			}
+			$jsonShare = $share->jsonSerialize();
+			$jsonShare['display_name'] = $name;
+			$jsonShare['type'] = 'u';
+			$jsonShares[] = $jsonShare;
+		}
+
+		return $jsonShares;
 	}
 }
