@@ -320,8 +320,8 @@ class PageController extends Controller {
 		$newPublicShare = new PublicShare();
 		$newPublicShare->setSessionid($session->getToken());
 		$newPublicShare->setSharetoken($shareToken);
-		$newPublicShare->setLastposonly(false);
-		$newPublicShare->setGeofencify(false);
+		$newPublicShare->setLastposonly(0);
+		$newPublicShare->setGeofencify(0);
 		$newPublicShare = $this->publicShareMapper->insert($newPublicShare);
 		return new DataResponse($newPublicShare->jsonSerialize());
 	}
