@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 0.9.0 – 2025-08-24
+## 0.9.1 – 2025-08-24
 
 ### Changed
 
@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add jquery-ui back to fix sharing sessions
 - Support new traccar data format (in the request body) [#103](https://github.com/julien-nc/phonetrack/pull/103)
+- Fix release action
 
 ## 0.8.2 – 2024-12-27
 
