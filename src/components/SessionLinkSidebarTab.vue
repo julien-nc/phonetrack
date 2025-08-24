@@ -27,7 +27,16 @@
 			:key="k"
 			class="link">
 			<hr>
-			<label :for="'link-field-' + k">{{ link.name }}</label>
+			<label :for="'link-field-' + k">
+				<NcAvatar v-if="link.imageUrl"
+					:size="28"
+					:url="link.imageUrl"
+					:is-no-user="true"
+					:hide-status="true"
+					:disable-menu="true"
+					:disable-tooltip="true" />
+				{{ link.name }}
+			</label>
 			<div class="line">
 				<NcTextField
 					:id="'link-field-' + k"
@@ -93,6 +102,7 @@ import ContentCopyIcon from 'vue-material-design-icons/ContentCopy.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import KeyOutlineIcon from 'vue-material-design-icons/KeyOutline.vue'
 
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
@@ -117,6 +127,7 @@ export default {
 		NcButton,
 		NcModal,
 		NcTextField,
+		NcAvatar,
 		QRCode,
 	},
 
@@ -295,6 +306,11 @@ export default {
 		}
 		hr {
 			width: 100%;
+		}
+		label {
+			display: flex;
+			align-items: center;
+			gap: 8px;
 		}
 	}
 }
