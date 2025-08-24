@@ -18,6 +18,7 @@ return [
 		['name' => 'page#updateSession', 'url' => '/session/{sessionId}', 'verb' => 'PUT'],
 		['name' => 'page#deleteDevice', 'url' => '/session/{sessionId}/device/{deviceId}', 'verb' => 'DELETE'],
 		['name' => 'page#updateDevice', 'url' => '/session/{sessionId}/device/{deviceId}', 'verb' => 'PUT'],
+		['name' => 'page#addDeviceReservation', 'url' => '/session/{sessionId}/device-name/{deviceName}', 'verb' => 'POST'],
 		['name' => 'page#createPublicShare', 'url' => '/session/{sessionId}/pub-share', 'verb' => 'POST'],
 		['name' => 'page#updatePublicShare', 'url' => '/session/{sessionId}/pub-share/{pubShareId}', 'verb' => 'PUT'],
 		['name' => 'page#deletePublicShare', 'url' => '/session/{sessionId}/pub-share/{pubShareId}', 'verb' => 'DELETE'],

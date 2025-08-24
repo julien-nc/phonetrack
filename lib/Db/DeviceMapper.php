@@ -12,6 +12,8 @@
 
 namespace OCA\PhoneTrack\Db;
 
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -61,6 +63,29 @@ class DeviceMapper extends QBMapper {
 			)
 			->andWhere(
 				$qb->expr()->eq('id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $sessionToken
+	 * @param string $name
+	 * @return Device
+	 * @throws Exception
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getByName(string $sessionToken, string $name): Device {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR))
 			);
 
 		return $this->findEntity($qb);

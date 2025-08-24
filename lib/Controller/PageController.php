@@ -13,6 +13,7 @@
 namespace OCA\PhoneTrack\Controller;
 
 use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\Device;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\PublicShare;
 use OCA\PhoneTrack\Db\PublicShareMapper;
@@ -130,6 +131,9 @@ class PageController extends Controller {
 	/**
 	 * @param int $sessionId
 	 * @return DataResponse
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
 	public function deleteSession(int $sessionId): DataResponse {
@@ -210,6 +214,7 @@ class PageController extends Controller {
 	 * @param string|null $name
 	 * @param string|null $shape
 	 * @param string|null $sessionToken
+	 * @param string|null $nametoken
 	 * @return DataResponse
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -218,7 +223,7 @@ class PageController extends Controller {
 	public function updateDevice(int $sessionId, int $deviceId,
 		?bool $enabled = null, ?int $colorCriteria = null, ?string $color = null,
 		?string $alias = null, ?string $name = null, ?string $shape = null,
-		?string $sessionToken = null,
+		?string $sessionToken = null, ?string $nametoken = null,
 	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
@@ -247,8 +252,52 @@ class PageController extends Controller {
 		if ($sessionToken !== null) {
 			$device->setSessionid($sessionToken);
 		}
+		if ($nametoken !== null) {
+			$device->setNametoken($nametoken === '' ? null : $nametoken);
+		}
 		$this->deviceMapper->update($device);
 		return new DataResponse($device);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param string $deviceName
+	 * @return DataResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	#[NoAdminRequired]
+	public function addDeviceReservation(int $sessionId, string $deviceName): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$device = $this->deviceMapper->getByName($session->getToken(), $deviceName);
+			if ($device->getNametoken() !== null && $device->getNametoken() !== '') {
+				return new DataResponse(['error' => 'already_reserved'], Http::STATUS_CONFLICT);
+			}
+			$nameToken = md5('nametoken' . $this->userId . rand());
+			$device->setNametoken($nameToken);
+			$device = $this->deviceMapper->update($device);
+			return new DataResponse($device);
+		} catch (DoesNotExistException $e) {
+			// create
+			$device = new Device();
+			$device->setSessionid($session->getToken());
+			$nameToken = md5('nametoken' . $this->userId . rand());
+			$device->setNametoken($nameToken);
+			$device->setName($deviceName);
+			$device->setEnabled(0);
+			$device->setColorCriteria(0);
+			$device = $this->deviceMapper->insert($device);
+			return new DataResponse($device);
+		} catch (MultipleObjectsReturnedException|\Exception $e) {
+			$this->logger->warning('Impossible to reserve name', ['exception' => $e]);
+			return new DataResponse(['error' => 'unknown', 'exception' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**

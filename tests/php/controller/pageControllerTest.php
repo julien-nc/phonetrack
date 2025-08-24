@@ -22,6 +22,7 @@ use Exception;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\SessionService;
@@ -95,6 +96,7 @@ class PageNLogControllerTest extends TestCase {
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
+			$c->get(PublicShareMapper::class),
 			$c->get(IUserManager::class),
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),

@@ -213,6 +213,7 @@ export default {
 		subscribe('session-share-click', this.onSessionShareClicked)
 		subscribe('session-link-click', this.onSessionLinkClicked)
 		subscribe('update-device', this.onUpdateDevice)
+		subscribe('new-name-reservation', this.onNewNameReservation)
 		subscribe('device-clicked', this.onDeviceClicked)
 		subscribe('device-details-click', this.onDeviceDetailsClicked)
 		subscribe('add-public-share', this.onAddPublicShare)
@@ -233,6 +234,7 @@ export default {
 		unsubscribe('session-share-click', this.onSessionShareClicked)
 		unsubscribe('session-link-click', this.onSessionLinkClicked)
 		unsubscribe('update-device', this.onUpdateDevice)
+		unsubscribe('new-name-reservation', this.onNewNameReservation)
 		unsubscribe('device-clicked', this.onDeviceClicked)
 		unsubscribe('add-public-share', this.onAddPublicShare)
 		unsubscribe('update-public-share', this.onUpdatePublicShare)
@@ -444,6 +446,13 @@ export default {
 				console.error(error)
 				showError(t('phonetrack', 'Failed to save device'))
 				throw error
+			}
+		},
+		onNewNameReservation({ sessionId, device }) {
+			if (this.state.sessions[sessionId].devices[device.id]) {
+				this.state.sessions[sessionId].devices[device.id].nametoken = device.nametoken
+			} else {
+				this.state.sessions[sessionId].devices[device.id] = device
 			}
 		},
 		onTileServerDeleted(id) {

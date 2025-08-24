@@ -43,6 +43,32 @@
 			label="label"
 			:clearable="false"
 			@update:model-value="onAutoPurgeSelected" />
+		<h3>{{ t('phonetrack', 'Reserved device names') }}</h3>
+		<NcNoteCard type="info">
+			{{ t('phonetrack', 'Name reservation is optional.') }}
+			{{ t('phonetrack', 'Name can be set directly in logging link if it is not reserved.') }}
+			{{ t('phonetrack', 'To log with a reserved name, use the "name token" in logging link (or in PhoneTrack-Android log job\'s "device name") field.') }}
+			{{ t('phonetrack', 'If a name is reserved, the only way to log with this name is by using its reserved token.') }}
+		</NcNoteCard>
+		<NcTextField
+			v-model="newNameReservation"
+			:label="t('phonetrack', 'Reserve a device name')"
+			placeholder="..."
+			@keyup.enter="onNewDeviceReservation" />
+		<div v-for="rd in reservedDevices"
+			:key="rd.name"
+			class="device-reservation">
+			<span>
+				{{ rd.name }}: {{ rd.nametoken }}
+			</span>
+			<NcButton
+				:title="t('phonetrack', 'Delete name reservation')"
+				@click="onDeleteNameReservation(rd.id)">
+				<template #icon>
+					<TrashCanOutlineIcon :size="20" />
+				</template>
+			</NcButton>
+		</div>
 	</div>
 </template>
 
@@ -50,11 +76,13 @@
 import ContentSaveOutlineIcon from 'vue-material-design-icons/ContentSaveOutline.vue'
 import LockIcon from 'vue-material-design-icons/Lock.vue'
 import LockOpenOutlineIcon from 'vue-material-design-icons/LockOpenOutline.vue'
+import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import {
 	getFilePickerBuilder,
@@ -74,9 +102,11 @@ export default {
 		NcButton,
 		NcTextField,
 		NcSelect,
+		NcNoteCard,
 		LockIcon,
 		LockOpenOutlineIcon,
 		ContentSaveOutlineIcon,
+		TrashCanOutlineIcon,
 	},
 
 	props: {
@@ -92,6 +122,7 @@ export default {
 
 	data() {
 		return {
+			newNameReservation: '',
 			exportFileName: '',
 			autoExportOptions: [
 				{
@@ -141,6 +172,12 @@ export default {
 		},
 		selectedAutoPurge() {
 			return this.autoPurgeOptions.find(o => o.value === this.session.autopurge)
+		},
+		reservedDevices() {
+			return Object.values(this.session.devices).filter(d => d.nametoken)
+		},
+		reservedNames() {
+			return this.reservedDevices.map(d => d.name)
 		},
 	},
 
@@ -210,6 +247,18 @@ export default {
 			console.debug('[phonetrack] Auto-purge selected', option.value)
 			emit('update-session', { sessionId: this.session.id, values: { autopurge: option.value } })
 		},
+		onNewDeviceReservation() {
+			const url = generateUrl('/apps/phonetrack/session/' + this.session.id + '/device-name/' + this.newNameReservation)
+			axios.post(url).then((response) => {
+				emit('new-name-reservation', { sessionId: this.session.id, device: response.data })
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to add name reservation'))
+				console.error(error)
+			})
+		},
+		onDeleteNameReservation(deviceId) {
+			emit('update-device', { deviceId, sessionId: this.session.id, values: { nametoken: '' } })
+		},
 	},
 }
 </script>
@@ -237,6 +286,15 @@ export default {
 		justify-content: space-between;
 		> * {
 			max-width: 50%;
+		}
+	}
+
+	.device-reservation {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		> span {
+			flex-grow: 1;
 		}
 	}
 }
