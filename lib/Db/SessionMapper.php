@@ -49,12 +49,13 @@ class SessionMapper extends QBMapper {
 
 	/**
 	 * @param string $token
+	 * @param string|null $userId
 	 * @return Session
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
-	public function findByToken(string $token): Session {
+	public function findByToken(string $token, ?string $userId = null): Session {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -62,6 +63,11 @@ class SessionMapper extends QBMapper {
 			->where(
 				$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
+		if ($userId !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('user', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			);
+		}
 
 		return $this->findEntity($qb);
 	}

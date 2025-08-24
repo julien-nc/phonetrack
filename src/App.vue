@@ -215,6 +215,9 @@ export default {
 		subscribe('update-device', this.onUpdateDevice)
 		subscribe('device-clicked', this.onDeviceClicked)
 		subscribe('device-details-click', this.onDeviceDetailsClicked)
+		subscribe('add-public-share', this.onAddPublicShare)
+		subscribe('update-public-share', this.onUpdatePublicShare)
+		subscribe('delete-public-share', this.onDeletePublicShare)
 		emit('nav-toggled')
 	},
 
@@ -231,6 +234,9 @@ export default {
 		unsubscribe('session-link-click', this.onSessionLinkClicked)
 		unsubscribe('update-device', this.onUpdateDevice)
 		unsubscribe('device-clicked', this.onDeviceClicked)
+		unsubscribe('add-public-share', this.onAddPublicShare)
+		unsubscribe('update-public-share', this.onUpdatePublicShare)
+		unsubscribe('delete-public-share', this.onDeletePublicShare)
 	},
 
 	methods: {
@@ -465,6 +471,23 @@ export default {
 					showError(t('phonetrack', 'Failed to add tile server'))
 					console.debug(error)
 				})
+		},
+		onAddPublicShare({ sessionId, publicShare }) {
+			console.debug('onAddPublicShare', sessionId, publicShare)
+			this.state.sessions[sessionId].public_shares.push(publicShare)
+		},
+		onUpdatePublicShare({ sessionId, publicShareId, values }) {
+			const publicShare = this.state.sessions[sessionId].public_shares.find(pubShare => pubShare.id === publicShareId)
+			if (publicShare) {
+				Object.assign(publicShare, values)
+			}
+		},
+		onDeletePublicShare({ sessionId, publicShareId }) {
+			console.debug('onDeletePublicShare', sessionId, publicShareId)
+			const publicShareIndex = this.state.sessions[sessionId].public_shares.findIndex(pubShare => pubShare.id === publicShareId)
+			if (publicShareIndex !== -1) {
+				this.state.sessions[sessionId].public_shares.splice(publicShareIndex, 1)
+			}
 		},
 		onUpdateShowDetails(val) {
 			this.showDetails = val

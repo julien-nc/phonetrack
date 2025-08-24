@@ -15,6 +15,7 @@ namespace OCA\PhoneTrack\Service;
 use DateTime;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\Session;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -32,50 +33,18 @@ use stdClass;
 
 class SessionService {
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $db;
-	/**
-	 * @var IRootFolder
-	 */
-	private $root;
-	/**
-	 * @var DeviceMapper
-	 */
-	private $deviceMapper;
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $appVersion;
-	/**
-	 * @var SessionMapper
-	 */
-	private $sessionMapper;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
 
 	public function __construct(
-		SessionMapper $sessionMapper,
-		DeviceMapper $deviceMapper,
-		IUserManager $userManager,
-		IDBConnection $db,
-		IRootFolder $root,
-		IConfig $config,
+		private SessionMapper $sessionMapper,
+		private DeviceMapper $deviceMapper,
+		private PublicShareMapper $publicShareMapper,
+		private IUserManager $userManager,
+		private IDBConnection $db,
+		private IRootFolder $root,
+		private IConfig $config,
 	) {
-		$this->sessionMapper = $sessionMapper;
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->db = $db;
-		$this->root = $root;
-		$this->deviceMapper = $deviceMapper;
-
 		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
 	}
 
@@ -949,7 +918,7 @@ class SessionService {
 			$json = $session->jsonSerialize();
 			$json['shared_with'] = $this->getUserShares($session->getToken());
 			$json['reserved_names'] = $this->getReservedNames($session->getToken());
-			$json['public_shares'] = $this->getPublicShares($session->getToken());
+			$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getToken());
 			$json['devices'] = [];
 			$devices = $this->deviceMapper->findBySessionId($session->getToken());
 			foreach ($devices as $device) {

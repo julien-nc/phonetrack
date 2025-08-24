@@ -14,6 +14,8 @@ namespace OCA\PhoneTrack\Controller;
 
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\PublicShare;
+use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\MapService;
@@ -50,6 +52,7 @@ class PageController extends Controller {
 		private SessionMapper $sessionMapper,
 		private SessionService $sessionService,
 		private DeviceMapper $deviceMapper,
+		private PublicShareMapper $publicShareMapper,
 		private IInitialState $initialStateService,
 		private IAppConfig $appConfig,
 		private ToolsService $toolsService,
@@ -246,6 +249,94 @@ class PageController extends Controller {
 		}
 		$this->deviceMapper->update($device);
 		return new DataResponse($device);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	public function createPublicShare(int $sessionId): DataResponse {
+		// check if session exists
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		// determine token
+		$shareToken = md5('share' . $this->userId . $session->getName() . rand());
+
+		$newPublicShare = new PublicShare();
+		$newPublicShare->setSessionid($session->getToken());
+		$newPublicShare->setSharetoken($shareToken);
+		$newPublicShare->setLastposonly(false);
+		$newPublicShare->setGeofencify(false);
+		$newPublicShare = $this->publicShareMapper->insert($newPublicShare);
+		return new DataResponse($newPublicShare->jsonSerialize());
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param int $pubShareId
+	 * @param string|null $label
+	 * @param string|null $filters
+	 * @param string|null $devicename
+	 * @param bool|null $lastposonly
+	 * @param bool|null $geofencify
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	public function updatePublicShare(int $sessionId, int $pubShareId,
+		?string $label = null, ?string $filters = null, ?string $devicename = null,
+		?bool $lastposonly = null, ?bool $geofencify = null,
+	): DataResponse {
+		// check if session exists
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		// get pub share
+		$publicShare = $this->publicShareMapper->findByIdAndSessionToken($pubShareId, $session->getToken());
+		if ($label !== null) {
+			$publicShare->setLabel($label === '' ? null : $label);
+		}
+		if ($filters !== null) {
+			$publicShare->setFilters($filters);
+		}
+		if ($devicename !== null) {
+			$publicShare->setDevicename($devicename === '' ? null : $devicename);
+		}
+		if ($lastposonly !== null) {
+			$publicShare->setLastposonly($lastposonly ? 1 : 0);
+		}
+		if ($geofencify !== null) {
+			$publicShare->setGeofencify($geofencify ? 1 : 0);
+		}
+		$updatedPublicShare = $this->publicShareMapper->update($publicShare);
+		return new DataResponse($updatedPublicShare);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param int $pubShareId
+	 * @return DataResponse
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	public function deletePublicShare(int $sessionId, int $pubShareId): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$publicShare = $this->publicShareMapper->findByIdAndSessionToken($pubShareId, $session->getToken());
+		$this->publicShareMapper->delete($publicShare);
+		return new DataResponse([]);
 	}
 
 	/**
