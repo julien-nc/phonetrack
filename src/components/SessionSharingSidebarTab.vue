@@ -100,6 +100,76 @@
 				</NcActions>
 			</li>
 		</ul>
+		<hr>
+		<NcCheckboxRadioSwitch
+			:model-value="session.public"
+			@update:model-value="onSessionPublicChanged">
+			{{ t('phonetrack', 'Public session') }}
+		</NcCheckboxRadioSwitch>
+		<div v-if="session.public" class="public-watch">
+			<label :for="'publicwatchlink-field'">{{ t('phonetrack', 'Public watch link') }}</label>
+			<div class="line">
+				<NcTextField
+					id="publicwatchlink-field"
+					:model-value="publicWatchLink"
+					:label-outside="true"
+					:title="publicWatchLink"
+					:readonly="true">
+					<template #icon>
+						<LinkVariantIcon :size="20" />
+					</template>
+				</NcTextField>
+				<NcButton :title="t('phonetrack', 'Copy link to clipboard')"
+					@click="onCopyPublicWatchLink">
+					<template #icon>
+						<ClipboardCheckOutlineIcon v-if="publicWatchLinkCopied" class="success" :size="20" />
+						<ContentCopyIcon v-else :size="20" />
+					</template>
+				</NcButton>
+			</div>
+			<br>
+			<label :for="'api-last-field'">{{ t('phonetrack', 'API URL (JSON, last positions)') }}</label>
+			<div class="line">
+				<NcTextField
+					id="api-last-field"
+					:model-value="apiLastLink"
+					:label-outside="true"
+					:title="apiLastLink"
+					:readonly="true">
+					<template #icon>
+						<LinkVariantIcon :size="20" />
+					</template>
+				</NcTextField>
+				<NcButton :title="t('phonetrack', 'Copy link to clipboard')"
+					@click="onCopyApiLastLink">
+					<template #icon>
+						<ClipboardCheckOutlineIcon v-if="apiLastLinkCopied" class="success" :size="20" />
+						<ContentCopyIcon v-else :size="20" />
+					</template>
+				</NcButton>
+			</div>
+			<br>
+			<label :for="'api-all-field'">{{ t('phonetrack', 'API URL (JSON, all positions)') }}</label>
+			<div class="line">
+				<NcTextField
+					id="api-all-field"
+					:model-value="apiAllLink"
+					:label-outside="true"
+					:title="apiAllLink"
+					:readonly="true">
+					<template #icon>
+						<LinkVariantIcon :size="20" />
+					</template>
+				</NcTextField>
+				<NcButton :title="t('phonetrack', 'Copy link to clipboard')"
+					@click="onCopyApiAllLink">
+					<template #icon>
+						<ClipboardCheckOutlineIcon v-if="apiAllLinkCopied" class="success" :size="20" />
+						<ContentCopyIcon v-else :size="20" />
+					</template>
+				</NcButton>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -108,27 +178,34 @@ import ContentCopyIcon from 'vue-material-design-icons/ContentCopy.vue'
 import ClipboardCheckOutlineIcon from 'vue-material-design-icons/ClipboardCheckOutline.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import TextBoxIcon from 'vue-material-design-icons/TextBox.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CellphoneIcon from 'vue-material-design-icons/Cellphone.vue'
 
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { showError } from '@nextcloud/dialogs'
 
+const HOST = window.location.protocol + '//' + window.location.host
+
 export default {
 	name: 'SessionSharingSidebarTab',
 
 	components: {
 		LinkIcon,
+		LinkVariantIcon,
 		ContentCopyIcon,
 		ClipboardCheckOutlineIcon,
 		TextBoxIcon,
@@ -141,6 +218,9 @@ export default {
 		NcActionCheckbox,
 		NcActionLink,
 		NcActions,
+		NcCheckboxRadioSwitch,
+		NcTextField,
+		NcButton,
 	},
 
 	props: {
@@ -158,12 +238,24 @@ export default {
 		return {
 			addingPublicLink: false,
 			linkCopied: {},
+			publicWatchLinkCopied: false,
+			apiLastLinkCopied: false,
+			apiAllLinkCopied: false,
 		}
 	},
 
 	computed: {
 		publicShares() {
 			return this.session.public_shares
+		},
+		publicWatchLink() {
+			return HOST + generateUrl('/apps/phonetrack/publicSessionWatch/' + this.session.publicviewtoken)
+		},
+		apiLastLink() {
+			return HOST + generateUrl('/apps/phonetrack/api/getlastpositions/' + this.session.publicviewtoken)
+		},
+		apiAllLink() {
+			return HOST + generateUrl('/apps/phonetrack/api/getpositions/' + this.session.publicviewtoken)
 		},
 	},
 
@@ -172,7 +264,43 @@ export default {
 
 	methods: {
 		generatePublicLink(access) {
-			return generateUrl('/apps/phonetrack/publicSessionWatch/' + access.sharetoken)
+			return HOST + generateUrl('/apps/phonetrack/publicSessionWatch/' + access.sharetoken)
+		},
+		async onCopyPublicWatchLink() {
+			try {
+				await navigator.clipboard.writeText(this.publicWatchLink)
+				this.publicWatchLinkCopied = true
+				setTimeout(() => {
+					this.publicWatchLinkCopied = false
+				}, 5000)
+			} catch (error) {
+				console.error(error)
+				showError(t('phonetrack', 'Link could not be copied to clipboard'))
+			}
+		},
+		async onCopyApiLastLink() {
+			try {
+				await navigator.clipboard.writeText(this.apiLastLink)
+				this.apiLastLinkCopied = true
+				setTimeout(() => {
+					this.apiLastLinkCopied = false
+				}, 5000)
+			} catch (error) {
+				console.error(error)
+				showError(t('phonetrack', 'Link could not be copied to clipboard'))
+			}
+		},
+		async onCopyApiAllLink() {
+			try {
+				await navigator.clipboard.writeText(this.apiAllLink)
+				this.apiAllLinkCopied = true
+				setTimeout(() => {
+					this.apiAllLinkCopied = false
+				}, 5000)
+			} catch (error) {
+				console.error(error)
+				showError(t('phonetrack', 'Link could not be copied to clipboard'))
+			}
 		},
 		async copyLink(access) {
 			const publicLink = this.generatePublicLink(access)
@@ -224,6 +352,9 @@ export default {
 				console.error(error)
 			})
 		},
+		onSessionPublicChanged(isPublic) {
+			emit('update-session', { sessionId: this.session.id, values: { public: isPublic } })
+		},
 	},
 }
 </script>
@@ -243,6 +374,10 @@ export default {
 	h3 {
 		font-weight: bold;
 		text-align: center;
+	}
+
+	hr {
+		width: 100%;
 	}
 
 	.publicShareList {
@@ -272,6 +407,12 @@ export default {
 			align-items: center;
 			padding: 6px 6px 6px 6px;
 		}
+	}
+
+	.line {
+		display: flex;
+		gap: 4px;
+		align-items: end;
 	}
 }
 </style>
