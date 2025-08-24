@@ -15,7 +15,7 @@ webpackConfig.stats = {
 
 const appId = 'phonetrack'
 webpackConfig.entry = {
-    admin: { import: path.join(__dirname, 'src', 'admin.js'), filename: appId + '-admin.js' },
+    adminSettings: { import: path.join(__dirname, 'src', 'adminSettings.js'), filename: appId + '-adminSettings.js' },
     phonetrack: { import: path.join(__dirname, 'src', 'phonetrack.js'), filename: appId + '-phonetrack.js' },
 	mainVue: { import: path.join(__dirname, 'src', 'mainVue.js'), filename: appId + '-mainVue.js' },
 }

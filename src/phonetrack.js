@@ -12,6 +12,7 @@
 // if we want to use d3 (but it's already exposed to leaflet-elevations with webpack plugin)
 // import * as d3 from 'd3'
 import $ from 'jquery'
+import 'webpack-jquery-ui'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'mapbox-gl/dist/mapbox-gl.js'
