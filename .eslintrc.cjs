@@ -15,6 +15,7 @@ module.exports = {
 		'import/extensions': 'off',
 		'vue/no-v-html': 'off',
 		'vue/no-v-model-argument': 'off',
-		"import/no-unresolved": ["error", { "ignore": ["\\?raw"] }]
+		"import/no-unresolved": ["error", { "ignore": ["\\?raw"] }],
+		'vue/max-attributes-per-line': 'off',
 	}
 }

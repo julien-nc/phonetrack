@@ -52,6 +52,20 @@ class Version010000Date20250803151308 extends SimpleMigrationStep {
 				]);
 				$schemaChanged = true;
 			}
+			if (!$table->hasColumn('line_enabled')) {
+				$table->addColumn('line_enabled', Types::SMALLINT, [
+					'notnull' => true,
+					'default' => 0,
+				]);
+				$schemaChanged = true;
+			}
+			if (!$table->hasColumn('auto_zoom')) {
+				$table->addColumn('auto_zoom', Types::SMALLINT, [
+					'notnull' => true,
+					'default' => 0,
+				]);
+				$schemaChanged = true;
+			}
 			if (!$table->hasColumn('color_criteria')) {
 				$table->addColumn('color_criteria', Types::SMALLINT, [
 					'notnull' => true,

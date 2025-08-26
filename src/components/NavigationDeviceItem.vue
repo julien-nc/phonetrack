@@ -27,6 +27,18 @@
 				</template>
 			</NcColorPicker>
 		</template>
+		<template v-if="device.enabled" #counter>
+			<div :title="t('phonetrack', 'Show line')">
+				<ChartTimelineVariantIcon v-if="device.lineEnabled"
+					class="status-icon"
+					:size="20" />
+			</div>
+			<div :title="t('phonetrack', 'Auto-zoom')">
+				<CrosshairsIcon v-if="device.autoZoom"
+					class="status-icon"
+					:size="20" />
+			</div>
+		</template>
 		<template #actions>
 			<template v-if="!criteriaActionsOpen">
 				<NcActionButton
@@ -45,6 +57,16 @@
 					</template>
 					{{ t('phonetrack', 'Zoom to bounds') }}
 				</NcActionButton>
+				<NcActionCheckbox
+					:model-value="device.lineEnabled"
+					@update:model-value="onChangeLineEnabled">
+					{{ t('phonetrack', 'Show line') }}
+				</NcActionCheckbox>
+				<NcActionCheckbox
+					:model-value="device.autoZoom"
+					@update:model-value="onChangeAutoZoom">
+					{{ t('phonetrack', 'Auto-zoom') }}
+				</NcActionCheckbox>
 				<NcActionButton
 					:close-after-click="true"
 					@click="onMenuColorClick">
@@ -93,13 +115,16 @@
 </template>
 
 <script>
+import ChartTimelineVariantIcon from 'vue-material-design-icons/ChartTimelineVariant.vue'
 import MagnifyExpandIcon from 'vue-material-design-icons/MagnifyExpand.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import PaletteIcon from 'vue-material-design-icons/Palette.vue'
 import BrushIcon from 'vue-material-design-icons/Brush.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import CrosshairsIcon from 'vue-material-design-icons/Crosshairs.vue'
 
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -118,6 +143,7 @@ export default {
 		NcAppNavigationItem,
 		NcActionButton,
 		NcActionRadio,
+		NcActionCheckbox,
 		NcColorPicker,
 		PaletteIcon,
 		TrashCanOutlineIcon,
@@ -125,6 +151,8 @@ export default {
 		ChevronLeftIcon,
 		BrushIcon,
 		MagnifyExpandIcon,
+		ChartTimelineVariantIcon,
+		CrosshairsIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -210,6 +238,12 @@ export default {
 				},
 			})
 		},
+		onChangeLineEnabled(newValue) {
+			emit('update-device', { deviceId: this.device.id, sessionId: this.session.id, values: { lineEnabled: newValue } })
+		},
+		onChangeAutoZoom(newValue) {
+			emit('update-device', { deviceId: this.device.id, sessionId: this.session.id, values: { autoZoom: newValue } })
+		},
 	},
 
 }
@@ -223,5 +257,13 @@ export default {
 :deep(.app-navigation-entry-icon) {
 	flex: 0 0 38px !important;
 	width: 38px !important;
+}
+
+:deep(.app-navigation-entry .status-icon) {
+	color: var(--color-main-text) !important;
+}
+
+:deep(.app-navigation-entry.active .status-icon) {
+	color: var(--color-primary-element-text) !important;
 }
 </style>

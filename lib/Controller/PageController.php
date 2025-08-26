@@ -220,6 +220,8 @@ class PageController extends Controller {
 	 * @param string|null $shape
 	 * @param string|null $sessionToken
 	 * @param string|null $nametoken
+	 * @param bool|null $lineEnabled
+	 * @param bool|null $autoZoom
 	 * @return DataResponse
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -228,7 +230,7 @@ class PageController extends Controller {
 	public function updateDevice(int $sessionId, int $deviceId,
 		?bool $enabled = null, ?int $colorCriteria = null, ?string $color = null,
 		?string $alias = null, ?string $name = null, ?string $shape = null,
-		?string $sessionToken = null, ?string $nametoken = null,
+		?string $sessionToken = null, ?string $nametoken = null, ?bool $lineEnabled = null, ?bool $autoZoom = null,
 	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
@@ -259,6 +261,12 @@ class PageController extends Controller {
 		}
 		if ($nametoken !== null) {
 			$device->setNametoken($nametoken === '' ? null : $nametoken);
+		}
+		if ($lineEnabled !== null) {
+			$device->setLineEnabled($lineEnabled ? 1 : 0);
+		}
+		if ($autoZoom !== null) {
+			$device->setAutoZoom($autoZoom ? 1 : 0);
 		}
 		$this->deviceMapper->update($device);
 		return new DataResponse($device);

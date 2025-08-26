@@ -41,10 +41,11 @@ class PointMapper extends QBMapper {
 	 * @param int $deviceId
 	 * @param float|null $minTimestamp
 	 * @param float|null $maxTimestamp
+	 * @param string|null $sortOrder
 	 * @return array
 	 * @throws Exception
 	 */
-	public function findByDevice(int $deviceId, ?float $minTimestamp = null, ?float $maxTimestamp = null): array {
+	public function getDevicePoints(int $deviceId, ?float $minTimestamp = null, ?float $maxTimestamp = null, ?string $sortOrder = null): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -61,6 +62,9 @@ class PointMapper extends QBMapper {
 			$qb->andWhere(
 				$qb->expr()->lt('timestamp', $qb->createNamedParameter($maxTimestamp, IQueryBuilder::PARAM_STR))
 			);
+		}
+		if ($sortOrder !== null) {
+			$qb->orderBy('timestamp', $sortOrder);
 		}
 
 		return $this->findEntities($qb);
