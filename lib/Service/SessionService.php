@@ -342,7 +342,7 @@ class SessionService {
 					$sqldev = '
 						SELECT dev.id AS id, dev.name AS name
 						FROM *PREFIX*phonetrack_devices AS dev, *PREFIX*phonetrack_points AS po
-						WHERE dev.sessionid=' . $this->db_quote_escape_string($sessionToken) . ' AND dev.id = po.deviceid GROUP BY dev.id;';
+						WHERE dev.sessionid=' . $this->db_quote_escape_string($sessionToken) . ' AND dev.id = po.deviceid GROUP BY dev.id, dev.name;';
 					$req = $this->db->prepare($sqldev);
 					$res = $req->execute();
 					while ($row = $res->fetch()) {
