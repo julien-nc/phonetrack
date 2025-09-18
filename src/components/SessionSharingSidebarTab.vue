@@ -425,7 +425,7 @@ export default {
 
 <style scoped lang="scss">
 .success {
-	color: var(--color-success);
+	color: var(--color-text-success);
 }
 
 .share-tab-container {

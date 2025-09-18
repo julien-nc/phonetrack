@@ -21,6 +21,7 @@
 		@mouseleave.native="onHoverOut">
 		<template #icon>
 			<ToggleSwitchIcon v-if="session.enabled"
+				class="ncColor"
 				:size="20" />
 			<ToggleSwitchOffOutlineIcon v-else
 				:size="20" />
@@ -373,5 +374,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-// nothing
+.ncColor {
+	color: var(--color-primary)
+}
 </style>

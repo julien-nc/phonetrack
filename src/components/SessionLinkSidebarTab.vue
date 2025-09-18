@@ -292,7 +292,7 @@ export default {
 	}
 
 	.success {
-		color: var(--color-success);
+		color: var(--color-text-success);
 	}
 
 	.link {
