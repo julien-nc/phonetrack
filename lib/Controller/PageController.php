@@ -15,6 +15,8 @@ namespace OCA\PhoneTrack\Controller;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\Device;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\Geofence;
+use OCA\PhoneTrack\Db\GeofenceMapper;
 use OCA\PhoneTrack\Db\PublicShare;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
@@ -58,6 +60,7 @@ class PageController extends Controller {
 		private DeviceMapper $deviceMapper,
 		private PublicShareMapper $publicShareMapper,
 		private ShareMapper $shareMapper,
+		private GeofenceMapper $geofenceMapper,
 		private IInitialState $initialStateService,
 		private IAppConfig $appConfig,
 		private IUserManager $userManager,
@@ -476,5 +479,123 @@ class PageController extends Controller {
 		$response = new DataDisplayResponse($svg, Http::STATUS_OK, ['Content-Type' => 'image/svg+xml']);
 		$response->cacheFor(31536000);
 		return $response;
+	}
+
+	#[NoAdminRequired]
+	public function createGeofence(
+		int $sessionId, int $deviceId, string $name,
+		float $latmin, float $latmax, float $lonmin, float $lonmax,
+		?string $urlenter, ?string $urlleave, int $urlenterpost, int $urlleavepost,
+		int $sendemail, ?string $emailaddr, int $sendnotif,
+	): DataResponse {
+		// check if session exists
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+
+		$geofence = new Geofence();
+		$geofence->setName($name);
+		$geofence->setLatmin($latmin);
+		$geofence->setLatmax($latmax);
+		$geofence->setLonmin($lonmin);
+		$geofence->setLonmax($lonmax);
+		$geofence->setUrlenter($urlenter);
+		$geofence->setUrlleave($urlleave);
+		$geofence->setUrlenterpost($urlenterpost);
+		$geofence->setUrlleavepost($urlleavepost);
+		$geofence->setSendemail($sendemail);
+		$geofence->setEmailaddr($emailaddr);
+		$geofence->setSendnotif($sendnotif);
+		$insertedGeofence = $this->geofenceMapper->insert($geofence);
+		return new DataResponse($insertedGeofence->jsonSerialize());
+	}
+
+	#[NoAdminRequired]
+	public function updateGeofence(
+		int $sessionId, int $deviceId, int $geofenceId, ?string $name,
+		?float $latmin, ?float $latmax, ?float $lonmin, ?float $lonmax,
+		?string $urlenter, ?string $urlleave, ?int $urlenterpost, ?int $urlleavepost,
+		?int $sendemail, ?string $emailaddr, ?int $sendnotif,
+	): DataResponse {
+		// check if session exists
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		$geofence = $this->geofenceMapper->find($geofenceId);
+		if ($deviceId !== $geofence->getDeviceId()) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $geofence->getDeviceId());
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		$geofence = new Geofence();
+		if ($name !== null) {
+			$geofence->setName($name);
+		}
+		if ($latmin !== null) {
+			$geofence->setLatmin($latmin);
+		}
+		if ($latmax !== null) {
+			$geofence->setLatmax($latmax);
+		}
+		if ($lonmin !== null) {
+			$geofence->setLonmin($lonmin);
+		}
+		if ($lonmax !== null) {
+			$geofence->setLonmax($lonmax);
+		}
+		if ($urlenter !== null) {
+			$geofence->setUrlenter($urlenter === '' ? null : $urlenter);
+		}
+		if ($urlleave !== null) {
+			$geofence->setUrlleave($urlleave === '' ? null : $urlleave);
+		}
+		if ($urlenterpost !== null) {
+			$geofence->setUrlenterpost($urlenterpost);
+		}
+		if ($sendemail !== null) {
+			$geofence->setUrlleavepost($urlleavepost);
+		}
+		if ($sendemail !== null) {
+			$geofence->setSendemail($sendemail);
+		}
+		if ($emailaddr !== null) {
+			$geofence->setEmailaddr($emailaddr === '' ? null : $emailaddr);
+		}
+		if ($sendemail !== null) {
+			$geofence->setSendnotif($sendnotif);
+		}
+		$updatedGeofence = $this->geofenceMapper->update($geofence);
+		return new DataResponse($updatedGeofence->jsonSerialize());
+	}
+
+	#[NoAdminRequired]
+	public function deleteGeofence(int $sessionId, int $deviceId, int $geofenceId): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$geofence = $this->geofenceMapper->find($geofenceId);
+		if ($deviceId !== $geofence->getDeviceId()) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $geofence->getDeviceId());
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$this->geofenceMapper->delete($geofence);
+		return new DataResponse([]);
 	}
 }

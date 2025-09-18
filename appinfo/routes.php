@@ -24,6 +24,9 @@ return [
 		['name' => 'page#deletePublicShare', 'url' => '/session/{sessionId}/pub-share/{pubShareId}', 'verb' => 'DELETE'],
 		['name' => 'page#createShare', 'url' => '/session/{sessionId}/share', 'verb' => 'POST'],
 		['name' => 'page#deleteShare', 'url' => '/session/{sessionId}/share/{shareId}', 'verb' => 'DELETE'],
+		['name' => 'page#createGeofence', 'url' => '/session/{sessionId}/device/{deviceId}/geofence', 'verb' => 'POST'],
+		['name' => 'page#updateGeofence', 'url' => '/session/{sessionId}/device/{deviceId}/geofence/{geofenceId}', 'verb' => 'PUT'],
+		['name' => 'page#deleteGeofence', 'url' => '/session/{sessionId}/device/{deviceId}/geofence/{geofenceId}', 'verb' => 'DELETE'],
 		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],
