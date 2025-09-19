@@ -17,6 +17,9 @@ use OCA\PhoneTrack\Db\Device;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Geofence;
 use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\PointMapper;
+use OCA\PhoneTrack\Db\Proxim;
+use OCA\PhoneTrack\Db\ProximMapper;
 use OCA\PhoneTrack\Db\PublicShare;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
@@ -61,6 +64,8 @@ class PageController extends Controller {
 		private PublicShareMapper $publicShareMapper,
 		private ShareMapper $shareMapper,
 		private GeofenceMapper $geofenceMapper,
+		private ProximMapper $proximMapper,
+		private PointMapper $pointMapper,
 		private IInitialState $initialStateService,
 		private IAppConfig $appConfig,
 		private IUserManager $userManager,
@@ -198,6 +203,7 @@ class PageController extends Controller {
 	 * @param int $sessionId
 	 * @param int $deviceId
 	 * @return DataResponse
+	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
@@ -208,6 +214,10 @@ class PageController extends Controller {
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
 		}
+		$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		$this->pointMapper->deleteByDeviceId($deviceId);
+		$this->geofenceMapper->deleteByDeviceId($deviceId);
+		$this->proximMapper->deleteByDeviceId($deviceId);
 		$this->deviceMapper->deleteDevice($session->getToken(), $deviceId);
 		return new DataResponse([]);
 	}
@@ -226,6 +236,7 @@ class PageController extends Controller {
 	 * @param bool|null $lineEnabled
 	 * @param bool|null $autoZoom
 	 * @return DataResponse
+	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
@@ -516,10 +527,10 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	public function updateGeofence(
-		int $sessionId, int $deviceId, int $geofenceId, ?string $name,
-		?float $latmin, ?float $latmax, ?float $lonmin, ?float $lonmax,
-		?string $urlenter, ?string $urlleave, ?int $urlenterpost, ?int $urlleavepost,
-		?int $sendemail, ?string $emailaddr, ?int $sendnotif,
+		int $sessionId, int $deviceId, int $geofenceId, ?string $name = null,
+		?float $latmin = null, ?float $latmax = null, ?float $lonmin = null, ?float $lonmax = null,
+		?string $urlenter = null, ?string $urlleave = null, ?int $urlenterpost = null, ?int $urlleavepost = null,
+		?int $sendemail = null, ?string $emailaddr = null, ?int $sendnotif = null,
 	): DataResponse {
 		// check if session exists
 		try {
@@ -563,7 +574,7 @@ class PageController extends Controller {
 		if ($urlenterpost !== null) {
 			$geofence->setUrlenterpost($urlenterpost);
 		}
-		if ($sendemail !== null) {
+		if ($urlleavepost !== null) {
 			$geofence->setUrlleavepost($urlleavepost);
 		}
 		if ($sendemail !== null) {
@@ -596,6 +607,125 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		$this->geofenceMapper->delete($geofence);
+		return new DataResponse([]);
+	}
+
+	#[NoAdminRequired]
+	public function createProxim(
+		int $sessionId, int $deviceId1, int $deviceId2,
+		int $lowlimit, int $highlimit,
+		?string $urlclose, ?string $urlfar, int $urlclosepost, int $urlfarpost,
+		int $sendemail, ?string $emailaddr, int $sendnotif,
+	): DataResponse {
+		// check if session exists
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId1);
+		$device2 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId2);
+
+		$proxim = new Proxim();
+		$proxim->setDeviceid1($deviceId1);
+		$proxim->setDeviceid2($deviceId2);
+		$proxim->setLowlimit($lowlimit);
+		$proxim->setHighlimit($highlimit);
+		$proxim->setUrlclose($urlclose);
+		$proxim->setUrlfar($urlfar);
+		$proxim->setUrlclosepost($urlclosepost);
+		$proxim->setUrlfarpost($urlfarpost);
+		$proxim->setSendemail($sendemail);
+		$proxim->setEmailaddr($emailaddr);
+		$proxim->setSendnotif($sendnotif);
+		$insertedProxim = $this->proximMapper->insert($proxim);
+		return new DataResponse($insertedProxim->jsonSerialize());
+	}
+
+	#[NoAdminRequired]
+	public function updateProxim(
+		int $sessionId, int $deviceId1, int $proximId, ?int $deviceId2 = null,
+		?int $lowlimit = null, ?int $highlimit = null,
+		?string $urlclose = null, ?string $urlfar = null, ?int $urlclosepost = null, ?int $urlfarpost = null,
+		?int $sendemail = null, ?string $emailaddr = null, ?int $sendnotif = null,
+	): DataResponse {
+		// check if session exists
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		$proxim = $this->proximMapper->find($proximId);
+		if ($deviceId1 !== $proxim->getDeviceId1()) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $proxim->getDeviceId1());
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		if ($deviceId2 !== null) {
+			try {
+				$device2 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $proxim->getDeviceId2());
+			} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+				return new DataResponse(['error' => 'device2_not_found'], Http::STATUS_NOT_FOUND);
+			}
+		}
+
+		$proxim = new Proxim();
+		if ($deviceId2 !== null) {
+			$proxim->setDeviceid2($deviceId2);
+		}
+		if ($lowlimit !== null) {
+			$proxim->setLowlimit($lowlimit);
+		}
+		if ($highlimit !== null) {
+			$proxim->setHighlimit($highlimit);
+		}
+		if ($urlclose !== null) {
+			$proxim->setUrlclose($urlclose === '' ? null : $urlclose);
+		}
+		if ($urlfar !== null) {
+			$proxim->setUrlfar($urlfar === '' ? null : $urlfar);
+		}
+		if ($urlclosepost !== null) {
+			$proxim->setUrlclosepost($urlclosepost);
+		}
+		if ($urlfarpost !== null) {
+			$proxim->setUrlfarpost($urlfarpost);
+		}
+		if ($sendemail !== null) {
+			$proxim->setSendemail($sendemail);
+		}
+		if ($emailaddr !== null) {
+			$proxim->setEmailaddr($emailaddr === '' ? null : $emailaddr);
+		}
+		if ($sendemail !== null) {
+			$proxim->setSendnotif($sendnotif);
+		}
+		$updatedProxim = $this->proximMapper->update($proxim);
+		return new DataResponse($updatedProxim->jsonSerialize());
+	}
+
+	#[NoAdminRequired]
+	public function deleteProxim(int $sessionId, int $deviceId1, int $proximId): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$proxim = $this->proximMapper->find($proximId);
+		if ($deviceId1 !== $proxim->getDeviceId1()) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $proxim->getDeviceId1());
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$this->proximMapper->delete($proxim);
 		return new DataResponse([]);
 	}
 }

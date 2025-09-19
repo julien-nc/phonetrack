@@ -8,15 +8,15 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
- * @extends QBMapper<Geofence>
+ * @extends QBMapper<Proxim>
  */
-class GeofenceMapper extends QBMapper {
+class ProximMapper extends QBMapper {
 
 	public function __construct(IDBConnection $db) {
-		parent::__construct($db, 'phonetrack_geofences', Geofence::class);
+		parent::__construct($db, 'phonetrack_proxims', Proxim::class);
 	}
 
-	public function find(int $id): Geofence {
+	public function find(int $id): Proxim {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -30,16 +30,16 @@ class GeofenceMapper extends QBMapper {
 
 	/**
 	 * @param int $deviceId
-	 * @return list<Geofence>
+	 * @return list<Proxim>
 	 * @throws Exception
 	 */
-	public function findByDeviceId(int $deviceId): array {
+	public function findByDeviceId1(int $deviceId): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+				$qb->expr()->eq('deviceid1', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
 			);
 
 		return $this->findEntities($qb);
@@ -53,10 +53,12 @@ class GeofenceMapper extends QBMapper {
 	public function deleteByDeviceId(int $deviceId): int {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->delete($this->getTableName())
-			->where(
-				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
-			);
+		$qb->delete($this->getTableName());
+
+		$or = $qb->expr()->orx();
+		$or->add($qb->expr()->eq('deviceid1', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT)));
+		$or->add($qb->expr()->eq('deviceid2', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT)));
+		$qb->where($or);
 
 		$nbDeleted = $qb->executeStatement();
 		return $nbDeleted;

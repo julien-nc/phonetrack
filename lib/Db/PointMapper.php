@@ -69,4 +69,21 @@ class PointMapper extends QBMapper {
 
 		return $this->findEntities($qb);
 	}
+
+	/**
+	 * @param int $deviceId
+	 * @return int
+	 * @throws Exception
+	 */
+	public function deleteByDeviceId(int $deviceId): int {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->delete($this->getTableName())
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		$nbDeleted = $qb->executeStatement();
+		return $nbDeleted;
+	}
 }

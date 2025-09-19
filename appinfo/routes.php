@@ -27,6 +27,9 @@ return [
 		['name' => 'page#createGeofence', 'url' => '/session/{sessionId}/device/{deviceId}/geofence', 'verb' => 'POST'],
 		['name' => 'page#updateGeofence', 'url' => '/session/{sessionId}/device/{deviceId}/geofence/{geofenceId}', 'verb' => 'PUT'],
 		['name' => 'page#deleteGeofence', 'url' => '/session/{sessionId}/device/{deviceId}/geofence/{geofenceId}', 'verb' => 'DELETE'],
+		['name' => 'page#createProxim', 'url' => '/session/{sessionId}/device/{deviceId}/proxim', 'verb' => 'POST'],
+		['name' => 'page#updateProxim', 'url' => '/session/{sessionId}/device/{deviceId1}/proxim/{proximId}', 'verb' => 'PUT'],
+		['name' => 'page#deleteProxim', 'url' => '/session/{sessionId}/device/{deviceId1}/proxim/{proximId}', 'verb' => 'DELETE'],
 		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],
