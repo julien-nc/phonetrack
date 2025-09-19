@@ -150,6 +150,15 @@ class PageController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function deleteSession(int $sessionId): DataResponse {
+		$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		$devices = $this->deviceMapper->findBySessionId($session->getToken());
+		foreach ($devices as $device) {
+			$deviceId = $device->getId();
+			$this->pointMapper->deleteByDeviceId($deviceId);
+			$this->geofenceMapper->deleteByDeviceId($deviceId);
+			$this->proximMapper->deleteByDeviceId($deviceId);
+			$this->deviceMapper->deleteDevice($session->getToken(), $deviceId);
+		}
 		$this->sessionMapper->deleteSession($this->userId, $sessionId);
 		return new DataResponse([]);
 	}
