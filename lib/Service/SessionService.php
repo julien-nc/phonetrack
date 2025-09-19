@@ -15,6 +15,8 @@ namespace OCA\PhoneTrack\Service;
 use DateTime;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\ProximMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\Session;
 use OCA\PhoneTrack\Db\SessionMapper;
@@ -41,6 +43,8 @@ class SessionService {
 		private SessionMapper $sessionMapper,
 		private DeviceMapper $deviceMapper,
 		private PublicShareMapper $publicShareMapper,
+		private GeofenceMapper $geofenceMapper,
+		private ProximMapper $proximMapper,
 		private ShareMapper $shareMapper,
 		private IUserManager $userManager,
 		private IDBConnection $db,
@@ -923,7 +927,12 @@ class SessionService {
 			$json['devices'] = [];
 			$devices = $this->deviceMapper->findBySessionId($session->getToken());
 			foreach ($devices as $device) {
-				$json['devices'][$device->getId()] = $device;
+				$jsonDevice = $device->jsonSerialize();
+				$geofences = $this->geofenceMapper->findByDeviceId($device->getId());
+				$proxims = $this->proximMapper->findByDeviceId1($device->getId());
+				$jsonDevice['geofences'] = $geofences;
+				$jsonDevice['proxims'] = $proxims;
+				$json['devices'][$device->getId()] = $jsonDevice;
 			}
 			if (empty($json['devices'])) {
 				$json['devices'] = new stdClass();

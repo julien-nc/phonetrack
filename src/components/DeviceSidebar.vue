@@ -31,6 +31,7 @@
 			</template>
 			<DeviceStatsSidebarTab
 				:device="device"
+				:session="session"
 				:settings="settings" />
 		</NcAppSidebarTab>
 		<NcAppSidebarTab
@@ -42,6 +43,31 @@
 			</template>
 			<DeviceChartsSidebarTab
 				:device="device"
+				:session="session"
+				:settings="settings" />
+		</NcAppSidebarTab>
+		<NcAppSidebarTab
+			id="device-geofences"
+			:name="t('phonetrack', 'Geofences')"
+			:order="4">
+			<template #icon>
+				<MapMarkerRadiusOutlineIcon :size="20" />
+			</template>
+			<DeviceGeofencesSidebarTab
+				:device="device"
+				:session="session"
+				:settings="settings" />
+		</NcAppSidebarTab>
+		<NcAppSidebarTab
+			id="device-proxims"
+			:name="t('phonetrack', 'Proximity alerts')"
+			:order="5">
+			<template #icon>
+				<MapMarkerDistanceIcon :size="20" />
+			</template>
+			<DeviceProximsSidebarTab
+				:device="device"
+				:session="session"
 				:settings="settings" />
 		</NcAppSidebarTab>
 	</NcAppSidebar>
@@ -51,6 +77,8 @@
 import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
 import TableLargeIcon from 'vue-material-design-icons/TableLarge.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
+import MapMarkerDistanceIcon from 'vue-material-design-icons/MapMarkerDistance.vue'
+import MapMarkerRadiusOutlineIcon from 'vue-material-design-icons/MapMarkerRadiusOutline.vue'
 
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
@@ -59,10 +87,14 @@ import { imagePath } from '@nextcloud/router'
 import DeviceDetailsSidebarTab from './DeviceDetailsSidebarTab.vue'
 import DeviceStatsSidebarTab from './DeviceStatsSidebarTab.vue'
 import DeviceChartsSidebarTab from './DeviceChartsSidebarTab.vue'
+import DeviceGeofencesSidebarTab from './DeviceGeofencesSidebarTab.vue'
+import DeviceProximsSidebarTab from './DeviceProximsSidebarTab.vue'
 
 export default {
 	name: 'DeviceSidebar',
 	components: {
+		DeviceProximsSidebarTab,
+		DeviceGeofencesSidebarTab,
 		DeviceStatsSidebarTab,
 		DeviceDetailsSidebarTab,
 		DeviceChartsSidebarTab,
@@ -71,6 +103,8 @@ export default {
 		InformationOutlineIcon,
 		TableLargeIcon,
 		ChartLineIcon,
+		MapMarkerDistanceIcon,
+		MapMarkerRadiusOutlineIcon,
 	},
 	inject: ['isPublicPage'],
 	props: {
