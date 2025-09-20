@@ -82,7 +82,7 @@ import FolderOffOutlineIcon from 'vue-material-design-icons/FolderOffOutline.vue
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 
@@ -230,6 +230,7 @@ export default {
 		subscribe('show-geofence', this.onShowGeofence)
 		subscribe('create-geofence', this.onCreateGeofence)
 		subscribe('save-geofence', this.onSaveGeofence)
+		subscribe('delete-geofence', this.onDeleteGeofence)
 		emit('nav-toggled')
 	},
 
@@ -253,8 +254,9 @@ export default {
 		unsubscribe('add-share', this.onAddShare)
 		unsubscribe('delete-share', this.onDeleteShare)
 		unsubscribe('show-geofence', this.onShowGeofence)
-		subscribe('create-geofence', this.onCreateGeofence)
-		subscribe('save-geofence', this.onSaveGeofence)
+		unsubscribe('create-geofence', this.onCreateGeofence)
+		unsubscribe('save-geofence', this.onSaveGeofence)
+		unsubscribe('delete-geofence', this.onDeleteGeofence)
 	},
 
 	methods: {
@@ -575,7 +577,21 @@ export default {
 			axios.put(url, req).then((response) => {
 				this.state.sessions[data.sessionId].devices[data.deviceId].geofences[data.geofence.id] = response.data
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to create geofence'))
+				showError(t('phonetrack', 'Failed to save geofence'))
+				console.debug(error)
+			})
+		},
+		onDeleteGeofence(data) {
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/geofence/{geofenceId}', {
+				sessionId: data.sessionId,
+				deviceId: data.deviceId,
+				geofenceId: data.geofence.id,
+			})
+			axios.delete(url).then((response) => {
+				delete this.state.sessions[data.sessionId].devices[data.deviceId].geofences[data.geofence.id]
+				showSuccess(t('phonetrack', 'Geofence {name} has been deleted', { name: data.geofence.name }))
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to delete geofence'))
 				console.debug(error)
 			})
 		},

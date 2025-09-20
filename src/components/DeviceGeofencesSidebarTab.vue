@@ -13,15 +13,17 @@
 		<Geofence v-if="creatingGeofence"
 			:geofence="blankGeofence"
 			:edition="true"
+			:allow-deletion="false"
 			@save="onSaveNew"
 			@cancel="creatingGeofence = false" />
 		<hr>
-		<div class="geofences">
+		<TransitionGroup tag="div" class="geofences" name="fade">
 			<Geofence v-for="(g, gid) in device.geofences"
-				:key="device.id + '-' + g.id"
+				:key="device.id + '-' + gid"
 				:geofence="g"
+				@delete="onDelete"
 				@save="onSave" />
-		</div>
+		</TransitionGroup>
 	</div>
 </template>
 
@@ -108,6 +110,13 @@ export default {
 				geofence,
 			})
 		},
+		onDelete(geofence) {
+			emit('delete-geofence', {
+				deviceId: this.device.id,
+				sessionId: this.session.id,
+				geofence,
+			})
+		},
 	},
 }
 </script>
@@ -136,4 +145,15 @@ export default {
 		gap: 8px;
 	}
 }
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: all var(--animation-slow);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+
 </style>

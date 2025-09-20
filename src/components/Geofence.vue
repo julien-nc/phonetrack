@@ -80,15 +80,14 @@
 				</template>
 				{{ t('phonetrack', 'Show') }}
 			</NcButton>
-			<!--NcButton v-if="!myEdition"
-				variant="tertiary"
+			<NcButton v-if="!myEdition && allowDeletion"
 				:aria-label="t('phonetrack', 'Delete geofence')"
-				@click="onCancel">
+				@click="onDelete">
 				<template #icon>
-					<TrashhhhIcon />
+					<TrashCanOutlineIcon style="color: var(--color-text-error);" />
 				</template>
 				{{ t('phonetrack', 'Delete') }}
-			</NcButton-->
+			</NcButton>
 			<NcButton v-if="myEdition"
 				variant="tertiary"
 				:aria-label="t('phonetrack', 'Cancel edition')"
@@ -121,6 +120,7 @@
 </template>
 
 <script>
+import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import ScanHelperIcon from 'vue-material-design-icons/ScanHelper.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
@@ -146,6 +146,7 @@ export default {
 		UndoIcon,
 		MagnifyIcon,
 		ScanHelperIcon,
+		TrashCanOutlineIcon,
 		NcButton,
 		NcTextField,
 		NcCheckboxRadioSwitch,
@@ -160,11 +161,16 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		allowDeletion: {
+			type: Boolean,
+			default: true,
+		},
 	},
 
 	emits: [
 		'save',
 		'cancel',
+		'delete',
 	],
 
 	data() {
@@ -214,6 +220,9 @@ export default {
 		onSave() {
 			this.$emit('save', this.myGeofence)
 			this.myEdition = false
+		},
+		onDelete() {
+			this.$emit('delete', this.myGeofence)
 		},
 		onShow() {
 			emit('show-geofence', this.myGeofence)

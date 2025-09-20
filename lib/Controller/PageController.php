@@ -550,16 +550,15 @@ class PageController extends Controller {
 		}
 
 		$geofence = $this->geofenceMapper->find($geofenceId);
-		if ($deviceId !== $geofence->getDeviceId()) {
+		if ($deviceId !== $geofence->getDeviceid()) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $geofence->getDeviceId());
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $geofence->getDeviceid());
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 
-		$geofence = new Geofence();
 		if ($name !== null) {
 			$geofence->setName($name);
 		}
@@ -608,11 +607,11 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		$geofence = $this->geofenceMapper->find($geofenceId);
-		if ($deviceId !== $geofence->getDeviceId()) {
+		if ($deviceId !== $geofence->getDeviceid()) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $geofence->getDeviceId());
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $geofence->getDeviceid());
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
