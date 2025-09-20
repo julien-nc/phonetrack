@@ -1,7 +1,7 @@
 <template>
 	<div class="tab-container">
 		<h3>
-			{{ t('gpxpod', 'Device details') }}
+			{{ t('phonetrack', 'Device details') }}
 		</h3>
 		<div class="line">
 			<NcTextField

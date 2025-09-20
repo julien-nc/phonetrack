@@ -1,7 +1,7 @@
 <template>
 	<div class="tab-container">
 		<h3>
-			{{ t('gpxpod', 'Device proximity alerts') }}
+			{{ t('phonetrack', 'Device proximity alerts') }}
 		</h3>
 		<NcButton @click="onCreate">
 			<template #icon>

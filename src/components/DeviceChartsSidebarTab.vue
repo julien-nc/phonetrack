@@ -1,7 +1,7 @@
 <template>
 	<div class="tab-container">
 		<h3>
-			{{ t('gpxpod', 'Device charts') }}
+			{{ t('phonetrack', 'Device charts') }}
 		</h3>
 		charts
 	</div>

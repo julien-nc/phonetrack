@@ -1,7 +1,7 @@
 <template>
 	<div class="tab-container">
 		<h3>
-			{{ t('gpxpod', 'Device geofences') }}
+			{{ t('phonetrack', 'Device geofences') }}
 		</h3>
 		<NcButton @click="onCreate">
 			<template #icon>
@@ -9,6 +9,18 @@
 			</template>
 			{{ t('phonetrack', 'Create new geofence') }}
 		</NcButton>
+		<Geofence v-if="creatingGeofence"
+			:geofence="blankGeofence"
+			:edition="true"
+			@save="onSaveNew"
+			@cancel="creatingGeofence = false" />
+		<hr>
+		<div class="geofences">
+			<Geofence v-for="g in device.geofences"
+				:key="device.id + '-' + g.id"
+				:geofence="g"
+				@save="onSave" />
+		</div>
 	</div>
 </template>
 
@@ -17,12 +29,15 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 
+import Geofence from './Geofence.vue'
+
 import { emit } from '@nextcloud/event-bus'
 
 export default {
 	name: 'DeviceGeofencesSidebarTab',
 
 	components: {
+		Geofence,
 		PlusIcon,
 		NcButton,
 	},
@@ -44,8 +59,21 @@ export default {
 
 	data() {
 		return {
-			newDeviceName: this.device.name,
-			newDeviceAlias: this.device.alias ?? '',
+			creatingGeofence: false,
+			blankGeofence: {
+				name: '',
+				latmin: null,
+				latmax: null,
+				lonmin: null,
+				lonmax: null,
+				urlenter: '',
+				urlleave: '',
+				urlenterpost: false,
+				urlleavepost: false,
+				sendemail: false,
+				sendnotif: false,
+				emailaddr: '',
+			},
 		}
 	},
 
@@ -53,10 +81,6 @@ export default {
 	},
 
 	watch: {
-		device() {
-			this.newDeviceName = this.device.name
-			this.newDeviceAlias = this.device.alias ?? ''
-		},
 	},
 
 	beforeMount() {
@@ -64,10 +88,23 @@ export default {
 
 	methods: {
 		onCreate() {
+			this.creatingGeofence = true
+		},
+		onSaveNew(geofence) {
+			console.debug('create geofence', geofence)
 			emit('create-geofence', {
 				deviceId: this.device.id,
 				sessionId: this.session.id,
-				values: { name: this.newDeviceName },
+				geofence,
+			})
+			this.creatingGeofence = false
+		},
+		onSave(geofence) {
+			console.debug('save geofence', geofence)
+			emit('save-geofence', {
+				deviceId: this.device.id,
+				sessionId: this.session.id,
+				geofence,
 			})
 		},
 	},
@@ -76,21 +113,10 @@ export default {
 
 <style scoped lang="scss">
 .tab-container {
-	width: 100%;
-	padding: 4px;
-
-	h3 {
-		font-weight: bold;
-		text-align: center;
-	}
-
-	.line {
+	.geofences {
 		display: flex;
-		gap: 4px;
-		align-items: end;
-		> * {
-			flex: 1 1 0px;
-		}
+		flex-direction: column;
+		gap: 8px;
 	}
 }
 </style>
