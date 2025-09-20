@@ -928,10 +928,27 @@ class SessionService {
 			$devices = $this->deviceMapper->findBySessionId($session->getToken());
 			foreach ($devices as $device) {
 				$jsonDevice = $device->jsonSerialize();
+
+				// geofences
 				$geofences = $this->geofenceMapper->findByDeviceId($device->getId());
+				$jsonDevice['geofences'] = [];
+				foreach ($geofences as $geofence) {
+					$jsonDevice['geofences'][$geofence->getId()] = $geofence->jsonSerialize();
+				}
+				if (empty($jsonDevice['geofences'])) {
+					$jsonDevice['geofences'] = new stdClass();
+				}
+
+				// proximity alerts
 				$proxims = $this->proximMapper->findByDeviceId1($device->getId());
-				$jsonDevice['geofences'] = $geofences;
-				$jsonDevice['proxims'] = $proxims;
+				$jsonDevice['proxims'] = [];
+				foreach ($proxims as $proxim) {
+					$jsonDevice['proxims'][$proxim->getId()] = $proxim->jsonSerialize();
+				}
+				if (empty($jsonDevice['proxims'])) {
+					$jsonDevice['proxims'] = new stdClass();
+				}
+
 				$json['devices'][$device->getId()] = $jsonDevice;
 			}
 			if (empty($json['devices'])) {

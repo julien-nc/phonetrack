@@ -166,6 +166,7 @@ export default {
 
 	destroyed() {
 		this.map.remove()
+		unsubscribe('get-map-bounds', this.onGetMapBounds)
 		unsubscribe('resize-map', this.resizeMap)
 		unsubscribe('nav-toggled', this.onNavToggled)
 		unsubscribe('sidebar-toggled', this.onNavToggled)
@@ -176,6 +177,13 @@ export default {
 	},
 
 	methods: {
+		onGetMapBounds(e) {
+			const bounds = this.map.getBounds()
+			e.north = bounds.getNorth()
+			e.east = bounds.getEast()
+			e.south = bounds.getSouth()
+			e.west = bounds.getWest()
+		},
 		initMap() {
 			const apiKey = this.settings.maptiler_api_key
 			// tile servers and styles
@@ -327,6 +335,7 @@ export default {
 				}, 1000)
 			})
 
+			subscribe('get-map-bounds', this.onGetMapBounds)
 			subscribe('resize-map', this.resizeMap)
 			subscribe('nav-toggled', this.onNavToggled)
 			subscribe('sidebar-toggled', this.onNavToggled)

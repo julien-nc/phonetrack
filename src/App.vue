@@ -37,8 +37,8 @@
 				@save-options="saveOptions"
 				@map-bounds-change="storeBounds"
 				@map-state-change="saveOptions">
-				<!--template #default="{ map }">
-					<div v-for="d in devicesToDraw"
+				<template #default="{ map }">
+					<!--div v-for="d in devicesToDraw"
 						:key="d.id">
 						<TrackSingleColor
 							:device="d"
@@ -49,8 +49,10 @@
 							:arrows="settings.direction_arrows === '1'"
 							:opacity="parseFloat(settings.line_opacity)"
 							:settings="settings" />
-					</div>
-				</template-->
+					</div-->
+					<PolygonFill v-if="geofenceLngLats !== null"
+						:map="map" :lng-lats-list="geofenceLngLats" layer-id="geofence" />
+				</template>
 			</MaplibreMap>
 		</NcAppContent>
 		<SessionSidebar v-if="sidebarSessionId !== null && sidebarDeviceId === null"
@@ -96,12 +98,14 @@ import SessionSidebar from './components/SessionSidebar.vue'
 import DeviceSidebar from './components/DeviceSidebar.vue'
 // import DeviceList from './components/DeviceList.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
+import PolygonFill from './components/map/PolygonFill.vue'
 // import TrackSingleColor from './components/map/TrackSingleColor.vue'
 
 export default {
 	name: 'App',
 
 	components: {
+		PolygonFill,
 		// TrackSingleColor,
 		MaplibreMap,
 		DeviceSidebar,
@@ -137,6 +141,8 @@ export default {
 			sidebarDeviceId: null,
 			isEmbedded: false,
 			showDetails: true,
+			geofenceLngLats: null,
+			geofenceCleanupTimeout: null,
 		}
 	},
 
@@ -221,10 +227,13 @@ export default {
 		subscribe('delete-public-share', this.onDeletePublicShare)
 		subscribe('add-share', this.onAddShare)
 		subscribe('delete-share', this.onDeleteShare)
+		subscribe('show-geofence', this.onShowGeofence)
+		subscribe('create-geofence', this.onCreateGeofence)
+		subscribe('save-geofence', this.onSaveGeofence)
 		emit('nav-toggled')
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		unsubscribe('save-settings', this.saveOptions)
 		unsubscribe('tile-server-deleted', this.onTileServerDeleted)
 		unsubscribe('tile-server-added', this.onTileServerAdded)
@@ -243,6 +252,9 @@ export default {
 		unsubscribe('delete-public-share', this.onDeletePublicShare)
 		unsubscribe('add-share', this.onAddShare)
 		unsubscribe('delete-share', this.onDeleteShare)
+		unsubscribe('show-geofence', this.onShowGeofence)
+		subscribe('create-geofence', this.onCreateGeofence)
+		subscribe('save-geofence', this.onSaveGeofence)
 	},
 
 	methods: {
@@ -515,6 +527,57 @@ export default {
 		},
 		onUpdateShowDetails(val) {
 			this.showDetails = val
+		},
+		onShowGeofence(geofence) {
+			console.debug('onShowGeofence', geofence.minlon, geofence.maxlat, geofence.maxlon, geofence.minlat)
+			console.debug('onShowGeofence', this.mapWest, this.mapNorth, this.mapEast, this.mapSouth)
+			this.geofenceLngLats = [
+				[
+					[geofence.lonmin, geofence.latmax],
+					[geofence.lonmax, geofence.latmax],
+					[geofence.lonmax, geofence.latmin],
+					[geofence.lonmin, geofence.latmin],
+				],
+			]
+			emit('zoom-on-bounds', {
+				west: geofence.lonmin,
+				north: geofence.latmax,
+				east: geofence.lonmax,
+				south: geofence.latmin,
+			})
+			clearTimeout(this.geofenceCleanupTimeout)
+			this.geofenceCleanupTimeout = setTimeout(() => {
+				this.geofenceLngLats = null
+			}, 5000)
+		},
+		onCreateGeofence(data) {
+			const req = {
+				...data.geofence,
+			}
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/geofence', { sessionId: data.sessionId, deviceId: data.deviceId })
+			axios.post(url, req).then((response) => {
+				this.state.sessions[data.sessionId].devices[data.deviceId].geofences[response.data.id] = response.data
+				console.debug('[phonetrack] new geofence list', this.state.sessions[data.sessionId].devices[data.deviceId].geofences)
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to create geofence'))
+				console.debug(error)
+			})
+		},
+		onSaveGeofence(data) {
+			const req = {
+				...data.geofence,
+			}
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/geofence/{geofenceId}', {
+				sessionId: data.sessionId,
+				deviceId: data.deviceId,
+				geofenceId: data.geofence.id,
+			})
+			axios.put(url, req).then((response) => {
+				this.state.sessions[data.sessionId].devices[data.deviceId].geofences[data.geofence.id] = response.data
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to create geofence'))
+				console.debug(error)
+			})
 		},
 	},
 }

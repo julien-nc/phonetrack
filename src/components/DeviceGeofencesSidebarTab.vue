@@ -3,7 +3,8 @@
 		<h3>
 			{{ t('phonetrack', 'Device geofences') }}
 		</h3>
-		<NcButton @click="onCreate">
+		<NcButton class="create-button"
+			@click="onCreate">
 			<template #icon>
 				<PlusIcon />
 			</template>
@@ -16,7 +17,7 @@
 			@cancel="creatingGeofence = false" />
 		<hr>
 		<div class="geofences">
-			<Geofence v-for="g in device.geofences"
+			<Geofence v-for="(g, gid) in device.geofences"
 				:key="device.id + '-' + g.id"
 				:geofence="g"
 				@save="onSave" />
@@ -113,6 +114,22 @@ export default {
 
 <style scoped lang="scss">
 .tab-container {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	h3 {
+		text-align: center;
+		margin: 0;
+	}
+
+	hr {
+		width: 100%;
+	}
+
+	.create-button {
+		align-self: center;
+	}
 	.geofences {
 		display: flex;
 		flex-direction: column;

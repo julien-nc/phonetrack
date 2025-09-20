@@ -518,6 +518,7 @@ class PageController extends Controller {
 		$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
 
 		$geofence = new Geofence();
+		$geofence->setDeviceid($deviceId);
 		$geofence->setName($name);
 		$geofence->setLatmin($latmin);
 		$geofence->setLatmax($latmax);

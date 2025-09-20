@@ -87,7 +87,10 @@ export default {
 		this.init()
 	},
 
-	destroyed() {
+	unmounted() {
+	},
+
+	beforeUnmount() {
 		console.debug('[phonetrack] destroy polygon', this.layerId)
 		this.remove()
 	},

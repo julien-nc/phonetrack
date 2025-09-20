@@ -5,9 +5,9 @@
 			:label="t('phonetrack', 'Name')"
 			placeholder="..."
 			@keyup.enter="onSave" />
-		<label v-else>
-			{{ t('phonetrack', 'Name: {name}', { name: geofence.name }) }}
-		</label>
+		<h4 v-else>
+			{{ geofence.name }}
+		</h4>
 		<NcCheckboxRadioSwitch :model-value="myEdition ? myGeofence.sendnotif : geofence.sendnotif"
 			:disabled="!myEdition"
 			@update:model-value="myGeofence.sendnotif = $event">
@@ -64,6 +64,33 @@
 		</NcCheckboxRadioSwitch>
 		<div class="footer">
 			<NcButton v-if="myEdition"
+				:title="t('phonetrack', 'Set geofence bounds to current map bounds')"
+				@click="onSetBounds">
+				<template #icon>
+					<ScanHelperIcon :size="20" />
+				</template>
+				{{ t('phonetrack', 'Set bounds') }}
+			</NcButton>
+			<NcButton
+				:aria-label="t('phonetrack', 'Show geofence on the map')"
+				:disabled="!hasCoordinates"
+				@click="onShow">
+				<template #icon>
+					<MagnifyIcon />
+				</template>
+				{{ t('phonetrack', 'Show') }}
+			</NcButton>
+			<!--NcButton v-if="!myEdition"
+				variant="tertiary"
+				:aria-label="t('phonetrack', 'Delete geofence')"
+				@click="onCancel">
+				<template #icon>
+					<TrashhhhIcon />
+				</template>
+				{{ t('phonetrack', 'Delete') }}
+			</NcButton-->
+			<NcButton v-if="myEdition"
+				variant="tertiary"
 				:aria-label="t('phonetrack', 'Cancel edition')"
 				@click="onCancel">
 				<template #icon>
@@ -72,6 +99,7 @@
 				{{ t('phonetrack', 'Cancel') }}
 			</NcButton>
 			<NcButton v-if="myEdition"
+				variant="primary"
 				:aria-label="t('phonetrack', 'Save geofence')"
 				:disabled="!valid"
 				@click="onSave">
@@ -86,21 +114,26 @@
 				<template #icon>
 					<PencilOutlineIcon />
 				</template>
+				{{ t('phonetrack', 'Edit') }}
 			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
+import ScanHelperIcon from 'vue-material-design-icons/ScanHelper.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import EmailOutlineIcon from 'vue-material-design-icons/EmailOutline.vue'
 import BellRingOutlineIcon from 'vue-material-design-icons/BellRingOutline.vue'
 import PencilOutlineIcon from 'vue-material-design-icons/PencilOutline.vue'
+import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+
+import { emit } from '@nextcloud/event-bus'
 
 export default {
 	name: 'Geofence',
@@ -111,6 +144,8 @@ export default {
 		EmailOutlineIcon,
 		BellRingOutlineIcon,
 		UndoIcon,
+		MagnifyIcon,
+		ScanHelperIcon,
 		NcButton,
 		NcTextField,
 		NcCheckboxRadioSwitch,
@@ -143,11 +178,13 @@ export default {
 
 	computed: {
 		valid() {
-			return this.myGeofence.name
-			// && this.myGeofence.latmin !== null
-			// && this.myGeofence.latmax !== null
-			// && this.myGeofence.lonmin !== null
-			// && this.myGeofence.lonmax !== null
+			return this.myGeofence.name && this.hasCoordinates
+		},
+		hasCoordinates() {
+			return this.myGeofence.latmin !== null
+				&& this.myGeofence.latmax !== null
+				&& this.myGeofence.lonmin !== null
+				&& this.myGeofence.lonmax !== null
 		},
 	},
 
@@ -178,15 +215,42 @@ export default {
 			this.$emit('save', this.myGeofence)
 			this.myEdition = false
 		},
+		onShow() {
+			emit('show-geofence', this.myGeofence)
+		},
+		onSetBounds() {
+			const bounds = {}
+			emit('get-map-bounds', bounds)
+			console.debug('[phonetrack] current map bounds are', bounds)
+			this.myGeofence.lonmin = bounds.west
+			this.myGeofence.lonmax = bounds.east
+			this.myGeofence.latmin = bounds.south
+			this.myGeofence.latmax = bounds.north
+			emit('show-geofence', this.myGeofence)
+		},
 	},
 }
 </script>
 
 <style scoped lang="scss">
 .geofence {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
 	padding: 8px;
 	border: 2px solid var(--color-border);
 	border-radius: var(--border-radius-container);
+
+	label {
+		padding-left: 8px;
+	}
+
+	h4 {
+		margin-top: 0;
+		margin-bottom: 0;
+		text-align: center;
+	}
+
 	.checkbox-inner {
 		display: flex;
 		gap: 4px;
