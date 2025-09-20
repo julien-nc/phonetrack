@@ -22,6 +22,8 @@ use Exception;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\ProximMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\ShareMapper;
@@ -98,6 +100,8 @@ class PageNLogControllerTest extends TestCase {
 				$c->get(IDBConnection::class)
 			),
 			$c->get(PublicShareMapper::class),
+			$c->get(GeofenceMapper::class),
+			$c->get(ProximMapper::class),
 			$c->get(ShareMapper::class),
 			$c->get(IUserManager::class),
 			$c->get(IDBConnection::class),
