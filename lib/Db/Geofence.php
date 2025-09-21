@@ -78,12 +78,12 @@ class Geofence extends Entity implements \JsonSerializable {
 			'latmax' => $this->getLatmax(),
 			'lonmin' => $this->getLonmin(),
 			'lonmax' => $this->getLonmax(),
-			'urlenter' => $this->getUrlenter(),
-			'urlleave' => $this->getUrlleave(),
+			'urlenter' => $this->getUrlenter() ?? '',
+			'urlleave' => $this->getUrlleave() ?? '',
 			'urlenterpost' => $this->getUrlenterpost() !== 0,
 			'urlleavepost' => $this->getUrlleavepost() !== 0,
 			'sendemail' => $this->getSendemail() !== 0,
-			'emailaddr' => $this->getEmailaddr(),
+			'emailaddr' => $this->getEmailaddr() ?? '',
 			'sendnotif' => $this->getSendnotif() !== 0,
 		];
 	}

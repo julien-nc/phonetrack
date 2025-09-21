@@ -119,8 +119,11 @@ export default {
 		FolderOffOutlineIcon,
 	},
 
-	provide: {
-		isPublicPage: ('shareToken' in loadState('phonetrack', 'phonetrack-state', {})),
+	provide() {
+		return {
+			sessions: () => this.state.sessions,
+			isPublicPage: ('shareToken' in loadState('phonetrack', 'phonetrack-state', {})),
+		}
 	},
 
 	props: {
@@ -231,6 +234,9 @@ export default {
 		subscribe('create-geofence', this.onCreateGeofence)
 		subscribe('save-geofence', this.onSaveGeofence)
 		subscribe('delete-geofence', this.onDeleteGeofence)
+		subscribe('create-proxim', this.onCreateProxim)
+		subscribe('save-proxim', this.onSaveProxim)
+		subscribe('delete-proxim', this.onDeleteProxim)
 		emit('nav-toggled')
 	},
 
@@ -257,6 +263,9 @@ export default {
 		unsubscribe('create-geofence', this.onCreateGeofence)
 		unsubscribe('save-geofence', this.onSaveGeofence)
 		unsubscribe('delete-geofence', this.onDeleteGeofence)
+		unsubscribe('create-proxim', this.onCreateProxim)
+		unsubscribe('save-proxim', this.onSaveProxim)
+		unsubscribe('delete-proxim', this.onDeleteProxim)
 	},
 
 	methods: {
@@ -592,6 +601,50 @@ export default {
 				showSuccess(t('phonetrack', 'Geofence {name} has been deleted', { name: data.geofence.name }))
 			}).catch((error) => {
 				showError(t('phonetrack', 'Failed to delete geofence'))
+				console.debug(error)
+			})
+		},
+		onCreateProxim(data) {
+			const req = {
+				...data.proxim,
+			}
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/proxim', { sessionId: data.sessionId, deviceId: data.deviceId })
+			axios.post(url, req).then((response) => {
+				this.state.sessions[data.sessionId].devices[data.deviceId].proxims[response.data.id] = response.data
+				console.debug('[phonetrack] new proxim list', this.state.sessions[data.sessionId].devices[data.deviceId].proxims)
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to create proximity alert'))
+				console.debug(error)
+			})
+		},
+		onSaveProxim(data) {
+			console.debug('onSaveProxim', data)
+			const req = {
+				...data.proxim,
+			}
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/proxim/{proximId}', {
+				sessionId: data.sessionId,
+				deviceId: data.deviceId,
+				proximId: data.proxim.id,
+			})
+			axios.put(url, req).then((response) => {
+				this.state.sessions[data.sessionId].devices[data.deviceId].proxims[data.proxim.id] = response.data
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to save proximity alert'))
+				console.debug(error)
+			})
+		},
+		onDeleteProxim(data) {
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/proxim/{proximId}', {
+				sessionId: data.sessionId,
+				deviceId: data.deviceId,
+				proximId: data.proxim.id,
+			})
+			axios.delete(url).then((response) => {
+				delete this.state.sessions[data.sessionId].devices[data.deviceId].proxims[data.proxim.id]
+				showSuccess(t('phonetrack', 'Proximity alert {id} has been deleted', { id: data.proxim.id }))
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to delete proximity alert'))
 				console.debug(error)
 			})
 		},

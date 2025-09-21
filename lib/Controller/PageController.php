@@ -621,24 +621,25 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	public function createProxim(
-		int $sessionId, int $deviceId1, int $deviceId2,
+		int $sessionId1, int $deviceId1, int $sessionid2, int $deviceid2,
 		int $lowlimit, int $highlimit,
 		?string $urlclose, ?string $urlfar, int $urlclosepost, int $urlfarpost,
 		int $sendemail, ?string $emailaddr, int $sendnotif,
 	): DataResponse {
 		// check if session exists
 		try {
-			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+			$session1 = $this->sessionMapper->getUserSessionById($this->userId, $sessionId1);
+			$session2 = $this->sessionMapper->getUserSessionById($this->userId, $sessionid2);
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
 		}
 
-		$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId1);
-		$device2 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId2);
+		$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session1->getToken(), $deviceId1);
+		$device2 = $this->deviceMapper->getBySessionTokenAndDeviceId($session2->getToken(), $deviceid2);
 
 		$proxim = new Proxim();
 		$proxim->setDeviceid1($deviceId1);
-		$proxim->setDeviceid2($deviceId2);
+		$proxim->setDeviceid2($deviceid2);
 		$proxim->setLowlimit($lowlimit);
 		$proxim->setHighlimit($highlimit);
 		$proxim->setUrlclose($urlclose);
@@ -654,39 +655,38 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	public function updateProxim(
-		int $sessionId, int $deviceId1, int $proximId, ?int $deviceId2 = null,
+		int $sessionId1, int $deviceId1, int $proximId, ?int $sessionid2 = null, ?int $deviceid2 = null,
 		?int $lowlimit = null, ?int $highlimit = null,
 		?string $urlclose = null, ?string $urlfar = null, ?int $urlclosepost = null, ?int $urlfarpost = null,
 		?int $sendemail = null, ?string $emailaddr = null, ?int $sendnotif = null,
 	): DataResponse {
 		// check if session exists
 		try {
-			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+			$session1 = $this->sessionMapper->getUserSessionById($this->userId, $sessionId1);
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
 		}
 
 		$proxim = $this->proximMapper->find($proximId);
-		if ($deviceId1 !== $proxim->getDeviceId1()) {
+		if ($deviceId1 !== $proxim->getDeviceid1()) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $proxim->getDeviceId1());
+			$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session1->getToken(), $proxim->getDeviceid1());
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
-		if ($deviceId2 !== null) {
+		// check that device2 is in a session owned by the user
+		if ($deviceid2 !== null && $sessionid2 !== null) {
 			try {
-				$device2 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $proxim->getDeviceId2());
+				$session2 = $this->sessionMapper->getUserSessionById($this->userId, $sessionid2);
+				$device2 = $this->deviceMapper->getBySessionTokenAndDeviceId($session2->getToken(), $deviceid2);
+				$proxim->setDeviceid2($deviceid2);
 			} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 				return new DataResponse(['error' => 'device2_not_found'], Http::STATUS_NOT_FOUND);
 			}
 		}
 
-		$proxim = new Proxim();
-		if ($deviceId2 !== null) {
-			$proxim->setDeviceid2($deviceId2);
-		}
 		if ($lowlimit !== null) {
 			$proxim->setLowlimit($lowlimit);
 		}
@@ -719,18 +719,18 @@ class PageController extends Controller {
 	}
 
 	#[NoAdminRequired]
-	public function deleteProxim(int $sessionId, int $deviceId1, int $proximId): DataResponse {
+	public function deleteProxim(int $sessionId1, int $deviceId1, int $proximId): DataResponse {
 		try {
-			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+			$session1 = $this->sessionMapper->getUserSessionById($this->userId, $sessionId1);
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		$proxim = $this->proximMapper->find($proximId);
-		if ($deviceId1 !== $proxim->getDeviceId1()) {
+		if ($deviceId1 !== $proxim->getDeviceid1()) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $proxim->getDeviceId1());
+			$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session1->getToken(), $proxim->getDeviceid1());
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}

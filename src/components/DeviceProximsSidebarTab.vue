@@ -3,12 +3,29 @@
 		<h3>
 			{{ t('phonetrack', 'Device proximity alerts') }}
 		</h3>
-		<NcButton @click="onCreate">
+		<NcButton class="create-button"
+			@click="onCreate">
 			<template #icon>
 				<PlusIcon />
 			</template>
 			{{ t('phonetrack', 'Create new proximity alert') }}
 		</NcButton>
+		<Proxim v-if="creatingProxim"
+			:proxim="blankProxim"
+			:edition="true"
+			:allow-deletion="false"
+			:device-id1="device.id"
+			@save="onSaveNew"
+			@cancel="creatingProxim = false" />
+		<hr>
+		<TransitionGroup tag="div" class="proxims" name="fade">
+			<Proxim v-for="(p, pid) in device.proxims"
+				:key="device.id + '-' + pid"
+				:proxim="p"
+				:device-id1="device.id"
+				@delete="onDelete"
+				@save="onSave" />
+		</TransitionGroup>
 	</div>
 </template>
 
@@ -17,12 +34,15 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 
+import Proxim from './Proxim.vue'
+
 import { emit } from '@nextcloud/event-bus'
 
 export default {
 	name: 'DeviceProximsSidebarTab',
 
 	components: {
+		Proxim,
 		PlusIcon,
 		NcButton,
 	},
@@ -44,8 +64,19 @@ export default {
 
 	data() {
 		return {
-			newDeviceName: this.device.name,
-			newDeviceAlias: this.device.alias ?? '',
+			creatingProxim: false,
+			blankProxim: {
+				deviceid2: null,
+				lowlimit: 0,
+				highlimit: 0,
+				urlclose: '',
+				urlfar: '',
+				urlclosepost: false,
+				urlfarpost: false,
+				sendemail: false,
+				sendnotif: false,
+				emailaddr: '',
+			},
 		}
 	},
 
@@ -53,10 +84,6 @@ export default {
 	},
 
 	watch: {
-		device() {
-			this.newDeviceName = this.device.name
-			this.newDeviceAlias = this.device.alias ?? ''
-		},
 	},
 
 	beforeMount() {
@@ -64,10 +91,30 @@ export default {
 
 	methods: {
 		onCreate() {
+			this.creatingProxim = true
+		},
+		onSaveNew(proxim) {
+			console.debug('create proxim', proxim)
 			emit('create-proxim', {
 				deviceId: this.device.id,
 				sessionId: this.session.id,
-				values: { name: this.newDeviceName },
+				proxim,
+			})
+			this.creatingProxim = false
+		},
+		onSave(proxim) {
+			console.debug('save proxim', proxim)
+			emit('save-proxim', {
+				deviceId: this.device.id,
+				sessionId: this.session.id,
+				proxim,
+			})
+		},
+		onDelete(proxim) {
+			emit('delete-proxim', {
+				deviceId: this.device.id,
+				sessionId: this.session.id,
+				proxim,
 			})
 		},
 	},
@@ -76,21 +123,37 @@ export default {
 
 <style scoped lang="scss">
 .tab-container {
-	width: 100%;
-	padding: 4px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 
 	h3 {
-		font-weight: bold;
 		text-align: center;
+		margin: 0;
 	}
 
-	.line {
+	hr {
+		width: 100%;
+	}
+
+	.create-button {
+		align-self: center;
+	}
+	.proxims {
 		display: flex;
-		gap: 4px;
-		align-items: end;
-		> * {
-			flex: 1 1 0px;
-		}
+		flex-direction: column;
+		gap: 8px;
 	}
 }
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: all var(--animation-slow);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
+
 </style>

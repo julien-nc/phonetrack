@@ -68,13 +68,13 @@ class Proxim extends Entity implements \JsonSerializable {
 			'deviceid2' => $this->getDeviceid2(),
 			'lowlimit' => $this->getLowlimit(),
 			'highlimit' => $this->getHighlimit(),
-			'urlclose' => $this->getUrlclose(),
-			'urlfar' => $this->getUrlfar(),
-			'urlclosepost' => $this->getUrlclosepost(),
-			'urlfarpost' => $this->getUrlfarpost(),
-			'sendemail' => $this->getSendemail(),
-			'emailaddr' => $this->getEmailaddr(),
-			'sendnotif' => $this->getSendnotif(),
+			'urlclose' => $this->getUrlclose() ?? '',
+			'urlfar' => $this->getUrlfar() ?? '',
+			'urlclosepost' => $this->getUrlclosepost() !== 0,
+			'urlfarpost' => $this->getUrlfarpost() !== 0,
+			'sendemail' => $this->getSendemail() !== 0,
+			'emailaddr' => $this->getEmailaddr() ?? '',
+			'sendnotif' => $this->getSendnotif() !== 0,
 		];
 	}
 }
