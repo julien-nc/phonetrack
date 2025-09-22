@@ -10,13 +10,15 @@
 			</template>
 			{{ t('phonetrack', 'Create new proximity alert') }}
 		</NcButton>
-		<Proxim v-if="creatingProxim"
-			:proxim="blankProxim"
-			:edition="true"
-			:allow-deletion="false"
-			:device-id1="device.id"
-			@save="onSaveNew"
-			@cancel="creatingProxim = false" />
+		<Transition name="fade">
+			<Proxim v-if="creatingProxim"
+				:proxim="blankProxim"
+				:edition="true"
+				:allow-deletion="false"
+				:device-id1="device.id"
+				@save="onSaveNew"
+				@cancel="creatingProxim = false" />
+		</Transition>
 		<hr>
 		<TransitionGroup tag="div" class="proxims" name="fade">
 			<Proxim v-for="(p, pid) in device.proxims"
@@ -148,12 +150,15 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-	transition: all var(--animation-slow);
+	//transition: all var(--animation-slow);
+	transition: all 500ms;
 }
 
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
+	height: 0px;
+	transform: scaleY(0);
 }
 
 </style>

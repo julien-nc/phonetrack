@@ -67,7 +67,8 @@
 				:title="t('phonetrack', 'Set geofence bounds to current map bounds')"
 				@click="onSetBounds">
 				<template #icon>
-					<ScanHelperIcon :size="20" />
+					<CheckboxMarkedOutlineIcon v-if="hasCoordinates" :size="20" />
+					<CheckboxBlankOutlineIcon v-else :size="20" />
 				</template>
 				{{ t('phonetrack', 'Set bounds') }}
 			</NcButton>
@@ -99,7 +100,7 @@
 			</NcButton>
 			<NcButton v-if="myEdition"
 				variant="primary"
-				:aria-label="t('phonetrack', 'Save geofence')"
+				:title="t('phonetrack', 'You need at least a name and some bounds to save this geofence')"
 				:disabled="!valid"
 				@click="onSave">
 				<template #icon>
@@ -121,7 +122,8 @@
 
 <script>
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
-import ScanHelperIcon from 'vue-material-design-icons/ScanHelper.vue'
+import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOutline.vue'
+import CheckboxMarkedOutlineIcon from 'vue-material-design-icons/CheckboxMarkedOutline.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import EmailOutlineIcon from 'vue-material-design-icons/EmailOutline.vue'
@@ -145,7 +147,8 @@ export default {
 		BellRingOutlineIcon,
 		UndoIcon,
 		MagnifyIcon,
-		ScanHelperIcon,
+		CheckboxBlankOutlineIcon,
+		CheckboxMarkedOutlineIcon,
 		TrashCanOutlineIcon,
 		NcButton,
 		NcTextField,

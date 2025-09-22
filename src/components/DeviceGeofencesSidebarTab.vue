@@ -10,12 +10,14 @@
 			</template>
 			{{ t('phonetrack', 'Create new geofence') }}
 		</NcButton>
-		<Geofence v-if="creatingGeofence"
-			:geofence="blankGeofence"
-			:edition="true"
-			:allow-deletion="false"
-			@save="onSaveNew"
-			@cancel="creatingGeofence = false" />
+		<Transition name="fade">
+			<Geofence v-if="creatingGeofence"
+				:geofence="blankGeofence"
+				:edition="true"
+				:allow-deletion="false"
+				@save="onSaveNew"
+				@cancel="creatingGeofence = false" />
+		</Transition>
 		<hr>
 		<TransitionGroup tag="div" class="geofences" name="fade">
 			<Geofence v-for="(g, gid) in device.geofences"
@@ -148,12 +150,15 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-	transition: all var(--animation-slow);
+	//transition: all var(--animation-slow);
+	transition: all 500ms;
 }
 
 .fade-enter-from,
 .fade-leave-to {
 	opacity: 0;
+	height: 0px;
+	transform: scaleY(0);
 }
 
 </style>

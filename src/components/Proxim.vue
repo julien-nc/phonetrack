@@ -111,7 +111,7 @@
 			</NcButton>
 			<NcButton v-if="myEdition"
 				variant="primary"
-				:aria-label="t('phonetrack', 'Save proximity alert')"
+				:title="t('phonetrack', 'You need at least a device and the distance limits to save this proximity alert')"
 				:disabled="!valid"
 				@click="onSave">
 				<template #icon>
