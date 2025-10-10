@@ -494,6 +494,7 @@ export default {
 			axios.post(url, req).then((response) => {
 				// TODO add the point to the device (on the map)
 				if (response.data.done === 1) {
+					// success
 				} else if (response.data.done === 2) {
 					showError(t('phonetrack', 'Impossible to add this point'))
 				} else if (response.data.done === 5) {

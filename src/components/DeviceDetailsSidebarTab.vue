@@ -119,7 +119,7 @@ export default {
 		},
 		onStopAddPointClick() {
 			emit('stop-add-point-device')
-		}
+		},
 	},
 }
 </script>

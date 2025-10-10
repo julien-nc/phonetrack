@@ -180,6 +180,7 @@ class PageNLogControllerTest extends TestCase {
 			$c->get(IL10N::class),
 			$c->get(LoggerInterface::class),
 			$this->activityManager,
+			$c->get(SessionMapper::class),
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
@@ -196,6 +197,7 @@ class PageNLogControllerTest extends TestCase {
 			$c->get(IL10N::class),
 			$c->get(LoggerInterface::class),
 			$this->activityManager,
+			$c->get(SessionMapper::class),
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
