@@ -119,7 +119,8 @@ return [
 		['name' => 'map#getMapTilerFont', 'url' => '/maptiler/fonts/{fontstack}/{range}.pbf', 'verb' => 'GET'],
 		['name' => 'map#getMapTilerTiles', 'url' => '/maptiler/tiles/{version}/tiles.json', 'verb' => 'GET'],
 		['name' => 'map#getMapTilerTile', 'url' => '/maptiler/tiles/{version}/{z}/{x}/{y}.{ext}', 'verb' => 'GET'],
-		['name' => 'map#getMapTilerSprite', 'url' => '/maptiler/maps/{version}/sprite.{ext}', 'verb' => 'GET'],
+		['name' => 'map#getMapTilerSpriteNoSize', 'url' => '/maptiler/maps/{version}/sprite.{ext}', 'verb' => 'GET'],
+		['name' => 'map#getMapTilerSprite', 'url' => '/maptiler/maps/{version}/sprite{size}.{ext}', 'verb' => 'GET'],
 		['name' => 'map#getMapTilerResource', 'url' => '/maptiler/resources/{name}', 'verb' => 'GET'],
 	]
 ];

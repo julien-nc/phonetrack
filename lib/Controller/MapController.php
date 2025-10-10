@@ -152,20 +152,27 @@ class MapController extends Controller {
 		}
 	}
 
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function getMapTilerSpriteNoSize(string $version, string $ext): Response {
+		return $this->getMapTilerSprite($version, $ext);
+	}
+
 	/**
 	 * @param string $version
 	 * @param string $ext
+	 * @param string $size
 	 * @return Response
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function getMapTilerSprite(string $version, string $ext): Response {
+	public function getMapTilerSprite(string $version, string $ext, string $size = ''): Response {
 		try {
 			if ($ext === 'json') {
-				$sprite = $this->mapService->getMapTilerSpriteJson($version);
+				$sprite = $this->mapService->getMapTilerSpriteJson($version, $size);
 				$response = new JSONResponse($sprite);
 			} else {
-				$sprite = $this->mapService->getMapTilerSpriteImage($version, $ext);
+				$sprite = $this->mapService->getMapTilerSpriteImage($version, $size, $ext);
 				$response = new DataDisplayResponse(
 					$sprite['body'],
 					Http::STATUS_OK,
