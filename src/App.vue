@@ -34,6 +34,8 @@
 				:tracks-to-draw="enabledDevices"
 				:unit="distanceUnit"
 				:with-top-left-button="mapWithTopLeftButton"
+				:cursor="currentManualPointInfo ? 'crosshair' : undefined"
+				@map-clicked="onMapClicked"
 				@save-options="saveOptions"
 				@map-bounds-change="storeBounds"
 				@map-state-change="saveOptions">
@@ -68,6 +70,7 @@
 			:device="sidebarDevice"
 			:session="sidebarSession"
 			:settings="state.settings"
+			:adding-point="currentManualPointInfo !== null"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" />
 		<PhonetrackSettingsDialog
@@ -85,6 +88,7 @@ import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
+import moment from '@nextcloud/moment'
 
 import { COLOR_CRITERIAS } from './constants.js'
 
@@ -146,6 +150,7 @@ export default {
 			showDetails: true,
 			geofenceLngLats: null,
 			geofenceCleanupTimeout: null,
+			currentManualPointInfo: null,
 		}
 	},
 
@@ -225,6 +230,8 @@ export default {
 		subscribe('new-name-reservation', this.onNewNameReservation)
 		subscribe('device-clicked', this.onDeviceClicked)
 		subscribe('device-details-click', this.onDeviceDetailsClicked)
+		subscribe('add-point-device', this.onAddDevicePoint)
+		subscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		subscribe('add-public-share', this.onAddPublicShare)
 		subscribe('update-public-share', this.onUpdatePublicShare)
 		subscribe('delete-public-share', this.onDeletePublicShare)
@@ -254,6 +261,8 @@ export default {
 		unsubscribe('update-device', this.onUpdateDevice)
 		unsubscribe('new-name-reservation', this.onNewNameReservation)
 		unsubscribe('device-clicked', this.onDeviceClicked)
+		unsubscribe('add-point-device', this.onAddDevicePoint)
+		unsubscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		unsubscribe('add-public-share', this.onAddPublicShare)
 		unsubscribe('update-public-share', this.onUpdatePublicShare)
 		unsubscribe('delete-public-share', this.onDeletePublicShare)
@@ -460,6 +469,40 @@ export default {
 			const device = this.state.sessions[sessionId].devices[deviceId]
 			device.enabled = !device.enabled
 			this.updateDevice(sessionId, deviceId, { enabled: device.enabled })
+		},
+		onAddDevicePoint(data) {
+			this.currentManualPointInfo = data
+		},
+		onStopAddDevicePoint(data) {
+			this.currentManualPointInfo = null
+		},
+		onMapClicked(lngLat) {
+			console.debug('onMapClicked', lngLat, this.currentManualPointInfo)
+			if (this.currentManualPointInfo === null) {
+				return
+			}
+			const sessionId = this.currentManualPointInfo.sessionId
+			const deviceId = this.currentManualPointInfo.deviceId
+			this.currentManualPointInfo = null
+			const req = {
+				timestamp: moment().unix(),
+				lat: lngLat.lat.toFixed(6),
+				lon: lngLat.lng.toFixed(6),
+				useragent: t('phonetrack', 'Manually added'),
+			}
+			const url = generateUrl('/apps/phonetrack/session/' + sessionId + '/device/' + deviceId + '/point')
+			axios.post(url, req).then((response) => {
+				// TODO add the point to the device (on the map)
+				if (response.data.done === 1) {
+				} else if (response.data.done === 2) {
+					showError(t('phonetrack', 'Impossible to add this point'))
+				} else if (response.data.done === 5) {
+					showError(t('phonetrack', 'User quota was reached'))
+				}
+			}).catch((error) => {
+				console.error(error)
+				showError(t('phonetrack', 'Error while adding the point'))
+			})
 		},
 		async updateDevice(sessionId, deviceId, values) {
 			const req = {

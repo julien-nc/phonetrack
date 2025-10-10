@@ -29,6 +29,14 @@
 				{{ t('phonetrack', 'Set device alias') }}
 			</NcButton>
 		</div>
+		<NcButton @click="onAddPointClick">
+			{{ t('phonetrack', 'Manually add a point') }}
+		</NcButton>
+		<NcButton v-if="addingPoint"
+			variant="tertiary"
+			@click="onStopAddPointClick">
+			{{ t('phonetrack', 'Cancel') }}
+		</NcButton>
 	</div>
 </template>
 
@@ -61,6 +69,10 @@ export default {
 		settings: {
 			type: Object,
 			required: true,
+		},
+		addingPoint: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
@@ -99,6 +111,15 @@ export default {
 				values: { alias: this.newDeviceAlias },
 			})
 		},
+		onAddPointClick() {
+			emit('add-point-device', {
+				deviceId: this.device.id,
+				sessionId: this.session.id,
+			})
+		},
+		onStopAddPointClick() {
+			emit('stop-add-point-device')
+		}
 	},
 }
 </script>

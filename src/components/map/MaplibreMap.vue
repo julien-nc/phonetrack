@@ -100,7 +100,18 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		cursor: {
+			type: String,
+			default: null,
+		},
 	},
+
+	emits: [
+		'map-clicked',
+		'map-state-change',
+		'map-bounds-change',
+		'save-options',
+	],
 
 	data() {
 		return {
@@ -408,6 +419,10 @@ export default {
 				this.disableTerrain()
 			}
 		},
+		onMapClick(e) {
+			console.debug('MAP::onMapClick', e)
+			this.$emit('map-clicked', e.lngLat)
+		},
 		toggleGlobe() {
 			const newEnabled = this.settings.use_globe !== '1'
 			this.$emit('save-options', { use_globe: newEnabled ? '1' : '0' })
@@ -626,6 +641,8 @@ export default {
 					west: bounds.getWest(),
 				})
 			})
+
+			this.map.on('click', this.onMapClick)
 		},
 		// it might be a bug in maplibre: when navigation sidebar is toggled, the map fails to resize
 		// and an empty area appears on the right

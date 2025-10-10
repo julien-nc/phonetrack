@@ -20,7 +20,8 @@
 			</template>
 			<DeviceDetailsSidebarTab
 				:device="device"
-				:session="session" />
+				:session="session"
+				:adding-point="addingPoint" />
 		</NcAppSidebarTab>
 		<NcAppSidebarTab
 			id="device-stats"
@@ -128,6 +129,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+		addingPoint: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -141,7 +146,7 @@ export default {
 			return false
 		},
 		title() {
-			return this.device.name
+			return t('phonetrack', 'Device {name}', { name: this.device.name })
 		},
 		subtitle() {
 			return t('phonetrack', 'In session {sessionName}', { sessionName: this.session.name })

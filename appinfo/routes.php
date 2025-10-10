@@ -58,6 +58,7 @@ return [
 		['name' => 'oldPage#setDeviceShape', 'url' => '/setDeviceShape', 'verb' => 'POST'],
 
 		['name' => 'log#addPoint', 'url' => '/addPoint', 'verb' => 'POST'],
+		['name' => 'log#addPoint2', 'url' => '/session/{sessionId}/device/{deviceId}/point', 'verb' => 'POST'],
 		['name' => 'log#logGet', 'url' => '/logGet/{token}/{devicename}', 'verb' => 'GET'],
 		['name' => 'log#logPost', 'url' => '/logPost/{token}/{devicename}', 'verb' => 'POST'],
 		['name' => 'log#logPostMultiple', 'url' => '/logPostMultiple/{token}/{devicename}', 'verb' => 'POST'],

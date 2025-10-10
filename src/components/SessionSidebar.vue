@@ -102,7 +102,7 @@ export default {
 			return generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=' + (window.OCA?.Theming?.cacheBuster || 0))
 		},
 		title() {
-			return this.session.name
+			return t('phonetrack', 'Session {name}', { name: this.session.name })
 		},
 		subtitle() {
 			const nbDevices = Object.keys(this.session.devices).length

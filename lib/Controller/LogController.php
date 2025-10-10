@@ -18,7 +18,10 @@ use Exception;
 
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\SessionMapper;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -105,6 +108,7 @@ class LogController extends Controller {
 		private IL10N $l10n,
 		private LoggerInterface $logger,
 		private ActivityManager $activityManager,
+		private SessionMapper $sessionMapper,
 		private DeviceMapper $deviceMapper,
 		private IDBConnection $db,
 		private ?string $userId,
@@ -1026,6 +1030,29 @@ class LogController extends Controller {
 	}
 
 	#[NoAdminRequired]
+	public function addPoint2(
+		int $sessionId, int $deviceId, float $lat, float $lon, ?float $alt = null, ?int $timestamp = null,
+		?float $acc = null, ?float $bat = null, ?int $sat = null, ?string $useragent = null,
+		?float $speed = null, ?float $bearing = null,
+	) {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		return $this->addPoint(
+			$session->getToken(), $device->getName(), $lat, $lon, $alt, $timestamp,
+			$acc, $bat, $sat, $useragent, $speed, $bearing
+		);
+	}
+
+	#[NoAdminRequired]
 	public function addPoint(
 		string $token, string $devicename, float $lat, float $lon, ?float $alt, ?int $timestamp,
 		?float $acc, ?float $bat, ?int $sat, ?string $useragent, ?float $speed, ?float $bearing,
@@ -1070,7 +1097,7 @@ class LogController extends Controller {
 
 				if ($dbdevid !== null) {
 					$sqlchk = '
-						SELECT MAX(id) as maxid
+						SELECT MAX(id) AS maxid
 						FROM *PREFIX*phonetrack_points
 						WHERE deviceid=' . $this->db_quote_escape_string($dbdevid) . '
 							  AND lat=' . $this->db_quote_escape_string($lat) . '
@@ -1103,7 +1130,7 @@ class LogController extends Controller {
 			[
 				'done' => $done,
 				'pointid' => $dbid,
-				'deviceid' => $dbdevid
+				'deviceid' => $dbdevid,
 			]
 		);
 		$csp = new ContentSecurityPolicy();
