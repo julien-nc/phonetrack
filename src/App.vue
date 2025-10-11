@@ -34,7 +34,7 @@
 				:tracks-to-draw="enabledDevices"
 				:unit="distanceUnit"
 				:with-top-left-button="mapWithTopLeftButton"
-				:cursor="currentManualPointInfo ? 'crosshair' : undefined"
+				:cursor="addingPoint ? 'crosshair' : undefined"
 				@map-clicked="onMapClicked"
 				@save-options="saveOptions"
 				@map-bounds-change="storeBounds"
@@ -70,7 +70,7 @@
 			:device="sidebarDevice"
 			:session="sidebarSession"
 			:settings="state.settings"
-			:adding-point="currentManualPointInfo !== null"
+			:adding-point="addingPoint"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" />
 		<PhonetrackSettingsDialog
@@ -150,7 +150,7 @@ export default {
 			showDetails: true,
 			geofenceLngLats: null,
 			geofenceCleanupTimeout: null,
-			currentManualPointInfo: null,
+			addingPoint: false,
 		}
 	},
 
@@ -470,20 +470,20 @@ export default {
 			device.enabled = !device.enabled
 			this.updateDevice(sessionId, deviceId, { enabled: device.enabled })
 		},
-		onAddDevicePoint(data) {
-			this.currentManualPointInfo = data
+		onAddDevicePoint() {
+			this.addingPoint = true
 		},
 		onStopAddDevicePoint(data) {
-			this.currentManualPointInfo = null
+			this.addingPoint = false
 		},
 		onMapClicked(lngLat) {
-			console.debug('onMapClicked', lngLat, this.currentManualPointInfo)
-			if (this.currentManualPointInfo === null) {
+			console.debug('onMapClicked', lngLat, this.addingPoint)
+			if (!this.addingPoint) {
 				return
 			}
-			const sessionId = this.currentManualPointInfo.sessionId
-			const deviceId = this.currentManualPointInfo.deviceId
-			this.currentManualPointInfo = null
+			const sessionId = this.sidebarSessionId
+			const deviceId = this.sidebarDeviceId
+			this.addingPoint = false
 			const req = {
 				timestamp: moment().unix(),
 				lat: lngLat.lat.toFixed(6),

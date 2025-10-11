@@ -29,22 +29,38 @@
 				{{ t('phonetrack', 'Set device alias') }}
 			</NcButton>
 		</div>
-		<NcButton @click="onAddPointClick">
-			{{ t('phonetrack', 'Manually add a point') }}
-		</NcButton>
-		<NcButton v-if="addingPoint"
-			variant="tertiary"
-			@click="onStopAddPointClick">
-			{{ t('phonetrack', 'Cancel') }}
-		</NcButton>
+		<div class="line">
+			<NcButton v-if="!addingPoint"
+				@click="onAddPointClick">
+				<template #icon>
+					<PlusCircleOutlineIcon />
+				</template>
+				{{ t('phonetrack', 'Manually add a point') }}
+			</NcButton>
+			<NcButton v-else
+				variant="warning"
+				@click="onStopAddPointClick">
+				<template #icon>
+					<UndoIcon />
+				</template>
+				{{ t('phonetrack', 'Cancel adding the point') }}
+			</NcButton>
+		</div>
+		<NcNoteCard v-if="addingPoint"
+			type="info">
+			{{ t('phonetrack', 'You can now click on the map to add a point (if the session is not activated, the added point won\'t be visible)') }}
+		</NcNoteCard>
 	</div>
 </template>
 
 <script>
 import PencilOutlineIcon from 'vue-material-design-icons/PencilOutline.vue'
+import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import PlusCircleOutlineIcon from 'vue-material-design-icons/PlusCircleOutline.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import { emit } from '@nextcloud/event-bus'
 
@@ -53,8 +69,11 @@ export default {
 
 	components: {
 		PencilOutlineIcon,
+		UndoIcon,
+		PlusCircleOutlineIcon,
 		NcButton,
 		NcTextField,
+		NcNoteCard,
 	},
 
 	props: {
@@ -128,6 +147,9 @@ export default {
 .tab-container {
 	width: 100%;
 	padding: 4px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 
 	h3 {
 		font-weight: bold;

@@ -737,6 +737,10 @@ export default {
 
 <style lang="scss">
 @import 'maplibre-gl/dist/maplibre-gl.css';
+
+.maplibregl-canvas {
+	cursor: v-bind(cursor);
+}
 </style>
 
 <style scoped lang="scss">
