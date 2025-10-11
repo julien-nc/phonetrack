@@ -486,23 +486,21 @@ export default {
 			this.addingPoint = false
 			const req = {
 				timestamp: moment().unix(),
-				lat: lngLat.lat.toFixed(6),
-				lon: lngLat.lng.toFixed(6),
+				lat: lngLat.lat,
+				lon: lngLat.lng,
 				useragent: t('phonetrack', 'Manually added'),
 			}
 			const url = generateUrl('/apps/phonetrack/session/' + sessionId + '/device/' + deviceId + '/point')
 			axios.post(url, req).then((response) => {
 				// TODO add the point to the device (on the map)
-				if (response.data.done === 1) {
-					// success
-				} else if (response.data.done === 2) {
-					showError(t('phonetrack', 'Impossible to add this point'))
-				} else if (response.data.done === 5) {
-					showError(t('phonetrack', 'User quota was reached'))
-				}
 			}).catch((error) => {
 				console.error(error)
-				showError(t('phonetrack', 'Error while adding the point'))
+				console.error(error.response?.data?.error)
+				if (error.response?.data?.error === 'session_locked') {
+					showError(t('phonetrack', 'The session is locked. Impossible to add the point'))
+				} else {
+					showError(t('phonetrack', 'Error while adding the point'))
+				}
 			})
 		},
 		async updateDevice(sessionId, deviceId, values) {

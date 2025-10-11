@@ -86,4 +86,22 @@ class PointMapper extends QBMapper {
 		$nbDeleted = $qb->executeStatement();
 		return $nbDeleted;
 	}
+
+	/**
+	 * @param int $deviceId
+	 * @param float $lat
+	 * @param float $lon
+	 * @param int $timestamp
+	 * @return Point
+	 * @throws Exception
+	 */
+	public function addPoint(int $deviceId, float $lat, float $lon, int $timestamp): Point {
+		$point = new Point();
+		$point->setDeviceid($deviceId);
+		$point->setLat($lat);
+		$point->setLon($lon);
+		$point->setTimestamp($timestamp);
+		$point->setUseragent('');
+		return $this->insert($point);
+	}
 }

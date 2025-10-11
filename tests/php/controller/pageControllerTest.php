@@ -23,6 +23,7 @@ use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\PointMapper;
 use OCA\PhoneTrack\Db\ProximMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
@@ -184,6 +185,7 @@ class PageNLogControllerTest extends TestCase {
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
+			$c->get(PointMapper::class),
 			$c->get(IDBConnection::class),
 			'test'
 		);
@@ -201,6 +203,7 @@ class PageNLogControllerTest extends TestCase {
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
+			$c->get(PointMapper::class),
 			$c->get(IDBConnection::class),
 			'test2'
 		);

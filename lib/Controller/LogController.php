@@ -18,6 +18,7 @@ use Exception;
 
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\PointMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -110,6 +111,7 @@ class LogController extends Controller {
 		private ActivityManager $activityManager,
 		private SessionMapper $sessionMapper,
 		private DeviceMapper $deviceMapper,
+		private PointMapper $pointMapper,
 		private IDBConnection $db,
 		private ?string $userId,
 	) {
@@ -1031,14 +1033,17 @@ class LogController extends Controller {
 
 	#[NoAdminRequired]
 	public function addPoint2(
-		int $sessionId, int $deviceId, float $lat, float $lon, ?float $alt = null, ?int $timestamp = null,
-		?float $acc = null, ?float $bat = null, ?int $sat = null, ?string $useragent = null,
-		?float $speed = null, ?float $bearing = null,
+		int $sessionId, int $deviceId, float $lat, float $lon, ?int $timestamp = null,
+		?float $acc = null, ?float $alt = null, ?float $bat = null, ?int $sat = null,
+		?string $useragent = null, ?float $speed = null, ?float $bearing = null,
 	) {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		if ($session->getLocked() !== 0) {
+			return new DataResponse(['error' => 'session_locked'], Http::STATUS_FORBIDDEN);
 		}
 
 		try {
@@ -1046,10 +1051,8 @@ class LogController extends Controller {
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
-		return $this->addPoint(
-			$session->getToken(), $device->getName(), $lat, $lon, $alt, $timestamp,
-			$acc, $bat, $sat, $useragent, $speed, $bearing
-		);
+		$point = $this->pointMapper->addPoint($deviceId, $lat, $lon, $timestamp);
+		return new DataResponse($point);
 	}
 
 	#[NoAdminRequired]
