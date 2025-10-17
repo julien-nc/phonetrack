@@ -55,7 +55,7 @@ class SessionService {
 	}
 
 	private function db_quote_escape_string($str) {
-		return $this->db->quote($str);
+		return $this->db->quote($str ?? '');
 	}
 
 	public function findUsers($id) {

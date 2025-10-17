@@ -130,7 +130,7 @@ class LogController extends Controller {
 	 * quote and choose string escape function depending on database used
 	 */
 	private function db_quote_escape_string($str) {
-		return $this->db->quote($str);
+		return $this->db->quote($str ?? '');
 	}
 
 	/**
