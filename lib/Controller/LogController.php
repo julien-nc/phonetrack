@@ -1433,7 +1433,7 @@ class LogController extends Controller {
 							// we don't store the tid, so we fall back to the last
 							// two chars of the nametoken
 							// TODO feels far from unique, currently 32 ids max
-							$tid = substr($row['nametoken'], -2);
+							$tid = substr($row['nametoken'] ?? 'ab', -2);
 							$location = [
 								'_type' => 'location',
 

@@ -30,7 +30,7 @@ class ProximMapper extends QBMapper {
 
 	/**
 	 * @param int $deviceId
-	 * @return list<Proxim>
+	 * @return Proxim[]
 	 * @throws Exception
 	 */
 	public function findByDeviceId1(int $deviceId): array {

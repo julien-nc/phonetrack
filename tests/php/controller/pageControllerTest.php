@@ -48,7 +48,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class PageNLogControllerTest extends TestCase {
+class PageControllerTest extends TestCase {
 
 	private $appName;
 	private $request;
@@ -70,6 +70,9 @@ class PageNLogControllerTest extends TestCase {
 	private $testSessionToken5;
 	private $testSessionToExportToken;
 	private $testSessionQuota;
+	private SessionService $sessionService;
+	private ActivityManager $activityManager;
+	private ActivityManager $activityManager2;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();

@@ -30,7 +30,7 @@ class GeofenceMapper extends QBMapper {
 
 	/**
 	 * @param int $deviceId
-	 * @return list<Geofence>
+	 * @return Geofence[]
 	 * @throws Exception
 	 */
 	public function findByDeviceId(int $deviceId): array {
