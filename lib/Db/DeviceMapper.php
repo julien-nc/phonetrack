@@ -191,9 +191,7 @@ class DeviceMapper extends QBMapper {
 		}
 
 		$req = $qb->executeQuery();
-		$points = $req->fetchAll();
-		$qb->resetQueryParts();
-		return $points;
+		return $req->fetchAll();
 	}
 
 	/**

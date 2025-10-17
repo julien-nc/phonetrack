@@ -72,14 +72,13 @@ class SessionService {
 			->where(
 				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			if (!in_array($row['username'], $userIds)) {
 				$userIds[] = $row['username'];
 			}
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
 
 		return $userIds;
 	}

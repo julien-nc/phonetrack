@@ -833,16 +833,16 @@ class OldPageController extends Controller {
 				->andWhere(
 					$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->execute();
+			$req = $qb->executeQuery();
 			$dbname = null;
 			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				break;
 			}
 			$req->closeCursor();
-			$qb = $qb->resetQueryParts();
 
 			if ($dbname !== null) {
+				$qb = $this->dbConnection->getQueryBuilder();
 				$qb->update('phonetrack_sessions');
 				$qb->set('locked', $qb->createNamedParameter($ilocked, IQueryBuilder::PARAM_INT))
 					->where(
@@ -851,8 +851,7 @@ class OldPageController extends Controller {
 					->andWhere(
 						$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 					);
-				$req = $qb->execute();
-				$qb = $qb->resetQueryParts();
+				$qb->executeStatement();
 
 				return new DataResponse(['done' => 1]);
 			} else {
