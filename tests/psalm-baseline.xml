@@ -5,13 +5,5 @@
       <code><![CDATA[$this->trackIndex === 1]]></code>
       <code><![CDATA[$this->trackIndex === 1]]></code>
     </RedundantCondition>
-    <UndefinedFunction>
-      <code><![CDATA['gpxDataElement']]></code>
-      <code><![CDATA['gpxEndElement']]></code>
-      <code><![CDATA['gpxStartElement']]></code>
-      <code><![CDATA['kmlDataElement']]></code>
-      <code><![CDATA['kmlEndElement']]></code>
-      <code><![CDATA['kmlStartElement']]></code>
-    </UndefinedFunction>
   </file>
 </files>

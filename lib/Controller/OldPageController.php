@@ -2271,7 +2271,7 @@ class OldPageController extends Controller {
 		]);
 	}
 
-	private function gpxStartElement(XMLParser $parser, string $name, array $attrs): void {
+	public function gpxStartElement(XMLParser $parser, string $name, array $attrs): void {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$this->currentXmlTag = $name;
 		if ($name === 'TRK') {
@@ -2290,7 +2290,7 @@ class OldPageController extends Controller {
 		//var_dump($attrs);
 	}
 
-	private function gpxEndElement(XMLParser $parser, string $name) {
+	public function gpxEndElement(XMLParser $parser, string $name) {
 		if ($name === 'TRK') {
 			// log last track points
 			if (count($this->currentPointList) > 0) {
@@ -2311,7 +2311,7 @@ class OldPageController extends Controller {
 		}
 	}
 
-	private function gpxDataElement(XMLParser $parser, string $data): void {
+	public function gpxDataElement(XMLParser $parser, string $data): void {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$d = trim($data);
 		if (!empty($d)) {
@@ -2343,9 +2343,11 @@ class OldPageController extends Controller {
 		$this->importToken = $token;
 		$this->trackIndex = 1;
 		$xml_parser = xml_parser_create();
-		xml_set_object($xml_parser, $this);
-		xml_set_element_handler($xml_parser, 'gpxStartElement', 'gpxEndElement');
-		xml_set_character_data_handler($xml_parser, 'gpxDataElement');
+		// xml_set_object($xml_parser, $this);
+		// xml_set_element_handler($xml_parser, 'gpxStartElement', 'gpxEndElement');
+		// xml_set_character_data_handler($xml_parser, 'gpxDataElement');
+		xml_set_element_handler($xml_parser, [$this, 'gpxStartElement'], [$this, 'gpxEndElement']);
+		xml_set_character_data_handler($xml_parser, [$this, 'gpxDataElement']);
 
 		$fp = $gpxFile->fopen('r');
 
@@ -2370,7 +2372,7 @@ class OldPageController extends Controller {
 		return 1;
 	}
 
-	private function kmlStartElement(XMLParser $parser, string $name, array $attrs): void {
+	public function kmlStartElement(XMLParser $parser, string $name, array $attrs): void {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$this->currentXmlTag = $name;
 		if ($name === 'GX:TRACK') {
@@ -2387,7 +2389,7 @@ class OldPageController extends Controller {
 		//var_dump($attrs);
 	}
 
-	private function kmlEndElement(XMLParser $parser, string $name): void {
+	public function kmlEndElement(XMLParser $parser, string $name): void {
 		if ($name === 'GX:TRACK') {
 			// log last track points
 			if (count($this->currentPointList) > 0) {
@@ -2408,7 +2410,7 @@ class OldPageController extends Controller {
 		}
 	}
 
-	private function kmlDataElement(XMLParser $parser, string $data) {
+	public function kmlDataElement(XMLParser $parser, string $data) {
 		//$points, array($lat, $lon, $ele, $timestamp, $acc, $bat, $sat, $ua, $speed, $bearing)
 		$d = trim($data);
 		if (!empty($d)) {
@@ -2433,9 +2435,11 @@ class OldPageController extends Controller {
 		$this->importToken = $token;
 		$this->trackIndex = 1;
 		$xml_parser = xml_parser_create();
-		xml_set_object($xml_parser, $this);
-		xml_set_element_handler($xml_parser, 'kmlStartElement', 'kmlEndElement');
-		xml_set_character_data_handler($xml_parser, 'kmlDataElement');
+		// xml_set_object($xml_parser, $this);
+		// xml_set_element_handler($xml_parser, 'kmlStartElement', 'kmlEndElement');
+		// xml_set_character_data_handler($xml_parser, 'kmlDataElement');
+		xml_set_element_handler($xml_parser, [$this, 'kmlStartElement'], [$this, 'kmlEndElement']);
+		xml_set_character_data_handler($xml_parser, [$this, 'kmlDataElement']);
 
 		$fp = $kmlFile->fopen('r');
 
