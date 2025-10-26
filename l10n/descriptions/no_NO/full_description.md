@@ -10,28 +10,27 @@
 
 Hvordan bruke PhoneTrack:
 
-- Opprett en sporingsøkt.
-- Gi loggelinken\ \* til mobile enheter. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-- Se øktens enhetsplasseringer i sanntid (eller ikke) i PhoneTrack eller del det med offentlige sider.
+* Opprett en sporingsøkt.
+* Gi loggelinken\ * til mobile enheter. Velg den [loggemetoden](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) du foretrekker.
+* Se øktens enhetsplasseringer i sanntid (eller ikke) i PhoneTrack eller del det med offentlige sider.
 
-(\*) Ikke glem å sette enhetsnavnet i koblingen (ikke i appens loggeinnstillinger). Erstatt "dittnavn" med ønsket enhetsnavn.
-Å angi enhetsnavnet i loggeappen fungerer bare med Owntracks, Traccar og OpenGTS.
+(\*) Ikke glem å sette enhetsnavnet i koblingen (ikke i appens loggeinnstillinger). Erstatt "dittnavn" med ønsket enhetsnavn. Å angi enhetsnavnet i loggeappen fungerer bare med Owntracks, Traccar og OpenGTS.
 
 På hovedsiden for PhoneTrack kan du, mens du ser en økt:
 
-- 📍 Vise posisjonshistorikk
-- ⛛ Filter poeng
-- ✎ Manuelt legge til/redigere punkter
-- ✎ Redigere enheter (gi nytt navn, endre farge/form, flytte til en annen økt)
-- ⛶ Definer geofencing soner for enheter
-- ⚇ Definere nærhetsvarsler for enhetspar
-- Dele en økt med andre Nextcloud brukere eller med en offentlig lenke (kun lese)
-- 🔗 Generer lenker til offentlig deling med valgfrie restriksjoner (filtre, enhetsnavn, siste posisjon bare geofencing simplification)
-- 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-- 🗠 Display sessions statistics
-- 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-- 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-- ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+* 📍 Vise posisjonshistorikk
+* ⛛ Filter poeng
+* ✎ Manuelt legge til/redigere punkter
+* ✎ Redigere enheter (gi nytt navn, endre farge/form, flytte til en annen økt)
+* ⛶ Definer geofencing soner for enheter
+* ⚇ Definere nærhetsvarsler for enhetspar
+* Dele en økt med andre Nextcloud brukere eller med en offentlig lenke (kun lese)
+* 🔗 Generer lenker til offentlig deling med valgfrie restriksjoner (filtre, enhetsnavn, siste posisjon bare geofencing simplification)
+* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
+* 🗠 Display sessions statistics
+* 🔒 [Reserve et enhetsnavn](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) for å være sikker på at bare autorisert bruker kan logge inn med dette navnet
+* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
+* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
@@ -51,7 +50,6 @@ Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#
 
 ## Known issues
 
-- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Any feedback will be appreciated.
-
