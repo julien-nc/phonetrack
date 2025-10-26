@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:26\n"
+"PO-Revision-Date: 2025-10-26 23:41\n"
 "Last-Translator: \n"
 "Language-Team: Hungarian\n"
 "Language: hu_HU\n"
@@ -14,40 +14,40 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: hu\n"
-"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 246\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr "A(z) {session} munkamenethez tartozó {device} PhoneTrack eszköz belépett a(z) {geofence} geokerítésbe"
+msgstr "A {session} munkamenethez tartozó {device} PhoneTrack eszköz belépett a {geofence} geokerítésbe"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:76
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr "A(z) {session} munkamenethez tartozó {device} PhoneTrack eszköz kilépett a(z) {geofence} geokerítésből"
+msgstr "A {session} munkamenethez tartozó {device} PhoneTrack eszköz kilépett a {geofence} geokerítésből"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:79
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr "A(z) {session} munkamenethez tartozó {device} PhoneTrack eszköz {meters} méteres közelségbe került a(z) {session2} munkamenethez tartozó {device2} eszközhöz"
+msgstr "A {session} munkamenethez tartozó {device} PhoneTrack eszköz {meters} méteres közelségbe került a {session2} munkamenethez tartozó {device2} eszközhöz"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:82
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr "A(z) {session} munkamenethez tartozó {device} PhoneTrack eszköz {meters} méternél távolabb került a(z) {session2} munkamenethez tartozó {device2} eszközhöz"
+msgstr "A {session} munkamenethez tartozó {device} PhoneTrack eszköz {meters} méternél távolabb került a {session2} munkamenethez tartozó {device2} eszközhöz"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "You shared PhoneTrack session {session} with {who}"
-msgstr "A(z) {session} PhoneTrack munkamenetet megosztottad {who} részére"
+msgstr "A {session} PhoneTrack munkamenetet megosztottad vele: {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr "A(z) {session} PhoneTrack munkamenetet sikeresen megosztottad {who} részére"
+msgstr "A {session} PhoneTrack munkamenetet sikeresen megosztottad vele: {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "You stopped sharing session {session} with {who}"
-msgstr "A(z) {session} PhoneTrack munkamenet megosztást visszavontad {who} részéről"
+msgstr "A {session} PhoneTrack munkamenet megosztást visszavontad tőle: {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr "A(z) {session} PhoneTrack munkamenet megosztását sikeresen visszavontad {who} részéről"
+msgstr "A {session} PhoneTrack munkamenet megosztását sikeresen visszavontad tőle: {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "PhoneTrack client"
@@ -58,7 +58,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr "PhoneTrack"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
@@ -81,27 +81,27 @@ msgstr "PhoneTrack közelségi riasztás (%s és %s)"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:369
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
-msgstr "A(z) %s PhoneTrack eszköz %s méternél közelebb került a következőhöz: %s."
+msgstr "A %s PhoneTrack eszköz %s méternél közelebb került a következőhöz: %s."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:502
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
-msgstr "A(z) %s PhoneTrack eszköz %s méternél távolabb került a következőtől: %s."
+msgstr "A %s PhoneTrack eszköz %s méternél távolabb került a következőtől: %s."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:704
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:830
 msgid "Geofencing alert"
-msgstr "Geokerítés‑riasztás"
+msgstr "Virtuális kerítés figyelmeztetés"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:708
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
-msgstr "A(z) %s PhoneTrack munkamenetben a(z) %s eszköz belépett a(z) %s geokerítésbe."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:834
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
-msgstr "A(z) %s PhoneTrack munkamenetben a(z) %s eszköz kilépett a(z) %s geokerítésből."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2260
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2286
@@ -115,42 +115,42 @@ msgstr "PhoneTrack nyilvános hozzáférés"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2347
 #, php-format
 msgid "Log to session %s"
-msgstr "Jelentkezz be a(z) %s munkamenetbe"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:67
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
-msgstr "A(z) „%s” munkamenetben a(z) „%s” eszköz belépett a(z) „%s” geokerítési zónába."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:75
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
-msgstr "A(z) „%s” munkamenetben a(z) „%s” eszköz kilépett a(z) „%s” geokerítési zónából."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:84
 #, php-format
 msgid "Device \"%s\" is now closer than %sm to \"%s\"."
-msgstr "A(z) %s eszköz most %sm-nél közelebb van ehhez: %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:92
 #, php-format
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
-msgstr "A(z) %s eszköz most %sm-nél távolabb van ettől: %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:101
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
-msgstr "A pontszámkvóta (%s) elérve „%s” ponttal a(z) „%s” munkamenetben."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:110
 #, php-format
 msgid "User \"%s\" shared PhoneTrack session \"%s\" with you."
-msgstr "„%s” felhasználó megosztotta veled a(z) „%s” PhoneTrack munkamenetet."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:119
 #, php-format
 msgid "User \"%s\" stopped sharing PhoneTrack session \"%s\" with you."
-msgstr "„%s” felhasználó leállította a(z) „%s” PhoneTrack munkamenet megosztását veled."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid "Phonetrack"
@@ -162,24 +162,24 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/admin.js:19
 msgid "Quota was successfully saved"
-msgstr "Kvóta sikeresen mentve"
+msgstr "Sikeres mentés"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/admin.js:25
 msgid "Failed to save quota"
-msgstr "Nem sikerült menteni a kvótát"
+msgstr "Sikertelen mentés"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:497
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:104
 msgid "Show lines"
-msgstr "Vonalak megjelenítése"
+msgstr "Sorok megjelenítése"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:505
 msgid "Hide lines"
-msgstr "Vonalak elrejtése"
+msgstr "Sorok elrejtése"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:525
 msgid "Activate automatic zoom"
-msgstr "Automatikus közelítés aktiválása"
+msgstr "Automatikus közelítés engedélyezése"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:533
 msgid "Disable automatic zoom"
@@ -187,32 +187,32 @@ msgstr "Automatikus közelítés letíltása"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:553
 msgid "Show last point tooltip"
-msgstr "Az utolsó pont eszköztippjének megjelenítése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:561
 msgid "Hide last point tooltip"
-msgstr "Az utolsó pont eszköztippjének elrejtése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:581
 msgid "Zoom on all devices"
-msgstr "Nagyítás minden eszközre"
+msgstr "Közelítés az összes eszkötön"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:594
 msgid "Click on the map to move the point, press ESC to cancel"
-msgstr "Kattints a térképre a pont mozgatásához, nyomd meg az ESC‑et a visszavonáshoz"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:842
 msgid "Server name or server address should not be empty"
-msgstr "A kiszolgáló neve vagy címe nem lehet üres"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:845
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:854
 msgid "Impossible to add tile server"
-msgstr "Nem lehet hozzáadni a csempeszervert"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:851
 msgid "A server with this name already exists"
-msgstr "Már létezik szerver ilyen névvel"
+msgstr "Egy szerver már létezik ilyen névvel"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:884
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3765
@@ -226,31 +226,31 @@ msgstr "Törlés"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:928
 msgid "Tile server \"{ts}\" has been added"
-msgstr "„{ts}” csempeszerver hozzáadva"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:930
 msgid "Failed to add tile server \"{ts}\""
-msgstr "Nem sikerült hozzáadni a csempekiszolgálót: „{ts}”"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:934
 msgid "Failed to contact server to add tile server"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a csempekiszolgáló hozzáadásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:962
 msgid "Tile server \"{ts}\" has been deleted"
-msgstr "„{ts}” csempekiszolgáló törölve"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:964
 msgid "Failed to delete tile server \"{ts}\""
-msgstr "Nem sikerült törölni a(z) „{ts}” csempekiszolgálót"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:968
 msgid "Failed to contact server to delete tile server"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a csempekiszolgáló törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1037
 msgid "Failed to contact server to restore options values"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a beállítások értékeinek visszaállításához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1040
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1176
@@ -258,35 +258,35 @@ msgstr "Nem sikerült kapcsolatba lépni a szerverrel a beállítások értékei
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5859
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5885
 msgid "Reload this page"
-msgstr "Oldal újratöltése"
+msgstr "Oldal frissítése"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1173
 msgid "Failed to contact server to save options values"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a beállítások értékeinek mentéséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1185
 msgid "Filter bookmark should have a name"
-msgstr "A szűrő könyvjelzőjének névvel kell rendelkeznie"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1209
 msgid "Failed to contact server to save filters bookmark"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a szűrők könyvjelzőjének mentéséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1247
 msgid "Failed to contact server to delete filters bookmark"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a szűrők könyvjelzőjének törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1280
 msgid "Session name should not be empty"
-msgstr "Munkamenet neve nem lehet üres"
+msgstr "Munkamenet név nincs kitöltve"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1291
 msgid "Session name already used"
-msgstr "A munkamenet név már foglalt"
+msgstr "A Név már foglalt"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1295
 msgid "Failed to contact server to create session"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenet létrehozásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1331
 msgid "yourname"
@@ -302,23 +302,23 @@ msgstr "megosztva tőle: {u}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1434
 msgid "Forbid devices to log to this session"
-msgstr "Eszközök naplózásának tiltása ebben a munkamenetben"
+msgstr "Eszköz loggolás tiltása"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1440
 msgid "Reserve device names"
-msgstr "Eszköznevek lefoglalása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1446
 msgid "Links for logging apps"
-msgstr "Naptlózó alkalmazások linkjei"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1452
 msgid "Link to share session"
-msgstr "Link a munkamenet megosztásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1461
 msgid "Zoom on this session"
-msgstr "Nagyítás erre a munkamenetre"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1464
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2809
@@ -335,11 +335,11 @@ msgstr "Munkamenet átnevezése"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1480
 msgid "Export to gpx"
-msgstr "Exportálás GPX-be"
+msgstr "Exportálás gpx-be"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1485
 msgid "Files are created in '{exdir}'"
-msgstr "A fájlok itt lettek létrehozva: „{exdir}”"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1486
 msgid "Automatic export"
@@ -359,19 +359,19 @@ msgstr "hetente"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1491
 msgid "monthly"
-msgstr "havonta"
+msgstr "havi"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1496
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr "Az automatikus tisztítás naponta indul, és törli a kiválasztott időtartamnál régebbi pontokat"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1497
 msgid "Automatic purge"
-msgstr "Automatikus tisztítás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1499
 msgid "don't purge"
-msgstr "ne tisztítson"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1500
 msgid "a day"
@@ -391,15 +391,15 @@ msgstr "Névfoglalás lehetséges."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1512
 msgid "Name can be set directly in logging link if it is not reserved."
-msgstr "A név közvetlenül a naplózási linkben állítható be, ha nincs lefoglalva."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1513
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
-msgstr "Fenntartott névvel történő bejelentkezéshez használd a „név tokent” a naplózási hivatkozásban (vagy a PhoneTrack-Android naplózási feladatának „eszköz neve” mezőjében)."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1514
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr "Ha egy név le van foglalva, az egyetlen módja annak, hogy ezzel a névvel bejelentkezz, a token használata."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1517
 msgid "Reserve this device name"
@@ -407,7 +407,7 @@ msgstr "Eszköznév lefoglalása"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1519
 msgid "Type reserved name and press 'Enter'"
-msgstr "Írd be a foglalt nevet és nyomj Entert"
+msgstr "Írd be a foglalt nevet és nyomj 'Entert'"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1532
 msgid "Share with user"
@@ -415,7 +415,7 @@ msgstr "Megosztás felhasználóval"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1534
 msgid "Type user name and press 'Enter'"
-msgstr "Írd be a felhasználónevet és nyomj Entert"
+msgstr "Írd be a felhasználónevet és nyomj 'Entert'"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1535
 msgid "user name"
@@ -423,7 +423,7 @@ msgstr "felhasználónév"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1542
 msgid "A private session is not visible on public browser logging page"
-msgstr "A privát munkamenet nem látható a nyilvános böngésző naplózási oldalán"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1544
 msgid "Public session"
@@ -447,7 +447,7 @@ msgstr "Jelenlegi szűrők alkalmazva lesznek a megosztott nézeten"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1563
 msgid "Add public filtered share"
-msgstr "Nyilvános szűrt megosztás hozzáadása"
+msgstr "Szűrt nyilvános megosztás"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1572
 msgid "Session token"
@@ -455,184 +455,184 @@ msgstr "Munkamenet-token"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1578
 msgid "List of links to configure logging apps server settings."
-msgstr "Hivatkozási lista a naplózó alkalmazások szerverbeállításainak konfigurálásához."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1579
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5012
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:227
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr "Cseréld ki a „sajátnév” szót a kívánt eszköznévvel vagy a névfoglalási tokennel"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1581
 msgid "Public browser logging link"
-msgstr "Nyilvános böngésző naplózási hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1586
 msgid "OsmAnd link"
-msgstr "OsmAnd hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1591
 msgid "GpsLogger GET and POST link"
-msgstr "GpsLogger GET és POST hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1595
 msgid "Owntracks (HTTP mode) link"
-msgstr "Owntracks (HTTP módú) hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1599
 msgid "Ulogger link"
-msgstr "Ulogger hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1603
 msgid "Traccar link"
-msgstr "Traccar hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1607
 msgid "OpenGTS link"
-msgstr "OpenGTS hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1611
 msgid "Overland link"
-msgstr "Overland hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1615
 msgid "Locus Map link"
-msgstr "Locus Map hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1619
 msgid "HTTP GET link"
-msgstr "HTTP GET hivatkozás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1727
 msgid "The session you want to delete does not exist"
-msgstr "A törölni kívánt munkamenet nem létezik"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1729
 msgid "Failed to delete session"
-msgstr "A munkamenet törlése nem sikerült"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1733
 msgid "Failed to contact server to delete session"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenet törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1748
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr "A(z) „{d}” azonosítójú eszköz törölve lett a(z) „{s}” munkamenetből"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1750
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr "Sikertelen a(z) „{d}” azonosítójú eszköz törlése a(z) „{s}” munkamenetből"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1754
 msgid "Failed to contact server to delete device"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel az eszköz törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1805
 msgid "Impossible to rename session"
-msgstr "Nem lehetséges átnevezni a munkamenetet"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1809
 msgid "Failed to contact server to rename session"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenet átnevezéséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1850
 msgid "Impossible to rename device"
-msgstr "Nem lehetséges átnevezni az eszközt"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1854
 msgid "Failed to contact server to rename device"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel az eszköz átnevezéséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1916
 msgid "Impossible to set device alias for {n}"
-msgstr "Nem lehetséges eszköz álnevet beállítani a(z) {n} részére"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1920
 msgid "Failed to contact server to set device alias"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel az eszköz álnevének beállításához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1980
 msgid "Device already exists in target session"
-msgstr "Az eszköz már létezik a célmunkamenetben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1982
 msgid "Impossible to move device to another session"
-msgstr "Nem lehetséges az eszközt áthelyezni egy másik munkamenetbe"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1986
 msgid "Failed to contact server to move device"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel az eszköz áthelyezéséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2050
 msgid "Failed to contact server to get sessions"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenetek lekéréséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2474
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2499
 msgid "Stats of all points"
-msgstr "Összes pont statisztikája"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2497
 msgid "Stats of filtered points"
-msgstr "Szűrt pontok statisztikája"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2726
 msgid "Device's color successfully changed"
-msgstr "Az eszköz színe sikeresen megváltoztatva"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2728
 msgid "Failed to save device's color"
-msgstr "Nem sikerült elmenteni az eszköz színét"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2732
 msgid "Failed to contact server to change device's color"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel az eszköz színének megváltoztatásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2800
 msgid "Geo link to open position in other app/software"
-msgstr "Geo link a pozíció megnyitásához más alkalmazásban/szoftverben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2802
 msgid "Geo link QRcode to open position with a QRcode scanner"
-msgstr "Geo link QR-kód a pozíció megnyitásához QR-kód-olvasóval"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2804
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2806
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2808
 msgid "Get driving direction to this device with {s}"
-msgstr "Vezetési irányok lekérése ehhez az eszközhöz {s} használatával"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2813
 msgid "Set device shape"
-msgstr "Eszköz alakjának beállítása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2815
 msgid "Round"
-msgstr "Kerek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2816
 msgid "Square"
-msgstr "Szögletes"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2817
 msgid "Triangle"
-msgstr "Háromszög"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2821
 msgid "Delete this device"
-msgstr "Eszköz törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2823
 msgid "Rename this device"
-msgstr "Eszköz átnevezése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2826
 msgid "Set device alias"
-msgstr "Eszköz álnevének beállítása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2829
 msgid "Move to another session"
-msgstr "Áthelyezés egy másik munkamenetbe"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2832
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:46
@@ -641,11 +641,11 @@ msgstr "Rendben"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2849
 msgid "Device geofencing zones"
-msgstr "Eszköz geokerítés zónái"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2853
 msgid "Zoom on geofencing area, then set values, then validate."
-msgstr "Nagyíts rá a geokerítéses területre, majd állítsd be az értékeket, majd erősítsd meg."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2854
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2914
@@ -654,7 +654,7 @@ msgstr "Nagyíts rá a geokerítéses területre, majd állítsd be az értékek
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4629
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4648
 msgid "Nextcloud notification"
-msgstr "Nextcloud értesítés"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2856
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2916
@@ -663,26 +663,26 @@ msgstr "Nextcloud értesítés"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4630
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4650
 msgid "Email notification"
-msgstr "E-mail értesítés"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2859
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2919
 msgid "Comma separated e-mail address list"
-msgstr "Vesszővel elválasztott e-mail cím lista"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2860
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2920
 msgid "An empty value means the session owner's email address."
-msgstr "Üres érték esetén a munkamenet tulajdonosának e-mail címe kerül felhasználásra."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2861
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2921
 msgid "You can put multiple addresses separated by comas (,)."
-msgstr "Több címet vesszővel (,) elválasztva adhat meg."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2862
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr "HTTP cím a belépéskor történő kéréshez (a „%loc” le lesz cserélve „szélesség:hosszúság”-ra)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2863
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2867
@@ -693,77 +693,77 @@ msgstr "POST kérést használjon"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2866
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr "HTTP cím a kilépéskor történő kéréshez (a „%loc” le lesz cserélve „szélesség:hosszúság”-ra)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2870
 msgid "Geofencing zone coordinates"
-msgstr "Geokerítés zóna koordinátái"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2870
 msgid "leave blank to use current map bounds"
-msgstr "hagyd üresen az aktuális térképhatárok használatához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2872
 msgid "North"
-msgstr "Észak"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2874
 msgid "South"
-msgstr "Dél"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2878
 msgid "Set North/East corner by clicking on the map"
-msgstr "Állítsd be az északi/keleti sarkot a térképre kattintva"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2879
 msgid "Set N/E"
-msgstr "É/K beállítás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2881
 msgid "Set South/West corner by clicking on the map"
-msgstr "Állítsd be a déli/nyugati sarkot a térképre kattintva"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2882
 msgid "Set S/W"
-msgstr "D/Ny beállítás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2886
 msgid "East"
-msgstr "Kelet"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2888
 msgid "West"
-msgstr "Nyugat"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2891
 msgid "Fence name"
-msgstr "Kerítés neve"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2892
 msgid "Use current map view as geofencing zone"
-msgstr "Aktuális térképnézet használata geokerítési zónaként"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2893
 msgid "Add zone"
-msgstr "Zóna hozzáadása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2899
 msgid "Device proximity notifications"
-msgstr "Eszközközelségi értesítések"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2903
 msgid "Select a session, a device name and a distance, set the notification settings, then validate."
-msgstr "Válaszd ki a munkamenetet, az eszköz nevét és a távolságot, állítsd be az értesítési beállításokat, majd érvényesítsd."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2904
 msgid "You will be notified when distance between devices gets bigger than high limit or smaller than low limit."
-msgstr "Értesítést kapsz, ha az eszközök közötti távolság meghaladja a felső határt vagy alulmúlja az alsó határt."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2905
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:491
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:509
 msgid "Session"
-msgstr "Munkamenet"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2907
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:212
@@ -774,108 +774,108 @@ msgstr "Eszköznév"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2908
 msgid "Low distance limit"
-msgstr "Alacsony távolságkorlát"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2910
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2913
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:79
 msgid "meters"
-msgstr "méter"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2911
 msgid "High distance limit"
-msgstr "Magas távolságkorlát"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2922
 msgid "HTTP address to request when devices get close"
-msgstr "HTTP‑cím kérése, amikor az eszközök közel kerülnek egymáshoz"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2926
 msgid "HTTP address to request when devices get far"
-msgstr "HTTP‑cím kérése, amikor az eszközök távolodnak egymástól"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2931
 msgid "Add proximity notification"
-msgstr "Eszközközelségi értesítés hozzáadása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2946
 msgid "Toggle lines"
-msgstr "Vonalak ki-/bekapcsolása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2954
 msgid "Follow this device (autozoom)"
-msgstr "Eszköz követése (automatikus nagyítás)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2966
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2973
 msgid "Center map on device"
-msgstr "Térkép középpontba helyezése az eszközön"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3377
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
-msgstr "A szerkeszteni kívánt pont nem létezik, vagy nem vagy jogosult szerkeszteni"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3381
 msgid "Failed to contact server to edit point"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a pont szerkesztéséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3488
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
-msgstr "A törölni kívánt pont nem létezik, vagy nem vagy jogosult törölni"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3492
 msgid "Failed to contact server to delete point"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a pont törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3575
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3603
 msgid "Manually added"
-msgstr "Kézzel hozzáadva"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3587
 msgid "Impossible to add this point"
-msgstr "Ezt a pontot nem lehet hozzáadni"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3589
 msgid "User quota was reached"
-msgstr "A felhasználói kvóta elérve"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3593
 msgid "Failed to contact server to add point"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a pont hozzáadásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3725
 msgid "Date"
-msgstr "Dátum"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3728
 msgid "Time"
-msgstr "Idő"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3733
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3816
 msgid "Altitude"
-msgstr "Magasság"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3736
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3821
 msgid "Precision"
-msgstr "Pontosság"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3739
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3828
 msgid "Speed"
-msgstr "Sebesség"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3742
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3833
 msgid "Bearing"
-msgstr "Irányszög"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3745
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3838
 msgid "Satellites"
-msgstr "Műholdak"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3748
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3843
@@ -889,11 +889,11 @@ msgstr "Felhasználói azonosító"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3754
 msgid "lat : lng"
-msgstr "szél : hossz"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3758
 msgid "DMS coords"
-msgstr "DMS koordináták"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3764
 msgid "Save"
@@ -901,7 +901,7 @@ msgstr "Mentés"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3766
 msgid "Move"
-msgstr "Mozgatás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3767
 msgid "Cancel"
@@ -909,320 +909,320 @@ msgstr "Mégse"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3812
 msgid "Distance"
-msgstr "Távolság"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3977
 msgid "Impossible to zoom, there is no point to zoom on for this session"
-msgstr "Nem lehetséges nagyítani, nincs pont, amire nagyítani lehetne ebben a munkamenetben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4011
 msgid "File extension must be '.gpx', '.kml' or '.json' to be imported"
-msgstr "A fájlnak „.gpx”, „.kml” vagy „.json” kiterjesztésűnek kell lennie az importáláshoz"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4023
 msgid "Failed to create imported session"
-msgstr "Nem sikerült létrehozni az importált munkamenetet"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4026
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4031
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4036
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4041
 msgid "Failed to import session"
-msgstr "Nem sikerült importálni a munkamenetet"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4027
 msgid "File is not readable"
-msgstr "A fájl nem olvasható"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4032
 msgid "File does not exist"
-msgstr "A fájl nem létezik"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4037
 msgid "Malformed XML file"
-msgstr "Hibás XML fájl"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4042
 msgid "There is no device to import in submitted file"
-msgstr "Nincs importálható eszköz a beküldött fájlban"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4047
 msgid "Failed to contact server to import session"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenet importjához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4065
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4070
 msgid "Session successfully exported in"
-msgstr "A munkamenet sikeresen exportálva ide:"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4068
 msgid "There is no point to export for this session"
-msgstr "Nincs exportálható pont ehhez a munkamenethez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4071
 msgid "but there was no point to export for some devices"
-msgstr "de egyes eszközökhöz nem volt exportálható pont"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4074
 msgid "Failed to export session"
-msgstr "Nem sikerült exportálni a munkamenetet"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4078
 msgid "Failed to contact server to export session"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenet exportjához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4105
 msgid "Failed to contact server to log position"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a pozíció naplózásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4188
 msgid "Impossible to zoom, there is no point to zoom on for this device"
-msgstr "Nem lehetséges nagyítani, nincs pont, amire nagyítani lehetne ehhez az eszközhöz"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4299
 msgid "'{n}' is already reserved"
-msgstr "'{n}' már lefoglalva"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4301
 msgid "Failed to reserve '{n}'"
-msgstr "Sikertelen a(z) „{n}” lefoglalása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4305
 msgid "Failed to contact server to reserve device name"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel az eszköznév lefoglalásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4330
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4333
 msgid "Failed to delete reserved name"
-msgstr "Sikertelen a lefoglalt név törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4331
 msgid "This device does not exist"
-msgstr "Ez az eszköz nem létezik"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4334
 msgid "This device name is not reserved, please reload this page"
-msgstr "Ez az eszköznév nincs lefoglalva, kérjük, töltsd újra az oldalt"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4338
 msgid "Failed to contact server to delete reserved name"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a lefoglalt név törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4352
 msgid "User does not exist"
-msgstr "A felhasználó nem létezik"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4354
 msgid "Failed to add user share"
-msgstr "Sikertelen a felhasználói megosztás hozzáadása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4358
 msgid "Failed to contact server to add user share"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a felhasználói megosztás hozzáadásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4368
 msgid "Shared with {u}"
-msgstr "Megosztva {u} részére"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4387
 msgid "Failed to delete user share"
-msgstr "Sikertelen a felhasználói megosztás törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4391
 msgid "Failed to contact server to delete user share"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a felhasználói megosztás törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4404
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4423
 msgid "Public share has been successfully modified"
-msgstr "A nyilvános megosztás sikeresen módosítva"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4406
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4425
 msgid "Failed to modify public share"
-msgstr "Sikertelen a nyilvános megosztás módosítása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4410
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4429
 msgid "Failed to contact server to modify public share"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a nyilvános megosztás módosításához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4442
 msgid "Device name restriction has been successfully set"
-msgstr "Az eszköznév korlátozása sikeresen beállítva"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4444
 msgid "Failed to set public share device name restriction"
-msgstr "Sikertelen az eszköznév korlátozásának beállítása a nyilvános megosztáshoz"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4448
 msgid "Failed to contact server to set public share device name restriction"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a nyilvános megosztási eszköznév korlátozásának beállításához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4478
 msgid "Warning : User email and server admin email must be set to receive geofencing alerts."
-msgstr "Figyelem: A felhasználói e-mail címet és a szerver adminisztrátori e-mail címet meg kell adni a geokerítéses riasztások fogadásához."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4481
 msgid "Failed to add geofencing zone"
-msgstr "Sikertelen a geokerítéses zóna hozzáadása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4485
 msgid "Failed to contact server to add geofencing zone"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a geokerítéses zóna hozzáadásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4500
 msgid "URL to request when entering"
-msgstr "URL kérése belépéskor"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4504
 msgid "URL to request when leaving"
-msgstr "URL kérése kilépéskor"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4507
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4511
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4613
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4617
 msgid "no"
-msgstr "nem"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4509
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4513
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4615
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4619
 msgid "yes"
-msgstr "igen"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4523
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4540
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4632
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4653
 msgid "Email address(es)"
-msgstr "E-mail cím(ek)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4523
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4541
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4632
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4653
 msgid "account mail address"
-msgstr "fiók e-mail címe"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4561
 msgid "Failed to delete geofencing zone"
-msgstr "Sikertelen a geokerítéses zóna törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4565
 msgid "Failed to contact server to delete geofencing zone"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a geokerítéses zóna törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4590
 msgid "Warning : User email and server admin email must be set to receive proximity alerts."
-msgstr "Figyelem: A felhasználói e-mail címet és a szerver adminisztrátori e-mail címet meg kell adni a közelségi riasztások fogadásához."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4593
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4596
 msgid "Failed to add proximity alert"
-msgstr "Sikertelen a közelségi riasztás hozzáadása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4594
 msgid "Device or session does not exist"
-msgstr "Az eszköz vagy munkafolyamat nem létezik"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4600
 msgid "Failed to contact server to add proximity alert"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a közelségi riasztás hozzáadásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4624
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4641
 msgid "URL to request when devices get close"
-msgstr "URL kérése, amikor az eszközök közel kerülnek egymáshoz"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4627
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4645
 msgid "URL to request when devices get far"
-msgstr "URL kérése, amikor az eszközök távolodnak egymástól"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4634
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4656
 msgid "Low distance limit : {nbmeters}m"
-msgstr "Alacsony távolságkorlát: {nbmeters}m"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4635
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4658
 msgid "High distance limit : {nbmeters}m"
-msgstr "Magas távolságkorlát: {nbmeters}m"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4678
 msgid "Failed to delete proximity alert"
-msgstr "Sikertelen a közelségi riasztás törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4682
 msgid "Failed to contact server to delete proximity alert"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a közelségi riasztás törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4695
 msgid "Failed to add public share"
-msgstr "Sikertelen a nyilvános megosztás hozzáadása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4699
 msgid "Failed to contact server to add public share"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a nyilvános megosztás hozzáadásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4730
 msgid "Show this device only"
-msgstr "Csak ezt az eszközt mutassa"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4732
 msgid "Show last positions only"
-msgstr "Csak az utolsó pozíciókat mutassa"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4734
 msgid "Simplify positions to nearest geofencing zone center"
-msgstr "Egyszerűsítse a pozíciókat a legközelebbi geokerítéses zóna központjához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4752
 msgid "No filters"
-msgstr "Nincsenek szűrők"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4770
 msgid "Failed to delete public share"
-msgstr "Sikertelen a nyilvános megosztás törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4774
 msgid "Failed to contact server to delete public share"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a nyilvános megosztás törléséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4809
 msgid "Failed to contact server to get user list"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a felhasználói lista lekéréséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4851
 msgid "device name"
-msgstr "eszköznév"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4852
 msgid "distance (km)"
-msgstr "távolság (km)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4853
 msgid "duration"
-msgstr "időtartam"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4854
 msgid "#points"
-msgstr "pontok száma"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4855
 msgid "avg speed (km/h)"
-msgstr "átl. sebesség (km/h)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4856
 msgid "max speed (km/h)"
-msgstr "max. sebesség (km/h)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4926
 msgid "years"
-msgstr "év"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4929
 msgid "days"
@@ -1230,112 +1230,112 @@ msgstr "nap"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4952
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
-msgstr "Az OsmAnd‑ban válaszd a „Bővítmények” menüpontot a főmenüben, majd aktiváld a „Útvonal‑rögzítés” bővítményt, és lépj a beállításaihoz."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4953
 msgid "Copy the link below into the 'Online tracking web address' field."
-msgstr "Másold be az alábbi linket az „Online nyomkövető webcím” mezőbe."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4956
 msgid "Go to 'settings' in the app."
-msgstr "Az alkalmazásban nyisd meg a „Beállítások” menüt."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4957
 msgid "Copy the link below into the 'server address' field."
-msgstr "Másold be az alábbi linket a „szerver címe” mezőbe."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4960
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
-msgstr "A GpsLogger‑ben válaszd a „Naplózás részletei” menüpontot az oldalsáv menüben, majd aktiváld a „Naplózás egyéni URL‑re” beállítást."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4961
 msgid "Copy the link below into the 'URL' field."
-msgstr "Másold be az alábbi linket az „URL” mezőbe."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4964
 msgid "In the Owntracks preferences menu, go to 'Connections'."
-msgstr "Az Owntracks beállítási menüjében lépj a „Kapcsolatok” menüpontra."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4965
 msgid "Change the connection Mode to 'Private HTTP', Copy the link below into the 'Host' field."
-msgstr "Váltsd a kapcsolat módját „Privát HTTP”-re, és másold be az alábbi linket a „Gazdagép” mezőbe."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4966
 msgid "Leave settings under 'Identification' blank as they are not required."
-msgstr "Hagyd üresen az „Azonosítás” alatti beállításokat, mivel nem szükségesek."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4969
 msgid "In Ulogger, go to settings menu and copy the link below into the 'Server URL' field."
-msgstr "A Ulogger-ben lépj be a beállítások menübe, és másold be az alábbi linket a „Szerver URL” mezőbe."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4970
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
-msgstr "Állítsd a 'Felhasználónév' és 'Jelszó' kötelező mezőket bármilyen értékre, mivel a PhoneTrack figyelmen kívül fogja hagyni őket."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4971
 msgid "Activate 'Live synchronization'."
-msgstr "Aktiváld a „Valós idejű szinkronizáció” opciót."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4974
 msgid "In Traccar client, copy the link below into the 'server URL' field."
-msgstr "A Traccar kliensben másold be az alábbi linket a „szerver URL” mezőbe."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4977
 msgid "In LocusMap, copy the link below into the 'server URL' field. It works with POST and GET methods."
-msgstr "A LocusMap-ben másold be az alábbi linket a „szerver URL” mezőbe. POST és GET kérésekkel is működik."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4980
 msgid "You can log with any other client with a simple HTTP request."
-msgstr "Bármilyen más klienssel is naplózhatsz egy egyszerű HTTP kéréssel."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4981
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
-msgstr "Győződj meg arról, hogy a naplózó rendszer legalább a „timestamp”, „lat” és „lon” GET paraméterek értékét beállítja."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4983
 msgid "Use this link as the server URL in your OpenGTS compatible logging app."
-msgstr "Használd ezt a linket szerver URL-ként az OpenGTS-kompatibilis naplózó alkalmazásodban."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4984
 msgid "OpenGTS compatible logger"
-msgstr "OpenGTS-kompatibilis naplózó"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4986
 msgid "the browser"
-msgstr "a böngésző"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4987
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:214
 msgid "Log my position in this session"
-msgstr "Pozícióm naplózása ebben a munkamenetben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4988
 msgid "Visit this link with a web browser and check \"{loglabel}\"."
-msgstr "Látogasd meg ezt a linket egy webböngészővel, és ellenőrizd a „{loglabel}” értékét."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4991
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
-msgstr "Állítsd a(z) {loggingApp} alkalmazást a(z) „{sessionName}” munkamenet naplózására"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5232
 msgid "Are you sure you want to delete the session {session} ?"
-msgstr "Biztosan törölni szeretnéd a(z) {session} munkamenetet?"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5235
 msgid "Confirm session deletion"
-msgstr "Munkamenet törlésének megerősítése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5290
 msgid "Choose auto export target path"
-msgstr "Válaszd ki az automatikus export célmappáját"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5466
 msgid "Select storage location for '{fname}'"
-msgstr "Válaszd ki a(z) „{fname}” fájl tárolási helyét"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5630
 msgid "Geo QRcode : last position of {dname}"
-msgstr "Geo QR-kód: {dname} utolsó pozíciója"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5808
 msgid "Are you sure you want to delete the device {device}?"
@@ -1343,98 +1343,98 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5811
 msgid "Confirm device deletion"
-msgstr "Eszköz törlésének megerősítése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5858
 msgid "Failed to change session lock status"
-msgstr "A munkamenet zárolási állapotának módosítása sikertelen"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5880
 msgid "Failed to toggle session public status, session does not exist"
-msgstr "Sikertelen a munkamenet nyilvános állapotának váltása, a munkamenet nem létezik"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5884
 msgid "Failed to contact server to toggle session public status"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenet nyilvános állapotának váltásához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5945
 msgid "Failed to set device shape"
-msgstr "Sikertelen az eszköz alakjának beállítása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5949
 msgid "Failed to contact server to set device shape"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel az eszköz alakjának beállításához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5966
 msgid "Failed to set session auto export value"
-msgstr "Sikertelen a munkamenet automatikus export értékének beállítása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5967
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5990
 msgid "session does not exist"
-msgstr "a munkamenet nem létezik"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5972
 msgid "Failed to contact server to set session auto export value"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenet automatikus export értékének beállításához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5989
 msgid "Failed to set session auto purge value"
-msgstr "Sikertelen a munkamenet automatikus ürítési értékének beállítása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5995
 msgid "Failed to contact server to set session auto purge value"
-msgstr "Nem sikerült kapcsolatba lépni a szerverrel a munkamenet automatikus ürítési értékének beállításához"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6082
 msgid "Import gpx/kml/json session file"
-msgstr "GPX/KML/JSON munkamenet fájl importálása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6668
 msgid "Close elevation chart"
-msgstr "Magasságdiagram bezárása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:11
 msgid "Point number quota"
-msgstr "Pontszám kvóta"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:12
 msgid "Set the maximum number of points each user can store/log."
-msgstr "Állítsd be az egyes felhasználók által tárolható/naplózható pontok maximális számát."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:13
 msgid "Each user can choose what happens when the quota is reached : block logging or delete oldest point."
-msgstr "Minden felhasználó kiválaszthatja, hogy mi történjen, ha a kvóta elérése megtörténik: blokkolja a naplózást, vagy törölje a legrégebbi pontot."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:14
 msgid "An empty value means no limit."
-msgstr "Üres érték esetén nincs korlát."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:5
 msgid "Main tab"
-msgstr "Fő fül"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:6
 msgid "Filters"
-msgstr "Szűrők"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:15
 msgid "Stats"
-msgstr "Statisztikák"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:16
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:264
 msgid "Settings and extra actions"
-msgstr "Beállítások és egyéb műveletek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:17
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:730
 msgid "About PhoneTrack"
-msgstr "A PhoneTrack névjegye"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:34
 msgid "Import session"
-msgstr "Munkamenet importálása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:38
 msgid "Create session"
@@ -1442,72 +1442,72 @@ msgstr "Munkamenet létrehozása"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:42
 msgid "Session name"
-msgstr "Munkamenet neve"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:55
 msgid "Options"
-msgstr "Opciók"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:63
 msgid "General"
-msgstr "Általános"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:66
 msgid "Refresh each (sec)"
-msgstr "Frissítési gyakoriság (mp)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:69
 msgid "Refresh"
-msgstr "Frissítés"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:71
 msgid "An empty value means no limit"
-msgstr "Üres érték esetén nincs korlát"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:73
 msgid "Max number of points per device to load on refresh"
-msgstr "A pontok maximálisan betölthető száma eszközönként frissítéskor"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:74
 msgid "points"
-msgstr "pont"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:76
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:81
 msgid "Cutting lines only affects map view and stats table"
-msgstr "A vonalak vágása csak a térképnézetet és a statisztikák táblázatát befolyásolja"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:78
 msgid "Minimum distance to cut between two points"
-msgstr "Legkisebb vágási távolság két pont között"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:83
 msgid "Minimum time to cut between two points"
-msgstr "Legnagyobb vágási távolság két pont között"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:84
 msgid "seconds"
-msgstr "másodperc"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:87
 msgid "When point quota is reached"
-msgstr "Pontkvóta elérésekor"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:89
 msgid "block logging"
-msgstr "naplózás zárolása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:90
 msgid "delete user's oldest point each time a new one is logged"
-msgstr "felhasználó legrégebbi pontjának törlése minden új pont naplózásakor"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:91
 msgid "delete device's oldest point each time a new one is logged"
-msgstr "eszköz legrégebbi pontjának törlése minden új pont naplózásakor"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:95
 msgid "Display"
-msgstr "Megjelenítés"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:100
 msgid "Auto zoom"
@@ -1515,71 +1515,71 @@ msgstr "Automatikus nagyítás"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:108
 msgid "Show tooltips"
-msgstr "Eszköztippek megjelenítése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:112
 msgid "Display first letter of device name on last position"
-msgstr "Eszköznév kezdőbetűjének megjelenítése az utolsó pozíción"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:116
 msgid "Show direction arrows along lines"
-msgstr "Iránynyilak megjelenítése a vonalakon"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:120
 msgid "Draw line with color gradient"
-msgstr "Vonalak rajzolása színátmenettel"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:124
 msgid "Show distance in tooltips"
-msgstr "Távolság megjelenítése az eszköztippekben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:128
 msgid "Show accuracy in tooltips"
-msgstr "Pontosság megjelenítése az eszköztippekben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:132
 msgid "Show speed in tooltips"
-msgstr "Sebesség megjelenítése az eszköztippekben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:136
 msgid "Show bearing in tooltips"
-msgstr "Irányszög megjelenítése az eszköztippekben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:140
 msgid "Show satellites in tooltips"
-msgstr "Műholdak megjelenítése az eszköztippekben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:144
 msgid "Show battery level in tooltips"
-msgstr "Akkumulátor szint megjelenítése az eszköztippekben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:148
 msgid "Show elevation in tooltips"
-msgstr "Magasság megjelenítése az eszköztippekben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:152
 msgid "Show user-agent in tooltips"
-msgstr "Felhasználói ügynök megjelenítése az eszköztippekben"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:156
 msgid "Make points draggable in edition mode"
-msgstr "Pontok húzhatóvá tétele szerkesztési módban"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:160
 msgid "Show accuracy circle on hover"
-msgstr "Pontossági kör megjelenítése rámutatáskor"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:164
 msgid "Line width"
-msgstr "Vonalvastagság"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:169
 msgid "Point radius"
-msgstr "Pontsugár"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:174
 msgid "Points and lines opacity"
-msgstr "Pontok és vonalak átlátszósága"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:179
 msgid "Theme"
@@ -1587,43 +1587,43 @@ msgstr "Téma"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:181
 msgid "bright"
-msgstr "világos"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:182
 msgid "pastel"
-msgstr "pasztell"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:183
 msgid "dark"
-msgstr "sötét"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:189
 msgid "Show lines in public pages"
-msgstr "Vonalak megjelenítése nyilvános oldalakon"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:191
 msgid "reload page to make changes effective"
-msgstr "töltsd újra az oldalt a módosítások érvénybe léptetéséhez"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:195
 msgid "File export"
-msgstr "Fájlexportálás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:198
 msgid "Auto export path"
-msgstr "Automatikus exportálási útvonal"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:204
 msgid "Export one file per device"
-msgstr "Egy fájl exportálása eszközönként"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:219
 msgid "Tracking sessions"
-msgstr "Követési munkamenetek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:269
 msgid "Custom tile servers"
-msgstr "Egyedi csempeszerverek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:272
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:312
@@ -1631,7 +1631,7 @@ msgstr "Egyedi csempeszerverek"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:394
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:439
 msgid "Server name"
-msgstr "Szervernév"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:273
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:313
@@ -1639,7 +1639,7 @@ msgstr "Szervernév"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:395
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:440
 msgid "For example : my custom server"
-msgstr "Példa: én egyéni szerverem"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:274
 msgid "Server address"
@@ -1648,21 +1648,21 @@ msgstr "Szervercím"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:275
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:397
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
-msgstr "Például: http://csempe.szerver.cime/ciklus/{z}/{x}/{y}.png"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:276
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:355
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:398
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:443
 msgid "Min zoom (1-20)"
-msgstr "Min. nagyítás (1‑20)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:278
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:357
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:400
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:445
 msgid "Max zoom (1-20)"
-msgstr "Max. nagyítás (1‑20)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:280
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:318
@@ -1670,95 +1670,95 @@ msgstr "Max. nagyítás (1‑20)"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:408
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:457
 msgid "Add"
-msgstr "Hozzáadás"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:283
 msgid "Your tile servers"
-msgstr "Saját csempeszervereid"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:309
 msgid "Custom mapbox tile servers"
-msgstr "Egyedi Mapbox csempeszerverek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:314
 msgid "Style.json url"
-msgstr "Style.json URL"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:315
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
-msgstr "Például: mapbox://stilusok/mapbox/vilagos-v8 vagy https://sajat.openmapcsempe.szerver:PORT/stilusok/osm-vilagos/style.json"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:316
 msgid "Access token (API key)"
-msgstr "Hozzáférés token (API kulcs)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:321
 msgid "Your mapbox tile servers"
-msgstr "Saját Mapbox csempeszervereid"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:348
 msgid "Custom overlay tile servers"
-msgstr "Egyedi átfedő csempeszerverek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:353
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:396
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:441
 msgid "Server url"
-msgstr "Szerver URL"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:354
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:442
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
-msgstr "Például: http://atfedo.szerver.cime/ciklus/{z}/{x}/{y}.png"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:359
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:447
 msgid "Transparent"
-msgstr "Átlátszó"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:361
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:449
 msgid "Opacity (0.0-1.0)"
-msgstr "Átlátszóság (0,0-1,0)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:366
 msgid "Your overlay tile servers"
-msgstr "Saját átfedő csempeszervereid"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:391
 msgid "Custom WMS tile servers"
-msgstr "Egyedi WMS csempeszerverek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:402
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:451
 msgid "Format"
-msgstr "Formátum"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:404
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:453
 msgid "WMS version"
-msgstr "WMS verzió"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:406
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:455
 msgid "Layers to display"
-msgstr "Megjelenítendő rétegek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:411
 msgid "Your WMS tile servers"
-msgstr "Saját WMS csempeszervereid"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:436
 msgid "Custom WMS overlay servers"
-msgstr "Egyedi WMS átfedés-szerverek"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:460
 msgid "Your WMS overlay tile servers"
-msgstr "Saját WMS átfedő csempeszervereid"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:489
 msgid "Manually add a point"
-msgstr "Pont kézi hozzáadása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:495
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:513
@@ -1767,43 +1767,43 @@ msgstr "Eszköz"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:497
 msgid "Add a point"
-msgstr "Pont hozzáadása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:498
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
-msgstr "Most kattints a térképre a pont hozzáadásához (ha a munkamenet nincs aktiválva, nem fogod látni a hozzáadott pontot)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:499
 msgid "Cancel add point"
-msgstr "Pont hozzáadásának visszavonása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:504
 msgid "Delete multiple points"
-msgstr "Több pont törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:507
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
-msgstr "Válassz egy munkamenetet, egy eszközt, és állítsd be a szűrőket. A kiválasztott eszközhöz tartozó összes megjelenített pont törlésre kerül. Üres eszköznév esetén mind ki lesz választva."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:515
 msgid "Delete points"
-msgstr "Pontok törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:516
 msgid "Delete only visible points"
-msgstr "Csak a látható pontok törlése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:522
 msgid "Filter points"
-msgstr "Pontok szűrése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:529
 msgid "Apply filters"
-msgstr "Szűrők alkalmazása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:534
 msgid "Begin date"
-msgstr "Kezdő dátum"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:541
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:559
@@ -1812,27 +1812,27 @@ msgstr "ma"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:546
 msgid "Begin time"
-msgstr "Kezdési idő"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:552
 msgid "End date"
-msgstr "Befejező dátum"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:564
 msgid "End time"
-msgstr "Befejezési idő"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:571
 msgid "Min-- and Max--"
-msgstr "Min-- és Max--"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:574
 msgid "Min++ and Max++"
-msgstr "Min++ és Max++"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:578
 msgid "Last day:hour:min"
-msgstr "Utolsó nap:óra:perc"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:585
 msgid "Minimum accuracy"
@@ -1840,81 +1840,81 @@ msgstr "Minimális pontosság"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:593
 msgid "Maximum accuracy"
-msgstr "Maximális pontosság"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:601
 msgid "Minimum elevation"
-msgstr "Minimális magasság"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:609
 msgid "Maximum elevation"
-msgstr "Maximális magasság"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:617
 msgid "Minimum battery level"
-msgstr "Minimális akkumulátorszint"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:625
 msgid "Maximum battery level"
-msgstr "Maximális akkumulátorszint"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:633
 msgid "Minimum speed"
-msgstr "Minimális sebesség"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:641
 msgid "Maximum speed"
-msgstr "Maximális sebesség"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:649
 msgid "Minimum bearing"
-msgstr "Minimális irányszög"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:657
 msgid "Maximum bearing"
-msgstr "Maximális irányszög"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:665
 msgid "Minimum satellites"
-msgstr "Minimális műholdszám"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:673
 msgid "Maximum satellites"
-msgstr "Maximális műholdszám"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:683
 msgid "bookmark name"
-msgstr "könyvjelző neve"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:685
 msgid "Save filter bookmark"
-msgstr "Szűrő könyvjelző mentése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:718
 msgid "Statistics"
-msgstr "Statisztikák"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:722
 msgid "Show stats"
-msgstr "Statisztikák megjelenítése"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:732
 msgid "Shortcuts"
-msgstr "Gyorsbillentyűk"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:734
 msgid "Toggle sidebar"
-msgstr "Oldalsáv be-/kikapcsolása"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:738
 msgid "Documentation"
-msgstr "Dokumentáció"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:746
 msgid "Source management"
-msgstr "Forráskezelés"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:760
 msgid "Authors"
-msgstr "Szerzők"
+msgstr "Szerző"
 
