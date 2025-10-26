@@ -1,1 +1,1 @@
-Seguir e mostrar a posición en tempo real do móbil
+Seguir e amosar a posición do móbil en tempo real
