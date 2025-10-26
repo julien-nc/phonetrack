@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:27\n"
+"PO-Revision-Date: 2025-10-26 23:42\n"
 "Last-Translator: \n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: et\n"
-"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 246\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
@@ -106,7 +106,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2260
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2286
 msgid "Watch session"
-msgstr "Jälgi sessiooni"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2346
 msgid "PhoneTrack public access"
@@ -162,11 +162,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/admin.js:19
 msgid "Quota was successfully saved"
-msgstr "Kvoodi salvestamine õnnestus"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/admin.js:25
 msgid "Failed to save quota"
-msgstr "Kvoodi salvestamine ei õnnestunud"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:497
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:104
@@ -258,7 +258,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5859
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5885
 msgid "Reload this page"
-msgstr "Laadi see leht uuesti"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1173
 msgid "Failed to contact server to save options values"
@@ -290,11 +290,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1331
 msgid "yourname"
-msgstr "sinunimi"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1419
 msgid "Watch this session"
-msgstr "Jälgi seda sessiooni"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1425
 msgid "shared by {u}"
@@ -327,39 +327,39 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1475
 msgid "Delete session"
-msgstr "Kustuta sessioon"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1477
 msgid "Rename session"
-msgstr "Muuda sessiooni nime"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1480
 msgid "Export to gpx"
-msgstr "Ekspordi gpx-failina"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1485
 msgid "Files are created in '{exdir}'"
-msgstr "Fail on loodud „{exdir}“ kaustas"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1486
 msgid "Automatic export"
-msgstr "Automaatne eksport"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1488
 msgid "never"
-msgstr "mitte kunagi"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1489
 msgid "daily"
-msgstr "kord päevas"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1490
 msgid "weekly"
-msgstr "kord nädalas"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1491
 msgid "monthly"
-msgstr "kord kuus"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1496
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
@@ -419,7 +419,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1535
 msgid "user name"
-msgstr "kasutajanimi"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1542
 msgid "A private session is not visible on public browser logging page"
@@ -427,19 +427,19 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1544
 msgid "Public session"
-msgstr "Avalik sessioon"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1551
 msgid "Public watch link"
-msgstr "Avalik jälgimislink"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1553
 msgid "API URL (JSON, last positions)"
-msgstr "API võrguaadress (JSON, viimased asukohad)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1555
 msgid "API URL (JSON, all positions)"
-msgstr "API võrguaadress (JSON, kõik asukohad)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1561
 msgid "Current active filters will be applied on shared view"
@@ -846,41 +846,41 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3725
 msgid "Date"
-msgstr "Kuupäev"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3728
 msgid "Time"
-msgstr "Aeg"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3733
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3816
 msgid "Altitude"
-msgstr "Kõrgus"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3736
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3821
 msgid "Precision"
-msgstr "Täpsus"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3739
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3828
 msgid "Speed"
-msgstr "Kiirus"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3742
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3833
 msgid "Bearing"
-msgstr "Suund"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3745
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3838
 msgid "Satellites"
-msgstr "Satelliidid"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3748
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3843
 msgid "Battery"
-msgstr "Aku"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3751
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3847
@@ -1892,11 +1892,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:718
 msgid "Statistics"
-msgstr "Statistika"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:722
 msgid "Show stats"
-msgstr "Näita statistikat"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:732
 msgid "Shortcuts"
@@ -1908,7 +1908,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:738
 msgid "Documentation"
-msgstr "Dokumentatsioon"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:746
 msgid "Source management"
@@ -1916,5 +1916,5 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:760
 msgid "Authors"
-msgstr "Autorid"
+msgstr ""
 
