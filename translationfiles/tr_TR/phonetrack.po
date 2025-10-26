@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:26\n"
+"PO-Revision-Date: 2025-10-26 23:41\n"
 "Last-Translator: \n"
 "Language-Team: Turkish\n"
 "Language: tr_TR\n"
@@ -14,20 +14,20 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: tr\n"
-"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 246\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr "{cihaz}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:76
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr "{cihaz}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:79
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr "{session} oturumundaki {device} honeTrack cihazı, artık {session2} oturumundaki {device2} cihazına {meters} metreden daha yakın"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:82
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
@@ -58,7 +58,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr "PhoneTrack"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
@@ -1591,7 +1591,7 @@ msgstr "parlak"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:182
 msgid "pastel"
-msgstr "pastel"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:183
 msgid "dark"
