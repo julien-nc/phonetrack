@@ -1,44 +1,45 @@
-# تطبيق PhoneTrack Nextcloud
+# اپلیکیشن PhoneTrack Nextcloud
 
-📱 PhoneTrack هو تطبيق لتخزين معلومات على الهواء و لتحديد اماكن الهواتف.
+📱 PhoneTrack یک برنامه Nextcloud برای ردیابی و ذخیره مکان دستگاه‌های تلفن همراه است.
 
-يستلم المعلومات من برنامج نظام الهاتف و يحددها على الخارطه بوضوح.
+🗺 اطلاعات را از برنامه‌های ثبت وقایع تلفن‌های همراه دریافت می‌کند و آن را به صورت پویا روی نقشه نمایش می‌دهد.
 
 🌍 به ما ترجمه این برنامه را روی [PhoneTrack Crowdin پروژه](https://crowdin.com/project/phonetrack) کمک کند.
 
 ⚒ بررسی کنید راه های دیگر برای کمک در [مشاهده تمام سهم](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-طريقة استعمال PhoneTrack:
+نحوه استفاده از PhoneTrack:
 
-* اوجد جلسة للتحقيق.
-* اعطى رابط الولوج link\ * الى الهاتف. انتخب [طريق الدخول للنظام](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) الذى تريده.
-* شاهد الان الجلسه المحلية (او لا) فى PhoneTrack و شاركه مع الصفحات العامه.
+- یک جلسه ردیابی ایجاد کنید.
+- لینک ثبت وقایع را به دستگاه‌های تلفن همراه بدهید. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- مکان دستگاه‌های جلسه را به صورت بلادرنگ (یا غیر بلادرنگ) در PhoneTrack تماشا کنید یا آن را با صفحات عمومی به اشتراک بگذارید.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). استبدل"Yourname"مع الاسم الذى تريده. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) فراموش نکنید که نام دستگاه را در لینک (و نه در تنظیمات برنامه ثبت وقایع) تنظیم کنید. به جای "yourname" نام دستگاه مورد نظر خود را قرار دهید.
+تنظیم نام دستگاه در تنظیمات برنامه ثبت وقایع فقط با Owntracks، Traccar و OpenGTS کار می‌کند.
 
-On PhoneTrack main page, while watching a session, you can :
+در صفحه اصلی PhoneTrack، هنگام تماشای یک جلسه، می‌توانید:
 
-* 📍 نمایش تاریخچه مکان
-* ⛛ فیلتر امتیازها
-* ✎ ویرایش دستی /افزودن/حذف نقاط
-* ✎ ویرایش دستگاه‌ها (تغییر نام، تغییر رنگ/شکل، انتقال به جلسه دیگر)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-* 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+- 📍 نمایش تاریخچه مکان
+- ⛛ فیلتر امتیازها
+- ✎ ویرایش دستی /افزودن/حذف نقاط
+- ✎ ویرایش دستگاه‌ها (تغییر نام، تغییر رنگ/شکل، انتقال به جلسه دیگر)
+- ⛶ تعریف مناطق جغرافیایی برای دستگاه‌ها
+- ⚇ هشدارهای مجاورت را برای جفت‌های دستگاه تعریف کنید
+- 🖧 یک جلسه را با سایر کاربران Nextcloud یا با یک لینک عمومی (فقط خواندنی) به اشتراک بگذارید
+- 🔗 ایجاد لینک‌های اشتراک‌گذاری عمومی با محدودیت‌های اختیاری (فیلترها، نام دستگاه، فقط آخرین موقعیت‌ها، ساده‌سازی حصار جغرافیایی)
+- 🖫 وارد کردن/صادر کردن یک جلسه با فرمت GPX (یک فایل با یک آهنگ در هر دستگاه یا یک فایل در هر دستگاه)
+- 🗠 نمایش آمار جلسات
+- 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
+- 🗓 فعال/غیرفعال کردن خروجی خودکار جلسه و پاکسازی خودکار (روزانه/هفتگی/ماهانه)
+- ◔ انتخاب کنید که وقتی به سهمیه تعداد نقاط رسیدید، چه کاری انجام دهید (مسدود کردن ثبت وقایع یا حذف قدیمی‌ترین نقطه)
 
-Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
+صفحه عمومی و صفحه فیلتر شده عمومی مانند صفحه اصلی کار می‌کنند، با این تفاوت که فقط یک جلسه نمایش داده می‌شود، همه چیز فقط خواندنی است و نیازی به ورود به سیستم نیست.
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+این برنامه روی Nextcloud 17 با فایرفاکس 57+ و کرومیوم آزمایش شده است.
 
-This app is compatible with theming colors and accessibility themes !
+این برنامه با رنگ‌های تم و تم‌های دسترسی سازگار است!
 
-This app is under development.
+این برنامه در دست توسعه است.
 
 ## نصب
 
@@ -50,6 +51,7 @@ Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#
 
 ## مشکلات شناخته شده
 
-* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Any feedback will be appreciated.
+هر گونه بازخوردی مورد قدردانی قرار خواهد گرفت.
+
