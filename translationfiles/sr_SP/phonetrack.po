@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:26\n"
+"PO-Revision-Date: 2025-10-26 23:41\n"
 "Last-Translator: \n"
 "Language-Team: Serbian (Cyrillic)\n"
 "Language: sr_SP\n"
@@ -14,40 +14,40 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: sr\n"
-"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 246\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr "PhoneTrack уређај {device} од сесије {session} је ушао у геофенсирано подручје {geofence}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:76
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr "PhoneTrack уређај {device} од сесије {session} је напустио геофенсирано подручје {geofence}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:79
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr "PhoneTrack уређај {device} од сесије {session} је ближи {meters} м ка {device2} од сесије {session2}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:82
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr "PhoneTrack уређај {device} од сесије {session} је сад даљи {meters} м од {device2} од сесије {session2}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "You shared PhoneTrack session {session} with {who}"
-msgstr "Ти си поделио PhoneTrack сесију {session} са {who}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr "PhoneTrack сесија {session} је сада поделјена са {who}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "You stopped sharing session {session} with {who}"
-msgstr "Ти си престао да делиш сесију {session} са {who}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr "PhoneTrack сесија {session} није поделјена са {who} више"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "PhoneTrack client"
@@ -58,74 +58,74 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr "PhoneTrack"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr "<strong>PhoneTrack геофенс</strong> догађај"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
-msgstr "<strong>PhoneTrack уређај близина</strong> догађај"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
-msgstr "Промене у <strong>PhoneTrack апликацији</strong>"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:365
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:498
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
-msgstr "PhoneTrack обавештење о близини (%s and %s)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:369
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
-msgstr "PhoneTrack уређај %s је сада ближи за %s м од %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:502
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
-msgstr "PhoneTrack уређај %s је сада даљи за %s м од %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:704
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:830
 msgid "Geofencing alert"
-msgstr "Геозона узбуна"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:708
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
-msgstr "У PhoneTrack сесији %s, уређај %s је ушао у геозону %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:834
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
-msgstr "У PhoneTrack сесији %s, уређај %s је изашо из геозоне %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2260
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2286
 msgid "Watch session"
-msgstr "Гледај сесију"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2346
 msgid "PhoneTrack public access"
-msgstr "PhoneTrack јавни приступ"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2347
 #, php-format
 msgid "Log to session %s"
-msgstr "Логуј у сесију %s"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:67
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
-msgstr "У сесији \"%s\", уређај \"%s\" је ушао у геозону \"%s\"."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:75
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
-msgstr "У сесији \"%s\", уређај \"%s\" је изашао из геозоне \"%s\"."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:84
 #, php-format
@@ -175,15 +175,15 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:505
 msgid "Hide lines"
-msgstr "Сакриј линије"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:525
 msgid "Activate automatic zoom"
-msgstr "Активирај аутоматско увеличање"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:533
 msgid "Disable automatic zoom"
-msgstr "Деактивирај аутоматско увеличање"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:553
 msgid "Show last point tooltip"
@@ -327,11 +327,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1475
 msgid "Delete session"
-msgstr "Обриши сесију"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1477
 msgid "Rename session"
-msgstr "Преименуј сесију"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1480
 msgid "Export to gpx"
@@ -347,11 +347,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1488
 msgid "never"
-msgstr "никад"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1489
 msgid "daily"
-msgstr "дански"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1490
 msgid "weekly"
@@ -419,7 +419,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1535
 msgid "user name"
-msgstr "корисничко име"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1542
 msgid "A private session is not visible on public browser logging page"
@@ -469,39 +469,39 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1586
 msgid "OsmAnd link"
-msgstr "OsmAnd линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1591
 msgid "GpsLogger GET and POST link"
-msgstr "GpsLogger GET и POST линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1595
 msgid "Owntracks (HTTP mode) link"
-msgstr "Owntracks (HTTP режим) линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1599
 msgid "Ulogger link"
-msgstr "Ulogger линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1603
 msgid "Traccar link"
-msgstr "Traccar линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1607
 msgid "OpenGTS link"
-msgstr "OpenGTS линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1611
 msgid "Overland link"
-msgstr "Overland линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1615
 msgid "Locus Map link"
-msgstr "Locus Map линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1619
 msgid "HTTP GET link"
-msgstr "HTTP GET линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1727
 msgid "The session you want to delete does not exist"
@@ -654,7 +654,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4629
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4648
 msgid "Nextcloud notification"
-msgstr "Nextcloud нотификација"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2856
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2916
@@ -663,7 +663,7 @@ msgstr "Nextcloud нотификација"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4630
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4650
 msgid "Email notification"
-msgstr "Е-мејл Обавештења"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2859
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2919
@@ -780,7 +780,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2913
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:79
 msgid "meters"
-msgstr "metara"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2911
 msgid "High distance limit"
@@ -855,12 +855,12 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3733
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3816
 msgid "Altitude"
-msgstr "Висина"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3736
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3821
 msgid "Precision"
-msgstr "Прецизност"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3739
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3828
@@ -901,7 +901,7 @@ msgstr "Сачувај"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3766
 msgid "Move"
-msgstr "Премести"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3767
 msgid "Cancel"
@@ -909,7 +909,7 @@ msgstr "Откажи"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3812
 msgid "Distance"
-msgstr "Razdaljina"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3977
 msgid "Impossible to zoom, there is no point to zoom on for this session"
@@ -965,7 +965,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4074
 msgid "Failed to export session"
-msgstr "Неуспешан извоз сесија"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4078
 msgid "Failed to contact server to export session"
@@ -1084,14 +1084,14 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4613
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4617
 msgid "no"
-msgstr "не"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4509
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4513
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4615
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4619
 msgid "yes"
-msgstr "да"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4523
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4540
@@ -1198,31 +1198,31 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4851
 msgid "device name"
-msgstr "назив уређаја"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4852
 msgid "distance (km)"
-msgstr "дистанца (км)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4853
 msgid "duration"
-msgstr "трајање"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4854
 msgid "#points"
-msgstr "#тачке"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4855
 msgid "avg speed (km/h)"
-msgstr "просечна бржина (км/с)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4856
 msgid "max speed (km/h)"
-msgstr "максимална бржина (км/с)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4926
 msgid "years"
-msgstr "годинe(а)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4929
 msgid "days"
