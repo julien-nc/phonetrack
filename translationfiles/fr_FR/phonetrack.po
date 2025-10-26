@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:41\n"
+"PO-Revision-Date: 2025-10-26 23:48\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -51,14 +51,14 @@ msgstr "La session PhoneTrack {session} n'est plus partagée avec {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "PhoneTrack client"
-msgstr ""
+msgstr "Client PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Filter.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
@@ -154,7 +154,7 @@ msgstr "L'utilisateur \"%s\" a arrêté de partager la session PhoneTrack \"%s\"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid "Phonetrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:4
 msgid " "
@@ -616,7 +616,7 @@ msgstr "Carré"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2817
 msgid "Triangle"
-msgstr ""
+msgstr "Triangle"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2821
 msgid "Delete this device"
@@ -763,7 +763,7 @@ msgstr "Vous serez notifié quand la distance entre les appareil devient plus gr
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:491
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:509
 msgid "Session"
-msgstr ""
+msgstr "Session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2907
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:212
@@ -846,7 +846,7 @@ msgstr "Impossible de contacter le serveur pour ajouter le point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3725
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3728
 msgid "Time"
@@ -855,7 +855,7 @@ msgstr "Heure"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3733
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3816
 msgid "Altitude"
-msgstr ""
+msgstr "Altitude"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3736
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3821
@@ -875,7 +875,7 @@ msgstr "Azimut"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3745
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3838
 msgid "Satellites"
-msgstr ""
+msgstr "Satellites"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3748
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3843
@@ -889,7 +889,7 @@ msgstr "User-agent"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3754
 msgid "lat : lng"
-msgstr ""
+msgstr "lat : lng"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3758
 msgid "DMS coords"
@@ -909,7 +909,7 @@ msgstr "Annuler"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3812
 msgid "Distance"
-msgstr ""
+msgstr "Distance"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3977
 msgid "Impossible to zoom, there is no point to zoom on for this session"
@@ -1202,7 +1202,7 @@ msgstr "nom d'appareil"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4852
 msgid "distance (km)"
-msgstr ""
+msgstr "distance (km)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4853
 msgid "duration"
@@ -1210,7 +1210,7 @@ msgstr "durée"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4854
 msgid "#points"
-msgstr ""
+msgstr "#points"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4855
 msgid "avg speed (km/h)"
@@ -1339,7 +1339,7 @@ msgstr "QRcode geo : dernière position de {dname}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5808
 msgid "Are you sure you want to delete the device {device}?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir supprimer l'appareil {device}?"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5811
 msgid "Confirm device deletion"
@@ -1420,7 +1420,7 @@ msgstr "Filtres"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:15
 msgid "Stats"
-msgstr ""
+msgstr "Stats"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:16
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:264
@@ -1446,7 +1446,7 @@ msgstr "Nom de session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:55
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:63
 msgid "General"
@@ -1470,7 +1470,7 @@ msgstr "Nombre de points maximum à charger par appareil à chaque rafraichissem
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:74
 msgid "points"
-msgstr ""
+msgstr "points"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:76
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:81
@@ -1591,7 +1591,7 @@ msgstr "lumineux"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:182
 msgid "pastel"
-msgstr ""
+msgstr "pastel"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:183
 msgid "dark"
@@ -1714,7 +1714,7 @@ msgstr "Par exemple : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:359
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:447
 msgid "Transparent"
-msgstr ""
+msgstr "Transparent"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:361
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:449
@@ -1732,7 +1732,7 @@ msgstr "Serveurs de tuiles WMS personnels"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:402
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:451
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:404
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:453
@@ -1908,7 +1908,7 @@ msgstr "Afficher/masquer le panneau latéral"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:738
 msgid "Documentation"
-msgstr ""
+msgstr "Documentation"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:746
 msgid "Source management"
