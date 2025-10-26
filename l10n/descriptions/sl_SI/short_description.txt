@@ -1,1 +1,1 @@
-Sledenje in prikaz položaja naprav v živo
+Track and display phones positions in real time

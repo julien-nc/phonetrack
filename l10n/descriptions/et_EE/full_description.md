@@ -1,8 +1,8 @@
-# PhoneTrack Nextcloud 应用程序
+# PhoneTrack Nextcloud application
 
-📱 PhoneTrack 是跟踪和存储移动设备位置的 Nextcloud 应用程序。
+📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
 
-🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
+🗺   It receives information from mobile phones logging apps and displays it dynamically on a map.
 
 🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
@@ -20,18 +20,18 @@ Setting the device name in logging app settings only works with Owntracks, Tracc
 On PhoneTrack main page, while watching a session, you can :
 
 - 📍 Display location history
-- ⛛ Filter points
-- ✎ Manually edit/add/delete points
-- ✎ Edit devices (rename, change color/shape, move to another session)
-- ⛶ Define geofencing zones for devices
-- ⚇ Define proximity alerts for device pairs
-- 🖧 Share a session to other Nextcloud users or with a public link (read-only)
+- ⛛  Filter points
+- ✎  Manually edit/add/delete points
+- ✎  Edit devices (rename, change color/shape, move to another session)
+- ⛶  Define geofencing zones for devices
+- ⚇  Define proximity alerts for device pairs
+- 🖧  Share a session to other Nextcloud users or with a public link (read-only)
 - 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-- 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-- 🗠 Display sessions statistics
+- 🖫  Import/export a session in GPX format (one file with one track per device or one file per device)
+- 🗠  Display sessions statistics
 - 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
 - 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-- ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+- ◔  Choose what to do when point number quota is reached (block logging or delete oldest point)
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
