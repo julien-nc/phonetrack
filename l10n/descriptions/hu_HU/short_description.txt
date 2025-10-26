@@ -1,1 +1,1 @@
-Követi és megjeleníti a telefonok helyzetét valós időben
+Track and display phones positions in real time
