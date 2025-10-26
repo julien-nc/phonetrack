@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2020-09-28 16:33+0200\n"
-"PO-Revision-Date: 2020-09-28 14:37\n"
+"POT-Creation-Date: 2025-10-27 00:08+0100\n"
+"PO-Revision-Date: 2025-10-26 23:13\n"
 "Last-Translator: \n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -14,1903 +14,1907 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: nl\n"
-"X-Crowdin-File: /master/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 230\n"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:89
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
 msgstr "PhoneTrack apparaat {device} van sessie {session} is geofence {geofence} binnengekomen"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:92
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:76
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
 msgstr "PhoneTrack apparaat {device} van sessie {session} heeft geofence {geofence} verlaten"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:95
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:79
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
 msgstr "PhoneTrack apparaat {device} van sessie {session} is nu minder dan {meters} m verwijderd van {device2} van sessie {session2}"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:98
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:82
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
 msgstr "PhoneTrack apparaat {device} van sessie {session} is nu verder dan {meters} m verwijderd van {device2} van sessie {session2}"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:101
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "You shared PhoneTrack session {session} with {who}"
 msgstr "Je hebt de PhoneTrack sessie {session} met {who} gedeeld"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:101
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "PhoneTrack session {session} is now shared with {who}"
 msgstr "PhoneTrack sessie {session} is nu gedeeld met {who}"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:104
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "You stopped sharing session {session} with {who}"
 msgstr "Je bent gestopt met het delen van sessie {session} met {who}"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:104
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
 msgstr "PhoneTrack sessie {session} wordt niet meer gedeeld met {who}"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ActivityManager.php:179
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "A PhoneTrack client"
 msgstr "Een PhoneTrack client"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/Filter.php:55
-#: /var/www/html/dev/server/apps/phonetrack/lib/AppInfo/Application.php:66
-#: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:67
-#: /var/www/html/dev/server/apps/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
-#: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:7
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Filter.php:46
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:46
+#: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
 msgstr "PhoneTrack"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/GeofenceSetting.php:42
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
 msgstr "<strong>PhoneTrack geofences</strong> gebeurtenissen"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/ProximitySetting.php:42
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
 msgstr "<strong>PhoneTrack apparaat nabijheid</strong> gebeurtenissen"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Activity/Setting.php:54
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
 msgstr "Wijzigingen in de <strong>PhoneTrack app</strong>"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:397
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:534
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:365
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:498
 #, php-format
 msgid "PhoneTrack proximity alert (%s and %s)"
 msgstr "PhoneTrack nabijheidswaarschuwing (%s and %s)"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:401
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:369
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
 msgstr "PhoneTrack apparaat %s is nu minder dan %s m verwijderd van %s."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:538
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:502
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
 msgstr "PhoneTrack apparaat %s is nu meer dan %s m verwijderd van %s."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:737
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:863
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:704
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:830
 msgid "Geofencing alert"
 msgstr "Geofencing melding"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:741
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:708
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
 msgstr "In PhoneTrack sessie %s is apparaat %s geofence %s binnengekomen."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/LogController.php:867
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:834
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
 msgstr "In PhoneTrack sessie %s heeft apparaat %s geofence %s verlaten."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2568
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2595
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2260
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2286
 msgid "Watch session"
 msgstr "Sessie bekijken"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2663
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2346
 msgid "PhoneTrack public access"
 msgstr "PhoneTrack openbare toegang"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Controller/PageController.php:2664
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2347
 #, php-format
 msgid "Log to session %s"
 msgstr "Log naar sessie %s"
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:88
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:67
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
 msgstr "In sessie \"%s\" is apparaat \"%s\" geofencing zone \"%s\" binnengekomen."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:96
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:75
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
 msgstr "In sessie \"%s\" heeft apparaat \"%s\" geofencing zone \"%s\" verlaten."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:105
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:84
 #, php-format
 msgid "Device \"%s\" is now closer than %sm to \"%s\"."
 msgstr "Apparaat \"%s\" is nu binnen %sm van \"%s\"."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:113
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:92
 #, php-format
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
 msgstr "Apparaat \"%s\" is nu verder dan %sm van \"%s\"."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:122
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:101
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
 msgstr "Quota van puntenaantal (%s) is bereikt met een punt van \"%s\" in sessie \"%s\"."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:131
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:110
 #, php-format
 msgid "User \"%s\" shared PhoneTrack session \"%s\" with you."
 msgstr "Gebruiker \"%s\" heeft PhoneTrack sessie \"%s\" met jou gedeeld."
 
-#: /var/www/html/dev/server/apps/phonetrack/lib/Notification/Notifier.php:140
+#: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:119
 #, php-format
 msgid "User \"%s\" stopped sharing PhoneTrack session \"%s\" with you."
 msgstr "Gebruiker \"%s\" heeft delen van PhoneTrack sessie \"%s\" met jou gestopt."
 
-#: /var/www/html/dev/server/apps/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
+#: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
+msgid "Phonetrack"
+msgstr ""
+
+#: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:4
 msgid " "
 msgstr ""
 
-#: /var/www/html/dev/server/apps/phonetrack/src/admin.js:21
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/admin.js:19
 msgid "Quota was successfully saved"
 msgstr "Quota succesvol opgeslagen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/admin.js:25
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/admin.js:25
 msgid "Failed to save quota"
 msgstr "Quota opslaan mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:675
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:102
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:497
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:104
 msgid "Show lines"
 msgstr "Laat lijnen zien"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:683
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:505
 msgid "Hide lines"
 msgstr "Verberg lijnen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:704
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:525
 msgid "Activate automatic zoom"
 msgstr "Automatische zoom activeren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:712
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:533
 msgid "Disable automatic zoom"
 msgstr "Automatische zoom deactiveren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:733
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:553
 msgid "Show last point tooltip"
 msgstr "Tooltip van laatste punt tonen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:741
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:561
 msgid "Hide last point tooltip"
 msgstr "Tooltip van laatste punt verbergen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:762
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:581
 msgid "Zoom on all devices"
 msgstr "Zoom op alle apparaten"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:775
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:594
 msgid "Click on the map to move the point, press ESC to cancel"
 msgstr "Klik op de kaart om een punt te verplaatsen, druk ESC om te annuleren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1022
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:842
 msgid "Server name or server address should not be empty"
 msgstr "Servernaam of het serveradres mag niet leeg zijn"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1025
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1034
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:845
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:854
 msgid "Impossible to add tile server"
 msgstr "Tegel server kon niet worden toegevoegd"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1031
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:851
 msgid "A server with this name already exists"
 msgstr "Een server met deze naam bestaat al"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1069
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4157
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:298
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:336
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:381
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:426
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:475
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:884
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3765
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:299
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:337
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:382
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:427
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:476
 msgid "Delete"
 msgstr "Verwijder"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1114
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:928
 msgid "Tile server \"{ts}\" has been added"
 msgstr "Tegel server \"{ts}\" is toegevoegd"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1117
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:930
 msgid "Failed to add tile server \"{ts}\""
 msgstr "Tegel server \"{ts}\" kon niet worden toegevoegd"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1121
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:934
 msgid "Failed to contact server to add tile server"
 msgstr "Kon geen contact maken met server om tegel server toe te voegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1155
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:962
 msgid "Tile server \"{ts}\" has been deleted"
 msgstr "Tegel server \"{ts}\" is verwijderd"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1158
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:964
 msgid "Failed to delete tile server \"{ts}\""
 msgstr "Verwijderen tegel server \"{ts}\" is niet gelukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1162
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:968
 msgid "Failed to contact server to delete tile server"
 msgstr "Kon geen contact maken met server om tegel server te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1249
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1037
 msgid "Failed to contact server to restore options values"
 msgstr "Kon geen contact maken met server om optiewaarden te herstellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1252
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1398
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1438
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6373
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6404
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1040
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1176
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1212
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5859
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5885
 msgid "Reload this page"
 msgstr "Deze pagina herladen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1395
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1173
 msgid "Failed to contact server to save options values"
 msgstr "Kon geen contact maken met server om optiewaarden op te slaan"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1407
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1185
 msgid "Filter bookmark should have a name"
 msgstr "Bladwijzer filter moet een naam te hebben"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1435
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1209
 msgid "Failed to contact server to save filters bookmark"
 msgstr "Kon geen contact maken met server om bladwijzer filter op te slaan"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1478
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1247
 msgid "Failed to contact server to delete filters bookmark"
 msgstr "Kon geen contact maken met server om bladwijzer filter te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1520
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1280
 msgid "Session name should not be empty"
 msgstr "Sessie naam mag niet leeg zijn"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1537
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1291
 msgid "Session name already used"
 msgstr "Sessienaam wordt al gebruikt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1541
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1295
 msgid "Failed to contact server to create session"
 msgstr "Kon geen contact maken met server om sessie aan te maken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1577
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1331
 msgid "yourname"
 msgstr "uw naam"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1665
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1419
 msgid "Watch this session"
 msgstr "Deze sessie bekijken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1671
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1425
 msgid "shared by {u}"
 msgstr "gedeeld door {u}"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1680
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1434
 msgid "Forbid devices to log to this session"
 msgstr "Apparaten verbieden om te loggen in deze sessie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1687
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1440
 msgid "Reserve device names"
 msgstr "Reserveer apparaatnamen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1694
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1446
 msgid "Links for logging apps"
 msgstr "Links voor logging apps"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1701
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1452
 msgid "Link to share session"
 msgstr "Link om sessie te delen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1711
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1461
 msgid "Zoom on this session"
 msgstr "Zoom op deze sessie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1714
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3153
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1464
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2809
 msgid "More actions"
 msgstr "Meer acties"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1726
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1475
 msgid "Delete session"
 msgstr "Sessie verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1728
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1477
 msgid "Rename session"
 msgstr "Sessie hernoemen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1731
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1480
 msgid "Export to gpx"
 msgstr "Exporteren naar gpx"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1736
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1485
 msgid "Files are created in '{exdir}'"
 msgstr "Bestanden worden aangemaakt in '{exdir}'"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1737
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1486
 msgid "Automatic export"
 msgstr "Automatische export"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1739
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1488
 msgid "never"
 msgstr "nooit"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1740
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1489
 msgid "daily"
 msgstr "dagelijks"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1741
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1490
 msgid "weekly"
 msgstr "wekelijks"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1742
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1491
 msgid "monthly"
 msgstr "maandelijks"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1747
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1496
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
 msgstr "Automatisch opruimen wordt dagelijks geactiveerd en zal punten ouder dan de geselecteerde duur verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1748
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1497
 msgid "Automatic purge"
 msgstr "Automatisch opruimen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1750
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1499
 msgid "don't purge"
 msgstr "niet opruimen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1751
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1500
 msgid "a day"
 msgstr "een dag"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1752
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1501
 msgid "a week"
 msgstr "een week"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1753
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1502
 msgid "a month"
 msgstr "een maand"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1762
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1511
 msgid "Name reservation is optional."
 msgstr "Naamreservering is optioneel."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1763
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1512
 msgid "Name can be set directly in logging link if it is not reserved."
 msgstr "De naam kan direct in de logging link worden ingesteld indien hij niet gereserveerd is."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1764
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1513
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
 msgstr "Om in te loggen met een gereserveerde naam, gebruik de \"naam token\" in de logging link (of in het veld \"apparaatnaam\")."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1765
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1514
 msgid "If a name is reserved, the only way to log with this name is with its token."
 msgstr "Indien een naam gereserveerd is, kan voor deze naam enkel met de bijbehorende token gelogd worden."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1768
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1517
 msgid "Reserve this device name"
 msgstr "Reserveer deze apparaatnaam"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1770
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1519
 msgid "Type reserved name and press 'Enter'"
 msgstr "Voer gereserveerde naam in en druk 'Enter'"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1783
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1532
 msgid "Share with user"
 msgstr "Deel met gebruiker"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1785
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1534
 msgid "Type user name and press 'Enter'"
 msgstr "Voer gebruikersnaam in en druk 'Enter'"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1786
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1535
 msgid "user name"
 msgstr "gebruikersnaam"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1793
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1542
 msgid "A private session is not visible on public browser logging page"
 msgstr "Een privé sessie is niet zichtbaar op de openbare browser logging pagina"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1795
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1544
 msgid "Public session"
 msgstr "Openbare sessie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1802
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1551
 msgid "Public watch link"
 msgstr "Openbare weergave-link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1804
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1553
 msgid "API URL (JSON, last positions)"
 msgstr "API-URL (JSON, laatste posities)"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1806
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1555
 msgid "API URL (JSON, all positions)"
 msgstr "API-URL (JSON, alle posities)"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1812
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1561
 msgid "Current active filters will be applied on shared view"
 msgstr "De huidige actieve filters zullen worden toegepast op de gedeelde weergave"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1814
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1563
 msgid "Add public filtered share"
 msgstr "Voeg een gefilterde openbare share toe"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1823
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1572
 msgid "Session token"
 msgstr "Sessie token"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1829
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1578
 msgid "List of links to configure logging apps server settings."
 msgstr "Lijst met links voor het configureren van serverinstellingen van de logging apps."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1830
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:225
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1579
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5012
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:227
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
 msgstr "Vervang 'yourname' met de gewenste naam of de token van de bijbehorende gereserveerde naam"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1832
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1581
 msgid "Public browser logging link"
 msgstr "Openbare browser logging link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1837
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1586
 msgid "OsmAnd link"
 msgstr "OsmAnd link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1842
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1591
 msgid "GpsLogger GET and POST link"
 msgstr "GpsLogger GET en POST link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1846
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1595
 msgid "Owntracks (HTTP mode) link"
 msgstr "Owntracks (HTTP mode) link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1850
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1599
 msgid "Ulogger link"
 msgstr "Ulogger link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1854
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1603
 msgid "Traccar link"
 msgstr "Traccar link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1858
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1607
 msgid "OpenGTS link"
 msgstr "OpenGTS link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1862
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1611
 msgid "Overland link"
 msgstr "Overland link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1866
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1615
 msgid "Locus Map link"
 msgstr "Locus Map link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1870
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1619
 msgid "HTTP GET link"
 msgstr "HTTP GET link"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1988
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1727
 msgid "The session you want to delete does not exist"
 msgstr "De sessie die je wilt verwijderen bestaat niet"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1991
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1729
 msgid "Failed to delete session"
 msgstr "Verwijderen van de sessie is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:1995
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1733
 msgid "Failed to contact server to delete session"
 msgstr "Kon geen contact maken met server om sessie te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2015
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1748
 msgid "Device '{d}' of session '{s}' has been deleted"
 msgstr "Apparaat '{d}' van sessie '{s}' is verwijderd"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2018
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1750
 msgid "Failed to delete device '{d}' of session '{s}'"
 msgstr "Verwijderen van apparaat '{d}' van sessie '{s}' is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2022
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1754
 msgid "Failed to contact server to delete device"
 msgstr "Kon geen contact maken met server om apparaat te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2079
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1805
 msgid "Impossible to rename session"
 msgstr "Hernoemen van de sessie is niet mogelijk"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2083
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1809
 msgid "Failed to contact server to rename session"
 msgstr "Kon geen contact maken met server om sessie te hernoemen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2131
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1850
 msgid "Impossible to rename device"
 msgstr "Hernoemen van het apparaat is niet mogelijk"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2135
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1854
 msgid "Failed to contact server to rename device"
 msgstr "Kon geen contact maken met server om apparaat te hernoemen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2207
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1916
 msgid "Impossible to set device alias for {n}"
 msgstr "Niet mogelijk om apparaat alias in te stellen voor {n}"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2211
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1920
 msgid "Failed to contact server to set device alias"
 msgstr "Kon geen contact maken met server om apparaat alias in te stellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2281
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1980
 msgid "Device already exists in target session"
 msgstr "Apparaat bestaat al in doelsessie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2284
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1982
 msgid "Impossible to move device to another session"
 msgstr "Verplaatsen van apparaat naar een andere sessie is niet mogelijk"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2288
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1986
 msgid "Failed to contact server to move device"
 msgstr "Kon geen contact maken met server om apparaat te verplaatsen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2358
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2050
 msgid "Failed to contact server to get sessions"
 msgstr "Kon geen contact maken met server om sessies op te vragen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2798
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2825
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2474
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2499
 msgid "Stats of all points"
 msgstr "Stats van alle punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:2822
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2497
 msgid "Stats of filtered points"
 msgstr "Stats van gefilterde punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3065
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2726
 msgid "Device's color successfully changed"
 msgstr "Veranderen van apparaatkleur succesvol"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3068
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2728
 msgid "Failed to save device's color"
 msgstr "Opslaan van apparaatkleur is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3072
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2732
 msgid "Failed to contact server to change device's color"
 msgstr "Kon geen contact maken met server om apparaatkleur te veranderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3144
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2800
 msgid "Geo link to open position in other app/software"
 msgstr "Geo link om de positie in andere app/software te openen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3146
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2802
 msgid "Geo link QRcode to open position with a QRcode scanner"
 msgstr "Geo link QRcode om positie te openen met een QRcode scanner"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3148
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3150
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3152
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2804
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2806
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2808
 msgid "Get driving direction to this device with {s}"
 msgstr "Routebeschrijving naar dit apparaat opvragen met {s}"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3157
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2813
 msgid "Set device shape"
 msgstr "Apparaatvorm instellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3159
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2815
 msgid "Round"
 msgstr "Rond"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3160
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2816
 msgid "Square"
 msgstr "Vierkant"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3161
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2817
 msgid "Triangle"
 msgstr "Driehoek"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3165
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2821
 msgid "Delete this device"
 msgstr "Verwijder dit apparaat"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3167
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2823
 msgid "Rename this device"
 msgstr "Hernoem dit apparaat"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3170
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2826
 msgid "Set device alias"
 msgstr "Apparaat alias instellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3173
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2829
 msgid "Move to another session"
 msgstr "Verplaats naar een andere sessie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3176
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:44
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2832
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:46
 msgid "Ok"
 msgstr "Ok"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3193
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2849
 msgid "Device geofencing zones"
 msgstr "Apparaat geofencing zones"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3197
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2853
 msgid "Zoom on geofencing area, then set values, then validate."
 msgstr "Zoom op geofencing gebied, vervolgens waarden instellen, valideren."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3198
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3258
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4991
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5008
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5111
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5130
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2854
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2914
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4520
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4537
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4629
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4648
 msgid "Nextcloud notification"
 msgstr "Nextcloud melding"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3200
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3260
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4992
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5009
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5112
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5132
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2856
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2916
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4521
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4538
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4630
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4650
 msgid "Email notification"
 msgstr "E-mail notificatie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3203
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3263
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2859
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2919
 msgid "Comma separated e-mail address list"
 msgstr "Kommagescheiden e-mailadreslijst"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3204
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3264
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2860
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2920
 msgid "An empty value means the session owner's email address."
 msgstr "Een lege waarde stelt het e-mailadres van de sessie-eigenaar in."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3205
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3265
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2861
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2921
 msgid "You can put multiple addresses separated by comas (,)."
 msgstr "Je kunt meerdere adressen invoeren, gescheiden door comma's (,)."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3206
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2862
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
 msgstr "Op te vragen HTTP adres bij binnenkomst (\"%loc\" zal vervangen worden door \"breedtegraad: lengtegraad\")"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3207
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3211
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3267
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3271
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2863
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2867
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2923
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2927
 msgid "Use POST method"
 msgstr "Gebruik POST methode"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3210
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2866
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
 msgstr "Op te vragen HTTP adres bij verlaten (\"%loc\" zal vervangen worden door \"breedtegraad: lengtegraad\")"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3214
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2870
 msgid "Geofencing zone coordinates"
 msgstr "Geofencingzone coördinaten"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3214
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2870
 msgid "leave blank to use current map bounds"
 msgstr "leeg laten om de huidige kaartgrenzen te gebruiken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3216
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2872
 msgid "North"
 msgstr "Noord"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3218
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2874
 msgid "South"
 msgstr "Zuid"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3222
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2878
 msgid "Set North/East corner by clicking on the map"
 msgstr "Stel de Noord/Oost hoek in door op de kaart te klikken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3223
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2879
 msgid "Set N/E"
 msgstr "N/O instellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3225
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2881
 msgid "Set South/West corner by clicking on the map"
 msgstr "Stel de Zuid/West hoek in door op de kaart te klikken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3226
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2882
 msgid "Set S/W"
 msgstr "Z/W instellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3230
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2886
 msgid "East"
 msgstr "Oost"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3232
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2888
 msgid "West"
 msgstr "West"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3235
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2891
 msgid "Fence name"
 msgstr "Zone naam"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3236
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2892
 msgid "Use current map view as geofencing zone"
 msgstr "Gebruik de huidige weergave als geofencing zone"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3237
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2893
 msgid "Add zone"
 msgstr "Zone toevoegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3243
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2899
 msgid "Device proximity notifications"
 msgstr "Apparaat nabijheidswaarschuwingen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3247
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2903
 msgid "Select a session, a device name and a distance, set the notification settings, then validate."
 msgstr "Selecteer een sessie, een apparaatnaam en een afstand, stel de notificaties in, daarna valideren."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3248
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2904
 msgid "You will be notified when distance between devices gets bigger than high limit or smaller than low limit."
 msgstr "Je zult bericht krijgen indien de afstand tussen apparaten groter wordt dan de bovengrens of kleiner dan de ondergrens."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3249
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:490
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:508
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2905
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:491
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:509
 msgid "Session"
 msgstr "Sessie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3251
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:210
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:495
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:513
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2907
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:212
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:496
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:514
 msgid "Device name"
 msgstr "Apparaatnaam"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3252
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2908
 msgid "Low distance limit"
 msgstr "Afstand ondergrens"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3254
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3257
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:77
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2910
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2913
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:79
 msgid "meters"
 msgstr "meter"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3255
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2911
 msgid "High distance limit"
 msgstr "Afstand bovengrens"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3266
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2922
 msgid "HTTP address to request when devices get close"
 msgstr "HTTP adres dat opgevraagd wordt indien apparaten dichtbij komen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3270
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2926
 msgid "HTTP address to request when devices get far"
 msgstr "HTTP adres dat opgevraagd wordt indien apparaten veraf raken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3275
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2931
 msgid "Add proximity notification"
 msgstr "Nabijheidswaarschuwing toevoegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3291
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2946
 msgid "Toggle lines"
 msgstr "Activeren/deactiveren lijnen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3299
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2954
 msgid "Follow this device (autozoom)"
 msgstr "Volg dit apparaat (autozoom)"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3312
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3319
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2966
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2973
 msgid "Center map on device"
 msgstr "Centreer kaart op apparaat"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3740
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3377
 msgid "The point you want to edit does not exist or you're not allowed to edit it"
 msgstr "Het punt dat je wilt bewerken bestaat niet of je hebt geen toestemming om het te bewerken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3744
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3381
 msgid "Failed to contact server to edit point"
 msgstr "Kon geen contact maken met server om punt te bewerken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3862
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3488
 msgid "The point you want to delete does not exist or you're not allowed to delete it"
 msgstr "Het punt dat je wilt verwijderen bestaat niet of je hebt geen toestemming om het te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3866
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3492
 msgid "Failed to contact server to delete point"
 msgstr "Kon geen contact maken met server om punt te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3955
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3992
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3575
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3603
 msgid "Manually added"
 msgstr "Handmatig toegevoegd"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3973
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3587
 msgid "Impossible to add this point"
 msgstr "Toevoegen van dit punt is niet mogelijk"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3976
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3589
 msgid "User quota was reached"
 msgstr "Gebruikersquota is bereikt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:3980
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3593
 msgid "Failed to contact server to add point"
 msgstr "Kon geen contact maken met server om punt toe te voegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4117
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3725
 msgid "Date"
 msgstr "Datum"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4120
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3728
 msgid "Time"
 msgstr "Tijdstip"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4125
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4209
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3733
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3816
 msgid "Altitude"
 msgstr "Hoogte"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4128
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4214
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3736
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3821
 msgid "Precision"
 msgstr "Nauwkeurigheid"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4131
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4221
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3739
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3828
 msgid "Speed"
 msgstr "Snelheid"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4134
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4226
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3742
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3833
 msgid "Bearing"
 msgstr "Richting"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4137
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4231
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3745
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3838
 msgid "Satellites"
 msgstr "Satellieten"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4140
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4236
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3748
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3843
 msgid "Battery"
 msgstr "Accu"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4143
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4240
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3751
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3847
 msgid "User-agent"
 msgstr "User-agent"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4146
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3754
 msgid "lat : lng"
 msgstr "lat: lng"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4150
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3758
 msgid "DMS coords"
 msgstr "DMS coords"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4156
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3764
 msgid "Save"
 msgstr "Opslaan"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4158
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3766
 msgid "Move"
 msgstr "Verplaatsen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4159
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3767
 msgid "Cancel"
 msgstr "Annuleer"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4205
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3812
 msgid "Distance"
 msgstr "Afstand"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4374
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3977
 msgid "Impossible to zoom, there is no point to zoom on for this session"
 msgstr "Inzoemen niet mogelijk, er is geen punt om op in te zoemen in deze sessie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4409
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4011
 msgid "File extension must be '.gpx', '.kml' or '.json' to be imported"
 msgstr "Bestandsextensie moet '.gpx', '.kml' of '.json' zijn om te importeren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4428
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4023
 msgid "Failed to create imported session"
 msgstr "Aanmaken van de geïmporteerde sessie is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4432
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4438
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4444
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4450
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4026
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4031
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4036
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4041
 msgid "Failed to import session"
 msgstr "Importeren van de sessie is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4433
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4027
 msgid "File is not readable"
 msgstr "Bestand is niet leesbaar"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4439
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4032
 msgid "File does not exist"
 msgstr "Bestand bestaat niet"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4445
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4037
 msgid "Malformed XML file"
 msgstr "Misvormd XML bestand"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4451
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4042
 msgid "There is no device to import in submitted file"
 msgstr "Er is geen apparaat om te importeren in het opgegeven bestand"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4457
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4047
 msgid "Failed to contact server to import session"
 msgstr "Kon geen contact maken met server om sessie te importeren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4478
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4485
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4065
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4070
 msgid "Session successfully exported in"
 msgstr "Sessie succesvol geëxporteerd in"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4482
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4068
 msgid "There is no point to export for this session"
 msgstr "Deze sessie heeft geen punt om te exporteren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4486
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4071
 msgid "but there was no point to export for some devices"
 msgstr "maar er waren enkele apparaten die geen punt te exporteren hadden"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4490
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4074
 msgid "Failed to export session"
 msgstr "Sessie exporteren is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4495
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4078
 msgid "Failed to contact server to export session"
 msgstr "Kon geen contact maken met server om sessie te exporteren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4526
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4105
 msgid "Failed to contact server to log position"
 msgstr "Kon geen contact maken met server om positie te loggen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4620
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4188
 msgid "Impossible to zoom, there is no point to zoom on for this device"
 msgstr "Inzoemen niet mogelijk, er is geen punt om op in te zoemen voor dit apparaat"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4733
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4299
 msgid "'{n}' is already reserved"
 msgstr "'{n}' is al gereserveerd"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4736
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4301
 msgid "Failed to reserve '{n}'"
 msgstr "Reserveren van '{n}' is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4739
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4305
 msgid "Failed to contact server to reserve device name"
 msgstr "Kon geen contact maken met server om apparaatnaam te reserveren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4770
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4774
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4330
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4333
 msgid "Failed to delete reserved name"
 msgstr "Gereserveerde naam verwijderen mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4771
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4331
 msgid "This device does not exist"
 msgstr "Dit apparaat bestaat niet"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4775
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4334
 msgid "This device name is not reserved, please reload this page"
 msgstr "Deze apparaatnaam is niet gereserveerd, aub deze pagina herladen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4778
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4338
 msgid "Failed to contact server to delete reserved name"
 msgstr "Kon geen contact maken met server om gereserveerde naam te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4798
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4352
 msgid "User does not exist"
 msgstr "Gebruiker bestaat niet"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4801
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4354
 msgid "Failed to add user share"
 msgstr "Delen is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4804
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4358
 msgid "Failed to contact server to add user share"
 msgstr "Kon geen contact maken met server om share toe te voegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4814
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4368
 msgid "Shared with {u}"
 msgstr "Gedeeld met {u}"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4839
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4387
 msgid "Failed to delete user share"
 msgstr "Verwijderen van delen met gebruiker is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4842
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4391
 msgid "Failed to contact server to delete user share"
 msgstr "Kon geen contact maken met server om share te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4860
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4884
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4404
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4423
 msgid "Public share has been successfully modified"
 msgstr "Openbare share is succesvol gewijzigd"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4863
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4887
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4406
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4425
 msgid "Failed to modify public share"
 msgstr "Openbare share wijzigen is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4866
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4890
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4410
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4429
 msgid "Failed to contact server to modify public share"
 msgstr "Kon geen contact maken met server om openbare share te wijzigen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4908
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4442
 msgid "Device name restriction has been successfully set"
 msgstr "De beperking voor de apparaatnaam is succesvol ingesteld"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4911
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4444
 msgid "Failed to set public share device name restriction"
 msgstr "Beperking van de apparaatnaam voor openbaar delen kon niet ingesteld worden"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4914
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4448
 msgid "Failed to contact server to set public share device name restriction"
 msgstr "Kon geen contact maken met server om beperking van de apparaatnaam voor openbaar delen in te stellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4949
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4478
 msgid "Warning : User email and server admin email must be set to receive geofencing alerts."
 msgstr "Waarschuwing : om geofencing meldingen te ontvangen moeten het mailadres van de gebruiker en het mailadres van de server admin ingesteld zijn."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4953
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4481
 msgid "Failed to add geofencing zone"
 msgstr "Toevoegen geofencing zone mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4956
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4485
 msgid "Failed to contact server to add geofencing zone"
 msgstr "Kon geen contact maken met server om geofencing zone toe te voegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4971
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4500
 msgid "URL to request when entering"
 msgstr "Op te vragen URL bij binnenkomst"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4975
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4504
 msgid "URL to request when leaving"
 msgstr "Op te vragen URL bij verlaten"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4978
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4982
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5095
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5099
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4507
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4511
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4613
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4617
 msgid "no"
 msgstr "nee"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4980
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4984
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5097
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5101
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4509
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4513
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4615
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4619
 msgid "yes"
 msgstr "ja"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4994
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5011
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5114
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5135
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4523
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4540
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4632
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4653
 msgid "Email address(es)"
 msgstr "E-mailadres(sen)"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:4994
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5012
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5114
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5135
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4523
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4541
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4632
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4653
 msgid "account mail address"
 msgstr "account e-mail adres"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5038
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4561
 msgid "Failed to delete geofencing zone"
 msgstr "Verwijderen van geofencing zone mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5041
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4565
 msgid "Failed to contact server to delete geofencing zone"
 msgstr "Kon geen contact maken met server om geofencing zone te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5071
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4590
 msgid "Warning : User email and server admin email must be set to receive proximity alerts."
 msgstr "Waarschuwing : om nabijheidswaarschuwingen te ontvangen moeten het mailadres van de gebruiker en het mailadres van de server admin ingesteld zijn."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5075
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5079
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4593
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4596
 msgid "Failed to add proximity alert"
 msgstr "Nabijheidswaarschuwing toevoegen niet gelukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5076
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4594
 msgid "Device or session does not exist"
 msgstr "Apparaat of sessie bestaat niet"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5082
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4600
 msgid "Failed to contact server to add proximity alert"
 msgstr "Kon geen contact maken met server om nabijheidswaarschuwing toe te voegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5106
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5123
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4624
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4641
 msgid "URL to request when devices get close"
 msgstr "URL die opgevraagd wordt indien apparaten dichtbij komen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5109
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5127
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4627
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4645
 msgid "URL to request when devices get far"
 msgstr "URL die opgevraagd wordt indien apparaten veraf raken"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5116
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5138
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4634
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4656
 msgid "Low distance limit : {nbmeters}m"
 msgstr "Afstand ondergrens : {nbmeters}m"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5117
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5140
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4635
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4658
 msgid "High distance limit : {nbmeters}m"
 msgstr "Afstand bovengrens : {nbmeters}m"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5166
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4678
 msgid "Failed to delete proximity alert"
 msgstr "Nabijheidswaarschuwing verwijderen niet gelukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5169
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4682
 msgid "Failed to contact server to delete proximity alert"
 msgstr "Kon geen contact maken met server om nabijheidswaarschuwing te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5188
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4695
 msgid "Failed to add public share"
 msgstr "Openbaar delen is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5191
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4699
 msgid "Failed to contact server to add public share"
 msgstr "Kon geen contact maken met server om openbare share toe te voegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5222
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4730
 msgid "Show this device only"
 msgstr "Alleen dit apparaat weergeven"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5224
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4732
 msgid "Show last positions only"
 msgstr "Alleen de laatste posities weergeven"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5226
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4734
 msgid "Simplify positions to nearest geofencing zone center"
 msgstr "Breng de posities terug naar het midden van de dichtstbijzijnde geofencing zone"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5245
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4752
 msgid "No filters"
 msgstr "Geen filters"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5269
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4770
 msgid "Failed to delete public share"
 msgstr "Verwijderen van openbaar delen is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5272
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4774
 msgid "Failed to contact server to delete public share"
 msgstr "Kon geen contact maken met server om openbare share te verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5313
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4809
 msgid "Failed to contact server to get user list"
 msgstr "Kon geen contact maken met server om gebruikerslijst op te vragen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5355
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4851
 msgid "device name"
 msgstr "apparaat naam"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5356
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4852
 msgid "distance (km)"
 msgstr "afstand (km)"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5357
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4853
 msgid "duration"
 msgstr "duur"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5358
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4854
 msgid "#points"
 msgstr "#punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5359
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4855
 msgid "avg speed (km/h)"
 msgstr "gemiddelde snelheid (km/h)"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5360
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4856
 msgid "max speed (km/h)"
 msgstr "maximum snelheid (km/h)"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5432
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4926
 msgid "years"
 msgstr "jaren"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5435
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4929
 msgid "days"
 msgstr "dagen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5458
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4952
 msgid "In OsmAnd, go to 'Plugins' in the main menu, then activate 'Trip recording' plugin and go to its settings."
 msgstr "In OsmAnd, ga naar 'Plugins' in het hoofdmenu, activeer daarna 'Trip recording' plugin and ga naar de instellingen daarvan."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5459
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4953
 msgid "Copy the link below into the 'Online tracking web address' field."
 msgstr "Kopieer de onderstaande link in het 'Online tracking web adres' veld."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5463
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4956
 msgid "Go to 'settings' in the app."
 msgstr "Ga naar 'instellingen' in de app."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5464
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4957
 msgid "Copy the link below into the 'server address' field."
 msgstr "Kopieer de onderstaande link naar het veld 'serveradres'."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5468
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4960
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
 msgstr "In GpsLogger, ga naar 'Logging details' in het zijbalkmenu, activeer daarna 'Log naar aangepaste URL'."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5469
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4961
 msgid "Copy the link below into the 'URL' field."
 msgstr "Kopieer de onderstaande link in het 'URL' veld."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5473
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4964
 msgid "In the Owntracks preferences menu, go to 'Connections'."
 msgstr "Ga in het voorkeurenmenu van Owntracks naar 'Verbindingen'."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5474
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4965
 msgid "Change the connection Mode to 'Private HTTP', Copy the link below into the 'Host' field."
 msgstr "Verander de verbindingsmodus in 'Private HTTP', kopieer de onderstaande link naar het veld 'Host'."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5475
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4966
 msgid "Leave settings under 'Identification' blank as they are not required."
 msgstr "Laat de instellingen onder 'Identificatie' blanco, omdat ze niet nodig zijn."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5479
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4969
 msgid "In Ulogger, go to settings menu and copy the link below into the 'Server URL' field."
 msgstr "In Ulogger, ga naar het instellingenmenu en kopieer de onderstaande link in het 'Server URL' veld."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5480
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4970
 msgid "Set 'User name' and 'Password' mandatory fields to any value as they will be ignored by PhoneTrack."
 msgstr "Zet willekeurige waarden in de verplichte velden 'Gebruikersnaam' en 'Wachtwoord'. Ze zullen genegeerd worden door PhoneTrack."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5481
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4971
 msgid "Activate 'Live synchronization'."
 msgstr "Activeer 'Live synchronisatie'."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5485
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4974
 msgid "In Traccar client, copy the link below into the 'server URL' field."
 msgstr "In Traccar client, kopieer de onderstaande link in het 'server URL' veld."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5489
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4977
 msgid "In LocusMap, copy the link below into the 'server URL' field. It works with POST and GET methods."
 msgstr "Kopieer in LocusMap de onderstaande link in het veld 'server URL'. Het werkt met POST en GET methoden."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5493
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4980
 msgid "You can log with any other client with a simple HTTP request."
 msgstr "Loggen is mogelijk met een willekeurig andere client die simpele HTTP verzoeken begrijpt."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5494
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4981
 msgid "Make sure the logging system sets values for at least 'timestamp', 'lat' and 'lon' GET parameters."
 msgstr "Zorg ervoor dat de logger minimaal de waarden zet voor de GET parameters 'timestamp', 'lat' en 'lon'."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5497
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4983
 msgid "Use this link as the server URL in your OpenGTS compatible logging app."
 msgstr "Gebruik deze link als server URL in jouw OpenGTS compatibele logging app."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5498
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4984
 msgid "OpenGTS compatible logger"
 msgstr "OpenGTS compatibele logger"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5501
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4986
 msgid "the browser"
 msgstr "de browser"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5502
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:212
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4987
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:214
 msgid "Log my position in this session"
 msgstr "Log mijn positie in deze sessie"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5503
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4988
 msgid "Visit this link with a web browser and check \"{loglabel}\"."
 msgstr "Bezoek deze link met een web browser en activeer \"{loglabel}\"."
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5506
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4991
 msgid "Configure {loggingApp} for logging to session '{sessionName}'"
 msgstr "Configureer {loggingApp} voor logging in sessie '{sessionName}'"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5733
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5232
 msgid "Are you sure you want to delete the session {session} ?"
 msgstr "Weet je zeker dat je sessie {session} wilt verwijderen?"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5736
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5235
 msgid "Confirm session deletion"
 msgstr "Verwijderen van de sessie bevestigen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5792
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5290
 msgid "Choose auto export target path"
 msgstr "Kies het doelpad voor auto export"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:5972
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5466
 msgid "Select storage location for '{fname}'"
 msgstr "Selecteer opslag locatie voor '{fname}'"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6194
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5630
 msgid "Geo QRcode : last position of {dname}"
 msgstr "Geo QRcode : laatste positie van {dname}"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6316
-msgid "Are you sure you want to delete the device {device} ?"
-msgstr "Weet je zeker dat je apparaat {device} wilt verwijderen?"
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5808
+msgid "Are you sure you want to delete the device {device}?"
+msgstr ""
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6319
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5811
 msgid "Confirm device deletion"
 msgstr "Verwijderen van apparaat bevestigen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6372
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5858
 msgid "Failed to change session lock status"
 msgstr "Wijzigen van de sessie lock status mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6400
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5880
 msgid "Failed to toggle session public status, session does not exist"
 msgstr "Omschakelen van openbare/privé sessie mislukt, de sessie bestaat niet"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6403
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5884
 msgid "Failed to contact server to toggle session public status"
 msgstr "Kon geen contact maken met server om openbare/privé sessie om te schakelen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6472
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5945
 msgid "Failed to set device shape"
 msgstr "Apparaatvorm instellen mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6475
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5949
 msgid "Failed to contact server to set device shape"
 msgstr "Kon geen contact maken met server om apparaatvorm in te stellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6497
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5966
 msgid "Failed to set session auto export value"
 msgstr "Waarde voor automatische sessie-export kon niet ingesteld worden"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6498
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6525
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5967
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5990
 msgid "session does not exist"
 msgstr "sessie bestaat niet"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6502
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5972
 msgid "Failed to contact server to set session auto export value"
 msgstr "Kon geen contact maken met server om de waarde voor automatische sessie-export in te stellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6524
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5989
 msgid "Failed to set session auto purge value"
 msgstr "Instellen van automatisch sessie opruimen is mislukt"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6529
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5995
 msgid "Failed to contact server to set session auto purge value"
 msgstr "Kon geen contact maken met server om de waarde voor automatisch opruimen in te stellen"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:6616
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6082
 msgid "Import gpx/kml/json session file"
 msgstr "Importeer gpx/kml/json sessiebestand"
 
-#: /var/www/html/dev/server/apps/phonetrack/src/phonetrack.js:7214
+#: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6668
 msgid "Close elevation chart"
 msgstr "Hoogtegrafiek sluiten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:8
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:11
 msgid "Point number quota"
 msgstr "Quota van aantal punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:9
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:12
 msgid "Set the maximum number of points each user can store/log."
 msgstr "Stel het maximaal aantal punten in dat iedere gebruiken kan opslaan/loggen."
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:10
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:13
 msgid "Each user can choose what happens when the quota is reached : block logging or delete oldest point."
 msgstr "Elke gebruiker kan kiezen wat er gebeurt wanneer de quota is bereikt: blokkeren van logboekregistratie of oudste punt verwijderen."
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/admin.php:11
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:14
 msgid "An empty value means no limit."
 msgstr "Een lege waard betekent geen limiet."
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:4
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:5
 msgid "Main tab"
 msgstr "Hoofd tab"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:5
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:6
 msgid "Filters"
 msgstr "Filters"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:14
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:15
 msgid "Stats"
 msgstr "Stats"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:15
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:263
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:16
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:264
 msgid "Settings and extra actions"
 msgstr "Instellingen en extra acties"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:16
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:730
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:17
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:730
 msgid "About PhoneTrack"
 msgstr "Over PhoneTrack"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:32
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:34
 msgid "Import session"
 msgstr "Sessie importeren"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:36
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:38
 msgid "Create session"
 msgstr "Sessie aanmaken"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:40
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:42
 msgid "Session name"
 msgstr "Sessienaam"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:53
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:55
 msgid "Options"
 msgstr "Opties"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:61
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:63
 msgid "General"
 msgstr "Algemeen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:64
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:66
 msgid "Refresh each (sec)"
 msgstr "Ververs elke (sec)"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:67
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:69
 msgid "Refresh"
 msgstr "Ververs"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:69
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:71
 msgid "An empty value means no limit"
 msgstr "Een lege waard betekent geen limiet"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:71
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:73
 msgid "Max number of points per device to load on refresh"
 msgstr "Maximum aantal punten per apparaat dat bij verversen geladen wordt"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:72
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:74
 msgid "points"
 msgstr "punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:74
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:79
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:76
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:81
 msgid "Cutting lines only affects map view and stats table"
 msgstr "Het snijden van lijnen heeft enkel effect op kaartweergave en statistiektabel"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:76
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:78
 msgid "Minimum distance to cut between two points"
 msgstr "Minimale afstand om te snijden tussen twee punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:81
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:83
 msgid "Minimum time to cut between two points"
 msgstr "Minimale tijd om te snijden tussen twee punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:82
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:84
 msgid "seconds"
 msgstr "seconden"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:85
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:87
 msgid "When point quota is reached"
 msgstr "Wanneer quota van punten bereikt is"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:87
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:89
 msgid "block logging"
 msgstr "logboekregistratie blokkeren"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:88
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:90
 msgid "delete user's oldest point each time a new one is logged"
 msgstr "verwijder het oudste punt van de gebruiker, iedere keer als een nieuwe wordt gelogd"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:89
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:91
 msgid "delete device's oldest point each time a new one is logged"
 msgstr "verwijder het oudste punt van het apparaat, iedere keer als een nieuwe wordt gelogd"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:93
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:95
 msgid "Display"
 msgstr "Weergave"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:98
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:100
 msgid "Auto zoom"
 msgstr "Autozoom"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:106
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:108
 msgid "Show tooltips"
 msgstr "Tooltips weergeven"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:110
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:112
 msgid "Display first letter of device name on last position"
 msgstr "Eerste letter van de apparaatnaam op de laatste positie weergeven"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:114
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:116
 msgid "Show direction arrows along lines"
 msgstr "Toon richtingpijlen langs de lijnen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:118
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:120
 msgid "Draw line with color gradient"
 msgstr "Lijn met kleurovergang kleur tekenen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:122
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:124
 msgid "Show distance in tooltips"
 msgstr "Toon afstand in tooltips"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:126
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:128
 msgid "Show accuracy in tooltips"
 msgstr "Nauwkeurigheid weergeven in tooltips"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:130
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:132
 msgid "Show speed in tooltips"
 msgstr "Snelheid weergeven in tooltips"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:134
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:136
 msgid "Show bearing in tooltips"
 msgstr "Richting weergeven in tooltips"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:138
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:140
 msgid "Show satellites in tooltips"
 msgstr "Satellieten weergeven in tooltips"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:142
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:144
 msgid "Show battery level in tooltips"
 msgstr "Accuniveau weergeven in tooltips"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:146
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:148
 msgid "Show elevation in tooltips"
 msgstr "Hoogte weergeven in tooltips"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:150
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:152
 msgid "Show user-agent in tooltips"
 msgstr "User-agent weergeven in tooltips"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:154
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:156
 msgid "Make points draggable in edition mode"
 msgstr "Punten versleepbaar maken in bewerkmodus"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:158
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:160
 msgid "Show accuracy circle on hover"
 msgstr "Toon een nauwkeurigheidscirkel bij zweven"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:162
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:164
 msgid "Line width"
 msgstr "Lijndikte"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:167
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:169
 msgid "Point radius"
 msgstr "Radius van punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:172
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:174
 msgid "Points and lines opacity"
 msgstr "Doorzichtigheid van punten en lijnen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:177
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:179
 msgid "Theme"
 msgstr "Thema"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:179
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:181
 msgid "bright"
 msgstr "helder"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:180
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:182
 msgid "pastel"
 msgstr "pastel"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:181
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:183
 msgid "dark"
 msgstr "donker"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:187
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:189
 msgid "Show lines in public pages"
 msgstr "Toon lijnen op openbare pagina's"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:189
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:191
 msgid "reload page to make changes effective"
 msgstr "herlaad de pagina om de wijzigingen door te voeren"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:193
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:195
 msgid "File export"
 msgstr "Bestand exporteren"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:196
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:198
 msgid "Auto export path"
 msgstr "Auto export pad"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:202
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:204
 msgid "Export one file per device"
 msgstr "Een bestand per apparaat exporteren"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:217
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:219
 msgid "Tracking sessions"
 msgstr "Tracking sessies"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:268
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:269
 msgid "Custom tile servers"
 msgstr "Persoonlijke tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:271
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:311
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:350
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:393
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:438
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:272
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:312
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:351
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:394
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:439
 msgid "Server name"
 msgstr "Servernaam"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:272
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:312
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:351
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:394
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:439
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:273
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:313
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:352
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:395
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:440
 msgid "For example : my custom server"
 msgstr "Bijvoorbeeld: mijn persoonlijke server"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:273
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:274
 msgid "Server address"
 msgstr "Serveradres"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:274
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:396
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:275
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:397
 msgid "For example : http://tile.server.org/cycle/{z}/{x}/{y}.png"
 msgstr "Bijvoorbeeld : http://tegel.server.org/cycle/{z}/{x}/{y}.png"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:275
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:354
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:397
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:442
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:276
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:355
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:398
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:443
 msgid "Min zoom (1-20)"
 msgstr "Min zoom (1-20)"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:277
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:356
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:399
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:444
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:278
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:357
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:400
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:445
 msgid "Max zoom (1-20)"
 msgstr "Max zoom (1-20)"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:279
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:317
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:362
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:407
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:456
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:280
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:318
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:363
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:408
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:457
 msgid "Add"
 msgstr "Toevoegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:282
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:283
 msgid "Your tile servers"
 msgstr "Jouw tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:308
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:309
 msgid "Custom mapbox tile servers"
 msgstr "Persoonlijke mapbox tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:313
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:314
 msgid "Style.json url"
 msgstr "Style.json URL"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:314
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:315
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
 msgstr "Bijvoorbeeld : mapbox://styles/mapbox/bright-v8 of https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:315
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:316
 msgid "Access token (API key)"
 msgstr "Toegangstoken (API-Key)"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:320
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:321
 msgid "Your mapbox tile servers"
 msgstr "Jouw mapbox tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:347
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:348
 msgid "Custom overlay tile servers"
 msgstr "Persoonlijke overlay tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:352
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:395
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:440
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:353
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:396
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:441
 msgid "Server url"
 msgstr "Server url"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:353
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:441
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:354
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:442
 msgid "For example : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 msgstr "Bijvoorbeeld : http://overlay.server.org/cycle/{z}/{x}/{y}.png"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:358
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:446
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:359
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:447
 msgid "Transparent"
 msgstr "Transparant"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:360
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:448
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:361
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:449
 msgid "Opacity (0.0-1.0)"
 msgstr "Doorzichtigheid (0.0-1.0)"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:365
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:366
 msgid "Your overlay tile servers"
 msgstr "Jouw overlay tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:390
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:391
 msgid "Custom WMS tile servers"
 msgstr "Persoonlijke WMS tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:401
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:450
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:402
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:451
 msgid "Format"
 msgstr "Formaat"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:403
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:452
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:404
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:453
 msgid "WMS version"
 msgstr "WMS versie"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:405
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:454
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:406
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:455
 msgid "Layers to display"
 msgstr "Te tonen lagen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:410
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:411
 msgid "Your WMS tile servers"
 msgstr "Jouw WMS tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:435
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:436
 msgid "Custom WMS overlay servers"
 msgstr "Persoonlijke WMS overlay servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:459
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:460
 msgid "Your WMS overlay tile servers"
 msgstr "Jouw WMS overlay tegel servers"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:488
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:489
 msgid "Manually add a point"
 msgstr "Handmatig een punt toevoegen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:494
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:512
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:495
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:513
 msgid "Device"
 msgstr "Apparaat"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:496
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:497
 msgid "Add a point"
 msgstr "Voeg een punt toe"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:497
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:498
 msgid "Now, click on the map to add a point (if session is not activated, you won't see added point)"
 msgstr "Klik nu op de kaart om een punt toe te voegen (als de sessie niet geactiveerd is, zal het toegevoegde punt niet zichtbaar zijn)"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:498
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:499
 msgid "Cancel add point"
 msgstr "Toevoegen van punt annuleren"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:503
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:504
 msgid "Delete multiple points"
 msgstr "Meerdere punten verwijderen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:506
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:507
 msgid "Choose a session, a device and adjust the filters. All displayed points for selected device will be deleted. An empty device name selects them all."
 msgstr "Kies een sessie, een apparaat en pas de filters aan. Alle zichtbare punten voor het geselecteerde apparaat zullen verwijderd worden. Een lege apparaatnaam selecteert alle punten."
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:514
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:515
 msgid "Delete points"
 msgstr "Verwijder punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:515
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:516
 msgid "Delete only visible points"
 msgstr "Verwijder enkel zichtbare punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:522
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:522
 msgid "Filter points"
 msgstr "Filter punten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:529
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:529
 msgid "Apply filters"
 msgstr "Filters toepassen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:534
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:534
 msgid "Begin date"
 msgstr "Begin datum"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:541
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:559
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:541
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:559
 msgid "today"
 msgstr "vandaag"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:546
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:546
 msgid "Begin time"
 msgstr "Begin tijdstip"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:552
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:552
 msgid "End date"
 msgstr "Eind datum"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:564
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:564
 msgid "End time"
 msgstr "Eind tijdstip"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:571
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:571
 msgid "Min-- and Max--"
 msgstr "Min-- en Max--"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:574
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:574
 msgid "Min++ and Max++"
 msgstr "Min++ en Max++"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:578
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:578
 msgid "Last day:hour:min"
 msgstr "Laatste dag:uur:minuut"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:585
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:585
 msgid "Minimum accuracy"
 msgstr "Minimum nauwkeurigheid"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:593
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:593
 msgid "Maximum accuracy"
 msgstr "Maximum nauwkeurigheid"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:601
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:601
 msgid "Minimum elevation"
 msgstr "Minimum hoogte"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:609
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:609
 msgid "Maximum elevation"
 msgstr "Maximum hoogte"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:617
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:617
 msgid "Minimum battery level"
 msgstr "Minimum accuniveau"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:625
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:625
 msgid "Maximum battery level"
 msgstr "Maximum accuniveau"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:633
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:633
 msgid "Minimum speed"
 msgstr "Minimum snelheid"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:641
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:641
 msgid "Maximum speed"
 msgstr "Maximum snelheid"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:649
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:649
 msgid "Minimum bearing"
 msgstr "Minimum richting"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:657
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:657
 msgid "Maximum bearing"
 msgstr "Maximum richting"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:665
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:665
 msgid "Minimum satellites"
 msgstr "Minimum aantal satellieten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:673
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:673
 msgid "Maximum satellites"
 msgstr "Maximum aantal satellieten"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:683
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:683
 msgid "bookmark name"
 msgstr "bladwijzernaam"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:685
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:685
 msgid "Save filter bookmark"
 msgstr "Bladwijzer filter opslaan"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:718
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:718
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:722
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:722
 msgid "Show stats"
 msgstr "Toon statistieken"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:732
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:732
 msgid "Shortcuts"
 msgstr "Sneltoetsen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:734
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:734
 msgid "Toggle sidebar"
 msgstr "Zijbalk tonen/verbergen"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:738
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:738
 msgid "Documentation"
 msgstr "Documentatie"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:746
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:746
 msgid "Source management"
 msgstr "Bron beheer"
 
-#: /var/www/html/dev/server/apps/phonetrack/templates/maincontent.php:760
+#: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:760
 msgid "Authors"
 msgstr "Auteurs"
 
