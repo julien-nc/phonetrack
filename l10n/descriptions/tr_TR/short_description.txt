@@ -1,1 +1,1 @@
-Track and display phones positions in real time
+Telefonların konumlarını gerçek zamanlı olarak izle ve göster
