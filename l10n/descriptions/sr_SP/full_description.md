@@ -1,55 +1,57 @@
-# PhoneTrack Nextcloud апликација
+# PhoneTrack Nextcloud application
 
-📱 PhoneTrack је Nextcloud апликација за праћење и чување локације мобилних уређаја.
+📱 PhoneTrack is a Nextcloud application to track and store mobile devices locations.
 
-🗺 Прима информације од апликација за праћење локације мобилних телефона и динамички их приказује на мапи.
+🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
 
-🌍 Помозите нам да преведемо ову апликацију на [PhoneTrack Crowdin пројекту](https://crowdin.com/project/phonetrack).
+🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Погледајте друге начине да помогнете у [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-Како користити PhoneTrack :
+How to use PhoneTrack :
 
-* Create a tracking session.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+- Create a tracking session.
+- Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
+Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
 
 On PhoneTrack main page, while watching a session, you can :
 
-* 📍 Прикажи историју локација
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-* 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* 🗓 Укључите аутоматски извоз сесије и аутоматско чишћење (дневно/недељно/месечно)
-* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+- 📍 Display location history
+- ⛛ Filter points
+- ✎ Manually edit/add/delete points
+- ✎ Edit devices (rename, change color/shape, move to another session)
+- ⛶ Define geofencing zones for devices
+- ⚇ Define proximity alerts for device pairs
+- 🖧 Share a session to other Nextcloud users or with a public link (read-only)
+- 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
+- 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
+- 🗠 Display sessions statistics
+- 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
+- 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
+- ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
 
-Јавна страница и јавна филтрерисана страна раде као главна страница, осим што је приказана само једна сесија, све је read-only и нема потребе да се пријављујете.
+Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
-Ова апликација је тестирана на Nextcloud 17 са Firefox 57+ и Chromium веб претраживачем.
+This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
 
-Ова апликација је компатибилна са бојама тема и темама приступачности!
+This app is compatible with theming colors and accessibility themes !
 
-Ова апликација је у развоју.
+This app is under development.
 
-## Инсталирај
+## Install
 
-Види [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) за упутсва за инсталацију.
+See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
 
-Провери [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) да видиш шта је ново, и шта ново излази у новим верзијама.
+Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
 
-Види [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) фајл да бих видео листу аутора.
+Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
-## Познати проблеми
+## Known issues
 
-* PhoneTrack **сада ради** са Nextcloud group restriction подставком активном. Види [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Свака повратна информација ће бити цењена.
+Any feedback will be appreciated.
+
