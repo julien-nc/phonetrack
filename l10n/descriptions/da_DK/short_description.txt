@@ -1,1 +1,1 @@
-Spor og vis telefonpositioner i realtid
+Track and display phones positions in real time
