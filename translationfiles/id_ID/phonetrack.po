@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:26\n"
+"PO-Revision-Date: 2025-10-26 23:42\n"
 "Last-Translator: \n"
 "Language-Team: Indonesian\n"
 "Language: id_ID\n"
@@ -14,12 +14,12 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: id\n"
-"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 246\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr "Perangkat PhoneTrack {device} atas {session} telah keluar dari area {geofence}"
+msgstr "Perangkat PhoneTrack {device} atas {session} memasuki area {geofence}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:76
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
@@ -58,7 +58,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr "PhoneTrack"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
@@ -608,15 +608,15 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2815
 msgid "Round"
-msgstr "Bulat"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2816
 msgid "Square"
-msgstr "Persegi"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2817
 msgid "Triangle"
-msgstr "Segitiga"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2821
 msgid "Delete this device"
@@ -705,11 +705,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2872
 msgid "North"
-msgstr "Utara"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2874
 msgid "South"
-msgstr "Selatan"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2878
 msgid "Set North/East corner by clicking on the map"
@@ -729,11 +729,11 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2886
 msgid "East"
-msgstr "Timur"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2888
 msgid "West"
-msgstr "Barat"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2891
 msgid "Fence name"
@@ -780,7 +780,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2913
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:79
 msgid "meters"
-msgstr "meter"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2911
 msgid "High distance limit"
@@ -865,7 +865,7 @@ msgstr "Presisi"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3739
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3828
 msgid "Speed"
-msgstr "Kecepatan"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3742
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3833
@@ -889,11 +889,11 @@ msgstr "Agen pengguna"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3754
 msgid "lat : lng"
-msgstr "lat : lng"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3758
 msgid "DMS coords"
-msgstr "DMS coords"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3764
 msgid "Save"
@@ -909,7 +909,7 @@ msgstr "Membatalkan"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3812
 msgid "Distance"
-msgstr "Jarak"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3977
 msgid "Impossible to zoom, there is no point to zoom on for this session"
@@ -1084,14 +1084,14 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4613
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4617
 msgid "no"
-msgstr "tidak"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4509
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4513
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4615
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4619
 msgid "yes"
-msgstr "iya"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4523
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4540
@@ -1170,11 +1170,11 @@ msgstr "Gagal menghubungi server untuk menambahkan berbagi publik"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4730
 msgid "Show this device only"
-msgstr "Hanya tampilkan perangkat ini"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4732
 msgid "Show last positions only"
-msgstr "Hanya tampilkan posisi terakhir"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4734
 msgid "Simplify positions to nearest geofencing zone center"
@@ -1214,11 +1214,11 @@ msgstr "#poin"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4855
 msgid "avg speed (km/h)"
-msgstr "kecepatan rata-rata (km/jam)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4856
 msgid "max speed (km/h)"
-msgstr "kecepatan maksimum (km/jam)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4926
 msgid "years"
@@ -1238,7 +1238,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4956
 msgid "Go to 'settings' in the app."
-msgstr "Pergi ke 'pengaturan' di dalam aplikasi."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4957
 msgid "Copy the link below into the 'server address' field."
@@ -1458,7 +1458,7 @@ msgstr "Refresh setiap (detik)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:69
 msgid "Refresh"
-msgstr "Refresh"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:71
 msgid "An empty value means no limit"
@@ -1487,7 +1487,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:84
 msgid "seconds"
-msgstr "detik"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:87
 msgid "When point quota is reached"
@@ -1507,7 +1507,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:95
 msgid "Display"
-msgstr "Tampilan"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:100
 msgid "Auto zoom"
@@ -1591,7 +1591,7 @@ msgstr "terang"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:182
 msgid "pastel"
-msgstr "pastel"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:183
 msgid "dark"
@@ -1690,7 +1690,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:316
 msgid "Access token (API key)"
-msgstr "Token akses (Kunci API)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:321
 msgid "Your mapbox tile servers"
@@ -1719,7 +1719,7 @@ msgstr "Transparan"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:361
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:449
 msgid "Opacity (0.0-1.0)"
-msgstr "Opacity (0.0-1.0)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:366
 msgid "Your overlay tile servers"
@@ -1732,7 +1732,7 @@ msgstr "Surver khusus ubin WMS"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:402
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:451
 msgid "Format"
-msgstr "Format"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:404
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:453
@@ -1860,11 +1860,11 @@ msgstr "Tingkat baterai maksimum"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:633
 msgid "Minimum speed"
-msgstr "Kecepatan minimum"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:641
 msgid "Maximum speed"
-msgstr "Kecepatan maksimum"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:649
 msgid "Minimum bearing"
@@ -1904,7 +1904,7 @@ msgstr "Jalan pintas"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:734
 msgid "Toggle sidebar"
-msgstr "Toggle sidebar"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:738
 msgid "Documentation"
