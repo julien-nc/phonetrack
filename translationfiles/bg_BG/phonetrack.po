@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:26\n"
+"PO-Revision-Date: 2025-10-26 23:41\n"
 "Last-Translator: \n"
 "Language-Team: Bulgarian\n"
 "Language: bg_BG\n"
@@ -14,40 +14,40 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: bg\n"
-"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 246\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr "PhoneTrack устройство {device} от сесия {session} влезе в геозона {geofence}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:76
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr "PhoneTrack устройство {device} от сесия {session} излезе от геозона {geofence}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:79
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr "PhoneTrack устройство {device} от сесия {session} е по-близо от {meters} m до {device2} от сесия {session2}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:82
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr "PhoneTrack устройство {device} от сесия {session} е по-далече от {meters} m до {device2} от сесия {session2}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "You shared PhoneTrack session {session} with {who}"
-msgstr "Споделихте PhoneTrack сесия {session} с {who}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr "PhoneTrack сесия {session} е вече споделена с {who}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "You stopped sharing session {session} with {who}"
-msgstr "Спряхте споделянето на сесия {session} с {who}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr "PhoneTrack сесия {session} не е споделена с {who} вече"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "PhoneTrack client"
@@ -58,19 +58,19 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr "PhoneTrack"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr "<strong>PhoneTrack геозона</strong>, събития"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
-msgstr "<strong>PhoneTrack устройства в близост </strong>, събития"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
-msgstr "Промени в <strong>PhoneTrack приложение</strong>"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:365
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:498
@@ -81,12 +81,12 @@ msgstr "PhoneTrack устройство е наблизо (%s and %s)"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:369
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
-msgstr "PhoneTrack устройство %s е по-близо от %s m до %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:502
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
-msgstr "PhoneTrack устройство %s е по-далече от %s m от %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:704
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:830
@@ -96,26 +96,26 @@ msgstr "Внимание, ограничителна зона"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:708
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
-msgstr "От PhoneTrack сесия %s, устройство %s влезе в геозона %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:834
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
-msgstr "От PhoneTrack сесия %s, устройство %s излезе от геозона %s."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2260
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2286
 msgid "Watch session"
-msgstr "Визуализирай сесията"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2346
 msgid "PhoneTrack public access"
-msgstr "PhoneTrack публичен достъп"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2347
 #, php-format
 msgid "Log to session %s"
-msgstr "Запази в сесия %s"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:67
 #, php-format
@@ -140,7 +140,7 @@ msgstr "Устройство \"%s\" е по-далеч от %sm до \"%s\"."
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:101
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
-msgstr "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:110
 #, php-format
@@ -363,7 +363,7 @@ msgstr "ежемесечно"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1496
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr "Автоматичното изчистване се задейства ежедневно и ще изтрие точки, по-стари от избраната продължителност"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1497
 msgid "Automatic purge"
@@ -493,7 +493,7 @@ msgstr "OpenGTS линк"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1611
 msgid "Overland link"
-msgstr "Overland линк"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1615
 msgid "Locus Map link"
@@ -917,7 +917,7 @@ msgstr "Невъзможно е да увеличите, няма точка з�
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4011
 msgid "File extension must be '.gpx', '.kml' or '.json' to be imported"
-msgstr "Разширението на файла трябва да бъде „.gpx“, „.kml“ или „.json“, за да бъде импортиран"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4023
 msgid "Failed to create imported session"
@@ -1242,7 +1242,7 @@ msgstr "Към 'настройки' в приложението."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4957
 msgid "Copy the link below into the 'server address' field."
-msgstr "Копирайте връзката по-долу в полето „адрес на сървъра“."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4960
 msgid "In GpsLogger, go to 'Logging details' in the sidebar menu, then activate 'Log to custom URL'."
@@ -1388,11 +1388,11 @@ msgstr "Неуспешно свързване със сървъра за зад�
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6082
 msgid "Import gpx/kml/json session file"
-msgstr "Импортирайте сесия от файл gpx/kml/json"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6668
 msgid "Close elevation chart"
-msgstr "Затворете диаграмата за надморската височина"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:11
 msgid "Point number quota"
@@ -1531,7 +1531,7 @@ msgstr "Начертайте линия с цветен градиент"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:124
 msgid "Show distance in tooltips"
-msgstr "Показване на разстоянието в подсказките"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:128
 msgid "Show accuracy in tooltips"
@@ -1678,7 +1678,7 @@ msgstr "Вашия тайлов сървър"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:309
 msgid "Custom mapbox tile servers"
-msgstr "Персонализиране на mapbox сървър"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:314
 msgid "Style.json url"
@@ -1690,11 +1690,11 @@ msgstr "Например: mapbox://styles/mapbox/bright-v8 или https://your.o
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:316
 msgid "Access token (API key)"
-msgstr "Токен за достъп (API ключ)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:321
 msgid "Your mapbox tile servers"
-msgstr "Вашите mapbox сървъри"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:348
 msgid "Custom overlay tile servers"
@@ -1723,7 +1723,7 @@ msgstr "Прозрачност (0.0-1.0)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:366
 msgid "Your overlay tile servers"
-msgstr "Your overlay tile servers"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:391
 msgid "Custom WMS tile servers"
