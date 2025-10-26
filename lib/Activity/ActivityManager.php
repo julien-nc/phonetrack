@@ -160,7 +160,7 @@ class ActivityManager {
 				throw new \Exception('Unknown subject for activity.');
 				break;
 		}
-		$subjectParams['author'] = $this->l10n->t('PhoneTrack client');
+		$subjectParams['author'] = $this->l10n->t('A PhoneTrack client');
 
 		$event = $this->manager->generateEvent();
 		$event->setApp('phonetrack')
