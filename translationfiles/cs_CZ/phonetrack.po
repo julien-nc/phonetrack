@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2025-10-27 00:08+0100\n"
-"PO-Revision-Date: 2025-10-26 23:13\n"
+"POT-Creation-Date: 2025-10-27 00:25+0100\n"
+"PO-Revision-Date: 2025-10-26 23:26\n"
 "Last-Translator: \n"
 "Language-Team: Czech\n"
 "Language: cs_CZ\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: cs\n"
 "X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 230\n"
+"X-Crowdin-File-ID: 29\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
@@ -50,8 +50,8 @@ msgid "PhoneTrack session {session} is not shared with {who} anymore"
 msgstr "PhoneTrack relace {session} je nyní sdílena s {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
-msgid "A PhoneTrack client"
-msgstr "PhoneTrack klient"
+msgid "PhoneTrack client"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Filter.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:46
