@@ -2,45 +2,46 @@
 
 📱 PhoneTrack 是跟踪和存储移动设备位置的 Nextcloud 应用程序。
 
-🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
+🗺   它从移动设备的记录程序上接受信息并动态的显示在程序上
 
 🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
 ⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
-How to use PhoneTrack :
+如何使用PhoneTrack：
 
-* Create a tracking session.
-* Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-* Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
+- 创建跟踪会话。
+- 给移动设备提供日志链接\* Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- 在PhoneTrack 中查看会话链接中设备的实时(或非实时) 位置或者分享至公开页面
 
-(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name. Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
+(\*) 不要忘记在链接中设置设备名称 (而不是在日志应用程序设置中)。 用设备名称替换”你的名称”
+在日志记录应用设置中设置设备名称只适用于 Owntracks, Traccar 和 OpenGTS。
 
-On PhoneTrack main page, while watching a session, you can :
+在PhoneTrack 主页上，在观看会话时，您可以：
 
-* 📍 Display location history
-* ⛛ Filter points
-* ✎ Manually edit/add/delete points
-* ✎ Edit devices (rename, change color/shape, move to another session)
-* ⛶ Define geofencing zones for devices
-* ⚇ Define proximity alerts for device pairs
-* 🖧 Share a session to other Nextcloud users or with a public link (read-only)
-* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-* 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
-* 🗠 Display sessions statistics
-* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+- 📍 显示历史位置
+- 设置筛选点
+- ✎ 手动编辑/添加/删除位置点
+- 编辑设备 (重命名, 更改颜色/形状, 移动到另一个会话)
+- ⛶ 给设备设置地理围栏区域
+- ⚇ 为配对设备设置接近警告
+- 将会话共享给其他 Nextcloud 用户或公共链接(只读)
+- 🔗 生成带有可选限制的公共共享链接(过滤器、设备名称、仅最新位置、简化地理围栏)
+- 🖫 导入/导出会话为 GPX 格式 (每个设备的一个轨迹一个文件或每台设备一个文件)
+- 显示会话统计
+- 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
+- 🗓 切换会话自动导出和自动清理(日/周/月)
+- ◔ 当位置点的数量到达上限时的操作 (停止记录或删除最早的位置点)
 
-Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
+公共页面和过滤后的公共页面运行类似主页，但只显示了一个会话， 一切都是只读的，无需登录。
 
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
+这个应用程序在Nextcloud 17上使用 Firefox 57+ 和 Chromium 测试通过。
 
-This app is compatible with theming colors and accessibility themes !
+此应用与主题颜色和可访问主题兼容！
 
-This app is under development.
+此应用正在开发中。
 
-## Install
+## 安装
 
 See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
 
@@ -48,8 +49,9 @@ Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG
 
 Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
 
-## Known issues
+## 已知问题
 
-* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Any feedback will be appreciated.
+如有任何反馈，将不胜感激。
+
