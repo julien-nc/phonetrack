@@ -10,28 +10,27 @@ PhoneTrack הינה אפליקציה העוקבת ושומרת אחרי נתונ
 
 איך PhoneTrack עובד:
 
-- תחילה, צור טוקן מעקב באמצעות הפאנל שבאפליקציה.
-- הורד אפליקצית מעקב מחנות האפליקציות או השתמש בגרסאת נייטיב, הזן את הלינק שקיבלת בתהליך יצור הסשן שבאפליקציה לקשר את מכשירך לשרת. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
-- לאחר התקנת האפליקציה, תוכל לראות על המפה את המקום הנוכחי של המכשיר, תלוי באופן ובקצב העידכון שהזנת.
+* תחילה, צור טוקן מעקב באמצעות הפאנל שבאפליקציה.
+* הורד אפליקצית מעקב מחנות האפליקציות או השתמש בגרסאת נייטיב, הזן את הלינק שקיבלת בתהליך יצור הסשן שבאפליקציה לקשר את מכשירך לשרת. תבחר שיטת התחברות.
+* לאחר התקנת האפליקציה, תוכל לראות על המפה את המקום הנוכחי של המכשיר, תלוי באופן ובקצב העידכון שהזנת.
 
-אל תשכח להזין שם למכשיר בלינק שיצרת, אחריו תוכל לעקוב. Replace "yourname" with the desired device name.
-שימוש בשם המכשיר מתאפשר אך ורק עם האפליקציות Owntracks, Traccar ו- OpenGTS.
+אל תשכח להזין שם למכשיר בלינק שיצרת, אחריו תוכל לעקוב. Replace "yourname" with the desired device name. שימוש בשם המכשיר מתאפשר אך ורק עם האפליקציות Owntracks, Traccar ו- OpenGTS.
 
 במסך הראשי של האפליקציה תוכל:
 
-- לראות היסטורית מיקומים
-- לסנן מיקומים ע״פ פרמטרים מוגדרים
-- להוסיף מיקומים ידנית
-- לשנות ולערוך סשנים
-- תוכל להגדיר אזורי מיקום למכשירך
-- הגדר איזורי קרבה למכשירים
-- לשתף מיקום עם משתמשים נוספים מחוץ או בפנים לסביבת NextCloud
-- 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
-- ליצא וליבא נתונים בפורמט GPX
-- להנות מסטיסטיקה אודות שימוש בנתוני מיקום
-- 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
-- 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
-- ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
+* לראות היסטורית מיקומים
+* לסנן מיקומים ע״פ פרמטרים מוגדרים
+* להוסיף מיקומים ידנית
+* לשנות ולערוך סשנים
+* תוכל להגדיר אזורי מיקום למכשירך
+* הגדר איזורי קרבה למכשירים
+* לשתף מיקום עם משתמשים נוספים מחוץ או בפנים לסביבת NextCloud
+* 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
+* ליצא וליבא נתונים בפורמט GPX
+* להנות מסטיסטיקה אודות שימוש בנתוני מיקום
+* 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
+* 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
+* ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
@@ -51,7 +50,6 @@ Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#
 
 ## Known issues
 
-- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+* PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Any feedback will be appreciated.
-
