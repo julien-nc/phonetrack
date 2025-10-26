@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:26\n"
+"PO-Revision-Date: 2025-10-26 23:42\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 246\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
@@ -27,27 +27,27 @@ msgstr "PhoneTrack 设备 {device} 的会话 {session} 已经退出 {geofence}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:79
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr "会话 {session} 的设备 {device} 与会话 {session2} 的设备 {device2} 距离小于 {meters} 米"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:82
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr "会话 {session} 的设备 {device} 与会话 {session2} 的设备 {device2} 距离大于 {meters} 米"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "You shared PhoneTrack session {session} with {who}"
-msgstr "你把PhoneTrack会话 {session} 分享给 {who}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr "PhoneTrack 会话 {session} 现已与 {who} 共享"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "You stopped sharing session {session} with {who}"
-msgstr "您停止了与 {session} 分享会话 {who}"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr "PhoneTrack 会话 {session} 不再与 {who} 共享"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "PhoneTrack client"
@@ -58,19 +58,19 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr "PhoneTrack"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr "<strong>PhoneTrack 地理围栏</strong> 事件"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
-msgstr "<strong>PhoneTrack 设备靠近</strong> 事件"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
-msgstr "在 <strong>PhoneTrack 应用 </strong> 中的更改"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:365
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:498
@@ -81,51 +81,51 @@ msgstr "PhoneTrack 近距离警报 (%s 和 %s)"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:369
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
-msgstr "PhoneTrack 设备 %s 与 %s 的距离现在小于 %s 米."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:502
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
-msgstr "PhoneTrack 设备 %s 与 %s 的距离现在大于 %s 米."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:704
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:830
 msgid "Geofencing alert"
-msgstr "地理围栏警示"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:708
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
-msgstr "在 PhoneTrack 会话 %s中，设备 %s 已进入地理围栏 %s。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:834
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
-msgstr "在 PhoneTrack 会话 %s中，设备 %s 已离开地理围栏 %s。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2260
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2286
 msgid "Watch session"
-msgstr "查看此会话"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2346
 msgid "PhoneTrack public access"
-msgstr "PhoneTrack 公共访问"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2347
 #, php-format
 msgid "Log to session %s"
-msgstr "记录会话到 %s"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:67
 #, php-format
 msgid "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"."
-msgstr "在会话 \"%s\" 中, 设备 \"%s\" 进入地理围栏区域 \"%s\"."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:75
 #, php-format
 msgid "In session \"%s\", device \"%s\" exited geofencing zone \"%s\"."
-msgstr "在会话 \"%s\" 中, 设备 \"%s\" 离开地理围栏区域 \"%s\"."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:84
 #, php-format
@@ -135,22 +135,22 @@ msgstr "设备 \"%s\" 现在比 %sm 接近 \"%s\"。"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:92
 #, php-format
 msgid "Device \"%s\" is now farther than %sm from \"%s\"."
-msgstr "设备 \"%s\" 与%s 的距离大于 \"%s\" 米。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:101
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
-msgstr "会话中的点数配额(%s) 已经达到\"%s\"的点数\"%s\"。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:110
 #, php-format
 msgid "User \"%s\" shared PhoneTrack session \"%s\" with you."
-msgstr "用户%s分享了PhoneTrack 会话\"%s\"。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:119
 #, php-format
 msgid "User \"%s\" stopped sharing PhoneTrack session \"%s\" with you."
-msgstr "用户%s停止了与您分享PhoneTrack会话\"%s\"。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid "Phonetrack"
@@ -246,11 +246,11 @@ msgstr "无法删除服务器 \"{ts}\""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:968
 msgid "Failed to contact server to delete tile server"
-msgstr "无法联系服务器删除瓷块服务器"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1037
 msgid "Failed to contact server to restore options values"
-msgstr "无法联系服务器以恢复选项值"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1040
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1176
@@ -262,31 +262,31 @@ msgstr "重新加载页面。"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1173
 msgid "Failed to contact server to save options values"
-msgstr "无法连接服务器以保存选项值"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1185
 msgid "Filter bookmark should have a name"
-msgstr "必须要有名称才能筛选书签"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1209
 msgid "Failed to contact server to save filters bookmark"
-msgstr "无法联系服务器保存过滤器书签"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1247
 msgid "Failed to contact server to delete filters bookmark"
-msgstr "无法联系服务器以删除过滤器书签"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1280
 msgid "Session name should not be empty"
-msgstr "会话名称不应为空"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1291
 msgid "Session name already used"
-msgstr "会话名称已被使用"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1295
 msgid "Failed to contact server to create session"
-msgstr "无法联系服务器来创建会话"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1331
 msgid "yourname"
@@ -363,7 +363,7 @@ msgstr "每月"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1496
 msgid "Automatic purge is triggered daily and will delete points older than selected duration"
-msgstr "自动清除每日触发并删除比选定时间长的位置点"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1497
 msgid "Automatic purge"
@@ -387,23 +387,23 @@ msgstr "1 个月"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1511
 msgid "Name reservation is optional."
-msgstr "名称预订是可选的。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1512
 msgid "Name can be set directly in logging link if it is not reserved."
-msgstr "如果没有保留，可以直接在日志链接中设置名称。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1513
 msgid "To log with a reserved name, use the \"name token\" in logging link (or in PhoneTrack-Android log job's \"device name\") field."
-msgstr "若要使用保留名称登录，请在登录链接(或在 PhoneTrack-Android 日志作业的“设备名称”字段) 中使用\"姓名令牌\"。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1514
 msgid "If a name is reserved, the only way to log with this name is with its token."
-msgstr "如果一个名称被保留，用这个名称登录的唯一方式是使用它的标记。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1517
 msgid "Reserve this device name"
-msgstr "保留此设备名称"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1519
 msgid "Type reserved name and press 'Enter'"
@@ -419,11 +419,11 @@ msgstr "键入用户名并按回车。"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1535
 msgid "user name"
-msgstr "用户名"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1542
 msgid "A private session is not visible on public browser logging page"
-msgstr "私有会话在公开浏览器日志页面不可见"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1544
 msgid "Public session"
@@ -435,15 +435,15 @@ msgstr "公开的位置分享链接"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1553
 msgid "API URL (JSON, last positions)"
-msgstr "API URL (JSON，最后位置)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1555
 msgid "API URL (JSON, all positions)"
-msgstr "API URL (JSON，所有位置)"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1561
 msgid "Current active filters will be applied on shared view"
-msgstr "当前活动的过滤器将在共享视图上应用"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1563
 msgid "Add public filtered share"
@@ -455,13 +455,13 @@ msgstr "会话令牌"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1578
 msgid "List of links to configure logging apps server settings."
-msgstr "配置日志服务器设置的链接列表。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1579
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5012
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:227
 msgid "Replace 'yourname' with the desired device name or with the name reservation token"
-msgstr "用所需设备名称或名称保留令牌替换“你的名称”"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1581
 msgid "Public browser logging link"
@@ -517,15 +517,15 @@ msgstr "由于无法连接服务器，删除会话失败"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1748
 msgid "Device '{d}' of session '{s}' has been deleted"
-msgstr "会话 '{d}' 的 '{s}' 设备已被删除"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1750
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr "未能删除会话 '{s}' 的 '{d}' 设备"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1754
 msgid "Failed to contact server to delete device"
-msgstr "无法联系服务器以删除设备"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1805
 msgid "Impossible to rename session"
@@ -541,44 +541,44 @@ msgstr "无法重命名设备"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1854
 msgid "Failed to contact server to rename device"
-msgstr "无法联系服务器重命名设备"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1916
 msgid "Impossible to set device alias for {n}"
-msgstr "无法为 {n} 设置设备别名"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1920
 msgid "Failed to contact server to set device alias"
-msgstr "无法联系服务器以设置设备别名"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1980
 msgid "Device already exists in target session"
-msgstr "目标会话中已存在设备"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1982
 msgid "Impossible to move device to another session"
-msgstr "无法将设备移动到另一个会话"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1986
 msgid "Failed to contact server to move device"
-msgstr "无法联系服务器移动设备"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2050
 msgid "Failed to contact server to get sessions"
-msgstr "无法联系服务器获取会话"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2474
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2499
 msgid "Stats of all points"
-msgstr "所有点的统计"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2497
 msgid "Stats of filtered points"
-msgstr "过滤点的状态"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2726
 msgid "Device's color successfully changed"
-msgstr "设备颜色已成功更改"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2728
 msgid "Failed to save device's color"
@@ -590,29 +590,29 @@ msgstr "无法与服务器联系以更改设备的颜色"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2800
 msgid "Geo link to open position in other app/software"
-msgstr "在其他应用/软件中打开位置的 Geo 链接"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2802
 msgid "Geo link QRcode to open position with a QRcode scanner"
-msgstr "用摄像头扫二维码打开位置的Geo 链接"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2804
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2806
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2808
 msgid "Get driving direction to this device with {s}"
-msgstr "通过 {s} 获取此设备的运动方向"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2813
 msgid "Set device shape"
-msgstr "设置设备形状"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2815
 msgid "Round"
-msgstr "圆形"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2816
 msgid "Square"
-msgstr "方形"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2817
 msgid "Triangle"
@@ -654,7 +654,7 @@ msgstr "缩放地理围栏区域，然后设定数值，然后验证。"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4629
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4648
 msgid "Nextcloud notification"
-msgstr "Nextcloud通知"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2856
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2916
@@ -663,26 +663,26 @@ msgstr "Nextcloud通知"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4630
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4650
 msgid "Email notification"
-msgstr "电子邮件通知"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2859
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2919
 msgid "Comma separated e-mail address list"
-msgstr "逗号分隔的电子邮件地址列表"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2860
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2920
 msgid "An empty value means the session owner's email address."
-msgstr "空值是指会话所有者的电子邮件地址。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2861
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2921
 msgid "You can put multiple addresses separated by comas (,)."
-msgstr "您可以用逗号 (,) 分隔多个地址。"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2862
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
-msgstr "请求HTTP地址时 (\"%loc\" 将被替换为\"纬度:经度\")"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2863
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2867
