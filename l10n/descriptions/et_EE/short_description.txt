@@ -1,1 +1,1 @@
-Jälgi ja kuva telefonide asukohta reaalajas
+Track and display phones positions in real time
