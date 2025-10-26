@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:25+0100\n"
-"PO-Revision-Date: 2025-10-26 23:26\n"
+"PO-Revision-Date: 2025-10-26 23:41\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
 "Language: ru_RU\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: phonetrack\n"
 "X-Crowdin-Project-ID: 293291\n"
 "X-Crowdin-Language: ru\n"
-"X-Crowdin-File: /[julien-nc.phonetrack] main/translationfiles/templates/phonetrack.pot\n"
-"X-Crowdin-File-ID: 29\n"
+"X-Crowdin-File: /main/translationfiles/templates/phonetrack.pot\n"
+"X-Crowdin-File-ID: 246\n"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
@@ -39,15 +39,15 @@ msgstr "Вы поделились сеансом PhoneTrack {session} с {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr "Вы поделились сессией {session} с {who}"
+msgstr "Сессия PhoneTrack {session} теперь разделена с {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "You stopped sharing session {session} with {who}"
-msgstr "Вы перестали делиться сессией {session} с {who}"
+msgstr "Вы перестали делиться сеансом {session} с {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr "Сессия {session} больше не доступна {who}"
+msgstr "Сеанс PhoneTrack {session} больше не разделен с {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "PhoneTrack client"
@@ -58,11 +58,11 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr "PhoneTrack"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr "<strong>событие геозоны</strong>"
+msgstr "События <strong>PhoneTrack ограничительных зон</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
@@ -140,7 +140,7 @@ msgstr "Устройство «%s» теперь дальше чем %sм от �
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:101
 #, php-format
 msgid "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
-msgstr "Point number quota (%s) was reached with a point of \"%s\" in session \"%s\"."
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:110
 #, php-format
@@ -290,7 +290,7 @@ msgstr "Не удалось связаться с сервером для соз
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1331
 msgid "yourname"
-msgstr "yourname"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1419
 msgid "Watch this session"
@@ -1682,7 +1682,7 @@ msgstr "Пользовательский сервер карт"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:314
 msgid "Style.json url"
-msgstr "Style.json url"
+msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:315
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
