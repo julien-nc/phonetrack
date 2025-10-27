@@ -1,7 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack Alerta de Proximitate (%s și%s)",
     "Geofencing alert" : "Alertă de limitare Geografică",
     "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"." : "În sesiunea \"%s\", dispozitivul \"%s\" a intrat în limita de zonă geografica\"%s\".",
@@ -177,13 +176,11 @@ OC.L10N.register(
     "days" : "zile",
     "Theme" : " Temă",
     "bright" : "luminos",
-    "pastel" : "pastel",
     "dark" : "întunecat",
     "reload page to make changes effective" : "reîncărcați pagina pentru a face modificările",
     "Auto export path" : "Calea de export auto",
     "Server address" : "Adresă server",
     "Add" : "Adaugă",
-    "Transparent" : "Transparent",
     "Device" : "Dispozitiv",
     "Add a point" : "Adaugă punct",
     "today" : "astăzi",

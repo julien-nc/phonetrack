@@ -1,7 +1,6 @@
 { "translations": {
     "PhoneTrack device {device} of session {session} has entered geofence {geofence}" : "PhoneTrack 设备 {device} 的会话 {session} 已输入地理围栏 {geofence}",
     "PhoneTrack device {device} of session {session} has exited geofence {geofence}" : "PhoneTrack 设备 {device} 的会话 {session} 已经退出 {geofence}",
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack 近距离警报 (%s 和 %s)",
     "Device \"%s\" is now closer than %sm to \"%s\"." : "设备 \"%s\" 现在比 %sm 接近 \"%s\"。",
     "Quota was successfully saved" : "配额已成功保存~",
@@ -79,6 +78,7 @@
     "Ok" : "确定",
     "Device geofencing zones" : "设备 geofencing 区域",
     "Zoom on geofencing area, then set values, then validate." : "缩放地理围栏区域，然后设定数值，然后验证。",
+    "Use POST method" : "使用 POST 方法",
     "East" : "东",
     "West" : "西",
     "Use current map view as geofencing zone" : "使用当前映射视图作为 geofencing 区域",
@@ -149,7 +149,6 @@
     "Log my position in this session" : "在这个会话中记录我的位置",
     "Confirm session deletion" : "确认会话删除",
     "Choose auto export target path" : "选择 \"自动导出目标路径\"",
-    "Are you sure you want to delete the device {device} ?" : "确定要删除此设备吗{device}?",
     "Confirm device deletion" : "确认设备删除",
     "Failed to toggle session public status, session does not exist" : "无法切换会话公共状态, 会话不存在",
     "session does not exist" : "会话不存在",

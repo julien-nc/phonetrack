@@ -1,7 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack nærhetsalarm (\"%s\" og \"%s\")",
     "Geofencing alert" : "Geofence varsling",
     "In session \"%s\", device \"%s\" entered geofencing zone \"%s\"." : "I økt \"%s\", entret enhet \"%s\" geofence sone \"%s\".",
@@ -80,7 +79,6 @@ OC.L10N.register(
     "bright" : "lyst",
     "pastel" : "pastell",
     "dark" : "mørkt",
-    "Format" : "Format",
     "Device" : "Enhet",
     "today" : "i dag",
     "Authors" : "Forfattere"
