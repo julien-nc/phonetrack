@@ -948,6 +948,9 @@ class SessionService {
 					$jsonDevice['proxims'] = new stdClass();
 				}
 
+				// points
+				$jsonDevice['points'] = [];
+
 				$json['devices'][$device->getId()] = $jsonDevice;
 			}
 			if (empty($json['devices'])) {

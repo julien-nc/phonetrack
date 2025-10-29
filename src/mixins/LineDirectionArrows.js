@@ -7,13 +7,13 @@ export default {
 				}
 			}
 		},
-		'settings.arrows_scale_factor'() {
+		arrowsScaleFactor() {
 			if (this.arrows) {
 				this.removeArrows()
 				this.drawArrows()
 			}
 		},
-		'settings.arrows_spacing'() {
+		arrowsSpacing() {
 			if (this.arrows) {
 				this.removeArrows()
 				this.drawArrows()
@@ -35,7 +35,7 @@ export default {
 
 	methods: {
 		bringArrowsToTop() {
-			console.debug('[phonetrack] bring track ARROWS to top', String(this.track.id))
+			console.debug('[phonetrack] bring device ARROWS to top', String(this.device.id))
 			if (this.map.getLayer(this.layerId + '-arrows')) {
 				this.map.moveLayer(this.layerId + '-arrows')
 			}
@@ -53,11 +53,11 @@ export default {
 				paint: {},
 				layout: {
 					'symbol-placement': 'line',
-					'symbol-spacing': parseFloat(this.settings.arrows_spacing),
+					'symbol-spacing': this.arrowsSpacing,
 					'icon-allow-overlap': true,
 					'icon-ignore-placement': true,
 					'icon-image': 'arrow',
-					'icon-size': parseFloat(this.settings.arrows_scale_factor),
+					'icon-size': this.arrowsScaleFactor,
 					'icon-rotate': 180,
 					'icon-rotation-alignment': 'map',
 				},

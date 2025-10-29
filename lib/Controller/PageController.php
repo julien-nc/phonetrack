@@ -297,6 +297,32 @@ class PageController extends Controller {
 
 	/**
 	 * @param int $sessionId
+	 * @param int $deviceId
+	 * @param int $maxPoints
+	 * @param int|null $minTimestamp
+	 * @param int|null $maxTimestamp
+	 * @return DataResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getDevicePoints(
+		int $sessionId, int $deviceId, int $maxPoints = 1000, ?int $minTimestamp = null, ?int $maxTimestamp = null,
+	): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		return new DataResponse($this->pointMapper->getDevicePoints($device->getId(), $minTimestamp, $maxTimestamp, $maxPoints));
+	}
+
+	/**
+	 * @param int $sessionId
 	 * @param string $deviceName
 	 * @return DataResponse
 	 * @throws Exception

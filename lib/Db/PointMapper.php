@@ -39,13 +39,17 @@ class PointMapper extends QBMapper {
 
 	/**
 	 * @param int $deviceId
-	 * @param float|null $minTimestamp
-	 * @param float|null $maxTimestamp
-	 * @param string|null $sortOrder
+	 * @param int|null $minTimestamp
+	 * @param int|null $maxTimestamp
+	 * @param string $sortOrder
+	 * @param int $maxPoints
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getDevicePoints(int $deviceId, ?float $minTimestamp = null, ?float $maxTimestamp = null, ?string $sortOrder = null): array {
+	public function getDevicePoints(
+		int $deviceId, ?int $minTimestamp = null, ?int $maxTimestamp = null,
+		int $maxPoints = 1000, string $sortOrder = 'ASC',
+	): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -55,17 +59,16 @@ class PointMapper extends QBMapper {
 			);
 		if ($minTimestamp !== null) {
 			$qb->andWhere(
-				$qb->expr()->gt('timestamp', $qb->createNamedParameter($minTimestamp, IQueryBuilder::PARAM_STR))
+				$qb->expr()->gt('timestamp', $qb->createNamedParameter($minTimestamp, IQueryBuilder::PARAM_INT))
 			);
 		}
 		if ($maxTimestamp !== null) {
 			$qb->andWhere(
-				$qb->expr()->lt('timestamp', $qb->createNamedParameter($maxTimestamp, IQueryBuilder::PARAM_STR))
+				$qb->expr()->lt('timestamp', $qb->createNamedParameter($maxTimestamp, IQueryBuilder::PARAM_INT))
 			);
 		}
-		if ($sortOrder !== null) {
-			$qb->orderBy('timestamp', $sortOrder);
-		}
+		$qb->orderBy('timestamp', $sortOrder);
+		$qb->setMaxResults($maxPoints);
 
 		return $this->findEntities($qb);
 	}

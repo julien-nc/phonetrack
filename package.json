@@ -10,8 +10,8 @@
 		"dev": "NODE_ENV=development webpack --progress --config webpack.js",
 		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.js",
 		"build": "NODE_ENV=production webpack --progress --config webpack.js",
-		"lint": "eslint --ext .js,.vue src",
-		"lint:fix": "eslint --ext .js,.vue src --fix",
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .js,.vue src",
+		"lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .js,.vue src --fix",
 		"stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css",
 		"stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css --fix"
 	},

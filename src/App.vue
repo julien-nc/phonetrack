@@ -40,18 +40,21 @@
 				@map-bounds-change="storeBounds"
 				@map-state-change="saveOptions">
 				<template #default="{ map }">
-					<!--div v-for="d in devicesToDraw"
+					<div v-for="d in enabledDevices"
 						:key="d.id">
 						<TrackSingleColor
 							:device="d"
 							:map="map"
-							:line-width="parseFloat(settings.line_width)"
-							:border-color="lineBorderColor"
-							:border="settings.line_border === '1'"
-							:arrows="settings.direction_arrows === '1'"
-							:opacity="parseFloat(settings.line_opacity)"
-							:settings="settings" />
-					</div-->
+							:layer-id="'device-' + d.id"
+							:line-width="parseFloat(state.settings.line_width)"
+							:color="d.color ?? undefined"
+							:border-color="'white'"
+							:border="state.settings.line_border === '1'"
+							:arrows="state.settings.direction_arrows === '1'"
+							:arrows-spacing="parseFloat(state.settings.arrows_spacing)"
+							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor)"
+							:opacity="parseFloat(state.settings.line_opacity)" />
+					</div>
 					<PolygonFill v-if="geofenceLngLats !== null"
 						:map="map" :lng-lats-list="geofenceLngLats" layer-id="geofence" />
 				</template>
@@ -103,14 +106,14 @@ import DeviceSidebar from './components/DeviceSidebar.vue'
 // import DeviceList from './components/DeviceList.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
 import PolygonFill from './components/map/PolygonFill.vue'
-// import TrackSingleColor from './components/map/TrackSingleColor.vue'
+import TrackSingleColor from './components/map/TrackSingleColor.vue'
 
 export default {
 	name: 'App',
 
 	components: {
 		PolygonFill,
-		// TrackSingleColor,
+		TrackSingleColor,
 		MaplibreMap,
 		DeviceSidebar,
 		SessionSidebar,
@@ -192,6 +195,16 @@ export default {
 			}
 			return this.state.sessions[this.sidebarSessionId]?.devices[this.sidebarDeviceId] ?? null
 		},
+		enabledDevices() {
+			const dd = Object.values(this.state.sessions)
+				.filter(session => session.enabled)
+				.reduce((acc, session) => {
+					acc.push(...Object.values(session.devices).filter(device => device.enabled))
+					return acc
+				}, [])
+			console.debug('enabledDevices', dd)
+			return dd
+		},
 	},
 
 	watch: {
@@ -206,6 +219,13 @@ export default {
 		// eslint-disable-next-line
 		const urlParams = new URLSearchParams(paramString)
 		this.isEmbedded = urlParams.get('embedded') === '1'
+
+		// load sessions
+		Object.values(this.state.sessions).forEach((session) => {
+			if (session.enabled) {
+				this.loadSession(session.id)
+			}
+		})
 
 		console.debug('phonetrack state', this.state)
 	},
@@ -468,6 +488,9 @@ export default {
 		onDeviceClicked({ sessionId, deviceId, saveEnable = true }) {
 			const device = this.state.sessions[sessionId].devices[deviceId]
 			device.enabled = !device.enabled
+			if (device.enabled) {
+				this.loadDevice(sessionId, deviceId)
+			}
 			this.updateDevice(sessionId, deviceId, { enabled: device.enabled })
 		},
 		onAddDevicePoint() {
@@ -689,6 +712,36 @@ export default {
 				showError(t('phonetrack', 'Failed to delete proximity alert'))
 				console.debug(error)
 			})
+		},
+		loadSession(sessionId) {
+			// load all enabled devices
+			const session = this.state.sessions[sessionId]
+			Object.values(session.devices).forEach((device) => {
+				if (device.enabled) {
+					this.loadDevice(sessionId, device.id)
+				}
+			})
+		},
+		loadDevice(sessionId, deviceId) {
+			const reqParams = {
+				params: {
+					maxPoints: 1000,
+					// minTimestamp: ,
+					// maxTimestamp: ,
+				},
+			}
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
+				sessionId,
+				deviceId,
+			})
+
+			return axios.get(url, reqParams)
+				.then(response => {
+					this.state.sessions[sessionId].devices[deviceId].points = response.data
+				})
+				.catch(error => {
+					console.error('Failed to get device points', error)
+				})
 		},
 	},
 }

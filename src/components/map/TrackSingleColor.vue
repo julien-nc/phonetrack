@@ -2,7 +2,7 @@
 import WatchLineBorderColor from '../../mixins/WatchLineBorderColor.js'
 import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 import BringTrackToTop from '../../mixins/BringTrackToTop.js'
-import AddWaypoints from '../../mixins/AddWaypoints.js'
+// import AddWaypoints from '../../mixins/AddWaypoints.js'
 import LineDirectionArrows from '../../mixins/LineDirectionArrows.js'
 
 export default {
@@ -15,13 +15,17 @@ export default {
 		WatchLineBorderColor,
 		PointInfoPopup,
 		BringTrackToTop,
-		AddWaypoints,
+		// AddWaypoints,
 		LineDirectionArrows,
 	],
 
 	props: {
-		track: {
+		device: {
 			type: Object,
+			required: true,
+		},
+		layerId: {
+			type: String,
 			required: true,
 		},
 		map: {
@@ -31,6 +35,10 @@ export default {
 		lineWidth: {
 			type: Number,
 			default: 5,
+		},
+		color: {
+			type: String,
+			default: '#0693e3',
 		},
 		borderColor: {
 			type: String,
@@ -44,13 +52,17 @@ export default {
 			type: Boolean,
 			default: true,
 		},
-		opacity: {
+		arrowsSpacing: {
+			type: Number,
+			default: 10,
+		},
+		arrowsScaleFactor: {
 			type: Number,
 			default: 1,
 		},
-		settings: {
-			type: Object,
-			required: true,
+		opacity: {
+			type: Number,
+			default: 1,
 		},
 	},
 
@@ -61,39 +73,28 @@ export default {
 	},
 
 	computed: {
-		layerId() {
-			return String(this.track.id)
-		},
 		borderLayerId() {
 			return this.layerId + '-border'
 		},
 		invisibleBorderLayerId() {
 			return this.layerId + '-invisible-border'
 		},
-		color() {
-			return this.track.color ?? '#0693e3'
-		},
 		onTop() {
-			return this.track.onTop
+			return this.device.onTop
 		},
-		trackGeojsonData() {
-			console.debug('[phonetrack] compute track geojson', this.track.geojson)
-			// use short point list for hovered track when we don't have the data yet
-			if (!this.track.geojson) {
-				return {
-					type: 'FeatureCollection',
-					features: [
-						{
-							type: 'Feature',
-							geometry: {
-								coordinates: this.track.short_point_list.map((p) => [p[1], p[0]]),
-								type: 'LineString',
-							},
+		deviceGeojsonData() {
+			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
+			return {
+				type: 'FeatureCollection',
+				features: [
+					{
+						type: 'Feature',
+						geometry: {
+							coordinates: this.device.points.map((p) => [p.lon, p.lat]),
+							type: 'LineString',
 						},
-					],
-				}
-			} else {
-				return this.track.geojson
+					},
+				],
 			}
 		},
 	},
@@ -109,8 +110,8 @@ export default {
 				this.bringToTop()
 			}
 		},
-		trackGeojsonData() {
-			console.debug('[phonetrack] trackGeojsonData has changed')
+		deviceGeojsonData() {
+			console.debug('[phonetrack] deviceGeojsonData has changed')
 			this.remove()
 			this.init()
 		},
@@ -135,18 +136,18 @@ export default {
 	},
 
 	mounted() {
-		console.debug('[phonetrack] track mounted!!!!!', String(this.track.id))
+		console.debug('[phonetrack] device mounted!!!!!', String(this.device.id), this.device)
 		this.init()
 	},
 
 	destroyed() {
-		console.debug('[phonetrack] destroy track', String(this.track.id))
+		console.debug('[phonetrack] destroy device', String(this.device.id))
 		this.remove()
 	},
 
 	methods: {
 		bringToTop() {
-			console.debug('[phonetrack] bring track to top', String(this.track.id))
+			console.debug('[phonetrack] bring device to top', String(this.device.id))
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.moveLayer(this.borderLayerId)
 			}
@@ -237,7 +238,7 @@ export default {
 			this.map.addSource(this.layerId, {
 				type: 'geojson',
 				lineMetrics: true,
-				data: this.trackGeojsonData,
+				data: this.deviceGeojsonData,
 			})
 			this.map.addLayer({
 				type: 'line',
