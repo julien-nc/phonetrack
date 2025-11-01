@@ -4,7 +4,9 @@
 		<Navigation
 			:sessions="sessionList"
 			:compact="isCompactMode"
-			:selected-session-id="selectedSessionId" />
+			:selected-session-id="selectedSessionId"
+			:loading-device-points="loadingDevicePoints"
+			:settings="state?.settings" />
 		<NcAppContent
 			class="phonetrack-app-content"
 			:class="{ mapWithTopLeftButton }"
@@ -155,6 +157,7 @@ export default {
 			geofenceLngLats: null,
 			geofenceCleanupTimeout: null,
 			addingPoint: false,
+			loadingDevicePoints: false,
 		}
 	},
 
@@ -265,6 +268,7 @@ export default {
 		subscribe('create-proxim', this.onCreateProxim)
 		subscribe('save-proxim', this.onSaveProxim)
 		subscribe('delete-proxim', this.onDeleteProxim)
+		subscribe('refresh-clicked', this.onRefreshClicked)
 		emit('nav-toggled')
 	},
 
@@ -296,6 +300,7 @@ export default {
 		unsubscribe('create-proxim', this.onCreateProxim)
 		unsubscribe('save-proxim', this.onSaveProxim)
 		unsubscribe('delete-proxim', this.onDeleteProxim)
+		unsubscribe('refresh-clicked', this.onRefreshClicked)
 	},
 
 	methods: {
@@ -726,8 +731,7 @@ export default {
 		loadDevice(sessionId, deviceId) {
 			const device = this.state.sessions[sessionId].devices[deviceId]
 			if (device.points.length > 0) {
-				this.getMoreDevicePoints(sessionId, deviceId)
-				return
+				return this.getMoreDevicePoints(sessionId, deviceId)
 			}
 			const reqParams = {
 				params: {
@@ -744,6 +748,7 @@ export default {
 			return axios.get(url, reqParams)
 				.then(response => {
 					device.points = response.data
+					return response
 				})
 				.catch(error => {
 					console.error('Failed to get device points', error)
@@ -774,9 +779,27 @@ export default {
 					if (response.data.after.length > 0) {
 						device.points.push(...response.data.after)
 					}
+					return response
 				})
 				.catch(error => {
 					console.error('Failed to get device points', error)
+				})
+		},
+		onRefreshClicked() {
+			this.loadingDevicePoints = true
+			const loadingPromises = this.enabledDevices.map(device => this.loadDevice(device.session_id, device.id))
+			Promise.all(loadingPromises)
+				.then(results => {
+					console.debug('promise.all results', results)
+					if (results.some(result => result.code === 'ERR_CANCELED')) {
+						console.debug('At least one request has been canceled, do nothing')
+					}
+				})
+				.catch(error => {
+					console.error(error)
+				})
+				.then(() => {
+					this.loadingDevicePoints = false
 				})
 		},
 	},

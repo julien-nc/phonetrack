@@ -90,6 +90,10 @@ class PageController extends Controller {
 
 		$settings['app_version'] = $this->appConfig->getValueString(Application::APP_ID, 'installed_version');
 
+		$settings['refresh_duration'] = isset($settings['refresh_duration'])
+			? (int)$settings['refresh_duration']
+			: 125;
+
 		$sessions = $this->sessionService->getSessions2($this->userId);
 		$sessionsById = [];
 		foreach ($sessions as $session) {

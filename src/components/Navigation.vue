@@ -34,6 +34,9 @@
 		<template #list>
 			<NewSessionModal v-if="showCreationModal"
 				@close="showCreationModal = false" />
+			<NavigationCountdownItem
+				:loading-device-points="loadingDevicePoints"
+				:settings="settings" />
 			<NavigationSessionItem v-for="s in filteredSessions"
 				:key="s.id"
 				class="sessionItem"
@@ -73,6 +76,7 @@ import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSear
 
 import NavigationSessionItem from './NavigationSessionItem.vue'
 import NewSessionModal from './NewSessionModal.vue'
+import NavigationCountdownItem from './NavigationCountdownItem.vue'
 
 import { getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
@@ -82,6 +86,7 @@ export default {
 	name: 'Navigation',
 
 	components: {
+		NavigationCountdownItem,
 		NavigationSessionItem,
 		NewSessionModal,
 		NcAppNavigationItem,
@@ -108,6 +113,14 @@ export default {
 		selectedSessionId: {
 			type: [String, Number],
 			default: 0,
+		},
+		settings: {
+			type: Object,
+			required: true,
+		},
+		loadingDevicePoints: {
+			type: Boolean,
+			default: false,
 		},
 	},
 

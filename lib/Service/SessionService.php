@@ -931,6 +931,8 @@ class SessionService {
 			foreach ($devices as $device) {
 				$jsonDevice = $device->jsonSerialize();
 
+				$jsonDevice['session_id'] = $session->getId();
+
 				// geofences
 				$geofences = $this->geofenceMapper->findByDeviceId($device->getId());
 				$jsonDevice['geofences'] = [];

@@ -53,6 +53,18 @@
 					</div>
 				</NcCheckboxRadioSwitch>
 				<div class="oneLine">
+					<UpdateIcon :size="20" />
+					<label for="refresh-duration">
+						{{ t('phonetrack', 'Refresh every N seconds') }}
+					</label>
+					<input id="refresh-duration"
+						type="number"
+						:value="settings.refresh_duration"
+						min="5"
+						step="10"
+						@change="onInputChange($event, 'refresh_duration')">
+				</div>
+				<div class="oneLine">
 					<ArrowRightIcon :size="20" />
 					<label for="arrows-scale">
 						{{ t('phonetrack', 'Arrows scale factor') }}
@@ -276,6 +288,7 @@ import CursorDefaultClickOutlineIcon from 'vue-material-design-icons/CursorDefau
 import RulerIcon from 'vue-material-design-icons/Ruler.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
+import UpdateIcon from 'vue-material-design-icons/Update.vue'
 
 import AdminIcon from './icons/AdminIcon.vue'
 
@@ -321,6 +334,7 @@ export default {
 		ArrowRightIcon,
 		OpacityIcon,
 		ArrowSplitVerticalIcon,
+		UpdateIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -476,6 +490,7 @@ a.external {
 		}
 	}
 
+	#refresh-duration,
 	#arrows-spacing,
 	#arrows-scale,
 	#line-width,
