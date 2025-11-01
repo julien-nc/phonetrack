@@ -1,6 +1,6 @@
 import { LngLat, Popup } from 'maplibre-gl'
 import moment from '@nextcloud/moment'
-import { metersToDistance, metersToElevation, kmphToSpeed, formatExtensionKey, formatExtensionValue } from '../utils.js'
+import { metersToDistance, metersToElevation, kmphToSpeed } from '../utils.js'
 import { emit } from '@nextcloud/event-bus'
 
 export default {
@@ -19,128 +19,64 @@ export default {
 		},
 	},
 
-	destroyed() {
+	unmounted() {
 		this.releasePointInfoEvents()
 		this.clearPopups()
 	},
 
 	methods: {
 		findPoint(lngLat) {
-			if (!this.track.geojson) {
+			if (!this.device.points?.length) {
 				return null
 			}
 			let minDist = 40000000
 			let minDistPoint = null
 			let minDistPointIndex = null
 			let tmpDist
-			let tmpIndex = 0
-			this.track.geojson.features.forEach((feature) => {
-				if (feature.geometry.type === 'LineString') {
-					for (let i = 0; i < feature.geometry.coordinates.length; i++) {
-						const c = feature.geometry.coordinates[i]
-						tmpDist = lngLat.distanceTo(new LngLat(c[0], c[1]))
-						if (tmpDist < minDist) {
-							minDist = tmpDist
-							minDistPoint = [
-								...c,
-								feature.geometry.coordinates[i - 1] ?? null,
-							]
-							minDistPointIndex = tmpIndex
-						}
-						tmpIndex++
-					}
-				} else if (feature.geometry.type === 'MultiLineString') {
-					feature.geometry.coordinates.forEach((coords) => {
-						for (let i = 0; i < coords.length; i++) {
-							const c = coords[i]
-							tmpDist = lngLat.distanceTo(new LngLat(c[0], c[1]))
-							if (tmpDist < minDist) {
-								minDist = tmpDist
-								minDistPoint = [
-									...c,
-									coords[i - 1] ?? null,
-								]
-								minDistPointIndex = tmpIndex
-							}
-							tmpIndex++
-						}
-					})
+			this.device.points.forEach((point, i) => {
+				tmpDist = lngLat.distanceTo(new LngLat(point.lon, point.lat))
+				if (tmpDist < minDist) {
+					minDist = tmpDist
+					minDistPoint = point
+					minDistPointIndex = i
 				}
 			})
 			// compute traveled distance
-			const useGlobalTrack = this.settings.global_track_colorization === '1'
-			tmpIndex = 0
 			let traveledDistance = 0
-			this.track.geojson.features.forEach((feature) => {
-				if (tmpIndex <= minDistPointIndex) {
-					if (feature.geometry.type === 'LineString') {
-						if (feature.geometry.coordinates.length > 0) {
-							if (!useGlobalTrack) {
-								traveledDistance = 0
-							}
-							const firstLinePoint = feature.geometry.coordinates[0]
-							let prevLatLng = new LngLat(firstLinePoint[0], firstLinePoint[1])
-							tmpIndex++
-							for (let i = 1; i < feature.geometry.coordinates.length && tmpIndex <= minDistPointIndex; i++) {
-								const c = feature.geometry.coordinates[i]
-								const curLatLng = new LngLat(c[0], c[1])
-								traveledDistance += prevLatLng.distanceTo(curLatLng)
-								prevLatLng = curLatLng
-								tmpIndex++
-							}
-						}
-					} else if (feature.geometry.type === 'MultiLineString') {
-						feature.geometry.coordinates.forEach((coords) => {
-							if (tmpIndex <= minDistPointIndex) {
-								if (!useGlobalTrack) {
-									traveledDistance = 0
-								}
-								const firstLinePoint = coords[0]
-								let prevLatLng = new LngLat(firstLinePoint[0], firstLinePoint[1])
-								tmpIndex++
-								for (let i = 1; i < coords.length && tmpIndex <= minDistPointIndex; i++) {
-									const c = coords[i]
-									const curLatLng = new LngLat(c[0], c[1])
-									traveledDistance += prevLatLng.distanceTo(curLatLng)
-									prevLatLng = curLatLng
-									tmpIndex++
-								}
-							}
-						})
-					}
-				}
-			})
+			let prevLngLat = new LngLat(this.device.points[0].lon, this.device.points[0].lat)
+			for (let i = 1; i <= minDistPointIndex; i++) {
+				const curLngLat = new LngLat(this.device.points[i].lon, this.device.points[i].lat)
+				traveledDistance += prevLngLat.distanceTo(curLngLat)
+				prevLngLat = curLngLat
+			}
 
 			console.debug('found', minDistPoint, 'traveled', traveledDistance)
 			return { minDistPoint, minDistPointIndex, traveledDistance }
 		},
 		showPointPopup(lngLat, persist = false) {
-			if (!this.track.geojson) {
+			if (!this.device.points?.length) {
 				return
 			}
 			const { minDistPoint, minDistPointIndex, traveledDistance } = this.findPoint(lngLat)
 			if (minDistPoint !== null) {
-				const previousPoint = minDistPoint[minDistPoint.length - 1]
-
 				if (this.nonPersistentPopup) {
 					this.nonPersistentPopup.remove()
 				}
 
 				const containerClass = persist ? 'class="with-button"' : ''
-				const dataHtml = (minDistPoint[3] === null && minDistPoint[2] === null)
+				const dataHtml = (minDistPoint.timestamp === null && minDistPoint.altitude === null)
 					? t('phonetrack', 'No data')
-					: (minDistPoint[3] !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(minDistPoint[3]).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
-						+ (minDistPoint[2] !== null
-							? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(minDistPoint[2], this.settings.distance_unit) + '<br>')
+					: (minDistPoint.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(minDistPoint.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
+						+ (minDistPoint.altitude !== null
+							? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(minDistPoint.altitude, this.distanceUnit) + '<br>')
 							: '')
-						+ (minDistPoint[3] !== null && previousPoint !== null && previousPoint[3] !== null
-							? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(this.getPointSpeed(minDistPoint), this.settings.distance_unit) + '<br>')
+						+ (minDistPoint.speed !== null
+							? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(minDistPoint.speed * 3.6, this.distanceUnit) + '<br>')
 							: '')
 						+ (traveledDistance
-							? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.settings.distance_unit))
+							? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit))
 							: '')
-						+ this.getExtensionsPopupText(minDistPoint)
-				const html = '<div ' + containerClass + ' style="border-color: ' + this.track.color + ';">'
+				const html = '<div ' + containerClass + ' style="border-color: ' + this.device.color + ';">'
 					+ dataHtml
 					+ '</div>'
 				const popup = new Popup({
@@ -148,26 +84,16 @@ export default {
 					closeOnClick: !persist,
 					closeOnMove: !persist,
 				})
-					.setLngLat([minDistPoint[0], minDistPoint[1]])
+					.setLngLat([minDistPoint.lon, minDistPoint.lat])
 					.setHTML(html)
 					.addTo(this.map)
 				if (persist) {
 					this.popups.push(popup)
 				} else {
-					emit('track-point-hover', { trackId: this.track.id, pointIndex: minDistPointIndex })
+					emit('device-point-hover', { deviceId: this.device.id, pointIndex: minDistPointIndex })
 					this.nonPersistentPopup = popup
 				}
 			}
-		},
-		getExtensionsPopupText(point) {
-			if (point[4]?.unsupported) {
-				const unsupported = point[4].unsupported
-				return '<br>'
-					+ Object.keys(unsupported).map(extKey => {
-						return '<strong>' + formatExtensionKey(extKey) + '</strong>: ' + formatExtensionValue(extKey, unsupported[extKey], this.settings.distance_unit)
-					}).join('<br>')
-			}
-			return ''
 		},
 		clearPopups() {
 			if (this.nonPersistentPopup) {

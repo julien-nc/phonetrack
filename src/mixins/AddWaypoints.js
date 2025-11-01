@@ -30,7 +30,7 @@ export default {
 		},
 	},
 
-	destroyed() {
+	unmounted() {
 		console.debug('[phonetrack] destroy WAYPOINTS')
 		this.removeWaypoints()
 	},

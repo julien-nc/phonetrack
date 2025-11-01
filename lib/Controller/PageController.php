@@ -301,12 +301,14 @@ class PageController extends Controller {
 	 * @param int $maxPoints
 	 * @param int|null $minTimestamp
 	 * @param int|null $maxTimestamp
+	 * @param bool $combine
 	 * @return DataResponse
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
 	public function getDevicePoints(
 		int $sessionId, int $deviceId, int $maxPoints = 1000, ?int $minTimestamp = null, ?int $maxTimestamp = null,
+		bool $combine = false,
 	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
@@ -318,7 +320,11 @@ class PageController extends Controller {
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
-		return new DataResponse($this->pointMapper->getDevicePoints($device->getId(), $minTimestamp, $maxTimestamp, $maxPoints));
+		return new DataResponse(
+			$combine
+				? $this->sessionService->getDevicePointsCombined($device->getId(), $minTimestamp, $maxTimestamp, $maxPoints)
+				: $this->pointMapper->getDevicePoints($deviceId, $minTimestamp, $maxTimestamp, $maxPoints)
+		);
 	}
 
 	/**

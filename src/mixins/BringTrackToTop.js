@@ -7,7 +7,7 @@ export default {
 		},
 	},
 
-	destroyed() {
+	unmounted() {
 		this.releaseBringToTop()
 	},
 

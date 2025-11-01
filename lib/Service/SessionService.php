@@ -16,12 +16,14 @@ use DateTime;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\PointMapper;
 use OCA\PhoneTrack\Db\ProximMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\Session;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\ShareMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
@@ -36,8 +38,7 @@ use stdClass;
 
 class SessionService {
 
-	/** @var string */
-	private $appVersion;
+	private string $appVersion;
 
 	public function __construct(
 		private SessionMapper $sessionMapper,
@@ -46,12 +47,14 @@ class SessionService {
 		private GeofenceMapper $geofenceMapper,
 		private ProximMapper $proximMapper,
 		private ShareMapper $shareMapper,
+		private PointMapper $pointMapper,
 		private IUserManager $userManager,
 		private IDBConnection $db,
 		private IRootFolder $root,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
-		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
+		$this->appVersion = $this->appConfig->getAppValueString(Application::APP_ID, 'installed_version');
 	}
 
 	private function db_quote_escape_string($str) {
@@ -1018,5 +1021,23 @@ class SessionService {
 		}
 
 		return $jsonShares;
+	}
+
+	public function getDevicePointsCombined(
+		int $deviceId, ?int $minTimestamp = null, ?int $maxTimestamp = null, int $maxPoints = 1000,
+	): array {
+		$points = [
+			'before' => [],
+			'after' => [],
+		];
+		// get recent points in priority
+		if ($minTimestamp !== null) {
+			$points['after'] = $this->pointMapper->getDevicePoints($deviceId, $minTimestamp, null, $maxPoints);
+		}
+		if ($maxTimestamp !== null) {
+			// get maxPoints - the number of recent points
+			$points['before'] = $this->pointMapper->getDevicePoints($deviceId, null, $maxTimestamp, $maxPoints - count($points['after']));
+		}
+		return $points;
 	}
 }

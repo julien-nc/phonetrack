@@ -131,7 +131,7 @@ export default {
 		this.init()
 	},
 
-	destroyed() {
+	unmounted() {
 		console.debug('[phonetrack] destroy COLORSEGMENT track', this.layerId)
 		this.remove()
 	},

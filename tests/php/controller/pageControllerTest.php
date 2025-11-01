@@ -107,10 +107,12 @@ class PageControllerTest extends TestCase {
 			$c->get(GeofenceMapper::class),
 			$c->get(ProximMapper::class),
 			$c->get(ShareMapper::class),
+			$c->get(PointMapper::class),
 			$c->get(IUserManager::class),
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
-			$c->get(IConfig::class)
+			$c->get(IConfig::class),
+			$c->get(\OCP\AppFramework\Services\IAppConfig::class),
 		);
 
 		$this->activityManager = new ActivityManager(

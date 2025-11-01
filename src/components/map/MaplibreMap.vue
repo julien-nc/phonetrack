@@ -175,7 +175,7 @@ export default {
 		this.initMap()
 	},
 
-	destroyed() {
+	unmounted() {
 		this.map.remove()
 		unsubscribe('get-map-bounds', this.onGetMapBounds)
 		unsubscribe('resize-map', this.resizeMap)

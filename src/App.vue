@@ -53,7 +53,8 @@
 							:arrows="state.settings.direction_arrows === '1'"
 							:arrows-spacing="parseFloat(state.settings.arrows_spacing)"
 							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor)"
-							:opacity="parseFloat(state.settings.line_opacity)" />
+							:opacity="parseFloat(state.settings.line_opacity)"
+							:distance-unit="state.settings.distance_unit ?? 'metric'" />
 					</div>
 					<PolygonFill v-if="geofenceLngLats !== null"
 						:map="map" :lng-lats-list="geofenceLngLats" layer-id="geofence" />
@@ -723,6 +724,11 @@ export default {
 			})
 		},
 		loadDevice(sessionId, deviceId) {
+			const device = this.state.sessions[sessionId].devices[deviceId]
+			if (device.points.length > 0) {
+				this.getMoreDevicePoints(sessionId, deviceId)
+				return
+			}
 			const reqParams = {
 				params: {
 					maxPoints: 1000,
@@ -737,7 +743,37 @@ export default {
 
 			return axios.get(url, reqParams)
 				.then(response => {
-					this.state.sessions[sessionId].devices[deviceId].points = response.data
+					device.points = response.data
+				})
+				.catch(error => {
+					console.error('Failed to get device points', error)
+				})
+		},
+		getMoreDevicePoints(sessionId, deviceId) {
+			const device = this.state.sessions[sessionId].devices[deviceId]
+			const firstPoint = device.points[0]
+			const lastPoint = device.points[device.points.length - 1]
+			const reqParams = {
+				params: {
+					maxPoints: 1000,
+					minTimestamp: lastPoint.timestamp,
+					maxTimestamp: firstPoint.timestamp,
+					combine: true,
+				},
+			}
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
+				sessionId,
+				deviceId,
+			})
+
+			return axios.get(url, reqParams)
+				.then(response => {
+					if (response.data.before.length > 0) {
+						device.points.unshift(...response.data.before)
+					}
+					if (response.data.after.length > 0) {
+						device.points.push(...response.data.after)
+					}
 				})
 				.catch(error => {
 					console.error('Failed to get device points', error)

@@ -41,7 +41,7 @@ export default {
 		this.init()
 	},
 
-	destroyed() {
+	unmounted() {
 		this.mapObject.remove()
 	},
 

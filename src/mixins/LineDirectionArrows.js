@@ -28,7 +28,7 @@ export default {
 		},
 	},
 
-	destroyed() {
+	unmounted() {
 		console.debug('[phonetrack] destroy ARROWS')
 		this.removeArrows()
 	},

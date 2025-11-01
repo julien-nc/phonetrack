@@ -206,6 +206,8 @@ export default {
 		border(newVal) {
 			if (newVal) {
 				this.drawBorder()
+				// fix border being drawn on top of the line
+				this.bringToTop()
 			} else {
 				this.removeBorder()
 			}
@@ -230,7 +232,7 @@ export default {
 		this.init()
 	},
 
-	destroyed() {
+	unmounted() {
 		console.debug('[phonetrack] destroy track', String(this.track.id))
 		this.remove()
 	},
