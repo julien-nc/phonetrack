@@ -36,7 +36,7 @@
 				:tracks-to-draw="enabledDevices"
 				:unit="distanceUnit"
 				:with-top-left-button="mapWithTopLeftButton"
-				:cursor="addingPoint ? 'crosshair' : undefined"
+				:cursor="mapCursor"
 				@map-clicked="onMapClicked"
 				@save-options="saveOptions"
 				@map-bounds-change="storeBounds"
@@ -157,6 +157,7 @@ export default {
 			geofenceLngLats: null,
 			geofenceCleanupTimeout: null,
 			addingPoint: false,
+			addingPointRequestLoading: false,
 			loadingDevicePoints: false,
 		}
 	},
@@ -208,6 +209,13 @@ export default {
 				}, [])
 			console.debug('enabledDevices', dd)
 			return dd
+		},
+		mapCursor() {
+			return this.addingPointRequestLoading
+				? 'progress'
+				: this.addingPoint
+					? 'crosshair'
+					: undefined
 		},
 	},
 
@@ -513,6 +521,7 @@ export default {
 			const sessionId = this.sidebarSessionId
 			const deviceId = this.sidebarDeviceId
 			this.addingPoint = false
+			this.addingPointRequestLoading = true
 			const req = {
 				timestamp: moment().unix(),
 				lat: lngLat.lat,
@@ -521,7 +530,8 @@ export default {
 			}
 			const url = generateUrl('/apps/phonetrack/session/' + sessionId + '/device/' + deviceId + '/point')
 			axios.post(url, req).then((response) => {
-				// TODO add the point to the device (on the map)
+				console.debug('point added', response.data)
+				this.state.sessions[sessionId].devices[deviceId].points.push(response.data)
 			}).catch((error) => {
 				console.error(error)
 				console.error(error.response?.data?.error)
@@ -530,6 +540,8 @@ export default {
 				} else {
 					showError(t('phonetrack', 'Error while adding the point'))
 				}
+			}).then(() => {
+				this.addingPointRequestLoading = false
 			})
 		},
 		async updateDevice(sessionId, deviceId, values) {
