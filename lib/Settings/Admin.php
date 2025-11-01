@@ -2,43 +2,43 @@
 
 namespace OCA\PhoneTrack\Settings;
 
+use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\TileServerMapper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
 
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
+		private TileServerMapper $tileServerMapper,
+		private IInitialState $initialStateService,
 	) {
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
 	public function getForm() {
-		$quota = $this->config->getAppValue('phonetrack', 'pointQuota');
+		$quota = $this->appConfig->getValueInt(Application::APP_ID, 'pointQuota');
+		$proxyOsm = $this->appConfig->getValueString(Application::APP_ID, 'proxy_osm', '1') === '1';
 
-		$parameters = [
-			'phonetrackPointQuota' => $quota
+		$adminTileServers = $this->tileServerMapper->getTileServersOfUser(null);
+
+		$adminConfig = [
+			// do not expose the stored value to the user
+			'maptiler_api_key' => 'dummyApiKey',
+			'extra_tile_servers' => $adminTileServers,
+			'point_quota' => $quota,
+			'proxy_osm' => $proxyOsm,
 		];
-		return new TemplateResponse('phonetrack', 'admin', $parameters, '');
+		$this->initialStateService->provideInitialState('admin-config', $adminConfig);
+		return new TemplateResponse('phonetrack', 'adminSettings');
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
 	public function getSection() {
 		return 'additional';
 	}
 
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 *             the admin section. The forms are arranged in ascending order of the
-	 *             priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
-	 */
 	public function getPriority() {
 		return 5;
 	}

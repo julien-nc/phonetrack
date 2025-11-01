@@ -22,9 +22,19 @@ use Exception;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\PointMapper;
+use OCA\PhoneTrack\Db\ProximMapper;
+use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\ShareMapper;
+use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\SessionService;
+use OCA\PhoneTrack\Service\ToolsService;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 
@@ -38,7 +48,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class PageNLogControllerTest extends TestCase {
+class PageControllerTest extends TestCase {
 
 	private $appName;
 	private $request;
@@ -60,6 +70,9 @@ class PageNLogControllerTest extends TestCase {
 	private $testSessionToken5;
 	private $testSessionToExportToken;
 	private $testSessionQuota;
+	private SessionService $sessionService;
+	private ActivityManager $activityManager;
+	private ActivityManager $activityManager2;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();
@@ -90,10 +103,16 @@ class PageNLogControllerTest extends TestCase {
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
+			$c->get(PublicShareMapper::class),
+			$c->get(GeofenceMapper::class),
+			$c->get(ProximMapper::class),
+			$c->get(ShareMapper::class),
+			$c->get(PointMapper::class),
 			$c->get(IUserManager::class),
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
-			$c->get(IConfig::class)
+			$c->get(IConfig::class),
+			$c->get(\OCP\AppFramework\Services\IAppConfig::class),
 		);
 
 		$this->activityManager = new ActivityManager(
@@ -122,7 +141,7 @@ class PageNLogControllerTest extends TestCase {
 			'test2'
 		);
 
-		$this->pageController = new PageController(
+		$this->pageController = new OldPageController(
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
@@ -136,10 +155,11 @@ class PageNLogControllerTest extends TestCase {
 			$this->sessionService,
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
+			$c->get(IAppManager::class),
 			'test'
 		);
 
-		$this->pageController2 = new PageController(
+		$this->pageController2 = new OldPageController(
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
@@ -153,6 +173,7 @@ class PageNLogControllerTest extends TestCase {
 			$this->sessionService,
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
+			$c->get(IAppManager::class),
 			'test2'
 		);
 
@@ -165,9 +186,11 @@ class PageNLogControllerTest extends TestCase {
 			$c->get(IL10N::class),
 			$c->get(LoggerInterface::class),
 			$this->activityManager,
+			$c->get(SessionMapper::class),
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
+			$c->get(PointMapper::class),
 			$c->get(IDBConnection::class),
 			'test'
 		);
@@ -181,9 +204,11 @@ class PageNLogControllerTest extends TestCase {
 			$c->get(IL10N::class),
 			$c->get(LoggerInterface::class),
 			$this->activityManager,
+			$c->get(SessionMapper::class),
 			new DeviceMapper(
 				$c->get(IDBConnection::class)
 			),
+			$c->get(PointMapper::class),
 			$c->get(IDBConnection::class),
 			'test2'
 		);
@@ -192,7 +217,10 @@ class PageNLogControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
+			$c->get(IAppConfig::class),
 			$c->get(IDBConnection::class),
+			$c->get(ToolsService::class),
+			$c->get(TileServerMapper::class),
 			'test'
 		);
 	}
@@ -344,33 +372,28 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($values['lala'], 'lolo');
 
 		// ADD TILE SERVER
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
-		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		// $resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		// $data = $resp->getData();
+		// $done = $data['done'];
+		// $this->assertEquals($done, 1);
 
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$tsId = $data->jsonSerialize()['id'];
 
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 0);
+		$tsId2 = $data->jsonSerialize()['id'];
 
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		$resp = $this->utilsController->deleteTileServer($tsId);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$this->assertEquals($data, 1);
 
 		// SQL INJECTION
 		// TODO find something else than deleting options
@@ -946,8 +969,7 @@ class PageNLogControllerTest extends TestCase {
 					and $data['sessions'][1][1] === $token
 					and count($data['sessions'][1][5]) > 0
 					and $data['sessions'][1][5]['test2'] === 'test2')
-				or
-				(count($data['sessions'][0]) > 4
+				|| (count($data['sessions'][0]) > 4
 					and $data['sessions'][0][1] === $token
 					and count($data['sessions'][0][5]) > 0
 					and $data['sessions'][0][5]['test2'] === 'test2');
@@ -1750,7 +1772,7 @@ class PageNLogControllerTest extends TestCase {
 		$respNames = $data['names'];
 		$respColors = $data['colors'];
 
-		$cond = array_key_exists($token, $data['names']) and array_key_exists($deldeviceid, $data['names'][$token]);
+		$cond = array_key_exists($token, $data['names']) && array_key_exists($deldeviceid, $data['names'][$token]);
 		$this->assertEquals($cond, true);
 		$this->assertEquals($data['names'][$token][$deldeviceid], 'delDev');
 
@@ -1778,7 +1800,7 @@ class PageNLogControllerTest extends TestCase {
 		$respNames = $data['names'];
 		$respColors = $data['colors'];
 
-		$cond = (!array_key_exists($token, $data['names'])) or (!array_key_exists($deldeviceid, $data['names'][$token]));
+		$cond = (!array_key_exists($token, $data['names'])) || (!array_key_exists($deldeviceid, $data['names'][$token]));
 		$this->assertEquals(true, $cond);
 
 		// NAME RESERVATION
@@ -2081,21 +2103,18 @@ class PageNLogControllerTest extends TestCase {
 
 		// JUST to increase coverage
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$tsId = $data->jsonSerialize()['id'];
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 
 		// INDEX
 		$resp = $this->pageController->index();
 
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		$resp = $this->utilsController->deleteTileServer($tsId);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$this->assertEquals($data, 1);
 
 		// PUBLIC WEB LOG with non existent session
 		$resp = $this->pageController->publicWebLog('', '');

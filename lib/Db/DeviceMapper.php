@@ -1,17 +1,9 @@
 <?php
 
-/**
- * Nextcloud - phonetrack
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <eneiluj@posteo.net
- * @copyright Julien Veyssier 2019
- */
-
 namespace OCA\PhoneTrack\Db;
 
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -48,6 +40,76 @@ class DeviceMapper extends QBMapper {
 			);
 
 		return $this->findEntities($qb);
+	}
+
+
+	/**
+	 * @param string $sessionToken
+	 * @param int $deviceId
+	 * @return Device
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getBySessionTokenAndDeviceId(string $sessionToken, int $deviceId): Device {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $sessionToken
+	 * @param string $name
+	 * @return Device
+	 * @throws Exception
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getByName(string $sessionToken, string $name): Device {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	public function deleteDevice(string $sessionToken, int $deviceId): void {
+		$this->deleteDevicePoints($deviceId);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('phonetrack_devices')
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+	}
+
+	public function deleteDevicePoints(int $deviceId) {
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('phonetrack_points')
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
 	}
 
 	public function deletePointsOlderThan(int $deviceId, int $timestamp) {
@@ -129,9 +191,7 @@ class DeviceMapper extends QBMapper {
 		}
 
 		$req = $qb->executeQuery();
-		$points = $req->fetchAll();
-		$qb->resetQueryParts();
-		return $points;
+		return $req->fetchAll();
 	}
 
 	/**

@@ -1,0 +1,225 @@
+// public pages
+#body-public #app-content-vue {
+	padding: 0 !important;
+}
+// fix NcDialog style overriden by the NcModal one?
+.dialog__modal .modal-container {
+	padding-inline: 12px 8px !important;
+}
+@media only screen and (max-width: 1024px) {
+	// fix max height being unset in mobile view by server style
+	.app-content-list {
+		max-height: calc(100vh - 50px) !important;
+	}
+}
+
+.maplibregl-ctrl-geocoder > input,
+.maplibregl-ctrl-fullscreen,
+.maplibregl-ctrl-shrink,
+.maplibregl-ctrl-globe,
+.maplibregl-ctrl-globe-enabled,
+.maplibregl-ctrl-terrain,
+.maplibregl-ctrl-terrain-enabled,
+.maplibregl-ctrl-geolocate,
+.maplibregl-ctrl-compass,
+.maplibregl-ctrl-zoom-in,
+.maplibregl-ctrl-zoom-out {
+	margin: 0 !important;
+	border-radius: unset !important;
+}
+
+.maplibregl-ctrl-fullscreen,
+.maplibregl-ctrl-shrink,
+.maplibregl-ctrl-terrain,
+.maplibregl-ctrl-terrain-enabled,
+.maplibregl-ctrl-globe,
+.maplibregl-ctrl-globe-enabled,
+.maplibregl-ctrl-geolocate,
+.maplibregl-ctrl-compass,
+.maplibregl-ctrl-zoom-in,
+.maplibregl-ctrl-zoom-out {
+	width: 40px !important;
+	height: 40px !important;
+}
+
+.maplibregl-ctrl-attrib {
+	background-color: var(--color-main-background) !important;
+	&-inner > * {
+		color: var(--color-main-text) !important;
+	}
+}
+
+.maplibregl-ctrl-top-left {
+	//margin-top: 40px;
+}
+
+.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+	border-right-color: var(--color-main-background) !important;
+}
+.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+	border-left-color: var(--color-main-background) !important;
+}
+.maplibregl-popup-anchor-top .maplibregl-popup-tip {
+	border-bottom-color: var(--color-main-background) !important;
+}
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+	border-top-color: var(--color-main-background) !important;
+}
+.maplibregl-popup-content {
+	color: var(--color-main-text) !important;
+	background: var(--color-main-background) !important;
+	padding: 0 !important;
+	word-wrap: break-word !important;
+	> div {
+		padding: 4px;
+		border: 3px solid;
+		border-radius: var(--border-radius);
+		&.with-button {
+			padding: 4px 32px 4px 4px;
+		}
+	}
+	.maplibregl-popup-close-button {
+		width: 32px;
+		height: 32px;
+		min-height: 32px;
+		padding: 0 0 2px 0;
+		margin: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--color-background-dark);
+		&:hover {
+			background-color: var(--color-background-hover);
+		}
+	}
+}
+
+.mouse-position-control {
+	margin: 0 !important;
+	background-color: var(--color-main-background-translucent);
+	color: var(--color-main-text);
+	padding: 0 2px;
+}
+
+.map-wrapper.withTopLeftButton .maplibregl-ctrl-geocoder {
+	margin-left: 68px !important;
+}
+
+.maplibregl-ctrl-geocoder {
+	min-width: 200px;
+	width: 250px !important;
+	border-radius: var(--border-radius-large) !important;
+	> input {
+		color: var(--color-main-text) !important;
+		height: 36px !important;
+		padding: 6px 35px !important;
+		border-radius: var(--border-radius-large) !important;
+	}
+	&--result {
+		color: var(--color-main-text) !important;
+		> div {
+			overflow: hidden;
+		}
+	}
+	.suggestions {
+		background-color: var(--color-main-background) !important;
+		li.active a, li:hover a {
+			background-color: var(--color-background-hover) !important;
+		}
+	}
+	&--pin-right button {
+		border-radius: unset;
+		width: unset;
+		min-height: unset;
+		margin: 0;
+		padding: 0;
+		background-color: unset;
+		border: 0;
+	}
+
+	&--icon {
+		filter: var(--background-invert-if-dark);
+	}
+}
+
+.maplibregl-ctrl-group {
+	filter: var(--background-invert-if-dark);
+}
+
+/*
+.mapboxgl-style-list > button {
+	color: var(--color-text-maxcontrast);
+	font-weight: unset;
+	&.active {
+		font-weight: bold;
+		color: black;
+	}
+}
+*/
+
+.my-custom-tile-control {
+	select {
+		background-color: var(--color-main-background);
+		color: var(--color-main-text);
+		max-width: 200px;
+		cursor: pointer !important;
+		margin: 0 !important;
+	}
+}
+
+.maplibregl-popup {
+	&.photo-persistent-popup {
+		a {
+			text-decoration: underline;
+		}
+	}
+	.photo-tooltip-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
+.maplibregl-marker {
+	&.picture-marker,
+	&.picture-cluster-marker,
+	&.track-cluster-marker {
+		cursor: pointer;
+		* {
+			cursor: pointer;
+		}
+	}
+
+	&.picture-marker::after {
+		content: "";
+		position: relative;
+		border-style: solid;
+		border-color: var(--color-border) transparent;
+		display: block;
+		width: 0;
+		margin-left: auto;
+		margin-right: auto;
+		bottom: 0px;
+		border-width: 11px 8px 0;
+	}
+
+	.picture-cluster-marker--count {
+		color: var(--color-main-text);
+		position: absolute;
+		right: -9px;
+		top: -9px;
+		background-color: var(--color-main-background);
+		border-radius: 50%;
+		width: 22px;
+		height: 22px;
+		display: flex;
+		align-content: center;
+		justify-content: center;
+		line-height: 22px;
+		font-weight: bold;
+	}
+}
+
+.app-sidebar {
+	top: 0 !important;
+}
