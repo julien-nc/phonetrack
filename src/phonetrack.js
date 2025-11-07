@@ -2864,14 +2864,18 @@ import '../css/phonetrack.scss'
 				+ '<li>' + t('phonetrack', '"%lat" will be replaced by the latitude') + '</li>'
 				+ '<li>' + t('phonetrack', '"%lon" will be replaced by the longitude') + '</ul></label><br/>'
 				+ '<span>(<label for="urlenterpost' + s + d + '">' + t('phonetrack', 'Use POST method') + ' </label>'
-				+ '<input type="checkbox" class="urlenterpost" id="urlenterpost' + s + d + '"/>)</span>'
+				+ '<input type="checkbox" class="urlenterpost" id="urlenterpost' + s + d + '"/>'
+				+ '<label for="urlenterusebody' + s + d + '">' + t('phonetrack', 'Send data in body') + ' </label>'
+				+ '<input type="checkbox" class="urlenterusebody" id="urlenterusebody' + s + d + '"/>)</span>'
 				+ '<input type="text" id="urlenter' + s + d + '" class="urlenter" maxlength="500" /><br/>'
 				+ '<label for="urlleave' + s + d + '"><b>' + t('phonetrack', 'HTTP address to request when leaving. The following variables are available for use:') + '</b>'
 				+ '<ul class="variableshint"><li>' + t('phonetrack', '"%loc" will be replaced by "latitude:longitude"') + '</li>'
 				+ '<li>' + t('phonetrack', '"%lat" will be replaced by the latitude') + '</li>'
 				+ '<li>' + t('phonetrack', '"%lon" will be replaced by the longitude') + '</ul></label><br/>'
 				+ '<span>(<label for="urlleavepost' + s + d + '">' + t('phonetrack', 'Use POST method') + ' </label>'
-				+ '<input type="checkbox" class="urlleavepost" id="urlleavepost' + s + d + '"/>)</span>'
+				+ '<input type="checkbox" class="urlleavepost" id="urlleavepost' + s + d + '"/>'
+				+ '<label for="urlleaveusebody' + s + d + '">' + t('phonetrack', 'Send data in body') + ' </label>'
+				+ '<input type="checkbox" class="urlleaveusebody" id="urlleaveusebody' + s + d + '"/>)</span>'
 				+ '<input type="text" id="urlleave' + s + d + '" class="urlleave" maxlength="500" />'
 				+ '<label><b>' + t('phonetrack', 'Geofencing zone coordinates') + '</b> ' + '(' + t('phonetrack', 'leave blank to use current map bounds') + ')' + '</label><br/>'
 				+ '<div class="addgeofenceleft">'
@@ -2927,11 +2931,15 @@ import '../css/phonetrack.scss'
 				+ t('phonetrack', 'You can put multiple addresses separated by comas (,).') + '"/><br/>'
 				+ '<label for="urlclose' + s + d + '"><b>' + t('phonetrack', 'HTTP address to request when devices get close') + '</b></label><br/>'
 				+ '<span>(<label for="urlclosepost' + s + d + '">' + t('phonetrack', 'Use POST method') + ' </label>'
-				+ '<input type="checkbox" class="urlclosepost" id="urlclosepost' + s + d + '"/>)</span>'
+				+ '<input type="checkbox" class="urlclosepost" id="urlclosepost' + s + d + '"/>'
+				+ '<label for="urlcloseusebody' + s + d + '">' + t('phonetrack', 'Send data in body') + ' </label>'
+				+ '<input type="checkbox" class="urlcloseusebody" id="urlcloseusebody' + s + d + '"/>)</span>'
 				+ '<input type="text" id="urlclose' + s + d + '" class="urlclose" maxlength="500" /><br/>'
 				+ '<label for="urlfar' + s + d + '"><b>' + t('phonetrack', 'HTTP address to request when devices get far') + '</b> </label><br/>'
 				+ '<span>(<label for="urlfarpost' + s + d + '">' + t('phonetrack', 'Use POST method') + ' </label>'
-				+ '<input type="checkbox" class="urlfarpost" id="urlfarpost' + s + d + '"/>)</span>'
+				+ '<input type="checkbox" class="urlfarpost" id="urlfarpost' + s + d + '"/>'
+				+ '<label for="urlfarusebody' + s + d + '">' + t('phonetrack', 'Send data in body') + ' </label>'
+				+ '<input type="checkbox" class="urlfarusebody" id="urlfarusebody' + s + d + '"/>)</span>'
 				+ '<input type="text" id="urlfar' + s + d + '" class="urlfar" maxlength="500" />'
 				+ '<button class="addproximbutton">'
 				+ '<i class="fa fa-plus-circle" aria-hidden="true"></i> ' + t('phonetrack', 'Add proximity notification')
@@ -3081,13 +3089,15 @@ import '../css/phonetrack.scss'
 			addGeoFence(s, d, f.name, f.id, llb,
 				f.urlenter, f.urlleave,
 				f.urlenterpost, f.urlleavepost,
+				f.urlenterusebody, f.urlleaveusebody,
 				f.sendemail, f.emailaddr, f.sendnotif)
 		}
 		for (i = 0; i < proxims.length; i++) {
 			pr = proxims[i]
 			addProxim(s, d, pr.id, pr.sname2, pr.dname2,
 					  pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar,
-					  pr.urlclosepost, pr.urlfarpost, pr.sendemail, pr.emailaddr, pr.sendnotif)
+					  pr.urlclosepost, pr.urlfarpost, pr.urlcloseusebody, pr.urlfarusebody,
+					  pr.sendemail, pr.emailaddr, pr.sendnotif)
 		}
 	}
 
@@ -4455,7 +4465,7 @@ import '../css/phonetrack.scss'
 		})
 	}
 
-	function addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif) {
+	function addGeoFenceDb(token, device, fencename, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, urlenterusebody, urlleaveusebody, sendemail, emailaddr, sendnotif) {
 		const latmin = mapbounds.getSouth()
 		const latmax = mapbounds.getNorth()
 		const lonmin = mapbounds.getWest()
@@ -4472,6 +4482,8 @@ import '../css/phonetrack.scss'
 			urlleave,
 			urlenterpost,
 			urlleavepost,
+			urlenterusebody,
+			urlleaveusebody,
 			sendemail,
 			emailaddr,
 			sendnotif,
@@ -4479,7 +4491,7 @@ import '../css/phonetrack.scss'
 		const url = generateUrl('/apps/phonetrack/addGeofence')
 		axios.post(url, req).then((response) => {
 			if (response.data.done === 1 || response.data.done === 4) {
-				addGeoFence(token, device, fencename, response.data.fenceid, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif)
+				addGeoFence(token, device, fencename, response.data.fenceid, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, urlenterusebody, urlleaveusebody, sendemail, emailaddr, sendnotif)
 				if (response.data.done === 4) {
 					OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofencing alerts.'))
 				}
@@ -4492,14 +4504,22 @@ import '../css/phonetrack.scss'
 		})
 	}
 
-	function addGeoFence(token, device, fencename, fenceid, llb, urlenter = '', urlleave = '', urlenterpost = 0, urlleavepost = 0, sendemail = 1, emailaddr = '', sendnotif = 1) {
+	function addGeoFence(token, device, fencename, fenceid, llb, urlenter = '', urlleave = '', urlenterpost = 0, urlleavepost = 0, urlenterusebody = 1, urlleaveusebody = 1, sendemail = 1, emailaddr = '', sendnotif = 1) {
 		let enterpostTxt = ''
 		let leavepostTxt = ''
 		if (parseInt(urlenterpost) !== 0) {
-			enterpostTxt = '(POST)'
+			if (urlenterusebody === 1) {
+				enterpostTxt = t('phonetrack', '(POST, data in body)')
+			} else {
+				enterpostTxt = t('phonetrack', '(POST, data in query)')
+			}
 		}
 		if (parseInt(urlleavepost) !== 0) {
-			leavepostTxt = '(POST)'
+			if (urlleaveusebody === 1) {
+				leavepostTxt = t('phonetrack', '(POST, data in body)')
+			} else {
+				leavepostTxt = t('phonetrack', '(POST, data in query)')
+			}
 		}
 		let urlentertxt = ''
 		if (urlenter && urlenter !== '') {
@@ -4572,7 +4592,7 @@ import '../css/phonetrack.scss'
 		})
 	}
 
-	function addProximDb(token, device, sid, sname, dname, highlimit = 500, lowlimit = 500, urlclose = '', urlfar = '', urlclosepost = 0, urlfarpost = 0, sendemail = 1, emailaddr = '', sendnotif = 1) {
+	function addProximDb(token, device, sid, sname, dname, highlimit = 500, lowlimit = 500, urlclose = '', urlfar = '', urlclosepost = 0, urlfarpost = 0, urlcloseusebody = 1, urlfarusebody = 1, sendemail = 1, emailaddr = '', sendnotif = 1) {
 		const req = {
 			token,
 			device,
@@ -4584,6 +4604,8 @@ import '../css/phonetrack.scss'
 			urlfar,
 			urlclosepost,
 			urlfarpost,
+			urlcloseusebody,
+			urlfarusebody,
 			sendemail,
 			emailaddr,
 			sendnotif,
@@ -4591,7 +4613,7 @@ import '../css/phonetrack.scss'
 		const url = generateUrl('/apps/phonetrack/addProxim')
 		axios.post(url, req).then((response) => {
 			if (response.data.done === 1 || response.data.done === 4) {
-				addProxim(token, device, response.data.proximid, sname, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail, emailaddr, sendnotif)
+				addProxim(token, device, response.data.proximid, sname, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, urlcloseusebody, urlfarusebody, sendemail, emailaddr, sendnotif)
 				if (response.data.done === 4) {
 					OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'))
 				}
@@ -4607,14 +4629,22 @@ import '../css/phonetrack.scss'
 		})
 	}
 
-	function addProxim(token, device, proximid, sname, dname, highlimit = 500, lowlimit = 500, urlclose = '', urlfar = '', urlclosepost = 0, urlfarpost = 0, sendemail = 1, emailaddr = '', sendnotif = 1) {
+	function addProxim(token, device, proximid, sname, dname, highlimit = 500, lowlimit = 500, urlclose = '', urlfar = '', urlclosepost = 0, urlfarpost = 0, urlcloseusebody = 1, urlfarusebody = 1, sendemail = 1, emailaddr = '', sendnotif = 1) {
 		let closepostTxt = ''
 		let farpostTxt = ''
 		if (parseInt(urlclosepost) !== 0) {
-			closepostTxt = '(POST)'
+			if (urlcloseusebody === 1) {
+				closepostTxt = t('phonetrack', '(POST, data in body)')
+			} else {
+				closepostTxt = t('phonetrack', '(POST, data in query)')
+			}
 		}
 		if (parseInt(urlfarpost) !== 0) {
-			farpostTxt = '(POST)'
+			if (urlfarusebody === 1) {
+				farpostTxt = t('phonetrack', '(POST, data in body)')
+			} else {
+				farpostTxt = t('phonetrack', '(POST, data in query)')
+			}
 		}
 		let sendemailTxt = t('phonetrack', 'no')
 		if (parseInt(sendemail) !== 0) {
@@ -6192,6 +6222,8 @@ import '../css/phonetrack.scss'
 			const urlleave = $(this).parent().find('.urlleave').val()
 			const urlenterpost = $(this).parent().find('.urlenterpost').is(':checked') ? 1 : 0
 			const urlleavepost = $(this).parent().find('.urlleavepost').is(':checked') ? 1 : 0
+			const urlenterusebody = $(this).parent().find('.urlenterusebody').is(':checked') ? 1 : 0
+			const urlleaveusebody = $(this).parent().find('.urlleaveusebody').is(':checked') ? 1 : 0
 			const sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0
 			const emailaddr = $(this).parent().find('.geoemail').val()
 			const sendnotif = $(this).parent().find('.sendnotif').is(':checked') ? 1 : 0
@@ -6205,7 +6237,7 @@ import '../css/phonetrack.scss'
 			} else {
 				zonebounds = phonetrack.map.getBounds()
 			}
-			addGeoFenceDb(token, device, fencename, zonebounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif)
+			addGeoFenceDb(token, device, fencename, zonebounds, urlenter, urlleave, urlenterpost, urlleavepost, urlenterusebody, urlleaveusebody, sendemail, emailaddr, sendnotif)
 		})
 
 		$('body').on('click', '.deletegeofencebutton', function() {
@@ -6253,10 +6285,12 @@ import '../css/phonetrack.scss'
 			const urlfar = $(this).parent().find('.urlfar').val()
 			const urlclosepost = $(this).parent().find('.urlclosepost').is(':checked') ? 1 : 0
 			const urlfarpost = $(this).parent().find('.urlfarpost').is(':checked') ? 1 : 0
+			const urlcloseusebody = $(this).parent().find('.urlcloseusebody').is(':checked') ? 1 : 0
+			const urlfarusebody = $(this).parent().find('.urlfarusebody').is(':checked') ? 1 : 0
 			const sendnotif = $(this).parent().find('.sendnotif').is(':checked') ? 1 : 0
 			const sendemail = $(this).parent().find('.sendemail').is(':checked') ? 1 : 0
 			const emailaddr = $(this).parent().find('.proxemail').val()
-			addProximDb(s, d, sessiontoken, sessionname, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail, emailaddr, sendnotif)
+			addProximDb(s, d, sessiontoken, sessionname, devicename, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, urlcloseusebody, urlfarusebody, sendemail, emailaddr, sendnotif)
 		})
 
 		$('body').on('click', '.deleteproximbutton', function() {

@@ -169,6 +169,7 @@ class LogController extends Controller {
 			SELECT id, deviceid1, deviceid2, highlimit,
 				   lowlimit, urlclose, urlfar,
 				   urlclosepost, urlfarpost,
+				   urlcloseusebody, urlfarusebody,
 				   sendemail, emailaddr, sendnotif
 			FROM *PREFIX*phonetrack_proxims
 			WHERE deviceid1=' . $this->db_quote_escape_string($deviceId) . '
@@ -247,6 +248,8 @@ class LogController extends Controller {
 		$urlfar = $proxim['urlfar'];
 		$urlclosepost = (int)$proxim['urlclosepost'];
 		$urlfarpost = (int)$proxim['urlfarpost'];
+		$urlcloseusebody = (int)$proxim['urlcloseusebody'];
+		$urlfarusebody = (int)$proxim['urlfarusebody'];
 		$sendemail = (int)$proxim['sendemail'];
 		$sendnotif = (int)$proxim['sendnotif'];
 		$emailaddr = $proxim['emailaddr'];
@@ -391,18 +394,24 @@ class LogController extends Controller {
 					} else {
 						// POST
 						try {
-							$parts = parse_url($urlclose);
-							parse_str($parts['query'], $data);
+							if ($urlcloseusebody === 1) {
+								$parts = parse_url($urlclose);
+								parse_str($parts['query'], $data);
 
-							$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
+								$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
+							} else {
+								$url = $urlclose;
+							}
 
 							$options = [
 								'http' => [
 									'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-									'method' => 'POST',
-									'content' => http_build_query($data),
+									'method' => 'POST'
 								]
 							];
+							if ($urlcloseusebody === 1) {
+								$options['http'] += ['content' => http_build_query($data)];
+							}
 							$context = stream_context_create($options);
 							$result = file_get_contents($url, false, $context);
 						} catch (Exception $e) {
@@ -524,18 +533,24 @@ class LogController extends Controller {
 					} else {
 						// POST
 						try {
-							$parts = parse_url($urlfar);
-							parse_str($parts['query'], $data);
+							if ($urlfarusebody === 1) {
+								$parts = parse_url($urlfar);
+								parse_str($parts['query'], $data);
 
-							$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
+								$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
+							} else {
+								$url = $urlfar;
+							}
 
 							$options = [
 								'http' => [
 									'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-									'method' => 'POST',
-									'content' => http_build_query($data),
+									'method' => 'POST'
 								]
 							];
+							if ($urlfarusebody === 1) {
+								$options['http'] += ['content' => http_build_query($data)];
+							}
 							$context = stream_context_create($options);
 							$result = file_get_contents($url, false, $context);
 						} catch (Exception $e) {
@@ -553,6 +568,7 @@ class LogController extends Controller {
 			SELECT id, latmin, lonmin, latmax, lonmax,
 				   name, urlenter, urlleave,
 				   urlenterpost, urlleavepost,
+				   urlenterusebody, urlleaveusebody,
 				   sendemail, emailaddr, sendnotif
 			FROM *PREFIX*phonetrack_geofences
 			WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ;';
@@ -602,6 +618,8 @@ class LogController extends Controller {
 		$urlleave = $fence['urlleave'];
 		$urlenterpost = (int)$fence['urlenterpost'];
 		$urlleavepost = (int)$fence['urlleavepost'];
+		$urlenterusebody = (int)$fence['urlenterusebody'];
+		$urlleaveusebody = (int)$fence['urlleaveusebody'];
 		$sendemail = (int)$fence['sendemail'];
 		$sendnotif = (int)$fence['sendnotif'];
 		$emailaddr = $fence['emailaddr'];
@@ -733,18 +751,24 @@ class LogController extends Controller {
 						// POST
 						else {
 							try {
-								$parts = parse_url($urlenter);
-								parse_str($parts['query'], $data);
+								if ($urlenterusebody === 1) {
+									$parts = parse_url($urlenter);
+									parse_str($parts['query'], $data);
 
-								$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
+									$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
+								} else {
+									$url = $urlenter;
+								}
 
 								$options = [
 									'http' => [
 										'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-										'method' => 'POST',
-										'content' => http_build_query($data)
+										'method' => 'POST'
 									]
 								];
+								if ($urlenterusebody === 1) {
+									$options['http'] += ['content' => http_build_query($data)];
+								}
 								$context = stream_context_create($options);
 								$result = file_get_contents($url, false, $context);
 							} catch (Exception $e) {
@@ -859,18 +883,24 @@ class LogController extends Controller {
 						} else {
 							// POST
 							try {
-								$parts = parse_url($urlleave);
-								parse_str($parts['query'], $data);
+								if ($urlleaveusebody === 1) {
+									$parts = parse_url($urlleave);
+									parse_str($parts['query'], $data);
 
-								$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
+									$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
+								} else {
+									$url = $urlleave;
+								}
 
 								$options = [
 									'http' => [
 										'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-										'method' => 'POST',
-										'content' => http_build_query($data)
+										'method' => 'POST'
 									]
 								];
+								if ($urlleaveusebody === 1) {
+									$options['http'] += ['content' => http_build_query($data)];
+								}
 								$context = stream_context_create($options);
 								$result = file_get_contents($url, false, $context);
 							} catch (Exception $e) {

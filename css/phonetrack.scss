@@ -1077,6 +1077,8 @@ input.geofencename {
 	color: var(--color-main-text);
 }
 .urlclosepost, .urlfarpost,
+.urlcloseusebody, .urlfarusebody,
+.urlleaveusebody, .urlenterusebody,
 .urlleavepost, .urlenterpost, .sendemail, .sendnotif {
 	min-height: 14px;
 	margin: 0;

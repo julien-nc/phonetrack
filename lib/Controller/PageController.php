@@ -1726,6 +1726,7 @@ class PageController extends Controller {
 			SELECT id, name, latmin, latmax, lonmin,
 				   lonmax, urlenter, urlleave,
 				   urlenterpost, urlleavepost,
+				   urlenterusebody, urlleaveusebody,
 				   sendemail, emailaddr, sendnotif
 			FROM *PREFIX*phonetrack_geofences
 			WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ;';
@@ -1748,6 +1749,7 @@ class PageController extends Controller {
 			SELECT *PREFIX*phonetrack_proxims.id AS id, deviceid2, lowlimit, highlimit,
 				urlclose, urlfar,
 				urlclosepost, urlfarpost,
+				urlcloseusebody, urlfarusebody,
 				sendemail, emailaddr, sendnotif,
 				*PREFIX*phonetrack_devices.name AS dname2,
 				*PREFIX*phonetrack_sessions.name AS sname2
@@ -3330,7 +3332,8 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	public function addGeofence($token, $device, $fencename, $latmin, $latmax, $lonmin, $lonmax,
-		$urlenter, $urlleave, $urlenterpost, $urlleavepost, $sendemail, $emailaddr, $sendnotif) {
+		$urlenter, $urlleave, $urlenterpost, $urlleavepost, $urlenterusebody, $urlleaveusebody,
+		$sendemail, $emailaddr, $sendnotif) {
 		$ok = 0;
 		$fenceid = null;
 		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
@@ -3355,7 +3358,8 @@ class PageController extends Controller {
 					INSERT INTO *PREFIX*phonetrack_geofences
 					(name, deviceid, latmin, latmax,
 					 lonmin, lonmax, urlenter, urlleave,
-					 urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif)
+					 urlenterpost, urlleavepost, urlenterusebody, urlleaveusebody,
+					 sendemail, emailaddr, sendnotif)
 					VALUES (' .
 						 $this->db_quote_escape_string($fencename) . ',' .
 						 $this->db_quote_escape_string($device) . ',' .
@@ -3367,6 +3371,8 @@ class PageController extends Controller {
 						 $this->db_quote_escape_string($urlleave) . ',' .
 						 $this->db_quote_escape_string(intval($urlenterpost)) . ',' .
 						 $this->db_quote_escape_string(intval($urlleavepost)) . ',' .
+						 $this->db_quote_escape_string(intval($urlenterusebody)) . ',' .
+						 $this->db_quote_escape_string(intval($urlleaveusebody)) . ',' .
 						 $this->db_quote_escape_string(intval($sendemail)) . ',' .
 						 $this->db_quote_escape_string($emailaddr) . ',' .
 						 $this->db_quote_escape_string(intval($sendnotif)) . '
@@ -3432,7 +3438,8 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	public function addProxim($token, $device, $sid, $dname, $lowlimit, $highlimit,
-		$urlclose, $urlfar, $urlclosepost, $urlfarpost, $sendemail, $emailaddr, $sendnotif) {
+		$urlclose, $urlfar, $urlclosepost, $urlfarpost, $urlcloseusebody, $urlfarusebody,
+		$sendemail, $emailaddr, $sendnotif) {
 		$ok = 0;
 		$proximid = null;
 		$targetDeviceId = null;
@@ -3477,7 +3484,8 @@ class PageController extends Controller {
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_proxims
 						(deviceid1, deviceid2, lowlimit, highlimit, urlclose, urlfar,
-						 urlclosepost, urlfarpost, sendemail, emailaddr, sendnotif)
+						 urlclosepost, urlfarpost, urlcloseusebody, urlfarusebody,
+						 sendemail, emailaddr, sendnotif)
 						VALUES (' .
 							$this->db_quote_escape_string($device) . ',' .
 							$this->db_quote_escape_string($targetDeviceId) . ',' .
@@ -3487,6 +3495,8 @@ class PageController extends Controller {
 							$this->db_quote_escape_string($urlfar) . ',' .
 							$this->db_quote_escape_string(intval($urlclosepost)) . ',' .
 							$this->db_quote_escape_string(intval($urlfarpost)) . ',' .
+							$this->db_quote_escape_string(intval($urlcloseusebody)) . ',' .
+							$this->db_quote_escape_string(intval($urlfarusebody)) . ',' .
 							$this->db_quote_escape_string(intval($sendemail)) . ',' .
 							$this->db_quote_escape_string($emailaddr) . ',' .
 							$this->db_quote_escape_string(intval($sendnotif)) .
