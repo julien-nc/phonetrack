@@ -394,7 +394,7 @@ class LogController extends Controller {
 							$parts = parse_url($urlclose);
 							parse_str($parts['query'], $data);
 
-							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+							$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
 
 							$options = [
 								'http' => [
@@ -527,7 +527,7 @@ class LogController extends Controller {
 							$parts = parse_url($urlfar);
 							parse_str($parts['query'], $data);
 
-							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+							$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
 
 							$options = [
 								'http' => [
@@ -735,7 +735,7 @@ class LogController extends Controller {
 								$parts = parse_url($urlenter);
 								parse_str($parts['query'], $data);
 
-								$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+								$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
 
 								$options = [
 									'http' => [
@@ -860,7 +860,7 @@ class LogController extends Controller {
 								$parts = parse_url($urlleave);
 								parse_str($parts['query'], $data);
 
-								$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+								$url = $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] . $parts['path'];
 
 								$options = [
 									'http' => [
