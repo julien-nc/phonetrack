@@ -214,7 +214,7 @@ class PageController extends Controller {
 			->where(
 				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			$dbdevicename = $row['name'];
 			$dbnametoken = $row['nametoken'];
@@ -955,7 +955,7 @@ class PageController extends Controller {
 				->andWhere(
 					$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 				);
-			$req = $qb->execute();
+			$req = $qb->executeQuery();
 			$dbname = null;
 			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
