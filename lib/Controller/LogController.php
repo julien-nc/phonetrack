@@ -720,8 +720,9 @@ class LogController extends Controller {
 						}
 					}
 					if ($urlenter !== '' && startsWith($urlenter, 'http')) {
-						// GET
 						$urlenter = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $urlenter);
+
+						// GET
 						if ($urlenterpost === 0) {
 							try {
 								$xml = file_get_contents($urlenter);
@@ -846,9 +847,10 @@ class LogController extends Controller {
 						}
 					}
 					if ($urlleave !== '' && startsWith($urlleave, 'http')) {
+						$urlleave = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $urlleave);
+
 						// GET
 						if ($urlleavepost === 0) {
-							$urlleave = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $urlleave);
 							try {
 								$xml = file_get_contents($urlleave);
 							} catch (Exception $e) {
