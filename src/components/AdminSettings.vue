@@ -4,58 +4,62 @@
 			<PhonetrackIcon class="phonetrack-icon" />
 			<span>PhoneTrack</span>
 		</h2>
-		<div class="line">
-			<NcInputField
-				id="phonetrack-quota"
-				v-model="state.pointQuota"
-				class="input"
-				type="number"
-				:label="t('phonetrack', 'Point number quota')"
-				:show-trailing-button="!!state.pointQuota"
-				@update:model-value="onQuotaUpdate()"
-				@trailing-button-click="state.pointQuota = '' ; onQuotaUpdate()">
-				<TimerAlertOutlineIcon />
-				<template #trailing-button-icon>
-					<CloseIcon :size="20" />
-				</template>
-			</NcInputField>
-			<NcButton variant="tertiary"
-				:title="t('phonetrack', 'The maximum number of points each user can store/log.')
-					+ '\n' + t('phonetrack', 'Each user can choose what happens when the quota is reached : block logging or delete oldest point.')
-					+ '\n' + t('phonetrack', 'An empty value means no limit.')">
-				<template #icon>
-					<HelpCircleOutlineIcon />
-				</template>
-			</NcButton>
-		</div>
-		<NcNoteCard type="info">
-			<span v-html="mainHintHtml" />
-		</NcNoteCard>
-		<NcNoteCard type="info">
-			{{ t('phonetrack', 'The API keys defined here will be used by all users. Each user can set personal API keys to use intead of those ones.') }}
-		</NcNoteCard>
-		<div class="field">
-			<label for="phonetrack-maptiler-apikey">
-				<KeyIcon :size="20" class="icon" />
-				{{ t('phonetrack', 'Maptiler API key') }}
-			</label>
-			<input id="phonetrack-maptiler-apikey"
+		<div id="phonetrack-content">
+			<div class="line">
+				<NcInputField
+					id="phonetrack-quota"
+					v-model="state.pointQuota"
+					class="input"
+					type="number"
+					:label="t('phonetrack', 'Point number quota')"
+					:show-trailing-button="!!state.pointQuota"
+					@update:model-value="onQuotaUpdate()"
+					@trailing-button-click="state.pointQuota = '' ; onQuotaUpdate()">
+					<template #icon>
+						<TimerAlertOutlineIcon :size="20" />
+					</template>
+					<template #trailing-button-icon>
+						<CloseIcon :size="20" />
+					</template>
+				</NcInputField>
+				<NcButton variant="tertiary"
+					:title="t('phonetrack', 'The maximum number of points each user can store/log.')
+						+ '\n' + t('phonetrack', 'Each user can choose what happens when the quota is reached : block logging or delete oldest point.')
+						+ '\n' + t('phonetrack', 'An empty value means no limit.')">
+					<template #icon>
+						<HelpCircleOutlineIcon />
+					</template>
+				</NcButton>
+			</div>
+			<NcNoteCard v-if="['', 'dummyApiKey'].includes(state.maptiler_api_key)" type="warning">
+				<span v-html="mainHintHtml" />
+			</NcNoteCard>
+			<NcNoteCard type="info">
+				{{ t('phonetrack', 'The API keys defined here will be used by all users. Each user can set personal API keys to use intead of those ones.') }}
+			</NcNoteCard>
+			<NcTextField
 				v-model="state.maptiler_api_key"
+				:label="t('phonetrack', 'Maptiler API key')"
 				type="password"
-				:placeholder="t('phonetrack', 'api key')"
-				@input="onInput">
-		</div>
-		<div class="field">
+				class="input"
+				:placeholder="t('phonetrack', 'my-api-key')"
+				:show-trailing-button="!!state.maptiler_api_key"
+				@update:model-value="onInput"
+				@trailing-button-click="this.state.maptiler_api_key = ''; onInput()">
+				<template #icon>
+					<KeyIcon :size="20" />
+				</template>
+			</NcTextField>
 			<NcCheckboxRadioSwitch
 				:model-value="state.proxy_osm"
 				@update:model-value="onCheckboxChanged($event, 'proxy_osm')">
 				{{ t('phonetrack', 'Proxy map tiles/vectors requests via Nextcloud') }}
 			</NcCheckboxRadioSwitch>
+			<TileServerList
+				class="admin-tile-server-list"
+				:tile-servers="state.extra_tile_servers"
+				:is-admin="true" />
 		</div>
-		<TileServerList
-			class="admin-tile-server-list"
-			:tile-servers="state.extra_tile_servers"
-			:is-admin="true" />
 	</div>
 </template>
 
@@ -70,6 +74,7 @@ import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcButton from '@nextcloud/vue/components/NcButton'
 
 import TileServerList from './tileservers/TileServerList.vue'
@@ -96,6 +101,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcNoteCard,
 		NcInputField,
+		NcTextField,
 		NcButton,
 	},
 
@@ -133,11 +139,14 @@ export default {
 		},
 		onQuotaUpdate: debounce(function() {
 			this.saveOptions({
-				pointQuota: parseInt(this.state.pointQuota),
+				pointQuota: parseInt(this.state.pointQuota) || 0,
 			}, false)
 		}, 2000),
 		onInput() {
 			delay(() => {
+				if (this.state.maptiler_api_key === 'dummyApiKey') {
+					return
+				}
 				this.saveOptions({
 					maptiler_api_key: this.state.maptiler_api_key,
 				}, true)
@@ -193,46 +202,45 @@ export default {
 
 <style scoped lang="scss">
 #phonetrack_prefs {
-	.field {
-		display: flex;
-		align-items: center;
-		margin-left: 30px;
-
-		input,
-		label {
-			width: 300px;
-		}
-
-		label {
-			display: flex;
-			align-items: center;
-		}
-		.icon {
-			margin-right: 8px;
-		}
-	}
-
-	.settings-hint {
-		display: flex;
-		align-items: center;
-		.icon {
-			margin-right: 8px;
-		}
-	}
-
 	h2 {
 		display: flex;
+		justify-content: start;
 		.phonetrack-icon {
 			margin-right: 12px;
 		}
 	}
 
-	.subsection-title {
-		font-weight: bold;
-	}
+	#phonetrack-content {
+		margin-left: 40px;
 
-	.admin-tile-server-list {
-		margin-top: 12px;
+		.line {
+			display: flex;
+			gap: 4px;
+			align-items: end;
+		}
+
+		.input,
+		input,
+		label {
+			width: 300px;
+		}
+
+		.settings-hint {
+			display: flex;
+			align-items: center;
+
+			.icon {
+				margin-right: 8px;
+			}
+		}
+
+		.subsection-title {
+			font-weight: bold;
+		}
+
+		.admin-tile-server-list {
+			margin-top: 12px;
+		}
 	}
 }
 </style>
