@@ -77,7 +77,7 @@ class PhonetrackProvider implements IProvider {
 			$params = [
 				'user' => [
 					'type' => 'user',
-					'id' => 0,
+					'id' => '0',
 					'name' => $subjectParams['author']
 				],
 			];
