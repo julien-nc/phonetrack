@@ -7,6 +7,8 @@
     "PhoneTrack session {session} is now shared with {who}" : "A sessão do PhoneTrack {session} agora é compartilhada com {who}",
     "You stopped sharing session {session} with {who}" : "Você parou de compartilhar a sessão {session} com {who}",
     "PhoneTrack session {session} is not shared with {who} anymore" : "A sessão do PhoneTrack {session} não está sendo mais compartilhada com {who}",
+    "A PhoneTrack client" : "Um cliente PhoneTrack",
+    "PhoneTrack" : "RastrearTelefone",
     "<strong>PhoneTrack geofences</strong> events" : "eventos <strong> PhoneTrack geofences </strong>",
     "<strong>PhoneTrack device proximity</strong> events" : "Eventos de <strong> proximidade de dispositivo PhoneTrack </strong>",
     "Changes in the <strong>PhoneTrack app</strong>" : "Alterações no <strong> aplicativo PhoneTrack </strong>",

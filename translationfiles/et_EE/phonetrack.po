@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2025-10-26 23:53\n"
+"PO-Revision-Date: 2025-10-28 00:05\n"
 "Last-Translator: \n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
@@ -451,7 +451,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1572
 msgid "Session token"
-msgstr ""
+msgstr "Sessiooni tunnusluba"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1578
 msgid "List of links to configure logging apps server settings."
@@ -637,7 +637,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2832
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:46
 msgid "Ok"
-msgstr ""
+msgstr "Sobib"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2849
 msgid "Device geofencing zones"
@@ -689,7 +689,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2923
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2927
 msgid "Use POST method"
-msgstr ""
+msgstr "Kasuta POST-meetodit"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2866
 msgid "HTTP address to request when leaving (\"%loc\" will be replaced by \"latitude:longitude\")"
@@ -897,7 +897,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3764
 msgid "Save"
-msgstr ""
+msgstr "Salvesta"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3766
 msgid "Move"
@@ -905,7 +905,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3767
 msgid "Cancel"
-msgstr ""
+msgstr "Katkesta"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3812
 msgid "Distance"
@@ -1438,7 +1438,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:38
 msgid "Create session"
-msgstr ""
+msgstr "Loo sessioon"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:42
 msgid "Session name"
