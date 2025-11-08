@@ -64,7 +64,8 @@ class PhonetrackProvider implements IProvider {
 
 		$subjectIdentifier = $event->getSubject();
 		$subjectParams = $event->getSubjectParameters();
-		$ownActivity = ($event->getAuthor() === $this->userId);
+		$ownActivity = ($event->getAuthor() === $event->getAffectedUser());
+		$params = [];
 
 		/**
 		 * Map stored parameter objects to rich string types
