@@ -984,34 +984,34 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($done, 1);
 
 		// GEOFENCE
-		$resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, '', 1);
+		$resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$fenceid = $data['fenceid'];
 		$this->assertEquals($done, 1);
 
-		$resp = $this->pageController->addGeofence($token, $deviceidProx, 'testfence2', 20.2, 21.1, 4.3, 5.2, 'https://dumdumdum.net/dumdum', 'https://dumdumdum.net/dumdum2', 0, 0, 1, '', 1);
+		$resp = $this->pageController->addGeofence($token, $deviceidProx, 'testfence2', 20.2, 21.1, 4.3, 5.2, 'https://dumdumdum.net/dumdum', 'https://dumdumdum.net/dumdum2', 0, 0, 0, 0, 1, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$fenceid = $data['fenceid'];
 		$this->assertEquals($done, 1);
-		$resp = $this->pageController->addGeofence($token, $deviceidProx, 'testfence3', 20.2, 21.1, 4.3, 5.2, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net/dumdum2?plop=2', 1, 1, 0, '', 1);
+		$resp = $this->pageController->addGeofence($token, $deviceidProx, 'testfence3', 20.2, 21.1, 4.3, 5.2, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net/dumdum2?plop=2', 1, 1, 0, 1, 0, '', 1);
 
 		// log with geofence
 		$this->logController->logPost($token, 'testDevProx', 4.44, 3.33, 100, 470, 60, 10, 200, '');
 		$this->logController->logPost($token, 'testDevProx', 20.5, 4.4, 100, 471, 60, 10, 200, '');
 
-		$resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 1);
+		$resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 0, 0, 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 3);
 
-		$resp = $this->pageController->addGeofence($token . 'a', $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 1);
+		$resp = $this->pageController->addGeofence($token . 'a', $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 0, 0, 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
 
-		$resp = $this->pageController->addGeofence($token, 9876, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 1);
+		$resp = $this->pageController->addGeofence($token, 9876, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, 0, 0, 0, 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1032,8 +1032,8 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($done, 1);
 
 		// PROXIM
-		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 0, 0, 1, '', 1);
-		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 1, 1, 0, '', 1);
+		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 0, 0, 0, 0, 1, '', 1);
+		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 1, 1, 1, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$proxid = $data['proximid'];
@@ -1045,22 +1045,22 @@ class PageNLogControllerTest extends TestCase {
 		$this->logController->logPost($token, 'testDevProx', 45.69999, 3.5999, 100, $timestamp + 1, 60, 10, 200, 'ua2');
 		$this->logController->logPost($token, 'testDevProx', 10.69999, 13.5999, 100, $timestamp + 2, 60, 10, 200, 'ua3');
 
-		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProxFake', 400, 1000, '', '', 0, 0, 0, '', 1);
+		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProxFake', 400, 1000, '', '', 0, 0, 0, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 5);
 
-		$resp = $this->pageController->addProxim($token, $deviceid, $token . 'a', 'testDevProx', 400, 1000, '', '', 0, 0, 0, '', 1);
+		$resp = $this->pageController->addProxim($token, $deviceid, $token . 'a', 'testDevProx', 400, 1000, '', '', 0, 0, 0, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 3);
 
-		$resp = $this->pageController->addProxim($token . 'a', $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '', 1);
+		$resp = $this->pageController->addProxim($token . 'a', $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
 
-		$resp = $this->pageController->addProxim($token, 98765, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '', 1);
+		$resp = $this->pageController->addProxim($token, 98765, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
@@ -1086,8 +1086,8 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($done, 1);
 
 		// track to get geofences and proxims
-		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, '', 1);
-		$resp = $this->pageController->addGeofence($token, $deviceid, 'testfence1', 44.0, 46.1, 3.3, 5.2, '', '', 0, 0, 0, 0, 1);
+		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400, 1000, '', '', 0, 0, 0, 0, 0, '', 1);
+		$resp = $this->pageController->addGeofence($token, $deviceid, 'testfence1', 44.0, 46.1, 3.3, 5.2, '', '', 0, 0, 0, 0, 0, 0, 1);
 		// no point load limit
 		$resp = $this->utilsController->saveOptionValue([
 			'nbpointsload' => '',
@@ -1598,7 +1598,7 @@ class PageNLogControllerTest extends TestCase {
 		$data = $resp->getData();
 		$geodeviceid = $data['deviceid'];
 		$resp = $this->logController->addPoint($token2, 'todelDev', 44.6, 4.8, 100, 562, 100, 35, 4, 'tests', 2, 180);
-		$resp = $this->pageController->addGeofence($token2, $geodeviceid, 'testfence1', 44.0, 46.0, 3.0, 5.0, '', '', 0, 0, 0, 0, 1);
+		$resp = $this->pageController->addGeofence($token2, $geodeviceid, 'testfence1', 44.0, 46.0, 3.0, 5.0, '', '', 0, 0, 0, 0, 0, 0, 1);
 
 		$sessions = [[$publictoken1, null, null]];
 		$resp = $this->pageController->publicViewTrack($sessions);
