@@ -281,11 +281,6 @@ export default {
 			const tileControl = new TileControl({ styles: this.styles, selectedKey: restoredStyleKey })
 			tileControl.on('changeStyle', (key) => {
 				this.$emit('map-state-change', { mapStyle: key })
-				const mapStyleObj = this.styles[key]
-				this.map.setMaxZoom(mapStyleObj.maxzoom ? (mapStyleObj.maxzoom - 0.01) : DEFAULT_MAP_MAX_ZOOM)
-
-				// if we change the tile/style provider => redraw layers
-				this.reRenderLayersAndTerrain()
 			})
 			this.map.addControl(tileControl, 'top-right')
 
@@ -300,47 +295,31 @@ export default {
 			this.globeControl.on('toggleGlobe', this.toggleGlobe)
 			this.map.addControl(this.globeControl, 'top-right')
 
+			// when the map style changes
 			this.map.on('style.load', () => {
+				console.debug('style.load', this.settings.mapStyle)
+				// max zoom
+				const styleKey = Object.keys(this.styles).includes(this.settings.mapStyle) ? this.settings.mapStyle : 'streets'
+				const mapStyleObj = this.styles[styleKey]
+				const maxZoom = mapStyleObj.maxzoom ? (mapStyleObj.maxzoom - 0.01) : DEFAULT_MAP_MAX_ZOOM
+				console.debug('apply max ZOOM', maxZoom, mapStyleObj)
+				this.map.setMaxZoom(maxZoom)
+
 				if (this.myUseGlobe) {
 					this.map.setProjection({
 						type: 'globe',
 					})
 				}
+				this.setSky()
+				this.reRenderLayersAndTerrain()
 			})
 
 			this.handleMapEvents()
 
 			this.map.once('load', () => {
-				// https://maplibre.org/maplibre-gl-js/docs/examples/sky-with-fog-and-terrain/
-				// https://maplibre.org/maplibre-style-spec/sky/
-				this.map.setSky({
-					'sky-color': '#199EF3',
-					'sky-horizon-blend': 0.5,
-					'horizon-color': '#ffffff',
-					'horizon-fog-blend': 0.5,
-					'fog-color': '#0000ff',
-					'fog-ground-blend': 0.5,
-					'atmosphere-blend': 0,
-					/*
-					'atmosphere-blend': [
-						'interpolate',
-						['linear'],
-						['zoom'],
-						0,
-						1,
-						10,
-						1,
-						12,
-						0,
-					],
-					*/
-				})
 
 				this.loadImages()
 
-				if (this.myUseTerrain) {
-					this.enableTerrain()
-				}
 				this.terrainControl.updateTerrainIcon(this.myUseTerrain)
 				this.globeControl.updateGlobeIcon(this.myUseGlobe)
 
@@ -412,16 +391,18 @@ export default {
 			})
 		},
 		reRenderLayersAndTerrain() {
-			// re render the layers
 			this.mapLoaded = false
+
+			this.loadImages()
+			if (this.myUseTerrain) {
+				this.enableTerrain()
+			}
+			/*
 			setTimeout(() => {
 				this.$nextTick(() => {
-					this.loadImages().then(() => {
-						console.debug('finished loading images in reRenderLayersAndTerrain')
-					})
+					this.loadImages()
 				})
 			}, 500)
-
 			// add the terrain
 			setTimeout(() => {
 				this.$nextTick(() => {
@@ -432,10 +413,37 @@ export default {
 					}
 				})
 			}, 500)
+			*/
 		},
 		onMapClick(e) {
 			console.debug('MAP::onMapClick', e)
 			this.$emit('map-clicked', e.lngLat)
+		},
+		setSky() {
+			// https://maplibre.org/maplibre-gl-js/docs/examples/sky-with-fog-and-terrain/
+			// https://maplibre.org/maplibre-style-spec/sky/
+			this.map.setSky({
+				'sky-color': '#199EF3',
+				'sky-horizon-blend': 0.7,
+				'horizon-color': '#ffffff',
+				'horizon-fog-blend': 0.7,
+				'fog-color': '#0000ff',
+				'fog-ground-blend': 0.7,
+				'atmosphere-blend': 0,
+				/*
+				'atmosphere-blend': [
+					'interpolate',
+					['linear'],
+					['zoom'],
+					0,
+					1,
+					10,
+					1,
+					12,
+					0,
+				],
+				*/
+			})
 		},
 		toggleGlobe() {
 			this.myUseGlobe = !this.myUseGlobe
