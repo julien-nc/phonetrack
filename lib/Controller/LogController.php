@@ -17,6 +17,7 @@ use DateTimeZone;
 use Exception;
 
 use OCA\PhoneTrack\Activity\ActivityManager;
+use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\PointMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
@@ -31,6 +32,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 use OCP\IDBConnection;
@@ -104,6 +106,7 @@ class LogController extends Controller {
 		string $AppName,
 		IRequest $request,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IManager $notificationManager,
 		private IUserManager $userManager,
 		private IL10N $l10n,
@@ -889,7 +892,7 @@ class LogController extends Controller {
 
 	private function checkQuota(int $deviceidToInsert, string $userid, string $devicename, string $sessionname,
 		int $nbPointsToInsert = 1) {
-		$quota = (int)$this->config->getAppValue('phonetrack', 'pointQuota', '0');
+		$quota = $this->appConfig->getValueInt(Application::APP_ID, 'pointQuota', 0, lazy: true);
 		if ($quota === 0) {
 			return true;
 		}

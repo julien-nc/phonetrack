@@ -7,13 +7,13 @@
 		<div class="line">
 			<NcInputField
 				id="phonetrack-quota"
-				v-model="state.point_quota"
+				v-model="state.pointQuota"
 				class="input"
 				type="number"
 				:label="t('phonetrack', 'Point number quota')"
-				:show-trailing-button="!!state.point_quota"
+				:show-trailing-button="!!state.pointQuota"
 				@update:model-value="onQuotaUpdate()"
-				@trailing-button-click="state.point_quota = '' ; onQuotaUpdate()">
+				@trailing-button-click="state.pointQuota = '' ; onQuotaUpdate()">
 				<TimerAlertOutlineIcon />
 				<template #trailing-button-icon>
 					<CloseIcon :size="20" />
@@ -63,11 +63,14 @@
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import HelpCircleOutlineIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
+import TimerAlertOutlineIcon from 'vue-material-design-icons/TimerAlertOutline.vue'
 
 import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 import TileServerList from './tileservers/TileServerList.vue'
 
@@ -89,8 +92,11 @@ export default {
 		KeyIcon,
 		CloseIcon,
 		HelpCircleOutlineIcon,
+		TimerAlertOutlineIcon,
 		NcCheckboxRadioSwitch,
 		NcNoteCard,
+		NcInputField,
+		NcButton,
 	},
 
 	props: [],
@@ -112,6 +118,7 @@ export default {
 	mounted() {
 		subscribe('tile-server-deleted', this.onTileServerDeleted)
 		subscribe('tile-server-added', this.onTileServerAdded)
+		console.debug('phonetrack state', this.state)
 	},
 
 	unmounted() {
@@ -126,7 +133,7 @@ export default {
 		},
 		onQuotaUpdate: debounce(function() {
 			this.saveOptions({
-				point_quota: this.state.point_quota,
+				pointQuota: parseInt(this.state.pointQuota),
 			}, false)
 		}, 2000),
 		onInput() {

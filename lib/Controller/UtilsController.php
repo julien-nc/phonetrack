@@ -47,14 +47,6 @@ class UtilsController extends Controller {
 	}
 
 	/**
-	 * set global point quota
-	 */
-	public function setPointQuota($quota) {
-		$this->config->setAppValue('phonetrack', 'pointQuota', $quota);
-		return new DataResponse(['done' => '1']);
-	}
-
-	/**
 	 * Add one tile server to the DB for current user
 	 */
 	#[NoAdminRequired]
@@ -195,8 +187,22 @@ class UtilsController extends Controller {
 		foreach ($values as $key => $value) {
 			if (in_array($key, ['maptiler_api_key'], true)) {
 				return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			} elseif (is_int($value)) {
+				try {
+					$this->appConfig->setValueInt(Application::APP_ID, $key, $value, lazy: true);
+				} catch (AppConfigTypeConflictException) {
+					$this->appConfig->deleteKey(Application::APP_ID, $key);
+					$this->appConfig->setValueInt(Application::APP_ID, $key, $value, lazy: true);
+				}
+			} else {
+				// consider anything else as string
+				try {
+					$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true);
+				} catch (AppConfigTypeConflictException) {
+					$this->appConfig->deleteKey(Application::APP_ID, $key);
+					$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true);
+				}
 			}
-			$this->appConfig->setValueString(Application::APP_ID, $key, $value);
 		}
 		return new DataResponse('');
 	}
@@ -212,9 +218,9 @@ class UtilsController extends Controller {
 	public function setSensitiveAdminConfig(array $values): DataResponse {
 		foreach ($values as $key => $value) {
 			if ($key === 'maptiler_api_key') {
-				$this->appConfig->setValueString(Application::APP_ID, $key, $value, false, true);
+				$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true, sensitive: true);
 			} else {
-				$this->appConfig->setValueString(Application::APP_ID, $key, $value);
+				$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true);
 			}
 		}
 		return new DataResponse('');

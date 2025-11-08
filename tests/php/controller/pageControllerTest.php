@@ -73,6 +73,7 @@ class PageControllerTest extends TestCase {
 	private SessionService $sessionService;
 	private ActivityManager $activityManager;
 	private ActivityManager $activityManager2;
+	private IAppConfig $appConfig;
 
 	public static function setUpBeforeClass(): void {
 		$app = new Application();
@@ -92,6 +93,7 @@ class PageControllerTest extends TestCase {
 		$c = $this->container;
 		$sc = $c->get(IServerContainer::class);
 		$this->config = $c->get(IConfig::class);
+		$this->appConfig = $c->get(IAppConfig::class);
 
 		$this->appName = 'phonetrack';
 		$this->request = $c->get(IRequest::class);
@@ -181,6 +183,7 @@ class PageControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
+			$this->appConfig,
 			$c->get(IManager::class),
 			$c->get(IUserManager::class),
 			$c->get(IL10N::class),
@@ -199,6 +202,7 @@ class PageControllerTest extends TestCase {
 			$this->appName,
 			$this->request,
 			$c->get(IConfig::class),
+			$this->appConfig,
 			$c->get(IManager::class),
 			$c->get(IUserManager::class),
 			$c->get(IL10N::class),
@@ -249,12 +253,8 @@ class PageControllerTest extends TestCase {
 	}
 
 	public function testQuota() {
-		$oldQuota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
-		$this->config->setAppValue('phonetrack', 'pointQuota', '');
-		$resp = $this->utilsController->setPointQuota('');
-		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals(1, $done);
+		$oldQuota = $this->appConfig->getValueInt(Application::APP_ID, 'pointQuota', lazy: true);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', 0, lazy: true);
 
 		$resp = $this->utilsController->deleteOptionsValues();
 		$resp = $this->pageController->createSession('quotaSession');
@@ -280,7 +280,7 @@ class PageControllerTest extends TestCase {
 		$data = $resp->getData();
 		$done = $data['done'];
 		$devid2 = $data['deviceid'];
-		$this->config->setAppValue('phonetrack', 'pointQuota', 300);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', 300, lazy: true);
 		for ($i = 9; $i > 0; $i--) {
 			$resp = $this->logController->addPoint(
 				$token, 'dev1', 45.5, 3.4, 111, $timestamp - $i, 100, 80, 12, 'test', 2, 180
@@ -301,7 +301,7 @@ class PageControllerTest extends TestCase {
 		$this->assertEquals(10, count($respSession[$token][$devid2]));
 		$this->assertEquals($timestamp - 2, $respSession[$token][$devid2][9][3]);
 
-		$this->config->setAppValue('phonetrack', 'pointQuota', 15);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', 15, lazy: true);
 
 		// test when user chose to block new points
 		$resp = $this->utilsController->saveOptionValue(['quotareached' => 'block']);
@@ -349,7 +349,7 @@ class PageControllerTest extends TestCase {
 		$this->assertEquals($done, 1);
 
 		$resp = $this->utilsController->deleteOptionsValues();
-		$this->config->setAppValue('phonetrack', 'pointQuota', $oldQuota);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', $oldQuota, lazy: true);
 	}
 
 	public function testUtils() {
@@ -683,7 +683,7 @@ class PageControllerTest extends TestCase {
 			[43.65339660644533,3.8572182655334473,1547460654,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
 			[43.65339660644534,3.8572182655334473,1547460655,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
 		];
-		$this->utilsController->setPointQuota(300);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', 300, lazy: true);
 		$this->logController->logPostMultiple($token, 'dev1', $points);
 
 		$sessions = [[$token, null, null]];
