@@ -100,7 +100,7 @@ class PhonetrackProvider implements IProvider {
 			}
 			$session = [
 				'type' => 'highlight',
-				'id' => $event->getObjectId(),
+				'id' => (string)$event->getObjectId(),
 				'name' => $event->getObjectName(),
 				'link' => $this->phonetrackUrl('/session/' . $event->getObjectId()),
 			];
@@ -113,7 +113,7 @@ class PhonetrackProvider implements IProvider {
 			}
 			$device = [
 				'type' => 'highlight',
-				'id' => $event->getObjectId(),
+				'id' => (string)$event->getObjectId(),
 				'name' => $event->getObjectName(),
 			];
 
