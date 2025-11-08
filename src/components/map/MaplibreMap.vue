@@ -69,6 +69,10 @@ export default {
 			type: Number,
 			default: 1,
 		},
+		useGlobe: {
+			type: Boolean,
+			default: false,
+		},
 		showMousePositionControl: {
 			type: Boolean,
 			default: false,
@@ -103,7 +107,6 @@ export default {
 		'map-clicked',
 		'map-state-change',
 		'map-bounds-change',
-		'save-options',
 	],
 
 	data() {
@@ -116,6 +119,7 @@ export default {
 			scaleControl: null,
 			myUseTerrain: this.useTerrain,
 			terrainControl: null,
+			myUseGlobe: this.useGlobe,
 			globeControl: null,
 			persistentPopups: [],
 			nonPersistentPopup: null,
@@ -169,6 +173,13 @@ export default {
 			if (this.myUseTerrain) {
 				this.enableTerrain()
 			}
+		},
+		useGlobe(newValue) {
+			// ignore if the internal state is already the same as the changing prop
+			if (this.myUseGlobe === newValue) {
+				return
+			}
+			this.toggleGlobe()
 		},
 	},
 
@@ -288,12 +299,9 @@ export default {
 			this.globeControl = new GlobeControl()
 			this.globeControl.on('toggleGlobe', this.toggleGlobe)
 			this.map.addControl(this.globeControl, 'top-right')
-			if (this.settings.use_globe === '1') {
-				this.globeControl.updateGlobeIcon(true)
-			}
 
 			this.map.on('style.load', () => {
-				if (this.settings.use_globe === '1') {
+				if (this.myUseGlobe) {
 					this.map.setProjection({
 						type: 'globe',
 					})
@@ -334,6 +342,7 @@ export default {
 					this.enableTerrain()
 				}
 				this.terrainControl.updateTerrainIcon(this.myUseTerrain)
+				this.globeControl.updateGlobeIcon(this.myUseGlobe)
 
 				const bounds = this.map.getBounds()
 				this.$emit('map-bounds-change', {
@@ -429,17 +438,15 @@ export default {
 			this.$emit('map-clicked', e.lngLat)
 		},
 		toggleGlobe() {
-			const newEnabled = this.settings.use_globe !== '1'
-			// TODO replace by map-state-change
-			this.$emit('save-options', { use_globe: newEnabled ? '1' : '0' })
+			this.myUseGlobe = !this.myUseGlobe
+			this.$emit('map-state-change', { use_globe: this.myUseGlobe ? '1' : '0' })
 			this.map.setProjection({
-				type: newEnabled ? 'globe' : 'mercator',
+				type: this.myUseGlobe ? 'globe' : 'mercator',
 			})
-			this.globeControl.updateGlobeIcon(newEnabled)
+			this.globeControl.updateGlobeIcon(this.myUseGlobe)
 		},
 		toggleTerrain() {
 			this.myUseTerrain = !this.myUseTerrain
-			// this.$emit('save-options', { use_terrain: this.myUseTerrain ? '1' : '0' })
 			this.$emit('map-state-change', { use_terrain: this.myUseTerrain })
 			if (this.myUseTerrain) {
 				this.enableTerrain()

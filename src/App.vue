@@ -33,6 +33,7 @@
 			<MaplibreMap ref="map"
 				:settings="state?.settings"
 				:use-terrain="state?.settings?.use_terrain === '1'"
+				:use-globe="state?.settings?.use_globe === '1'"
 				:terrain-scale="parseFloat(state?.settings?.terrainExaggeration) || undefined"
 				:show-mouse-position-control="state?.settings.show_mouse_position_control === '1'"
 				:tracks-to-draw="enabledDevices"
@@ -40,7 +41,6 @@
 				:with-top-left-button="mapWithTopLeftButton"
 				:cursor="mapCursor"
 				@map-clicked="onMapClicked"
-				@save-options="saveOptions"
 				@map-bounds-change="storeBounds"
 				@map-state-change="saveOptions">
 				<template #default="{ map }">
