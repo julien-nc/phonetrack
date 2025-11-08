@@ -11,7 +11,7 @@
 Wie PhoneTrack verwendet wird:
 
 - Tracking-Sitzung erstellen
-- Give the logging link\* to the mobile devices. Protokollierungslink\* an die mobilen Geräte weitergeben Bevorzugte [Protokollierungsmethode](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) auswählen
+- Geben Sie den Protokollierungslink\* an mobile Geräte weiter. Protokollierungslink\* an die mobilen Geräte weitergeben Bevorzugte [Protokollierungsmethode](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) auswählen
 - Beobachten Sie den Gerätestandort der Sitzung in Echtzeit (oder später) in PhoneTrack oder teilen Sie ihn auf öffentlichen Webseiten.
 
 (\*) Vergessen Sie nicht, den Gerätenamen im Link (und nicht in den Einstellungen der Protokollierungsanwendung) einzustellen. Ersetzen Sie „MeinName” mit dem gewünschten Gerätenamen.

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2025-10-26 23:53\n"
+"PO-Revision-Date: 2025-10-28 00:05\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -51,14 +51,14 @@ msgstr "PhoneTrack záznam {session} už nie je zdieľaný s {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "PhoneTrack klient"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Filter.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
@@ -154,7 +154,7 @@ msgstr "Používateľ \"%s\" zastavil zdieľanie záznamu PhoneTrack \"%s\" s va
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid "Phonetrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:4
 msgid " "
@@ -1339,7 +1339,7 @@ msgstr "Geo QRcode: posledná poloha {dname}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5808
 msgid "Are you sure you want to delete the device {device}?"
-msgstr ""
+msgstr "Naozaj chcete odstrániť zariadenie {device}?"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5811
 msgid "Confirm device deletion"
@@ -1682,7 +1682,7 @@ msgstr "Vlastné servery vrstiev mapbox"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:314
 msgid "Style.json url"
-msgstr ""
+msgstr "Style.json url"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:315
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
