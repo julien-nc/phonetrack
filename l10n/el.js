@@ -1,7 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack proximity alert (%s and %s)" : "Ειδοποίηση εγγύτητας PhoneTrack (%s και %s)",
     "Geofencing alert" : "Ειδοποίηση Γεωφρακτικής περιοχής",
     "Watch session" : "Παρακολούθηση συνεδρίας",
@@ -288,7 +287,6 @@ OC.L10N.register(
     "Choose auto export target path" : "Διαλέξτε διαδρομή προορισμού για την αυτόματη εξαγωγή",
     "Select storage location for '{fname}'" : "Επιλογή τοποθεσίας αποθήκευσης για '{fname}'",
     "Geo QRcode : last position of {dname}" : "Γεω: QRcode: τελευταία θέση του {dname}",
-    "Are you sure you want to delete the device {device} ?" : "Είστε σίγουροι ότι θέλετε να διαγραφεί η συσκευή {device} ;",
     "Confirm device deletion" : "Επιβεβαίωση διαγραφής συσκευής",
     "Failed to change session lock status" : "Αποτυχία αλλαγής κατάστασης κλειδώματος συνεδρίας",
     "Failed to toggle session public status, session does not exist" : "Αποτυχία εναλλαγής δημόσιας κατάστασης συνεδρίας, η συνεδρία δεν υπάρχει",

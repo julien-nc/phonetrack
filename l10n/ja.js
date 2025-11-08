@@ -9,8 +9,6 @@ OC.L10N.register(
     "PhoneTrack session {session} is now shared with {who}" : "PhoneTrack セッション {session} が {who} と共有されました",
     "You stopped sharing session {session} with {who}" : "{who} とのセッション {session} の共有を停止しました",
     "PhoneTrack session {session} is not shared with {who} anymore" : "PhoneTrack セッション {session} は {who} とは共有されていません",
-    "A PhoneTrack client" : "PhoneTrack クライアント",
-    "PhoneTrack" : "PhoneTrack",
     "<strong>PhoneTrack geofences</strong> events" : "<strong>PhoneTrack ジオフェンス</strong>イベント",
     "<strong>PhoneTrack device proximity</strong> events" : "<strong>PhoneTrack デバイス接近</strong>イベント",
     "Changes in the <strong>PhoneTrack app</strong>" : "<strong>PhoneTrack アプリ</strong>の変更点",

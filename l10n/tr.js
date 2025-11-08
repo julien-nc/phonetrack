@@ -1,7 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "PhoneTrack" : "PhoneTrack",
     "PhoneTrack proximity alert (%s and %s)" : "PhoneTrack yakınlık alarmı (%s and %s)",
     "Geofencing alert" : "Coğrafi varlık alarmı",
     "Device \"%s\" is now closer than %sm to \"%s\"." : "Şuanda \"%s\" cihazı %s den \"%s\" ye daha yakın.",
@@ -156,7 +155,6 @@ OC.L10N.register(
     "Confirm session deletion" : "Oturum silme işlemini onaylayın",
     "Choose auto export target path" : "Otomatik dışa çıkarma konum hedefini seçiniz",
     "Select storage location for '{fname}'" : "'{fname}' için bir depolama konumu seçin",
-    "Are you sure you want to delete the device {device} ?" : "Cihazı {device} silmek istediğinize eminmisiniz ?",
     "Confirm device deletion" : "Aygıt silme işlemini onaylayın",
     "Failed to toggle session public status, session does not exist" : "Oturum herkese açık durumu değiştirilemedi, oturum mevcut değil",
     "Failed to contact server to toggle session public status" : "Oturumun herkese açık durumunu değiştirmek için sunucuya bağlanılamadı",
@@ -188,7 +186,6 @@ OC.L10N.register(
     "Points and lines opacity" : "Nokta ve çizgilerin saydamlığı",
     "Theme" : "Tema",
     "bright" : "parlak",
-    "pastel" : "pastel",
     "dark" : "koyu",
     "reload page to make changes effective" : "değişikliklerin etkili olması için sayfayı yeniden yükleyin",
     "Auto export path" : "Otomatik dışa çıkarma konumu",

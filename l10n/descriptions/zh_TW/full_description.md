@@ -2,7 +2,7 @@
 
 📱 手機追蹤是一款Nextcloud應用程式，用來記錄儲存移動裝置的位置。
 
-🗺 接收從手機位置記錄傳送來的資訊，在地圖上顯示。
+🗺   It receives information from mobile phones logging apps and displays it dynamically on a map.
 
 🌍 請利用[PhoneTrack Crowdin 計畫](https://crowdin.com/project/phonetrack)幫助翻譯
 
@@ -10,29 +10,30 @@
 
 如何使用手機追蹤：
 
-* 建立一段追蹤任務。
-* 把記錄連結\*傳給移動裝置 把記錄連結\*傳給移動裝置 選擇你喜歡的[記錄方法](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods)
-* 在手機追蹤程式地圖上觀看裝置及時(或最近的)位置，或分享至公開的網頁。
+- Create a tracking session.
+- Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Watch the session's devices location in real time (or not) in PhoneTrack or share it with public pages.
 
-(\*)記得在連結中設定裝置名稱(而不是在記錄程式中設定) 替換 ‘‘你的名稱’’ (\*)記得在連結中設定裝置名稱(而不是在記錄程式中設定) 替換 ‘‘你的名稱’’ 只有在Owntracks, Traccar and OpenGTS這3款程式的設定中設定裝置名稱才有效。
+(\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
+Setting the device name in logging app settings only works with Owntracks, Traccar and OpenGTS.
 
-在手機追蹤程式主畫面檢視一段追蹤任務時，你可以：
+On PhoneTrack main page, while watching a session, you can :
 
-* 📍 顯示位置歷史記錄
-* ⛛ 篩選記錄點
-* ✎ 手動 編輯/新增/刪除 記錄點
-* ✎ 總輯裝置 (重新命名，變更色彩/形狀，移動到其他裝置)
-* ⛶ 定義裝置的地理圍欄區域
-* ⚇ 定義裝置間近接警報
-* 🖧 與其他Nextcloud使用者分享一段追蹤任務 (只可讀取)
-* 🔗 產生有選擇性的公開連結 (篩選器，裝置名稱，最後位置，地理圍欄)
-* 🖫 匯入/匯出GPX格式的追蹤任務 (每個裝置具有一段任務的一個檔案，或每個裝置一個檔案)
-* 🗠 顯示追蹤任務的統計資料
-* 🔒 [鎖定裝置名稱](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) 只有被授權才能使用鎖定的名稱
-* 🗓 設定追蹤任務的自動匯出及自動清除 (每日/每週/每月)
-* ◔ 設定當記錄點數達到配額時，處理方式 (停止記錄或覆蓋最舊記錄)
+- 📍 顯示位置歷史記錄
+- ⛛  Filter points
+- ✎  Manually edit/add/delete points
+- ✎ 總輯裝置 (重新命名，變更色彩/形狀，移動到其他裝置)
+- ⛶ 定義裝置的地理圍欄區域
+- ⚇ 定義裝置間近接警報
+- 🖧  Share a session to other Nextcloud users or with a public link (read-only)
+- 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
+- 🖫  Import/export a session in GPX format (one file with one track per device or one file per device)
+- 🗠  Display sessions statistics
+- 🔒 [鎖定裝置名稱](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) 只有被授權才能使用鎖定的名稱
+- 🗓 設定追蹤任務的自動匯出及自動清除 (每日/每週/每月)
+- ◔  Choose what to do when point number quota is reached (block logging or delete oldest point)
 
-公開的頁面和公開的經篩選頁面與主頁面有所不同，只顯示一段追蹤任務，只能讀取，無法登入。
+Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
 本應用在Nextcloud 17主機，配合客戶端瀏覽器Firefox 57+ 及 Chromium測試可運作。
 
@@ -50,6 +51,7 @@
 
 ## 已知待解決的問題
 
-* 手機追蹤**現在可以**給Nextcloud特定群組成員使用。 請查閱[admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud) 請查閱[admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud)
+- PhoneTrack **now works** with Nextcloud group restriction activated. 手機追蹤**現在可以**給Nextcloud特定群組成員使用。 請查閱[admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud) 請查閱[admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud)
 
-非常感謝你的回饋，請不吝提供意思。
+Any feedback will be appreciated.
+

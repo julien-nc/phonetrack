@@ -1,8 +1,6 @@
 OC.L10N.register(
     "phonetrack",
     {
-    "A PhoneTrack client" : "Odjemalec PhoneTrack",
-    "PhoneTrack" : "PhoneTrack",
     "Watch session" : "Seja za spremljanje",
     "Quota was successfully saved" : "Količinska omejitev je uspešno shranjena",
     "Failed to save quota" : "Shranjevanje količinske omejitve je spodletelo",
@@ -133,7 +131,6 @@ OC.L10N.register(
     "duration" : "trajanje",
     "Are you sure you want to delete the session {session} ?" : "Ali ste prepričani, da želite izbrisati sejo {session} ?",
     "Geo QRcode : last position of {dname}" : "Koda Geo QR : zadnji položaj {dname}",
-    "Are you sure you want to delete the device {device} ?" : "Ali ste prepričani, da želite izbrisati napravo {device}?",
     "session does not exist" : "seja ne obstaja",
     "Import gpx/kml/json session file" : "Uvozi datoteko seje gpx/kml/json",
     "Main tab" : "Glavni zavihek",
@@ -226,4 +223,4 @@ OC.L10N.register(
     "Documentation" : "Dokumentacija",
     "Authors" : "Avtorji"
 },
-"nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);");
+"nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;");

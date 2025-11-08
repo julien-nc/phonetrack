@@ -64,7 +64,8 @@ class PhonetrackProvider implements IProvider {
 
 		$subjectIdentifier = $event->getSubject();
 		$subjectParams = $event->getSubjectParameters();
-		$ownActivity = ($event->getAuthor() === $this->userId);
+		$ownActivity = ($event->getAuthor() === $event->getAffectedUser());
+		$params = [];
 
 		/**
 		 * Map stored parameter objects to rich string types
@@ -77,7 +78,7 @@ class PhonetrackProvider implements IProvider {
 			$params = [
 				'user' => [
 					'type' => 'user',
-					'id' => 0,
+					'id' => '0',
 					'name' => $subjectParams['author']
 				],
 			];
@@ -100,7 +101,7 @@ class PhonetrackProvider implements IProvider {
 			}
 			$session = [
 				'type' => 'highlight',
-				'id' => $event->getObjectId(),
+				'id' => (string)$event->getObjectId(),
 				'name' => $event->getObjectName(),
 				'link' => $this->phonetrackUrl('/session/' . $event->getObjectId()),
 			];
@@ -113,7 +114,7 @@ class PhonetrackProvider implements IProvider {
 			}
 			$device = [
 				'type' => 'highlight',
-				'id' => $event->getObjectId(),
+				'id' => (string)$event->getObjectId(),
 				'name' => $event->getObjectName(),
 			];
 
