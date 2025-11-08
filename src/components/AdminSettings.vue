@@ -46,7 +46,7 @@
 					:placeholder="t('phonetrack', 'my-api-key')"
 					:show-trailing-button="!!state.maptiler_api_key"
 					@update:model-value="onInput"
-					@trailing-button-click="this.state.maptiler_api_key = ''; onInput()">
+					@trailing-button-click="state.maptiler_api_key = ''; onInput()">
 					<template #icon>
 						<KeyIcon :size="20" />
 					</template>
@@ -73,7 +73,6 @@ import TimerAlertOutlineIcon from 'vue-material-design-icons/TimerAlertOutline.v
 
 import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
@@ -102,7 +101,6 @@ export default {
 		CloseIcon,
 		HelpCircleOutlineIcon,
 		TimerAlertOutlineIcon,
-		NcCheckboxRadioSwitch,
 		NcNoteCard,
 		NcInputField,
 		NcTextField,

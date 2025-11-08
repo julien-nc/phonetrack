@@ -12,155 +12,158 @@
 				:name="t('phonetrack', 'Map')"
 				:title="t('phonetrack', 'Map')"
 				class="app-settings-section">
-				<NcCheckboxRadioSwitch
-					:model-value="settings.nav_show_hovered_session_bounds === '1'"
-					@update:model-value="onCheckboxChanged($event, 'nav_show_hovered_session_bounds')">
-					<div class="checkbox-inner">
-						<RectangleOutlineIcon :size="20" class="inline-icon" />
-						{{ t('phonetrack', 'Show session bounds on hover') }}
-					</div>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					:model-value="settings.show_mouse_position_control === '1'"
-					@update:model-value="onCheckboxChanged($event, 'show_mouse_position_control')">
-					<div class="checkbox-inner">
-						<CursorDefaultClickOutlineIcon :size="20" class="inline-icon" />
-						{{ t('phonetrack', 'Show mouse position coordinates in the bottom-left map corner') }}
-					</div>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					:model-value="settings.compact_mode === '1'"
-					@update:model-value="onCheckboxChanged($event, 'compact_mode')">
-					<div class="checkbox-inner">
-						<ViewCompactOutlineIcon :size="20" class="inline-icon" />
-						{{ t('phonetrack', 'Compact navigation view') }}
-					</div>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					:model-value="settings.line_border === '1'"
-					@update:model-value="onCheckboxChanged($event, 'line_border')">
-					<div class="checkbox-inner">
-						<MinusIcon :size="20" class="inline-icon" />
-						{{ t('phonetrack', 'Draw line borders') }}
-					</div>
-				</NcCheckboxRadioSwitch>
-				<NcCheckboxRadioSwitch
-					:model-value="settings.direction_arrows === '1'"
-					@update:model-value="onCheckboxChanged($event, 'direction_arrows')">
-					<div class="checkbox-inner">
-						<ArrowRightIcon :size="20" class="inline-icon" />
-						{{ t('phonetrack', 'Draw line direction arrows') }}
-					</div>
-				</NcCheckboxRadioSwitch>
-				<div class="oneLine">
-					<UpdateIcon :size="20" />
-					<label for="refresh-duration">
-						{{ t('phonetrack', 'Refresh every N seconds') }}
-					</label>
-					<input id="refresh-duration"
+				<NcFormBox>
+					<NcFormBoxSwitch :model-value="settings.nav_show_hovered_session_bounds === '1'"
+						@enable="onCheckboxChanged(true, 'nav_show_hovered_session_bounds')"
+						@disable="onCheckboxChanged(false, 'nav_show_hovered_session_bounds')">
+						<div class="checkbox-inner">
+							<RectangleOutlineIcon :size="20" class="inline-icon" />
+							{{ t('phonetrack', 'Show session bounds on hover') }}
+						</div>
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch :model-value="settings.show_mouse_position_control === '1'"
+						@enable="onCheckboxChanged(true, 'show_mouse_position_control')"
+						@disable="onCheckboxChanged(false, 'show_mouse_position_control')">
+						<div class="checkbox-inner">
+							<CursorDefaultClickOutlineIcon :size="20" class="inline-icon" />
+							{{ t('phonetrack', 'Show mouse position coordinates in the bottom-left map corner') }}
+						</div>
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch :model-value="settings.compact_mode === '1'"
+						@enable="onCheckboxChanged(true, 'compact_mode')"
+						@disable="onCheckboxChanged(false, 'compact_mode')">
+						<div class="checkbox-inner">
+							<ViewCompactOutlineIcon :size="20" class="inline-icon" />
+							{{ t('phonetrack', 'Compact navigation view') }}
+						</div>
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch :model-value="settings.line_border === '1'"
+						@enable="onCheckboxChanged(true, 'line_border')"
+						@disable="onCheckboxChanged(false, 'line_border')">
+						<div class="checkbox-inner">
+							<MinusIcon :size="20" class="inline-icon" />
+							{{ t('phonetrack', 'Draw line borders') }}
+						</div>
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch :model-value="settings.direction_arrows === '1'"
+						@enable="onCheckboxChanged(true, 'direction_arrows')"
+						@disable="onCheckboxChanged(false, 'direction_arrows')">
+						<div class="checkbox-inner">
+							<ArrowRightIcon :size="20" class="inline-icon" />
+							{{ t('phonetrack', 'Draw line direction arrows') }}
+						</div>
+					</NcFormBoxSwitch>
+					<NcInputField
+						:model-value="settings.refresh_duration"
 						type="number"
-						:value="settings.refresh_duration"
+						:label="t('phonetrack', 'Refresh every N seconds')"
 						min="5"
 						step="10"
-						@change="onInputChange($event, 'refresh_duration')">
-				</div>
-				<div class="oneLine">
-					<ArrowRightIcon :size="20" />
-					<label for="arrows-scale">
-						{{ t('phonetrack', 'Arrows scale factor') }}
-					</label>
-					<input id="arrows-scale"
+						:show-trailing-button="![125, '125'].includes(settings.refresh_duration)"
+						@update:model-value="onComponentInputChange($event, 'refresh_duration')"
+						@trailing-button-click="onComponentInputChange('125', 'refresh_duration')">
+						<template #icon>
+							<UpdateIcon :size="20" />
+						</template>
+						<template #trailing-button-icon>
+							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+						</template>
+					</NcInputField>
+					<NcInputField
+						:model-value="settings.arrows_scale_factor"
 						type="number"
-						:value="settings.arrows_scale_factor"
+						:label="t('phonetrack', 'Arrows scale factor')"
 						min="0.1"
 						max="2"
 						step="0.1"
-						@change="onInputChange($event, 'arrows_scale_factor')">
-				</div>
-				<div class="oneLine">
-					<ArrowRightIcon :size="20" />
-					<label for="arrows-spacing">
-						{{ t('phonetrack', 'Arrows spacing') }}
-					</label>
-					<input id="arrows-spacing"
+						:show-trailing-button="![1, '1'].includes(settings.arrows_scale_factor)"
+						@update:model-value="onComponentInputChange($event, 'arrows_scale_factor')"
+						@trailing-button-click="onComponentInputChange('1', 'arrows_scale_factor')">
+						<template #icon>
+							<ArrowRightIcon :size="20" />
+						</template>
+						<template #trailing-button-icon>
+							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+						</template>
+					</NcInputField>
+					<NcInputField
+						:model-value="settings.arrows_spacing"
 						type="number"
-						:value="settings.arrows_spacing"
+						:label="t('phonetrack', 'Arrows spacing')"
 						min="10"
 						max="400"
 						step="1"
-						@change="onInputChange($event, 'arrows_spacing')">
-				</div>
-				<div class="oneLine">
-					<ArrowSplitVerticalIcon :size="20" />
-					<label for="line-width">
-						{{ t('phonetrack', 'Line width') }}
-					</label>
-					<input id="line-width"
+						:show-trailing-button="![200, '200'].includes(settings.arrows_spacing)"
+						@update:model-value="onComponentInputChange($event, 'arrows_spacing')"
+						@trailing-button-click="onComponentInputChange('200', 'arrows_spacing')">
+						<template #icon>
+							<ArrowRightIcon :size="20" />
+						</template>
+						<template #trailing-button-icon>
+							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+						</template>
+					</NcInputField>
+					<NcInputField
+						:model-value="settings.line_width"
 						type="number"
-						:value="settings.line_width"
+						:label="t('phonetrack', 'Line width')"
 						min="1"
 						max="20"
 						step="0.5"
-						@change="onInputChange($event, 'line_width')">
-				</div>
-				<div class="oneLine">
-					<OpacityIcon :size="20" />
-					<label for="line-opacity">
-						{{ t('phonetrack', 'Line opacity') }}
-					</label>
-					<input id="line-opacity"
+						:show-trailing-button="![6, '6'].includes(settings.line_width)"
+						@update:model-value="onComponentInputChange($event, 'line_width')"
+						@trailing-button-click="onComponentInputChange('6', 'line_width')">
+						<template #icon>
+							<ArrowSplitVerticalIcon :size="20" />
+						</template>
+						<template #trailing-button-icon>
+							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+						</template>
+					</NcInputField>
+					<NcInputField
+						:model-value="settings.line_opacity"
 						type="number"
-						:value="settings.line_opacity"
+						:label="t('phonetrack', 'Line opacity')"
 						min="0"
 						max="1"
 						step="0.1"
-						@change="onInputChange($event, 'line_opacity')">
-				</div>
-				<div class="oneLine">
-					<RulerIcon :size="20" />
-					<label for="unit">
-						{{ t('phonetrack', 'Distance unit') }}
-					</label>
-					<select id="unit"
-						:value="distanceUnitValue"
-						@change="onInputChange($event, 'distance_unit')">
-						<option value="metric">
-							{{ t('phonetrack', 'Metric') }}
-						</option>
-						<option value="imperial">
-							{{ t('phonetrack', 'Imperial (English)') }}
-						</option>
-						<option value="nautical">
-							{{ t('phonetrack', 'Nautical') }}
-						</option>
-					</select>
-				</div>
-				<div class="oneLine">
-					<ChartAreasplineVariantIcon :size="20" />
-					<label for="exaggeration">
-						{{ t('phonetrack', '3D elevation exaggeration (effective after page reload)') }}
-					</label>
-					<input id="exaggeration"
+						:show-trailing-button="![1, '1'].includes(settings.line_opacity)"
+						@update:model-value="onComponentInputChange($event, 'line_opacity')"
+						@trailing-button-click="onComponentInputChange('1', 'line_opacity')">
+						<template #icon>
+							<OpacityIcon :size="20" />
+						</template>
+						<template #trailing-button-icon>
+							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+						</template>
+					</NcInputField>
+					<NcInputField
+						:model-value="settings.terrainExaggeration"
 						type="number"
-						:value="settings.terrainExaggeration"
+						:label="t('phonetrack', '3D elevation exaggeration (effective after page reload)')"
 						min="0.1"
 						max="10"
 						step="0.1"
-						@change="onInputChange($event, 'terrainExaggeration')">
-				</div>
-				<div class="oneLine">
-					<FormatSizeIcon :size="20" />
-					<label for="fontsize">
-						{{ t('phonetrack', 'Font scale factor') }} (%)
-					</label>
-					<input id="fontsize"
-						type="number"
-						:value="settings.fontScale"
-						min="80"
-						max="120"
-						step="1"
-						@change="onInputChange($event, 'fontScale')">
-				</div>
+						:show-trailing-button="![1.5, '1.5'].includes(settings.terrainExaggeration)"
+						@update:model-value="onComponentInputChange($event, 'terrainExaggeration')"
+						@trailing-button-click="onComponentInputChange('1.5', 'terrainExaggeration')">
+						<template #icon>
+							<ChartAreasplineVariantIcon :size="20" />
+						</template>
+						<template #trailing-button-icon>
+							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+						</template>
+					</NcInputField>
+					<NcSelect
+						:model-value="selectedDistanceUnit"
+						class="select"
+						:input-label="t('phonetrack', 'Distance unit')"
+						:options="Object.values(distanceUnitOptions)"
+						:no-wrap="true"
+						label="label"
+						:clearable="false"
+						@update:model-value="onComponentInputChange($event.value, 'distance_unit')" />
+				</NcFormBox>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!isPublicPage"
 				id="export"
@@ -282,13 +285,12 @@ import MinusIcon from 'vue-material-design-icons/Minus.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import ViewCompactOutlineIcon from 'vue-material-design-icons/ViewCompactOutline.vue'
 import ChartAreasplineVariantIcon from 'vue-material-design-icons/ChartAreasplineVariant.vue'
-import FormatSizeIcon from 'vue-material-design-icons/FormatSize.vue'
 import RectangleOutlineIcon from 'vue-material-design-icons/RectangleOutline.vue'
 import CursorDefaultClickOutlineIcon from 'vue-material-design-icons/CursorDefaultClickOutline.vue'
-import RulerIcon from 'vue-material-design-icons/Ruler.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import UpdateIcon from 'vue-material-design-icons/Update.vue'
+import UndoIcon from 'vue-material-design-icons/Undo.vue'
 
 import AdminIcon from './icons/AdminIcon.vue'
 
@@ -296,9 +298,12 @@ import TileServerList from './tileservers/TileServerList.vue'
 
 import NcAppSettingsDialog from '@nextcloud/vue/components/NcAppSettingsDialog'
 import NcAppSettingsSection from '@nextcloud/vue/components/NcAppSettingsSection'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 
 import { delay } from '../utils.js'
 import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
@@ -319,22 +324,24 @@ export default {
 		AdminIcon,
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
-		NcCheckboxRadioSwitch,
 		NcTextField,
+		NcInputField,
 		NcNoteCard,
+		NcFormBox,
+		NcFormBoxSwitch,
+		NcSelect,
 		KeyIcon,
 		OpenInNewIcon,
-		RulerIcon,
 		RectangleOutlineIcon,
 		CursorDefaultClickOutlineIcon,
 		ChartAreasplineVariantIcon,
-		FormatSizeIcon,
 		ViewCompactOutlineIcon,
 		MinusIcon,
 		ArrowRightIcon,
 		OpacityIcon,
 		ArrowSplitVerticalIcon,
 		UpdateIcon,
+		UndoIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -351,12 +358,26 @@ export default {
 			showSettings: false,
 			isAdmin: getCurrentUser()?.isAdmin,
 			adminSettingsUrl: generateUrl('/settings/admin/additional#phonetrack_prefs'),
+			distanceUnitOptions: {
+				metric: {
+					label: t('phonetrack', 'Metric'),
+					value: 'metric',
+				},
+				imperial: {
+					label: t('phonetrack', 'Imperial (English)'),
+					value: 'imperial',
+				},
+				nautical: {
+					label: t('phonetrack', 'Nautical'),
+					value: 'nautical',
+				},
+			},
 		}
 	},
 
 	computed: {
-		distanceUnitValue() {
-			return this.settings.distance_unit ?? 'metric'
+		selectedDistanceUnit() {
+			return this.distanceUnitOptions[this.settings.distance_unit] ?? this.distanceUnitOptions.metric
 		},
 		maptilerHint() {
 			const maptilerLink = '<a href="https://maptiler.com" target="blank">https://maptiler.com</a>'
@@ -399,6 +420,9 @@ export default {
 		},
 		onInputChange(e, key) {
 			this.$emit('save-options', { [key]: e.target.value })
+		},
+		onComponentInputChange(value, key) {
+			this.$emit('save-options', { [key]: value })
 		},
 		onExportDirClick() {
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to write auto export files'))
