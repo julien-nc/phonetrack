@@ -44,6 +44,7 @@ import { maplibreForwardGeocode } from '../../nominatimGeocoder.js'
 import VMarker from './VMarker.vue'
 
 import { COLOR_CRITERIAS } from '../../constants.js'
+
 const DEFAULT_MAP_MAX_ZOOM = 22
 
 export default {
@@ -60,29 +61,21 @@ export default {
 			type: Object,
 			default: () => ({}),
 		},
+		useTerrain: {
+			type: Boolean,
+			default: false,
+		},
+		terrainScale: {
+			type: Number,
+			default: 1,
+		},
 		showMousePositionControl: {
 			type: Boolean,
 			default: false,
 		},
-		tracksToDraw: {
-			type: Array,
-			default: () => [],
-		},
-		hoveredTrack: {
-			type: Object,
-			default: null,
-		},
 		hoveredDirectoryBounds: {
 			type: Object,
 			default: null,
-		},
-		clusterTracks: {
-			type: Array,
-			default: () => [],
-		},
-		clusterPictures: {
-			type: Array,
-			default: () => [],
 		},
 		unit: {
 			type: String,
@@ -121,6 +114,7 @@ export default {
 			COLOR_CRITERIAS,
 			mousePositionControl: null,
 			scaleControl: null,
+			myUseTerrain: this.useTerrain,
 			terrainControl: null,
 			globeControl: null,
 			persistentPopups: [],
@@ -163,10 +157,17 @@ export default {
 		unit(newValue) {
 			this.scaleControl?.setUnit(newValue)
 		},
-		'settings.terrainExaggeration'(newValue) {
-			const value = parseFloat(newValue)
-			if (this.map.getTerrain()) {
-				this.growTerrain(value)
+		useTerrain(newValue) {
+			// ignore if the internal state is already the same as the changing prop
+			if (this.myUseTerrain === newValue) {
+				return
+			}
+			this.toggleTerrain()
+		},
+		terrainScale(newValue) {
+			console.debug('phonetrack updating terrain scale', newValue)
+			if (this.myUseTerrain) {
+				this.enableTerrain()
 			}
 		},
 	},
@@ -329,6 +330,11 @@ export default {
 
 				this.loadImages()
 
+				if (this.myUseTerrain) {
+					this.enableTerrain()
+				}
+				this.terrainControl.updateTerrainIcon(this.myUseTerrain)
+
 				const bounds = this.map.getBounds()
 				this.$emit('map-bounds-change', {
 					north: bounds.getNorth(),
@@ -336,14 +342,6 @@ export default {
 					south: bounds.getSouth(),
 					west: bounds.getWest(),
 				})
-				setTimeout(() => {
-					if (this.settings.use_terrain === '1') {
-						this.enableTerrain()
-					} else {
-						this.disableTerrain()
-					}
-					this.terrainControl.updateTerrainIcon(this.settings.use_terrain === '1')
-				}, 1000)
 			})
 
 			subscribe('get-map-bounds', this.onGetMapBounds)
@@ -374,7 +372,7 @@ export default {
 			loadImagePromises.push(...Object.keys(mapVectorImages).map((k) => {
 				return this.loadVectorImage(k)
 			}))
-			Promise.allSettled(loadImagePromises)
+			return Promise.allSettled(loadImagePromises)
 				.then((promises) => {
 					// tracks are waiting for that to load
 					this.mapLoaded = true
@@ -409,15 +407,22 @@ export default {
 			this.mapLoaded = false
 			setTimeout(() => {
 				this.$nextTick(() => {
-					this.loadImages()
+					this.loadImages().then(() => {
+						console.debug('finished loading images in reRenderLayersAndTerrain')
+					})
 				})
 			}, 500)
 
-			if (this.settings.use_terrain === '1') {
-				this.enableTerrain()
-			} else {
-				this.disableTerrain()
-			}
+			// add the terrain
+			setTimeout(() => {
+				this.$nextTick(() => {
+					// terrain is not disabled anymore by maplibre when switching tile layers
+					// it is still needed to add the source as it goes away when switching from a vector to a raster one
+					if (this.myUseTerrain) {
+						this.enableTerrain()
+					}
+				})
+			}, 500)
 		},
 		onMapClick(e) {
 			console.debug('MAP::onMapClick', e)
@@ -425,6 +430,7 @@ export default {
 		},
 		toggleGlobe() {
 			const newEnabled = this.settings.use_globe !== '1'
+			// TODO replace by map-state-change
 			this.$emit('save-options', { use_globe: newEnabled ? '1' : '0' })
 			this.map.setProjection({
 				type: newEnabled ? 'globe' : 'mercator',
@@ -432,196 +438,37 @@ export default {
 			this.globeControl.updateGlobeIcon(newEnabled)
 		},
 		toggleTerrain() {
-			const newEnabled = this.settings.use_terrain !== '1'
-			this.$emit('save-options', { use_terrain: newEnabled ? '1' : '0' })
-			if (newEnabled) {
+			this.myUseTerrain = !this.myUseTerrain
+			// this.$emit('save-options', { use_terrain: this.myUseTerrain ? '1' : '0' })
+			this.$emit('map-state-change', { use_terrain: this.myUseTerrain })
+			if (this.myUseTerrain) {
 				this.enableTerrain()
 			} else {
 				this.disableTerrain()
 			}
-			this.terrainControl.updateTerrainIcon(newEnabled)
+			this.terrainControl.updateTerrainIcon(this.myUseTerrain)
 		},
-		enableTerrain(exaggeration = this.settings.terrainExaggeration) {
-			if (exaggeration < 0) {
-				console.error('Terrain exaggeration cannot be negative.')
-				return
-			}
-
-			// This function is mapped to a map "data" event. It checks that the terrain
-			// tiles are loaded and when so, it starts an animation to make the terrain grow
-			const dataEventTerrainGrow = async (evt) => {
-				if (!this.map.terrain) {
-					return
-				}
-
-				if (evt.type !== 'data'
-					|| evt.dataType !== 'source'
-					|| !('source' in evt)
-				) {
-					return
-				}
-
-				// if (evt.sourceId !== 'maptiler-terrain') {
-				if (evt.sourceId !== 'terrain') {
-					return
-				}
-
-				const source = evt.source
-
-				if (source.type !== 'raster-dem') {
-					return
-				}
-
-				if (!evt.isSourceLoaded) {
-					return
-				}
-
-				// We shut this event off because we want it to happen only once.
-				// Yet, we cannot use the "once" method because only the last event of the series
-				// has `isSourceLoaded` true
-				this.map.off('data', dataEventTerrainGrow)
-
-				this.growTerrain(exaggeration)
-			}
-
-			// This is put into a function so that it can be called regardless
-			// of the loading state of _this_ the map instance
-			const addTerrain = () => {
-				// When style is changed,
-				this.isTerrainEnabled = true
-				// this.settings.terrainExaggeration = exaggeration
-
-				// Mapping it to the "data" event so that we can check that the terrain
-				// growing starts only when terrain tiles are loaded (to reduce glitching)
-				this.map.on('data', dataEventTerrainGrow)
-
-				this.map.addSource('terrain', {
-					type: 'raster-dem',
-					// url: 'https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=' + this.settings.maptiler_api_key,
-					url: generateUrl('/apps/phonetrack/maptiler/tiles/terrain-rgb-v2/tiles.json?key=' + this.settings.maptiler_api_key),
-				})
-
-				// Setting up the terrain with a 0 exaggeration factor
-				// so it loads ~seamlessly and then can grow from there
-				this.map.setTerrain({
-					source: 'terrain',
-					exaggeration: 0,
-				})
-			}
-
-			// The terrain has already been loaded,
-			// we just update the exaggeration.
-			if (this.map.getTerrain()) {
-				this.isTerrainEnabled = true
-				this.growTerrain(exaggeration)
-				return
-			}
-
-			if (this.map.loaded() || this.isTerrainEnabled) {
-				addTerrain()
-			} else {
-				this.map.once('load', () => {
-					if (this.map.getTerrain() && this.getSource('terrain')) {
-						return
-					}
-					addTerrain()
-				})
-			}
+		enableTerrain() {
+			this.addTerrainSource()
+			this.map.setTerrain({
+				source: 'terrain',
+				exaggeration: this.terrainScale,
+			})
 		},
 		disableTerrain() {
-			// It could be disabled already
-			if (!this.map.terrain) {
-				return
-			}
-
-			this.isTerrainEnabled = false
-			// this.stopFlattening = false;
-
-			// Duration of the animation in millisec
-			const animationLoopDuration = 1 * 1000
-			const startTime = performance.now()
-			// This is supposedly 0, but it could be something else (e.g. already in the middle of growing, or user defined other)
-			const currentExaggeration = this.map.terrain.exaggeration
-
-			// This is again called in a requestAnimationFrame ~loop, until the terrain has grown enough
-			// that it has reached the target
-			const updateExaggeration = () => {
-				if (!this.map.terrain) {
-					return
-				}
-
-				// If the growing animation is triggered while flattening,
-				// then we exist the flatening
-				if (this.terrainGrowing) {
-					return
-				}
-
-				// normalized value in interval [0, 1] of where we are currently in the animation loop
-				const positionInLoop = (performance.now() - startTime) / animationLoopDuration
-
-				// The animation goes on until we reached 99% of the growing sequence duration
-				if (positionInLoop < 0.99) {
-					const exaggerationFactor = Math.pow(1 - positionInLoop, 4)
-					const newExaggeration = currentExaggeration * exaggerationFactor
-					this.map.terrain.exaggeration = newExaggeration
-					requestAnimationFrame(updateExaggeration)
-				} else {
-					this.map.terrain.exaggeration = 0
-					this.terrainGrowing = false
-					this.terrainFlattening = false
-					this.map.setTerrain(null)
-					if (this.map.getSource('terrain')) {
-						this.map.removeSource('terrain')
-					}
-				}
-
-				this.map.triggerRepaint()
-			}
-
-			this.terrainGrowing = false
-			this.terrainFlattening = true
-			requestAnimationFrame(updateExaggeration)
+			this.map.setTerrain()
 		},
-		// from https://github.com/maptiler/maptiler-sdk-js/blob/1d1f349b50e33dfb2630ee13ef009487153ebe2e/src/Map.ts#L899
-		growTerrain(exaggeration, durationMs = 1000) {
-			// This method assumes the terrain is already built
-			if (!this.map.terrain) {
+		addTerrainSource() {
+			// only add terrain source if needed
+			if (this.map.getSource('terrain')) {
 				return
 			}
-
-			const startTime = performance.now()
-			// This is supposedly 0, but it could be something else (e.g. already in the middle of growing, or user defined other)
-			const currentExaggeration = this.map.terrain.exaggeration
-			const deltaExaggeration = exaggeration - currentExaggeration
-
-			// This is again called in a requestAnimationFrame ~loop, until the terrain has grown enough
-			// that it has reached the target
-			const updateExaggeration = () => {
-				if (!this.map.terrain) {
-					return
-				}
-
-				// normalized value in interval [0, 1] of where we are currently in the animation loop
-				const positionInLoop = (performance.now() - startTime) / durationMs
-
-				// The animation goes on until we reached 99% of the growing sequence duration
-				if (positionInLoop < 0.99) {
-					const exaggerationFactor = 1 - Math.pow(1 - positionInLoop, 4)
-					const newExaggeration = currentExaggeration + exaggerationFactor * deltaExaggeration
-					this.map.terrain.exaggeration = newExaggeration
-					requestAnimationFrame(updateExaggeration)
-				} else {
-					this.terrainGrowing = false
-					this.terrainFlattening = false
-					this.map.terrain.exaggeration = exaggeration
-				}
-
-				this.map.triggerRepaint()
-			}
-
-			this.terrainGrowing = true
-			this.terrainFlattening = false
-			requestAnimationFrame(updateExaggeration)
+			const apiKey = this.settings.maptiler_api_key
+			this.map.addSource('terrain', {
+				type: 'raster-dem',
+				// url: 'https://api.maptiler.com/tiles/terrain-rgb/tiles.json?key=' + apiKey,
+				url: generateUrl('/apps/phonetrack/maptiler/tiles/terrain-rgb-v2/tiles.json?key=' + apiKey),
+			})
 		},
 		handleMapEvents() {
 			this.map.on('moveend', () => {

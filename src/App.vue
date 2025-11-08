@@ -32,6 +32,8 @@
 			</template>
 			<MaplibreMap ref="map"
 				:settings="state?.settings"
+				:use-terrain="state?.settings?.use_terrain === '1'"
+				:terrain-scale="parseFloat(state?.settings?.terrainExaggeration) || undefined"
 				:show-mouse-position-control="state?.settings.show_mouse_position_control === '1'"
 				:tracks-to-draw="enabledDevices"
 				:unit="distanceUnit"

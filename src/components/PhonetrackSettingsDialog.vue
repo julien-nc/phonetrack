@@ -140,7 +140,7 @@
 					<NcInputField
 						:model-value="settings.terrainExaggeration"
 						type="number"
-						:label="t('phonetrack', '3D elevation exaggeration (effective after page reload)')"
+						:label="t('phonetrack', '3D elevation exaggeration')"
 						min="0.1"
 						max="10"
 						step="0.1"

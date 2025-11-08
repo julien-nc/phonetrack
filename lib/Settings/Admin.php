@@ -2,7 +2,6 @@
 
 namespace OCA\PhoneTrack\Settings;
 
-use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IAppConfig;
