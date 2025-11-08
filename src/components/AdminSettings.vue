@@ -31,30 +31,32 @@
 					</template>
 				</NcButton>
 			</div>
-			<NcNoteCard v-if="['', 'dummyApiKey'].includes(state.maptiler_api_key)" type="warning">
+			<NcNoteCard v-if="state.maptiler_api_key === ''" type="warning">
 				<span v-html="mainHintHtml" />
 			</NcNoteCard>
 			<NcNoteCard type="info">
-				{{ t('phonetrack', 'The API keys defined here will be used by all users. Each user can set personal API keys to use intead of those ones.') }}
+				{{ t('phonetrack', 'The API key defined here will be used by all users. Each user can set a personal API key to override this global one.') }}
 			</NcNoteCard>
-			<NcTextField
-				v-model="state.maptiler_api_key"
-				:label="t('phonetrack', 'Maptiler API key')"
-				type="password"
-				class="input"
-				:placeholder="t('phonetrack', 'my-api-key')"
-				:show-trailing-button="!!state.maptiler_api_key"
-				@update:model-value="onInput"
-				@trailing-button-click="this.state.maptiler_api_key = ''; onInput()">
-				<template #icon>
-					<KeyIcon :size="20" />
-				</template>
-			</NcTextField>
-			<NcCheckboxRadioSwitch
-				:model-value="state.proxy_osm"
-				@update:model-value="onCheckboxChanged($event, 'proxy_osm')">
-				{{ t('phonetrack', 'Proxy map tiles/vectors requests via Nextcloud') }}
-			</NcCheckboxRadioSwitch>
+			<NcFormBox>
+				<NcTextField
+					v-model="state.maptiler_api_key"
+					:label="t('phonetrack', 'Maptiler API key')"
+					type="password"
+					class="input"
+					:placeholder="t('phonetrack', 'my-api-key')"
+					:show-trailing-button="!!state.maptiler_api_key"
+					@update:model-value="onInput"
+					@trailing-button-click="this.state.maptiler_api_key = ''; onInput()">
+					<template #icon>
+						<KeyIcon :size="20" />
+					</template>
+				</NcTextField>
+				<NcFormBoxSwitch :model-value="state.proxy_osm"
+					:label="t('phonetrack', 'Proxy map tiles/vectors requests via Nextcloud')"
+					class="input"
+					@enable="onCheckboxChanged(true, 'proxy_osm')"
+					@disable="onCheckboxChanged(false, 'proxy_osm')" />
+			</NcFormBox>
 			<TileServerList
 				class="admin-tile-server-list"
 				:tile-servers="state.extra_tile_servers"
@@ -76,6 +78,8 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
+import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 
 import TileServerList from './tileservers/TileServerList.vue'
 
@@ -103,6 +107,8 @@ export default {
 		NcInputField,
 		NcTextField,
 		NcButton,
+		NcFormBoxSwitch,
+		NcFormBox,
 	},
 
 	props: [],
@@ -110,9 +116,9 @@ export default {
 	data() {
 		return {
 			state: loadState('phonetrack', 'admin-config'),
-			mainHintHtml: t('phonetrack', 'The default key is very limited. Please consider creating your own API key on {maptilerLink}',
+			mainHintHtml: t('phonetrack', 'The default Maptiler key is very limited. Please consider creating your own API key on {maptilerLink}',
 				{
-					maptilerLink: '<a href="https://maptiler.com" class="external" target="blank">https://maptiler.com</a>',
+					maptilerLink: '<a href="https://cloud.maptiler.com/account/keys/" class="external" target="blank">https://cloud.maptiler.com/account/keys/</a>',
 				},
 				null, { escape: false, sanitize: false }),
 		}
@@ -222,7 +228,7 @@ export default {
 		.input,
 		input,
 		label {
-			width: 300px;
+			width: 420px;
 		}
 
 		.settings-hint {
