@@ -15,6 +15,7 @@ export default {
 		return {
 			nonPersistentPopup: null,
 			nonPersistentMarker: null,
+			lastPointMarker: null,
 			popups: {},
 			hoveringAMarker: false,
 		}
@@ -26,12 +27,29 @@ export default {
 				this.listenToPointInfoEvents()
 			}
 		},
+		color(newVal) {
+			this.removeLastPointMarker()
+			this.addLastPointMarker()
+		},
+		deviceGeojsonData() {
+			this.removeLastPointMarker()
+			this.addLastPointMarker()
+		},
+		lineWidth() {
+			this.removeLastPointMarker()
+			this.addLastPointMarker()
+		},
+	},
+
+	mounted() {
+		this.addLastPointMarker()
 	},
 
 	unmounted() {
 		this.releasePointInfoEvents()
 		this.clearPopups()
 		this.removeTemporaryMarker()
+		this.removeLastPointMarker()
 	},
 
 	methods: {
@@ -79,24 +97,37 @@ export default {
 				e.originalEvent.stopPropagation()
 			}
 		},
-		showPointMarker(lngLat) {
+		addLastPointMarker() {
+			if (!this.device.points?.length) {
+				return
+			}
+			const lastPoint = this.device.points[this.device.points.length - 1]
+			const lngLat = new LngLat(lastPoint.lon, lastPoint.lat)
+			this.showPointMarker(lngLat, true)
+		},
+		showPointMarker(lngLat, isLastPointMarker = false) {
 			if (!this.device.points?.length) {
 				return
 			}
 			// do not add a marker if we are hovering one
-			if (this.hoveringAMarker) {
+			if (!isLastPointMarker && this.hoveringAMarker) {
 				return
 			}
 			const { minDistPoint, minDistPointIndex, traveledDistance } = this.findPoint(lngLat)
-			if (minDistPoint !== null) {
-				this.addMarker(minDistPoint, minDistPointIndex, traveledDistance)
+			// don't add a line hover marker on the last point
+			if (minDistPoint !== null && (isLastPointMarker || minDistPointIndex !== this.device.points.length - 1)) {
+				this.addMarker(minDistPoint, minDistPointIndex, traveledDistance, isLastPointMarker)
 			}
 		},
-		addMarker(point, pointIndex, traveledDistance) {
-			this.removeTemporaryMarker()
+		addMarker(point, pointIndex, traveledDistance, isLastPointMarker = false) {
+			if (isLastPointMarker) {
+				this.removeLastPointMarker()
+			} else {
+				this.removeTemporaryMarker()
+			}
 			const el = document.createElement('div')
 			const markerDiameter = 3 * this.lineWidth
-			const borderWidth = 0.15 * markerDiameter
+			const borderWidth = 0.1 * markerDiameter
 			el.className = 'marker'
 			el.style.backgroundColor = this.device.color
 			el.style.width = markerDiameter + 'px'
@@ -104,11 +135,22 @@ export default {
 			el.style.borderRadius = '50%'
 			el.style.border = borderWidth + 'px solid ' + this.borderColor
 			el.style.cursor = 'pointer'
+			if (isLastPointMarker) {
+				el.innerText = this.device.name[0] ?? '?'
+				el.style.fontWeight = 'bold'
+				el.style.textAlign = 'center'
+				el.style.lineHeight = (markerDiameter * 0.7) + 'px'
+				el.style.fontSize = (markerDiameter * 0.7) + 'px'
+			}
 
 			const marker = new Marker({ draggable: true, anchor: 'center', element: el })
 				.setLngLat([point.lon, point.lat])
 				.addTo(this.map)
-			this.nonPersistentMarker = marker
+			if (isLastPointMarker) {
+				this.lastPointMarker = marker
+			} else {
+				this.nonPersistentMarker = marker
+			}
 			marker.on('dragstart', () => {
 				console.debug('[phonetrack] marker dragstart')
 				this.releasePointInfoEvents()
@@ -125,6 +167,9 @@ export default {
 			el.addEventListener('mouseenter', () => {
 				this.hoveringAMarker = true
 				console.debug('[phonetrack] --- marker mouseenter')
+				if (isLastPointMarker) {
+					this.removeTemporaryMarker()
+				}
 				this.removeTemporaryPopup()
 				const popup = this.addPopup(point, pointIndex, traveledDistance, false)
 				this.nonPersistentPopup = popup
@@ -229,6 +274,12 @@ export default {
 			if (this.nonPersistentMarker) {
 				this.nonPersistentMarker.remove()
 				this.nonPersistentMarker = null
+			}
+		},
+		removeLastPointMarker() {
+			if (this.lastPointMarker) {
+				this.lastPointMarker.remove()
+				this.lastPointMarker = null
 			}
 		},
 		onMouseEnterPointInfo(e) {
