@@ -80,6 +80,9 @@ export default {
 		borderLayerId() {
 			return this.layerId + '-border'
 		},
+		invisibleBorderLayerId() {
+			return this.layerId + '-invisible-border'
+		},
 		onTop() {
 			return this.device.onTop
 		},
@@ -170,6 +173,7 @@ export default {
 			}
 		},
 		remove() {
+			this.removeInvisibleBorder()
 			this.removeBorder()
 			this.removeLine()
 			this.removeArrows()
@@ -182,10 +186,30 @@ export default {
 				this.map.removeLayer(this.layerId)
 			}
 		},
+		removeInvisibleBorder() {
+			if (this.map.getLayer(this.invisibleBorderLayerId)) {
+				this.map.removeLayer(this.invisibleBorderLayerId)
+			}
+		},
 		removeBorder() {
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.removeLayer(this.borderLayerId)
 			}
+		},
+		drawInvisibleBorder() {
+			this.map.addLayer({
+				type: 'line',
+				source: this.layerId,
+				id: this.invisibleBorderLayerId,
+				paint: {
+					'line-opacity': 0,
+					'line-width': Math.max(this.lineWidth, 30),
+				},
+				layout: {
+					'line-cap': 'round',
+					'line-join': 'round',
+				},
+			})
 		},
 		drawBorder() {
 			this.map.addLayer({
@@ -229,6 +253,7 @@ export default {
 				lineMetrics: true,
 				data: this.deviceGeojsonData,
 			})
+			this.drawInvisibleBorder()
 			if (this.border) {
 				this.drawBorder()
 			}

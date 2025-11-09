@@ -239,14 +239,14 @@ export default {
 			this.map.getCanvas().style.cursor = ''
 		},
 		listenToPointInfoEvents() {
-			this.map.on('click', this.borderLayerId, this.onClickLine)
-			this.map.on('mousemove', this.borderLayerId, this.onMouseEnterPointInfo)
-			this.map.on('mouseleave', this.borderLayerId, this.onMouseLeavePointInfo)
+			this.map.on('click', this.invisibleBorderLayerId, this.onClickLine)
+			this.map.on('mousemove', this.invisibleBorderLayerId, this.onMouseEnterPointInfo)
+			this.map.on('mouseleave', this.invisibleBorderLayerId, this.onMouseLeavePointInfo)
 		},
 		releasePointInfoEvents() {
-			this.map.off('click', this.borderLayerId, this.onClickLine)
-			this.map.off('mousemove', this.borderLayerId, this.onMouseEnterPointInfo)
-			this.map.off('mouseleave', this.borderLayerId, this.onMouseLeavePointInfo)
+			this.map.off('click', this.invisibleBorderLayerId, this.onClickLine)
+			this.map.off('mousemove', this.invisibleBorderLayerId, this.onMouseEnterPointInfo)
+			this.map.off('mouseleave', this.invisibleBorderLayerId, this.onMouseLeavePointInfo)
 		},
 	},
 }
