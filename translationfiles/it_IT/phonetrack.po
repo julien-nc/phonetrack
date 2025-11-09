@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2025-10-26 23:52\n"
+"PO-Revision-Date: 2025-11-09 15:33\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -1339,7 +1339,7 @@ msgstr "QRcode Geografico: ultima posizione di {dname}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5808
 msgid "Are you sure you want to delete the device {device}?"
-msgstr ""
+msgstr "Sei sicuro di voler eliminare il dispositivo {device}?"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5811
 msgid "Confirm device deletion"
