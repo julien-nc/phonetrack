@@ -36,7 +36,7 @@ import {
 	getVectorStyles,
 	getExtraTileServers,
 } from '../../tileServers.js'
-import { kmphToSpeed, metersToElevation, minPerKmToPace, formatExtensionKey, formatExtensionValue } from '../../utils.js'
+import { kmphToSpeed, metersToElevation } from '../../utils.js'
 import { mapImages, mapVectorImages } from '../../mapUtils.js'
 import { MousePositionControl, TileControl, TerrainControl, GlobeControl } from '../../mapControls.js'
 import { maplibreForwardGeocode } from '../../nominatimGeocoder.js'
@@ -532,14 +532,15 @@ export default {
 		onChartPointHover({ point, persist }) {
 			// center on hovered point
 			if (this.settings.follow_chart_hover === '1') {
-				this.map.setCenter([point[0], point[1]])
+				// TODO prevent saving map state when doing this
+				this.map.setCenter([point.lon, point.lat])
 				// flyTo movement is still ongoing when showing non-persistent popups so they disapear...
 				// this.map.flyTo({ center: [lng, lat] })
 			}
 
 			// if this is a hover (and not a click) and we don't wanna show popups: show a marker
 			if (!persist && this.settings.chart_hover_show_detailed_popup !== '1') {
-				this.positionMarkerLngLat = [point[0], point[1]]
+				this.positionMarkerLngLat = [point.lon, point.lat]
 			} else {
 				this.addPopup(point, persist)
 			}
@@ -549,18 +550,12 @@ export default {
 				this.nonPersistentPopup.remove()
 			}
 			const containerClass = persist ? 'class="with-button"' : ''
-			const extraPointInfo = point[point.length - 1]
-			const dataHtml = (point[3] === null && point[2] === null)
+			const dataHtml = (point.timestamp === null && point.altitude === null)
 				? t('phonetrack', 'No data')
-				: (point[3] !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point[3]).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
-				+ (point[2] !== null ? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point[2], this.settings.distance_unit) + '<br>') : '')
-				+ (extraPointInfo.speed ? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(extraPointInfo.speed, this.settings.distance_unit) + '<br>') : '')
-				+ (extraPointInfo.pace ? ('<strong>' + t('phonetrack', 'Pace') + '</strong>: ' + minPerKmToPace(extraPointInfo.pace, this.settings.distance_unit) + '<br>') : '')
-				+ (extraPointInfo.extension
-					? ('<strong>' + formatExtensionKey(extraPointInfo.extension.key) + '</strong>: '
-						+ formatExtensionValue(extraPointInfo.extension.key, extraPointInfo.extension.value, this.settings.distance_unit))
-					: '')
-			const html = '<div ' + containerClass + ' style="border-color: ' + extraPointInfo.color + ';">'
+				: (point.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
+				+ (point.altitude !== null ? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point.altitude, this.settings.distance_unit) + '<br>') : '')
+				+ (point.speed ? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed, this.settings.distance_unit) + '<br>') : '')
+			const html = '<div ' + containerClass + ' style="border-color: ' + point.extraData.color + ';">'
 				+ dataHtml
 				+ '</div>'
 			const popup = new Popup({
@@ -568,7 +563,7 @@ export default {
 				closeOnClick: !persist,
 				closeOnMove: !persist,
 			})
-				.setLngLat([point[0], point[1]])
+				.setLngLat([point.lon, point.lat])
 				.setHTML(html)
 				.addTo(this.map)
 			if (persist) {
