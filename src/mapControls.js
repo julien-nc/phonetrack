@@ -48,9 +48,9 @@ export class TileControl {
 			const styleKey = e.target.value
 			const style = this.options.styles[styleKey]
 			if (style.uri) {
-				this.map.setStyle(style.uri)
+				this.map.setStyle(style.uri, { transformStyle })
 			} else {
-				this.map.setStyle(style)
+				this.map.setStyle(style, { transformStyle })
 			}
 			this.emit('changeStyle', styleKey)
 		})
@@ -93,6 +93,25 @@ export class TileControl {
 		this._events[name].forEach(fireCallbacks)
 	}
 
+}
+
+function transformStyle(previousStyle, nextStyle) {
+	const custom_layers = previousStyle.layers.filter(layer => {
+		return layer.id.startsWith('device-')
+	});
+	const layers = nextStyle.layers.concat(custom_layers)
+
+	var sources = nextStyle.sources;
+	for (const [key, value] of Object.entries(previousStyle.sources)) {
+		if (key.startsWith('device-')) {
+			sources[key] = value
+		}
+	}
+	return {
+		...nextStyle,
+		sources: sources,
+		layers: layers,
+	}
 }
 
 export class GlobeControl {

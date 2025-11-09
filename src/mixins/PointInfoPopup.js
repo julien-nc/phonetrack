@@ -31,6 +31,7 @@ export default {
 	unmounted() {
 		this.releasePointInfoEvents()
 		this.clearPopups()
+		this.removeTemporaryMarker()
 	},
 
 	methods: {
