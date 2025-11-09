@@ -63,6 +63,22 @@ export default {
 			// console.debug('found', minDistPoint, 'traveled', traveledDistance)
 			return { minDistPoint, minDistPointIndex, traveledDistance }
 		},
+		onClickLine(e) {
+			if (!this.device.points?.length) {
+				return
+			}
+			// do not add a popup if we are hovering a marker
+			if (this.hoveringAMarker) {
+				return
+			}
+			const { minDistPoint, minDistPointIndex, traveledDistance } = this.findPoint(e.lngLat)
+			if (minDistPoint !== null) {
+				const popup = this.addPopup(minDistPoint, minDistPointIndex, traveledDistance, true)
+				this.storePersistentPopup(minDistPoint, popup)
+				e.originalEvent.preventDefault()
+				e.originalEvent.stopPropagation()
+			}
+		},
 		showPointMarker(lngLat) {
 			if (!this.device.points?.length) {
 				return
@@ -223,12 +239,12 @@ export default {
 			this.map.getCanvas().style.cursor = ''
 		},
 		listenToPointInfoEvents() {
-			// this.map.on('click', this.invisibleBorderLayerId, this.onClickPointInfo)
+			this.map.on('click', this.borderLayerId, this.onClickLine)
 			this.map.on('mousemove', this.borderLayerId, this.onMouseEnterPointInfo)
 			this.map.on('mouseleave', this.borderLayerId, this.onMouseLeavePointInfo)
 		},
 		releasePointInfoEvents() {
-			// this.map.off('click', this.invisibleBorderLayerId, this.onClickPointInfo)
+			this.map.off('click', this.borderLayerId, this.onClickLine)
 			this.map.off('mousemove', this.borderLayerId, this.onMouseEnterPointInfo)
 			this.map.off('mouseleave', this.borderLayerId, this.onMouseLeavePointInfo)
 		},

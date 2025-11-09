@@ -46,7 +46,7 @@
 				<template #default="{ map }">
 					<div v-for="d in enabledDevices"
 						:key="d.id">
-						<TrackSingleColor
+						<DeviceSingleColor
 							:device="d"
 							:map="map"
 							:layer-id="'device-' + d.id"
@@ -111,14 +111,14 @@ import DeviceSidebar from './components/DeviceSidebar.vue'
 // import DeviceList from './components/DeviceList.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
 import PolygonFill from './components/map/PolygonFill.vue'
-import TrackSingleColor from './components/map/TrackSingleColor.vue'
+import DeviceSingleColor from './components/map/DeviceSingleColor.vue'
 
 export default {
 	name: 'App',
 
 	components: {
 		PolygonFill,
-		TrackSingleColor,
+		DeviceSingleColor,
 		MaplibreMap,
 		DeviceSidebar,
 		SessionSidebar,

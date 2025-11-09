@@ -6,7 +6,7 @@ import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 import LineDirectionArrows from '../../mixins/LineDirectionArrows.js'
 
 export default {
-	name: 'TrackSingleColor',
+	name: 'DeviceSingleColor',
 
 	components: {
 	},
