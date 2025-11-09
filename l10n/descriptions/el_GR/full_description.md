@@ -11,7 +11,7 @@
 Πως να χρησιμοποιήσετε το PhoneTrack:
 
 - Δημιουργήστε μία συνεδρία καταγραφής.
-- Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Δώστε τον σύνδεσμο καταγραφής\* στις φορητές συσκευές. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
 - Παρακολουθήστε την τοποθεσία των συσκευών της συνεδρίας σε πραγματικό χρόνο (ή όχι) στο PhoneTrack ή κοινοποιήστε σε δημόσιες σελίδες.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
@@ -51,7 +51,7 @@ Setting the device name in logging app settings only works with Owntracks, Tracc
 
 ## Γνωστά προβλήματα
 
-- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- Το PhoneTrack λειτουργεί με ενεργοποιημένο τον περιορισμό ομάδων του Nextcloud. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Οποιοδήποτε σχόλιο για τη βελτίωση της εφαρμογής θα εκτιμηθεί.
 
