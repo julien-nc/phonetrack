@@ -206,7 +206,17 @@ export default {
 			this.menuOpen = isOpen
 		},
 		onZoomClick() {
-			emit('zoom-on-bounds', { deviceId: this.device.id, sessionId: this.session.id })
+			emit('zoom-on-bounds', this.getDeviceBounds())
+		},
+		getDeviceBounds() {
+			const lats = this.device.points.map(p => p.lat)
+			const lons = this.device.points.map(p => p.lon)
+			return {
+				north: lats.reduce((acc, val) => Math.max(acc, val)),
+				south: lats.reduce((acc, val) => Math.min(acc, val)),
+				east: lons.reduce((acc, val) => Math.max(acc, val)),
+				west: lons.reduce((acc, val) => Math.min(acc, val)),
+			}
 		},
 		onDetailsClick() {
 			emit('device-details-click', { deviceId: this.device.id, sessionId: this.session.id })
