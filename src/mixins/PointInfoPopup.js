@@ -2,6 +2,13 @@ import { LngLat, Popup } from 'maplibre-gl'
 import moment from '@nextcloud/moment'
 import { metersToDistance, metersToElevation, kmphToSpeed } from '../utils.js'
 import { emit } from '@nextcloud/event-bus'
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
+import {
+	// showSuccess,
+	showError,
+	// showInfo,
+} from '@nextcloud/dialogs'
 
 export default {
 	data() {
@@ -76,6 +83,11 @@ export default {
 						+ (traveledDistance
 							? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit))
 							: '')
+						+ (persist
+							? '<button class="deletePoint" title="' + t('phonetrack', 'Delete this point') + '">' + t('phonetrack', 'Delete') + '</button>'
+								+ '<button class="editPoint" title="' + t('phonetrack', 'Edit this point') + '">' + t('phonetrack', 'Edit') + '</button>'
+								+ '<button class="movePoint" title="' + t('phonetrack', 'Move this point') + '">' + t('phonetrack', 'Move') + '</button>'
+							: '')
 				const html = '<div ' + containerClass + ' style="border-color: ' + this.device.color + ';">'
 					+ dataHtml
 					+ '</div>'
@@ -89,6 +101,34 @@ export default {
 					.addTo(this.map)
 				if (persist) {
 					this.popups.push(popup)
+					const deleteButton = popup.getElement().querySelector('.deletePoint')
+					deleteButton.addEventListener('click', async (event) => {
+						console.debug('[phonetrack] delete', minDistPoint, this.device)
+						const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/point/{pointId}', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: minDistPoint.id })
+						axios.delete(url).then((response) => {
+							console.debug('[phonetrack] delete response', response.data)
+							emit('device-point-deleted', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: minDistPoint.id })
+							const index = this.popups.indexOf(popup)
+							if (index !== -1) {
+								this.popups.splice(index, 1)
+							}
+							popup.remove()
+							console.debug('[phonetrack] delete popup index', index)
+						}).catch((error) => {
+							console.error(error)
+							showError(t('phonetrack', 'Failed to delete the point'))
+						})
+					})
+					const moveButton = popup.getElement().querySelector('.movePoint')
+					moveButton.addEventListener('click', async (event) => {
+						console.debug('[phonetrack] move', minDistPoint, this.device)
+						emit('device-point-move', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: minDistPoint.id })
+						const index = this.popups.indexOf(popup)
+						if (index !== -1) {
+							this.popups.splice(index, 1)
+						}
+						popup.remove()
+					})
 				} else {
 					emit('device-point-hover', { deviceId: this.device.id, pointIndex: minDistPointIndex })
 					this.nonPersistentPopup = popup

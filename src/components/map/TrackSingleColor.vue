@@ -190,6 +190,7 @@ export default {
 			}
 			this.removeBorder()
 			this.removeLine()
+			this.removeArrows()
 			if (this.map.getSource(this.layerId)) {
 				this.map.removeSource(this.layerId)
 			}

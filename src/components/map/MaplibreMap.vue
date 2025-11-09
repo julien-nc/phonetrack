@@ -427,7 +427,7 @@ export default {
 				'sky-horizon-blend': 0.7,
 				'horizon-color': '#ffffff',
 				'horizon-fog-blend': 0.7,
-				'fog-color': '#0000ff',
+				'fog-color': '#aaaaff',
 				'fog-ground-blend': 0.7,
 				'atmosphere-blend': 0,
 				/*

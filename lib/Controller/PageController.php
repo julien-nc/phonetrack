@@ -211,7 +211,6 @@ class PageController extends Controller {
 		return new DataResponse($session);
 	}
 
-
 	/**
 	 * @param int $sessionId
 	 * @param int $deviceId
@@ -329,6 +328,69 @@ class PageController extends Controller {
 				? $this->sessionService->getDevicePointsCombined($device->getId(), $minTimestamp, $maxTimestamp, $maxPoints)
 				: $this->pointMapper->getDevicePoints($deviceId, $minTimestamp, $maxTimestamp, $maxPoints)
 		);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param int $deviceId
+	 * @param int $pointId
+	 * @return DataResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	#[NoAdminRequired]
+	public function deletePoint(int $sessionId, int $deviceId, int $pointId): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$point = $this->pointMapper->getDevicePoint($deviceId, $pointId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'point_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$this->pointMapper->delete($point);
+		return new DataResponse([]);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param int $deviceId
+	 * @param int $pointId
+	 * @param float|null $lat
+	 * @param float|null $lng
+	 * @return DataResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	#[NoAdminRequired]
+	public function updatePoint(int $sessionId, int $deviceId, int $pointId, ?float $lat = null, ?float $lng = null): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$point = $this->pointMapper->getDevicePoint($deviceId, $pointId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'point_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		if ($lat !== null && $lng !== null) {
+			$point->setLat($lat);
+			$point->setLon($lng);
+		}
+		return new DataResponse($this->pointMapper->update($point));
 	}
 
 	/**

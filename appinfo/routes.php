@@ -31,6 +31,8 @@ return [
 		['name' => 'page#updateProxim', 'url' => '/session/{sessionId1}/device/{deviceId1}/proxim/{proximId}', 'verb' => 'PUT'],
 		['name' => 'page#deleteProxim', 'url' => '/session/{sessionId1}/device/{deviceId1}/proxim/{proximId}', 'verb' => 'DELETE'],
 		['name' => 'page#getDevicePoints', 'url' => '/session/{sessionId}/device/{deviceId}/points', 'verb' => 'GET'],
+		['name' => 'page#deletePoint', 'url' => '/session/{sessionId}/device/{deviceId}/point/{pointId}', 'verb' => 'DELETE'],
+		['name' => 'page#updatePoint', 'url' => '/session/{sessionId}/device/{deviceId}/point/{pointId}', 'verb' => 'PUT'],
 		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],

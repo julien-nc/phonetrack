@@ -93,7 +93,7 @@ import FolderOffOutlineIcon from 'vue-material-design-icons/FolderOffOutline.vue
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { showError, showSuccess, showUndo } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import moment from '@nextcloud/moment'
@@ -158,8 +158,12 @@ export default {
 			showDetails: true,
 			geofenceLngLats: null,
 			geofenceCleanupTimeout: null,
+			addingPointToast: null,
 			addingPoint: false,
 			addingPointRequestLoading: false,
+			movingPointToast: null,
+			movingPoint: null,
+			movingPointRequestLoading: false,
 			loadingDevicePoints: false,
 		}
 	},
@@ -213,9 +217,9 @@ export default {
 			return dd
 		},
 		mapCursor() {
-			return this.addingPointRequestLoading
+			return this.addingPointRequestLoading || this.movingPointRequestLoading
 				? 'progress'
-				: this.addingPoint
+				: this.addingPoint || this.movingPoint
 					? 'crosshair'
 					: undefined
 		},
@@ -265,6 +269,8 @@ export default {
 		subscribe('device-clicked', this.onDeviceClicked)
 		subscribe('device-details-click', this.onDeviceDetailsClicked)
 		subscribe('add-point-device', this.onAddDevicePoint)
+		subscribe('device-point-deleted', this.onDevicePointDeleted)
+		subscribe('device-point-move', this.onMoveDevicePoint)
 		subscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		subscribe('add-public-share', this.onAddPublicShare)
 		subscribe('update-public-share', this.onUpdatePublicShare)
@@ -297,6 +303,8 @@ export default {
 		unsubscribe('new-name-reservation', this.onNewNameReservation)
 		unsubscribe('device-clicked', this.onDeviceClicked)
 		unsubscribe('add-point-device', this.onAddDevicePoint)
+		unsubscribe('device-point-deleted', this.onDevicePointDeleted)
+		unsubscribe('device-point-move', this.onMoveDevicePoint)
 		unsubscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		unsubscribe('add-public-share', this.onAddPublicShare)
 		unsubscribe('update-public-share', this.onUpdatePublicShare)
@@ -509,20 +517,85 @@ export default {
 			}
 			this.updateDevice(sessionId, deviceId, { enabled: device.enabled })
 		},
+		onDevicePointDeleted({ sessionId, deviceId, pointId }) {
+			console.debug('onDevicePointDeleted', { sessionId, deviceId, pointId })
+			const device = this.state.sessions[sessionId].devices[deviceId]
+			const index = device.points.findIndex(p => p.id === pointId)
+			if (index !== -1) {
+				device.points.splice(index, 1)
+			}
+		},
+		cancelCustomClick() {
+			this.addingPoint = false
+			this.addingPointToast?.hideToast()
+			this.movingPoint = null
+			this.movingPointToast?.hideToast()
+		},
 		onAddDevicePoint() {
+			this.cancelCustomClick()
+			this.addingPointToast = showUndo(
+				t('phonetrack', 'Click on the map to add a point'),
+				(e) => {
+					this.addingPoint = null
+				},
+				{ timeout: -1, close: false },
+			)
 			this.addingPoint = true
 		},
 		onStopAddDevicePoint(data) {
-			this.addingPoint = false
+			this.cancelCustomClick()
 		},
 		onMapClicked(lngLat) {
 			console.debug('onMapClicked', lngLat, this.addingPoint)
-			if (!this.addingPoint) {
+			if (this.addingPoint) {
+				this.addPoint(lngLat)
+			} else if (this.movingPoint) {
+				this.movePoint(lngLat)
+			}
+		},
+		onMoveDevicePoint({ sessionId, deviceId, pointId }) {
+			this.cancelCustomClick()
+			this.movingPointToast = showUndo(
+				t('phonetrack', 'Click on the map to move the point'),
+				(e) => {
+					this.movingPoint = null
+				},
+				{ timeout: -1, close: false },
+			)
+			console.debug('moving toast', this.movingPointToast)
+			this.movingPoint = { sessionId, deviceId, pointId }
+		},
+		movePoint(lngLat) {
+			if (this.movingPoint === null) {
 				return
 			}
+			const { sessionId, deviceId, pointId } = this.movingPoint
+			this.movingPoint = null
+			this.movingPointToast?.hideToast()
+			this.movingPointRequestLoading = true
+			console.debug('move point', lngLat, this.movingPoint)
+			const req = {
+				lat: lngLat.lat,
+				lng: lngLat.lng,
+			}
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/point/{pointId}', { sessionId, deviceId, pointId })
+			axios.put(url, req).then((response) => {
+				console.debug('[phonetrack] move response', response.data)
+				const point = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
+				point.lat = lngLat.lat
+				point.lon = lngLat.lng
+			}).catch((error) => {
+				console.error(error)
+				showError(t('phonetrack', 'Failed to move the point'))
+			}).then(() => {
+				this.movingPointRequestLoading = false
+			})
+		},
+		addPoint(lngLat) {
 			const sessionId = this.sidebarSessionId
 			const deviceId = this.sidebarDeviceId
 			this.addingPoint = false
+			this.addingPointToast?.hideToast()
 			this.addingPointRequestLoading = true
 			const req = {
 				timestamp: moment().unix(),

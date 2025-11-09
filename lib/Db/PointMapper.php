@@ -39,6 +39,29 @@ class PointMapper extends QBMapper {
 
 	/**
 	 * @param int $deviceId
+	 * @param int $pointId
+	 * @return Point
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getDevicePoint(int $deviceId, int $pointId): Point {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($pointId, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param int $deviceId
 	 * @param int|null $minTimestamp
 	 * @param int|null $maxTimestamp
 	 * @param string $sortOrder
