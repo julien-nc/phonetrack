@@ -96,12 +96,12 @@ export class TileControl {
 }
 
 function transformStyle(previousStyle, nextStyle) {
-	const custom_layers = previousStyle.layers.filter(layer => {
+	const customLayers = previousStyle.layers.filter(layer => {
 		return layer.id.startsWith('device-')
-	});
-	const layers = nextStyle.layers.concat(custom_layers)
+	})
+	const layers = nextStyle.layers.concat(customLayers)
 
-	var sources = nextStyle.sources;
+	const sources = nextStyle.sources
 	for (const [key, value] of Object.entries(previousStyle.sources)) {
 		if (key.startsWith('device-')) {
 			sources[key] = value
@@ -109,8 +109,8 @@ function transformStyle(previousStyle, nextStyle) {
 	}
 	return {
 		...nextStyle,
-		sources: sources,
-		layers: layers,
+		sources,
+		layers,
 	}
 }
 
