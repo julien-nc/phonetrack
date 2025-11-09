@@ -1,6 +1,7 @@
 <template>
 	<NcAppNavigationItem
 		:name="t('phonetrack', 'Refresh')"
+		:title="t('phonetrack', 'Refresh now')"
 		:loading="false"
 		:editable="false"
 		:force-menu="true"

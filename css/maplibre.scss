@@ -102,7 +102,8 @@
 }
 
 .map-wrapper.withTopLeftButton .maplibregl-ctrl-geocoder {
-	margin-left: 68px !important;
+	margin-left: 50px !important;
+	margin-top: 7px !important;
 }
 
 .maplibregl-ctrl-geocoder {
@@ -158,6 +159,7 @@
 */
 
 .my-custom-tile-control {
+	margin-top: 7px !important;
 	select {
 		background-color: var(--color-main-background);
 		color: var(--color-main-text);
