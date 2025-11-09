@@ -1,4 +1,4 @@
-import { LngLat, Popup } from 'maplibre-gl'
+import { LngLat, Popup, Marker } from 'maplibre-gl'
 import moment from '@nextcloud/moment'
 import { metersToDistance, metersToElevation, kmphToSpeed } from '../utils.js'
 import { emit } from '@nextcloud/event-bus'
@@ -14,7 +14,9 @@ export default {
 	data() {
 		return {
 			nonPersistentPopup: null,
-			popups: [],
+			nonPersistentMarker: null,
+			popups: {},
+			hoveringAMarker: false,
 		}
 	},
 
@@ -57,128 +59,177 @@ export default {
 				prevLngLat = curLngLat
 			}
 
-			console.debug('found', minDistPoint, 'traveled', traveledDistance)
+			// console.debug('found', minDistPoint, 'traveled', traveledDistance)
 			return { minDistPoint, minDistPointIndex, traveledDistance }
 		},
-		showPointPopup(lngLat, persist = false) {
+		showPointMarker(lngLat) {
 			if (!this.device.points?.length) {
+				return
+			}
+			// do not add a marker if we are hovering one
+			if (this.hoveringAMarker) {
 				return
 			}
 			const { minDistPoint, minDistPointIndex, traveledDistance } = this.findPoint(lngLat)
 			if (minDistPoint !== null) {
-				if (this.nonPersistentPopup) {
-					this.nonPersistentPopup.remove()
-				}
-
-				const containerClass = persist ? 'class="with-button"' : ''
-				const dataHtml = (minDistPoint.timestamp === null && minDistPoint.altitude === null)
-					? t('phonetrack', 'No data')
-					: (minDistPoint.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(minDistPoint.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
-						+ (minDistPoint.altitude !== null
-							? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(minDistPoint.altitude, this.distanceUnit) + '<br>')
-							: '')
-						+ (minDistPoint.speed !== null
-							? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(minDistPoint.speed * 3.6, this.distanceUnit) + '<br>')
-							: '')
-						+ (traveledDistance
-							? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit))
-							: '')
-						+ (persist
-							? '<button class="deletePoint" title="' + t('phonetrack', 'Delete this point') + '">' + t('phonetrack', 'Delete') + '</button>'
-								+ '<button class="editPoint" title="' + t('phonetrack', 'Edit this point') + '">' + t('phonetrack', 'Edit') + '</button>'
-								+ '<button class="movePoint" title="' + t('phonetrack', 'Move this point') + '">' + t('phonetrack', 'Move') + '</button>'
-							: '')
-				const html = '<div ' + containerClass + ' style="border-color: ' + this.device.color + ';">'
-					+ dataHtml
-					+ '</div>'
-				const popup = new Popup({
-					closeButton: persist,
-					closeOnClick: !persist,
-					closeOnMove: !persist,
-				})
-					.setLngLat([minDistPoint.lon, minDistPoint.lat])
-					.setHTML(html)
-					.addTo(this.map)
-				if (persist) {
-					this.popups.push(popup)
-					const deleteButton = popup.getElement().querySelector('.deletePoint')
-					deleteButton.addEventListener('click', async (event) => {
-						console.debug('[phonetrack] delete', minDistPoint, this.device)
-						const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/point/{pointId}', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: minDistPoint.id })
-						axios.delete(url).then((response) => {
-							console.debug('[phonetrack] delete response', response.data)
-							emit('device-point-deleted', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: minDistPoint.id })
-							const index = this.popups.indexOf(popup)
-							if (index !== -1) {
-								this.popups.splice(index, 1)
-							}
-							popup.remove()
-							console.debug('[phonetrack] delete popup index', index)
-						}).catch((error) => {
-							console.error(error)
-							showError(t('phonetrack', 'Failed to delete the point'))
-						})
-					})
-					const moveButton = popup.getElement().querySelector('.movePoint')
-					moveButton.addEventListener('click', async (event) => {
-						console.debug('[phonetrack] move', minDistPoint, this.device)
-						emit('device-point-move', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: minDistPoint.id })
-						const index = this.popups.indexOf(popup)
-						if (index !== -1) {
-							this.popups.splice(index, 1)
-						}
-						popup.remove()
-					})
-				} else {
-					emit('device-point-hover', { deviceId: this.device.id, pointIndex: minDistPointIndex })
-					this.nonPersistentPopup = popup
-				}
+				this.addMarker(minDistPoint, minDistPointIndex, traveledDistance)
 			}
 		},
-		clearPopups() {
+		addMarker(point, pointIndex, traveledDistance) {
+			this.removeTemporaryMarker()
+			const el = document.createElement('div')
+			const markerDiameter = 3 * this.lineWidth
+			const borderWidth = 0.15 * markerDiameter
+			el.className = 'marker'
+			el.style.backgroundColor = this.device.color
+			el.style.width = markerDiameter + 'px'
+			el.style.height = markerDiameter + 'px'
+			el.style.borderRadius = '50%'
+			el.style.border = borderWidth + 'px solid ' + this.borderColor
+			el.style.cursor = 'pointer'
+
+			const marker = new Marker({ draggable: true, anchor: 'center', element: el })
+				.setLngLat([point.lon, point.lat])
+				.addTo(this.map)
+			this.nonPersistentMarker = marker
+			marker.on('dragstart', () => {
+				console.debug('[phonetrack] marker dragstart')
+				this.releasePointInfoEvents()
+				this.removePersistentPopup(point)
+			})
+			marker.on('dragend', () => {
+				const lngLat = marker.getLngLat()
+				console.debug('[phonetrack] marker dragend')
+				this.removeTemporaryMarker()
+				this.removeTemporaryPopup()
+				emit('device-point-moved', { lngLat, sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
+				this.listenToPointInfoEvents()
+			})
+			el.addEventListener('mouseenter', () => {
+				this.hoveringAMarker = true
+				console.debug('[phonetrack] --- marker mouseenter')
+				this.removeTemporaryPopup()
+				const popup = this.addPopup(point, pointIndex, traveledDistance, false)
+				this.nonPersistentPopup = popup
+				// emit('device-point-hover', { deviceId: this.device.id, pointIndex })
+			})
+			el.addEventListener('mouseleave', () => {
+				console.debug('[phonetrack] --- marker mouseleave')
+				this.removeTemporaryPopup()
+				this.hoveringAMarker = false
+			})
+			el.addEventListener('click', (e) => {
+				console.debug('[phonetrack] marker clicked', e)
+				const popup = this.addPopup(point, pointIndex, traveledDistance, true)
+				this.storePersistentPopup(point, popup)
+				e.preventDefault()
+				e.stopPropagation()
+			})
+		},
+		addPopup(point, pointIndex, traveledDistance, persist = false) {
+			const html = this.getPopupHtml(point, persist, traveledDistance)
+			const popup = new Popup({
+				anchor: persist ? 'bottom' : undefined,
+				offset: persist ? undefined : 10,
+				closeButton: persist,
+				closeOnClick: !persist,
+				closeOnMove: !persist,
+			})
+				.setLngLat([point.lon, point.lat])
+				.setHTML(html)
+				.addTo(this.map)
+			if (persist) {
+				const deleteButton = popup.getElement().querySelector('.deletePoint')
+				deleteButton.addEventListener('click', async (event) => {
+					console.debug('[phonetrack] delete', point, this.device)
+					const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/point/{pointId}', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
+					axios.delete(url).then((response) => {
+						console.debug('[phonetrack] delete response', response.data)
+						emit('device-point-deleted', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
+						this.removePersistentPopup(point)
+						this.removeTemporaryMarker()
+						console.debug('[phonetrack] remove popup of point', point.id)
+					}).catch((error) => {
+						console.error(error)
+						showError(t('phonetrack', 'Failed to delete the point'))
+					})
+				})
+				const moveButton = popup.getElement().querySelector('.movePoint')
+				moveButton.addEventListener('click', async (event) => {
+					console.debug('[phonetrack] move', point, this.device)
+					emit('device-point-move', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
+					this.removePersistentPopup(point)
+					this.removeTemporaryMarker()
+				})
+			}
+			return popup
+		},
+		getPopupHtml(point, persist, traveledDistance) {
+			const containerClass = persist ? 'class="with-button"' : ''
+			const dataHtml = (point.timestamp === null && point.altitude === null)
+				? t('phonetrack', 'No data')
+				: (point.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
+				+ (point.altitude !== null
+					? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point.altitude, this.distanceUnit) + '<br>')
+					: '')
+				+ (point.speed !== null
+					? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed * 3.6, this.distanceUnit) + '<br>')
+					: '')
+				+ (traveledDistance
+					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit))
+					: '')
+				+ (persist
+					? '<button class="deletePoint" title="' + t('phonetrack', 'Delete this point') + '">' + t('phonetrack', 'Delete') + '</button>'
+					+ '<button class="editPoint" title="' + t('phonetrack', 'Edit this point') + '">' + t('phonetrack', 'Edit') + '</button>'
+					+ '<button class="movePoint" title="' + t('phonetrack', 'Move this point') + '">' + t('phonetrack', 'Move') + '</button>'
+					: '')
+			return '<div ' + containerClass + ' style="border-color: ' + this.device.color + ';">'
+				+ dataHtml
+				+ '</div>'
+		},
+		removeTemporaryPopup() {
 			if (this.nonPersistentPopup) {
 				this.nonPersistentPopup.remove()
+				this.nonPersistentPopup = null
 			}
-			this.popups.forEach(p => {
+		},
+		storePersistentPopup(point, popup) {
+			this.popups[point.id]?.remove()
+			this.popups[point.id] = popup
+		},
+		removePersistentPopup(point) {
+			this.popups[point.id]?.remove()
+			delete this.popups[point.id]
+		},
+		clearPopups() {
+			this.removeTemporaryPopup()
+			Object.values(this.popups).forEach(p => {
 				p.remove()
 			})
-			this.popups = []
+			this.popups = {}
 		},
-		getPointSpeed(p) {
-			const previousPoint = p[p.length - 1]
-			const ll1 = new LngLat(previousPoint[0], previousPoint[1])
-			const ts1 = previousPoint[3]
-			const ll2 = new LngLat(p[0], p[1])
-			const ts2 = p[3]
-
-			const distance = ll1.distanceTo(ll2)
-			const time = ts2 - ts1
-			return distance / time * 3.6
+		removeTemporaryMarker() {
+			if (this.nonPersistentMarker) {
+				this.nonPersistentMarker.remove()
+				this.nonPersistentMarker = null
+			}
 		},
 		onMouseEnterPointInfo(e) {
 			this.map.getCanvas().style.cursor = 'pointer'
-			this.showPointPopup(e.lngLat, false)
-			this.onMouseEnter()
+			this.showPointMarker(e.lngLat)
 		},
 		onMouseLeavePointInfo(e) {
 			this.map.getCanvas().style.cursor = ''
-			if (this.nonPersistentPopup) {
-				this.nonPersistentPopup.remove()
-			}
-			this.onMouseLeave()
-		},
-		onClickPointInfo(e) {
-			this.showPointPopup(e.lngLat, true)
 		},
 		listenToPointInfoEvents() {
-			this.map.on('click', this.invisibleBorderLayerId, this.onClickPointInfo)
-			this.map.on('mouseenter', this.invisibleBorderLayerId, this.onMouseEnterPointInfo)
-			this.map.on('mouseleave', this.invisibleBorderLayerId, this.onMouseLeavePointInfo)
+			// this.map.on('click', this.invisibleBorderLayerId, this.onClickPointInfo)
+			this.map.on('mousemove', this.borderLayerId, this.onMouseEnterPointInfo)
+			this.map.on('mouseleave', this.borderLayerId, this.onMouseLeavePointInfo)
 		},
 		releasePointInfoEvents() {
-			this.map.off('click', this.invisibleBorderLayerId, this.onClickPointInfo)
-			this.map.off('mouseenter', this.invisibleBorderLayerId, this.onMouseEnterPointInfo)
-			this.map.off('mouseleave', this.invisibleBorderLayerId, this.onMouseLeavePointInfo)
+			// this.map.off('click', this.invisibleBorderLayerId, this.onClickPointInfo)
+			this.map.off('mousemove', this.borderLayerId, this.onMouseEnterPointInfo)
+			this.map.off('mouseleave', this.borderLayerId, this.onMouseLeavePointInfo)
 		},
 	},
 }

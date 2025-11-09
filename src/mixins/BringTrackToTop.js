@@ -13,10 +13,10 @@ export default {
 
 	methods: {
 		listenBringToTop() {
-			this.map.on('mouseenter', this.invisibleBorderLayerId, this.bringToTop)
+			this.map.on('mouseenter', this.borderLayerId, this.bringToTop)
 		},
 		releaseBringToTop() {
-			this.map.off('mouseenter', this.invisibleBorderLayerId, this.bringToTop)
+			this.map.off('mouseenter', this.borderLayerId, this.bringToTop)
 		},
 	},
 }

@@ -1,7 +1,7 @@
 <script>
 import WatchLineBorderColor from '../../mixins/WatchLineBorderColor.js'
 import PointInfoPopup from '../../mixins/PointInfoPopup.js'
-import BringTrackToTop from '../../mixins/BringTrackToTop.js'
+// import BringTrackToTop from '../../mixins/BringTrackToTop.js'
 // import AddWaypoints from '../../mixins/AddWaypoints.js'
 import LineDirectionArrows from '../../mixins/LineDirectionArrows.js'
 
@@ -14,7 +14,7 @@ export default {
 	mixins: [
 		WatchLineBorderColor,
 		PointInfoPopup,
-		BringTrackToTop,
+		// BringTrackToTop,
 		// AddWaypoints,
 		LineDirectionArrows,
 	],
@@ -79,9 +79,6 @@ export default {
 	computed: {
 		borderLayerId() {
 			return this.layerId + '-border'
-		},
-		invisibleBorderLayerId() {
-			return this.layerId + '-invisible-border'
 		},
 		onTop() {
 			return this.device.onTop
@@ -163,18 +160,6 @@ export default {
 			// cannot be done in the mixin as it will happen before so arrows will be behind the line
 			this.bringArrowsToTop()
 		},
-		onMouseEnter() {
-			if (this.map.getLayer(this.layerId)) {
-				this.map.setPaintProperty(this.layerId, 'line-width', this.lineWidth * 1.7)
-			}
-			if (this.map.getLayer(this.borderLayerId)) {
-				this.map.setPaintProperty(this.borderLayerId, 'line-width', (this.lineWidth * 0.3) * 1.7)
-				this.map.setPaintProperty(this.borderLayerId, 'line-gap-width', this.lineWidth * 1.7)
-			}
-		},
-		onMouseLeave() {
-			this.setNormalLineWidth()
-		},
 		setNormalLineWidth() {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.setPaintProperty(this.layerId, 'line-width', this.lineWidth)
@@ -185,9 +170,6 @@ export default {
 			}
 		},
 		remove() {
-			if (this.map.getLayer(this.invisibleBorderLayerId)) {
-				this.map.removeLayer(this.invisibleBorderLayerId)
-			}
 			this.removeBorder()
 			this.removeLine()
 			this.removeArrows()
@@ -246,19 +228,6 @@ export default {
 				type: 'geojson',
 				lineMetrics: true,
 				data: this.deviceGeojsonData,
-			})
-			this.map.addLayer({
-				type: 'line',
-				source: this.layerId,
-				id: this.invisibleBorderLayerId,
-				paint: {
-					'line-opacity': 0,
-					'line-width': Math.max(this.lineWidth, 30),
-				},
-				layout: {
-					'line-cap': 'round',
-					'line-join': 'round',
-				},
 			})
 			if (this.border) {
 				this.drawBorder()

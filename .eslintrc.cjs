@@ -10,6 +10,7 @@ module.exports = {
 	],
 	rules: {
 		'jsdoc/require-jsdoc': 'off',
+		'jsdoc/require-param': 'off',
 		'jsdoc/tag-lines': 'off',
 		'vue/first-attribute-linebreak': 'off',
 		'import/extensions': 'off',

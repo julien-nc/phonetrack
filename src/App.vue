@@ -271,6 +271,7 @@ export default {
 		subscribe('add-point-device', this.onAddDevicePoint)
 		subscribe('device-point-deleted', this.onDevicePointDeleted)
 		subscribe('device-point-move', this.onMoveDevicePoint)
+		subscribe('device-point-moved', this.movePoint)
 		subscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		subscribe('add-public-share', this.onAddPublicShare)
 		subscribe('update-public-share', this.onUpdatePublicShare)
@@ -305,6 +306,7 @@ export default {
 		unsubscribe('add-point-device', this.onAddDevicePoint)
 		unsubscribe('device-point-deleted', this.onDevicePointDeleted)
 		unsubscribe('device-point-move', this.onMoveDevicePoint)
+		unsubscribe('device-point-moved', this.movePoint)
 		unsubscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		unsubscribe('add-public-share', this.onAddPublicShare)
 		unsubscribe('update-public-share', this.onUpdatePublicShare)
@@ -550,9 +552,12 @@ export default {
 			if (this.addingPoint) {
 				this.addPoint(lngLat)
 			} else if (this.movingPoint) {
-				this.movePoint(lngLat)
+				this.mapClickMovePoint(lngLat)
 			}
 		},
+		/**
+		 * enter in move mode on the map
+		 */
 		onMoveDevicePoint({ sessionId, deviceId, pointId }) {
 			this.cancelCustomClick()
 			this.movingPointToast = showUndo(
@@ -565,15 +570,21 @@ export default {
 			console.debug('moving toast', this.movingPointToast)
 			this.movingPoint = { sessionId, deviceId, pointId }
 		},
-		movePoint(lngLat) {
+		/**
+		 * the map was clicked in move mode, actually move the point
+		 */
+		mapClickMovePoint(lngLat) {
 			if (this.movingPoint === null) {
 				return
 			}
 			const { sessionId, deviceId, pointId } = this.movingPoint
 			this.movingPoint = null
 			this.movingPointToast?.hideToast()
-			this.movingPointRequestLoading = true
 			console.debug('move point', lngLat, this.movingPoint)
+			this.movePoint({ lngLat, sessionId, deviceId, pointId })
+		},
+		movePoint({ lngLat, sessionId, deviceId, pointId }) {
+			this.movingPointRequestLoading = true
 			const req = {
 				lat: lngLat.lat,
 				lng: lngLat.lng,
