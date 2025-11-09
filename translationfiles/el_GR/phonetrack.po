@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2025-10-26 23:52\n"
+"PO-Revision-Date: 2025-11-09 15:33\n"
 "Last-Translator: \n"
 "Language-Team: Greek\n"
 "Language: el_GR\n"
@@ -19,58 +19,58 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:73
 msgid "PhoneTrack device {device} of session {session} has entered geofence {geofence}"
-msgstr ""
+msgstr "Η συσκευή PhoneTrack {device} της συνεδρίας {session} εισήλθε στον γεωφράχτη {geofence}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:76
 msgid "PhoneTrack device {device} of session {session} has exited geofence {geofence}"
-msgstr ""
+msgstr "Η συσκευή PhoneTrack {device} της συνεδρίας {session} εξήλθε από τον γεωφράχτη {geofence}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:79
 msgid "PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}"
-msgstr ""
+msgstr "Η συσκευή PhoneTrack {device} της συνεδρίας {session} είναι εγγύτερα από {meters} m στο {device2} της συνεδρίας {session2}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:82
 msgid "PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}"
-msgstr ""
+msgstr "Η συσκευή PhoneTrack {device} της συνεδρίας {session} είναι μακρύτερα από {meters} m από το {device2} της συνεδρίας {session2}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "You shared PhoneTrack session {session} with {who}"
-msgstr ""
+msgstr "Η κοινόχρηστη συνεδρία PhoneTrack {session} με {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:85
 msgid "PhoneTrack session {session} is now shared with {who}"
-msgstr ""
+msgstr "Η συνεδρία PhoneTrack {session} είναι τώρα κοινόχρηστη με {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "You stopped sharing session {session} with {who}"
-msgstr ""
+msgstr "Σταματήσατε την κοινή χρήση της συνεδρίας {session} με {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:88
 msgid "PhoneTrack session {session} is not shared with {who} anymore"
-msgstr ""
+msgstr "Η συνεδρία PhoneTrack {session} δεν είναι κοινόχρηστη με {who} πια"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "Πελάτης PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Filter.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr ""
+msgstr "γεγονότα <strong>γεωφραχτών PhoneTrack</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
-msgstr ""
+msgstr "γεγονότα <strong>εγγύτητας συσκευής PhoneTrack</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:54
 msgid "Changes in the <strong>PhoneTrack app</strong>"
-msgstr ""
+msgstr "Αλλαγές στην <strong>εφαρμογή PhoneTrack</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:365
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:498
@@ -81,12 +81,12 @@ msgstr "Ειδοποίηση εγγύτητας PhoneTrack (%s και %s)"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:369
 #, php-format
 msgid "PhoneTrack device %s is now closer than %s m to %s."
-msgstr ""
+msgstr "Η συσκευή PhoneTrack %s είναι τώρα εγγύτερα από %s m στο %s."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:502
 #, php-format
 msgid "PhoneTrack device %s is now farther than %s m from %s."
-msgstr ""
+msgstr "Η συσκευή PhoneTrack %s είναι τώρα μακρύτερα από %s m από το %s."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:704
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:830
@@ -96,12 +96,12 @@ msgstr "Ειδοποίηση Γεωφρακτικής περιοχής"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:708
 #, php-format
 msgid "In PhoneTrack session %s, device %s has entered geofence %s."
-msgstr ""
+msgstr "Στη συνεδρία PhoneTrack %s, η συσκευή %s εισήλθε στον γεωφράχτη %s."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:834
 #, php-format
 msgid "In PhoneTrack session %s, device %s exited geofence %s."
-msgstr ""
+msgstr "Στην συνεδρία PhoneTrack %s, η συσκευή %s εξήλθε από τον γεωφράχτη %s."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2260
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2286
@@ -115,7 +115,7 @@ msgstr "Δημόσια πρόσβαση PhoneTrack"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PageController.php:2347
 #, php-format
 msgid "Log to session %s"
-msgstr ""
+msgstr "Καταγραφή στην συνεδρία %s"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:67
 #, php-format
@@ -154,7 +154,7 @@ msgstr "Ο χρήστης \"%s\" διέκοψε το διαμοιρασμό τη
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid "Phonetrack"
-msgstr ""
+msgstr "Phonetrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:4
 msgid " "
@@ -1339,7 +1339,7 @@ msgstr "Γεω: QRcode: τελευταία θέση του {dname}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5808
 msgid "Are you sure you want to delete the device {device}?"
-msgstr ""
+msgstr "Είστε σίγουροι ότι θέλετε να διαγραφεί η συσκευή {device} ;"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5811
 msgid "Confirm device deletion"
