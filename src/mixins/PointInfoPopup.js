@@ -1,6 +1,6 @@
 import { LngLat, Popup, Marker } from 'maplibre-gl'
 import moment from '@nextcloud/moment'
-import { metersToDistance, metersToElevation, kmphToSpeed } from '../utils.js'
+import { metersToDistance, metersToElevation, kmphToSpeed, isColorDark } from '../utils.js'
 import { emit } from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -36,6 +36,10 @@ export default {
 			this.addLastPointMarker()
 		},
 		lineWidth() {
+			this.removeLastPointMarker()
+			this.addLastPointMarker()
+		},
+		border() {
 			this.removeLastPointMarker()
 			this.addLastPointMarker()
 		},
@@ -133,14 +137,17 @@ export default {
 			el.style.width = markerDiameter + 'px'
 			el.style.height = markerDiameter + 'px'
 			el.style.borderRadius = '50%'
-			el.style.border = borderWidth + 'px solid ' + this.borderColor
+			if (this.border) {
+				el.style.border = borderWidth + 'px solid ' + this.borderColor
+			}
 			el.style.cursor = 'pointer'
 			if (isLastPointMarker) {
 				el.innerText = this.device.name[0] ?? '?'
 				el.style.fontWeight = 'bold'
 				el.style.textAlign = 'center'
-				el.style.lineHeight = (markerDiameter * 0.7) + 'px'
+				el.style.lineHeight = (markerDiameter * 0.78) + 'px'
 				el.style.fontSize = (markerDiameter * 0.7) + 'px'
+				el.style.color = isColorDark(this.device.color) ? 'white' : 'black'
 			}
 
 			const marker = new Marker({ draggable: true, anchor: 'center', element: el })

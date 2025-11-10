@@ -52,6 +52,11 @@ export function getColorBrightness(rgb) {
 	return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b
 }
 
+export function isColorDark(hex) {
+	const rgbc = hexToRgb(hex)
+	return (rgbc.r + rgbc.g + rgbc.b < 3 * 100)
+}
+
 export function getComplementaryColor(hex) {
 	const rgb = hexToRgb(hex)
 	return rgbToHex(255 - rgb.r, 255 - rgb.g, 255 - rgb.b)
