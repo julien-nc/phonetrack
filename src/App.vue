@@ -581,8 +581,19 @@ export default {
 		onSaveDevicePoint(newPoint) {
 			console.debug('onSaveDevicePoint', newPoint)
 			const { sessionId, deviceId, pointId } = this.editingPointPath
+			const oldPoint = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
+			const { id: __, ...oldValues } = oldPoint
 			const { id: _, ...values } = newPoint
 			this.updatePoint({ sessionId, deviceId, pointId, values })
+				.then(() => {
+					showUndo(
+						t('phonetrack', 'Point has been saved'),
+						(e) => {
+							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues }, false)
+						},
+						{ timeout: 5 },
+					)
+				})
 			this.editingPointPath = null
 		},
 		/**
@@ -614,11 +625,26 @@ export default {
 			this.movePoint({ lngLat, sessionId, deviceId, pointId })
 		},
 		movePoint({ lngLat, sessionId, deviceId, pointId }) {
+			const point = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
+			const oldValues = {
+				lat: point.lat,
+				lon: point.lon,
+			}
 			const values = {
 				lat: lngLat.lat,
 				lon: lngLat.lng,
 			}
 			this.updatePoint({ sessionId, deviceId, pointId, values })
+				.then(() => {
+					showUndo(
+						t('phonetrack', 'Point has been moved'),
+						(e) => {
+							emit('map-clicked', lngLat)
+							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
+						},
+						{ timeout: 5 },
+					)
+				})
 		},
 		updatePoint({ sessionId, deviceId, pointId, values }) {
 			this.updatingPointRequestLoading = true
@@ -626,7 +652,7 @@ export default {
 				...values,
 			}
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/point/{pointId}', { sessionId, deviceId, pointId })
-			axios.put(url, req).then((response) => {
+			return axios.put(url, req).then((response) => {
 				console.debug('[phonetrack] update point response', response.data)
 				const point = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
 				Object.assign(point, values)
