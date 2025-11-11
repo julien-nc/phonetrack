@@ -68,6 +68,10 @@ export default {
 			type: String,
 			default: 'metric',
 		},
+		draggablePoints: {
+			type: Boolean,
+			default: true,
+		},
 	},
 
 	data() {

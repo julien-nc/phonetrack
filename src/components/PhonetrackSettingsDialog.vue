@@ -17,7 +17,7 @@
 						@enable="onCheckboxChanged(true, 'nav_show_hovered_session_bounds')"
 						@disable="onCheckboxChanged(false, 'nav_show_hovered_session_bounds')">
 						<div class="checkbox-inner">
-							<RectangleOutlineIcon :size="20" class="inline-icon" />
+							<TextureBoxIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Show session bounds on hover') }}
 						</div>
 					</NcFormBoxSwitch>
@@ -51,6 +51,14 @@
 						<div class="checkbox-inner">
 							<ArrowRightIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Draw line direction arrows') }}
+						</div>
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch :model-value="settings.draggable_points === '1'"
+						@enable="onCheckboxChanged(true, 'draggable_points')"
+						@disable="onCheckboxChanged(false, 'draggable_points')">
+						<div class="checkbox-inner">
+							<CursorMoveIcon :size="20" class="inline-icon" />
+							{{ t('phonetrack', 'Drag points to move them') }}
 						</div>
 					</NcFormBoxSwitch>
 					<NcInputField
@@ -283,9 +291,10 @@ import ArrowSplitVerticalIcon from 'vue-material-design-icons/ArrowSplitVertical
 import OpacityIcon from 'vue-material-design-icons/Opacity.vue'
 import MinusIcon from 'vue-material-design-icons/Minus.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
+import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
 import ViewCompactOutlineIcon from 'vue-material-design-icons/ViewCompactOutline.vue'
 import ChartAreasplineVariantIcon from 'vue-material-design-icons/ChartAreasplineVariant.vue'
-import RectangleOutlineIcon from 'vue-material-design-icons/RectangleOutline.vue'
+import TextureBoxIcon from 'vue-material-design-icons/TextureBox.vue'
 import CursorDefaultClickOutlineIcon from 'vue-material-design-icons/CursorDefaultClickOutline.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
@@ -332,12 +341,13 @@ export default {
 		NcSelect,
 		KeyIcon,
 		OpenInNewIcon,
-		RectangleOutlineIcon,
+		TextureBoxIcon,
 		CursorDefaultClickOutlineIcon,
 		ChartAreasplineVariantIcon,
 		ViewCompactOutlineIcon,
 		MinusIcon,
 		ArrowRightIcon,
+		CursorMoveIcon,
 		OpacityIcon,
 		ArrowSplitVerticalIcon,
 		UpdateIcon,

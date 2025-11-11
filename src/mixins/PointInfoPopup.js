@@ -152,8 +152,7 @@ export default {
 				el.style.color = isColorDark(this.device.color) ? 'white' : 'black'
 			}
 
-			// TODO make draggable optional in global settings
-			const marker = new Marker({ draggable: true, anchor: 'center', element: el })
+			const marker = new Marker({ draggable: this.draggablePoints, anchor: 'center', element: el })
 				.setLngLat([point.lon, point.lat])
 				.addTo(this.map)
 			if (isLastPointMarker) {
@@ -181,6 +180,10 @@ export default {
 					this.removeTemporaryMarker()
 				}
 				this.removeTemporaryPopup()
+				// no temp popup when a persistent one is there for this point
+				if (this.popups[point.id]) {
+					return
+				}
 				const popup = this.addPopup(point, pointIndex, traveledDistance, false)
 				this.nonPersistentPopup = popup
 				// emit('device-point-hover', { deviceId: this.device.id, pointIndex })
@@ -193,6 +196,10 @@ export default {
 			el.addEventListener('click', (e) => {
 				console.debug('[phonetrack] marker clicked', e)
 				const popup = this.addPopup(point, pointIndex, traveledDistance, true)
+				popup.on('close', (e) => {
+					console.debug('[phonetrack] --- close popup')
+					this.removePersistentPopup(point)
+				})
 				this.storePersistentPopup(point, popup)
 				e.preventDefault()
 				e.stopPropagation()

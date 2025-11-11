@@ -57,6 +57,7 @@
 							:arrows="state.settings.direction_arrows === '1'"
 							:arrows-spacing="parseFloat(state.settings.arrows_spacing)"
 							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor)"
+							:draggable-points="state.settings.draggable_points === '1'"
 							:opacity="parseFloat(state.settings.line_opacity)"
 							:distance-unit="state.settings.distance_unit ?? 'metric'" />
 					</div>
