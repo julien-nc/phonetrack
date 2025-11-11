@@ -70,6 +70,7 @@
 	background: var(--color-main-background) !important;
 	padding: 0 !important;
 	word-wrap: break-word !important;
+	border-radius: var(--border-radius);
 	> div {
 		padding: 4px;
 		border: 3px solid;

@@ -397,23 +397,6 @@ export default {
 			if (this.myUseTerrain) {
 				this.enableTerrain()
 			}
-			/*
-			setTimeout(() => {
-				this.$nextTick(() => {
-					this.loadImages()
-				})
-			}, 500)
-			// add the terrain
-			setTimeout(() => {
-				this.$nextTick(() => {
-					// terrain is not disabled anymore by maplibre when switching tile layers
-					// it is still needed to add the source as it goes away when switching from a vector to a raster one
-					if (this.myUseTerrain) {
-						this.enableTerrain()
-					}
-				})
-			}, 500)
-			*/
 		},
 		onMapClick(e) {
 			console.debug('MAP::onMapClick', e)

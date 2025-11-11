@@ -1,7 +1,7 @@
 import { LngLat, Popup, Marker } from 'maplibre-gl'
 import moment from '@nextcloud/moment'
-import { metersToDistance, metersToElevation, kmphToSpeed, isColorDark } from '../utils.js'
-import { emit } from '@nextcloud/event-bus'
+import { metersToDistance, metersToElevation, kmphToSpeed, isColorDark, escapeHtml } from '../utils.js'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import {
@@ -47,6 +47,7 @@ export default {
 
 	mounted() {
 		this.addLastPointMarker()
+		subscribe('map-clicked', this.onMapClicked)
 	},
 
 	unmounted() {
@@ -54,6 +55,7 @@ export default {
 		this.clearPopups()
 		this.removeTemporaryMarker()
 		this.removeLastPointMarker()
+		unsubscribe('map-clicked', this.onMapClicked)
 	},
 
 	methods: {
@@ -150,6 +152,7 @@ export default {
 				el.style.color = isColorDark(this.device.color) ? 'white' : 'black'
 			}
 
+			// TODO make draggable optional in global settings
 			const marker = new Marker({ draggable: true, anchor: 'center', element: el })
 				.setLngLat([point.lon, point.lat])
 				.addTo(this.map)
@@ -230,6 +233,13 @@ export default {
 					this.removePersistentPopup(point)
 					this.removeTemporaryMarker()
 				})
+				const editButton = popup.getElement().querySelector('.editPoint')
+				editButton.addEventListener('click', async (event) => {
+					console.debug('[phonetrack] edit', point, this.device)
+					emit('device-point-edit', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
+					this.removePersistentPopup(point)
+					this.removeTemporaryMarker()
+				})
 			}
 			return popup
 		},
@@ -245,7 +255,10 @@ export default {
 					? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed * 3.6, this.distanceUnit) + '<br>')
 					: '')
 				+ (traveledDistance
-					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit))
+					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')
+					: '')
+				+ (point.useragent
+					? ('<strong>' + t('phonetrack', 'User-agent') + '</strong>: ' + escapeHtml(point.useragent) + '<br>')
 					: '')
 				+ (persist
 					? '<button class="deletePoint" title="' + t('phonetrack', 'Delete this point') + '">' + t('phonetrack', 'Delete') + '</button>'
@@ -295,6 +308,9 @@ export default {
 		},
 		onMouseLeavePointInfo(e) {
 			this.map.getCanvas().style.cursor = ''
+		},
+		onMapClicked(lngLat) {
+			this.removeTemporaryMarker()
 		},
 		listenToPointInfoEvents() {
 			this.map.on('click', this.invisibleBorderLayerId, this.onClickLine)

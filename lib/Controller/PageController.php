@@ -364,13 +364,17 @@ class PageController extends Controller {
 	 * @param int $deviceId
 	 * @param int $pointId
 	 * @param float|null $lat
-	 * @param float|null $lng
+	 * @param float|null $lon
+	 * @param string|null $useragent
 	 * @return DataResponse
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
-	public function updatePoint(int $sessionId, int $deviceId, int $pointId, ?float $lat = null, ?float $lng = null): DataResponse {
+	public function updatePoint(
+		int $sessionId, int $deviceId, int $pointId,
+		?float $lat = null, ?float $lon = null, ?string $useragent = null,
+	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
 		} catch (DoesNotExistException $e) {
@@ -386,9 +390,12 @@ class PageController extends Controller {
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'point_not_found'], Http::STATUS_NOT_FOUND);
 		}
-		if ($lat !== null && $lng !== null) {
+		if ($lat !== null && $lon !== null) {
 			$point->setLat($lat);
-			$point->setLon($lng);
+			$point->setLon($lon);
+		}
+		if ($useragent !== null) {
+			$point->setUseragent($useragent);
 		}
 		return new DataResponse($this->pointMapper->update($point));
 	}

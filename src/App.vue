@@ -84,6 +84,9 @@
 		<PhonetrackSettingsDialog
 			:settings="state.settings"
 			@save-options="saveOptions" />
+		<PointEditModal v-if="editingPoint"
+			:point="pointToEdit"
+			@close="editingPoint = false" />
 	</NcContent>
 </template>
 
@@ -112,6 +115,7 @@ import DeviceSidebar from './components/DeviceSidebar.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
 import PolygonFill from './components/map/PolygonFill.vue'
 import DeviceSingleColor from './components/map/DeviceSingleColor.vue'
+import PointEditModal from './components/PointEditModal.vue'
 
 export default {
 	name: 'App',
@@ -124,6 +128,7 @@ export default {
 		SessionSidebar,
 		Navigation,
 		PhonetrackSettingsDialog,
+		PointEditModal,
 		NcAppContent,
 		NcContent,
 		// DeviceList,
@@ -165,6 +170,8 @@ export default {
 			movingPoint: null,
 			movingPointRequestLoading: false,
 			loadingDevicePoints: false,
+			editingPoint: null,
+			editingPointPath: null,
 		}
 	},
 
@@ -217,11 +224,18 @@ export default {
 			return dd
 		},
 		mapCursor() {
-			return this.addingPointRequestLoading || this.movingPointRequestLoading
+			return this.addingPointRequestLoading || this.updatingPointRequestLoading
 				? 'progress'
 				: this.addingPoint || this.movingPoint
 					? 'crosshair'
 					: undefined
+		},
+		pointToEdit() {
+			if (this.editingPoint && this.editingPointPath) {
+				 const { sessionId, deviceId, pointId } = this.editingPointPath
+				return this.state.sessions[sessionId].devices[deviceId].points.find(p => p.id === pointId)
+			}
+			return null
 		},
 	},
 
@@ -272,6 +286,8 @@ export default {
 		subscribe('device-point-deleted', this.onDevicePointDeleted)
 		subscribe('device-point-move', this.onMoveDevicePoint)
 		subscribe('device-point-moved', this.movePoint)
+		subscribe('device-point-edit', this.onEditDevicePoint)
+		subscribe('device-point-save', this.onSaveDevicePoint)
 		subscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		subscribe('add-public-share', this.onAddPublicShare)
 		subscribe('update-public-share', this.onUpdatePublicShare)
@@ -307,6 +323,8 @@ export default {
 		unsubscribe('device-point-deleted', this.onDevicePointDeleted)
 		unsubscribe('device-point-move', this.onMoveDevicePoint)
 		unsubscribe('device-point-moved', this.movePoint)
+		unsubscribe('device-point-edit', this.onEditDevicePoint)
+		unsubscribe('device-point-save', this.onSaveDevicePoint)
 		unsubscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		unsubscribe('add-public-share', this.onAddPublicShare)
 		unsubscribe('update-public-share', this.onUpdatePublicShare)
@@ -554,6 +572,18 @@ export default {
 			} else if (this.movingPoint) {
 				this.mapClickMovePoint(lngLat)
 			}
+			emit('map-clicked', lngLat)
+		},
+		onEditDevicePoint({ sessionId, deviceId, pointId }) {
+			this.editingPointPath = { sessionId, deviceId, pointId }
+			this.editingPoint = true
+		},
+		onSaveDevicePoint(newPoint) {
+			console.debug('onSaveDevicePoint', newPoint)
+			const { sessionId, deviceId, pointId } = this.editingPointPath
+			const { id: _, ...values } = newPoint
+			this.updatePoint({ sessionId, deviceId, pointId, values })
+			this.editingPointPath = null
 		},
 		/**
 		 * enter in move mode on the map
@@ -584,22 +614,27 @@ export default {
 			this.movePoint({ lngLat, sessionId, deviceId, pointId })
 		},
 		movePoint({ lngLat, sessionId, deviceId, pointId }) {
-			this.movingPointRequestLoading = true
-			const req = {
+			const values = {
 				lat: lngLat.lat,
-				lng: lngLat.lng,
+				lon: lngLat.lng,
+			}
+			this.updatePoint({ sessionId, deviceId, pointId, values })
+		},
+		updatePoint({ sessionId, deviceId, pointId, values }) {
+			this.updatingPointRequestLoading = true
+			const req = {
+				...values,
 			}
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/point/{pointId}', { sessionId, deviceId, pointId })
 			axios.put(url, req).then((response) => {
-				console.debug('[phonetrack] move response', response.data)
+				console.debug('[phonetrack] update point response', response.data)
 				const point = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
-				point.lat = lngLat.lat
-				point.lon = lngLat.lng
+				Object.assign(point, values)
 			}).catch((error) => {
 				console.error(error)
-				showError(t('phonetrack', 'Failed to move the point'))
+				showError(t('phonetrack', 'Failed to update the point'))
 			}).then(() => {
-				this.movingPointRequestLoading = false
+				this.updatingPointRequestLoading = false
 			})
 		},
 		addPoint(lngLat) {
