@@ -366,6 +366,12 @@ class PageController extends Controller {
 	 * @param float|null $lat
 	 * @param float|null $lon
 	 * @param string|null $useragent
+	 * @param float|null $altitude
+	 * @param float|null $accuracy
+	 * @param float|null $speed
+	 * @param float|null $batterylevel
+	 * @param float|null $bearing
+	 * @param int|null $satellites
 	 * @return DataResponse
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -374,6 +380,8 @@ class PageController extends Controller {
 	public function updatePoint(
 		int $sessionId, int $deviceId, int $pointId,
 		?float $lat = null, ?float $lon = null, ?string $useragent = null,
+		?float $altitude = null, ?float $accuracy = null, ?float $speed = null,
+		?float $batterylevel = null, ?float $bearing = null, ?int $satellites = null,
 	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
@@ -396,6 +404,24 @@ class PageController extends Controller {
 		}
 		if ($useragent !== null) {
 			$point->setUseragent($useragent);
+		}
+		if ($altitude !== null) {
+			$point->setAltitude($altitude);
+		}
+		if ($accuracy !== null) {
+			$point->setAccuracy($accuracy);
+		}
+		if ($speed !== null) {
+			$point->setSpeed($speed);
+		}
+		if ($batterylevel !== null) {
+			$point->setBatterylevel($batterylevel);
+		}
+		if ($bearing !== null) {
+			$point->setBearing($bearing);
+		}
+		if ($satellites !== null) {
+			$point->setSatellites($satellites);
 		}
 		return new DataResponse($this->pointMapper->update($point));
 	}
