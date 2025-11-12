@@ -1036,9 +1036,9 @@ class LogController extends Controller {
 
 	#[NoAdminRequired]
 	public function addPoint2(
-		int $sessionId, int $deviceId, float $lat, float $lon, ?int $timestamp = null,
-		?float $acc = null, ?float $alt = null, ?float $bat = null, ?int $sat = null,
-		?string $useragent = null, ?float $speed = null, ?float $bearing = null,
+		int $sessionId, int $deviceId, float $lat, float $lon, int $timestamp,
+		?float $accuracy = null, ?float $altitude = null, ?float $batterylevel = null, ?int $satellites = null,
+		string $useragent = '', ?float $speed = null, ?float $bearing = null,
 	) {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
@@ -1054,7 +1054,9 @@ class LogController extends Controller {
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
-		$point = $this->pointMapper->addPoint($deviceId, $lat, $lon, $timestamp);
+		$point = $this->pointMapper->addPoint(
+			$deviceId, $lat, $lon, $timestamp, $accuracy, $altitude, $batterylevel, $satellites, $useragent, $speed, $bearing,
+		);
 		return new DataResponse($point);
 	}
 

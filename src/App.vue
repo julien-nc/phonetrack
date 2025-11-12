@@ -542,9 +542,19 @@ export default {
 			console.debug('onDevicePointDeleted', { sessionId, deviceId, pointId })
 			const device = this.state.sessions[sessionId].devices[deviceId]
 			const index = device.points.findIndex(p => p.id === pointId)
-			if (index !== -1) {
-				device.points.splice(index, 1)
+			if (index === -1) {
+				return
 			}
+			const point = device.points[index]
+			const { id: _, ...pointValues } = point
+			device.points.splice(index, 1)
+			showUndo(
+				t('phonetrack', 'Point has been deleted'),
+				(e) => {
+					this.addPoint(sessionId, deviceId, pointValues, false)
+				},
+				{ timeout: 5 },
+			)
 		},
 		cancelCustomClick() {
 			this.addingPoint = false
@@ -569,7 +579,7 @@ export default {
 		onMapClicked(lngLat) {
 			console.debug('onMapClicked', lngLat, this.addingPoint)
 			if (this.addingPoint) {
-				this.addPoint(lngLat)
+				this.addPointOnMapClick(lngLat)
 			} else if (this.movingPoint) {
 				this.mapClickMovePoint(lngLat)
 			}
@@ -590,7 +600,7 @@ export default {
 					showUndo(
 						t('phonetrack', 'Point has been saved'),
 						(e) => {
-							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues }, false)
+							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
 						},
 						{ timeout: 5 },
 					)
@@ -664,22 +674,33 @@ export default {
 				this.updatingPointRequestLoading = false
 			})
 		},
-		addPoint(lngLat) {
+		addPointOnMapClick(lngLat) {
 			const sessionId = this.sidebarSessionId
 			const deviceId = this.sidebarDeviceId
 			this.addingPoint = false
 			this.addingPointToast?.hideToast()
-			this.addingPointRequestLoading = true
-			const req = {
+			const values = {
 				timestamp: moment().unix(),
 				lat: lngLat.lat,
 				lon: lngLat.lng,
 				useragent: t('phonetrack', 'Manually added'),
 			}
+			this.addPoint(sessionId, deviceId, values)
+		},
+		addPoint(sessionId, deviceId, values, append = true) {
+			this.addingPointRequestLoading = true
+			const req = {
+				...values,
+			}
 			const url = generateUrl('/apps/phonetrack/session/' + sessionId + '/device/' + deviceId + '/point')
-			axios.post(url, req).then((response) => {
+			return axios.post(url, req).then((response) => {
 				console.debug('point added', response.data)
-				this.state.sessions[sessionId].devices[deviceId].points.push(response.data)
+				if (append) {
+					this.state.sessions[sessionId].devices[deviceId].points.push(response.data)
+				} else {
+					const index = this.state.sessions[sessionId].devices[deviceId].points.findIndex(p => p.timestamp > values.timestamp)
+					this.state.sessions[sessionId].devices[deviceId].points.splice(index, 0, response.data)
+				}
 			}).catch((error) => {
 				console.error(error)
 				console.error(error.response?.data?.error)

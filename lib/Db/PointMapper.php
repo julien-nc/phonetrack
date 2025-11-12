@@ -118,16 +118,34 @@ class PointMapper extends QBMapper {
 	 * @param float $lat
 	 * @param float $lon
 	 * @param int $timestamp
+	 * @param float|null $accuracy
+	 * @param float|null $altitude
+	 * @param float|null $batterylevel
+	 * @param int|null $satellites
+	 * @param string $useragent
+	 * @param float|null $speed
+	 * @param float|null $bearing
 	 * @return Point
 	 * @throws Exception
 	 */
-	public function addPoint(int $deviceId, float $lat, float $lon, int $timestamp): Point {
+	public function addPoint(
+		int $deviceId, float $lat, float $lon, int $timestamp,
+		?float $accuracy = null, ?float $altitude = null, ?float $batterylevel = null, ?int $satellites = null,
+		string $useragent = '', ?float $speed = null, ?float $bearing = null,
+	): Point {
 		$point = new Point();
 		$point->setDeviceid($deviceId);
 		$point->setLat($lat);
 		$point->setLon($lon);
 		$point->setTimestamp($timestamp);
 		$point->setUseragent('');
+		$point->setAccuracy($accuracy);
+		$point->setAltitude($altitude);
+		$point->setBatterylevel($batterylevel);
+		$point->setSatellites($satellites);
+		$point->setUseragent($useragent);
+		$point->setSpeed($speed);
+		$point->setBearing($bearing);
 		return $this->insert($point);
 	}
 }
