@@ -594,15 +594,13 @@ export default {
 			console.debug('onSaveDevicePoint', newPoint)
 			const { sessionId, deviceId, pointId } = this.editingPointPath
 			const oldPoint = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
-			const { id: __, ...oldValues } = oldPoint
-			// TODO replace null values with empty strings so it's saved as null
-			const { id: _, ...values } = newPoint
+			const { id: __, deviceid: ____, ...oldValues } = oldPoint
+			const { id: _, deviceid: ___, ...values } = newPoint
 			this.updatePoint({ sessionId, deviceId, pointId, values })
 				.then(() => {
 					showUndo(
 						t('phonetrack', 'Point has been saved'),
 						(e) => {
-							// TODO replace null values in oldValues with empty strings so it's saved as null
 							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
 						},
 						{ timeout: 5 },
@@ -662,13 +660,59 @@ export default {
 		},
 		updatePoint({ sessionId, deviceId, pointId, values }) {
 			this.updatingPointRequestLoading = true
-			const req = {
-				...values,
-			}
+			// replace null values with empty strings so it's saved as null
+			const req = Object.keys(values).reduce((acc, key) => {
+				acc[key] = values[key] === null ? '' : values[key]
+				return acc
+			}, {})
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/point/{pointId}', { sessionId, deviceId, pointId })
 			return axios.put(url, req).then((response) => {
 				console.debug('[phonetrack] update point response', response.data)
-				const point = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
+				const points = this.state.sessions[sessionId].devices[deviceId].points
+				const currentPointIndex = points.findIndex(p => p.id === pointId)
+				const point = points[currentPointIndex]
+				// only check if we should move the point if a timestamp value is set in the request
+				// and if the new timestamp is different than the old one
+				// and if we have more than one point
+				if (values.timestamp && values.timestamp !== point.timestamp && points.length > 1) {
+					// do we need to move the point?
+					// does it belong before or after its current position?
+					if (
+						(
+							currentPointIndex > 0
+							&& values.timestamp < point.timestamp
+							&& values.timestamp < points[currentPointIndex - 1].timestamp
+						)
+						|| (
+							currentPointIndex < points.length - 1
+							&& values.timestamp > point.timestamp
+							&& values.timestamp > points[currentPointIndex + 1].timestamp
+						)
+					) {
+						// remove it from its current position
+						points.splice(currentPointIndex, 1)
+						// and find where to put it now
+						if (values.timestamp < points[0].timestamp) {
+							points.splice(0, 0, point)
+							console.debug('MOVED TO FIRST', currentPointIndex, 0)
+						} else if (values.timestamp > points[points.length - 1].timestamp) {
+							points.push(point)
+							console.debug('APPENED AS LAST', currentPointIndex, points.length - 1)
+						} else {
+							const newPointIndex = points.findIndex(p => p.timestamp >= values.timestamp)
+							if (newPointIndex === -1) {
+								// the new value is higher than all, this should not happen because it's taken care of before
+								points.push(point)
+							} else {
+								// insert it in the new position
+								points.splice(newPointIndex, 0, point)
+							}
+							console.debug('MOVED', currentPointIndex, newPointIndex)
+						}
+					} else {
+						console.debug('DID NOT MOVE', currentPointIndex)
+					}
+				}
 				Object.assign(point, response.data)
 			}).catch((error) => {
 				console.error(error)
@@ -701,7 +745,7 @@ export default {
 				if (append) {
 					this.state.sessions[sessionId].devices[deviceId].points.push(response.data)
 				} else {
-					const index = this.state.sessions[sessionId].devices[deviceId].points.findIndex(p => p.timestamp > values.timestamp)
+					const index = this.state.sessions[sessionId].devices[deviceId].points.findIndex(p => p.timestamp >= values.timestamp)
 					this.state.sessions[sessionId].devices[deviceId].points.splice(index, 0, response.data)
 				}
 			}).catch((error) => {

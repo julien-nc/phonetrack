@@ -366,12 +366,12 @@ class PageController extends Controller {
 	 * @param float|null $lat
 	 * @param float|null $lon
 	 * @param string|null $useragent
-	 * @param float|null $altitude
-	 * @param float|null $accuracy
-	 * @param float|null $speed
-	 * @param float|null $batterylevel
-	 * @param float|null $bearing
-	 * @param int|null $satellites
+	 * @param float|string|null $altitude
+	 * @param float|string|null $accuracy
+	 * @param float|string|null $speed
+	 * @param float|string|null $batterylevel
+	 * @param float|string|null $bearing
+	 * @param int|string|null $satellites
 	 * @return DataResponse
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
@@ -379,10 +379,9 @@ class PageController extends Controller {
 	#[NoAdminRequired]
 	public function updatePoint(
 		int $sessionId, int $deviceId, int $pointId,
-		?float $lat = null, ?float $lon = null, ?string $useragent = null,
-		// TODO adjust
-		float|string|null $altitude = null, ?float $accuracy = null, ?float $speed = null,
-		?float $batterylevel = null, ?float $bearing = null, ?int $satellites = null,
+		?float $lat = null, ?float $lon = null, ?string $useragent = null, ?int $timestamp = null,
+		float|string|null $altitude = null, float|string|null $accuracy = null, float|string|null $speed = null,
+		float|string|null $batterylevel = null, float|string|null $bearing = null, int|string|null $satellites = null,
 	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
@@ -406,23 +405,26 @@ class PageController extends Controller {
 		if ($useragent !== null) {
 			$point->setUseragent($useragent);
 		}
+		if ($timestamp !== null) {
+			$point->setTimestamp($timestamp);
+		}
 		if ($altitude !== null) {
 			$point->setAltitude($altitude === '' ? null : $altitude);
 		}
 		if ($accuracy !== null) {
-			$point->setAccuracy($accuracy);
+			$point->setAccuracy($accuracy === '' ? null : $accuracy);
 		}
 		if ($speed !== null) {
-			$point->setSpeed($speed);
+			$point->setSpeed($speed === '' ? null : $speed);
 		}
 		if ($batterylevel !== null) {
-			$point->setBatterylevel($batterylevel);
+			$point->setBatterylevel($batterylevel === '' ? null : $batterylevel);
 		}
 		if ($bearing !== null) {
-			$point->setBearing($bearing);
+			$point->setBearing($bearing === '' ? null : $bearing);
 		}
 		if ($satellites !== null) {
-			$point->setSatellites($satellites);
+			$point->setSatellites($satellites === '' ? null : $satellites);
 		}
 		return new DataResponse($this->pointMapper->update($point));
 	}
