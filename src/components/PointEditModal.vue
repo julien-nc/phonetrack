@@ -28,12 +28,13 @@
 				:key="f.key"
 				:model-value="myPoint[f.key] ?? ''"
 				type="number"
-				:label="f.label"
+				:label="f.label + (f.labelUnit ? ' (' + f.labelUnit(distanceUnit) + ')' : '')"
 				:min="f.min"
 				:step="f.step"
 				:max="f.max"
 				:show-trailing-button="myPoint[f.key] !== null"
 				@update:model-value="onUpdateFloat($event, f.key)"
+				@keyup.enter="onSubmit"
 				@trailing-button-click="myPoint[f.key] = null">
 				<template #icon>
 					<component :is="f.iconComponent" :size="20" />
@@ -50,6 +51,7 @@
 				step="1"
 				:show-trailing-button="myPoint.satellites !== null"
 				@update:model-value="onUpdateInt($event, 'satellites')"
+				@keyup.enter="onSubmit"
 				@trailing-button-click="myPoint.satellites = null">
 				<template #icon>
 					<SatelliteVariantIcon :size="20" />
@@ -86,8 +88,66 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 
+import {
+	kmphToSpeedNoUnit, metersToElevationNoUnit, getSpeedUnitLabel, getAltitudeUnitLabel,
+	speedToMps, elevationToMeters,
+} from '../utils.js'
+
 import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
+
+const floatFields = [
+	{
+		key: 'altitude',
+		label: t('phonetrack', 'Altitude'),
+		labelUnit: (unit) => getAltitudeUnitLabel(unit),
+		iconComponent: ElevationRiseIcon,
+		min: -200,
+		step: 0.01,
+		max: 9000,
+		formatter: (value, unit) => metersToElevationNoUnit(value, unit),
+		parser: (value, unit) => elevationToMeters(value, unit),
+	},
+	{
+		key: 'accuracy',
+		label: t('phonetrack', 'Precision'),
+		labelUnit: (unit) => getAltitudeUnitLabel(unit),
+		iconComponent: CircleDoubleIcon,
+		min: 0,
+		step: 0.01,
+		max: undefined,
+		formatter: (value, unit) => metersToElevationNoUnit(value, unit),
+		parser: (value, unit) => elevationToMeters(value, unit),
+	},
+	{
+		// TODO show point coordinates in 2 formats like in old UI
+		key: 'speed',
+		label: t('phonetrack', 'Speed'),
+		labelUnit: (unit) => getSpeedUnitLabel(unit),
+		iconComponent: SpeedometerIcon,
+		min: 0,
+		step: 0.01,
+		max: 1000,
+		formatter: (value, unit) => kmphToSpeedNoUnit(value * 3.6, unit),
+		parser: (value, unit) => speedToMps(value, unit),
+	},
+	{
+		key: 'bearing',
+		label: t('phonetrack', 'Bearing') + ' (°)',
+		iconComponent: CompassOutlineIcon,
+		min: 0,
+		step: 0.01,
+		max: 360,
+	},
+	{
+		key: 'batterylevel',
+		label: t('phonetrack', 'Battery level') + ' (%)',
+		iconComponent: Battery50Icon,
+		min: 0,
+		step: 0.01,
+		max: 100,
+	},
+]
 
 export default {
 	name: 'PointEditModal',
@@ -112,57 +172,16 @@ export default {
 			type: Object,
 			required: true,
 		},
+		distanceUnit: {
+			type: String,
+			default: 'metric',
+		},
 	},
 	data() {
 		return {
-			myPoint: {
-				...this.point,
-			},
+			myPoint: this.getValuesFromPoint(),
 			myPointDate: moment.unix(this.point.timestamp).toDate(),
-			floatFields: [
-				{
-					key: 'altitude',
-					label: t('phonetrack', 'Altitude (m)'),
-					iconComponent: ElevationRiseIcon,
-					min: -200,
-					step: 0.1,
-					max: 9000,
-				},
-				{
-					key: 'accuracy',
-					label: t('phonetrack', 'Precision (m)'),
-					iconComponent: CircleDoubleIcon,
-					min: 0,
-					step: 0.1,
-					max: undefined,
-				},
-				{
-					// TODO fix speed, stored in m/s, should be displayed according to the settings and converted back to m/s when saving
-					// TODO show point coordinates in 2 formats like in old UI
-					key: 'speed',
-					label: t('phonetrack', 'Speed (km/h)'),
-					iconComponent: SpeedometerIcon,
-					min: 0,
-					step: 0.1,
-					max: 1000,
-				},
-				{
-					key: 'bearing',
-					label: t('phonetrack', 'Bearing (°)'),
-					iconComponent: CompassOutlineIcon,
-					min: 0,
-					step: 0.1,
-					max: 360,
-				},
-				{
-					key: 'batterylevel',
-					label: t('phonetrack', 'Battery level (%)'),
-					iconComponent: Battery50Icon,
-					min: 0,
-					step: 0.1,
-					max: 100,
-				},
-			],
+			floatFields,
 		}
 	},
 	computed: {
@@ -170,10 +189,35 @@ export default {
 	beforeMount() {
 	},
 	mounted() {
+		console.debug('Edit modal', { ...this.myPoint })
 	},
 	methods: {
+		getValuesFromPoint() {
+			return {
+				...this.point,
+				...floatFields.reduce((acc, f) => {
+					acc[f.key] = f.formatter
+						? this.point[f.key]
+							? parseFloat(f.formatter(this.point[f.key], this.distanceUnit))
+							: ''
+						: (this.point[f.key] ?? '')
+					return acc
+				}, {}),
+			}
+		},
+		getPointFromValues() {
+			return {
+				...this.myPoint,
+				...floatFields.reduce((acc, f) => {
+					acc[f.key] = (f.parser && this.myPoint[f.key])
+						? f.parser(this.myPoint[f.key], this.distanceUnit)
+						: this.myPoint[f.key]
+					return acc
+				}, {}),
+			}
+		},
 		onSubmit() {
-			emit('device-point-save', this.myPoint)
+			emit('device-point-save', this.getPointFromValues())
 			this.$emit('close')
 		},
 		onUpdateDate() {
@@ -184,6 +228,7 @@ export default {
 			this.myPoint[key] = isNaN(val) || val === ''
 				? null
 				: parseInt(val)
+			console.debug('onUpdateInt', key, val, { ...this.myPoint[key] })
 		},
 		onUpdateFloat(val, key) {
 			this.myPoint[key] = isNaN(val) || val === ''

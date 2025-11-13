@@ -380,7 +380,8 @@ class PageController extends Controller {
 	public function updatePoint(
 		int $sessionId, int $deviceId, int $pointId,
 		?float $lat = null, ?float $lon = null, ?string $useragent = null,
-		?float $altitude = null, ?float $accuracy = null, ?float $speed = null,
+		// TODO adjust
+		float|string|null $altitude = null, ?float $accuracy = null, ?float $speed = null,
 		?float $batterylevel = null, ?float $bearing = null, ?int $satellites = null,
 	): DataResponse {
 		try {
@@ -406,7 +407,7 @@ class PageController extends Controller {
 			$point->setUseragent($useragent);
 		}
 		if ($altitude !== null) {
-			$point->setAltitude($altitude);
+			$point->setAltitude($altitude === '' ? null : $altitude);
 		}
 		if ($accuracy !== null) {
 			$point->setAccuracy($accuracy);

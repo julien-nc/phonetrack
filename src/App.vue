@@ -87,6 +87,7 @@
 			@save-options="saveOptions" />
 		<PointEditModal v-if="editingPoint"
 			:point="pointToEdit"
+			:distance-unit="distanceUnit"
 			@close="editingPoint = false" />
 	</NcContent>
 </template>
@@ -594,12 +595,14 @@ export default {
 			const { sessionId, deviceId, pointId } = this.editingPointPath
 			const oldPoint = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
 			const { id: __, ...oldValues } = oldPoint
+			// TODO replace null values with empty strings so it's saved as null
 			const { id: _, ...values } = newPoint
 			this.updatePoint({ sessionId, deviceId, pointId, values })
 				.then(() => {
 					showUndo(
 						t('phonetrack', 'Point has been saved'),
 						(e) => {
+							// TODO replace null values in oldValues with empty strings so it's saved as null
 							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
 						},
 						{ timeout: 5 },
@@ -666,7 +669,7 @@ export default {
 			return axios.put(url, req).then((response) => {
 				console.debug('[phonetrack] update point response', response.data)
 				const point = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
-				Object.assign(point, values)
+				Object.assign(point, response.data)
 			}).catch((error) => {
 				console.error(error)
 				showError(t('phonetrack', 'Failed to update the point'))

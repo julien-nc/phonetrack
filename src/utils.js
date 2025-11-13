@@ -126,6 +126,14 @@ export function metersToElevation(m, unit = 'metric') {
 	}
 }
 
+export function elevationToMeters(ele, unit = 'metric') {
+	if (unit === 'metric' || unit === 'nautical') {
+		return ele
+	} else {
+		return ele / METERSTOFOOT
+	}
+}
+
 export function metersToElevationNoUnit(m, unit) {
 	const n = parseFloat(m)
 	if (unit === 'metric' || unit === 'nautical') {
@@ -144,6 +152,21 @@ export function metersToElevationRaw(m, unit) {
 	}
 }
 
+export function getAltitudeUnitLabel(unit) {
+	return ['metric', 'nautical'].includes(unit)
+		? 'm'
+		: 'ft'
+}
+
+export function getSpeedUnitLabel(unit) {
+	if (unit === 'english' || unit === 'imperial') {
+		return 'mi/h'
+	} else if (unit === 'nautical') {
+		return 'kt'
+	}
+	return 'km/h'
+}
+
 export function kmphToSpeed(kmph, unit = 'metric') {
 	if (kmph === null) {
 		return t('phonetrack', 'No speed data')
@@ -155,6 +178,19 @@ export function kmphToSpeed(kmph, unit = 'metric') {
 		return (nkmph * 1000 * METERSTOMILES).toFixed(2) + ' mi/h'
 	} else if (unit === 'nautical') {
 		return (nkmph * 1000 * METERSTONAUTICALMILES).toFixed(2) + ' kt'
+	}
+}
+
+export function speedToMps(speed, unit = 'metric') {
+	if (unit === 'metric') {
+		// we get kmph -> m/s
+		return speed / 3.6
+	} else if (unit === 'english' || unit === 'imperial') {
+		// we get mi/h -> m/s
+		return speed / METERSTOMILES
+	} else if (unit === 'nautical') {
+		// we get kt -> m/s
+		return speed / METERSTONAUTICALMILES
 	}
 }
 

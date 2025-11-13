@@ -6,27 +6,27 @@
 		<div class="line">
 			<NcTextField
 				v-model="newDeviceName"
-				:label="t('phonetrack', 'New device Name')"
+				:label="t('phonetrack', 'Device Name')"
 				placeholder="..."
 				@keyup.enter="onRename" />
-			<NcButton @click="onRename">
+			<NcButton :title="t('phonetrack', 'Rename device')"
+				@click="onRename">
 				<template #icon>
-					<PencilOutlineIcon />
+					<ContentSaveOutlineIcon />
 				</template>
-				{{ t('phonetrack', 'Rename device') }}
 			</NcButton>
 		</div>
 		<div class="line">
 			<NcTextField
 				v-model="newDeviceAlias"
-				:label="t('phonetrack', 'New device Alias')"
+				:label="t('phonetrack', 'Device Alias')"
 				placeholder="..."
 				@keyup.enter="onSetAlias" />
-			<NcButton @click="onSetAlias">
+			<NcButton :title="t('phonetrack', 'Set device alias')"
+				@click="onSetAlias">
 				<template #icon>
-					<PencilOutlineIcon />
+					<ContentSaveOutlineIcon />
 				</template>
-				{{ t('phonetrack', 'Set device alias') }}
 			</NcButton>
 		</div>
 		<div class="line">
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import PencilOutlineIcon from 'vue-material-design-icons/PencilOutline.vue'
+import ContentSaveOutlineIcon from 'vue-material-design-icons/ContentSaveOutline.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import PlusCircleOutlineIcon from 'vue-material-design-icons/PlusCircleOutline.vue'
 
@@ -68,7 +68,7 @@ export default {
 	name: 'DeviceDetailsSidebarTab',
 
 	components: {
-		PencilOutlineIcon,
+		ContentSaveOutlineIcon,
 		UndoIcon,
 		PlusCircleOutlineIcon,
 		NcButton,
@@ -160,9 +160,6 @@ export default {
 		display: flex;
 		gap: 4px;
 		align-items: end;
-		> * {
-			flex: 1 1 0px;
-		}
 	}
 }
 </style>
