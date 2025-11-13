@@ -651,7 +651,6 @@ export default {
 					showUndo(
 						t('phonetrack', 'Point has been moved'),
 						(e) => {
-							emit('map-clicked', lngLat)
 							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
 						},
 						{ timeout: 5 },
@@ -714,6 +713,7 @@ export default {
 					}
 				}
 				Object.assign(point, response.data)
+				emit('point-values-updated', pointId)
 			}).catch((error) => {
 				console.error(error)
 				showError(t('phonetrack', 'Failed to update the point'))

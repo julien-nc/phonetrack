@@ -48,6 +48,7 @@ export default {
 	mounted() {
 		this.addLastPointMarker()
 		subscribe('map-clicked', this.onMapClicked)
+		subscribe('point-values-updated', this.onPointValuesUpdated)
 	},
 
 	unmounted() {
@@ -56,6 +57,7 @@ export default {
 		this.removeTemporaryMarker()
 		this.removeLastPointMarker()
 		unsubscribe('map-clicked', this.onMapClicked)
+		unsubscribe('point-values-updated', this.onPointValuesUpdated)
 	},
 
 	methods: {
@@ -158,12 +160,13 @@ export default {
 			if (isLastPointMarker) {
 				this.lastPointMarker = marker
 			} else {
+				marker.pointId = point.id
 				this.nonPersistentMarker = marker
 			}
 			marker.on('dragstart', () => {
 				console.debug('[phonetrack] marker dragstart')
 				this.releasePointInfoEvents()
-				this.removePersistentPopup(point)
+				this.removePersistentPopup(point.id)
 			})
 			marker.on('dragend', () => {
 				const lngLat = marker.getLngLat()
@@ -198,7 +201,7 @@ export default {
 				const popup = this.addPopup(point, pointIndex, traveledDistance, true)
 				popup.on('close', (e) => {
 					console.debug('[phonetrack] --- close popup')
-					this.removePersistentPopup(point)
+					this.removePersistentPopup(point.id)
 				})
 				this.storePersistentPopup(point, popup)
 				e.preventDefault()
@@ -225,7 +228,7 @@ export default {
 					axios.delete(url).then((response) => {
 						console.debug('[phonetrack] delete response', response.data)
 						emit('device-point-deleted', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
-						this.removePersistentPopup(point)
+						this.removePersistentPopup(point.id)
 						this.removeTemporaryMarker()
 						console.debug('[phonetrack] remove popup of point', point.id)
 					}).catch((error) => {
@@ -237,14 +240,14 @@ export default {
 				moveButton.addEventListener('click', async (event) => {
 					console.debug('[phonetrack] move', point, this.device)
 					emit('device-point-move', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
-					this.removePersistentPopup(point)
+					this.removePersistentPopup(point.id)
 					this.removeTemporaryMarker()
 				})
 				const editButton = popup.getElement().querySelector('.editPoint')
 				editButton.addEventListener('click', async (event) => {
 					console.debug('[phonetrack] edit', point, this.device)
 					emit('device-point-edit', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
-					this.removePersistentPopup(point)
+					this.removePersistentPopup(point.id)
 					this.removeTemporaryMarker()
 				})
 			}
@@ -286,9 +289,9 @@ export default {
 			this.popups[point.id]?.remove()
 			this.popups[point.id] = popup
 		},
-		removePersistentPopup(point) {
-			this.popups[point.id]?.remove()
-			delete this.popups[point.id]
+		removePersistentPopup(pointId) {
+			this.popups[pointId]?.remove()
+			delete this.popups[pointId]
 		},
 		clearPopups() {
 			this.removeTemporaryPopup()
@@ -318,6 +321,14 @@ export default {
 		},
 		onMapClicked(lngLat) {
 			this.removeTemporaryMarker()
+		},
+		onPointValuesUpdated(pointId) {
+			// only remove the temp marker if it's this point's one
+			if (this.nonPersistentMarker?.pointId === pointId) {
+				this.removeTemporaryMarker()
+			}
+			// remove potential persistent popup
+			this.removePersistentPopup(pointId)
 		},
 		listenToPointInfoEvents() {
 			this.map.on('click', this.invisibleBorderLayerId, this.onClickLine)
