@@ -15,9 +15,15 @@ namespace OCA\PhoneTrack\Service;
 use DateTime;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\PointMapper;
+use OCA\PhoneTrack\Db\ProximMapper;
+use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\Session;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\ShareMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
@@ -28,58 +34,31 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 use OCP\IUserManager;
+use stdClass;
 
 class SessionService {
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $db;
-	/**
-	 * @var IRootFolder
-	 */
-	private $root;
-	/**
-	 * @var DeviceMapper
-	 */
-	private $deviceMapper;
-	/**
-	 * @var string
-	 */
-	private $appVersion;
-	/**
-	 * @var SessionMapper
-	 */
-	private $sessionMapper;
-	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-	/**
-	 * @var IConfig
-	 */
-	private $config;
+	private string $appVersion;
 
 	public function __construct(
-		SessionMapper $sessionMapper,
-		DeviceMapper $deviceMapper,
-		IUserManager $userManager,
-		IDBConnection $db,
-		IRootFolder $root,
-		IConfig $config,
+		private SessionMapper $sessionMapper,
+		private DeviceMapper $deviceMapper,
+		private PublicShareMapper $publicShareMapper,
+		private GeofenceMapper $geofenceMapper,
+		private ProximMapper $proximMapper,
+		private ShareMapper $shareMapper,
+		private PointMapper $pointMapper,
+		private IUserManager $userManager,
+		private IDBConnection $db,
+		private IRootFolder $root,
+		private IConfig $config,
+		private IAppConfig $appConfig,
 	) {
-		$this->sessionMapper = $sessionMapper;
-		$this->userManager = $userManager;
-		$this->config = $config;
-		$this->db = $db;
-		$this->root = $root;
-		$this->deviceMapper = $deviceMapper;
-
-		$this->appVersion = $config->getAppValue(Application::APP_ID, 'installed_version');
+		$this->appVersion = $this->appConfig->getAppValueString(Application::APP_ID, 'installed_version');
 	}
 
 	private function db_quote_escape_string($str) {
-		return $this->db->quote($str);
+		return $this->db->quote($str ?? '');
 	}
 
 	public function findUsers($id) {
@@ -96,14 +75,13 @@ class SessionService {
 			->where(
 				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
-		$req = $qb->execute();
+		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
 			if (!in_array($row['username'], $userIds)) {
 				$userIds[] = $row['username'];
 			}
 		}
 		$req->closeCursor();
-		$qb = $qb->resetQueryParts();
 
 		return $userIds;
 	}
@@ -641,21 +619,21 @@ class SessionService {
 		$dt = new DateTime();
 		$date = $dt->format('Y-m-d\TH:i:s\Z');
 		$gpxText = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>' . "\n";
-		$gpxText .= '<gpx xmlns="http://www.topografix.com/GPX/1/1"' .
-			' xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3"' .
-			' xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1"' .
-			' xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"' .
-			' creator="PhoneTrack Nextcloud app ' .
-			$this->appVersion . '" version="1.1"' .
-			' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
-			' xsi:schemaLocation="http://www.topografix.com/GPX/1/1' .
-			' http://www.topografix.com/GPX/1/1/gpx.xsd' .
-			' http://www.garmin.com/xmlschemas/GpxExtensions/v3' .
-			' http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd' .
-			' http://www.garmin.com/xmlschemas/WaypointExtension/v1' .
-			' http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd' .
-			' http://www.garmin.com/xmlschemas/TrackPointExtension/v1' .
-			' http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">' . "\n";
+		$gpxText .= '<gpx xmlns="http://www.topografix.com/GPX/1/1"'
+			. ' xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3"'
+			. ' xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1"'
+			. ' xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"'
+			. ' creator="PhoneTrack Nextcloud app '
+			. $this->appVersion . '" version="1.1"'
+			. ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+			. ' xsi:schemaLocation="http://www.topografix.com/GPX/1/1'
+			. ' http://www.topografix.com/GPX/1/1/gpx.xsd'
+			. ' http://www.garmin.com/xmlschemas/GpxExtensions/v3'
+			. ' http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd'
+			. ' http://www.garmin.com/xmlschemas/WaypointExtension/v1'
+			. ' http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd'
+			. ' http://www.garmin.com/xmlschemas/TrackPointExtension/v1'
+			. ' http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">' . "\n";
 		$gpxText .= '<metadata>' . "\n" . ' <time>' . $date . '</time>' . "\n";
 		$gpxText .= ' <name>' . $name . '</name>' . "\n";
 		if ($nbdev > 0) {
@@ -767,4 +745,301 @@ class SessionService {
 		return $done;
 	}
 
+	/**
+	 * with whom is this session shared ?
+	 */
+	public function getUserShares(string $sessionId): array {
+		$ncUserList = $this->getUserList();
+		$sharesToDelete = [];
+		$sharedWith = [];
+		$sqlchk = '
+			SELECT username
+			FROM *PREFIX*phonetrack_shares
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . ' ;';
+		$req = $this->db->prepare($sqlchk);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$userId = $row['username'];
+			if (array_key_exists($userId, $ncUserList)) {
+				$userName = $ncUserList[$userId];
+				$sharedWith[$userId] = $userName;
+			} else {
+				$sharesToDelete[] = $userId;
+			}
+		}
+		$res->closeCursor();
+
+		// delete useless shares (with unexisting users)
+		foreach ($sharesToDelete as $uid) {
+			$sqlDel = '
+				DELETE FROM *PREFIX*phonetrack_shares
+				WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . '
+					AND username=' . $this->db_quote_escape_string($uid) . ' ;';
+			$req = $this->db->prepare($sqlDel);
+			$res = $req->execute();
+			$res->closeCursor();
+		}
+
+		return $sharedWith;
+	}
+
+	public function getReservedNames(string $token): array {
+		$result = [];
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('name', 'nametoken')
+			->from('phonetrack_devices', 'd')
+			->where(
+				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
+			$dbdevicename = $row['name'];
+			$dbnametoken = $row['nametoken'];
+			if ($dbnametoken !== '' && $dbnametoken !== null) {
+				$result[] = [
+					'token' => $dbnametoken,
+					'name' => $dbdevicename,
+				];
+			}
+		}
+		$req->closeCursor();
+
+		return $result;
+	}
+
+	/**
+	 * get the public shares for a session
+	 */
+	public function getPublicShares(string $sessionId): array {
+		$shares = [];
+		$sqlGet = '
+			SELECT *
+			FROM *PREFIX*phonetrack_pubshares
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . ' ;';
+		$req = $this->db->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$shares[] = [
+				'token' => $row['sharetoken'],
+				'filters' => $row['filters'],
+				'devicename' => $row['devicename'],
+				'lastposonly' => $row['lastposonly'],
+				'geofencify' => $row['geofencify'],
+			];
+		}
+		$res->closeCursor();
+
+		return $shares;
+	}
+
+	public function getDevices(string $sessionid): array {
+		$devices = [];
+		$sqlGet = '
+			SELECT id, name, alias, color, nametoken, shape
+			FROM *PREFIX*phonetrack_devices
+			WHERE sessionid=' . $this->db_quote_escape_string($sessionid) . '
+			ORDER BY LOWER(name) ASC ;';
+		$req = $this->db->prepare($sqlGet);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$dbId = $row['id'];
+			$dbName = $row['name'];
+			$dbAlias = $row['alias'];
+			$dbColor = $row['color'];
+			$dbNameToken = $row['nametoken'];
+			$dbShape = $row['shape'];
+			$geofences = $this->getGeofences($dbId);
+			$proxims = $this->getProxims($dbId);
+			$oneDev = [$dbId, $dbName, $dbAlias, $dbColor, $dbNameToken, $geofences, $proxims, $dbShape];
+			$devices[] = $oneDev;
+		}
+		$res->closeCursor();
+
+		return $devices;
+	}
+
+	public function getUserList(?string $currentUserId = null): array {
+		$userNames = [];
+		try {
+			foreach ($this->userManager->search('') as $u) {
+				if ($currentUserId === null || $u->getUID() !== $currentUserId) {
+					$userNames[$u->getUID()] = $u->getDisplayName();
+				}
+			}
+		} catch (\Throwable $t) {
+		}
+		return $userNames;
+	}
+
+	public function getGeofences(int $deviceId): array {
+		$geofences = [];
+		$sqlfences = '
+			SELECT id, name, latmin, latmax, lonmin,
+				   lonmax, urlenter, urlleave,
+				   urlenterpost, urlleavepost,
+				   sendemail, emailaddr, sendnotif
+			FROM *PREFIX*phonetrack_geofences
+			WHERE deviceid=' . $this->db_quote_escape_string($deviceId) . ' ;';
+		$req = $this->db->prepare($sqlfences);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$fence = [];
+			foreach ($row as $k => $v) {
+				$fence[$k] = $v;
+			}
+			$geofences[] = $fence;
+		}
+		$res->closeCursor();
+		return $geofences;
+	}
+
+	public function getProxims(int $deviceId): array {
+		$proxims = [];
+		$sqlproxims = '
+			SELECT *PREFIX*phonetrack_proxims.id AS id, deviceid2, lowlimit, highlimit,
+				urlclose, urlfar,
+				urlclosepost, urlfarpost,
+				sendemail, emailaddr, sendnotif,
+				*PREFIX*phonetrack_devices.name AS dname2,
+				*PREFIX*phonetrack_sessions.name AS sname2
+			FROM *PREFIX*phonetrack_proxims
+			INNER JOIN *PREFIX*phonetrack_devices ON deviceid2=*PREFIX*phonetrack_devices.id
+			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
+			WHERE deviceid1=' . $this->db_quote_escape_string($deviceId) . ' ;';
+		$req = $this->db->prepare($sqlproxims);
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
+			$proxim = [];
+			foreach ($row as $k => $v) {
+				$proxim[$k] = $v;
+			}
+			$proxims[] = $proxim;
+		}
+		$res->closeCursor();
+		return $proxims;
+	}
+
+	public function getSessions2(string $userId): array {
+		$sessions = $this->sessionMapper->findByUser($userId);
+		$sessions = array_map(function (Session $session) {
+			$json = $session->jsonSerialize();
+			$json['shares'] = $this->getSessionShares($session->getToken());
+			$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getToken());
+			$json['devices'] = [];
+			$devices = $this->deviceMapper->findBySessionId($session->getToken());
+			foreach ($devices as $device) {
+				$jsonDevice = $device->jsonSerialize();
+
+				$jsonDevice['session_id'] = $session->getId();
+
+				// geofences
+				$geofences = $this->geofenceMapper->findByDeviceId($device->getId());
+				$jsonDevice['geofences'] = [];
+				foreach ($geofences as $geofence) {
+					$jsonDevice['geofences'][$geofence->getId()] = $geofence->jsonSerialize();
+				}
+				if (empty($jsonDevice['geofences'])) {
+					$jsonDevice['geofences'] = new stdClass();
+				}
+
+				// proximity alerts
+				$proxims = $this->proximMapper->findByDeviceId1($device->getId());
+				$jsonDevice['proxims'] = [];
+				foreach ($proxims as $proxim) {
+					$jsonDevice['proxims'][$proxim->getId()] = $proxim->jsonSerialize();
+				}
+				if (empty($jsonDevice['proxims'])) {
+					$jsonDevice['proxims'] = new stdClass();
+				}
+
+				// points
+				$jsonDevice['points'] = [];
+
+				$json['devices'][$device->getId()] = $jsonDevice;
+			}
+			if (empty($json['devices'])) {
+				$json['devices'] = new stdClass();
+			}
+			return $json;
+		}, $sessions);
+
+		// sessions shared with current user
+		$sidToShareToken = [];
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('sessionid', 'sharetoken')
+			->from('phonetrack_shares')
+			->where(
+				$qb->expr()->eq('username', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
+			$sidToShareToken[$row['sessionid']] = $row['sharetoken'];
+		}
+		$req->closeCursor();
+
+		$sharedSessions = $this->sessionMapper->getSessionsById(array_keys($sidToShareToken));
+		$sharedSessions = array_map(function (Session $session) use ($sidToShareToken) {
+			$json = $session->jsonSerialize();
+			$json['shares'] = $this->shareMapper->findBySessionToken($session->getToken());
+			$json['public_shares'] = $this->getSessionShares($session->getToken());
+			$json['devices'] = [];
+			$devices = $this->deviceMapper->findBySessionId($session->getToken());
+			foreach ($devices as $device) {
+				$json['devices'][$device->getId()] = $device;
+			}
+			if (empty($json['devices'])) {
+				$json['devices'] = new stdClass();
+			}
+			$json['token'] = $sidToShareToken[$json['id']];
+			return $json;
+		}, $sharedSessions);
+
+		return array_merge($sessions, $sharedSessions);
+	}
+
+	private function getSessionShares(string $sessionToken): array {
+		$userIdToName = [];
+		$jsonShares = [];
+
+		$shares = $this->shareMapper->findBySessionToken($sessionToken);
+		foreach ($shares as $share) {
+			if (array_key_exists($share->getUsername(), $userIdToName)) {
+				$name = $userIdToName[$share->getUsername()];
+			} else {
+				$user = $this->userManager->get($share->getUsername());
+				if ($user !== null) {
+					$userIdToName[$user->getUID()] = $user->getDisplayName();
+					$name = $user->getDisplayName();
+				} else {
+					$this->shareMapper->delete($share);
+					continue;
+				}
+			}
+			$jsonShare = $share->jsonSerialize();
+			$jsonShare['display_name'] = $name;
+			$jsonShare['type'] = 'u';
+			$jsonShares[] = $jsonShare;
+		}
+
+		return $jsonShares;
+	}
+
+	public function getDevicePointsCombined(
+		int $deviceId, ?int $minTimestamp = null, ?int $maxTimestamp = null, int $maxPoints = 1000,
+	): array {
+		$points = [
+			'before' => [],
+			'after' => [],
+		];
+		// get recent points in priority
+		if ($minTimestamp !== null) {
+			$points['after'] = $this->pointMapper->getDevicePoints($deviceId, $minTimestamp, null, $maxPoints);
+		}
+		if ($maxTimestamp !== null) {
+			// get maxPoints - the number of recent points
+			$points['before'] = $this->pointMapper->getDevicePoints($deviceId, null, $maxTimestamp, $maxPoints - count($points['after']));
+		}
+		return $points;
+	}
 }

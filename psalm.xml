@@ -33,6 +33,9 @@
 				<referencedClass name="Symfony\Component\Console\Input\InputInterface" />
 				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
 				<referencedClass name="Doctrine\DBAL\Types\Type" />
+				<referencedClass name="GuzzleHttp\Exception\ServerException" />
+				<referencedClass name="GuzzleHttp\Exception\ClientException" />
+				<referencedClass name="OC\Files\Filesystem" />
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedDocblockClass>

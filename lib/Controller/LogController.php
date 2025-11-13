@@ -17,8 +17,13 @@ use DateTimeZone;
 use Exception;
 
 use OCA\PhoneTrack\Activity\ActivityManager;
+use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\PointMapper;
+use OCA\PhoneTrack\Db\SessionMapper;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
@@ -27,6 +32,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
 
 use OCP\IDBConnection;
@@ -100,12 +106,15 @@ class LogController extends Controller {
 		string $AppName,
 		IRequest $request,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IManager $notificationManager,
 		private IUserManager $userManager,
 		private IL10N $l10n,
 		private LoggerInterface $logger,
 		private ActivityManager $activityManager,
+		private SessionMapper $sessionMapper,
 		private DeviceMapper $deviceMapper,
+		private PointMapper $pointMapper,
 		private IDBConnection $db,
 		private ?string $userId,
 	) {
@@ -124,7 +133,7 @@ class LogController extends Controller {
 	 * quote and choose string escape function depending on database used
 	 */
 	private function db_quote_escape_string($str) {
-		return $this->db->quote($str);
+		return $this->db->quote($str ?? '');
 	}
 
 	/**
@@ -883,7 +892,7 @@ class LogController extends Controller {
 
 	private function checkQuota(int $deviceidToInsert, string $userid, string $devicename, string $sessionname,
 		int $nbPointsToInsert = 1) {
-		$quota = (int)$this->config->getAppValue('phonetrack', 'pointQuota', '0');
+		$quota = $this->appConfig->getValueInt(Application::APP_ID, 'pointQuota', 0, lazy: true);
 		if ($quota === 0) {
 			return true;
 		}
@@ -1026,6 +1035,32 @@ class LogController extends Controller {
 	}
 
 	#[NoAdminRequired]
+	public function addPoint2(
+		int $sessionId, int $deviceId, float $lat, float $lon, int $timestamp,
+		?float $accuracy = null, ?float $altitude = null, ?float $batterylevel = null, ?int $satellites = null,
+		string $useragent = '', ?float $speed = null, ?float $bearing = null,
+	) {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		if ($session->getLocked() !== 0) {
+			return new DataResponse(['error' => 'session_locked'], Http::STATUS_FORBIDDEN);
+		}
+
+		try {
+			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$point = $this->pointMapper->addPoint(
+			$deviceId, $lat, $lon, $timestamp, $accuracy, $altitude, $batterylevel, $satellites, $useragent, $speed, $bearing,
+		);
+		return new DataResponse($point);
+	}
+
+	#[NoAdminRequired]
 	public function addPoint(
 		string $token, string $devicename, float $lat, float $lon, ?float $alt, ?int $timestamp,
 		?float $acc, ?float $bat, ?int $sat, ?string $useragent, ?float $speed, ?float $bearing,
@@ -1070,7 +1105,7 @@ class LogController extends Controller {
 
 				if ($dbdevid !== null) {
 					$sqlchk = '
-						SELECT MAX(id) as maxid
+						SELECT MAX(id) AS maxid
 						FROM *PREFIX*phonetrack_points
 						WHERE deviceid=' . $this->db_quote_escape_string($dbdevid) . '
 							  AND lat=' . $this->db_quote_escape_string($lat) . '
@@ -1103,7 +1138,7 @@ class LogController extends Controller {
 			[
 				'done' => $done,
 				'pointid' => $dbid,
-				'deviceid' => $dbdevid
+				'deviceid' => $dbdevid,
 			]
 		);
 		$csp = new ContentSecurityPolicy();
@@ -1143,9 +1178,9 @@ class LogController extends Controller {
 	): array {
 		$result = ['done' => 0, 'friends' => []];
 		// TODO insert speed and bearing in m/s and degrees
-		if ($devicename !== '' &&
-			$token !== '' &&
-			(!is_null($timestamp) || !is_null($datetime))
+		if ($devicename !== ''
+			&& $token !== ''
+			&& (!is_null($timestamp) || !is_null($datetime))
 		) {
 			// check if session exists
 			$sqlCheck = '
@@ -1285,10 +1320,10 @@ class LogController extends Controller {
 							$sql = '
 								INSERT INTO *PREFIX*phonetrack_devices
 								(name, sessionid)
-								VALUES (' .
-									$this->db_quote_escape_string($devicename) . ',' .
-									$this->db_quote_escape_string($token) .
-								') ;';
+								VALUES ('
+									. $this->db_quote_escape_string($devicename) . ','
+									. $this->db_quote_escape_string($token)
+								. ') ;';
 							$req = $this->db->prepare($sql);
 							$req->execute();
 
@@ -1362,18 +1397,18 @@ class LogController extends Controller {
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_points
 						(deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
-						VALUES (' .
-							$this->db_quote_escape_string($deviceIdToInsert) . ',' .
-							$lat . ',' .
-							$lon . ',' .
-							$time . ',' .
-							$acc . ',' .
-							$sat . ',' .
-							$alt . ',' .
-							$bat . ',' .
-							$this->db_quote_escape_string($useragent) . ',' .
-							$speed . ',' .
-							$bearing . '
+						VALUES ('
+							. $this->db_quote_escape_string($deviceIdToInsert) . ','
+							. $lat . ','
+							. $lon . ','
+							. $time . ','
+							. $acc . ','
+							. $sat . ','
+							. $alt . ','
+							. $bat . ','
+							. $this->db_quote_escape_string($useragent) . ','
+							. $speed . ','
+							. $bearing . '
 						) ;';
 					$req = $this->db->prepare($sql);
 					$req->execute();
@@ -1403,7 +1438,7 @@ class LogController extends Controller {
 							// we don't store the tid, so we fall back to the last
 							// two chars of the nametoken
 							// TODO feels far from unique, currently 32 ids max
-							$tid = substr($row['nametoken'], -2);
+							$tid = substr($row['nametoken'] ?? 'ab', -2);
 							$location = [
 								'_type' => 'location',
 
@@ -1609,10 +1644,10 @@ class LogController extends Controller {
 							$sql = '
 								INSERT INTO *PREFIX*phonetrack_devices
 								(name, sessionid)
-								VALUES (' .
-									$this->db_quote_escape_string($devicename) . ',' .
-									$this->db_quote_escape_string($token) .
-								') ;';
+								VALUES ('
+									. $this->db_quote_escape_string($devicename) . ','
+									. $this->db_quote_escape_string($token)
+								. ') ;';
 							$req = $this->db->prepare($sql);
 							$req->execute();
 
@@ -1684,18 +1719,18 @@ class LogController extends Controller {
 							$speed = is_numeric($speed) ? $this->db_quote_escape_string(number_format((float)$speed, 3, '.', '')) : 'NULL';
 							$bearing = is_numeric($bearing) ? $this->db_quote_escape_string(number_format((float)$bearing, 2, '.', '')) : 'NULL';
 
-							$value = '(' .
-									  $this->db_quote_escape_string($deviceIdToInsert) . ',' .
-									  $lat . ',' .
-									  $lon . ',' .
-									  $time . ',' .
-									  $acc . ',' .
-									  $sat . ',' .
-									  $alt . ',' .
-									  $bat . ',' .
-									  $this->db_quote_escape_string($useragent) . ',' .
-									  $speed . ',' .
-									  $bearing . '
+							$value = '('
+									  . $this->db_quote_escape_string($deviceIdToInsert) . ','
+									  . $lat . ','
+									  . $lon . ','
+									  . $time . ','
+									  . $acc . ','
+									  . $sat . ','
+									  . $alt . ','
+									  . $bat . ','
+									  . $this->db_quote_escape_string($useragent) . ','
+									  . $speed . ','
+									  . $bearing . '
 							  )';
 							$valuesToInsert[] = $value;
 							$nbToInsert++;
