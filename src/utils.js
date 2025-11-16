@@ -1,8 +1,67 @@
 import { DEVICE_SORT_ORDER } from './constants.js'
 
+import ElevationRiseIcon from 'vue-material-design-icons/ElevationRise.vue'
+import CircleDoubleIcon from 'vue-material-design-icons/CircleDouble.vue'
+import SpeedometerIcon from 'vue-material-design-icons/Speedometer.vue'
+import CompassOutlineIcon from 'vue-material-design-icons/CompassOutline.vue'
+import Battery50Icon from 'vue-material-design-icons/Battery50.vue'
+
 export const METERSTOMILES = 0.0006213711
 export const METERSTOFOOT = 3.28084
 export const METERSTONAUTICALMILES = 0.000539957
+
+export const floatFields = [
+	{
+		key: 'altitude',
+		label: t('phonetrack', 'Altitude'),
+		labelUnit: (unit) => getAltitudeUnitLabel(unit),
+		iconComponent: ElevationRiseIcon,
+		min: -200,
+		step: 0.01,
+		max: 9000,
+		formatter: (value, unit) => metersToElevationNoUnit(value, unit),
+		parser: (value, unit) => elevationToMeters(value, unit),
+	},
+	{
+		key: 'accuracy',
+		label: t('phonetrack', 'Precision'),
+		labelUnit: (unit) => getAltitudeUnitLabel(unit),
+		iconComponent: CircleDoubleIcon,
+		min: 0,
+		step: 0.01,
+		max: undefined,
+		formatter: (value, unit) => metersToElevationNoUnit(value, unit),
+		parser: (value, unit) => elevationToMeters(value, unit),
+	},
+	{
+		// TODO show point coordinates in 2 formats like in old UI
+		key: 'speed',
+		label: t('phonetrack', 'Speed'),
+		labelUnit: (unit) => getSpeedUnitLabel(unit),
+		iconComponent: SpeedometerIcon,
+		min: 0,
+		step: 0.01,
+		max: 1000,
+		formatter: (value, unit) => kmphToSpeedNoUnit(value * 3.6, unit),
+		parser: (value, unit) => speedToMps(value, unit),
+	},
+	{
+		key: 'bearing',
+		label: t('phonetrack', 'Bearing') + ' (°)',
+		iconComponent: CompassOutlineIcon,
+		min: 0,
+		step: 0.01,
+		max: 360,
+	},
+	{
+		key: 'batterylevel',
+		label: t('phonetrack', 'Battery level') + ' (%)',
+		iconComponent: Battery50Icon,
+		min: 0,
+		step: 0.01,
+		max: 100,
+	},
+]
 
 export function basename(str) {
 	let base = String(str).substring(str.lastIndexOf('/') + 1)

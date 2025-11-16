@@ -34,6 +34,9 @@
 		<template #list>
 			<NewSessionModal v-if="showCreationModal"
 				@close="showCreationModal = false" />
+			<FiltersModal v-if="showFilters"
+				:settings="settings"
+				@close="showFilters = false" />
 			<NavigationCountdownItem
 				:loading-device-points="loadingDevicePoints"
 				:settings="settings" />
@@ -49,12 +52,17 @@
 			<div id="app-settings">
 				<div id="app-settings-header">
 					<NcAppNavigationItem
+						:name="t('phonetrack', 'Filters')"
+						@click="showFilters = true">
+						<template #icon>
+							<FilterIcon :size="20" />
+						</template>
+					</NcAppNavigationItem>
+					<NcAppNavigationItem
 						:name="t('phonetrack', 'PhoneTrack settings')"
 						@click="showSettings">
 						<template #icon>
-							<CogIcon
-								class="icon"
-								:size="20" />
+							<CogIcon :size="20" />
 						</template>
 					</NcAppNavigationItem>
 				</div>
@@ -67,6 +75,7 @@
 import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CogIcon from 'vue-material-design-icons/Cog.vue'
+import FilterIcon from 'vue-material-design-icons/Filter.vue'
 
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -77,6 +86,7 @@ import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSear
 import NavigationSessionItem from './NavigationSessionItem.vue'
 import NewSessionModal from './NewSessionModal.vue'
 import NavigationCountdownItem from './NavigationCountdownItem.vue'
+import FiltersModal from './FiltersModal.vue'
 
 import { getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
@@ -86,6 +96,7 @@ export default {
 	name: 'Navigation',
 
 	components: {
+		FiltersModal,
 		NavigationCountdownItem,
 		NavigationSessionItem,
 		NewSessionModal,
@@ -97,6 +108,7 @@ export default {
 		PlusIcon,
 		CogIcon,
 		FolderPlusIcon,
+		FilterIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -130,6 +142,7 @@ export default {
 			lastBrowsePath: null,
 			sessionFilterQuery: '',
 			showCreationModal: false,
+			showFilters: false,
 		}
 	},
 
