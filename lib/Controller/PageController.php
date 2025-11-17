@@ -94,6 +94,14 @@ class PageController extends Controller {
 			? (int)$settings['refresh_duration']
 			: 125;
 
+		if (isset($settings['timestampmin']) && $settings['timestampmin'] !== '') {
+			$settings['timestampmin'] = (int)$settings['timestampmin'];
+		}
+
+		if (isset($settings['timestampmax']) && $settings['timestampmax'] !== '') {
+			$settings['timestampmax'] = (int)$settings['timestampmax'];
+		}
+
 		$sessions = $this->sessionService->getSessions2($this->userId);
 		$sessionsById = [];
 		foreach ($sessions as $session) {

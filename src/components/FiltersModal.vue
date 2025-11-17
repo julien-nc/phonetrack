@@ -12,6 +12,18 @@
 						{{ t('phonetrack', 'Enable filters') }}
 					</div>
 				</NcFormBoxSwitch>
+				<NcDateTimePickerNative
+					v-model="filters.timestampmin"
+					class="datetime-picker"
+					type="datetime-local"
+					:label="t('phonetrack', 'Minimum date')"
+					@change="onUpdateDate($event, 'min')" />
+				<NcDateTimePickerNative
+					v-model="filters.timestampmax"
+					class="datetime-picker"
+					type="datetime-local"
+					:label="t('phonetrack', 'Maximum date')"
+					@change="onUpdateDate($event, 'max')" />
 				<div v-for="f in floatFields"
 					:key="f.key"
 					class="field-group">
@@ -100,8 +112,10 @@ import NcModal from '@nextcloud/vue/components/NcModal'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
+import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 
 import { emit } from '@nextcloud/event-bus'
+import moment from '@nextcloud/moment'
 
 import { floatFields } from '../utils.js'
 
@@ -112,6 +126,7 @@ export default {
 		NcInputField,
 		NcFormBox,
 		NcFormBoxSwitch,
+		NcDateTimePickerNative,
 		CloseIcon,
 		FilterIcon,
 		SatelliteVariantIcon,
@@ -144,26 +159,28 @@ export default {
 	methods: {
 		getFloatFiltersFromSettings() {
 			return {
+				timestampmin: this.settings.timestampmin ? moment.unix(this.settings.timestampmin).toDate() : null,
+				timestampmax: this.settings.timestampmax ? moment.unix(this.settings.timestampmax).toDate() : null,
 				...['satellites'].reduce((acc, key) => {
-						acc[key + 'min'] = this.settings[key + 'min']
-							? parseInt(this.settings[key + 'min'])
-							: ''
-						acc[key + 'max'] = this.settings[key + 'max']
-							? parseInt(this.settings[key + 'max'])
-							: ''
+					acc[key + 'min'] = this.settings[key + 'min']
+						? parseInt(this.settings[key + 'min'])
+						: ''
+					acc[key + 'max'] = this.settings[key + 'max']
+						? parseInt(this.settings[key + 'max'])
+						: ''
 					return acc
 				}, {}),
 				...floatFields.reduce((acc, f) => {
 					acc[f.key + 'min'] = f.formatter && this.settings[f.key + 'min']
-							? parseFloat(f.formatter(this.settings[f.key + 'min'], this.settings.distance_unit ?? 'metric'))
-							: this.settings[f.key + 'min']
-								? parseFloat(this.settings[f.key + 'min'])
-								: ''
+						? parseFloat(f.formatter(this.settings[f.key + 'min'], this.settings.distance_unit ?? 'metric'))
+						: this.settings[f.key + 'min']
+							? parseFloat(this.settings[f.key + 'min'])
+							: ''
 					acc[f.key + 'max'] = f.formatter && this.settings[f.key + 'max']
-							? parseFloat(f.formatter(this.settings[f.key + 'max'], this.settings.distance_unit ?? 'metric'))
-							: this.settings[f.key + 'max']
-								? parseFloat(this.settings[f.key + 'max'])
-								: ''
+						? parseFloat(f.formatter(this.settings[f.key + 'max'], this.settings.distance_unit ?? 'metric'))
+						: this.settings[f.key + 'max']
+							? parseFloat(this.settings[f.key + 'max'])
+							: ''
 					return acc
 				}, {}),
 			}
@@ -192,6 +209,14 @@ export default {
 		},
 		onCheckboxChanged(value, key) {
 			emit('save-settings', { [key]: value ? 'true' : 'false' })
+		},
+		onUpdateDate(value, minMax) {
+			console.debug('onUpdateDate', value, this.filters.timestampmin)
+			const key = 'timestamp' + minMax
+			const savedValue = this.filters[key]
+				? moment(this.filters[key]).unix()
+				: ''
+			emit('save-settings', { [key]: savedValue })
 		},
 	},
 }
