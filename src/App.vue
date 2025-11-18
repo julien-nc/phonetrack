@@ -52,7 +52,7 @@
 							:layer-id="'device-' + d.id"
 							:line-width="parseFloat(state.settings.line_width)"
 							:color="d.color ?? undefined"
-							:border-color="'white'"
+							:border-color="deviceBorderColor"
 							:border="state.settings.line_border === '1'"
 							:arrows="state.settings.direction_arrows === '1'"
 							:arrows-spacing="parseFloat(state.settings.arrows_spacing)"
@@ -238,6 +238,11 @@ export default {
 				return this.state.sessions[sessionId].devices[deviceId].points.find(p => p.id === pointId)
 			}
 			return null
+		},
+		deviceBorderColor() {
+			return ['satellite', 'dark'].includes(this.state.settings.mapStyle)
+				? 'white'
+				: 'black'
 		},
 	},
 

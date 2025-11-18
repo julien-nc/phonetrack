@@ -28,20 +28,23 @@ export default {
 			}
 		},
 		color(newVal) {
-			this.removeLastPointMarker()
-			this.addLastPointMarker()
+			this.updateStyle()
+		},
+		borderColor(newVal) {
+			this.updateStyle()
 		},
 		deviceGeojsonData() {
 			this.removeLastPointMarker()
 			this.addLastPointMarker()
 		},
 		lineWidth() {
-			this.removeLastPointMarker()
-			this.addLastPointMarker()
+			this.updateStyle()
 		},
 		border() {
-			this.removeLastPointMarker()
-			this.addLastPointMarker()
+			this.updateStyle()
+		},
+		opacity() {
+			this.updateStyle()
 		},
 	},
 
@@ -135,13 +138,13 @@ export default {
 			}
 			const el = document.createElement('div')
 			const markerDiameter = 3 * this.lineWidth
-			const borderWidth = 0.1 * markerDiameter
 			el.className = 'marker'
 			el.style.backgroundColor = this.device.color
 			el.style.width = markerDiameter + 'px'
 			el.style.height = markerDiameter + 'px'
 			el.style.borderRadius = '50%'
 			if (this.border) {
+				const borderWidth = 0.1 * markerDiameter
 				el.style.border = borderWidth + 'px solid ' + this.borderColor
 			}
 			el.style.cursor = 'pointer'
@@ -156,6 +159,7 @@ export default {
 
 			const marker = new Marker({ draggable: this.draggablePoints, anchor: 'center', element: el })
 				.setLngLat([point.lon, point.lat])
+				.setOpacity(this.opacity)
 				.addTo(this.map)
 			if (isLastPointMarker) {
 				this.lastPointMarker = marker
@@ -254,7 +258,7 @@ export default {
 			return popup
 		},
 		getPopupHtml(point, persist, traveledDistance) {
-			const containerClass = persist ? 'class="with-button"' : ''
+			const containerClass = persist ? 'class="popup-content with-button"' : 'class="popup-content"'
 			const dataHtml = (point.timestamp === null && point.altitude === null)
 				? t('phonetrack', 'No data')
 				: (point.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
@@ -299,6 +303,36 @@ export default {
 				p.remove()
 			})
 			this.popups = {}
+		},
+		updateStyle() {
+			const markersToUpdate = []
+			if (this.nonPersistentMarker) {
+				markersToUpdate.push(this.nonPersistentMarker)
+			}
+			if (this.lastPointMarker) {
+				markersToUpdate.push(this.lastPointMarker)
+			}
+			markersToUpdate.forEach(marker => {
+				const el = marker.getElement()
+				el.style.backgroundColor = this.device.color
+				const markerDiameter = 3 * this.lineWidth
+				el.style.width = markerDiameter + 'px'
+				el.style.height = markerDiameter + 'px'
+				if (this.border) {
+					const borderWidth = 0.1 * markerDiameter
+					el.style.border = borderWidth + 'px solid ' + this.borderColor
+				} else {
+					el.style.border = ''
+				}
+				marker.setOpacity(this.opacity)
+				// only useful for last point
+				el.style.lineHeight = (markerDiameter * 0.78) + 'px'
+				el.style.fontSize = (markerDiameter * 0.7) + 'px'
+				el.style.color = isColorDark(this.device.color) ? 'white' : 'black'
+			})
+			Object.values(this.popups).forEach(popup => {
+				popup.getElement().querySelector('.popup-content').style['border-color'] = this.device.color;
+			})
 		},
 		removeTemporaryMarker() {
 			if (this.nonPersistentMarker) {
