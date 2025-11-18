@@ -1,5 +1,6 @@
 # PhoneTrack Nextcloud application
 
+[![phpunit-mysql](https://github.com/julien-nc/phonetrack/actions/workflows/phpunit-mysql.yml/badge.svg?branch=main)](https://github.com/julien-nc/phonetrack/actions/workflows/phpunit-mysql.yml)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/phonetrack/localized.svg)](https://crowdin.com/project/phonetrack)
 
 Link to Nextcloud application website : https://apps.nextcloud.com/apps/phonetrack
@@ -41,18 +42,17 @@ On PhoneTrack main page, while watching a session, you can :
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
 
-This app is tested on Nextcloud 15/16 with Firefox 57+ and Chromium.
-
 This app is compatible with theming colors and accessibility themes !
 
 This app is under development.
 
-## Donation
+## Donate
 
 I develop this app during my free time.
+If you'd like to support the creation and maintenance of this software, consider donating.
 
-* [Paypal : <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" width="100"/>](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66PALMY8SF5JE) (you don't need a paypal account)
-* [Liberapay : ![Donate using Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/eneiluj/donate)
+| [<img src="https://img.shields.io/badge/paypal-donate-blue.svg?logo=paypal&style=for-the-badge">](https://www.paypal.me/JulienVeyssier) | [<img src="https://img.shields.io/liberapay/receives/eneiluj.svg?logo=liberapay&style=for-the-badge">](https://liberapay.com/eneiluj/donate) | [<img src="https://img.shields.io/badge/github-sponsors-violet.svg?logo=github&style=for-the-badge">](https://github.com/sponsors/julien-nc) |
+| :---: |:---:|:---:|
 
 ## Install
 
