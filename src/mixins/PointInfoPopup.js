@@ -331,7 +331,7 @@ export default {
 				el.style.color = isColorDark(this.device.color) ? 'white' : 'black'
 			})
 			Object.values(this.popups).forEach(popup => {
-				popup.getElement().querySelector('.popup-content').style['border-color'] = this.device.color;
+				popup.getElement().querySelector('.popup-content').style['border-color'] = this.device.color
 			})
 		},
 		removeTemporaryMarker() {
