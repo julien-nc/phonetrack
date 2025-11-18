@@ -555,7 +555,7 @@ export default {
 			const { id: _, ...pointValues } = point
 			device.points.splice(index, 1)
 			showUndo(
-				t('phonetrack', 'Point has been deleted'),
+				t('phonetrack', 'The point has been deleted'),
 				(e) => {
 					this.addPoint(sessionId, deviceId, pointValues, false)
 				},
@@ -604,7 +604,7 @@ export default {
 			this.updatePoint({ sessionId, deviceId, pointId, values })
 				.then(() => {
 					showUndo(
-						t('phonetrack', 'Point has been saved'),
+						t('phonetrack', 'The point has been saved'),
 						(e) => {
 							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
 						},
@@ -654,7 +654,7 @@ export default {
 			this.updatePoint({ sessionId, deviceId, pointId, values })
 				.then(() => {
 					showUndo(
-						t('phonetrack', 'Point has been moved'),
+						t('phonetrack', 'The point has been moved'),
 						(e) => {
 							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
 						},

@@ -120,8 +120,7 @@ export default {
 		},
 		deviceGeojsonData() {
 			console.debug('[phonetrack] deviceGeojsonData has changed')
-			this.remove()
-			this.init()
+			this.map.getSource(this.layerId)?.setData(this.deviceGeojsonData)
 		},
 		border(newVal) {
 			if (newVal) {
