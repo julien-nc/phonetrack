@@ -64,14 +64,12 @@ class PointMapper extends QBMapper {
 	 * @param int $deviceId
 	 * @param int|null $minTimestamp
 	 * @param int|null $maxTimestamp
-	 * @param string $sortOrder
 	 * @param int $maxPoints
 	 * @return array
 	 * @throws Exception
 	 */
 	public function getDevicePoints(
-		int $deviceId, ?int $minTimestamp = null, ?int $maxTimestamp = null,
-		int $maxPoints = 1000, string $sortOrder = 'ASC',
+		int $deviceId, ?int $minTimestamp = null, ?int $maxTimestamp = null, int $maxPoints = 1000,
 	): array {
 		$qb = $this->db->getQueryBuilder();
 
@@ -90,10 +88,12 @@ class PointMapper extends QBMapper {
 				$qb->expr()->lt('timestamp', $qb->createNamedParameter($maxTimestamp, IQueryBuilder::PARAM_INT))
 			);
 		}
-		$qb->orderBy('timestamp', $sortOrder);
+		// sort order is DESC to make sure we get the most recent points with the limit (maxPoints),
+		// we reverse the order anyway
+		$qb->orderBy('timestamp', 'DESC');
 		$qb->setMaxResults($maxPoints);
 
-		return $this->findEntities($qb);
+		return array_reverse($this->findEntities($qb));
 	}
 
 	/**

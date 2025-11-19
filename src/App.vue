@@ -522,17 +522,16 @@ export default {
 		},
 		onUpdateSession(data) {
 			this.updateSession(data.sessionId, data.values).then(() => {
-				this.state.sessions[data.sessionId] = {
-					...this.state.sessions[data.sessionId],
-					...data.values,
-				}
+				const session = this.state.sessions[data.sessionId]
+				Object.assign(session, data.values)
 			})
 		},
 		onUpdateDevice(data) {
 			this.updateDevice(data.sessionId, data.deviceId, data.values).then(() => {
-				this.state.sessions[data.sessionId].devices[data.deviceId] = {
-					...this.state.sessions[data.sessionId].devices[data.deviceId],
-					...data.values,
+				const device = this.state.sessions[data.sessionId].devices[data.deviceId]
+				Object.assign(device, data.values)
+				if ([true, false].includes(data.values.lineEnabled)) {
+					this.loadDevice(data.sessionId, data.deviceId)
 				}
 			})
 		},
@@ -963,12 +962,14 @@ export default {
 		},
 		loadDevice(sessionId, deviceId) {
 			const device = this.state.sessions[sessionId].devices[deviceId]
+			// if we have points, just get more of'em
 			if (device.points.length > 0) {
 				return this.getMoreDevicePoints(sessionId, deviceId)
 			}
+			// first load: get the last points
 			const reqParams = {
 				params: {
-					maxPoints: 1000,
+					maxPoints: device.lineEnabled ? 1000 : 1,
 					// minTimestamp: ,
 					// maxTimestamp: ,
 				},
@@ -993,7 +994,7 @@ export default {
 			const lastPoint = device.points[device.points.length - 1]
 			const reqParams = {
 				params: {
-					maxPoints: 1000,
+					maxPoints: device.lineEnabled ? 1000 : 1,
 					minTimestamp: lastPoint.timestamp,
 					maxTimestamp: firstPoint.timestamp,
 					combine: true,
