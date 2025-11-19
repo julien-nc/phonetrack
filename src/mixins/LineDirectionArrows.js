@@ -2,28 +2,41 @@ export default {
 	watch: {
 		ready(newVal) {
 			if (newVal) {
-				if (this.arrows) {
+				if (this.device.lineEnabled && this.arrows) {
 					this.drawArrows()
 				}
 			}
 		},
 		arrowsScaleFactor() {
-			if (this.arrows) {
+			if (this.device.lineEnabled && this.arrows) {
 				this.removeArrows()
 				this.drawArrows()
 			}
 		},
 		arrowsSpacing() {
-			if (this.arrows) {
+			if (this.device.lineEnabled && this.arrows) {
 				this.removeArrows()
 				this.drawArrows()
 			}
 		},
 		arrows(newVal) {
-			if (newVal) {
-				this.drawArrows()
+			if (this.device.lineEnabled) {
+				if (newVal) {
+					this.drawArrows()
+				} else {
+					this.removeArrows()
+				}
+			}
+		},
+		'device.lineEnabled'(newValue) {
+			if (newValue) {
+				if (this.arrows) {
+					this.drawArrows()
+				}
 			} else {
-				this.removeArrows()
+				if (this.arrows) {
+					this.removeArrows()
+				}
 			}
 		},
 	},

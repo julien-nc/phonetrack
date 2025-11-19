@@ -142,6 +142,17 @@ export default {
 		lineWidth() {
 			this.setNormalLineWidth()
 		},
+		'device.lineEnabled'(newValue) {
+			if (newValue) {
+				this.drawLines()
+				if (this.arrows) {
+					// cannot be done in the mixin as it will happen before so arrows will be behind the line
+					this.bringArrowsToTop()
+				}
+			} else {
+				this.removeLines()
+			}
+		},
 	},
 
 	mounted() {
@@ -163,8 +174,10 @@ export default {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.moveLayer(this.layerId)
 			}
-			// cannot be done in the mixin as it will happen before so arrows will be behind the line
-			this.bringArrowsToTop()
+			if (this.arrows) {
+				// cannot be done in the mixin as it will happen before so arrows will be behind the line
+				this.bringArrowsToTop()
+			}
 		},
 		setNormalLineWidth() {
 			if (this.map.getLayer(this.layerId)) {
@@ -176,13 +189,15 @@ export default {
 			}
 		},
 		remove() {
-			this.removeInvisibleBorder()
-			this.removeBorder()
-			this.removeLine()
-			this.removeArrows()
+			this.removeLines()
 			if (this.map.getSource(this.layerId)) {
 				this.map.removeSource(this.layerId)
 			}
+		},
+		removeLines() {
+			this.removeInvisibleBorder()
+			this.removeBorder()
+			this.removeLine()
 		},
 		removeLine() {
 			if (this.map.getLayer(this.layerId)) {
@@ -232,7 +247,7 @@ export default {
 				filter: ['!=', '$type', 'Point'],
 			})
 		},
-		drawLine() {
+		drawMainLine() {
 			this.map.addLayer({
 				type: 'line',
 				source: this.layerId,
@@ -250,17 +265,22 @@ export default {
 				filter: ['!=', '$type', 'Point'],
 			})
 		},
+		drawLines() {
+			this.drawInvisibleBorder()
+			if (this.border) {
+				this.drawBorder()
+			}
+			this.drawMainLine()
+		},
 		init() {
 			this.map.addSource(this.layerId, {
 				type: 'geojson',
 				lineMetrics: true,
 				data: this.deviceGeojsonData,
 			})
-			this.drawInvisibleBorder()
-			if (this.border) {
-				this.drawBorder()
+			if (this.device.lineEnabled) {
+				this.drawLines()
 			}
-			this.drawLine()
 
 			this.ready = true
 		},

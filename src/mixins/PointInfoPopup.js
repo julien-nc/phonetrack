@@ -46,6 +46,10 @@ export default {
 		opacity() {
 			this.updateStyle()
 		},
+		'device.lineEnabled'(newValue) {
+			this.clearPopups()
+			this.removeTemporaryMarker()
+		},
 	},
 
 	mounted() {
