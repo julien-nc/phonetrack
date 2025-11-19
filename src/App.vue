@@ -507,8 +507,7 @@ export default {
 			}
 		},
 		onEnableSession(sessionId) {
-			// TODO
-			// this.loadSession(sessionId, true)
+			this.loadSession(sessionId)
 			this.state.sessions[sessionId].enabled = true
 			if (!this.isPublicPage) {
 				this.updateSession(sessionId, { enabled: true })

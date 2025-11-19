@@ -96,7 +96,7 @@
 				:aria-label="t('phonetrack', 'Delete proxim')"
 				@click="onDelete">
 				<template #icon>
-					<TrashCanOutlineIcon style="color: var(--color-text-error);" />
+					<TrashCanOutlineIcon :size="20" style="color: var(--color-text-error);" />
 				</template>
 				{{ t('phonetrack', 'Delete') }}
 			</NcButton>
@@ -105,7 +105,7 @@
 				:aria-label="t('phonetrack', 'Cancel edition')"
 				@click="onCancel">
 				<template #icon>
-					<UndoIcon />
+					<UndoIcon :size="20" />
 				</template>
 				{{ t('phonetrack', 'Cancel') }}
 			</NcButton>
@@ -115,7 +115,7 @@
 				:disabled="!valid"
 				@click="onSave">
 				<template #icon>
-					<CheckIcon />
+					<CheckIcon :size="20" />
 				</template>
 				{{ t('phonetrack', 'Save') }}
 			</NcButton>
@@ -123,7 +123,7 @@
 				:aria-label="t('phonetrack', 'Edit proximity alert')"
 				@click="onEdit">
 				<template #icon>
-					<PencilOutlineIcon />
+					<PencilOutlineIcon :size="20" />
 				</template>
 				{{ t('phonetrack', 'Edit') }}
 			</NcButton>

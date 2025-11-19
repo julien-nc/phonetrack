@@ -358,6 +358,15 @@ export default {
 			}
 		},
 		getDeviceBounds(device) {
+			if (!device.lineEnabled) {
+				const lastPoint = device.points[device.points.length - 1]
+				return {
+					north: lastPoint.lat,
+					south: lastPoint.lat,
+					east: lastPoint.lon,
+					west: lastPoint.lon,
+				}
+			}
 			const lats = device.points.map(p => p.lat)
 			const lons = device.points.map(p => p.lon)
 			return {

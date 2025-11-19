@@ -41,7 +41,7 @@
 						@enable="onCheckboxChanged(true, 'line_border')"
 						@disable="onCheckboxChanged(false, 'line_border')">
 						<div class="checkbox-inner">
-							<MinusIcon :size="20" class="inline-icon" />
+							<MathNormIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Draw line borders') }}
 						</div>
 					</NcFormBoxSwitch>
@@ -289,7 +289,7 @@
 <script>
 import ArrowSplitVerticalIcon from 'vue-material-design-icons/ArrowSplitVertical.vue'
 import OpacityIcon from 'vue-material-design-icons/Opacity.vue'
-import MinusIcon from 'vue-material-design-icons/Minus.vue'
+import MathNormIcon from 'vue-material-design-icons/MathNorm.vue'
 import ArrowRightIcon from 'vue-material-design-icons/ArrowRight.vue'
 import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
 import ViewCompactOutlineIcon from 'vue-material-design-icons/ViewCompactOutline.vue'
@@ -345,7 +345,7 @@ export default {
 		CursorDefaultClickOutlineIcon,
 		ChartAreasplineVariantIcon,
 		ViewCompactOutlineIcon,
-		MinusIcon,
+		MathNormIcon,
 		ArrowRightIcon,
 		CursorMoveIcon,
 		OpacityIcon,

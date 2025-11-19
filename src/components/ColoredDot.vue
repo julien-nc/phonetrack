@@ -1,9 +1,13 @@
 <template>
 	<div class="dot"
-		:style="cssVars" />
+		:style="cssVars">
+		{{ letter }}
+	</div>
 </template>
 
 <script>
+import { isColorDark } from '../utils.js'
+
 export default {
 	name: 'ColoredDot',
 
@@ -19,6 +23,14 @@ export default {
 			type: Number,
 			default: 10,
 		},
+		border: {
+			type: Boolean,
+			default: false,
+		},
+		letter: {
+			type: String,
+			default: '',
+		},
 	},
 
 	data() {
@@ -28,10 +40,18 @@ export default {
 
 	computed: {
 		cssVars() {
+			let borderWidth = this.size / 12
+			if (borderWidth < 1) {
+				borderWidth = 1
+			}
 			return {
 				'--dot-bg-color': this.color === 'gradient' ? 'unset' : this.color,
 				'--dot-bg-gradient': this.color === 'gradient' ? 'linear-gradient(to right, blue, green, orange, red)' : 'unset',
 				'--dot-size': this.size + 'px',
+				'--dot-border': this.border ? borderWidth + 'px solid black' : 'none',
+				'--dot-line-height': (this.size * 0.78) + 'px',
+				'--dot-font-size': (this.size * 0.7) + 'px',
+				'--dot-text-color': isColorDark(this.color) ? 'white' : 'black',
 			}
 		},
 	},
@@ -51,5 +71,12 @@ export default {
 	width: var(--dot-size);
 	height: var(--dot-size);
 	border-radius: 100%;
+	border: var(--dot-border);
+
+	font-weight: bold;
+	text-align: center;
+	line-height: var(--dot-line-height);
+	font-size: var(--dot-font-size);
+	color: var(--dot-text-color);
 }
 </style>

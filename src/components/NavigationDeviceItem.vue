@@ -21,8 +21,9 @@
 					<ColoredDot
 						v-bind="attrs"
 						ref="colorDot"
-						class="color-dot"
 						:color="dotColor"
+						:border="true"
+						:letter="device.name[0]"
 						:size="24" />
 				</template>
 			</NcColorPicker>
@@ -51,6 +52,7 @@
 				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
+					:disabled="!device.enabled"
 					@click="onZoomClick">
 					<template #icon>
 						<MagnifyExpandIcon :size="20" />
@@ -206,9 +208,27 @@ export default {
 			this.menuOpen = isOpen
 		},
 		onZoomClick() {
-			emit('zoom-on-bounds', this.getDeviceBounds())
+			if (!this.device.enabled) {
+				return
+			}
+			const bounds = this.getDeviceBounds()
+			if (bounds !== null) {
+				emit('zoom-on-bounds', bounds)
+			}
 		},
 		getDeviceBounds() {
+			if (this.device.points.length === 0) {
+				return null
+			}
+			if (!this.device.lineEnabled) {
+				const lastPoint = this.device.points[this.device.points.length - 1]
+				return {
+					north: lastPoint.lat,
+					south: lastPoint.lat,
+					east: lastPoint.lon,
+					west: lastPoint.lon,
+				}
+			}
 			const lats = this.device.points.map(p => p.lat)
 			const lons = this.device.points.map(p => p.lon)
 			return {
