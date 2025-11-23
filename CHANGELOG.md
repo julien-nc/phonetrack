@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Support for geofence and proximity POST requests with data inside query
+- Two new variables for geofence HTTP requests: %lat and %lon
+
+### Changed
+
+- Port away from deprecated IQueryBuilder::execute
+
+### Fixed
+
+- Replace %loc for leave POST requests as well
+- Port number no longer gets stripped from POST requests
+
 ## 0.9.1 – 2025-08-24
 
 ### Changed
