@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2025-10-28 00:05\n"
+"PO-Revision-Date: 2025-11-23 12:52\n"
 "Last-Translator: \n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
@@ -154,7 +154,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid "Phonetrack"
-msgstr ""
+msgstr "Phonetrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:4
 msgid " "
@@ -162,28 +162,28 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/admin.js:19
 msgid "Quota was successfully saved"
-msgstr ""
+msgstr "Kvoodi salvestamine õnnestus"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/admin.js:25
 msgid "Failed to save quota"
-msgstr ""
+msgstr "Kvoodi salvestamine ei õnnestunud"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:497
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:104
 msgid "Show lines"
-msgstr ""
+msgstr "Näita jooni"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:505
 msgid "Hide lines"
-msgstr ""
+msgstr "Peida jooned"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:525
 msgid "Activate automatic zoom"
-msgstr ""
+msgstr "Lülita automaatne suum sisse"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:533
 msgid "Disable automatic zoom"
-msgstr ""
+msgstr "Lülita automaatne suum välja"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:553
 msgid "Show last point tooltip"
@@ -208,11 +208,11 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:845
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:854
 msgid "Impossible to add tile server"
-msgstr ""
+msgstr "Kaardipaanide serveri lisamine on võimatu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:851
 msgid "A server with this name already exists"
-msgstr ""
+msgstr "Selle nimega server juba on olemas"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:884
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3765
@@ -226,11 +226,11 @@ msgstr "Kustuta"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:928
 msgid "Tile server \"{ts}\" has been added"
-msgstr ""
+msgstr "Kaardipaanide server „{ts}“ on lisatud"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:930
 msgid "Failed to add tile server \"{ts}\""
-msgstr ""
+msgstr "Kaardipaanide serveri „{ts}“ lisamine ei õnnestunud"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:934
 msgid "Failed to contact server to add tile server"
@@ -258,7 +258,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5859
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5885
 msgid "Reload this page"
-msgstr ""
+msgstr "Laadi see leht uuesti"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1173
 msgid "Failed to contact server to save options values"
