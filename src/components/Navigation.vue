@@ -55,14 +55,22 @@
 						:name="t('phonetrack', 'Filters')"
 						@click="showFilters = true">
 						<template #icon>
-							<FilterIcon :size="20" />
+							<FilterOutlineIcon v-if="filterEnabled" :size="20" />
+							<FilterOffOutlineIcon v-else :size="20" />
+						</template>
+						<template #actions>
+							<NcActionCheckbox
+								:model-value="filterEnabled"
+								@update:model-value="onToggleFilter">
+								{{ t('phonetrack', 'Use filters') }}
+							</NcActionCheckbox>
 						</template>
 					</NcAppNavigationItem>
 					<NcAppNavigationItem
 						:name="t('phonetrack', 'PhoneTrack settings')"
 						@click="showSettings">
 						<template #icon>
-							<CogIcon :size="20" />
+							<CogOutlineIcon :size="20" />
 						</template>
 					</NcAppNavigationItem>
 				</div>
@@ -74,14 +82,16 @@
 <script>
 import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import CogIcon from 'vue-material-design-icons/Cog.vue'
-import FilterIcon from 'vue-material-design-icons/Filter.vue'
+import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
+import FilterOffOutlineIcon from 'vue-material-design-icons/FilterOffOutline.vue'
+import FilterOutlineIcon from 'vue-material-design-icons/FilterOutline.vue'
 
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 
 import NavigationSessionItem from './NavigationSessionItem.vue'
 import NewSessionModal from './NewSessionModal.vue'
@@ -105,10 +115,12 @@ export default {
 		NcActionButton,
 		NcAppNavigationSearch,
 		NcActions,
+		NcActionCheckbox,
 		PlusIcon,
-		CogIcon,
+		CogOutlineIcon,
 		FolderPlusIcon,
-		FilterIcon,
+		FilterOffOutlineIcon,
+		FilterOutlineIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -155,6 +167,9 @@ export default {
 				? this.sessionList.filter(s => basename(s.name).toLowerCase().includes(this.sessionFilterQuery.toLowerCase()))
 				: this.sessionList
 		},
+		filterEnabled() {
+			return this.settings.applyfilters === 'true'
+		},
 	},
 
 	watch: {
@@ -189,6 +204,10 @@ export default {
 					emit('import-session', path)
 					this.lastBrowsePath = dirname(path)
 				})
+		},
+		onToggleFilter(value) {
+			emit('save-settings', { applyfilters: value ? 'true' : 'false' })
+			emit('refresh-clicked')
 		},
 	},
 }

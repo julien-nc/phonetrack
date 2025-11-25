@@ -308,7 +308,7 @@ export default {
 		subscribe('create-proxim', this.onCreateProxim)
 		subscribe('save-proxim', this.onSaveProxim)
 		subscribe('delete-proxim', this.onDeleteProxim)
-		subscribe('refresh-clicked', this.onRefreshClicked)
+		subscribe('refresh-clicked', this.refreshAllDevicePoints)
 		emit('nav-toggled')
 	},
 
@@ -345,7 +345,7 @@ export default {
 		unsubscribe('create-proxim', this.onCreateProxim)
 		unsubscribe('save-proxim', this.onSaveProxim)
 		unsubscribe('delete-proxim', this.onDeleteProxim)
-		unsubscribe('refresh-clicked', this.onRefreshClicked)
+		unsubscribe('refresh-clicked', this.refreshAllDevicePoints)
 	},
 
 	methods: {
@@ -969,9 +969,20 @@ export default {
 			const reqParams = {
 				params: {
 					maxPoints: device.lineEnabled ? 1000 : 1,
-					// minTimestamp: ,
-					// maxTimestamp: ,
+					combine: false,
 				},
+			}
+			// take filters into account
+			// on first load it's easy, we wanna get everything between min and max filter timestamps
+			if (this.state.settings.applyfilters === 'true') {
+				if (this.state.settings.timestampmax) {
+					console.debug('[phonetrack] first device refresh, use max ts filter')
+					reqParams.params.maxTimestamp = parseInt(this.state.settings.timestampmax)
+				}
+				if (this.state.settings.timestampmin) {
+					console.debug('[phonetrack] first device refresh, use min ts filter')
+					reqParams.params.minTimestamp = parseInt(this.state.settings.timestampmin)
+				}
 			}
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
 				sessionId,
@@ -994,10 +1005,28 @@ export default {
 			const reqParams = {
 				params: {
 					maxPoints: device.lineEnabled ? 1000 : 1,
+					// we will always get the most recent points in priority
 					minTimestamp: lastPoint.timestamp,
 					maxTimestamp: firstPoint.timestamp,
 					combine: true,
 				},
+			}
+			// take filters into account
+			// if the filter max ts is lower, use it
+			// if the filter min ts is higher, use it
+			if (this.state.settings.applyfilters === 'true') {
+				if (this.state.settings.timestampmax && parseInt(this.state.settings.timestampmax) < firstPoint.timestamp) {
+					console.debug('[phonetrack] refresh: using filter max ts filter because it\'s lower than the first point one')
+					reqParams.params.maxTimestamp = parseInt(this.state.settings.timestampmax)
+					// reset point list to avoid having holes in the point history
+					device.points = []
+				}
+				if (this.state.settings.timestampmin && parseInt(this.state.settings.timestampmin) > lastPoint.timestamp) {
+					console.debug('[phonetrack] refresh: using filter min ts filter because it\'s higher than the last point one')
+					reqParams.params.minTimestamp = parseInt(this.state.settings.timestampmin)
+					// reset point list to avoid having holes in the point history
+					device.points = []
+				}
 			}
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
 				sessionId,
@@ -1018,7 +1047,7 @@ export default {
 					console.error('Failed to get device points', error)
 				})
 		},
-		onRefreshClicked() {
+		refreshAllDevicePoints() {
 			this.loadingDevicePoints = true
 			const loadingPromises = this.enabledDevices.map(device => this.loadDevice(device.session_id, device.id))
 			Promise.all(loadingPromises)

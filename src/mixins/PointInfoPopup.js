@@ -36,6 +36,9 @@ export default {
 		deviceGeojsonData() {
 			this.removeLastPointMarker()
 			this.addLastPointMarker()
+			this.removeTemporaryMarker()
+			// let's not clear persistent popups
+			// this.clearPopups()
 		},
 		lineWidth() {
 			this.updateStyle()

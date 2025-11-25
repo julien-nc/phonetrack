@@ -9,7 +9,7 @@
 					@update:model-value="onCheckboxChanged($event, 'applyfilters')">
 					<div class="checkbox-inner">
 						<FilterIcon :size="20" class="inline-icon" />
-						{{ t('phonetrack', 'Enable filters') }}
+						{{ t('phonetrack', 'Use filters') }}
 					</div>
 				</NcFormBoxSwitch>
 				<NcDateTimePickerNative
@@ -209,6 +209,9 @@ export default {
 		},
 		onCheckboxChanged(value, key) {
 			emit('save-settings', { [key]: value ? 'true' : 'false' })
+			if (key === 'applyfilters') {
+				emit('refresh-clicked')
+			}
 		},
 		onUpdateDate(value, minMax) {
 			console.debug('onUpdateDate', value, this.filters.timestampmin)
@@ -217,6 +220,7 @@ export default {
 				? moment(this.filters[key]).unix()
 				: ''
 			emit('save-settings', { [key]: savedValue })
+			emit('refresh-clicked')
 		},
 	},
 }

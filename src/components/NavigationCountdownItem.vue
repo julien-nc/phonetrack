@@ -65,6 +65,9 @@ export default {
 		'settings.refresh_duration'(newValue) {
 			this.updateCountdownDuration(newValue)
 		},
+		'settings.applyfilters'(newValue) {
+			this.updateCountdownDuration(this.settings?.refresh_duration ?? DEFAULT_DURATION)
+		},
 	},
 
 	methods: {
