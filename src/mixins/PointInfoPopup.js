@@ -72,14 +72,14 @@ export default {
 
 	methods: {
 		findPoint(lngLat) {
-			if (!this.device.points?.length) {
+			if (!this.filteredPoints?.length) {
 				return null
 			}
 			let minDist = 40000000
 			let minDistPoint = null
 			let minDistPointIndex = null
 			let tmpDist
-			this.device.points.forEach((point, i) => {
+			this.filteredPoints.forEach((point, i) => {
 				tmpDist = lngLat.distanceTo(new LngLat(point.lon, point.lat))
 				if (tmpDist < minDist) {
 					minDist = tmpDist
@@ -89,9 +89,9 @@ export default {
 			})
 			// compute traveled distance
 			let traveledDistance = 0
-			let prevLngLat = new LngLat(this.device.points[0].lon, this.device.points[0].lat)
+			let prevLngLat = new LngLat(this.filteredPoints[0].lon, this.filteredPoints[0].lat)
 			for (let i = 1; i <= minDistPointIndex; i++) {
-				const curLngLat = new LngLat(this.device.points[i].lon, this.device.points[i].lat)
+				const curLngLat = new LngLat(this.filteredPoints[i].lon, this.filteredPoints[i].lat)
 				traveledDistance += prevLngLat.distanceTo(curLngLat)
 				prevLngLat = curLngLat
 			}
@@ -100,7 +100,7 @@ export default {
 			return { minDistPoint, minDistPointIndex, traveledDistance }
 		},
 		onClickLine(e) {
-			if (!this.device.points?.length) {
+			if (!this.filteredPoints?.length) {
 				return
 			}
 			// do not add a popup if we are hovering a marker
@@ -116,15 +116,15 @@ export default {
 			}
 		},
 		addLastPointMarker() {
-			if (!this.device.points?.length) {
+			if (!this.filteredPoints?.length) {
 				return
 			}
-			const lastPoint = this.device.points[this.device.points.length - 1]
+			const lastPoint = this.filteredPoints[this.filteredPoints.length - 1]
 			const lngLat = new LngLat(lastPoint.lon, lastPoint.lat)
 			this.showPointMarker(lngLat, true)
 		},
 		showPointMarker(lngLat, isLastPointMarker = false) {
-			if (!this.device.points?.length) {
+			if (!this.filteredPoints?.length) {
 				return
 			}
 			// do not add a marker if we are hovering one
@@ -133,7 +133,7 @@ export default {
 			}
 			const { minDistPoint, minDistPointIndex, traveledDistance } = this.findPoint(lngLat)
 			// don't add a line hover marker on the last point
-			if (minDistPoint !== null && (isLastPointMarker || minDistPointIndex !== this.device.points.length - 1)) {
+			if (minDistPoint !== null && (isLastPointMarker || minDistPointIndex !== this.filteredPoints.length - 1)) {
 				this.addMarker(minDistPoint, minDistPointIndex, traveledDistance, isLastPointMarker)
 			}
 		},
@@ -274,6 +274,9 @@ export default {
 					: '')
 				+ (point.speed !== null
 					? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed * 3.6, this.distanceUnit) + '<br>')
+					: '')
+				+ (point.satellites !== null
+					? ('<strong>' + t('phonetrack', 'Satellites') + '</strong>: ' + point.satellites + '<br>')
 					: '')
 				+ (traveledDistance
 					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')

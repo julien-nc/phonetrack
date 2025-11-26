@@ -12,18 +12,22 @@
 						{{ t('phonetrack', 'Use filters') }}
 					</div>
 				</NcFormBoxSwitch>
-				<NcDateTimePickerNative
-					v-model="filters.timestampmin"
-					class="datetime-picker"
-					type="datetime-local"
-					:label="t('phonetrack', 'Minimum date')"
-					@change="onUpdateDate($event, 'min')" />
-				<NcDateTimePickerNative
-					v-model="filters.timestampmax"
-					class="datetime-picker"
-					type="datetime-local"
-					:label="t('phonetrack', 'Maximum date')"
-					@change="onUpdateDate($event, 'max')" />
+				<div class="field-group">
+					<NcDateTimePickerNative
+						v-model="filters.timestampmin"
+						class="datetime-picker"
+						type="datetime-local"
+						:label="t('phonetrack', 'Minimum date')"
+						:disabled="settings.applyfilters !== 'true'"
+						@change="onUpdateDate($event, 'min')" />
+					<NcDateTimePickerNative
+						v-model="filters.timestampmax"
+						class="datetime-picker"
+						type="datetime-local"
+						:label="t('phonetrack', 'Maximum date')"
+						:disabled="settings.applyfilters !== 'true'"
+						@change="onUpdateDate($event, 'max')" />
+				</div>
 				<div v-for="f in floatFields"
 					:key="f.key"
 					class="field-group">

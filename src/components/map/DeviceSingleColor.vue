@@ -32,6 +32,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+		filters: {
+			type: [Object, null],
+			default: null,
+		},
 		lineWidth: {
 			type: Number,
 			default: 5,
@@ -98,12 +102,27 @@ export default {
 					{
 						type: 'Feature',
 						geometry: {
-							coordinates: this.device.points.map((p) => [p.lon, p.lat]),
+							coordinates: this.filteredPoints.map(p => [p.lon, p.lat]),
 							type: 'LineString',
 						},
 					},
 				],
 			}
+		},
+		filteredPoints() {
+			if (this.filters === null) {
+				return this.device.points
+			}
+			let points = this.device.points;
+			['timestamp', 'altitude', 'accuracy', 'speed', 'bearing', 'batterylevel', 'satellites'].forEach(fieldKey => {
+				if (this.filters[fieldKey + 'min']) {
+					points = points.filter(p => p[fieldKey] >= this.filters[fieldKey + 'min'])
+				}
+				if (this.filters[fieldKey + 'max']) {
+					points = points.filter(p => p[fieldKey] <= this.filters[fieldKey + 'max'])
+				}
+			})
+			return points
 		},
 	},
 

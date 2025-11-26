@@ -50,6 +50,7 @@
 							:device="d"
 							:map="map"
 							:layer-id="'device-' + d.id"
+							:filters="filters"
 							:line-width="parseFloat(state.settings.line_width)"
 							:color="d.color ?? undefined"
 							:border-color="deviceBorderColor"
@@ -243,6 +244,27 @@ export default {
 			return ['satellite', 'dark'].includes(this.state.settings.mapStyle)
 				? 'white'
 				: 'black'
+		},
+		filters() {
+			if (this.state.settings.applyfilters !== 'true') {
+				return null
+			}
+			return {
+				timestampmin: this.state.settings.timestampmin,
+				timestampmax: this.state.settings.timestampmax,
+				altitudemin: this.state.settings.altitudemin,
+				altitudemax: this.state.settings.altitudemax,
+				accuracymin: this.state.settings.accuracymin,
+				accuracymax: this.state.settings.accuracymax,
+				speedmin: this.state.settings.speedmin,
+				speedmax: this.state.settings.speedmax,
+				bearingmin: this.state.settings.bearingmin,
+				bearingmax: this.state.settings.bearingmax,
+				batterylevelmin: this.state.settings.batterylevelmin,
+				batterylevelmax: this.state.settings.batterylevelmax,
+				satellitesmin: this.state.settings.satellitesmin,
+				satellitesmax: this.state.settings.satellitesmax,
+			}
 		},
 	},
 
