@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2025-10-26 23:52\n"
+"PO-Revision-Date: 2025-11-28 19:36\n"
 "Last-Translator: \n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -51,14 +51,14 @@ msgstr "PhoneTrack sessie {session} wordt niet meer gedeeld met {who}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "Een PhoneTrack cliënt"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Filter.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
@@ -154,7 +154,7 @@ msgstr "Gebruiker \"%s\" heeft delen van PhoneTrack sessie \"%s\" met jou gestop
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
 msgid "Phonetrack"
-msgstr ""
+msgstr "Phonetrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:4
 msgid " "
@@ -469,7 +469,7 @@ msgstr "Openbare browser logging link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1586
 msgid "OsmAnd link"
-msgstr ""
+msgstr "OsmAnd link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1591
 msgid "GpsLogger GET and POST link"
