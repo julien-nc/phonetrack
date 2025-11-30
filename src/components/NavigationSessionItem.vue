@@ -343,38 +343,7 @@ export default {
 			emit('update-session', { sessionId: this.session.id, values: { locked } })
 		},
 		onZoomToBounds() {
-			emit('zoom-on-bounds', this.getSessionBounds())
-		},
-		getSessionBounds() {
-			const deviceBounds = Object.values(this.session.devices)
-				.filter(d => d.enabled)
-				.filter(d => d.points.length > 0)
-				.map(d => this.getDeviceBounds(d))
-			return {
-				north: deviceBounds.map(b => b.north).reduce((acc, val) => Math.max(acc, val)),
-				south: deviceBounds.map(b => b.south).reduce((acc, val) => Math.min(acc, val)),
-				east: deviceBounds.map(b => b.east).reduce((acc, val) => Math.max(acc, val)),
-				west: deviceBounds.map(b => b.west).reduce((acc, val) => Math.min(acc, val)),
-			}
-		},
-		getDeviceBounds(device) {
-			if (!device.lineEnabled) {
-				const lastPoint = device.points[device.points.length - 1]
-				return {
-					north: lastPoint.lat,
-					south: lastPoint.lat,
-					east: lastPoint.lon,
-					west: lastPoint.lon,
-				}
-			}
-			const lats = device.points.map(p => p.lat)
-			const lons = device.points.map(p => p.lon)
-			return {
-				north: lats.reduce((acc, val) => Math.max(acc, val)),
-				south: lats.reduce((acc, val) => Math.min(acc, val)),
-				east: lons.reduce((acc, val) => Math.max(acc, val)),
-				west: lons.reduce((acc, val) => Math.min(acc, val)),
-			}
+			emit('zoom-on-session', { sessionId: this.session.id })
 		},
 		onToggleAllClick() {
 			emit('session-toggle-all-devices', { sessionId: this.session.id, allSelected: this.allDevicesSelected })

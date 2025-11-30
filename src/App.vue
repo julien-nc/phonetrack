@@ -120,6 +120,8 @@ import PolygonFill from './components/map/PolygonFill.vue'
 import DeviceSingleColor from './components/map/DeviceSingleColor.vue'
 import PointEditModal from './components/PointEditModal.vue'
 
+import { getFilteredPoints } from './utils.js'
+
 export default {
 	name: 'App',
 
@@ -307,6 +309,7 @@ export default {
 		subscribe('session-details-click', this.onSessionDetailsClicked)
 		subscribe('session-share-click', this.onSessionShareClicked)
 		subscribe('session-link-click', this.onSessionLinkClicked)
+		subscribe('zoom-on-session', this.onZoomOnSession)
 		subscribe('update-device', this.onUpdateDevice)
 		subscribe('new-name-reservation', this.onNewNameReservation)
 		subscribe('device-clicked', this.onDeviceClicked)
@@ -317,6 +320,7 @@ export default {
 		subscribe('device-point-moved', this.movePoint)
 		subscribe('device-point-edit', this.onEditDevicePoint)
 		subscribe('device-point-save', this.onSaveDevicePoint)
+		subscribe('zoom-on-device', this.onZoomOnDevice)
 		subscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		subscribe('add-public-share', this.onAddPublicShare)
 		subscribe('update-public-share', this.onUpdatePublicShare)
@@ -330,7 +334,9 @@ export default {
 		subscribe('create-proxim', this.onCreateProxim)
 		subscribe('save-proxim', this.onSaveProxim)
 		subscribe('delete-proxim', this.onDeleteProxim)
-		subscribe('refresh-clicked', this.refreshAllDevicePoints)
+		subscribe('refresh-clicked', this.onRefreshClicked)
+		subscribe('refresh-countdown-end', this.onRefreshClicked)
+		subscribe('refresh-after-filter-change', this.refreshAllDevicePoints)
 		emit('nav-toggled')
 	},
 
@@ -345,6 +351,7 @@ export default {
 		unsubscribe('session-details-click', this.onSessionDetailsClicked)
 		unsubscribe('session-share-click', this.onSessionShareClicked)
 		unsubscribe('session-link-click', this.onSessionLinkClicked)
+		unsubscribe('zoom-on-session', this.onZoomOnSession)
 		unsubscribe('update-device', this.onUpdateDevice)
 		unsubscribe('new-name-reservation', this.onNewNameReservation)
 		unsubscribe('device-clicked', this.onDeviceClicked)
@@ -354,6 +361,7 @@ export default {
 		unsubscribe('device-point-moved', this.movePoint)
 		unsubscribe('device-point-edit', this.onEditDevicePoint)
 		unsubscribe('device-point-save', this.onSaveDevicePoint)
+		unsubscribe('zoom-on-device', this.onZoomOnDevice)
 		unsubscribe('stop-add-point-device', this.onStopAddDevicePoint)
 		unsubscribe('add-public-share', this.onAddPublicShare)
 		unsubscribe('update-public-share', this.onUpdatePublicShare)
@@ -367,7 +375,9 @@ export default {
 		unsubscribe('create-proxim', this.onCreateProxim)
 		unsubscribe('save-proxim', this.onSaveProxim)
 		unsubscribe('delete-proxim', this.onDeleteProxim)
-		unsubscribe('refresh-clicked', this.refreshAllDevicePoints)
+		unsubscribe('refresh-clicked', this.onRefreshClicked)
+		unsubscribe('refresh-countdown-end', this.onRefreshClicked)
+		unsubscribe('refresh-after-filter-change', this.refreshAllDevicePoints)
 	},
 
 	methods: {
@@ -1069,10 +1079,16 @@ export default {
 					console.error('Failed to get device points', error)
 				})
 		},
+		onRefreshClicked() {
+			this.refreshAllDevicePoints()
+				.then(() => {
+					this.autoZoom()
+				})
+		},
 		refreshAllDevicePoints() {
 			this.loadingDevicePoints = true
 			const loadingPromises = this.enabledDevices.map(device => this.loadDevice(device.session_id, device.id))
-			Promise.all(loadingPromises)
+			return Promise.all(loadingPromises)
 				.then(results => {
 					console.debug('promise.all results', results)
 					if (results.some(result => result.code === 'ERR_CANCELED')) {
@@ -1085,6 +1101,86 @@ export default {
 				.then(() => {
 					this.loadingDevicePoints = false
 				})
+		},
+		autoZoom() {
+			console.debug('[phonetrack] autozoom')
+			// get enabled sessions
+			// get devices with autozoom enabled
+			// get their bounds
+			const listOfDeviceBounds = Object.values(this.state.sessions)
+				.filter(s => s.enabled)
+				.reduce((acc, session) => {
+					Object.values(session.devices)
+						.filter(d => d.enabled && d.autoZoom)
+						.forEach(d => {
+							acc.push(this.getDeviceBounds(session.id, d.id))
+						})
+					return acc
+				}, [])
+				.filter(bounds => bounds !== null)
+			const autoZoomBounds = {
+				north: listOfDeviceBounds.map(b => b.north).reduce((acc, val) => Math.max(acc, val)),
+				south: listOfDeviceBounds.map(b => b.south).reduce((acc, val) => Math.min(acc, val)),
+				east: listOfDeviceBounds.map(b => b.east).reduce((acc, val) => Math.max(acc, val)),
+				west: listOfDeviceBounds.map(b => b.west).reduce((acc, val) => Math.min(acc, val)),
+			}
+			emit('zoom-on-bounds', autoZoomBounds)
+		},
+		onZoomOnSession({ sessionId }) {
+			const session = this.state.sessions[sessionId]
+			if (!session.enabled) {
+				return
+			}
+			emit('zoom-on-bounds', this.getSessionBounds(sessionId))
+		},
+		getSessionBounds(sessionId) {
+			const session = this.state.sessions[sessionId]
+			const deviceBounds = Object.values(session.devices)
+				.filter(d => d.enabled)
+				.map(d => this.getDeviceBounds(sessionId, d.id))
+				.filter(bounds => bounds !== null)
+			return {
+				north: deviceBounds.map(b => b.north).reduce((acc, val) => Math.max(acc, val)),
+				south: deviceBounds.map(b => b.south).reduce((acc, val) => Math.min(acc, val)),
+				east: deviceBounds.map(b => b.east).reduce((acc, val) => Math.max(acc, val)),
+				west: deviceBounds.map(b => b.west).reduce((acc, val) => Math.min(acc, val)),
+			}
+		},
+		onZoomOnDevice({ sessionId, deviceId }) {
+			const device = this.state.sessions[sessionId]?.devices[deviceId]
+			if (!device.enabled) {
+				return
+			}
+			const bounds = this.getDeviceBounds(sessionId, deviceId)
+			if (bounds !== null) {
+				emit('zoom-on-bounds', bounds)
+			}
+		},
+		getDeviceBounds(sessionId, deviceId) {
+			const device = this.state.sessions[sessionId]?.devices[deviceId]
+			const points = this.filters === null
+				? device.points
+				: getFilteredPoints(device.points, this.filters)
+			if (points.length === 0) {
+				return null
+			}
+			if (!device.lineEnabled) {
+				const lastPoint = points[points.length - 1]
+				return {
+					north: lastPoint.lat,
+					south: lastPoint.lat,
+					east: lastPoint.lon,
+					west: lastPoint.lon,
+				}
+			}
+			const lats = points.map(p => p.lat)
+			const lons = points.map(p => p.lon)
+			return {
+				north: lats.reduce((acc, val) => Math.max(acc, val)),
+				south: lats.reduce((acc, val) => Math.min(acc, val)),
+				east: lons.reduce((acc, val) => Math.max(acc, val)),
+				west: lons.reduce((acc, val) => Math.min(acc, val)),
+			}
 		},
 	},
 }

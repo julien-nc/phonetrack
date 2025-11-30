@@ -14,51 +14,52 @@
 				class="app-settings-section">
 				<NcFormBox>
 					<NcFormBoxSwitch :model-value="settings.nav_show_hovered_session_bounds === '1'"
-						@enable="onCheckboxChanged(true, 'nav_show_hovered_session_bounds')"
-						@disable="onCheckboxChanged(false, 'nav_show_hovered_session_bounds')">
+						@update:model-value="onCheckboxChanged($event, 'nav_show_hovered_session_bounds')">
 						<div class="checkbox-inner">
 							<TextureBoxIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Show session bounds on hover') }}
 						</div>
 					</NcFormBoxSwitch>
 					<NcFormBoxSwitch :model-value="settings.show_mouse_position_control === '1'"
-						@enable="onCheckboxChanged(true, 'show_mouse_position_control')"
-						@disable="onCheckboxChanged(false, 'show_mouse_position_control')">
+						@update:model-value="onCheckboxChanged($event, 'show_mouse_position_control')">
 						<div class="checkbox-inner">
 							<CursorDefaultClickOutlineIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Show mouse position coordinates in the bottom-left map corner') }}
 						</div>
 					</NcFormBoxSwitch>
 					<NcFormBoxSwitch :model-value="settings.compact_mode === '1'"
-						@enable="onCheckboxChanged(true, 'compact_mode')"
-						@disable="onCheckboxChanged(false, 'compact_mode')">
+						@update:model-value="onCheckboxChanged($event, 'compact_mode')">
 						<div class="checkbox-inner">
 							<ViewCompactOutlineIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Compact navigation view') }}
 						</div>
 					</NcFormBoxSwitch>
 					<NcFormBoxSwitch :model-value="settings.line_border === '1'"
-						@enable="onCheckboxChanged(true, 'line_border')"
-						@disable="onCheckboxChanged(false, 'line_border')">
+						@update:model-value="onCheckboxChanged($event, 'line_border')">
 						<div class="checkbox-inner">
 							<MathNormIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Draw line borders') }}
 						</div>
 					</NcFormBoxSwitch>
 					<NcFormBoxSwitch :model-value="settings.direction_arrows === '1'"
-						@enable="onCheckboxChanged(true, 'direction_arrows')"
-						@disable="onCheckboxChanged(false, 'direction_arrows')">
+						@update:model-value="onCheckboxChanged($event, 'direction_arrows')">
 						<div class="checkbox-inner">
 							<ArrowRightIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Draw line direction arrows') }}
 						</div>
 					</NcFormBoxSwitch>
 					<NcFormBoxSwitch :model-value="settings.draggable_points === '1'"
-						@enable="onCheckboxChanged(true, 'draggable_points')"
-						@disable="onCheckboxChanged(false, 'draggable_points')">
+						@update:model-value="onCheckboxChanged($event, 'draggable_points')">
 						<div class="checkbox-inner">
 							<CursorMoveIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Drag points to move them') }}
+						</div>
+					</NcFormBoxSwitch>
+					<NcFormBoxSwitch :model-value="settings.autozoom === '1'"
+						@update:model-value="onCheckboxChanged($event, 'autozoom')">
+						<div class="checkbox-inner">
+							<MagnifyIcon :size="20" />
+							{{ t('phonetrack', 'Automatic zoom on refresh') }}
 						</div>
 					</NcFormBoxSwitch>
 					<NcInputField
@@ -300,6 +301,7 @@ import KeyIcon from 'vue-material-design-icons/Key.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import UpdateIcon from 'vue-material-design-icons/Update.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
 
 import AdminIcon from './icons/AdminIcon.vue'
 
@@ -352,6 +354,7 @@ export default {
 		ArrowSplitVerticalIcon,
 		UpdateIcon,
 		UndoIcon,
+		MagnifyIcon,
 	},
 
 	inject: ['isPublicPage'],

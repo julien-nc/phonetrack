@@ -1002,6 +1002,8 @@ import '../css/phonetrack.scss'
 							$('#sidebar').addClass('collapsed')
 							$('#sidebar li.active').removeClass('active')
 						}
+					} else if (k === 'autozoom') {
+						elem.prop('checked', optionsValues[k] !== '0')
 					} else if (tag === 'SELECT') {
 						elem.val(optionsValues[k])
 					} else if (tag === 'INPUT') {
@@ -1116,6 +1118,9 @@ import '../css/phonetrack.scss'
 				value = phonetrack.currentLayerName
 			} else if (key === 'showsidebar') {
 				value = !$('#sidebar').hasClass('collapsed')
+			} else if (key === 'autozoom') {
+				const elem = $('#' + key)
+				value = elem.is(':checked') ? '1' : '0'
 			} else if (key === 'activeSessions') {
 				value = {}
 				$('.session').each(function() {

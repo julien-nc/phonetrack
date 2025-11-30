@@ -5,6 +5,8 @@ import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 // import AddWaypoints from '../../mixins/AddWaypoints.js'
 import LineDirectionArrows from '../../mixins/LineDirectionArrows.js'
 
+import { getFilteredPoints } from '../../utils.js'
+
 export default {
 	name: 'DeviceSingleColor',
 
@@ -113,16 +115,7 @@ export default {
 			if (this.filters === null) {
 				return this.device.points
 			}
-			let points = this.device.points;
-			['timestamp', 'altitude', 'accuracy', 'speed', 'bearing', 'batterylevel', 'satellites'].forEach(fieldKey => {
-				if (this.filters[fieldKey + 'min']) {
-					points = points.filter(p => p[fieldKey] >= this.filters[fieldKey + 'min'])
-				}
-				if (this.filters[fieldKey + 'max']) {
-					points = points.filter(p => p[fieldKey] <= this.filters[fieldKey + 'max'])
-				}
-			})
-			return points
+			return getFilteredPoints(this.device.points, this.filters)
 		},
 	},
 

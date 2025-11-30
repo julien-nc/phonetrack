@@ -207,7 +207,7 @@ export default {
 		},
 		onToggleFilter(value) {
 			emit('save-settings', { applyfilters: value ? 'true' : 'false' })
-			emit('refresh-clicked')
+			emit('refresh-after-filter-change')
 		},
 	},
 }

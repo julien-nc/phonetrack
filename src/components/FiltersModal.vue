@@ -214,7 +214,7 @@ export default {
 		onCheckboxChanged(value, key) {
 			emit('save-settings', { [key]: value ? 'true' : 'false' })
 			if (key === 'applyfilters') {
-				emit('refresh-clicked')
+				emit('refresh-after-filter-change')
 			}
 		},
 		onUpdateDate(value, minMax) {
@@ -224,7 +224,7 @@ export default {
 				? moment(this.filters[key]).unix()
 				: ''
 			emit('save-settings', { [key]: savedValue })
-			emit('refresh-clicked')
+			emit('refresh-after-filter-change')
 		},
 	},
 }

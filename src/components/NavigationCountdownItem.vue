@@ -84,7 +84,7 @@ export default {
 		},
 		onCountdownFinish() {
 			console.debug('CountdownFinish')
-			emit('refresh-clicked')
+			emit('refresh-countdown-end')
 		},
 	},
 

@@ -102,6 +102,14 @@ class PageController extends Controller {
 			$settings['timestampmax'] = (int)$settings['timestampmax'];
 		}
 
+		if (isset($settings['autozoom'])) {
+			if ($settings['autozoom'] === 'true') {
+				$settings['autozoom'] = '1';
+			} elseif ($settings['autozoom'] === 'false') {
+				$settings['autozoom'] = '0';
+			}
+		}
+
 		$sessions = $this->sessionService->getSessions2($this->userId);
 		$sessionsById = [];
 		foreach ($sessions as $session) {
