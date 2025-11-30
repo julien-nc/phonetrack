@@ -1,6 +1,7 @@
 <template>
 	<NcModal
 		:name="t('phonetrack', 'Point filters')"
+		:close-on-click-outside="true"
 		@close="$emit('close')">
 		<div class="filters-modal-content">
 			<h2>{{ t('phonetrack', 'Point filters') }}</h2>
