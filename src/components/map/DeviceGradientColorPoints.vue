@@ -1,4 +1,6 @@
 <script>
+import { LngLat } from 'maplibre-gl'
+
 import WatchLineBorderColor from '../../mixins/WatchLineBorderColor.js'
 import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 import BringTrackToTop from '../../mixins/BringTrackToTop.js'
@@ -138,7 +140,26 @@ export default {
 				? this.filteredPoints.map(p => p.altitude)
 				: this.colorCriteria === COLOR_CRITERIAS.speed.id
 					? this.filteredPoints.map(p => p.speed)
-					: []
+					: this.colorCriteria === COLOR_CRITERIAS.accuracy.id
+						? this.filteredPoints.map(p => p.accuracy)
+						: this.colorCriteria === COLOR_CRITERIAS.batterylevel.id
+							? this.filteredPoints.map(p => p.batterylevel)
+							: this.colorCriteria === COLOR_CRITERIAS.traveled_distance.id
+								? this.traveledDistances
+								: []
+		},
+		traveledDistances() {
+			const points = this.filteredPoints
+			const distances = [0]
+			let previousLngLat = new LngLat(points[0].lon, points[0].lat)
+			for (let i = 1; i < points.length; i++) {
+				const lngLat = new LngLat(points[i].lon, points[i].lat)
+				const previousDistance = distances[distances.length - 1]
+				distances.push(previousDistance + previousLngLat.distanceTo(lngLat))
+				// distances.push(previousLngLat.distanceTo(lngLat))
+				previousLngLat = lngLat
+			}
+			return distances
 		},
 	},
 
@@ -152,6 +173,10 @@ export default {
 			this.onColorCriteriaChanged()
 		},
 		deviceGeojsonData() {
+			this.remove()
+			this.init()
+		},
+		pointValues() {
 			this.remove()
 			this.init()
 		},
@@ -202,6 +227,10 @@ export default {
 		// return an object indexed by color index, 2 levels, first color and second color
 		// first color index is always lower than second (or equal)
 		addFeaturesFromPoints() {
+			this.$options.geojsonsPerColorPair = {}
+			if (this.filteredPoints.length < 2) {
+				return
+			}
 			const result = {}
 			const points = this.filteredPoints
 			const cleanValues = this.pointValues.filter(v => v !== undefined)

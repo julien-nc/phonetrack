@@ -354,7 +354,7 @@ export default {
 		subscribe('delete-proxim', this.onDeleteProxim)
 		subscribe('refresh-clicked', this.onRefreshClicked)
 		subscribe('refresh-countdown-end', this.onRefreshClicked)
-		subscribe('refresh-after-filter-change', this.refreshAllDevicePoints)
+		subscribe('filter-changed', this.refreshAllDevicePoints)
 		emit('nav-toggled')
 	},
 
@@ -395,7 +395,7 @@ export default {
 		unsubscribe('delete-proxim', this.onDeleteProxim)
 		unsubscribe('refresh-clicked', this.onRefreshClicked)
 		unsubscribe('refresh-countdown-end', this.onRefreshClicked)
-		unsubscribe('refresh-after-filter-change', this.refreshAllDevicePoints)
+		unsubscribe('filter-changed', this.refreshAllDevicePoints)
 	},
 
 	methods: {

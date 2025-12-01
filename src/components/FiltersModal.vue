@@ -20,14 +20,28 @@
 						type="datetime-local"
 						:label="t('phonetrack', 'Minimum date')"
 						:disabled="settings.applyfilters !== 'true'"
-						@change="onUpdateDate($event, 'min')" />
+						@change="onUpdateDate('min')" />
+					<NcButton class="wide"
+						@click="filters.timestampmin = new Date(); onUpdateDate('min')">
+						{{ t('phonetrack', 'Set minimum date to now') }}
+						<template #icon>
+							<CalendarTodayOutlineIcon :size="20" />
+						</template>
+					</NcButton>
 					<NcDateTimePickerNative
 						v-model="filters.timestampmax"
 						class="datetime-picker"
 						type="datetime-local"
 						:label="t('phonetrack', 'Maximum date')"
 						:disabled="settings.applyfilters !== 'true'"
-						@change="onUpdateDate($event, 'max')" />
+						@change="onUpdateDate('max')" />
+					<NcButton class="wide"
+						@click="filters.timestampmax = new Date(); onUpdateDate('max')">
+						{{ t('phonetrack', 'Set maximum date to now') }}
+						<template #icon>
+							<CalendarTodayOutlineIcon :size="20" />
+						</template>
+					</NcButton>
 				</div>
 				<div v-for="f in floatFields"
 					:key="f.key"
@@ -112,12 +126,14 @@
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import SatelliteVariantIcon from 'vue-material-design-icons/SatelliteVariant.vue'
+import CalendarTodayOutlineIcon from 'vue-material-design-icons/CalendarTodayOutline.vue'
 
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 import { emit } from '@nextcloud/event-bus'
 import moment from '@nextcloud/moment'
@@ -132,9 +148,11 @@ export default {
 		NcFormBox,
 		NcFormBoxSwitch,
 		NcDateTimePickerNative,
+		NcButton,
 		CloseIcon,
 		FilterIcon,
 		SatelliteVariantIcon,
+		CalendarTodayOutlineIcon,
 	},
 	props: {
 		settings: {
@@ -215,17 +233,16 @@ export default {
 		onCheckboxChanged(value, key) {
 			emit('save-settings', { [key]: value ? 'true' : 'false' })
 			if (key === 'applyfilters') {
-				emit('refresh-after-filter-change')
+				emit('filter-changed')
 			}
 		},
-		onUpdateDate(value, minMax) {
-			console.debug('onUpdateDate', value, this.filters.timestampmin)
+		onUpdateDate(minMax) {
 			const key = 'timestamp' + minMax
 			const savedValue = this.filters[key]
 				? moment(this.filters[key]).unix()
 				: ''
 			emit('save-settings', { [key]: savedValue })
-			emit('refresh-after-filter-change')
+			// emit('filter-changed')
 		},
 	},
 }
@@ -243,6 +260,12 @@ export default {
 
 	.field-group {
 		margin-bottom: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		.wide {
+			width: 100%;
+		}
 	}
 
 	h2 {

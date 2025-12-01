@@ -36,7 +36,7 @@
 				@close="showCreationModal = false" />
 			<FiltersModal v-if="showFilters"
 				:settings="settings"
-				@close="showFilters = false" />
+				@close="onCloseFilterModal" />
 			<NavigationCountdownItem
 				:loading-device-points="loadingDevicePoints"
 				:settings="settings" />
@@ -211,10 +211,14 @@ export default {
 		},
 		onToggleFilter(value) {
 			emit('save-settings', { applyfilters: value ? 'true' : 'false' })
-			emit('refresh-after-filter-change')
+			emit('filter-changed')
 		},
 		onUpdateFilterMenuOpen(isOpen) {
 			this.filterMenuOpen = isOpen
+		},
+		onCloseFilterModal() {
+			this.showFilters = false
+			emit('filter-changed')
 		},
 	},
 }

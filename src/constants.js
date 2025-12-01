@@ -32,8 +32,16 @@ export const COLOR_CRITERIAS = {
 		id: 2,
 		label: t('phonetrack', 'Speed'),
 	},
-	traveled_distance: {
+	accuracy: {
 		id: 3,
+		label: t('phonetrack', 'Accuracy'),
+	},
+	batterylevel: {
+		id: 4,
+		label: t('phonetrack', 'Battery level'),
+	},
+	traveled_distance: {
+		id: 5,
 		label: t('phonetrack', 'Traveled distance'),
 	},
 }

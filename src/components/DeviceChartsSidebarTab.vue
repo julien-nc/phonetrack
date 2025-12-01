@@ -48,6 +48,12 @@
 				<option value="speed">
 					{{ t('phonetrack', 'Speed') }}
 				</option>
+				<option value="accuracy">
+					{{ t('phonetrack', 'Accuracy') }}
+				</option>
+				<option value="batterylevel">
+					{{ t('phonetrack', 'Battery level') }}
+				</option>
 			</select>
 		</div>
 		<NcCheckboxRadioSwitch
