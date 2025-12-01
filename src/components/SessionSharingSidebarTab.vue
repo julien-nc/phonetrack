@@ -133,25 +133,26 @@
 			</li>
 		</ul>
 		<hr>
-		<NcCheckboxRadioSwitch
+		<NcFormBoxSwitch
 			:model-value="session.public"
 			@update:model-value="onSessionPublicChanged">
 			{{ t('phonetrack', 'Public session') }}
-		</NcCheckboxRadioSwitch>
-		<div v-if="session.public" class="public-watch">
-			<label :for="'publicwatchlink-field'">{{ t('phonetrack', 'Public watch link') }}</label>
+		</NcFormBoxSwitch>
+		<div class="public-watch">
 			<div class="line">
 				<NcTextField
 					id="publicwatchlink-field"
 					:model-value="publicWatchLink"
-					:label-outside="true"
+					:label="t('phonetrack', 'Public watch link')"
 					:title="publicWatchLink"
+					:disabled="!session.public"
 					:readonly="true">
 					<template #icon>
 						<LinkVariantIcon :size="20" />
 					</template>
 				</NcTextField>
 				<NcButton :title="t('phonetrack', 'Copy link to clipboard')"
+					:disabled="!session.public"
 					@click="onCopyPublicWatchLink">
 					<template #icon>
 						<ClipboardCheckOutlineIcon v-if="publicWatchLinkCopied" class="success" :size="20" />
@@ -160,19 +161,20 @@
 				</NcButton>
 			</div>
 			<br>
-			<label :for="'api-last-field'">{{ t('phonetrack', 'API URL (JSON, last positions)') }}</label>
 			<div class="line">
 				<NcTextField
 					id="api-last-field"
 					:model-value="apiLastLink"
-					:label-outside="true"
+					:label="t('phonetrack', 'API URL (JSON, last positions)')"
 					:title="apiLastLink"
+					:disabled="!session.public"
 					:readonly="true">
 					<template #icon>
 						<LinkVariantIcon :size="20" />
 					</template>
 				</NcTextField>
 				<NcButton :title="t('phonetrack', 'Copy link to clipboard')"
+					:disabled="!session.public"
 					@click="onCopyApiLastLink">
 					<template #icon>
 						<ClipboardCheckOutlineIcon v-if="apiLastLinkCopied" class="success" :size="20" />
@@ -181,19 +183,20 @@
 				</NcButton>
 			</div>
 			<br>
-			<label :for="'api-all-field'">{{ t('phonetrack', 'API URL (JSON, all positions)') }}</label>
 			<div class="line">
 				<NcTextField
 					id="api-all-field"
 					:model-value="apiAllLink"
-					:label-outside="true"
+					:label="t('phonetrack', 'API URL (JSON, all positions)')"
 					:title="apiAllLink"
+					:disabled="!session.public"
 					:readonly="true">
 					<template #icon>
 						<LinkVariantIcon :size="20" />
 					</template>
 				</NcTextField>
 				<NcButton :title="t('phonetrack', 'Copy link to clipboard')"
+					:disabled="!session.public"
 					@click="onCopyApiAllLink">
 					<template #icon>
 						<ClipboardCheckOutlineIcon v-if="apiAllLinkCopied" class="success" :size="20" />
@@ -223,7 +226,7 @@ import NcActionInput from '@nextcloud/vue/components/NcActionInput'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 import SharingSelect from './SharingSelect.vue'
@@ -255,7 +258,7 @@ export default {
 		NcActionCheckbox,
 		NcActionLink,
 		NcActions,
-		NcCheckboxRadioSwitch,
+		NcFormBoxSwitch,
 		NcTextField,
 		NcButton,
 		NcAvatar,

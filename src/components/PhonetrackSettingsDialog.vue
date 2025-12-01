@@ -480,6 +480,7 @@ a.external {
 
 .checkbox-inner {
 	display: flex;
+	gap: 8px;
 }
 
 .app-settings-section {

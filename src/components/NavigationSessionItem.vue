@@ -10,7 +10,7 @@
 		:force-menu="true"
 		:force-display-actions="true"
 		:menu-open="menuOpen"
-		:editable="true"
+		:editable="!extraActionsOpen && !sortActionsOpen"
 		:edit-label="t('phonetrack', 'Rename session')"
 		@click="onItemClick"
 		@update:name="onRename"

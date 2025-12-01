@@ -4,6 +4,12 @@ import { hexToDarkerHex } from './utils.js'
 import '../css/maplibre.scss'
 import '@nextcloud/dialogs/style.css'
 
+import { linkTo } from '@nextcloud/router'
+import { getCSPNonce } from '@nextcloud/auth'
+
+__webpack_nonce__ = getCSPNonce() // eslint-disable-line
+__webpack_public_path__ = linkTo('phonetrack', 'js/') // eslint-disable-line
+
 if (!OCA.Phonetrack) {
 	OCA.Phonetrack = {}
 }

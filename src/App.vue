@@ -1104,6 +1104,9 @@ export default {
 		},
 		autoZoom() {
 			console.debug('[phonetrack] autozoom')
+			if (this.state.settings.autozoom !== '1') {
+				return
+			}
 			// get enabled sessions
 			// get devices with autozoom enabled
 			// get their bounds

@@ -3,15 +3,27 @@
 		<h3>
 			{{ t('phonetrack', 'Session settings') }}
 		</h3>
-		<NcCheckboxRadioSwitch
-			:model-value="session.locked"
+		<div class="line">
+			<NcTextField
+				v-model="newSessionName"
+				:label="t('phonetrack', 'Session Name')"
+				placeholder="..."
+				@keyup.enter="onRename" />
+			<NcButton :title="t('phonetrack', 'Rename session')"
+				@click="onRename">
+				<template #icon>
+					<ContentSaveOutlineIcon />
+				</template>
+			</NcButton>
+		</div>
+		<NcFormBoxSwitch :model-value="session.locked"
 			@update:model-value="onLockedChanged">
 			<div class="checkbox-inner">
 				<LockIcon v-if="session.locked" :size="20" class="inline-icon" />
 				<LockOpenOutlineIcon v-else :size="20" class="inline-icon" />
 				{{ t('phonetrack', 'Locked') }}
 			</div>
-		</NcCheckboxRadioSwitch>
+		</NcFormBoxSwitch>
 		<div class="export-session">
 			<NcTextField
 				v-model="exportFileName"
@@ -78,7 +90,7 @@ import LockIcon from 'vue-material-design-icons/Lock.vue'
 import LockOpenOutlineIcon from 'vue-material-design-icons/LockOpenOutline.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
@@ -98,7 +110,7 @@ export default {
 	name: 'SessionSettingsSidebarTab',
 
 	components: {
-		NcCheckboxRadioSwitch,
+		NcFormBoxSwitch,
 		NcButton,
 		NcTextField,
 		NcSelect,
@@ -122,6 +134,7 @@ export default {
 
 	data() {
 		return {
+			newSessionName: this.session.name,
 			newNameReservation: '',
 			exportFileName: '',
 			autoExportOptions: [
@@ -182,9 +195,18 @@ export default {
 	},
 
 	watch: {
+		session() {
+			this.newSessionName = this.session.name
+		},
 	},
 
 	methods: {
+		onRename() {
+			emit('update-session', {
+				sessionId: this.session.id,
+				values: { name: this.newSessionName },
+			})
+		},
 		onLockedChanged(locked) {
 			emit('update-session', { sessionId: this.session.id, values: { locked } })
 		},
@@ -272,12 +294,20 @@ export default {
 	gap: 8px;
 
 	h3 {
+		margin-top: 0;
 		font-weight: bold;
 		text-align: center;
 	}
 
+	.line {
+		display: flex;
+		gap: 4px;
+		align-items: end;
+	}
+
 	.checkbox-inner {
 		display: flex;
+		gap: 8px;
 	}
 
 	.export-session {
