@@ -46,10 +46,26 @@
 				<template #default="{ map }">
 					<div v-for="d in enabledDevices"
 						:key="d.id">
-						<DeviceSingleColor
+						<DeviceSingleColor v-if="d.colorCriteria === COLOR_CRITERIAS.none.id"
 							:device="d"
 							:map="map"
 							:layer-id="'device-' + d.id"
+							:filters="filters"
+							:line-width="parseFloat(state.settings.line_width)"
+							:color="d.color ?? undefined"
+							:border-color="deviceBorderColor"
+							:border="state.settings.line_border === '1'"
+							:arrows="state.settings.direction_arrows === '1'"
+							:arrows-spacing="parseFloat(state.settings.arrows_spacing)"
+							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor)"
+							:draggable-points="state.settings.draggable_points === '1'"
+							:opacity="parseFloat(state.settings.line_opacity)"
+							:distance-unit="state.settings.distance_unit ?? 'metric'" />
+						<DeviceGradientColorPoints v-else
+							:device="d"
+							:map="map"
+							:layer-id="'device-' + d.id"
+							:color-criteria="d.colorCriteria"
 							:filters="filters"
 							:line-width="parseFloat(state.settings.line_width)"
 							:color="d.color ?? undefined"
@@ -118,6 +134,7 @@ import DeviceSidebar from './components/DeviceSidebar.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
 import PolygonFill from './components/map/PolygonFill.vue'
 import DeviceSingleColor from './components/map/DeviceSingleColor.vue'
+import DeviceGradientColorPoints from './components/map/DeviceGradientColorPoints.vue'
 import PointEditModal from './components/PointEditModal.vue'
 
 import { getFilteredPoints } from './utils.js'
@@ -126,6 +143,7 @@ export default {
 	name: 'App',
 
 	components: {
+		DeviceGradientColorPoints,
 		PolygonFill,
 		DeviceSingleColor,
 		MaplibreMap,

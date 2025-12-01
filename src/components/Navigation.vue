@@ -53,6 +53,9 @@
 				<div id="app-settings-header">
 					<NcAppNavigationItem
 						:name="t('phonetrack', 'Filters')"
+						:menu-open="filterMenuOpen"
+						@contextmenu.native.stop.prevent="filterMenuOpen = true"
+						@update:menuOpen="onUpdateFilterMenuOpen"
 						@click="showFilters = true">
 						<template #icon>
 							<FilterOutlineIcon v-if="filterEnabled" :size="20" />
@@ -155,6 +158,7 @@ export default {
 			sessionFilterQuery: '',
 			showCreationModal: false,
 			showFilters: false,
+			filterMenuOpen: false,
 		}
 	},
 
@@ -208,6 +212,9 @@ export default {
 		onToggleFilter(value) {
 			emit('save-settings', { applyfilters: value ? 'true' : 'false' })
 			emit('refresh-after-filter-change')
+		},
+		onUpdateFilterMenuOpen(isOpen) {
+			this.filterMenuOpen = isOpen
 		},
 	},
 }

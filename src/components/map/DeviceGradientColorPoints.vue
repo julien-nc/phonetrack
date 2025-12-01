@@ -2,9 +2,9 @@
 import WatchLineBorderColor from '../../mixins/WatchLineBorderColor.js'
 import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 import BringTrackToTop from '../../mixins/BringTrackToTop.js'
-import AddWaypoints from '../../mixins/AddWaypoints.js'
 
 import { COLOR_CRITERIAS, getColorGradientColors } from '../../constants.js'
+import { getFilteredPoints } from '../../utils.js'
 
 const gradientColors = getColorGradientColors(240, 0)
 
@@ -29,7 +29,6 @@ export default {
 		WatchLineBorderColor,
 		PointInfoPopup,
 		BringTrackToTop,
-		AddWaypoints,
 	],
 
 	props: {
@@ -52,10 +51,6 @@ export default {
 		colorCriteria: {
 			type: Number,
 			default: COLOR_CRITERIAS.elevation.id,
-		},
-		colorExtensionCriteria: {
-			type: String,
-			default: null,
 		},
 		lineWidth: {
 			type: Number,
@@ -117,12 +112,33 @@ export default {
 		onTop() {
 			return this.device.onTop
 		},
-		getPointValues() {
+		filteredPoints() {
+			if (this.filters === null) {
+				return this.device.points
+			}
+			return getFilteredPoints(this.device.points, this.filters)
+		},
+		deviceGeojsonData() {
+			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
+			return {
+				type: 'FeatureCollection',
+				features: [
+					{
+						type: 'Feature',
+						geometry: {
+							coordinates: this.filteredPoints.map(p => [p.lon, p.lat]),
+							type: 'LineString',
+						},
+					},
+				],
+			}
+		},
+		pointValues() {
 			return this.colorCriteria === COLOR_CRITERIAS.elevation.id
-				? (coords) => {
-					return coords.map(c => c[2])
-				}
-				: () => null
+				? this.filteredPoints.map(p => p.altitude)
+				: this.colorCriteria === COLOR_CRITERIAS.speed.id
+					? this.filteredPoints.map(p => p.speed)
+					: []
 		},
 	},
 
@@ -135,8 +151,9 @@ export default {
 		colorCriteria() {
 			this.onColorCriteriaChanged()
 		},
-		colorExtensionCriteria() {
-			this.onColorCriteriaChanged()
+		deviceGeojsonData() {
+			this.remove()
+			this.init()
 		},
 	},
 
@@ -179,60 +196,37 @@ export default {
 			}
 		},
 		onColorCriteriaChanged() {
-			// a bit special, we need to take care of the waypoints here because we can't watch colorCriteria
-			// in the AddWaypoints mixin
-			this.removeWaypoints()
-
 			this.remove()
 			this.init()
-
-			this.initWaypoints()
-			this.listenToWaypointEvents()
 		},
 		// return an object indexed by color index, 2 levels, first color and second color
 		// first color index is always lower than second (or equal)
-		computeGeojsonsPerColorPair() {
-			// TODO use the points directly
+		addFeaturesFromPoints() {
 			const result = {}
-			this.track.geojson.features.forEach((feature) => {
-				if (feature.geometry.type === 'LineString') {
-					this.addFeaturesFromCoords(result, feature.geometry.coordinates)
-				} else if (feature.geometry.type === 'MultiLineString') {
-					feature.geometry.coordinates.forEach((coords) => {
-						this.addFeaturesFromCoords(result, coords)
-					})
-				}
-			})
+			const points = this.filteredPoints
+			const cleanValues = this.pointValues.filter(v => v !== undefined)
+			const min = cleanValues.reduce((acc, val) => Math.min(acc, val))
+			const max = cleanValues.reduce((acc, val) => Math.max(acc, val))
+			console.debug('[phonetrack] pointvalues', this.pointValues, 'min', min, 'max', max)
+			// process the first pair outside the loop, we need 2 color indexes to form a pair :-)
+			let colorIndex = this.getColorIndex(min, max, this.pointValues[0])
+			colorIndex = this.processPair(result, min, max, colorIndex, points[0], points[1], this.pointValues[1])
+			// loop starts with the 2nd pair
+			for (let fi = 1; fi < points.length - 1; fi++) {
+				colorIndex = this.processPair(result, min, max, colorIndex, points[fi], points[fi + 1], this.pointValues[fi + 1])
+			}
 			this.$options.geojsonsPerColorPair = result
 		},
-		addFeaturesFromCoords(geojsons, coords) {
-			if (coords.length < 2) {
-				this.addFeature(geojsons, coords, 0, 0)
-			} else {
-				const pointValues = this.getPointValues(coords)
-				const cleanValues = pointValues.filter(v => v !== undefined)
-				const min = cleanValues.reduce((acc, val) => Math.min(acc, val))
-				const max = cleanValues.reduce((acc, val) => Math.max(acc, val))
-				console.debug('[phonetrack] pointvalues', pointValues, 'min', min, 'max', max)
-				// process the first pair outside the loop, we need 2 color indexes to form a pair :-)
-				let colorIndex = this.getColorIndex(min, max, pointValues[0])
-				colorIndex = this.processPair(geojsons, min, max, colorIndex, coords[0], coords[1], pointValues[1])
-				// loop starts with the 2nd pair
-				for (let fi = 1; fi < coords.length - 1; fi++) {
-					colorIndex = this.processPair(geojsons, min, max, colorIndex, coords[fi], coords[fi + 1], pointValues[fi + 1])
-				}
-			}
-		},
-		processPair(geojsons, min, max, firstColorIndex, coord1, coord2, secondPointValue) {
+		processPair(geojsons, min, max, firstColorIndex, point1, point2, secondPointValue) {
 			const secondColorIndex = this.getColorIndex(min, max, secondPointValue)
 			if (secondColorIndex > firstColorIndex) {
-				this.buildFeature(geojsons, firstColorIndex, secondColorIndex, coord1, coord2)
+				this.buildFeature(geojsons, firstColorIndex, secondColorIndex, point1, point2)
 			} else {
-				this.buildFeature(geojsons, secondColorIndex, firstColorIndex, coord2, coord1)
+				this.buildFeature(geojsons, secondColorIndex, firstColorIndex, point2, point1)
 			}
 			return secondColorIndex
 		},
-		buildFeature(geojsons, colorIndex1, colorIndex2, coord1, coord2) {
+		buildFeature(geojsons, colorIndex1, colorIndex2, point1, point2) {
 			if (!geojsons[colorIndex1]) {
 				geojsons[colorIndex1] = {}
 			}
@@ -245,7 +239,7 @@ export default {
 			geojsons[colorIndex1][colorIndex2].features.push({
 				type: 'Feature',
 				geometry: {
-					coordinates: [coord1, coord2],
+					coordinates: [[point1.lon, point1.lat], [point2.lon, point2.lat]],
 					type: 'LineString',
 				},
 			})
@@ -295,12 +289,12 @@ export default {
 			})
 		},
 		init() {
-			this.computeGeojsonsPerColorPair()
+			this.addFeaturesFromPoints()
 			// border
 			this.map.addSource(this.layerId, {
 				type: 'geojson',
 				lineMetrics: true,
-				data: this.track.geojson,
+				data: this.deviceGeojsonData,
 			})
 			this.map.addLayer({
 				type: 'line',

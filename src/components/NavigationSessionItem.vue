@@ -126,7 +126,7 @@
 					</template>
 					{{ t('phonetrack', 'Links for devices') }}
 				</NcActionButton>
-				<NcActionButton
+				<!--NcActionButton
 					:close-after-click="true"
 					@click="onToggleAllClick">
 					<template #icon>
@@ -134,7 +134,7 @@
 						<ToggleSwitchOffOutlineIcon v-else :size="20" />
 					</template>
 					{{ t('phonetrack', 'Toggle all') }}
-				</NcActionButton>
+				</NcActionButton-->
 				<NcActionButton
 					:close-after-click="true"
 					@click="onZoomToBounds">

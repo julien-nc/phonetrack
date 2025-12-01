@@ -180,9 +180,12 @@ export default {
 
 	computed: {
 		dotColor() {
+			return this.device.color || '#0693e3'
+			/*
 			return this.device.colorCriteria === COLOR_CRITERIAS.none.id
 				? this.device.color || '#0693e3'
 				: 'gradient'
+			*/
 		},
 		formattedName() {
 			if (this.device.alias) {
