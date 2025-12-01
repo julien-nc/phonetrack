@@ -20,7 +20,7 @@ const gradientColors = getColorGradientColors(240, 0)
  * This gradient will be used for each of its LineString.
  */
 export default {
-	name: 'TrackGradientColorPoints',
+	name: 'DeviceGradientColorPoints',
 
 	components: {
 	},
@@ -33,13 +33,21 @@ export default {
 	],
 
 	props: {
-		track: {
+		device: {
 			type: Object,
+			required: true,
+		},
+		layerId: {
+			type: String,
 			required: true,
 		},
 		map: {
 			type: Object,
 			required: true,
+		},
+		filters: {
+			type: [Object, null],
+			default: null,
 		},
 		colorCriteria: {
 			type: Number,
@@ -53,13 +61,41 @@ export default {
 			type: Number,
 			default: 5,
 		},
+		color: {
+			type: String,
+			default: '#0693e3',
+		},
 		borderColor: {
 			type: String,
 			default: 'black',
 		},
-		settings: {
-			type: Object,
-			required: true,
+		border: {
+			type: Boolean,
+			default: true,
+		},
+		arrows: {
+			type: Boolean,
+			default: true,
+		},
+		arrowsSpacing: {
+			type: Number,
+			default: 10,
+		},
+		arrowsScaleFactor: {
+			type: Number,
+			default: 1,
+		},
+		opacity: {
+			type: Number,
+			default: 1,
+		},
+		distanceUnit: {
+			type: String,
+			default: 'metric',
+		},
+		draggablePoints: {
+			type: Boolean,
+			default: true,
 		},
 	},
 
@@ -72,31 +108,21 @@ export default {
 	geojsonsPerColorPair: {},
 
 	computed: {
-		layerId() {
-			return String(this.track.id)
-		},
 		borderLayerId() {
 			return this.layerId + '-border'
 		},
 		invisibleBorderLayerId() {
 			return this.layerId + '-invisible-border'
 		},
-		color() {
-			return this.track.color ?? '#0693e3'
-		},
 		onTop() {
-			return this.track.onTop
+			return this.device.onTop
 		},
 		getPointValues() {
-			return this.colorExtensionCriteria
+			return this.colorCriteria === COLOR_CRITERIAS.elevation.id
 				? (coords) => {
-					return coords.map(c => c[4]?.unsupported?.[this.colorExtensionCriteria] ?? null)
+					return coords.map(c => c[2])
 				}
-				: this.colorCriteria === COLOR_CRITERIAS.elevation.id
-					? (coords) => {
-						return coords.map(c => c[2])
-					}
-					: () => null
+				: () => null
 		},
 	},
 
@@ -166,6 +192,7 @@ export default {
 		// return an object indexed by color index, 2 levels, first color and second color
 		// first color index is always lower than second (or equal)
 		computeGeojsonsPerColorPair() {
+			// TODO use the points directly
 			const result = {}
 			this.track.geojson.features.forEach((feature) => {
 				if (feature.geometry.type === 'LineString') {
@@ -358,9 +385,6 @@ export default {
 		},
 	},
 	render(h) {
-		if (this.ready && this.$slots.default) {
-			return h('div', { style: { display: 'none' } }, this.$slots.default)
-		}
 		return null
 	},
 }
