@@ -172,6 +172,15 @@
 						label="label"
 						:clearable="false"
 						@update:model-value="onComponentInputChange($event.value, 'distance_unit')" />
+					<NcSelect
+						:model-value="selectedQuotaReached"
+						class="select"
+						:input-label="t('phonetrack', 'When point quota is reached')"
+						:options="Object.values(quotaReachedOptions)"
+						:no-wrap="true"
+						label="label"
+						:clearable="false"
+						@update:model-value="onComponentInputChange($event.value, 'quotareached')" />
 				</NcFormBox>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!isPublicPage"
@@ -385,12 +394,29 @@ export default {
 					value: 'nautical',
 				},
 			},
+			quotaReachedOptions: {
+				block: {
+					label: t('phonetrack', 'Block logging'),
+					value: 'block',
+				},
+				rotateglob: {
+					label: t('phonetrack', 'Delete user\'s oldest point each time a new one is logged'),
+					value: 'rotateglob',
+				},
+				rotatedev: {
+					label: t('phonetrack', 'Delete device\'s oldest point each time a new one is logged'),
+					value: 'rotatedev',
+				},
+			},
 		}
 	},
 
 	computed: {
 		selectedDistanceUnit() {
 			return this.distanceUnitOptions[this.settings.distance_unit] ?? this.distanceUnitOptions.metric
+		},
+		selectedQuotaReached() {
+			return this.quotaReachedOptions[this.settings.quotareached] ?? this.distanceUnitOptions.block
 		},
 		maptilerHint() {
 			const maptilerLink = '<a href="https://maptiler.com" target="blank">https://maptiler.com</a>'
