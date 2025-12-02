@@ -99,10 +99,9 @@ export default {
 	data() {
 		return {
 			ready: false,
+			geojsonsPerColorPair: {},
 		}
 	},
-
-	geojsonsPerColorPair: {},
 
 	computed: {
 		borderLayerId() {
@@ -151,6 +150,9 @@ export default {
 		traveledDistances() {
 			const points = this.filteredPoints
 			const distances = [0]
+			if (points.length === 0) {
+				return distances
+			}
 			let previousLngLat = new LngLat(points[0].lon, points[0].lat)
 			for (let i = 1; i < points.length; i++) {
 				const lngLat = new LngLat(points[i].lon, points[i].lat)
@@ -193,7 +195,7 @@ export default {
 
 	methods: {
 		onMouseEnter() {
-			const pairData = this.$options.geojsonsPerColorPair
+			const pairData = this.geojsonsPerColorPair
 			Object.keys(pairData).forEach((ci1) => {
 				Object.keys(pairData[ci1]).forEach((ci2) => {
 					const pairId = this.layerId + '-cpoint-' + ci1 + '-' + ci2
@@ -207,7 +209,7 @@ export default {
 			}
 		},
 		onMouseLeave() {
-			const pairData = this.$options.geojsonsPerColorPair
+			const pairData = this.geojsonsPerColorPair
 			Object.keys(pairData).forEach((ci1) => {
 				Object.keys(pairData[ci1]).forEach((ci2) => {
 					const pairId = this.layerId + '-cpoint-' + ci1 + '-' + ci2
@@ -227,7 +229,7 @@ export default {
 		// return an object indexed by color index, 2 levels, first color and second color
 		// first color index is always lower than second (or equal)
 		addFeaturesFromPoints() {
-			this.$options.geojsonsPerColorPair = {}
+			this.geojsonsPerColorPair = {}
 			if (this.filteredPoints.length < 2) {
 				return
 			}
@@ -244,7 +246,7 @@ export default {
 			for (let fi = 1; fi < points.length - 1; fi++) {
 				colorIndex = this.processPair(result, min, max, colorIndex, points[fi], points[fi + 1], this.pointValues[fi + 1])
 			}
-			this.$options.geojsonsPerColorPair = result
+			this.geojsonsPerColorPair = result
 		},
 		processPair(geojsons, min, max, firstColorIndex, point1, point2, secondPointValue) {
 			const secondColorIndex = this.getColorIndex(min, max, secondPointValue)
@@ -284,7 +286,7 @@ export default {
 				this.map.moveLayer(this.borderLayerId)
 			}
 
-			const pairData = this.$options.geojsonsPerColorPair
+			const pairData = this.geojsonsPerColorPair
 			Object.keys(pairData).forEach((ci1) => {
 				Object.keys(pairData[ci1]).forEach((ci2) => {
 					const pairId = this.layerId + '-cpoint-' + ci1 + '-' + ci2
@@ -304,10 +306,11 @@ export default {
 				this.map.removeSource(this.layerId)
 			}
 			// remove colored lines
-			const pairData = this.$options.geojsonsPerColorPair
+			const pairData = this.geojsonsPerColorPair
 			Object.keys(pairData).forEach((ci1) => {
 				Object.keys(pairData[ci1]).forEach((ci2) => {
 					const pairId = this.layerId + '-cpoint-' + ci1 + '-' + ci2
+					console.debug('remove', pairId)
 					if (this.map.getLayer(pairId)) {
 						this.map.removeLayer(pairId)
 					}
@@ -353,11 +356,12 @@ export default {
 			})
 
 			// colored lines
-			const pairData = this.$options.geojsonsPerColorPair
+			const pairData = this.geojsonsPerColorPair
 			console.debug('[phonetrack] TrackGradientColorPoints: pair data', pairData)
 			Object.keys(pairData).forEach((ci1) => {
 				Object.keys(pairData[ci1]).forEach((ci2) => {
 					const pairId = this.layerId + '-cpoint-' + ci1 + '-' + ci2
+					console.debug('add', pairId)
 					this.map.addSource(pairId, {
 						type: 'geojson',
 						lineMetrics: true,

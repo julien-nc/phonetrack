@@ -1,7 +1,7 @@
 <script>
 import WatchLineBorderColor from '../../mixins/WatchLineBorderColor.js'
 import PointInfoPopup from '../../mixins/PointInfoPopup.js'
-// import BringTrackToTop from '../../mixins/BringTrackToTop.js'
+import BringTrackToTop from '../../mixins/BringTrackToTop.js'
 import LineDirectionArrows from '../../mixins/LineDirectionArrows.js'
 
 import { getFilteredPoints } from '../../utils.js'
@@ -15,7 +15,7 @@ export default {
 	mixins: [
 		WatchLineBorderColor,
 		PointInfoPopup,
-		// BringTrackToTop,
+		BringTrackToTop,
 		LineDirectionArrows,
 	],
 
