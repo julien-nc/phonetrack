@@ -43,6 +43,17 @@ class Version010000Date20250824162417 extends SimpleMigrationStep {
 				$schemaChanged = true;
 			}
 		}
+		if ($schema->hasTable('phonetrack_points')) {
+			$table = $schema->getTable('phonetrack_points');
+			if ($table->hasIndex('phonetrack_timestamp_index')) {
+				$table->dropIndex('phonetrack_timestamp_index');
+				$schemaChanged = true;
+			}
+			if (!$table->hasIndex('phonetrack_timestamp_devid_idx')) {
+				$table->addIndex(['deviceid', 'timestamp'], 'phonetrack_timestamp_devid_idx');
+				$schemaChanged = true;
+			}
+		}
 
 		return $schemaChanged ? $schema : null;
 	}
