@@ -271,7 +271,7 @@ class SessionMapper extends QBMapper {
 			->from('phonetrack_devices', 'dev')
 			->innerJoin('dev', 'phonetrack_points', 'poi', $qb->expr()->eq('dev.id', 'poi.deviceid'))
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token))
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($token))
 			);
 
 		if ($filters !== null) {

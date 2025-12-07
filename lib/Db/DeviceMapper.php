@@ -18,7 +18,7 @@ class DeviceMapper extends QBMapper {
 		parent::__construct($db, 'phonetrack_devices', Device::class);
 	}
 
-	public function find($id) {
+	public function find($id): Device {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -30,18 +30,17 @@ class DeviceMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
-	public function findBySessionId(string $sessionId) {
+	public function findBySessionId(int $sessionId): array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_INT))
 			);
 
 		return $this->findEntities($qb);
 	}
-
 
 	/**
 	 * @param string $sessionToken
@@ -57,7 +56,30 @@ class DeviceMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param int $deviceId
+	 * @return Device
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getBySessionIdAndDeviceId(int $sessionId, int $deviceId): Device {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_INT))
 			)
 			->andWhere(
 				$qb->expr()->eq('id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
@@ -80,7 +102,7 @@ class DeviceMapper extends QBMapper {
 		$qb->select('*')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR))
@@ -95,7 +117,7 @@ class DeviceMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('phonetrack_devices')
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
@@ -130,7 +152,7 @@ class DeviceMapper extends QBMapper {
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_devs')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token))
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($token))
 			);
 
 		$req = $qb->executeQuery();

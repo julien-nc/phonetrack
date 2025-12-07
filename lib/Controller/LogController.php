@@ -205,7 +205,7 @@ class LogController extends Controller {
 			SELECT ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '
 			FROM *PREFIX*phonetrack_devices
 			INNER JOIN *PREFIX*phonetrack_sessions
-				ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
+				ON *PREFIX*phonetrack_devices.session_token=*PREFIX*phonetrack_sessions.token
 			WHERE *PREFIX*phonetrack_devices.id=' . $this->db_quote_escape_string($deviceId) . ' ;';
 		$req = $this->db->prepare($sqlGet);
 		$res = $req->execute();
@@ -903,7 +903,7 @@ class LogController extends Controller {
 			SELECT count(*) as co
 			FROM *PREFIX*phonetrack_points AS p
 			INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
-			INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
+			INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token=s.token
 			WHERE s.' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . ' ;';
 		$req = $this->db->prepare($sqlget);
 		$res = $req->execute();
@@ -994,7 +994,7 @@ class LogController extends Controller {
 						SELECT p.id AS id
 						FROM *PREFIX*phonetrack_points AS p
 						INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
-						INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
+						INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token=s.token
 						WHERE s.' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . '
 						ORDER BY timestamp ASC LIMIT ' . $nbExceedingPoints . ' ;';
 					$req = $this->db->prepare($sqldel);
@@ -1020,7 +1020,7 @@ class LogController extends Controller {
 							(SELECT p.id
 							FROM *PREFIX*phonetrack_points AS p
 							INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
-							INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.sessionid=s.token
+							INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token=s.token
 							WHERE s.' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . '
 							ORDER BY timestamp ASC LIMIT ' . $nbExceedingPoints . ')
 						 ;';
@@ -1050,12 +1050,12 @@ class LogController extends Controller {
 		}
 
 		try {
-			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+			$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $deviceId);
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		$point = $this->pointMapper->addPoint(
-			$deviceId, $lat, $lon, $timestamp, $accuracy, $altitude, $batterylevel, $satellites, $useragent, $speed, $bearing,
+			$device->getId(), $lat, $lon, $timestamp, $accuracy, $altitude, $batterylevel, $satellites, $useragent, $speed, $bearing,
 		);
 		return new DataResponse($point);
 	}
@@ -1077,7 +1077,7 @@ class LogController extends Controller {
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+					WHERE session_token=' . $this->db_quote_escape_string($token) . '
 						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 				$req = $this->db->prepare($sqlchk);
 				$res = $req->execute();
@@ -1092,7 +1092,7 @@ class LogController extends Controller {
 					$sqlchk = '
 						SELECT id
 						FROM *PREFIX*phonetrack_devices
-						WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+						WHERE session_token=' . $this->db_quote_escape_string($token) . '
 							  AND nametoken=' . $this->db_quote_escape_string($devicename) . ' ;';
 					$req = $this->db->prepare($sqlchk);
 					$res = $req->execute();
@@ -1184,18 +1184,20 @@ class LogController extends Controller {
 		) {
 			// check if session exists
 			$sqlCheck = '
-				SELECT `name`, `user`, `public`, `locked`
+				SELECT `id`, `name`, `user`, `public`, `locked`
 				FROM `*PREFIX*phonetrack_sessions`
 				WHERE `token`=?
 			';
 			$req = $this->db->prepare($sqlCheck);
 			$res = $req->execute([$token]);
 			$dbname = null;
+			$dbSessionId = null;
 			$userid = null;
 			$locked = null;
 			$isPublicSession = null;
 			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
+				$dbSessionId = (int)$row['id'];
 				$userid = $row['user'];
 				$locked = (((int)$row['locked']) === 1);
 				$isPublicSession = (bool)$row['public'];
@@ -1221,7 +1223,7 @@ class LogController extends Controller {
 					$token = $dbtoken;
 					// get session info
 					$sqlCheck = '
-						SELECT `name`, `user`, `public`, `locked`
+						SELECT `id`, `name`, `user`, `public`, `locked`
 						FROM `*PREFIX*phonetrack_sessions`
 						WHERE `token`=?
 					';
@@ -1234,6 +1236,7 @@ class LogController extends Controller {
 					while ($row = $res->fetch()) {
 						$dbname = $row['name'];
 						$userid = $row['user'];
+						$dbSessionId = (int)$row['id'];
 						$locked = (((int)$row['locked']) === 1);
 						$isPublicSession = (bool)$row['public'];
 						break;
@@ -1253,7 +1256,7 @@ class LogController extends Controller {
 					$sqlGetRes = '
 						SELECT id, name, nametoken, alias
 						FROM *PREFIX*phonetrack_devices
-						WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+						WHERE session_token=' . $this->db_quote_escape_string($token) . '
 							  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 					$req = $this->db->prepare($sqlGetRes);
 					$res = $req->execute();
@@ -1294,7 +1297,7 @@ class LogController extends Controller {
 						$sqlGetRes = '
 							SELECT id, name, nametoken, alias
 							FROM *PREFIX*phonetrack_devices
-							WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+							WHERE session_token=' . $this->db_quote_escape_string($token) . '
 								  AND nametoken=' . $this->db_quote_escape_string($devicename) . ' ;';
 						$req = $this->db->prepare($sqlGetRes);
 						$res = $req->execute();
@@ -1319,10 +1322,11 @@ class LogController extends Controller {
 							// => we create it
 							$sql = '
 								INSERT INTO *PREFIX*phonetrack_devices
-								(name, sessionid)
+								(name, session_token, session_id)
 								VALUES ('
 									. $this->db_quote_escape_string($devicename) . ','
-									. $this->db_quote_escape_string($token)
+									. $this->db_quote_escape_string($token) . ','
+									. $this->db_quote_escape_string($dbSessionId)
 								. ') ;';
 							$req = $this->db->prepare($sql);
 							$req->execute();
@@ -1331,7 +1335,7 @@ class LogController extends Controller {
 							$sqlGetdeviceId = '
 								SELECT id
 								FROM *PREFIX*phonetrack_devices
-								WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+								WHERE session_id=' . $this->db_quote_escape_string($dbSessionId) . '
 									  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 							$req = $this->db->prepare($sqlGetdeviceId);
 							$res = $req->execute();
@@ -1429,7 +1433,7 @@ class LogController extends Controller {
 							) l ON p.`deviceid` = l.`deviceid`
 							AND p.`timestamp` = l.`lastupdate`
 							JOIN `*PREFIX*phonetrack_devices` d ON p.`deviceid` = d.`id`
-							WHERE `sessionid` = ?
+							WHERE `session_token` = ?
 						';
 						$friendRequest = $this->db->prepare($friendSQL);
 						$res = $friendRequest->execute([$token]);
@@ -1508,19 +1512,21 @@ class LogController extends Controller {
 		if ($devicename !== '' && $token !== '') {
 			// check if session exists
 			$sqlCheck = '
-				SELECT `name`, `user`, `public`, `locked`
+				SELECT `id`, `name`, `user`, `public`, `locked`
 				FROM `*PREFIX*phonetrack_sessions`
 				WHERE `token`=?
 			';
 			$req = $this->db->prepare($sqlCheck);
 			$res = $req->execute([$token]);
 			$dbname = null;
+			$dbSessionId = null;
 			$userid = null;
 			$locked = null;
 			$isPublicSession = null;
 			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				$userid = $row['user'];
+				$dbSessionId = (int)$row['id'];
 				$locked = (((int)$row['locked']) === 1);
 				$isPublicSession = (bool)$row['public'];
 				break;
@@ -1545,7 +1551,7 @@ class LogController extends Controller {
 					$token = $dbToken;
 					// get session info
 					$sqlCheck = '
-						SELECT `name`, `user`, `public`, `locked`
+						SELECT `id`, `name`, `user`, `public`, `locked`
 						FROM `*PREFIX*phonetrack_sessions`
 						WHERE `token`=?
 					';
@@ -1558,6 +1564,7 @@ class LogController extends Controller {
 					while ($row = $res->fetch()) {
 						$dbname = $row['name'];
 						$userid = $row['user'];
+						$dbSessionId = (int)$row['id'];
 						$locked = (((int)$row['locked']) === 1);
 						$isPublicSession = (bool)$row['public'];
 						break;
@@ -1577,7 +1584,7 @@ class LogController extends Controller {
 					$sqlgetres = '
 						SELECT id, name, nametoken, alias
 						FROM *PREFIX*phonetrack_devices
-						WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+						WHERE session_token=' . $this->db_quote_escape_string($token) . '
 							  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 					$req = $this->db->prepare($sqlgetres);
 					$res = $req->execute();
@@ -1618,7 +1625,7 @@ class LogController extends Controller {
 						$sqlgetres = '
 							SELECT id, name, nametoken, alias
 							FROM *PREFIX*phonetrack_devices
-							WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+							WHERE session_token=' . $this->db_quote_escape_string($token) . '
 								  AND nametoken=' . $this->db_quote_escape_string($devicename) . ' ;';
 						$req = $this->db->prepare($sqlgetres);
 						$req->execute();
@@ -1643,9 +1650,10 @@ class LogController extends Controller {
 							// => we create it
 							$sql = '
 								INSERT INTO *PREFIX*phonetrack_devices
-								(name, sessionid)
+								(name, session_id, session_token)
 								VALUES ('
 									. $this->db_quote_escape_string($devicename) . ','
+									. $this->db_quote_escape_string($dbSessionId) . ','
 									. $this->db_quote_escape_string($token)
 								. ') ;';
 							$req = $this->db->prepare($sql);
@@ -1655,7 +1663,7 @@ class LogController extends Controller {
 							$sqlGetDeviceId = '
 								SELECT id
 								FROM *PREFIX*phonetrack_devices
-								WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+								WHERE session_id=' . $this->db_quote_escape_string($dbSessionId) . '
 									  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 							$req = $this->db->prepare($sqlGetDeviceId);
 							$res = $req->execute();
@@ -1770,7 +1778,7 @@ class LogController extends Controller {
 									MAX(`timestamp`) `lastupdate`
 								FROM `*PREFIX*phonetrack_points` po
 								JOIN `*PREFIX*phonetrack_devices` d ON po.`deviceid` = d.`id`
-								WHERE `sessionid` = ?
+								WHERE `session_token` = ?
 								GROUP BY `deviceid`, `nametoken`, `name`
 							) l ON p.`deviceid` = l.`deviceid`
 							AND p.`timestamp` = l.`lastupdate`

@@ -12,8 +12,10 @@ use OCP\DB\Types;
  * @method \void setName(string $name)
  * @method \string|\null getAlias()
  * @method \void setAlias(?string $alias)
- * @method \string getSessionid()
- * @method \void setSessionid(string $sessionid)
+ * @method \int getSessionId()
+ * @method \void setSessionId(int $sessionId)
+ * @method \string getSessionToken()
+ * @method \void setSessionToken(string $sessionToken)
  * @method \string|\null getColor()
  * @method \void setColor(?string $color)
  * @method \string|\null getShape()
@@ -33,7 +35,8 @@ class Device extends Entity implements \JsonSerializable {
 
 	protected $name;
 	protected $alias;
-	protected $sessionid;
+	protected $sessionId;
+	protected $sessionToken;
 	protected $color;
 	protected $shape;
 	protected $nametoken;
@@ -46,7 +49,8 @@ class Device extends Entity implements \JsonSerializable {
 		$this->addType('id', Types::INTEGER);
 		$this->addType('name', Types::STRING);
 		$this->addType('alias', Types::STRING);
-		$this->addType('sessionid', Types::STRING);
+		$this->addType('session_id', Types::INTEGER);
+		$this->addType('session_token', Types::STRING);
 		$this->addType('color', Types::STRING);
 		$this->addType('shape', Types::STRING);
 		$this->addType('nametoken', Types::STRING);
@@ -62,7 +66,8 @@ class Device extends Entity implements \JsonSerializable {
 			'id' => $this->getId(),
 			'name' => $this->getName(),
 			'alias' => $this->getAlias(),
-			'sessionid' => $this->getSessionid(),
+			'session_id' => $this->getSessionId(),
+			'session_token' => $this->getSessionToken(),
 			'color' => $this->getColor(),
 			'shape' => $this->getShape(),
 			'nametoken' => $this->getNametoken(),

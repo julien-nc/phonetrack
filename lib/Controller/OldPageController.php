@@ -583,12 +583,12 @@ class OldPageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . ' ;';
+				WHERE session_token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$res = $req->execute();
 			$dbdevid = null;
 			while ($row = $res->fetch()) {
-				array_push($dids, $row['id']);
+				$dids[] = $row['id'];
 			}
 			$req->closeCursor();
 
@@ -652,7 +652,7 @@ class OldPageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				WHERE session_token=' . $this->db_quote_escape_string($token) . '
 					  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$req->execute();
@@ -715,11 +715,11 @@ class OldPageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				WHERE session_token=' . $this->db_quote_escape_string($token) . '
 					  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
-			$req->execute();
-			while ($row = $req->fetch()) {
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
 				$dbdid = $row['id'];
 			}
 			$req->closeCursor();
@@ -937,7 +937,7 @@ class OldPageController extends Controller {
 	}
 
 	#[NoAdminRequired]
-	public function setDeviceColor($session, $device, $color) {
+	public function setDeviceColor(string $session, int $device, string $color) {
 		$ok = 0;
 		// check if session exists
 		$sqlchk = '
@@ -959,12 +959,12 @@ class OldPageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($session) . '
+				WHERE session_token=' . $this->db_quote_escape_string($session) . '
 					  AND id=' . $this->db_quote_escape_string($device) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbdevid = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbdevid = $row['id'];
 				break;
 			}
@@ -975,7 +975,7 @@ class OldPageController extends Controller {
 					UPDATE *PREFIX*phonetrack_devices
 					SET color=' . $this->db_quote_escape_string($color) . '
 					WHERE id=' . $this->db_quote_escape_string($device) . '
-						  AND sessionid=' . $this->db_quote_escape_string($session) . ' ;';
+						  AND session_token=' . $this->db_quote_escape_string($session) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
@@ -993,7 +993,7 @@ class OldPageController extends Controller {
 	}
 
 	#[NoAdminRequired]
-	public function setDeviceShape($session, $device, $shape) {
+	public function setDeviceShape(string $session, int $device, string $shape) {
 		$ok = 0;
 		// check if session exists
 		$sqlchk = '
@@ -1002,9 +1002,9 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($session) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -1015,12 +1015,12 @@ class OldPageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($session) . '
+				WHERE session_token=' . $this->db_quote_escape_string($session) . '
 					  AND id=' . $this->db_quote_escape_string($device) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbdevid = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbdevid = $row['id'];
 				break;
 			}
@@ -1031,7 +1031,7 @@ class OldPageController extends Controller {
 					UPDATE *PREFIX*phonetrack_devices
 					SET shape=' . $this->db_quote_escape_string($shape) . '
 					WHERE id=' . $this->db_quote_escape_string($device) . '
-						  AND sessionid=' . $this->db_quote_escape_string($session) . ' ;';
+						  AND session_token=' . $this->db_quote_escape_string($session) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
@@ -1101,9 +1101,9 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbtoken = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbtoken = $row['token'];
 				break;
 			}
@@ -1114,12 +1114,12 @@ class OldPageController extends Controller {
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
+				$res = $req->execute();
 				$dbdeviceid = null;
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbdeviceid = $row['id'];
 				}
 				$req->closeCursor();
@@ -1128,7 +1128,7 @@ class OldPageController extends Controller {
 					$sqlren = '
 						UPDATE *PREFIX*phonetrack_devices
 						SET name=' . $this->db_quote_escape_string($newname) . '
-						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 							  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlren);
 					$req->execute();
@@ -1161,9 +1161,9 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbtoken = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbtoken = $row['token'];
 				break;
 			}
@@ -1174,12 +1174,12 @@ class OldPageController extends Controller {
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
+				$res = $req->execute();
 				$dbdeviceid = null;
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbdeviceid = $row['id'];
 				}
 				$req->closeCursor();
@@ -1188,7 +1188,7 @@ class OldPageController extends Controller {
 					$sqlren = '
 						UPDATE *PREFIX*phonetrack_devices
 						SET alias=' . $this->db_quote_escape_string($newalias) . '
-						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 							  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlren);
 					$req->execute();
@@ -1220,9 +1220,9 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbtoken = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbtoken = $row['token'];
 			break;
 		}
@@ -1231,15 +1231,17 @@ class OldPageController extends Controller {
 		if ($dbtoken !== null) {
 			// check if destination session exists
 			$sqlchk = '
-				SELECT name, token
+				SELECT id, name, token
 				FROM *PREFIX*phonetrack_sessions
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($newSessionId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbdesttoken = null;
-			while ($row = $req->fetch()) {
+			$dbDestId = null;
+			while ($row = $res->fetch()) {
 				$dbdesttoken = $row['token'];
+				$dbDestId = (int)$row['id'];
 				break;
 			}
 			$req->closeCursor();
@@ -1248,13 +1250,13 @@ class OldPageController extends Controller {
 				// check if device exists
 				$sqlchk = '
 					SELECT id, name FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
+				$res = $req->execute();
 				$dbdeviceid = null;
 				$dbdevicename = null;
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbdeviceid = $row['id'];
 					$dbdevicename = $row['name'];
 				}
@@ -1265,12 +1267,12 @@ class OldPageController extends Controller {
 					$sqlchk = '
 						SELECT id, name
 						FROM *PREFIX*phonetrack_devices
-						WHERE sessionid=' . $this->db_quote_escape_string($dbdesttoken) . '
+						WHERE session_token=' . $this->db_quote_escape_string($dbdesttoken) . '
 							  AND name=' . $this->db_quote_escape_string($dbdevicename) . ' ;';
 					$req = $this->dbConnection->prepare($sqlchk);
-					$req->execute();
+					$res = $req->execute();
 					$dbdestname = null;
-					while ($row = $req->fetch()) {
+					while ($row = $res->fetch()) {
 						$dbdestname = $row['name'];
 					}
 					$req->closeCursor();
@@ -1278,8 +1280,9 @@ class OldPageController extends Controller {
 					if ($dbdestname === null) {
 						$sqlreaff = '
 							UPDATE *PREFIX*phonetrack_devices
-							SET sessionid=' . $this->db_quote_escape_string($dbdesttoken) . '
-							WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+							SET session_token=' . $this->db_quote_escape_string($dbdesttoken) . ',
+							    session_id=' . $this->db_quote_escape_string($dbDestId) . '
+							WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 								  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 						$req = $this->dbConnection->prepare($sqlreaff);
 						$req->execute();
@@ -1327,12 +1330,12 @@ class OldPageController extends Controller {
 			$sqlchk = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				WHERE session_token=' . $this->db_quote_escape_string($token) . '
 					  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbdeviceid = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbdeviceid = $row['id'];
 			}
 			$req->closeCursor();
@@ -1447,11 +1450,11 @@ class OldPageController extends Controller {
 						$sqldev = '
 							SELECT id
 							FROM *PREFIX*phonetrack_devices
-							WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ;';
+							WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' ;';
 						$req = $this->dbConnection->prepare($sqldev);
-						$req->execute();
-						while ($row = $req->fetch()) {
-							array_push($devices, intval($row['id']));
+						$res = $req->execute();
+						while ($row = $res->fetch()) {
+							$devices[] = intval($row['id']);
 						}
 						$req->closeCursor();
 
@@ -1489,12 +1492,12 @@ class OldPageController extends Controller {
 								$sqlcolor = '
 									SELECT color, name, alias, shape
 									FROM *PREFIX*phonetrack_devices
-									WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+									WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 										  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 								$req = $this->dbConnection->prepare($sqlcolor);
-								$req->execute();
+								$res = $req->execute();
 								$col = '';
-								while ($row = $req->fetch()) {
+								while ($row = $res->fetch()) {
 									$shape = $row['shape'];
 									$col = $row['color'];
 									$name = $row['name'];
@@ -1651,11 +1654,11 @@ class OldPageController extends Controller {
 					$sqldev = '
 						SELECT id
 						FROM *PREFIX*phonetrack_devices
-						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ;';
+						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' ;';
 					$req = $this->dbConnection->prepare($sqldev);
-					$req->execute();
-					while ($row = $req->fetch()) {
-						array_push($devices, intval($row['id']));
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
+						$devices[] = intval($row['id']);
 					}
 					$req->closeCursor();
 
@@ -1693,12 +1696,12 @@ class OldPageController extends Controller {
 							$sqlcolor = '
 								SELECT color, name, alias, shape
 								FROM *PREFIX*phonetrack_devices
-								WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+								WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 									  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 							$req = $this->dbConnection->prepare($sqlcolor);
-							$req->execute();
+							$res = $req->execute();
 							$col = '';
-							while ($row = $req->fetch()) {
+							while ($row = $res->fetch()) {
 								$col = $row['color'];
 								$shape = $row['shape'];
 								$name = $row['name'];
@@ -1852,12 +1855,12 @@ class OldPageController extends Controller {
 				$sqldev = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' '
 					. $deviceNameRestriction . ' ;';
 				$req = $this->dbConnection->prepare($sqldev);
-				$req->execute();
-				while ($row = $req->fetch()) {
-					array_push($devices, intval($row['id']));
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
+					$devices[] = intval($row['id']);
 				}
 				$req->closeCursor();
 
@@ -1895,12 +1898,12 @@ class OldPageController extends Controller {
 						$sqlcolor = '
 							SELECT color, name, alias, shape
 							FROM *PREFIX*phonetrack_devices
-							WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+							WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 								  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 						$req = $this->dbConnection->prepare($sqlcolor);
-						$req->execute();
+						$res = $req->execute();
 						$col = '';
-						while ($row = $req->fetch()) {
+						while ($row = $res->fetch()) {
 							$col = $row['color'];
 							$shape = $row['shape'];
 							$name = $row['name'];
@@ -2878,13 +2881,13 @@ class OldPageController extends Controller {
 	}
 
 	#[NoAdminRequired]
-	public function addNameReservation($token, $devicename) {
+	public function addNameReservation(string $token, string $devicename) {
 		$ok = 0;
 		$nametoken = null;
-		if ($devicename !== '' && $devicename !== null) {
+		if ($devicename !== '') {
 			// check if session exists and owned by current user
 			$sqlchk = '
-				SELECT name, token
+				SELECT id, name, token
 				FROM *PREFIX*phonetrack_sessions
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
@@ -2892,9 +2895,11 @@ class OldPageController extends Controller {
 			$res = $req->execute();
 			$dbname = null;
 			$dbtoken = null;
+			$dbSessionId = null;
 			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				$dbtoken = $row['token'];
+				$dbSessionId = (int)$row['id'];
 				break;
 			}
 			$req->closeCursor();
@@ -2902,9 +2907,9 @@ class OldPageController extends Controller {
 			if ($dbname !== null) {
 				// check if name reservation exists
 				$sqlchk = '
-					SELECT name, sessionid, nametoken
+					SELECT name, nametoken
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$res = $req->execute();
@@ -2925,9 +2930,10 @@ class OldPageController extends Controller {
 					// insert
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_devices
-						(sessionid, name, nametoken)
+						(session_token, session_id, name, nametoken)
 						VALUES ('
 						. $this->db_quote_escape_string($dbtoken) . ','
+						. $this->db_quote_escape_string($dbSessionId) . ','
 						. $this->db_quote_escape_string($devicename) . ','
 						. $this->db_quote_escape_string($nametoken)
 						. ') ;';
@@ -2943,7 +2949,7 @@ class OldPageController extends Controller {
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
 						SET nametoken=' . $this->db_quote_escape_string($nametoken) . '
-						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						WHERE session_id=' . $this->db_quote_escape_string($dbSessionId) . '
 							  AND name=' . $this->db_quote_escape_string($dbdevicename) . ' ;';
 					$req = $this->dbConnection->prepare($sqlupd);
 					$req->execute();
@@ -2991,15 +2997,15 @@ class OldPageController extends Controller {
 			if ($dbname !== null) {
 				// check if name reservation exists
 				$sqlchk = '
-					SELECT name, sessionid, nametoken
+					SELECT name, nametoken
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
+				$res = $req->execute();
 				$dbdevicename = null;
 				$dbdevicenametoken = null;
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbdevicename = $row['name'];
 					$dbdevicenametoken = $row['nametoken'];
 					break;
@@ -3015,7 +3021,7 @@ class OldPageController extends Controller {
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
 						SET nametoken=' . $this->db_quote_escape_string('') . '
-						WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 							  AND name=' . $this->db_quote_escape_string($dbdevicename) . ' ;';
 					$req = $this->dbConnection->prepare($sqlupd);
 					$req->execute();
@@ -3055,16 +3061,16 @@ class OldPageController extends Controller {
 		return ($dbname !== null);
 	}
 
-	private function deviceExists($devid, $token) {
+	private function deviceExists(int $devid, string $token) {
 		$sqlchk = '
 			SELECT name
 			FROM *PREFIX*phonetrack_devices
-			WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+			WHERE session_token=' . $this->db_quote_escape_string($token) . '
 				  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
@@ -3277,10 +3283,10 @@ class OldPageController extends Controller {
 		$targetDeviceId = null;
 		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
 			// check if target session id is owned by current user or if it's shared with him/her
-			$targetSessionId = null;
+			$targetSessionToken = null;
 			$ownsTargetSession = $this->sessionExists($sid, $this->userId);
 			if ($ownsTargetSession) {
-				$targetSessionId = $sid;
+				$targetSessionToken = $sid;
 			} else {
 				$sqlchk = '
 					SELECT id, session_token, sharetoken
@@ -3288,24 +3294,24 @@ class OldPageController extends Controller {
 					WHERE username=' . $this->db_quote_escape_string($this->userId) . '
 						  AND sharetoken=' . $this->db_quote_escape_string($sid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
-				while ($row = $req->fetch()) {
-					$targetSessionId = $row['session_token'];
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
+					$targetSessionToken = $row['session_token'];
 					break;
 				}
 				$req->closeCursor();
 			}
 
-			if ($targetSessionId !== null) {
+			if ($targetSessionToken !== null) {
 				// check if there is a device named like that in target session
 				$sqlchk = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
 					WHERE name=' . $this->db_quote_escape_string($dname) . '
-						  AND sessionid=' . $this->db_quote_escape_string($targetSessionId) . ' ;';
+						  AND session_token=' . $this->db_quote_escape_string($targetSessionToken) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$targetDeviceId = $row['id'];
 					break;
 				}
@@ -3416,18 +3422,20 @@ class OldPageController extends Controller {
 		]);
 	}
 
-	private function logMultiple($token, $devicename, $points) {
+	private function logMultiple(string $token, string $devicename, array $points) {
 		$done = 0;
 		// check if session exists
 		$sqlchk = '
-			SELECT name
+			SELECT name, id
 			FROM *PREFIX*phonetrack_sessions
 			WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		$dbSessionId = null;
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
+			$dbSessionId = (int)$row['id'];
 			break;
 		}
 		$req->closeCursor();
@@ -3437,11 +3445,11 @@ class OldPageController extends Controller {
 			$sqlgetres = '
 				SELECT id, name
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				WHERE session_token=' . $this->db_quote_escape_string($token) . '
 					  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 			$req = $this->dbConnection->prepare($sqlgetres);
-			$req->execute();
-			while ($row = $req->fetch()) {
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
 				$dbdeviceid = $row['id'];
 				$dbdevicename = $row['name'];
 			}
@@ -3452,10 +3460,11 @@ class OldPageController extends Controller {
 				// => we create it
 				$sql = '
 					INSERT INTO *PREFIX*phonetrack_devices
-					(name, sessionid)
+					(name, session_token, session_id)
 					VALUES ('
 						. $this->db_quote_escape_string($devicename) . ','
-						. $this->db_quote_escape_string($token)
+						. $this->db_quote_escape_string($token) . ','
+						. $this->db_quote_escape_string($dbSessionId)
 					. ') ;';
 				$req = $this->dbConnection->prepare($sql);
 				$req->execute();
@@ -3465,11 +3474,11 @@ class OldPageController extends Controller {
 				$sqlgetdid = '
 					SELECT id
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+					WHERE session_token=' . $this->db_quote_escape_string($token) . '
 						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 				$req = $this->dbConnection->prepare($sqlgetdid);
 				$res = $req->execute();
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbdeviceid = $row['id'];
 				}
 				$res->closeCursor();
@@ -3582,7 +3591,7 @@ class OldPageController extends Controller {
 			$sqlDev = '
 				SELECT name, id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($dbToken);
+				WHERE session_token=' . $this->db_quote_escape_string($dbToken);
 			if ($deviceName !== null) {
 				$sqlDev .= ' AND name=' . $this->db_quote_escape_string($deviceName);
 			}
@@ -3683,12 +3692,12 @@ class OldPageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 				' . $deviceNameRestriction . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
-			$req->execute();
-			while ($row = $req->fetch()) {
-				array_push($devices, $row['id']);
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$devices[] = $row['id'];
 			}
 			$req->closeCursor();
 
@@ -3701,12 +3710,12 @@ class OldPageController extends Controller {
 				$sqlname = '
 					SELECT name, color
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlname);
-				$req->execute();
+				$res = $req->execute();
 				$col = '';
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$name = $row['name'];
 					$color = $row['color'];
 				}
@@ -3793,11 +3802,11 @@ class OldPageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ;';
+				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
-			$req->execute();
-			while ($row = $req->fetch()) {
-				array_push($devices, $row['id']);
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$devices[] = $row['id'];
 			}
 			$req->closeCursor();
 
@@ -3810,12 +3819,12 @@ class OldPageController extends Controller {
 				$sqlname = '
 					SELECT name, color
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlname);
-				$req->execute();
+				$res = $req->execute();
 				$col = '';
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$name = $row['name'];
 					$color = $row['color'];
 				}
@@ -3890,11 +3899,11 @@ class OldPageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . ' ;';
+				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
-			$req->execute();
-			while ($row = $req->fetch()) {
-				array_push($devices, $row['id']);
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$devices[] = $row['id'];
 			}
 			$req->closeCursor();
 
@@ -3907,12 +3916,12 @@ class OldPageController extends Controller {
 				$sqlname = '
 					SELECT name, color
 					FROM *PREFIX*phonetrack_devices
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlname);
-				$req->execute();
+				$res = $req->execute();
 				$col = '';
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$name = $row['name'];
 					$color = $row['color'];
 				}

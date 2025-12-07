@@ -170,14 +170,15 @@ class PageController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function deleteSession(int $sessionId): DataResponse {
+		// get session to check permission
 		$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
-		$devices = $this->deviceMapper->findBySessionId($session->getToken());
+		$devices = $this->deviceMapper->findBySessionId($sessionId);
 		foreach ($devices as $device) {
 			$deviceId = $device->getId();
 			$this->pointMapper->deleteByDeviceId($deviceId);
 			$this->geofenceMapper->deleteByDeviceId($deviceId);
 			$this->proximMapper->deleteByDeviceId($deviceId);
-			$this->deviceMapper->deleteDevice($session->getToken(), $deviceId);
+			$this->deviceMapper->delete($device);
 		}
 		$this->sessionMapper->deleteSession($this->userId, $sessionId);
 		return new DataResponse([]);
@@ -242,11 +243,11 @@ class PageController extends Controller {
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
 		}
-		$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $deviceId);
 		$this->pointMapper->deleteByDeviceId($deviceId);
 		$this->geofenceMapper->deleteByDeviceId($deviceId);
 		$this->proximMapper->deleteByDeviceId($deviceId);
-		$this->deviceMapper->deleteDevice($session->getToken(), $deviceId);
+		$this->deviceMapper->delete($device);
 		return new DataResponse([]);
 	}
 
@@ -279,7 +280,7 @@ class PageController extends Controller {
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
 		}
-		$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $deviceId);
 		if ($enabled !== null) {
 			$device->setEnabled($enabled ? 1 : 0);
 		}
@@ -298,8 +299,9 @@ class PageController extends Controller {
 		if ($shape !== null) {
 			$device->setShape($shape);
 		}
+		// TODO implement reassign device to other session
 		if ($sessionToken !== null) {
-			$device->setSessionid($sessionToken);
+			$device->setSessionToken($sessionToken);
 		}
 		if ($nametoken !== null) {
 			$device->setNametoken($nametoken === '' ? null : $nametoken);
@@ -342,7 +344,7 @@ class PageController extends Controller {
 			}
 		}
 		try {
-			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+			$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $deviceId);
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
@@ -369,7 +371,7 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+			$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $deviceId);
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
@@ -412,12 +414,12 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+			$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $deviceId);
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$point = $this->pointMapper->getDevicePoint($deviceId, $pointId);
+			$point = $this->pointMapper->getDevicePoint($device->getId(), $pointId);
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'point_not_found'], Http::STATUS_NOT_FOUND);
 		}
@@ -479,7 +481,8 @@ class PageController extends Controller {
 		} catch (DoesNotExistException $e) {
 			// create
 			$device = new Device();
-			$device->setSessionid($session->getToken());
+			$device->setSessionId($session->getId());
+			$device->setSessionToken($session->getToken());
 			$nameToken = md5('nametoken' . $this->userId . rand());
 			$device->setNametoken($nameToken);
 			$device->setName($deviceName);
@@ -674,10 +677,10 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
 		}
 
-		$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
+		$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $deviceId);
 
 		$geofence = new Geofence();
-		$geofence->setDeviceid($deviceId);
+		$geofence->setDeviceid($device->getId());
 		$geofence->setName($name);
 		$geofence->setLatmin($latmin);
 		$geofence->setLatmax($latmax);
@@ -713,7 +716,7 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $geofence->getDeviceid());
+			$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $geofence->getDeviceid());
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
@@ -770,7 +773,7 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $geofence->getDeviceid());
+			$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $geofence->getDeviceid());
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
@@ -793,8 +796,8 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
 		}
 
-		$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session1->getToken(), $deviceId1);
-		$device2 = $this->deviceMapper->getBySessionTokenAndDeviceId($session2->getToken(), $deviceid2);
+		$device1 = $this->deviceMapper->getBySessionIdAndDeviceId($session1->getId(), $deviceId1);
+		$device2 = $this->deviceMapper->getBySessionIdAndDeviceId($session2->getId(), $deviceid2);
 
 		$proxim = new Proxim();
 		$proxim->setDeviceid1($deviceId1);
@@ -831,7 +834,7 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session1->getToken(), $proxim->getDeviceid1());
+			$device1 = $this->deviceMapper->getBySessionIdAndDeviceId($session1->getId(), $proxim->getDeviceid1());
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
@@ -839,8 +842,8 @@ class PageController extends Controller {
 		if ($deviceid2 !== null && $sessionid2 !== null) {
 			try {
 				$session2 = $this->sessionMapper->getUserSessionById($this->userId, $sessionid2);
-				$device2 = $this->deviceMapper->getBySessionTokenAndDeviceId($session2->getToken(), $deviceid2);
-				$proxim->setDeviceid2($deviceid2);
+				$device2 = $this->deviceMapper->getBySessionIdAndDeviceId($session2->getId(), $deviceid2);
+				$proxim->setDeviceid2($device2->getId());
 			} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 				return new DataResponse(['error' => 'device2_not_found'], Http::STATUS_NOT_FOUND);
 			}
@@ -889,7 +892,7 @@ class PageController extends Controller {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 		try {
-			$device1 = $this->deviceMapper->getBySessionTokenAndDeviceId($session1->getToken(), $proxim->getDeviceid1());
+			$device1 = $this->deviceMapper->getBySessionIdAndDeviceId($session1->getId(), $proxim->getDeviceid1());
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}

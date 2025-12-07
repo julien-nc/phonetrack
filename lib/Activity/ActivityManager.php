@@ -182,7 +182,7 @@ class ActivityManager {
 		switch ($event->getObjectType()) {
 			case self::PHONETRACK_OBJECT_DEVICE:
 				$mapper = $this->deviceMapper;
-				$token = $mapper->find($event->getObjectId())->getSessionid();
+				$token = $mapper->find($event->getObjectId())->getSessionToken();
 				$sessionId = $this->sessionMapper->findByToken($token)->getId();
 				break;
 			case self::PHONETRACK_OBJECT_SESSION:
@@ -200,7 +200,7 @@ class ActivityManager {
 	/**
 	 * @param $objectType
 	 * @param $entity
-	 * @return null|Session
+	 * @return Session|Device
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException
 	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
 	 */
@@ -232,7 +232,7 @@ class ActivityManager {
 
 	private function findDetailsForDevice($deviceId) {
 		$device = $this->deviceMapper->find($deviceId);
-		$session = $this->sessionMapper->findByToken($device->getSessionid());
+		$session = $this->sessionMapper->findByToken($device->getSessionToken());
 		$device = [
 			'id' => $device->getId(),
 			'name' => $device->getName(),

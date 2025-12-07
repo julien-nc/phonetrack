@@ -114,7 +114,7 @@ class SessionService {
 
 			$deviceIds = [];
 			foreach ($sessions as $session) {
-				$sessionDevices = $this->deviceMapper->findBySessionId($session->getToken());
+				$sessionDevices = $this->deviceMapper->findBySessionId($session->getId());
 				foreach ($sessionDevices as $device) {
 					$deviceIds[] = $device->getId();
 				}
@@ -320,7 +320,7 @@ class SessionService {
 					$sqldev = '
 						SELECT dev.id AS id, dev.name AS name
 						FROM *PREFIX*phonetrack_devices AS dev, *PREFIX*phonetrack_points AS po
-						WHERE dev.sessionid=' . $this->db_quote_escape_string($sessionToken) . ' AND dev.id = po.deviceid GROUP BY dev.id;';
+						WHERE dev.session_token=' . $this->db_quote_escape_string($sessionToken) . ' AND dev.id = po.deviceid GROUP BY dev.id;';
 					$req = $this->db->prepare($sqldev);
 					$res = $req->execute();
 					while ($row = $res->fetch()) {
@@ -790,7 +790,7 @@ class SessionService {
 		$qb->select('name', 'nametoken')
 			->from('phonetrack_devices', 'd')
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
@@ -833,12 +833,12 @@ class SessionService {
 		return $shares;
 	}
 
-	public function getDevices(string $sessionid): array {
+	public function getDevices(string $sessionToken): array {
 		$devices = [];
 		$sqlGet = '
 			SELECT id, name, alias, color, nametoken, shape
 			FROM *PREFIX*phonetrack_devices
-			WHERE sessionid=' . $this->db_quote_escape_string($sessionid) . '
+			WHERE session_token=' . $this->db_quote_escape_string($sessionToken) . '
 			ORDER BY LOWER(name) ASC ;';
 		$req = $this->db->prepare($sqlGet);
 		$res = $req->execute();
@@ -905,7 +905,7 @@ class SessionService {
 				*PREFIX*phonetrack_sessions.name AS sname2
 			FROM *PREFIX*phonetrack_proxims
 			INNER JOIN *PREFIX*phonetrack_devices ON deviceid2=*PREFIX*phonetrack_devices.id
-			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.sessionid=*PREFIX*phonetrack_sessions.token
+			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_devices.session_token=*PREFIX*phonetrack_sessions.token
 			WHERE deviceid1=' . $this->db_quote_escape_string($deviceId) . ' ;';
 		$req = $this->db->prepare($sqlproxims);
 		$res = $req->execute();
@@ -925,13 +925,13 @@ class SessionService {
 		$json['shares'] = $this->getSessionShares($session->getToken());
 		$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getId());
 		$json['devices'] = [];
-		$devices = $this->deviceMapper->findBySessionId($session->getToken());
+		$devices = $this->deviceMapper->findBySessionId($session->getId());
 		foreach ($devices as $device) {
 			$jsonDevice = $device->jsonSerialize();
 
 			$jsonDevice['session_id'] = $session->getId();
-			if (isset($jsonDevice['sessionid'])) {
-				unset($jsonDevice['sessionid']);
+			if (isset($jsonDevice['session_token'])) {
+				unset($jsonDevice['session_token']);
 			}
 
 			// geofences
