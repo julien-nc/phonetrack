@@ -8,8 +8,10 @@ use OCP\DB\Types;
 /**
  * @method \int getId()
  * @method \void setId(int $id)
- * @method \string getSessionid()
- * @method \void setSessionid(string $sessionid)
+ * @method \int getSessionId()
+ * @method \void setSessionId(int $sessionId)
+ * @method \string getSessionToken()
+ * @method \void setSessionToken(string $sessionToken)
  * @method \string getSharetoken()
  * @method \void setSharetoken(string $sharetoken)
  * @method \string getLabel()
@@ -25,7 +27,8 @@ use OCP\DB\Types;
  */
 class PublicShare extends Entity implements \JsonSerializable {
 
-	protected $sessionid;
+	protected $sessionId;
+	protected $sessionToken;
 	protected $sharetoken;
 	protected $label;
 	protected $filters;
@@ -35,7 +38,8 @@ class PublicShare extends Entity implements \JsonSerializable {
 
 	public function __construct() {
 		$this->addType('id', Types::INTEGER);
-		$this->addType('sessionid', Types::STRING);
+		$this->addType('session_id', Types::INTEGER);
+		$this->addType('session_token', Types::STRING);
 		$this->addType('sharetoken', Types::STRING);
 		$this->addType('label', Types::STRING);
 		$this->addType('filters', Types::STRING);
@@ -48,7 +52,8 @@ class PublicShare extends Entity implements \JsonSerializable {
 	public function jsonSerialize() {
 		return [
 			'id' => $this->getId(),
-			'sessionid' => $this->getSessionid(),
+			'session_id' => $this->getSessionId(),
+			'session_token' => $this->getSessionToken(),
 			'sharetoken' => $this->getSharetoken(),
 			'label' => $this->getLabel(),
 			'filters' => $this->getFilters(),

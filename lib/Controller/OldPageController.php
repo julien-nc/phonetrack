@@ -359,7 +359,7 @@ class OldPageController extends Controller {
 			$sqlchk = '
 				SELECT *
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				WHERE session_token=' . $this->db_quote_escape_string($token) . '
 				AND sharetoken=' . $this->db_quote_escape_string($sharetoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$res = $req->execute();
@@ -415,7 +415,7 @@ class OldPageController extends Controller {
 			$sqlCheck = '
 				SELECT *
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				WHERE session_token=' . $this->db_quote_escape_string($token) . '
 					  AND sharetoken=' . $this->db_quote_escape_string($sharetoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlCheck);
 			$res = $req->execute();
@@ -469,22 +469,22 @@ class OldPageController extends Controller {
 			$sqlchk = '
 				SELECT *
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . '
+				WHERE session_token=' . $this->db_quote_escape_string($token) . '
 					  AND sharetoken=' . $this->db_quote_escape_string($sharetoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
-			$dbshareid = null;
-			while ($row = $req->fetch()) {
-				$dbshareid = $row['id'];
+			$res = $req->execute();
+			$dbShareId = null;
+			while ($row = $res->fetch()) {
+				$dbShareId = $row['id'];
 			}
 			$req->closeCursor();
 
-			if ($dbshareid !== null) {
+			if ($dbShareId !== null) {
 				// set device name
 				$sqlupd = '
 					UPDATE *PREFIX*phonetrack_pubshares
 					SET lastposonly=' . $this->db_quote_escape_string($lastposonly) . '
-					WHERE id=' . $this->db_quote_escape_string($dbshareid) . ' ;';
+					WHERE id=' . $this->db_quote_escape_string($dbShareId) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
 				$req->execute();
 				$req->closeCursor();
@@ -585,9 +585,9 @@ class OldPageController extends Controller {
 				FROM *PREFIX*phonetrack_devices
 				WHERE sessionid=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbdevid = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				array_push($dids, $row['id']);
 			}
 			$req->closeCursor();
@@ -605,7 +605,7 @@ class OldPageController extends Controller {
 
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . ' ;';
+				WHERE session_token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
@@ -1826,15 +1826,15 @@ class OldPageController extends Controller {
 			// check if there is a public share with the sharetoken
 			if ($dbpublicviewtoken === null) {
 				$sqlget = '
-					SELECT sharetoken, sessionid, filters,
+					SELECT sharetoken, session_token, filters,
 						   devicename, lastposonly, geofencify
 					FROM *PREFIX*phonetrack_pubshares
 					WHERE sharetoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$dbpublicviewtoken = $row['sharetoken'];
-					$dbtoken = $row['sessionid'];
+					$dbtoken = $row['session_token'];
 					$filters = json_decode($row['filters'], true);
 					$lastposonly = $row['lastposonly'];
 					$geofencify = $row['geofencify'];
@@ -2092,7 +2092,7 @@ class OldPageController extends Controller {
 			} else {
 				// check if a public session has this publicviewtoken
 				$sqlchk = '
-					SELECT sessionid, sharetoken, lastposonly, filters
+					SELECT session_token, sharetoken, lastposonly, filters
 					FROM *PREFIX*phonetrack_pubshares
 					WHERE sharetoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
@@ -2101,7 +2101,7 @@ class OldPageController extends Controller {
 				$dbpublic = null;
 				$filters = '';
 				while ($row = $req->fetch()) {
-					$dbtoken = $row['sessionid'];
+					$dbtoken = $row['session_token'];
 					$lastposonly = $row['lastposonly'];
 					$filters = $row['filters'];
 					break;
@@ -2668,18 +2668,20 @@ class OldPageController extends Controller {
 		$sharetoken = '';
 		// check if session exists and owned by current user
 		$sqlchk = '
-			SELECT name, token
+			SELECT name, token, id
 			FROM *PREFIX*phonetrack_sessions
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
 		$dbtoken = null;
+		$dbSessionId = null;
 		$sharetoken = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
+			$dbSessionId = $row['id'];
 			break;
 		}
 		$req->closeCursor();
@@ -2699,8 +2701,9 @@ class OldPageController extends Controller {
 			// insert
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_pubshares
-				(sessionid, sharetoken, filters)
+				(session_id, session_token, sharetoken, filters)
 				VALUES ('
+					. $this->db_quote_escape_string($dbSessionId) . ','
 					. $this->db_quote_escape_string($dbtoken) . ','
 					. $this->db_quote_escape_string($sharetoken) . ','
 					. $this->db_quote_escape_string($filters)
@@ -2825,10 +2828,10 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
 		$dbtoken = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
 			break;
@@ -2838,14 +2841,14 @@ class OldPageController extends Controller {
 		if ($dbname !== null) {
 			// check if public share exists
 			$sqlchk = '
-				SELECT sharetoken, sessionid
+				SELECT sharetoken
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 					  AND sharetoken=' . $this->db_quote_escape_string($sharetoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbsharetoken = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbsharetoken = $row['sharetoken'];
 				break;
 			}
@@ -2855,7 +2858,7 @@ class OldPageController extends Controller {
 				// delete
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_pubshares
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND sharetoken=' . $this->db_quote_escape_string($dbsharetoken) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
@@ -2886,10 +2889,10 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbname = null;
 			$dbtoken = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				$dbtoken = $row['token'];
 				break;
@@ -2904,10 +2907,10 @@ class OldPageController extends Controller {
 					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
+				$res = $req->execute();
 				$dbdevicename = null;
 				$dbdevicenametoken = null;
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbdevicename = $row['name'];
 					$dbdevicenametoken = $row['nametoken'];
 					break;
@@ -3652,13 +3655,13 @@ class OldPageController extends Controller {
 		$dbGeofencify = null;
 		if ($dbtoken === null) {
 			$sqlget = '
-			SELECT sessionid, sharetoken, filters, devicename, lastposonly, geofencify
+			SELECT session_token, sharetoken, filters, devicename, lastposonly, geofencify
 			FROM *PREFIX*phonetrack_pubshares
 			WHERE sharetoken=' . $this->db_quote_escape_string($sessionid) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$req->execute();
 			while ($row = $req->fetch()) {
-				$dbtoken = $row['sessionid'];
+				$dbtoken = $row['session_token'];
 				$dbpubtoken = $row['sharetoken'];
 				$dbFilters = json_decode($row['filters'], true);
 				$dbDevicename = $row['devicename'];
@@ -3983,11 +3986,11 @@ class OldPageController extends Controller {
 			$sqlget = '
 				SELECT sharetoken
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sessionid=' . $this->db_quote_escape_string($sessionid) . '
+				WHERE session_token=' . $this->db_quote_escape_string($sessionid) . '
 					  AND devicename=' . $this->db_quote_escape_string($devicename) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
-			$req->execute();
-			while ($row = $req->fetch()) {
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
 				$dbsharetoken = $row['sharetoken'];
 			}
 			$req->closeCursor();

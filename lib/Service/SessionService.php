@@ -816,7 +816,7 @@ class SessionService {
 		$sqlGet = '
 			SELECT *
 			FROM *PREFIX*phonetrack_pubshares
-			WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . ' ;';
+			WHERE session_token=' . $this->db_quote_escape_string($sessionId) . ' ;';
 		$req = $this->db->prepare($sqlGet);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
@@ -923,7 +923,7 @@ class SessionService {
 	private function serializeSession(Session $session): array {
 		$json = $session->jsonSerialize();
 		$json['shares'] = $this->getSessionShares($session->getToken());
-		$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getToken());
+		$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getId());
 		$json['devices'] = [];
 		$devices = $this->deviceMapper->findBySessionId($session->getToken());
 		foreach ($devices as $device) {

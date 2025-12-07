@@ -511,7 +511,8 @@ class PageController extends Controller {
 		$shareToken = md5('share' . $this->userId . $session->getName() . rand());
 
 		$newPublicShare = new PublicShare();
-		$newPublicShare->setSessionid($session->getToken());
+		$newPublicShare->setSessionId($session->getId());
+		$newPublicShare->setSessionToken($session->getToken());
 		$newPublicShare->setSharetoken($shareToken);
 		$newPublicShare->setLastposonly(0);
 		$newPublicShare->setGeofencify(0);
