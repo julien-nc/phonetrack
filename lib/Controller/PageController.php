@@ -325,6 +325,7 @@ class PageController extends Controller {
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
+	#[NoAdminRequired]
 	public function getDevicePoints(
 		int $sessionId, int $deviceId, int $maxPoints = 1000, ?int $minTimestamp = null, ?int $maxTimestamp = null,
 		bool $combine = false,
@@ -332,7 +333,13 @@ class PageController extends Controller {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
 		} catch (DoesNotExistException $e) {
-			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+			// look for shares
+			try {
+				$share = $this->shareMapper->findBySessionIdAndUser($this->userId, $sessionId);
+				$session = $this->sessionMapper->find($share->getSessionId());
+			} catch (DoesNotExistException $e) {
+				return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
+			}
 		}
 		try {
 			$device = $this->deviceMapper->getBySessionTokenAndDeviceId($session->getToken(), $deviceId);
@@ -598,7 +605,8 @@ class PageController extends Controller {
 		$shareToken = md5('share' . $this->userId . $session->getName() . rand());
 
 		$newShare = new Share();
-		$newShare->setSessionid($session->getToken());
+		$newShare->setSessionId($session->getId());
+		$newShare->setSessionToken($session->getToken());
 		$newShare->setSharetoken($shareToken);
 		$newShare->setUsername($userId);
 		$newShare = $this->shareMapper->insert($newShare);

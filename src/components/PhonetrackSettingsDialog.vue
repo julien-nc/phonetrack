@@ -20,21 +20,21 @@
 							{{ t('phonetrack', 'Show session bounds on hover') }}
 						</div>
 					</NcFormBoxSwitch>
-					<NcFormBoxSwitch :model-value="settings.show_mouse_position_control === '1'"
+					<NcFormBoxSwitch :model-value="(settings.show_mouse_position_control ?? '1') === '1'"
 						@update:model-value="onCheckboxChanged($event, 'show_mouse_position_control')">
 						<div class="checkbox-inner">
 							<CursorDefaultClickOutlineIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Show mouse position coordinates in the bottom-left map corner') }}
 						</div>
 					</NcFormBoxSwitch>
-					<NcFormBoxSwitch :model-value="settings.compact_mode === '1'"
+					<NcFormBoxSwitch :model-value="(settings.compact_mode ?? '1') === '1'"
 						@update:model-value="onCheckboxChanged($event, 'compact_mode')">
 						<div class="checkbox-inner">
 							<ViewCompactOutlineIcon :size="20" class="inline-icon" />
 							{{ t('phonetrack', 'Compact navigation view') }}
 						</div>
 					</NcFormBoxSwitch>
-					<NcFormBoxSwitch :model-value="settings.line_border === '1'"
+					<NcFormBoxSwitch :model-value="(settings.line_border ?? '1') === '1'"
 						@update:model-value="onCheckboxChanged($event, 'line_border')">
 						<div class="checkbox-inner">
 							<MathNormIcon :size="20" class="inline-icon" />
@@ -48,7 +48,7 @@
 							{{ t('phonetrack', 'Draw line direction arrows') }}
 						</div>
 					</NcFormBoxSwitch>
-					<NcFormBoxSwitch :model-value="settings.draggable_points === '1'"
+					<NcFormBoxSwitch :model-value="(settings.draggable_points ?? '1') === '1'"
 						@update:model-value="onCheckboxChanged($event, 'draggable_points')">
 						<div class="checkbox-inner">
 							<CursorMoveIcon :size="20" class="inline-icon" />
@@ -63,7 +63,7 @@
 						</div>
 					</NcFormBoxSwitch>
 					<NcInputField
-						:model-value="settings.refresh_duration"
+						:model-value="settings.refresh_duration ?? 125"
 						type="number"
 						:label="t('phonetrack', 'Refresh every N seconds')"
 						min="5"
@@ -79,7 +79,7 @@
 						</template>
 					</NcInputField>
 					<NcInputField
-						:model-value="settings.arrows_scale_factor"
+						:model-value="settings.arrows_scale_factor ?? 1"
 						type="number"
 						:label="t('phonetrack', 'Arrows scale factor')"
 						min="0.1"
@@ -96,7 +96,7 @@
 						</template>
 					</NcInputField>
 					<NcInputField
-						:model-value="settings.arrows_spacing"
+						:model-value="settings.arrows_spacing ?? 200"
 						type="number"
 						:label="t('phonetrack', 'Arrows spacing')"
 						min="10"
@@ -113,7 +113,7 @@
 						</template>
 					</NcInputField>
 					<NcInputField
-						:model-value="settings.line_width"
+						:model-value="settings.line_width ?? 6"
 						type="number"
 						:label="t('phonetrack', 'Line width')"
 						min="1"
@@ -130,7 +130,7 @@
 						</template>
 					</NcInputField>
 					<NcInputField
-						:model-value="settings.line_opacity"
+						:model-value="settings.line_opacity ?? 1"
 						type="number"
 						:label="t('phonetrack', 'Line opacity')"
 						min="0"
@@ -147,7 +147,7 @@
 						</template>
 					</NcInputField>
 					<NcInputField
-						:model-value="settings.terrainExaggeration"
+						:model-value="settings.terrainExaggeration ?? 1.5"
 						type="number"
 						:label="t('phonetrack', '3D elevation exaggeration')"
 						min="0.1"
@@ -416,7 +416,7 @@ export default {
 			return this.distanceUnitOptions[this.settings.distance_unit] ?? this.distanceUnitOptions.metric
 		},
 		selectedQuotaReached() {
-			return this.quotaReachedOptions[this.settings.quotareached] ?? this.distanceUnitOptions.block
+			return this.quotaReachedOptions[this.settings.quotareached] ?? this.quotaReachedOptions.block
 		},
 		maptilerHint() {
 			const maptilerLink = '<a href="https://maptiler.com" target="blank">https://maptiler.com</a>'

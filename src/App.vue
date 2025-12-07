@@ -35,7 +35,7 @@
 				:use-terrain="state?.settings?.use_terrain === '1'"
 				:use-globe="state?.settings?.use_globe === '1'"
 				:terrain-scale="parseFloat(state?.settings?.terrainExaggeration) || undefined"
-				:show-mouse-position-control="state?.settings.show_mouse_position_control === '1'"
+				:show-mouse-position-control="(state?.settings.show_mouse_position_control ?? '1') === '1'"
 				:tracks-to-draw="enabledDevices"
 				:unit="distanceUnit"
 				:with-top-left-button="mapWithTopLeftButton"
@@ -51,15 +51,15 @@
 							:map="map"
 							:layer-id="'device-' + d.id"
 							:filters="filters"
-							:line-width="parseFloat(state.settings.line_width)"
+							:line-width="parseFloat(state.settings.line_width ?? 6)"
 							:color="d.color ?? undefined"
 							:border-color="deviceBorderColor"
-							:border="state.settings.line_border === '1'"
+							:border="(state.settings.line_border ?? '1') === '1'"
 							:arrows="state.settings.direction_arrows === '1'"
-							:arrows-spacing="parseFloat(state.settings.arrows_spacing)"
-							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor)"
-							:draggable-points="state.settings.draggable_points === '1'"
-							:opacity="parseFloat(state.settings.line_opacity)"
+							:arrows-spacing="parseFloat(state.settings.arrows_spacing ?? 200)"
+							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor ?? 1)"
+							:draggable-points="(state.settings.draggable_points ?? '1') === '1'"
+							:opacity="parseFloat(state.settings.line_opacity ?? 1)"
 							:distance-unit="state.settings.distance_unit ?? 'metric'" />
 						<DeviceGradientColorPoints v-else
 							:device="d"
@@ -67,15 +67,15 @@
 							:layer-id="'device-' + d.id"
 							:color-criteria="d.colorCriteria"
 							:filters="filters"
-							:line-width="parseFloat(state.settings.line_width)"
+							:line-width="parseFloat(state.settings.line_width ?? 6)"
 							:color="d.color ?? undefined"
 							:border-color="deviceBorderColor"
-							:border="state.settings.line_border === '1'"
+							:border="(state.settings.line_border ?? '1') === '1'"
 							:arrows="state.settings.direction_arrows === '1'"
-							:arrows-spacing="parseFloat(state.settings.arrows_spacing)"
-							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor)"
-							:draggable-points="state.settings.draggable_points === '1'"
-							:opacity="parseFloat(state.settings.line_opacity)"
+							:arrows-spacing="parseFloat(state.settings.arrows_spacing ?? 200)"
+							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor ?? 1)"
+							:draggable-points="(state.settings.draggable_points ?? '1') === '1'"
+							:opacity="parseFloat(state.settings.line_opacity ?? 1)"
 							:distance-unit="state.settings.distance_unit ?? 'metric'" />
 					</div>
 					<PolygonFill v-if="geofenceLngLats !== null"
@@ -209,7 +209,7 @@ export default {
 			return this.state?.settings?.distance_unit ?? 'metric'
 		},
 		isCompactMode() {
-			return this.state?.settings?.compact_mode === '1'
+			return (this.state?.settings?.compact_mode ?? '1') === '1'
 		},
 		sessionList() {
 			return Object.values(this.state.sessions)

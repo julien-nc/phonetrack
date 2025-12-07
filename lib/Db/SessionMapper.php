@@ -19,13 +19,13 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 * @return Session
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
-	public function find($id): Session {
+	public function find(int $id): Session {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -168,7 +168,7 @@ class SessionMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('phonetrack_shares')
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($session->getToken(), IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($session->getToken(), IQueryBuilder::PARAM_STR))
 			);
 		$qb->executeStatement();
 
@@ -194,6 +194,23 @@ class SessionMapper extends QBMapper {
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->in('id', $qb->createNamedParameter($sessionIds, IQueryBuilder::PARAM_INT_ARRAY))
+			);
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param array $tokens
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getSessionsByToken(array $tokens): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->in('token', $qb->createNamedParameter($tokens, IQueryBuilder::PARAM_STR_ARRAY))
 			);
 
 		return $this->findEntities($qb);
@@ -235,7 +252,7 @@ class SessionMapper extends QBMapper {
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			return $row['sessionid'];
+			return $row['session_token'];
 		}
 
 		return null;

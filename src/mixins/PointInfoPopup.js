@@ -146,7 +146,7 @@ export default {
 			const el = document.createElement('div')
 			const markerDiameter = 3 * this.lineWidth
 			el.className = 'marker'
-			el.style.backgroundColor = this.device.color
+			el.style.backgroundColor = this.color
 			el.style.width = markerDiameter + 'px'
 			el.style.height = markerDiameter + 'px'
 			el.style.borderRadius = '50%'
@@ -161,7 +161,7 @@ export default {
 				el.style.textAlign = 'center'
 				el.style.lineHeight = (markerDiameter * 0.78) + 'px'
 				el.style.fontSize = (markerDiameter * 0.7) + 'px'
-				el.style.color = isColorDark(this.device.color) ? 'white' : 'black'
+				el.style.color = isColorDark(this.color) ? 'white' : 'black'
 			}
 
 			const marker = new Marker({ draggable: this.draggablePoints, anchor: 'center', element: el })
@@ -289,7 +289,7 @@ export default {
 					+ '<button class="editPoint" title="' + t('phonetrack', 'Edit this point') + '">' + t('phonetrack', 'Edit') + '</button>'
 					+ '<button class="movePoint" title="' + t('phonetrack', 'Move this point') + '">' + t('phonetrack', 'Move') + '</button>'
 					: '')
-			return '<div ' + containerClass + ' style="border-color: ' + this.device.color + ';">'
+			return '<div ' + containerClass + ' style="border-color: ' + this.color + ';">'
 				+ dataHtml
 				+ '</div>'
 		},
@@ -324,7 +324,7 @@ export default {
 			}
 			markersToUpdate.forEach(marker => {
 				const el = marker.getElement()
-				el.style.backgroundColor = this.device.color
+				el.style.backgroundColor = this.color
 				const markerDiameter = 3 * this.lineWidth
 				el.style.width = markerDiameter + 'px'
 				el.style.height = markerDiameter + 'px'
@@ -338,10 +338,10 @@ export default {
 				// only useful for last point
 				el.style.lineHeight = (markerDiameter * 0.78) + 'px'
 				el.style.fontSize = (markerDiameter * 0.7) + 'px'
-				el.style.color = isColorDark(this.device.color) ? 'white' : 'black'
+				el.style.color = isColorDark(this.color) ? 'white' : 'black'
 			})
 			Object.values(this.popups).forEach(popup => {
-				popup.getElement().querySelector('.popup-content').style['border-color'] = this.device.color
+				popup.getElement().querySelector('.popup-content').style['border-color'] = this.color
 			})
 		},
 		removeTemporaryMarker() {

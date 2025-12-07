@@ -73,7 +73,7 @@ class SessionService {
 		$qb->select('username')
 			->from('phonetrack_shares', 's')
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
@@ -755,7 +755,7 @@ class SessionService {
 		$sqlchk = '
 			SELECT username
 			FROM *PREFIX*phonetrack_shares
-			WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . ' ;';
+			WHERE session_token=' . $this->db_quote_escape_string($sessionId) . ' ;';
 		$req = $this->db->prepare($sqlchk);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
@@ -773,7 +773,7 @@ class SessionService {
 		foreach ($sharesToDelete as $uid) {
 			$sqlDel = '
 				DELETE FROM *PREFIX*phonetrack_shares
-				WHERE sessionid=' . $this->db_quote_escape_string($sessionId) . '
+				WHERE session_token=' . $this->db_quote_escape_string($sessionId) . '
 					AND username=' . $this->db_quote_escape_string($uid) . ' ;';
 			$req = $this->db->prepare($sqlDel);
 			$res = $req->execute();
@@ -920,78 +920,76 @@ class SessionService {
 		return $proxims;
 	}
 
+	private function serializeSession(Session $session): array {
+		$json = $session->jsonSerialize();
+		$json['shares'] = $this->getSessionShares($session->getToken());
+		$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getToken());
+		$json['devices'] = [];
+		$devices = $this->deviceMapper->findBySessionId($session->getToken());
+		foreach ($devices as $device) {
+			$jsonDevice = $device->jsonSerialize();
+
+			$jsonDevice['session_id'] = $session->getId();
+			if (isset($jsonDevice['sessionid'])) {
+				unset($jsonDevice['sessionid']);
+			}
+
+			// geofences
+			$geofences = $this->geofenceMapper->findByDeviceId($device->getId());
+			$jsonDevice['geofences'] = [];
+			foreach ($geofences as $geofence) {
+				$jsonDevice['geofences'][$geofence->getId()] = $geofence->jsonSerialize();
+			}
+			if (empty($jsonDevice['geofences'])) {
+				$jsonDevice['geofences'] = new stdClass();
+			}
+
+			// proximity alerts
+			$proxims = $this->proximMapper->findByDeviceId1($device->getId());
+			$jsonDevice['proxims'] = [];
+			foreach ($proxims as $proxim) {
+				$jsonDevice['proxims'][$proxim->getId()] = $proxim->jsonSerialize();
+			}
+			if (empty($jsonDevice['proxims'])) {
+				$jsonDevice['proxims'] = new stdClass();
+			}
+
+			// points
+			$jsonDevice['points'] = [];
+
+			$json['devices'][$device->getId()] = $jsonDevice;
+		}
+		if (empty($json['devices'])) {
+			$json['devices'] = new stdClass();
+		}
+		return $json;
+	}
+
 	public function getSessions2(string $userId): array {
 		$sessions = $this->sessionMapper->findByUser($userId);
 		$sessions = array_map(function (Session $session) {
-			$json = $session->jsonSerialize();
-			$json['shares'] = $this->getSessionShares($session->getToken());
-			$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getToken());
-			$json['devices'] = [];
-			$devices = $this->deviceMapper->findBySessionId($session->getToken());
-			foreach ($devices as $device) {
-				$jsonDevice = $device->jsonSerialize();
-
-				$jsonDevice['session_id'] = $session->getId();
-
-				// geofences
-				$geofences = $this->geofenceMapper->findByDeviceId($device->getId());
-				$jsonDevice['geofences'] = [];
-				foreach ($geofences as $geofence) {
-					$jsonDevice['geofences'][$geofence->getId()] = $geofence->jsonSerialize();
-				}
-				if (empty($jsonDevice['geofences'])) {
-					$jsonDevice['geofences'] = new stdClass();
-				}
-
-				// proximity alerts
-				$proxims = $this->proximMapper->findByDeviceId1($device->getId());
-				$jsonDevice['proxims'] = [];
-				foreach ($proxims as $proxim) {
-					$jsonDevice['proxims'][$proxim->getId()] = $proxim->jsonSerialize();
-				}
-				if (empty($jsonDevice['proxims'])) {
-					$jsonDevice['proxims'] = new stdClass();
-				}
-
-				// points
-				$jsonDevice['points'] = [];
-
-				$json['devices'][$device->getId()] = $jsonDevice;
-			}
-			if (empty($json['devices'])) {
-				$json['devices'] = new stdClass();
-			}
-			return $json;
+			return $this->serializeSession($session);
 		}, $sessions);
 
 		// sessions shared with current user
-		$sidToShareToken = [];
+		$sessionTokenToShareToken = [];
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('sessionid', 'sharetoken')
+		$qb->select('session_token', 'sharetoken')
 			->from('phonetrack_shares')
 			->where(
 				$qb->expr()->eq('username', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			$sidToShareToken[$row['sessionid']] = $row['sharetoken'];
+			$sessionTokenToShareToken[$row['session_token']] = $row['sharetoken'];
 		}
 		$req->closeCursor();
 
-		$sharedSessions = $this->sessionMapper->getSessionsById(array_keys($sidToShareToken));
-		$sharedSessions = array_map(function (Session $session) use ($sidToShareToken) {
-			$json = $session->jsonSerialize();
-			$json['shares'] = $this->shareMapper->findBySessionToken($session->getToken());
-			$json['public_shares'] = $this->getSessionShares($session->getToken());
-			$json['devices'] = [];
-			$devices = $this->deviceMapper->findBySessionId($session->getToken());
-			foreach ($devices as $device) {
-				$json['devices'][$device->getId()] = $device;
-			}
-			if (empty($json['devices'])) {
-				$json['devices'] = new stdClass();
-			}
-			$json['token'] = $sidToShareToken[$json['id']];
+		$sharedSessions = $this->sessionMapper->getSessionsByToken(array_keys($sessionTokenToShareToken));
+		$sharedSessions = array_map(function (Session $session) use ($sessionTokenToShareToken) {
+			$json = $this->serializeSession($session);
+			$json['token'] = $sessionTokenToShareToken[$json['token']];
+			unset($json['shares']);
 			return $json;
 		}, $sharedSessions);
 

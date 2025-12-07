@@ -582,7 +582,7 @@ class LogController extends Controller {
 		$sqlGet = '
 			SELECT username
 			FROM *PREFIX*phonetrack_shares
-			WHERE sessionid=' . $this->db_quote_escape_string($token) . ' ;';
+			WHERE session_token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->db->prepare($sqlGet);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
@@ -1208,13 +1208,13 @@ class LogController extends Controller {
 				$dbtoken = null;
 				// get real token from sharetoken
 				$sqlGet = '
-					SELECT sessionid
+					SELECT session_token
 					FROM *PREFIX*phonetrack_shares
 					WHERE sharetoken=' . $this->db_quote_escape_string($token) . ';';
 				$req = $this->db->prepare($sqlGet);
 				$res = $req->execute();
 				while ($row = $res->fetch()) {
-					$dbtoken = $row['sessionid'];
+					$dbtoken = $row['session_token'];
 				}
 				$res->closeCursor();
 				if ($dbtoken !== null) {
@@ -1532,13 +1532,13 @@ class LogController extends Controller {
 				$dbToken = null;
 				// get real token from sharetoken
 				$sqlGet = '
-					SELECT sessionid
+					SELECT session_token
 					FROM *PREFIX*phonetrack_shares
 					WHERE sharetoken=' . $this->db_quote_escape_string($token) . ';';
 				$req = $this->db->prepare($sqlGet);
 				$res = $req->execute();
 				while ($row = $res->fetch()) {
-					$dbToken = $row['sessionid'];
+					$dbToken = $row['session_token'];
 				}
 				$res->closeCursor();
 				if ($dbToken !== null) {

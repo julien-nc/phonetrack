@@ -8,33 +8,38 @@ use OCP\DB\Types;
 /**
  * @method \int getId()
  * @method \void setId(int $id)
- * @method \string getSessionid()
- * @method \void setSessionid(string $sessionid)
  * @method \string getSharetoken()
  * @method \void setSharetoken(string $sharetoken)
  * @method \string getUsername()
  * @method \void setUsername(string $username)
+ * @method \int getSessionId()
+ * @method \void setSessionId(int $sessionId)
+ * @method \string getSessionToken()
+ * @method \void setSessionToken(string $sessionToken)
  */
 class Share extends Entity implements \JsonSerializable {
 
-	protected $sessionid;
 	protected $sharetoken;
 	protected $username;
+	protected $sessionId;
+	protected $sessionToken;
 
 	public function __construct() {
 		$this->addType('id', Types::INTEGER);
-		$this->addType('sessionid', Types::STRING);
 		$this->addType('sharetoken', Types::STRING);
 		$this->addType('username', Types::STRING);
+		$this->addType('session_id', Types::INTEGER);
+		$this->addType('session_token', Types::STRING);
 	}
 
 	#[\ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
 			'id' => $this->getId(),
-			'sessionid' => $this->getSessionid(),
 			'sharetoken' => $this->getSharetoken(),
 			'username' => $this->getUsername(),
+			'session_id' => $this->getSessionId(),
+			'session_token' => $this->getSessionToken(),
 		];
 	}
 }

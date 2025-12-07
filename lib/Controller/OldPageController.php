@@ -235,22 +235,22 @@ class OldPageController extends Controller {
 		$ncUserList = $this->sessionService->getUserList();
 		// sessions shared with current user
 		$sqlgetshares = '
-			SELECT sessionid, sharetoken
+			SELECT session_token, sharetoken
 			FROM *PREFIX*phonetrack_shares
 			WHERE username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlgetshares);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
-			$dbsessionid = $row['sessionid'];
+			$dbSessionToken = $row['session_token'];
 			$dbsharetoken = $row['sharetoken'];
-			$sessionInfo = $this->getSessionInfo($dbsessionid);
+			$sessionInfo = $this->getSessionInfo($dbSessionToken);
 			$dbname = $sessionInfo['name'];
 			$dbuserId = $sessionInfo['user'];
 			$userNameDisplay = $dbuserId;
 			if (array_key_exists($dbuserId, $ncUserList)) {
 				$userNameDisplay = $ncUserList[$dbuserId];
 			}
-			$devices = $this->sessionService->getDevices($dbsessionid);
+			$devices = $this->sessionService->getDevices($dbSessionToken);
 			$sessions[] = [$dbname, $dbsharetoken, $userNameDisplay, $devices];
 		}
 
@@ -294,23 +294,23 @@ class OldPageController extends Controller {
 
 		// sessions shared with current user
 		$sqlGetShares = '
-			SELECT sessionid, sharetoken,
+			SELECT session_token, sharetoken,
 				   *PREFIX*phonetrack_sessions.publicviewtoken AS publicviewtoken,
 				   *PREFIX*phonetrack_sessions.public AS public
 			FROM *PREFIX*phonetrack_shares
-			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_shares.sessionid=*PREFIX*phonetrack_sessions.token
+			INNER JOIN *PREFIX*phonetrack_sessions ON *PREFIX*phonetrack_shares.session_token=*PREFIX*phonetrack_sessions.token
 			WHERE username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlGetShares);
 		$res = $req->execute();
 		while ($row = $res->fetch()) {
-			$dbSessionId = $row['sessionid'];
+			$dbSessionToken = $row['session_token'];
 			$dbShareToken = $row['sharetoken'];
-			$sessionInfo = $this->getSessionInfo($dbSessionId);
+			$sessionInfo = $this->getSessionInfo($dbSessionToken);
 			$dbName = $sessionInfo['name'];
 			$dbUser = $sessionInfo['user'];
 			$dbPublic = is_numeric($row['public']) ? intval($row['public']) : 0;
 			$dbPublicViewToken = $row['publicviewtoken'];
-			$devices = $this->sessionService->getDevices($dbSessionId);
+			$devices = $this->sessionService->getDevices($dbSessionToken);
 			$sessions[] = [$dbName, $dbShareToken, $dbPublicViewToken, $devices, $dbPublic, $dbUser];
 		}
 		$res->closeCursor();
@@ -598,7 +598,7 @@ class OldPageController extends Controller {
 
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_shares
-				WHERE sessionid=' . $this->db_quote_escape_string($token) . ' ;';
+				WHERE session_token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
 			$req->execute();
 			$req->closeCursor();
@@ -1428,14 +1428,14 @@ class OldPageController extends Controller {
 					// if not, check it is a shared session
 					if ($dbtoken === null) {
 						$sqlget = '
-							SELECT sessionid
+							SELECT session_token
 							FROM *PREFIX*phonetrack_shares
 							WHERE sharetoken=' . $this->db_quote_escape_string($token) . '
 								  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 						$req = $this->dbConnection->prepare($sqlget);
-						$req->execute();
-						while ($row = $req->fetch()) {
-							$dbtoken = $row['sessionid'];
+						$res = $req->execute();
+						while ($row = $res->fetch()) {
+							$dbtoken = $row['session_token'];
 						}
 						$req->closeCursor();
 					}
@@ -2556,7 +2556,7 @@ class OldPageController extends Controller {
 		if ($userId !== '' && in_array($userId, $userIds)) {
 			// check if session exists and owned by current user
 			$sqlchk = '
-				SELECT name, token
+				SELECT name, token, id
 				FROM *PREFIX*phonetrack_sessions
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
@@ -2564,9 +2564,11 @@ class OldPageController extends Controller {
 			$req->execute();
 			$dbname = null;
 			$dbtoken = null;
+			$dbSessionId = null;
 			while ($row = $req->fetch()) {
 				$dbname = $row['name'];
 				$dbtoken = $row['token'];
+				$dbSessionId = $row['id'];
 				break;
 			}
 			$req->closeCursor();
@@ -2574,14 +2576,14 @@ class OldPageController extends Controller {
 			if ($token !== '' && $dbname !== null) {
 				// check if user share exists
 				$sqlchk = '
-					SELECT username, sessionid
+					SELECT username, session_token
 					FROM *PREFIX*phonetrack_shares
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND username=' . $this->db_quote_escape_string($userId) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
+				$res = $req->execute();
 				$dbusername = null;
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbusername = $row['username'];
 					break;
 				}
@@ -2594,9 +2596,10 @@ class OldPageController extends Controller {
 					// insert
 					$sql = '
 						INSERT INTO *PREFIX*phonetrack_shares
-						(sessionid, username, sharetoken)
+						(session_token, session_id, username, sharetoken)
 						VALUES ('
 							. $this->db_quote_escape_string($dbtoken) . ','
+							. $this->db_quote_escape_string($dbSessionId) . ','
 							. $this->db_quote_escape_string($userId) . ','
 							. $this->db_quote_escape_string($sharetoken)
 						. ') ;';
@@ -2741,14 +2744,14 @@ class OldPageController extends Controller {
 		if ($token !== '' && $dbname !== null) {
 			// check if user share exists
 			$sqlchk = '
-				SELECT username, sessionid
+				SELECT username, session_token
 				FROM *PREFIX*phonetrack_shares
-				WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 					  AND username=' . $this->db_quote_escape_string($userId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbuserId = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbuserId = $row['username'];
 				break;
 			}
@@ -2770,7 +2773,7 @@ class OldPageController extends Controller {
 				// delete
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_shares
-					WHERE sessionid=' . $this->db_quote_escape_string($dbtoken) . '
+					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND username=' . $this->db_quote_escape_string($userId) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
 				$req->execute();
@@ -3277,14 +3280,14 @@ class OldPageController extends Controller {
 				$targetSessionId = $sid;
 			} else {
 				$sqlchk = '
-					SELECT id, sessionid, sharetoken
+					SELECT id, session_token, sharetoken
 					FROM *PREFIX*phonetrack_shares
 					WHERE username=' . $this->db_quote_escape_string($this->userId) . '
 						  AND sharetoken=' . $this->db_quote_escape_string($sid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
 				$req->execute();
 				while ($row = $req->fetch()) {
-					$targetSessionId = $row['sessionid'];
+					$targetSessionId = $row['session_token'];
 					break;
 				}
 				$req->closeCursor();
@@ -3768,14 +3771,14 @@ class OldPageController extends Controller {
 		// check if session is shared with current user
 		if ($dbtoken === null) {
 			$sqlget = '
-				SELECT sessionid
+				SELECT session_token
 				FROM *PREFIX*phonetrack_shares
 				WHERE sharetoken=' . $this->db_quote_escape_string($sessionid) . '
 					  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
-			$req->execute();
-			while ($row = $req->fetch()) {
-				$dbtoken = $row['sessionid'];
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$dbtoken = $row['session_token'];
 			}
 			$req->closeCursor();
 		}
@@ -3865,14 +3868,14 @@ class OldPageController extends Controller {
 		// check if session is shared with current user
 		if ($dbtoken === null) {
 			$sqlget = '
-				SELECT sessionid
+				SELECT session_token
 				FROM *PREFIX*phonetrack_shares
 				WHERE sharetoken=' . $this->db_quote_escape_string($sessionid) . '
 					  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
-			$req->execute();
-			while ($row = $req->fetch()) {
-				$dbtoken = $row['sessionid'];
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$dbtoken = $row['session_token'];
 			}
 			$req->closeCursor();
 		}
