@@ -194,6 +194,8 @@ class PageControllerTest extends TestCase {
 				$c->get(IDBConnection::class)
 			),
 			$c->get(PointMapper::class),
+			$c->get(ProximMapper::class),
+			$c->get(GeofenceMapper::class),
 			$c->get(IDBConnection::class),
 			'test'
 		);
@@ -213,6 +215,8 @@ class PageControllerTest extends TestCase {
 				$c->get(IDBConnection::class)
 			),
 			$c->get(PointMapper::class),
+			$c->get(ProximMapper::class),
+			$c->get(GeofenceMapper::class),
 			$c->get(IDBConnection::class),
 			'test2'
 		);

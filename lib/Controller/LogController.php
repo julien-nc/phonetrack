@@ -19,7 +19,11 @@ use Exception;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\Geofence;
+use OCA\PhoneTrack\Db\GeofenceMapper;
 use OCA\PhoneTrack\Db\PointMapper;
+use OCA\PhoneTrack\Db\Proxim;
+use OCA\PhoneTrack\Db\ProximMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -115,6 +119,8 @@ class LogController extends Controller {
 		private SessionMapper $sessionMapper,
 		private DeviceMapper $deviceMapper,
 		private PointMapper $pointMapper,
+		private ProximMapper $proximMapper,
+		private GeofenceMapper $geofenceMapper,
 		private IDBConnection $db,
 		private ?string $userId,
 	) {
@@ -172,28 +178,9 @@ class LogController extends Controller {
 		return $theRow;
 	}
 
-	private function getDeviceProxims(int $deviceId) {
-		$proxims = [];
-		$sqlGet = '
-			SELECT id, deviceid1, deviceid2, highlimit,
-				   lowlimit, urlclose, urlfar,
-				   urlclosepost, urlfarpost,
-				   sendemail, emailaddr, sendnotif
-			FROM *PREFIX*phonetrack_proxims
-			WHERE deviceid1=' . $this->db_quote_escape_string($deviceId) . '
-				  OR deviceid2=' . $this->db_quote_escape_string($deviceId) . ' ;';
-		$req = $this->db->prepare($sqlGet);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$proxims[] = $row;
-		}
-		$res->closeCursor();
-		return $proxims;
-	}
-
 	private function checkProxims(float $lat, float $lon, int $deviceId, string $userid, string $deviceName, string $sessionName, $sessionId) {
 		$lastPoint = $this->getLastDevicePoint($deviceId);
-		$proxims = $this->getDeviceProxims($deviceId);
+		$proxims = $this->proximMapper->findByDeviceId($deviceId);
 		foreach ($proxims as $proxim) {
 			$this->checkProxim($lat, $lon, $deviceId, $proxim, $userid, $lastPoint, $deviceName, $sessionId);
 		}
@@ -216,59 +203,21 @@ class LogController extends Controller {
 		return $owner;
 	}
 
-	private function getDeviceAlias(int $deviceId) {
-		$dbAlias = null;
-		$sqlGet = '
-			SELECT alias
-			FROM *PREFIX*phonetrack_devices
-			WHERE id=' . $this->db_quote_escape_string($deviceId) . ' ;';
-		$req = $this->db->prepare($sqlGet);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$dbAlias = $row['alias'];
-		}
-		$res->closeCursor();
-
-		return $dbAlias;
-	}
-
-	private function getDeviceName(int $deviceId) {
-		$dbname = null;
-		$sqlGet = '
-			SELECT name
-			FROM *PREFIX*phonetrack_devices
-			WHERE id=' . $this->db_quote_escape_string($deviceId) . ' ;';
-		$req = $this->db->prepare($sqlGet);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$dbname = $row['name'];
-		}
-		$res->closeCursor();
-
-		return $dbname;
-	}
-
-	private function checkProxim(float $newLat, float $newLon, int $movingDeviceId, array $proxim, string $userid,
-		?array $lastPoint, string $movingDeviceName, string $sessionToken) {
-		$highlimit = (int)$proxim['highlimit'];
-		$lowlimit = (int)$proxim['lowlimit'];
-		$urlclose = $proxim['urlclose'];
-		$urlfar = $proxim['urlfar'];
-		$urlclosepost = (int)$proxim['urlclosepost'];
-		$urlfarpost = (int)$proxim['urlfarpost'];
-		$sendemail = (int)$proxim['sendemail'];
-		$sendnotif = (int)$proxim['sendnotif'];
-		$emailaddr = $proxim['emailaddr'];
+	private function checkProxim(
+		float $newLat, float $newLon, int $movingDeviceId, Proxim $proxim, string $userid,
+		?array $lastPoint, string $movingDeviceName, string $sessionToken,
+	): void {
+		$emailaddr = $proxim->getEmailaddr();
 		if ($emailaddr === null) {
 			$emailaddr = '';
 		}
-		$proximid = $proxim['id'];
+		$proximId = $proxim->getId();
 
 		// get the deviceid of other device
-		if (($movingDeviceId) === ((int)$proxim['deviceid1'])) {
-			$otherDeviceId = (int)$proxim['deviceid2'];
+		if ($movingDeviceId === $proxim->getDeviceid1()) {
+			$otherDeviceId = $proxim->getDeviceid2();
 		} else {
-			$otherDeviceId = (int)$proxim['deviceid1'];
+			$otherDeviceId = $proxim->getDeviceid1();
 		}
 
 		// get coords of other device
@@ -276,302 +225,286 @@ class LogController extends Controller {
 		$latOther = (float)$lastOtherPoint['lat'];
 		$lonOther = (float)$lastOtherPoint['lon'];
 
-		if ($lastPoint !== null) {
-			// previous coords of observed device
-			$prevLat = (float)$lastPoint['lat'];
-			$prevLon = (float)$lastPoint['lon'];
+		if ($lastPoint === null) {
+			return;
+		}
 
-			$prevDist = distance2($prevLat, $prevLon, $latOther, $lonOther);
-			$currDist = distance2($newLat, $newLon, $latOther, $lonOther);
+		$otherDevice = $this->deviceMapper->find($otherDeviceId);
 
-			// if distance was not close and is now close
-			if ($lowlimit !== 0 && $prevDist >= $lowlimit && $currDist < $lowlimit) {
-				// devices are now close !
+		// previous coords of observed device
+		$prevLat = (float)$lastPoint['lat'];
+		$prevLon = (float)$lastPoint['lon'];
 
-				// if the observed device is 'deviceid2', then we might have the wrong userId
-				if (($movingDeviceId) === ((int)$proxim['deviceid2'])) {
-					$userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
-				}
-				$dev1name = $movingDeviceName;
-				$dev2name = $this->getDeviceName($otherDeviceId);
-				$dev2alias = $this->getDeviceAlias($otherDeviceId);
-				if (!empty($dev2alias)) {
-					$dev2name = $dev2alias . ' (' . $dev2name . ')';
-				}
+		$prevDist = distance2($prevLat, $prevLon, $latOther, $lonOther);
+		$currDist = distance2($newLat, $newLon, $latOther, $lonOther);
 
-				// activity
-				$deviceObj = $this->deviceMapper->find($movingDeviceId);
-				$this->activityManager->triggerEvent(
-					ActivityManager::PHONETRACK_OBJECT_DEVICE,
-					$deviceObj,
-					ActivityManager::SUBJECT_PROXIMITY_CLOSE,
-					[
-						'device2' => ['id' => $otherDeviceId],
-						'meters' => [
-							'id' => 0,
-							'name' => $lowlimit,
-						],
-					]
-				);
+		// if distance was not close and is now close
+		if ($proxim->getLowlimit() !== 0 && $prevDist >= $proxim->getLowlimit() && $currDist < $proxim->getLowlimit()) {
+			// devices are now close !
 
-				// NOTIFICATIONS
-				if ($sendnotif !== 0) {
-					$userIds = $this->getSessionSharedUserIdList($sessionToken);
-					$userIds[] = $userid;
+			// if the observed device is 'deviceid2', then we might have the wrong userId
+			if ($movingDeviceId === $proxim->getDeviceid2()) {
+				$userid = $this->getSessionOwnerOfDevice($proxim->getDeviceid1());
+			}
+			$dev1name = $movingDeviceName;
+			$dev2name = $otherDevice->getName();
+			$dev2alias = $otherDevice->getAlias();
+			if (!empty($dev2alias)) {
+				$dev2name = $dev2alias . ' (' . $dev2name . ')';
+			}
 
-					try {
-						foreach ($userIds as $aUserId) {
-							$notification = $this->notificationManager->createNotification();
+			// activity
+			$deviceObj = $this->deviceMapper->find($movingDeviceId);
+			$this->activityManager->triggerEvent(
+				ActivityManager::PHONETRACK_OBJECT_DEVICE,
+				$deviceObj,
+				ActivityManager::SUBJECT_PROXIMITY_CLOSE,
+				[
+					'device2' => ['id' => $otherDeviceId],
+					'meters' => [
+						'id' => 0,
+						'name' => $proxim->getLowlimit(),
+					],
+				]
+			);
 
-							$acceptAction = $notification->createAction();
-							$acceptAction->setLabel('accept')
-								->setLink('/apps/phonetrack', 'GET');
+			// NOTIFICATIONS
+			if ($proxim->getSendnotif() !== 0) {
+				$userIds = $this->getSessionSharedUserIdList($sessionToken);
+				$userIds[] = $userid;
 
-							$declineAction = $notification->createAction();
-							$declineAction->setLabel('decline')
-								->setLink('/apps/phonetrack', 'GET');
+				try {
+					foreach ($userIds as $aUserId) {
+						$notification = $this->notificationManager->createNotification();
 
-							$notification->setApp('phonetrack')
-								->setUser($aUserId)
-								->setDateTime(new DateTime())
-								->setObject('closeproxim', $proximid)
-								->setSubject('close_proxim', [$dev1name, $lowlimit, $dev2name])
-								->addAction($acceptAction)
-								->addAction($declineAction)
-							;
+						$acceptAction = $notification->createAction();
+						$acceptAction->setLabel('accept')
+							->setLink('/apps/phonetrack', 'GET');
 
-							$this->notificationManager->notify($notification);
-						}
-					} catch (Exception $e) {
-						$this->logger->warning('Error sending PhoneTrack notification', ['exception' => $e]);
+						$declineAction = $notification->createAction();
+						$declineAction->setLabel('decline')
+							->setLink('/apps/phonetrack', 'GET');
+
+						$notification->setApp('phonetrack')
+							->setUser($aUserId)
+							->setDateTime(new DateTime())
+							->setObject('closeproxim', (string)$proximId)
+							->setSubject('close_proxim', [$dev1name, $proxim->getLowlimit(), $dev2name])
+							->addAction($acceptAction)
+							->addAction($declineAction);
+
+						$this->notificationManager->notify($notification);
 					}
+				} catch (Exception $e) {
+					$this->logger->warning('Error sending PhoneTrack notification', ['exception' => $e]);
+				}
+			}
+
+			if ($proxim->getSendemail() !== 0) {
+
+				$user = $this->userManager->get($userid);
+				$userEmail = $user->getEMailAddress();
+				$mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
+				$mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
+
+				// EMAIL
+				$emailaddrArray = explode(',', $emailaddr);
+				if (
+					(count($emailaddrArray) === 1 && $emailaddrArray[0] === '')
+					&& !empty($userEmail)
+				) {
+					$emailaddrArray[] = $userEmail;
 				}
 
-				if ($sendemail !== 0) {
+				if (!empty($mailFromA) && !empty($mailFromD)) {
+					$mailfrom = $mailFromA . '@' . $mailFromD;
 
-					$user = $this->userManager->get($userid);
-					$userEmail = $user->getEMailAddress();
-					$mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
-					$mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
-
-					// EMAIL
-					$emailaddrArray = explode(',', $emailaddr);
-					if (
-						(count($emailaddrArray) === 1 && $emailaddrArray[0] === '')
-						&& !empty($userEmail)
-					) {
-						$emailaddrArray[] = $userEmail;
-					}
-
-					if (!empty($mailFromA) && !empty($mailFromD)) {
-						$mailfrom = $mailFromA . '@' . $mailFromD;
-
-						foreach ($emailaddrArray as $addrTo) {
-							if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
-								try {
-									$mailer = \OC::$server->getMailer();
-									$message = $mailer->createMessage();
-									$message->setSubject($this->l10n->t('PhoneTrack proximity alert (%s and %s)', [$dev1name, $dev2name]));
-									$message->setFrom([$mailfrom => 'PhoneTrack']);
-									$message->setTo([trim($addrTo) => '']);
-									$message->setPlainBody(
-										$this->l10n->t('PhoneTrack device %s is now closer than %s m to %s.', [
-											$dev1name,
-											$lowlimit,
-											$dev2name
-										])
-									);
-									$mailer->send($message);
-								} catch (Exception $e) {
-									$this->logger->warning('Error during PhoneTrack mail sending : ' . $e, ['app' => $this->appName]);
-								}
+					foreach ($emailaddrArray as $addrTo) {
+						if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
+							try {
+								$mailer = \OC::$server->getMailer();
+								$message = $mailer->createMessage();
+								$message->setSubject($this->l10n->t('PhoneTrack proximity alert (%s and %s)', [$dev1name, $dev2name]));
+								$message->setFrom([$mailfrom => 'PhoneTrack']);
+								$message->setTo([trim($addrTo) => '']);
+								$message->setPlainBody(
+									$this->l10n->t('PhoneTrack device %s is now closer than %s m to %s.', [
+										$dev1name,
+										$proxim->getLowlimit(),
+										$dev2name
+									])
+								);
+								$mailer->send($message);
+							} catch (Exception $e) {
+								$this->logger->warning('Error during PhoneTrack mail sending : ' . $e, ['app' => $this->appName]);
 							}
-						}
-					}
-				}
-				if ($urlclose !== '' && startsWith($urlclose, 'http')) {
-					// GET
-					if ($urlclosepost === 0) {
-						try {
-							$xml = file_get_contents($urlclose);
-						} catch (Exception $e) {
-							$this->logger->warning('Error during PhoneTrack proxim URL query', ['exception' => $e]);
-						}
-					} else {
-						// POST
-						try {
-							$parts = parse_url($urlclose);
-							parse_str($parts['query'], $data);
-
-							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
-
-							$options = [
-								'http' => [
-									'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-									'method' => 'POST',
-									'content' => http_build_query($data),
-								]
-							];
-							$context = stream_context_create($options);
-							$result = file_get_contents($url, false, $context);
-						} catch (Exception $e) {
-							$this->logger->warning('Error during PhoneTrack proxim POST URL query', ['exception' => $e]);
-						}
-					}
-				}
-			} elseif ($highlimit !== 0 && $prevDist <= $highlimit && $currDist > $highlimit) {
-				// devices are now far !
-
-				// if the observed device is 'deviceid2', then we might have the wrong userId
-				if (($movingDeviceId) === ((int)$proxim['deviceid2'])) {
-					$userid = $this->getSessionOwnerOfDevice($proxim['deviceid1']);
-				}
-				$dev1name = $movingDeviceName;
-				$dev2name = $this->getDeviceName($otherDeviceId);
-				$dev2alias = $this->getDeviceAlias($otherDeviceId);
-				if (!empty($dev2alias)) {
-					$dev2name = $dev2alias . ' (' . $dev2name . ')';
-				}
-
-				// activity
-				$deviceObj = $this->deviceMapper->find($movingDeviceId);
-				$this->activityManager->triggerEvent(
-					ActivityManager::PHONETRACK_OBJECT_DEVICE,
-					$deviceObj,
-					ActivityManager::SUBJECT_PROXIMITY_FAR,
-					[
-						'device2' => ['id' => $otherDeviceId],
-						'meters' => [
-							'id' => 0,
-							'name' => $highlimit,
-						],
-					]
-				);
-
-				// NOTIFICATIONS
-				if ($sendnotif !== 0) {
-					$userIds = $this->getSessionSharedUserIdList($sessionToken);
-					$userIds[] = $userid;
-
-					try {
-						foreach ($userIds as $aUserId) {
-							$notification = $this->notificationManager->createNotification();
-
-							$acceptAction = $notification->createAction();
-							$acceptAction->setLabel('accept')
-								->setLink('/apps/phonetrack', 'GET');
-
-							$declineAction = $notification->createAction();
-							$declineAction->setLabel('decline')
-								->setLink('/apps/phonetrack', 'GET');
-
-							$notification->setApp('phonetrack')
-								->setUser($aUserId)
-								->setDateTime(new DateTime())
-								->setObject('farproxim', $proximid)
-								->setSubject('far_proxim', [$dev1name, $highlimit, $dev2name])
-								->addAction($acceptAction)
-								->addAction($declineAction)
-							;
-
-							$this->notificationManager->notify($notification);
-						}
-					} catch (Exception $e) {
-						$this->logger->warning('Error sending PhoneTrack notification', ['exception' => $e]);
-					}
-				}
-
-				if ($sendemail !== 0) {
-
-					$user = $this->userManager->get($userid);
-					$userEmail = $user->getEMailAddress();
-					$mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
-					$mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
-
-					$emailaddrArray = explode(',', $emailaddr);
-					if (
-						(count($emailaddrArray) === 1 && $emailaddrArray[0] === '')
-						&& !empty($userEmail)
-					) {
-						$emailaddrArray[] = $userEmail;
-					}
-
-					if (!empty($mailFromA) && !empty($mailFromD)) {
-						$mailfrom = $mailFromA . '@' . $mailFromD;
-
-						foreach ($emailaddrArray as $addrTo) {
-							if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
-								try {
-									$mailer = \OC::$server->getMailer();
-									$message = $mailer->createMessage();
-									$message->setSubject($this->l10n->t('PhoneTrack proximity alert (%s and %s)', [$dev1name, $dev2name]));
-									$message->setFrom([$mailfrom => 'PhoneTrack']);
-									$message->setTo([trim($addrTo) => '']);
-									$message->setPlainBody(
-										$this->l10n->t('PhoneTrack device %s is now farther than %s m from %s.', [
-											$dev1name,
-											$highlimit,
-											$dev2name
-										])
-									);
-									$mailer->send($message);
-								} catch (Exception $e) {
-									$this->logger->warning('Error during PhoneTrack mail sending', ['exception' => $e]);
-								}
-							}
-						}
-					}
-				}
-				if ($urlfar !== '' && startsWith($urlfar, 'http')) {
-					// GET
-					if ($urlfarpost === 0) {
-						try {
-							$xml = file_get_contents($urlfar);
-						} catch (Exception $e) {
-							$this->logger->warning('Error during PhoneTrack proxim URL query', ['exception' => $e]);
-						}
-					} else {
-						// POST
-						try {
-							$parts = parse_url($urlfar);
-							parse_str($parts['query'], $data);
-
-							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
-
-							$options = [
-								'http' => [
-									'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-									'method' => 'POST',
-									'content' => http_build_query($data),
-								]
-							];
-							$context = stream_context_create($options);
-							$result = file_get_contents($url, false, $context);
-						} catch (Exception $e) {
-							$this->logger->warning('Error during PhoneTrack proxim POST URL query', ['exception' => $e]);
 						}
 					}
 				}
 			}
-		}
-	}
+			if ($proxim->getUrlclose() !== '' && startsWith($proxim->getUrlclose(), 'http')) {
+				// GET
+				if ($proxim->getUrlclosepost() === 0) {
+					try {
+						$xml = file_get_contents($proxim->getUrlclose());
+					} catch (Exception $e) {
+						$this->logger->warning('Error during PhoneTrack proxim URL query', ['exception' => $e]);
+					}
+				} else {
+					// POST
+					try {
+						$parts = parse_url($proxim->getUrlclose());
+						parse_str($parts['query'], $data);
 
-	private function getDeviceFences(int $devid) {
-		$fences = [];
-		$sqlGet = '
-			SELECT id, latmin, lonmin, latmax, lonmax,
-				   name, urlenter, urlleave,
-				   urlenterpost, urlleavepost,
-				   sendemail, emailaddr, sendnotif
-			FROM *PREFIX*phonetrack_geofences
-			WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ;';
-		$req = $this->db->prepare($sqlGet);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$fences[] = $row;
+						$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+
+						$options = [
+							'http' => [
+								'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+								'method' => 'POST',
+								'content' => http_build_query($data),
+							]
+						];
+						$context = stream_context_create($options);
+						$result = file_get_contents($url, false, $context);
+					} catch (Exception $e) {
+						$this->logger->warning('Error during PhoneTrack proxim POST URL query', ['exception' => $e]);
+					}
+				}
+			}
+		} elseif ($proxim->getHighlimit() !== 0 && $prevDist <= $proxim->getHighlimit() && $currDist > $proxim->getHighlimit()) {
+			// devices are now far !
+
+			// if the observed device is 'deviceid2', then we might have the wrong userId
+			if ($movingDeviceId === $proxim->getDeviceid2()) {
+				$userid = $this->getSessionOwnerOfDevice($proxim->getDeviceid1());
+			}
+			$dev1name = $movingDeviceName;
+			$dev2name = $otherDevice->getName();
+			$dev2alias = $otherDevice->getAlias();
+			if (!empty($dev2alias)) {
+				$dev2name = $dev2alias . ' (' . $dev2name . ')';
+			}
+
+			// activity
+			$deviceObj = $this->deviceMapper->find($movingDeviceId);
+			$this->activityManager->triggerEvent(
+				ActivityManager::PHONETRACK_OBJECT_DEVICE,
+				$deviceObj,
+				ActivityManager::SUBJECT_PROXIMITY_FAR,
+				[
+					'device2' => ['id' => $otherDeviceId],
+					'meters' => [
+						'id' => 0,
+						'name' => $proxim->getHighlimit(),
+					],
+				]
+			);
+
+			// NOTIFICATIONS
+			if ($proxim->getSendnotif() !== 0) {
+				$userIds = $this->getSessionSharedUserIdList($sessionToken);
+				$userIds[] = $userid;
+
+				try {
+					foreach ($userIds as $aUserId) {
+						$notification = $this->notificationManager->createNotification();
+
+						$acceptAction = $notification->createAction();
+						$acceptAction->setLabel('accept')
+							->setLink('/apps/phonetrack', 'GET');
+
+						$declineAction = $notification->createAction();
+						$declineAction->setLabel('decline')
+							->setLink('/apps/phonetrack', 'GET');
+
+						$notification->setApp('phonetrack')
+							->setUser($aUserId)
+							->setDateTime(new DateTime())
+							->setObject('farproxim', (string)$proximId)
+							->setSubject('far_proxim', [$dev1name, $proxim->getHighlimit(), $dev2name])
+							->addAction($acceptAction)
+							->addAction($declineAction);
+
+						$this->notificationManager->notify($notification);
+					}
+				} catch (Exception $e) {
+					$this->logger->warning('Error sending PhoneTrack notification', ['exception' => $e]);
+				}
+			}
+
+			if ($proxim->getSendemail() !== 0) {
+
+				$user = $this->userManager->get($userid);
+				$userEmail = $user->getEMailAddress();
+				$mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
+				$mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
+
+				$emailaddrArray = explode(',', $emailaddr);
+				if (
+					(count($emailaddrArray) === 1 && $emailaddrArray[0] === '')
+					&& !empty($userEmail)
+				) {
+					$emailaddrArray[] = $userEmail;
+				}
+
+				if (!empty($mailFromA) && !empty($mailFromD)) {
+					$mailfrom = $mailFromA . '@' . $mailFromD;
+
+					foreach ($emailaddrArray as $addrTo) {
+						if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
+							try {
+								$mailer = \OC::$server->getMailer();
+								$message = $mailer->createMessage();
+								$message->setSubject($this->l10n->t('PhoneTrack proximity alert (%s and %s)', [$dev1name, $dev2name]));
+								$message->setFrom([$mailfrom => 'PhoneTrack']);
+								$message->setTo([trim($addrTo) => '']);
+								$message->setPlainBody(
+									$this->l10n->t('PhoneTrack device %s is now farther than %s m from %s.', [
+										$dev1name,
+										$proxim->getHighlimit(),
+										$dev2name
+									])
+								);
+								$mailer->send($message);
+							} catch (Exception $e) {
+								$this->logger->warning('Error during PhoneTrack mail sending', ['exception' => $e]);
+							}
+						}
+					}
+				}
+			}
+			if ($proxim->getUrlfar() !== '' && startsWith($proxim->getUrlfar(), 'http')) {
+				// GET
+				if ($proxim->getUrlfarpost() === 0) {
+					try {
+						$xml = file_get_contents($proxim->getUrlfar());
+					} catch (Exception $e) {
+						$this->logger->warning('Error during PhoneTrack proxim URL query', ['exception' => $e]);
+					}
+				} else {
+					// POST
+					try {
+						$parts = parse_url($proxim->getUrlfar());
+						parse_str($parts['query'], $data);
+
+						$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+
+						$options = [
+							'http' => [
+								'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+								'method' => 'POST',
+								'content' => http_build_query($data),
+							]
+						];
+						$context = stream_context_create($options);
+						$result = file_get_contents($url, false, $context);
+					} catch (Exception $e) {
+						$this->logger->warning('Error during PhoneTrack proxim POST URL query', ['exception' => $e]);
+					}
+				}
+			}
 		}
-		$res->closeCursor();
-		return $fences;
 	}
 
 	/**
@@ -595,30 +528,20 @@ class LogController extends Controller {
 	private function checkGeoFences(float $lat, float $lon, int $deviceId, string $userid, string $deviceName,
 		string $sessionname, string $sessionToken) {
 		$lastPoint = $this->getLastDevicePoint($deviceId);
-		$fences = $this->getDeviceFences($deviceId);
+		$fences = $this->geofenceMapper->findByDeviceId($deviceId);
 		foreach ($fences as $fence) {
 			$this->checkGeoGence($lat, $lon, $lastPoint, $deviceId, $fence, $userid, $deviceName, $sessionname, $sessionToken);
 		}
 	}
 
-	private function checkGeoGence(float $lat, float $lon, ?array $lastPoint, int $devid, array $fence,
-		string $userid, string $devicename, string $sessionname, string $sessionToken) {
-		$latmin = (float)$fence['latmin'];
-		$latmax = (float)$fence['latmax'];
-		$lonmin = (float)$fence['lonmin'];
-		$lonmax = (float)$fence['lonmax'];
-		$urlenter = $fence['urlenter'];
-		$urlleave = $fence['urlleave'];
-		$urlenterpost = (int)$fence['urlenterpost'];
-		$urlleavepost = (int)$fence['urlleavepost'];
-		$sendemail = (int)$fence['sendemail'];
-		$sendnotif = (int)$fence['sendnotif'];
-		$emailaddr = $fence['emailaddr'];
+	private function checkGeoGence(
+		float $lat, float $lon, ?array $lastPoint, int $devid, Geofence $fence,
+		string $userid, string $devicename, string $sessionname, string $sessionToken,
+	) {
+		$emailaddr = $fence->getEmailaddr();
 		if ($emailaddr === null) {
 			$emailaddr = '';
 		}
-		$fencename = $fence['name'];
-		$fenceid = $fence['id'];
 
 		/*
 		// first point of this device
@@ -632,257 +555,255 @@ class LogController extends Controller {
 		}
 		*/
 		// not the first point
-		if ($lastPoint !== null) {
-			$lastLat = (float)$lastPoint['lat'];
-			$lastLon = (float)$lastPoint['lon'];
+		if ($lastPoint === null) {
+			return;
+		}
 
-			// if previous point not in fence
-			if (!($lastLat > $latmin && $lastLat < $latmax && $lastLon > $lonmin && $lastLon < $lonmax)) {
-				// and new point in fence
-				if ($lat > $latmin && $lat < $latmax && $lon > $lonmin && $lon < $lonmax) {
-					// device ENTERED the fence !
-					$user = $this->userManager->get($userid);
-					$userEmail = $user->getEMailAddress();
-					$mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
-					$mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
+		$lastLat = (float)$lastPoint['lat'];
+		$lastLon = (float)$lastPoint['lon'];
 
-					// activity
-					$deviceObj = $this->deviceMapper->find($devid);
-					$this->activityManager->triggerEvent(
-						ActivityManager::PHONETRACK_OBJECT_DEVICE,
-						$deviceObj,
-						ActivityManager::SUBJECT_GEOFENCE_ENTER,
-						[
-							'geofence' => [
-								'id' => $fenceid,
-								'name' => $fencename,
-							],
-						]
-					);
+		// if previous point not in fence
+		if (!($lastLat > $fence->getLatmin() && $lastLat < $fence->getLatmax() && $lastLon > $fence->getLonmin() && $lastLon < $fence->getLonmax())) {
+			// and new point in fence
+			if ($lat > $fence->getLatmin() && $lat < $fence->getLatmax() && $lon > $fence->getLonmin() && $lon < $fence->getLonmax()) {
+				// device ENTERED the fence !
+				$user = $this->userManager->get($userid);
+				$userEmail = $user->getEMailAddress();
+				$mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
+				$mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
-					// NOTIFICATIONS
-					if ($sendnotif !== 0) {
-						$userIds = $this->getSessionSharedUserIdList($sessionToken);
-						$userIds[] = $userid;
+				// activity
+				$deviceObj = $this->deviceMapper->find($devid);
+				$this->activityManager->triggerEvent(
+					ActivityManager::PHONETRACK_OBJECT_DEVICE,
+					$deviceObj,
+					ActivityManager::SUBJECT_GEOFENCE_ENTER,
+					[
+						'geofence' => [
+							'id' => $fence->getId(),
+							'name' => $fence->getName(),
+						],
+					]
+				);
 
-						try {
-							foreach ($userIds as $aUserId) {
-								$notification = $this->notificationManager->createNotification();
+				// NOTIFICATIONS
+				if ($fence->getSendnotif() !== 0) {
+					$userIds = $this->getSessionSharedUserIdList($sessionToken);
+					$userIds[] = $userid;
 
-								$acceptAction = $notification->createAction();
-								$acceptAction->setLabel('accept')
-									->setLink('/apps/phonetrack', 'GET');
+					try {
+						foreach ($userIds as $aUserId) {
+							$notification = $this->notificationManager->createNotification();
 
-								$declineAction = $notification->createAction();
-								$declineAction->setLabel('decline')
-									->setLink('/apps/phonetrack', 'GET');
+							$acceptAction = $notification->createAction();
+							$acceptAction->setLabel('accept')
+								->setLink('/apps/phonetrack', 'GET');
 
-								$notification->setApp('phonetrack')
-									->setUser($aUserId)
-									->setDateTime(new DateTime())
-									->setObject('entergeofence', $fenceid) // $type and $id
-									->setSubject('enter_geofence', [$sessionname, $devicename, $fencename])
-									->addAction($acceptAction)
-									->addAction($declineAction)
-								;
+							$declineAction = $notification->createAction();
+							$declineAction->setLabel('decline')
+								->setLink('/apps/phonetrack', 'GET');
 
-								$this->notificationManager->notify($notification);
-							}
-						} catch (Exception $e) {
-							$this->logger->warning('Error sending PhoneTrack notification', ['exception' => $e]);
+							$notification->setApp('phonetrack')
+								->setUser($aUserId)
+								->setDateTime(new DateTime())
+								->setObject('entergeofence', (string)$fence->getId()) // $type and $id
+								->setSubject('enter_geofence', [$sessionname, $devicename, $fence->getName()])
+								->addAction($acceptAction)
+								->addAction($declineAction);
+
+							$this->notificationManager->notify($notification);
 						}
+					} catch (Exception $e) {
+						$this->logger->warning('Error sending PhoneTrack notification', ['exception' => $e]);
 					}
+				}
 
-					// EMAIL
-					if ($sendemail !== 0) {
-						$emailAddrArray = explode(',', $emailaddr);
-						if (
-							(count($emailAddrArray) === 1 && $emailAddrArray[0] === '')
-							&& !empty($userEmail)
-						) {
-							$emailAddrArray[] = $userEmail;
-						}
-						if (!empty($mailFromA) && !empty($mailFromD)) {
-							$mailFrom = $mailFromA . '@' . $mailFromD;
+				// EMAIL
+				if ($fence->getSendemail() !== 0) {
+					$emailAddrArray = explode(',', $emailaddr);
+					if (
+						(count($emailAddrArray) === 1 && $emailAddrArray[0] === '')
+						&& !empty($userEmail)
+					) {
+						$emailAddrArray[] = $userEmail;
+					}
+					if (!empty($mailFromA) && !empty($mailFromD)) {
+						$mailFrom = $mailFromA . '@' . $mailFromD;
 
-							foreach ($emailAddrArray as $addrTo) {
-								if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
-									try {
-										$mailer = \OC::$server->getMailer();
-										$message = $mailer->createMessage();
-										$message->setSubject($this->l10n->t('Geofencing alert'));
-										$message->setFrom([$mailFrom => 'PhoneTrack']);
-										$message->setTo([trim($addrTo) => '']);
-										$message->setPlainBody(
-											$this->l10n->t('In PhoneTrack session %s, device %s has entered geofence %s.', [
-												$sessionname,
-												$devicename,
-												$fencename
-											])
-										);
-										$mailer->send($message);
-									} catch (Exception $e) {
-										$this->logger->warning('Error during PhoneTrack mail sending', ['exception' => $e]);
-									}
+						foreach ($emailAddrArray as $addrTo) {
+							if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
+								try {
+									$mailer = \OC::$server->getMailer();
+									$message = $mailer->createMessage();
+									$message->setSubject($this->l10n->t('Geofencing alert'));
+									$message->setFrom([$mailFrom => 'PhoneTrack']);
+									$message->setTo([trim($addrTo) => '']);
+									$message->setPlainBody(
+										$this->l10n->t('In PhoneTrack session %s, device %s has entered geofence %s.', [
+											$sessionname,
+											$devicename,
+											$fence->getName(),
+										])
+									);
+									$mailer->send($message);
+								} catch (Exception $e) {
+									$this->logger->warning('Error during PhoneTrack mail sending', ['exception' => $e]);
 								}
-							}
-						}
-					}
-					if ($urlenter !== '' && startsWith($urlenter, 'http')) {
-						// GET
-						$urlenter = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $urlenter);
-						if ($urlenterpost === 0) {
-							try {
-								$xml = file_get_contents($urlenter);
-							} catch (Exception $e) {
-								$this->logger->warning('Error during PhoneTrack geofence URL query', ['exception' => $e]);
-							}
-						}
-						// POST
-						else {
-							try {
-								$parts = parse_url($urlenter);
-								parse_str($parts['query'], $data);
-
-								$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
-
-								$options = [
-									'http' => [
-										'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-										'method' => 'POST',
-										'content' => http_build_query($data)
-									]
-								];
-								$context = stream_context_create($options);
-								$result = file_get_contents($url, false, $context);
-							} catch (Exception $e) {
-								$this->logger->warning('Error during PhoneTrack geofence POST URL query', ['exception' => $e]);
 							}
 						}
 					}
 				}
-			}
-			// previous point in fence
-			else {
-				// if new point NOT in fence
-				if (!($lat > $latmin && $lat < $latmax && $lon > $lonmin && $lon < $lonmax)) {
-					// device EXITED the fence !
-					$user = $this->userManager->get($userid);
-					$userEmail = $user->getEMailAddress();
-					$mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
-					$mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
-
-					// activity
-					$deviceObj = $this->deviceMapper->find($devid);
-					$this->activityManager->triggerEvent(
-						ActivityManager::PHONETRACK_OBJECT_DEVICE,
-						$deviceObj,
-						ActivityManager::SUBJECT_GEOFENCE_EXIT,
-						[
-							'geofence' => [
-								'id' => $fenceid,
-								'name' => $fencename,
-							],
-						]
-					);
-
-					// NOTIFICATIONS
-					if ($sendnotif !== 0) {
-						$userIds = $this->getSessionSharedUserIdList($sessionToken);
-						$userIds[] = $userid;
-
+				if ($fence->getUrlenter() !== '' && startsWith($fence->getUrlenter(), 'http')) {
+					// GET
+					$urlenter = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $fence->getUrlenter());
+					if ($fence->getUrlenterpost() === 0) {
 						try {
-							foreach ($userIds as $aUserId) {
-								$notification = $this->notificationManager->createNotification();
-
-								$acceptAction = $notification->createAction();
-								$acceptAction->setLabel('accept')
-									->setLink('/apps/phonetrack', 'GET');
-
-								$declineAction = $notification->createAction();
-								$declineAction->setLabel('decline')
-									->setLink('/apps/phonetrack', 'GET');
-
-								$notification->setApp('phonetrack')
-									->setUser($aUserId)
-									->setDateTime(new DateTime())
-									->setObject('leavegeofence', $fenceid) // $type and $id
-									->setSubject('leave_geofence', [$sessionname, $devicename, $fencename])
-									->addAction($acceptAction)
-									->addAction($declineAction)
-								;
-
-								$this->notificationManager->notify($notification);
-							}
+							$xml = file_get_contents($urlenter);
 						} catch (Exception $e) {
-							$this->logger->warning('Error sending PhoneTrack notification', ['exception' => $e]);
+							$this->logger->warning('Error during PhoneTrack geofence URL query', ['exception' => $e]);
+						}
+					} else {
+						// POST
+						try {
+							$parts = parse_url($fence->getUrlenter());
+							parse_str($parts['query'], $data);
+
+							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+
+							$options = [
+								'http' => [
+									'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+									'method' => 'POST',
+									'content' => http_build_query($data)
+								]
+							];
+							$context = stream_context_create($options);
+							$result = file_get_contents($url, false, $context);
+						} catch (Exception $e) {
+							$this->logger->warning('Error during PhoneTrack geofence POST URL query', ['exception' => $e]);
 						}
 					}
+				}
+			}
+		} // previous point in fence
+		else {
+			// if new point NOT in fence
+			if (!($lat > $fence->getLatmin() && $lat < $fence->getLatmax() && $lon > $fence->getLonmin() && $lon < $fence->getLonmax())) {
+				// device EXITED the fence !
+				$user = $this->userManager->get($userid);
+				$userEmail = $user->getEMailAddress();
+				$mailFromA = $this->config->getSystemValue('mail_from_address', 'phonetrack');
+				$mailFromD = $this->config->getSystemValue('mail_domain', 'nextcloud.your');
 
-					// EMAIL
-					if ($sendemail !== 0) {
-						$emailAddrArray = explode(',', $emailaddr);
-						if (
-							(count($emailAddrArray) === 1 && $emailAddrArray[0] === '')
-							&& !empty($userEmail)
-						) {
-							$emailAddrArray[] = $userEmail;
+				// activity
+				$deviceObj = $this->deviceMapper->find($devid);
+				$this->activityManager->triggerEvent(
+					ActivityManager::PHONETRACK_OBJECT_DEVICE,
+					$deviceObj,
+					ActivityManager::SUBJECT_GEOFENCE_EXIT,
+					[
+						'geofence' => [
+							'id' => $fence->getId(),
+							'name' => $fence->getName(),
+						],
+					]
+				);
+
+				// NOTIFICATIONS
+				if ($fence->getSendnotif() !== 0) {
+					$userIds = $this->getSessionSharedUserIdList($sessionToken);
+					$userIds[] = $userid;
+
+					try {
+						foreach ($userIds as $aUserId) {
+							$notification = $this->notificationManager->createNotification();
+
+							$acceptAction = $notification->createAction();
+							$acceptAction->setLabel('accept')
+								->setLink('/apps/phonetrack', 'GET');
+
+							$declineAction = $notification->createAction();
+							$declineAction->setLabel('decline')
+								->setLink('/apps/phonetrack', 'GET');
+
+							$notification->setApp('phonetrack')
+								->setUser($aUserId)
+								->setDateTime(new DateTime())
+								->setObject('leavegeofence', (string)$fence->getId()) // $type and $id
+								->setSubject('leave_geofence', [$sessionname, $devicename, $fence->getName()])
+								->addAction($acceptAction)
+								->addAction($declineAction);
+
+							$this->notificationManager->notify($notification);
 						}
-						if (!empty($mailFromA) && !empty($mailFromD)) {
-							$mailFrom = $mailFromA . '@' . $mailFromD;
+					} catch (Exception $e) {
+						$this->logger->warning('Error sending PhoneTrack notification', ['exception' => $e]);
+					}
+				}
 
-							foreach ($emailAddrArray as $addrTo) {
-								if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
-									try {
-										$mailer = \OC::$server->getMailer();
-										$message = $mailer->createMessage();
-										$message->setSubject($this->l10n->t('Geofencing alert'));
-										$message->setFrom([$mailFrom => 'PhoneTrack']);
-										$message->setTo([trim($addrTo) => '']);
-										$message->setPlainBody(
-											$this->l10n->t('In PhoneTrack session %s, device %s exited geofence %s.', [
-												$sessionname,
-												$devicename,
-												$fencename
-											])
-										);
-										$mailer->send($message);
-									} catch (Exception $e) {
-										$this->logger->warning('Error during PhoneTrack mail sending : ' . $e, ['app' => $this->appName]);
-									}
+				// EMAIL
+				if ($fence->getSendemail() !== 0) {
+					$emailAddrArray = explode(',', $emailaddr);
+					if (
+						(count($emailAddrArray) === 1 && $emailAddrArray[0] === '')
+						&& !empty($userEmail)
+					) {
+						$emailAddrArray[] = $userEmail;
+					}
+					if (!empty($mailFromA) && !empty($mailFromD)) {
+						$mailFrom = $mailFromA . '@' . $mailFromD;
+
+						foreach ($emailAddrArray as $addrTo) {
+							if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
+								try {
+									$mailer = \OC::$server->getMailer();
+									$message = $mailer->createMessage();
+									$message->setSubject($this->l10n->t('Geofencing alert'));
+									$message->setFrom([$mailFrom => 'PhoneTrack']);
+									$message->setTo([trim($addrTo) => '']);
+									$message->setPlainBody(
+										$this->l10n->t('In PhoneTrack session %s, device %s exited geofence %s.', [
+											$sessionname,
+											$devicename,
+											$fence->getName(),
+										])
+									);
+									$mailer->send($message);
+								} catch (Exception $e) {
+									$this->logger->warning('Error during PhoneTrack mail sending : ' . $e, ['app' => $this->appName]);
 								}
 							}
 						}
 					}
-					if ($urlleave !== '' && startsWith($urlleave, 'http')) {
-						// GET
-						if ($urlleavepost === 0) {
-							$urlleave = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $urlleave);
-							try {
-								$xml = file_get_contents($urlleave);
-							} catch (Exception $e) {
-								$this->logger->warning('Error during PhoneTrack geofence URL query', ['exception' => $e]);
-							}
-						} else {
-							// POST
-							try {
-								$parts = parse_url($urlleave);
-								parse_str($parts['query'], $data);
+				}
+				if ($fence->getUrlleave() !== '' && startsWith($fence->getUrlleave(), 'http')) {
+					// GET
+					if ($fence->getUrlleavepost() === 0) {
+						$urlleave = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $fence->getUrlleave());
+						try {
+							$xml = file_get_contents($urlleave);
+						} catch (Exception $e) {
+							$this->logger->warning('Error during PhoneTrack geofence URL query', ['exception' => $e]);
+						}
+					} else {
+						// POST
+						try {
+							$parts = parse_url($fence->getUrlleave());
+							parse_str($parts['query'], $data);
 
-								$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
 
-								$options = [
-									'http' => [
-										'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-										'method' => 'POST',
-										'content' => http_build_query($data)
-									]
-								];
-								$context = stream_context_create($options);
-								$result = file_get_contents($url, false, $context);
-							} catch (Exception $e) {
-								$this->logger->warning('Error during PhoneTrack geofence POST URL query', ['exception' => $e]);
-							}
+							$options = [
+								'http' => [
+									'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+									'method' => 'POST',
+									'content' => http_build_query($data)
+								]
+							];
+							$context = stream_context_create($options);
+							$result = file_get_contents($url, false, $context);
+						} catch (Exception $e) {
+							$this->logger->warning('Error during PhoneTrack geofence POST URL query', ['exception' => $e]);
 						}
 					}
 				}

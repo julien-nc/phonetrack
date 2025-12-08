@@ -33,6 +33,26 @@ class ProximMapper extends QBMapper {
 	 * @return Proxim[]
 	 * @throws Exception
 	 */
+	public function findByDeviceId(int $deviceId): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('deviceid1', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			)
+			->orWhere(
+				$qb->expr()->eq('deviceid2', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param int $deviceId
+	 * @return Proxim[]
+	 * @throws Exception
+	 */
 	public function findByDeviceId1(int $deviceId): array {
 		$qb = $this->db->getQueryBuilder();
 

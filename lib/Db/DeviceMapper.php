@@ -18,7 +18,7 @@ class DeviceMapper extends QBMapper {
 		parent::__construct($db, 'phonetrack_devices', Device::class);
 	}
 
-	public function find($id): Device {
+	public function find(int $id): Device {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
