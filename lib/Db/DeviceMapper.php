@@ -111,6 +111,21 @@ class DeviceMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
+	public function getByNameToken(string $sessionToken, string $nameToken): Device {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('nametoken', $qb->createNamedParameter($nameToken, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntity($qb);
+	}
+
 	public function deleteDevice(string $sessionToken, int $deviceId): void {
 		$this->deleteDevicePoints($deviceId);
 

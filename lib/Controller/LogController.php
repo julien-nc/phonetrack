@@ -8,6 +8,7 @@ use Exception;
 
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\Device;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Geofence;
 use OCA\PhoneTrack\Db\GeofenceMapper;
@@ -1337,271 +1338,182 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function logPostMultiple(string $token, string $devicename, array $points) {
+	public function logPostMultiple(string $token, string $devicename, array $points): array {
 		$result = [
 			'done' => 0,
 			'friends' => [],
 		];
-		if ($devicename !== '' && $token !== '') {
-			// check if session exists
-			$sqlCheck = '
-				SELECT `id`, `name`, `user`, `public`, `locked`
-				FROM `*PREFIX*phonetrack_sessions`
-				WHERE `token`=?
-			';
-			$req = $this->db->prepare($sqlCheck);
-			$res = $req->execute([$token]);
-			$dbname = null;
-			$dbSessionId = null;
-			$userid = null;
-			$locked = null;
-			$isPublicSession = null;
-			while ($row = $res->fetch()) {
-				$dbname = $row['name'];
-				$userid = $row['user'];
-				$dbSessionId = (int)$row['id'];
-				$locked = (((int)$row['locked']) === 1);
-				$isPublicSession = (bool)$row['public'];
-				break;
-			}
-			$res->closeCursor();
-
+		if ($devicename === '' || $token === '') {
+			return $result;
+		}
+		// check if session exists
+		try {
+			$session = $this->sessionMapper->findByToken($token);
+		} catch (DoesNotExistException $e) {
 			// is it a share token?
-			if ($dbname === null) {
-				$dbToken = null;
-				// get real token from sharetoken
-				$sqlGet = '
-					SELECT session_token
-					FROM *PREFIX*phonetrack_shares
-					WHERE sharetoken=' . $this->db_quote_escape_string($token) . ';';
-				$req = $this->db->prepare($sqlGet);
-				$res = $req->execute();
-				while ($row = $res->fetch()) {
-					$dbToken = $row['session_token'];
-				}
-				$res->closeCursor();
-				if ($dbToken !== null) {
-					$token = $dbToken;
-					// get session info
-					$sqlCheck = '
-						SELECT `id`, `name`, `user`, `public`, `locked`
-						FROM `*PREFIX*phonetrack_sessions`
-						WHERE `token`=?
-					';
-					$req = $this->db->prepare($sqlCheck);
-					$res = $req->execute([$token]);
-					$dbname = null;
-					$userid = null;
-					$locked = null;
-					$isPublicSession = null;
-					while ($row = $res->fetch()) {
-						$dbname = $row['name'];
-						$userid = $row['user'];
-						$dbSessionId = (int)$row['id'];
-						$locked = (((int)$row['locked']) === 1);
-						$isPublicSession = (bool)$row['public'];
-						break;
-					}
-					$res->closeCursor();
+			try {
+				$share = $this->shareMapper->findByShareToken($token);
+				$session = $this->sessionMapper->find($share->getSessionId());
+			} catch (DoesNotExistException $e) {
+				return $result;
+			}
+		}
+
+		if ($session->getLocked() === 1) {
+			$result['done'] = 3;
+			return $result;
+		}
+
+		$humanReadableDeviceName = $devicename;
+		// check if this device name is reserved or exists
+		try {
+			$device = $this->deviceMapper->getByName($session->getToken(), $devicename);
+		} catch (DoesNotExistException $e) {
+			$device = null;
+		}
+
+		// the device exists
+		if ($device !== null) {
+			if ($device->getAlias()) {
+				$humanReadableDeviceName = $device->getAlias() . ' (' . $device->getName() . ')';
+			} else {
+				$humanReadableDeviceName = $device->getName();
+			}
+			// this device id reserved => logging refused if the request does not come from correct user
+			if ($device->getNametoken()) {
+				// here, we check if we're logged in as the session owner
+				if ($this->userId && $session->getUser() === $this->userId) {
+					// if so, accept to (manually) log with name and not nametoken
+				} else {
+					return $result;
 				}
 			}
+		} else {
+			// the device with this device name does not exist
+			// check if the device name corresponds to a nametoken
+			try {
+				$device = $this->deviceMapper->getByNameToken($session->getToken(), $devicename);
+			} catch (DoesNotExistException $e) {
+				$device = null;
+			}
 
-			if ($dbname !== null) {
-				if (!$locked) {
-					$humanReadableDeviceName = $devicename;
-					// check if this device name is reserved or exists
-					$dbdevicename = null;
-					$dbdevicealias = null;
-					$dbdevicenametoken = null;
-					$deviceIdToInsert = null;
-					$sqlgetres = '
-						SELECT id, name, nametoken, alias
-						FROM *PREFIX*phonetrack_devices
-						WHERE session_token=' . $this->db_quote_escape_string($token) . '
-							  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
-					$req = $this->db->prepare($sqlgetres);
-					$res = $req->execute();
-					while ($row = $res->fetch()) {
-						$dbDeviceId = $row['id'];
-						$dbdevicename = $row['name'];
-						$dbdevicealias = $row['alias'];
-						$dbdevicenametoken = $row['nametoken'];
-					}
-					$res->closeCursor();
+			// there is a device which has this nametoken => we log for this device
+			if ($device !== null) {
+				if ($device->getAlias()) {
+					$humanReadableDeviceName = $device->getAlias() . ' (' . $device->getName() . ')';
+				} else {
+					$humanReadableDeviceName = $device->getName();
+				}
+			} else {
+				// device does not exist and there is no reservation corresponding
+				// => we create it
+				$device = new Device();
+				$device->setName($devicename);
+				$device->setSessionToken($session->getToken());
+				$device->setSessionId($session->getId());
+				$device = $this->deviceMapper->insert($device);
+			}
+		}
 
-					// the device exists
-					if ($dbdevicename !== null) {
-						if (!empty($dbdevicealias)) {
-							$humanReadableDeviceName = $dbdevicealias . ' (' . $dbdevicename . ')';
-						} else {
-							$humanReadableDeviceName = $dbdevicename;
+		// check quota once before inserting anything
+		// it will delete points to make room if needed
+		$quotaClearance = $this->checkQuota($device->getId(), $session->getUser(), $humanReadableDeviceName, $session->getName(), count($points));
+
+		if (!$quotaClearance) {
+			$result['done'] = 2;
+			return $result;
+		}
+
+		// check geofences and proxims only once with the last point
+		if (count($points) > 0) {
+			$lastPointToInsert = $points[count($points) - 1];
+			$lat = $lastPointToInsert[0];
+			$lon = $lastPointToInsert[1];
+			$this->checkGeoFences(
+				(float)$lat, (float)$lon, $device->getId(), $session->getUser(), $humanReadableDeviceName, $session->getName(), $session->getToken()
+			);
+			$this->checkProxims(
+				(float)$lat, (float)$lon, $device->getId(), $session->getUser(), $humanReadableDeviceName, $session->getName(), $session->getToken()
+			);
+		}
+
+		$useragent = null;
+		$pointsToInsert = [];
+		foreach ($points as $point) {
+			$lat = $point[0];
+			$lon = $point[1];
+			$timestamp = $point[2];
+			$alt = $point[3];
+			$acc = $point[4];
+			$bat = $point[5];
+			$sat = $point[6];
+			$useragent = $point[7];
+			$speed = $point[8];
+			$bearing = $point[9];
+
+			if ($lat !== '' && is_numeric($lat)
+				&& $lon !== '' && is_numeric($lon)
+				&& $timestamp !== '' && is_numeric($timestamp)
+			) {
+				// correct timestamp if needed
+				$timestamp = (int)$timestamp;
+				if ($timestamp > 10000000000) {
+					$timestamp = $timestamp / 1000;
+				}
+				$alt = is_numeric($alt) ? (float)$alt : null;
+				$acc = is_numeric($acc) ? (float)$acc : null;
+				$bat = is_numeric($bat) ? (float)$bat : null;
+				$sat = is_numeric($sat) ? (int)$sat : null;
+				$speed = is_numeric($speed) ? (float)$speed : null;
+				$bearing = is_numeric($bearing) ? (float)$bearing : null;
+
+				$dbPoint = new Point();
+				$dbPoint->setDeviceid($device->getId());
+				$dbPoint->setLat((float)$lat);
+				$dbPoint->setLon((float)$lon);
+				$dbPoint->setTimestamp($timestamp);
+				$dbPoint->setAltitude($alt);
+				$dbPoint->setAccuracy($acc);
+				$dbPoint->setBatterylevel($bat);
+				$dbPoint->setSatellites($sat);
+				$dbPoint->setSpeed($speed);
+				$dbPoint->setBearing($bearing);
+				$dbPoint->setUseragent($useragent);
+
+				$pointsToInsert[] = $dbPoint;
+
+				// insert by bunch of 50 points
+				if (count($pointsToInsert) % 50 === 0) {
+					$this->db->beginTransaction();
+					try {
+						foreach ($pointsToInsert as $pointToInsert) {
+							$this->pointMapper->insert($pointToInsert);
 						}
-						// this device id reserved => logging refused if the request does not come from correct user
-						if ($dbdevicenametoken !== null && $dbdevicenametoken !== '') {
-							// here, we check if we're logged in as the session owner
-							if ($this->userId !== '' && $this->userId !== null && $userid === $this->userId) {
-								// if so, accept to (manually) log with name and not nametoken
-								$deviceIdToInsert = $dbDeviceId;
-							} else {
-								return $result;
-							}
-						} else {
-							$deviceIdToInsert = $dbDeviceId;
-						}
+						$this->db->commit();
+					} catch (\Exception|\Throwable $e) {
+						$this->db->rollBack();
 					}
-					// the device with this device name does not exist
-					else {
-						// check if the device name corresponds to a nametoken
-						$dbdevicenametoken = null;
-						$dbdevicename = null;
-						$dbdevicealias = null;
-						$sqlgetres = '
-							SELECT id, name, nametoken, alias
-							FROM *PREFIX*phonetrack_devices
-							WHERE session_token=' . $this->db_quote_escape_string($token) . '
-								  AND nametoken=' . $this->db_quote_escape_string($devicename) . ' ;';
-						$req = $this->db->prepare($sqlgetres);
-						$req->execute();
-						while ($row = $req->fetch()) {
-							$dbDeviceId = (int)$row['id'];
-							$dbdevicename = $row['name'];
-							$dbdevicealias = $row['alias'];
-							$dbdevicenametoken = $row['nametoken'];
-						}
-						$req->closeCursor();
+					$pointsToInsert = [];
+				}
+			}
+		}
+		// insert last bunch of points
+		if (count($pointsToInsert) > 0) {
+			$this->db->beginTransaction();
+			try {
+				foreach ($pointsToInsert as $pointToInsert) {
+					$this->pointMapper->insert($pointToInsert);
+				}
+				$this->db->commit();
+			} catch (\Exception|\Throwable $e) {
+				$this->db->rollBack();
+			}
+		}
 
-						// there is a device which has this nametoken => we log for this device
-						if ($dbdevicenametoken !== null && $dbdevicenametoken !== '') {
-							$deviceIdToInsert = $dbDeviceId;
-							if (!empty($dbdevicealias)) {
-								$humanReadableDeviceName = $dbdevicealias . ' (' . $dbdevicename . ')';
-							} else {
-								$humanReadableDeviceName = $dbdevicename;
-							}
-						} else {
-							// device does not exist and there is no reservation corresponding
-							// => we create it
-							$sql = '
-								INSERT INTO *PREFIX*phonetrack_devices
-								(name, session_id, session_token)
-								VALUES ('
-									. $this->db_quote_escape_string($devicename) . ','
-									. $this->db_quote_escape_string($dbSessionId) . ','
-									. $this->db_quote_escape_string($token)
-								. ') ;';
-							$req = $this->db->prepare($sql);
-							$req->execute();
+		$result['done'] = 1;
 
-							// get the newly created device id
-							$sqlGetDeviceId = '
-								SELECT id
-								FROM *PREFIX*phonetrack_devices
-								WHERE session_id=' . $this->db_quote_escape_string($dbSessionId) . '
-									  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
-							$req = $this->db->prepare($sqlGetDeviceId);
-							$res = $req->execute();
-							while ($row = $res->fetch()) {
-								$deviceIdToInsert = (int)$row['id'];
-							}
-							$res->closeCursor();
-						}
-					}
-
-					// check quota once before inserting anything
-					// it will delete points to make room if needed
-					$quotaClearance = $this->checkQuota($deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname, count($points));
-
-					if (!$quotaClearance) {
-						$result['done'] = 2;
-						return $result;
-					}
-
-					// check geofences and proxims only once with the last point
-					if (count($points) > 0) {
-						$lastPointToInsert = $points[count($points) - 1];
-						$lat = $lastPointToInsert[0];
-						$lon = $lastPointToInsert[1];
-						$this->checkGeoFences((float)$lat, (float)$lon, $deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
-						$this->checkProxims((float)$lat, (float)$lon, $deviceIdToInsert, $userid, $humanReadableDeviceName, $dbname, $token);
-					}
-
-					$valuesToInsert = [];
-					$nbToInsert = 0;
-					foreach ($points as $point) {
-						$lat = $point[0];
-						$lon = $point[1];
-						$timestamp = $point[2];
-						$alt = $point[3];
-						$acc = $point[4];
-						$bat = $point[5];
-						$sat = $point[6];
-						$useragent = $point[7];
-						$speed = $point[8];
-						$bearing = $point[9];
-
-						if ($token !== ''
-							&& $lat !== '' && is_numeric($lat)
-							&& $lon !== '' && is_numeric($lon)
-							&& $timestamp !== '' && is_numeric($timestamp)
-						) {
-							// correct timestamp if needed
-							$time = (float)$timestamp;
-							if ($time > 10000000000.0) {
-								$time = $time / 1000.0;
-							}
-
-							$lat = $this->db_quote_escape_string(number_format((float)$lat, 8, '.', ''));
-							$lon = $this->db_quote_escape_string(number_format((float)$lon, 8, '.', ''));
-							$time = $this->db_quote_escape_string(number_format($time, 0, '.', ''));
-							$alt = is_numeric($alt) ? $this->db_quote_escape_string(number_format((float)$alt, 2, '.', '')) : 'NULL';
-							$acc = is_numeric($acc) ? $this->db_quote_escape_string(number_format((float)$acc, 2, '.', '')) : 'NULL';
-							$bat = is_numeric($bat) ? $this->db_quote_escape_string(number_format((float)$bat, 2, '.', '')) : 'NULL';
-							$sat = is_numeric($sat) ? $this->db_quote_escape_string(number_format((float)$sat, 0, '.', '')) : 'NULL';
-							$speed = is_numeric($speed) ? $this->db_quote_escape_string(number_format((float)$speed, 3, '.', '')) : 'NULL';
-							$bearing = is_numeric($bearing) ? $this->db_quote_escape_string(number_format((float)$bearing, 2, '.', '')) : 'NULL';
-
-							$value = '('
-									  . $this->db_quote_escape_string($deviceIdToInsert) . ','
-									  . $lat . ','
-									  . $lon . ','
-									  . $time . ','
-									  . $acc . ','
-									  . $sat . ','
-									  . $alt . ','
-									  . $bat . ','
-									  . $this->db_quote_escape_string($useragent) . ','
-									  . $speed . ','
-									  . $bearing . '
-							  )';
-							$valuesToInsert[] = $value;
-							$nbToInsert++;
-
-							// insert by bunch of 50 points
-							if ($nbToInsert % 50 === 0) {
-								$sql = '
-									INSERT INTO *PREFIX*phonetrack_points
-									(deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
-									VALUES ' . implode(', ', $valuesToInsert) . ' ;';
-								$req = $this->db->prepare($sql);
-								$req->execute();
-								$valuesToInsert = [];
-							}
-						}
-					}
-					// insert last bunch of points
-					if (count($valuesToInsert) > 0) {
-						$sql = '
-							INSERT INTO *PREFIX*phonetrack_points
-							(deviceid, lat, lon, timestamp, accuracy, satellites, altitude, batterylevel, useragent, speed, bearing)
-							VALUES ' . implode(', ', $valuesToInsert) . ' ;';
-						$req = $this->db->prepare($sql);
-						$req->execute();
-					}
-
-					$result['done'] = 1;
-
-					if ($isPublicSession && $useragent === self::LOG_OWNTRACKS) {
-						$friendSQL = '
+		if ($session->getPublic() === 1 && $useragent === self::LOG_OWNTRACKS) {
+			$friendSQL = '
 							SELECT p.`deviceid`, `nametoken`, `name`, `lat`, `lon`,
 								`speed`, `altitude`, `batterylevel`, `accuracy`,
 								`timestamp`
@@ -1616,60 +1528,51 @@ class LogController extends Controller {
 							) l ON p.`deviceid` = l.`deviceid`
 							AND p.`timestamp` = l.`lastupdate`
 						';
-						$friendReq = $this->db->prepare($friendSQL);
-						$res = $friendReq->execute([$token]);
-						$friends = [];
-						while ($row = $res->fetch()) {
-							// we don't store the tid, so we fall back to the last
-							// two chars of the nametoken
-							// TODO feels far from unique, currently 32 ids max
-							$tid = substr($row['nametoken'], -2);
-							$location = [
-								'_type' => 'location',
+			$friendReq = $this->db->prepare($friendSQL);
+			$res = $friendReq->execute([$session->getToken()]);
+			$friends = [];
+			while ($row = $res->fetch()) {
+				// we don't store the tid, so we fall back to the last
+				// two chars of the nametoken
+				// TODO feels far from unique, currently 32 ids max
+				$tid = substr($row['nametoken'], -2);
+				$location = [
+					'_type' => 'location',
+					// Tracker ID used to display the initials of a user (iOS,Android/string/optional) required for http mode
+					'tid' => $tid,
+					// latitude (iOS,Android/float/meters/required)
+					'lat' => (float)$row['lat'],
+					// longitude (iOS,Android/float/meters/required)
+					'lon' => (float)$row['lon'],
+					// UNIX epoch timestamp in seconds of the location fix (iOS,Android/integer/epoch/required)
+					'tst' => (int)$row['timestamp'],
+				];
 
-								// Tracker ID used to display the initials of a user (iOS,Android/string/optional) required for http mode
-								'tid' => $tid,
-
-								// latitude (iOS,Android/float/meters/required)
-								'lat' => (float)$row['lat'],
-
-								// longitude (iOS,Android/float/meters/required)
-								'lon' => (float)$row['lon'],
-
-								// UNIX epoch timestamp in seconds of the location fix (iOS,Android/integer/epoch/required)
-								'tst' => (int)$row['timestamp'],
-							];
-
-							if (isset($row['speed'])) {
-								// velocity (iOS/integer/kmh/optional)
-								$location['vel'] = (int)$row['speed'];
-							}
-							if (isset($row['altitude'])) {
-								// Altitude measured above sea level (iOS/integer/meters/optional)
-								$location['alt'] = (int)$row['altitude'];
-							}
-							if (isset($row['batterylevel'])) {
-								// Device battery level (iOS,Android/integer/percent/optional)
-								$location['batt'] = (int)$row['batterylevel'];
-							}
-							if (isset($row['accuracy'])) {
-								// Accuracy of the reported location in meters without unit (iOS/integer/meters/optional)
-								$location['acc'] = (int)$row['accuracy'];
-							}
-							$friends[] = $location;
-							$friends[] = [
-								'_type' => 'card',
-								'tid' => $tid,
-								//'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
-								'name' => $row['name'],
-							];
-						}
-						$result['friends'] = $friends;
-					}
-				} else {
-					$result['done'] = 3;
+				if (isset($row['speed'])) {
+					// velocity (iOS/integer/kmh/optional)
+					$location['vel'] = (int)$row['speed'];
 				}
+				if (isset($row['altitude'])) {
+					// Altitude measured above sea level (iOS/integer/meters/optional)
+					$location['alt'] = (int)$row['altitude'];
+				}
+				if (isset($row['batterylevel'])) {
+					// Device battery level (iOS,Android/integer/percent/optional)
+					$location['batt'] = (int)$row['batterylevel'];
+				}
+				if (isset($row['accuracy'])) {
+					// Accuracy of the reported location in meters without unit (iOS/integer/meters/optional)
+					$location['acc'] = (int)$row['accuracy'];
+				}
+				$friends[] = $location;
+				$friends[] = [
+					'_type' => 'card',
+					'tid' => $tid,
+					//'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
+					'name' => $row['name'],
+				];
 			}
+			$result['friends'] = $friends;
 		}
 		return $result;
 	}

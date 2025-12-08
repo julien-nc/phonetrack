@@ -72,6 +72,18 @@ class ShareMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
+	public function findByShareToken(string $shareToken): Share {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('sharetoken', $qb->createNamedParameter($shareToken, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntity($qb);
+	}
+
 	public function findBySessionToken(string $sessionToken) {
 		$qb = $this->db->getQueryBuilder();
 
