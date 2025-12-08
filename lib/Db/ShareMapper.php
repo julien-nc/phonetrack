@@ -83,4 +83,22 @@ class ShareMapper extends QBMapper {
 
 		return $this->findEntities($qb);
 	}
+
+	/**
+	 * returns user ids the session is shared with
+	 */
+	public function getSessionSharedUserIdList(string $sessionToken): array {
+		$userIds = [];
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('username')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('session_token', $qb->createNamedParameter($sessionToken, IQueryBuilder::PARAM_STR))
+			);
+		$req = $qb->executeQuery();
+		while ($row = $req->fetch()) {
+			$userIds[] = $row['username'];
+		}
+		return $userIds;
+	}
 }

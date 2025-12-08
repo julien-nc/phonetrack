@@ -62,6 +62,27 @@ class PointMapper extends QBMapper {
 
 	/**
 	 * @param int $deviceId
+	 * @return Point
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getLastDevicePoint(int $deviceId): Point {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			)
+			->orderBy('timestamp', 'DESC')
+			->setMaxResults(1);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param int $deviceId
 	 * @param int|null $minTimestamp
 	 * @param int|null $maxTimestamp
 	 * @param int $maxPoints

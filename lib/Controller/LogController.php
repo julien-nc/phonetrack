@@ -1,15 +1,5 @@
 <?php
 
-/**
- * Nextcloud - phonetrack
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <eneiluj@posteo.net>
- * @copyright Julien Veyssier 2017
- */
-
 namespace OCA\PhoneTrack\Controller;
 
 use DateTime;
@@ -21,10 +11,13 @@ use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Geofence;
 use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\Point;
 use OCA\PhoneTrack\Db\PointMapper;
 use OCA\PhoneTrack\Db\Proxim;
 use OCA\PhoneTrack\Db\ProximMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\ShareMapper;
+use OCA\PhoneTrack\Service\ToolsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
@@ -47,56 +40,6 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
-
-function DMStoDEC(string $dms, string $longlat): float {
-	if ($longlat === 'latitude') {
-		$deg = (int)substr($dms, 0, 3);
-		$min = (float)substr($dms, 3, 8);
-		$sec = 0;
-	}
-	if ($longlat === 'longitude') {
-		$deg = (int)substr($dms, 0, 3);
-		$min = (float)substr($dms, 3, 8);
-		$sec = 0;
-	}
-	return $deg + ((($min * 60) + ($sec)) / 3600);
-}
-
-function startsWith(string $haystack, string $needle): bool {
-	$length = strlen($needle);
-	return (substr($haystack, 0, $length) === $needle);
-}
-
-function distance2(float $lat1, float $long1, float $lat2, float $long2): float {
-
-	if ($lat1 === $lat2 && $long1 === $long2) {
-		return 0;
-	}
-
-	// Convert latitude and longitude to
-	// spherical coordinates in radians.
-	$degrees_to_radians = pi() / 180.0;
-
-	// phi = 90 - latitude
-	$phi1 = (90.0 - $lat1) * $degrees_to_radians;
-	$phi2 = (90.0 - $lat2) * $degrees_to_radians;
-
-	// theta = longitude
-	$theta1 = $long1 * $degrees_to_radians;
-	$theta2 = $long2 * $degrees_to_radians;
-
-	$cos = sin($phi1) * sin($phi2) * cos($theta1 - $theta2)
-		+ cos($phi1) * cos($phi2);
-	// why some cosinus are > than 1 ?
-	if ($cos > 1.0) {
-		$cos = 1.0;
-	}
-	$arc = acos($cos);
-
-	// Remember to multiply arc by the radius of the earth
-	// in your favorite set of units to get length.
-	return $arc * 6371000.0;
-}
 
 class LogController extends Controller {
 
@@ -121,6 +64,7 @@ class LogController extends Controller {
 		private PointMapper $pointMapper,
 		private ProximMapper $proximMapper,
 		private GeofenceMapper $geofenceMapper,
+		private ShareMapper $shareMapper,
 		private IDBConnection $db,
 		private ?string $userId,
 	) {
@@ -159,27 +103,12 @@ class LogController extends Controller {
 		return $dname;
 	}
 
-	private function getLastDevicePoint(int $deviceId) {
-		$theRow = null;
-		$sqlGet = '
-			SELECT lat, lon, timestamp,
-				   batterylevel, satellites,
-				   accuracy, altitude,
-				   speed, bearing
-			FROM *PREFIX*phonetrack_points
-			WHERE deviceid=' . $this->db_quote_escape_string($deviceId) . '
-			ORDER BY timestamp DESC LIMIT 1 ;';
-		$req = $this->db->prepare($sqlGet);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$theRow = $row;
+	private function checkProxims(float $lat, float $lon, int $deviceId, string $userid, string $deviceName, string $sessionName, $sessionId): void {
+		try {
+			$lastPoint = $this->pointMapper->getLastDevicePoint($deviceId);
+		} catch (DoesNotExistException) {
+			return;
 		}
-		$res->closeCursor();
-		return $theRow;
-	}
-
-	private function checkProxims(float $lat, float $lon, int $deviceId, string $userid, string $deviceName, string $sessionName, $sessionId) {
-		$lastPoint = $this->getLastDevicePoint($deviceId);
 		$proxims = $this->proximMapper->findByDeviceId($deviceId);
 		foreach ($proxims as $proxim) {
 			$this->checkProxim($lat, $lon, $deviceId, $proxim, $userid, $lastPoint, $deviceName, $sessionId);
@@ -205,7 +134,7 @@ class LogController extends Controller {
 
 	private function checkProxim(
 		float $newLat, float $newLon, int $movingDeviceId, Proxim $proxim, string $userid,
-		?array $lastPoint, string $movingDeviceName, string $sessionToken,
+		Point $lastPoint, string $movingDeviceName, string $sessionToken,
 	): void {
 		$emailaddr = $proxim->getEmailaddr();
 		if ($emailaddr === null) {
@@ -221,22 +150,21 @@ class LogController extends Controller {
 		}
 
 		// get coords of other device
-		$lastOtherPoint = $this->getLastDevicePoint($otherDeviceId);
-		$latOther = (float)$lastOtherPoint['lat'];
-		$lonOther = (float)$lastOtherPoint['lon'];
-
-		if ($lastPoint === null) {
+		try {
+			$lastOtherPoint = $this->pointMapper->getLastDevicePoint($otherDeviceId);
+		} catch (DoesNotExistException) {
 			return;
 		}
+		$latOther = $lastOtherPoint->getLat();
+		$lonOther = $lastOtherPoint->getLon();
 
 		$otherDevice = $this->deviceMapper->find($otherDeviceId);
 
 		// previous coords of observed device
-		$prevLat = (float)$lastPoint['lat'];
-		$prevLon = (float)$lastPoint['lon'];
-
-		$prevDist = distance2($prevLat, $prevLon, $latOther, $lonOther);
-		$currDist = distance2($newLat, $newLon, $latOther, $lonOther);
+		$prevLat = $lastPoint->getLat();
+		$prevLon = $lastPoint->getLon();
+		$prevDist = ToolsService::distance($prevLat, $prevLon, $latOther, $lonOther);
+		$currDist = ToolsService::distance($newLat, $newLon, $latOther, $lonOther);
 
 		// if distance was not close and is now close
 		if ($proxim->getLowlimit() !== 0 && $prevDist >= $proxim->getLowlimit() && $currDist < $proxim->getLowlimit()) {
@@ -270,7 +198,7 @@ class LogController extends Controller {
 
 			// NOTIFICATIONS
 			if ($proxim->getSendnotif() !== 0) {
-				$userIds = $this->getSessionSharedUserIdList($sessionToken);
+				$userIds = $this->shareMapper->getSessionSharedUserIdList($sessionToken);
 				$userIds[] = $userid;
 
 				try {
@@ -342,7 +270,7 @@ class LogController extends Controller {
 					}
 				}
 			}
-			if ($proxim->getUrlclose() !== '' && startsWith($proxim->getUrlclose(), 'http')) {
+			if ($proxim->getUrlclose() !== '' && str_starts_with($proxim->getUrlclose(), 'http')) {
 				// GET
 				if ($proxim->getUrlclosepost() === 0) {
 					try {
@@ -403,7 +331,7 @@ class LogController extends Controller {
 
 			// NOTIFICATIONS
 			if ($proxim->getSendnotif() !== 0) {
-				$userIds = $this->getSessionSharedUserIdList($sessionToken);
+				$userIds = $this->shareMapper->getSessionSharedUserIdList($sessionToken);
 				$userIds[] = $userid;
 
 				try {
@@ -474,7 +402,7 @@ class LogController extends Controller {
 					}
 				}
 			}
-			if ($proxim->getUrlfar() !== '' && startsWith($proxim->getUrlfar(), 'http')) {
+			if ($proxim->getUrlfar() !== '' && str_starts_with($proxim->getUrlfar(), 'http')) {
 				// GET
 				if ($proxim->getUrlfarpost() === 0) {
 					try {
@@ -507,27 +435,15 @@ class LogController extends Controller {
 		}
 	}
 
-	/**
-	 * returns user ids the session is shared with
-	 */
-	private function getSessionSharedUserIdList(string $token) {
-		$userIds = [];
-		$sqlGet = '
-			SELECT username
-			FROM *PREFIX*phonetrack_shares
-			WHERE session_token=' . $this->db_quote_escape_string($token) . ' ;';
-		$req = $this->db->prepare($sqlGet);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$userIds[] = $row['username'];
+	private function checkGeoFences(
+		float $lat, float $lon, int $deviceId, string $userid, string $deviceName,
+		string $sessionname, string $sessionToken,
+	) {
+		try {
+			$lastPoint = $this->pointMapper->getLastDevicePoint($deviceId);
+		} catch (DoesNotExistException) {
+			return;
 		}
-		$res->closeCursor();
-		return $userIds;
-	}
-
-	private function checkGeoFences(float $lat, float $lon, int $deviceId, string $userid, string $deviceName,
-		string $sessionname, string $sessionToken) {
-		$lastPoint = $this->getLastDevicePoint($deviceId);
 		$fences = $this->geofenceMapper->findByDeviceId($deviceId);
 		foreach ($fences as $fence) {
 			$this->checkGeoGence($lat, $lon, $lastPoint, $deviceId, $fence, $userid, $deviceName, $sessionname, $sessionToken);
@@ -535,7 +451,7 @@ class LogController extends Controller {
 	}
 
 	private function checkGeoGence(
-		float $lat, float $lon, ?array $lastPoint, int $devid, Geofence $fence,
+		float $lat, float $lon, Point $lastPoint, int $devid, Geofence $fence,
 		string $userid, string $devicename, string $sessionname, string $sessionToken,
 	) {
 		$emailaddr = $fence->getEmailaddr();
@@ -554,13 +470,9 @@ class LogController extends Controller {
 			}
 		}
 		*/
-		// not the first point
-		if ($lastPoint === null) {
-			return;
-		}
 
-		$lastLat = (float)$lastPoint['lat'];
-		$lastLon = (float)$lastPoint['lon'];
+		$lastLat = $lastPoint->getLat();
+		$lastLon = $lastPoint->getLon();
 
 		// if previous point not in fence
 		if (!($lastLat > $fence->getLatmin() && $lastLat < $fence->getLatmax() && $lastLon > $fence->getLonmin() && $lastLon < $fence->getLonmax())) {
@@ -588,7 +500,7 @@ class LogController extends Controller {
 
 				// NOTIFICATIONS
 				if ($fence->getSendnotif() !== 0) {
-					$userIds = $this->getSessionSharedUserIdList($sessionToken);
+					$userIds = $this->shareMapper->getSessionSharedUserIdList($sessionToken);
 					$userIds[] = $userid;
 
 					try {
@@ -653,7 +565,7 @@ class LogController extends Controller {
 						}
 					}
 				}
-				if ($fence->getUrlenter() !== '' && startsWith($fence->getUrlenter(), 'http')) {
+				if ($fence->getUrlenter() !== '' && str_starts_with($fence->getUrlenter(), 'http')) {
 					// GET
 					$urlenter = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $fence->getUrlenter());
 					if ($fence->getUrlenterpost() === 0) {
@@ -711,7 +623,7 @@ class LogController extends Controller {
 
 				// NOTIFICATIONS
 				if ($fence->getSendnotif() !== 0) {
-					$userIds = $this->getSessionSharedUserIdList($sessionToken);
+					$userIds = $this->shareMapper->getSessionSharedUserIdList($sessionToken);
 					$userIds[] = $userid;
 
 					try {
@@ -776,7 +688,7 @@ class LogController extends Controller {
 						}
 					}
 				}
-				if ($fence->getUrlleave() !== '' && startsWith($fence->getUrlleave(), 'http')) {
+				if ($fence->getUrlleave() !== '' && str_starts_with($fence->getUrlleave(), 'http')) {
 					// GET
 					if ($fence->getUrlleavepost() === 0) {
 						$urlleave = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $fence->getUrlleave());
@@ -1983,11 +1895,11 @@ class LogController extends Controller {
 		$date = sprintf('%06d', (int)$gprmca[9]);
 		$datetime = DateTime::createFromFormat('dmy His', $date . ' ' . $time);
 		$timestamp = $datetime->getTimestamp();
-		$lat = DMStoDEC(sprintf('%010.4f', (float)$gprmca[3]), 'latitude');
+		$lat = ToolsService::DMStoDEC(sprintf('%010.4f', (float)$gprmca[3]), 'latitude');
 		if ($gprmca[4] === 'S') {
 			$lat = - $lat;
 		}
-		$lon = DMStoDEC(sprintf('%010.4f', (float)$gprmca[5]), 'longitude');
+		$lon = ToolsService::DMStoDEC(sprintf('%010.4f', (float)$gprmca[5]), 'longitude');
 		if ($gprmca[6] === 'W') {
 			$lon = - $lon;
 		}

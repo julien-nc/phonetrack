@@ -78,6 +78,19 @@ class ToolsService {
 		return $arc * 6371000.0;
 	}
 
+	public static function DMStoDEC(string $dms, string $longLat): float {
+		if ($longLat === 'latitude') {
+			$deg = (int)substr($dms, 0, 3);
+			$min = (float)substr($dms, 3, 8);
+			$sec = 0;
+		} else {
+			$deg = (int)substr($dms, 0, 3);
+			$min = (float)substr($dms, 3, 8);
+			$sec = 0;
+		}
+		return $deg + ((($min * 60) + ($sec)) / 3600);
+	}
+
 	/**
 	 * @param string $fileName
 	 * @param string $color
