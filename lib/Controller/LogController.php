@@ -26,7 +26,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 
 use OCP\AppFramework\Http\JSONResponse;
@@ -552,7 +551,7 @@ class LogController extends Controller {
 									$message->setFrom([$mailFrom => 'PhoneTrack']);
 									$message->setTo([trim($addrTo) => '']);
 									$message->setPlainBody(
-										$this->l10n->t('In PhoneTrack session %s, device %s has entered geofence %s.', [
+										$this->l10n->t('In PhoneTrack session "%s", device "%s" has entered geofence "%s".', [
 											$sessionname,
 											$devicename,
 											$fence->getName(),
@@ -675,7 +674,7 @@ class LogController extends Controller {
 									$message->setFrom([$mailFrom => 'PhoneTrack']);
 									$message->setTo([trim($addrTo) => '']);
 									$message->setPlainBody(
-										$this->l10n->t('In PhoneTrack session %s, device %s exited geofence %s.', [
+										$this->l10n->t('In PhoneTrack session "%s", device "%s" exited geofence %s.', [
 											$sessionname,
 											$devicename,
 											$fence->getName(),
@@ -888,6 +887,15 @@ class LogController extends Controller {
 		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
+
+		$this->checkGeoFences($lat, $lon, $device->getId(), $session->getUser(), $device->getName(), $session->getName(), $session->getToken());
+		$this->checkProxims($lat, $lon, $device->getId(), $session->getUser(), $device->getName(), $session->getName(), $session->getToken());
+		$quotaClearance = $this->checkQuota($device->getId(), $session->getUser(), $device->getName(), $session->getName());
+
+		if (!$quotaClearance) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		$point = $this->pointMapper->addPoint(
 			$device->getId(), $lat, $lon, $timestamp, $accuracy, $altitude, $batterylevel, $satellites, $useragent, $speed, $bearing,
 		);
@@ -899,88 +907,56 @@ class LogController extends Controller {
 		string $token, string $devicename, float $lat, float $lon, ?float $alt, ?int $timestamp,
 		?float $acc, ?float $bat, ?int $sat, ?string $useragent, ?float $speed, ?float $bearing,
 	) {
-		$done = 0;
-		$dbid = null;
-		$dbdevid = null;
-		if ($token !== '' && $devicename !== '') {
-			if ($bat !== null) {
-				$bat = (int)$bat;
+		if ($token === '' || $devicename === '') {
+			return new DataResponse([
+				'done' => 2,
+				'pointid' => null,
+				'deviceid' => null,
+			]);
+		}
+		if ($bat !== null) {
+			$bat = (int)$bat;
+		}
+		$logPostResult = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
+		$dbPointId = $logPostResult['pointId'];
+		$dbDeviceId = $logPostResult['deviceId'];
+		if ($logPostResult['done'] === 1) {
+			try {
+				$device = $this->deviceMapper->getByName($token, $devicename);
+				$dbDeviceId = $device->getId();
+			} catch (DoesNotExistException $e) {
+				$device = null;
 			}
-			$logres = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
-			if ($logres['done'] === 1) {
-				$sqlchk = '
-					SELECT id
-					FROM *PREFIX*phonetrack_devices
-					WHERE session_token=' . $this->db_quote_escape_string($token) . '
-						  AND name=' . $this->db_quote_escape_string($devicename) . ' ;';
-				$req = $this->db->prepare($sqlchk);
-				$res = $req->execute();
-				while ($row = $res->fetch()) {
-					$dbdevid = $row['id'];
-					break;
-				}
-				$res->closeCursor();
 
-				// if it's reserved and a device token was given
-				if ($dbdevid === null) {
-					$sqlchk = '
-						SELECT id
-						FROM *PREFIX*phonetrack_devices
-						WHERE session_token=' . $this->db_quote_escape_string($token) . '
-							  AND nametoken=' . $this->db_quote_escape_string($devicename) . ' ;';
-					$req = $this->db->prepare($sqlchk);
-					$res = $req->execute();
-					while ($row = $res->fetch()) {
-						$dbdevid = $row['id'];
-						break;
-					}
-					$res->closeCursor();
+			// if it's reserved and a device token was given
+			if ($device === null) {
+				try {
+					$device = $this->deviceMapper->getByNameToken($token, $devicename);
+					$dbDeviceId = $device->getId();
+				} catch (DoesNotExistException $e) {
+					$device = null;
 				}
+			}
 
-				if ($dbdevid !== null) {
-					$sqlchk = '
-						SELECT MAX(id) AS maxid
-						FROM *PREFIX*phonetrack_points
-						WHERE deviceid=' . $this->db_quote_escape_string($dbdevid) . '
-							  AND lat=' . $this->db_quote_escape_string($lat) . '
-							  AND lon=' . $this->db_quote_escape_string($lon) . '
-							  AND timestamp=' . $this->db_quote_escape_string($timestamp) . ' ;';
-					$req = $this->db->prepare($sqlchk);
-					$res = $req->execute();
-					while ($row = $res->fetch()) {
-						$dbid = $row['maxid'];
-						break;
-					}
-					$res->closeCursor();
-					$done = 1;
-				} else {
-					$done = 4;
-				}
+			if ($dbDeviceId !== null && $dbPointId !== null) {
+				$done = 1;
 			} else {
-				// logpost didn't work
-				$done = 3;
-				// because of quota
-				if ($logres['done'] === 2) {
-					$done = 5;
-				}
+				$done = 4;
 			}
 		} else {
-			$done = 2;
+			// logpost didn't work
+			$done = 3;
+			// because of quota
+			if ($logPostResult['done'] === 2) {
+				$done = 5;
+			}
 		}
 
-		$response = new DataResponse(
-			[
-				'done' => $done,
-				'pointid' => $dbid,
-				'deviceid' => $dbdevid,
-			]
-		);
-		$csp = new ContentSecurityPolicy();
-		$csp->addAllowedImageDomain('*')
-			->addAllowedMediaDomain('*')
-			->addAllowedConnectDomain('*');
-		$response->setContentSecurityPolicy($csp);
-		return $response;
+		return new DataResponse([
+			'done' => $done,
+			'pointid' => $dbPointId,
+			'deviceid' => $dbDeviceId,
+		]);
 	}
 
 	/**
@@ -998,6 +974,7 @@ class LogController extends Controller {
 	 * @param float|null $bearing
 	 * @param string|null $datetime
 	 * @return array
+	 * @throws MultipleObjectsReturnedException
 	 * @throws \Doctrine\DBAL\Exception
 	 * @throws \OCP\DB\Exception
 	 */
@@ -1010,7 +987,12 @@ class LogController extends Controller {
 		?string $useragent = '', ?float $speed = null, ?float $bearing = null,
 		?string $datetime = null,
 	): array {
-		$result = ['done' => 0, 'friends' => []];
+		$result = [
+			'done' => 0,
+			'friends' => [],
+			'pointId' => null,
+			'deviceId' => null,
+		];
 		// TODO insert speed and bearing in m/s and degrees
 		if ($devicename === '' || $token === '' || (is_null($timestamp) && is_null($datetime))) {
 			return $result;
@@ -1135,7 +1117,9 @@ class LogController extends Controller {
 		$dbPoint->setSpeed($speed);
 		$dbPoint->setBearing($bearing);
 		$dbPoint->setUseragent($useragent ?? '');
-		$this->pointMapper->insert($dbPoint);
+		$dbPoint = $this->pointMapper->insert($dbPoint);
+		$result['pointId'] = $dbPoint->getId();
+		$result['deviceId'] = $device->getId();
 
 		$result['done'] = 1;
 
