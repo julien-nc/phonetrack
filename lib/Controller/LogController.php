@@ -728,19 +728,8 @@ class LogController extends Controller {
 			return true;
 		}
 
-		$nbPoints = 0;
 		// does the user have more points than allowed ?
-		$sqlget = '
-			SELECT count(*) as co
-			FROM *PREFIX*phonetrack_points AS p
-			INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
-			INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token=s.token
-			WHERE s.' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . ' ;';
-		$req = $this->db->prepare($sqlget);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$nbPoints = (int)$row['co'];
-		}
+		$nbPoints = $this->pointMapper->countPointsPerUser($userid);
 
 		// if there is enough 'space'
 		if ($nbPoints + $nbPointsToInsert <= $quota) {
@@ -780,38 +769,12 @@ class LogController extends Controller {
 			if ($userChoice === 'rotatedev') {
 				// delete the most points we can from device
 				// if it's not enough, do global rotate
-				$count = 0;
-				$sqlget = '
-					SELECT count(id) as co
-					FROM *PREFIX*phonetrack_points
-					WHERE deviceid=' . $this->db_quote_escape_string($deviceidToInsert) . '
-					;';
-				$req = $this->db->prepare($sqlget);
-				$res = $req->execute();
-				while ($row = $res->fetch()) {
-					$count = $row['co'];
-				}
+				$count = $this->deviceMapper->countPointsPerDevice($deviceidToInsert);
 
 				// delete what we can
 				$nbToDelete = min($count, $nbExceedingPoints);
 				if ($nbToDelete > 0) {
-					if ($this->dbtype === 'pgsql') {
-						$sqldel = '
-							DELETE FROM *PREFIX*phonetrack_points
-							WHERE id IN (
-								SELECT id
-								FROM *PREFIX*phonetrack_points
-								WHERE deviceid=' . $this->db_quote_escape_string($deviceidToInsert) . '
-								ORDER BY timestamp ASC LIMIT ' . $nbToDelete . '
-							);';
-					} else {
-						$sqldel = '
-							 DELETE FROM *PREFIX*phonetrack_points
-							 WHERE deviceid=' . $this->db_quote_escape_string($deviceidToInsert) . '
-							 ORDER BY timestamp ASC LIMIT ' . $nbToDelete . ' ;';
-					}
-					$req = $this->db->prepare($sqldel);
-					$req->execute();
+					$this->pointMapper->deleteFirstPointsOfDevice($deviceidToInsert, $nbToDelete, $this->dbtype);
 				}
 				// update the space we need after this deletion
 				$nbExceedingPoints = $nbExceedingPoints - $nbToDelete;

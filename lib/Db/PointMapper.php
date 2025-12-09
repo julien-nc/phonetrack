@@ -169,4 +169,99 @@ class PointMapper extends QBMapper {
 		$point->setBearing($bearing);
 		return $this->insert($point);
 	}
+
+	public function countPointsPerUser(string $userId): int {
+		$qb = $this->db->getQueryBuilder();
+
+		/*
+		equivalent of
+		SELECT count(*) as co
+			FROM *PREFIX*phonetrack_points AS p
+			INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
+			INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token=s.token
+			WHERE s.' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . ' ;
+		*/
+
+		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_points')
+			->from($this->getTableName(), 'point')
+			->innerJoin('point', 'phonetrack_devices', 'device', $qb->expr()->eq('device.id', 'point.deviceid'))
+			->innerJoin('point', 'phonetrack_sessions', 'session', $qb->expr()->eq('device.session_id', 'session.id'))
+			->where(
+				$qb->expr()->eq('session.user', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			);
+
+		$req = $qb->executeQuery();
+		return (int)$req->fetchOne();
+	}
+
+	/**
+	 * @param int $deviceId
+	 * @param int $number
+	 * @param string $dbType
+	 * @return int
+	 * @throws Exception
+	 */
+	public function deleteFirstPointsOfDevice(int $deviceId, int $number, string $dbType): int {
+		if ($dbType === 'pgsql') {
+			$deletionQuery = '
+				DELETE FROM *PREFIX*phonetrack_points
+				WHERE id IN (
+					SELECT id
+					FROM *PREFIX*phonetrack_points
+					WHERE deviceid = ?
+					ORDER BY timestamp ASC LIMIT ' . $number . '
+				);
+			';
+			$deletionStatement = $this->db->prepare($deletionQuery);
+			$res = $deletionStatement->execute([$deviceId]);
+			return $res->rowCount();
+
+			// I can't get this to work
+			/*
+			$qbSelectPointIds = $this->db->getQueryBuilder();
+			$qbSelectPointIds->select('id')
+				->from($this->getTableName(), 'p222')
+				->where(
+					$qbSelectPointIds->expr()->eq(
+						'p222.deviceid',
+						$qbSelectPointIds->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT),
+						IQueryBuilder::PARAM_INT,
+					)
+				)
+				->orderBy('timestamp', 'ASC')
+				->setMaxResults($number);
+
+			$qbDelete = $this->db->getQueryBuilder();
+			$qbDelete->delete($this->getTableName(), 'p111')
+				->where(
+					$qbDelete->expr()->in(
+						'p111.id',
+						$qbDelete->createFunction($qbSelectPointIds->getSQL()),
+						IQueryBuilder::PARAM_INT_ARRAY,
+					)
+				);
+			return $qbDelete->executeStatement();
+			*/
+		}
+
+		// db type is not postgres
+		$deletionQuery = 'DELETE FROM *PREFIX*phonetrack_points
+			WHERE deviceid = ?
+			ORDER BY timestamp ASC LIMIT ' . $number . ' ;';
+
+		$deletionStatement = $this->db->prepare($deletionQuery);
+		$res = $deletionStatement->execute([$deviceId]);
+		return $res->rowCount();
+		// this does not work, the qb does not add the order by and limit
+		/*
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete($this->getTableName())
+			->where(
+				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			)
+			->orderBy('timestamp', 'ASC')
+			->setMaxResults($number);
+		return $qb->executeStatement();
+		*/
+	}
 }
