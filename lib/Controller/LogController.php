@@ -783,45 +783,7 @@ class LogController extends Controller {
 			// if rotateglob
 			// or if rotatedev was not enough to free the space we need
 			if ($userChoice === 'rotateglob' || $nbExceedingPoints > 0) {
-				if ($this->dbtype === 'mysql') {
-					$sqldel = '
-						SELECT p.id AS id
-						FROM *PREFIX*phonetrack_points AS p
-						INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
-						INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token=s.token
-						WHERE s.' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . '
-						ORDER BY timestamp ASC LIMIT ' . $nbExceedingPoints . ' ;';
-					$req = $this->db->prepare($sqldel);
-					$res = $req->execute();
-					$pids = [];
-					while ($row = $res->fetch()) {
-						$pids[] = $row['id'];
-					}
-					$res->closeCursor();
-
-					foreach ($pids as $pid) {
-						$sqldel = '
-							DELETE FROM *PREFIX*phonetrack_points
-							WHERE id=' . $this->db_quote_escape_string($pid) . ' ;';
-						$req = $this->db->prepare($sqldel);
-						$req->execute();
-						$req->closeCursor();
-					}
-				} else {
-					$sqldel = '
-						DELETE FROM *PREFIX*phonetrack_points
-						WHERE *PREFIX*phonetrack_points.id IN
-							(SELECT p.id
-							FROM *PREFIX*phonetrack_points AS p
-							INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid=d.id
-							INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token=s.token
-							WHERE s.' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . '
-							ORDER BY timestamp ASC LIMIT ' . $nbExceedingPoints . ')
-						 ;';
-					$req = $this->db->prepare($sqldel);
-					$req->execute();
-					$req->closeCursor();
-				}
+				$this->pointMapper->deleteFirstPointsOfUser($userid, $nbExceedingPoints, $this->dbtype);
 			}
 		}
 

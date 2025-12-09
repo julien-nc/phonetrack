@@ -8,6 +8,7 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use PDO;
 
 /**
  * @extends QBMapper<Point>
@@ -263,5 +264,59 @@ class PointMapper extends QBMapper {
 			->setMaxResults($number);
 		return $qb->executeStatement();
 		*/
+	}
+
+	/**
+	 * @param string $userId
+	 * @param int $number
+	 * @param string $dbType
+	 * @return int
+	 * @throws Exception
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+	public function deleteFirstPointsOfUser(string $userId, int $number, string $dbType): int {
+		if ($dbType === 'mysql') {
+			$sqlSelect = '
+				SELECT p.id AS id
+				FROM *PREFIX*phonetrack_points AS p
+				INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid = d.id
+				INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token = s.token
+				WHERE s.user = ?
+				ORDER BY timestamp ASC LIMIT ' . $number . ' ;';
+			$req = $this->db->prepare($sqlSelect);
+			$res = $req->execute([$userId]);
+			// since 33
+			// $pids = $res->fetchFirstColumn();
+			$pids = $res->fetchAll(PDO::FETCH_COLUMN);
+			$res->closeCursor();
+
+			$qbDelete = $this->db->getQueryBuilder();
+			$qbDelete->delete($this->getTableName())
+				->where(
+					$qbDelete->expr()->eq('id', $qbDelete->createParameter('point_id_param'))
+				);
+
+			foreach ($pids as $pid) {
+				$qbDelete->setParameter('point_id_param', $pid, IQueryBuilder::PARAM_INT);
+				$qbDelete->executeStatement();
+			}
+			return count($pids);
+		}
+
+		// type is not MySQL
+		$quote = $dbType === 'pgsql' ? '"' : '';
+		$sqlSelect = '
+			DELETE FROM *PREFIX*phonetrack_points
+			WHERE *PREFIX*phonetrack_points.id IN
+				(SELECT p.id
+				FROM *PREFIX*phonetrack_points AS p
+				INNER JOIN *PREFIX*phonetrack_devices AS d ON p.deviceid = d.id
+				INNER JOIN *PREFIX*phonetrack_sessions AS s ON d.session_token = s.token
+				WHERE s.' . $quote . 'user' . $quote . ' = ?
+				ORDER BY timestamp ASC LIMIT ' . $number . ')
+			 ;';
+		$req = $this->db->prepare($sqlSelect);
+		$res = $req->execute([$userId]);
+		return $res->rowCount();
 	}
 }
