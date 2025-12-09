@@ -265,4 +265,24 @@ class DeviceMapper extends QBMapper {
 		}
 		return $qb;
 	}
+
+	public function getSessionOwnerOfDevice(int $deviceId): string {
+		/*
+			SELECT ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '
+			FROM *PREFIX*phonetrack_devices
+			INNER JOIN *PREFIX*phonetrack_sessions
+				ON *PREFIX*phonetrack_devices.session_token=*PREFIX*phonetrack_sessions.token
+			WHERE *PREFIX*phonetrack_devices.id=' . $this->db_quote_escape_string($deviceId) . ' ;';
+		 */
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('user')
+			->from($this->getTableName(), 'device')
+			->innerJoin('device', 'phonetrack_sessions', 'session', $qb->expr()->eq('device.session_id', 'session.id'))
+			->where(
+				$qb->expr()->eq('device.id', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+			);
+
+		$res = $qb->executeQuery();
+		return (string)$res->fetchOne();
+	}
 }

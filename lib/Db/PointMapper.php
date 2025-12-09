@@ -191,8 +191,8 @@ class PointMapper extends QBMapper {
 				$qb->expr()->eq('session.user', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			);
 
-		$req = $qb->executeQuery();
-		return (int)$req->fetchOne();
+		$res = $qb->executeQuery();
+		return (int)$res->fetchOne();
 	}
 
 	/**

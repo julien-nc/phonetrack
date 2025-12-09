@@ -72,8 +72,8 @@ class PageControllerTest extends TestCase {
 	private $testSessionToExportToken;
 	private $testSessionQuota;
 	private SessionService $sessionService;
+	private DeviceMapper $deviceMapper;
 	private ActivityManager $activityManager;
-	private ActivityManager $activityManager2;
 	private IAppConfig $appConfig;
 
 	public static function setUpBeforeClass(): void {
@@ -99,13 +99,11 @@ class PageControllerTest extends TestCase {
 		$this->appName = 'phonetrack';
 		$this->request = $c->get(IRequest::class);
 
+		$this->deviceMapper = $c->get(DeviceMapper::class);
+
 		$this->sessionService = new SessionService(
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
+			$c->get(SessionMapper::class),
+			$c->get(DeviceMapper::class),
 			$c->get(PublicShareMapper::class),
 			$c->get(GeofenceMapper::class),
 			$c->get(ProximMapper::class),
@@ -121,27 +119,10 @@ class PageControllerTest extends TestCase {
 		$this->activityManager = new ActivityManager(
 			$sc->getActivityManager(),
 			$this->sessionService,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
+			$c->get(SessionMapper::class),
+			$c->get(DeviceMapper::class),
 			$c->get(IL10N::class),
 			'test'
-		);
-
-		$this->activityManager2 = new ActivityManager(
-			$sc->getActivityManager(),
-			$this->sessionService,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
-			$c->get(IL10N::class),
-			'test2'
 		);
 
 		$this->pageController = new OldPageController(
@@ -152,9 +133,7 @@ class PageControllerTest extends TestCase {
 			$c->get(LoggerInterface::class),
 			$c->get(IL10N::class),
 			$this->activityManager,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
+			$c->get(SessionMapper::class),
 			$this->sessionService,
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
@@ -170,9 +149,7 @@ class PageControllerTest extends TestCase {
 			$c->get(LoggerInterface::class),
 			$c->get(IL10N::class),
 			$this->activityManager,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
+			$c->get(SessionMapper::class),
 			$this->sessionService,
 			$c->get(IDBConnection::class),
 			$c->get(IRootFolder::class),
@@ -191,9 +168,7 @@ class PageControllerTest extends TestCase {
 			$c->get(LoggerInterface::class),
 			$this->activityManager,
 			$c->get(SessionMapper::class),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
+			$c->get(DeviceMapper::class),
 			$c->get(PointMapper::class),
 			$c->get(ProximMapper::class),
 			$c->get(GeofenceMapper::class),
@@ -214,9 +189,7 @@ class PageControllerTest extends TestCase {
 			$c->get(LoggerInterface::class),
 			$this->activityManager,
 			$c->get(SessionMapper::class),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
+			$c->get(DeviceMapper::class),
 			$c->get(PointMapper::class),
 			$c->get(ProximMapper::class),
 			$c->get(GeofenceMapper::class),
@@ -455,6 +428,10 @@ class PageControllerTest extends TestCase {
 		foreach ($respSession[$token] as $k => $v) {
 			$deviceid = $k;
 		}
+
+		// test get device owner
+		$owner = $this->deviceMapper->getSessionOwnerOfDevice($deviceid);
+		$this->assertEquals('test', $owner);
 
 		// save options
 		$resp = $this->utilsController->saveOptionValue([

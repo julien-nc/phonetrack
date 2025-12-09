@@ -117,23 +117,6 @@ class LogController extends Controller {
 		}
 	}
 
-	private function getSessionOwnerOfDevice(int $deviceId) {
-		$owner = null;
-		$sqlGet = '
-			SELECT ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '
-			FROM *PREFIX*phonetrack_devices
-			INNER JOIN *PREFIX*phonetrack_sessions
-				ON *PREFIX*phonetrack_devices.session_token=*PREFIX*phonetrack_sessions.token
-			WHERE *PREFIX*phonetrack_devices.id=' . $this->db_quote_escape_string($deviceId) . ' ;';
-		$req = $this->db->prepare($sqlGet);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$owner = $row['user'];
-		}
-		$res->closeCursor();
-		return $owner;
-	}
-
 	private function checkProxim(
 		float $newLat, float $newLon, int $movingDeviceId, Proxim $proxim, string $userid,
 		Point $lastPoint, string $movingDeviceName, string $sessionToken,
@@ -174,7 +157,7 @@ class LogController extends Controller {
 
 			// if the observed device is 'deviceid2', then we might have the wrong userId
 			if ($movingDeviceId === $proxim->getDeviceid2()) {
-				$userid = $this->getSessionOwnerOfDevice($proxim->getDeviceid1());
+				$userid = $this->deviceMapper->getSessionOwnerOfDevice($proxim->getDeviceid1());
 			}
 			$dev1name = $movingDeviceName;
 			$dev2name = $otherDevice->getName();
@@ -257,7 +240,7 @@ class LogController extends Controller {
 								$message->setFrom([$mailfrom => 'PhoneTrack']);
 								$message->setTo([trim($addrTo) => '']);
 								$message->setPlainBody(
-									$this->l10n->t('PhoneTrack device %s is now closer than %s m to %s.', [
+									$this->l10n->t('PhoneTrack device "%s" is now closer than %s m to "%s".', [
 										$dev1name,
 										$proxim->getLowlimit(),
 										$dev2name
@@ -306,7 +289,7 @@ class LogController extends Controller {
 
 			// if the observed device is 'deviceid2', then we might have the wrong userId
 			if ($movingDeviceId === $proxim->getDeviceid2()) {
-				$userid = $this->getSessionOwnerOfDevice($proxim->getDeviceid1());
+				$userid = $this->deviceMapper->getSessionOwnerOfDevice($proxim->getDeviceid1());
 			}
 			$dev1name = $movingDeviceName;
 			$dev2name = $otherDevice->getName();
@@ -388,7 +371,7 @@ class LogController extends Controller {
 								$message->setFrom([$mailfrom => 'PhoneTrack']);
 								$message->setTo([trim($addrTo) => '']);
 								$message->setPlainBody(
-									$this->l10n->t('PhoneTrack device %s is now farther than %s m from %s.', [
+									$this->l10n->t('PhoneTrack device "%s" is now farther than %s m from "%s".', [
 										$dev1name,
 										$proxim->getHighlimit(),
 										$dev2name
