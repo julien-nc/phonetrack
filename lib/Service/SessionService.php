@@ -23,13 +23,13 @@ use OCA\PhoneTrack\Db\Session;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\ShareMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Services\IAppConfig;
 use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 
@@ -54,7 +54,7 @@ class SessionService {
 		private IConfig $config,
 		private IAppConfig $appConfig,
 	) {
-		$this->appVersion = $this->appConfig->getAppValueString(Application::APP_ID, 'installed_version');
+		$this->appVersion = $this->appConfig->getValueString(Application::APP_ID, 'installed_version');
 	}
 
 	private function db_quote_escape_string($str) {

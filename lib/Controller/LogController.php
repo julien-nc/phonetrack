@@ -44,10 +44,7 @@ use Throwable;
 
 class LogController extends Controller {
 
-	private $dbtype;
-	private $dbdblquotes;
-	private $defaultDeviceName;
-
+	private const DEFAULT_DEVICE_NAMES = ['yourname', 'devicename', 'name'];
 	public const LOG_OWNTRACKS = 'Owntracks';
 
 	public function __construct(
@@ -71,32 +68,17 @@ class LogController extends Controller {
 		private ?string $userId,
 	) {
 		parent::__construct($AppName, $request);
-		$this->dbtype = $config->getSystemValue('dbtype');
-
-		if ($this->dbtype === 'pgsql') {
-			$this->dbdblquotes = '"';
-		} else {
-			$this->dbdblquotes = '';
-		}
-		$this->defaultDeviceName = ['yourname', 'devicename', 'name'];
-	}
-
-	/*
-	 * quote and choose string escape function depending on database used
-	 */
-	private function db_quote_escape_string($str) {
-		return $this->db->quote($str ?? '');
 	}
 
 	/**
-	 * if devicename is not set to default value, we take it
+	 * if deviceName is not set to a default value, we take it
 	 */
-	private function chooseDeviceName(?string $devicename, ?string $tid = null): string {
-		if ((!in_array($devicename, $this->defaultDeviceName))
-			&& $devicename !== ''
-			&& (!is_null($devicename))
+	private function chooseDeviceName(?string $deviceName, ?string $tid = null): string {
+		if ((!in_array($deviceName, self::DEFAULT_DEVICE_NAMES))
+			&& $deviceName !== ''
+			&& (!is_null($deviceName))
 		) {
-			$dname = $devicename;
+			$dname = $deviceName;
 		} elseif ($tid !== '' && !is_null($tid)) {
 			$dname = $tid;
 		} else {
@@ -757,7 +739,7 @@ class LogController extends Controller {
 				// delete what we can
 				$nbToDelete = min($count, $nbExceedingPoints);
 				if ($nbToDelete > 0) {
-					$this->pointMapper->deleteFirstPointsOfDevice($deviceidToInsert, $nbToDelete, $this->dbtype);
+					$this->pointMapper->deleteFirstPointsOfDevice($deviceidToInsert, $nbToDelete, $this->config->getSystemValue('dbtype'));
 				}
 				// update the space we need after this deletion
 				$nbExceedingPoints = $nbExceedingPoints - $nbToDelete;
@@ -766,7 +748,7 @@ class LogController extends Controller {
 			// if rotateglob
 			// or if rotatedev was not enough to free the space we need
 			if ($userChoice === 'rotateglob' || $nbExceedingPoints > 0) {
-				$this->pointMapper->deleteFirstPointsOfUser($userid, $nbExceedingPoints, $this->dbtype);
+				$this->pointMapper->deleteFirstPointsOfUser($userid, $nbExceedingPoints, $this->config->getSystemValue('dbtype'));
 			}
 		}
 

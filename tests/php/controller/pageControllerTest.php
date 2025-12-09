@@ -31,6 +31,7 @@ use OCA\PhoneTrack\Db\ShareMapper;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\Service\ToolsService;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
@@ -41,11 +42,12 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
 
-use OCP\IServerContainer;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
+use OCP\Server;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -53,10 +55,6 @@ class PageControllerTest extends TestCase {
 
 	private $appName;
 	private $request;
-
-	private $container;
-	private $config;
-	private $app;
 
 	private $pageController;
 	private $pageController2;
@@ -77,50 +75,50 @@ class PageControllerTest extends TestCase {
 	private IAppConfig $appConfig;
 
 	public static function setUpBeforeClass(): void {
-		$app = new Application();
-		$c = $app->getContainer();
-
 		// CREATE DUMMY USERS
-		$userManager = $c->get(IUserManager::class);
-		$u1 = $userManager->createUser('test', 'T0T0T0');
-		$u1->setEMailAddress('toto@toto.net');
+		$userManager = Server::get(IUserManager::class);
+		$user1 = $userManager->createUser('test', 'T0T0T0');
+		//$accountManager = Server::get(IAccountManager::class);
+		//$account1 = $accountManager->getAccount($user1);
+		//$account1->setProperty(IAccountManager::PROPERTY_EMAIL, 'toto@toto.net', IAccountManager::SCOPE_LOCAL, IAccountManager::VERIFIED, '');
+		//$user1->setPrimaryEMailAddress('toto@toto.net');
+		$user1->setSystemEMailAddress('toto@toto.net');
 		$userManager->createUser('test2', 'T0T0T0');
 		$userManager->createUser('test3', 'T0T0T0');
 	}
 
 	protected function setUp(): void {
-		$this->app = new Application();
-		$this->container = $this->app->getContainer();
-		$c = $this->container;
-		$sc = $c->get(IServerContainer::class);
-		$this->config = $c->get(IConfig::class);
-		$this->appConfig = $c->get(IAppConfig::class);
+		$this->containerInterface = Server::get(ContainerInterface::class);
+		$this->appConfig = Server::get(IAppConfig::class);
 
 		$this->appName = 'phonetrack';
-		$this->request = $c->get(IRequest::class);
+		$this->request = Server::get(IRequest::class);
 
-		$this->deviceMapper = $c->get(DeviceMapper::class);
+		$this->deviceMapper = Server::get(DeviceMapper::class);
+
+		$app = new Application();
+		$c = $app->getContainer();
 
 		$this->sessionService = new SessionService(
-			$c->get(SessionMapper::class),
-			$c->get(DeviceMapper::class),
-			$c->get(PublicShareMapper::class),
-			$c->get(GeofenceMapper::class),
-			$c->get(ProximMapper::class),
-			$c->get(ShareMapper::class),
-			$c->get(PointMapper::class),
-			$c->get(IUserManager::class),
-			$c->get(IDBConnection::class),
-			$c->get(IRootFolder::class),
-			$c->get(IConfig::class),
-			$c->get(\OCP\AppFramework\Services\IAppConfig::class),
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
+			Server::get(PublicShareMapper::class),
+			Server::get(GeofenceMapper::class),
+			Server::get(ProximMapper::class),
+			Server::get(ShareMapper::class),
+			Server::get(PointMapper::class),
+			Server::get(IUserManager::class),
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IConfig::class),
+			Server::get(IAppConfig::class),
 		);
 
 		$this->activityManager = new ActivityManager(
-			$sc->getActivityManager(),
+			Server::get(IActivityManager::class),
 			$this->sessionService,
-			$c->get(SessionMapper::class),
-			$c->get(DeviceMapper::class),
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
 			$c->get(IL10N::class),
 			'test'
 		);
@@ -128,93 +126,91 @@ class PageControllerTest extends TestCase {
 		$this->pageController = new OldPageController(
 			$this->appName,
 			$this->request,
-			$c->get(IConfig::class),
-			$c->get(IUserManager::class),
-			$c->get(LoggerInterface::class),
+			Server::get(IConfig::class),
+			Server::get(IUserManager::class),
+			Server::get(LoggerInterface::class),
 			$c->get(IL10N::class),
 			$this->activityManager,
-			$c->get(SessionMapper::class),
+			Server::get(SessionMapper::class),
 			$this->sessionService,
-			$c->get(IDBConnection::class),
-			$c->get(IRootFolder::class),
-			$c->get(IAppManager::class),
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IAppManager::class),
 			'test'
 		);
 
 		$this->pageController2 = new OldPageController(
 			$this->appName,
 			$this->request,
-			$c->get(IConfig::class),
-			$c->get(IUserManager::class),
-			$c->get(LoggerInterface::class),
+			Server::get(IConfig::class),
+			Server::get(IUserManager::class),
+			Server::get(LoggerInterface::class),
 			$c->get(IL10N::class),
 			$this->activityManager,
-			$c->get(SessionMapper::class),
+			Server::get(SessionMapper::class),
 			$this->sessionService,
-			$c->get(IDBConnection::class),
-			$c->get(IRootFolder::class),
-			$c->get(IAppManager::class),
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IAppManager::class),
 			'test2'
 		);
 
 		$this->logController = new LogController(
 			$this->appName,
 			$this->request,
-			$c->get(IConfig::class),
+			Server::get(IConfig::class),
 			$this->appConfig,
-			$c->get(IManager::class),
-			$c->get(IUserManager::class),
+			Server::get(IManager::class),
+			Server::get(IUserManager::class),
 			$c->get(IL10N::class),
-			$c->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->activityManager,
-			$c->get(SessionMapper::class),
-			$c->get(DeviceMapper::class),
-			$c->get(PointMapper::class),
-			$c->get(ProximMapper::class),
-			$c->get(GeofenceMapper::class),
-			$c->get(ShareMapper::class),
-			$c->get(IDBConnection::class),
-			$c->get(IMailer::class),
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
+			Server::get(PointMapper::class),
+			Server::get(ProximMapper::class),
+			Server::get(GeofenceMapper::class),
+			Server::get(ShareMapper::class),
+			Server::get(IDBConnection::class),
+			Server::get(IMailer::class),
 			'test'
 		);
 
 		$this->logController2 = new LogController(
 			$this->appName,
 			$this->request,
-			$c->get(IConfig::class),
+			Server::get(IConfig::class),
 			$this->appConfig,
-			$c->get(IManager::class),
-			$c->get(IUserManager::class),
+			Server::get(IManager::class),
+			Server::get(IUserManager::class),
 			$c->get(IL10N::class),
-			$c->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->activityManager,
-			$c->get(SessionMapper::class),
-			$c->get(DeviceMapper::class),
-			$c->get(PointMapper::class),
-			$c->get(ProximMapper::class),
-			$c->get(GeofenceMapper::class),
-			$c->get(ShareMapper::class),
-			$c->get(IDBConnection::class),
-			$c->get(IMailer::class),
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
+			Server::get(PointMapper::class),
+			Server::get(ProximMapper::class),
+			Server::get(GeofenceMapper::class),
+			Server::get(ShareMapper::class),
+			Server::get(IDBConnection::class),
+			Server::get(IMailer::class),
 			'test2'
 		);
 
 		$this->utilsController = new UtilsController(
 			$this->appName,
 			$this->request,
-			$c->get(IConfig::class),
-			$c->get(IAppConfig::class),
-			$c->get(IDBConnection::class),
-			$c->get(ToolsService::class),
-			$c->get(TileServerMapper::class),
+			Server::get(IConfig::class),
+			Server::get(IAppConfig::class),
+			Server::get(IDBConnection::class),
+			Server::get(ToolsService::class),
+			Server::get(TileServerMapper::class),
 			'test'
 		);
 	}
 
 	public static function tearDownAfterClass(): void {
-		$app = new Application();
-		$c = $app->getContainer();
-		$userManager = $c->get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		$user = $userManager->get('test');
 		$user->delete();
 		$user = $userManager->get('test2');
@@ -727,7 +723,7 @@ class PageControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
 
-		$userFolder = $this->container->get('ServerContainer')->getUserFolder('test');
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder('test');
 		$now = new \DateTime();
 		$timestamp = $now->getTimestamp();
 
