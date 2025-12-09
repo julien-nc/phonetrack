@@ -260,7 +260,7 @@ class PageController extends Controller {
 	 * @param string|null $alias
 	 * @param string|null $name
 	 * @param string|null $shape
-	 * @param string|null $sessionToken
+	 * @param int|null $session_id
 	 * @param string|null $nametoken
 	 * @param bool|null $lineEnabled
 	 * @param bool|null $autoZoom
@@ -273,7 +273,7 @@ class PageController extends Controller {
 	public function updateDevice(int $sessionId, int $deviceId,
 		?bool $enabled = null, ?int $colorCriteria = null, ?string $color = null,
 		?string $alias = null, ?string $name = null, ?string $shape = null,
-		?string $sessionToken = null, ?string $nametoken = null, ?bool $lineEnabled = null, ?bool $autoZoom = null,
+		?int $session_id = null, ?string $nametoken = null, ?bool $lineEnabled = null, ?bool $autoZoom = null,
 	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
@@ -299,9 +299,13 @@ class PageController extends Controller {
 		if ($shape !== null) {
 			$device->setShape($shape);
 		}
-		// TODO implement reassign device to other session
-		if ($sessionToken !== null) {
-			$device->setSessionToken($sessionToken);
+		if ($session_id !== null) {
+			try {
+				$newSession = $this->sessionMapper->getUserSessionById($this->userId, $session_id);
+				$device->setSessionId($newSession->getId());
+				$device->setSessionToken($newSession->getToken());
+			} catch (DoesNotExistException $e) {
+			}
 		}
 		if ($nametoken !== null) {
 			$device->setNametoken($nametoken === '' ? null : $nametoken);

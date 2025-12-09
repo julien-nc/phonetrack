@@ -579,7 +579,15 @@ export default {
 			this.updateDevice(data.sessionId, data.deviceId, data.values).then(() => {
 				const device = this.state.sessions[data.sessionId].devices[data.deviceId]
 				Object.assign(device, data.values)
-				if ([true, false].includes(data.values.lineEnabled)) {
+				if (data.values.session_id && data.values.session_id !== data.sessionId) {
+					// move device
+					delete this.state.sessions[data.sessionId].devices[data.deviceId]
+					this.state.sessions[data.values.session_id].devices[data.deviceId] = device
+					// deal with sidebar stuff
+					if (this.sidebarSessionId) {
+						this.sidebarSessionId = data.values.session_id
+					}
+				} else if ([true, false].includes(data.values.lineEnabled)) {
 					this.loadDevice(data.sessionId, data.deviceId)
 				}
 			})
