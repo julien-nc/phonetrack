@@ -16,7 +16,9 @@ use DateTime;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Service\LeafletService;
 use OCA\PhoneTrack\Service\SessionService;
+use OCA\PhoneTrack\Service\ToolsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -40,34 +42,6 @@ use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use XMLParser;
-
-function distance(float $lat1, float $long1, float $lat2, float $long2): float {
-	if ($lat1 === $lat2 && $long1 === $long2) {
-		return 0;
-	}
-
-	// Convert latitude and longitude to spherical coordinates in radians
-	$degrees_to_radians = pi() / 180.0;
-
-	// phi = 90 - latitude
-	$phi1 = (90.0 - $lat1) * $degrees_to_radians;
-	$phi2 = (90.0 - $lat2) * $degrees_to_radians;
-
-	// theta = longitude
-	$theta1 = $long1 * $degrees_to_radians;
-	$theta2 = $long2 * $degrees_to_radians;
-
-	$cos = (sin($phi1) * sin($phi2) * cos($theta1 - $theta2)
-		   + cos($phi1) * cos($phi2));
-	// why are some cosinuses > than 1?
-	if ($cos > 1.0) {
-		$cos = 1.0;
-	}
-	$arc = acos($cos);
-
-	// Remember to multiply arc by the radius of the earth in your favorite set of units to get length
-	return $arc * 6371000.0;
-}
 
 class OldPageController extends Controller {
 
@@ -149,10 +123,9 @@ class OldPageController extends Controller {
 		$ossw = $this->getUserTileServers('overlaywms');
 
 		// PARAMS to view
-		require_once('tileservers.php');
 		$params = [
 			'username' => $this->userId,
-			'basetileservers' => $baseTileServers,
+			'basetileservers' => LeafletService::LEAFLET_BASE_TILE_SERVERS,
 			'usertileservers' => $tss,
 			'usermapboxtileservers' => $mbtss,
 			'useroverlayservers' => $oss,
@@ -181,7 +154,7 @@ class OldPageController extends Controller {
 		;
 		$tsUrls = array_map(static function (array $ts) {
 			return $ts['url'];
-		}, array_merge($baseTileServers, $mbtss, $oss, $tssw, $ossw));
+		}, array_merge(LeafletService::LEAFLET_BASE_TILE_SERVERS, $mbtss, $oss, $tssw, $ossw));
 		$this->addCspForTiles($csp, $tsUrls);
 		$response->setContentSecurityPolicy($csp);
 		return $response;
@@ -2046,7 +2019,7 @@ class OldPageController extends Controller {
 				&& $entry[2] >= $coords[4]
 				&& $entry[2] <= $coords[5]
 			) {
-				$dist = distance($coords[0], $coords[1], $entry[1], $entry[2]);
+				$dist = ToolsService::distance($coords[0], $coords[1], $entry[1], $entry[2]);
 				if ($nearestName === null || $dist < $distMin) {
 					$distMin = $dist;
 					$nearestName = $name;
@@ -2159,10 +2132,9 @@ class OldPageController extends Controller {
 			return 'Session does not exist or is not public';
 		}
 
-		require_once('tileservers.php');
 		$params = [
 			'username' => '',
-			'basetileservers' => $baseTileServers,
+			'basetileservers' => LeafletService::LEAFLET_BASE_TILE_SERVERS,
 			'usertileservers' => [],
 			'usermapboxtileservers' => [],
 			'useroverlayservers' => [],
@@ -2194,7 +2166,7 @@ class OldPageController extends Controller {
 
 		$tsUrls = array_map(static function (array $ts) {
 			return $ts['url'];
-		}, $baseTileServers);
+		}, LeafletService::LEAFLET_BASE_TILE_SERVERS);
 		$this->addCspForTiles($csp, $tsUrls);
 
 		$response->setContentSecurityPolicy($csp);
