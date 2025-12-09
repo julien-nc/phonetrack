@@ -43,6 +43,7 @@ use OCP\IRequest;
 
 use OCP\IServerContainer;
 use OCP\IUserManager;
+use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -198,6 +199,7 @@ class PageControllerTest extends TestCase {
 			$c->get(GeofenceMapper::class),
 			$c->get(ShareMapper::class),
 			$c->get(IDBConnection::class),
+			$c->get(IMailer::class),
 			'test'
 		);
 
@@ -220,6 +222,7 @@ class PageControllerTest extends TestCase {
 			$c->get(GeofenceMapper::class),
 			$c->get(ShareMapper::class),
 			$c->get(IDBConnection::class),
+			$c->get(IMailer::class),
 			'test2'
 		);
 

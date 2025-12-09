@@ -37,6 +37,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserManager;
 
+use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -66,6 +67,7 @@ class LogController extends Controller {
 		private GeofenceMapper $geofenceMapper,
 		private ShareMapper $shareMapper,
 		private IDBConnection $db,
+		private IMailer $mailer,
 		private ?string $userId,
 	) {
 		parent::__construct($AppName, $request);
@@ -250,8 +252,7 @@ class LogController extends Controller {
 					foreach ($emailaddrArray as $addrTo) {
 						if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 							try {
-								$mailer = \OC::$server->getMailer();
-								$message = $mailer->createMessage();
+								$message = $this->mailer->createMessage();
 								$message->setSubject($this->l10n->t('PhoneTrack proximity alert (%s and %s)', [$dev1name, $dev2name]));
 								$message->setFrom([$mailfrom => 'PhoneTrack']);
 								$message->setTo([trim($addrTo) => '']);
@@ -262,7 +263,7 @@ class LogController extends Controller {
 										$dev2name
 									])
 								);
-								$mailer->send($message);
+								$this->mailer->send($message);
 							} catch (Exception $e) {
 								$this->logger->warning('Error during PhoneTrack mail sending : ' . $e, ['app' => $this->appName]);
 							}
@@ -382,8 +383,7 @@ class LogController extends Controller {
 					foreach ($emailaddrArray as $addrTo) {
 						if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 							try {
-								$mailer = \OC::$server->getMailer();
-								$message = $mailer->createMessage();
+								$message = $this->mailer->createMessage();
 								$message->setSubject($this->l10n->t('PhoneTrack proximity alert (%s and %s)', [$dev1name, $dev2name]));
 								$message->setFrom([$mailfrom => 'PhoneTrack']);
 								$message->setTo([trim($addrTo) => '']);
@@ -394,7 +394,7 @@ class LogController extends Controller {
 										$dev2name
 									])
 								);
-								$mailer->send($message);
+								$this->mailer->send($message);
 							} catch (Exception $e) {
 								$this->logger->warning('Error during PhoneTrack mail sending', ['exception' => $e]);
 							}
@@ -545,8 +545,7 @@ class LogController extends Controller {
 						foreach ($emailAddrArray as $addrTo) {
 							if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 								try {
-									$mailer = \OC::$server->getMailer();
-									$message = $mailer->createMessage();
+									$message = $this->mailer->createMessage();
 									$message->setSubject($this->l10n->t('Geofencing alert'));
 									$message->setFrom([$mailFrom => 'PhoneTrack']);
 									$message->setTo([trim($addrTo) => '']);
@@ -557,7 +556,7 @@ class LogController extends Controller {
 											$fence->getName(),
 										])
 									);
-									$mailer->send($message);
+									$this->mailer->send($message);
 								} catch (Exception $e) {
 									$this->logger->warning('Error during PhoneTrack mail sending', ['exception' => $e]);
 								}
@@ -668,8 +667,7 @@ class LogController extends Controller {
 						foreach ($emailAddrArray as $addrTo) {
 							if ($addrTo !== null && $addrTo !== '' && filter_var($addrTo, FILTER_VALIDATE_EMAIL)) {
 								try {
-									$mailer = \OC::$server->getMailer();
-									$message = $mailer->createMessage();
+									$message = $this->mailer->createMessage();
 									$message->setSubject($this->l10n->t('Geofencing alert'));
 									$message->setFrom([$mailFrom => 'PhoneTrack']);
 									$message->setTo([trim($addrTo) => '']);
@@ -680,7 +678,7 @@ class LogController extends Controller {
 											$fence->getName(),
 										])
 									);
-									$mailer->send($message);
+									$this->mailer->send($message);
 								} catch (Exception $e) {
 									$this->logger->warning('Error during PhoneTrack mail sending : ' . $e, ['app' => $this->appName]);
 								}
