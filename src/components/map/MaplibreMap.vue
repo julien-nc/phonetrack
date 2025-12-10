@@ -21,22 +21,21 @@
 
 <script>
 import maplibregl, {
-	Map, Popup, FullscreenControl,
+	Map, FullscreenControl,
 	NavigationControl, ScaleControl, GeolocateControl,
 } from 'maplibre-gl'
 import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder'
 import '@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css'
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import moment from '@nextcloud/moment'
 import { imagePath, generateUrl } from '@nextcloud/router'
+import debounce from 'debounce'
 
 import {
 	getRasterTileServers,
 	getVectorStyles,
 	getExtraTileServers,
 } from '../../tileServers.js'
-import { kmphToSpeed, metersToElevation } from '../../utils.js'
 import { mapImages, mapVectorImages } from '../../mapUtils.js'
 import { MousePositionControl, TileControl, TerrainControl, GlobeControl } from '../../mapControls.js'
 import { maplibreForwardGeocode } from '../../nominatimGeocoder.js'
@@ -121,10 +120,6 @@ export default {
 			terrainControl: null,
 			myUseGlobe: this.useGlobe,
 			globeControl: null,
-			persistentPopups: [],
-			nonPersistentPopup: null,
-			positionMarkerEnabled: false,
-			positionMarkerLngLat: null,
 			logoUrl: this.isPublicPage
 				? 'https://api.maptiler.com/resources/logo.svg'
 				: generateUrl('/apps/phonetrack/maptiler/resources/logo.svg'),
@@ -194,9 +189,6 @@ export default {
 		unsubscribe('nav-toggled', this.onNavToggled)
 		unsubscribe('sidebar-toggled', this.onNavToggled)
 		unsubscribe('zoom-on-bounds', this.onZoomOnBounds)
-		unsubscribe('chart-point-hover', this.onChartPointHover)
-		unsubscribe('chart-mouseout', this.clearChartPopups)
-		unsubscribe('chart-mouseenter', this.showPositionMarker)
 	},
 
 	methods: {
@@ -337,9 +329,6 @@ export default {
 			subscribe('nav-toggled', this.onNavToggled)
 			subscribe('sidebar-toggled', this.onNavToggled)
 			subscribe('zoom-on-bounds', this.onZoomOnBounds)
-			subscribe('chart-point-hover', this.onChartPointHover)
-			subscribe('chart-mouseout', this.clearChartPopups)
-			subscribe('chart-mouseenter', this.showPositionMarker)
 			this.resizeMap()
 		},
 		loadImages() {
@@ -469,25 +458,28 @@ export default {
 			})
 		},
 		handleMapEvents() {
-			this.map.on('moveend', () => {
-				const { lng, lat } = this.map.getCenter()
-				this.$emit('map-state-change', {
-					centerLng: lng,
-					centerLat: lat,
-					zoom: this.map.getZoom(),
-					pitch: this.map.getPitch(),
-					bearing: this.map.getBearing(),
-				})
-				const bounds = this.map.getBounds()
-				this.$emit('map-bounds-change', {
-					north: bounds.getNorth(),
-					east: bounds.getEast(),
-					south: bounds.getSouth(),
-					west: bounds.getWest(),
-				})
-			})
-
+			this.map.on('moveend', this.debouncedSaveMapState)
 			this.map.on('click', this.onMapClick)
+		},
+		debouncedSaveMapState: debounce(function() {
+			this.saveMapState()
+		}, 1000),
+		saveMapState() {
+			const { lng, lat } = this.map.getCenter()
+			this.$emit('map-state-change', {
+				centerLng: lng,
+				centerLat: lat,
+				zoom: this.map.getZoom(),
+				pitch: this.map.getPitch(),
+				bearing: this.map.getBearing(),
+			})
+			const bounds = this.map.getBounds()
+			this.$emit('map-bounds-change', {
+				north: bounds.getNorth(),
+				east: bounds.getEast(),
+				south: bounds.getSouth(),
+				west: bounds.getWest(),
+			})
 		},
 		// it might be a bug in maplibre: when navigation sidebar is toggled, the map fails to resize
 		// and an empty area appears on the right
@@ -502,7 +494,6 @@ export default {
 		},
 		onNavToggled() {
 			this.resizeMap()
-			this.clearChartPopups({ keepPersistent: false })
 		},
 		onZoomOnBounds(nsew) {
 			if (this.map) {
@@ -511,65 +502,6 @@ export default {
 					maxZoom: 18,
 				})
 			}
-		},
-		onChartPointHover({ point, persist }) {
-			// center on hovered point
-			if (this.settings.follow_chart_hover === '1') {
-				// TODO prevent saving map state when doing this
-				this.map.setCenter([point.lon, point.lat])
-				// flyTo movement is still ongoing when showing non-persistent popups so they disapear...
-				// this.map.flyTo({ center: [lng, lat] })
-			}
-
-			// if this is a hover (and not a click) and we don't wanna show popups: show a marker
-			if (!persist && this.settings.chart_hover_show_detailed_popup !== '1') {
-				this.positionMarkerLngLat = [point.lon, point.lat]
-			} else {
-				this.addPopup(point, persist)
-			}
-		},
-		addPopup(point, persist) {
-			if (this.nonPersistentPopup) {
-				this.nonPersistentPopup.remove()
-			}
-			const containerClass = persist ? 'class="with-button"' : ''
-			const dataHtml = (point.timestamp === null && point.altitude === null)
-				? t('phonetrack', 'No data')
-				: (point.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
-				+ (point.altitude !== null ? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point.altitude, this.settings.distance_unit) + '<br>') : '')
-				+ (point.speed ? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed, this.settings.distance_unit) + '<br>') : '')
-			const html = '<div ' + containerClass + ' style="border-color: ' + point.extraData.color + ';">'
-				+ dataHtml
-				+ '</div>'
-			const popup = new Popup({
-				closeButton: persist,
-				closeOnClick: !persist,
-				closeOnMove: !persist,
-			})
-				.setLngLat([point.lon, point.lat])
-				.setHTML(html)
-				.addTo(this.map)
-			if (persist) {
-				this.persistentPopups.push(popup)
-			} else {
-				this.nonPersistentPopup = popup
-			}
-		},
-		clearChartPopups({ keepPersistent }) {
-			if (this.nonPersistentPopup) {
-				this.nonPersistentPopup.remove()
-			}
-			if (!keepPersistent) {
-				this.persistentPopups.forEach(p => {
-					p.remove()
-				})
-				this.persistentPopups = []
-			}
-			this.positionMarkerEnabled = false
-			this.positionMarkerLngLat = null
-		},
-		showPositionMarker() {
-			this.positionMarkerEnabled = true
 		},
 	},
 }

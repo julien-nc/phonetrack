@@ -416,7 +416,7 @@ export default {
 				const point = {
 					...this.filteredPoints[index],
 					extraData: {
-						color: this.device.color,
+						color: this.device.color ?? '#0693e3',
 					},
 				}
 				if (event.type === 'click') {

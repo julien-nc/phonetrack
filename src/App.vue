@@ -80,6 +80,9 @@
 					</div>
 					<PolygonFill v-if="geofenceLngLats !== null"
 						:map="map" :lng-lats-list="geofenceLngLats" layer-id="geofence" />
+					<ChartPopups
+						:settings="state?.settings"
+						:map="map" />
 				</template>
 			</MaplibreMap>
 		</NcAppContent>
@@ -136,6 +139,7 @@ import PolygonFill from './components/map/PolygonFill.vue'
 import DeviceSingleColor from './components/map/DeviceSingleColor.vue'
 import DeviceGradientColorPoints from './components/map/DeviceGradientColorPoints.vue'
 import PointEditModal from './components/PointEditModal.vue'
+import ChartPopups from './components/map/ChartPopups.vue'
 
 import { getFilteredPoints } from './utils.js'
 
@@ -143,6 +147,7 @@ export default {
 	name: 'App',
 
 	components: {
+		ChartPopups,
 		DeviceGradientColorPoints,
 		PolygonFill,
 		DeviceSingleColor,
