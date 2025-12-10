@@ -49,7 +49,7 @@
         <navigation>
             <id>phonetrack</id>
             <name>Phonetrack</name>
-            <route>phonetrack.page.index</route>
+            <route>phonetrack.oldPage.index</route>
             <icon>app.svg</icon>
             <order>10</order>
         </navigation>

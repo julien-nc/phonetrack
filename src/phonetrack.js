@@ -5215,6 +5215,10 @@ import '../css/phonetrack.scss'
 			}
 		})
 
+		$('#goToNewInterface').click(function() {
+			window.location = generateUrl('/apps/phonetrack/vue')
+		})
+
 		$('#sessionnameinput').on('keyup', function(e) {
 			if (e.key === 'Enter') {
 				createSession()

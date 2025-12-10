@@ -47,10 +47,16 @@
 				:compact="compact"
 				:selected="!compact && s.id === selectedSessionId" />
 		</template>
-		<!--template #footer></template-->
 		<template #footer>
 			<div id="app-settings">
 				<div id="app-settings-header">
+					<NcAppNavigationItem
+						:name="t('phonetrack', 'Old interface')"
+						@click="goToOldInterface">
+						<template #icon>
+							<SkipPreviousIcon :size="20" />
+						</template>
+					</NcAppNavigationItem>
 					<NcAppNavigationItem
 						:name="t('phonetrack', 'Filters')"
 						:menu-open="filterMenuOpen"
@@ -88,6 +94,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
 import FilterOffOutlineIcon from 'vue-material-design-icons/FilterOffOutline.vue'
 import FilterOutlineIcon from 'vue-material-design-icons/FilterOutline.vue'
+import SkipPreviousIcon from 'vue-material-design-icons/SkipPrevious.vue'
 
 import NcActions from '@nextcloud/vue/components/NcActions'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -104,6 +111,7 @@ import FiltersModal from './FiltersModal.vue'
 import { getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { dirname, basename } from '@nextcloud/paths'
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'Navigation',
@@ -124,6 +132,7 @@ export default {
 		FolderPlusIcon,
 		FilterOffOutlineIcon,
 		FilterOutlineIcon,
+		SkipPreviousIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -219,6 +228,9 @@ export default {
 		onCloseFilterModal() {
 			this.showFilters = false
 			emit('filter-changed')
+		},
+		goToOldInterface() {
+			window.location = generateUrl('/apps/phonetrack')
 		},
 	},
 }
