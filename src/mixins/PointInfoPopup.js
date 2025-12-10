@@ -1,6 +1,7 @@
 import { LngLat, Popup, Marker } from 'maplibre-gl'
-import moment from '@nextcloud/moment'
-import { metersToDistance, metersToElevation, kmphToSpeed, isColorDark, escapeHtml } from '../utils.js'
+import {
+	metersToDistance, isColorDark, getPointDataHtml,
+} from '../utils.js'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -125,8 +126,8 @@ export default {
 				type: 'fill',
 				source: this.accuracyLayerId,
 				paint: {
-					'fill-color': '#8CCFFF',
-					'fill-opacity': 0.5,
+					'fill-color': this.color ?? '#0693e3',
+					'fill-opacity': 0.25,
 				},
 			})
 
@@ -136,7 +137,7 @@ export default {
 				type: 'line',
 				source: this.accuracyLayerId,
 				paint: {
-					'line-color': '#0094ff',
+					'line-color': this.color ?? '#0693e3',
 					'line-width': 3,
 				},
 			})
@@ -355,24 +356,9 @@ export default {
 			const containerClass = persist ? 'class="popup-content with-button"' : 'class="popup-content"'
 			const dataHtml = (point.timestamp === null && point.altitude === null)
 				? t('phonetrack', 'No data')
-				: (point.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
-				+ (point.altitude !== null
-					? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point.altitude, this.distanceUnit) + '<br>')
-					: '')
-				+ (point.accuracy !== null
-					? ('<strong>' + t('phonetrack', 'Accuracy') + '</strong>: ' + metersToElevation(point.accuracy, this.distanceUnit) + '<br>')
-					: '')
-				+ (point.speed !== null
-					? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed * 3.6, this.distanceUnit) + '<br>')
-					: '')
-				+ (point.satellites !== null
-					? ('<strong>' + t('phonetrack', 'Satellites') + '</strong>: ' + point.satellites + '<br>')
-					: '')
+				: getPointDataHtml(point, this.distanceUnit)
 				+ (traveledDistance
 					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')
-					: '')
-				+ (point.useragent
-					? ('<strong>' + t('phonetrack', 'User-agent') + '</strong>: ' + escapeHtml(point.useragent) + '<br>')
 					: '')
 				+ (persist
 					? '<button class="deletePoint" title="' + t('phonetrack', 'Delete this point') + '">' + t('phonetrack', 'Delete') + '</button>'

@@ -1,9 +1,8 @@
 <script>
 import { Popup, Marker } from 'maplibre-gl'
-import moment from '@nextcloud/moment'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import { kmphToSpeed, metersToElevation } from '../../utils.js'
+import { getPointDataHtml } from '../../utils.js'
 
 export default {
 	name: 'ChartPopups',
@@ -72,13 +71,13 @@ export default {
 			const containerClass = persist ? 'class="with-button"' : ''
 			const dataHtml = (point.timestamp === null && point.altitude === null)
 				? t('phonetrack', 'No data')
-				: (point.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
-				+ (point.altitude !== null ? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point.altitude, this.settings.distance_unit) + '<br>') : '')
-				+ (point.speed ? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed, this.settings.distance_unit) + '<br>') : '')
+				: getPointDataHtml(point, this.settings.distance_unit)
 			const html = '<div ' + containerClass + ' style="border-color: ' + point.extraData.color + ';">'
 				+ dataHtml
 				+ '</div>'
 			const popup = new Popup({
+				className: persist ? undefined : 'transparent',
+				anchor: persist ? 'bottom' : 'right',
 				closeButton: persist,
 				closeOnClick: !persist,
 				closeOnMove: !persist,

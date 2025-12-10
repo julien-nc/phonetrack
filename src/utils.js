@@ -6,6 +6,8 @@ import SpeedometerIcon from 'vue-material-design-icons/Speedometer.vue'
 import CompassOutlineIcon from 'vue-material-design-icons/CompassOutline.vue'
 import Battery50Icon from 'vue-material-design-icons/Battery50.vue'
 
+import moment from '@nextcloud/moment'
+
 export const METERSTOMILES = 0.0006213711
 export const METERSTOFOOT = 3.28084
 export const METERSTONAUTICALMILES = 0.000539957
@@ -500,4 +502,25 @@ export function getFilteredPoints(points, filters) {
 		}
 	})
 	return filteredPoints
+}
+
+export function getPointDataHtml(point, distanceUnit = 'metric') {
+	return (point.timestamp !== null
+		? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>')
+		: '')
+	+ (point.altitude !== null
+		? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point.altitude, distanceUnit) + '<br>')
+		: '')
+	+ (point.accuracy !== null
+		? ('<strong>' + t('phonetrack', 'Accuracy') + '</strong>: ' + metersToElevation(point.accuracy, distanceUnit) + '<br>')
+		: '')
+	+ (point.speed !== null
+		? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed * 3.6, distanceUnit) + '<br>')
+		: '')
+	+ (point.satellites !== null
+		? ('<strong>' + t('phonetrack', 'Satellites') + '</strong>: ' + point.satellites + '<br>')
+		: '')
+	+ (point.useragent
+		? ('<strong>' + t('phonetrack', 'User-agent') + '</strong>: ' + escapeHtml(point.useragent) + '<br>')
+		: '')
 }
