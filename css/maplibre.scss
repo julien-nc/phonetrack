@@ -94,6 +94,10 @@
 		}
 	}
 }
+.maplibregl-popup.transparent {
+	opacity: 0.5;
+	font-weight: bold;
+}
 
 .mouse-position-control {
 	margin: 0 !important;

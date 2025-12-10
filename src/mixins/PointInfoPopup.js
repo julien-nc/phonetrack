@@ -9,6 +9,7 @@ import {
 	showError,
 	// showInfo,
 } from '@nextcloud/dialogs'
+import { circle } from '@turf/turf'
 
 export default {
 	data() {
@@ -19,6 +20,12 @@ export default {
 			popups: {},
 			hoveringAMarker: false,
 		}
+	},
+
+	computed: {
+		accuracyLayerId() {
+			return this.layerId + '-accuracy-circle'
+		},
 	},
 
 	watch: {
@@ -57,6 +64,7 @@ export default {
 
 	mounted() {
 		this.addLastPointMarker()
+		this.initAccuracyCircle()
 		subscribe('map-clicked', this.onMapClicked)
 		subscribe('point-values-updated', this.onPointValuesUpdated)
 	},
@@ -66,11 +74,82 @@ export default {
 		this.clearPopups()
 		this.removeTemporaryMarker()
 		this.removeLastPointMarker()
+		this.removeAccuracyCircle()
 		unsubscribe('map-clicked', this.onMapClicked)
 		unsubscribe('point-values-updated', this.onPointValuesUpdated)
 	},
 
 	methods: {
+		initAccuracyCircle() {
+			// create source
+			const radiusCenter = [2.3454, 48.8452]
+			const radius = 100
+			const options = {
+				steps: 64,
+				units: 'meters',
+			}
+			const aCircle = circle(radiusCenter, radius, options)
+
+			this.map.addSource(this.accuracyLayerId, {
+				type: 'geojson',
+				data: aCircle,
+			})
+		},
+		removeAccuracyCircle() {
+			// remove layers
+			if (this.map.getLayer(this.accuracyLayerId)) {
+				this.map.removeLayer(this.accuracyLayerId)
+			}
+			if (this.map.getLayer(this.accuracyLayerId + '-border')) {
+				this.map.removeLayer(this.accuracyLayerId + '-border')
+			}
+			// remove source
+			if (this.map.getSource(this.accuracyLayerId)) {
+				this.map.removeSource(this.accuracyLayerId)
+			}
+		},
+		showAccuracyCircle(point) {
+			// set source data
+			const radiusCenter = [point.lon, point.lat]
+			const radius = point.accuracy
+			const options = {
+				steps: 64,
+				units: 'meters',
+			}
+			const aCircle = circle(radiusCenter, radius, options)
+			this.map.getSource(this.accuracyLayerId)?.setData(aCircle)
+			// add layer
+			// Add a fill layer with some transparency
+			this.map.addLayer({
+				id: this.accuracyLayerId,
+				type: 'fill',
+				source: this.accuracyLayerId,
+				paint: {
+					'fill-color': '#8CCFFF',
+					'fill-opacity': 0.5,
+				},
+			})
+
+			// Add a line layer to draw the circle outline
+			this.map.addLayer({
+				id: this.accuracyLayerId + '-border',
+				type: 'line',
+				source: this.accuracyLayerId,
+				paint: {
+					'line-color': '#0094ff',
+					'line-width': 3,
+				},
+			})
+		},
+		hideAccuracyCircle() {
+			// remove layers
+			if (this.map.getLayer(this.accuracyLayerId)) {
+				this.map.removeLayer(this.accuracyLayerId)
+			}
+			if (this.map.getLayer(this.accuracyLayerId + '-border')) {
+				this.map.removeLayer(this.accuracyLayerId + '-border')
+			}
+		},
 		findPoint(lngLat) {
 			if (!this.filteredPoints?.length) {
 				return null
@@ -178,6 +257,7 @@ export default {
 				console.debug('[phonetrack] marker dragstart')
 				this.releasePointInfoEvents()
 				this.removePersistentPopup(point.id)
+				this.hideAccuracyCircle()
 			})
 			marker.on('dragend', () => {
 				const lngLat = marker.getLngLat()
@@ -201,13 +281,19 @@ export default {
 				const popup = this.addPopup(point, pointIndex, traveledDistance, false)
 				this.nonPersistentPopup = popup
 				// emit('device-point-hover', { deviceId: this.device.id, pointIndex })
+				if (point.accuracy) {
+					this.showAccuracyCircle(point)
+				}
 			})
 			el.addEventListener('mouseleave', () => {
 				console.debug('[phonetrack] --- marker mouseleave')
 				this.removeTemporaryPopup()
 				this.hoveringAMarker = false
+				this.hideAccuracyCircle()
 			})
 			el.addEventListener('click', (e) => {
+				this.hideAccuracyCircle()
+				this.removeTemporaryPopup()
 				console.debug('[phonetrack] marker clicked', e)
 				const popup = this.addPopup(point, pointIndex, traveledDistance, true)
 				popup.on('close', (e) => {
@@ -222,7 +308,8 @@ export default {
 		addPopup(point, pointIndex, traveledDistance, persist = false) {
 			const html = this.getPopupHtml(point, persist, traveledDistance)
 			const popup = new Popup({
-				anchor: persist ? 'bottom' : undefined,
+				className: persist ? undefined : 'transparent',
+				anchor: persist ? 'bottom' : 'right',
 				offset: persist ? undefined : 10,
 				closeButton: persist,
 				closeOnClick: !persist,
@@ -271,6 +358,9 @@ export default {
 				: (point.timestamp !== null ? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>') : '')
 				+ (point.altitude !== null
 					? ('<strong>' + t('phonetrack', 'Altitude') + '</strong>: ' + metersToElevation(point.altitude, this.distanceUnit) + '<br>')
+					: '')
+				+ (point.accuracy !== null
+					? ('<strong>' + t('phonetrack', 'Accuracy') + '</strong>: ' + metersToElevation(point.accuracy, this.distanceUnit) + '<br>')
 					: '')
 				+ (point.speed !== null
 					? ('<strong>' + t('phonetrack', 'Speed') + '</strong>: ' + kmphToSpeed(point.speed * 3.6, this.distanceUnit) + '<br>')
