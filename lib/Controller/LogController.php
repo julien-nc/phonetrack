@@ -23,6 +23,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 use OCP\AppFramework\Http\Attribute\PublicPage;
@@ -794,7 +795,7 @@ class LogController extends Controller {
 	public function addPoint(
 		string $token, string $devicename, float $lat, float $lon, ?float $alt, ?int $timestamp,
 		?float $acc, ?float $bat, ?int $sat, ?string $useragent, ?float $speed, ?float $bearing,
-	) {
+	): DataResponse {
 		if ($token === '' || $devicename === '') {
 			return new DataResponse([
 				'done' => 2,
@@ -806,9 +807,11 @@ class LogController extends Controller {
 			$bat = (int)$bat;
 		}
 		$logPostResult = $this->logPost($token, $devicename, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, $useragent, $speed, $bearing);
-		$dbPointId = $logPostResult['pointId'];
-		$dbDeviceId = $logPostResult['deviceId'];
-		if ($logPostResult['done'] === 1) {
+		/** @var array $logPostResultData */
+		$logPostResultData = $logPostResult->getData();
+		$dbPointId = $logPostResultData['pointId'];
+		$dbDeviceId = $logPostResultData['deviceId'];
+		if ($logPostResultData['done'] === 1) {
 			try {
 				$device = $this->deviceMapper->getByName($token, $devicename);
 				$dbDeviceId = $device->getId();
@@ -835,7 +838,7 @@ class LogController extends Controller {
 			// logpost didn't work
 			$done = 3;
 			// because of quota
-			if ($logPostResult['done'] === 2) {
+			if ($logPostResultData['done'] === 2) {
 				$done = 5;
 			}
 		}
@@ -861,7 +864,7 @@ class LogController extends Controller {
 	 * @param float|null $speed
 	 * @param float|null $bearing
 	 * @param string|null $datetime
-	 * @return array
+	 * @return JSONResponse
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \Doctrine\DBAL\Exception
 	 * @throws \OCP\DB\Exception
@@ -869,12 +872,13 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogPost')]
 	public function logPost(
 		string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
 		?int $timestamp = null, ?float $acc = null, ?int $bat = null, ?int $sat = null,
 		?string $useragent = '', ?float $speed = null, ?float $bearing = null,
 		?string $datetime = null,
-	): array {
+	): JSONResponse {
 		$result = [
 			'done' => 0,
 			'friends' => [],
@@ -882,8 +886,17 @@ class LogController extends Controller {
 			'deviceId' => null,
 		];
 		// TODO insert speed and bearing in m/s and degrees
-		if ($devicename === '' || $token === '' || (is_null($timestamp) && is_null($datetime))) {
-			return $result;
+		if ($devicename === '' || $token === '') {
+			$result['error'] = 'wrong token';
+			$response = new JSONResponse($result, Http::STATUS_FORBIDDEN);
+			$response->throttle(['reason' => 'wrong token']);
+			return $response;
+		}
+		if (is_null($timestamp) && is_null($datetime)) {
+			$result['error'] = 'missing timestamp (and datetime)';
+			$response = new JSONResponse($result, Http::STATUS_FORBIDDEN);
+			$response->throttle(['reason' => 'missing timestamp and datetime']);
+			return $response;
 		}
 		try {
 			$session = $this->sessionMapper->findByToken($token);
@@ -892,13 +905,17 @@ class LogController extends Controller {
 				$share = $this->shareMapper->findByShareToken($token);
 				$session = $this->sessionMapper->find($share->getSessionId());
 			} catch (DoesNotExistException $e) {
-				return $result;
+				$result['error'] = 'wrong token';
+				$response = new JSONResponse($result, Http::STATUS_FORBIDDEN);
+				$response->throttle(['reason' => 'wrong token']);
+				return $response;
 			}
 		}
 
 		if ($session->getLocked() === 1) {
 			$result['done'] = 3;
-			return $result;
+			$result['error'] = 'the session is locked';
+			return new JSONResponse($result, Http::STATUS_FORBIDDEN);
 		}
 
 		$humanReadableDeviceName = $devicename;
@@ -922,7 +939,8 @@ class LogController extends Controller {
 				if ($this->userId && $session->getUser() === $this->userId) {
 					// if so, accept to (manually) log with name and not nametoken
 				} else {
-					return $result;
+					$result['error'] = 'this device name (' . $devicename . ') is reserved';
+					return new JSONResponse($result, Http::STATUS_BAD_REQUEST);
 				}
 			}
 		} else {
@@ -974,7 +992,8 @@ class LogController extends Controller {
 					$d = DateTime::createFromFormat('F d, Y \a\t h:iA', $datetime, $dateTimeZone);
 					$timestamp = $d->getTimestamp();
 				} catch (Exception|Throwable $e) {
-					return $result;
+					$result['error'] = 'invalid datetime';
+					return new JSONResponse($result, Http::STATUS_BAD_REQUEST);
 				}
 			}
 		}
@@ -990,7 +1009,8 @@ class LogController extends Controller {
 
 		if (!$quotaClearance) {
 			$result['done'] = 2;
-			return $result;
+			$result['error'] = 'the session owner\'s quota has been exceeded';
+			return new JSONResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 
 		$dbPoint = new Point();
@@ -1073,14 +1093,14 @@ class LogController extends Controller {
 			}
 			$result['friends'] = $friends;
 		}
-		return $result;
+		return new JSONResponse($result);
 	}
 
 	/**
 	 * @param string $token
 	 * @param string $devicename
 	 * @param array $points
-	 * @return array
+	 * @return JSONResponse
 	 * @throws MultipleObjectsReturnedException
 	 * @throws \Doctrine\DBAL\Exception
 	 * @throws \OCP\DB\Exception
@@ -1088,13 +1108,17 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function logPostMultiple(string $token, string $devicename, array $points): array {
+	#[BruteForceProtection(action: 'PhonetrackLogPostMultiple')]
+	public function logPostMultiple(string $token, string $devicename, array $points): JSONResponse {
 		$result = [
 			'done' => 0,
 			'friends' => [],
 		];
 		if ($devicename === '' || $token === '') {
-			return $result;
+			$result['error'] = 'wrong token';
+			$response = new JSONResponse($result, Http::STATUS_FORBIDDEN);
+			$response->throttle(['reason' => 'wrong token']);
+			return $response;
 		}
 		// check if session exists
 		try {
@@ -1105,13 +1129,17 @@ class LogController extends Controller {
 				$share = $this->shareMapper->findByShareToken($token);
 				$session = $this->sessionMapper->find($share->getSessionId());
 			} catch (DoesNotExistException $e) {
-				return $result;
+				$result['error'] = 'wrong token';
+				$response = new JSONResponse($result, Http::STATUS_FORBIDDEN);
+				$response->throttle(['reason' => 'wrong token']);
+				return $response;
 			}
 		}
 
 		if ($session->getLocked() === 1) {
 			$result['done'] = 3;
-			return $result;
+			$result['error'] = 'the session is locked';
+			return new JSONResponse($result, Http::STATUS_FORBIDDEN);
 		}
 
 		$humanReadableDeviceName = $devicename;
@@ -1135,7 +1163,8 @@ class LogController extends Controller {
 				if ($this->userId && $session->getUser() === $this->userId) {
 					// if so, accept to (manually) log with name and not nametoken
 				} else {
-					return $result;
+					$result['error'] = 'this device name (' . $devicename . ') is reserved';
+					return new JSONResponse($result, Http::STATUS_BAD_REQUEST);
 				}
 			}
 		} else {
@@ -1171,7 +1200,8 @@ class LogController extends Controller {
 
 		if (!$quotaClearance) {
 			$result['done'] = 2;
-			return $result;
+			$result['error'] = 'the session owner\'s quota has been exceeded';
+			return new JSONResponse($result, Http::STATUS_BAD_REQUEST);
 		}
 
 		// check geofences and proxims only once with the last point
@@ -1324,7 +1354,7 @@ class LogController extends Controller {
 			}
 			$result['friends'] = $friends;
 		}
-		return $result;
+		return new JSONResponse($result);
 	}
 
 	#[NoAdminRequired]
@@ -1335,7 +1365,7 @@ class LogController extends Controller {
 		?int $sat = null, ?float $acc = null, ?float $alt = null,
 		?float $speed = null, ?float $bearing = null, ?string $datetime = null,
 		string $useragent = 'unknown GET logger',
-	) {
+	): JSONResponse {
 		$dName = $this->chooseDeviceName($devicename);
 		if ($bat !== null) {
 			$bat = (int)$bat;
@@ -1350,25 +1380,29 @@ class LogController extends Controller {
 		string $token, string $devicename, float $lat, float $lon, ?int $time = null,
 		?float $battery = null, ?float $acc = null, ?float $alt = null,
 		?float $speed = null, ?float $bearing = null,
-	) {
+	): JSONResponse {
 		$dName = $this->chooseDeviceName($devicename);
 		if ($battery !== null) {
 			$battery = (int)$battery;
 		}
 		$this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+		return new JSONResponse([]);
 	}
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function logLocusmapPost(string $token, string $devicename, float $lat, float $lon, ?int $time = null,
+	public function logLocusmapPost(
+		string $token, string $devicename, float $lat, float $lon, ?int $time = null,
 		?float $battery = null, ?float $acc = null, ?float $alt = null,
-		?float $speed = null, ?float $bearing = null) {
+		?float $speed = null, ?float $bearing = null,
+	): JSONResponse {
 		$dName = $this->chooseDeviceName($devicename);
 		if ($battery !== null) {
 			$battery = (int)$battery;
 		}
 		$this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+		return new JSONResponse([]);
 	}
 
 	#[NoAdminRequired]
@@ -1378,12 +1412,13 @@ class LogController extends Controller {
 		string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
 		?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
 		?float $speed = null, ?float $bearing = null,
-	) {
+	): JSONResponse {
 		$dName = $this->chooseDeviceName($devicename);
 		if ($bat !== null) {
 			$bat = (int)$bat;
 		}
 		$this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
+		return new JSONResponse([]);
 	}
 
 	#[NoAdminRequired]
@@ -1393,25 +1428,29 @@ class LogController extends Controller {
 		string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
 		?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
 		?float $speed = null, ?float $bearing = null,
-	) {
+	): JSONResponse {
 		$dName = $this->chooseDeviceName($devicename);
 		if ($bat !== null) {
 			$bat = (int)$bat;
 		}
 		$this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
+		return new JSONResponse([]);
 	}
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function logGpsloggerPost(string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
+	public function logGpsloggerPost(
+		string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
 		?int $timestamp = null, ?float $acc = null, ?float $bat = null, $sat = null,
-		?float $speed = null, ?float $bearing = null) {
+		?float $speed = null, ?float $bearing = null,
+	): JSONResponse {
 		$dname = $this->chooseDeviceName($devicename);
 		if ($bat !== null) {
 			$bat = (int)$bat;
 		}
 		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
+		return new JSONResponse([]);
 	}
 
 	/**
@@ -1434,17 +1473,19 @@ class LogController extends Controller {
 	public function logOwntracks(
 		string $token, ?float $lat, ?float $lon, ?string $devicename = null, ?string $tid = null,
 		?float $alt = null, ?int $tst = null, ?float $acc = null, ?float $batt = null,
-	) {
+	): JSONResponse {
 		if (is_null($lat) || is_null($lon)) {
 			// empty message (control message?) - ignore
-			return ['result' => 'ok'];
+			return new JSONResponse(['result' => 'ok']);
 		}
 		$dname = $this->chooseDeviceName($devicename, $tid);
 		if ($batt !== null) {
 			$batt = (int)$batt;
 		}
 		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
-		return $res['friends'];
+		/** @var array $resData */
+		$resData = $res->getData();
+		return new JSONResponse($resData['friends']);
 	}
 
 	/**
@@ -1453,7 +1494,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function logOverland(string $token, array $locations, ?string $devicename = null) {
+	public function logOverland(string $token, array $locations, ?string $devicename = null): JSONResponse {
 		foreach ($locations as $loc) {
 			if ($loc['type'] === 'Feature' && $loc['geometry']['type'] === 'Point') {
 				$dname = $this->chooseDeviceName($loc['properties']['device_id'] ?? '', $devicename);
@@ -1470,7 +1511,7 @@ class LogController extends Controller {
 				$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, (int)$bat, $sat, 'Overland', $speed, $bearing);
 			}
 		}
-		return ['result' => 'ok'];
+		return new JSONResponse(['result' => 'ok']);
 	}
 
 	/**
@@ -1479,17 +1520,19 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function logUlogger(string $token, ?float $lat = null, ?float $lon = null, ?int $time = null, ?string $devicename = null,
+	public function logUlogger(
+		string $token, ?float $lat = null, ?float $lon = null, ?int $time = null, ?string $devicename = null,
 		?float $accuracy = null, ?float $altitude = null,
-		?string $action = null, ?float $speed = null, ?float $bearing = null) {
+		?string $action = null, ?float $speed = null, ?float $bearing = null,
+	): JSONResponse {
 		if ($action === 'addpos' && $lat !== null && $lon !== null) {
 			$dname = $this->chooseDeviceName($devicename);
 			$this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null, 'Ulogger', $speed, $bearing);
 		}
-		return [
+		return new JSONResponse([
 			'error' => false,
 			'trackid' => 1,
-		];
+		]);
 	}
 
 	/**
@@ -1502,7 +1545,7 @@ class LogController extends Controller {
 		string $token, ?float $lat = null, ?float $lon = null, ?int $timestamp = null,
 		?string $deviceName = null, ?string $id = null, ?float $accuracy = null,
 		?float $altitude = null, ?float $batt = null, ?float $speed = null, ?float $bearing = null,
-	) {
+	): JSONResponse {
 		$input = json_decode(file_get_contents('php://input'), true);
 
 		if (is_array($input) && isset($input['location']['coords']['latitude'], $input['location']['coords']['longitude'])) {
@@ -1541,7 +1584,7 @@ class LogController extends Controller {
 	public function logOpengts(
 		string $token, string $gprmc,
 		?string $devicename = null, ?string $id = null, ?float $alt = null, ?float $batt = null,
-	) {
+	): DataResponse {
 		$dname = $this->chooseDeviceName($devicename, $id);
 		$gprmca = explode(',', $gprmc);
 		$time = sprintf('%06d', (int)$gprmca[1]);
@@ -1560,7 +1603,7 @@ class LogController extends Controller {
 			$batt = (int)$batt;
 		}
 		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, null, $batt, null, 'OpenGTS client');
-		return true;
+		return new DataResponse(true);
 	}
 
 	/**
@@ -1569,7 +1612,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function logOpengtsPost($token, $devicename, $id, $dev, $acct, $alt, $batt, $gprmc) {
-		return [];
+	public function logOpengtsPost($token, $devicename, $id, $dev, $acct, $alt, $batt, $gprmc): DataResponse {
+		return new DataResponse([]);
 	}
 }

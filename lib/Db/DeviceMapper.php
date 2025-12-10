@@ -111,6 +111,14 @@ class DeviceMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
+	/**
+	 * @param string $sessionToken
+	 * @param string $nameToken
+	 * @return Device
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
 	public function getByNameToken(string $sessionToken, string $nameToken): Device {
 		$qb = $this->db->getQueryBuilder();
 
