@@ -782,7 +782,7 @@ class LogController extends Controller {
 		$quotaClearance = $this->checkQuota($device->getId(), $session->getUser(), $device->getName(), $session->getName());
 
 		if (!$quotaClearance) {
-			return new DataResponse([], Http::STATUS_FORBIDDEN);
+			return new DataResponse(['error' => 'quota_reached'], Http::STATUS_FORBIDDEN);
 		}
 
 		$point = $this->pointMapper->addPoint(

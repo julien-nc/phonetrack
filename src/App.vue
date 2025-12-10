@@ -814,6 +814,8 @@ export default {
 				console.error(error.response?.data?.error)
 				if (error.response?.data?.error === 'session_locked') {
 					showError(t('phonetrack', 'The session is locked. Impossible to add the point'))
+				} else if (error.response?.data?.error === 'quota_reached') {
+					showError(t('phonetrack', 'Your point quota has been reached. Impossible to add the point'))
 				} else {
 					showError(t('phonetrack', 'Error while adding the point'))
 				}
