@@ -2,7 +2,7 @@
 import { Popup, Marker } from 'maplibre-gl'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
-import { getPointDataHtml } from '../../utils.js'
+import { getPointDataHtml, metersToDistance } from '../../utils.js'
 
 export default {
 	name: 'ChartPopups',
@@ -68,10 +68,14 @@ export default {
 			if (this.nonPersistentPopup) {
 				this.nonPersistentPopup.remove()
 			}
+			const traveledDistance = point.extraData.traveledDistance
 			const containerClass = persist ? 'class="with-button"' : ''
 			const dataHtml = (point.timestamp === null && point.altitude === null)
 				? t('phonetrack', 'No data')
 				: getPointDataHtml(point, this.settings.distance_unit)
+				+ (traveledDistance
+					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')
+					: '')
 			const html = '<div ' + containerClass + ' style="border-color: ' + point.extraData.color + ';">'
 				+ dataHtml
 				+ '</div>'

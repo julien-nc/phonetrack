@@ -1,16 +1,21 @@
 <template>
 	<NcAppSidebar v-show="show"
-		:name="title"
-		:title="title"
+		:name="session.name"
+		:title="subtitle"
 		:compact="true"
 		:background="backgroundImageUrl"
-		:subname="subtitle"
 		:subtitle="subtitle"
 		:active="activeTab"
 		:style="cssVars"
 		class="directory-sidebar"
 		@update:active="$emit('update:active', $event)"
 		@close="$emit('close')">
+		<template #subname>
+			<div class="line">
+				<PhonetrackIcon :size="20" />
+				{{ subtitle }}
+			</div>
+		</template>
 		<!--template #description /-->
 		<NcAppSidebarTab v-if="!isPublicPage"
 			id="session-share"
@@ -53,6 +58,7 @@
 import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
+import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
@@ -65,6 +71,7 @@ import SessionLinkSidebarTab from './SessionLinkSidebarTab.vue'
 export default {
 	name: 'SessionSidebar',
 	components: {
+		PhonetrackIcon,
 		SessionSharingSidebarTab,
 		SessionSettingsSidebarTab,
 		SessionLinkSidebarTab,
@@ -106,7 +113,8 @@ export default {
 		},
 		subtitle() {
 			const nbDevices = Object.keys(this.session.devices).length
-			return n('phonetrack', '{n} device', '{n} devices', nbDevices, { n: nbDevices })
+			const deviceCount = n('phonetrack', '{n} device', '{n} devices', nbDevices, { n: nbDevices })
+			return t('phonetrack', 'Session {sessionName} ({deviceCount})', { sessionName: this.session.name, deviceCount })
 		},
 	},
 	methods: {
@@ -115,5 +123,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// nothing yet
+.line {
+	display: flex;
+	gap: 4px;
+}
 </style>

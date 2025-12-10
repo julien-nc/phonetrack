@@ -1,15 +1,20 @@
 <template>
 	<NcAppSidebar v-show="show"
-		:name="title"
-		:title="title"
+		:name="device.name"
+		:title="subtitle"
 		:compact="true"
 		:background="backgroundImageUrl"
-		:subname="subtitle"
 		:subtitle="subtitle"
 		:active="activeTab"
 		class="device-sidebar"
 		@update:active="$emit('update:active', $event)"
 		@close="$emit('close')">
+		<template #subname>
+			<div class="line">
+				<CellphoneIcon :size="20" />
+				{{ subtitle }}
+			</div>
+		</template>
 		<!--template #description /-->
 		<NcAppSidebarTab v-if="!isPublicPage"
 			id="device-details"
@@ -80,6 +85,7 @@ import TableLargeIcon from 'vue-material-design-icons/TableLarge.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import MapMarkerDistanceIcon from 'vue-material-design-icons/MapMarkerDistance.vue'
 import MapMarkerRadiusOutlineIcon from 'vue-material-design-icons/MapMarkerRadiusOutline.vue'
+import CellphoneIcon from 'vue-material-design-icons/Cellphone.vue'
 
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
@@ -106,6 +112,7 @@ export default {
 		ChartLineIcon,
 		MapMarkerDistanceIcon,
 		MapMarkerRadiusOutlineIcon,
+		CellphoneIcon,
 	},
 	inject: ['isPublicPage'],
 	props: {
@@ -145,11 +152,8 @@ export default {
 		pageIsPublic() {
 			return false
 		},
-		title() {
-			return t('phonetrack', 'Device {name}', { name: this.device.name })
-		},
 		subtitle() {
-			return t('phonetrack', 'In session {sessionName}', { sessionName: this.session.name })
+			return t('phonetrack', 'Device {deviceName} of session {sessionName}', { deviceName: this.device.name, sessionName: this.session.name })
 		},
 	},
 	methods: {
@@ -158,5 +162,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// nothing yet
+.line {
+	display: flex;
+	gap: 4px;
+}
 </style>

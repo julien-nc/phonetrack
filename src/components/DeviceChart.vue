@@ -417,6 +417,7 @@ export default {
 					...this.filteredPoints[index],
 					extraData: {
 						color: this.device.color ?? '#0693e3',
+						traveledDistance: this.dataLabels.traveledDistance[index],
 					},
 				}
 				if (event.type === 'click') {
