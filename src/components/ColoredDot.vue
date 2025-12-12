@@ -49,7 +49,7 @@ export default {
 				'--dot-bg-gradient': this.color === 'gradient' ? 'linear-gradient(to right, blue, green, orange, red)' : 'unset',
 				'--dot-size': this.size + 'px',
 				'--dot-border': this.border ? borderWidth + 'px solid black' : 'none',
-				'--dot-line-height': (this.size * 0.795) + 'px',
+				'--dot-line-height': (this.size * 0.895) + 'px',
 				'--dot-font-size': (this.size * 0.7) + 'px',
 				'--dot-text-color': isColorDark(this.color) ? 'white' : 'black',
 			}

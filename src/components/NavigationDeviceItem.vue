@@ -1,7 +1,6 @@
 <template>
 	<NcAppNavigationItem
 		:name="formattedName"
-		:active="device.enabled"
 		:loading="device.loading"
 		:editable="false"
 		:force-menu="true"
@@ -24,7 +23,7 @@
 						:color="dotColor"
 						:border="true"
 						:letter="device.name[0]"
-						:size="24" />
+						:size="21" />
 				</template>
 			</NcColorPicker>
 		</template>

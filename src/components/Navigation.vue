@@ -64,7 +64,7 @@
 						@update:menuOpen="onUpdateFilterMenuOpen"
 						@click="showFilters = true">
 						<template #icon>
-							<FilterOutlineIcon v-if="filterEnabled" :size="20" />
+							<FilterIcon v-if="filterEnabled" :size="20" />
 							<FilterOffOutlineIcon v-else :size="20" />
 						</template>
 						<template #actions>
@@ -93,7 +93,7 @@ import FolderPlusIcon from 'vue-material-design-icons/FolderPlus.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
 import FilterOffOutlineIcon from 'vue-material-design-icons/FilterOffOutline.vue'
-import FilterOutlineIcon from 'vue-material-design-icons/FilterOutline.vue'
+import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import SkipPreviousIcon from 'vue-material-design-icons/SkipPrevious.vue'
 
 import NcActions from '@nextcloud/vue/components/NcActions'
@@ -131,7 +131,7 @@ export default {
 		CogOutlineIcon,
 		FolderPlusIcon,
 		FilterOffOutlineIcon,
-		FilterOutlineIcon,
+		FilterIcon,
 		SkipPreviousIcon,
 	},
 
