@@ -5,16 +5,30 @@
 		:title="device.name"
 		:active="device.enabled"
 		:bold="device.enabled"
+		:counter-number="deleteCounter"
 		:force-display-actions="true"
+		:force-menu="false"
 		@mouseenter.native="onHoverIn"
 		@mouseleave.native="onHoverOut"
 		@update:menuOpen="onUpdateMenuOpen"
 		@click="onItemClick">
-		<template #subname>
-			{{ subtitle }}
+		<template #name>
+			{{ device.name }}
 		</template>
-		<template #subtitle>
-			{{ subtitle }}
+		<template #subname>
+			<div class="line">
+				{{ subtitle }}
+				<div :title="t('phonetrack', 'Show line')">
+					<ChartTimelineVariantIcon v-if="device.enabled && device.lineEnabled"
+						class="status-icon"
+						:size="20" />
+				</div>
+				<div :title="t('phonetrack', 'Auto-zoom')">
+					<CrosshairsIcon v-if="device.enabled && device.autoZoom"
+						class="status-icon"
+						:size="20" />
+				</div>
+			</div>
 		</template>
 		<template v-if="device.enabled" #icon>
 			<NcLoadingIcon v-if="device.loading" />
@@ -28,6 +42,8 @@
 						ref="colorDot"
 						class="color-dot"
 						:color="device.color || '#0693e3'"
+						:border="true"
+						:letter="device.name[0]"
 						:size="24" />
 				</template>
 			</NcColorPicker>
@@ -52,14 +68,6 @@
 					</template>
 					{{ t('phonetrack', 'Details') }}
 				</NcActionButton>
-				<NcActionButton v-if="!isPublicPage"
-					:close-after-click="true"
-					@click="onShareClick">
-					<template #icon>
-						<ShareVariantIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Share') }}
-				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
 					@click="onZoomClick">
@@ -76,6 +84,16 @@
 					</template>
 					{{ t('phonetrack', 'Export') }}
 				</NcActionButton-->
+				<NcActionCheckbox
+					:model-value="device.lineEnabled"
+					@update:model-value="onChangeLineEnabled">
+					{{ t('phonetrack', 'Show line') }}
+				</NcActionCheckbox>
+				<NcActionCheckbox
+					:model-value="device.autoZoom"
+					@update:model-value="onChangeAutoZoom">
+					{{ t('phonetrack', 'Auto-zoom') }}
+				</NcActionCheckbox>
 				<NcActionButton
 					:close-after-click="true"
 					@click="onMenuColorClick">
@@ -95,7 +113,7 @@
 				</NcActionButton>
 				<NcActionButton v-if="!isPublicPage"
 					:close-after-click="true"
-					@click="onDeleteTrackClick">
+					@click="onDeleteClick">
 					<template #icon>
 						<DeleteIcon :size="20" />
 					</template>
@@ -135,11 +153,12 @@ import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOut
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
-import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import MagnifyExpandIcon from 'vue-material-design-icons/MagnifyExpand.vue'
 import PaletteIcon from 'vue-material-design-icons/Palette.vue'
 import BrushIcon from 'vue-material-design-icons/Brush.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import ChartTimelineVariantIcon from 'vue-material-design-icons/ChartTimelineVariant.vue'
+import CrosshairsIcon from 'vue-material-design-icons/Crosshairs.vue'
 
 import ColoredDot from './ColoredDot.vue'
 
@@ -148,11 +167,11 @@ import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
+import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 
-import moment from '@nextcloud/moment'
 import { emit } from '@nextcloud/event-bus'
+import moment from '@nextcloud/moment'
 
-import { Timer, metersToDistance, formatDuration } from '../utils.js'
 import { COLOR_CRITERIAS } from '../constants.js'
 import DeviceItem from '../mixins/DeviceItem.js'
 
@@ -168,14 +187,16 @@ export default {
 		NcLoadingIcon,
 		NcActionButton,
 		NcActionRadio,
+		NcActionCheckbox,
 		InformationOutlineIcon,
-		ShareVariantIcon,
 		MagnifyExpandIcon,
 		PaletteIcon,
 		BrushIcon,
 		DeleteIcon,
 		UndoIcon,
 		ChevronLeftIcon,
+		ChartTimelineVariantIcon,
+		CrosshairsIcon,
 	},
 
 	mixins: [
@@ -203,33 +224,16 @@ export default {
 			menuOpen: false,
 			criteriaActionsOpen: false,
 			COLOR_CRITERIAS,
-
-			deleteCounter: 0,
-			timer: null,
 		}
 	},
 
 	computed: {
-		timerOn() {
-			return this.deleteCounter > 0
-		},
 		subtitle() {
-			const items = [
-				this.trackDate,
-				metersToDistance(this.track.total_distance, this.settings.distance_unit),
-				this.trackDuration,
-			]
-			return items.join(', ')
-		},
-		trackDuration() {
-			return this.track.total_duration && this.track.total_duration > 0
-				? formatDuration(this.track.total_duration)
-				: t('phonetrack', 'No duration')
-		},
-		trackDate() {
-			return this.track.date_begin
-				? moment.unix(this.track.date_begin).format('L')
-				: t('phonetrack', 'No date')
+			if (this.device.points.length === 0) {
+				return t('phonetrack', 'No points yet')
+			}
+			const lastPoint = this.device.points[this.device.points.length - 1]
+			return moment.unix(lastPoint.timestamp).format('HH:mm:ss')
 		},
 	},
 
@@ -239,39 +243,8 @@ export default {
 	methods: {
 		onItemClick(e) {
 			if (!e.target.classList.contains('color-dot')) {
-				emit('track-clicked', { trackId: this.track.id, dirId: this.track.directoryId })
+				emit('device-clicked', { deviceId: this.device.id, sessionId: this.device.session_id })
 			}
-		},
-		onDeleteClick(e) {
-			// stop timer
-			if (this.timerOn) {
-				this.deleteCounter = 0
-				if (this.timer) {
-					this.timer.pause()
-					delete this.timer
-				}
-			} else {
-				// start timer
-				this.deleteCounter = 7
-				this.timerLoop()
-			}
-		},
-		timerLoop() {
-			// on each loop, check if finished or not
-			if (this.timerOn) {
-				this.timer = new Timer(() => {
-					this.deleteCounter--
-					this.timerLoop()
-				}, 1000)
-			} else {
-				emit('delete-track', this.track)
-			}
-		},
-		onUpdateMenuOpen(isOpen) {
-			if (!isOpen) {
-				this.criteriaActionsOpen = false
-			}
-			this.menuOpen = isOpen
 		},
 	},
 }
@@ -287,6 +260,11 @@ export default {
 		position: absolute;
 		right: 14px;
 		bottom: 12px;
+	}
+	.line {
+		display: flex;
+		align-items: center;
+		gap: 4px;
 	}
 }
 </style>

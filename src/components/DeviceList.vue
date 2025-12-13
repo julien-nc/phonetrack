@@ -20,10 +20,10 @@
 				</template>
 			</NcAppNavigationItem>
 			<NcAppNavigationItem
-				:name="sessionName"
+				:name="t('phonetrack', 'Session {sessionName}', { sessionName })"
 				:title="sessionName">
 				<template #icon>
-					<FolderIcon />
+					<PhonetrackIcon />
 				</template>
 			</NcAppNavigationItem>
 		</div>
@@ -44,7 +44,6 @@
 
 <script>
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
-import FolderIcon from 'vue-material-design-icons/Folder.vue'
 import MapIcon from 'vue-material-design-icons/Map.vue'
 
 import PhonetrackIcon from './icons/PhonetrackIcon.vue'
@@ -68,7 +67,6 @@ export default {
 		NcEmptyContent,
 		NcAppNavigationItem,
 		NcTextField,
-		FolderIcon,
 		MapIcon,
 		MagnifyIcon,
 	},

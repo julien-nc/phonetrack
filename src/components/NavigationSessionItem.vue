@@ -2,7 +2,7 @@
 	<NcAppNavigationItem
 		:name="session.name"
 		:title="sessionItemTitle"
-		:class="{ openSession: session.enabled }"
+		:class="{ openSession: session.enabled && compact }"
 		:active="selected"
 		:loading="session.loading"
 		:allow-collapse="compact"
@@ -27,7 +27,8 @@
 		</template>
 		<template #counter>
 			<NcCounterBubble
-				:count="Object.keys(session.devices).length" />
+				:count="deviceCount"
+				:title="n('phonetrack', '{n} device', '{n} devices', deviceCount, { n: deviceCount })" />
 		</template>
 		<template #actions>
 			<template v-if="sortActionsOpen && !isPublicPage">
@@ -275,6 +276,9 @@ export default {
 				+ (nbDevices > 0
 					? '\n' + n('phonetrack', '{n} device', '{n} devices', nbDevices, { n: nbDevices })
 					: '')
+		},
+		deviceCount() {
+			return Object.values(this.session.devices).length
 		},
 		downloadLink() {
 			return generateUrl(

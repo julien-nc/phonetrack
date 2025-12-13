@@ -1,45 +1,59 @@
 import { emit } from '@nextcloud/event-bus'
-import { generateUrl } from '@nextcloud/router'
+import debounce from 'debounce'
 
-import { delay, formatExtensionKey } from '../utils.js'
-import { COLOR_CRITERIAS } from '../constants.js'
+import { Timer } from '../utils.js'
 
 export default {
+	data() {
+		return {
+			deleteCounter: 0,
+			timer: null,
+		}
+	},
+
 	computed: {
-		dotColor() {
-			return this.track.colorCriteria === COLOR_CRITERIAS.none.id && this.track.colorExtensionCriteria === ''
-				? this.track.color || '#0693e3'
-				: 'gradient'
-		},
-		downloadLink() {
-			return generateUrl(
-				'/apps/files/ajax/download.php?dir={dir}&files={files}',
-				{ dir: this.decodedFolder, files: this.decodedTrackName },
-			)
+		timerOn() {
+			return this.deleteCounter > 0
 		},
 	},
 
 	methods: {
-		getExtensionLabel(ext) {
-			return formatExtensionKey(ext)
+		onDeleteClick(e) {
+			// stop timer
+			if (this.timerOn) {
+				this.deleteCounter = 0
+				if (this.timer) {
+					this.timer.pause()
+					delete this.timer
+				}
+			} else {
+				// start timer
+				this.deleteCounter = 7
+				this.timerLoop()
+			}
+		},
+		timerLoop() {
+			// on each loop, check if finished or not
+			if (this.timerOn) {
+				this.timer = new Timer(() => {
+					this.deleteCounter--
+					this.timerLoop()
+				}, 1000)
+			} else {
+				emit('delete-device', this.device)
+			}
 		},
 		onZoomClick() {
-			emit('zoom-on-bounds', { north: this.track.north, south: this.track.south, east: this.track.east, west: this.track.west })
+			emit('zoom-on-device', { deviceId: this.device.id, sessionId: this.device.session_id })
 		},
 		onDetailsClick() {
-			emit('track-details-click', { trackId: this.track.id, dirId: this.track.directoryId })
-		},
-		onShareClick() {
-			emit('track-share-click', { trackId: this.track.id, dirId: this.track.directoryId })
-		},
-		onCorrectElevationClick() {
-			emit('track-correct-elevations', { trackId: this.track.id, dirId: this.track.directoryId })
+			emit('device-details-click', { deviceId: this.device.id, sessionId: this.device.session_id })
 		},
 		onHoverIn() {
-			emit('track-hover-in', { trackId: this.track.id, dirId: this.track.directoryId })
+			emit('device-hover-in', { deviceId: this.device.id, sessionId: this.device.session_id })
 		},
 		onHoverOut() {
-			emit('track-hover-out', { trackId: this.track.id, dirId: this.track.directoryId })
+			emit('device-hover-out', { deviceId: this.device.id, sessionId: this.device.session_id })
 		},
 		onMenuColorClick() {
 			this.menuOpen = false
@@ -47,34 +61,32 @@ export default {
 				this.$refs.colorDot.$el.click()
 			}
 		},
-		updateColor(color) {
-			delay(() => {
-				this.applyUpdateColor(color)
-			}, 1000)()
-		},
+		updateColor: debounce(function(color) {
+			this.applyUpdateColor(color)
+		}, 1000),
 		applyUpdateColor(color) {
-			emit('track-color-changed', { trackId: this.track.id, dirId: this.track.directoryId, color })
+			emit('update-device', { deviceId: this.device.id, sessionId: this.device.session_id, values: { color } })
 		},
-		onCriteriaChange(criteria) {
-			emit('track-criteria-changed', {
-				trackId: this.track.id,
-				dirId: this.track.directoryId,
-				value: {
-					criteria,
-					extensionCriteria: '',
-					extensionCriteriaType: '',
+		onCriteriaChange(colorCriteria) {
+			emit('update-device', {
+				deviceId: this.device.id,
+				sessionId: this.device.session_id,
+				values: {
+					colorCriteria,
 				},
 			})
 		},
-		onColorExtensionCriteriaChange(ext, type) {
-			emit('track-criteria-changed', {
-				trackId: this.track.id,
-				dirId: this.track.directoryId,
-				value: {
-					extensionCriteria: ext,
-					extensionCriteriaType: type,
-				},
-			})
+		onChangeLineEnabled(newValue) {
+			emit('update-device', { deviceId: this.device.id, sessionId: this.device.session_id, values: { lineEnabled: newValue } })
+		},
+		onChangeAutoZoom(newValue) {
+			emit('update-device', { deviceId: this.device.id, sessionId: this.device.session_id, values: { autoZoom: newValue } })
+		},
+		onUpdateMenuOpen(isOpen) {
+			if (!isOpen) {
+				this.criteriaActionsOpen = false
+			}
+			this.menuOpen = isOpen
 		},
 	},
 }

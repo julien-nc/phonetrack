@@ -2,9 +2,10 @@
 	<NcAppNavigationItem
 		:name="formattedName"
 		:loading="device.loading"
+		:class="{ deviceActive: device.enabled }"
 		:editable="false"
-		:force-menu="true"
 		:force-display-actions="true"
+		:force-menu="false"
 		:menu-open="menuOpen"
 		@update:menuOpen="onUpdateMenuOpen"
 		@mouseenter.native="onHoverIn"
@@ -20,7 +21,7 @@
 					<ColoredDot
 						v-bind="attrs"
 						ref="colorDot"
-						:color="dotColor"
+						:color="device.color || '#0693e3'"
 						:border="true"
 						:letter="device.name[0]"
 						:size="21" />
@@ -28,19 +29,35 @@
 			</NcColorPicker>
 		</template>
 		<template v-if="device.enabled" #counter>
-			<div :title="t('phonetrack', 'Show line')">
-				<ChartTimelineVariantIcon v-if="device.lineEnabled"
-					class="status-icon"
-					:size="20" />
-			</div>
-			<div :title="t('phonetrack', 'Auto-zoom')">
-				<CrosshairsIcon v-if="device.autoZoom"
-					class="status-icon"
-					:size="20" />
+			<div class="counter">
+				<div v-if="device.lineEnabled" :title="t('phonetrack', 'Show line')">
+					<ChartTimelineVariantIcon
+						class="status-icon"
+						:size="20" />
+				</div>
+				<div v-if="device.autoZoom" :title="t('phonetrack', 'Auto-zoom')">
+					<CrosshairsIcon
+						class="status-icon"
+						:size="20" />
+				</div>
+				<div v-if="timerOn"
+					class="timer">
+					<strong>{{ deleteCounter }}</strong>
+				</div>
 			</div>
 		</template>
 		<template #actions>
-			<template v-if="!criteriaActionsOpen">
+			<template v-if="timerOn">
+				<NcActionButton v-if="!isPublicPage"
+					:close-after-click="true"
+					@click="onDeleteClick">
+					<template #icon>
+						<UndoIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Cancel deletion') }}
+				</NcActionButton>
+			</template>
+			<template v-else-if="!criteriaActionsOpen">
 				<NcActionButton
 					:close-after-click="true"
 					@click="onDetailsClick">
@@ -87,7 +104,7 @@
 				</NcActionButton>
 				<NcActionButton v-if="!isPublicPage"
 					:close-after-click="true"
-					@click="onDeleteDeviceClick">
+					@click="onDeleteClick">
 					<template #icon>
 						<TrashCanOutlineIcon :size="20" />
 					</template>
@@ -117,13 +134,14 @@
 
 <script>
 import ChartTimelineVariantIcon from 'vue-material-design-icons/ChartTimelineVariant.vue'
+import CrosshairsIcon from 'vue-material-design-icons/Crosshairs.vue'
 import MagnifyExpandIcon from 'vue-material-design-icons/MagnifyExpand.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import PaletteIcon from 'vue-material-design-icons/Palette.vue'
 import BrushIcon from 'vue-material-design-icons/Brush.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
-import CrosshairsIcon from 'vue-material-design-icons/Crosshairs.vue'
+import UndoIcon from 'vue-material-design-icons/Undo.vue'
 
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
@@ -132,10 +150,10 @@ import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcColorPicker from '@nextcloud/vue/components/NcColorPicker'
 
 import ColoredDot from './ColoredDot.vue'
+import DeviceItem from '../mixins/DeviceItem.js'
 
 import { COLOR_CRITERIAS } from '../constants.js'
 import { emit } from '@nextcloud/event-bus'
-import debounce from 'debounce'
 
 export default {
 	name: 'NavigationDeviceItem',
@@ -154,7 +172,12 @@ export default {
 		MagnifyExpandIcon,
 		ChartTimelineVariantIcon,
 		CrosshairsIcon,
+		UndoIcon,
 	},
+
+	mixins: [
+		DeviceItem,
+	],
 
 	inject: ['isPublicPage'],
 
@@ -178,14 +201,6 @@ export default {
 	},
 
 	computed: {
-		dotColor() {
-			return this.device.color || '#0693e3'
-			/*
-			return this.device.colorCriteria === COLOR_CRITERIAS.none.id
-				? this.device.color || '#0693e3'
-				: 'gradient'
-			*/
-		},
 		formattedName() {
 			if (this.device.alias) {
 				return this.device.alias + ` (${this.device.name})`
@@ -199,54 +214,6 @@ export default {
 			if (e.target.tagName !== 'DIV') {
 				emit('device-clicked', { deviceId: this.device.id, sessionId: this.session.id })
 			}
-		},
-		onDeleteDeviceClick() {
-			emit('delete-device', this.device)
-		},
-		onUpdateMenuOpen(isOpen) {
-			if (!isOpen) {
-				this.criteriaActionsOpen = false
-			}
-			this.menuOpen = isOpen
-		},
-		onZoomClick() {
-			emit('zoom-on-device', { deviceId: this.device.id, sessionId: this.session.id })
-		},
-		onDetailsClick() {
-			emit('device-details-click', { deviceId: this.device.id, sessionId: this.session.id })
-		},
-		onHoverIn() {
-			emit('device-hover-in', { deviceId: this.device.id, sessionId: this.session.id })
-		},
-		onHoverOut() {
-			emit('device-hover-out', { deviceId: this.device.id, sessionId: this.session.id })
-		},
-		onMenuColorClick() {
-			this.menuOpen = false
-			if (this.$refs.colorDot) {
-				this.$refs.colorDot.$el.click()
-			}
-		},
-		updateColor: debounce(function(color) {
-			this.applyUpdateColor(color)
-		}, 1000),
-		applyUpdateColor(color) {
-			emit('update-device', { deviceId: this.device.id, sessionId: this.session.id, values: { color } })
-		},
-		onCriteriaChange(colorCriteria) {
-			emit('update-device', {
-				deviceId: this.device.id,
-				sessionId: this.session.id,
-				values: {
-					colorCriteria,
-				},
-			})
-		},
-		onChangeLineEnabled(newValue) {
-			emit('update-device', { deviceId: this.device.id, sessionId: this.session.id, values: { lineEnabled: newValue } })
-		},
-		onChangeAutoZoom(newValue) {
-			emit('update-device', { deviceId: this.device.id, sessionId: this.session.id, values: { autoZoom: newValue } })
 		},
 	},
 
@@ -269,5 +236,18 @@ export default {
 
 :deep(.app-navigation-entry.active .status-icon) {
 	color: var(--color-primary-element-text) !important;
+}
+
+.deviceActive {
+	font-weight: bold;
+}
+
+.counter {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	.timer {
+		margin-left: 4px;
+	}
 }
 </style>

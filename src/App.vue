@@ -17,18 +17,18 @@
 			@resize:list="onResizeList"
 			@update:showDetails="onUpdateShowDetails">
 			<template v-if="!isCompactMode" #list>
-				<NcEmptyContent v-if="false"
-					:name="t('phonetrack', 'No device')"
-					:title="t('phonetrack', 'No device')"
+				<NcEmptyContent v-if="selectedSession === null"
+					:name="t('phonetrack', 'No selected session')"
+					:title="t('phonetrack', 'No selected session')"
 					class="list-empty-content">
 					<template #icon>
-						<FolderOffOutlineIcon />
+						<PhonetrackIcon />
 					</template>
 				</NcEmptyContent>
-				<!--DeviceList v-else
-					:directory="navigationSelectedDirectory"
+				<DeviceList v-else
+					:session="selectedSession"
 					:settings="state.settings"
-					:is-mobile="isMobile" /-->
+					:is-mobile="isMobile" />
 			</template>
 			<MaplibreMap ref="map"
 				:settings="state?.settings"
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import FolderOffOutlineIcon from 'vue-material-design-icons/FolderOffOutline.vue'
+import PhonetrackIcon from './components/icons/PhonetrackIcon.vue'
 
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
@@ -133,7 +133,7 @@ import PhonetrackSettingsDialog from './components/PhonetrackSettingsDialog.vue'
 import Navigation from './components/Navigation.vue'
 import SessionSidebar from './components/SessionSidebar.vue'
 import DeviceSidebar from './components/DeviceSidebar.vue'
-// import DeviceList from './components/DeviceList.vue'
+import DeviceList from './components/DeviceList.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
 import PolygonFill from './components/map/PolygonFill.vue'
 import DeviceSingleColor from './components/map/DeviceSingleColor.vue'
@@ -147,6 +147,7 @@ export default {
 	name: 'App',
 
 	components: {
+		PhonetrackIcon,
 		ChartPopups,
 		DeviceGradientColorPoints,
 		PolygonFill,
@@ -159,9 +160,8 @@ export default {
 		PointEditModal,
 		NcAppContent,
 		NcContent,
-		// DeviceList,
+		DeviceList,
 		NcEmptyContent,
-		FolderOffOutlineIcon,
 	},
 
 	provide() {
@@ -360,6 +360,7 @@ export default {
 		subscribe('refresh-clicked', this.onRefreshClicked)
 		subscribe('refresh-countdown-end', this.onRefreshClicked)
 		subscribe('filter-changed', this.refreshAllDevicePoints)
+		subscribe('device-list-show-map', this.onDeviceListShowDetailsClicked)
 		emit('nav-toggled')
 	},
 
@@ -401,6 +402,7 @@ export default {
 		unsubscribe('refresh-clicked', this.onRefreshClicked)
 		unsubscribe('refresh-countdown-end', this.onRefreshClicked)
 		unsubscribe('filter-changed', this.refreshAllDevicePoints)
+		unsubscribe('device-list-show-map', this.onDeviceListShowDetailsClicked)
 	},
 
 	methods: {
@@ -905,6 +907,9 @@ export default {
 		},
 		onUpdateShowDetails(val) {
 			this.showDetails = val
+		},
+		onDeviceListShowDetailsClicked() {
+			this.showDetails = true
 		},
 		onShowGeofence(geofence) {
 			console.debug('onShowGeofence', geofence.minlon, geofence.maxlat, geofence.maxlon, geofence.minlat)
