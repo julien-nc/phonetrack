@@ -334,6 +334,7 @@ export default {
 		subscribe('session-link-click', this.onSessionLinkClicked)
 		subscribe('zoom-on-session', this.onZoomOnSession)
 		subscribe('update-device', this.onUpdateDevice)
+		subscribe('delete-device', this.onDeleteDevice)
 		subscribe('new-name-reservation', this.onNewNameReservation)
 		subscribe('device-clicked', this.onDeviceClicked)
 		subscribe('device-details-click', this.onDeviceDetailsClicked)
@@ -377,6 +378,7 @@ export default {
 		unsubscribe('session-link-click', this.onSessionLinkClicked)
 		unsubscribe('zoom-on-session', this.onZoomOnSession)
 		unsubscribe('update-device', this.onUpdateDevice)
+		unsubscribe('delete-device', this.onDeleteDevice)
 		unsubscribe('new-name-reservation', this.onNewNameReservation)
 		unsubscribe('device-clicked', this.onDeviceClicked)
 		unsubscribe('add-point-device', this.onAddDevicePoint)
@@ -521,7 +523,7 @@ export default {
 				}
 			}).catch((error) => {
 				console.error(error)
-				showError(t('phonetrack', 'Failed to delete session'))
+				showError(t('phonetrack', 'Failed to delete the session'))
 			})
 		},
 		async updateSession(sessionId, values) {
@@ -597,6 +599,17 @@ export default {
 				} else if ([true, false].includes(data.values.lineEnabled)) {
 					this.loadDevice(data.sessionId, data.deviceId)
 				}
+			})
+		},
+		onDeleteDevice({ sessionId, deviceId }) {
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}', { sessionId, deviceId })
+			axios.delete(url).then((response) => {
+				if (this.state.sessions[sessionId]?.devices[deviceId]) {
+					delete this.state.sessions[sessionId].devices[deviceId]
+				}
+			}).catch((error) => {
+				console.error(error)
+				showError(t('phonetrack', 'Failed to delete the device'))
 			})
 		},
 		onDeviceClicked({ sessionId, deviceId, saveEnable = true }) {
@@ -860,7 +873,7 @@ export default {
 						this.state.settings.extra_tile_servers.splice(index, 1)
 					}
 				}).catch((error) => {
-					showError(t('phonetrack', 'Failed to delete tile server'))
+					showError(t('phonetrack', 'Failed to delete the tile server'))
 					console.debug(error)
 				})
 		},
@@ -972,7 +985,7 @@ export default {
 				delete this.state.sessions[data.sessionId].devices[data.deviceId].geofences[data.geofence.id]
 				showSuccess(t('phonetrack', 'Geofence {name} has been deleted', { name: data.geofence.name }))
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to delete geofence'))
+				showError(t('phonetrack', 'Failed to delete the geofence'))
 				console.debug(error)
 			})
 		},
@@ -1016,7 +1029,7 @@ export default {
 				delete this.state.sessions[data.sessionId].devices[data.deviceId].proxims[data.proxim.id]
 				showSuccess(t('phonetrack', 'Proximity alert {id} has been deleted', { id: data.proxim.id }))
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to delete proximity alert'))
+				showError(t('phonetrack', 'Failed to delete the proximity alert'))
 				console.debug(error)
 			})
 		},

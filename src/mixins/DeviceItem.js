@@ -40,7 +40,7 @@ export default {
 					this.timerLoop()
 				}, 1000)
 			} else {
-				emit('delete-device', this.device)
+				emit('delete-device', { deviceId: this.device.id, sessionId: this.device.session_id })
 			}
 		},
 		onZoomClick() {
