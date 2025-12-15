@@ -34,26 +34,22 @@
 			:show-trailing-button="!!url"
 			@keydown.enter="onSubmit"
 			@trailing-button-click="url = ''" />
-		<p v-if="type === TS_RASTER" class="settings-hint">
-			<InformationOutline :size="24" class="icon" />
-			<span>
-				{{ t('phonetrack', 'A raster tile server address must contain "{x}", "{y}" and "{z}" and can optionally contain "{s}". For example: {exampleRasterUrl} .', { exampleRasterUrl }) }}
-				<a href="https://leaflet-extras.github.io/leaflet-providers/preview/" target="_blank" class="external">
-					<OpenInNewIcon :size="16" class="icon" />
-					{{ t('phonetrack', 'List of public raster tile servers') }}
-				</a>
-			</span>
-		</p>
-		<p v-else-if="type === TS_VECTOR" class="settings-hint">
-			<InformationOutline :size="24" class="icon" />
-			<span>
-				{{ t('phonetrack', 'A vector tile server address can point to a MapTiler style.json file, for example: {exampleVectorStyleUrl}. It can contain GET parameters like the API key.', { exampleVectorStyleUrl }) }}
-				<a href="https://cloud.maptiler.com/maps/" target="_blank" class="external">
-					<OpenInNewIcon :size="16" class="icon" />
-					{{ t('phonetrack', 'Vector styles available in your MapTiler account') }}
-				</a>
-			</span>
-		</p>
+		<NcNoteCard v-if="type === TS_RASTER"
+			type="info">
+			{{ t('phonetrack', 'A raster tile server address must contain "{x}", "{y}" and "{z}" and can optionally contain "{s}". For example: {exampleRasterUrl} .', { exampleRasterUrl }) }}
+			<a href="https://leaflet-extras.github.io/leaflet-providers/preview/" target="_blank" class="external">
+				<OpenInNewIcon :size="16" class="icon" />
+				{{ t('phonetrack', 'List of public raster tile servers') }}
+			</a>
+		</NcNoteCard>
+		<NcNoteCard v-else-if="type === TS_VECTOR"
+			type="info">
+			{{ t('phonetrack', 'A vector tile server address can point to a MapTiler style.json file, for example: {exampleVectorStyleUrl}. It can contain GET parameters like the API key.', { exampleVectorStyleUrl }) }}
+			<a href="https://cloud.maptiler.com/maps/" target="_blank" class="external">
+				<OpenInNewIcon :size="16" class="icon" />
+				{{ t('phonetrack', 'Vector styles available in your MapTiler account') }}
+			</a>
+		</NcNoteCard>
 		<NcInputField v-if="type === TS_RASTER"
 			v-model="minZoom"
 			type="number"
@@ -109,7 +105,6 @@
 </template>
 
 <script>
-import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
@@ -117,6 +112,7 @@ import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import { TS_RASTER, TS_VECTOR } from '../../tileServers.js'
 
@@ -127,10 +123,10 @@ export default {
 		NcButton,
 		NcTextField,
 		NcInputField,
+		NcNoteCard,
 		CloseIcon,
 		CheckIcon,
 		OpenInNewIcon,
-		InformationOutline,
 	},
 
 	props: {
@@ -195,6 +191,7 @@ export default {
 .tile-server-add-form {
 	h2 {
 		text-align: center;
+		margin-top: 0;
 	}
 	.field {
 		display: flex;
@@ -204,14 +201,6 @@ export default {
 		margin-top: 12px;
 		display: flex;
 		justify-content: end;
-	}
-	.settings-hint {
-		margin: 8px 0;
-		display: flex;
-		align-items: center;
-		.icon {
-			margin-right: 8px;
-		}
 	}
 	a.external {
 		display: flex;
