@@ -201,13 +201,19 @@ export default {
 		},
 		initMap() {
 			const apiKey = this.settings.maptiler_api_key
+			const isApiKeySet = apiKey && !apiKey.startsWith('get_your_own')
 			// tile servers and styles
 			this.styles = {
-				...getVectorStyles(apiKey, !this.isPublicPage && this.settings.proxy_osm),
+				// skip the vector servers if no API key is set
+				...(isApiKeySet && getVectorStyles(apiKey, !this.isPublicPage && this.settings.proxy_osm)),
 				...getRasterTileServers(apiKey, !this.isPublicPage && this.settings.proxy_osm),
 				...getExtraTileServers(this.settings.extra_tile_servers ?? [], apiKey, !this.isPublicPage && this.settings.proxy_osm),
 			}
-			const restoredStyleKey = Object.keys(this.styles).includes(this.settings.mapStyle) ? this.settings.mapStyle : 'streets'
+			const restoredStyleKey = Object.keys(this.styles).includes(this.settings.mapStyle)
+				? this.settings.mapStyle
+				: isApiKeySet
+					? 'streets'
+					: 'osmRaster'
 			const restoredStyleObj = this.styles[restoredStyleKey]
 
 			// values that are saved in private page

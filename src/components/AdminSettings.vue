@@ -1,7 +1,7 @@
 <template>
 	<div id="phonetrack_prefs" class="section">
 		<h2>
-			<PhonetrackIcon class="phonetrack-icon" />
+			<PhonetrackIcon />
 			<span>PhoneTrack</span>
 		</h2>
 		<div id="phonetrack-content">
@@ -31,30 +31,35 @@
 					</template>
 				</NcButton>
 			</div>
-			<NcNoteCard v-if="state.maptiler_api_key === ''" type="warning">
-				<span v-html="mainHintHtml" />
-			</NcNoteCard>
-			<NcNoteCard type="info">
-				{{ t('phonetrack', 'The API key defined here will be used by all users. Each user can set a personal API key to override this global one.') }}
-			</NcNoteCard>
+			<div>
+				<NcNoteCard v-if="state.maptiler_api_key === ''" type="warning">
+					<span v-html="mainHintHtml" />
+				</NcNoteCard>
+				<NcNoteCard type="info">
+					{{ t('phonetrack', 'The API key defined here will be used by all users. Each user can set a personal API key to override this global one.') }}
+				</NcNoteCard>
+			</div>
+			<NcTextField
+				v-model="state.maptiler_api_key"
+				:label="t('phonetrack', 'Maptiler API key')"
+				type="password"
+				class="input"
+				:placeholder="t('phonetrack', 'my-api-key')"
+				:show-trailing-button="!!state.maptiler_api_key"
+				@update:model-value="onInput"
+				@trailing-button-click="state.maptiler_api_key = ''; onInput()">
+				<template #icon>
+					<KeyIcon :size="20" />
+				</template>
+			</NcTextField>
 			<NcFormBox>
-				<NcTextField
-					v-model="state.maptiler_api_key"
-					:label="t('phonetrack', 'Maptiler API key')"
-					type="password"
-					class="input"
-					:placeholder="t('phonetrack', 'my-api-key')"
-					:show-trailing-button="!!state.maptiler_api_key"
-					@update:model-value="onInput"
-					@trailing-button-click="state.maptiler_api_key = ''; onInput()">
-					<template #icon>
-						<KeyIcon :size="20" />
-					</template>
-				</NcTextField>
 				<NcFormBoxSwitch :model-value="state.proxy_osm"
-					:label="t('phonetrack', 'Proxy map tiles/vectors requests via Nextcloud')"
-					class="input"
-					@update:model-value="onCheckboxChanged($event, 'proxy_osm')" />
+					@update:model-value="onCheckboxChanged($event, 'proxy_osm')">
+					<div class="checkbox-inner">
+						<ArrowDecisionOutlineIcon :size="20" class="inline-icon" />
+						{{ t('phonetrack', 'Proxy map tiles/vectors requests via Nextcloud') }}
+					</div>
+				</NcFormBoxSwitch>
 			</NcFormBox>
 			<TileServerList
 				class="admin-tile-server-list"
@@ -69,6 +74,7 @@ import KeyIcon from 'vue-material-design-icons/Key.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import HelpCircleOutlineIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import TimerAlertOutlineIcon from 'vue-material-design-icons/TimerAlertOutline.vue'
+import ArrowDecisionOutlineIcon from 'vue-material-design-icons/ArrowDecisionOutline.vue'
 
 import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 
@@ -100,6 +106,7 @@ export default {
 		CloseIcon,
 		HelpCircleOutlineIcon,
 		TimerAlertOutlineIcon,
+		ArrowDecisionOutlineIcon,
 		NcNoteCard,
 		NcInputField,
 		NcTextField,
@@ -113,7 +120,7 @@ export default {
 	data() {
 		return {
 			state: loadState('phonetrack', 'admin-config'),
-			mainHintHtml: t('phonetrack', 'The default Maptiler key is very limited. Please consider creating your own API key on {maptilerLink}',
+			mainHintHtml: t('phonetrack', 'You can create an API key on {maptilerLink}',
 				{
 					maptilerLink: '<a href="https://cloud.maptiler.com/account/keys/" class="external" target="blank">https://cloud.maptiler.com/account/keys/</a>',
 				},
@@ -208,13 +215,15 @@ export default {
 	h2 {
 		display: flex;
 		justify-content: start;
-		.phonetrack-icon {
-			margin-right: 12px;
-		}
+		gap: 12px;
 	}
 
 	#phonetrack-content {
-		margin-left: 40px;
+		margin-left: 30px;
+		max-width: 800px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
 
 		.line {
 			display: flex;
@@ -222,27 +231,13 @@ export default {
 			align-items: end;
 		}
 
-		.input,
-		input,
-		label {
-			width: 420px;
-		}
-
-		.settings-hint {
-			display: flex;
-			align-items: center;
-
-			.icon {
-				margin-right: 8px;
-			}
-		}
-
-		.subsection-title {
-			font-weight: bold;
-		}
-
 		.admin-tile-server-list {
 			margin-top: 12px;
+		}
+
+		.checkbox-inner {
+			display: flex;
+			gap: 8px;
 		}
 	}
 }

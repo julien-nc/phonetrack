@@ -81,7 +81,7 @@ class PageController extends Controller {
 	#[NoCSRFRequired]
 	public function index(): TemplateResponse {
 		$settings = $this->toolsService->getOptionsValues($this->userId);
-		$adminMaptilerApiKey = $this->appConfig->getValueString(Application::APP_ID, 'maptiler_api_key', Application::DEFAULT_MAPTILER_API_KEY, lazy: true) ?: Application::DEFAULT_MAPTILER_API_KEY;
+		$adminMaptilerApiKey = $this->appConfig->getValueString(Application::APP_ID, 'maptiler_api_key', lazy: true);
 		$maptilerApiKey = $this->toolsService->getEncryptedUserValue($this->userId, 'maptiler_api_key') ?: $adminMaptilerApiKey;
 		$settings['maptiler_api_key'] = $maptilerApiKey;
 
