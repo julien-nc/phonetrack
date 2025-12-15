@@ -54,8 +54,7 @@
 				<NcFormBoxSwitch :model-value="state.proxy_osm"
 					:label="t('phonetrack', 'Proxy map tiles/vectors requests via Nextcloud')"
 					class="input"
-					@enable="onCheckboxChanged(true, 'proxy_osm')"
-					@disable="onCheckboxChanged(false, 'proxy_osm')" />
+					@update:model-value="onCheckboxChanged($event, 'proxy_osm')" />
 			</NcFormBox>
 			<TileServerList
 				class="admin-tile-server-list"

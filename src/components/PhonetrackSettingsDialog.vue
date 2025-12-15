@@ -419,11 +419,11 @@ export default {
 			return this.quotaReachedOptions[this.settings.quotareached] ?? this.quotaReachedOptions.block
 		},
 		maptilerHint() {
-			const maptilerLink = '<a href="https://maptiler.com" target="blank">https://maptiler.com</a>'
+			const maptilerLink = '<a href="https://maptiler.com" class="external" target="blank">https://maptiler.com</a>'
 			return t('phonetrack', 'If your admin hasn\'t defined an API key, you can get one for free on {maptilerLink}. Create an account then go to "Account" -> "API keys" and create a key or use your default one.', { maptilerLink }, null, { escape: false, sanitize: false })
 		},
 		adminApiKeyHint() {
-			const adminLink = '<a href="' + this.adminSettingsUrl + '" target="blank">' + t('phonetrack', 'PhoneTrack admin settings') + '</a>'
+			const adminLink = '<a href="' + this.adminSettingsUrl + '" class="external" target="blank">' + t('phonetrack', 'PhoneTrack admin settings') + '</a>'
 			return t('phonetrack', 'As you are an administrator, you can set global API keys in the {adminLink}', { adminLink }, null, { escape: false, sanitize: false })
 		},
 	},
