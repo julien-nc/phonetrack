@@ -49,15 +49,15 @@ class Device extends Entity implements \JsonSerializable {
 		$this->addType('id', Types::INTEGER);
 		$this->addType('name', Types::STRING);
 		$this->addType('alias', Types::STRING);
-		$this->addType('session_id', Types::INTEGER);
-		$this->addType('session_token', Types::STRING);
+		$this->addType('sessionId', Types::INTEGER);
+		$this->addType('sessionToken', Types::STRING);
 		$this->addType('color', Types::STRING);
 		$this->addType('shape', Types::STRING);
 		$this->addType('nametoken', Types::STRING);
 		$this->addType('enabled', Types::INTEGER);
-		$this->addType('color_criteria', Types::INTEGER);
-		$this->addType('line_enabled', Types::INTEGER);
-		$this->addType('auto_zoom', Types::INTEGER);
+		$this->addType('colorCriteria', Types::INTEGER);
+		$this->addType('lineEnabled', Types::INTEGER);
+		$this->addType('autoZoom', Types::INTEGER);
 	}
 
 	#[\ReturnTypeWillChange]

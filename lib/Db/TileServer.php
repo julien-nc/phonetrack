@@ -8,20 +8,20 @@ use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
 
 /**
- * @method string|null getUserId()
- * @method void setUserId(?string $userId)
- * @method int getType()
- * @method void setType(int $type)
- * @method string getName()
- * @method void setName(string $name)
- * @method string getUrl()
- * @method void setUrl(string $url)
- * @method int|null getMinZoom()
- * @method void setMinZoom(?int $minZoom)
- * @method int|null getMaxZoom()
- * @method void setMaxZoom(?int $maxZoom)
- * @method string|null getAttribution()
- * @method void setAttribution(?string $attribution)
+ * @method \string|\null getUserId()
+ * @method \void setUserId(?string $userId)
+ * @method \int getType()
+ * @method \void setType(int $type)
+ * @method \string getName()
+ * @method \void setName(string $name)
+ * @method \string getUrl()
+ * @method \void setUrl(string $url)
+ * @method \int|\null getMinZoom()
+ * @method \void setMinZoom(?int $minZoom)
+ * @method \int|\null getMaxZoom()
+ * @method \void setMaxZoom(?int $maxZoom)
+ * @method \string|\null getAttribution()
+ * @method \void setAttribution(?string $attribution)
  */
 class TileServer extends Entity implements \JsonSerializable {
 
@@ -34,12 +34,12 @@ class TileServer extends Entity implements \JsonSerializable {
 	protected $attribution;
 
 	public function __construct() {
-		$this->addType('user_id', Types::STRING);
+		$this->addType('userId', Types::STRING);
 		$this->addType('type', Types::INTEGER);
 		$this->addType('name', Types::STRING);
 		$this->addType('url', Types::STRING);
-		$this->addType('min_zoom', Types::INTEGER);
-		$this->addType('max_zoom', Types::INTEGER);
+		$this->addType('minZoom', Types::INTEGER);
+		$this->addType('maxZoom', Types::INTEGER);
 		$this->addType('attribution', Types::STRING);
 	}
 

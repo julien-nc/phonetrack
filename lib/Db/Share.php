@@ -28,8 +28,8 @@ class Share extends Entity implements \JsonSerializable {
 		$this->addType('id', Types::INTEGER);
 		$this->addType('sharetoken', Types::STRING);
 		$this->addType('username', Types::STRING);
-		$this->addType('session_id', Types::INTEGER);
-		$this->addType('session_token', Types::STRING);
+		$this->addType('sessionId', Types::INTEGER);
+		$this->addType('sessionToken', Types::STRING);
 	}
 
 	#[\ReturnTypeWillChange]
