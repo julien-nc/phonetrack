@@ -104,8 +104,7 @@
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" />
 		<PhonetrackSettingsDialog
-			:settings="state.settings"
-			@save-options="saveOptions" />
+			:settings="state.settings" />
 		<PointEditModal v-if="editingPoint"
 			:point="pointToEdit"
 			:distance-unit="distanceUnit"
@@ -123,6 +122,7 @@ import { showError, showSuccess, showUndo } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import moment from '@nextcloud/moment'
+import debounce from 'debounce'
 
 import { COLOR_CRITERIAS } from './constants.js'
 
@@ -324,6 +324,7 @@ export default {
 			}, 2000)
 		}
 		subscribe('save-settings', this.saveOptions)
+		subscribe('save-settings-debounced', this.saveOptionsDebounced)
 		subscribe('tile-server-deleted', this.onTileServerDeleted)
 		subscribe('tile-server-added', this.onTileServerAdded)
 		subscribe('create-session', this.onCreateSession)
@@ -368,6 +369,7 @@ export default {
 
 	beforeUnmount() {
 		unsubscribe('save-settings', this.saveOptions)
+		unsubscribe('save-settings-debounced', this.saveOptionsDebounced)
 		unsubscribe('tile-server-deleted', this.onTileServerDeleted)
 		unsubscribe('tile-server-added', this.onTileServerAdded)
 		unsubscribe('create-session', this.onCreateSession)
@@ -435,6 +437,25 @@ export default {
 			console.debug('details click', dirId)
 		},
 		*/
+		saveOptionsDebounced(values) {
+			Object.assign(this.state.settings, values)
+			this.debouncedStoreOptions(values)
+		},
+		debouncedStoreOptions: debounce(function(values) {
+			console.debug('[phonetrack] settings saved', this.state.settings)
+			if (this.isPublicPage) {
+				return
+			}
+			const req = {
+				values,
+			}
+			const url = generateUrl('/apps/phonetrack/saveOptionValues')
+			axios.put(url, req).then((response) => {
+			}).catch((error) => {
+				showError(t('phonetrack', 'Failed to save settings'))
+				console.debug(error)
+			})
+		}, 1000),
 		saveOptions(values) {
 			Object.assign(this.state.settings, values)
 			console.debug('[phonetrack] settings saved', this.state.settings)

@@ -3,14 +3,12 @@
 		<NcAppSettingsDialog
 			v-model:open="showSettings"
 			:name="t('phonetrack', 'PhoneTrack settings')"
-			:title="t('phonetrack', 'PhoneTrack settings')"
 			:show-navigation="true"
 			class="phonetrack-settings-dialog"
 			container="#settings-container">
 			<NcAppSettingsSection
 				id="map"
 				:name="t('phonetrack', 'Map')"
-				:title="t('phonetrack', 'Map')"
 				class="app-settings-section">
 				<NcFormBox>
 					<NcFormBoxSwitch :model-value="settings.nav_show_hovered_session_bounds === '1'"
@@ -85,6 +83,12 @@
 							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 						</template>
 					</NcInputField>
+					<Slider :model-value="settings.refresh_duration ?? 125"
+						class="slider"
+						:min="5"
+						:max="60 * 60"
+						:step="10"
+						@update:model-value="debOnComponentInputChange($event, 'refresh_duration')" />
 					<NcInputField
 						:model-value="settings.arrows_scale_factor ?? 1"
 						type="number"
@@ -102,6 +106,12 @@
 							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 						</template>
 					</NcInputField>
+					<Slider :model-value="settings.arrows_scale_factor ?? 1"
+						class="slider"
+						:min="0.1"
+						:max="2"
+						:step="0.01"
+						@update:model-value="debOnComponentInputChange($event, 'arrows_scale_factor')" />
 					<NcInputField
 						:model-value="settings.arrows_spacing ?? 200"
 						type="number"
@@ -119,6 +129,11 @@
 							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 						</template>
 					</NcInputField>
+					<Slider :model-value="settings.arrows_spacing ?? 200"
+						class="slider"
+						:min="10"
+						:max="400"
+						@update:model-value="debOnComponentInputChange($event, 'arrows_spacing')" />
 					<NcInputField
 						:model-value="settings.line_width ?? 6"
 						type="number"
@@ -136,6 +151,12 @@
 							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 						</template>
 					</NcInputField>
+					<Slider :model-value="settings.line_width ?? 6"
+						class="slider"
+						:min="1"
+						:max="20"
+						:step="0.1"
+						@update:model-value="debOnComponentInputChange($event, 'line_width')" />
 					<NcInputField
 						:model-value="settings.line_opacity ?? 1"
 						type="number"
@@ -153,6 +174,12 @@
 							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 						</template>
 					</NcInputField>
+					<Slider :model-value="settings.line_opacity ?? 1"
+						class="slider"
+						:min="0"
+						:max="1"
+						:step="0.01"
+						@update:model-value="debOnComponentInputChange($event, 'line_opacity')" />
 					<NcInputField
 						:model-value="settings.terrainExaggeration ?? 1.5"
 						type="number"
@@ -170,6 +197,12 @@
 							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 						</template>
 					</NcInputField>
+					<Slider :model-value="settings.terrainExaggeration ?? 1.5"
+						class="slider"
+						:min="0.1"
+						:max="10"
+						:step="0.1"
+						@update:model-value="debOnComponentInputChange($event, 'terrainExaggeration')" />
 					<NcSelect
 						:model-value="selectedDistanceUnit"
 						class="select"
@@ -193,7 +226,6 @@
 			<NcAppSettingsSection v-if="!isPublicPage"
 				id="export"
 				:name="t('phonetrack', 'Export location')"
-				:title="t('phonetrack', 'Export location')"
 				class="app-settings-section">
 				<h3 class="app-settings-section__hint">
 					{{ t('phonetrack', 'Select export directory') }}
@@ -209,7 +241,6 @@
 			<NcAppSettingsSection v-if="!isPublicPage"
 				id="api-keys"
 				:name="t('phonetrack', 'API keys')"
-				:title="t('phonetrack', 'API keys')"
 				class="app-settings-section">
 				<div class="app-settings-section__hint">
 					{{ t('phonetrack', 'If you leave the Maptiler API key empty, PhoneTrack will use the one defined by the Nextcloud admin as default.') }}
@@ -235,7 +266,6 @@
 			<NcAppSettingsSection
 				id="tile-servers"
 				:name="t('phonetrack', 'Tile servers')"
-				:title="t('phonetrack', 'Tile servers')"
 				class="app-settings-section">
 				<NcNoteCard v-if="!isPublicPage" type="info">
 					{{ t('phonetrack', 'Changes are effective after reloading the page.') }}
@@ -248,7 +278,6 @@
 			<NcAppSettingsSection
 				id="about"
 				:name="t('phonetrack', 'About')"
-				:title="t('phonetrack', 'About')"
 				class="app-settings-section">
 				<h3 class="app-settings-section__hint">
 					{{ '♥ ' + t('phonetrack', 'Thanks for using PhoneTrack') + ' ♥ (v' + settings.app_version + ')' }}
@@ -332,6 +361,8 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
+// import Slider from 'vue3-slider'
+import Slider from 'primevue/slider'
 
 import { delay } from '../utils.js'
 import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
@@ -348,6 +379,7 @@ export default {
 	name: 'PhonetrackSettingsDialog',
 
 	components: {
+		Slider,
 		TileServerList,
 		AdminIcon,
 		NcAppSettingsDialog,
@@ -455,22 +487,25 @@ export default {
 			}, 2000)()
 		},
 		saveApiKey(value) {
-			this.$emit('save-options', {
+			emit('save-settings', {
 				maptiler_api_key: value,
 			})
 			showSuccess(t('phonetrack', 'API key saved, effective after a page reload'))
 		},
 		onCheckboxChanged(newValue, key) {
-			this.$emit('save-options', { [key]: newValue ? '1' : '0' })
+			emit('save-settings', { [key]: newValue ? '1' : '0' })
 			if (key === 'compact_mode') {
 				emit('resize-map')
 			}
 		},
 		onInputChange(e, key) {
-			this.$emit('save-options', { [key]: e.target.value })
+			emit('save-settings', { [key]: e.target.value })
+		},
+		debOnComponentInputChange(value, key) {
+			emit('save-settings-debounced', { [key]: value })
 		},
 		onComponentInputChange(value, key) {
-			this.$emit('save-options', { [key]: value })
+			emit('save-settings', { [key]: value })
 		},
 		onExportDirClick() {
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to write auto export files'))
@@ -490,7 +525,7 @@ export default {
 						}
 						path = path.replace(/^\/+/, '/')
 						// this.outputDir = path
-						this.$emit('save-options', { autoexportpath: path })
+						emit('save-settings', { autoexportpath: path })
 					},
 				})
 				.build()
@@ -575,6 +610,14 @@ a.external {
 
 	:deep(.checkbox-radio-switch__label-text) {
 		display: flex;
+	}
+
+	:deep(.slider) {
+		height: 8px;
+		margin: 8px 0;
+		.p-slider-range {
+			background: var(--color-primary);
+		}
 	}
 }
 </style>
