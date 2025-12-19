@@ -27,6 +27,13 @@
 							{{ t('phonetrack', 'Show mouse position coordinates in the bottom-left map corner') }}
 						</div>
 					</NcFormBoxSwitch>
+					<NcFormBoxSwitch :model-value="(settings.use_sky ?? '0') === '1'"
+						@update:model-value="onCheckboxChanged($event, 'use_sky')">
+						<div class="checkbox-inner">
+							<WeatherFogIcon :size="20" class="inline-icon" />
+							{{ t('phonetrack', 'Display the sky in the map') }}
+						</div>
+					</NcFormBoxSwitch>
 					<NcFormBoxSwitch :model-value="(settings.compact_mode ?? '1') === '1'"
 						@update:model-value="onCheckboxChanged($event, 'compact_mode')">
 						<div class="checkbox-inner">
@@ -306,6 +313,7 @@ import ViewCompactOutlineIcon from 'vue-material-design-icons/ViewCompactOutline
 import ChartAreasplineVariantIcon from 'vue-material-design-icons/ChartAreasplineVariant.vue'
 import TextureBoxIcon from 'vue-material-design-icons/TextureBox.vue'
 import CursorDefaultClickOutlineIcon from 'vue-material-design-icons/CursorDefaultClickOutline.vue'
+import WeatherFogIcon from 'vue-material-design-icons/WeatherFog.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import UpdateIcon from 'vue-material-design-icons/Update.vue'
@@ -354,6 +362,7 @@ export default {
 		OpenInNewIcon,
 		TextureBoxIcon,
 		CursorDefaultClickOutlineIcon,
+		WeatherFogIcon,
 		ChartAreasplineVariantIcon,
 		ViewCompactOutlineIcon,
 		MathNormIcon,

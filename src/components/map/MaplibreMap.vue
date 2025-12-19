@@ -72,6 +72,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		useSky: {
+			type: Boolean,
+			default: false,
+		},
 		showMousePositionControl: {
 			type: Boolean,
 			default: false,
@@ -175,6 +179,9 @@ export default {
 				return
 			}
 			this.toggleGlobe()
+		},
+		useSky(newValue) {
+			newValue ? this.setSky() : this.removeSky()
 		},
 	},
 
@@ -308,7 +315,9 @@ export default {
 						type: 'globe',
 					})
 				}
-				this.setSky()
+				if (this.useSky) {
+					this.setSky()
+				}
 				this.reRenderLayersAndTerrain()
 			})
 
@@ -396,6 +405,9 @@ export default {
 		onMapClick(e) {
 			console.debug('MAP::onMapClick', e)
 			this.$emit('map-clicked', e.lngLat)
+		},
+		removeSky() {
+			this.map.setSky(undefined)
 		},
 		setSky() {
 			// https://maplibre.org/maplibre-gl-js/docs/examples/sky-with-fog-and-terrain/

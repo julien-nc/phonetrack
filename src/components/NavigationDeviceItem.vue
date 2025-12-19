@@ -28,14 +28,14 @@
 				</template>
 			</NcColorPicker>
 		</template>
-		<template v-if="device.enabled" #counter>
+		<template v-if="device.enabled || timerOn" #counter>
 			<div class="counter">
-				<div v-if="device.lineEnabled" :title="t('phonetrack', 'Show line')">
+				<div v-if="device.enabled && device.lineEnabled" :title="t('phonetrack', 'Show line')">
 					<ChartTimelineVariantIcon
 						class="status-icon"
 						:size="20" />
 				</div>
-				<div v-if="device.autoZoom" :title="t('phonetrack', 'Auto-zoom')">
+				<div v-if="device.enabled && device.autoZoom" :title="t('phonetrack', 'Auto-zoom')">
 					<CrosshairsIcon
 						class="status-icon"
 						:size="20" />

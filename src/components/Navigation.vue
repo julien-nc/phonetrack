@@ -30,6 +30,9 @@
 					</NcActions>
 				</template>
 			</NcAppNavigationSearch>
+			<NavigationCountdownItem
+				:loading-device-points="loadingDevicePoints"
+				:settings="settings" />
 		</template>
 		<template #list>
 			<NewSessionModal v-if="showCreationModal"
@@ -37,9 +40,6 @@
 			<FiltersModal v-if="showFilters"
 				:settings="settings"
 				@close="onCloseFilterModal" />
-			<NavigationCountdownItem
-				:loading-device-points="loadingDevicePoints"
-				:settings="settings" />
 			<NavigationSessionItem v-for="s in filteredSessions"
 				:key="s.id"
 				class="sessionItem"

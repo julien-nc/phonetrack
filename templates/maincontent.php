@@ -38,7 +38,9 @@
 							<?php p($l->t('Create session')); ?>
 						</button>
 						<button id="goToNewInterface">
-							<i class="fa fa-wand-magic-sparkles" aria-hidden="true"></i>
+                            <!-- switch when the new interface is feature-complete and stable -->
+							<!--i class="fa fa-wand-magic-sparkles" aria-hidden="true"></i-->
+                            <i class="fa fa-flask" aria-hidden="true"></i>
 							<?php p($l->t('New interface (beta)')); ?>
 						</button>
 					</div>
