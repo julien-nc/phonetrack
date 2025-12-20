@@ -134,6 +134,19 @@ class PageController extends Controller {
 	}
 
 	/**
+	 * @return DataResponse
+	 */
+	#[NoAdminRequired]
+	public function getSessions(): DataResponse {
+		$sessions = $this->sessionService->getSessions2($this->userId);
+		$sessionsById = [];
+		foreach ($sessions as $session) {
+			$sessionsById[$session['id']] = $session;
+		}
+		return new DataResponse(empty($sessionsById) ? new stdClass() : $sessionsById);
+	}
+
+	/**
 	 * @param string $name
 	 * @return DataResponse
 	 */
@@ -153,12 +166,12 @@ class PageController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function importSession(string $path): DataResponse {
-//		try {
+		try {
 			$newSession = $this->sessionService->importSession($this->userId, $path);
 			return new DataResponse($this->sessionService->serializeSession($newSession));
-//		} catch (\Exception|\Throwable $e) {
-//			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
-//		}
+		} catch (\Exception|\Throwable $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**

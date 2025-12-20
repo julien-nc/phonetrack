@@ -1179,7 +1179,53 @@ export default {
 					console.error(error)
 				})
 				.then(() => {
-					this.loadingDevicePoints = false
+					this.refreshSessions().then((newDevicesPromises) => {
+						Promise.all(newDevicesPromises)
+							.then(results => {
+							})
+							.catch(error => {
+								console.error(error)
+							})
+							.then(() => {
+								this.loadingDevicePoints = false
+							})
+					})
+				})
+		},
+		// get the sessions again
+		// add missing sessions
+		// add missing devices
+		// refresh freshly added device's points (for enabled devices in enabled sessions, not very likely)
+		refreshSessions() {
+			const url = generateUrl('/apps/phonetrack/sessions')
+			return axios.get(url)
+				.then(response => {
+					const loadPromises = []
+					const sessionsById = response.data
+					Object.keys(response.data).forEach(sessionId => {
+						const session = sessionsById[sessionId]
+						// add missing sessions
+						if (!(sessionId in this.state.sessions)) {
+							this.state.sessions[sessionId] = sessionsById[sessionId]
+							if (session.enabled) {
+								// load enabled (freshly added) devices
+								loadPromises.push(...Object.values(session.devices)
+									.filter(device => device.enabled)
+									.map(device => this.loadDevice(device.session_id, device.id)))
+							}
+						} else {
+							// session is already there
+							// -> add missing devices
+							Object.keys(session.devices).forEach(deviceId => {
+								const device = session.devices[deviceId]
+								if (!(deviceId in this.state.sessions[sessionId].devices)) {
+									this.state.sessions[sessionId].devices[deviceId] = device
+									loadPromises.push(this.loadDevice(device.session_id, device.id))
+								}
+							})
+						}
+					})
+					return loadPromises
 				})
 		},
 		autoZoom() {

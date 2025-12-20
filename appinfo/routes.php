@@ -13,6 +13,7 @@
 return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/vue', 'verb' => 'GET'],
+		['name' => 'page#getSessions', 'url' => '/sessions', 'verb' => 'GET'],
 		['name' => 'page#createSession', 'url' => '/session', 'verb' => 'POST'],
 		['name' => 'page#importSession', 'url' => '/import-session', 'verb' => 'POST'],
 		['name' => 'page#deleteSession', 'url' => '/session/{sessionId}', 'verb' => 'DELETE'],
