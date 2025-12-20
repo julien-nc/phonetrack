@@ -714,16 +714,7 @@ export default {
 			const oldPoint = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
 			const { id: __, deviceid: ____, ...oldValues } = oldPoint
 			const { id: _, deviceid: ___, ...values } = newPoint
-			this.updatePoint({ sessionId, deviceId, pointId, values })
-				.then(() => {
-					showUndo(
-						t('phonetrack', 'The point has been saved'),
-						(e) => {
-							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
-						},
-						{ timeout: 5 },
-					)
-				})
+			this.updatePoint({ sessionId, deviceId, pointId, values, oldValues })
 			this.editingPointPath = null
 		},
 		/**
@@ -764,18 +755,9 @@ export default {
 				lat: lngLat.lat,
 				lon: lngLat.lng,
 			}
-			this.updatePoint({ sessionId, deviceId, pointId, values })
-				.then(() => {
-					showUndo(
-						t('phonetrack', 'The point has been moved'),
-						(e) => {
-							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
-						},
-						{ timeout: 5 },
-					)
-				})
+			this.updatePoint({ sessionId, deviceId, pointId, values, oldValues })
 		},
-		updatePoint({ sessionId, deviceId, pointId, values }) {
+		updatePoint({ sessionId, deviceId, pointId, values, oldValues }) {
 			this.updatingPointRequestLoading = true
 			// replace null values with empty strings so it's saved as null
 			const req = Object.keys(values).reduce((acc, key) => {
@@ -832,6 +814,16 @@ export default {
 				}
 				Object.assign(point, response.data)
 				emit('point-values-updated', pointId)
+				// undo only if old values are provided
+				if (oldValues) {
+					showUndo(
+						t('phonetrack', 'The point has been saved'),
+						(e) => {
+							this.updatePoint({ sessionId, deviceId, pointId, values: oldValues })
+						},
+						{ timeout: 5 },
+					)
+				}
 			}).catch((error) => {
 				console.error(error)
 				showError(t('phonetrack', 'Failed to update the point'))
