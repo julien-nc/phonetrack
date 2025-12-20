@@ -316,7 +316,7 @@ export default {
 			axios.post(url, req).then((response) => {
 				emit('add-share', { sessionId: this.session.id, share: response.data })
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to create share'))
+				showError(t('phonetrack', 'Failed to create the share'))
 				console.error(error)
 			})
 		},
@@ -326,7 +326,7 @@ export default {
 			axios.delete(url).then((response) => {
 				emit('delete-share', { sessionId: this.session.id, shareId: share.id })
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to delete share'))
+				showError(t('phonetrack', 'Failed to delete the share'))
 				console.error(error)
 			})
 		},
@@ -397,7 +397,7 @@ export default {
 					},
 				})
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to save public share'))
+				showError(t('phonetrack', 'Failed to save the public share'))
 				console.error(error)
 			})
 		},
@@ -406,7 +406,7 @@ export default {
 			axios.post(url).then((response) => {
 				emit('add-public-share', { sessionId: this.session.id, publicShare: response.data })
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to create public share'))
+				showError(t('phonetrack', 'Failed to create the public share'))
 				console.error(error)
 			})
 		},
@@ -415,7 +415,7 @@ export default {
 			axios.delete(url).then((response) => {
 				emit('delete-public-share', { sessionId: this.session.id, publicShareId })
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to delete public share'))
+				showError(t('phonetrack', 'Failed to delete the public share'))
 				console.error(error)
 			})
 		},

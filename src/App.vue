@@ -330,6 +330,7 @@ export default {
 		subscribe('create-session', this.onCreateSession)
 		subscribe('delete-session', this.onDeleteSession)
 		subscribe('update-session', this.onUpdateSession)
+		subscribe('import-session', this.onImportSession)
 		subscribe('session-click', this.onSessionClick)
 		subscribe('session-details-click', this.onSessionDetailsClicked)
 		subscribe('session-share-click', this.onSessionShareClicked)
@@ -375,6 +376,7 @@ export default {
 		unsubscribe('create-session', this.onCreateSession)
 		unsubscribe('delete-session', this.onDeleteSession)
 		unsubscribe('update-session', this.onUpdateSession)
+		unsubscribe('import-session', this.onImportSession)
 		unsubscribe('session-click', this.onSessionClick)
 		unsubscribe('session-details-click', this.onSessionDetailsClicked)
 		unsubscribe('session-share-click', this.onSessionShareClicked)
@@ -452,7 +454,7 @@ export default {
 			const url = generateUrl('/apps/phonetrack/saveOptionValues')
 			axios.put(url, req).then((response) => {
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to save settings'))
+				showError(t('phonetrack', 'Failed to save the settings'))
 				console.debug(error)
 			})
 		}, 1000),
@@ -468,7 +470,7 @@ export default {
 			const url = generateUrl('/apps/phonetrack/saveOptionValues')
 			axios.put(url, req).then((response) => {
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to save settings'))
+				showError(t('phonetrack', 'Failed to save the settings'))
 				console.debug(error)
 			})
 		},
@@ -504,6 +506,19 @@ export default {
 			this.activeSidebarTab = 'session-links'
 			console.debug('[phonetrack] links click', sessionId)
 		},
+		onImportSession(path) {
+			const req = {
+				path,
+			}
+			const url = generateUrl('/apps/phonetrack/import-session')
+			axios.post(url, req).then((response) => {
+				const session = response.data
+				this.state.sessions[session.id] = session
+			}).catch((error) => {
+				console.error(error)
+				showError(t('phonetrack', 'Failed to import the session'))
+			})
+		},
 		onCreateSession(name) {
 			if (!name) {
 				showError(t('phonetrack', 'Invalid session name'))
@@ -519,9 +534,9 @@ export default {
 			}).catch((error) => {
 				console.error(error)
 				if (error.response.data.error === 'already_exists') {
-					showError(t('phonetrack', 'Session name already used'))
+					showError(t('phonetrack', 'This session name already used'))
 				} else {
-					showError(t('phonetrack', 'Failed to create session'))
+					showError(t('phonetrack', 'Failed to create the session'))
 				}
 			})
 		},
@@ -558,7 +573,7 @@ export default {
 				return response
 			} catch (error) {
 				console.error(error)
-				showError(t('phonetrack', 'Failed to save session'))
+				showError(t('phonetrack', 'Failed to save the session'))
 				throw error
 			}
 		},
@@ -875,7 +890,7 @@ export default {
 				return response
 			} catch (error) {
 				console.error(error)
-				showError(t('phonetrack', 'Failed to save device'))
+				showError(t('phonetrack', 'Failed to save the device'))
 				throw error
 			}
 		},
@@ -908,7 +923,7 @@ export default {
 				.then((response) => {
 					this.state.settings.extra_tile_servers.push(response.data)
 				}).catch((error) => {
-					showError(t('phonetrack', 'Failed to add tile server'))
+					showError(t('phonetrack', 'Failed to add the tile server'))
 					console.debug(error)
 				})
 		},
@@ -977,7 +992,7 @@ export default {
 				this.state.sessions[data.sessionId].devices[data.deviceId].geofences[response.data.id] = response.data
 				console.debug('[phonetrack] new geofence list', this.state.sessions[data.sessionId].devices[data.deviceId].geofences)
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to create geofence'))
+				showError(t('phonetrack', 'Failed to create the geofence'))
 				console.debug(error)
 			})
 		},
@@ -993,7 +1008,7 @@ export default {
 			axios.put(url, req).then((response) => {
 				this.state.sessions[data.sessionId].devices[data.deviceId].geofences[data.geofence.id] = response.data
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to save geofence'))
+				showError(t('phonetrack', 'Failed to save the geofence'))
 				console.debug(error)
 			})
 		},
@@ -1020,7 +1035,7 @@ export default {
 				this.state.sessions[data.sessionId].devices[data.deviceId].proxims[response.data.id] = response.data
 				console.debug('[phonetrack] new proxim list', this.state.sessions[data.sessionId].devices[data.deviceId].proxims)
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to create proximity alert'))
+				showError(t('phonetrack', 'Failed to create the proximity alert'))
 				console.debug(error)
 			})
 		},
@@ -1037,7 +1052,7 @@ export default {
 			axios.put(url, req).then((response) => {
 				this.state.sessions[data.sessionId].devices[data.deviceId].proxims[data.proxim.id] = response.data
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to save proximity alert'))
+				showError(t('phonetrack', 'Failed to save the proximity alert'))
 				console.debug(error)
 			})
 		},
@@ -1100,7 +1115,7 @@ export default {
 					return response
 				})
 				.catch(error => {
-					console.error('Failed to get device points', error)
+					console.error('Failed to get the device points', error)
 				})
 		},
 		getMoreDevicePoints(sessionId, deviceId) {
@@ -1149,7 +1164,7 @@ export default {
 					return response
 				})
 				.catch(error => {
-					console.error('Failed to get device points', error)
+					console.error('Failed to get the device points', error)
 				})
 		},
 		onRefreshClicked() {

@@ -254,11 +254,11 @@ export default {
 						)
 					}
 				} else {
-					showError(t('phonetrack', 'Failed to export session'))
+					showError(t('phonetrack', 'Failed to export the session'))
 				}
 			}).catch((error) => {
 				console.error(error)
-				showError(t('phonetrack', 'Failed to export session'))
+				showError(t('phonetrack', 'Failed to export the session'))
 			})
 		},
 		onAutoExportSelected(option) {
@@ -274,7 +274,7 @@ export default {
 			axios.post(url).then((response) => {
 				emit('new-name-reservation', { sessionId: this.session.id, device: response.data })
 			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to add name reservation'))
+				showError(t('phonetrack', 'Failed to add the name reservation'))
 				console.error(error)
 			})
 		},

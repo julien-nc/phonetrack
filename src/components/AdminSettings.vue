@@ -202,7 +202,7 @@ export default {
 				.then((response) => {
 					this.state.extra_tile_servers.push(response.data)
 				}).catch((error) => {
-					showError(t('phonetrack', 'Failed to add tile server'))
+					showError(t('phonetrack', 'Failed to add the tile server'))
 					console.debug(error)
 				})
 		},

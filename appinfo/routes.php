@@ -14,6 +14,7 @@ return [
 	'routes' => [
 		['name' => 'page#index', 'url' => '/vue', 'verb' => 'GET'],
 		['name' => 'page#createSession', 'url' => '/session', 'verb' => 'POST'],
+		['name' => 'page#importSession', 'url' => '/import-session', 'verb' => 'POST'],
 		['name' => 'page#deleteSession', 'url' => '/session/{sessionId}', 'verb' => 'DELETE'],
 		['name' => 'page#updateSession', 'url' => '/session/{sessionId}', 'verb' => 'PUT'],
 		['name' => 'page#deleteDevice', 'url' => '/session/{sessionId}/device/{deviceId}', 'verb' => 'DELETE'],

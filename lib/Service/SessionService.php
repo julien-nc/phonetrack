@@ -48,6 +48,7 @@ class SessionService {
 		private ProximMapper $proximMapper,
 		private ShareMapper $shareMapper,
 		private PointMapper $pointMapper,
+		private ImportGpxService $importGpxService,
 		private IUserManager $userManager,
 		private IDBConnection $db,
 		private IRootFolder $root,
@@ -643,24 +644,6 @@ class SessionService {
 		return $gpxText;
 	}
 
-	private function countPointsPerDevice($devid, $filterSql) {
-		$sqlget = '
-			SELECT count(*) AS co
-			FROM *PREFIX*phonetrack_points
-			WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ';
-		if ($filterSql !== '') {
-			$sqlget .= 'AND ' . $filterSql;
-		}
-		$sqlget .= ' ;';
-		$req = $this->db->prepare($sqlget);
-		$req->execute();
-		$nbPoints = 0;
-		while ($row = $req->fetch()) {
-			$nbPoints = intval($row['co']);
-		}
-		return $nbPoints;
-	}
-
 	/**
 	 * @param int $devid
 	 * @param string $devname
@@ -920,7 +903,7 @@ class SessionService {
 		return $proxims;
 	}
 
-	private function serializeSession(Session $session): array {
+	public function serializeSession(Session $session): array {
 		$json = $session->jsonSerialize();
 		$json['shares'] = $this->getSessionShares($session->getToken());
 		$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getId());
@@ -1039,5 +1022,72 @@ class SessionService {
 			$points['before'] = $this->pointMapper->getDevicePoints($deviceId, null, $maxTimestamp, $maxPoints - count($points['after']));
 		}
 		return $points;
+	}
+
+	public function createSession(string $userId, string $name): Session {
+		// check if session name is not already used
+		try {
+			$session = $this->sessionMapper->getUserSessionByName($userId, $name);
+			throw new \Exception('already_exists');
+		} catch (DoesNotExistException $e) {
+		}
+
+		// determine token
+		$token = md5($userId . $name . rand());
+		$publicViewToken = md5($userId . $name . rand());
+
+		return $this->sessionMapper->createSession($userId, $name, $token, $publicViewToken, true);
+	}
+
+	public function importSession(string $userId, string $path): Session {
+		$userFolder = $this->root->getUserFolder($userId);
+		$cleanPath = str_replace(['../', '..\\'], '', $path);
+
+		if (!$userFolder->nodeExists($cleanPath)) {
+			throw new \Exception('file_not_found');
+		}
+		$file = $userFolder->get($cleanPath);
+		if (!($file instanceof File) || !$file->isReadable()) {
+			throw new \Exception('file_not_readable');
+		}
+		if (str_ends_with($file->getName(), '.gpx') || str_ends_with($file->getName(), '.GPX')) {
+			$sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
+			$session = $this->createSession($userId, $sessionName);
+			try {
+				$this->importGpxService->importGpx($file, $session->getId(), $session->getToken());
+			} catch (\Exception|\Throwable $e) {
+				$this->deleteSession($session);
+				throw $e;
+			}
+		} else {
+			throw new \Exception('invalid_format');
+		}
+		/*
+		} elseif (str_ends_with($file->getName(), '.kml') || str_ends_with($file->getName(), '.KML')) {
+			$sessionName = str_replace(['.kml', '.KML'], '', $file->getName());
+			$session = $this->createSession($userId, $sessionName);
+			$this->readKmlImportPoints($file, $session->getId());
+		} elseif (str_ends_with($file->getName(), '.json') || str_ends_with($file->getName(), '.JSON')) {
+			$sessionName = str_replace(['.json', '.JSON'], '', $file->getName());
+			$session = $this->createSession($userId, $sessionName);
+			$this->readJsonImportPoints($file, $session->getId());
+		} else {
+			throw new \Exception('invalid_format');
+		}
+		*/
+
+		return $session;
+	}
+
+	public function deleteSession(Session $session): void {
+		$devices = $this->deviceMapper->findBySessionId($session->getId());
+		foreach ($devices as $device) {
+			$deviceId = $device->getId();
+			$this->pointMapper->deleteByDeviceId($deviceId);
+			$this->geofenceMapper->deleteByDeviceId($deviceId);
+			$this->proximMapper->deleteByDeviceId($deviceId);
+			$this->deviceMapper->delete($device);
+		}
+		$this->sessionMapper->deleteSession($session->getUser(), $session->getId());
 	}
 }

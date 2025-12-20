@@ -136,51 +136,46 @@ class PageController extends Controller {
 	/**
 	 * @param string $name
 	 * @return DataResponse
-	 * @throws MultipleObjectsReturnedException
-	 * @throws Exception
 	 */
 	#[NoAdminRequired]
 	public function createSession(string $name): DataResponse {
-		// check if session name is not already used
 		try {
-			$session = $this->sessionMapper->getUserSessionByName($this->userId, $name);
-			return new DataResponse(['error' => 'already_exists'], Http::STATUS_BAD_REQUEST);
-		} catch (DoesNotExistException $e) {
+			$newSession = $this->sessionService->createSession($this->userId, $name);
+			return new DataResponse($this->sessionService->serializeSession($newSession));
+		} catch (\Exception $e) {
+			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
+	}
 
-		// determine token
-		$token = md5($this->userId . $name . rand());
-		$publicViewToken = md5($this->userId . $name . rand());
-
-		$newSession = $this->sessionMapper->createSession($this->userId, $name, $token, $publicViewToken, true);
-		$newSession = $newSession->jsonSerialize();
-		$newSession['shared_with'] = [];
-		$newSession['reserved_names'] = [];
-		$newSession['public_shares'] = [];
-		$newSession['devices'] = [];
-		return new DataResponse($newSession);
+	/**
+	 * @param string $path
+	 * @return DataResponse
+	 */
+	#[NoAdminRequired]
+	public function importSession(string $path): DataResponse {
+//		try {
+			$newSession = $this->sessionService->importSession($this->userId, $path);
+			return new DataResponse($this->sessionService->serializeSession($newSession));
+//		} catch (\Exception|\Throwable $e) {
+//			return new DataResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+//		}
 	}
 
 	/**
 	 * @param int $sessionId
 	 * @return DataResponse
-	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
 	#[NoAdminRequired]
 	public function deleteSession(int $sessionId): DataResponse {
 		// get session to check permission
-		$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
-		$devices = $this->deviceMapper->findBySessionId($sessionId);
-		foreach ($devices as $device) {
-			$deviceId = $device->getId();
-			$this->pointMapper->deleteByDeviceId($deviceId);
-			$this->geofenceMapper->deleteByDeviceId($deviceId);
-			$this->proximMapper->deleteByDeviceId($deviceId);
-			$this->deviceMapper->delete($device);
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'session_not_found'], Http::STATUS_BAD_REQUEST);
 		}
-		$this->sessionMapper->deleteSession($this->userId, $sessionId);
+		$this->sessionService->deleteSession($session);
 		return new DataResponse([]);
 	}
 
