@@ -319,4 +319,38 @@ class PointMapper extends QBMapper {
 		$res = $req->execute([$userId]);
 		return $res->rowCount();
 	}
+
+	/**
+	 * @param list<array> $points
+	 * @return void
+	 * @throws Exception
+	 * @throws \Throwable
+	 */
+	public function storePoints(array $points): void {
+		// this is the fastest way to insert multiple rows at once
+		// faster than a transaction with individual entity inserts
+		$flatPoints = array_map(function (array $point) {
+			return '(' . implode(',', [
+				$this->db->quote($point[0], IQueryBuilder::PARAM_INT),
+				$this->db->quote($point[2]),
+				$this->db->quote($point[3]),
+				$this->db->quote($point[1], IQueryBuilder::PARAM_INT),
+				$point[10] ? $this->db->quote($point[10]) : 'NULL',
+				$point[6] ? $this->db->quote($point[6]) : 'NULL',
+				$point[4] ? $this->db->quote($point[4]) : 'NULL',
+				$point[9] ? $this->db->quote($point[9]) : 'NULL',
+				$point[8] ? $this->db->quote($point[8]) : 'NULL',
+				$point[5] ? $this->db->quote($point[5]) : 'NULL',
+				$point[7] ? $this->db->quote($point[7]) : 'NULL',
+			]) . ')';
+		}, $points);
+		$sql = 'INSERT INTO *PREFIX*phonetrack_points
+				(deviceid, lat, lon, timestamp,
+				 accuracy, satellites, altitude, batterylevel,
+				 useragent, speed, bearing)
+				VALUES ' . implode(',', $flatPoints) . ' ;';
+		$req = $this->db->prepare($sql);
+		$res = $req->execute();
+		$res->closeCursor();
+	}
 }

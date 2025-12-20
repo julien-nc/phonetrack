@@ -20,7 +20,7 @@ class ImportGpxService {
 	private string $currentXmlTag;
 	private int $pointIndex;
 	private array $currentPointList;
-	private Point $currentPoint;
+	private array $currentPoint;
 	private Device $currentDevice;
 	private array $tagStack = [];
 
@@ -65,19 +65,6 @@ class ImportGpxService {
 		}
 	}
 
-	private function storePoints(): void {
-		$this->db->beginTransaction();
-		try {
-			foreach ($this->currentPointList as $point) {
-				$this->pointMapper->insert($point);
-			}
-			$this->db->commit();
-		} catch (\Exception|\Throwable $e) {
-			$this->db->rollBack();
-			throw $e;
-		}
-	}
-
 	public function gpxStartElement(XMLParser $parser, string $name, array $attrs): void {
 		$this->currentXmlTag = $name;
 		$this->tagStack[] = $name;
@@ -90,14 +77,24 @@ class ImportGpxService {
 			$this->pointIndex = 1;
 			$this->currentPointList = [];
 		} elseif ($name === 'TRKPT') {
-			$this->currentPoint = new Point();
-			$this->currentPoint->setDeviceid($this->currentDevice->getId());
-			$this->currentPoint->setTimestamp($this->pointIndex);
+			$this->currentPoint = [
+				$this->currentDevice->getId(),
+				$this->pointIndex,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+			];
 			if (array_key_exists('LAT', $attrs)) {
-				$this->currentPoint->setLat((float)$attrs['LAT']);
+				$this->currentPoint[2] = (float)$attrs['LAT'];
 			}
 			if (array_key_exists('LON', $attrs)) {
-				$this->currentPoint->setLon((float)$attrs['LON']);
+				$this->currentPoint[3] = (float)$attrs['LON'];
 			}
 		}
 	}
@@ -107,7 +104,7 @@ class ImportGpxService {
 		if ($name === 'TRK') {
 			// log last track points
 			if (count($this->currentPointList) > 0) {
-				$this->storePoints();
+				$this->pointMapper->storePoints($this->currentPointList);
 			}
 			$this->trackIndex++;
 			unset($this->currentPointList);
@@ -115,8 +112,8 @@ class ImportGpxService {
 			// store track point
 			$this->currentPointList[] = $this->currentPoint;
 			// if we have enough points, we store them and clean the points array
-			if (count($this->currentPointList) >= 5000) {
-				$this->storePoints();
+			if (count($this->currentPointList) >= 1000) {
+				$this->pointMapper->storePoints($this->currentPointList);
 				unset($this->currentPointList);
 				$this->currentPointList = [];
 			}
@@ -128,22 +125,22 @@ class ImportGpxService {
 		$textContent = trim($data);
 		if (!empty($textContent)) {
 			if ($this->currentXmlTag === 'ELE') {
-				$this->currentPoint->setAltitude((float)$textContent);
+				$this->currentPoint[4] = (float)$textContent;
 			} elseif ($this->currentXmlTag === 'SPEED') {
-				$this->currentPoint->setSpeed((float)$textContent);
+				$this->currentPoint[5] = (float)$textContent;
 			} elseif ($this->currentXmlTag === 'SAT') {
-				$this->currentPoint->setSatellites((int)$textContent);
+				$this->currentPoint[6] = (int)$textContent;
 			} elseif ($this->currentXmlTag === 'COURSE') {
-				$this->currentPoint->setBearing((float)$textContent);
+				$this->currentPoint[7] = (float)$textContent;
 			} elseif ($this->currentXmlTag === 'USERAGENT') {
-				$this->currentPoint->setUseragent($textContent);
+				$this->currentPoint[8] = $textContent;
 			} elseif ($this->currentXmlTag === 'BATTERYLEVEL') {
-				$this->currentPoint->setBatterylevel((float)$textContent);
+				$this->currentPoint[9] = (float)$textContent;
 			} elseif ($this->currentXmlTag === 'ACCURACY') {
-				$this->currentPoint->setAccuracy((float)$textContent);
+				$this->currentPoint[10] = (float)$textContent;
 			} elseif ($this->currentXmlTag === 'TIME' && $this->tagStack[count($this->tagStack) - 2] === 'TRKPT') {
 				$time = new DateTime($textContent);
-				$this->currentPoint->setTimestamp($time->getTimestamp());
+				$this->currentPoint[1] = $time->getTimestamp();
 			} elseif ($this->currentXmlTag === 'NAME' && $this->tagStack[count($this->tagStack) - 2] === 'TRK') {
 				$this->currentDevice->setName($textContent);
 				$this->deviceMapper->update($this->currentDevice);

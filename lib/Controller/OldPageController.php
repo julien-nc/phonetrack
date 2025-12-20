@@ -2277,7 +2277,7 @@ class OldPageController extends Controller {
 			// store track point
 			array_push($this->currentPointList, $this->currentPoint);
 			// if we have enough points, we log them and clean the points array
-			if (count($this->currentPointList) >= 100) {
+			if (count($this->currentPointList) >= 1000) {
 				$this->logMultiple($this->importToken, $this->importDevName, $this->currentPointList);
 				unset($this->currentPointList);
 				$this->currentPointList = [];
