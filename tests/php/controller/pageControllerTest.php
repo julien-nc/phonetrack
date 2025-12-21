@@ -114,6 +114,7 @@ class PageControllerTest extends TestCase {
 			Server::get(IRootFolder::class),
 			Server::get(IConfig::class),
 			Server::get(IAppConfig::class),
+			Server::get(LoggerInterface::class),
 		);
 
 		$this->activityManager = new ActivityManager(

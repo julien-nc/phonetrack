@@ -148,16 +148,16 @@ class DeviceMapper extends QBMapper {
 		$qb->executeStatement();
 	}
 
-	public function deleteDevicePoints(int $deviceId) {
+	public function deleteDevicePoints(int $deviceId): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('phonetrack_points')
 			->where(
 				$qb->expr()->eq('deviceid', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
 			);
-		$qb->executeStatement();
+		return $qb->executeStatement();
 	}
 
-	public function deletePointsOlderThan(int $deviceId, int $timestamp) {
+	public function deletePointsOlderThan(int $deviceId, int $timestamp): int {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('phonetrack_points')
 			->where(
@@ -166,7 +166,7 @@ class DeviceMapper extends QBMapper {
 			->andWhere(
 				$qb->expr()->lt('timestamp', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
 			);
-		$qb->executeStatement();
+		return $qb->executeStatement();
 	}
 
 	public function countDevicesPerSession(string $token): int {
@@ -292,5 +292,25 @@ class DeviceMapper extends QBMapper {
 
 		$res = $qb->executeQuery();
 		return (string)$res->fetchOne();
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @return Device[]
+	 * @throws Exception
+	 */
+	public function getDevicesWithPointsInSession(int $sessionId): array {
+		$qb = $this->db->getQueryBuilder();
+		$qb->select('dev.*')
+			->from($this->getTableName(), 'dev')
+			->from('phonetrack_points', 'po')
+			->where(
+				$qb->expr()->eq('dev.session_id', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_INT))
+			)
+			->andWhere(
+				$qb->expr()->eq('dev.id', 'po.deviceid')
+			)
+			->groupBy('dev.id');
+		return $this->findEntities($qb);
 	}
 }

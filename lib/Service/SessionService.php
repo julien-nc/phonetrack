@@ -14,6 +14,7 @@ namespace OCA\PhoneTrack\Service;
 
 use DateTime;
 use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\Device;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\GeofenceMapper;
 use OCA\PhoneTrack\Db\PointMapper;
@@ -34,6 +35,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 
 use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 use stdClass;
 
 class SessionService {
@@ -54,6 +56,7 @@ class SessionService {
 		private IRootFolder $root,
 		private IConfig $config,
 		private IAppConfig $appConfig,
+		private LoggerInterface $logger,
 	) {
 		$this->appVersion = $this->appConfig->getValueString(Application::APP_ID, 'installed_version');
 	}
@@ -212,11 +215,10 @@ class SessionService {
 
 		date_default_timezone_set('UTC');
 
-		foreach ($this->userManager->search('') as $u) {
-			$userId = $u->getUID();
-			$userFolder = $this->root->getUserFolder($userId);
+		$phonetrackUserIds = $this->sessionMapper->getUserIds();
 
-			/** @var Session[] $sessions */
+		foreach ($phonetrackUserIds as $userId) {
+			$userFolder = $this->root->getUserFolder($userId);
 			$sessions = $this->sessionMapper->findByUser($userId);
 
 			foreach ($sessions as $session) {
@@ -241,7 +243,7 @@ class SessionService {
 					$rel_path = str_replace($userFolder->getPath(), '', $dir->getPath());
 					$exportPath = $rel_path . '/' . $exportName;
 					if (!$dir->nodeExists($exportName)) {
-						$this->export($dbname, $dbtoken, $exportPath, $userId, $filters);
+						$this->exportSession($dbname, $dbtoken, $exportPath, $userId, $filters);
 					}
 				}
 			}
@@ -251,7 +253,7 @@ class SessionService {
 		$this->cronAutoPurge();
 	}
 
-	public function export(string $name, string $token, string $target, string $username = '', ?array $filters = null) {
+	public function exportSession(string $name, string $token, string $target, string $username = '', ?array $filters = null) {
 		date_default_timezone_set('UTC');
 		$done = false;
 		$warning = 0;
@@ -301,15 +303,21 @@ class SessionService {
 			if ($filePossible) {
 				// check if session exists
 				$sessionToken = null;
+				$sessionId = null;
 				try {
 					$dbSession = $this->sessionMapper->findByToken($token);
 					$sessionToken = $token;
+					$sessionId = $dbSession->getId();
 				} catch (DoesNotExistException $e) {
 				}
 
 				// if not, check it is a shared session
 				if ($sessionToken === null) {
-					$sessionToken = $this->sessionMapper->isSharedWith($token, $userId);
+					$isShared = $this->sessionMapper->isSharedWith($token, $userId);
+					if ($isShared) {
+						$sessionToken = $isShared['session_token'];
+						$sessionId = $isShared['session_id'];
+					}
 				}
 
 				// session exists
@@ -317,17 +325,7 @@ class SessionService {
 					// indexed by track name
 					$coords = [];
 					// get list of all devices which have points in this session (without filters)
-					$devices = [];
-					$sqldev = '
-						SELECT dev.id AS id, dev.name AS name
-						FROM *PREFIX*phonetrack_devices AS dev, *PREFIX*phonetrack_points AS po
-						WHERE dev.session_token=' . $this->db_quote_escape_string($sessionToken) . ' AND dev.id = po.deviceid GROUP BY dev.id;';
-					$req = $this->db->prepare($sqldev);
-					$res = $req->execute();
-					while ($row = $res->fetch()) {
-						$devices[] = [$row['id'], $row['name']];
-					}
-					$res->closeCursor();
+					$devices = $this->deviceMapper->getDevicesWithPointsInSession($sessionId);
 
 					// get the coords for each device
 					$result[$name] = [];
@@ -354,18 +352,18 @@ class SessionService {
 							$fd = $file->fopen('w');
 							fwrite($fd, $gpxHeader);
 						}
-						foreach ($devices as $d) {
-							$devid = $d[0];
-							$devname = $d[1];
+						foreach ($devices as $device) {
+							$deviceId = $device->getId();
+							$deviceName = $device->getName();
 
 							// check if there are coords for this device (with filters)
-							$nbPoints = $this->deviceMapper->countPointsPerDevice($devid, $filters);
+							$nbPoints = $this->deviceMapper->countPointsPerDevice($deviceId, $filters);
 							if ($nbPoints > 0) {
 								// generate a file for this device if needed
 								if ($oneFilePerDevice) {
 									$gpxHeader = $this->generateGpxHeader($name);
 									// generate file name for this device
-									$devFileName = str_replace(['.gpx', '.GPX'], '_' . $devname . '.gpx', $newFileName);
+									$devFileName = str_replace(['.gpx', '.GPX'], '_' . $deviceName . '.gpx', $newFileName);
 									if (!$dir->nodeExists($devFileName)) {
 										$dir->newFile($devFileName);
 									}
@@ -374,7 +372,7 @@ class SessionService {
 									fwrite($fd, $gpxHeader);
 								}
 
-								$this->getAndWriteDevicePoints($devid, $devname, $filters, $fd, $nbPoints);
+								$this->getAndWriteDevicePoints($deviceId, $deviceName, $filters, $fd, $nbPoints);
 
 								if ($oneFilePerDevice) {
 									fwrite($fd, '</gpx>');

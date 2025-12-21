@@ -2488,7 +2488,7 @@ class OldPageController extends Controller {
 		$done = false;
 		if ($this->userId !== null && $this->userId !== '') {
 			$userId = $this->userId;
-			$doneAndWarning = $this->sessionService->export($name, $token, $target, $userId, $filterArray);
+			$doneAndWarning = $this->sessionService->exportSession($name, $token, $target, $userId, $filterArray);
 			$done = $doneAndWarning[0];
 			$warning = $doneAndWarning[1];
 		}

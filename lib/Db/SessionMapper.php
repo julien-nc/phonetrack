@@ -38,6 +38,22 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
+	 * @return list<string>
+	 * @throws Exception
+	 */
+	public function getUserIds(): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('user')
+			->from($this->getTableName())
+			->groupBy('user');
+
+		$res = $qb->executeQuery();
+		$all = $res->fetchAll();
+		return array_column($all, 'user');
+	}
+
+	/**
 	 * @param string $token
 	 * @param string|null $userId
 	 * @return Session
@@ -234,25 +250,28 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
-	 * @param string $token
+	 * @param string $shareToken
 	 * @param string $userId
-	 * @return string|null
+	 * @return array|null
 	 * @throws Exception
 	 */
-	public function isSharedWith(string $token, string $userId): ?string {
+	public function isSharedWith(string $shareToken, string $userId): ?array {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('*')
+		$qb->select('session_token', 'session_id')
 			->from('phonetrack_shares')
 			->where(
-				$qb->expr()->eq('sharetoken', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('sharetoken', $qb->createNamedParameter($shareToken, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('username', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			return $row['session_token'];
+			return [
+				'session_token' => $row['session_token'],
+				'session_id' => $row['session_id'],
+			];
 		}
 
 		return null;
