@@ -182,7 +182,7 @@ class ActivityManager {
 		switch ($event->getObjectType()) {
 			case self::PHONETRACK_OBJECT_DEVICE:
 				$mapper = $this->deviceMapper;
-				$token = $mapper->find($event->getObjectId())->getSessionToken();
+				$token = $mapper->find(intval($event->getObjectId()))->getSessionToken();
 				$sessionId = $this->sessionMapper->findByToken($token)->getId();
 				break;
 			case self::PHONETRACK_OBJECT_SESSION:

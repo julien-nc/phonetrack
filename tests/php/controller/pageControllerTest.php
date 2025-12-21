@@ -29,6 +29,7 @@ use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
 use OCA\PhoneTrack\Db\ShareMapper;
 use OCA\PhoneTrack\Db\TileServerMapper;
+use OCA\PhoneTrack\Service\ImportGpxService;
 use OCA\PhoneTrack\Service\SessionService;
 use OCA\PhoneTrack\Service\ToolsService;
 use OCP\Activity\IManager as IActivityManager;
@@ -107,6 +108,7 @@ class PageControllerTest extends TestCase {
 			Server::get(ProximMapper::class),
 			Server::get(ShareMapper::class),
 			Server::get(PointMapper::class),
+			Server::get(ImportGpxService::class),
 			Server::get(IUserManager::class),
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
