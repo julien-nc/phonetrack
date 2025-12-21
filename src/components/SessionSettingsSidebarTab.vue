@@ -12,11 +12,12 @@
 			<NcButton :title="t('phonetrack', 'Rename session')"
 				@click="onRename">
 				<template #icon>
-					<ContentSaveOutlineIcon />
+					<ContentSaveOutlineIcon :size="20" />
 				</template>
 			</NcButton>
 		</div>
 		<NcFormBoxSwitch :model-value="session.locked"
+			:title="t('phonetrack', 'Forbid devices to log to this session')"
 			@update:model-value="onLockedChanged">
 			<div class="checkbox-inner">
 				<LockIcon v-if="session.locked" :size="20" class="inline-icon" />
@@ -32,7 +33,7 @@
 				@keyup.enter="onExportSession" />
 			<NcButton @click="onExportSession">
 				<template #icon>
-					<ContentSaveOutlineIcon />
+					<ContentSaveOutlineIcon :size="20" />
 				</template>
 				{{ t('phonetrack', 'Export session') }}
 			</NcButton>

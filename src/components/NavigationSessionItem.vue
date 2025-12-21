@@ -1,4 +1,7 @@
 <template>
+	<!--
+		:editable="!extraActionsOpen && !sortActionsOpen"
+		-->
 	<NcAppNavigationItem
 		:name="session.name"
 		:title="sessionItemTitle"
@@ -10,7 +13,6 @@
 		:force-menu="true"
 		:force-display-actions="true"
 		:menu-open="menuOpen"
-		:editable="!extraActionsOpen && !sortActionsOpen"
 		:edit-label="t('phonetrack', 'Rename session')"
 		@click="onItemClick"
 		@update:name="onRename"

@@ -12,7 +12,7 @@
 			<NcButton :title="t('phonetrack', 'Rename device')"
 				@click="onRename">
 				<template #icon>
-					<ContentSaveOutlineIcon />
+					<ContentSaveOutlineIcon :size="20" />
 				</template>
 			</NcButton>
 		</div>
@@ -25,7 +25,7 @@
 			<NcButton :title="t('phonetrack', 'Set device alias')"
 				@click="onSetAlias">
 				<template #icon>
-					<ContentSaveOutlineIcon />
+					<ContentSaveOutlineIcon :size="20" />
 				</template>
 			</NcButton>
 		</div>
@@ -33,7 +33,7 @@
 			<NcButton v-if="!addingPoint"
 				@click="onAddPointClick">
 				<template #icon>
-					<PlusCircleOutlineIcon />
+					<PlusCircleOutlineIcon :size="20" />
 				</template>
 				{{ t('phonetrack', 'Manually add a point') }}
 			</NcButton>
@@ -41,7 +41,7 @@
 				variant="warning"
 				@click="onStopAddPointClick">
 				<template #icon>
-					<UndoIcon />
+					<UndoIcon :size="20" />
 				</template>
 				{{ t('phonetrack', 'Cancel adding the point') }}
 			</NcButton>
@@ -63,9 +63,86 @@
 				:disabled="selectedTargetSession === null"
 				@click="onMove">
 				<template #icon>
-					<ContentSaveOutlineIcon />
+					<ContentSaveOutlineIcon :size="20" />
 				</template>
 			</NcButton>
+		</div>
+		<div v-if="hasPoints"
+			class="links">
+			<hr>
+			<a :href="geoLink" target="_blank">
+				<NcButton>
+					<template #icon>
+						<OpenInAppIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Geo link to open position in another app/software') }}
+				</NcButton>
+			</a>
+			<NcButton @click="showQrcodeForLink = true">
+				<template #icon>
+					<QrcodeIcon :size="20" />
+				</template>
+				{{ t('phonetrack', 'Geo link QRcode to open position with a QRcode scanner') }}
+			</NcButton>
+			<a :href="graphhopperRoutingLink" target="_blank">
+				<NcButton>
+					<template #icon>
+						<MapMarkerPathIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Get driving direction to this device with {serviceName}', { serviceName: 'Graphhopper' }) }}
+				</NcButton>
+			</a>
+			<a :href="osrmRoutingLink" target="_blank">
+				<NcButton>
+					<template #icon>
+						<MapMarkerPathIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Get driving direction to this device with {serviceName}', { serviceName: 'Osrm' }) }}
+				</NcButton>
+			</a>
+			<a :href="orsRoutingLink" target="_blank">
+				<NcButton>
+					<template #icon>
+						<MapMarkerPathIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Get driving direction to this device with {serviceName}', { serviceName: 'OpenRouteService' }) }}
+				</NcButton>
+			</a>
+			<a :href="osmRoutingLink" target="_blank">
+				<NcButton>
+					<template #icon>
+						<MapMarkerPathIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Get driving direction to this device with {serviceName}', { serviceName: 'OpenStreetMap' }) }}
+				</NcButton>
+			</a>
+			<NcModal v-if="showQrcodeForLink"
+				size="normal"
+				@close="showQrcodeForLink = null">
+				<div class="qrcode-modal-content">
+					<div class="qrcode-wrapper">
+						<QRCode render="svg"
+							:link="geoLink"
+							:fgcolor="qrcodeColor"
+							:image-url="defaultQrcodeImageUrl"
+							:rounded="100" />
+					</div>
+					<hr>
+					<p class="qrcode-explanation">
+						{{ t('phonetrack', 'Scan this QRCode to open the last device position with another app') }}
+					</p>
+					<hr>
+					<NcTextField
+						:model-value="geoLink"
+						:label="t('phonetrack', 'QRCode content')"
+						:title="geoLink"
+						:readonly="true">
+						<template #icon>
+							<LinkVariantIcon :size="20" />
+						</template>
+					</NcTextField>
+				</div>
+			</NcModal>
 		</div>
 	</div>
 </template>
@@ -74,26 +151,41 @@
 import ContentSaveOutlineIcon from 'vue-material-design-icons/ContentSaveOutline.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import PlusCircleOutlineIcon from 'vue-material-design-icons/PlusCircleOutline.vue'
+import MapMarkerPathIcon from 'vue-material-design-icons/MapMarkerPath.vue'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
+import QrcodeIcon from 'vue-material-design-icons/Qrcode.vue'
+import OpenInAppIcon from 'vue-material-design-icons/OpenInApp.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import NcModal from '@nextcloud/vue/components/NcModal'
+
+import QRCode from './QRCode.vue'
 
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
+import { getComplementaryColor, hexToDarkerHex } from '../utils.js'
 
 export default {
 	name: 'DeviceDetailsSidebarTab',
 
 	components: {
+		QRCode,
 		ContentSaveOutlineIcon,
 		UndoIcon,
 		PlusCircleOutlineIcon,
+		MapMarkerPathIcon,
+		LinkVariantIcon,
+		QrcodeIcon,
+		OpenInAppIcon,
 		NcButton,
 		NcTextField,
 		NcNoteCard,
 		NcSelect,
+		NcModal,
 	},
 
 	inject: [
@@ -124,6 +216,12 @@ export default {
 			newDeviceName: this.device.name,
 			newDeviceAlias: this.device.alias ?? '',
 			selectedTargetSession: null,
+			showQrcodeForLink: false,
+			qrcodeColor: OCA.Phonetrack.themeColorDark,
+			defaultQrcodeImageUrl: generateUrl(
+				'/apps/phonetrack/svg/phonetrack_square_bg?color='
+				+ hexToDarkerHex(getComplementaryColor(OCA.Phonetrack.themeColorDark)).replace('#', ''),
+			),
 		}
 	},
 
@@ -132,6 +230,41 @@ export default {
 			return Object.values(this.sessions())
 				.filter(s => s.user === getCurrentUser().uid)
 				.filter(s => s.id !== this.session.id)
+		},
+		hasPoints() {
+			return this.device.points.length > 0
+		},
+		graphhopperRoutingLink() {
+			const lastPoint = this.device.points[this.device.points.length - 1]
+			const lat = lastPoint.lat
+			const lon = lastPoint.lon
+			return 'https://graphhopper.com/maps/?point=::where_are_you::&'
+				+ 'point=' + lat + '%2C' + lon + '&locale=fr&vehicle=car&'
+				+ 'weighting=fastest&elevation=true&use_miles=false&layer=Omniscale'
+		},
+		osrmRoutingLink() {
+			const lastPoint = this.device.points[this.device.points.length - 1]
+			const lat = lastPoint.lat
+			const lon = lastPoint.lon
+			return 'https://map.project-osrm.org/?z=12&center=' + lat + '%2C' + lon + '&loc=0.000000%2C0.000000&loc=' + lat + '%2C' + lon + '&hl=en&alt=0'
+		},
+		orsRoutingLink() {
+			const lastPoint = this.device.points[this.device.points.length - 1]
+			const lat = lastPoint.lat
+			const lon = lastPoint.lon
+			return 'https://maps.openrouteservice.org/directions?n1=' + lat + '&n2=' + lon + '&n3=12&a=null,null,' + lat + ',' + lon + '&b=0&c=0&k1=en-US&k2=km'
+		},
+		osmRoutingLink() {
+			const lastPoint = this.device.points[this.device.points.length - 1]
+			const lat = lastPoint.lat
+			const lon = lastPoint.lon
+			return 'https://www.openstreetmap.org/directions?route=0%2C0%3B' + lat + '%2C' + lon + '#map=15/' + lat + '/' + lon
+		},
+		geoLink() {
+			const lastPoint = this.device.points[this.device.points.length - 1]
+			const lat = lastPoint.lat
+			const lon = lastPoint.lon
+			return 'geo:' + lat + ',' + lon
 		},
 	},
 
@@ -191,6 +324,11 @@ export default {
 	h3 {
 		font-weight: bold;
 		text-align: center;
+		margin-top: 0;
+	}
+
+	hr {
+		width: 100%;
 	}
 
 	.line {
@@ -199,8 +337,28 @@ export default {
 		align-items: end;
 	}
 
+	.links {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
 	.session-select {
 		margin-bottom: 0 !important;
+		flex-grow: 1;
+	}
+}
+
+.qrcode-modal-content {
+	margin: 12px;
+	.qrcode-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.qrcode-explanation {
+		overflow-wrap: anywhere;
+		user-select: text;
 	}
 }
 </style>
