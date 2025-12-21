@@ -1,6 +1,7 @@
 <template>
 	<NcModal
 		:name="t('phonetrack', 'Create new session')"
+		:close-on-click-outside="true"
 		@close="$emit('close')">
 		<div class="creation-modal-content">
 			<h2>{{ t('phonetrack', 'Create new session') }}</h2>

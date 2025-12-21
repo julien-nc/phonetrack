@@ -5,119 +5,149 @@
 		@close="$emit('close')">
 		<div class="filters-modal-content">
 			<h2>{{ t('phonetrack', 'Point filters') }}</h2>
-			<NcFormBox>
-				<NcFormBoxSwitch :model-value="settings.applyfilters === 'true'"
-					@update:model-value="onCheckboxChanged($event, 'applyfilters')">
-					<div class="checkbox-inner">
-						<FilterIcon :size="20" class="inline-icon" />
-						{{ t('phonetrack', 'Use filters') }}
-					</div>
-				</NcFormBoxSwitch>
-				<div class="field-group">
-					<NcDateTimePickerNative
-						v-model="filters.timestampmin"
-						class="datetime-picker"
-						type="datetime-local"
-						:label="t('phonetrack', 'Minimum date')"
-						:disabled="settings.applyfilters !== 'true'"
-						@change="onUpdateDate('min')" />
-					<NcButton class="wide"
+			<NcFormBoxSwitch :model-value="settings.applyfilters === 'true'"
+				@update:model-value="onCheckboxChanged($event, 'applyfilters')">
+				<div class="checkbox-inner">
+					<FilterIcon :size="20" class="inline-icon" />
+					{{ t('phonetrack', 'Use filters') }}
+				</div>
+			</NcFormBoxSwitch>
+			<div class="field-group">
+				<NcDateTimePickerNative
+					v-model="filters.timestampmin"
+					class="datetime-picker"
+					type="datetime-local"
+					:label="t('phonetrack', 'Minimum date')"
+					:disabled="settings.applyfilters !== 'true'"
+					@change="onUpdateDate('min')" />
+				<div class="line">
+					<NcButton
+						@click="onAddTimestamp('min', -60 * 60 * 24)">
+						{{ t('phonetrack', '- 1 day') }}
+						<template #icon>
+							<CalendarMinusOutlineIcon :size="20" />
+						</template>
+					</NcButton>
+					<NcButton
 						@click="filters.timestampmin = new Date(); onUpdateDate('min')">
-						{{ t('phonetrack', 'Set minimum date to now') }}
+						{{ t('phonetrack', 'Now') }}
 						<template #icon>
 							<CalendarTodayOutlineIcon :size="20" />
 						</template>
 					</NcButton>
-					<NcDateTimePickerNative
-						v-model="filters.timestampmax"
-						class="datetime-picker"
-						type="datetime-local"
-						:label="t('phonetrack', 'Maximum date')"
-						:disabled="settings.applyfilters !== 'true'"
-						@change="onUpdateDate('max')" />
-					<NcButton class="wide"
+					<NcButton
+						@click="onAddTimestamp('min', 60 * 60 * 24)">
+						{{ t('phonetrack', '+ 1 day') }}
+						<template #icon>
+							<CalendarPlusOutlineIcon :size="20" />
+						</template>
+					</NcButton>
+				</div>
+				<NcDateTimePickerNative
+					v-model="filters.timestampmax"
+					class="datetime-picker"
+					type="datetime-local"
+					:label="t('phonetrack', 'Maximum date')"
+					:disabled="settings.applyfilters !== 'true'"
+					@change="onUpdateDate('max')" />
+				<div class="line">
+					<NcButton
+						@click="onAddTimestamp('max', -60 * 60 * 24)">
+						{{ t('phonetrack', '- 1 day') }}
+						<template #icon>
+							<CalendarMinusOutlineIcon :size="20" />
+						</template>
+					</NcButton>
+					<NcButton
 						@click="filters.timestampmax = new Date(); onUpdateDate('max')">
-						{{ t('phonetrack', 'Set maximum date to now') }}
+						{{ t('phonetrack', 'Now') }}
 						<template #icon>
 							<CalendarTodayOutlineIcon :size="20" />
 						</template>
 					</NcButton>
-				</div>
-				<div v-for="f in floatFields"
-					:key="f.key"
-					class="field-group">
-					<NcInputField
-						v-model="filters[f.key + 'min']"
-						type="number"
-						:label="t('phonetrack', 'Minimum {filterLabel}', { filterLabel: f.label }) + (f.labelUnit ? ' (' + f.labelUnit(distanceUnit) + ')' : '')"
-						:min="f.min"
-						:step="f.step"
-						:max="f.max"
-						:disabled="settings.applyfilters !== 'true'"
-						:show-trailing-button="!!filters[f.key + 'min']"
-						@update:model-value="onUpdateFloat($event, f, 'min')"
-						@trailing-button-click="filters[f.key + 'min'] = ''; onClearField(f.key, 'min')">
+					<NcButton
+						@click="onAddTimestamp('max', 60 * 60 * 24)">
+						{{ t('phonetrack', '+ 1 day') }}
 						<template #icon>
-							<component :is="f.iconComponent" :size="20" />
+							<CalendarPlusOutlineIcon :size="20" />
 						</template>
-						<template #trailing-button-icon>
-							<CloseIcon :size="20" />
-						</template>
-					</NcInputField>
-					<NcInputField
-						v-model="filters[f.key + 'max']"
-						type="number"
-						:label="t('phonetrack', 'Maximum {filterLabel}', { filterLabel: f.label }) + (f.labelUnit ? ' (' + f.labelUnit(distanceUnit) + ')' : '')"
-						:min="f.min"
-						:step="f.step"
-						:max="f.max"
-						:disabled="settings.applyfilters !== 'true'"
-						:show-trailing-button="!!filters[f.key + 'max']"
-						@update:model-value="onUpdateFloat($event, f, 'max')"
-						@trailing-button-click="filters[f.key + 'max'] = ''; onClearField(f.key, 'max')">
-						<template #icon>
-							<component :is="f.iconComponent" :size="20" />
-						</template>
-						<template #trailing-button-icon>
-							<CloseIcon :size="20" />
-						</template>
-					</NcInputField>
+					</NcButton>
 				</div>
+			</div>
+			<div v-for="f in floatFields"
+				:key="f.key"
+				class="field-group">
 				<NcInputField
-					v-model="filters.satellitesmin"
+					v-model="filters[f.key + 'min']"
 					type="number"
-					:label="t('phonetrack', 'Minimum satellites')"
-					min="0"
-					step="1"
+					:label="t('phonetrack', 'Minimum {filterLabel}', { filterLabel: f.label }) + (f.labelUnit ? ' (' + f.labelUnit(distanceUnit) + ')' : '')"
+					:min="f.min"
+					:step="f.step"
+					:max="f.max"
 					:disabled="settings.applyfilters !== 'true'"
-					:show-trailing-button="!!filters.satellitesmin"
-					@update:model-value="saveInt('satellites', 'min')"
-					@trailing-button-click="filters.satellitesmin = ''; onClearField('satellites', 'min')">
+					:show-trailing-button="!!filters[f.key + 'min']"
+					@update:model-value="onUpdateFloat($event, f, 'min')"
+					@trailing-button-click="filters[f.key + 'min'] = ''; onClearField(f.key, 'min')">
 					<template #icon>
-						<SatelliteVariantIcon :size="20" />
+						<component :is="f.iconComponent" :size="20" />
 					</template>
 					<template #trailing-button-icon>
 						<CloseIcon :size="20" />
 					</template>
 				</NcInputField>
 				<NcInputField
-					v-model="filters.satellitesmax"
+					v-model="filters[f.key + 'max']"
 					type="number"
-					:label="t('phonetrack', 'Maximum satellites')"
-					min="0"
-					step="1"
+					:label="t('phonetrack', 'Maximum {filterLabel}', { filterLabel: f.label }) + (f.labelUnit ? ' (' + f.labelUnit(distanceUnit) + ')' : '')"
+					:min="f.min"
+					:step="f.step"
+					:max="f.max"
 					:disabled="settings.applyfilters !== 'true'"
-					:show-trailing-button="!!filters.satellitesmax"
-					@update:model-value="saveInt('satellites', 'max')"
-					@trailing-button-click="filters.satellitesmax = ''; onClearField('satellites', 'max')">
+					:show-trailing-button="!!filters[f.key + 'max']"
+					@update:model-value="onUpdateFloat($event, f, 'max')"
+					@trailing-button-click="filters[f.key + 'max'] = ''; onClearField(f.key, 'max')">
 					<template #icon>
-						<SatelliteVariantIcon :size="20" />
+						<component :is="f.iconComponent" :size="20" />
 					</template>
 					<template #trailing-button-icon>
 						<CloseIcon :size="20" />
 					</template>
 				</NcInputField>
-			</NcFormBox>
+			</div>
+			<NcInputField
+				v-model="filters.satellitesmin"
+				type="number"
+				:label="t('phonetrack', 'Minimum satellites')"
+				min="0"
+				step="1"
+				:disabled="settings.applyfilters !== 'true'"
+				:show-trailing-button="!!filters.satellitesmin"
+				@update:model-value="saveInt('satellites', 'min')"
+				@trailing-button-click="filters.satellitesmin = ''; onClearField('satellites', 'min')">
+				<template #icon>
+					<SatelliteVariantIcon :size="20" />
+				</template>
+				<template #trailing-button-icon>
+					<CloseIcon :size="20" />
+				</template>
+			</NcInputField>
+			<NcInputField
+				v-model="filters.satellitesmax"
+				type="number"
+				:label="t('phonetrack', 'Maximum satellites')"
+				min="0"
+				step="1"
+				:disabled="settings.applyfilters !== 'true'"
+				:show-trailing-button="!!filters.satellitesmax"
+				@update:model-value="saveInt('satellites', 'max')"
+				@trailing-button-click="filters.satellitesmax = ''; onClearField('satellites', 'max')">
+				<template #icon>
+					<SatelliteVariantIcon :size="20" />
+				</template>
+				<template #trailing-button-icon>
+					<CloseIcon :size="20" />
+				</template>
+			</NcInputField>
 		</div>
 	</NcModal>
 </template>
@@ -127,6 +157,8 @@ import CloseIcon from 'vue-material-design-icons/Close.vue'
 import FilterIcon from 'vue-material-design-icons/Filter.vue'
 import SatelliteVariantIcon from 'vue-material-design-icons/SatelliteVariant.vue'
 import CalendarTodayOutlineIcon from 'vue-material-design-icons/CalendarTodayOutline.vue'
+import CalendarMinusOutlineIcon from 'vue-material-design-icons/CalendarMinusOutline.vue'
+import CalendarPlusOutlineIcon from 'vue-material-design-icons/CalendarPlusOutline.vue'
 
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
@@ -153,6 +185,8 @@ export default {
 		FilterIcon,
 		SatelliteVariantIcon,
 		CalendarTodayOutlineIcon,
+		CalendarMinusOutlineIcon,
+		CalendarPlusOutlineIcon,
 	},
 	props: {
 		settings: {
@@ -244,6 +278,10 @@ export default {
 			emit('save-settings', { [key]: savedValue })
 			// emit('filter-changed')
 		},
+		onAddTimestamp(minMax, seconds) {
+			this.filters['timestamp' + minMax] = moment.unix(this.settings['timestamp' + minMax] + seconds).toDate()
+			this.onUpdateDate(minMax)
+		},
 	},
 }
 </script>
@@ -252,7 +290,11 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	padding: 32px;
+	padding: 20px;
+
+	h2 {
+		margin-top: 0;
+	}
 
 	.checkbox-inner {
 		display: flex;
@@ -266,10 +308,11 @@ export default {
 		.wide {
 			width: 100%;
 		}
-	}
-
-	h2 {
-		margin-top: 0;
+		.line {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
 	}
 }
 </style>
