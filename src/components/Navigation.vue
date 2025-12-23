@@ -42,7 +42,6 @@
 				@close="onCloseFilterModal" />
 			<NavigationSessionItem v-for="s in filteredSessions"
 				:key="s.id"
-				class="sessionItem"
 				:session="s"
 				:compact="compact"
 				:selected="!compact && s.id === selectedSessionId" />

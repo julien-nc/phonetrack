@@ -2,8 +2,11 @@
 	<NcAppNavigationItem
 		:name="formattedName"
 		:loading="device.loading"
-		:class="{ deviceActive: device.enabled }"
+		:class="{
+			deviceActive: device.enabled,
+		}"
 		:editable="false"
+		:draggable="true"
 		:force-display-actions="true"
 		:force-menu="false"
 		:menu-open="menuOpen"
@@ -11,6 +14,8 @@
 		@mouseenter.native="onHoverIn"
 		@mouseleave.native="onHoverOut"
 		@contextmenu.native.stop.prevent="menuOpen = true"
+		@dragstart="onDragStart"
+		@dragend="onDragEnd"
 		@click="onClick">
 		<template v-if="device.enabled" #icon>
 			<NcColorPicker
@@ -44,6 +49,7 @@
 					class="timer">
 					<strong>{{ deleteCounter }}</strong>
 				</div>
+				<CursorMoveIcon v-if="isDragged" :size="20" class="icon-move" />
 			</div>
 		</template>
 		<template #actions>
@@ -142,6 +148,7 @@ import BrushIcon from 'vue-material-design-icons/Brush.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
 
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
@@ -173,6 +180,7 @@ export default {
 		ChartTimelineVariantIcon,
 		CrosshairsIcon,
 		UndoIcon,
+		CursorMoveIcon,
 	},
 
 	mixins: [
@@ -197,6 +205,7 @@ export default {
 			menuOpen: false,
 			criteriaActionsOpen: false,
 			COLOR_CRITERIAS,
+			isDragged: false,
 		}
 	},
 
@@ -214,6 +223,14 @@ export default {
 			if (e.target.tagName !== 'DIV') {
 				emit('device-clicked', { deviceId: this.device.id, sessionId: this.session.id })
 			}
+		},
+		onDragStart(e) {
+			e.dataTransfer.setData('sessionId', this.session.id)
+			e.dataTransfer.setData('deviceId', this.device.id)
+			this.isDragged = true
+		},
+		onDragEnd(e) {
+			this.isDragged = false
 		},
 	},
 
@@ -240,6 +257,10 @@ export default {
 
 .deviceActive {
 	font-weight: bold;
+}
+
+.icon-move {
+	color: var(--color-element-success);
 }
 
 .counter {

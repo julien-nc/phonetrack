@@ -1,33 +1,37 @@
 <template>
 	<NcListItem
-		class="deviceItem"
 		:name="device.name"
 		:title="device.name"
 		:active="device.enabled"
 		:bold="device.enabled"
+		class="deviceItem"
+		:draggable="true"
 		:counter-number="deleteCounter"
 		:force-display-actions="true"
 		:force-menu="false"
 		@mouseenter.native="onHoverIn"
 		@mouseleave.native="onHoverOut"
 		@update:menuOpen="onUpdateMenuOpen"
+		@dragstart="onDragStart"
+		@dragend="onDragEnd"
 		@click="onItemClick">
 		<template #name>
 			{{ device.name }}
 		</template>
 		<template #subname>
+			{{ subtitle }}
+		</template>
+		<template #indicator>
 			<div class="line">
-				{{ subtitle }}
-				<div :title="t('phonetrack', 'Show line')">
-					<ChartTimelineVariantIcon v-if="device.enabled && device.lineEnabled"
-						class="status-icon"
-						:size="20" />
+				<div v-if="device.enabled && device.lineEnabled"
+					:title="t('phonetrack', 'Show line')">
+					<ChartTimelineVariantIcon :size="20" />
 				</div>
-				<div :title="t('phonetrack', 'Auto-zoom')">
-					<CrosshairsIcon v-if="device.enabled && device.autoZoom"
-						class="status-icon"
-						:size="20" />
+				<div v-if="device.enabled && device.autoZoom"
+					:title="t('phonetrack', 'Auto-zoom')">
+					<CrosshairsIcon :size="20" />
 				</div>
+				<CursorMoveIcon v-if="isDragged" :size="20" class="icon-move" />
 			</div>
 		</template>
 		<template v-if="device.enabled" #icon>
@@ -159,6 +163,7 @@ import BrushIcon from 'vue-material-design-icons/Brush.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChartTimelineVariantIcon from 'vue-material-design-icons/ChartTimelineVariant.vue'
 import CrosshairsIcon from 'vue-material-design-icons/Crosshairs.vue'
+import CursorMoveIcon from 'vue-material-design-icons/CursorMove.vue'
 
 import ColoredDot from './ColoredDot.vue'
 
@@ -197,6 +202,7 @@ export default {
 		ChevronLeftIcon,
 		ChartTimelineVariantIcon,
 		CrosshairsIcon,
+		CursorMoveIcon,
 	},
 
 	mixins: [
@@ -224,6 +230,7 @@ export default {
 			menuOpen: false,
 			criteriaActionsOpen: false,
 			COLOR_CRITERIAS,
+			isDragged: false,
 		}
 	},
 
@@ -246,13 +253,20 @@ export default {
 				emit('device-clicked', { deviceId: this.device.id, sessionId: this.device.session_id })
 			}
 		},
+		onDragStart(e) {
+			e.dataTransfer.setData('sessionId', this.device.session_id)
+			e.dataTransfer.setData('deviceId', this.device.id)
+			this.isDragged = true
+		},
+		onDragEnd(e) {
+			this.isDragged = false
+		},
 	},
 }
 </script>
 
 <style scoped lang="scss">
 .deviceItem {
-	list-style: none;
 	.icon-selector {
 		display: flex;
 		justify-content: right;
@@ -265,6 +279,10 @@ export default {
 		display: flex;
 		align-items: center;
 		gap: 4px;
+	}
+
+	.icon-move {
+		color: var(--color-element-success);
 	}
 }
 </style>

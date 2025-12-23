@@ -5,7 +5,11 @@
 	<NcAppNavigationItem
 		:name="session.name"
 		:title="sessionItemTitle"
-		:class="{ openSession: session.enabled && compact }"
+		:class="{
+			openSession: session.enabled && compact,
+			sessionItem: true,
+			draggedOver: isDraggedOver,
+		}"
 		:active="selected"
 		:loading="session.loading"
 		:allow-collapse="compact"
@@ -15,6 +19,10 @@
 		:menu-open="menuOpen"
 		:edit-label="t('phonetrack', 'Rename session')"
 		@click="onItemClick"
+		@dragover.stop.prevent="onDragOver"
+		@dragenter.stop.prevent="onDragEnter"
+		@dragleave.stop.prevent="onDragLeave"
+		@drop="onDrop"
 		@update:name="onRename"
 		@update:open="onUpdateOpen"
 		@contextmenu.native.stop.prevent="menuOpen = true"
@@ -268,6 +276,7 @@ export default {
 			sortActionsOpen: false,
 			DEVICE_SORT_ORDER,
 			extraActionsOpen: false,
+			isDraggedOver: false,
 		}
 	},
 	computed: {
@@ -374,6 +383,39 @@ export default {
 		onRename(newName) {
 			emit('update-session', { sessionId: this.session.id, values: { name: newName } })
 		},
+		onDragOver(e) {
+			const deviceId = e.dataTransfer.getData('deviceId')
+			const sessionId = e.dataTransfer.getData('sessionId')
+			if (sessionId && deviceId && parseInt(sessionId) !== this.session.id) {
+				this.isDraggedOver = true
+			}
+		},
+		onDragEnter(e) {
+			const deviceId = e.dataTransfer.getData('deviceId')
+			const sessionId = e.dataTransfer.getData('sessionId')
+			if (sessionId && deviceId && parseInt(sessionId) !== this.session.id) {
+				this.isDraggedOver = true
+			}
+		},
+		onDragLeave(e) {
+			const deviceId = e.dataTransfer.getData('deviceId')
+			const sessionId = e.dataTransfer.getData('sessionId')
+			if (sessionId && deviceId && parseInt(sessionId) !== this.session.id) {
+				this.isDraggedOver = false
+			}
+		},
+		onDrop(e) {
+			const deviceId = e.dataTransfer.getData('deviceId')
+			const sessionId = e.dataTransfer.getData('sessionId')
+			if (sessionId && deviceId && parseInt(sessionId) !== this.session.id) {
+				this.isDraggedOver = false
+				emit('update-device', {
+					deviceId: parseInt(deviceId),
+					sessionId: parseInt(sessionId),
+					values: { session_id: this.session.id },
+				})
+			}
+		},
 	},
 }
 </script>
@@ -385,6 +427,11 @@ export default {
 
 .openSession {
 	border: solid 2px var(--color-border-maxcontrast);
+	border-radius: var(--border-radius-large);
+}
+
+.draggedOver {
+	border: solid 2px var(--color-border-success);
 	border-radius: var(--border-radius-large);
 }
 </style>
