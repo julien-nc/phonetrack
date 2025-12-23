@@ -62,7 +62,7 @@
 						:menu-open="filterMenuOpen"
 						@contextmenu.native.stop.prevent="filterMenuOpen = true"
 						@update:menuOpen="onUpdateFilterMenuOpen"
-						@click="showFilters = true">
+						@click="onClickFiltersItem">
 						<template #icon>
 							<FilterIcon v-if="filterEnabled" :size="20" />
 							<FilterOffOutlineIcon v-else :size="20" />
@@ -221,6 +221,10 @@ export default {
 		onToggleFilter(value) {
 			emit('save-settings', { applyfilters: value ? 'true' : 'false' })
 			emit('filter-changed')
+		},
+		onClickFiltersItem() {
+			// this.showFilters = true
+			emit('show-filters')
 		},
 		onUpdateFilterMenuOpen(isOpen) {
 			this.filterMenuOpen = isOpen

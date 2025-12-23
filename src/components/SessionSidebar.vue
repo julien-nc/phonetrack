@@ -6,7 +6,6 @@
 		:background="backgroundImageUrl"
 		:subtitle="subtitle"
 		:active="activeTab"
-		:style="cssVars"
 		class="directory-sidebar"
 		@update:active="$emit('update:active', $event)"
 		@close="$emit('close')">

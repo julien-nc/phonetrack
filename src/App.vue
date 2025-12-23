@@ -103,6 +103,10 @@
 			:adding-point="addingPoint"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" />
+		<FiltersSidebar v-else-if="showFiltersSidebar"
+			:show="showSidebar"
+			:settings="state.settings"
+			@close="showSidebar = false" />
 		<PhonetrackSettingsDialog
 			:settings="state.settings" />
 		<PointEditModal v-if="editingPoint"
@@ -134,6 +138,7 @@ import PhonetrackSettingsDialog from './components/PhonetrackSettingsDialog.vue'
 import Navigation from './components/Navigation.vue'
 import SessionSidebar from './components/SessionSidebar.vue'
 import DeviceSidebar from './components/DeviceSidebar.vue'
+import FiltersSidebar from './components/FiltersSidebar.vue'
 import DeviceList from './components/DeviceList.vue'
 import MaplibreMap from './components/map/MaplibreMap.vue'
 import PolygonFill from './components/map/PolygonFill.vue'
@@ -156,6 +161,7 @@ export default {
 		MaplibreMap,
 		DeviceSidebar,
 		SessionSidebar,
+		FiltersSidebar,
 		Navigation,
 		PhonetrackSettingsDialog,
 		PointEditModal,
@@ -188,6 +194,7 @@ export default {
 			activeSidebarTab: '',
 			sidebarSessionId: null,
 			sidebarDeviceId: null,
+			showFiltersSidebar: false,
 			isEmbedded: false,
 			showDetails: true,
 			geofenceLngLats: null,
@@ -364,6 +371,7 @@ export default {
 		subscribe('refresh-clicked', this.onRefreshClicked)
 		subscribe('refresh-countdown-end', this.onRefreshClicked)
 		subscribe('filter-changed', this.refreshAllDevicePoints)
+		subscribe('show-filters', this.onShowFilters)
 		subscribe('device-list-show-map', this.onDeviceListShowDetailsClicked)
 		emit('nav-toggled')
 	},
@@ -409,6 +417,7 @@ export default {
 		unsubscribe('refresh-clicked', this.onRefreshClicked)
 		unsubscribe('refresh-countdown-end', this.onRefreshClicked)
 		unsubscribe('filter-changed', this.refreshAllDevicePoints)
+		unsubscribe('show-filters', this.onShowFilters)
 		unsubscribe('device-list-show-map', this.onDeviceListShowDetailsClicked)
 	},
 
@@ -474,11 +483,18 @@ export default {
 				console.debug(error)
 			})
 		},
+		onShowFilters() {
+			this.sidebarDeviceId = null
+			this.sidebarSessionId = null
+			this.showSidebar = true
+			this.showFiltersSidebar = true
+		},
 		onUpdateActiveTab(tabId) {
 			console.debug('active tab change', tabId)
 			this.activeSidebarTab = tabId
 		},
 		onDeviceDetailsClicked({ deviceId, sessionId }) {
+			this.showFiltersSidebar = false
 			this.sidebarDeviceId = deviceId
 			this.sidebarSessionId = sessionId
 			this.showSidebar = true
@@ -486,6 +502,7 @@ export default {
 			console.debug('[phonetrack] device details click', sessionId, deviceId)
 		},
 		onSessionDetailsClicked(sessionId) {
+			this.showFiltersSidebar = false
 			this.sidebarDeviceId = null
 			this.sidebarSessionId = sessionId
 			this.showSidebar = true
@@ -493,6 +510,7 @@ export default {
 			console.debug('[phonetrack] session details click', sessionId)
 		},
 		onSessionShareClicked(sessionId) {
+			this.showFiltersSidebar = false
 			this.sidebarDeviceId = null
 			this.sidebarSessionId = sessionId
 			this.showSidebar = true
@@ -500,6 +518,7 @@ export default {
 			console.debug('[phonetrack] share click', sessionId)
 		},
 		onSessionLinkClicked(sessionId) {
+			this.showFiltersSidebar = false
 			this.sidebarDeviceId = null
 			this.sidebarSessionId = sessionId
 			this.showSidebar = true
