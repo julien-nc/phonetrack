@@ -901,19 +901,25 @@ class SessionService {
 		return $proxims;
 	}
 
-	public function serializeSession(Session $session): array {
+	public function serializeSession(Session $session, bool $isForPublicPage = false): array {
 		$json = $session->jsonSerialize();
-		$json['shares'] = $this->getSessionShares($session->getToken());
-		$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getId());
+		if ($isForPublicPage) {
+			unset($json['publicviewtoken']);
+			unset($json['token']);
+			unset($json['user']);
+		} else {
+			$json['shares'] = $this->getSessionShares($session->getToken());
+			$json['public_shares'] = $this->publicShareMapper->findBySessionId($session->getId());
+		}
 		$json['devices'] = [];
 		$devices = $this->deviceMapper->findBySessionId($session->getId());
 		foreach ($devices as $device) {
 			$jsonDevice = $device->jsonSerialize();
 
-			$jsonDevice['session_id'] = $session->getId();
-			if (isset($jsonDevice['session_token'])) {
-				unset($jsonDevice['session_token']);
+			if ($isForPublicPage) {
+				unset($jsonDevice['session_id']);
 			}
+			unset($jsonDevice['session_token']);
 
 			// geofences
 			$geofences = $this->geofenceMapper->findByDeviceId($device->getId());

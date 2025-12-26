@@ -119,6 +119,25 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
+	 * @param string $token
+	 * @return Session
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getSessionsByPublicViewToken(string $token): Session {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('publicviewtoken', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
 	 * @param string $userId
 	 * @param int $id
 	 * @return Session

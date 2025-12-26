@@ -2,8 +2,9 @@
 	<NcAppNavigation ref="nav"
 		:class="{ compact }"
 		:style="cssVars">
-		<template v-if="!isPublicPage" #search>
-			<NcAppNavigationSearch v-model="sessionFilterQuery"
+		<template #search>
+			<NcAppNavigationSearch v-if="!isPublicPage"
+				v-model="sessionFilterQuery"
 				label="plop"
 				:placeholder="t('Phonetrack', 'Search sessions')">
 				<template #actions>

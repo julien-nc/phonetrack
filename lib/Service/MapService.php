@@ -33,7 +33,7 @@ class MapService {
 	 * @param TileServer[] $extraTileServers
 	 * @return void
 	 */
-	public function addPageCsp(ContentSecurityPolicy $csp, array $extraTileServers): void {
+	public function addPageCsp(ContentSecurityPolicy $csp, array $extraTileServers = []): void {
 		$csp
 			// raster tiles
 			->addAllowedConnectDomain('https://*.openstreetmap.org')

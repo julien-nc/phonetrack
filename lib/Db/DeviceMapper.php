@@ -30,6 +30,11 @@ class DeviceMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
+	/**
+	 * @param int $sessionId
+	 * @return Device[]
+	 * @throws Exception
+	 */
 	public function findBySessionId(int $sessionId): array {
 		$qb = $this->db->getQueryBuilder();
 

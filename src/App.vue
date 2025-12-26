@@ -174,7 +174,7 @@ export default {
 	provide() {
 		return {
 			sessions: () => this.state.sessions,
-			isPublicPage: ('shareToken' in loadState('phonetrack', 'phonetrack-state', {})),
+			isPublicPage: loadState('phonetrack', 'phonetrack-state', {}).isPublicPage ?? false,
 		}
 	},
 
@@ -213,7 +213,7 @@ export default {
 
 	computed: {
 		isPublicPage() {
-			return ('shareToken' in this.state)
+			return this.state.isPublicPage ?? false
 		},
 		mapWithTopLeftButton() {
 			return this.isCompactMode || this.isMobile
@@ -325,11 +325,13 @@ export default {
 	},
 
 	mounted() {
+		/*
 		if (this.isPublicPage) {
 			setTimeout(() => {
 				emit('toggle-navigation', { open: false })
 			}, 2000)
 		}
+		*/
 		subscribe('save-settings', this.saveOptions)
 		subscribe('save-settings-debounced', this.saveOptionsDebounced)
 		subscribe('tile-server-deleted', this.onTileServerDeleted)
@@ -1115,10 +1117,15 @@ export default {
 					reqParams.params.minTimestamp = parseInt(this.state.settings.timestampmin)
 				}
 			}
-			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
-				sessionId,
-				deviceId,
-			})
+			const url = this.isPublicPage
+				? generateUrl('/apps/phonetrack/s/{sessionId}/device/{deviceId}/points', {
+					sessionId,
+					deviceId,
+				})
+				: generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
+					sessionId,
+					deviceId,
+				})
 
 			return axios.get(url, reqParams)
 				.then(response => {
@@ -1159,10 +1166,15 @@ export default {
 					device.points = []
 				}
 			}
-			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
-				sessionId,
-				deviceId,
-			})
+			const url = this.isPublicPage
+				? generateUrl('/apps/phonetrack/s/{sessionId}/device/{deviceId}/points', {
+					sessionId,
+					deviceId,
+				})
+				: generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
+					sessionId,
+					deviceId,
+				})
 
 			return axios.get(url, reqParams)
 				.then(response => {
@@ -1198,6 +1210,10 @@ export default {
 					console.error(error)
 				})
 				.then(() => {
+					if (this.isPublicPage) {
+						this.loadingDevicePoints = false
+						return
+					}
 					this.refreshSessions().then((newDevicesPromises) => {
 						Promise.all(newDevicesPromises)
 							.then(results => {

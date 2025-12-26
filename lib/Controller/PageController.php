@@ -347,7 +347,7 @@ class PageController extends Controller {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
 		} catch (DoesNotExistException $e) {
-			// look for shares
+			// look for user shares
 			try {
 				$share = $this->shareMapper->findBySessionIdAndUser($this->userId, $sessionId);
 				$session = $this->sessionMapper->find($share->getSessionId());

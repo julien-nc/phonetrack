@@ -184,6 +184,16 @@
 					{{ t('phonetrack', 'More actions') }}
 				</NcActionButton>
 			</template>
+			<template v-else>
+				<NcActionButton
+					:close-after-click="true"
+					@click="onZoomToBounds">
+					<template #icon>
+						<MagnifyExpandIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Zoom to bounds') }}
+				</NcActionButton>
+			</template>
 		</template>
 		<template #default>
 			<NcAppNavigationItem v-if="compact && Object.keys(session.devices).length === 0"

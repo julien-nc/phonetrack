@@ -37,6 +37,9 @@ return [
 		['name' => 'page#updatePoint', 'url' => '/session/{sessionId}/device/{deviceId}/point/{pointId}', 'verb' => 'PUT'],
 		['name' => 'page#getSvgFromApp', 'url' => '/svg/{fileName}', 'verb' => 'GET'],
 
+		['name' => 'publicShare#index', 'url' => '/s/{token}', 'verb' => 'GET'],
+		['name' => 'publicShare#getDevicePoints', 'url' => '/s/{shareToken}/device/{deviceId}/points', 'verb' => 'GET'],
+
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],
 		['name' => 'oldPage#publicWebLog', 'url' => '/publicWebLog/{token}/{devicename}', 'verb' => 'GET'],
 		['name' => 'oldPage#publicSessionWatch', 'url' => '/publicSessionWatch/{publicviewtoken}', 'verb' => 'GET'],
