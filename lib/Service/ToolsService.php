@@ -50,6 +50,39 @@ class ToolsService {
 		return $ov;
 	}
 
+	public function getUserFilter(string $userId): array {
+		$applyFilters = $this->config->getUserValue($userId, Application::APP_ID, 'applyfilters');
+		if ($applyFilters !== 'true') {
+			return [];
+		}
+
+		$filters = [];
+
+		foreach (['timestamp', 'timestamp', 'satellites'] as $key) {
+			$minValue = $this->config->getUserValue($userId, Application::APP_ID, $key . 'min');
+			if ($minValue !== '') {
+				$filters[$key . 'min'] = (int)$minValue;
+			}
+			$maxValue = $this->config->getUserValue($userId, Application::APP_ID, $key . 'max');
+			if ($maxValue !== '') {
+				$filters[$key . 'max'] = (int)$maxValue;
+			}
+		}
+
+
+		foreach (['altitude', 'accuracy', 'speed', 'bearing', 'batterylevel'] as $key) {
+			$minValue = $this->config->getUserValue($userId, Application::APP_ID, $key . 'min');
+			if ($minValue !== '') {
+				$filters[$key . 'min'] = (float)$minValue;
+			}
+			$maxValue = $this->config->getUserValue($userId, Application::APP_ID, $key . 'max');
+			if ($maxValue !== '') {
+				$filters[$key . 'max'] = (float)$maxValue;
+			}
+		}
+		return $filters;
+	}
+
 	public static function distance(float $lat1, float $long1, float $lat2, float $long2): float {
 		if ($lat1 === $lat2 && $long1 === $long2) {
 			return 0;

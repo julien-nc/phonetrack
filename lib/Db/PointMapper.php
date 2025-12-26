@@ -87,11 +87,29 @@ class PointMapper extends QBMapper {
 	 * @param int|null $minTimestamp
 	 * @param int|null $maxTimestamp
 	 * @param int $maxPoints
+	 * @param int|null $minSatellites
+	 * @param int|null $maxSatellites
+	 * @param int|null $minAltitude
+	 * @param int|null $maxAltitude
+	 * @param int|null $minAccuracy
+	 * @param int|null $maxAccuracy
+	 * @param int|null $minBatteryLevel
+	 * @param int|null $maxBatteryLevel
+	 * @param int|null $minSpeed
+	 * @param int|null $maxSpeed
+	 * @param int|null $minBearing
+	 * @param int|null $maxBearing
 	 * @return array
 	 * @throws Exception
 	 */
 	public function getDevicePoints(
 		int $deviceId, ?int $minTimestamp = null, ?int $maxTimestamp = null, int $maxPoints = 1000,
+		?int $minSatellites = null, ?int $maxSatellites = null,
+		?int $minAltitude = null, ?int $maxAltitude = null,
+		?int $minAccuracy = null, ?int $maxAccuracy = null,
+		?int $minBatteryLevel = null, ?int $maxBatteryLevel = null,
+		?int $minSpeed = null, ?int $maxSpeed = null,
+		?int $minBearing = null, ?int $maxBearing = null,
 	): array {
 		$qb = $this->db->getQueryBuilder();
 
@@ -109,6 +127,45 @@ class PointMapper extends QBMapper {
 			$qb->andWhere(
 				$qb->expr()->lt('timestamp', $qb->createNamedParameter($maxTimestamp, IQueryBuilder::PARAM_INT))
 			);
+		}
+		if ($minSatellites !== null || $maxSatellites !== null) {
+			$qb->andWhere(
+				$qb->expr()->isNotNull('satellites')
+			);
+		}
+		if ($minSatellites !== null) {
+			$qb->andWhere(
+				$qb->expr()->gt('satellites', $qb->createNamedParameter($minSatellites, IQueryBuilder::PARAM_INT))
+			);
+		}
+		if ($maxSatellites !== null) {
+			$qb->andWhere(
+				$qb->expr()->lt('satellites', $qb->createNamedParameter($maxSatellites, IQueryBuilder::PARAM_INT))
+			);
+		}
+		$floatColumns = [
+			'accuracy' => ['min' => $minAccuracy, 'max' => $maxAccuracy],
+			'altitude' => ['min' => $minAltitude, 'max' => $maxAltitude],
+			'speed' => ['min' => $minSpeed, 'max' => $maxSpeed],
+			'bearing' => ['min' => $minBearing, 'max' => $maxBearing],
+			'batterylevel' => ['min' => $minBatteryLevel, 'max' => $maxBatteryLevel],
+		];
+		foreach ($floatColumns as $column => $values) {
+			if ($values['min'] !== null || $values['max'] !== null) {
+				$qb->andWhere(
+					$qb->expr()->isNotNull($column)
+				);
+			}
+			if ($values['min'] !== null) {
+				$qb->andWhere(
+					$qb->expr()->gt($column, $qb->createNamedParameter($values['min'], IQueryBuilder::PARAM_STR))
+				);
+			}
+			if ($values['max'] !== null) {
+				$qb->andWhere(
+					$qb->expr()->lt($column, $qb->createNamedParameter($values['max'], IQueryBuilder::PARAM_STR))
+				);
+			}
 		}
 		// sort order is DESC to make sure we get the most recent points with the limit (maxPoints),
 		// we reverse the order anyway

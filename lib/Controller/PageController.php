@@ -525,12 +525,15 @@ class PageController extends Controller {
 		// determine token
 		$shareToken = md5('share' . $this->userId . $session->getName() . rand());
 
+		$filters = $this->toolsService->getUserFilter($this->userId);
+
 		$newPublicShare = new PublicShare();
 		$newPublicShare->setSessionId($session->getId());
 		$newPublicShare->setSessionToken($session->getToken());
 		$newPublicShare->setSharetoken($shareToken);
 		$newPublicShare->setLastposonly(0);
 		$newPublicShare->setGeofencify(0);
+		$newPublicShare->setFilters(json_encode($filters));
 		$newPublicShare = $this->publicShareMapper->insert($newPublicShare);
 		return new DataResponse($newPublicShare->jsonSerialize());
 	}

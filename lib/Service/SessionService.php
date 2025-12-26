@@ -1012,6 +1012,12 @@ class SessionService {
 
 	public function getDevicePointsCombined(
 		int $deviceId, ?int $minTimestamp = null, ?int $maxTimestamp = null, int $maxPoints = 1000,
+		?int $minSatellites = null, ?int $maxSatellites = null,
+		?int $minAltitude = null, ?int $maxAltitude = null,
+		?int $minAccuracy = null, ?int $maxAccuracy = null,
+		?int $minBatteryLevel = null, ?int $maxBatteryLevel = null,
+		?int $minSpeed = null, ?int $maxSpeed = null,
+		?int $minBearing = null, ?int $maxBearing = null,
 	): array {
 		$points = [
 			'before' => [],
@@ -1019,11 +1025,27 @@ class SessionService {
 		];
 		// get recent points in priority
 		if ($minTimestamp !== null) {
-			$points['after'] = $this->pointMapper->getDevicePoints($deviceId, $minTimestamp, null, $maxPoints);
+			$points['after'] = $this->pointMapper->getDevicePoints(
+				$deviceId, $minTimestamp, null, $maxPoints,
+				$minSatellites, $maxSatellites,
+				$minAltitude, $maxAltitude,
+				$minAccuracy, $maxAccuracy,
+				$minBatteryLevel, $maxBatteryLevel,
+				$minSpeed, $maxSpeed,
+				$minBearing, $maxBearing,
+			);
 		}
 		if ($maxTimestamp !== null) {
 			// get maxPoints - the number of recent points
-			$points['before'] = $this->pointMapper->getDevicePoints($deviceId, null, $maxTimestamp, $maxPoints - count($points['after']));
+			$points['before'] = $this->pointMapper->getDevicePoints(
+				$deviceId, null, $maxTimestamp, $maxPoints - count($points['after']),
+				$minSatellites, $maxSatellites,
+				$minAltitude, $maxAltitude,
+				$minAccuracy, $maxAccuracy,
+				$minBatteryLevel, $maxBatteryLevel,
+				$minSpeed, $maxSpeed,
+				$minBearing, $maxBearing,
+			);
 		}
 		return $points;
 	}

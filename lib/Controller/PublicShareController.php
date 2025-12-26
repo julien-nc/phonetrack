@@ -131,9 +131,11 @@ class PublicShareController extends Controller {
 	): DataResponse {
 		try {
 			$session = $this->sessionMapper->getSessionsByPublicViewToken($shareToken);
+			$filters = [];
 		} catch (DoesNotExistException $e) {
 			try {
 				$share = $this->publicShareMapper->findByShareToken($shareToken);
+				$filters = json_decode($share->getFilters(), true);
 				$session = $this->sessionMapper->find($share->getSessionId());
 			} catch (DoesNotExistException $e) {
 				return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);
@@ -144,10 +146,41 @@ class PublicShareController extends Controller {
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
+
+		// let the timestamp user filters override the param ones
+		if (isset($filters['timestampmin'])
+			&& ($minTimestamp === null || $filters['timestampmin'] > $minTimestamp)) {
+			$minTimestamp = $filters['timestampmin'];
+		}
+		if (isset($filters['timestampmax'])
+			&& ($maxTimestamp === null || $filters['timestampmax'] < $maxTimestamp)) {
+			$maxTimestamp = $filters['timestampmax'];
+		}
+
+		if ($minTimestamp !== null && $maxTimestamp !== null && $minTimestamp > $maxTimestamp) {
+			return new DataResponse([]);
+		}
+
 		return new DataResponse(
 			$combine
-				? $this->sessionService->getDevicePointsCombined($device->getId(), $minTimestamp, $maxTimestamp, $maxPoints)
-				: $this->pointMapper->getDevicePoints($deviceId, $minTimestamp, $maxTimestamp, $maxPoints)
+				? $this->sessionService->getDevicePointsCombined(
+					$device->getId(), $minTimestamp, $maxTimestamp, $maxPoints,
+					$filters['satellitesmin'] ?? null, $filters['satellitesmax'] ?? null,
+					$filters['altitudemin'] ?? null, $filters['altitudemax'] ?? null,
+					$filters['accuracymin'] ?? null, $filters['accuracymax'] ?? null,
+					$filters['batterylevelmin'] ?? null, $filters['batterylevelmax'] ?? null,
+					$filters['speedmin'] ?? null, $filters['speedmax'] ?? null,
+					$filters['bearingmin'] ?? null, $filters['bearingmax'] ?? null,
+				)
+				: $this->pointMapper->getDevicePoints(
+					$deviceId, $minTimestamp, $maxTimestamp, $maxPoints,
+					$filters['satellitesmin'] ?? null, $filters['satellitesmax'] ?? null,
+					$filters['altitudemin'] ?? null, $filters['altitudemax'] ?? null,
+					$filters['accuracymin'] ?? null, $filters['accuracymax'] ?? null,
+					$filters['batterylevelmin'] ?? null, $filters['batterylevelmax'] ?? null,
+					$filters['speedmin'] ?? null, $filters['speedmax'] ?? null,
+					$filters['bearingmin'] ?? null, $filters['bearingmax'] ?? null,
+				)
 		);
 	}
 }
