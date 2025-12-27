@@ -513,11 +513,12 @@ export default {
 		onNavToggled() {
 			this.resizeMap()
 		},
-		onZoomOnBounds(nsew) {
+		onZoomOnBounds({ nsew, animate = true }) {
 			if (this.map) {
 				this.map.fitBounds([[nsew.west, nsew.north], [nsew.east, nsew.south]], {
 					padding: 50,
 					maxZoom: 18,
+					animate,
 				})
 			}
 		},

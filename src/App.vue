@@ -314,13 +314,6 @@ export default {
 		const urlParams = new URLSearchParams(paramString)
 		this.isEmbedded = urlParams.get('embedded') === '1'
 
-		// load sessions
-		Object.values(this.state.sessions).forEach((session) => {
-			if (session.enabled) {
-				this.loadSession(session.id)
-			}
-		})
-
 		console.debug('phonetrack state', this.state)
 	},
 
@@ -332,6 +325,7 @@ export default {
 			}, 2000)
 		}
 		*/
+
 		subscribe('save-settings', this.saveOptions)
 		subscribe('save-settings-debounced', this.saveOptionsDebounced)
 		subscribe('tile-server-deleted', this.onTileServerDeleted)
@@ -376,6 +370,14 @@ export default {
 		subscribe('show-filters', this.onShowFilters)
 		subscribe('device-list-show-map', this.onDeviceListShowDetailsClicked)
 		emit('nav-toggled')
+
+		this.loadAllSessions()
+			.then(() => {
+				if (this.isPublicPage) {
+					const sessionId = Object.keys(this.state.sessions)[0]
+					this.onZoomOnSession({ sessionId, animate: false })
+				}
+			})
 	},
 
 	beforeUnmount() {
@@ -986,10 +988,12 @@ export default {
 				],
 			]
 			emit('zoom-on-bounds', {
-				west: geofence.lonmin,
-				north: geofence.latmax,
-				east: geofence.lonmax,
-				south: geofence.latmin,
+				nsew: {
+					west: geofence.lonmin,
+					north: geofence.latmax,
+					east: geofence.lonmax,
+					south: geofence.latmin,
+				},
 			})
 			clearTimeout(this.geofenceCleanupTimeout)
 			this.geofenceCleanupTimeout = setTimeout(() => {
@@ -1083,14 +1087,25 @@ export default {
 				console.debug(error)
 			})
 		},
+		loadAllSessions() {
+			const loadSessionPromises = []
+			Object.values(this.state.sessions).forEach((session) => {
+				if (session.enabled) {
+					loadSessionPromises.push(this.loadSession(session.id))
+				}
+			})
+			return Promise.all(loadSessionPromises)
+		},
 		loadSession(sessionId) {
 			// load all enabled devices
 			const session = this.state.sessions[sessionId]
+			const loadDevicePromises = []
 			Object.values(session.devices).forEach((device) => {
 				if (device.enabled) {
-					this.loadDevice(sessionId, device.id)
+					loadDevicePromises.push(this.loadDevice(sessionId, device.id))
 				}
 			})
+			return Promise.all(loadDevicePromises)
 		},
 		loadDevice(sessionId, deviceId) {
 			const device = this.state.sessions[sessionId].devices[deviceId]
@@ -1288,14 +1303,17 @@ export default {
 				east: listOfDeviceBounds.map(b => b.east).reduce((acc, val) => Math.max(acc, val)),
 				west: listOfDeviceBounds.map(b => b.west).reduce((acc, val) => Math.min(acc, val)),
 			}
-			emit('zoom-on-bounds', autoZoomBounds)
+			emit('zoom-on-bounds', { nsew: autoZoomBounds })
 		},
-		onZoomOnSession({ sessionId }) {
+		onZoomOnSession({ sessionId, animate = true }) {
 			const session = this.state.sessions[sessionId]
 			if (!session.enabled) {
 				return
 			}
-			emit('zoom-on-bounds', this.getSessionBounds(sessionId))
+			emit('zoom-on-bounds', {
+				nsew: this.getSessionBounds(sessionId),
+				animate,
+			})
 		},
 		getSessionBounds(sessionId) {
 			const session = this.state.sessions[sessionId]
@@ -1317,7 +1335,7 @@ export default {
 			}
 			const bounds = this.getDeviceBounds(sessionId, deviceId)
 			if (bounds !== null) {
-				emit('zoom-on-bounds', bounds)
+				emit('zoom-on-bounds', { nsew: bounds })
 			}
 		},
 		getDeviceBounds(sessionId, deviceId) {
