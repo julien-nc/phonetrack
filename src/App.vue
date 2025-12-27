@@ -122,7 +122,7 @@ import PhonetrackIcon from './components/icons/PhonetrackIcon.vue'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import { showError, showSuccess, showUndo } from '@nextcloud/dialogs'
+import { showError, showSuccess, showUndo, showWarning } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import moment from '@nextcloud/moment'
@@ -866,6 +866,12 @@ export default {
 				useragent: t('phonetrack', 'Manually added'),
 			}
 			this.addPoint(sessionId, deviceId, values)
+				.then((point) => {
+					if (this.state.settings.applyfilters === 'true'
+						&& getFilteredPoints([point], this.filters).length === 0) {
+						showWarning(t('phonetrack', 'The point you just added is not visible because it does not satisfy the current filters'))
+					}
+				})
 		},
 		addPoint(sessionId, deviceId, values, append = true) {
 			this.addingPointRequestLoading = true
@@ -874,13 +880,15 @@ export default {
 			}
 			const url = generateUrl('/apps/phonetrack/session/' + sessionId + '/device/' + deviceId + '/point')
 			return axios.post(url, req).then((response) => {
-				console.debug('point added', response.data)
+				const point = response.data
+				console.debug('point added', point)
 				if (append) {
-					this.state.sessions[sessionId].devices[deviceId].points.push(response.data)
+					this.state.sessions[sessionId].devices[deviceId].points.push(point)
 				} else {
 					const index = this.state.sessions[sessionId].devices[deviceId].points.findIndex(p => p.timestamp >= values.timestamp)
-					this.state.sessions[sessionId].devices[deviceId].points.splice(index, 0, response.data)
+					this.state.sessions[sessionId].devices[deviceId].points.splice(index, 0, point)
 				}
+				return point
 			}).catch((error) => {
 				console.error(error)
 				console.error(error.response?.data?.error)
@@ -891,8 +899,9 @@ export default {
 				} else {
 					showError(t('phonetrack', 'Error while adding the point'))
 				}
-			}).then(() => {
+			}).then((point) => {
 				this.addingPointRequestLoading = false
+				return point
 			})
 		},
 		async updateDevice(sessionId, deviceId, values) {

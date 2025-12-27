@@ -495,10 +495,10 @@ export function getFilteredPoints(points, filters) {
 	let filteredPoints = points;
 	['timestamp', 'altitude', 'accuracy', 'speed', 'bearing', 'batterylevel', 'satellites'].forEach(fieldKey => {
 		if (filters[fieldKey + 'min']) {
-			filteredPoints = filteredPoints.filter(p => p[fieldKey] >= filters[fieldKey + 'min'])
+			filteredPoints = filteredPoints.filter(point => point[fieldKey] >= filters[fieldKey + 'min'])
 		}
 		if (filters[fieldKey + 'max']) {
-			filteredPoints = filteredPoints.filter(p => p[fieldKey] <= filters[fieldKey + 'max'])
+			filteredPoints = filteredPoints.filter(point => point[fieldKey] <= filters[fieldKey + 'max'])
 		}
 	})
 	return filteredPoints
