@@ -57,22 +57,22 @@
 					<NcActionInput
 						type="text"
 						:model-value="access.label ?? ''"
+						:label="t('phonetrack', 'Label')"
 						:show-trailing-button="false"
 						@submit="updatePublicShare(access.id, 'label', $event.target[0].value)">
 						<template #icon>
 							<TextBoxIcon :size="20" />
 						</template>
-						{{ t('phonetrack', 'Label') }}
 					</NcActionInput>
 					<NcActionInput
 						type="text"
 						:model-value="access.devicename ?? ''"
+						:label="t('phonetrack', 'Show this device only')"
 						:show-trailing-button="false"
 						@submit="updatePublicShare(access.id, 'devicename', $event.target[0].value)">
 						<template #icon>
 							<CellphoneIcon :size="20" />
 						</template>
-						{{ t('phonetrack', 'Show this device only') }}
 					</NcActionInput>
 					<NcActionCheckbox
 						:model-value="access.lastposonly"
