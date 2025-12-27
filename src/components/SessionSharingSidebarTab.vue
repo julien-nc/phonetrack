@@ -27,7 +27,9 @@
 					</NcActionButton>
 				</NcActions>
 			</li>
-			<li v-for="access in publicShares" :key="access.id">
+			<li v-for="access in publicShares"
+				:key="access.id"
+				:title="getFormattedFilters(access)">
 				<div class="avatardiv link-icon">
 					<LinkIcon :size="20" />
 				</div>
@@ -234,6 +236,7 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import SharingSelect from './SharingSelect.vue'
 
 import * as constants from '../constants.js'
+import { getFormattedFilters } from '../utils.js'
 
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
@@ -423,6 +426,10 @@ export default {
 		},
 		onSessionPublicChanged(isPublic) {
 			emit('update-session', { sessionId: this.session.id, values: { public: isPublic } })
+		},
+		getFormattedFilters(access) {
+			const filtersObject = JSON.parse(access.filters)
+			return getFormattedFilters(filtersObject, this.settings.distance_unit ?? 'metric')
 		},
 	},
 }

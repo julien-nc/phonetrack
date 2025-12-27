@@ -524,3 +524,61 @@ export function getPointDataHtml(point, distanceUnit = 'metric') {
 		? ('<strong>' + t('phonetrack', 'User-agent') + '</strong>: ' + escapeHtml(point.useragent) + '<br>')
 		: '')
 }
+
+export function getFormattedFilters(filters, distanceUnit = 'metric') {
+	if (Object.keys(filters).length === 0) {
+		return t('phonetrack', 'No filters')
+	}
+	let ff = ''
+	if (filters.timestampmin) {
+		const value = moment.unix(filters.timestampmin).format('YYYY-MM-DD HH:mm:ss (Z)')
+		ff = ff + t('phonetrack', 'Min date: {value}', { value }) + '\n'
+	}
+	if (filters.timestampmax) {
+		const value = moment.unix(filters.timestampmax).format('YYYY-MM-DD HH:mm:ss (Z)')
+		ff = ff + t('phonetrack', 'Max date: {value}', { value }) + '\n'
+	}
+	if (filters.altitudemin) {
+		const value = metersToElevation(filters.altitudemin, distanceUnit)
+		ff = ff + t('phonetrack', 'Min altitude: {value}', { value }) + '\n'
+	}
+	if (filters.altitudemax) {
+		const value = metersToElevation(filters.altitudemax, distanceUnit)
+		ff = ff + t('phonetrack', 'Min altitude: {value}', { value }) + '\n'
+	}
+	if (filters.accuracymin) {
+		const value = metersToElevation(filters.accuracymin, distanceUnit)
+		ff = ff + t('phonetrack', 'Min accuracy: {value}', { value }) + '\n'
+	}
+	if (filters.accuracymax) {
+		const value = metersToElevation(filters.accuracymax, distanceUnit)
+		ff = ff + t('phonetrack', 'Min accuracy: {value}', { value }) + '\n'
+	}
+	if (filters.speedmin) {
+		const value = kmphToSpeed(filters.speedmin * 3.6, distanceUnit)
+		ff = ff + t('phonetrack', 'Min speed: {value}', { value }) + '\n'
+	}
+	if (filters.speedmax) {
+		const value = kmphToSpeed(filters.speedmax * 3.6, distanceUnit)
+		ff = ff + t('phonetrack', 'Min speed: {value}', { value }) + '\n'
+	}
+	if (filters.satellitesmin) {
+		ff = ff + t('phonetrack', 'Min satellites: {value}', { value: filters.satellitesmin }) + '\n'
+	}
+	if (filters.satellitesmax) {
+		ff = ff + t('phonetrack', 'Min satellites: {value}', { value: filters.satellitesmax }) + '\n'
+	}
+	if (filters.bearingmin) {
+		ff = ff + t('phonetrack', 'Min bearing: {value} °', { value: filters.bearingmin }) + '\n'
+	}
+	if (filters.bearingmax) {
+		ff = ff + t('phonetrack', 'Min bearing: {value} °', { value: filters.bearingmax }) + '\n'
+	}
+	if (filters.batterylevelmin) {
+		ff = ff + t('phonetrack', 'Min batterylevel: {value} %', { value: filters.batterylevelmin }) + '\n'
+	}
+	if (filters.batterylevelmax) {
+		ff = ff + t('phonetrack', 'Min batterylevel: {value} %', { value: filters.batterylevelmax }) + '\n'
+	}
+	return ff
+}
