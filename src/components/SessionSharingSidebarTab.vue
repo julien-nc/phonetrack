@@ -336,7 +336,7 @@ export default {
 			})
 		},
 		generatePublicLink(access) {
-			return HOST + generateUrl('/apps/phonetrack/publicSessionWatch/' + access.sharetoken)
+			return HOST + generateUrl('/apps/phonetrack/s/' + access.sharetoken)
 		},
 		async onCopyPublicWatchLink() {
 			try {
