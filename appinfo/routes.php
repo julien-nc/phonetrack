@@ -18,6 +18,7 @@ return [
 		['name' => 'page#importSession', 'url' => '/import-session', 'verb' => 'POST'],
 		['name' => 'page#deleteSession', 'url' => '/session/{sessionId}', 'verb' => 'DELETE'],
 		['name' => 'page#updateSession', 'url' => '/session/{sessionId}', 'verb' => 'PUT'],
+		['name' => 'page#exportDevice', 'url' => '/session/{sessionId}/device/{deviceId}/export', 'verb' => 'POST'],
 		['name' => 'page#deleteDevice', 'url' => '/session/{sessionId}/device/{deviceId}', 'verb' => 'DELETE'],
 		['name' => 'page#updateDevice', 'url' => '/session/{sessionId}/device/{deviceId}', 'verb' => 'PUT'],
 		['name' => 'page#addDeviceReservation', 'url' => '/session/{sessionId}/device-name/{deviceName}', 'verb' => 'POST'],

@@ -13,6 +13,7 @@
 namespace OCA\PhoneTrack\Service;
 
 use DateTime;
+use OC\User\NoUserException;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\Device;
 use OCA\PhoneTrack\Db\DeviceMapper;
@@ -28,13 +29,17 @@ use OCP\DB\Exception;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use stdClass;
 
@@ -251,6 +256,43 @@ class SessionService {
 		// we run the auto purge method AFTER the auto export
 		// to avoid deleting data before it has been eventually exported
 		$this->cronAutoPurge();
+	}
+
+	/**
+	 * @param Device $device
+	 * @param string $userId
+	 * @param string $target
+	 * @return void
+	 * @throws Exception
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws LockedException
+	 * @throws NoUserException
+	 */
+	public function exportDevice(Device $device, string $userId, string $target): void {
+		$userFolder = $this->root->getUserFolder($userId);
+		$gpxHeader = $this->generateGpxHeader($device->getName());
+		if (!str_ends_with($target, '.gpx')) {
+			$target .= '.gpx';
+		}
+		if (!$userFolder->nodeExists($target)) {
+			$file = $userFolder->newFile($target);
+		} else {
+			$file = $userFolder->get($target);
+			if (!($file instanceof File)) {
+				throw new \Exception('Target node is not a file');
+			}
+		}
+		$fd = $file->fopen('w');
+		fwrite($fd, $gpxHeader);
+
+		$nbPoints = $this->deviceMapper->countPointsPerDevice($device->getId(), null);
+		$this->getAndWriteDevicePoints($device->getId(), $device->getName(), null, $fd, $nbPoints);
+
+		fwrite($fd, '</gpx>');
+		fclose($fd);
+		$file->touch();
 	}
 
 	public function exportSession(string $name, string $token, string $target, string $username = '', ?array $filters = null) {

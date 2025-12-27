@@ -30,6 +30,20 @@
 			</NcButton>
 		</div>
 		<div class="line">
+			<NcTextField
+				v-model="exportFileName"
+				:label="t('phonetrack', 'Export file name')"
+				placeholder="..."
+				@keyup.enter="onExportDevice" />
+			<NcButton :title="t('phonetrack', 'Export device')"
+				@click="onExportDevice">
+				<template #icon>
+					<ContentSaveOutlineIcon :size="20" />
+				</template>
+				{{ t('phonetrack', 'Export') }}
+			</NcButton>
+		</div>
+		<div class="line">
 			<NcButton v-if="!addingPoint"
 				@click="onAddPointClick">
 				<template #icon>
@@ -164,6 +178,13 @@ import NcModal from '@nextcloud/vue/components/NcModal'
 
 import QRCode from './QRCode.vue'
 
+import {
+	getFilePickerBuilder,
+	FilePickerType,
+	showSuccess,
+	showError,
+} from '@nextcloud/dialogs'
+import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
@@ -222,6 +243,7 @@ export default {
 				'/apps/phonetrack/svg/phonetrack_square_bg?color='
 				+ hexToDarkerHex(getComplementaryColor(OCA.Phonetrack.themeColorDark)).replace('#', ''),
 			),
+			exportFileName: '',
 		}
 	},
 
@@ -307,6 +329,47 @@ export default {
 				deviceId: this.device.id,
 				sessionId: this.session.id,
 				values: { session_id: this.selectedTargetSession.id },
+			})
+		},
+		onExportDevice() {
+			console.debug('[phonetrack] ExportDevice', this.exportFileName)
+			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to export the device {name}', { name: this.device.name }))
+				.setMultiSelect(false)
+				.setType(FilePickerType.Choose)
+				.addMimeTypeFilter('httpd/unix-directory')
+				.allowDirectories()
+				.addButton({
+					label: t('phonetrack', 'Export in current directory'),
+					variant: 'primary',
+					callback: (nodes) => {
+						const node = nodes[0]
+						let path = node.path
+						if (path === '') {
+							path = '/'
+						}
+						path = path.replace(/^\/+/, '/')
+						this.exportDevice(path)
+					},
+				})
+				.build()
+			picker.pick()
+		},
+		exportDevice(path) {
+			const targetFilePath = path
+				+ (path === '/' ? '' : '/')
+				+ this.exportFileName
+			const req = {
+				target: targetFilePath,
+			}
+			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/export', {
+				sessionId: this.device.session_id,
+				deviceId: this.device.id,
+			})
+			axios.post(url, req).then((response) => {
+				showSuccess(t('phonetrack', 'Session successfully exported in {targetFilePath}', { targetFilePath }))
+			}).catch((error) => {
+				console.error(error)
+				showError(t('phonetrack', 'Failed to export the session'))
 			})
 		},
 	},

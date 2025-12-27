@@ -25,17 +25,18 @@
 				{{ t('phonetrack', 'Locked') }}
 			</div>
 		</NcFormBoxSwitch>
-		<div class="export-session">
+		<div class="line">
 			<NcTextField
 				v-model="exportFileName"
 				:label="t('phonetrack', 'Export file name')"
 				placeholder="..."
 				@keyup.enter="onExportSession" />
-			<NcButton @click="onExportSession">
+			<NcButton :title="t('phonetrack', 'Export session')"
+				@click="onExportSession">
 				<template #icon>
 					<ContentSaveOutlineIcon :size="20" />
 				</template>
-				{{ t('phonetrack', 'Export session') }}
+				{{ t('phonetrack', 'Export') }}
 			</NcButton>
 		</div>
 		<NcSelect
@@ -235,7 +236,9 @@ export default {
 			picker.pick()
 		},
 		exportSession(path) {
-			const targetFilePath = path + '/' + this.exportFileName
+			const targetFilePath = path
+				+ (path === '/' ? '' : '/')
+				+ this.exportFileName
 			const req = {
 				name: this.session.name,
 				token: this.session.token,
@@ -309,15 +312,6 @@ export default {
 	.checkbox-inner {
 		display: flex;
 		gap: 8px;
-	}
-
-	.export-session {
-		display: flex;
-		align-items: end;
-		justify-content: space-between;
-		> * {
-			max-width: 50%;
-		}
 	}
 
 	.device-reservation {

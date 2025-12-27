@@ -12,6 +12,7 @@
 
 namespace OCA\PhoneTrack\Controller;
 
+use OC\User\NoUserException;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\Device;
 use OCA\PhoneTrack\Db\DeviceMapper;
@@ -43,11 +44,15 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\DB\Exception;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\IL10N;
 
 use OCP\IRequest;
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use stdClass;
 
@@ -234,6 +239,35 @@ class PageController extends Controller {
 		}
 		$this->sessionMapper->update($session);
 		return new DataResponse($session);
+	}
+
+	/**
+	 * @param int $sessionId
+	 * @param int $deviceId
+	 * @param string $target
+	 * @return DataResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws LockedException
+	 * @throws NoUserException
+	 */
+	#[NoAdminRequired]
+	public function exportDevice(int $sessionId, int $deviceId, string $target): DataResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$device = $this->deviceMapper->getBySessionIdAndDeviceId($session->getId(), $deviceId);
+		} catch (DoesNotExistException $e) {
+			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+		}
+		$this->sessionService->exportDevice($device, $this->userId, $target);
+		return new DataResponse([]);
 	}
 
 	/**
