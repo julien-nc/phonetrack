@@ -1226,7 +1226,7 @@ export default {
 			return Promise.all(loadingPromises)
 				.then(results => {
 					console.debug('promise.all results', results)
-					if (results.some(result => result.code === 'ERR_CANCELED')) {
+					if (results.some(result => result?.code === 'ERR_CANCELED')) {
 						console.debug('At least one request has been canceled, do nothing')
 					}
 				})

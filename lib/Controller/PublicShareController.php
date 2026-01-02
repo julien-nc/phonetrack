@@ -7,7 +7,6 @@ use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\PointMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
-use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\MapService;
 use OCA\PhoneTrack\Service\SessionService;
 use OCP\AppFramework\Controller;
@@ -25,7 +24,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\DB\Exception;
 use OCP\IAppConfig;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -34,9 +32,7 @@ class PublicShareController extends Controller {
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		private IConfig $config,
 		private IAppConfig $appConfig,
-		private TileServerMapper $tileServerMapper,
 		private IL10N $l,
 		private SessionService $sessionService,
 		private MapService $mapService,
@@ -45,7 +41,6 @@ class PublicShareController extends Controller {
 		private PointMapper $pointMapper,
 		private PublicShareMapper $publicShareMapper,
 		private IInitialState $initialStateService,
-		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -158,7 +153,8 @@ class PublicShareController extends Controller {
 		}
 
 		if ($minTimestamp !== null && $maxTimestamp !== null && $minTimestamp > $maxTimestamp) {
-			return new DataResponse([]);
+			// TODO clarify what minTs and maxTs mean as params and filters, not clear, not consistent with authenticated page
+			return new DataResponse($combine ? ['before' => [], 'after' => []] : []);
 		}
 
 		return new DataResponse(
