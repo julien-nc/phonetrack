@@ -18,6 +18,7 @@ use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 
 use OCP\Notification\INotifier;
+use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
 
@@ -27,36 +28,18 @@ class Notifier implements INotifier {
 	) {
 	}
 
-	/**
-	 * Identifier of the notifier, only use [a-z0-9_]
-	 *
-	 * @return string
-	 * @since 17.0.0
-	 */
 	public function getID(): string {
-		return 'phonetrack';
-	}
-	/**
-	 * Human readable name describing the notifier
-	 *
-	 * @return string
-	 * @since 17.0.0
-	 */
-	public function getName(): string {
-		return $this->lFactory->get('phonetrack')->t('PhoneTrack');
+		return Application::APP_ID;
 	}
 
-	/**
-	 * @param INotification $notification
-	 * @param string $languageCode The code of the language that should be used to prepare the notification
-	 * @return INotification
-	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
-	 * @since 9.0.0
-	 */
+	public function getName(): string {
+		return $this->lFactory->get(Application::APP_ID)->t('PhoneTrack');
+	}
+
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if ($notification->getApp() !== 'phonetrack') {
+		if ($notification->getApp() !== Application::APP_ID) {
 			// Not my app => throw
-			throw new \InvalidArgumentException();
+			throw new UnknownNotificationException();
 		}
 
 		$l10n = $this->lFactory->get('phonetrack', $languageCode);
