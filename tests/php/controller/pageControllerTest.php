@@ -43,12 +43,12 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
 
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
 use OCP\Server;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -89,7 +89,6 @@ class PageControllerTest extends TestCase {
 	}
 
 	protected function setUp(): void {
-		$this->containerInterface = Server::get(ContainerInterface::class);
 		$this->appConfig = Server::get(IAppConfig::class);
 
 		$this->appName = 'phonetrack';
@@ -123,6 +122,8 @@ class PageControllerTest extends TestCase {
 			Server::get(SessionMapper::class),
 			Server::get(DeviceMapper::class),
 			$c->get(IL10N::class),
+			$c->get(IURLGenerator::class),
+			$c->get(LoggerInterface::class),
 			'test'
 		);
 

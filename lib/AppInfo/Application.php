@@ -23,6 +23,9 @@ class Application extends App implements IBootstrap {
 
 	public const APP_ID = 'phonetrack';
 
+	public const ACTIVITY_PROXIMITY_EVENT = 'phonetrack_proximity_event';
+	public const ACTIVITY_GEOFENCE_EVENT = 'phonetrack_geofence_event';
+
 	public const TILE_SERVER_RASTER = 0;
 	public const TILE_SERVER_VECTOR = 1;
 

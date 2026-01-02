@@ -24,10 +24,10 @@
 
 namespace OCA\PhoneTrack\Activity;
 
+use OCA\PhoneTrack\AppInfo\Application;
 use OCP\Activity\Exceptions\UnknownActivityException;
 use OCP\Activity\IEvent;
 use OCP\Activity\IProvider;
-use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -36,18 +36,77 @@ use OCP\IUserManager;
 class PhonetrackProvider implements IProvider {
 
 	public function __construct(
-		private IURLGenerator $urlGenerator,
+		private IURLGenerator $url,
 		private ActivityManager $activityManager,
 		private IUserManager $userManager,
 		private IGroupManager $groupManager,
-		private IL10N $l10n,
-		private IConfig $config,
-		private ?string $userId,
+		private IL10N $l,
 	) {
 	}
 
+	private function getUserParam(IEvent $event): array {
+		$author = $event->getAuthor();
+		if ($author !== '') {
+			// there is an author, the user might not exist anymore
+			$user = $this->userManager->get($author);
+			if ($user !== null) {
+				return [
+					'type' => 'user',
+					'id' => $author,
+					'name' => $user->getDisplayName()
+				];
+			} else {
+				return [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $this->l->t('Deleted user (%s)', [$author]),
+				];
+			}
+		} else {
+			// if there is no activity entry author, look for the author in the subject parameters
+			$subjectParams = $event->getSubjectParameters();
+
+			if (isset($subjectParams['author'])) {
+				$user = $this->userManager->get($subjectParams['author']);
+				// for the activity emails (taken from oc_activity_mq in which there is no entry author...)
+				// we need to get the author from the subject params
+				// (that's why we pass an author param when triggering the event even if the entry author is set)
+				if ($user !== null) {
+					return [
+						'type' => 'user',
+						'id' => $subjectParams['author'],
+						'name' => $user->getDisplayName()
+					];
+				} else {
+					// if the author is not found as a user, it is a name
+					return [
+						'type' => 'user',
+						'id' => '0',
+						'name' => $subjectParams['author'] ?: $this->l->t('Unknown author'),
+					];
+				}
+			} elseif (isset($subjectParams['share_label'])) {
+				// new way: we get the share label
+				return [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $subjectParams['share_label']
+						? $this->l->t('Shared access (%s)', [$subjectParams['share_label']])
+						: $this->l->t('Shared access'),
+				];
+			} else {
+				// fallback, this should never happen
+				return [
+					'type' => 'user',
+					'id' => '0',
+					'name' => $this->l->t('No author'),
+				];
+			}
+		}
+	}
+
 	public function parse($language, IEvent $event, ?IEvent $previousEvent = null) {
-		if ($event->getApp() !== 'phonetrack') {
+		if ($event->getApp() !== Application::APP_ID) {
 			throw new UnknownActivityException();
 		}
 
@@ -56,36 +115,10 @@ class PhonetrackProvider implements IProvider {
 		$subjectIdentifier = $event->getSubject();
 		$subjectParams = $event->getSubjectParameters();
 		$ownActivity = ($event->getAuthor() === $event->getAffectedUser());
-		$params = [];
+		$params = [
+			'user' => $this->getUserParam($event),
+		];
 
-		/**
-		 * Map stored parameter objects to rich string types
-		 */
-
-		$author = $event->getAuthor();
-		// get author if
-		if ($author === '' && array_key_exists('author', $subjectParams)) {
-			$author = $subjectParams['author'];
-			$params = [
-				'user' => [
-					'type' => 'user',
-					'id' => '0',
-					'name' => $subjectParams['author']
-				],
-			];
-			unset($subjectParams['author']);
-		}
-		$user = $this->userManager->get($author);
-		if ($user !== null) {
-			$params = [
-				'user' => [
-					'type' => 'user',
-					'id' => $author,
-					'name' => $user->getDisplayName()
-				],
-			];
-			$event->setAuthor($author);
-		}
 		if ($event->getObjectType() === ActivityManager::PHONETRACK_OBJECT_SESSION) {
 			if (isset($subjectParams['session']) && $event->getObjectName() === '') {
 				$event->setObject($event->getObjectType(), $event->getObjectId(), $subjectParams['session']['name']);
@@ -154,12 +187,12 @@ class PhonetrackProvider implements IProvider {
 	}
 
 	private function getIcon(IEvent $event) {
-		$event->setIcon($this->urlGenerator->imagePath('phonetrack', 'app_black.svg'));
+		$event->setIcon($this->url->imagePath('phonetrack', 'app_black.svg'));
 		if (strpos($event->getSubject(), 'geofence') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('phonetrack', 'geofence.svg'));
+			$event->setIcon($this->url->imagePath('phonetrack', 'geofence.svg'));
 		}
 		if (strpos($event->getSubject(), 'proximity') !== false) {
-			$event->setIcon($this->urlGenerator->imagePath('phonetrack', 'proximity.svg'));
+			$event->setIcon($this->url->imagePath('phonetrack', 'proximity.svg'));
 		}
 		return $event;
 	}
@@ -168,7 +201,7 @@ class PhonetrackProvider implements IProvider {
 		if (array_key_exists($paramName, $subjectParams)) {
 			$params[$paramName] = [
 				'type' => 'highlight',
-				'id' => $subjectParams[$paramName]['id'],
+				'id' => (string)$subjectParams[$paramName]['id'],
 				'name' => $subjectParams[$paramName]['name'],
 				//'link' => $this->phonetrackUrl('?'),
 			];
@@ -177,13 +210,13 @@ class PhonetrackProvider implements IProvider {
 	}
 	private function parseParamForDevice($paramName, $subjectParams, $params) {
 		if (array_key_exists($paramName, $subjectParams)) {
-			$name = array_key_exists('alias', $subjectParams[$paramName])
+			$name = isset($subjectParams[$paramName]['alias'])
 						? $subjectParams[$paramName]['alias'] . ' (' . $subjectParams[$paramName]['name'] . ')'
 						: $subjectParams[$paramName]['name'];
 			$params[$paramName] = [
 				'type' => 'highlight',
-				'id' => $subjectParams[$paramName]['id'],
-				'name' => $name,
+				'id' => (string)$subjectParams[$paramName]['id'],
+				'name' => (string)$name,
 				//'link' => $this->phonetrackUrl('?'),
 			];
 		}
@@ -196,14 +229,14 @@ class PhonetrackProvider implements IProvider {
 				$user = $this->userManager->get($subjectParams['who']);
 				$params['who'] = [
 					'type' => 'user',
-					'id' => $subjectParams['who'],
+					'id' => (string)$subjectParams['who'],
 					'name' => $user !== null ? $user->getDisplayName() : $subjectParams['who']
 				];
 			} else {
 				$group = $this->groupManager->get($subjectParams['who']);
 				$params['who'] = [
 					'type' => 'highlight',
-					'id' => $subjectParams['who'],
+					'id' => (string)$subjectParams['who'],
 					'name' => $group !== null ? $group->getDisplayName() : $subjectParams['who']
 				];
 			}
@@ -212,6 +245,6 @@ class PhonetrackProvider implements IProvider {
 	}
 
 	public function phonetrackUrl($endpoint) {
-		return $this->urlGenerator->linkToRouteAbsolute('phonetrack.page.index') . $endpoint;
+		return $this->url->linkToRouteAbsolute('phonetrack.page.index') . $endpoint;
 	}
 }

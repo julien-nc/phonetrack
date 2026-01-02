@@ -25,6 +25,7 @@
 namespace OCA\PhoneTrack\Activity;
 
 use InvalidArgumentException;
+use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\Device;
 use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\Session;
@@ -35,6 +36,8 @@ use OCP\Activity\IManager;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\IL10N;
+use OCP\IURLGenerator;
+use Psr\Log\LoggerInterface;
 
 class ActivityManager {
 
@@ -55,7 +58,9 @@ class ActivityManager {
 		private SessionService $sessionService,
 		private SessionMapper $sessionMapper,
 		private DeviceMapper $deviceMapper,
-		private IL10N $l10n,
+		private IL10N $l,
+		private IUrlGenerator $url,
+		private LoggerInterface $logger,
 		private ?string $userId,
 	) {
 	}
@@ -70,22 +75,22 @@ class ActivityManager {
 		$subject = '';
 		switch ($subjectIdentifier) {
 			case self::SUBJECT_GEOFENCE_ENTER:
-				$subject = $this->l10n->t('PhoneTrack device {device} of session {session} has entered geofence {geofence}');
+				$subject = $this->l->t('PhoneTrack device {device} of session {session} has entered geofence {geofence}');
 				break;
 			case self::SUBJECT_GEOFENCE_EXIT:
-				$subject = $this->l10n->t('PhoneTrack device {device} of session {session} has exited geofence {geofence}');
+				$subject = $this->l->t('PhoneTrack device {device} of session {session} has exited geofence {geofence}');
 				break;
 			case self::SUBJECT_PROXIMITY_CLOSE:
-				$subject = $this->l10n->t('PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}');
+				$subject = $this->l->t('PhoneTrack device {device} of session {session} is now closer than {meters} m to {device2} of session {session2}');
 				break;
 			case self::SUBJECT_PROXIMITY_FAR:
-				$subject = $this->l10n->t('PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}');
+				$subject = $this->l->t('PhoneTrack device {device} of session {session} is now farther than {meters} m from {device2} of session {session2}');
 				break;
 			case self::SUBJECT_SESSION_SHARE:
-				$subject = $ownActivity ? $this->l10n->t('You shared PhoneTrack session {session} with {who}') : $this->l10n->t('PhoneTrack session {session} is now shared with {who}');
+				$subject = $ownActivity ? $this->l->t('You shared PhoneTrack session {session} with {who}') : $this->l->t('PhoneTrack session {session} is now shared with {who}');
 				break;
 			case self::SUBJECT_SESSION_UNSHARE:
-				$subject = $ownActivity ? $this->l10n->t('You stopped sharing session {session} with {who}') : $this->l10n->t('PhoneTrack session {session} is not shared with {who} anymore');
+				$subject = $ownActivity ? $this->l->t('You stopped sharing session {session} with {who}') : $this->l->t('PhoneTrack session {session} is not shared with {who} anymore');
 				break;
 			default:
 				break;
@@ -116,10 +121,10 @@ class ActivityManager {
 		try {
 			$object = $this->findObjectForEntity($objectType, $entity);
 		} catch (DoesNotExistException $e) {
-			\OC::$server->getLogger()->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
+			$this->logger->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
 			return null;
 		} catch (MultipleObjectsReturnedException $e) {
-			\OC::$server->getLogger()->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
+			$this->logger->error('Could not create activity entry for ' . $subject . '. Entity not found.', (array)$entity);
 			return null;
 		}
 
@@ -137,7 +142,7 @@ class ActivityManager {
 			case self::SUBJECT_GEOFENCE_EXIT:
 				$subjectParams = $this->findDetailsForDevice($entity->getId());
 				$objectName = $object->getName();
-				$eventType = 'phonetrack_geofence_event';
+				$eventType = Application::ACTIVITY_GEOFENCE_EVENT;
 				break;
 			case self::SUBJECT_PROXIMITY_FAR:
 			case self::SUBJECT_PROXIMITY_CLOSE:
@@ -149,7 +154,7 @@ class ActivityManager {
 					$additionalParams['session2'] = $dev2details['session'];
 				}
 				$objectName = $object->getName();
-				$eventType = 'phonetrack_proximity_event';
+				$eventType = Application::ACTIVITY_PROXIMITY_EVENT;
 				break;
 			case self::SUBJECT_SESSION_SHARE:
 			case self::SUBJECT_SESSION_UNSHARE:
@@ -160,14 +165,14 @@ class ActivityManager {
 				throw new \Exception('Unknown subject for activity.');
 				break;
 		}
-		$subjectParams['author'] = $this->l10n->t('A PhoneTrack client');
 
 		$event = $this->manager->generateEvent();
-		$event->setApp('phonetrack')
+		$event->setApp(Application::APP_ID)
 			->setType($eventType)
-			->setAuthor($author === null ? $this->userId ?? '' : $author)
+			->setAuthor($author ?? $this->userId ?? '')
 			->setObject($objectType, (int)$object->getId(), $objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
+			->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'))
 			->setTimestamp(time());
 
 		return $event;
@@ -186,7 +191,6 @@ class ActivityManager {
 				$sessionId = $this->sessionMapper->findByToken($token)->getId();
 				break;
 			case self::PHONETRACK_OBJECT_SESSION:
-				$mapper = $this->sessionMapper;
 				$sessionId = $event->getObjectId();
 				break;
 		}
