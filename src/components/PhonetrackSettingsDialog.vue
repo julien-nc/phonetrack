@@ -9,7 +9,10 @@
 			<NcAppSettingsSection
 				id="map"
 				:name="t('phonetrack', 'Map')"
-				class="app-settings-section">
+				class="value-section">
+				<template #icon>
+					<MapIcon :size="20" />
+				</template>
 				<NcFormBox>
 					<NcFormBoxSwitch :model-value="settings.nav_show_hovered_session_bounds === '1'"
 						@update:model-value="onCheckboxChanged($event, 'nav_show_hovered_session_bounds')">
@@ -225,31 +228,43 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!isPublicPage"
 				id="export"
-				:name="t('phonetrack', 'Export location')"
-				class="app-settings-section">
-				<h3 class="app-settings-section__hint">
-					{{ t('phonetrack', 'Select export directory') }}
-				</h3>
-				<input
-					type="text"
-					class="app-settings-section__input"
-					:value="settings.autoexportpath"
-					:disabled="false"
+				:name="t('phonetrack', 'Export location')">
+				<template #icon>
+					<FolderOutlineIcon :size="20" />
+				</template>
+				<NcTextField
+					:model-value="settings.autoexportpath"
+					:label="t('phonetrack', 'Export directory')"
 					:readonly="true"
+					:show-trailing-button="!!outputDir"
+					@trailing-button-click="resetOutputDir"
 					@click="onExportDirClick">
+					<template #icon>
+						<FolderOutlineIcon :size="20" />
+					</template>
+				</NcTextField>
+				<NcButton @click="onExportDirClick">
+					<template #icon>
+						<FileImportIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Select export directory') }}
+				</NcButton>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!isPublicPage"
 				id="api-keys"
-				:name="t('phonetrack', 'API keys')"
-				class="app-settings-section">
-				<div class="app-settings-section__hint">
+				:name="t('phonetrack', 'API keys')">
+				<template #icon>
+					<KeyOutlineIcon :size="20" />
+				</template>
+				<div>
 					{{ t('phonetrack', 'If you leave the Maptiler API key empty, PhoneTrack will use the one defined by the Nextcloud admin as default.') }}
 				</div>
-				<div v-if="isAdmin" class="app-settings-section__hint with-icon">
+				<div v-if="isAdmin"
+					style="display: flex; align-items: center; gap: 4px;">
 					<AdminIcon :size="24" class="icon" />
 					<span v-html="adminApiKeyHint" />
 				</div>
-				<div class="app-settings-section__hint" v-html="maptilerHint" />
+				<div v-html="maptilerHint" />
 				<NcTextField
 					:model-value="settings.maptiler_api_key"
 					:label="t('phonetrack', 'API key to use Maptiler (for vector tile servers)')"
@@ -263,10 +278,12 @@
 					</template>
 				</NcTextField>
 			</NcAppSettingsSection>
-			<NcAppSettingsSection
-				id="tile-servers"
-				:name="t('phonetrack', 'Tile servers')"
-				class="app-settings-section">
+			<NcAppSettingsSection v-if="!isPublicPage"
+				id="tileservers"
+				:name="t('phonetrack', 'Tile servers')">
+				<template #icon>
+					<MapLegendIcon :size="20" />
+				</template>
 				<NcNoteCard v-if="!isPublicPage" type="info">
 					{{ t('phonetrack', 'Changes are effective after reloading the page.') }}
 				</NcNoteCard>
@@ -277,56 +294,60 @@
 			</NcAppSettingsSection>
 			<NcAppSettingsSection
 				id="about"
-				:name="t('phonetrack', 'About')"
-				class="app-settings-section">
-				<h3 class="app-settings-section__hint">
-					{{ '♥ ' + t('phonetrack', 'Thanks for using PhoneTrack') + ' ♥ (v' + settings.app_version + ')' }}
-				</h3>
-				<h3 class="app-settings-section__hint">
-					{{ t('phonetrack', 'Bug/issue tracker') + ': ' }}
-				</h3>
-				<a href="https://github.com/julien-nc/phonetrack/issues"
-					target="_blank"
-					class="external">
-					https://github.com/julien-nc/phonetrack/issues
-					<OpenInNewIcon :size="16" />
-				</a>
-				<h3 class="app-settings-section__hint">
-					{{ t('phonetrack', 'Translation') + ': ' }}
-				</h3>
-				<a href="https://crowdin.com/project/phonetrack"
-					target="_blank"
-					class="external">
-					https://crowdin.com/project/phonetrack
-					<OpenInNewIcon :size="16" />
-				</a>
-				<h3 class="app-settings-section__hint">
-					{{ t('phonetrack', 'User documentation') + ': ' }}
-				</h3>
-				<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/user.md"
-					target="_blank"
-					class="external">
-					https://github.com/julien-nc/phonetrack/blob/main/doc/user.md
-					<OpenInNewIcon :size="16" />
-				</a>
-				<h3 class="app-settings-section__hint">
-					{{ t('phonetrack', 'Admin documentation') + ': ' }}
-				</h3>
-				<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md"
-					target="_blank"
-					class="external">
-					https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md
-					<OpenInNewIcon :size="16" />
-				</a>
-				<h3 class="app-settings-section__hint">
-					{{ t('phonetrack', 'Developer documentation') + ': ' }}
-				</h3>
-				<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md"
-					target="_blank"
-					class="external">
-					https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md
-					<OpenInNewIcon :size="16" />
-				</a>
+				:name="t('phonetrack', 'About')">
+				<template #icon>
+					<InformationOutlineIcon :size="20" />
+				</template>
+				<div class="infos">
+					<label>
+						{{ '♥ ' + t('phonetrack', 'Thanks for using PhoneTrack') + ' ♥ (v' + settings.app_version + ')' }}
+					</label>
+					<label>
+						{{ t('phonetrack', 'Bug/issue tracker') + ': ' }}
+					</label>
+					<a href="https://github.com/julien-nc/phonetrack/issues"
+						target="_blank"
+						class="external">
+						https://github.com/julien-nc/phonetrack/issues
+						<OpenInNewIcon :size="16" />
+					</a>
+					<label>
+						{{ t('phonetrack', 'Translation') + ': ' }}
+					</label>
+					<a href="https://crowdin.com/project/phonetrack"
+						target="_blank"
+						class="external">
+						https://crowdin.com/project/phonetrack
+						<OpenInNewIcon :size="16" />
+					</a>
+					<label>
+						{{ t('phonetrack', 'User documentation') + ': ' }}
+					</label>
+					<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/user.md"
+						target="_blank"
+						class="external">
+						https://github.com/julien-nc/phonetrack/blob/main/doc/user.md
+						<OpenInNewIcon :size="16" />
+					</a>
+					<label>
+						{{ t('phonetrack', 'Admin documentation') + ': ' }}
+					</label>
+					<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md"
+						target="_blank"
+						class="external">
+						https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md
+						<OpenInNewIcon :size="16" />
+					</a>
+					<label>
+						{{ t('phonetrack', 'Developer documentation') + ': ' }}
+					</label>
+					<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md"
+						target="_blank"
+						class="external">
+						https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md
+						<OpenInNewIcon :size="16" />
+					</a>
+				</div>
 			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
 	</div>
@@ -348,6 +369,12 @@ import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import UpdateIcon from 'vue-material-design-icons/Update.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
+import MapIcon from 'vue-material-design-icons/Map.vue'
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
+import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
+import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
+import KeyOutlineIcon from 'vue-material-design-icons/KeyOutline.vue'
+import MapLegendIcon from 'vue-material-design-icons/MapLegend.vue'
 
 import AdminIcon from './icons/AdminIcon.vue'
 
@@ -361,6 +388,8 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
+import NcButton from '@nextcloud/vue/components/NcButton'
+
 // import Slider from 'vue3-slider'
 import Slider from 'primevue/slider'
 
@@ -390,6 +419,7 @@ export default {
 		NcFormBox,
 		NcFormBoxSwitch,
 		NcSelect,
+		NcButton,
 		KeyIcon,
 		OpenInNewIcon,
 		TextureBoxIcon,
@@ -405,6 +435,12 @@ export default {
 		UpdateIcon,
 		UndoIcon,
 		MagnifyIcon,
+		MapIcon,
+		InformationOutlineIcon,
+		FolderOutlineIcon,
+		FileImportIcon,
+		KeyOutlineIcon,
+		MapLegendIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -544,6 +580,12 @@ a.external {
 	}
 }
 
+.infos {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
 .inline-icon {
 	margin-right: 4px;
 }
@@ -553,68 +595,11 @@ a.external {
 	gap: 8px;
 }
 
-.app-settings-section {
-	margin-bottom: 80px;
-	&.last {
-		margin-bottom: 0;
-	}
-	&__title {
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-	&__hint {
-		color: var(--color-text-lighter);
-		padding: 8px 0;
-		&.with-icon {
-			display: flex;
-			align-items: center;
-			.icon {
-				margin-right: 8px;
-			}
-		}
-	}
-	&__input {
-		width: 100%;
-	}
-
-	.shortcut-description {
-		width: calc(100% - 160px);
-	}
-
-	.oneLine {
-		display: flex;
-		align-items: center;
-		margin: 8px 0;
-		> * {
-			margin: 0 4px 0 4px;
-		}
-		label {
-			width: 300px;
-		}
-		select,
-		input {
-			flex-grow: 1;
-		}
-	}
-
-	#refresh-duration,
-	#arrows-spacing,
-	#arrows-scale,
-	#line-width,
-	#line-opacity,
-	#fontsize,
-	#exaggeration {
-		-webkit-appearance: initial;
-	}
-
-	:deep(.checkbox-radio-switch__label-text) {
-		display: flex;
-	}
-
+.value-section {
 	:deep(.slider) {
 		height: 8px;
 		margin: 8px 0;
+
 		.p-slider-range {
 			background: var(--color-primary);
 		}
