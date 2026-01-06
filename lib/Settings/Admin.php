@@ -2,6 +2,7 @@
 
 namespace OCA\PhoneTrack\Settings;
 
+use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IAppConfig;
@@ -37,7 +38,7 @@ class Admin implements ISettings {
 			'proxy_osm' => $proxyOsm,
 		];
 		$this->initialStateService->provideInitialState('admin-config', $adminConfig);
-		return new TemplateResponse('phonetrack', 'adminSettings');
+		return new TemplateResponse(Application::APP_ID, 'adminSettings');
 	}
 
 	public function getSection() {

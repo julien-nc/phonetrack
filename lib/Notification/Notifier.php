@@ -42,7 +42,7 @@ class Notifier implements INotifier {
 			throw new UnknownNotificationException();
 		}
 
-		$l10n = $this->lFactory->get('phonetrack', $languageCode);
+		$l10n = $this->lFactory->get(Application::APP_ID, $languageCode);
 
 		switch ($notification->getSubject()) {
 			case 'enter_geofence':

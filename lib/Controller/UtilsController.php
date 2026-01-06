@@ -122,9 +122,9 @@ class UtilsController extends Controller {
 	 */
 	#[NoAdminRequired]
 	public function deleteOptionsValues() {
-		$keys = $this->config->getUserKeys($this->userId, 'phonetrack');
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$this->config->deleteUserValue($this->userId, 'phonetrack', $key);
+			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
 		}
 		return new DataResponse(['done' => 1]);
 	}
@@ -138,7 +138,7 @@ class UtilsController extends Controller {
 			if (is_bool($value)) {
 				$value = $value ? 'true' : 'false';
 			}
-			$this->config->setUserValue($this->userId, 'phonetrack', $key, $value);
+			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
 		}
 		return new DataResponse(['done' => true]);
 	}
@@ -168,9 +168,9 @@ class UtilsController extends Controller {
 	#[NoAdminRequired]
 	public function getOptionsValues() {
 		$ov = [];
-		$keys = $this->config->getUserKeys($this->userId, 'phonetrack');
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$value = $this->config->getUserValue($this->userId, 'phonetrack', $key);
+			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
 			$ov[$key] = $value;
 		}
 		return new DataResponse(['values' => $ov]);

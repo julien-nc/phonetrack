@@ -187,12 +187,12 @@ class PhonetrackProvider implements IProvider {
 	}
 
 	private function getIcon(IEvent $event) {
-		$event->setIcon($this->url->imagePath('phonetrack', 'app_black.svg'));
+		$event->setIcon($this->url->imagePath(Application::APP_ID, 'app_black.svg'));
 		if (strpos($event->getSubject(), 'geofence') !== false) {
-			$event->setIcon($this->url->imagePath('phonetrack', 'geofence.svg'));
+			$event->setIcon($this->url->imagePath(Application::APP_ID, 'geofence.svg'));
 		}
 		if (strpos($event->getSubject(), 'proximity') !== false) {
-			$event->setIcon($this->url->imagePath('phonetrack', 'proximity.svg'));
+			$event->setIcon($this->url->imagePath(Application::APP_ID, 'proximity.svg'));
 		}
 		return $event;
 	}

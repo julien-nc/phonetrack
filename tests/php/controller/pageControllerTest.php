@@ -54,7 +54,6 @@ use Throwable;
 
 class PageControllerTest extends TestCase {
 
-	private $appName;
 	private $request;
 
 	private $pageController;
@@ -91,7 +90,6 @@ class PageControllerTest extends TestCase {
 	protected function setUp(): void {
 		$this->appConfig = Server::get(IAppConfig::class);
 
-		$this->appName = 'phonetrack';
 		$this->request = Server::get(IRequest::class);
 
 		$this->deviceMapper = Server::get(DeviceMapper::class);
@@ -128,7 +126,7 @@ class PageControllerTest extends TestCase {
 		);
 
 		$this->pageController = new OldPageController(
-			$this->appName,
+			Application::APP_ID,
 			$this->request,
 			Server::get(IConfig::class),
 			Server::get(IUserManager::class),
@@ -144,7 +142,7 @@ class PageControllerTest extends TestCase {
 		);
 
 		$this->pageController2 = new OldPageController(
-			$this->appName,
+			Application::APP_ID,
 			$this->request,
 			Server::get(IConfig::class),
 			Server::get(IUserManager::class),
@@ -160,7 +158,7 @@ class PageControllerTest extends TestCase {
 		);
 
 		$this->logController = new LogController(
-			$this->appName,
+			Application::APP_ID,
 			$this->request,
 			Server::get(IConfig::class),
 			$this->appConfig,
@@ -181,7 +179,7 @@ class PageControllerTest extends TestCase {
 		);
 
 		$this->logController2 = new LogController(
-			$this->appName,
+			Application::APP_ID,
 			$this->request,
 			Server::get(IConfig::class),
 			$this->appConfig,
@@ -202,7 +200,7 @@ class PageControllerTest extends TestCase {
 		);
 
 		$this->utilsController = new UtilsController(
-			$this->appName,
+			Application::APP_ID,
 			$this->request,
 			Server::get(IConfig::class),
 			Server::get(IAppConfig::class),

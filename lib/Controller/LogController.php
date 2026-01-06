@@ -181,7 +181,7 @@ class LogController extends Controller {
 						$declineAction->setLabel('decline')
 							->setLink('/apps/phonetrack', 'GET');
 
-						$notification->setApp('phonetrack')
+						$notification->setApp(Application::APP_ID)
 							->setUser($aUserId)
 							->setDateTime(new DateTime())
 							->setObject('closeproxim', (string)$proximId)
@@ -313,7 +313,7 @@ class LogController extends Controller {
 						$declineAction->setLabel('decline')
 							->setLink('/apps/phonetrack', 'GET');
 
-						$notification->setApp('phonetrack')
+						$notification->setApp(Application::APP_ID)
 							->setUser($aUserId)
 							->setDateTime(new DateTime())
 							->setObject('farproxim', (string)$proximId)
@@ -481,7 +481,7 @@ class LogController extends Controller {
 							$declineAction->setLabel('decline')
 								->setLink('/apps/phonetrack', 'GET');
 
-							$notification->setApp('phonetrack')
+							$notification->setApp(Application::APP_ID)
 								->setUser($aUserId)
 								->setDateTime(new DateTime())
 								->setObject('entergeofence', (string)$fence->getId()) // $type and $id
@@ -603,7 +603,7 @@ class LogController extends Controller {
 							$declineAction->setLabel('decline')
 								->setLink('/apps/phonetrack', 'GET');
 
-							$notification->setApp('phonetrack')
+							$notification->setApp(Application::APP_ID)
 								->setUser($aUserId)
 								->setDateTime(new DateTime())
 								->setObject('leavegeofence', (string)$fence->getId()) // $type and $id
@@ -711,7 +711,7 @@ class LogController extends Controller {
 				$declineAction->setLabel('decline')
 					->setLink('/apps/phonetrack', 'GET');
 
-				$notification->setApp('phonetrack')
+				$notification->setApp(Application::APP_ID)
 					->setUser($userid)
 					->setDateTime(new DateTime())
 					->setObject('quotareached', (string)$nbPoints)
@@ -729,7 +729,7 @@ class LogController extends Controller {
 		// so we need space
 		$nbExceedingPoints = $nbPoints + $nbPointsToInsert - $quota;
 
-		$userChoice = $this->config->getUserValue($userid, 'phonetrack', 'quotareached', 'block');
+		$userChoice = $this->config->getUserValue($userid, Application::APP_ID, 'quotareached', 'block');
 
 		if ($userChoice !== 'block') {
 			if ($userChoice === 'rotatedev') {
