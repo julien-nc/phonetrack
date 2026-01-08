@@ -493,7 +493,7 @@ msgstr "OpenGTS-Link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1611
 msgid "Overland link"
-msgstr "Überlandverbindung"
+msgstr "Overland-Link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1615
 msgid "Locus Map link"

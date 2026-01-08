@@ -110,7 +110,7 @@ OC.L10N.register(
     "Ulogger link" : "Ulogger-Link",
     "Traccar link" : "Traccar-Link",
     "OpenGTS link" : "OpenGTS-Link",
-    "Overland link" : "Überlandverbindung",
+    "Overland link" : "Overland-Link",
     "Locus Map link" : "Locus-Map-Link",
     "HTTP GET link" : "HTTP-GET-Link",
     "The session you want to delete does not exist" : "Die zu löschende Sitzung ist nicht vorhanden",
