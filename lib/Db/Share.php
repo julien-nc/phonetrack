@@ -25,7 +25,6 @@ class Share extends Entity implements \JsonSerializable {
 	protected $sessionToken;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('sharetoken', Types::STRING);
 		$this->addType('username', Types::STRING);
 		$this->addType('sessionId', Types::INTEGER);

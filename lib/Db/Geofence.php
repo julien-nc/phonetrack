@@ -52,7 +52,6 @@ class Geofence extends Entity implements \JsonSerializable {
 	protected $sendnotif;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('name', Types::STRING);
 		$this->addType('deviceid', Types::INTEGER);
 		$this->addType('latmin', Types::FLOAT);

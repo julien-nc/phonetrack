@@ -46,7 +46,6 @@ class Point extends Entity implements \JsonSerializable {
 	protected $bearing;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('deviceid', Types::INTEGER);
 		$this->addType('lat', Types::FLOAT);
 		$this->addType('lon', Types::FLOAT);

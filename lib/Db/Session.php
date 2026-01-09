@@ -43,7 +43,6 @@ class Session extends Entity implements \JsonSerializable {
 	protected $enabled;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('user', Types::STRING);
 		$this->addType('name', Types::STRING);
 		$this->addType('token', Types::STRING);

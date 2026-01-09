@@ -46,7 +46,6 @@ class Proxim extends Entity implements \JsonSerializable {
 	protected $sendnotif;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('deviceid1', Types::INTEGER);
 		$this->addType('deviceid2', Types::INTEGER);
 		$this->addType('lowlimit', Types::INTEGER);

@@ -46,7 +46,6 @@ class Device extends Entity implements \JsonSerializable {
 	protected $autoZoom;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('name', Types::STRING);
 		$this->addType('alias', Types::STRING);
 		$this->addType('sessionId', Types::INTEGER);

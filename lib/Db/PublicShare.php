@@ -37,7 +37,6 @@ class PublicShare extends Entity implements \JsonSerializable {
 	protected $geofencify;
 
 	public function __construct() {
-		$this->addType('id', Types::INTEGER);
 		$this->addType('sessionId', Types::INTEGER);
 		$this->addType('sessionToken', Types::STRING);
 		$this->addType('sharetoken', Types::STRING);
