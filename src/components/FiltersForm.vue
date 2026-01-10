@@ -18,7 +18,7 @@
 				confirm
 				clearable
 				:disabled="!filtersEnabled"
-				@change="onUpdateDate('min')" />
+				@update:model-value="onUpdateDate('min')" />
 			<div class="line">
 				<NcButton
 					:disabled="!filtersEnabled"
@@ -57,7 +57,7 @@
 				confirm
 				clearable
 				:disabled="!filtersEnabled"
-				@change="onUpdateDate('max')" />
+				@update:model-value="onUpdateDate('max')" />
 			<div class="line">
 				<NcButton
 					:disabled="!filtersEnabled"
@@ -78,6 +78,37 @@
 				<NcButton
 					:disabled="!filtersEnabled"
 					@click="onAddTimestamp('max', 60 * 60 * 24)">
+					{{ t('phonetrack', '+ 1 day') }}
+					<template #icon>
+						<CalendarPlusOutlineIcon :size="20" />
+					</template>
+				</NcButton>
+			</div>
+		</div>
+		<div class="field-group date">
+			<label>
+				{{ t('phonetrack', 'Both dates') }}
+			</label>
+			<div class="line">
+				<NcButton
+					:disabled="!filtersEnabled"
+					@click="onAddTimestamp('min', -60 * 60 * 24); onAddTimestamp('max', -60 * 60 * 24)">
+					{{ t('phonetrack', '- 1 day') }}
+					<template #icon>
+						<CalendarMinusOutlineIcon :size="20" />
+					</template>
+				</NcButton>
+				<NcButton
+					:disabled="!filtersEnabled"
+					@click="filters.timestampmin = new Date(); onUpdateDate('min'); filters.timestampmax = new Date(); onUpdateDate('max')">
+					{{ t('phonetrack', 'Now') }}
+					<template #icon>
+						<CalendarTodayOutlineIcon :size="20" />
+					</template>
+				</NcButton>
+				<NcButton
+					:disabled="!filtersEnabled"
+					@click="onAddTimestamp('min', 60 * 60 * 24); onAddTimestamp('max', 60 * 60 * 24)">
 					{{ t('phonetrack', '+ 1 day') }}
 					<template #icon>
 						<CalendarPlusOutlineIcon :size="20" />
@@ -292,7 +323,12 @@ export default {
 			// emit('filter-changed')
 		},
 		onAddTimestamp(minMax, seconds) {
-			this.filters['timestamp' + minMax] = moment.unix(this.settings['timestamp' + minMax] + seconds).toDate()
+			if (this.settings['timestamp' + minMax] === null || this.settings['timestamp' + minMax] === '') {
+				const now = moment().unix()
+				this.filters['timestamp' + minMax] = moment.unix(now + seconds).toDate()
+			} else {
+				this.filters['timestamp' + minMax] = moment.unix(this.settings['timestamp' + minMax] + seconds).toDate()
+			}
 			this.onUpdateDate(minMax)
 		},
 	},
