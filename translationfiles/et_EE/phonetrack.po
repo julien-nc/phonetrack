@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2025-11-23 12:52\n"
+"PO-Revision-Date: 2026-01-10 11:47\n"
 "Last-Translator: \n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
@@ -51,14 +51,14 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ActivityManager.php:163
 msgid "A PhoneTrack client"
-msgstr ""
+msgstr "PhoneTracki klient"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Filter.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:2
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/admin.php:10
 msgid "PhoneTrack"
-msgstr ""
+msgstr "PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
@@ -1511,7 +1511,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:100
 msgid "Auto zoom"
-msgstr ""
+msgstr "Automaatne suumimine"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:108
 msgid "Show tooltips"
@@ -1583,7 +1583,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:179
 msgid "Theme"
-msgstr ""
+msgstr "Kujundus"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:181
 msgid "bright"
@@ -1643,7 +1643,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:274
 msgid "Server address"
-msgstr ""
+msgstr "Serveri aadress"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:275
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:397
