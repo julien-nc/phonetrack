@@ -4,12 +4,13 @@
 		@close="$emit('close')">
 		<div class="point-edit-modal-content">
 			<h2>{{ t('phonetrack', 'Edit point') }}</h2>
-			<NcDateTimePickerNative
+			<NcDateTimePicker
 				v-model="myPointDate"
 				class="datetime-picker"
-				type="datetime-local"
-				:hide-label="true"
-				@change="onUpdateDate" />
+				type="datetime"
+				confirm
+				:clearable="false"
+				@update:model-value="onUpdateDate" />
 			<NcTextField
 				v-model="myPoint.useragent"
 				:label="t('phonetrack', 'User-agent')"
@@ -81,7 +82,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
-import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
 
 import { floatFields } from '../utils.js'
 
@@ -95,7 +96,7 @@ export default {
 		NcModal,
 		NcTextField,
 		NcInputField,
-		NcDateTimePickerNative,
+		NcDateTimePicker,
 		ContentSaveOutlineIcon,
 		CloseIcon,
 		CellphoneIcon,
