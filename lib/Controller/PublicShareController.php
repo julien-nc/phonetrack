@@ -142,7 +142,7 @@ class PublicShareController extends Controller {
 			return new DataResponse(['error' => 'device_not_found'], Http::STATUS_NOT_FOUND);
 		}
 
-		// let the timestamp user filters override the param ones
+		// override the min and max timestamps in any case
 		if (isset($filters['timestampmin'])
 			&& ($minTimestamp === null || $filters['timestampmin'] > $minTimestamp)) {
 			$minTimestamp = $filters['timestampmin'];
@@ -152,9 +152,21 @@ class PublicShareController extends Controller {
 			$maxTimestamp = $filters['timestampmax'];
 		}
 
-		if ($minTimestamp !== null && $maxTimestamp !== null && $minTimestamp > $maxTimestamp) {
-			// TODO clarify what minTs and maxTs mean as params and filters, not clear, not consistent with authenticated page
-			return new DataResponse($combine ? ['before' => [], 'after' => []] : []);
+		// in classic mode (we want one segment), let the timestamp user filters override the param ones
+		// if min > max we know we can return an empty point list
+		if (!$combine && $minTimestamp !== null && $maxTimestamp !== null && $minTimestamp > $maxTimestamp) {
+			return new DataResponse([]);
+		} elseif (
+			// in combine mode, the min and max params mean something different
+			// we want all the points after min and all the points below max as 2 separate segments
+			// so we only potentially use the max filter to limit the "after min param" segment
+			// and the min filter to limit the "before max param" segment
+			$combine
+			// recent segment is empty if we don't ask for one or if the max filter is lower than the segment start
+			&& ($minTimestamp === null || (isset($filters['timestampmax']) && $filters['timestampmax'] < $minTimestamp))
+			// old segment is empty if we don't ask for one or if the min filter is higher than the segment end
+			&& ($maxTimestamp === null || (isset($filters['timestampmin']) && $filters['timestampmin'] > $maxTimestamp))) {
+			return new DataResponse(['before' => [], 'after' => []]);
 		}
 
 		return new DataResponse(
@@ -167,6 +179,7 @@ class PublicShareController extends Controller {
 					$filters['batterylevelmin'] ?? null, $filters['batterylevelmax'] ?? null,
 					$filters['speedmin'] ?? null, $filters['speedmax'] ?? null,
 					$filters['bearingmin'] ?? null, $filters['bearingmax'] ?? null,
+					$filters['timestampmax'] ?? null, $filters['timestampmin'] ?? null,
 				)
 				: $this->pointMapper->getDevicePoints(
 					$deviceId, $minTimestamp, $maxTimestamp, $maxPoints,
