@@ -7,12 +7,16 @@
 				{{ t('phonetrack', 'Use filters') }}
 			</div>
 		</NcFormBoxSwitch>
-		<div class="field-group">
-			<NcDateTimePickerNative
+		<div class="field-group date">
+			<label>
+				{{ t('phonetrack', 'Minimum date') }}
+			</label>
+			<NcDateTimePicker
 				v-model="filters.timestampmin"
 				class="datetime-picker"
-				type="datetime-local"
-				:label="t('phonetrack', 'Minimum date')"
+				type="datetime"
+				confirm
+				clearable
 				:disabled="!filtersEnabled"
 				@change="onUpdateDate('min')" />
 			<div class="line">
@@ -41,11 +45,17 @@
 					</template>
 				</NcButton>
 			</div>
-			<NcDateTimePickerNative
+		</div>
+		<div class="field-group date">
+			<label>
+				{{ t('phonetrack', 'Maximum date') }}
+			</label>
+			<NcDateTimePicker
 				v-model="filters.timestampmax"
 				class="datetime-picker"
-				type="datetime-local"
-				:label="t('phonetrack', 'Maximum date')"
+				type="datetime"
+				confirm
+				clearable
 				:disabled="!filtersEnabled"
 				@change="onUpdateDate('max')" />
 			<div class="line">
@@ -164,6 +174,7 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
+import NcDateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
 import NcButton from '@nextcloud/vue/components/NcButton'
 
 import { emit } from '@nextcloud/event-bus'
@@ -178,6 +189,7 @@ export default {
 		NcFormBox,
 		NcFormBoxSwitch,
 		NcDateTimePickerNative,
+		NcDateTimePicker,
 		NcButton,
 		CloseIcon,
 		FilterIcon,
@@ -300,11 +312,21 @@ export default {
 		display: flex;
 	}
 
+	:deep(.datetime-picker button svg) {
+		fill: var(--color-primary-element-light-text);
+	}
+
 	.field-group {
 		margin-bottom: 16px;
 		display: flex;
 		flex-direction: column;
 		gap: 4px;
+
+		&.date {
+			border: 2px solid var(--color-border);
+			border-radius: var(--border-radius-large);
+			padding: 6px;
+		}
 		.wide {
 			width: 100%;
 		}
