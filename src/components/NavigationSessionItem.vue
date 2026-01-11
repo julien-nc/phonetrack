@@ -206,20 +206,8 @@ export default {
 		},
 		downloadLink() {
 			return generateUrl(
-				'/apps/files/ajax/download.php?sessionId={sessionId}',
+				'/apps/phonetrack/session/{sessionId}/download',
 				{ sessionId: this.session.id },
-			)
-		},
-		downloadKmlLink() {
-			return generateUrl(
-				'/apps/phonetrack/directories/{dirId}/kml',
-				{ dirId: this.session.id },
-			)
-		},
-		downloadKmzLink() {
-			return generateUrl(
-				'/apps/phonetrack/directories/{dirId}/kmz',
-				{ dirId: this.session.id },
 			)
 		},
 		allDevicesSelected() {

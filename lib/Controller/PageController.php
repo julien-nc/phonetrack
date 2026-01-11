@@ -39,6 +39,7 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -239,6 +240,28 @@ class PageController extends Controller {
 		}
 		$this->sessionMapper->update($session);
 		return new DataResponse($session);
+	}
+
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function downloadSession(int $sessionId): DataDownloadResponse|TemplateResponse {
+		try {
+			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
+		} catch (DoesNotExistException $e) {
+			// return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
+			$response = new TemplateResponse(
+				'core',
+				'404',
+				[],
+				// ['content' => 'Session not found'],
+				TemplateResponse::RENDER_AS_ERROR,
+			);
+			$response->setStatus(Http::STATUS_NOT_FOUND);
+			return $response;
+		}
+		// TODO get session data
+		$data = 'plop :: ' . $session->getName();
+		return new DataDownloadResponse($data, $session->getName() . '.gpx', 'application/gpx+xml');
 	}
 
 	/**
