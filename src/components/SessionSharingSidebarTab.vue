@@ -450,6 +450,7 @@ export default {
 	h3 {
 		font-weight: bold;
 		text-align: center;
+		margin-top: 0;
 	}
 
 	hr {

@@ -38,45 +38,7 @@
 				:title="n('phonetrack', '{n} device', '{n} devices', deviceCount, { n: deviceCount })" />
 		</template>
 		<template #actions>
-			<template v-if="extraActionsOpen && !isPublicPage">
-				<NcActionButton :close-after-click="false"
-					@click="extraActionsOpen = false">
-					<template #icon>
-						<ChevronLeftIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Back') }}
-				</NcActionButton>
-				<NcActionLink
-					:close-after-click="true"
-					:href="downloadLink"
-					target="_blank">
-					<template #icon>
-						<DownloadIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Download') }}
-				</NcActionLink>
-				<NcActionLink
-					key="downloadKmlLink"
-					:close-after-click="true"
-					:href="downloadKmlLink"
-					target="_blank">
-					<template #icon>
-						<DownloadIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Download as KML') }}
-				</NcActionLink>
-				<NcActionLink
-					key="downloadKmzLink"
-					:close-after-click="true"
-					:href="downloadKmzLink"
-					target="_blank">
-					<template #icon>
-						<DownloadIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Download as KMZ (with photos)') }}
-				</NcActionLink>
-			</template>
-			<template v-else-if="!isPublicPage">
+			<template v-if="!isPublicPage">
 				<NcActionButton
 					:close-after-click="true"
 					@click="onDetailsClick">
@@ -118,12 +80,15 @@
 					</template>
 					{{ t('phonetrack', 'Zoom to bounds') }}
 				</NcActionButton>
-				<NcActionCheckbox
+				<NcActionLink
 					:close-after-click="true"
-					:model-value="session.locked"
-					@update:model-value="onChangeLocked">
-					{{ t('phonetrack', 'Locked') }}
-				</NcActionCheckbox>
+					:href="downloadLink"
+					target="_blank">
+					<template #icon>
+						<DownloadIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Download') }}
+				</NcActionLink>
 				<NcActionButton v-if="true"
 					:close-after-click="true"
 					@click="onDelete">
@@ -131,14 +96,6 @@
 						<TrashCanOutlineIcon :size="20" />
 					</template>
 					{{ t('phonetrack', 'Delete') }}
-				</NcActionButton>
-				<NcActionButton :close-after-click="false"
-					:is-menu="true"
-					@click="extraActionsOpen = true">
-					<template #icon>
-						<DotsHorizontalIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'More actions') }}
 				</NcActionButton>
 			</template>
 			<template v-else>
@@ -168,12 +125,10 @@
 </template>
 
 <script>
-import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 import ToggleSwitchIcon from 'vue-material-design-icons/ToggleSwitch.vue'
 import ToggleSwitchOffOutlineIcon from 'vue-material-design-icons/ToggleSwitchOffOutline.vue'
 import DownloadIcon from 'vue-material-design-icons/Download.vue'
 import MagnifyExpandIcon from 'vue-material-design-icons/MagnifyExpand.vue'
-import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
@@ -185,7 +140,6 @@ import NavigationDeviceItem from './NavigationDeviceItem.vue'
 
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 
@@ -202,18 +156,15 @@ export default {
 		NavigationDeviceItem,
 		NcAppNavigationItem,
 		NcActionButton,
-		NcActionCheckbox,
 		NcActionLink,
 		NcCounterBubble,
 		ShareVariantIcon,
 		TrashCanOutlineIcon,
-		ChevronLeftIcon,
 		MagnifyExpandIcon,
 		DownloadIcon,
 		ToggleSwitchIcon,
 		ToggleSwitchOffOutlineIcon,
 		InformationOutlineIcon,
-		DotsHorizontalIcon,
 		LinkVariantIcon,
 	},
 	inject: ['isPublicPage'],
@@ -238,7 +189,6 @@ export default {
 	data() {
 		return {
 			menuOpen: false,
-			extraActionsOpen: false,
 			isDraggedOver: false,
 		}
 	},
@@ -308,13 +258,7 @@ export default {
 			}
 		},
 		onUpdateMenuOpen(isOpen) {
-			if (!isOpen) {
-				this.extraActionsOpen = false
-			}
 			this.menuOpen = isOpen
-		},
-		onChangeLocked(locked) {
-			emit('update-session', { sessionId: this.session.id, values: { locked } })
 		},
 		onZoomToBounds() {
 			emit('zoom-on-session', { sessionId: this.session.id })
