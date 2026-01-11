@@ -138,6 +138,7 @@ class PageControllerTest extends TestCase {
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			Server::get(IAppManager::class),
+			Server::get(IURLGenerator::class),
 			'test'
 		);
 
@@ -154,6 +155,7 @@ class PageControllerTest extends TestCase {
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			Server::get(IAppManager::class),
+			Server::get(IURLGenerator::class),
 			'test2'
 		);
 
