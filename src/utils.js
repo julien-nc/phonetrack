@@ -458,28 +458,36 @@ export function formatExtensionValue(key, value, unit = 'metric') {
 export function sortDevices(devices, sortOrder, sortAscending = true) {
 	if (sortOrder === DEVICE_SORT_ORDER.name.value) {
 		const sortFunction = sortAscending
-			? (ta, tb) => {
-				return strcmp(ta.name, tb.name)
+			? (da, db) => {
+				return strcmp(da.name, db.name)
 			}
-			: (ta, tb) => {
-				return strcmp(tb.name, ta.name)
+			: (da, db) => {
+				return strcmp(db.name, da.name)
 			}
 		return devices.sort(sortFunction)
 	}
 	if (sortOrder === DEVICE_SORT_ORDER.date.value) {
 		const sortFunction = sortAscending
-			? (ta, tb) => {
-				const tsA = ta.date_begin
-				const tsB = tb.date_begin
+			? (da, db) => {
+				const tsA = da.points?.length > 0
+					? da.points[da.points.length - 1].timestamp
+					: 0
+				const tsB = db.points?.length > 0
+					? db.points[db.points.length - 1].timestamp
+					: 0
 				return tsA > tsB
 					? 1
 					: tsA < tsB
 						? -1
 						: 0
 			}
-			: (ta, tb) => {
-				const tsA = ta.date_begin
-				const tsB = tb.date_begin
+			: (da, db) => {
+				const tsA = da.points?.length > 0
+					? da.points[da.points.length - 1].timestamp
+					: 0
+				const tsB = db.points?.length > 0
+					? db.points[db.points.length - 1].timestamp
+					: 0
 				return tsA < tsB
 					? 1
 					: tsA > tsB

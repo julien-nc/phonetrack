@@ -1,7 +1,4 @@
 <template>
-	<!--
-		:editable="!extraActionsOpen && !sortActionsOpen"
-		-->
 	<NcAppNavigationItem
 		:name="session.name"
 		:title="sessionItemTitle"
@@ -41,39 +38,7 @@
 				:title="n('phonetrack', '{n} device', '{n} devices', deviceCount, { n: deviceCount })" />
 		</template>
 		<template #actions>
-			<template v-if="sortActionsOpen && !isPublicPage">
-				<NcActionButton :close-after-click="false"
-					@click="sortActionsOpen = false">
-					<template #icon>
-						<ChevronLeftIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Back') }}
-				</NcActionButton>
-				<NcActionRadio v-for="(so, soId) in DEVICE_SORT_ORDER"
-					:key="soId"
-					name="sortOrder"
-					:model-value="session.sortOrder"
-					:value="so.value"
-					@change="onSortOrderChange(so.value)">
-					{{ so.label }}
-				</NcActionRadio>
-				<NcActionSeparator />
-				<NcActionRadio
-					name="sortAscending"
-					:model-value="session.sortAscending"
-					:value="true"
-					@change="onSortAscendingChange(true)">
-					⬇ {{ t('phonetrack', 'Sort ascending') }}
-				</NcActionRadio>
-				<NcActionRadio
-					name="sortAscending"
-					:model-value="session.sortAscending"
-					:value="false"
-					@change="onSortAscendingChange(false)">
-					⬆ {{ t('phonetrack', 'Sort descending') }}
-				</NcActionRadio>
-			</template>
-			<template v-else-if="extraActionsOpen && !isPublicPage">
+			<template v-if="extraActionsOpen && !isPublicPage">
 				<NcActionButton :close-after-click="false"
 					@click="extraActionsOpen = false">
 					<template #icon>
@@ -153,14 +118,6 @@
 					</template>
 					{{ t('phonetrack', 'Zoom to bounds') }}
 				</NcActionButton>
-				<NcActionButton :close-after-click="false"
-					:is-menu="true"
-					@click="sortActionsOpen = true">
-					<template #icon>
-						<SortAscendingIcon :size="20" />
-					</template>
-					{{ t('phonetrack', 'Change device sort order') }}
-				</NcActionButton>
 				<NcActionCheckbox
 					:close-after-click="true"
 					:model-value="session.locked"
@@ -219,7 +176,6 @@ import MagnifyExpandIcon from 'vue-material-design-icons/MagnifyExpand.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
-import SortAscendingIcon from 'vue-material-design-icons/SortAscending.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 
@@ -230,8 +186,6 @@ import NavigationDeviceItem from './NavigationDeviceItem.vue'
 import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionCheckbox from '@nextcloud/vue/components/NcActionCheckbox'
-import NcActionRadio from '@nextcloud/vue/components/NcActionRadio'
-import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 
@@ -250,13 +204,10 @@ export default {
 		NcActionButton,
 		NcActionCheckbox,
 		NcActionLink,
-		NcActionRadio,
-		NcActionSeparator,
 		NcCounterBubble,
 		ShareVariantIcon,
 		TrashCanOutlineIcon,
 		ChevronLeftIcon,
-		SortAscendingIcon,
 		MagnifyExpandIcon,
 		DownloadIcon,
 		ToggleSwitchIcon,
@@ -279,12 +230,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		settings: {
+			type: Object,
+			required: true,
+		},
 	},
 	data() {
 		return {
 			menuOpen: false,
-			sortActionsOpen: false,
-			DEVICE_SORT_ORDER,
 			extraActionsOpen: false,
 			isDraggedOver: false,
 		}
@@ -334,7 +287,11 @@ export default {
 			if (!this.compact) {
 				return []
 			}
-			return sortDevices(Object.values(this.session.devices), this.session.sortOrder, this.session.sortAscending)
+			return sortDevices(
+				Object.values(this.session.devices),
+				this.settings.sortOrder ?? DEVICE_SORT_ORDER.name.value,
+				this.settings.sortAscending === 'ascending',
+			)
 		},
 	},
 	beforeMount() {
@@ -352,16 +309,9 @@ export default {
 		},
 		onUpdateMenuOpen(isOpen) {
 			if (!isOpen) {
-				this.sortActionsOpen = false
 				this.extraActionsOpen = false
 			}
 			this.menuOpen = isOpen
-		},
-		onSortOrderChange(sortOrder) {
-			emit('session-sort-changed', { sessionId: this.session.id, sortOrder })
-		},
-		onSortAscendingChange(sortAscending) {
-			emit('session-sort-changed', { sessionId: this.session.id, sortAscending })
 		},
 		onChangeLocked(locked) {
 			emit('update-session', { sessionId: this.session.id, values: { locked } })

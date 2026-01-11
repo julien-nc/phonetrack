@@ -45,7 +45,8 @@
 				:key="s.id"
 				:session="s"
 				:compact="compact"
-				:selected="!compact && s.id === selectedSessionId" />
+				:selected="!compact && s.id === selectedSessionId"
+				:settings="settings" />
 		</template>
 		<template #footer>
 			<div id="app-settings">

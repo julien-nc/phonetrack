@@ -54,6 +54,8 @@ import NcAppContentList from '@nextcloud/vue/components/NcAppContentList'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 
+import { DEVICE_SORT_ORDER } from '../constants.js'
+import { sortDevices } from '../utils.js'
 import { basename } from '@nextcloud/paths'
 import { emit } from '@nextcloud/event-bus'
 
@@ -101,8 +103,11 @@ export default {
 			return Object.values(this.session.devices)
 		},
 		sortedDevices() {
-			return this.filteredDevices
-			// return sortDevices(this.filteredDevices.slice(), this.directory.sortOrder, this.directory.sortAscending)
+			return sortDevices(
+				this.filteredDevices.slice(),
+				this.settings.sortOrder ?? DEVICE_SORT_ORDER.name.value,
+				this.settings.sortAscending === 'ascending',
+			)
 		},
 		filteredDevices() {
 			if (this.filterQuery === '') {

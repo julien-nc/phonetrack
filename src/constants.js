@@ -10,11 +10,11 @@ export const SHARE_TYPE = {
 
 export const DEVICE_SORT_ORDER = {
 	name: {
-		value: 0,
+		value: 'name',
 		label: t('phonetrack', 'Name'),
 	},
 	date: {
-		value: 1,
+		value: 'date',
 		label: t('phonetrack', 'Most recent activity'),
 	},
 }

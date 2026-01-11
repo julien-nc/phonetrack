@@ -226,6 +226,28 @@
 						@update:model-value="onComponentInputChange($event.value, 'quotareached')" />
 				</NcFormBox>
 			</NcAppSettingsSection>
+			<NcAppSettingsSection
+				id="sorting"
+				:name="t('phonetrack', 'Sorting')"
+				class="value-section">
+				<template #icon>
+					<SortAscendingIcon :size="20" />
+				</template>
+				<NcSelect
+					:model-value="selectedSortOrder"
+					:input-label="t('phonetrack', 'Sort devices by')"
+					:options="Object.values(DEVICE_SORT_ORDER)"
+					:no-wrap="true"
+					:clearable="false"
+					@update:model-value="onComponentInputChange($event.value, 'sortOrder')" />
+				<NcSelect
+					:model-value="selectedSortAscending"
+					:input-label="t('phonetrack', 'Sort direction')"
+					:options="Object.values(sortAscendingOptions)"
+					:no-wrap="true"
+					:clearable="false"
+					@update:model-value="onComponentInputChange($event.value, 'sortAscending')" />
+			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!isPublicPage"
 				id="export"
 				:name="t('phonetrack', 'Export location')">
@@ -375,6 +397,7 @@ import FolderOutlineIcon from 'vue-material-design-icons/FolderOutline.vue'
 import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import KeyOutlineIcon from 'vue-material-design-icons/KeyOutline.vue'
 import MapLegendIcon from 'vue-material-design-icons/MapLegend.vue'
+import SortAscendingIcon from 'vue-material-design-icons/SortAscending.vue'
 
 import AdminIcon from './icons/AdminIcon.vue'
 
@@ -394,6 +417,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import Slider from 'primevue/slider'
 
 import { delay } from '../utils.js'
+import { DEVICE_SORT_ORDER } from '../constants.js'
 import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
@@ -441,6 +465,7 @@ export default {
 		FileImportIcon,
 		KeyOutlineIcon,
 		MapLegendIcon,
+		SortAscendingIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -485,10 +510,27 @@ export default {
 					value: 'rotatedev',
 				},
 			},
+			sortAscendingOptions: {
+				ascending: {
+					label: t('phonetrack', 'Ascending'),
+					value: 'ascending',
+				},
+				descending: {
+					label: t('phonetrack', 'Descending'),
+					value: 'descending',
+				},
+			},
+			DEVICE_SORT_ORDER,
 		}
 	},
 
 	computed: {
+		selectedSortOrder() {
+			return DEVICE_SORT_ORDER[this.settings.sortOrder] ?? DEVICE_SORT_ORDER.name
+		},
+		selectedSortAscending() {
+			return this.sortAscendingOptions[this.settings.sortAscending] ?? this.sortAscendingOptions.descending
+		},
 		selectedDistanceUnit() {
 			return this.distanceUnitOptions[this.settings.distance_unit] ?? this.distanceUnitOptions.metric
 		},
