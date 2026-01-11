@@ -122,6 +122,16 @@ class MapController extends Controller {
 				return $headers['Content-Type'][0];
 			}
 		}
+		if (isset($headers['content-type'])) {
+			if (is_string($headers['content-type'])) {
+				return $headers['content-type'];
+			} elseif (is_array($headers['content-type'])
+				&& count($headers['content-type']) > 0
+				&& is_string($headers['content-type'][0])
+			) {
+				return $headers['content-type'][0];
+			}
+		}
 		return $defaultType;
 	}
 
