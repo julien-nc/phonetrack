@@ -39,6 +39,7 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 use XMLParser;
@@ -67,6 +68,7 @@ class OldPageController extends Controller {
 		private IDBConnection $dbConnection,
 		private IRootFolder $root,
 		private IAppManager $appManager,
+		private IUrlGenerator $url,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -135,7 +137,8 @@ class OldPageController extends Controller {
 			'lastposonly' => '',
 			'sharefilters' => '',
 			'filtersBookmarks' => $this->getFiltersBookmarks(),
-			'phonetrack_version' => $this->appManager->getAppVersion(Application::APP_ID)
+			'phonetrack_version' => $this->appManager->getAppVersion(Application::APP_ID),
+			'vue_index_url' => $this->url->linkToRouteAbsolute(Application::APP_ID . '.Page.index')
 		];
 		$response = new TemplateResponse(Application::APP_ID, 'main', $params);
 		$response->addHeader('Access-Control-Allow-Origin', '*');

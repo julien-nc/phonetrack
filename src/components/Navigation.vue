@@ -52,7 +52,7 @@
 				<div id="app-settings-header">
 					<NcAppNavigationItem
 						:name="t('phonetrack', 'Old interface')"
-						@click="goToOldInterface">
+						:href="oldInterfaceUrl">
 						<template #icon>
 							<SkipPreviousIcon :size="20" />
 						</template>
@@ -168,6 +168,7 @@ export default {
 			showCreationModal: false,
 			showFilters: false,
 			filterMenuOpen: false,
+			oldInterfaceUrl: generateUrl('/apps/phonetrack'),
 		}
 	},
 
@@ -232,9 +233,6 @@ export default {
 		onCloseFilterModal() {
 			this.showFilters = false
 			emit('filter-changed')
-		},
-		goToOldInterface() {
-			window.location = generateUrl('/apps/phonetrack')
 		},
 	},
 }
