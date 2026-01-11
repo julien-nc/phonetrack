@@ -1,10 +1,6 @@
 <template>
 	<div class="map-wrapper"
 		:class="{ withTopLeftButton }">
-		<a href="https://www.maptiler.com" class="watermark">
-			<img :src="logoUrl"
-				alt="MapTiler logo">
-		</a>
 		<div id="phonetrack-map" ref="mapContainer" />
 		<div v-if="map"
 			class="map-content">
@@ -37,7 +33,7 @@ import {
 	getExtraTileServers,
 } from '../../tileServers.js'
 import { mapImages, mapVectorImages } from '../../mapUtils.js'
-import { MousePositionControl, TileControl, TerrainControl, GlobeControl } from '../../mapControls.js'
+import { MousePositionControl, TileControl, TerrainControl, GlobeControl, ImageControl } from '../../mapControls.js'
 import { maplibreForwardGeocode } from '../../nominatimGeocoder.js'
 
 import VMarker from './VMarker.vue'
@@ -45,6 +41,7 @@ import VMarker from './VMarker.vue'
 import { COLOR_CRITERIAS } from '../../constants.js'
 
 const DEFAULT_MAP_MAX_ZOOM = 22
+const maptilerVectorStyles = ['streets', 'satellite', 'outdoor', 'osm', 'dark']
 
 export default {
 	name: 'MaplibreMap',
@@ -120,10 +117,12 @@ export default {
 			COLOR_CRITERIAS,
 			mousePositionControl: null,
 			scaleControl: null,
+			fullscreenControl: null,
 			myUseTerrain: this.useTerrain,
 			terrainControl: null,
 			myUseGlobe: this.useGlobe,
 			globeControl: null,
+			maptilerImageControl: null,
 			logoUrl: this.isPublicPage
 				? 'https://api.maptiler.com/resources/logo.svg'
 				: generateUrl('/apps/phonetrack/maptiler/resources/logo.svg'),
@@ -286,11 +285,26 @@ export default {
 			const tileControl = new TileControl({ styles: this.styles, selectedKey: restoredStyleKey })
 			tileControl.on('changeStyle', (key) => {
 				this.$emit('map-state-change', { mapStyle: key })
+				if (maptilerVectorStyles.includes(key) && !this.map.hasControl(this.maptilerImageControl)) {
+					this.map.addControl(this.maptilerImageControl, 'top-right')
+					this.maptilerImageControl.moveBefore(this.fullscreenControl._controlContainer)
+				} else if (!maptilerVectorStyles.includes(key) && this.map.hasControl(this.maptilerImageControl)) {
+					this.map.removeControl(this.maptilerImageControl)
+				}
 			})
 			this.map.addControl(tileControl, 'top-right')
 
-			const fullscreenControl = new FullscreenControl()
-			this.map.addControl(fullscreenControl, 'top-right')
+			this.maptilerImageControl = new ImageControl({
+				imgUrl: this.logoUrl,
+				imgAlt: 'MapTiler logo',
+				linkTarget: 'https://www.maptiler.com',
+			})
+			if (maptilerVectorStyles.includes(restoredStyleKey)) {
+				this.map.addControl(this.maptilerImageControl, 'top-right')
+			}
+
+			this.fullscreenControl = new FullscreenControl()
+			this.map.addControl(this.fullscreenControl, 'top-right')
 
 			this.terrainControl = new TerrainControl()
 			this.terrainControl.on('toggleTerrain', this.toggleTerrain)
@@ -544,13 +558,6 @@ export default {
 	#phonetrack-map {
 		width: 100%;
 		height: 100%;
-	}
-
-	.watermark {
-		position: absolute;
-		left: 10px;
-		bottom: 18px;
-		z-index: 999;
 	}
 }
 </style>
