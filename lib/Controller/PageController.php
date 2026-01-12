@@ -259,8 +259,7 @@ class PageController extends Controller {
 			$response->setStatus(Http::STATUS_NOT_FOUND);
 			return $response;
 		}
-		// TODO get session data
-		$data = 'plop :: ' . $session->getName();
+		$data = $this->sessionService->getSessionGpxData($session, $this->userId);
 		return new DataDownloadResponse($data, $session->getName() . '.gpx', 'application/gpx+xml');
 	}
 

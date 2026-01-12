@@ -174,13 +174,13 @@ class DeviceMapper extends QBMapper {
 		return $qb->executeStatement();
 	}
 
-	public function countDevicesPerSession(string $token): int {
+	public function countDevicesPerSession(int $sessionId): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_devs')
 			->from($this->getTableName())
 			->where(
-				$qb->expr()->eq('session_token', $qb->createNamedParameter($token))
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_INT))
 			);
 
 		$req = $qb->executeQuery();

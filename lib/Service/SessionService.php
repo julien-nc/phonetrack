@@ -288,7 +288,10 @@ class SessionService {
 		fwrite($fd, $gpxHeader);
 
 		$nbPoints = $this->deviceMapper->countPointsPerDevice($device->getId(), null);
-		$this->getAndWriteDevicePoints($device->getId(), $device->getName(), null, $fd, $nbPoints);
+		$chunks = $this->getDeviceAsGpxTrk($device->getId(), $device->getName(), null, $nbPoints);
+		foreach ($chunks as $chunk) {
+			fwrite($fd, $chunk);
+		}
 
 		fwrite($fd, '</gpx>');
 		fclose($fd);
@@ -378,10 +381,10 @@ class SessionService {
 					}
 
 					// check if there are points in this session (with filters)
-					$sessionPointNumber = $this->sessionMapper->countPointsPerSession($sessionToken, $filters);
+					$sessionPointNumber = $this->sessionMapper->countPointsPerSession($sessionId, $filters);
 					if ($sessionPointNumber > 0) {
 						// check if all devices of this session (not filtered) have points
-						if ($this->deviceMapper->countDevicesPerSession($sessionToken) > count($devices)) {
+						if ($this->deviceMapper->countDevicesPerSession($sessionId) > count($devices)) {
 							$warning = 2;
 						}
 						// one file for the whole session
@@ -414,7 +417,10 @@ class SessionService {
 									fwrite($fd, $gpxHeader);
 								}
 
-								$this->getAndWriteDevicePoints($deviceId, $deviceName, $filters, $fd, $nbPoints);
+								$chunks = $this->getDeviceAsGpxTrk($deviceId, $deviceName, $filters, $nbPoints);
+								foreach ($chunks as $chunk) {
+									fwrite($fd, $chunk);
+								}
 
 								if ($oneFilePerDevice) {
 									fwrite($fd, '</gpx>');
@@ -439,6 +445,36 @@ class SessionService {
 		}
 
 		return [$done, $warning];
+	}
+
+	public function getSessionGpxData(Session $session, string $userId): string {
+		$sessionId = $session->getId();
+		$devices = $this->deviceMapper->getDevicesWithPointsInSession($sessionId);
+
+		$filters = $this->getCurrentFilters2($userId);
+
+		// check if there are points in this session (with filters)
+		$sessionPointNumber = $this->sessionMapper->countPointsPerSession($sessionId, $filters);
+		if ($sessionPointNumber === 0) {
+			return '';
+		}
+		// one file for the whole session
+		$data = $this->generateGpxHeader($session->getName(), count($devices));
+		foreach ($devices as $device) {
+			$deviceId = $device->getId();
+			$deviceName = $device->getName();
+
+			// check if there are coords for this device (with filters)
+			$nbPoints = $this->deviceMapper->countPointsPerDevice($deviceId, $filters);
+			if ($nbPoints > 0) {
+				$chunks = $this->getDeviceAsGpxTrk($deviceId, $deviceName, $filters, $nbPoints);
+				foreach ($chunks as $chunk) {
+					$data .= $chunk;
+				}
+			}
+		}
+		$data .= '</gpx>';
+		return $data;
 	}
 
 	public function getCurrentFilters($userId) {
@@ -685,20 +721,17 @@ class SessionService {
 	}
 
 	/**
-	 * @param int $devid
-	 * @param string $devname
+	 * @param int $deviceId
+	 * @param string $deviceName
 	 * @param array|null $filters
-	 * @param $fd
 	 * @param int $nbPoints
-	 * @return int
+	 * @return \Generator
 	 * @throws Exception
 	 */
-	private function getAndWriteDevicePoints(int $devid, string $devname, ?array $filters, $fd, int $nbPoints): int {
-		$done = 0;
-
-		$gpxText = '<trk>' . "\n" . ' <name>' . $devname . '</name>' . "\n";
+	private function getDeviceAsGpxTrk(int $deviceId, string $deviceName, ?array $filters, int $nbPoints): \Generator {
+		$gpxText = '<trk>' . "\n" . ' <name>' . $deviceName . '</name>' . "\n";
 		$gpxText .= ' <trkseg>' . "\n";
-		fwrite($fd, $gpxText);
+		yield $gpxText;
 
 		$chunkSize = 10000;
 		$pointIndex = 0;
@@ -706,7 +739,7 @@ class SessionService {
 		while ($pointIndex < $nbPoints) {
 			$gpxText = '';
 
-			$points = $this->deviceMapper->getDevicePoints($devid, $filters, $chunkSize, $pointIndex);
+			$points = $this->deviceMapper->getDevicePoints($deviceId, $filters, $chunkSize, $pointIndex);
 
 			foreach ($points as $point) {
 				$epoch = $point['timestamp'];
@@ -756,16 +789,15 @@ class SessionService {
 				}
 				$gpxText .= '  </trkpt>' . "\n";
 			}
-			// write the chunk !
-			fwrite($fd, $gpxText);
+			yield $gpxText;
 			$pointIndex = $pointIndex + $chunkSize;
 			//$this->logger->info('EXPORT MEM USAGE '.memory_get_usage(), ['app' => $this->appName]);
 		}
 		$gpxText = ' </trkseg>' . "\n";
 		$gpxText .= '</trk>' . "\n";
-		fwrite($fd, $gpxText);
+		yield $gpxText;
 
-		return $done;
+		return [];
 	}
 
 	/**

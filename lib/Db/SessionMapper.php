@@ -297,19 +297,19 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
-	 * @param string $token
+	 * @param int $sessionId
 	 * @param array|null $filters
 	 * @return int
 	 * @throws Exception
 	 */
-	public function countPointsPerSession(string $token, ?array $filters = null): int {
+	public function countPointsPerSession(int $sessionId, ?array $filters = null): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_points')
 			->from('phonetrack_devices', 'dev')
 			->innerJoin('dev', 'phonetrack_points', 'poi', $qb->expr()->eq('dev.id', 'poi.deviceid'))
 			->where(
-				$qb->expr()->eq('session_token', $qb->createNamedParameter($token))
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_INT))
 			);
 
 		if ($filters !== null) {
