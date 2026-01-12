@@ -41,7 +41,6 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\StreamTraversableResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\DB\Exception;
@@ -260,13 +259,8 @@ class PageController extends Controller {
 			return $response;
 		}
 		$chunks = $this->sessionService->getSessionGpxData($session, $this->userId);
-		/*
-		$data = '';
-		foreach ($chunks as $chunk) {
-			$data .= $chunk;
-		}
-		return new DataDownloadResponse($data, $session->getName() . '.gpx', 'application/gpx+xml');
-		*/
+		// TODO use OCP\AppFramework\Http\StreamTraversableResponse when phonetrack min supported NC version becomes 33
+		// OCA\PhoneTrack\Controller\StreamTraversableResponse is a copy of OCP\AppFramework\Http\StreamTraversableResponse
 		return new StreamTraversableResponse($chunks, Http::STATUS_OK, [
 			'Content-Type' => 'application/gpx+xml',
 			'Content-Disposition' => 'attachment; filename="' . $session->getName() . '.gpx"',
