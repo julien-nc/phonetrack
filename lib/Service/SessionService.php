@@ -447,7 +447,7 @@ class SessionService {
 		return [$done, $warning];
 	}
 
-	public function getSessionGpxData(Session $session, string $userId): string {
+	public function getSessionGpxData(Session $session, string $userId): \Generator {
 		$sessionId = $session->getId();
 		$devices = $this->deviceMapper->getDevicesWithPointsInSession($sessionId);
 
@@ -459,7 +459,7 @@ class SessionService {
 			return '';
 		}
 		// one file for the whole session
-		$data = $this->generateGpxHeader($session->getName(), count($devices));
+		yield $this->generateGpxHeader($session->getName(), count($devices));
 		foreach ($devices as $device) {
 			$deviceId = $device->getId();
 			$deviceName = $device->getName();
@@ -469,12 +469,12 @@ class SessionService {
 			if ($nbPoints > 0) {
 				$chunks = $this->getDeviceAsGpxTrk($deviceId, $deviceName, $filters, $nbPoints);
 				foreach ($chunks as $chunk) {
-					$data .= $chunk;
+					yield $chunk;
 				}
 			}
 		}
-		$data .= '</gpx>';
-		return $data;
+		yield '</gpx>';
+		return [];
 	}
 
 	public function getCurrentFilters($userId) {
@@ -737,11 +737,11 @@ class SessionService {
 		$pointIndex = 0;
 
 		while ($pointIndex < $nbPoints) {
-			$gpxText = '';
 
 			$points = $this->deviceMapper->getDevicePoints($deviceId, $filters, $chunkSize, $pointIndex);
 
 			foreach ($points as $point) {
+				$gpxText = '';
 				$epoch = $point['timestamp'];
 				$date = '';
 				if (is_numeric($epoch)) {
@@ -788,8 +788,8 @@ class SessionService {
 					$gpxText .= '   </extensions>' . "\n";
 				}
 				$gpxText .= '  </trkpt>' . "\n";
+				yield $gpxText;
 			}
-			yield $gpxText;
 			$pointIndex = $pointIndex + $chunkSize;
 			//$this->logger->info('EXPORT MEM USAGE '.memory_get_usage(), ['app' => $this->appName]);
 		}

@@ -39,9 +39,9 @@ use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\AppFramework\Http\StreamTraversableResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\DB\Exception;
@@ -244,7 +244,7 @@ class PageController extends Controller {
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function downloadSession(int $sessionId): DataDownloadResponse|TemplateResponse {
+	public function downloadSession(int $sessionId): StreamTraversableResponse|TemplateResponse {
 		try {
 			$session = $this->sessionMapper->getUserSessionById($this->userId, $sessionId);
 		} catch (DoesNotExistException $e) {
@@ -259,8 +259,18 @@ class PageController extends Controller {
 			$response->setStatus(Http::STATUS_NOT_FOUND);
 			return $response;
 		}
-		$data = $this->sessionService->getSessionGpxData($session, $this->userId);
+		$chunks = $this->sessionService->getSessionGpxData($session, $this->userId);
+		/*
+		$data = '';
+		foreach ($chunks as $chunk) {
+			$data .= $chunk;
+		}
 		return new DataDownloadResponse($data, $session->getName() . '.gpx', 'application/gpx+xml');
+		*/
+		return new StreamTraversableResponse($chunks, Http::STATUS_OK, [
+			'Content-Type' => 'application/gpx+xml',
+			'Content-Disposition' => 'attachment; filename="' . $session->getName() . '.gpx"',
+		]);
 	}
 
 	/**
