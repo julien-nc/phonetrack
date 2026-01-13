@@ -49,6 +49,20 @@
 	}
 }
 
+.maplibregl-ctrl-group {
+	> button:focus {
+		background-color: unset !important;
+		border-color: unset !important;
+	}
+	> button:active {
+		background-color: unset !important;
+		border-color: unset !important;
+	}
+}
+.maplibregl-ctrl-group:not(:focus) {
+	filter: var(--background-invert-if-dark);
+}
+
 .maplibregl-ctrl-top-left {
 	//margin-top: 40px;
 }
@@ -146,10 +160,6 @@
 	&--icon {
 		filter: var(--background-invert-if-dark);
 	}
-}
-
-.maplibregl-ctrl-group {
-	filter: var(--background-invert-if-dark);
 }
 
 /*
