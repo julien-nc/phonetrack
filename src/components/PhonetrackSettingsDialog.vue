@@ -234,19 +234,33 @@
 					<SortAscendingIcon :size="20" />
 				</template>
 				<NcSelect
-					:model-value="selectedSortOrder"
+					:model-value="selectedDeviceSortOrder"
 					:input-label="t('phonetrack', 'Sort devices by')"
 					:options="Object.values(DEVICE_SORT_ORDER)"
 					:no-wrap="true"
 					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'sortOrder')" />
+					@update:model-value="onComponentInputChange($event.value, 'deviceSortOrder')" />
 				<NcSelect
-					:model-value="selectedSortAscending"
-					:input-label="t('phonetrack', 'Sort direction')"
+					:model-value="selectedDeviceSortAscending"
+					:input-label="t('phonetrack', 'Sort direction for devices')"
 					:options="Object.values(sortAscendingOptions)"
 					:no-wrap="true"
 					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'sortAscending')" />
+					@update:model-value="onComponentInputChange($event.value, 'deviceSortAscending')" />
+				<NcSelect
+					:model-value="selectedSessionSortOrder"
+					:input-label="t('phonetrack', 'Sort sessions by')"
+					:options="Object.values(DEVICE_SORT_ORDER)"
+					:no-wrap="true"
+					:clearable="false"
+					@update:model-value="onComponentInputChange($event.value, 'sessionSortOrder')" />
+				<NcSelect
+					:model-value="selectedSessionSortAscending"
+					:input-label="t('phonetrack', 'Sort direction for sessions')"
+					:options="Object.values(sortAscendingOptions)"
+					:no-wrap="true"
+					:clearable="false"
+					@update:model-value="onComponentInputChange($event.value, 'sessionSortAscending')" />
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!isPublicPage"
 				id="export"
@@ -525,11 +539,17 @@ export default {
 	},
 
 	computed: {
-		selectedSortOrder() {
-			return DEVICE_SORT_ORDER[this.settings.sortOrder] ?? DEVICE_SORT_ORDER.name
+		selectedDeviceSortOrder() {
+			return DEVICE_SORT_ORDER[this.settings.deviceSortOrder] ?? DEVICE_SORT_ORDER.name
 		},
-		selectedSortAscending() {
-			return this.sortAscendingOptions[this.settings.sortAscending] ?? this.sortAscendingOptions.descending
+		selectedDeviceSortAscending() {
+			return this.sortAscendingOptions[this.settings.deviceSortAscending] ?? this.sortAscendingOptions.ascending
+		},
+		selectedSessionSortOrder() {
+			return DEVICE_SORT_ORDER[this.settings.sessionSortOrder] ?? DEVICE_SORT_ORDER.name
+		},
+		selectedSessionSortAscending() {
+			return this.sortAscendingOptions[this.settings.sessionSortAscending] ?? this.sortAscendingOptions.ascending
 		},
 		selectedDistanceUnit() {
 			return this.distanceUnitOptions[this.settings.distance_unit] ?? this.distanceUnitOptions.metric

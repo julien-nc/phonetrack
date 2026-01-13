@@ -41,7 +41,7 @@
 			<FiltersModal v-if="showFilters"
 				:settings="settings"
 				@close="onCloseFilterModal" />
-			<NavigationSessionItem v-for="s in filteredSessions"
+			<NavigationSessionItem v-for="s in sortedSessions"
 				:key="s.id"
 				:session="s"
 				:compact="compact"
@@ -113,6 +113,7 @@ import { getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { dirname, basename } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
+import { strcmp } from '../utils.js'
 
 export default {
 	name: 'Navigation',
@@ -181,6 +182,47 @@ export default {
 			return this.sessionFilterQuery
 				? this.sessionList.filter(s => basename(s.name).toLowerCase().includes(this.sessionFilterQuery.toLowerCase()))
 				: this.sessionList
+		},
+		sortedSessions() {
+			const sortOrder = this.settings.sessionSortOrder ?? 'name'
+			const sortDirection = this.settings.sessionSortAscending ?? 'ascending'
+			const sessions = this.filteredSessions.slice()
+			if (sortOrder === 'name') {
+				return sortDirection === 'ascending'
+					? sessions.sort((a, b) => strcmp(a.name, b.name))
+					: sessions.sort((a, b) => strcmp(b.name, a.name))
+			}
+			// sort by last point
+			// last timestamps by session ID
+			const ts = sessions.reduce((acc, session) => {
+				acc[session.id] = Object.values(session.devices)
+					.map(d => {
+						return d.points.length === 0
+							? 0
+							: d.points[d.points.length - 1].timestamp
+					})
+					.reduce((acc, val) => Math.max(acc, val), 0)
+				return acc
+			}, {})
+			return sortDirection === 'ascending'
+				? sessions.sort((a, b) => {
+					const tsA = ts[a.id] ?? 0
+					const tsB = ts[b.id] ?? 0
+					return tsA > tsB
+						? 1
+						: tsA < tsB
+							? -1
+							: 0
+				})
+				: sessions.sort((a, b) => {
+					const tsA = ts[a.id] ?? 0
+					const tsB = ts[b.id] ?? 0
+					return tsA < tsB
+						? 1
+						: tsA > tsB
+							? -1
+							: 0
+				})
 		},
 		filterEnabled() {
 			return this.settings.applyfilters === 'true'

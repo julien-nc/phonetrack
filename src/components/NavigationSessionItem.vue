@@ -227,8 +227,8 @@ export default {
 			}
 			return sortDevices(
 				Object.values(this.session.devices),
-				this.settings.sortOrder ?? DEVICE_SORT_ORDER.name.value,
-				this.settings.sortAscending === 'ascending',
+				this.settings.deviceSortOrder ?? DEVICE_SORT_ORDER.name.value,
+				this.settings.deviceSortAscending === 'ascending',
 			)
 		},
 	},

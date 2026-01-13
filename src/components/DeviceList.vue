@@ -105,8 +105,8 @@ export default {
 		sortedDevices() {
 			return sortDevices(
 				this.filteredDevices.slice(),
-				this.settings.sortOrder ?? DEVICE_SORT_ORDER.name.value,
-				this.settings.sortAscending === 'ascending',
+				this.settings.deviceSortOrder ?? DEVICE_SORT_ORDER.name.value,
+				this.settings.deviceSortAscending === 'ascending',
 			)
 		},
 		filteredDevices() {
