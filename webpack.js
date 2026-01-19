@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const webpackConfig = require('@nextcloud/webpack-vue-config')
-const StyleLintPlugin = require('stylelint-webpack-plugin')
+// const StyleLintPlugin = require('stylelint-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 
 const buildMode = process.env.NODE_ENV
@@ -37,11 +37,11 @@ webpackConfig.plugins.push(
 		configType: 'eslintrc',
     })
 )
-webpackConfig.plugins.push(
-	new StyleLintPlugin({
-		files: 'src/**/*.{css,scss,vue}',
-		failOnError: !isDev,
-	}),
-)
+//webpackConfig.plugins.push(
+//	new StyleLintPlugin({
+//		files: 'src/**/*.{css,scss,vue}',
+//		failOnError: !isDev,
+//	}),
+//)
 
 module.exports = webpackConfig

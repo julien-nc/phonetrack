@@ -87,8 +87,6 @@
 		"@nextcloud/vite-config": "^2.3.5",
 		"@nextcloud/webpack-vue-config": "^7.0.1",
 		"eslint-webpack-plugin": "^5.0.2",
-		"stylelint-webpack-plugin": "^5.0.1",
-		"vite-plugin-eslint": "^1.8.1",
-		"vite-plugin-stylelint": "^6.0.0"
+		"vite-plugin-eslint": "^1.8.1"
 	}
 }
