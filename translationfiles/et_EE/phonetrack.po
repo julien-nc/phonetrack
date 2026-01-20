@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2026-01-19 09:56\n"
+"PO-Revision-Date: 2026-01-20 09:53\n"
 "Last-Translator: \n"
 "Language-Team: Estonian\n"
 "Language: et_EE\n"
@@ -521,27 +521,27 @@ msgstr "„{d}“ seade on „{s}“ sessioonist kustutatud"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1750
 msgid "Failed to delete device '{d}' of session '{s}'"
-msgstr ""
+msgstr "„{d}“ seadme kustutamine „{s}“ sessioonist ei õnnestunud"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1754
 msgid "Failed to contact server to delete device"
-msgstr ""
+msgstr "Seadme kustutamiseks ei õnnestunud serveriga ühendamine"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1805
 msgid "Impossible to rename session"
-msgstr ""
+msgstr "Sessiooni nime muutmine pole võimalik"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1809
 msgid "Failed to contact server to rename session"
-msgstr ""
+msgstr "Sessiooni nime muutmiseks ei õnnestunud serveriga ühendamine"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1850
 msgid "Impossible to rename device"
-msgstr ""
+msgstr "Seadme nime muutmine pole võimalik"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1854
 msgid "Failed to contact server to rename device"
-msgstr ""
+msgstr "Seadme nime muutmiseks ei õnnestunud serveriga ühendamine"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1916
 msgid "Impossible to set device alias for {n}"
@@ -654,7 +654,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4629
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4648
 msgid "Nextcloud notification"
-msgstr ""
+msgstr "Teavitus Nextcloudis"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2856
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2916
@@ -663,22 +663,22 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4630
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4650
 msgid "Email notification"
-msgstr ""
+msgstr "Teavitus e-kirjaga"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2859
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2919
 msgid "Comma separated e-mail address list"
-msgstr ""
+msgstr "Komadega eraldatud e-posti aadresside loend"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2860
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2920
 msgid "An empty value means the session owner's email address."
-msgstr ""
+msgstr "Tühja väärtuse puhul on kasutusel sessiooni omaniku e-postiaadress."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2861
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2921
 msgid "You can put multiple addresses separated by comas (,)."
-msgstr ""
+msgstr "Sa võid sisstada mitu aadressi ja eraldada neid komadega (,)."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2862
 msgid "HTTP address to request when entering (\"%loc\" will be replaced by \"latitude:longitude\")"
