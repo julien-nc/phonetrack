@@ -111,6 +111,9 @@ class MapService {
 			// old URLs that don't work
 			// $url = 'http://' . $s . '.tile.stamen.com/watercolor/' . $z . '/' . $x . '/' . $y . '.jpg';
 			// $url = 'https://stamen-tiles.' . $s . '.ssl.fastly.net/watercolor/' . $z . '/' . $x . '/' . $y . '.jpg';
+		} elseif ($service === 'stadia-sat') {
+			$url = 'https://tiles.stadiamaps.com/tiles/alidade_satellite/' . $z . '/' . $x . '/' . $y . '.jpg';
+			$options['headers'] = ['Origin' => 'https://nextcloud.local'];
 		} else {
 			$url = 'https://tile.openstreetmap.org/' . $z . '/' . $x . '/' . $y . '.png';
 		}

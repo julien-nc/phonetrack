@@ -175,6 +175,41 @@ export function getRasterTileServers(apiKey, proxy = true) {
 			],
 			maxzoom: 19,
 		},
+		stadiaSat: {
+			title: t('phonetrack', 'Stadia Alidade satellite'),
+			iconComponent: SatelliteVariantIcon,
+			version: 8,
+			glyphs: proxy
+				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
+				: 'https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=' + apiKey,
+			sources: {
+				'stadia-sat-source': {
+					type: 'raster',
+					tiles: proxy
+						? [
+							generateUrl('/apps/phonetrack/tiles/stadia-sat/') + '{x}/{y}/{z}',
+						]
+						: [
+							'https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg',
+						],
+					tileSize: 256,
+					attribution: '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) |'
+						+ ' &copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a>'
+						+ ' &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a>'
+						+ ' &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+				},
+			},
+			layers: [
+				{
+					id: 'stadia-sat-layer',
+					type: 'raster',
+					source: 'stadia-sat-source',
+					minzoom: 0,
+					maxzoom: 19,
+				},
+			],
+			maxzoom: 19,
+		},
 		waterColor: {
 			title: t('phonetrack', 'WaterColor'),
 			iconComponent: PaletteOutlineIcon,

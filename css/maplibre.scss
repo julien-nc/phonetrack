@@ -44,8 +44,11 @@
 
 .maplibregl-ctrl-attrib {
 	background-color: var(--color-main-background) !important;
-	&-inner > * {
+	&-inner {
 		color: var(--color-main-text) !important;
+		> * {
+			color: var(--color-main-text) !important;
+		}
 	}
 }
 
