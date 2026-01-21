@@ -1,3 +1,6 @@
+import { createApp, h, reactive } from 'vue'
+import TileServerMultiSelect from './components/TileServerMultiSelect.vue'
+
 export class ImageControl {
 
 	constructor(options) {
@@ -67,17 +70,31 @@ export class TileControl {
 		this.map = map
 		this.container = document.createElement('div')
 		this.container.className = 'maplibregl-ctrl my-custom-tile-control'
-		const select = document.createElement('select')
-		Object.keys(this.options.styles).forEach((k) => {
-			const style = this.options.styles[k]
-			const option = document.createElement('option')
-			option.textContent = style.title
-			option.setAttribute('value', k)
-			select.appendChild(option)
+
+		const tileServerOptions = Object.keys(this.options.styles)
+			.reduce((acc, val) => {
+				acc[val] = {
+					...this.options.styles[val],
+					key: val,
+				}
+				return acc
+			}, {})
+
+		const props = reactive({
+			options: Object.values(tileServerOptions),
+			modelValue: tileServerOptions[this.options.selectedKey] ?? tileServerOptions.osmRaster,
 		})
-		select.value = this.options.selectedKey
-		select.addEventListener('change', (e) => {
-			const styleKey = e.target.value
+
+		const app = createApp({
+			render: () => h(TileServerMultiSelect, props),
+		})
+		app.mixin({ methods: { t, n } })
+		app.mount(this.container)
+
+		this.container.addEventListener('update:model-value', (data) => {
+			console.debug('TILE change', data.detail)
+			props.modelValue = data.detail
+			const styleKey = data.detail.key
 			const style = this.options.styles[styleKey]
 			if (style.uri) {
 				this.map.setStyle(style.uri, { transformStyle })
@@ -86,7 +103,7 @@ export class TileControl {
 			}
 			this.emit('changeStyle', styleKey)
 		})
-		this.container.appendChild(select)
+
 		return this.container
 	}
 

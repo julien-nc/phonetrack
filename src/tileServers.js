@@ -1,9 +1,17 @@
 import { generateUrl } from '@nextcloud/router'
+import OsmIcon from './components/icons/OsmIcon.vue'
+import BikeIcon from 'vue-material-design-icons/Bike.vue'
+import ImageFilterHdrOutlineIcon from 'vue-material-design-icons/ImageFilterHdrOutline.vue'
+import PaletteOutlineIcon from 'vue-material-design-icons/PaletteOutline.vue'
+import WeatherNightIcon from 'vue-material-design-icons/WeatherNight.vue'
+import MapOutlineIcon from 'vue-material-design-icons/MapOutline.vue'
+import SatelliteVariantIcon from 'vue-material-design-icons/SatelliteVariant.vue'
 
 export function getRasterTileServers(apiKey, proxy = true) {
 	return {
 		osmRaster: {
 			title: 'OpenStreetMap raster',
+			iconComponent: OsmIcon,
 			version: 8,
 			// required to display text, apparently vector styles get this but not raster ones
 			glyphs: proxy
@@ -36,39 +44,9 @@ export function getRasterTileServers(apiKey, proxy = true) {
 			],
 			maxzoom: 19,
 		},
-		ocmRaster: {
-			title: 'OpenCycleMap raster',
-			version: 8,
-			glyphs: proxy
-				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
-				: 'https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=' + apiKey,
-			sources: {
-				'ocm-source': {
-					type: 'raster',
-					tiles: proxy
-						? [
-							...['a', 'b', 'c'].map(s => generateUrl('/apps/phonetrack/tiles/ocm/') + `{x}/{y}/{z}?s=${s}`),
-						]
-						: [
-							...['a', 'b', 'c'].map(s => `https://${s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png`),
-						],
-					tileSize: 256,
-					attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-				},
-			},
-			layers: [
-				{
-					id: 'ocm-layer',
-					type: 'raster',
-					source: 'ocm-source',
-					minzoom: 0,
-					maxzoom: 19,
-				},
-			],
-			maxzoom: 19,
-		},
 		osmRasterHighRes: {
 			title: 'OpenStreetMap raster HighRes',
+			iconComponent: OsmIcon,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -98,8 +76,41 @@ export function getRasterTileServers(apiKey, proxy = true) {
 			],
 			maxzoom: 19,
 		},
+		ocmRaster: {
+			title: 'OpenCycleMap raster',
+			iconComponent: BikeIcon,
+			version: 8,
+			glyphs: proxy
+				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
+				: 'https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=' + apiKey,
+			sources: {
+				'ocm-source': {
+					type: 'raster',
+					tiles: proxy
+						? [
+							...['a', 'b', 'c'].map(s => generateUrl('/apps/phonetrack/tiles/ocm/') + `{x}/{y}/{z}?s=${s}`),
+						]
+						: [
+							...['a', 'b', 'c'].map(s => `https://${s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png`),
+						],
+					tileSize: 256,
+					attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+				},
+			},
+			layers: [
+				{
+					id: 'ocm-layer',
+					type: 'raster',
+					source: 'ocm-source',
+					minzoom: 0,
+					maxzoom: 19,
+				},
+			],
+			maxzoom: 19,
+		},
 		OcmHighRes: {
 			title: 'OpenCycleMap raster HighRes',
+			iconComponent: BikeIcon,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -131,6 +142,7 @@ export function getRasterTileServers(apiKey, proxy = true) {
 		},
 		esriTopo: {
 			title: t('phonetrack', 'ESRI topo with relief'),
+			iconComponent: ImageFilterHdrOutlineIcon,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -165,6 +177,7 @@ export function getRasterTileServers(apiKey, proxy = true) {
 		},
 		waterColor: {
 			title: t('phonetrack', 'WaterColor'),
+			iconComponent: PaletteOutlineIcon,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -205,30 +218,35 @@ export function getVectorStyles(apiKey, proxy = true) {
 	return {
 		streets: {
 			title: t('phonetrack', 'Streets'),
+			iconComponent: MapOutlineIcon,
 			uri: proxy
 				? generateUrl('/apps/phonetrack/maptiler/maps/streets-v2/style.json?key=' + apiKey)
 				: 'https://api.maptiler.com/maps/streets-v2/style.json?key=' + apiKey,
 		},
 		satellite: {
 			title: t('phonetrack', 'Satellite'),
+			iconComponent: SatelliteVariantIcon,
 			uri: proxy
 				? generateUrl('/apps/phonetrack/maptiler/maps/hybrid/style.json?key=' + apiKey)
 				: 'https://api.maptiler.com/maps/hybrid/style.json?key=' + apiKey,
 		},
 		outdoor: {
 			title: t('phonetrack', 'Outdoor'),
+			iconComponent: ImageFilterHdrOutlineIcon,
 			uri: proxy
 				? generateUrl('/apps/phonetrack/maptiler/maps/outdoor-v2/style.json?key=' + apiKey)
 				: 'https://api.maptiler.com/maps/outdoor-v2/style.json?key=' + apiKey,
 		},
 		osm: {
 			title: 'OpenStreetMap',
+			iconComponent: OsmIcon,
 			uri: proxy
 				? generateUrl('/apps/phonetrack/maptiler/maps/openstreetmap/style.json?key=' + apiKey)
 				: 'https://api.maptiler.com/maps/openstreetmap/style.json?key=' + apiKey,
 		},
 		dark: {
 			title: t('phonetrack', 'Dark'),
+			iconComponent: WeatherNightIcon,
 			uri: proxy
 				? generateUrl('/apps/phonetrack/maptiler/maps/streets-dark/style.json?key=' + apiKey)
 				: 'https://api.maptiler.com/maps/streets-dark/style.json?key=' + apiKey,
