@@ -5,7 +5,7 @@
 		:aria-label-combobox="t('phonetrack', 'Tile server select')"
 		label="title"
 		:disabled="disabled"
-		:options="options"
+		:options="sortedOptions"
 		:append-to-body="false"
 		:clearable="false"
 		@update:model-value="onOptionSelected">
@@ -46,7 +46,7 @@ export default {
 			default: false,
 		},
 		options: {
-			type: Object,
+			type: Array,
 			required: true,
 		},
 		modelValue: {
@@ -55,15 +55,22 @@ export default {
 		},
 	},
 
-	emits: [
-		'update-model-value',
-	],
-
 	data() {
 		return {}
 	},
 
 	computed: {
+		sortedOptions() {
+			return this.options.slice().sort((a, b) => {
+				const ao = a.order
+				const bo = b.order
+				return ao > bo
+					? 1
+					: ao < bo
+						? -1
+						: 0
+			})
+		},
 	},
 
 	methods: {
