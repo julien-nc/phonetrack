@@ -14,7 +14,7 @@ export function getRasterTileServers(apiKey, proxy = true) {
 		osmRaster: {
 			title: 'OpenStreetMap raster',
 			iconComponent: OsmIcon,
-			order: 0,
+			order: 10,
 			version: 8,
 			// required to display text, apparently vector styles get this but not raster ones
 			glyphs: proxy
@@ -50,7 +50,7 @@ export function getRasterTileServers(apiKey, proxy = true) {
 		osmRasterHighRes: {
 			title: 'OpenStreetMap raster HighRes',
 			iconComponent: OsmIcon,
-			order: 0,
+			order: 10,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -83,7 +83,7 @@ export function getRasterTileServers(apiKey, proxy = true) {
 		ocmRaster: {
 			title: 'OpenCycleMap raster',
 			iconComponent: BikeIcon,
-			order: 10,
+			order: 40,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -116,7 +116,7 @@ export function getRasterTileServers(apiKey, proxy = true) {
 		OcmHighRes: {
 			title: 'OpenCycleMap raster HighRes',
 			iconComponent: BikeIcon,
-			order: 10,
+			order: 40,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -149,7 +149,7 @@ export function getRasterTileServers(apiKey, proxy = true) {
 		esriTopo: {
 			title: t('phonetrack', 'ESRI topo with relief'),
 			iconComponent: ImageFilterHdrOutlineIcon,
-			order: 20,
+			order: 30,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -185,7 +185,7 @@ export function getRasterTileServers(apiKey, proxy = true) {
 		stadiaSat: {
 			title: t('phonetrack', 'Stadia Alidade satellite'),
 			iconComponent: SatelliteVariantIcon,
-			order: 30,
+			order: 20,
 			version: 8,
 			glyphs: proxy
 				? generateUrl('/apps/phonetrack/maptiler/fonts/') + '{fontstack}/{range}.pbf?key=' + apiKey
@@ -271,7 +271,7 @@ export function getVectorStyles(apiKey, proxy = true) {
 		satellite: {
 			title: t('phonetrack', 'Satellite'),
 			iconComponent: SatelliteVariantIcon,
-			order: 30,
+			order: 20,
 			uri: proxy
 				? generateUrl('/apps/phonetrack/maptiler/maps/hybrid/style.json?key=' + apiKey)
 				: 'https://api.maptiler.com/maps/hybrid/style.json?key=' + apiKey,
@@ -279,7 +279,7 @@ export function getVectorStyles(apiKey, proxy = true) {
 		outdoor: {
 			title: t('phonetrack', 'Outdoor'),
 			iconComponent: ImageFilterHdrOutlineIcon,
-			order: 20,
+			order: 30,
 			uri: proxy
 				? generateUrl('/apps/phonetrack/maptiler/maps/outdoor-v2/style.json?key=' + apiKey)
 				: 'https://api.maptiler.com/maps/outdoor-v2/style.json?key=' + apiKey,
@@ -287,7 +287,7 @@ export function getVectorStyles(apiKey, proxy = true) {
 		osm: {
 			title: 'OpenStreetMap',
 			iconComponent: OsmIcon,
-			order: 0,
+			order: 10,
 			uri: proxy
 				? generateUrl('/apps/phonetrack/maptiler/maps/openstreetmap/style.json?key=' + apiKey)
 				: 'https://api.maptiler.com/maps/openstreetmap/style.json?key=' + apiKey,

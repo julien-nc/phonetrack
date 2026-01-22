@@ -1,5 +1,5 @@
 import { createApp, h, reactive } from 'vue'
-import TileServerMultiSelect from './components/TileServerMultiSelect.vue'
+import TileServerControl from './components/tileservers/TileServerControl.vue'
 
 export class ImageControl {
 
@@ -86,7 +86,7 @@ export class TileControl {
 		})
 
 		const app = createApp({
-			render: () => h(TileServerMultiSelect, props),
+			render: () => h(TileServerControl, props),
 		})
 		app.mixin({ methods: { t, n } })
 		app.mount(this.container)
