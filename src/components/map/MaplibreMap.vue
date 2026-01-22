@@ -286,8 +286,8 @@ export default {
 			tileControl.on('changeStyle', (key) => {
 				this.$emit('map-state-change', { mapStyle: key })
 				if (maptilerVectorStyles.includes(key) && !this.map.hasControl(this.maptilerImageControl)) {
-					this.map.addControl(this.maptilerImageControl, 'top-right')
-					this.maptilerImageControl.moveBefore(this.fullscreenControl._controlContainer)
+					this.map.addControl(this.maptilerImageControl, 'bottom-left')
+					// this.maptilerImageControl.moveBefore(this.fullscreenControl._controlContainer)
 				} else if (!maptilerVectorStyles.includes(key) && this.map.hasControl(this.maptilerImageControl)) {
 					this.map.removeControl(this.maptilerImageControl)
 				}
@@ -300,7 +300,7 @@ export default {
 				linkTarget: 'https://www.maptiler.com',
 			})
 			if (maptilerVectorStyles.includes(restoredStyleKey)) {
-				this.map.addControl(this.maptilerImageControl, 'top-right')
+				this.map.addControl(this.maptilerImageControl, 'bottom-left')
 			}
 
 			this.fullscreenControl = new FullscreenControl()
