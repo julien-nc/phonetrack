@@ -102,6 +102,7 @@ export default {
 	}
 
 	.select-display-name {
+		font-size: var(--default-font-size);
 		margin-left: 5px;
 		margin-right: auto;
 		text-overflow: ellipsis;
