@@ -81,10 +81,10 @@ class MapService {
 	 * @param int $y
 	 * @param int $z
 	 * @param string|null $s
-	 * @return string|null
+	 * @return array
 	 * @throws Exception
 	 */
-	public function getRasterTile(string $service, int $x, int $y, int $z, ?string $s = null): ?string {
+	public function getRasterTile(string $service, int $x, int $y, int $z, ?string $s = null): array {
 		$options = [];
 		if ($service === 'osm') {
 			// $url = 'https://' . $s . '.tile.openstreetmap.org/' . $z . '/' . $x . '/' . $y . '.png';
@@ -118,14 +118,18 @@ class MapService {
 		} else {
 			$url = 'https://tile.openstreetmap.org/' . $z . '/' . $x . '/' . $y . '.png';
 		}
-		$body = $this->client->get($url, $options)->getBody();
+		$response = $this->client->get($url, $options);
+		$body = $response->getBody();
 		if (is_resource($body)) {
 			$content = stream_get_contents($body);
-			return $content === false
+			$body = $content === false
 				? null
 				: $content;
 		}
-		return $body;
+		return [
+			'body' => $body,
+			'content-type' => $response->getHeader('content-type'),
+		];
 	}
 
 	private function getVectorProxyRequestOptions() {
@@ -168,23 +172,27 @@ class MapService {
 	 * @param string $fontstack
 	 * @param string $range
 	 * @param string|null $key
-	 * @return string|null
+	 * @return array
 	 * @throws Exception
 	 */
-	public function getMapTilerFont(string $fontstack, string $range, ?string $key = null): ?string {
+	public function getMapTilerFont(string $fontstack, string $range, ?string $key = null): array {
 		// https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=' + apiKey
 		$url = 'https://api.maptiler.com/fonts/' . $fontstack . '/' . $range . '.pbf';
 		if ($key !== null) {
 			$url .= '?key=' . $key;
 		}
-		$body = $this->client->get($url, $this->getVectorProxyRequestOptions())->getBody();
+		$response = $this->client->get($url, $this->getVectorProxyRequestOptions());
+		$body = $response->getBody();
 		if (is_resource($body)) {
 			$content = stream_get_contents($body);
-			return $content === false
+			$body = $content === false
 				? null
 				: $content;
 		}
-		return $body;
+		return [
+			'body' => $body,
+			'content-type' => $response->getHeader('content-type'),
+		];
 	}
 
 	/**
