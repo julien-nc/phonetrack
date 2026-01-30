@@ -9,6 +9,9 @@
 			:x-axis="settings.chart_x_axis"
 			:chart-y-scale="chartYScale"
 			:settings="settings" />
+		<NcButton @click="onResetZoom">
+			{{ t('phonetrack', 'Reset zoom') }}
+		</NcButton>
 		<hr>
 		<div class="field">
 			<label for="prefChartType">
@@ -89,6 +92,7 @@ import RulerIcon from 'vue-material-design-icons/Ruler.vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
+import NcButton from '@nextcloud/vue/components/NcButton'
 
 import DeviceChart from './DeviceChart.vue'
 
@@ -105,6 +109,7 @@ export default {
 		NcEmptyContent,
 		NcCheckboxRadioSwitch,
 		NcNoteCard,
+		NcButton,
 	},
 
 	props: {
@@ -140,6 +145,9 @@ export default {
 		},
 		onCheckboxChanged(newValue, key) {
 			emit('save-settings', { [key]: newValue ? '1' : '0' })
+		},
+		onResetZoom() {
+			emit('chart-zoom-reset')
 		},
 	},
 }
