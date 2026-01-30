@@ -54,6 +54,7 @@
 		"@turf/turf": "^7.3.1",
 		"babel-eslint": "^10.1.0",
 		"chart.js": "^4.5.0",
+		"chartjs-plugin-zoom": "^2.2.0",
 		"debounce": "^3.0.0",
 		"ds-countdown": "^1.1.1",
 		"jquery": "^3.5.1",

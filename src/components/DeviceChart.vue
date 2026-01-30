@@ -365,6 +365,21 @@ export default {
 							size: 18,
 						},
 					},
+					zoom: {
+						pan: {
+							enabled: true,
+							mode: 'x',
+						},
+						zoom: {
+							wheel: {
+								enabled: true,
+							},
+							pinch: {
+								enabled: true,
+							},
+							mode: 'x',
+						},
+					},
 				},
 				responsive: true,
 				maintainAspectRatio: false,
