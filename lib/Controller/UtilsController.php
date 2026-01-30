@@ -6,6 +6,8 @@ use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\ToolsService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
@@ -248,6 +250,31 @@ class UtilsController extends Controller {
 
 	/**
 	 * @param int $id
+	 * @param int $type
+	 * @param string $name
+	 * @param string $url
+	 * @param string|null $attribution
+	 * @param int|null $min_zoom
+	 * @param int|null $max_zoom
+	 * @return DataResponse
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	#[NoAdminRequired]
+	public function updateTileServer(
+		int $id, int $type, string $name, string $url,
+		?string $attribution = null, ?int $min_zoom = null, ?int $max_zoom = null,
+	): DataResponse {
+		try {
+			$updatedTs = $this->tileServerMapper->updateTileServer($id, $this->userId, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
+			return new DataResponse($updatedTs);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $id
 	 * @return DataResponse
 	 */
 	#[NoAdminRequired]
@@ -274,6 +301,30 @@ class UtilsController extends Controller {
 		try {
 			$tileServer = $this->tileServerMapper->createTileServer(null, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
 			return new DataResponse($tileServer);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @param int $type
+	 * @param string $name
+	 * @param string $url
+	 * @param string|null $attribution
+	 * @param int|null $min_zoom
+	 * @param int|null $max_zoom
+	 * @return DataResponse
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function adminUpdateTileServer(
+		int $id, int $type, string $name, string $url,
+		?string $attribution = null, ?int $min_zoom = null, ?int $max_zoom = null,
+	): DataResponse {
+		try {
+			$updatedTs = $this->tileServerMapper->updateTileServer($id, null, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
+			return new DataResponse($updatedTs);
 		} catch (\OCP\DB\Exception $e) {
 			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
 		}

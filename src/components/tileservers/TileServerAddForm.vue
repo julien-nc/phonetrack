@@ -98,7 +98,7 @@
 				<template #icon>
 					<CheckIcon />
 				</template>
-				{{ t('phonetrack', 'Add') }}
+				{{ submitLabel }}
 			</NcButton>
 		</div>
 	</div>
@@ -130,9 +130,17 @@ export default {
 	},
 
 	props: {
-		isAdmin: {
-			type: Boolean,
-			default: false,
+		formTitle: {
+			type: String,
+			required: true,
+		},
+		submitLabel: {
+			type: String,
+			required: true,
+		},
+		tileServer: {
+			type: Object,
+			default: () => { return {} },
 		},
 	},
 
@@ -140,12 +148,12 @@ export default {
 		return {
 			TS_VECTOR,
 			TS_RASTER,
-			type: TS_VECTOR,
-			name: '',
-			url: '',
-			attribution: '',
-			minZoom: '1',
-			maxZoom: '19',
+			type: this.tileServer.type ?? TS_VECTOR,
+			name: this.tileServer.name || '',
+			url: this.tileServer.url || '',
+			attribution: this.tileServer.attribution || '',
+			minZoom: this.tileServer.min_zoom || '1',
+			maxZoom: this.tileServer.max_zoom || '19',
 			exampleRasterUrl: 'https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png',
 			exampleVectorStyleUrl: 'https://api.maptiler.com/maps/hybrid/style.json?key=xxxxx',
 		}
@@ -158,11 +166,6 @@ export default {
 					this.type === TS_VECTOR
 					|| (!!this.attribution && !!this.minZoom && !!this.maxZoom)
 				)
-		},
-		formTitle() {
-			return this.isAdmin
-				? t('phonetrack', 'Add a global tile server')
-				: t('phonetrack', 'Add a personal tile server')
 		},
 	},
 

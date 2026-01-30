@@ -41,18 +41,28 @@
 			</div>
 		</div>
 		<div class="spacer" />
-		<NcButton v-if="showDeleteButton"
-			:title="t('phonetrack', 'Delete tile server')"
-			@click="$emit('delete')">
-			<template #icon>
-				<DeleteIcon />
-			</template>
-		</NcButton>
+		<div class="column">
+			<NcButton v-if="showEditButton"
+				:title="t('phonetrack', 'Edit tile server')"
+				@click="$emit('edit')">
+				<template #icon>
+					<PencilOutlineIcon />
+				</template>
+			</NcButton>
+			<NcButton v-if="showDeleteButton"
+				:title="t('phonetrack', 'Delete tile server')"
+				@click="$emit('delete')">
+				<template #icon>
+					<TrashCanOutlineIcon />
+				</template>
+			</NcButton>
+		</div>
 	</div>
 </template>
 
 <script>
-import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
+import PencilOutlineIcon from 'vue-material-design-icons/PencilOutline.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 
@@ -63,7 +73,8 @@ export default {
 
 	components: {
 		NcButton,
-		DeleteIcon,
+		TrashCanOutlineIcon,
+		PencilOutlineIcon,
 	},
 
 	props: {
@@ -72,6 +83,10 @@ export default {
 			required: true,
 		},
 		showDeleteButton: {
+			type: Boolean,
+			default: false,
+		},
+		showEditButton: {
 			type: Boolean,
 			default: false,
 		},
@@ -96,6 +111,7 @@ export default {
 .tile-server-item {
 	display: flex;
 	align-items: center;
+	gap: 4px;
 	max-width: 800px;
 	padding: 8px;
 	border: 2px solid var(--color-border);
@@ -108,6 +124,13 @@ export default {
 		span {
 			word-break: break-all;
 		}
+	}
+
+	.column {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		align-items: center;
 	}
 
 	.spacer {

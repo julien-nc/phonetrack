@@ -1,15 +1,5 @@
 <template>
 	<div class="tile-server-list">
-		<h3 v-if="personalTileServers.length > 0" class="subsection-title">
-			<AccountIcon :size="24" class="icon" />
-			{{ t('phonetrack', 'Personal tile servers') }}
-		</h3>
-		<TileServerItem v-for="ts in personalTileServers"
-			:key="ts.id"
-			class="tile-server-list-item"
-			:tile-server="ts"
-			:show-delete-button="!readOnly"
-			@delete="onTileServerDelete(ts)" />
 		<h3 v-if="adminTileServers.length > 0" class="subsection-title">
 			<AdminIcon :size="24" class="icon" />
 			{{ t('phonetrack', 'Admin tile servers') }}
@@ -19,21 +9,47 @@
 			class="tile-server-list-item"
 			:tile-server="ts"
 			:show-delete-button="!readOnly && isAdmin"
-			@delete="onTileServerDelete(ts)" />
+			:show-edit-button="!readOnly && isAdmin"
+			@delete="onTileServerDelete(ts)"
+			@edit="onTileServerEdit(ts, true)" />
+		<h3 v-if="personalTileServers.length > 0" class="subsection-title">
+			<AccountIcon :size="24" class="icon" />
+			{{ t('phonetrack', 'Personal tile servers') }}
+		</h3>
+		<TileServerItem v-for="ts in personalTileServers"
+			:key="ts.id"
+			class="tile-server-list-item"
+			:tile-server="ts"
+			:show-delete-button="!readOnly"
+			:show-edit-button="!readOnly"
+			@delete="onTileServerDelete(ts)"
+			@edit="onTileServerEdit(ts, false)" />
 		<NcButton v-if="!readOnly"
 			@click="showAddModal = true">
 			<template #icon>
 				<PlusIcon />
 			</template>
-			{{ t('phonetrack', 'Add tile server') }}
+			{{ isAdmin ? t('phonetrack', 'Add a global tile server') : t('phonetrack', 'Add personal tile server') }}
 		</NcButton>
 		<NcModal v-if="showAddModal"
 			size="normal"
 			@close="showAddModal = false">
 			<div class="modal-content">
 				<TileServerAddForm
-					:is-admin="isAdmin"
+					:form-title="isAdmin ? t('phonetrack', 'Add a global tile server') : t('phonetrack', 'Add a personal tile server')"
+					:submit-label="t('phonetrack', 'Add')"
 					@submit="onTileServerAdded" />
+			</div>
+		</NcModal>
+		<NcModal v-if="showEditModal"
+			size="normal"
+			@close="showEditModal = false">
+			<div class="modal-content">
+				<TileServerAddForm
+					:tile-server="tileServerToEdit"
+					:form-title="t('phonetrack', 'Edit a tile server')"
+					:submit-label="t('phonetrack', 'Update')"
+					@submit="onTileServerEdited" />
 			</div>
 		</NcModal>
 	</div>
@@ -84,6 +100,9 @@ export default {
 	data() {
 		return {
 			showAddModal: false,
+			showEditModal: false,
+			tileServerToEdit: null,
+			tileServerToEditIsAdmin: false,
 		}
 	},
 
@@ -103,6 +122,16 @@ export default {
 		onTileServerAdded(ts) {
 			emit('tile-server-added', ts)
 			this.showAddModal = false
+		},
+		onTileServerEdit(ts, isAdminTileServer) {
+			this.tileServerToEdit = ts
+			this.tileServerToEditIsAdmin = isAdminTileServer
+			this.showEditModal = true
+		},
+		onTileServerEdited(ts) {
+			ts.id = this.tileServerToEdit.id
+			emit('tile-server-edited', { ts, isAdminTileServer: this.tileServerToEditIsAdmin })
+			this.showEditModal = false
 		},
 	},
 }

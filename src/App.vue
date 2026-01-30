@@ -330,6 +330,7 @@ export default {
 		subscribe('save-settings-debounced', this.saveOptionsDebounced)
 		subscribe('tile-server-deleted', this.onTileServerDeleted)
 		subscribe('tile-server-added', this.onTileServerAdded)
+		subscribe('tile-server-edited', this.onTileServerEdited)
 		subscribe('create-session', this.onCreateSession)
 		subscribe('delete-session', this.onDeleteSession)
 		subscribe('update-session', this.onUpdateSession)
@@ -385,6 +386,7 @@ export default {
 		unsubscribe('save-settings-debounced', this.saveOptionsDebounced)
 		unsubscribe('tile-server-deleted', this.onTileServerDeleted)
 		unsubscribe('tile-server-added', this.onTileServerAdded)
+		unsubscribe('tile-server-edited', this.onTileServerEdited)
 		unsubscribe('create-session', this.onCreateSession)
 		unsubscribe('delete-session', this.onDeleteSession)
 		unsubscribe('update-session', this.onUpdateSession)
@@ -948,6 +950,24 @@ export default {
 					this.state.settings.extra_tile_servers.push(response.data)
 				}).catch((error) => {
 					showError(t('phonetrack', 'Failed to add the tile server'))
+					console.debug(error)
+				})
+		},
+		onTileServerEdited({ ts, isAdminTileServer }) {
+			console.debug('tile server edited', isAdminTileServer, ts)
+			const { id: _, ...values } = ts
+			const req = {
+				...values,
+			}
+			const url = generateUrl('/apps/phonetrack/tileservers/{id}', { id: ts.id })
+			axios.put(url, req)
+				.then((response) => {
+					const index = this.state.settings.extra_tile_servers.findIndex(item => item.id === ts.id)
+					if (index !== -1) {
+						Object.assign(this.state.settings.extra_tile_servers[index], values)
+					}
+				}).catch((error) => {
+					showError(t('phonetrack', 'Failed to update the tile server'))
 					console.debug(error)
 				})
 		},

@@ -134,12 +134,14 @@ export default {
 	mounted() {
 		subscribe('tile-server-deleted', this.onTileServerDeleted)
 		subscribe('tile-server-added', this.onTileServerAdded)
+		subscribe('tile-server-edited', this.onTileServerEdited)
 		console.debug('phonetrack state', this.state)
 	},
 
 	unmounted() {
 		unsubscribe('tile-server-deleted', this.onTileServerDeleted)
 		unsubscribe('tile-server-added', this.onTileServerAdded)
+		unsubscribe('tile-server-edited', this.onTileServerEdited)
 	},
 
 	methods: {
@@ -189,7 +191,7 @@ export default {
 						this.state.extra_tile_servers.splice(index, 1)
 					}
 				}).catch((error) => {
-					showError(t('phonetrack', 'Failed to delete tile server'))
+					showError(t('phonetrack', 'Failed to delete the tile server'))
 					console.debug(error)
 				})
 		},
@@ -203,6 +205,25 @@ export default {
 					this.state.extra_tile_servers.push(response.data)
 				}).catch((error) => {
 					showError(t('phonetrack', 'Failed to add the tile server'))
+					console.debug(error)
+				})
+		},
+		onTileServerEdited({ ts, isAdminTileServer }) {
+			console.debug('tile server edited', isAdminTileServer, ts)
+			const { id: _, ...values } = ts
+			const req = {
+				...values,
+			}
+			const url = generateUrl('/apps/phonetrack/admin/tileservers/{id}', { id: ts.id })
+			axios.put(url, req)
+				.then((response) => {
+					// TODO update item in state.extra_tile_servers
+					const index = this.state.extra_tile_servers.findIndex(item => item.id === ts.id)
+					if (index !== -1) {
+						Object.assign(this.state.extra_tile_servers[index], values)
+					}
+				}).catch((error) => {
+					showError(t('phonetrack', 'Failed to update the tile server'))
 					console.debug(error)
 				})
 		},

@@ -114,8 +114,10 @@ return [
 		['name' => 'utils#oldDeleteTileServer', 'url' => '/old/deleteTileServer', 'verb' => 'POST'],
 
 		['name' => 'utils#addTileServer', 'url' => '/tileservers', 'verb' => 'POST'],
+		['name' => 'utils#updateTileServer', 'url' => '/tileservers/{id}', 'verb' => 'PUT'],
 		['name' => 'utils#deleteTileServer', 'url' => '/tileservers/{id}', 'verb' => 'DELETE'],
 		['name' => 'utils#adminAddTileServer', 'url' => '/admin/tileservers', 'verb' => 'POST'],
+		['name' => 'utils#AdminUpdateTileServer', 'url' => '/admin/tileservers/{id}', 'verb' => 'PUT'],
 		['name' => 'utils#AdminDeleteTileServer', 'url' => '/admin/tileservers/{id}', 'verb' => 'DELETE'],
 		['name' => 'utils#getOptionsValues', 'url' => '/getOptionsValues', 'verb' => 'POST'],
 		['name' => 'utils#saveOptionValue', 'url' => '/saveOptionValue', 'verb' => 'POST'],
