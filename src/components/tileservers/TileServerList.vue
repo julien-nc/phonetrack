@@ -1,9 +1,9 @@
 <template>
 	<div class="tile-server-list">
-		<h3 v-if="adminTileServers.length > 0" class="subsection-title">
+		<h5 v-if="adminTileServers.length > 0" class="subsection-title">
 			<AdminIcon :size="24" class="icon" />
 			{{ t('phonetrack', 'Admin tile servers') }}
-		</h3>
+		</h5>
 		<TileServerItem v-for="ts in adminTileServers"
 			:key="ts.id"
 			class="tile-server-list-item"
@@ -12,10 +12,10 @@
 			:show-edit-button="!readOnly && isAdmin"
 			@delete="onTileServerDelete(ts)"
 			@edit="onTileServerEdit(ts, true)" />
-		<h3 v-if="personalTileServers.length > 0" class="subsection-title">
+		<h5 v-if="personalTileServers.length > 0" class="subsection-title">
 			<AccountIcon :size="24" class="icon" />
 			{{ t('phonetrack', 'Personal tile servers') }}
-		</h3>
+		</h5>
 		<TileServerItem v-for="ts in personalTileServers"
 			:key="ts.id"
 			class="tile-server-list-item"

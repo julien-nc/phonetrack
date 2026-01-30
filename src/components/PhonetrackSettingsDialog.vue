@@ -233,34 +233,36 @@
 				<template #icon>
 					<SortAscendingIcon :size="20" />
 				</template>
-				<NcSelect
-					:model-value="selectedDeviceSortOrder"
-					:input-label="t('phonetrack', 'Sort devices by')"
-					:options="Object.values(DEVICE_SORT_ORDER)"
-					:no-wrap="true"
-					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'deviceSortOrder')" />
-				<NcSelect
-					:model-value="selectedDeviceSortAscending"
-					:input-label="t('phonetrack', 'Sort direction for devices')"
-					:options="Object.values(sortAscendingOptions)"
-					:no-wrap="true"
-					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'deviceSortAscending')" />
-				<NcSelect
-					:model-value="selectedSessionSortOrder"
-					:input-label="t('phonetrack', 'Sort sessions by')"
-					:options="Object.values(DEVICE_SORT_ORDER)"
-					:no-wrap="true"
-					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'sessionSortOrder')" />
-				<NcSelect
-					:model-value="selectedSessionSortAscending"
-					:input-label="t('phonetrack', 'Sort direction for sessions')"
-					:options="Object.values(sortAscendingOptions)"
-					:no-wrap="true"
-					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'sessionSortAscending')" />
+				<div class="infos">
+					<NcSelect
+						:model-value="selectedDeviceSortOrder"
+						:input-label="t('phonetrack', 'Sort devices by')"
+						:options="Object.values(DEVICE_SORT_ORDER)"
+						:no-wrap="true"
+						:clearable="false"
+						@update:model-value="onComponentInputChange($event.value, 'deviceSortOrder')" />
+					<NcSelect
+						:model-value="selectedDeviceSortAscending"
+						:input-label="t('phonetrack', 'Sort direction for devices')"
+						:options="Object.values(sortAscendingOptions)"
+						:no-wrap="true"
+						:clearable="false"
+						@update:model-value="onComponentInputChange($event.value, 'deviceSortAscending')" />
+					<NcSelect
+						:model-value="selectedSessionSortOrder"
+						:input-label="t('phonetrack', 'Sort sessions by')"
+						:options="Object.values(DEVICE_SORT_ORDER)"
+						:no-wrap="true"
+						:clearable="false"
+						@update:model-value="onComponentInputChange($event.value, 'sessionSortOrder')" />
+					<NcSelect
+						:model-value="selectedSessionSortAscending"
+						:input-label="t('phonetrack', 'Sort direction for sessions')"
+						:options="Object.values(sortAscendingOptions)"
+						:no-wrap="true"
+						:clearable="false"
+						@update:model-value="onComponentInputChange($event.value, 'sessionSortAscending')" />
+				</div>
 			</NcAppSettingsSection>
 			<NcAppSettingsSection v-if="!isPublicPage"
 				id="export"
@@ -292,15 +294,20 @@
 				<template #icon>
 					<KeyOutlineIcon :size="20" />
 				</template>
-				<div>
-					{{ t('phonetrack', 'If you leave the Maptiler API key empty, PhoneTrack will use the one defined by the Nextcloud admin as default.') }}
+				<div class="notecards">
+					<NcNoteCard type="info">
+						{{ t('phonetrack', 'If you leave the Maptiler API key empty, PhoneTrack will use the one defined by the Nextcloud admin as default.') }}
+					</NcNoteCard>
+					<NcNoteCard v-if="isAdmin" type="info">
+						<template #icon>
+							<AdminIcon :size="20" />
+						</template>
+						<span v-html="adminApiKeyHint" />
+					</NcNoteCard>
+					<NcNoteCard type="info">
+						<div v-html="maptilerHint" />
+					</NcNoteCard>
 				</div>
-				<div v-if="isAdmin"
-					style="display: flex; align-items: center; gap: 4px;">
-					<AdminIcon :size="24" class="icon" />
-					<span v-html="adminApiKeyHint" />
-				</div>
-				<div v-html="maptilerHint" />
 				<NcTextField
 					:model-value="settings.maptiler_api_key"
 					:label="t('phonetrack', 'API key to use Maptiler (for vector tile servers)')"
@@ -320,9 +327,11 @@
 				<template #icon>
 					<MapLegendIcon :size="20" />
 				</template>
-				<NcNoteCard v-if="!isPublicPage" type="info">
-					{{ t('phonetrack', 'Changes are effective after reloading the page.') }}
-				</NcNoteCard>
+				<div class="notecards">
+					<NcNoteCard v-if="!isPublicPage" type="info">
+						{{ t('phonetrack', 'Changes are effective after reloading the page.') }}
+					</NcNoteCard>
+				</div>
 				<TileServerList
 					:tile-servers="settings.extra_tile_servers"
 					:is-admin="false"
@@ -642,10 +651,15 @@ a.external {
 	}
 }
 
+.notecards > * {
+	margin: 0;
+}
+
+.notecards,
 .infos {
 	display: flex;
 	flex-direction: column;
-	gap: 2px;
+	gap: 4px;
 }
 
 .inline-icon {
