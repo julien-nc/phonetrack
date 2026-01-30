@@ -1,6 +1,9 @@
 <template>
 	<div v-if="device.enabled && device.points?.length > 0"
 		class="charts-container">
+		<NcNoteCard type="info">
+			{{ t('phonetrack', 'You can zoom on the chart by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse.') }}
+		</NcNoteCard>
 		<DeviceChart
 			:device="device"
 			:x-axis="settings.chart_x_axis"
@@ -85,6 +88,7 @@ import RulerIcon from 'vue-material-design-icons/Ruler.vue'
 
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import DeviceChart from './DeviceChart.vue'
 
@@ -100,6 +104,7 @@ export default {
 		RulerIcon,
 		NcEmptyContent,
 		NcCheckboxRadioSwitch,
+		NcNoteCard,
 	},
 
 	props: {
