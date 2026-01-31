@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2025-11-28 19:36\n"
+"PO-Revision-Date: 2026-01-31 23:18\n"
 "Last-Translator: \n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -477,31 +477,31 @@ msgstr "GpsLogger GET en POST link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1595
 msgid "Owntracks (HTTP mode) link"
-msgstr ""
+msgstr "Owntracks (HTTP mode) URL"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1599
 msgid "Ulogger link"
-msgstr ""
+msgstr "Ulogger link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1603
 msgid "Traccar link"
-msgstr ""
+msgstr "Traccar link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1607
 msgid "OpenGTS link"
-msgstr ""
+msgstr "OpenGTS link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1611
 msgid "Overland link"
-msgstr ""
+msgstr "Overland link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1615
 msgid "Locus Map link"
-msgstr ""
+msgstr "Locus Map link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1619
 msgid "HTTP GET link"
-msgstr ""
+msgstr "HTTP GET link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1727
 msgid "The session you want to delete does not exist"
@@ -733,7 +733,7 @@ msgstr "Oost"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2888
 msgid "West"
-msgstr ""
+msgstr "Westen"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:2891
 msgid "Fence name"
@@ -893,7 +893,7 @@ msgstr "lat: lng"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3758
 msgid "DMS coords"
-msgstr ""
+msgstr "DMS coords"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3764
 msgid "Save"
@@ -1339,7 +1339,7 @@ msgstr "Geo QRcode : laatste positie van {dname}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5808
 msgid "Are you sure you want to delete the device {device}?"
-msgstr ""
+msgstr "Weet je zeker dat je apparaat {device} wilt verwijderen?"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5811
 msgid "Confirm device deletion"
@@ -1416,11 +1416,11 @@ msgstr "Hoofd tab"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:6
 msgid "Filters"
-msgstr ""
+msgstr "Filters"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:15
 msgid "Stats"
-msgstr ""
+msgstr "Statistieken"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:16
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:264
@@ -1591,7 +1591,7 @@ msgstr "helder"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:182
 msgid "pastel"
-msgstr ""
+msgstr "pastel"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:183
 msgid "dark"
@@ -1655,14 +1655,14 @@ msgstr "Bijvoorbeeld : http://tegel.server.org/cycle/{z}/{x}/{y}.png"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:398
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:443
 msgid "Min zoom (1-20)"
-msgstr ""
+msgstr "Min zoom (1-20)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:278
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:357
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:400
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:445
 msgid "Max zoom (1-20)"
-msgstr ""
+msgstr "Max zoom (1-20)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:280
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:318
@@ -1704,7 +1704,7 @@ msgstr "Persoonlijke overlay tegel servers"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:396
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:441
 msgid "Server url"
-msgstr ""
+msgstr "Server url"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:354
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:442
