@@ -2,43 +2,49 @@
 
 namespace OCA\PhoneTrack\Settings;
 
+use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\TileServerMapper;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IConfig;
+use OCP\AppFramework\Services\IAppConfig;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Exceptions\AppConfigTypeConflictException;
 use OCP\Settings\ISettings;
 
 class Admin implements ISettings {
 
 	public function __construct(
-		private IConfig $config,
+		private IAppConfig $appConfig,
+		private TileServerMapper $tileServerMapper,
+		private IInitialState $initialStateService,
 	) {
 	}
 
-	/**
-	 * @return TemplateResponse
-	 */
 	public function getForm() {
-		$quota = $this->config->getAppValue('phonetrack', 'pointQuota');
+		try {
+			$quota = $this->appConfig->getAppValueInt('pointQuota', 0, lazy: true);
+		} catch (AppConfigTypeConflictException $e) {
+			$quota = (int)$this->appConfig->getAppValueString('pointQuota', '0', lazy: true);
+		}
+		$proxyOsm = $this->appConfig->getAppValueString('proxy_osm', '1', lazy: true) === '1';
+		$adminMaptilerApiKey = $this->appConfig->getAppValueString('maptiler_api_key', lazy: true);
 
-		$parameters = [
-			'phonetrackPointQuota' => $quota
+		$adminTileServers = $this->tileServerMapper->getTileServersOfUser(null);
+
+		$adminConfig = [
+			// do not expose the stored value to the user
+			'maptiler_api_key' => $adminMaptilerApiKey === '' ? '' : 'dummyApiKey',
+			'extra_tile_servers' => $adminTileServers,
+			'pointQuota' => $quota,
+			'proxy_osm' => $proxyOsm,
 		];
-		return new TemplateResponse('phonetrack', 'admin', $parameters, '');
+		$this->initialStateService->provideInitialState('admin-config', $adminConfig);
+		return new TemplateResponse(Application::APP_ID, 'adminSettings');
 	}
 
-	/**
-	 * @return string the section ID, e.g. 'sharing'
-	 */
 	public function getSection() {
 		return 'additional';
 	}
 
-	/**
-	 * @return int whether the form should be rather on the top or bottom of
-	 *             the admin section. The forms are arranged in ascending order of the
-	 *             priority values. It is required to return a value between 0 and 100.
-	 *
-	 * E.g.: 70
-	 */
 	public function getPriority() {
 		return 5;
 	}

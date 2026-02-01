@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.23.1@8471a896ccea3526b26d082f4461eeea467f10a4">
-  <file src="lib/Controller/PageController.php">
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
+  <file src="lib/Controller/OldPageController.php">
     <RedundantCondition>
       <code><![CDATA[$this->trackIndex === 1]]></code>
       <code><![CDATA[$this->trackIndex === 1]]></code>
     </RedundantCondition>
-    <UndefinedFunction>
-      <code><![CDATA['gpxDataElement']]></code>
-      <code><![CDATA['gpxEndElement']]></code>
-      <code><![CDATA['gpxStartElement']]></code>
-      <code><![CDATA['kmlDataElement']]></code>
-      <code><![CDATA['kmlEndElement']]></code>
-      <code><![CDATA['kmlStartElement']]></code>
-    </UndefinedFunction>
+  </file>
+  <file src="lib/Service/ImportGpxService.php">
+    <RedundantCondition>
+      <code><![CDATA[$this->trackIndex === 1]]></code>
+    </RedundantCondition>
   </file>
 </files>

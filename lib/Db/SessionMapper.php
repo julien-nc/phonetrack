@@ -1,15 +1,5 @@
 <?php
 
-/**
- * Nextcloud - phonetrack
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <eneiluj@posteo.net
- * @copyright Julien Veyssier 2019
- */
-
 namespace OCA\PhoneTrack\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
@@ -29,13 +19,13 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
-	 * @param $id
+	 * @param int $id
 	 * @return Session
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
-	public function find($id): Session {
+	public function find(int $id): Session {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -48,13 +38,30 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
+	 * @return list<string>
+	 * @throws Exception
+	 */
+	public function getUserIds(): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('user')
+			->from($this->getTableName())
+			->groupBy('user');
+
+		$res = $qb->executeQuery();
+		$all = $res->fetchAll();
+		return array_column($all, 'user');
+	}
+
+	/**
 	 * @param string $token
+	 * @param string|null $userId
 	 * @return Session
 	 * @throws DoesNotExistException
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
-	public function findByToken(string $token): Session {
+	public function findByToken(string $token, ?string $userId = null): Session {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -62,6 +69,11 @@ class SessionMapper extends QBMapper {
 			->where(
 				$qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
 			);
+		if ($userId !== null) {
+			$qb->andWhere(
+				$qb->expr()->eq('user', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			);
+		}
 
 		return $this->findEntity($qb);
 	}
@@ -78,6 +90,162 @@ class SessionMapper extends QBMapper {
 			->from($this->getTableName())
 			->where(
 				$qb->expr()->eq('user', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param string $userId
+	 * @param string $name
+	 * @return Session
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getUserSessionByName(string $userId, string $name): Session {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('user', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $token
+	 * @return Session
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getSessionsByPublicViewToken(string $token): Session {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('publicviewtoken', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $userId
+	 * @param int $id
+	 * @return Session
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function getUserSessionById(string $userId, int $id): Session {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->eq('user', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
+			)
+			->andWhere(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
+			);
+
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param string $userId
+	 * @param string $name
+	 * @param string $token
+	 * @param string $publicViewToken
+	 * @param bool $isPublic
+	 * @return Session
+	 * @throws Exception
+	 */
+	public function createSession(string $userId, string $name, string $token, string $publicViewToken, bool $isPublic): Session {
+		$session = new Session();
+		$session->setUser($userId);
+		$session->setName($name);
+		$session->setToken($token);
+		$session->setPublicviewtoken($publicViewToken);
+		$session->setPublic($isPublic ? 1 : 0);
+		$session->setEnabled(0);
+		$session->setLocked(0);
+
+		return $this->insert($session);
+	}
+
+	/**
+	 * @param string $userId
+	 * @param int $id
+	 * @return void
+	 * @throws DoesNotExistException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function deleteSession(string $userId, int $id): void {
+		$session = $this->getUserSessionById($userId, $id);
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('phonetrack_devices')
+			->where(
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($session->getToken(), IQueryBuilder::PARAM_STR))
+			);
+		$qb->executeStatement();
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('phonetrack_shares')
+			->where(
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($session->getId(), IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('phonetrack_pubshares')
+			->where(
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($session->getId(), IQueryBuilder::PARAM_INT))
+			);
+		$qb->executeStatement();
+
+		$this->delete($session);
+	}
+
+	/**
+	 * @param array $sessionIds
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getSessionsById(array $sessionIds): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->in('id', $qb->createNamedParameter($sessionIds, IQueryBuilder::PARAM_INT_ARRAY))
+			);
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param array $tokens
+	 * @return array
+	 * @throws Exception
+	 */
+	public function getSessionsByToken(array $tokens): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from($this->getTableName())
+			->where(
+				$qb->expr()->in('token', $qb->createNamedParameter($tokens, IQueryBuilder::PARAM_STR_ARRAY))
 			);
 
 		return $this->findEntities($qb);
@@ -101,44 +269,47 @@ class SessionMapper extends QBMapper {
 	}
 
 	/**
-	 * @param string $token
+	 * @param string $shareToken
 	 * @param string $userId
-	 * @return string|null
+	 * @return array|null
 	 * @throws Exception
 	 */
-	public function isSharedWith(string $token, string $userId): ?string {
+	public function isSharedWith(string $shareToken, string $userId): ?array {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('*')
+		$qb->select('session_token', 'session_id')
 			->from('phonetrack_shares')
 			->where(
-				$qb->expr()->eq('sharetoken', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('sharetoken', $qb->createNamedParameter($shareToken, IQueryBuilder::PARAM_STR))
 			)
 			->andWhere(
 				$qb->expr()->eq('username', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR))
 			);
 		$req = $qb->executeQuery();
 		while ($row = $req->fetch()) {
-			return $row['sessionid'];
+			return [
+				'session_token' => $row['session_token'],
+				'session_id' => $row['session_id'],
+			];
 		}
 
 		return null;
 	}
 
 	/**
-	 * @param string $token
+	 * @param int $sessionId
 	 * @param array|null $filters
 	 * @return int
 	 * @throws Exception
 	 */
-	public function countPointsPerSession(string $token, ?array $filters = null): int {
+	public function countPointsPerSession(int $sessionId, ?array $filters = null): int {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->selectAlias($qb->createFunction('COUNT(*)'), 'count_points')
 			->from('phonetrack_devices', 'dev')
 			->innerJoin('dev', 'phonetrack_points', 'poi', $qb->expr()->eq('dev.id', 'poi.deviceid'))
 			->where(
-				$qb->expr()->eq('sessionid', $qb->createNamedParameter($token))
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_INT))
 			);
 
 		if ($filters !== null) {

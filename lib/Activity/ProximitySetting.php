@@ -24,20 +24,14 @@
 
 namespace OCA\PhoneTrack\Activity;
 
+use OCA\PhoneTrack\AppInfo\Application;
+
 class ProximitySetting extends Setting {
 
-	/**
-	 * @return string Lowercase a-z and underscore only identifier
-	 * @since 11.0.0
-	 */
 	public function getIdentifier() {
-		return 'phonetrack_proximity_event';
+		return Application::ACTIVITY_PROXIMITY_EVENT;
 	}
 
-	/**
-	 * @return string A translated string
-	 * @since 11.0.0
-	 */
 	public function getName() {
 		return $this->l->t('<strong>PhoneTrack device proximity</strong> events');
 	}

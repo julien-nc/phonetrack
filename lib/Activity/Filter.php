@@ -24,6 +24,7 @@
 
 namespace OCA\PhoneTrack\Activity;
 
+use OCA\PhoneTrack\AppInfo\Application;
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -51,7 +52,7 @@ class Filter implements IFilter {
 	}
 
 	public function getIcon() {
-		return $this->urlGenerator->imagePath('phonetrack', 'app_black.svg');
+		return $this->urlGenerator->imagePath(Application::APP_ID, 'app_black.svg');
 	}
 
 	public function filterTypes(array $types) {
@@ -59,6 +60,6 @@ class Filter implements IFilter {
 	}
 
 	public function allowedApps() {
-		return ['phonetrack'];
+		return [Application::APP_ID];
 	}
 }

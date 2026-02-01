@@ -22,30 +22,39 @@ use Exception;
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\DeviceMapper;
+use OCA\PhoneTrack\Db\GeofenceMapper;
+use OCA\PhoneTrack\Db\PointMapper;
+use OCA\PhoneTrack\Db\ProximMapper;
+use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\ShareMapper;
+use OCA\PhoneTrack\Db\TileServerMapper;
+use OCA\PhoneTrack\Service\ImportGpxService;
 use OCA\PhoneTrack\Service\SessionService;
+use OCA\PhoneTrack\Service\ToolsService;
+use OCP\Activity\IManager as IActivityManager;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 
 use OCP\IL10N;
 use OCP\IRequest;
 
-use OCP\IServerContainer;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
+use OCP\Server;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class PageNLogControllerTest extends TestCase {
+class PageControllerTest extends TestCase {
 
-	private $appName;
 	private $request;
-
-	private $container;
-	private $config;
-	private $app;
 
 	private $pageController;
 	private $pageController2;
@@ -60,147 +69,152 @@ class PageNLogControllerTest extends TestCase {
 	private $testSessionToken5;
 	private $testSessionToExportToken;
 	private $testSessionQuota;
+	private SessionService $sessionService;
+	private DeviceMapper $deviceMapper;
+	private ActivityManager $activityManager;
+	private IAppConfig $appConfig;
 
 	public static function setUpBeforeClass(): void {
-		$app = new Application();
-		$c = $app->getContainer();
-
 		// CREATE DUMMY USERS
-		$userManager = $c->get(IUserManager::class);
-		$u1 = $userManager->createUser('test', 'T0T0T0');
-		$u1->setEMailAddress('toto@toto.net');
+		$userManager = Server::get(IUserManager::class);
+		$user1 = $userManager->createUser('test', 'T0T0T0');
+		//$accountManager = Server::get(IAccountManager::class);
+		//$account1 = $accountManager->getAccount($user1);
+		//$account1->setProperty(IAccountManager::PROPERTY_EMAIL, 'toto@toto.net', IAccountManager::SCOPE_LOCAL, IAccountManager::VERIFIED, '');
+		//$user1->setPrimaryEMailAddress('toto@toto.net');
+		$user1->setSystemEMailAddress('toto@toto.net');
 		$userManager->createUser('test2', 'T0T0T0');
 		$userManager->createUser('test3', 'T0T0T0');
 	}
 
 	protected function setUp(): void {
-		$this->app = new Application();
-		$this->container = $this->app->getContainer();
-		$c = $this->container;
-		$sc = $c->get(IServerContainer::class);
-		$this->config = $c->get(IConfig::class);
+		$this->appConfig = Server::get(IAppConfig::class);
 
-		$this->appName = 'phonetrack';
-		$this->request = $c->get(IRequest::class);
+		$this->request = Server::get(IRequest::class);
+
+		$this->deviceMapper = Server::get(DeviceMapper::class);
+
+		$app = new Application();
+		$c = $app->getContainer();
 
 		$this->sessionService = new SessionService(
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
-			$c->get(IUserManager::class),
-			$c->get(IDBConnection::class),
-			$c->get(IRootFolder::class),
-			$c->get(IConfig::class)
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
+			Server::get(PublicShareMapper::class),
+			Server::get(GeofenceMapper::class),
+			Server::get(ProximMapper::class),
+			Server::get(ShareMapper::class),
+			Server::get(PointMapper::class),
+			Server::get(ImportGpxService::class),
+			Server::get(IUserManager::class),
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IConfig::class),
+			Server::get(IAppConfig::class),
+			Server::get(LoggerInterface::class),
 		);
 
 		$this->activityManager = new ActivityManager(
-			$sc->getActivityManager(),
+			Server::get(IActivityManager::class),
 			$this->sessionService,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
 			$c->get(IL10N::class),
+			$c->get(IURLGenerator::class),
+			$c->get(LoggerInterface::class),
 			'test'
 		);
 
-		$this->activityManager2 = new ActivityManager(
-			$sc->getActivityManager(),
-			$this->sessionService,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
-			$c->get(IL10N::class),
-			'test2'
-		);
-
-		$this->pageController = new PageController(
-			$this->appName,
+		$this->pageController = new OldPageController(
+			Application::APP_ID,
 			$this->request,
-			$c->get(IConfig::class),
-			$c->get(IUserManager::class),
-			$c->get(LoggerInterface::class),
+			Server::get(IConfig::class),
+			Server::get(IUserManager::class),
+			Server::get(LoggerInterface::class),
 			$c->get(IL10N::class),
 			$this->activityManager,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
+			Server::get(SessionMapper::class),
 			$this->sessionService,
-			$c->get(IDBConnection::class),
-			$c->get(IRootFolder::class),
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IAppManager::class),
+			Server::get(IURLGenerator::class),
 			'test'
 		);
 
-		$this->pageController2 = new PageController(
-			$this->appName,
+		$this->pageController2 = new OldPageController(
+			Application::APP_ID,
 			$this->request,
-			$c->get(IConfig::class),
-			$c->get(IUserManager::class),
-			$c->get(LoggerInterface::class),
+			Server::get(IConfig::class),
+			Server::get(IUserManager::class),
+			Server::get(LoggerInterface::class),
 			$c->get(IL10N::class),
 			$this->activityManager,
-			new SessionMapper(
-				$c->get(IDBConnection::class)
-			),
+			Server::get(SessionMapper::class),
 			$this->sessionService,
-			$c->get(IDBConnection::class),
-			$c->get(IRootFolder::class),
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IAppManager::class),
+			Server::get(IURLGenerator::class),
 			'test2'
 		);
 
 		$this->logController = new LogController(
-			$this->appName,
+			Application::APP_ID,
 			$this->request,
-			$c->get(IConfig::class),
-			$c->get(IManager::class),
-			$c->get(IUserManager::class),
+			Server::get(IConfig::class),
+			$this->appConfig,
+			Server::get(IManager::class),
+			Server::get(IUserManager::class),
 			$c->get(IL10N::class),
-			$c->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->activityManager,
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
-			$c->get(IDBConnection::class),
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
+			Server::get(PointMapper::class),
+			Server::get(ProximMapper::class),
+			Server::get(GeofenceMapper::class),
+			Server::get(ShareMapper::class),
+			Server::get(IDBConnection::class),
+			Server::get(IMailer::class),
 			'test'
 		);
 
 		$this->logController2 = new LogController(
-			$this->appName,
+			Application::APP_ID,
 			$this->request,
-			$c->get(IConfig::class),
-			$c->get(IManager::class),
-			$c->get(IUserManager::class),
+			Server::get(IConfig::class),
+			$this->appConfig,
+			Server::get(IManager::class),
+			Server::get(IUserManager::class),
 			$c->get(IL10N::class),
-			$c->get(LoggerInterface::class),
+			Server::get(LoggerInterface::class),
 			$this->activityManager,
-			new DeviceMapper(
-				$c->get(IDBConnection::class)
-			),
-			$c->get(IDBConnection::class),
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
+			Server::get(PointMapper::class),
+			Server::get(ProximMapper::class),
+			Server::get(GeofenceMapper::class),
+			Server::get(ShareMapper::class),
+			Server::get(IDBConnection::class),
+			Server::get(IMailer::class),
 			'test2'
 		);
 
 		$this->utilsController = new UtilsController(
-			$this->appName,
+			Application::APP_ID,
 			$this->request,
-			$c->get(IConfig::class),
-			$c->get(IDBConnection::class),
+			Server::get(IConfig::class),
+			Server::get(IAppConfig::class),
+			Server::get(IDBConnection::class),
+			Server::get(ToolsService::class),
+			Server::get(TileServerMapper::class),
 			'test'
 		);
 	}
 
 	public static function tearDownAfterClass(): void {
-		$app = new Application();
-		$c = $app->getContainer();
-		$userManager = $c->get(IUserManager::class);
+		$userManager = Server::get(IUserManager::class);
 		$user = $userManager->get('test');
 		$user->delete();
 		$user = $userManager->get('test2');
@@ -221,12 +235,8 @@ class PageNLogControllerTest extends TestCase {
 	}
 
 	public function testQuota() {
-		$oldQuota = intval($this->config->getAppValue('phonetrack', 'pointQuota'));
-		$this->config->setAppValue('phonetrack', 'pointQuota', '');
-		$resp = $this->utilsController->setPointQuota('');
-		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals(1, $done);
+		$oldQuota = $this->appConfig->getValueInt(Application::APP_ID, 'pointQuota', lazy: true);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', 0, lazy: true);
 
 		$resp = $this->utilsController->deleteOptionsValues();
 		$resp = $this->pageController->createSession('quotaSession');
@@ -252,7 +262,7 @@ class PageNLogControllerTest extends TestCase {
 		$data = $resp->getData();
 		$done = $data['done'];
 		$devid2 = $data['deviceid'];
-		$this->config->setAppValue('phonetrack', 'pointQuota', 300);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', 300, lazy: true);
 		for ($i = 9; $i > 0; $i--) {
 			$resp = $this->logController->addPoint(
 				$token, 'dev1', 45.5, 3.4, 111, $timestamp - $i, 100, 80, 12, 'test', 2, 180
@@ -273,7 +283,7 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals(10, count($respSession[$token][$devid2]));
 		$this->assertEquals($timestamp - 2, $respSession[$token][$devid2][9][3]);
 
-		$this->config->setAppValue('phonetrack', 'pointQuota', 15);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', 15, lazy: true);
 
 		// test when user chose to block new points
 		$resp = $this->utilsController->saveOptionValue(['quotareached' => 'block']);
@@ -321,7 +331,7 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($done, 1);
 
 		$resp = $this->utilsController->deleteOptionsValues();
-		$this->config->setAppValue('phonetrack', 'pointQuota', $oldQuota);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', $oldQuota, lazy: true);
 	}
 
 	public function testUtils() {
@@ -344,33 +354,28 @@ class PageNLogControllerTest extends TestCase {
 		$this->assertEquals($values['lala'], 'lolo');
 
 		// ADD TILE SERVER
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
-		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		// $resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		// $data = $resp->getData();
+		// $done = $data['done'];
+		// $this->assertEquals($done, 1);
 
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$tsId = $data->jsonSerialize()['id'];
 
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 0);
+		$tsId2 = $data->jsonSerialize()['id'];
 
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		$resp = $this->utilsController->deleteTileServer($tsId);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$this->assertEquals($data, 1);
 
 		// SQL INJECTION
 		// TODO find something else than deleting options
@@ -423,6 +428,10 @@ class PageNLogControllerTest extends TestCase {
 		foreach ($respSession[$token] as $k => $v) {
 			$deviceid = $k;
 		}
+
+		// test get device owner
+		$owner = $this->deviceMapper->getSessionOwnerOfDevice($deviceid);
+		$this->assertEquals('test', $owner);
 
 		// save options
 		$resp = $this->utilsController->saveOptionValue([
@@ -655,12 +664,12 @@ class PageNLogControllerTest extends TestCase {
 		$nbPoints = count($respSession[$token][$deviceid]);
 
 		$points = [
-			[43.65339660644531,3.8572182655334473,1547460652,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
-			[43.65339660644532,3.8572182655334473,1547460653,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
-			[43.65339660644533,3.8572182655334473,1547460654,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
-			[43.65339660644534,3.8572182655334473,1547460655,'',20,'43.0','0','PhoneTrack\/0.0.6','0.0','0.0'],
+			[43.65339660644531, 3.8572182655334473, 1547460652, '', 20, '43.0', '0', 'PhoneTrack\/0.0.6', '0.0', '0.0'],
+			[43.65339660644532, 3.8572182655334473, 1547460653, '', 20, '43.0', '0', 'PhoneTrack\/0.0.6', '0.0', '0.0'],
+			[43.65339660644533, 3.8572182655334473, 1547460654, '', 20, '43.0', '0', 'PhoneTrack\/0.0.6', '0.0', '0.0'],
+			[43.65339660644534, 3.8572182655334473, 1547460655, '', 20, '43.0', '0', 'PhoneTrack\/0.0.6', '0.0', '0.0'],
 		];
-		$this->utilsController->setPointQuota(300);
+		$this->appConfig->setValueInt(Application::APP_ID, 'pointQuota', 300, lazy: true);
 		$this->logController->logPostMultiple($token, 'dev1', $points);
 
 		$sessions = [[$token, null, null]];
@@ -718,7 +727,7 @@ class PageNLogControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
 
-		$userFolder = $this->container->get('ServerContainer')->getUserFolder('test');
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder('test');
 		$now = new \DateTime();
 		$timestamp = $now->getTimestamp();
 
@@ -946,8 +955,7 @@ class PageNLogControllerTest extends TestCase {
 					and $data['sessions'][1][1] === $token
 					and count($data['sessions'][1][5]) > 0
 					and $data['sessions'][1][5]['test2'] === 'test2')
-				or
-				(count($data['sessions'][0]) > 4
+				|| (count($data['sessions'][0]) > 4
 					and $data['sessions'][0][1] === $token
 					and count($data['sessions'][0][5]) > 0
 					and $data['sessions'][0][5]['test2'] === 'test2');
@@ -1750,7 +1758,7 @@ class PageNLogControllerTest extends TestCase {
 		$respNames = $data['names'];
 		$respColors = $data['colors'];
 
-		$cond = array_key_exists($token, $data['names']) and array_key_exists($deldeviceid, $data['names'][$token]);
+		$cond = array_key_exists($token, $data['names']) && array_key_exists($deldeviceid, $data['names'][$token]);
 		$this->assertEquals($cond, true);
 		$this->assertEquals($data['names'][$token][$deldeviceid], 'delDev');
 
@@ -1778,7 +1786,7 @@ class PageNLogControllerTest extends TestCase {
 		$respNames = $data['names'];
 		$respColors = $data['colors'];
 
-		$cond = (!array_key_exists($token, $data['names'])) or (!array_key_exists($deldeviceid, $data['names'][$token]));
+		$cond = (!array_key_exists($token, $data['names'])) || (!array_key_exists($deldeviceid, $data['names'][$token]));
 		$this->assertEquals(true, $cond);
 
 		// NAME RESERVATION
@@ -2081,21 +2089,18 @@ class PageNLogControllerTest extends TestCase {
 
 		// JUST to increase coverage
 		$resp = $this->utilsController->addTileServer(
-			'serv', 'https://tile.server/x/y/z', 'tile',
-			'', '', '', '', 0.9, true,
-			10, 16, 'owyeah'
+			1, 'serv', 'https://tile.server/x/y/z', 'tile',
 		);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$tsId = $data->jsonSerialize()['id'];
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
 
 		// INDEX
 		$resp = $this->pageController->index();
 
-		$resp = $this->utilsController->deleteTileServer('serv', 'tile');
+		$resp = $this->utilsController->deleteTileServer($tsId);
 		$data = $resp->getData();
-		$done = $data['done'];
-		$this->assertEquals($done, 1);
+		$this->assertEquals($data, 1);
 
 		// PUBLIC WEB LOG with non existent session
 		$resp = $this->pageController->publicWebLog('', '');

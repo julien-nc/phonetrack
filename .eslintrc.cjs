@@ -10,6 +10,13 @@ module.exports = {
 	],
 	rules: {
 		'jsdoc/require-jsdoc': 'off',
-		'jsdoc/tag-lines': 'off'
+		'jsdoc/require-param': 'off',
+		'jsdoc/tag-lines': 'off',
+		'vue/first-attribute-linebreak': 'off',
+		'import/extensions': 'off',
+		'vue/no-v-html': 'off',
+		'vue/no-v-model-argument': 'off',
+		"import/no-unresolved": ["error", { "ignore": ["\\?raw"] }],
+		'vue/max-attributes-per-line': 'off',
 	}
 }

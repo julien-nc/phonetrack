@@ -24,20 +24,14 @@
 
 namespace OCA\PhoneTrack\Activity;
 
+use OCA\PhoneTrack\AppInfo\Application;
+
 class GeofenceSetting extends Setting {
 
-	/**
-	 * @return string Lowercase a-z and underscore only identifier
-	 * @since 11.0.0
-	 */
 	public function getIdentifier() {
-		return 'phonetrack_geofence_event';
+		return Application::ACTIVITY_GEOFENCE_EVENT;
 	}
 
-	/**
-	 * @return string A translated string
-	 * @since 11.0.0
-	 */
 	public function getName() {
 		return $this->l->t('<strong>PhoneTrack geofences</strong> events');
 	}

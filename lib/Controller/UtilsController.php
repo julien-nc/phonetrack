@@ -1,19 +1,19 @@
 <?php
 
-/**
- * Nextcloud - phonetrack
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
- *
- * @author Julien Veyssier <eneiluj@posteo.net>
- * @copyright Julien Veyssier 2017
- */
-
 namespace OCA\PhoneTrack\Controller;
 
+use OCA\PhoneTrack\AppInfo\Application;
+use OCA\PhoneTrack\Db\TileServerMapper;
+use OCA\PhoneTrack\Service\ToolsService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\Attribute\PasswordConfirmationRequired;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Exceptions\AppConfigTypeConflictException;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
@@ -26,7 +26,10 @@ class UtilsController extends Controller {
 		string $appName,
 		IRequest $request,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private IDBConnection $dbConnection,
+		private ToolsService $toolsService,
+		private TileServerMapper $tileServerMapper,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -42,22 +45,14 @@ class UtilsController extends Controller {
 	 * quote and choose string escape function depending on database used
 	 */
 	private function db_quote_escape_string($str) {
-		return $this->dbConnection->quote($str);
-	}
-
-	/**
-	 * set global point quota
-	 */
-	public function setPointQuota($quota) {
-		$this->config->setAppValue('phonetrack', 'pointQuota', $quota);
-		return new DataResponse(['done' => '1']);
+		return $this->dbConnection->quote($str ?? '');
 	}
 
 	/**
 	 * Add one tile server to the DB for current user
-	 * @NoAdminRequired
 	 */
-	public function addTileServer(string $servername, string $serverurl, string $type, string $token = '',
+	#[NoAdminRequired]
+	public function oldAddTileServer(string $servername, string $serverurl, string $type, string $token = '',
 		string $layers = '', string $version = '', string $tformat = '', string $opacity = '', bool $transparent = false,
 		int $minzoom = 1, int $maxzoom = 18, string $attribution = '') {
 		// first we check it does not already exist
@@ -81,20 +76,20 @@ class UtilsController extends Controller {
 			$sql = '
 				INSERT INTO *PREFIX*phonetrack_tileserver
 				(' . $this->dbDoubleQuotes . 'user' . $this->dbDoubleQuotes . ', type, servername, url, token, layers, version, format, opacity, transparent, minzoom, maxzoom, attribution)
-				VALUES (' .
-					$this->db_quote_escape_string($this->userId) . ',' .
-					$this->db_quote_escape_string($type) . ',' .
-					$this->db_quote_escape_string($servername) . ',' .
-					$this->db_quote_escape_string($serverurl) . ',' .
-					$this->db_quote_escape_string($token) . ',' .
-					$this->db_quote_escape_string($layers) . ',' .
-					$this->db_quote_escape_string($version) . ',' .
-					$this->db_quote_escape_string($tformat) . ',' .
-					$this->db_quote_escape_string($opacity) . ',' .
-					$this->db_quote_escape_string($transparent) . ',' .
-					$this->db_quote_escape_string($minzoom) . ',' .
-					$this->db_quote_escape_string($maxzoom) . ',' .
-					$this->db_quote_escape_string($attribution) . '
+				VALUES ('
+					. $this->db_quote_escape_string($this->userId) . ','
+					. $this->db_quote_escape_string($type) . ','
+					. $this->db_quote_escape_string($servername) . ','
+					. $this->db_quote_escape_string($serverurl) . ','
+					. $this->db_quote_escape_string($token) . ','
+					. $this->db_quote_escape_string($layers) . ','
+					. $this->db_quote_escape_string($version) . ','
+					. $this->db_quote_escape_string($tformat) . ','
+					. $this->db_quote_escape_string($opacity) . ','
+					. $this->db_quote_escape_string($transparent) . ','
+					. $this->db_quote_escape_string($minzoom) . ','
+					. $this->db_quote_escape_string($maxzoom) . ','
+					. $this->db_quote_escape_string($attribution) . '
 				) ;';
 			$req = $this->dbConnection->prepare($sql);
 			$req->execute();
@@ -109,9 +104,9 @@ class UtilsController extends Controller {
 
 	/**
 	 * Delete one tile server entry from DB for current user
-	 * @NoAdminRequired
 	 */
-	public function deleteTileServer($servername, $type) {
+	#[NoAdminRequired]
+	public function oldDeleteTileServer($servername, $type) {
 		$sqldel = '
 			DELETE FROM *PREFIX*phonetrack_tileserver
 			WHERE ' . $this->dbDoubleQuotes . 'user' . $this->dbDoubleQuotes . '=' . $this->db_quote_escape_string($this->userId) . '
@@ -126,41 +121,225 @@ class UtilsController extends Controller {
 
 	/**
 	 * Delete user options
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function deleteOptionsValues() {
-		$keys = $this->config->getUserKeys($this->userId, 'phonetrack');
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$this->config->deleteUserValue($this->userId, 'phonetrack', $key);
+			$this->config->deleteUserValue($this->userId, Application::APP_ID, $key);
 		}
 		return new DataResponse(['done' => 1]);
 	}
 
 	/**
 	 * Save options values to the DB for current user
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function saveOptionValue($options) {
 		foreach ($options as $key => $value) {
 			if (is_bool($value)) {
 				$value = $value ? 'true' : 'false';
 			}
-			$this->config->setUserValue($this->userId, 'phonetrack', $key, $value);
+			$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
 		}
 		return new DataResponse(['done' => true]);
 	}
 
 	/**
-	 * get options values from the config for current user
-	 * @NoAdminRequired
+	 * Save options values to the DB for current user
 	 */
+	#[NoAdminRequired]
+	public function saveOptionValues(array $values): DataResponse {
+		foreach ($values as $key => $value) {
+			if (is_bool($value)) {
+				$value = $value ? '1' : '0';
+			}
+			if ($key === 'maptiler_api_key' && $value !== '') {
+				$this->toolsService->setEncryptedUserValue($this->userId, $key, $value);
+			} else {
+				$this->config->setUserValue($this->userId, Application::APP_ID, $key, $value);
+			}
+		}
+
+		return new DataResponse('');
+	}
+
+	/**
+	 * get options values from the config for current user
+	 */
+	#[NoAdminRequired]
 	public function getOptionsValues() {
 		$ov = [];
-		$keys = $this->config->getUserKeys($this->userId, 'phonetrack');
+		$keys = $this->config->getUserKeys($this->userId, Application::APP_ID);
 		foreach ($keys as $key) {
-			$value = $this->config->getUserValue($this->userId, 'phonetrack', $key);
+			$value = $this->config->getUserValue($this->userId, Application::APP_ID, $key);
 			$ov[$key] = $value;
 		}
 		return new DataResponse(['values' => $ov]);
+	}
+
+	/**
+	 * Set admin config values
+	 *
+	 * @param array $values
+	 * @return DataResponse
+	 * @throws AppConfigTypeConflictException
+	 */
+	public function setAdminConfig(array $values): DataResponse {
+		foreach ($values as $key => $value) {
+			if (in_array($key, ['maptiler_api_key'], true)) {
+				return new DataResponse([], Http::STATUS_BAD_REQUEST);
+			} elseif (is_int($value)) {
+				try {
+					$this->appConfig->setValueInt(Application::APP_ID, $key, $value, lazy: true);
+				} catch (AppConfigTypeConflictException) {
+					$this->appConfig->deleteKey(Application::APP_ID, $key);
+					$this->appConfig->setValueInt(Application::APP_ID, $key, $value, lazy: true);
+				}
+			} else {
+				// consider anything else as string
+				try {
+					$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true);
+				} catch (AppConfigTypeConflictException) {
+					$this->appConfig->deleteKey(Application::APP_ID, $key);
+					$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true);
+				}
+			}
+		}
+		return new DataResponse('');
+	}
+
+	/**
+	 * Set sensitive admin config values
+	 *
+	 * @param array $values
+	 * @return DataResponse
+	 * @throws AppConfigTypeConflictException
+	 */
+	#[PasswordConfirmationRequired]
+	public function setSensitiveAdminConfig(array $values): DataResponse {
+		foreach ($values as $key => $value) {
+			if ($key === 'maptiler_api_key') {
+				$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true, sensitive: true);
+			} else {
+				$this->appConfig->setValueString(Application::APP_ID, $key, $value, lazy: true);
+			}
+		}
+		return new DataResponse('');
+	}
+
+	/**
+	 * @param int $type
+	 * @param string $name
+	 * @param string $url
+	 * @param string|null $attribution
+	 * @param int|null $min_zoom
+	 * @param int|null $max_zoom
+	 * @return DataResponse
+	 */
+	#[NoAdminRequired]
+	public function addTileServer(int $type, string $name, string $url, ?string $attribution = null,
+		?int $min_zoom = null, ?int $max_zoom = null): DataResponse {
+		try {
+			$tileServer = $this->tileServerMapper->createTileServer($this->userId, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
+			return new DataResponse($tileServer);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @param int $type
+	 * @param string $name
+	 * @param string $url
+	 * @param string|null $attribution
+	 * @param int|null $min_zoom
+	 * @param int|null $max_zoom
+	 * @return DataResponse
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	#[NoAdminRequired]
+	public function updateTileServer(
+		int $id, int $type, string $name, string $url,
+		?string $attribution = null, ?int $min_zoom = null, ?int $max_zoom = null,
+	): DataResponse {
+		try {
+			$updatedTs = $this->tileServerMapper->updateTileServer($id, $this->userId, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
+			return new DataResponse($updatedTs);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @return DataResponse
+	 */
+	#[NoAdminRequired]
+	public function deleteTileServer(int $id): DataResponse {
+		try {
+			$this->tileServerMapper->deleteTileserver($id, $this->userId);
+			return new DataResponse(1);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $type
+	 * @param string $name
+	 * @param string $url
+	 * @param string|null $attribution
+	 * @param int|null $min_zoom
+	 * @param int|null $max_zoom
+	 * @return DataResponse
+	 */
+	public function adminAddTileServer(int $type, string $name, string $url, ?string $attribution = null,
+		?int $min_zoom = null, ?int $max_zoom = null): DataResponse {
+		try {
+			$tileServer = $this->tileServerMapper->createTileServer(null, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
+			return new DataResponse($tileServer);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @param int $type
+	 * @param string $name
+	 * @param string $url
+	 * @param string|null $attribution
+	 * @param int|null $min_zoom
+	 * @param int|null $max_zoom
+	 * @return DataResponse
+	 * @throws DoesNotExistException
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function adminUpdateTileServer(
+		int $id, int $type, string $name, string $url,
+		?string $attribution = null, ?int $min_zoom = null, ?int $max_zoom = null,
+	): DataResponse {
+		try {
+			$updatedTs = $this->tileServerMapper->updateTileServer($id, null, $type, $name, $url, $attribution, $min_zoom, $max_zoom);
+			return new DataResponse($updatedTs);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 * @return DataResponse
+	 */
+	public function adminDeleteTileServer(int $id): DataResponse {
+		try {
+			$this->tileServerMapper->deleteTileserver($id, null);
+			return new DataResponse(1);
+		} catch (\OCP\DB\Exception $e) {
+			return new DataResponse($e->getMessage(), Http::STATUS_BAD_REQUEST);
+		}
 	}
 }

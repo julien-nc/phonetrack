@@ -7,11 +7,11 @@
 		"test": "tests"
 	},
 	"scripts": {
-		"dev": "NODE_ENV=development npx webpack --progress --config webpack.js",
-		"watch": "NODE_ENV=development npx webpack --progress --watch --config webpack.js",
-		"build": "NODE_ENV=production npx webpack --progress --config webpack.js",
-		"lint": "eslint --ext .js,.vue src",
-		"lint:fix": "eslint --ext .js,.vue src --fix",
+		"dev": "NODE_ENV=development webpack --progress --config webpack.js",
+		"watch": "NODE_ENV=development webpack --progress --watch --config webpack.js",
+		"build": "NODE_ENV=production webpack --progress --config webpack.js",
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .js,.vue src",
+		"lint:fix": "ESLINT_USE_FLAT_CONFIG=false eslint --ext .js,.vue src --fix",
 		"stylelint": "stylelint src/**/*.vue src/**/*.scss src/**/*.css",
 		"stylelint:fix": "stylelint src/**/*.vue src/**/*.scss src/**/*.css --fix"
 	},
@@ -33,19 +33,33 @@
 	],
 	"engines": {
 		"node": "^20",
-		"npm": "^10"
+		"npm": "^11"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-free": "^6.1.1",
+		"@fortawesome/fontawesome-free": "^7.0.1",
+		"@maplibre/maplibre-gl-geocoder": "^1.8.0",
+		"@nextcloud/auth": "^2.5.1",
 		"@nextcloud/axios": "^2.1.0",
-		"@nextcloud/l10n": "^3.1.0",
+		"@nextcloud/dialogs": "^7.0.0-rc.1",
+		"@nextcloud/event-bus": "^3.3.2",
+		"@nextcloud/initial-state": "^3.0.0",
+		"@nextcloud/l10n": "^3.4.0",
 		"@nextcloud/moment": "^1.2.1",
+		"@nextcloud/password-confirmation": "^6.0.0-rc.0",
+		"@nextcloud/paths": "^3.0.0",
 		"@nextcloud/router": "^3.0.0",
+		"@nextcloud/vue": "^9.0.0-rc.2",
+		"@primeuix/themes": "^2.0.2",
 		"@raruto/leaflet-elevation": "1.5.3",
+		"@turf/turf": "^7.3.1",
 		"babel-eslint": "^10.1.0",
+		"chart.js": "^4.5.0",
+		"chartjs-plugin-zoom": "^2.2.0",
+		"debounce": "^3.0.0",
 		"ds-countdown": "^1.1.1",
 		"jquery": "^3.5.1",
 		"kjua": "^0.10.0",
+		"kjua-svg": "^1.13.1",
 		"leaflet": "^1.9.4",
 		"leaflet-dialog": "^1.0.5",
 		"leaflet-easybutton": "^2.4.0",
@@ -59,6 +73,11 @@
 		"lodash": "^4.17.21",
 		"mapbox-gl": "2.4.1",
 		"mapbox-gl-leaflet": "^0.0.15",
+		"maplibre-gl": "^5.6.0",
+		"primevue": "^4.5.4",
+		"vue": "^3.5.17",
+		"vue-chartjs": "^5.3.2",
+		"vue-material-design-icons": "^5.3.1",
 		"webpack-jquery-ui": "^2.0.1"
 	},
 	"devDependencies": {
@@ -66,11 +85,9 @@
 		"@nextcloud/browserslist-config": "^3.0.0",
 		"@nextcloud/eslint-config": "^8.0.0",
 		"@nextcloud/stylelint-config": "^3.0.1",
-		"@nextcloud/vite-config": "^1.4.2",
-		"@nextcloud/webpack-vue-config": "^6.2.0",
-		"eslint-webpack-plugin": "^4.2.0",
-		"stylelint-webpack-plugin": "^5.0.1",
-		"vite-plugin-eslint": "^1.8.1",
-		"vite-plugin-stylelint": "^6.0.0"
+		"@nextcloud/vite-config": "^2.3.5",
+		"@nextcloud/webpack-vue-config": "^7.0.1",
+		"eslint-webpack-plugin": "^5.0.2",
+		"vite-plugin-eslint": "^1.8.1"
 	}
 }

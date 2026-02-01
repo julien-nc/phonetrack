@@ -873,7 +873,7 @@ import '../css/phonetrack.scss'
 			maxzoom: smaxzoom,
 			attribution: '',
 		}
-		const url = generateUrl('/apps/phonetrack/addTileServer')
+		const url = generateUrl('/apps/phonetrack/old/addTileServer')
 		axios.post(url, req).then((response) => {
 			if (response.data.done) {
 				$('#' + type + 'serverlist ul').prepend(
@@ -941,7 +941,7 @@ import '../css/phonetrack.scss'
 			servername: sname,
 			type,
 		}
-		const url = generateUrl('/apps/phonetrack/deleteTileServer')
+		const url = generateUrl('/apps/phonetrack/old/deleteTileServer')
 		axios.post(url, req).then((response) => {
 			if (response.data.done) {
 				li.fadeOut('normal', function() {
@@ -1002,6 +1002,8 @@ import '../css/phonetrack.scss'
 							$('#sidebar').addClass('collapsed')
 							$('#sidebar li.active').removeClass('active')
 						}
+					} else if (k === 'autozoom') {
+						elem.prop('checked', optionsValues[k] !== '0')
 					} else if (tag === 'SELECT') {
 						elem.val(optionsValues[k])
 					} else if (tag === 'INPUT') {
@@ -1116,6 +1118,9 @@ import '../css/phonetrack.scss'
 				value = phonetrack.currentLayerName
 			} else if (key === 'showsidebar') {
 				value = !$('#sidebar').hasClass('collapsed')
+			} else if (key === 'autozoom') {
+				const elem = $('#' + key)
+				value = elem.is(':checked') ? '1' : '0'
 			} else if (key === 'activeSessions') {
 				value = {}
 				$('.session').each(function() {
