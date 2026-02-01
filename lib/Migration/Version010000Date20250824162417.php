@@ -41,6 +41,8 @@ class Version010000Date20250824162417 extends SimpleMigrationStep {
 					'length' => 128,
 				]);
 				$schemaChanged = true;
+			} else {
+				$output->warning('Column phonetrack_pubshares.label already exists');
 			}
 		}
 		if ($schema->hasTable('phonetrack_points')) {
@@ -48,10 +50,14 @@ class Version010000Date20250824162417 extends SimpleMigrationStep {
 			if ($table->hasIndex('phonetrack_timestamp_index')) {
 				$table->dropIndex('phonetrack_timestamp_index');
 				$schemaChanged = true;
+			} else {
+				$output->warning('Index phonetrack_timestamp_index does not exist');
 			}
 			if (!$table->hasIndex('phonetrack_timestamp_devid_idx')) {
 				$table->addIndex(['deviceid', 'timestamp'], 'phonetrack_timestamp_devid_idx');
 				$schemaChanged = true;
+			} else {
+				$output->warning('Index phonetrack_timestamp_devid_idx already exists');
 			}
 		}
 

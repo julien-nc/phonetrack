@@ -48,6 +48,8 @@ class Version010000Date20251207150008 extends SimpleMigrationStep {
 					'unsigned' => true,
 				]);
 				$schemaChanged = true;
+			} else {
+				$output->warning('Column phonetrack_shares.session_id already exists');
 			}
 			if (!$table->hasColumn('session_token')) {
 				$table->addColumn('session_token', Types::STRING, [
@@ -56,6 +58,8 @@ class Version010000Date20251207150008 extends SimpleMigrationStep {
 					'length' => 300,
 				]);
 				$schemaChanged = true;
+			} else {
+				$output->warning('Column phonetrack_shares.session_token already exists');
 			}
 		}
 
@@ -68,6 +72,21 @@ class Version010000Date20251207150008 extends SimpleMigrationStep {
 	 * @param array $options
 	 */
 	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {
+		$schema = $schemaClosure();
+		if (!$schema->hasTable('phonetrack_shares')) {
+			$output->warning('Missing table: phonetrack_shares');
+			$output->warning('Skipping postSchemaChange in Version010000Date20251207150008');
+			return;
+		}
+		$table = $schema->getTable('phonetrack_shares');
+		foreach (['session_id', 'session_token', 'sessionid'] as $col) {
+			if (!$table->hasColumn($col)) {
+				$output->warning('Missing column: ' . $col . ' in table: ' . $table->getName());
+				$output->warning('Skipping postSchemaChange in Version010000Date20251207150008');
+				return;
+			}
+		}
+
 		// set session_token <- sessionid
 		$qbUpdateNewCol = $this->db->getQueryBuilder();
 		$qbUpdateNewCol->update('phonetrack_shares')

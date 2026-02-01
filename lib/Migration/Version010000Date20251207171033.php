@@ -40,6 +40,8 @@ class Version010000Date20251207171033 extends SimpleMigrationStep {
 			if ($table->hasColumn('sessionid') && $table->hasColumn('session_id') && $table->hasColumn('session_token')) {
 				$table->dropColumn('sessionid');
 				$schemaChanged = true;
+			} else {
+				$output->warning('Could not drop phonetrack_devices.sessionid');
 			}
 		}
 

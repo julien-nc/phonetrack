@@ -40,6 +40,8 @@ class Version010000Date20250803151308 extends SimpleMigrationStep {
 					'default' => 0,
 				]);
 				$schemaChanged = true;
+			} else {
+				$output->warning('Column phonetrack_sessions.enabled already exists');
 			}
 		}
 
@@ -51,6 +53,8 @@ class Version010000Date20250803151308 extends SimpleMigrationStep {
 					'default' => 0,
 				]);
 				$schemaChanged = true;
+			} else {
+				$output->warning('Column phonetrack_devices.enabled already exists');
 			}
 			if (!$table->hasColumn('line_enabled')) {
 				$table->addColumn('line_enabled', Types::SMALLINT, [
@@ -58,6 +62,8 @@ class Version010000Date20250803151308 extends SimpleMigrationStep {
 					'default' => 0,
 				]);
 				$schemaChanged = true;
+			} else {
+				$output->warning('Column phonetrack_devices.line_enabled already exists');
 			}
 			if (!$table->hasColumn('auto_zoom')) {
 				$table->addColumn('auto_zoom', Types::SMALLINT, [
@@ -65,6 +71,8 @@ class Version010000Date20250803151308 extends SimpleMigrationStep {
 					'default' => 0,
 				]);
 				$schemaChanged = true;
+			} else {
+				$output->warning('Column phonetrack_devices.auto_zoom already exists');
 			}
 			if (!$table->hasColumn('color_criteria')) {
 				$table->addColumn('color_criteria', Types::SMALLINT, [
@@ -72,6 +80,8 @@ class Version010000Date20250803151308 extends SimpleMigrationStep {
 					'default' => 0,
 				]);
 				$schemaChanged = true;
+			} else {
+				$output->warning('Column phonetrack_devices.color_criteria already exists');
 			}
 		}
 

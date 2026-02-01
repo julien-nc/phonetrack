@@ -33,7 +33,7 @@ class Version010000Date20250629144702 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		if (!$schema->hasTable('phonetrack_tile_srvs')) {
+		if (!$schema->hasTable('phonetrack_tile_srvrs')) {
 			$table = $schema->createTable('phonetrack_tile_srvrs');
 			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
@@ -65,6 +65,8 @@ class Version010000Date20250629144702 extends SimpleMigrationStep {
 				'length' => 300,
 			]);
 			$table->setPrimaryKey(['id']);
+		} else {
+			$output->warning('Table phonetrack_tile_srvrs already exists');
 		}
 
 		return $schema;
