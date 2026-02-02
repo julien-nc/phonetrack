@@ -4,6 +4,7 @@
 			v-model:open="showSettings"
 			:name="t('phonetrack', 'PhoneTrack settings')"
 			:show-navigation="true"
+			:no-version="true"
 			class="phonetrack-settings-dialog"
 			container="#settings-container">
 			<NcAppSettingsSection
@@ -343,55 +344,37 @@
 				<template #icon>
 					<InformationOutlineIcon :size="20" />
 				</template>
-				<div class="infos">
+				<div class="about">
 					<label>
 						{{ '♥ ' + t('phonetrack', 'Thanks for using PhoneTrack') + ' ♥ (v' + settings.app_version + ')' }}
 					</label>
-					<label>
-						{{ t('phonetrack', 'Bug/issue tracker') + ': ' }}
-					</label>
-					<a href="https://github.com/julien-nc/phonetrack/issues"
-						target="_blank"
-						class="external">
-						https://github.com/julien-nc/phonetrack/issues
-						<OpenInNewIcon :size="16" />
-					</a>
-					<label>
-						{{ t('phonetrack', 'Translation') + ': ' }}
-					</label>
-					<a href="https://crowdin.com/project/phonetrack"
-						target="_blank"
-						class="external">
-						https://crowdin.com/project/phonetrack
-						<OpenInNewIcon :size="16" />
-					</a>
-					<label>
-						{{ t('phonetrack', 'User documentation') + ': ' }}
-					</label>
-					<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/user.md"
-						target="_blank"
-						class="external">
-						https://github.com/julien-nc/phonetrack/blob/main/doc/user.md
-						<OpenInNewIcon :size="16" />
-					</a>
-					<label>
-						{{ t('phonetrack', 'Admin documentation') + ': ' }}
-					</label>
-					<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md"
-						target="_blank"
-						class="external">
-						https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md
-						<OpenInNewIcon :size="16" />
-					</a>
-					<label>
-						{{ t('phonetrack', 'Developer documentation') + ': ' }}
-					</label>
-					<a href="https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md"
-						target="_blank"
-						class="external">
-						https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md
-						<OpenInNewIcon :size="16" />
-					</a>
+					<NcFormBox>
+						<NcFormBoxButton
+							:label="t('phonetrack', 'Bug/issue tracker')"
+							description="https://github.com/julien-nc/phonetrack/issues"
+							href="https://github.com/julien-nc/phonetrack/issues"
+							target="_blank" />
+						<NcFormBoxButton
+							:label="t('phonetrack', 'Translation')"
+							description="https://crowdin.com/project/phonetrack"
+							href="https://crowdin.com/project/phonetrack"
+							target="_blank" />
+						<NcFormBoxButton
+							:label="t('phonetrack', 'User documentation')"
+							description="https://github.com/julien-nc/phonetrack/blob/main/doc/user.md"
+							href="https://github.com/julien-nc/phonetrack/blob/main/doc/user.md"
+							target="_blank" />
+						<NcFormBoxButton
+							:label="t('phonetrack', 'Admin documentation')"
+							description="https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md"
+							href="https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md"
+							target="_blank" />
+						<NcFormBoxButton
+							:label="t('phonetrack', 'Developer documentation')"
+							description="https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md"
+							href="https://github.com/julien-nc/phonetrack/blob/main/doc/dev.md"
+							target="_blank" />
+					</NcFormBox>
 				</div>
 			</NcAppSettingsSection>
 		</NcAppSettingsDialog>
@@ -410,7 +393,6 @@ import TextureBoxIcon from 'vue-material-design-icons/TextureBox.vue'
 import CursorDefaultClickOutlineIcon from 'vue-material-design-icons/CursorDefaultClickOutline.vue'
 import WeatherFogIcon from 'vue-material-design-icons/WeatherFog.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import UpdateIcon from 'vue-material-design-icons/Update.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
@@ -435,6 +417,7 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import NcFormBox from '@nextcloud/vue/components/NcFormBox'
 import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 
 // import Slider from 'vue3-slider'
 import Slider from 'primevue/slider'
@@ -467,8 +450,8 @@ export default {
 		NcFormBoxSwitch,
 		NcSelect,
 		NcButton,
+		NcFormBoxButton,
 		KeyIcon,
-		OpenInNewIcon,
 		TextureBoxIcon,
 		CursorDefaultClickOutlineIcon,
 		WeatherFogIcon,
@@ -660,6 +643,12 @@ a.external {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
+}
+
+.about {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 }
 
 .inline-icon {
