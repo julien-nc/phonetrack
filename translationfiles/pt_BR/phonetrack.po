@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2025-10-27 00:52+0100\n"
-"PO-Revision-Date: 2026-02-06 15:51\n"
+"PO-Revision-Date: 2026-02-07 15:54\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -62,7 +62,7 @@ msgstr "RastrearTelefone"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/GeofenceSetting.php:42
 msgid "<strong>PhoneTrack geofences</strong> events"
-msgstr "eventos <strong> PhoneTrack geofences </strong>"
+msgstr "Eventos <strong> Gráficos de Rastreamento </strong>"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:42
 msgid "<strong>PhoneTrack device proximity</strong> events"
@@ -179,11 +179,11 @@ msgstr "Ocultar linhas"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:525
 msgid "Activate automatic zoom"
-msgstr "Ativar zoom automático"
+msgstr "Ativar Ampliação automática"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:533
 msgid "Disable automatic zoom"
-msgstr "Desativar o zoom automático"
+msgstr "Desativar Ampliação automática"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:553
 msgid "Show last point tooltip"
@@ -195,7 +195,7 @@ msgstr "Esconder dica do último ponto"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:581
 msgid "Zoom on all devices"
-msgstr "Zoom em todos os dispositivos"
+msgstr "Ampliar todos os dispositivos"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:594
 msgid "Click on the map to move the point, press ESC to cancel"
@@ -889,7 +889,7 @@ msgstr "Agente de usuário"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3754
 msgid "lat : lng"
-msgstr ""
+msgstr "lat: lng"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3758
 msgid "DMS coords"
@@ -1603,7 +1603,7 @@ msgstr "Mostrar linhas nas páginas públicas"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:191
 msgid "reload page to make changes effective"
-msgstr "Atualize a página para que as alterações fazerem efeito."
+msgstr "Atualize a página para aplicar as alterações"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:195
 msgid "File export"
@@ -1682,7 +1682,7 @@ msgstr "Servidores de mapbox personalizados"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:314
 msgid "Style.json url"
-msgstr ""
+msgstr "Arquivo json url"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:315
 msgid "For example : mapbox://styles/mapbox/bright-v8 or https://your.openmaptiles.server:PORT/styles/osm-bright/style.json"
