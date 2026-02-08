@@ -534,26 +534,26 @@ export default {
 		selectedDeviceSortOrder(): Object {
 			return DEVICE_SORT_ORDER[this.settings.deviceSortOrder] ?? DEVICE_SORT_ORDER.name
 		},
-		selectedDeviceSortAscending() {
+		selectedDeviceSortAscending(): Object {
 			return this.sortAscendingOptions[this.settings.deviceSortAscending] ?? this.sortAscendingOptions.ascending
 		},
-		selectedSessionSortOrder() {
+		selectedSessionSortOrder(): Object {
 			return DEVICE_SORT_ORDER[this.settings.sessionSortOrder] ?? DEVICE_SORT_ORDER.name
 		},
-		selectedSessionSortAscending() {
+		selectedSessionSortAscending(): Object {
 			return this.sortAscendingOptions[this.settings.sessionSortAscending] ?? this.sortAscendingOptions.ascending
 		},
-		selectedDistanceUnit() {
+		selectedDistanceUnit(): Object {
 			return this.distanceUnitOptions[this.settings.distance_unit] ?? this.distanceUnitOptions.metric
 		},
-		selectedQuotaReached() {
+		selectedQuotaReached(): Object {
 			return this.quotaReachedOptions[this.settings.quotareached] ?? this.quotaReachedOptions.block
 		},
-		maptilerHint() {
+		maptilerHint(): string {
 			const maptilerLink = '<a href="https://maptiler.com" class="external" target="blank">https://maptiler.com</a>'
 			return t('phonetrack', 'If your admin hasn\'t defined an API key, you can get one for free on {maptilerLink}. Create an account then go to "Account" -> "API keys" and create a key or use your default one.', { maptilerLink }, null, { escape: false, sanitize: false })
 		},
-		adminApiKeyHint() {
+		adminApiKeyHint(): string {
 			const adminLink = '<a href="' + this.adminSettingsUrl + '" class="external" target="blank">' + t('phonetrack', 'PhoneTrack admin settings') + '</a>'
 			return t('phonetrack', 'As you are an administrator, you can set global API keys in the {adminLink}', { adminLink }, null, { escape: false, sanitize: false })
 		},
@@ -568,37 +568,34 @@ export default {
 	},
 
 	methods: {
-		handleShowSettings() {
+		handleShowSettings(): void {
 			this.showSettings = true
 		},
-		onMaptilerApiKeyChange(value) {
+		onMaptilerApiKeyChange(value: string): void {
 			delay(() => {
 				this.saveApiKey(value)
 			}, 2000)()
 		},
-		saveApiKey(value) {
+		saveApiKey(value: string): void {
 			emit('save-settings', {
 				maptiler_api_key: value,
 			})
 			showSuccess(t('phonetrack', 'API key saved, effective after a page reload'))
 		},
-		onCheckboxChanged(newValue: boolean, key: string) {
+		onCheckboxChanged(newValue: boolean, key: string): void {
 			console.debug('onCheckboxChanged', typeof newValue, typeof key)
 			emit('save-settings', { [key]: newValue ? '1' : '0' })
 			if (key === 'compact_mode') {
 				emit('resize-map')
 			}
 		},
-		onInputChange(e, key) {
-			emit('save-settings', { [key]: e.target.value })
-		},
-		debOnComponentInputChange(value, key) {
+		debOnComponentInputChange(value: string, key: string): void {
 			emit('save-settings-debounced', { [key]: value })
 		},
-		onComponentInputChange(value, key) {
+		onComponentInputChange(value: string, key: string): void {
 			emit('save-settings', { [key]: value })
 		},
-		onExportDirClick() {
+		onExportDirClick(): void {
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to write auto export files'))
 				.setMultiSelect(false)
 				.setType(FilePickerType.Choose)
