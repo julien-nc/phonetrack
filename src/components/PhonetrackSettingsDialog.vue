@@ -381,7 +381,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import ArrowSplitVerticalIcon from 'vue-material-design-icons/ArrowSplitVertical.vue'
 import OpacityIcon from 'vue-material-design-icons/Opacity.vue'
 import MathNormIcon from 'vue-material-design-icons/MathNorm.vue'
@@ -531,7 +531,7 @@ export default {
 	},
 
 	computed: {
-		selectedDeviceSortOrder() {
+		selectedDeviceSortOrder(): Object {
 			return DEVICE_SORT_ORDER[this.settings.deviceSortOrder] ?? DEVICE_SORT_ORDER.name
 		},
 		selectedDeviceSortAscending() {
@@ -582,7 +582,8 @@ export default {
 			})
 			showSuccess(t('phonetrack', 'API key saved, effective after a page reload'))
 		},
-		onCheckboxChanged(newValue, key) {
+		onCheckboxChanged(newValue: boolean, key: string) {
+			console.debug('onCheckboxChanged', typeof newValue, typeof key)
 			emit('save-settings', { [key]: newValue ? '1' : '0' })
 			if (key === 'compact_mode') {
 				emit('resize-map')

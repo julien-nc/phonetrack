@@ -1,8 +1,8 @@
 const webpack = require('webpack')
 const path = require('path')
 const webpackConfig = require('@nextcloud/webpack-vue-config')
-const StyleLintPlugin = require('stylelint-webpack-plugin')
-const ESLintPlugin = require('eslint-webpack-plugin')
+// const StyleLintPlugin = require('stylelint-webpack-plugin')
+// const ESLintPlugin = require('eslint-webpack-plugin')
 
 const buildMode = process.env.NODE_ENV
 const isDev = buildMode === 'development'
@@ -29,19 +29,19 @@ webpackConfig.plugins.push(
         'window.$': 'jquery'
     })
 )
-webpackConfig.plugins.push(
-    new ESLintPlugin({
-        extensions: ['js', 'vue'],
-        files: 'src',
-        failOnError: !isDev,
-		configType: 'eslintrc',
-    })
-)
-webpackConfig.plugins.push(
-	new StyleLintPlugin({
-		files: 'src/**/*.{css,scss,vue}',
-		failOnError: !isDev,
-	}),
-)
+//webpackConfig.plugins.push(
+//    new ESLintPlugin({
+//        extensions: ['js', 'vue'],
+//        files: 'src',
+//        failOnError: !isDev,
+//		configType: 'eslintrc',
+//    })
+//)
+//webpackConfig.plugins.push(
+//	new StyleLintPlugin({
+//		files: 'src/**/*.{css,scss,vue}',
+//		failOnError: !isDev,
+//	}),
+//)
 
 module.exports = webpackConfig
