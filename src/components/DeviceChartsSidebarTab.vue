@@ -6,7 +6,7 @@
 		</NcNoteCard>
 		<DeviceChart
 			:device="device"
-			:x-axis="settings.chart_x_axis"
+			:x-axis="settings.chart_x_axis ?? 'time'"
 			:chart-y-scale="chartYScale"
 			:settings="settings" />
 		<NcButton @click="onResetZoom">
@@ -22,7 +22,7 @@
 			</label>
 			<select
 				id="prefXAxis"
-				:value="settings.chart_x_axis"
+				:value="settings.chart_x_axis ?? 'time'"
 				@change="onXAxisChange">
 				<option value="time">
 					{{ t('phonetrack', 'Elapsed time') }}
