@@ -41,6 +41,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
 use XMLParser;
 
@@ -69,6 +70,7 @@ class OldPageController extends Controller {
 		private IRootFolder $root,
 		private IAppManager $appManager,
 		private IUrlGenerator $url,
+		private INotificationManager $notificationManager,
 		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
@@ -2600,8 +2602,7 @@ class OldPageController extends Controller {
 					);
 
 					// SEND NOTIFICATION
-					$manager = \OC::$server->getNotificationManager();
-					$notification = $manager->createNotification();
+					$notification = $this->notificationManager->createNotification();
 
 					$acceptAction = $notification->createAction();
 					$acceptAction->setLabel('accept')
@@ -2620,7 +2621,7 @@ class OldPageController extends Controller {
 						->addAction($declineAction)
 					;
 
-					$manager->notify($notification);
+					$this->notificationManager->notify($notification);
 				} else {
 					$ok = 2;
 				}
@@ -2763,8 +2764,7 @@ class OldPageController extends Controller {
 				$ok = 1;
 
 				// SEND NOTIFICATION
-				$manager = \OC::$server->getNotificationManager();
-				$notification = $manager->createNotification();
+				$notification = $this->notificationManager->createNotification();
 
 				$acceptAction = $notification->createAction();
 				$acceptAction->setLabel('accept')
@@ -2783,7 +2783,7 @@ class OldPageController extends Controller {
 					->addAction($declineAction)
 				;
 
-				$manager->notify($notification);
+				$this->notificationManager->notify($notification);
 			} else {
 				$ok = 2;
 			}

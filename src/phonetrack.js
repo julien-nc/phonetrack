@@ -12,7 +12,6 @@
 // if we want to use d3 (but it's already exposed to leaflet-elevations with webpack plugin)
 // import * as d3 from 'd3'
 import $ from 'jquery'
-import 'webpack-jquery-ui'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'mapbox-gl/dist/mapbox-gl.js'
@@ -4794,12 +4793,14 @@ import '../css/phonetrack.scss'
 					complString = name + ' (' + id + ')'
 					nameList.push(complString)
 					phonetrack.shareInputToId[complString] = id
+					phonetrack.shareInputToId[id] = id
 				} else {
 					nameList.push(name)
 					phonetrack.shareInputToId[name] = id
 				}
 			}
-			input.autocomplete({
+			/*
+			$(input).autocomplete({
 				source: nameList,
 			}).data('ui-autocomplete')._renderItem = function(ul, item) {
 				const iconClass = 'icon-user'
@@ -4809,6 +4810,7 @@ import '../css/phonetrack.scss'
 					.appendTo(ul)
 				return listItem
 			}
+			*/
 		}).catch((error) => {
 			console.error(error)
 			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get user list'))
@@ -6158,6 +6160,7 @@ import '../css/phonetrack.scss'
 				const token = $(this).parent().parent().parent().attr('token')
 				const val = $(this).val()
 				let userId, userName
+				console.debug('KEYUP addusershare', val, phonetrack.shareInputToId)
 				if (val in phonetrack.shareInputToId) {
 					userId = phonetrack.shareInputToId[val]
 					userName = phonetrack.userIdName[userId]
