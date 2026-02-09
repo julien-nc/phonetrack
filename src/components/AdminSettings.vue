@@ -69,7 +69,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import HelpCircleOutlineIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
@@ -145,7 +145,7 @@ export default {
 	},
 
 	methods: {
-		onCheckboxChanged(newValue, key) {
+		onCheckboxChanged(newValue: boolean, key: string): void {
 			this.state[key] = newValue
 			this.saveOptions({ [key]: this.state[key] ? '1' : '0' }, false)
 		},
@@ -154,7 +154,7 @@ export default {
 				pointQuota: parseInt(this.state.pointQuota) || 0,
 			}, false)
 		}, 2000),
-		onInput() {
+		onInput(): void {
 			delay(() => {
 				if (this.state.maptiler_api_key === 'dummyApiKey') {
 					return
@@ -164,7 +164,7 @@ export default {
 				}, true)
 			}, 2000)()
 		},
-		async saveOptions(values, sensitive = true) {
+		async saveOptions(values: Object, sensitive: boolean = true) {
 			if (sensitive) {
 				await confirmPassword()
 			}
@@ -182,7 +182,7 @@ export default {
 				console.debug(error)
 			})
 		},
-		onTileServerDeleted(id) {
+		onTileServerDeleted(id): void {
 			const url = generateUrl('/apps/phonetrack/admin/tileservers/{id}', { id })
 			axios.delete(url)
 				.then((response) => {
@@ -195,7 +195,7 @@ export default {
 					console.debug(error)
 				})
 		},
-		onTileServerAdded(ts) {
+		onTileServerAdded(ts): void {
 			const req = {
 				...ts,
 			}
@@ -208,7 +208,7 @@ export default {
 					console.debug(error)
 				})
 		},
-		onTileServerEdited({ ts, isAdminTileServer }) {
+		onTileServerEdited({ ts, isAdminTileServer }: { ts: Object; isAdminTileServer: boolean }): void {
 			console.debug('tile server edited', isAdminTileServer, ts)
 			const { id: _, ...values } = ts
 			const req = {
