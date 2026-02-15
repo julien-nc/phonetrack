@@ -91,6 +91,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { delay } from '../utils.js'
+import { TileServer } from '../types.ts'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -119,12 +120,12 @@ export default {
 
 	data() {
 		return {
-			state: loadState('phonetrack', 'admin-config'),
+			state: loadState('phonetrack', 'admin-config', {}) as { maptiler_api_key: string, pointQuota: string, proxy_osm: boolean, extra_tile_servers: Array<TileServer>, [key: string]: any },
 			mainHintHtml: t('phonetrack', 'You can create an API key on {maptilerLink}',
 				{
 					maptilerLink: '<a href="https://cloud.maptiler.com/account/keys/" class="external" target="blank">https://cloud.maptiler.com/account/keys/</a>',
 				},
-				null, { escape: false, sanitize: false }),
+				undefined, { escape: false, sanitize: false }),
 		}
 	},
 
@@ -132,16 +133,16 @@ export default {
 	},
 
 	mounted() {
-		subscribe('tile-server-deleted', this.onTileServerDeleted)
-		subscribe('tile-server-added', this.onTileServerAdded)
-		subscribe('tile-server-edited', this.onTileServerEdited)
+		subscribe('tile-server-deleted', this.onTileServerDeleted as any)
+		subscribe('tile-server-added', this.onTileServerAdded as any)
+		subscribe('tile-server-edited', this.onTileServerEdited as any)
 		console.debug('phonetrack state', this.state)
 	},
 
 	unmounted() {
-		unsubscribe('tile-server-deleted', this.onTileServerDeleted)
-		unsubscribe('tile-server-added', this.onTileServerAdded)
-		unsubscribe('tile-server-edited', this.onTileServerEdited)
+		unsubscribe('tile-server-deleted', this.onTileServerDeleted as any)
+		unsubscribe('tile-server-added', this.onTileServerAdded as any)
+		unsubscribe('tile-server-edited', this.onTileServerEdited as any)
 	},
 
 	methods: {
@@ -149,7 +150,7 @@ export default {
 			this.state[key] = newValue
 			this.saveOptions({ [key]: this.state[key] ? '1' : '0' }, false)
 		},
-		onQuotaUpdate: debounce(function() {
+		onQuotaUpdate: debounce(function(this: any) {
 			this.saveOptions({
 				pointQuota: parseInt(this.state.pointQuota) || 0,
 			}, false)
@@ -182,7 +183,7 @@ export default {
 				console.debug(error)
 			})
 		},
-		onTileServerDeleted(id): void {
+		onTileServerDeleted(id: number): void {
 			const url = generateUrl('/apps/phonetrack/admin/tileservers/{id}', { id })
 			axios.delete(url)
 				.then((response) => {
@@ -195,7 +196,7 @@ export default {
 					console.debug(error)
 				})
 		},
-		onTileServerAdded(ts): void {
+		onTileServerAdded(ts: TileServer): void {
 			const req = {
 				...ts,
 			}
@@ -208,7 +209,7 @@ export default {
 					console.debug(error)
 				})
 		},
-		onTileServerEdited({ ts, isAdminTileServer }: { ts: Object; isAdminTileServer: boolean }): void {
+		onTileServerEdited({ ts, isAdminTileServer }: { ts: TileServer; isAdminTileServer: boolean }): void {
 			console.debug('tile server edited', isAdminTileServer, ts)
 			const { id: _, ...values } = ts
 			const req = {
@@ -217,7 +218,6 @@ export default {
 			const url = generateUrl('/apps/phonetrack/admin/tileservers/{id}', { id: ts.id })
 			axios.put(url, req)
 				.then((response) => {
-					// TODO update item in state.extra_tile_servers
 					const index = this.state.extra_tile_servers.findIndex(item => item.id === ts.id)
 					if (index !== -1) {
 						Object.assign(this.state.extra_tile_servers[index], values)

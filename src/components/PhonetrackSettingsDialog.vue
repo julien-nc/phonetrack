@@ -78,7 +78,7 @@
 						min="5"
 						step="10"
 						:show-trailing-button="![125, '125'].includes(settings.refresh_duration)"
-						@update:model-value="onComponentInputChange($event, 'refresh_duration')"
+						@update:model-value="onComponentInputChange(String($event), 'refresh_duration')"
 						@trailing-button-click="onComponentInputChange('125', 'refresh_duration')">
 						<template #icon>
 							<UpdateIcon :size="20" />
@@ -92,7 +92,7 @@
 						:min="5"
 						:max="60 * 60"
 						:step="10"
-						@update:model-value="debOnComponentInputChange($event, 'refresh_duration')" />
+						@update:model-value="debOnComponentInputChange(String($event), 'refresh_duration')" />
 					<NcInputField
 						:model-value="settings.arrows_scale_factor ?? 1"
 						type="number"
@@ -101,7 +101,7 @@
 						max="2"
 						step="0.1"
 						:show-trailing-button="![1, '1'].includes(settings.arrows_scale_factor)"
-						@update:model-value="onComponentInputChange($event, 'arrows_scale_factor')"
+						@update:model-value="onComponentInputChange(String($event), 'arrows_scale_factor')"
 						@trailing-button-click="onComponentInputChange('1', 'arrows_scale_factor')">
 						<template #icon>
 							<ArrowRightIcon :size="20" />
@@ -115,7 +115,7 @@
 						:min="0.1"
 						:max="2"
 						:step="0.01"
-						@update:model-value="debOnComponentInputChange($event, 'arrows_scale_factor')" />
+						@update:model-value="debOnComponentInputChange(String($event), 'arrows_scale_factor')" />
 					<NcInputField
 						:model-value="settings.arrows_spacing ?? 200"
 						type="number"
@@ -124,7 +124,7 @@
 						max="400"
 						step="1"
 						:show-trailing-button="![200, '200'].includes(settings.arrows_spacing)"
-						@update:model-value="onComponentInputChange($event, 'arrows_spacing')"
+						@update:model-value="onComponentInputChange(String($event), 'arrows_spacing')"
 						@trailing-button-click="onComponentInputChange('200', 'arrows_spacing')">
 						<template #icon>
 							<ArrowRightIcon :size="20" />
@@ -137,7 +137,7 @@
 						class="slider"
 						:min="10"
 						:max="400"
-						@update:model-value="debOnComponentInputChange($event, 'arrows_spacing')" />
+						@update:model-value="debOnComponentInputChange(String($event), 'arrows_spacing')" />
 					<NcInputField
 						:model-value="settings.line_width ?? 6"
 						type="number"
@@ -146,7 +146,7 @@
 						max="20"
 						step="0.5"
 						:show-trailing-button="![6, '6'].includes(settings.line_width)"
-						@update:model-value="onComponentInputChange($event, 'line_width')"
+						@update:model-value="onComponentInputChange(String($event), 'line_width')"
 						@trailing-button-click="onComponentInputChange('6', 'line_width')">
 						<template #icon>
 							<ArrowSplitVerticalIcon :size="20" />
@@ -160,7 +160,7 @@
 						:min="1"
 						:max="20"
 						:step="0.1"
-						@update:model-value="debOnComponentInputChange($event, 'line_width')" />
+						@update:model-value="debOnComponentInputChange(String($event), 'line_width')" />
 					<NcInputField
 						:model-value="settings.line_opacity ?? 1"
 						type="number"
@@ -169,7 +169,7 @@
 						max="1"
 						step="0.1"
 						:show-trailing-button="![1, '1'].includes(settings.line_opacity)"
-						@update:model-value="onComponentInputChange($event, 'line_opacity')"
+						@update:model-value="onComponentInputChange(String($event), 'line_opacity')"
 						@trailing-button-click="onComponentInputChange('1', 'line_opacity')">
 						<template #icon>
 							<OpacityIcon :size="20" />
@@ -183,7 +183,7 @@
 						:min="0"
 						:max="1"
 						:step="0.01"
-						@update:model-value="debOnComponentInputChange($event, 'line_opacity')" />
+						@update:model-value="debOnComponentInputChange(String($event), 'line_opacity')" />
 					<NcInputField
 						:model-value="settings.terrainExaggeration ?? 1.5"
 						type="number"
@@ -192,7 +192,7 @@
 						max="10"
 						step="0.1"
 						:show-trailing-button="![1.5, '1.5'].includes(settings.terrainExaggeration)"
-						@update:model-value="onComponentInputChange($event, 'terrainExaggeration')"
+						@update:model-value="onComponentInputChange(String($event), 'terrainExaggeration')"
 						@trailing-button-click="onComponentInputChange('1.5', 'terrainExaggeration')">
 						<template #icon>
 							<ChartAreasplineVariantIcon :size="20" />
@@ -206,7 +206,7 @@
 						:min="0.1"
 						:max="10"
 						:step="0.1"
-						@update:model-value="debOnComponentInputChange($event, 'terrainExaggeration')" />
+						@update:model-value="debOnComponentInputChange(String($event), 'terrainExaggeration')" />
 					<NcSelect
 						:model-value="selectedDistanceUnit"
 						class="select"
@@ -275,7 +275,7 @@
 					:model-value="settings.autoexportpath"
 					:label="t('phonetrack', 'Export directory')"
 					:readonly="true"
-					:show-trailing-button="!!outputDir"
+					:show-trailing-button="!!settings.autoexportpath"
 					@trailing-button-click="resetOutputDir"
 					@click="onExportDirClick">
 					<template #icon>
@@ -315,7 +315,7 @@
 					type="password"
 					:placeholder="t('phonetrack', 'my-api-key')"
 					:show-trailing-button="!!settings.maptiler_api_key"
-					@update:model-value="onMaptilerApiKeyChange"
+					@update:model-value="onMaptilerApiKeyChange(String($event))"
 					@trailing-button-click="saveApiKey('')">
 					<template #icon>
 						<KeyIcon :size="20" />
@@ -531,31 +531,34 @@ export default {
 	},
 
 	computed: {
+		isPublicPage(): boolean {
+			return this.isPublicPage ?? false
+		},
 		selectedDeviceSortOrder(): Object {
-			return DEVICE_SORT_ORDER[this.settings.deviceSortOrder] ?? DEVICE_SORT_ORDER.name
+			return DEVICE_SORT_ORDER[this.settings.deviceSortOrder as keyof typeof DEVICE_SORT_ORDER] ?? DEVICE_SORT_ORDER.name
 		},
 		selectedDeviceSortAscending(): Object {
-			return this.sortAscendingOptions[this.settings.deviceSortAscending] ?? this.sortAscendingOptions.ascending
+			return this.sortAscendingOptions[this.settings.deviceSortAscending as keyof typeof this.sortAscendingOptions] ?? this.sortAscendingOptions.ascending
 		},
 		selectedSessionSortOrder(): Object {
-			return DEVICE_SORT_ORDER[this.settings.sessionSortOrder] ?? DEVICE_SORT_ORDER.name
+			return DEVICE_SORT_ORDER[this.settings.sessionSortOrder as keyof typeof DEVICE_SORT_ORDER] ?? DEVICE_SORT_ORDER.name
 		},
 		selectedSessionSortAscending(): Object {
-			return this.sortAscendingOptions[this.settings.sessionSortAscending] ?? this.sortAscendingOptions.ascending
+			return this.sortAscendingOptions[this.settings.sessionSortAscending as keyof typeof this.sortAscendingOptions] ?? this.sortAscendingOptions.ascending
 		},
 		selectedDistanceUnit(): Object {
-			return this.distanceUnitOptions[this.settings.distance_unit] ?? this.distanceUnitOptions.metric
+			return this.distanceUnitOptions[this.settings.distance_unit as keyof typeof this.distanceUnitOptions] ?? this.distanceUnitOptions.metric
 		},
 		selectedQuotaReached(): Object {
-			return this.quotaReachedOptions[this.settings.quotareached] ?? this.quotaReachedOptions.block
+			return this.quotaReachedOptions[this.settings.quotareached as keyof typeof this.quotaReachedOptions] ?? this.quotaReachedOptions.block
 		},
 		maptilerHint(): string {
 			const maptilerLink = '<a href="https://maptiler.com" class="external" target="blank">https://maptiler.com</a>'
-			return t('phonetrack', 'If your admin hasn\'t defined an API key, you can get one for free on {maptilerLink}. Create an account then go to "Account" -> "API keys" and create a key or use your default one.', { maptilerLink }, null, { escape: false, sanitize: false })
+			return t('phonetrack', 'If your admin hasn\'t defined an API key, you can get one for free on {maptilerLink}. Create an account then go to "Account" -> "API keys" and create a key or use your default one.', { maptilerLink }, undefined, { escape: false, sanitize: false })
 		},
 		adminApiKeyHint(): string {
 			const adminLink = '<a href="' + this.adminSettingsUrl + '" class="external" target="blank">' + t('phonetrack', 'PhoneTrack admin settings') + '</a>'
-			return t('phonetrack', 'As you are an administrator, you can set global API keys in the {adminLink}', { adminLink }, null, { escape: false, sanitize: false })
+			return t('phonetrack', 'As you are an administrator, you can set global API keys in the {adminLink}', { adminLink }, undefined, { escape: false, sanitize: false })
 		},
 	},
 
@@ -582,11 +585,14 @@ export default {
 			})
 			showSuccess(t('phonetrack', 'API key saved, effective after a page reload'))
 		},
+		resetOutputDir(): void {
+			emit('save-settings', { autoexportpath: '' })
+		},
 		onCheckboxChanged(newValue: boolean, key: string): void {
 			console.debug('onCheckboxChanged', typeof newValue, typeof key)
 			emit('save-settings', { [key]: newValue ? '1' : '0' })
 			if (key === 'compact_mode') {
-				emit('resize-map')
+				emit('resize-map', {})
 			}
 		},
 		debOnComponentInputChange(value: string, key: string): void {
