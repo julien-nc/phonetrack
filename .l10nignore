@@ -1,3 +1,4 @@
 # compiled vue templates
 js/
 vendor/
+node_modules/
