@@ -3,15 +3,16 @@
 		:name="device.name"
 		:title="subtitle"
 		:compact="true"
-		:background="backgroundImageUrl"
 		:subtitle="subtitle"
 		:active="activeTab"
 		class="device-sidebar"
 		@update:active="$emit('update:active', $event)"
 		@close="$emit('close')">
+		<template #header>
+			<CellphoneIcon :size="60" />
+		</template>
 		<template #subname>
 			<div class="line">
-				<CellphoneIcon :size="20" />
 				{{ subtitle }}
 			</div>
 		</template>
@@ -90,7 +91,6 @@ import CellphoneIcon from 'vue-material-design-icons/Cellphone.vue'
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 
-import { imagePath } from '@nextcloud/router'
 import DeviceDetailsSidebarTab from './DeviceDetailsSidebarTab.vue'
 import DeviceStatsSidebarTab from './DeviceStatsSidebarTab.vue'
 import DeviceChartsSidebarTab from './DeviceChartsSidebarTab.vue'
@@ -146,9 +146,6 @@ export default {
 		}
 	},
 	computed: {
-		backgroundImageUrl() {
-			return imagePath('phonetrack', 'app_black.svg')
-		},
 		pageIsPublic() {
 			return false
 		},

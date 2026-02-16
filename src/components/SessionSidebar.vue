@@ -3,15 +3,16 @@
 		:name="session.name"
 		:title="subtitle"
 		:compact="true"
-		:background="backgroundImageUrl"
 		:subtitle="subtitle"
 		:active="activeTab"
 		class="directory-sidebar"
 		@update:active="$emit('update:active', $event)"
 		@close="$emit('close')">
+		<template #header>
+			<FolderIcon :size="60" />
+		</template>
 		<template #subname>
 			<div class="line">
-				<PhonetrackIcon :size="20" />
 				{{ subtitle }}
 			</div>
 		</template>
@@ -57,12 +58,11 @@
 import CogOutlineIcon from 'vue-material-design-icons/CogOutline.vue'
 import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
-import PhonetrackIcon from './icons/PhonetrackIcon.vue'
+import FolderIcon from 'vue-material-design-icons/Folder.vue'
 
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 
-import { generateUrl } from '@nextcloud/router'
 import SessionSettingsSidebarTab from './SessionSettingsSidebarTab.vue'
 import SessionSharingSidebarTab from './SessionSharingSidebarTab.vue'
 import SessionLinkSidebarTab from './SessionLinkSidebarTab.vue'
@@ -70,7 +70,6 @@ import SessionLinkSidebarTab from './SessionLinkSidebarTab.vue'
 export default {
 	name: 'SessionSidebar',
 	components: {
-		PhonetrackIcon,
 		SessionSharingSidebarTab,
 		SessionSettingsSidebarTab,
 		SessionLinkSidebarTab,
@@ -79,6 +78,7 @@ export default {
 		ShareVariantIcon,
 		CogOutlineIcon,
 		LinkVariantIcon,
+		FolderIcon,
 	},
 	inject: ['isPublicPage'],
 	props: {
@@ -104,9 +104,6 @@ export default {
 		}
 	},
 	computed: {
-		backgroundImageUrl() {
-			return generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=' + (window.OCA?.Theming?.cacheBuster || 0))
-		},
 		title() {
 			return t('phonetrack', 'Session {name}', { name: this.session.name })
 		},
