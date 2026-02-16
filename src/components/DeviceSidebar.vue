@@ -29,7 +29,7 @@
 				:session="session"
 				:adding-point="addingPoint" />
 		</NcAppSidebarTab>
-		<NcAppSidebarTab
+		<!--NcAppSidebarTab
 			id="device-stats"
 			:name="t('phonetrack', 'Stats')"
 			:order="2">
@@ -40,7 +40,7 @@
 				:device="device"
 				:session="session"
 				:settings="settings" />
-		</NcAppSidebarTab>
+		</NcAppSidebarTab-->
 		<NcAppSidebarTab
 			id="device-charts"
 			:name="t('phonetrack', 'Charts')"
@@ -82,7 +82,7 @@
 
 <script>
 import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
-import TableLargeIcon from 'vue-material-design-icons/TableLarge.vue'
+// import TableLargeIcon from 'vue-material-design-icons/TableLarge.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import MapMarkerDistanceIcon from 'vue-material-design-icons/MapMarkerDistance.vue'
 import MapMarkerRadiusOutlineIcon from 'vue-material-design-icons/MapMarkerRadiusOutline.vue'
@@ -92,7 +92,7 @@ import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 
 import DeviceDetailsSidebarTab from './DeviceDetailsSidebarTab.vue'
-import DeviceStatsSidebarTab from './DeviceStatsSidebarTab.vue'
+// import DeviceStatsSidebarTab from './DeviceStatsSidebarTab.vue'
 import DeviceChartsSidebarTab from './DeviceChartsSidebarTab.vue'
 import DeviceGeofencesSidebarTab from './DeviceGeofencesSidebarTab.vue'
 import DeviceProximsSidebarTab from './DeviceProximsSidebarTab.vue'
@@ -102,13 +102,13 @@ export default {
 	components: {
 		DeviceProximsSidebarTab,
 		DeviceGeofencesSidebarTab,
-		DeviceStatsSidebarTab,
+		// DeviceStatsSidebarTab,
 		DeviceDetailsSidebarTab,
 		DeviceChartsSidebarTab,
 		NcAppSidebar,
 		NcAppSidebarTab,
 		InformationOutlineIcon,
-		TableLargeIcon,
+		// TableLargeIcon,
 		ChartLineIcon,
 		MapMarkerDistanceIcon,
 		MapMarkerRadiusOutlineIcon,
