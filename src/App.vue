@@ -134,6 +134,8 @@ import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
+import Navigation from './components/Navigation.vue'
+
 import { getFilteredPoints } from './utils.js'
 
 import { defineAsyncComponent } from 'vue'
@@ -151,7 +153,7 @@ export default {
 		DeviceSidebar: defineAsyncComponent(() => import('./components/DeviceSidebar.vue')),
 		SessionSidebar: defineAsyncComponent(() => import('./components/SessionSidebar.vue')),
 		FiltersSidebar: defineAsyncComponent(() => import('./components/FiltersSidebar.vue')),
-		Navigation: defineAsyncComponent(() => import('./components/Navigation.vue')),
+		Navigation,
 		DeviceList: defineAsyncComponent(() => import('./components/DeviceList.vue')),
 		PhonetrackSettingsDialog: defineAsyncComponent(() => import('./components/PhonetrackSettingsDialog.vue')),
 		PointEditModal: defineAsyncComponent(() => import('./components/PointEditModal.vue')),
