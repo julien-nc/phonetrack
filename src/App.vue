@@ -134,40 +134,29 @@ import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
-import PhonetrackSettingsDialog from './components/PhonetrackSettingsDialog.vue'
-import Navigation from './components/Navigation.vue'
-import SessionSidebar from './components/SessionSidebar.vue'
-import DeviceSidebar from './components/DeviceSidebar.vue'
-import FiltersSidebar from './components/FiltersSidebar.vue'
-import DeviceList from './components/DeviceList.vue'
-import MaplibreMap from './components/map/MaplibreMap.vue'
-import PolygonFill from './components/map/PolygonFill.vue'
-import DeviceSingleColor from './components/map/DeviceSingleColor.vue'
-import DeviceGradientColorPoints from './components/map/DeviceGradientColorPoints.vue'
-import PointEditModal from './components/PointEditModal.vue'
-import ChartPopups from './components/map/ChartPopups.vue'
-
 import { getFilteredPoints } from './utils.js'
+
+import { defineAsyncComponent } from 'vue'
 
 export default {
 	name: 'App',
 
 	components: {
 		PhonetrackIcon,
-		ChartPopups,
-		DeviceGradientColorPoints,
-		PolygonFill,
-		DeviceSingleColor,
-		MaplibreMap,
-		DeviceSidebar,
-		SessionSidebar,
-		FiltersSidebar,
-		Navigation,
-		PhonetrackSettingsDialog,
-		PointEditModal,
+		ChartPopups: defineAsyncComponent(() => import('./components/map/ChartPopups.vue')),
+		DeviceGradientColorPoints: defineAsyncComponent(() => import('./components/map/DeviceGradientColorPoints.vue')),
+		PolygonFill: defineAsyncComponent(() => import('./components/map/PolygonFill.vue')),
+		DeviceSingleColor: defineAsyncComponent(() => import('./components/map/DeviceSingleColor.vue')),
+		MaplibreMap: defineAsyncComponent(() => import('./components/map/MaplibreMap.vue')),
+		DeviceSidebar: defineAsyncComponent(() => import('./components/DeviceSidebar.vue')),
+		SessionSidebar: defineAsyncComponent(() => import('./components/SessionSidebar.vue')),
+		FiltersSidebar: defineAsyncComponent(() => import('./components/FiltersSidebar.vue')),
+		Navigation: defineAsyncComponent(() => import('./components/Navigation.vue')),
+		DeviceList: defineAsyncComponent(() => import('./components/DeviceList.vue')),
+		PhonetrackSettingsDialog: defineAsyncComponent(() => import('./components/PhonetrackSettingsDialog.vue')),
+		PointEditModal: defineAsyncComponent(() => import('./components/PointEditModal.vue')),
 		NcAppContent,
 		NcContent,
-		DeviceList,
 		NcEmptyContent,
 	},
 
