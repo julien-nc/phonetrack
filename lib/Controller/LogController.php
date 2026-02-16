@@ -638,7 +638,7 @@ class LogController extends Controller {
 									$message->setFrom([$mailFrom => 'PhoneTrack']);
 									$message->setTo([trim($addrTo) => '']);
 									$message->setPlainBody(
-										$this->l10n->t('In PhoneTrack session "%s", device "%s" exited geofence %s.', [
+										$this->l10n->t('In PhoneTrack session "%s", device "%s" exited geofence "%s".', [
 											$sessionname,
 											$devicename,
 											$fence->getName(),
