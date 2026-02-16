@@ -4,14 +4,14 @@ A PhoneTrack egy Nextcloud alkalmazás a mobil eszközök helyzetének követés
 
 🗺 It receives information from mobile phones logging apps and displays it dynamically on a map.
 
-🌍 Help us to translate this app on [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
+🌍 Segíts nekünk lefordítani ezt az alkalmazást a [PhoneTrack Crowdin projektben](https://crowdin.com/project/phonetrack).
 
-⚒ Check out other ways to help in the [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Nézd meg a [hozzájárulási irányelvekben](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md) a segítségnyújtás egyéb módjait.
 
 A PhoneTrack használata:
 
 - Hozz létre egy nyomkövetési munkamenetet.
-- Add át a naplózási linket\* a mobil eszközöknek. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Add át a naplózási linket\* a mobil eszközöknek. Válaszd ki a kívánt [naplózási módszert](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods).
 - Figyeld a munkamenet eszközeinek helyzetét valós időben (vagy késleltetve) a PhoneTrack-ben, vagy oszd meg nyilvános oldalakkal.
 
 (\*) Ne felejtsd el az eszköz nevét a linkben beállítani (nem pedig a naplózó alkalmazás beállításaiban). Írd be a „yourname” helyett a kívánt eszköz nevét.
@@ -29,7 +29,7 @@ A PhoneTrack főoldalán munkamenet figyelése közben a következöket teheted:
 - 🔗 Nyilvános megosztási linkek létrehozása opcionális korlátozásokkal (szűrők, eszköznév, csak utolsó pozíciók, geokerítés egyszerűsítése)
 - 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
 - 🗠 Display sessions statistics
-- 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
+- 🔒 [Foglalj le egy eszköznevet](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation), hogy csak az engedélyezett felhasználók tudjanak ezzel a névvel bejelentkezni
 - 🗓 Munkamenet automatikus exportálása és automatikus törlése (napi/heti/havi)
 - ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
 
@@ -43,15 +43,15 @@ Ez az alkalmazás fejlesztés alatt áll.
 
 ## Telepítés
 
-See the [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) for installation details.
+A telepítés részleteit lásd az [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) dokumentumban.
 
-Check [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) file to see what's new and what's coming in next release.
+A változásokról és a következő kiadás újdonságairól a [CHANGELOG](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CHANGELOG.md#change-log) fájlban tájékozódhatsz.
 
-Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) file to see complete list of authors.
+A szerzők teljes listáját az [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#authors) fájlban találod.
 
 ## Ismert problémák
 
-- A PhoneTrack már akkor is működik, ha a Nextcloud csoportkorlátozás be van kapcsolva. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- A PhoneTrack már akkor is működik, ha a Nextcloud csoportkorlátozás be van kapcsolva. Lásd az [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud) fájlt.
 
 Minden visszajelzést nagyra értékelünk.
 
