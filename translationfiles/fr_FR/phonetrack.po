@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-17 00:39+0100\n"
-"PO-Revision-Date: 2026-02-17 00:14\n"
+"PO-Revision-Date: 2026-02-17 00:18\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -123,7 +123,7 @@ msgstr "Dans la session PhoneTrack \"%s\", l'appareil \"%s\" est entré dans la 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:641
 #, php-format
 msgid "In PhoneTrack session \"%s\", device \"%s\" exited geofence \"%s\"."
-msgstr ""
+msgstr "Dans la session PhoneTrack \"%s\", l'appareil \"%s\" est sorti de la zone de géorepérage %s\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2070
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2096
@@ -1155,7 +1155,7 @@ msgstr "Rafraîchir toutes les N secondes"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5671
 msgid "{n} device"
 msgid_plural "{n} devices"
-msgstr[0] ""
+msgstr[0] "{n} appareil"
 msgstr[1] "{n} appareils"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:17
