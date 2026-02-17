@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2026-02-17 00:30+0100\n"
-"PO-Revision-Date: 2026-02-16 23:32\n"
+"POT-Creation-Date: 2026-02-17 00:39+0100\n"
+"PO-Revision-Date: 2026-02-17 00:14\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -62,24 +62,24 @@ msgstr "Événements de <strong>zones de géorepérage PhoneTrack</strong>"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:62
 #, php-format
 msgid "Deleted user (%s)"
-msgstr ""
+msgstr "Utilisateur supprimé (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:85
 msgid "Unknown author"
-msgstr ""
+msgstr "Auteur inconnu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:94
 #, php-format
 msgid "Shared access (%s)"
-msgstr ""
+msgstr "Accès partagé (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:95
 msgid "Shared access"
-msgstr ""
+msgstr "Accès partagé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:102
 msgid "No author"
-msgstr ""
+msgstr "Aucun auteur"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:36
 msgid "<strong>PhoneTrack device proximity</strong> events"
@@ -87,7 +87,7 @@ msgstr "Événements de <strong>proximité d'appareils PhoneTrack</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:43
 msgid "A <strong>PhoneTrack session</strong> has been shared or unshared"
-msgstr ""
+msgstr "Un partage de <strong>session PhoneTrack</strong> a été créé ou supprimé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:59
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
@@ -103,12 +103,12 @@ msgstr "Alerte de proximité sur PhoneTrack (%s et %s)"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:226
 #, php-format
 msgid "PhoneTrack device \"%s\" is now closer than %s m to \"%s\"."
-msgstr ""
+msgstr "L'appareil PhoneTrack \"%s\" est maintenant à moins de %s m de \"%s\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:357
 #, php-format
 msgid "PhoneTrack device \"%s\" is now farther than %s m from \"%s\"."
-msgstr ""
+msgstr "L'appareil PhoneTrack \"%s\" est maintenant à plus de %s m de %s\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:515
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:637
@@ -118,11 +118,11 @@ msgstr "Alerte de géorepérage"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:519
 #, php-format
 msgid "In PhoneTrack session \"%s\", device \"%s\" has entered geofence \"%s\"."
-msgstr ""
+msgstr "Dans la session PhoneTrack \"%s\", l'appareil \"%s\" est entré dans la zone de géorepérage \"%s\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:641
 #, php-format
-msgid "In PhoneTrack session \"%s\", device \"%s\" exited geofence %s."
+msgid "In PhoneTrack session \"%s\", device \"%s\" exited geofence \"%s\"."
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2070
@@ -142,12 +142,12 @@ msgstr "Loguer dans la session %s"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PublicShareController.php:66
 msgid "PhoneTrack public share not found"
-msgstr ""
+msgstr "Le partage public PhoneTrack est introuvable"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PublicShareController.php:100
 #, php-format
 msgid "Watch session %s"
-msgstr ""
+msgstr "Suivre la session %s"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:50
 #, php-format
@@ -186,11 +186,11 @@ msgstr "L'utilisateur \"%s\" a arrêté de partager la session PhoneTrack \"%s\"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Service/MapService.php:369
 msgid "Bad HTTP method"
-msgstr ""
+msgstr "Méthode HTTP incorrecte"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Service/MapService.php:375
 msgid "Bad credentials"
-msgstr ""
+msgstr "Mauvais identifiants"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:4
 msgid " "
@@ -199,27 +199,27 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:361
 msgid "Failed to save the settings"
-msgstr ""
+msgstr "Échec de l'enregistrement des paramètres"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:417
 msgid "Failed to import the session"
-msgstr ""
+msgstr "Impossible d'importer la session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:422
 msgid "Invalid session name"
-msgstr ""
+msgstr "Nom de session invalide"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:435
 msgid "This session name already used"
-msgstr ""
+msgstr "Ce nom de session est déjà utilisé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:437
 msgid "Failed to create the session"
-msgstr ""
+msgstr "Impossible de créer la session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:443
 msgid "Are you sure you want to delete the session {sessionName} ?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir supprimer la session {sessionName}?"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:444
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5242
@@ -228,35 +228,35 @@ msgstr "Confirmer la suppression de la session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:461
 msgid "Failed to delete the session"
-msgstr ""
+msgstr "Échec de la suppression de la session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:474
 msgid "Failed to save the session"
-msgstr ""
+msgstr "Échec de l'enregistrement de la session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:547
 msgid "Failed to delete the device"
-msgstr ""
+msgstr "Échec de la suppression de l'appareil"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:569
 msgid "The point has been deleted"
-msgstr ""
+msgstr "Le point a été supprimé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:585
 msgid "Click on the map to add a point"
-msgstr ""
+msgstr "Cliquez sur la carte pour ajouter un point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:624
 msgid "Click on the map to move the point"
-msgstr ""
+msgstr "Cliquez sur la carte pour déplacer le point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:718
 msgid "The point has been saved"
-msgstr ""
+msgstr "Le point a été sauvegardé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:727
 msgid "Failed to update the point"
-msgstr ""
+msgstr "Échec de la mise à jour du point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:741
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3579
@@ -266,88 +266,88 @@ msgstr "Ajouté manuellement"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:747
 msgid "The point you just added is not visible because it does not satisfy the current filters"
-msgstr ""
+msgstr "Le point que vous venez d'ajouter n'est pas visible car il ne satisfait pas les filtres actuels"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:771
 msgid "The session is locked. Impossible to add the point"
-msgstr ""
+msgstr "La session est verrouillée. Impossible d'ajouter le point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:773
 msgid "Your point quota has been reached. Impossible to add the point"
-msgstr ""
+msgstr "Votre quota de points a été atteint. Impossible d'ajouter le point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:775
 msgid "Error while adding the point"
-msgstr ""
+msgstr "Erreur lors de l'ajout du point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:792
 msgid "Failed to save the device"
-msgstr ""
+msgstr "Échec de l'enregistrement de l'appareil"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:812
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1399
 msgid "Failed to delete the tile server"
-msgstr ""
+msgstr "Impossible de supprimer le serveur de tuiles"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:825
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1412
 msgid "Failed to add the tile server"
-msgstr ""
+msgstr "Impossible d'ajouter le serveur de tuiles"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:843
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1430
 msgid "Failed to update the tile server"
-msgstr ""
+msgstr "Impossible de mettre à jour le serveur de tuiles"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:914
 msgid "Failed to create the geofence"
-msgstr ""
+msgstr "Impossible de créer la zone de géorepérage"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:930
 msgid "Failed to save the geofence"
-msgstr ""
+msgstr "Échec de l'enregistrement du géorepérage"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:942
 msgid "Geofence {name} has been deleted"
-msgstr ""
+msgstr "Le géorepérage {name} a été supprimé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:944
 msgid "Failed to delete the geofence"
-msgstr ""
+msgstr "Impossible de supprimer la zone de géorepérage"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:957
 msgid "Failed to create the proximity alert"
-msgstr ""
+msgstr "Impossible de créer l'alerte de proximité"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:974
 msgid "Failed to save the proximity alert"
-msgstr ""
+msgstr "Échec de l'enregistrement de l'alerte de proximité"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:986
 msgid "Proximity alert {id} has been deleted"
-msgstr ""
+msgstr "L'alerte de proximité {id} a été supprimée"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:988
 msgid "Failed to delete the proximity alert"
-msgstr ""
+msgstr "Impossible de supprimer l'alerte de proximité"
 
 #. TRANSLATORS src/App.vue:21
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1273
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1275
 msgid "No selected session"
-msgstr ""
+msgstr "Aucune session sélectionnée"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1328
 msgid "You can create an API key on {maptilerLink}"
-msgstr ""
+msgstr "Vous pouvez créer une clé API sur {maptilerLink}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1384
 msgid "PhoneTrack admin settings saved"
-msgstr ""
+msgstr "Paramètres d'administration de PhoneTrack enregistrés"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1386
 msgid "Failed to save phonetrack admin settings"
-msgstr ""
+msgstr "Impossible d'enregistrer les paramètres d'administration de PhoneTrack"
 
 #. TRANSLATORS src/components/AdminSettings.vue:14
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1438
@@ -357,7 +357,7 @@ msgstr "Quota de nombre de point"
 #. TRANSLATORS src/components/AdminSettings.vue:26
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1440
 msgid "The maximum number of points each user can store/log."
-msgstr ""
+msgstr "Le nombre maximum de points que chaque utilisateur peut stocker/enregistrer."
 
 #. TRANSLATORS src/components/AdminSettings.vue:27
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1442
@@ -372,31 +372,31 @@ msgstr "Une valeur vide signifie aucune limite."
 #. TRANSLATORS src/components/AdminSettings.vue:39
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1446
 msgid "The API key defined here will be used by all users. Each user can set a personal API key to override this global one."
-msgstr ""
+msgstr "La clé API définie ici sera utilisée par tous les utilisateurs. Chaque utilisateur peut définir une clé personnelle d'API pour remplacer cette clé globale."
 
 #. TRANSLATORS src/components/AdminSettings.vue:44
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1448
 msgid "Maptiler API key"
-msgstr ""
+msgstr "Clé API Maptiler"
 
 #. TRANSLATORS src/components/AdminSettings.vue:47
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:316
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1450
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4462
 msgid "my-api-key"
-msgstr ""
+msgstr "ma-cle-api"
 
 #. TRANSLATORS src/components/AdminSettings.vue:60
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1452
 msgid "Proxy map tiles/vectors requests via Nextcloud"
-msgstr ""
+msgstr "Utiliser Nextcloud comme proxy pour les requêtes de tuiles/vecteurs"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:52
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1669
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2048
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:29
 msgid "Elevation"
-msgstr ""
+msgstr "Altitude"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:55
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1686
@@ -415,7 +415,7 @@ msgstr "Vitesse"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:37
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:523
 msgid "Accuracy"
-msgstr ""
+msgstr "Précision"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1720
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3752
@@ -427,7 +427,7 @@ msgstr "Batterie"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1835
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2038
 msgid "Elapsed time"
-msgstr ""
+msgstr "Temps écoulé"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1837
@@ -436,19 +436,19 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:361
 msgid "Traveled distance"
-msgstr ""
+msgstr "Distance parcourue"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1849
 msgid "By elapsed time"
-msgstr ""
+msgstr "Par temps écoulé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1851
 msgid "By traveled distance"
-msgstr ""
+msgstr "Par distance parcourue"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1853
 msgid "By date"
-msgstr ""
+msgstr "Par date"
 
 #. TRANSLATORS src/components/DeviceChart.vue:11
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:78
@@ -457,22 +457,22 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2060
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2062
 msgid "No data to display"
-msgstr ""
+msgstr "Aucune donnée à afficher"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2032
 msgid "You can zoom on the chart by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse."
-msgstr ""
+msgstr "Vous pouvez zoomer sur le graphique en maintenant la touche SHIFT enfoncée et en utilisant la molette de la souris. Vous pouvez ensuite vous déplacer en le faisant glisser avec la souris."
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:13
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2034
 msgid "Reset zoom"
-msgstr ""
+msgstr "Reset zoom"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:21
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2036
 msgid "Chart X axis"
-msgstr ""
+msgstr "Axe X du graphique"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:31
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2040
@@ -485,71 +485,71 @@ msgstr "Date"
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:43
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2044
 msgid "Show Y axis scale for"
-msgstr ""
+msgstr "Afficher l'échelle de l'axe Y pour"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:49
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2046
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:25
 msgid "None"
-msgstr ""
+msgstr "Aucun"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:61
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2054
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:41
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:60
 msgid "Battery level"
-msgstr ""
+msgstr "Niveau de la batterie"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:68
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2056
 msgid "Center map on chart hovered point"
-msgstr ""
+msgstr "Centrer la carte sur le point survolé"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:73
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2058
 msgid "Show details of hovered point on the map"
-msgstr ""
+msgstr "Afficher les détails du point survolé sur la carte"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2235
 msgid "Choose where to export the device {name}"
-msgstr ""
+msgstr "Choisissez où exporter l'appareil {name}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2241
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5254
 msgid "Export in current directory"
-msgstr ""
+msgstr "Exporter dans le répertoire courant"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2268
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5282
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5287
 msgid "Session successfully exported in {targetFilePath}"
-msgstr ""
+msgstr "Session exportée avec succès dans {targetFilePath}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2271
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5292
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5296
 msgid "Failed to export the session"
-msgstr ""
+msgstr "Échec de l'exportation de la session"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2278
 msgid "Device details"
-msgstr ""
+msgstr "Détails de l'appareil"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:9
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2280
 msgid "Device Name"
-msgstr ""
+msgstr "Nom de l'appareil"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:12
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2282
 msgid "Rename device"
-msgstr ""
+msgstr "Renommer l'appareil"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:22
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2284
 msgid "Device Alias"
-msgstr ""
+msgstr "Alias de l'appareil"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:25
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2286
@@ -562,12 +562,12 @@ msgstr "Définir un alias pour l'appareil"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2288
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5333
 msgid "Export file name"
-msgstr ""
+msgstr "Nom du fichier d'exportation"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:38
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2290
 msgid "Export device"
-msgstr ""
+msgstr "Exporter l'appareil"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:43
 #. TRANSLATORS src/components/DeviceListItem.vue:89
@@ -576,7 +576,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2644
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5337
 msgid "Export"
-msgstr ""
+msgstr "Exporter"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:52
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2294
@@ -587,24 +587,24 @@ msgstr "Ajouter un point manuellement"
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:60
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2296
 msgid "Cancel adding the point"
-msgstr ""
+msgstr "Annuler l'ajout du point"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:65
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2298
 msgid "You can now click on the map to add a point (if the session is not activated, the added point won't be visible)"
-msgstr ""
+msgstr "Vous pouvez maintenant cliquer sur la carte pour ajouter un point (si la session n'est pas activée, le point ajouté ne sera pas visible)"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:71
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2300
 msgid "Move the device to another session"
-msgstr ""
+msgstr "Déplacer l'appareil vers une autre session"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:72
 #. TRANSLATORS src/components/Proxim.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2302
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4734
 msgid "Session selector"
-msgstr ""
+msgstr "Sélecteur de session"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:74
 #. TRANSLATORS src/components/Proxim.vue:8
@@ -616,12 +616,12 @@ msgstr "Choisissez une session"
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:76
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2306
 msgid "Reassign device to this session"
-msgstr ""
+msgstr "Réaffecter l'appareil à cette session"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:92
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2308
 msgid "Geo link to open position in another app/software"
-msgstr ""
+msgstr "Lien Geo pour ouvrir la position dans une autre application/logiciel"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:99
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2310
@@ -635,44 +635,44 @@ msgstr "QRcode de lien geo pour ouvrir la position avec un scanneur de QRcode"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2316
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2318
 msgid "Get driving direction to this device with {serviceName}"
-msgstr ""
+msgstr "Être guidé vers cet appareil avec {serviceName}"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:146
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2320
 msgid "Scan this QRCode to open the last device position with another app"
-msgstr ""
+msgstr "Scannez ce QRCode pour ouvrir la dernière position de l'appareil avec une autre application"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:151
 #. TRANSLATORS src/components/SessionLinkSidebarTab.vue:86
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2322
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5119
 msgid "QRCode content"
-msgstr ""
+msgstr "Contenu du QRCode"
 
 #. TRANSLATORS src/components/DeviceGeofencesSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2417
 msgid "Device geofences"
-msgstr ""
+msgstr "Zones de géorepérage de l'appareil"
 
 #. TRANSLATORS src/components/DeviceGeofencesSidebarTab.vue:11
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2419
 msgid "Create new geofence"
-msgstr ""
+msgstr "Créer une nouvelle zone de géorepérage"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2468
 msgid "Filter device list"
-msgstr ""
+msgstr "Filtrer la liste des appareils"
 
 #. TRANSLATORS src/components/DeviceList.vue:15
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2511
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2513
 msgid "Show map"
-msgstr ""
+msgstr "Montrer la carte"
 
 #. TRANSLATORS src/components/DeviceList.vue:23
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2515
 msgid "Session {sessionName}"
-msgstr ""
+msgstr "Session {sessionName}"
 
 #. TRANSLATORS src/components/DeviceList.vue:31
 #. TRANSLATORS src/components/NavigationSessionItem.vue:114
@@ -680,11 +680,11 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2519
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4091
 msgid "No device"
-msgstr ""
+msgstr "Aucun appareil"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2606
 msgid "No points yet"
-msgstr ""
+msgstr "Pas encore de points"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:27
 #. TRANSLATORS src/components/DeviceListItem.vue:94
@@ -695,7 +695,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3864
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3874
 msgid "Show line"
-msgstr ""
+msgstr "Afficher la ligne"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:31
 #. TRANSLATORS src/components/DeviceListItem.vue:99
@@ -706,14 +706,14 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3866
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3876
 msgid "Auto-zoom"
-msgstr ""
+msgstr "Zoom automatique"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:63
 #. TRANSLATORS src/components/NavigationDeviceItem.vue:63
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2638
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3868
 msgid "Cancel deletion"
-msgstr ""
+msgstr "Annuler la suppression"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:73
 #. TRANSLATORS src/components/DeviceSidebar.vue:22
@@ -724,7 +724,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3870
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4075
 msgid "Details"
-msgstr ""
+msgstr "Détails"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:81
 #. TRANSLATORS src/components/NavigationDeviceItem.vue:82
@@ -734,21 +734,21 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4083
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4089
 msgid "Zoom to bounds"
-msgstr ""
+msgstr "Zoom sur les limites"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:107
 #. TRANSLATORS src/components/NavigationDeviceItem.vue:100
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2650
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3878
 msgid "Change color"
-msgstr ""
+msgstr "Changer la couleur"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:116
 #. TRANSLATORS src/components/NavigationDeviceItem.vue:109
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2652
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3880
 msgid "Change color criteria"
-msgstr ""
+msgstr "Modifier les critères de couleur"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:124
 #. TRANSLATORS src/components/Geofence.vue:90
@@ -781,16 +781,16 @@ msgstr "Précédent"
 #. TRANSLATORS src/components/DeviceProximsSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2749
 msgid "Device proximity alerts"
-msgstr ""
+msgstr "Alertes de proximité de l'appareil"
 
 #. TRANSLATORS src/components/DeviceProximsSidebarTab.vue:11
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2751
 msgid "Create new proximity alert"
-msgstr ""
+msgstr "Créer une nouvelle alerte de proximité"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2822
 msgid "Device {deviceName} of session {sessionName}"
-msgstr ""
+msgstr "Appareil {deviceName} de la session {sessionName}"
 
 #. TRANSLATORS src/components/DeviceSidebar.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2832
@@ -801,55 +801,55 @@ msgstr "Stats"
 #. TRANSLATORS src/components/DeviceSidebar.vue:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2834
 msgid "Charts"
-msgstr ""
+msgstr "Graphiques"
 
 #. TRANSLATORS src/components/DeviceSidebar.vue:58
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2836
 msgid "Geofences"
-msgstr ""
+msgstr "Géorepérages"
 
 #. TRANSLATORS src/components/DeviceSidebar.vue:70
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2838
 msgid "Proximity alerts"
-msgstr ""
+msgstr "Alertes de proximité"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2899
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:7579
 msgid "Total distance"
-msgstr ""
+msgstr "Distance totale"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2904
 msgid "Total duration"
-msgstr ""
+msgstr "Durée totale"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2909
 msgid "Moving time"
-msgstr ""
+msgstr "Temps de déplacement"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2914
 msgid "Pause time"
-msgstr ""
+msgstr "Temps de pause"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2919
 msgid "Begin"
-msgstr ""
+msgstr "Début"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2921
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2928
 msgid "No date"
-msgstr ""
+msgstr "Aucune date"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2926
 msgid "End"
-msgstr ""
+msgstr "Fin"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2933
 msgid "Cumulative elevation gain"
-msgstr ""
+msgstr "Dénivelé positif cumulé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2938
 msgid "Cumulative elevation loss"
-msgstr ""
+msgstr "Dénivelé négatif cumulé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2943
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:609
@@ -868,65 +868,65 @@ msgstr "Vitesse maximum"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2960
 msgid "Number of points"
-msgstr ""
+msgstr "Nombre de points"
 
 #. TRANSLATORS src/components/DeviceStatsSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2976
 msgid "Device statistics"
-msgstr ""
+msgstr "Statistiques de l'appareil"
 
 #. TRANSLATORS src/components/FiltersForm.vue:7
 #. TRANSLATORS src/components/Navigation.vue:75
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3197
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3680
 msgid "Use filters"
-msgstr ""
+msgstr "Utiliser les filtres"
 
 #. TRANSLATORS src/components/FiltersForm.vue:12
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3199
 msgid "Minimum date"
-msgstr ""
+msgstr "Date minimum"
 
 #. TRANSLATORS src/components/FiltersForm.vue:26
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3201
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3209
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3217
 msgid "- 1 day"
-msgstr ""
+msgstr "- 1 jour"
 
 #. TRANSLATORS src/components/FiltersForm.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3203
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3211
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3219
 msgid "Now"
-msgstr ""
+msgstr "Maintenant"
 
 #. TRANSLATORS src/components/FiltersForm.vue:42
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3205
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3213
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3221
 msgid "+ 1 day"
-msgstr ""
+msgstr "+ 1 jour"
 
 #. TRANSLATORS src/components/FiltersForm.vue:51
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3207
 msgid "Maximum date"
-msgstr ""
+msgstr "Date maximum"
 
 #. TRANSLATORS src/components/FiltersForm.vue:90
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3215
 msgid "Both dates"
-msgstr ""
+msgstr "Les deux dates"
 
 #. TRANSLATORS src/components/FiltersForm.vue:125
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3223
 msgid "Minimum {filterLabel}"
-msgstr ""
+msgstr "Minimum {filterLabel}"
 
 #. TRANSLATORS src/components/FiltersForm.vue:143
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3225
 msgid "Maximum {filterLabel}"
-msgstr ""
+msgstr "Maximum {filterLabel}"
 
 #. TRANSLATORS src/components/FiltersForm.vue:162
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3227
@@ -945,7 +945,7 @@ msgstr "Satellites maximum"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3262
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3264
 msgid "Point filters"
-msgstr ""
+msgstr "Filtres de points"
 
 #. TRANSLATORS src/components/FiltersSidebar.vue:3
 #. TRANSLATORS src/components/Navigation.vue:62
@@ -958,7 +958,7 @@ msgstr "Filtres"
 #. TRANSLATORS src/components/FiltersSidebar.vue:11
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3308
 msgid "Filter the points displayed on the map"
-msgstr ""
+msgstr "Filtrer les points affichés sur la carte"
 
 #. TRANSLATORS src/components/Geofence.vue:5
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:23
@@ -969,21 +969,21 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9246
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:14
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #. TRANSLATORS src/components/Geofence.vue:16
 #. TRANSLATORS src/components/Proxim.vue:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3435
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4750
 msgid "Send a notification"
-msgstr ""
+msgstr "Envoyer une notification"
 
 #. TRANSLATORS src/components/Geofence.vue:24
 #. TRANSLATORS src/components/Proxim.vue:53
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3437
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4752
 msgid "Send an email"
-msgstr ""
+msgstr "Envoyer un e-mail"
 
 #. TRANSLATORS src/components/Geofence.vue:30
 #. TRANSLATORS src/components/Proxim.vue:59
@@ -999,69 +999,69 @@ msgstr "Liste d'adresses e-mail séparées par des virgules"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3441
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4756
 msgid "E-mails: {emails}"
-msgstr ""
+msgstr "E-mails: {emails}"
 
 #. TRANSLATORS src/components/Geofence.vue:39
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3443
 msgid "Enter URL"
-msgstr ""
+msgstr "URL pour l'entrée"
 
 #. TRANSLATORS src/components/Geofence.vue:43
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3445
 msgid "URL enter: {url}"
-msgstr ""
+msgstr "URL pour l'entrée : {url}"
 
 #. TRANSLATORS src/components/Geofence.vue:49
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3447
 msgid "Use POST method for enter URL"
-msgstr ""
+msgstr "Utiliser la méthode POST pour l'URL d'entrée"
 
 #. TRANSLATORS src/components/Geofence.vue:53
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3449
 msgid "Leave URL"
-msgstr ""
+msgstr "URL de sortie"
 
 #. TRANSLATORS src/components/Geofence.vue:57
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3451
 msgid "URL leave: {url}"
-msgstr ""
+msgstr "URL pour la sortie : {url}"
 
 #. TRANSLATORS src/components/Geofence.vue:63
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3453
 msgid "Use POST method for leave URL"
-msgstr ""
+msgstr "Utiliser la méthode POST pour l'URL de sortie"
 
 #. TRANSLATORS src/components/Geofence.vue:67
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3455
 msgid "Set geofence bounds to current map bounds"
-msgstr ""
+msgstr "Définir les limites de la zone de géorepérage sur les limites actuelles de la carte"
 
 #. TRANSLATORS src/components/Geofence.vue:73
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3457
 msgid "Set bounds"
-msgstr ""
+msgstr "Définir les limites"
 
 #. TRANSLATORS src/components/Geofence.vue:76
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3459
 msgid "Show geofence on the map"
-msgstr ""
+msgstr "Afficher la zone de géorepérage sur la carte"
 
 #. TRANSLATORS src/components/Geofence.vue:82
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3461
 msgid "Show"
-msgstr ""
+msgstr "Afficher"
 
 #. TRANSLATORS src/components/Geofence.vue:85
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3463
 msgid "Delete geofence"
-msgstr ""
+msgstr "Supprimer la zone de géorepérage"
 
 #. TRANSLATORS src/components/Geofence.vue:94
 #. TRANSLATORS src/components/Proxim.vue:105
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3467
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4774
 msgid "Cancel edition"
-msgstr ""
+msgstr "Annuler l'édition"
 
 #. TRANSLATORS src/components/Geofence.vue:99
 #. TRANSLATORS src/components/Proxim.vue:110
@@ -1074,7 +1074,7 @@ msgstr "Annuler"
 #. TRANSLATORS src/components/Geofence.vue:103
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3471
 msgid "You need at least a name and some bounds to save this geofence"
-msgstr ""
+msgstr "Vous devez avoir au moins un nom et des limites pour enregistrer cette zone de géorepérage"
 
 #. TRANSLATORS src/components/Geofence.vue:109
 #. TRANSLATORS src/components/PointEditModal.vue:69
@@ -1089,7 +1089,7 @@ msgstr "Enregistrer"
 #. TRANSLATORS src/components/Geofence.vue:112
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3475
 msgid "Edit geofence"
-msgstr ""
+msgstr "Modifier la zone de géorepérage"
 
 #. TRANSLATORS src/components/Geofence.vue:117
 #. TRANSLATORS src/components/Proxim.vue:128
@@ -1097,7 +1097,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4784
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:365
 msgid "Edit"
-msgstr ""
+msgstr "Éditer"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3638
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6089
@@ -1107,7 +1107,7 @@ msgstr "Importer un fichier gpx/kml/json de session"
 #. TRANSLATORS src/components/Navigation.vue:9
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3670
 msgid "Search sessions"
-msgstr ""
+msgstr "Rechercher des sessions"
 
 #. TRANSLATORS src/components/Navigation.vue:21
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3672
@@ -1117,19 +1117,19 @@ msgstr "Créer une session"
 #. TRANSLATORS src/components/Navigation.vue:29
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3674
 msgid "Import a session"
-msgstr ""
+msgstr "Importer une session"
 
 #. TRANSLATORS src/components/Navigation.vue:55
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3676
 msgid "Old interface"
-msgstr ""
+msgstr "Ancienne interface"
 
 #. TRANSLATORS src/components/Navigation.vue:80
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3682
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4392
 msgid "PhoneTrack settings"
-msgstr ""
+msgstr "Paramètres PhoneTrack"
 
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:3
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3760
@@ -1140,14 +1140,14 @@ msgstr "Rafraichir"
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3762
 msgid "Refresh now"
-msgstr ""
+msgstr "Rafraichir maintenant"
 
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:23
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:77
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3764
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4412
 msgid "Refresh every N seconds"
-msgstr ""
+msgstr "Rafraîchir toutes les N secondes"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:38
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3959
@@ -1156,7 +1156,7 @@ msgstr ""
 msgid "{n} device"
 msgid_plural "{n} devices"
 msgstr[0] ""
-msgstr[1] ""
+msgstr[1] "{n} appareils"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:17
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:12
@@ -1174,24 +1174,24 @@ msgstr "Partager"
 #. TRANSLATORS src/components/NavigationSessionItem.vue:64
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4079
 msgid "Links for devices"
-msgstr ""
+msgstr "Liens pour les appareils"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:73
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4081
 msgid "Toggle all"
-msgstr ""
+msgstr "Activer/désactiver tout"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:90
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4085
 msgid "Download"
-msgstr ""
+msgstr "Télécharger"
 
 #. TRANSLATORS src/components/NewSessionModal.vue:3
 #. TRANSLATORS src/components/NewSessionModal.vue:7
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4135
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4137
 msgid "Create new session"
-msgstr ""
+msgstr "Créer une nouvelle session"
 
 #. TRANSLATORS src/components/NewSessionModal.vue:11
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4139
@@ -1202,68 +1202,68 @@ msgstr "Nom de session"
 #. TRANSLATORS src/components/NewSessionModal.vue:12
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4141
 msgid "My new session"
-msgstr ""
+msgstr "Ma nouvelle session"
 
 #. TRANSLATORS src/components/NewSessionModal.vue:19
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4143
 msgid "Create"
-msgstr ""
+msgstr "Créer"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4253
 msgid "Metric"
-msgstr ""
+msgstr "Métrique"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4257
 msgid "Imperial (English)"
-msgstr ""
+msgstr "Impérial (anglais)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4261
 msgid "Nautical"
-msgstr ""
+msgstr "Nautique"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4267
 msgid "Block logging"
-msgstr ""
+msgstr "Bloquer le logging"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4271
 msgid "Delete user's oldest point each time a new one is logged"
-msgstr ""
+msgstr "Supprimer le point le plus ancien de l'utilisateur à chaque fois qu'un nouveau point est enregistré"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4275
 msgid "Delete device's oldest point each time a new one is logged"
-msgstr ""
+msgstr "Supprimer le point le plus ancien de l'appareil à chaque fois qu'un nouveau point est enregistré"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4281
 msgid "Ascending"
-msgstr ""
+msgstr "Croissant"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4285
 msgid "Descending"
-msgstr ""
+msgstr "Décroissant"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4317
 msgid "If your admin hasn't defined an API key, you can get one for free on {maptilerLink}. Create an account then go to \"Account\" -> \"API keys\" and create a key or use your default one."
-msgstr ""
+msgstr "Si votre administrateur n'a pas défini de clé API, vous pouvez en obtenir une gratuitement sur {maptilerLink}. Créez un compte puis allez dans \"Compte\" -> \"Clés API\" et créez une clé ou utilisez votre clé par défaut."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4320
 msgid "PhoneTrack admin settings"
-msgstr ""
+msgstr "Paramètres d'administration de PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4321
 msgid "As you are an administrator, you can set global API keys in the {adminLink}"
-msgstr ""
+msgstr "Comme vous êtes un administrateur, vous pouvez définir des clés API globales dans {adminLink}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4346
 msgid "API key saved, effective after a page reload"
-msgstr ""
+msgstr "Clé API enregistrée, effective après le rechargement de la page"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4365
 msgid "Choose where to write auto export files"
-msgstr ""
+msgstr "Choisir où écrire les fichiers d'export automatique"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4372
 msgid "Pick current directory"
-msgstr ""
+msgstr "Choisir le répertoire courant"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:12
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4394
@@ -1273,42 +1273,42 @@ msgstr "Carte"
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:22
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4396
 msgid "Show session bounds on hover"
-msgstr ""
+msgstr "Afficher les limites de session au survol"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:29
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4398
 msgid "Show mouse position coordinates in the bottom-left map corner"
-msgstr ""
+msgstr "Afficher les coordonnées de la position de la souris dans le coin inférieur gauche de la carte"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:36
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4400
 msgid "Display the sky in the map"
-msgstr ""
+msgstr "Afficher le ciel dans la carte"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:43
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4402
 msgid "Compact navigation view"
-msgstr ""
+msgstr "Vue de navigation compacte"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4404
 msgid "Draw line borders"
-msgstr ""
+msgstr "Dessiner les bordures de ligne"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:57
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4406
 msgid "Draw line direction arrows"
-msgstr ""
+msgstr "Dessiner des flèches de direction de ligne"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:64
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4408
 msgid "Drag points to move them"
-msgstr ""
+msgstr "Faites glisser les points pour les déplacer"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:71
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4410
 msgid "Automatic zoom on refresh"
-msgstr ""
+msgstr "Zoom automatique lors de l'actualisation"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:87
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4414
@@ -1318,17 +1318,17 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4430
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4434
 msgid "Reset to default value"
-msgstr ""
+msgstr "Rétablir la valeur par défaut"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:99
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4416
 msgid "Arrows scale factor"
-msgstr ""
+msgstr "Facteur d'échelle des flèches"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:122
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4420
 msgid "Arrows spacing"
-msgstr ""
+msgstr "Espacement des flèches"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:144
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4424
@@ -1339,17 +1339,17 @@ msgstr "Largeur des lignes"
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:167
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4428
 msgid "Line opacity"
-msgstr ""
+msgstr "Opacité des lignes"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:190
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4432
 msgid "3D elevation exaggeration"
-msgstr ""
+msgstr "Exagération de l'altitude 3D"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:213
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4436
 msgid "Distance unit"
-msgstr ""
+msgstr "Unité de distance"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:222
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4438
@@ -1360,67 +1360,67 @@ msgstr "Lorsque le quota de point est atteint"
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:232
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4440
 msgid "Sorting"
-msgstr ""
+msgstr "Tri"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:240
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4442
 msgid "Sort devices by"
-msgstr ""
+msgstr "Trier les appareils par"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:247
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4444
 msgid "Sort direction for devices"
-msgstr ""
+msgstr "Ordre de tri pour les appareils"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:254
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4446
 msgid "Sort sessions by"
-msgstr ""
+msgstr "Trier les sessions par"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:261
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4448
 msgid "Sort direction for sessions"
-msgstr ""
+msgstr "Ordre de tri pour les sessions"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:270
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4450
 msgid "Export location"
-msgstr ""
+msgstr "Emplacement d'export"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:276
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4452
 msgid "Export directory"
-msgstr ""
+msgstr "Répertoire d'export"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:289
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4454
 msgid "Select export directory"
-msgstr ""
+msgstr "Sélectionnez le répertoire d'export"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:294
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4456
 msgid "API keys"
-msgstr ""
+msgstr "Clés API"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:300
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4458
 msgid "If you leave the Maptiler API key empty, PhoneTrack will use the one defined by the Nextcloud admin as default."
-msgstr ""
+msgstr "Si vous laissez la clé API Maptiler vide, PhoneTrack utilisera celle définie par l'administrateur Nextcloud par défaut."
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:314
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4460
 msgid "API key to use Maptiler (for vector tile servers)"
-msgstr ""
+msgstr "Clé API pour utiliser Maptiler (pour les serveurs de tuiles vectorielles)"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:327
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4464
 msgid "Tile servers"
-msgstr ""
+msgstr "Serveurs de tuiles"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:333
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4466
 msgid "Changes are effective after reloading the page."
-msgstr ""
+msgstr "Les modifications sont effectives après le rechargement de la page."
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:343
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4468
@@ -1430,39 +1430,39 @@ msgstr "À propos"
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:349
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4470
 msgid "Thanks for using PhoneTrack"
-msgstr ""
+msgstr "Merci d'utiliser PhoneTrack"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:353
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4472
 msgid "Bug/issue tracker"
-msgstr ""
+msgstr "Gestionnaire de ticket"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:358
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4474
 msgid "Translation"
-msgstr ""
+msgstr "Traduction"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:363
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4476
 msgid "User documentation"
-msgstr ""
+msgstr "Documentation utilisateur"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:368
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4478
 msgid "Admin documentation"
-msgstr ""
+msgstr "Documentation administrateur"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:373
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4480
 msgid "Developer documentation"
-msgstr ""
+msgstr "Documentation développeur"
 
 #. TRANSLATORS src/components/PointEditModal.vue:3
 #. TRANSLATORS src/components/PointEditModal.vue:6
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4584
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4586
 msgid "Edit point"
-msgstr ""
+msgstr "Modifier le point"
 
 #. TRANSLATORS src/components/PointEditModal.vue:16
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4588
@@ -1475,7 +1475,7 @@ msgstr "User-agent"
 #. TRANSLATORS src/components/PointEditModal.vue:17
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4590
 msgid "my-tracker"
-msgstr ""
+msgstr "mon-tracker"
 
 #. TRANSLATORS src/components/PointEditModal.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4592
@@ -1487,94 +1487,94 @@ msgstr "Satellites"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4684
 msgid "{deviceName} (in {sessionName})"
-msgstr ""
+msgstr "{deviceName} (dans {sessionName})"
 
 #. TRANSLATORS src/components/Proxim.vue:16
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4738
 msgid "Device selector"
-msgstr ""
+msgstr "Sélecteur d'appareil"
 
 #. TRANSLATORS src/components/Proxim.vue:19
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4740
 msgid "Choose a device"
-msgstr ""
+msgstr "Choisissez un appareil"
 
 #. TRANSLATORS src/components/Proxim.vue:25
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4742
 msgid "Low distance limit (meters)"
-msgstr ""
+msgstr "Limite de distance basse (mètres)"
 
 #. TRANSLATORS src/components/Proxim.vue:29
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4744
 msgid "Low distance limit: {lowlimit} meters"
-msgstr ""
+msgstr "Limite de distance basse : {lowlimit} mètres"
 
 #. TRANSLATORS src/components/Proxim.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4746
 msgid "High distance limit (meters)"
-msgstr ""
+msgstr "Limite de distance haute (mètres)"
 
 #. TRANSLATORS src/components/Proxim.vue:38
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4748
 msgid "High distance limit: {highlimit} meters"
-msgstr ""
+msgstr "Limite de distance haute : {highlimit} mètres"
 
 #. TRANSLATORS src/components/Proxim.vue:68
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4758
 msgid "Close URL"
-msgstr ""
+msgstr "URL de rapprochement"
 
 #. TRANSLATORS src/components/Proxim.vue:72
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4760
 msgid "Close URL: {url}"
-msgstr ""
+msgstr "URL de rapprochement : {url}"
 
 #. TRANSLATORS src/components/Proxim.vue:78
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4762
 msgid "Use POST method for close URL"
-msgstr ""
+msgstr "Utiliser la méthode POST l'URL de rapprochement"
 
 #. TRANSLATORS src/components/Proxim.vue:82
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4764
 msgid "Far URL"
-msgstr ""
+msgstr "URL d'éloignement"
 
 #. TRANSLATORS src/components/Proxim.vue:86
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4766
 msgid "URL far: {url}"
-msgstr ""
+msgstr "URL d'éloignement : {url}"
 
 #. TRANSLATORS src/components/Proxim.vue:92
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4768
 msgid "Use POST method for far URL"
-msgstr ""
+msgstr "Utiliser la méthode POST pour l'URL d'éloignement"
 
 #. TRANSLATORS src/components/Proxim.vue:96
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4770
 msgid "Delete proxim"
-msgstr ""
+msgstr "Supprimer l'alerte de proximité"
 
 #. TRANSLATORS src/components/Proxim.vue:114
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4778
 msgid "You need at least a device and the distance limits to save this proximity alert"
-msgstr ""
+msgstr "Vous avez besoin d'au moins un appareil et des limites de distance pour enregistrer cette alerte de proximité"
 
 #. TRANSLATORS src/components/Proxim.vue:123
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4782
 msgid "Edit proximity alert"
-msgstr ""
+msgstr "Modifier l'alerte de proximité"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4991
 msgid "Public browser logging"
-msgstr ""
+msgstr "Lien public de logging dans le navigateur"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4994
 msgid "Visit this link with a web browser and check \"Log my position in this session\"."
-msgstr ""
+msgstr "Visitez ce lien avec un navigateur web et cochez \"Enregistrer ma position dans cette session\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4997
 msgid "OsmAnd"
-msgstr ""
+msgstr "OsmAnd"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5001
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4959
@@ -1588,7 +1588,7 @@ msgstr "Copiez le lien ci-dessous dans le champs 'Adresse web pour le suivi en l
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5005
 msgid "GpsLogger GET and POST"
-msgstr ""
+msgstr "GpsLogger GET et POST"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5009
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4967
@@ -1602,7 +1602,7 @@ msgstr "Copiez le lien ci-dessous dans le champs 'URL'."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5013
 msgid "Owntracks (HTTP mode)"
-msgstr ""
+msgstr "Owntracks (mode HTTP)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5017
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4971
@@ -1621,7 +1621,7 @@ msgstr "Laissez le paramètre 'Identification' vide car il n'est pas requis."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5022
 msgid "Ulogger"
-msgstr ""
+msgstr "Ulogger"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5026
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4976
@@ -1640,7 +1640,7 @@ msgstr "Activez 'Synchronisation directe'."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5031
 msgid "Traccar"
-msgstr ""
+msgstr "Traccar"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5035
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4981
@@ -1649,7 +1649,7 @@ msgstr "Dans le client Traccar, copiez le lien ci-dessous dans le champs 'URL du
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5038
 msgid "OpenGTS"
-msgstr ""
+msgstr "OpenGTS"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5041
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4990
@@ -1658,7 +1658,7 @@ msgstr "Utilisez ce lien comme URL de server dans votre app client OpenGTS."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5044
 msgid "Overland"
-msgstr ""
+msgstr "Overland"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5047
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4963
@@ -1672,7 +1672,7 @@ msgstr "Copiez le lien ci-dessous dans le champs 'Adresse du serveur'."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5051
 msgid "Locus Map"
-msgstr ""
+msgstr "Locus Map"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5055
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4984
@@ -1681,7 +1681,7 @@ msgstr "Dans Locus Map, copiez le lien ci-dessous dans le champs 'URL du serveur
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5058
 msgid "HTTP GET"
-msgstr ""
+msgstr "HTTP GET"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5062
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4987
@@ -1699,16 +1699,16 @@ msgstr "Assurez-vous que le système de journalisation définit au moins les val
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5515
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5528
 msgid "Link could not be copied to clipboard"
-msgstr ""
+msgstr "Le lien n'a pas pu être copié dans le presse-papiers"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5102
 msgid "The token could not be copied to clipboard"
-msgstr ""
+msgstr "Le jeton n'a pas pu être copié dans le presse-papiers"
 
 #. TRANSLATORS src/components/SessionLinkSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5109
 msgid "Session links"
-msgstr ""
+msgstr "Liens de session"
 
 #. TRANSLATORS src/components/SessionLinkSidebarTab.vue:6
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5111
@@ -1724,39 +1724,39 @@ msgstr "Token de session"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5611
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5615
 msgid "Copy link to clipboard"
-msgstr ""
+msgstr "Copier le lien dans le presse-papiers"
 
 #. TRANSLATORS src/components/SessionLinkSidebarTab.vue:52
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5115
 msgid "Show link QrCode"
-msgstr ""
+msgstr "Afficher le QrCode du lien"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5176
 msgid "Never"
-msgstr ""
+msgstr "Jamais"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5180
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5198
 msgid "Daily"
-msgstr ""
+msgstr "Quotidien"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5184
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5202
 msgid "Weekly"
-msgstr ""
+msgstr "Hebdomadaire"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5188
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5206
 msgid "Monthly"
-msgstr ""
+msgstr "Mensuel"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5194
 msgid "Don't purge"
-msgstr ""
+msgstr "Ne pas purger"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5248
 msgid "Choose where to export the session {name}"
-msgstr ""
+msgstr "Choisissez où exporter la session {name}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5284
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4072
@@ -1770,17 +1770,17 @@ msgstr "mais certains appareils n'avaient aucun point à exporter"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5312
 msgid "Failed to add the name reservation"
-msgstr ""
+msgstr "Impossible d'ajouter la réservation de nom"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5323
 msgid "Session settings"
-msgstr ""
+msgstr "Paramètres de session"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:9
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5325
 msgid "Session Name"
-msgstr ""
+msgstr "Nom de la session"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:20
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5329
@@ -1791,12 +1791,12 @@ msgstr "Interdire aux appareils de se loguer dans cette session"
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:25
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5331
 msgid "Locked"
-msgstr ""
+msgstr "Verrouillé"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5335
 msgid "Export session"
-msgstr ""
+msgstr "Exporter la session"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5339
@@ -1813,7 +1813,7 @@ msgstr "Purge automatique"
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:60
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5343
 msgid "Reserved device names"
-msgstr ""
+msgstr "Noms de périphériques réservés"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:62
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5345
@@ -1836,68 +1836,68 @@ msgstr "Pour se loguer avec un nom réservé, utilisez le \"nom du token\" dans 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:65
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5351
 msgid "If a name is reserved, the only way to log with this name is by using its reserved token."
-msgstr ""
+msgstr "Si un nom est réservé, le seul moyen de loguer avec ce nom est d'utiliser son jeton réservé."
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:69
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5353
 msgid "Reserve a device name"
-msgstr ""
+msgstr "Réserver un nom d'appareil"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:79
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5355
 msgid "Delete name reservation"
-msgstr ""
+msgstr "Supprimer la réservation de nom"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5465
 msgid "Failed to create the share"
-msgstr ""
+msgstr "Impossible de créer le partage"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5475
 msgid "Failed to delete the share"
-msgstr ""
+msgstr "Impossible de supprimer le partage"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5546
 msgid "Failed to save the public share"
-msgstr ""
+msgstr "Impossible d'enregistrer le partage public"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5555
 msgid "Failed to create the public share"
-msgstr ""
+msgstr "Impossible de créer le partage public"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5564
 msgid "Failed to delete the public share"
-msgstr ""
+msgstr "Impossible de supprimer le partage public"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5579
 msgid "Session sharing"
-msgstr ""
+msgstr "Partage de session"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:19
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:37
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5581
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5585
 msgid "Share link"
-msgstr ""
+msgstr "Lien de partage"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:26
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5583
 msgid "Create a new share link"
-msgstr ""
+msgstr "Créer un nouveau lien de partage"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5587
 msgid "Link copied"
-msgstr ""
+msgstr "Lien copié"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5587
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Copier dans le presse-papiers"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:62
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5589
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:72
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5591
@@ -1920,17 +1920,17 @@ msgstr "Ramener les positions au centre de zone de géorepérage le plus proche"
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:97
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5597
 msgid "Delete link"
-msgstr ""
+msgstr "Supprimer le lien"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:105
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5599
 msgid "Add another link"
-msgstr ""
+msgstr "Ajouter un autre lien"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:134
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5601
 msgid "Delete access"
-msgstr ""
+msgstr "Supprimer l'accès"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:143
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5603
@@ -1958,16 +1958,16 @@ msgstr "URL de l'API (JSON, toutes les positions)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5667
 msgid "Session {name}"
-msgstr ""
+msgstr "Session {name}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5672
 msgid "Session {sessionName} ({deviceCount})"
-msgstr ""
+msgstr "Session {sessionName} ({deviceCount})"
 
 #. TRANSLATORS src/components/SessionSidebar.vue:22
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5680
 msgid "Sharing"
-msgstr ""
+msgstr "Partage"
 
 #. TRANSLATORS src/components/SessionSidebar.vue:33
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5682
@@ -1977,64 +1977,64 @@ msgstr "Paramètres"
 #. TRANSLATORS src/components/SessionSidebar.vue:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5684
 msgid "Links"
-msgstr ""
+msgstr "Liens"
 
 #. TRANSLATORS src/components/SharingSelect.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5822
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5824
 msgid "Share session with a user or group"
-msgstr ""
+msgstr "Partager la session avec un utilisateur ou un groupe"
 
 #. TRANSLATORS src/components/SharingSelect.vue:36
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5826
 msgid "Federated user"
-msgstr ""
+msgstr "Utilisateur Fédéré"
 
 #. TRANSLATORS src/components/SharingSelect.vue:58
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5828
 msgid "Start typing to search"
-msgstr ""
+msgstr "Commencez à taper pour rechercher"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5996
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:358
 msgid "No data"
-msgstr ""
+msgstr "Aucune donnée"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:7011
 msgid "Search a location"
-msgstr ""
+msgstr "Rechercher un lieu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:7577
 msgid "Start"
-msgstr ""
+msgstr "Début"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:7998
 msgid "Direction"
-msgstr ""
+msgstr "Orientation"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:8001
 msgid "Open in Files"
-msgstr ""
+msgstr "Ouvrir dans Fichiers"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:8
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9123
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:14
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9125
 msgid "Vector"
-msgstr ""
+msgstr "Vecteur"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:17
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9127
 msgid "Raster"
-msgstr ""
+msgstr "Raster"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:25
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9131
 msgid "My tile server"
-msgstr ""
+msgstr "Mon serveur de tuiles"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:31
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:14
@@ -2047,83 +2047,83 @@ msgstr "Adresse du serveur"
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:39
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9135
 msgid "A raster tile server address must contain \"{x}\", \"{y}\" and \"{z}\" and can optionally contain \"{s}\". For example: {exampleRasterUrl} ."
-msgstr ""
+msgstr "Une adresse de serveur de tuiles vectoriel doit contenir \"{x}\", \"{y}\" et \"{z}\" et peut éventuellement contenir \"{s}\". Par exemple : {exampleRasterUrl}."
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:42
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9137
 msgid "List of public raster tile servers"
-msgstr ""
+msgstr "Liste des serveurs publics de tuiles vectoriels"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:47
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9139
 msgid "A vector tile server address can point to a MapTiler style.json file, for example: {exampleVectorStyleUrl}. It can contain GET parameters like the API key."
-msgstr ""
+msgstr "Une adresse de serveur de tuiles vectoriel peut pointer vers un fichier MapTiler style.json, par exemple : {exampleVectorStyleUrl}. Il peut contenir des paramètres GET comme la clé API."
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9141
 msgid "Vector styles available in your MapTiler account"
-msgstr ""
+msgstr "Styles vectoriels disponibles dans votre compte MapTiler"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:59
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:30
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9143
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9252
 msgid "Min zoom"
-msgstr ""
+msgstr "Zoom minimum"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:76
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:36
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9145
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9254
 msgid "Max zoom"
-msgstr ""
+msgstr "Zoom maximum"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:88
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:22
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9147
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9250
 msgid "Attribution"
-msgstr ""
+msgstr "Attribution"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:90
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9149
 msgid "Map data from..."
-msgstr ""
+msgstr "Données cartographiques de..."
 
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9256
 msgid "Edit tile server"
-msgstr ""
+msgstr "Modifier le serveur de tuiles"
 
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:53
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9258
 msgid "Delete tile server"
-msgstr ""
+msgstr "Supprimer le serveur de tuiles"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9341
 msgid "Admin tile servers"
-msgstr ""
+msgstr "Serveurs de tuiles admin"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:17
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9343
 msgid "Personal tile servers"
-msgstr ""
+msgstr "Serveurs de tuiles personnels"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:32
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:39
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9345
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9347
 msgid "Add a global tile server"
-msgstr ""
+msgstr "Ajouter un serveur de tuiles global"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9345
 msgid "Add personal tile server"
-msgstr ""
+msgstr "Ajouter un serveur personnel de tuiles"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9347
 msgid "Add a personal tile server"
-msgstr ""
+msgstr "Ajouter un serveur de tuiles personnel"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:40
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9349
@@ -2138,29 +2138,29 @@ msgstr "Ajouter"
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9351
 msgid "Edit a tile server"
-msgstr ""
+msgstr "Modifier un serveur de tuiles"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:51
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9353
 msgid "Update"
-msgstr ""
+msgstr "Modifier"
 
 #. TRANSLATORS src/components/tileservers/TileServerMultiSelect.vue:8
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9422
 msgid "Tile server select"
-msgstr ""
+msgstr "Sélection du serveur de tuiles"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:18
 msgid "Most recent activity"
-msgstr ""
+msgstr "Activité la plus récente"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/AddWaypoints.js:85
 msgid "Track"
-msgstr ""
+msgstr "Trace"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/AddWaypoints.js:89
 msgid "Waypoint"
-msgstr ""
+msgstr "Point de repère"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/AddWaypoints.js:95
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3737
@@ -2172,19 +2172,19 @@ msgstr "Altitude"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:335
 msgid "Failed to delete the point"
-msgstr ""
+msgstr "Impossible de supprimer le point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:364
 msgid "Delete this point"
-msgstr ""
+msgstr "Supprimer ce point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:365
 msgid "Edit this point"
-msgstr ""
+msgstr "Modifier ce point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:366
 msgid "Move this point"
-msgstr ""
+msgstr "Déplacer ce point"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:366
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3770
@@ -3209,27 +3209,27 @@ msgstr "Fermer le graphique d'altitude"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:150
 msgid "ESRI topo with relief"
-msgstr ""
+msgstr "ESRI topo avec relief"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:186
 msgid "Stadia Alidade satellite"
-msgstr ""
+msgstr "Stadia Alidade satellite"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:222
 msgid "WaterColor"
-msgstr ""
+msgstr "Aquarelle"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:264
 msgid "Streets"
-msgstr ""
+msgstr "Rues"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:272
 msgid "Satellite"
-msgstr ""
+msgstr "Satellite"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:280
 msgid "Outdoor"
-msgstr ""
+msgstr "Extérieur"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:296
 msgid "Dark"
@@ -3237,69 +3237,69 @@ msgstr "Sombre"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:180
 msgid "No elevation data"
-msgstr ""
+msgstr "Aucune donnée d'altitude"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:233
 msgid "No speed data"
-msgstr ""
+msgstr "Aucune donnée de vitesse"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:436
 msgid "GPS speed"
-msgstr ""
+msgstr "Vitesse GPS"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:438
 msgid "Heart rate"
-msgstr ""
+msgstr "Fréquence cardiaque"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:440
 msgid "Temperature"
-msgstr ""
+msgstr "Température"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:442
 msgid "Traveled distance (device)"
-msgstr ""
+msgstr "Distance parcourue (appareil)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:450
 msgid "bpm"
-msgstr ""
+msgstr "bpm"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:543
 msgid "Min date: {value}"
-msgstr ""
+msgstr "Date minimum : {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:547
 msgid "Max date: {value}"
-msgstr ""
+msgstr "Date maximum : {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:551
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:555
 msgid "Min altitude: {value}"
-msgstr ""
+msgstr "Altitude minimum : {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:559
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:563
 msgid "Min accuracy: {value}"
-msgstr ""
+msgstr "Précision minimum : {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:567
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:571
 msgid "Min speed: {value}"
-msgstr ""
+msgstr "Vitesse minimum : {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:574
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:577
 msgid "Min satellites: {value}"
-msgstr ""
+msgstr "Satellites minimum : {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:580
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:583
 msgid "Min bearing: {value} °"
-msgstr ""
+msgstr "Angle minimum : {value}°"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:586
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:589
 msgid "Min batterylevel: {value} %"
-msgstr ""
+msgstr "Niveau de batterie minimum : {value} %"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:5
 msgid "Main tab"
@@ -3325,7 +3325,7 @@ msgstr "Créer une session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:45
 msgid "New interface (beta)"
-msgstr ""
+msgstr "Nouvelle interface (beta)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:63
 msgid "Options"
