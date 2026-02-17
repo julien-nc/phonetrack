@@ -1,6 +1,7 @@
 OC.L10N.register(
     "phonetrack",
     {
+    "Settings" : "Indstillinger",
     "Show lines" : "Vis linjer",
     "Hide lines" : "Skjule linjer",
     "Zoom on all devices" : "Zoom på alle enheder",
