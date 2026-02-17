@@ -685,4 +685,9 @@ a.external {
 	--slider-handle-ring-color: #CCCCCC30;
 	--slider-handle-ring-width: 2px;
 }
+
+// fix this div that gets the cursor defined by the server style
+:deep(.slider-touch-area) {
+	cursor: unset !important;
+}
 </style>
