@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
-"POT-Creation-Date: 2026-02-17 00:30+0100\n"
-"PO-Revision-Date: 2026-02-16 23:32\n"
+"POT-Creation-Date: 2026-02-17 00:39+0100\n"
+"PO-Revision-Date: 2026-02-17 00:14\n"
 "Last-Translator: \n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -122,7 +122,7 @@ msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:641
 #, php-format
-msgid "In PhoneTrack session \"%s\", device \"%s\" exited geofence %s."
+msgid "In PhoneTrack session \"%s\", device \"%s\" exited geofence \"%s\"."
 msgstr ""
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2070
