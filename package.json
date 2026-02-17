@@ -51,9 +51,9 @@
 		"@nextcloud/paths": "^3.0.0",
 		"@nextcloud/router": "^3.0.0",
 		"@nextcloud/vue": "^9.0.0-rc.2",
-		"@primeuix/themes": "^2.0.2",
 		"@raruto/leaflet-elevation": "1.5.3",
 		"@turf/turf": "^7.3.1",
+		"@vueform/slider": "^2.1.10",
 		"babel-eslint": "^10.1.0",
 		"chart.js": "^4.5.0",
 		"chartjs-plugin-zoom": "^2.2.0",
@@ -76,7 +76,6 @@
 		"mapbox-gl": "2.4.1",
 		"mapbox-gl-leaflet": "^0.0.15",
 		"maplibre-gl": "^5.6.0",
-		"primevue": "^4.5.4",
 		"vue": "^3.5.17",
 		"vue-chartjs": "^5.3.2",
 		"vue-material-design-icons": "^5.3.1"

@@ -89,6 +89,8 @@
 					</NcInputField>
 					<Slider :model-value="settings.refresh_duration ?? 125"
 						class="slider"
+						:lazy="false"
+						show-tooltip="drag"
 						:min="5"
 						:max="60 * 60"
 						:step="10"
@@ -112,6 +114,8 @@
 					</NcInputField>
 					<Slider :model-value="settings.arrows_scale_factor ?? 1"
 						class="slider"
+						:lazy="false"
+						show-tooltip="drag"
 						:min="0.1"
 						:max="2"
 						:step="0.01"
@@ -135,6 +139,8 @@
 					</NcInputField>
 					<Slider :model-value="settings.arrows_spacing ?? 200"
 						class="slider"
+						:lazy="false"
+						show-tooltip="drag"
 						:min="10"
 						:max="400"
 						@update:model-value="debOnComponentInputChange(String($event), 'arrows_spacing')" />
@@ -157,6 +163,8 @@
 					</NcInputField>
 					<Slider :model-value="settings.line_width ?? 6"
 						class="slider"
+						:lazy="false"
+						show-tooltip="drag"
 						:min="1"
 						:max="20"
 						:step="0.1"
@@ -180,6 +188,8 @@
 					</NcInputField>
 					<Slider :model-value="settings.line_opacity ?? 1"
 						class="slider"
+						:lazy="false"
+						show-tooltip="drag"
 						:min="0"
 						:max="1"
 						:step="0.01"
@@ -203,6 +213,8 @@
 					</NcInputField>
 					<Slider :model-value="settings.terrainExaggeration ?? 1.5"
 						class="slider"
+						:lazy="false"
+						show-tooltip="drag"
 						:min="0.1"
 						:max="10"
 						:step="0.1"
@@ -419,8 +431,7 @@ import NcFormBoxSwitch from '@nextcloud/vue/components/NcFormBoxSwitch'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcFormBoxButton from '@nextcloud/vue/components/NcFormBoxButton'
 
-// import Slider from 'vue3-slider'
-import Slider from 'primevue/slider'
+import Slider from '@vueform/slider'
 
 import { delay } from '../utils.js'
 import { DEVICE_SORT_ORDER } from '../constants.js'
@@ -431,7 +442,6 @@ import {
 	getFilePickerBuilder,
 	FilePickerType,
 	showSuccess,
-	// showError,
 } from '@nextcloud/dialogs'
 
 export default {
@@ -629,6 +639,7 @@ export default {
 }
 </script>
 
+<style src="@vueform/slider/themes/default.css"></style>
 <style lang="scss" scoped>
 a.external {
 	display: flex;
@@ -664,14 +675,14 @@ a.external {
 	gap: 8px;
 }
 
-.value-section {
-	:deep(.slider) {
-		height: 8px;
-		margin: 8px 0;
-
-		.p-slider-range {
-			background: var(--color-primary);
-		}
-	}
+.slider {
+	margin: 8px 0;
+	--slider-tooltip-bg: var(--color-primary);
+	--slider-height: 7px;
+	--slider-bg: var(--color-background-dark);
+	--slider-connect-bg: var(--color-primary);
+	--slider-handle-bg: var(--color-background-darker);
+	--slider-handle-ring-color: #CCCCCC30;
+	--slider-handle-ring-width: 2px;
 }
 </style>

@@ -4,15 +4,6 @@ import { hexToDarkerHex } from './utils.js'
 import '../css/maplibre.scss'
 import '@nextcloud/dialogs/style.css'
 
-import PrimeVue from 'primevue/config'
-import Aura from '@primeuix/themes/aura'
-
-// import { linkTo } from '@nextcloud/router'
-// import { getCSPNonce } from '@nextcloud/auth'
-
-// __webpack_nonce__ = getCSPNonce() // eslint-disable-line
-// __webpack_public_path__ = linkTo('phonetrack', 'js/') // eslint-disable-line
-
 if (!OCA.Phonetrack) {
 	OCA.Phonetrack = {}
 }
@@ -35,15 +26,5 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 	const app = createApp(App)
 	app.mixin({ methods: { t, n } })
-	app.use(PrimeVue, {
-		theme: {
-			preset: Aura,
-			options: {
-				prefix: 'p',
-				darkModeSelector: 'system',
-				cssLayer: false,
-			},
-		},
-	})
 	app.mount('#content')
 })
