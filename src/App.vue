@@ -450,22 +450,13 @@ export default {
 			this.debouncedStoreOptions(values)
 		},
 		debouncedStoreOptions: debounce(function(values) {
-			console.debug('[phonetrack] settings saved', this.state.settings)
-			if (this.isPublicPage) {
-				return
-			}
-			const req = {
-				values,
-			}
-			const url = generateUrl('/apps/phonetrack/saveOptionValues')
-			axios.put(url, req).then((response) => {
-			}).catch((error) => {
-				showError(t('phonetrack', 'Failed to save the settings'))
-				console.debug(error)
-			})
+			this.storeSettings(values)
 		}, 1000),
 		saveOptions(values) {
 			Object.assign(this.state.settings, values)
+			this.storeSettings(values)
+		},
+		storeSettings(values) {
 			console.debug('[phonetrack] settings saved', this.state.settings)
 			if (this.isPublicPage) {
 				return
