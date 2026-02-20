@@ -419,7 +419,6 @@ export default {
 	},
 
 	methods: {
-		// TODO requires https://github.com/nextcloud/nextcloud-vue/pull/4071 (which will come with v8.0.0)
 		onResizeList() {
 			emit('resize-map')
 		},
@@ -429,22 +428,6 @@ export default {
 			this.mapSouth = south
 			this.mapWest = west
 		},
-		/*
-		onDeviceDetailsClicked({ trackId, dirId }) {
-			this.sidebarDirectory = null
-			this.sidebarTrack = this.state.directories[dirId].tracks[trackId]
-			this.showSidebar = true
-			this.activeSidebarTab = 'track-details'
-			console.debug('details click', trackId)
-		},
-		onDirectoryDetailsClicked(dirId) {
-			this.sidebarTrack = null
-			this.sidebarDirectory = this.state.directories[dirId]
-			this.showSidebar = true
-			this.activeSidebarTab = 'directory-details'
-			console.debug('details click', dirId)
-		},
-		*/
 		saveOptionsDebounced(values) {
 			Object.assign(this.state.settings, values)
 			this.debouncedStoreOptions(values)

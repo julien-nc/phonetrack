@@ -6,11 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.0.0 – 2026-02-18
+## 1.0.0 – 2026-02-21
 
 ### Changed
 
-- Rewrite the UI with Vue 3 and maplibre-gl
+- Rewrite the UI with Vue 3, @nextcloud/vue and maplibre-gl
 - Refactor the backend, get rid of most of the old db queries, use mappers and entities
 - Support NC 30 -> 34
 
