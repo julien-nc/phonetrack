@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-17 00:39+0100\n"
-"PO-Revision-Date: 2026-02-20 10:17\n"
+"PO-Revision-Date: 2026-02-20 23:36\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -347,7 +347,7 @@ msgstr "Nastavenia administrácie PhoneTrack uložené"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1386
 msgid "Failed to save phonetrack admin settings"
-msgstr ""
+msgstr "Uloženie nastavení administrácie PhoneTrack zlyhalo"
 
 #. TRANSLATORS src/components/AdminSettings.vue:14
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1438
@@ -357,7 +357,7 @@ msgstr "Limit počtu bodov"
 #. TRANSLATORS src/components/AdminSettings.vue:26
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1440
 msgid "The maximum number of points each user can store/log."
-msgstr ""
+msgstr "Maximálny počet bodov, ktoré každý používateľ môže uložiť/zaznamenať."
 
 #. TRANSLATORS src/components/AdminSettings.vue:27
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1442
@@ -372,31 +372,31 @@ msgstr "Prázdna hodnota znamená, že je bez limitu."
 #. TRANSLATORS src/components/AdminSettings.vue:39
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1446
 msgid "The API key defined here will be used by all users. Each user can set a personal API key to override this global one."
-msgstr ""
+msgstr "Tu definovaný kľúč API budú používať všetci používatelia. Každý používateľ si môže nastaviť osobný kľúč API, ktorý nahradí tento globálny kľúč."
 
 #. TRANSLATORS src/components/AdminSettings.vue:44
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1448
 msgid "Maptiler API key"
-msgstr ""
+msgstr "API kľúč Maptiler"
 
 #. TRANSLATORS src/components/AdminSettings.vue:47
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:316
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1450
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4462
 msgid "my-api-key"
-msgstr ""
+msgstr "moj-api-kluc"
 
 #. TRANSLATORS src/components/AdminSettings.vue:60
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1452
 msgid "Proxy map tiles/vectors requests via Nextcloud"
-msgstr ""
+msgstr "Proxy požiadavky na mapové dlaždice/vektory prostredníctvom Nextcloud"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:52
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1669
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2048
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:29
 msgid "Elevation"
-msgstr ""
+msgstr "Výška"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:55
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1686
@@ -415,7 +415,7 @@ msgstr "Rýchlosť"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:37
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:523
 msgid "Accuracy"
-msgstr ""
+msgstr "Presnosť"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1720
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3752
@@ -427,7 +427,7 @@ msgstr "Batéria"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1835
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2038
 msgid "Elapsed time"
-msgstr ""
+msgstr "Uplynulý čas"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1837
@@ -436,19 +436,19 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:361
 msgid "Traveled distance"
-msgstr ""
+msgstr "Precestovaná vzdialenosť"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1849
 msgid "By elapsed time"
-msgstr ""
+msgstr "Podľa uplynutého času"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1851
 msgid "By traveled distance"
-msgstr ""
+msgstr "Podľa precestovanej vzdialenosti"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1853
 msgid "By date"
-msgstr ""
+msgstr "Podľa dátumu"
 
 #. TRANSLATORS src/components/DeviceChart.vue:11
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:78
@@ -457,22 +457,22 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2060
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2062
 msgid "No data to display"
-msgstr ""
+msgstr "Žiadne dáta na zobrazenie"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2032
 msgid "You can zoom on the chart by holding the SHIFT key and using the mouse wheel. You can then pan the chart by dragging it with the mouse."
-msgstr ""
+msgstr "Graf môžete zväčšiť podržaním klávesy SHIFT a použitím kolieska myši. Graf môžete potom posúvať ťahaním myši."
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:13
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2034
 msgid "Reset zoom"
-msgstr ""
+msgstr "Obnoviť priblíženie"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:21
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2036
 msgid "Chart X axis"
-msgstr ""
+msgstr "Os x grafu"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:31
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2040
@@ -485,71 +485,71 @@ msgstr "Dátum"
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:43
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2044
 msgid "Show Y axis scale for"
-msgstr ""
+msgstr "Zobraziť mierku osi Y pre"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:49
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2046
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:25
 msgid "None"
-msgstr ""
+msgstr "Žiadny"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:61
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2054
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:41
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:60
 msgid "Battery level"
-msgstr ""
+msgstr "Úroveň batérie"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:68
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2056
 msgid "Center map on chart hovered point"
-msgstr ""
+msgstr "Vycentrovať mapu na miesto, na ktoré ukážete kurzorom myši"
 
 #. TRANSLATORS src/components/DeviceChartsSidebarTab.vue:73
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2058
 msgid "Show details of hovered point on the map"
-msgstr ""
+msgstr "Zobraziť podrobnosti o mieste, na ktoré ukážete kurzorom myši"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2235
 msgid "Choose where to export the device {name}"
-msgstr ""
+msgstr "Vyberte, kam bude exportované zariadenie {name}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2241
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5254
 msgid "Export in current directory"
-msgstr ""
+msgstr "Exportovať do aktuálneho priečinka"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2268
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5282
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5287
 msgid "Session successfully exported in {targetFilePath}"
-msgstr ""
+msgstr "Relácia bola úspešene exportovaná do {targetFilePath}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2271
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5292
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5296
 msgid "Failed to export the session"
-msgstr ""
+msgstr "Exportovanie relácie zlyhalo"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2278
 msgid "Device details"
-msgstr ""
+msgstr "Podrobnosti o zariadení"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:9
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2280
 msgid "Device Name"
-msgstr ""
+msgstr "Názov zariadenia"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:12
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2282
 msgid "Rename device"
-msgstr ""
+msgstr "Premenovať zariadenie"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:22
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2284
 msgid "Device Alias"
-msgstr ""
+msgstr "Alias zariadenia"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:25
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2286
@@ -562,12 +562,12 @@ msgstr "Nastaviť prezývku zariadenia"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2288
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5333
 msgid "Export file name"
-msgstr ""
+msgstr "Názov exportného súboru"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:38
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2290
 msgid "Export device"
-msgstr ""
+msgstr "Exportovať zariadenia"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:43
 #. TRANSLATORS src/components/DeviceListItem.vue:89
@@ -576,7 +576,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2644
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5337
 msgid "Export"
-msgstr ""
+msgstr "Exportovať"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:52
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2294
@@ -587,24 +587,24 @@ msgstr "Manuálne pridať bod"
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:60
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2296
 msgid "Cancel adding the point"
-msgstr ""
+msgstr "Zrušiť pridanie bodu"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:65
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2298
 msgid "You can now click on the map to add a point (if the session is not activated, the added point won't be visible)"
-msgstr ""
+msgstr "Teraz môžete kliknúť na mapu a pridať bod (ak nie je relácia aktivovaná, pridaný bod nebude viditeľný)"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:71
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2300
 msgid "Move the device to another session"
-msgstr ""
+msgstr "Presunúť zariadenie do inej relácie"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:72
 #. TRANSLATORS src/components/Proxim.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2302
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4734
 msgid "Session selector"
-msgstr ""
+msgstr "Výber relácie"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:74
 #. TRANSLATORS src/components/Proxim.vue:8
@@ -616,12 +616,12 @@ msgstr "Vyberte reláciu"
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:76
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2306
 msgid "Reassign device to this session"
-msgstr ""
+msgstr "Priradiť zariadenie do tejto relácie"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:92
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2308
 msgid "Geo link to open position in another app/software"
-msgstr ""
+msgstr "Geo odkaz na otvorenie polohy v inej aplikácii/programe"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:99
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2310
@@ -635,44 +635,44 @@ msgstr "QR kód geo odkazu pre otvorenie polohy so skenerom QR kódov"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2316
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2318
 msgid "Get driving direction to this device with {serviceName}"
-msgstr ""
+msgstr "Získajte pokyny na jazdu k tomuto zariadeniu s {serviceName}"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:146
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2320
 msgid "Scan this QRCode to open the last device position with another app"
-msgstr ""
+msgstr "Naskenujte tento QR kód na otvorenie poslednej polohy zariadenia v inej aplikácii"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:151
 #. TRANSLATORS src/components/SessionLinkSidebarTab.vue:86
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2322
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5119
 msgid "QRCode content"
-msgstr ""
+msgstr "Obsah QR kódu"
 
 #. TRANSLATORS src/components/DeviceGeofencesSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2417
 msgid "Device geofences"
-msgstr ""
+msgstr "Geoplot zariadenia"
 
 #. TRANSLATORS src/components/DeviceGeofencesSidebarTab.vue:11
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2419
 msgid "Create new geofence"
-msgstr ""
+msgstr "Vytvoriť nový geoplot"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2468
 msgid "Filter device list"
-msgstr ""
+msgstr "Filtrovať zoznam zariadení"
 
 #. TRANSLATORS src/components/DeviceList.vue:15
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2511
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2513
 msgid "Show map"
-msgstr ""
+msgstr "Zobraziť mapu"
 
 #. TRANSLATORS src/components/DeviceList.vue:23
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2515
 msgid "Session {sessionName}"
-msgstr ""
+msgstr "Relácia {sessionName}"
 
 #. TRANSLATORS src/components/DeviceList.vue:31
 #. TRANSLATORS src/components/NavigationSessionItem.vue:114
@@ -680,11 +680,11 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2519
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4091
 msgid "No device"
-msgstr ""
+msgstr "Žiadne zariadenie"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2606
 msgid "No points yet"
-msgstr ""
+msgstr "Zatiaľ žiadne body"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:27
 #. TRANSLATORS src/components/DeviceListItem.vue:94
@@ -695,7 +695,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3864
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3874
 msgid "Show line"
-msgstr ""
+msgstr "Zobraziť čiary"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:31
 #. TRANSLATORS src/components/DeviceListItem.vue:99
@@ -706,14 +706,14 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3866
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3876
 msgid "Auto-zoom"
-msgstr ""
+msgstr "Automatické zväčšenie"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:63
 #. TRANSLATORS src/components/NavigationDeviceItem.vue:63
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2638
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3868
 msgid "Cancel deletion"
-msgstr ""
+msgstr "Zrušiť odstránenie"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:73
 #. TRANSLATORS src/components/DeviceSidebar.vue:22
@@ -724,7 +724,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3870
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4075
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:81
 #. TRANSLATORS src/components/NavigationDeviceItem.vue:82
@@ -734,21 +734,21 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4083
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4089
 msgid "Zoom to bounds"
-msgstr ""
+msgstr "Priblížiť na okraje"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:107
 #. TRANSLATORS src/components/NavigationDeviceItem.vue:100
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2650
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3878
 msgid "Change color"
-msgstr ""
+msgstr "Zmeniť farbu"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:116
 #. TRANSLATORS src/components/NavigationDeviceItem.vue:109
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2652
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3880
 msgid "Change color criteria"
-msgstr ""
+msgstr "Zmeniť kritéria farby"
 
 #. TRANSLATORS src/components/DeviceListItem.vue:124
 #. TRANSLATORS src/components/Geofence.vue:90
@@ -781,16 +781,16 @@ msgstr "Späť"
 #. TRANSLATORS src/components/DeviceProximsSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2749
 msgid "Device proximity alerts"
-msgstr ""
+msgstr "Upozornenia na blízkosť zariadenia"
 
 #. TRANSLATORS src/components/DeviceProximsSidebarTab.vue:11
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2751
 msgid "Create new proximity alert"
-msgstr ""
+msgstr "Vytvoriť nové upozornenie na blízkosť"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2822
 msgid "Device {deviceName} of session {sessionName}"
-msgstr ""
+msgstr "Zariadenie {deviceName} z relácie {sessionName}"
 
 #. TRANSLATORS src/components/DeviceSidebar.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2832
@@ -801,55 +801,55 @@ msgstr "Štatistiky"
 #. TRANSLATORS src/components/DeviceSidebar.vue:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2834
 msgid "Charts"
-msgstr ""
+msgstr "Grafy"
 
 #. TRANSLATORS src/components/DeviceSidebar.vue:58
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2836
 msgid "Geofences"
-msgstr ""
+msgstr "Geoploty"
 
 #. TRANSLATORS src/components/DeviceSidebar.vue:70
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2838
 msgid "Proximity alerts"
-msgstr ""
+msgstr "Upozornenia na priblíženie"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2899
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:7579
 msgid "Total distance"
-msgstr ""
+msgstr "Celková vzdialenosť"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2904
 msgid "Total duration"
-msgstr ""
+msgstr "Celkové trvanie"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2909
 msgid "Moving time"
-msgstr ""
+msgstr "Čas pohybu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2914
 msgid "Pause time"
-msgstr ""
+msgstr "Čas zastávok"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2919
 msgid "Begin"
-msgstr ""
+msgstr "Začiatok"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2921
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2928
 msgid "No date"
-msgstr ""
+msgstr "Bez dátumu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2926
 msgid "End"
-msgstr ""
+msgstr "Koniec"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2933
 msgid "Cumulative elevation gain"
-msgstr ""
+msgstr "Kumulatívna nastúpaná výška"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2938
 msgid "Cumulative elevation loss"
-msgstr ""
+msgstr "Kumulatívna naklesaná výška"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2943
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:609
@@ -868,65 +868,65 @@ msgstr "Maximálna rýchlosť"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2960
 msgid "Number of points"
-msgstr ""
+msgstr "Počet bodov"
 
 #. TRANSLATORS src/components/DeviceStatsSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2976
 msgid "Device statistics"
-msgstr ""
+msgstr "Štatistiky zariadenia"
 
 #. TRANSLATORS src/components/FiltersForm.vue:7
 #. TRANSLATORS src/components/Navigation.vue:75
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3197
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3680
 msgid "Use filters"
-msgstr ""
+msgstr "Použiť filtre"
 
 #. TRANSLATORS src/components/FiltersForm.vue:12
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3199
 msgid "Minimum date"
-msgstr ""
+msgstr "Minimálny dátum"
 
 #. TRANSLATORS src/components/FiltersForm.vue:26
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3201
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3209
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3217
 msgid "- 1 day"
-msgstr ""
+msgstr "- 1 deň"
 
 #. TRANSLATORS src/components/FiltersForm.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3203
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3211
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3219
 msgid "Now"
-msgstr ""
+msgstr "Teraz"
 
 #. TRANSLATORS src/components/FiltersForm.vue:42
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3205
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3213
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3221
 msgid "+ 1 day"
-msgstr ""
+msgstr "+ 1 deň"
 
 #. TRANSLATORS src/components/FiltersForm.vue:51
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3207
 msgid "Maximum date"
-msgstr ""
+msgstr "Maximálny dátum"
 
 #. TRANSLATORS src/components/FiltersForm.vue:90
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3215
 msgid "Both dates"
-msgstr ""
+msgstr "Oba dátumy"
 
 #. TRANSLATORS src/components/FiltersForm.vue:125
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3223
 msgid "Minimum {filterLabel}"
-msgstr ""
+msgstr "Minimálna {filterLabel}"
 
 #. TRANSLATORS src/components/FiltersForm.vue:143
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3225
 msgid "Maximum {filterLabel}"
-msgstr ""
+msgstr "Maximálne {filterLabel}"
 
 #. TRANSLATORS src/components/FiltersForm.vue:162
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3227
@@ -945,7 +945,7 @@ msgstr "Maximálne satelitov"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3262
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3264
 msgid "Point filters"
-msgstr ""
+msgstr "Filtre bodov"
 
 #. TRANSLATORS src/components/FiltersSidebar.vue:3
 #. TRANSLATORS src/components/Navigation.vue:62
@@ -958,7 +958,7 @@ msgstr "Filtre"
 #. TRANSLATORS src/components/FiltersSidebar.vue:11
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3308
 msgid "Filter the points displayed on the map"
-msgstr ""
+msgstr "Filtrovanie bodov zobrazených na mape"
 
 #. TRANSLATORS src/components/Geofence.vue:5
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:23
@@ -969,21 +969,21 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9246
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:14
 msgid "Name"
-msgstr ""
+msgstr "Názov"
 
 #. TRANSLATORS src/components/Geofence.vue:16
 #. TRANSLATORS src/components/Proxim.vue:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3435
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4750
 msgid "Send a notification"
-msgstr ""
+msgstr "Odoslať upozornenie"
 
 #. TRANSLATORS src/components/Geofence.vue:24
 #. TRANSLATORS src/components/Proxim.vue:53
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3437
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4752
 msgid "Send an email"
-msgstr ""
+msgstr "Odoslať e-mail"
 
 #. TRANSLATORS src/components/Geofence.vue:30
 #. TRANSLATORS src/components/Proxim.vue:59
@@ -999,69 +999,69 @@ msgstr "Zoznam emailových adries oddelených čiarkami"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3441
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4756
 msgid "E-mails: {emails}"
-msgstr ""
+msgstr "E-maily: {emails}"
 
 #. TRANSLATORS src/components/Geofence.vue:39
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3443
 msgid "Enter URL"
-msgstr ""
+msgstr "Zadajte URL"
 
 #. TRANSLATORS src/components/Geofence.vue:43
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3445
 msgid "URL enter: {url}"
-msgstr ""
+msgstr "Zadanie URL: {url}"
 
 #. TRANSLATORS src/components/Geofence.vue:49
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3447
 msgid "Use POST method for enter URL"
-msgstr ""
+msgstr "Na zadanie URL použite metódu POST"
 
 #. TRANSLATORS src/components/Geofence.vue:53
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3449
 msgid "Leave URL"
-msgstr ""
+msgstr "Zanechať URL"
 
 #. TRANSLATORS src/components/Geofence.vue:57
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3451
 msgid "URL leave: {url}"
-msgstr ""
+msgstr "Zanechať URL: {url}"
 
 #. TRANSLATORS src/components/Geofence.vue:63
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3453
 msgid "Use POST method for leave URL"
-msgstr ""
+msgstr "Na opustenie URL použite metódu POST"
 
 #. TRANSLATORS src/components/Geofence.vue:67
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3455
 msgid "Set geofence bounds to current map bounds"
-msgstr ""
+msgstr "Nastaviť hranice geoplota na aktuálne hranice mapy"
 
 #. TRANSLATORS src/components/Geofence.vue:73
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3457
 msgid "Set bounds"
-msgstr ""
+msgstr "Nastaviť hranice"
 
 #. TRANSLATORS src/components/Geofence.vue:76
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3459
 msgid "Show geofence on the map"
-msgstr ""
+msgstr "Zobraziť geoplot v mape"
 
 #. TRANSLATORS src/components/Geofence.vue:82
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3461
 msgid "Show"
-msgstr ""
+msgstr "Zobraziť"
 
 #. TRANSLATORS src/components/Geofence.vue:85
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3463
 msgid "Delete geofence"
-msgstr ""
+msgstr "Vymazať geoplot"
 
 #. TRANSLATORS src/components/Geofence.vue:94
 #. TRANSLATORS src/components/Proxim.vue:105
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3467
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4774
 msgid "Cancel edition"
-msgstr ""
+msgstr "Zrušiť úpravu"
 
 #. TRANSLATORS src/components/Geofence.vue:99
 #. TRANSLATORS src/components/Proxim.vue:110
@@ -1074,7 +1074,7 @@ msgstr "Ukončiť"
 #. TRANSLATORS src/components/Geofence.vue:103
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3471
 msgid "You need at least a name and some bounds to save this geofence"
-msgstr ""
+msgstr "Na uloženie tohto geopôotapotrebujete aspoň názov a určité hranice"
 
 #. TRANSLATORS src/components/Geofence.vue:109
 #. TRANSLATORS src/components/PointEditModal.vue:69
@@ -1089,7 +1089,7 @@ msgstr "Uložiť"
 #. TRANSLATORS src/components/Geofence.vue:112
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3475
 msgid "Edit geofence"
-msgstr ""
+msgstr "Upraviť geoplot"
 
 #. TRANSLATORS src/components/Geofence.vue:117
 #. TRANSLATORS src/components/Proxim.vue:128
@@ -1097,7 +1097,7 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4784
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:365
 msgid "Edit"
-msgstr ""
+msgstr "Upraviť"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3638
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6089
@@ -1107,7 +1107,7 @@ msgstr "Importovať súbor gpx/kml/json"
 #. TRANSLATORS src/components/Navigation.vue:9
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3670
 msgid "Search sessions"
-msgstr ""
+msgstr "Hľadať relácie"
 
 #. TRANSLATORS src/components/Navigation.vue:21
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3672
@@ -1117,19 +1117,19 @@ msgstr "Vytvoriť reláciu"
 #. TRANSLATORS src/components/Navigation.vue:29
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3674
 msgid "Import a session"
-msgstr ""
+msgstr "Importovať reláciu"
 
 #. TRANSLATORS src/components/Navigation.vue:55
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3676
 msgid "Old interface"
-msgstr ""
+msgstr "Staré rozhranie"
 
 #. TRANSLATORS src/components/Navigation.vue:80
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3682
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4392
 msgid "PhoneTrack settings"
-msgstr ""
+msgstr "Nastavenia PhoneTrack"
 
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:3
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3760
@@ -1140,14 +1140,14 @@ msgstr "Obnoviť"
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3762
 msgid "Refresh now"
-msgstr ""
+msgstr "Obnoviť teraz"
 
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:23
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:77
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3764
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4412
 msgid "Refresh every N seconds"
-msgstr ""
+msgstr "Obnoviť každých N sekúnd"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:38
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3959
@@ -1155,10 +1155,10 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5671
 msgid "{n} device"
 msgid_plural "{n} devices"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "{n} zariadenie"
+msgstr[1] "{n} zariadenia"
+msgstr[2] "{n} zariadení"
+msgstr[3] "{n} zariadení"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:17
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:12
@@ -1176,24 +1176,24 @@ msgstr "Zdieľať"
 #. TRANSLATORS src/components/NavigationSessionItem.vue:64
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4079
 msgid "Links for devices"
-msgstr ""
+msgstr "Odkazy na zariadenia"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:73
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4081
 msgid "Toggle all"
-msgstr ""
+msgstr "Prepnúť všetko"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:90
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4085
 msgid "Download"
-msgstr ""
+msgstr "Stiahnuť"
 
 #. TRANSLATORS src/components/NewSessionModal.vue:3
 #. TRANSLATORS src/components/NewSessionModal.vue:7
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4135
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4137
 msgid "Create new session"
-msgstr ""
+msgstr "Vytvoriť novú reláciu"
 
 #. TRANSLATORS src/components/NewSessionModal.vue:11
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4139
@@ -1204,68 +1204,68 @@ msgstr "Názov relácie"
 #. TRANSLATORS src/components/NewSessionModal.vue:12
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4141
 msgid "My new session"
-msgstr ""
+msgstr "Moja nová relácia"
 
 #. TRANSLATORS src/components/NewSessionModal.vue:19
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4143
 msgid "Create"
-msgstr ""
+msgstr "Vytvoriť"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4253
 msgid "Metric"
-msgstr ""
+msgstr "Metrické"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4257
 msgid "Imperial (English)"
-msgstr ""
+msgstr "Imperiálne (Anglicko)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4261
 msgid "Nautical"
-msgstr ""
+msgstr "Námorné"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4267
 msgid "Block logging"
-msgstr ""
+msgstr "Blokovať záznam"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4271
 msgid "Delete user's oldest point each time a new one is logged"
-msgstr ""
+msgstr "Vymazať používateľov najstarší bod vždy, keď sa zaznamená nový"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4275
 msgid "Delete device's oldest point each time a new one is logged"
-msgstr ""
+msgstr "Vymazať najstarší bod zariadenia vždy, keď sa zaznamená nový"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4281
 msgid "Ascending"
-msgstr ""
+msgstr "Vzostupne"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4285
 msgid "Descending"
-msgstr ""
+msgstr "Zostupne"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4317
 msgid "If your admin hasn't defined an API key, you can get one for free on {maptilerLink}. Create an account then go to \"Account\" -> \"API keys\" and create a key or use your default one."
-msgstr ""
+msgstr "Ak váš správca nedefinoval API kľúč, môžete si ho zadarmo vyžiadať na {maptilerLink}. Vytvorte si účet, prejdite do sekcie „Účet“ -> „API kľúče“ a vytvorte kľúč alebo použite predvolený kľúč."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4320
 msgid "PhoneTrack admin settings"
-msgstr ""
+msgstr "Nastavenia administrácie PhoneTrack"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4321
 msgid "As you are an administrator, you can set global API keys in the {adminLink}"
-msgstr ""
+msgstr "Ako správca môžete nastaviť globálne API kľúče v {adminLink}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4346
 msgid "API key saved, effective after a page reload"
-msgstr ""
+msgstr "API kľúč API uložený, účinný bude po opätovnom načítaní stránky"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4365
 msgid "Choose where to write auto export files"
-msgstr ""
+msgstr "Vyberte, kam sa majú automaticky exportovať súbory"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4372
 msgid "Pick current directory"
-msgstr ""
+msgstr "Vybrať aktuálny adresár"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:12
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4394
@@ -1275,42 +1275,42 @@ msgstr "Mapa"
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:22
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4396
 msgid "Show session bounds on hover"
-msgstr ""
+msgstr "Zobraziť hranice relácie pri prechádzaní kurzorom"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:29
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4398
 msgid "Show mouse position coordinates in the bottom-left map corner"
-msgstr ""
+msgstr "Zobraziť súradnice polohy myši v ľavom dolnom rohu mapy"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:36
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4400
 msgid "Display the sky in the map"
-msgstr ""
+msgstr "Zobraziť oblohu na mape"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:43
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4402
 msgid "Compact navigation view"
-msgstr ""
+msgstr "Kompaktné zobrazenie navigácie"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4404
 msgid "Draw line borders"
-msgstr ""
+msgstr "Vykresliť okraje čiar"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:57
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4406
 msgid "Draw line direction arrows"
-msgstr ""
+msgstr "Vykresliť smerové šípky na čiarach"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:64
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4408
 msgid "Drag points to move them"
-msgstr ""
+msgstr "Presun bodov potiahnutím"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:71
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4410
 msgid "Automatic zoom on refresh"
-msgstr ""
+msgstr "Automatické priblížneie po obnovení"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:87
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4414
@@ -1320,17 +1320,17 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4430
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4434
 msgid "Reset to default value"
-msgstr ""
+msgstr "Resetovať na predvolené hodnoty"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:99
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4416
 msgid "Arrows scale factor"
-msgstr ""
+msgstr "Mierka šípok"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:122
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4420
 msgid "Arrows spacing"
-msgstr ""
+msgstr "Odsadenie šípok"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:144
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4424
@@ -1341,17 +1341,17 @@ msgstr "Šírka čiary"
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:167
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4428
 msgid "Line opacity"
-msgstr ""
+msgstr "Priehľadnosť čiary"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:190
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4432
 msgid "3D elevation exaggeration"
-msgstr ""
+msgstr "3D zvýraznenie výšky"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:213
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4436
 msgid "Distance unit"
-msgstr ""
+msgstr "Jednotky vzdialeností"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:222
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4438
@@ -1362,67 +1362,67 @@ msgstr "Keď je dosiahnutý limit bodov"
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:232
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4440
 msgid "Sorting"
-msgstr ""
+msgstr "Triedenie"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:240
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4442
 msgid "Sort devices by"
-msgstr ""
+msgstr "Triediť zariadenia podľa"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:247
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4444
 msgid "Sort direction for devices"
-msgstr ""
+msgstr "Spôsob triedenia zariadení"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:254
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4446
 msgid "Sort sessions by"
-msgstr ""
+msgstr "Triediť relácie podľa"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:261
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4448
 msgid "Sort direction for sessions"
-msgstr ""
+msgstr "Spôsob triedenia relácií"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:270
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4450
 msgid "Export location"
-msgstr ""
+msgstr "Miesto exportu"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:276
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4452
 msgid "Export directory"
-msgstr ""
+msgstr "Priečinok na export"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:289
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4454
 msgid "Select export directory"
-msgstr ""
+msgstr "Vyberte priečinok na export"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:294
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4456
 msgid "API keys"
-msgstr ""
+msgstr "API kľúče"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:300
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4458
 msgid "If you leave the Maptiler API key empty, PhoneTrack will use the one defined by the Nextcloud admin as default."
-msgstr ""
+msgstr "Ak necháte kľúč API Maptiler prázdny, PhoneTrack použije ako predvolený kľúč ten, ktorý definoval správca Nextcloud."
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:314
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4460
 msgid "API key to use Maptiler (for vector tile servers)"
-msgstr ""
+msgstr "API kľúč na použitie Maptiler (na vektorové mapové servery)"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:327
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4464
 msgid "Tile servers"
-msgstr ""
+msgstr "Dlaždicové mapové servery"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:333
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4466
 msgid "Changes are effective after reloading the page."
-msgstr ""
+msgstr "Zmeny sa prejavia po obnovení stránky."
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:343
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4468
@@ -1432,39 +1432,39 @@ msgstr "O"
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:349
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4470
 msgid "Thanks for using PhoneTrack"
-msgstr ""
+msgstr "Ďakujeme, že používate PhoneTrack"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:353
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4472
 msgid "Bug/issue tracker"
-msgstr ""
+msgstr "Sledovanie chýb/problémov"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:358
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4474
 msgid "Translation"
-msgstr ""
+msgstr "Preklad"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:363
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4476
 msgid "User documentation"
-msgstr ""
+msgstr "Používateľská dokumentácia"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:368
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4478
 msgid "Admin documentation"
-msgstr ""
+msgstr "Administrátorská dokumentácia"
 
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:373
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4480
 msgid "Developer documentation"
-msgstr ""
+msgstr "Vývojárska dokumentácia"
 
 #. TRANSLATORS src/components/PointEditModal.vue:3
 #. TRANSLATORS src/components/PointEditModal.vue:6
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4584
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4586
 msgid "Edit point"
-msgstr ""
+msgstr "Upraviť bod"
 
 #. TRANSLATORS src/components/PointEditModal.vue:16
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4588
@@ -1477,7 +1477,7 @@ msgstr "Používateľský agent"
 #. TRANSLATORS src/components/PointEditModal.vue:17
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4590
 msgid "my-tracker"
-msgstr ""
+msgstr "my-tracker"
 
 #. TRANSLATORS src/components/PointEditModal.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4592
@@ -1489,94 +1489,94 @@ msgstr "Satelity"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4684
 msgid "{deviceName} (in {sessionName})"
-msgstr ""
+msgstr "{deviceName} (v {sessionName})"
 
 #. TRANSLATORS src/components/Proxim.vue:16
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4738
 msgid "Device selector"
-msgstr ""
+msgstr "Výber zariadenia"
 
 #. TRANSLATORS src/components/Proxim.vue:19
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4740
 msgid "Choose a device"
-msgstr ""
+msgstr "Vyberte zariadenie"
 
 #. TRANSLATORS src/components/Proxim.vue:25
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4742
 msgid "Low distance limit (meters)"
-msgstr ""
+msgstr "Limit najmenšej vzdialenosti (v metroch)"
 
 #. TRANSLATORS src/components/Proxim.vue:29
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4744
 msgid "Low distance limit: {lowlimit} meters"
-msgstr ""
+msgstr "Limit najmenšej vzdialenosti: {lowlimit} metrov"
 
 #. TRANSLATORS src/components/Proxim.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4746
 msgid "High distance limit (meters)"
-msgstr ""
+msgstr "Limit najväčšej vzdialenosti (v metroch)"
 
 #. TRANSLATORS src/components/Proxim.vue:38
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4748
 msgid "High distance limit: {highlimit} meters"
-msgstr ""
+msgstr "Limit najväčšej vzdialenosti: {highlimit} metrov"
 
 #. TRANSLATORS src/components/Proxim.vue:68
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4758
 msgid "Close URL"
-msgstr ""
+msgstr "Blízka URL"
 
 #. TRANSLATORS src/components/Proxim.vue:72
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4760
 msgid "Close URL: {url}"
-msgstr ""
+msgstr "Blízka URL: {url}"
 
 #. TRANSLATORS src/components/Proxim.vue:78
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4762
 msgid "Use POST method for close URL"
-msgstr ""
+msgstr "Na blízku URL použite metódu POST"
 
 #. TRANSLATORS src/components/Proxim.vue:82
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4764
 msgid "Far URL"
-msgstr ""
+msgstr "Vzdialená URL"
 
 #. TRANSLATORS src/components/Proxim.vue:86
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4766
 msgid "URL far: {url}"
-msgstr ""
+msgstr "URL vzdialená: {url}"
 
 #. TRANSLATORS src/components/Proxim.vue:92
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4768
 msgid "Use POST method for far URL"
-msgstr ""
+msgstr "Na vzdialenú URL použite metódu POST"
 
 #. TRANSLATORS src/components/Proxim.vue:96
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4770
 msgid "Delete proxim"
-msgstr ""
+msgstr "Odstrániť proxim"
 
 #. TRANSLATORS src/components/Proxim.vue:114
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4778
 msgid "You need at least a device and the distance limits to save this proximity alert"
-msgstr ""
+msgstr "Na uloženie tohto upozornenia na blízkosť potrebujete aspoň jedno zariadenie a obmedzenia vzdialenosti"
 
 #. TRANSLATORS src/components/Proxim.vue:123
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4782
 msgid "Edit proximity alert"
-msgstr ""
+msgstr "Upraviť upozornenie na priblíženie"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4991
 msgid "Public browser logging"
-msgstr ""
+msgstr "Verejné protokolovanie prehliadača"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4994
 msgid "Visit this link with a web browser and check \"Log my position in this session\"."
-msgstr ""
+msgstr "Navštívte tento odkaz vo webovom prehliadači a zaškrtnite políčko „Zaznamenať moju polohu v tejto relácii“."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4997
 msgid "OsmAnd"
-msgstr ""
+msgstr "OsmAnd"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5001
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4959
@@ -1590,7 +1590,7 @@ msgstr "Skopírujte nižšie uvedený odkaz do poľa 'Webová adresa stopovania 
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5005
 msgid "GpsLogger GET and POST"
-msgstr ""
+msgstr "GpsLogger GET a POST"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5009
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4967
@@ -1604,7 +1604,7 @@ msgstr "Skopírujte nižšie uvedený odkaz do poľa 'URL'."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5013
 msgid "Owntracks (HTTP mode)"
-msgstr ""
+msgstr "Owntracks (režim HTTP)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5017
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4971
@@ -1623,7 +1623,7 @@ msgstr "Nechajte nastavenia v položke 'Identifikácia' prázdne, nakoľko nie s
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5022
 msgid "Ulogger"
-msgstr ""
+msgstr "Ulogger"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5026
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4976
@@ -1642,7 +1642,7 @@ msgstr "Aktivovať \"Live synchronizáciu\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5031
 msgid "Traccar"
-msgstr ""
+msgstr "Traccar"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5035
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4981
@@ -1651,7 +1651,7 @@ msgstr "V klientovi Traccar skopírujte odkaz nižšie do poľa 'URL servera'."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5038
 msgid "OpenGTS"
-msgstr ""
+msgstr "OpenGTS"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5041
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4990
@@ -1660,7 +1660,7 @@ msgstr "Použite tento odkaz ako URL servera vo vašej OpenGTS kompatibilnej apl
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5044
 msgid "Overland"
-msgstr ""
+msgstr "Overland"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5047
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4963
@@ -1674,7 +1674,7 @@ msgstr "Skopírujte nižšie uvedený odkaz do poľa 'adresa servera'."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5051
 msgid "Locus Map"
-msgstr ""
+msgstr "Locus Map"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5055
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4984
@@ -1683,7 +1683,7 @@ msgstr "V LocusMap skopírujte odkaz nižšie do poľa 'URL servera'. Funguje to
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5058
 msgid "HTTP GET"
-msgstr ""
+msgstr "HTTP GET"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5062
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4987
@@ -1701,16 +1701,16 @@ msgstr "Uistite sa, že systém záznamu nastavil hodnoty minimálne na GET para
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5515
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5528
 msgid "Link could not be copied to clipboard"
-msgstr ""
+msgstr "Odkaz sa nepodarilo skopírovať do schránky"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5102
 msgid "The token could not be copied to clipboard"
-msgstr ""
+msgstr "Token sa nepodarilo skopírovať do schránky"
 
 #. TRANSLATORS src/components/SessionLinkSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5109
 msgid "Session links"
-msgstr ""
+msgstr "Odkazy na relácie"
 
 #. TRANSLATORS src/components/SessionLinkSidebarTab.vue:6
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5111
@@ -1726,39 +1726,39 @@ msgstr "Token sedenia"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5611
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5615
 msgid "Copy link to clipboard"
-msgstr ""
+msgstr "Skopírovať odkaz do schránky"
 
 #. TRANSLATORS src/components/SessionLinkSidebarTab.vue:52
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5115
 msgid "Show link QrCode"
-msgstr ""
+msgstr "Zobraziť QR kód s odkazom"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5176
 msgid "Never"
-msgstr ""
+msgstr "Nikdy"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5180
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5198
 msgid "Daily"
-msgstr ""
+msgstr "Denne"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5184
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5202
 msgid "Weekly"
-msgstr ""
+msgstr "Týždenne"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5188
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5206
 msgid "Monthly"
-msgstr ""
+msgstr "Mesačne"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5194
 msgid "Don't purge"
-msgstr ""
+msgstr "Nevymazávať"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5248
 msgid "Choose where to export the session {name}"
-msgstr ""
+msgstr "Vyberte, kam bude exportovaná relácia {name}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5284
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:4072
@@ -1772,17 +1772,17 @@ msgstr "ale nebol tu žiadny bod na exportovanie v niektorých zariadeniach"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5312
 msgid "Failed to add the name reservation"
-msgstr ""
+msgstr "Pridanie rezervovaného názvu zlyhalo"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5323
 msgid "Session settings"
-msgstr ""
+msgstr "Nastavenia relácie"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:9
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5325
 msgid "Session Name"
-msgstr ""
+msgstr "Názov relácie"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:20
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5329
@@ -1793,12 +1793,12 @@ msgstr "Zakázať zariadeniam zaznamenávať toto sedenie"
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:25
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5331
 msgid "Locked"
-msgstr ""
+msgstr "Zamknuté"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:34
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5335
 msgid "Export session"
-msgstr ""
+msgstr "Exportovať reláciu"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5339
@@ -1815,7 +1815,7 @@ msgstr "Automatické vymazanie"
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:60
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5343
 msgid "Reserved device names"
-msgstr ""
+msgstr "Rezervované názvy zariadení"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:62
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5345
@@ -1838,68 +1838,68 @@ msgstr "Pre záznam s rezervovaným názvom použite \"názov tokenu\" v zazname
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:65
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5351
 msgid "If a name is reserved, the only way to log with this name is by using its reserved token."
-msgstr ""
+msgstr "Ak je názov rezervovaný, jediný spôsob, ako sa prihlásiť s týmto názvom, je použitie jeho vyhradeného tokenu."
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:69
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5353
 msgid "Reserve a device name"
-msgstr ""
+msgstr "Rezervovať názov zariadenia"
 
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:79
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5355
 msgid "Delete name reservation"
-msgstr ""
+msgstr "Vymazať rezervovaný názov"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5465
 msgid "Failed to create the share"
-msgstr ""
+msgstr "Vytváranie zdieľania zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5475
 msgid "Failed to delete the share"
-msgstr ""
+msgstr "Odstránenie zdieľania zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5546
 msgid "Failed to save the public share"
-msgstr ""
+msgstr "Ukladanie verejného zdieľania zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5555
 msgid "Failed to create the public share"
-msgstr ""
+msgstr "Vytváranie odkazu verejného zdieľania zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5564
 msgid "Failed to delete the public share"
-msgstr ""
+msgstr "Odstránenie verejnho zdieľania zlyhalo"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:4
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5579
 msgid "Session sharing"
-msgstr ""
+msgstr "Zdieľanie relácie"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:19
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:37
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5581
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5585
 msgid "Share link"
-msgstr ""
+msgstr "Zdieľať odkaz"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:26
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5583
 msgid "Create a new share link"
-msgstr ""
+msgstr "Vytvoriť nový zdieľaný odkaz"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5587
 msgid "Link copied"
-msgstr ""
+msgstr "Odkaz skopírovaný"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5587
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Kopírovať do schránky"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:62
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5589
 msgid "Label"
-msgstr ""
+msgstr "Štítok"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:72
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5591
@@ -1922,17 +1922,17 @@ msgstr "Zjednodušiť umiestnenie na stred najbližšieho geoplota"
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:97
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5597
 msgid "Delete link"
-msgstr ""
+msgstr "Vymazať odkaz"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:105
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5599
 msgid "Add another link"
-msgstr ""
+msgstr "Pridať ďalší odkaz"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:134
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5601
 msgid "Delete access"
-msgstr ""
+msgstr "Vymazať prístup"
 
 #. TRANSLATORS src/components/SessionSharingSidebarTab.vue:143
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5603
@@ -1960,16 +1960,16 @@ msgstr "API URL (JSON, všetky polohy)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5667
 msgid "Session {name}"
-msgstr ""
+msgstr "Relácia {name}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5672
 msgid "Session {sessionName} ({deviceCount})"
-msgstr ""
+msgstr "Relácia {sessionName} ({deviceCount})"
 
 #. TRANSLATORS src/components/SessionSidebar.vue:22
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5680
 msgid "Sharing"
-msgstr ""
+msgstr "Zdieľanie"
 
 #. TRANSLATORS src/components/SessionSidebar.vue:33
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5682
@@ -1979,64 +1979,64 @@ msgstr "Nastavenia"
 #. TRANSLATORS src/components/SessionSidebar.vue:45
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5684
 msgid "Links"
-msgstr ""
+msgstr "Odkazy"
 
 #. TRANSLATORS src/components/SharingSelect.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5822
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5824
 msgid "Share session with a user or group"
-msgstr ""
+msgstr "Zdieľajte reláciu s používateľom alebo skupinou"
 
 #. TRANSLATORS src/components/SharingSelect.vue:36
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5826
 msgid "Federated user"
-msgstr ""
+msgstr "Spoločný používateľ"
 
 #. TRANSLATORS src/components/SharingSelect.vue:58
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5828
 msgid "Start typing to search"
-msgstr ""
+msgstr "Pre vyhľadávanie začnite písať"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5996
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:358
 msgid "No data"
-msgstr ""
+msgstr "Žiadne údaje"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:7011
 msgid "Search a location"
-msgstr ""
+msgstr "Hľadanie polohy"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:7577
 msgid "Start"
-msgstr ""
+msgstr "Začiatok"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:7998
 msgid "Direction"
-msgstr ""
+msgstr "Smer"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:8001
 msgid "Open in Files"
-msgstr ""
+msgstr "Otvoriť v súboroch"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:8
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9123
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:14
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9125
 msgid "Vector"
-msgstr ""
+msgstr "Vektor"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:17
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9127
 msgid "Raster"
-msgstr ""
+msgstr "Rastrové"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:25
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9131
 msgid "My tile server"
-msgstr ""
+msgstr "Môj mapový server"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:31
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:14
@@ -2049,83 +2049,83 @@ msgstr "Adresa servera"
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:39
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9135
 msgid "A raster tile server address must contain \"{x}\", \"{y}\" and \"{z}\" and can optionally contain \"{s}\". For example: {exampleRasterUrl} ."
-msgstr ""
+msgstr "Adresa rastrového mapového servera musí obsahovať „{x}“, „{y}“ a „{z}“ a môže voliteľne obsahovať „{s}“. Napríklad: {exampleRasterUrl} ."
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:42
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9137
 msgid "List of public raster tile servers"
-msgstr ""
+msgstr "Zoznam verejných rastrových serverov"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:47
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9139
 msgid "A vector tile server address can point to a MapTiler style.json file, for example: {exampleVectorStyleUrl}. It can contain GET parameters like the API key."
-msgstr ""
+msgstr "Adresa vektorového mapového servera môže odkazovať na súbor MapTiler style.json, napríklad: {exampleVectorStyleUrl}. Môže obsahovať parametre GET, ako je kľúč API."
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9141
 msgid "Vector styles available in your MapTiler account"
-msgstr ""
+msgstr "Vektorové štýly dostupné vo vašom účte MapTiler"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:59
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:30
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9143
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9252
 msgid "Min zoom"
-msgstr ""
+msgstr "Min. priblíženie"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:76
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:36
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9145
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9254
 msgid "Max zoom"
-msgstr ""
+msgstr "Max. priblíženie"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:88
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:22
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9147
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9250
 msgid "Attribution"
-msgstr ""
+msgstr "Príspevok"
 
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:90
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9149
 msgid "Map data from..."
-msgstr ""
+msgstr "Mapové údaje z..."
 
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:46
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9256
 msgid "Edit tile server"
-msgstr ""
+msgstr "Upraviť mapový server"
 
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:53
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9258
 msgid "Delete tile server"
-msgstr ""
+msgstr "Vymazať mapový server"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:5
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9341
 msgid "Admin tile servers"
-msgstr ""
+msgstr "Spravovať mapový server"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:17
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9343
 msgid "Personal tile servers"
-msgstr ""
+msgstr "Vlastné mapové servery"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:32
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:39
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9345
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9347
 msgid "Add a global tile server"
-msgstr ""
+msgstr "Pridať globálny mapový server"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9345
 msgid "Add personal tile server"
-msgstr ""
+msgstr "Pridať osobný mapový server"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9347
 msgid "Add a personal tile server"
-msgstr ""
+msgstr "Pridať osobný mapový server"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:40
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9349
@@ -2140,29 +2140,29 @@ msgstr "Pridať"
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9351
 msgid "Edit a tile server"
-msgstr ""
+msgstr "Upraviť mapový server"
 
 #. TRANSLATORS src/components/tileservers/TileServerList.vue:51
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9353
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovať"
 
 #. TRANSLATORS src/components/tileservers/TileServerMultiSelect.vue:8
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9422
 msgid "Tile server select"
-msgstr ""
+msgstr "Výber mapového servera"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/constants.js:18
 msgid "Most recent activity"
-msgstr ""
+msgstr "Posledná aktivita"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/AddWaypoints.js:85
 msgid "Track"
-msgstr ""
+msgstr "Trasa"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/AddWaypoints.js:89
 msgid "Waypoint"
-msgstr ""
+msgstr "Bod trasy"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/AddWaypoints.js:95
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3737
@@ -2174,19 +2174,19 @@ msgstr "Nadmorská výška"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:335
 msgid "Failed to delete the point"
-msgstr ""
+msgstr "Vymazanie bodu zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:364
 msgid "Delete this point"
-msgstr ""
+msgstr "Vymazať tento bod"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:365
 msgid "Edit this point"
-msgstr ""
+msgstr "Upraviť tento bod"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:366
 msgid "Move this point"
-msgstr ""
+msgstr "Presunúť tento bod"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/mixins/PointInfoPopup.js:366
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3770
@@ -3211,27 +3211,27 @@ msgstr "Zatvoriť graf prevýšenia"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:150
 msgid "ESRI topo with relief"
-msgstr ""
+msgstr "ESRI topo s reliéfom"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:186
 msgid "Stadia Alidade satellite"
-msgstr ""
+msgstr "Stadia Alidade satelitná"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:222
 msgid "WaterColor"
-msgstr ""
+msgstr "WaterColor"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:264
 msgid "Streets"
-msgstr ""
+msgstr "Ulice"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:272
 msgid "Satellite"
-msgstr ""
+msgstr "Satelitná"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:280
 msgid "Outdoor"
-msgstr ""
+msgstr "Turistická"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:296
 msgid "Dark"
@@ -3239,69 +3239,69 @@ msgstr "Tmavá"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:180
 msgid "No elevation data"
-msgstr ""
+msgstr "Žiadne údaje o nadmorskej výške"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:233
 msgid "No speed data"
-msgstr ""
+msgstr "Žiadne údaje o rýchlosti"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:436
 msgid "GPS speed"
-msgstr ""
+msgstr "rýchlosť podľa GPS"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:438
 msgid "Heart rate"
-msgstr ""
+msgstr "Srdcová frekvencia"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:440
 msgid "Temperature"
-msgstr ""
+msgstr "Teplota"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:442
 msgid "Traveled distance (device)"
-msgstr ""
+msgstr "Precestovaná vzdialenosť (zariadenie)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:450
 msgid "bpm"
-msgstr ""
+msgstr "bpm"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:543
 msgid "Min date: {value}"
-msgstr ""
+msgstr "Min. dátum: {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:547
 msgid "Max date: {value}"
-msgstr ""
+msgstr "Max. dátum: {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:551
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:555
 msgid "Min altitude: {value}"
-msgstr ""
+msgstr "Min. výška: {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:559
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:563
 msgid "Min accuracy: {value}"
-msgstr ""
+msgstr "Min. presnosť: {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:567
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:571
 msgid "Min speed: {value}"
-msgstr ""
+msgstr "Min. rýchlosť: {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:574
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:577
 msgid "Min satellites: {value}"
-msgstr ""
+msgstr "Min. poč. satelitov: {value}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:580
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:583
 msgid "Min bearing: {value} °"
-msgstr ""
+msgstr "Min. azimut: {value}°"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:586
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/utils.js:589
 msgid "Min batterylevel: {value} %"
-msgstr ""
+msgstr "Min. úroveň batérie: {value}%"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:5
 msgid "Main tab"
@@ -3327,7 +3327,7 @@ msgstr "Vytvoriť reláciu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:45
 msgid "New interface (beta)"
-msgstr ""
+msgstr "Nové rozhranie (beta)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:63
 msgid "Options"
@@ -3476,7 +3476,7 @@ msgstr "Zobraziť čiary na verejných stránkach"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:199
 msgid "reload page to make changes effective"
-msgstr "aby sa uplatnili zmeny, obnovte stránku"
+msgstr "aby sa prejavili zmeny, obnovte stránku"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/templates/maincontent.php:203
 msgid "File export"
