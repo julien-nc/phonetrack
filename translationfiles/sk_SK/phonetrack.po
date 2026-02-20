@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-17 00:39+0100\n"
-"PO-Revision-Date: 2026-02-17 00:15\n"
+"PO-Revision-Date: 2026-02-20 10:17\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -62,24 +62,24 @@ msgstr "Udalosti <strong>PhoneTrack geoplota</strong>"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:62
 #, php-format
 msgid "Deleted user (%s)"
-msgstr ""
+msgstr "Vymazaný používateľ (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:85
 msgid "Unknown author"
-msgstr ""
+msgstr "Neznámy autor"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:94
 #, php-format
 msgid "Shared access (%s)"
-msgstr ""
+msgstr "Zdieľaný prístup (%s)"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:95
 msgid "Shared access"
-msgstr ""
+msgstr "Zdieľaný prístup"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/PhonetrackProvider.php:102
 msgid "No author"
-msgstr ""
+msgstr "Žiadny autor"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/ProximitySetting.php:36
 msgid "<strong>PhoneTrack device proximity</strong> events"
@@ -87,7 +87,7 @@ msgstr "Udalosti <strong>vzdialenosti zariadení PhoneTrack</strong>"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:43
 msgid "A <strong>PhoneTrack session</strong> has been shared or unshared"
-msgstr ""
+msgstr "<strong>Relácia PhoneTrack</strong> bola zdieľaná alebo zdieľanie skončilo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Activity/Setting.php:59
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:3
@@ -103,12 +103,12 @@ msgstr "PhoneTrack upozornenie na vzdialenosť (%s a %s)"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:226
 #, php-format
 msgid "PhoneTrack device \"%s\" is now closer than %s m to \"%s\"."
-msgstr ""
+msgstr "Zariadenie PhoneTrack s názvom \"%s\" je práve bližšie ako %s m k \"%s\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:357
 #, php-format
 msgid "PhoneTrack device \"%s\" is now farther than %s m from \"%s\"."
-msgstr ""
+msgstr "Zariadenie PhoneTrack s názvom \"%s\" je práve ďalej než %s m k \"%s\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:515
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:637
@@ -118,12 +118,12 @@ msgstr "Výstraha geoplota"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:519
 #, php-format
 msgid "In PhoneTrack session \"%s\", device \"%s\" has entered geofence \"%s\"."
-msgstr ""
+msgstr "V relácii PhoneTrack \"%s\", zariadenie \"%s\" vstúpilo do zóny geoplota \"%s\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/LogController.php:641
 #, php-format
 msgid "In PhoneTrack session \"%s\", device \"%s\" exited geofence \"%s\"."
-msgstr ""
+msgstr "V relácii PhoneTrack \"%s\", zariadenie \"%s\" vystúpilo zo zóny geoplota \"%s\"."
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2070
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2096
@@ -142,12 +142,12 @@ msgstr "Zaznamenať do záznamu %s"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PublicShareController.php:66
 msgid "PhoneTrack public share not found"
-msgstr ""
+msgstr "Odkaz verejného zdieľania PhoneTrack nebol nájdený"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PublicShareController.php:100
 #, php-format
 msgid "Watch session %s"
-msgstr ""
+msgstr "Sledovať reláciu %s"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Notification/Notifier.php:50
 #, php-format
@@ -186,11 +186,11 @@ msgstr "Používateľ \"%s\" zastavil zdieľanie záznamu PhoneTrack \"%s\" s va
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Service/MapService.php:369
 msgid "Bad HTTP method"
-msgstr ""
+msgstr "Neplatná metóda HTTP"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Service/MapService.php:375
 msgid "Bad credentials"
-msgstr ""
+msgstr "Nesprávne poverenia"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialAppInfoFakeDummyForL10nScript.php:4
 msgid " "
@@ -199,27 +199,27 @@ msgstr ""
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:345
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:361
 msgid "Failed to save the settings"
-msgstr ""
+msgstr "Uloženie nastavení zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:417
 msgid "Failed to import the session"
-msgstr ""
+msgstr "Nepodarilo sa importovať reláciu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:422
 msgid "Invalid session name"
-msgstr ""
+msgstr "Neplatný názov relácie"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:435
 msgid "This session name already used"
-msgstr ""
+msgstr "Názov relácie sa už používa"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:437
 msgid "Failed to create the session"
-msgstr ""
+msgstr "Nepodarilo sa vytvoriť reláciu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:443
 msgid "Are you sure you want to delete the session {sessionName} ?"
-msgstr ""
+msgstr "Ste si naozaj istý/á, že chcete vymazať reláciu {sessionName} ?"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:444
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:5242
@@ -228,35 +228,35 @@ msgstr "Potvrďte vymazanie relácie"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:461
 msgid "Failed to delete the session"
-msgstr ""
+msgstr "Nepodarilo sa vymazať reláciu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:474
 msgid "Failed to save the session"
-msgstr ""
+msgstr "Nepodarilo sa uložiť reláciu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:547
 msgid "Failed to delete the device"
-msgstr ""
+msgstr "Nepodarilo sa vymazať zariadenie"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:569
 msgid "The point has been deleted"
-msgstr ""
+msgstr "Bod bol vymazaný"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:585
 msgid "Click on the map to add a point"
-msgstr ""
+msgstr "Kliknite na mapu pre pridanie bodu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:624
 msgid "Click on the map to move the point"
-msgstr ""
+msgstr "Kliknite na mapu pre presun bodu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:718
 msgid "The point has been saved"
-msgstr ""
+msgstr "Bod bol uložený"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:727
 msgid "Failed to update the point"
-msgstr ""
+msgstr "Aktualizácia bodu zlyhala"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:741
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:3579
@@ -266,84 +266,84 @@ msgstr "Manuálne pridané"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:747
 msgid "The point you just added is not visible because it does not satisfy the current filters"
-msgstr ""
+msgstr "Práve pridaný bod nie je viditeľný, pretože nevyhovuje aktuálnym filtrom"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:771
 msgid "The session is locked. Impossible to add the point"
-msgstr ""
+msgstr "Relácia je uzamknutá. Bod nie je možné pridať"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:773
 msgid "Your point quota has been reached. Impossible to add the point"
-msgstr ""
+msgstr "Bola dosiahnutá počtu vašich bodov. Ďalší bod nie je možné pridať"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:775
 msgid "Error while adding the point"
-msgstr ""
+msgstr "Chyba počas pridávania bodu"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:792
 msgid "Failed to save the device"
-msgstr ""
+msgstr "Uloženie zariadenia zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:812
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1399
 msgid "Failed to delete the tile server"
-msgstr ""
+msgstr "Vymazanie mapového servera zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:825
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1412
 msgid "Failed to add the tile server"
-msgstr ""
+msgstr "Pridanie mapového servera zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:843
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1430
 msgid "Failed to update the tile server"
-msgstr ""
+msgstr "Aktualizácia mapového servera zlyhala"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:914
 msgid "Failed to create the geofence"
-msgstr ""
+msgstr "Vytvárania geoplota zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:930
 msgid "Failed to save the geofence"
-msgstr ""
+msgstr "Ukladanie geoplota zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:942
 msgid "Geofence {name} has been deleted"
-msgstr ""
+msgstr "Geoplot {name} bol vytvorený"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:944
 msgid "Failed to delete the geofence"
-msgstr ""
+msgstr "Vymazanie geoplota zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:957
 msgid "Failed to create the proximity alert"
-msgstr ""
+msgstr "Vytvorenie upozornenia na vzdialenosť zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:974
 msgid "Failed to save the proximity alert"
-msgstr ""
+msgstr "Uloženie upozornenia na vzdialenosť zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:986
 msgid "Proximity alert {id} has been deleted"
-msgstr ""
+msgstr "Upozornenie na vzdialenosť {id} bolo vymazané"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:988
 msgid "Failed to delete the proximity alert"
-msgstr ""
+msgstr "Vymazanie upozornenia na vzdialenosť zlyhalo"
 
 #. TRANSLATORS src/App.vue:21
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1273
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1275
 msgid "No selected session"
-msgstr ""
+msgstr "Nie je vybraná žiadna relácia"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1328
 msgid "You can create an API key on {maptilerLink}"
-msgstr ""
+msgstr "API kľúč si môžete vytvoriť na {maptilerLink}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1384
 msgid "PhoneTrack admin settings saved"
-msgstr ""
+msgstr "Nastavenia administrácie PhoneTrack uložené"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1386
 msgid "Failed to save phonetrack admin settings"
