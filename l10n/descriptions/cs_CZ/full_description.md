@@ -11,7 +11,7 @@
 Jak PhoneTrack používat:
 
 - Vytvořte relaci sledování.
-- Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Give the logging link\* to the mobile devices. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
 - Sledujte pozice zařízení v rámci dané relace v reálném čase (nebo ne) v PhoneTrack nebo ji sdílejte prostřednictvím veřejných stránek.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
@@ -29,15 +29,11 @@ Na hlavní stránce PhoneTrack můžete během sledování relace:
 - 🔗 Vytvářet veřejné odkazy na sdílení s volitelnými omezeními (filtry, název zařízení, poslední pozice, zjednodušení vymezené oblasti)
 - 🖫 Importovat/exportovat relace ve formátu GPX (pro jednotlivá zařízení buď zvlášť soubor pro každou stopu, nebo jeden se všemi stopami z daného zařízení)
 - 🗠 Zobrazit statistiky relace
-- 🔒 [Zarezervovat název zařízení](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) a zajistit tak, že pomocí něj bude moci zaznamenávat pouze pověřený uživatel
+- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
 - 🗓 Vypnout/zapnout automatický export relace a automatické čištění (denně/týdně/měsíčně)
 - ◔ Zvolit co dělat, když je dosaženo kvóty počtu bodů (blokovat zaznamenávání nebo mazat od nejstaršího bodu)
 
 Veřejná a veřejná filtrovaná stránka fungují stejně jako hlavní stránka, ale je zobrazena pouze jedna relace, vše je pouze pro čtení a není třeba být přihlášeni.
-
-Tato aplikace je testovaná na Nextcloud 17 a prohlížečích Firefox verze 57 (a novějších) a Chromium.
-
-Tato aplikace je kompatibilní s barvami motivu vzhledu a motivy pro zpřístupnění!
 
 Na této aplikaci stále ještě probíhá intenzivní vývoj.
 
@@ -51,7 +47,7 @@ Všechny autory naleznete v souboru [AUTHORS](https://gitlab.com/eneiluj/phonetr
 
 ## Známé problémy
 
-- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Jakákoliv zpětná vazba bude vítána.
 
