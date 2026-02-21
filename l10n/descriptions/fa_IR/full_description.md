@@ -11,7 +11,7 @@
 طريقة استعمال PhoneTrack:
 
 - اوجد جلسة للتحقيق.
-- Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Give the logging link\* to the mobile devices. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
 - شاهد الان الجلسه المحلية (او لا) فى PhoneTrack و شاركه مع الصفحات العامه.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
@@ -29,15 +29,11 @@ On PhoneTrack main page, while watching a session, you can :
 - 🔗 Generate public share links with optional restrictions (filters, device name, last positions only, geofencing simplification)
 - 🖫 Import/export a session in GPX format (one file with one track per device or one file per device)
 - 🗠 Display sessions statistics
-- 🔒 [Reserve a device name](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) to make sure only authorized user can log with this name
+- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
 - 🗓 Toggle session auto export and auto purge (daily/weekly/monthly)
 - ◔ Choose what to do when point number quota is reached (block logging or delete oldest point)
 
 Public page and public filtered page work like main page except there is only one session displayed, everything is read-only and there is no need to be logged in.
-
-This app is tested on Nextcloud 17 with Firefox 57+ and Chromium.
-
-This app is compatible with theming colors and accessibility themes !
 
 This app is under development.
 
@@ -51,7 +47,7 @@ Check [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/AUTHORS.md#
 
 ## مشکلات شناخته شده
 
-- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Any feedback will be appreciated.
 
