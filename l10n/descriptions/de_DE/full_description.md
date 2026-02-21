@@ -11,7 +11,7 @@
 Wie PhoneTrack verwendet wird:
 
 - Tracking-Sitzung erstellen
-- Geben Sie den Protokollierungslink\* an mobile Geräte weiter. Protokollierungslink\* an die mobilen Geräte weitergeben Bevorzugte [Protokollierungsmethode](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) auswählen
+- Geben Sie den Protokollierungslink\* an mobile Geräte weiter. Wählen Sie die von Ihnen bevorzugte [Protokollierungsmethode](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods).
 - Beobachten Sie den Gerätestandort der Sitzung in Echtzeit (oder später) in PhoneTrack oder teilen Sie ihn auf öffentlichen Webseiten.
 
 (\*) Vergessen Sie nicht, den Gerätenamen im Link (und nicht in den Einstellungen der Protokollierungsanwendung) einzustellen. Ersetzen Sie „MeinName” mit dem gewünschten Gerätenamen.
@@ -29,15 +29,11 @@ Auf der Hauptseite von PhoneTrack können Sie während einer Sitzung:
 - 🔗 Öffentliche Links mit optionalen Einschränkungen (Filter, Gerätename, letzte Positionen, Geofence-Vereinfachung) teilen
 - 🖫 Sitzung im GPX-Format importieren/exportieren (eine Datei mit einer Aufzeichnung pro Gerät oder eine Datei pro Gerät)
 - 🗠 Sitzungsstatistiken anzeigen
-- 🔒 [Reservieren Sie einen Gerätenamen](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) um sicherzustellen, dass nur autorisierte Benutzer sich mit diesem Namen anmelden können
+- 🔒 [Reservieren Sie einen Gerätenamen](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation), um sicherzustellen, dass sich nur autorisierte Benutzer mit diesem Namen anmelden können
 - 🗓 Umschalten zwischen „Automatisch exportieren” und „Automatisch bereinigen” der Sitzung (täglich/wöchentlich/monatlich)
 - ◔ Jeder Benutzer kann wählen, was passieren soll, wenn die Menge der erlaubten Datenpunkte erreicht ist (Protokollierung unterbrechen oder ältesten Punkt löschen)
 
 Öffentliche Seite und öffentlich gefilterte Seite funktionieren wie die Hauptseite, außer dass nur eine Sitzung angezeigt wird, alles schreibgeschützt ist und keine Anmeldung erforderlich ist.
-
-Diese App wurde unter Nextcloud 17 mit Firefox 57+ und Chromium getestet.
-
-Diese App ist kompatibel mit Farbthemen und Themen zur Barrierefreiheit!
 
 Die App wird aktiv weiterentwickelt.
 
@@ -51,7 +47,7 @@ Siehe [AdminDoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc) für I
 
 ## Bekannte Probleme
 
-- PhoneTrack **funktioniert nun** mit der aktivierten Nextcloud-Gruppenbeschränkung. Siehe [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **funktioniert nun** mit der aktivierten Nextcloud-Gruppenbeschränkung. Siehe [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Jegliches Feedback ist willkommen.
 
