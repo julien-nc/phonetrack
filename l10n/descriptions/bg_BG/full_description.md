@@ -11,7 +11,7 @@
 Как да използваме PhoneTrack:
 
 - Създайте проследяваща сесия.
-- Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Give the logging link\* to the mobile devices. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
 - Гледайте местоположението на устройствата на сесията в реално време (или не) в PhoneTrack или го споделяйте с обществени страници.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
@@ -29,15 +29,11 @@ Setting the device name in logging app settings only works with Owntracks, Tracc
 - 🔗 Генериране на връзки за обществен дял с незадължителни ограничения (филтри, име на устройството, само последни позиции, опростяване на географски ограничения)
 - 🖫 Импортиране / експортиране на сесии във GPX формат (един файл на лог на устройство или един файл на устройство)
 - 🗠 Показване на статистически данни за сесиите
-- 🔒 [Резарвирайте име на устройството](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) за да сте сигурни, че само оторизиран потребител може да влезе с това име
+- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
 - 🗓 Превключване на автоматично експортиране на сесия и автоматично почистване (ежедневно/седмично/месечно)
 - ◔ Изберете какво да правите, когато се достигне квота за номер на точка (блокиране на регистрация или изтриване на най-старата точка)
 
 Публичната страница и публично филтрираната страница работят като главната страница, с изключение на това, че се показва само една сесия, всичко е само за четене и няма нужда да влизате в системата.
-
-Това приложение е тествано на Nextcloud 17 с Firefox 57+ и Chromium.
-
-Това приложение е съвместимо с тематични цветове и теми за достъпност!
 
 Това приложение е в процес на разработка.
 
@@ -51,7 +47,7 @@ Setting the device name in logging app settings only works with Owntracks, Tracc
 
 ## Известни проблеми
 
-- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Всяка обратна връзка ще бъде оценена.
 
