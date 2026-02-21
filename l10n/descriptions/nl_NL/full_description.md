@@ -11,7 +11,7 @@
 Hoe gebruik je PhoneTrack:
 
 - Maak een tracking sessie.
-- Geef de logging link\* aan de mobiele apparaten. Kies de [logging methode](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) van jouw voorkeur.
+- Geef de logging link\* aan de mobiele apparaten. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
 - Bekijk de locatie van sessieapparaten in realtime (of niet) in PhoneTrack of deel deze met publieke links.
 
 (\*) Vergeet niet om de apparaatnaam in de link te zetten (in plaats van in de logging app-instellingen). Vervang 'yourname' met jouw gewenste apparaatnaam.
@@ -29,15 +29,11 @@ Op de PhoneTrack hoofdpagina, kun je terwijl je een sessie bekijkt:
 - 🔗 Openbare share links genereren met optionele beperkingen (filters, apparaatnaam, enkel laatste posities, geofencing vereenvoudiging)
 - 🖫 Een sessie importeren/exporteren in GPX-formaat (één bestand met één track per apparaat of één bestand per apparaat)
 - 🗠 Sessiestatistieken weergeven
-- 🔒 [Een apparaatnaam reserveren](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) om ervoor te zorgen dat alleen geautoriseerde gebruikers met deze naam kunnen inloggen
+- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
 - 🗓 Activeren van automatische sessie export en automatisch opruimen (dagelijks/wekelijks/maandelijks)
 - ◔ Kies wat er moet gebeuren als het puntentotaal is bereikt (blokkering van de logging of verwijdering van het oudste punt)
 
 Openbare pagina's en openbare gefilterde pagina's werken zoals de hoofdpagina, behalve dat er slechts één sessie wordt weergegeven, alles wordt alleen-lezen en er hoeft niet ingelogd te worden.
-
-Deze app is getest op Nextcloud 17 met Firefox 57+ en Chromium.
-
-Deze app is compatibel met themakleuren en toegankelijkheidsthema's !
 
 Deze app is in ontwikkeling.
 
@@ -51,7 +47,7 @@ Controleer het bestand [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/m
 
 ## Bekende problemen
 
-- PhoneTrack **werkt nu** met Nextcloud groepsbeperking geactiveerd. Zie [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **werkt nu** met Nextcloud groepsbeperking geactiveerd. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Elke feedback wordt gewaardeerd.
 
