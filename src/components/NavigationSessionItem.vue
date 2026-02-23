@@ -33,6 +33,16 @@
 				:size="20" />
 		</template>
 		<template #counter>
+			<span v-if="!isSessionOwnedByCurrentUser"
+				class="ownerWrapper"
+				:title="t('phonetrack', 'Owned by {user}', { user: session.user })">
+				<NcAvatar
+					:user="session.user"
+					:size="24"
+					:hide-status="true"
+					:disable-menu="true"
+					:disable-tooltip="true" />
+			</span>
 			<NcCounterBubble
 				:count="deviceCount"
 				:title="n('phonetrack', '{n} device', '{n} devices', deviceCount, { n: deviceCount })" />
@@ -142,9 +152,11 @@ import NcActionLink from '@nextcloud/vue/components/NcActionLink'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 import { generateUrl } from '@nextcloud/router'
 import { emit } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
 
 import { DEVICE_SORT_ORDER } from '../constants.js'
 import { sortDevices } from '../utils.js'
@@ -158,6 +170,7 @@ export default {
 		NcActionButton,
 		NcActionLink,
 		NcCounterBubble,
+		NcAvatar,
 		ShareVariantIcon,
 		TrashCanOutlineIcon,
 		MagnifyExpandIcon,
@@ -200,6 +213,12 @@ export default {
 				+ (nbDevices > 0
 					? '\n' + n('phonetrack', '{n} device', '{n} devices', nbDevices, { n: nbDevices })
 					: '')
+				+ (this.isSessionOwnedByCurrentUser
+					? ''
+					: '\n' + t('phonetrack', 'Owned by {user}', { user: this.session.user }))
+		},
+		isSessionOwnedByCurrentUser() {
+			return this.session.user === getCurrentUser()?.uid
 		},
 		deviceCount() {
 			return Object.values(this.session.devices).length
@@ -325,5 +344,11 @@ export default {
 .draggedOver {
 	border: solid 2px var(--color-border-success);
 	border-radius: var(--border-radius-large);
+}
+
+.ownerWrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 </style>

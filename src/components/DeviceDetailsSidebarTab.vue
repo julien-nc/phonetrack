@@ -7,9 +7,11 @@
 			<NcTextField
 				v-model="newDeviceName"
 				:label="t('phonetrack', 'Device Name')"
+				:disabled="!isDeviceOwnedByCurrentUser"
 				placeholder="..."
 				@keyup.enter="onRename" />
 			<NcButton :title="t('phonetrack', 'Rename device')"
+				:disabled="!isDeviceOwnedByCurrentUser"
 				@click="onRename">
 				<template #icon>
 					<ContentSaveOutlineIcon :size="20" />
@@ -20,9 +22,11 @@
 			<NcTextField
 				v-model="newDeviceAlias"
 				:label="t('phonetrack', 'Device Alias')"
+				:disabled="!isDeviceOwnedByCurrentUser"
 				placeholder="..."
 				@keyup.enter="onSetAlias" />
 			<NcButton :title="t('phonetrack', 'Set device alias')"
+				:disabled="!isDeviceOwnedByCurrentUser"
 				@click="onSetAlias">
 				<template #icon>
 					<ContentSaveOutlineIcon :size="20" />
@@ -33,9 +37,11 @@
 			<NcTextField
 				v-model="exportFileName"
 				:label="t('phonetrack', 'Export file name')"
+				:disabled="!isDeviceOwnedByCurrentUser"
 				placeholder="..."
 				@keyup.enter="onExportDevice" />
 			<NcButton :title="t('phonetrack', 'Export device')"
+				:disabled="!isDeviceOwnedByCurrentUser"
 				@click="onExportDevice">
 				<template #icon>
 					<ContentSaveOutlineIcon :size="20" />
@@ -45,6 +51,7 @@
 		</div>
 		<div class="line">
 			<NcButton v-if="!addingPoint"
+				:disabled="!isDeviceOwnedByCurrentUser"
 				@click="onAddPointClick">
 				<template #icon>
 					<PlusCircleOutlineIcon :size="20" />
@@ -71,6 +78,7 @@
 				:input-label="t('phonetrack', 'Move the device to another session')"
 				:aria-label-combobox="t('phonetrack', 'Session selector')"
 				label="name"
+				:disabled="!isDeviceOwnedByCurrentUser"
 				:placeholder="t('phonetrack', 'Choose a session')"
 				:options="targetSessionOptions" />
 			<NcButton :title="t('phonetrack', 'Reassign device to this session')"
@@ -248,9 +256,12 @@ export default {
 	},
 
 	computed: {
+		isDeviceOwnedByCurrentUser() {
+			return this.session.user === getCurrentUser()?.uid
+		},
 		targetSessionOptions() {
 			return Object.values(this.sessions())
-				.filter(s => s.user === getCurrentUser().uid)
+				.filter(s => s.user === getCurrentUser()?.uid)
 				.filter(s => s.id !== this.session.id)
 		},
 		hasPoints() {
@@ -369,7 +380,7 @@ export default {
 				showSuccess(t('phonetrack', 'Session successfully exported in {targetFilePath}', { targetFilePath }))
 			}).catch((error) => {
 				console.error(error)
-				showError(t('phonetrack', 'Failed to export the session'))
+				showError(t('phonetrack', 'Failed to export the device'))
 			})
 		},
 	},

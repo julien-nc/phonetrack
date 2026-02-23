@@ -8,6 +8,7 @@
 		:filterable="false"
 		:clear-search-on-blur="() => false"
 		:append-to-body="false"
+		:disabled="disabled"
 		@search="asyncFind"
 		@update:model-value="onUpdateModelValue">
 		<template #option="option">
@@ -88,6 +89,10 @@ export default {
 		session: {
 			type: Object,
 			required: true,
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
 		},
 	},
 

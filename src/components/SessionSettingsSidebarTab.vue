@@ -7,9 +7,11 @@
 			<NcTextField
 				v-model="newSessionName"
 				:label="t('phonetrack', 'Session Name')"
+				:disabled="!isSessionOwnedByCurrentUser"
 				placeholder="..."
 				@keyup.enter="onRename" />
 			<NcButton :title="t('phonetrack', 'Rename session')"
+				:disabled="!isSessionOwnedByCurrentUser"
 				@click="onRename">
 				<template #icon>
 					<ContentSaveOutlineIcon :size="20" />
@@ -18,6 +20,7 @@
 		</div>
 		<NcFormBoxSwitch :model-value="session.locked"
 			:title="t('phonetrack', 'Forbid devices to log to this session')"
+			:disabled="!isSessionOwnedByCurrentUser"
 			@update:model-value="onLockedChanged">
 			<div class="checkbox-inner">
 				<LockIcon v-if="session.locked" :size="20" class="inline-icon" />
@@ -29,9 +32,11 @@
 			<NcTextField
 				v-model="exportFileName"
 				:label="t('phonetrack', 'Export file name')"
+				:disabled="!isSessionOwnedByCurrentUser"
 				placeholder="..."
 				@keyup.enter="onExportSession" />
 			<NcButton :title="t('phonetrack', 'Export session')"
+				:disabled="!isSessionOwnedByCurrentUser"
 				@click="onExportSession">
 				<template #icon>
 					<ContentSaveOutlineIcon :size="20" />
@@ -46,6 +51,7 @@
 			:options="autoExportOptions"
 			:no-wrap="true"
 			label="label"
+			:disabled="!isSessionOwnedByCurrentUser"
 			:clearable="false"
 			@update:model-value="onAutoExportSelected" />
 		<NcSelect
@@ -55,6 +61,7 @@
 			:options="autoPurgeOptions"
 			:no-wrap="true"
 			label="label"
+			:disabled="!isSessionOwnedByCurrentUser"
 			:clearable="false"
 			@update:model-value="onAutoPurgeSelected" />
 		<h3>{{ t('phonetrack', 'Reserved device names') }}</h3>
@@ -67,6 +74,7 @@
 		<NcTextField
 			v-model="newNameReservation"
 			:label="t('phonetrack', 'Reserve a device name')"
+			:disabled="!isSessionOwnedByCurrentUser"
 			placeholder="..."
 			@keyup.enter="onNewDeviceReservation" />
 		<div v-for="rd in reservedDevices"
@@ -77,6 +85,7 @@
 			</span>
 			<NcButton
 				:title="t('phonetrack', 'Delete name reservation')"
+				:disabled="!isSessionOwnedByCurrentUser"
 				@click="onDeleteNameReservation(rd.id)">
 				<template #icon>
 					<TrashCanOutlineIcon :size="20" />
@@ -107,6 +116,7 @@ import {
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 import { emit } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
 
 export default {
 	name: 'SessionSettingsSidebarTab',
@@ -179,6 +189,9 @@ export default {
 	},
 
 	computed: {
+		isSessionOwnedByCurrentUser() {
+			return this.session.user === getCurrentUser()?.uid
+		},
 		hasDevices() {
 			return Object.keys(this.session.devices).length > 0
 		},

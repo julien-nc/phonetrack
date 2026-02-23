@@ -4,6 +4,7 @@
 			{{ t('phonetrack', 'Device proximity alerts') }}
 		</h3>
 		<NcButton class="create-button"
+			:disabled="!isDeviceOwnedByCurrentUser"
 			@click="onCreate">
 			<template #icon>
 				<PlusIcon />
@@ -39,6 +40,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import Proxim from './Proxim.vue'
 
 import { emit } from '@nextcloud/event-bus'
+import { getCurrentUser } from '@nextcloud/auth'
 
 export default {
 	name: 'DeviceProximsSidebarTab',
@@ -83,6 +85,9 @@ export default {
 	},
 
 	computed: {
+		isDeviceOwnedByCurrentUser() {
+			return this.session.user === getCurrentUser()?.uid
+		},
 	},
 
 	watch: {

@@ -137,6 +137,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import Navigation from './components/Navigation.vue'
 
 import { getFilteredPoints } from './utils.js'
+import { getCurrentUser } from '@nextcloud/auth'
 
 import { defineAsyncComponent } from 'vue'
 
@@ -554,6 +555,11 @@ export default {
 			})
 		},
 		async updateSession(sessionId, values) {
+			// only update the session if it's owned by the current user
+			const session = this.state.sessions[sessionId]
+			if (this.isPublicPage || session.user !== getCurrentUser()?.uid) {
+				return
+			}
 			const req = {
 				...values,
 			}
@@ -872,6 +878,11 @@ export default {
 			})
 		},
 		async updateDevice(sessionId, deviceId, values) {
+			// only update the device if it's in a session owned by the current user
+			const session = this.state.sessions[sessionId]
+			if (this.isPublicPage || session.user !== getCurrentUser()?.uid) {
+				return
+			}
 			const req = {
 				...values,
 			}

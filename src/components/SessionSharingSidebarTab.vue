@@ -5,8 +5,9 @@
 		</h3>
 		<SharingSelect :session="session"
 			:model-value="selectedSharee"
+			:disabled="!isSessionOwnedByCurrentUser"
 			@update:model-value="onSelectSharee" />
-		<ul
+		<ul v-if="isSessionOwnedByCurrentUser"
 			id="publicShareList"
 			ref="publicShareList"
 			class="publicShareList">
@@ -139,6 +140,7 @@
 		<hr>
 		<NcFormBoxSwitch
 			:model-value="session.public"
+			:disabled="!isSessionOwnedByCurrentUser"
 			@update:model-value="onSessionPublicChanged">
 			{{ t('phonetrack', 'Public session') }}
 		</NcFormBoxSwitch>
@@ -242,6 +244,7 @@ import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
 import { showError } from '@nextcloud/dialogs'
+import { getCurrentUser } from '@nextcloud/auth'
 
 const HOST = window.location.protocol + '//' + window.location.host
 
@@ -294,6 +297,9 @@ export default {
 	},
 
 	computed: {
+		isSessionOwnedByCurrentUser() {
+			return this.session.user === getCurrentUser()?.uid
+		},
 		publicShares() {
 			return this.session.public_shares
 		},
