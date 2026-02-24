@@ -11,7 +11,7 @@
 Πως να χρησιμοποιήσετε το PhoneTrack:
 
 - Δημιουργήστε μία συνεδρία καταγραφής.
-- Δώστε τον σύνδεσμο καταγραφής\* στις φορητές συσκευές. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Δώστε τον σύνδεσμο καταγραφής\* στις φορητές συσκευές. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
 - Παρακολουθήστε την τοποθεσία των συσκευών της συνεδρίας σε πραγματικό χρόνο (ή όχι) στο PhoneTrack ή κοινοποιήστε σε δημόσιες σελίδες.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
@@ -29,15 +29,11 @@ Setting the device name in logging app settings only works with Owntracks, Tracc
 - 🔗 Να δημιουργήσετε συνδέσμους δημόσιας κοινοποίησης με προαιρετικούς περιορισμούς (φίλτρα, όνομα συσκευής, τελευταίες θέσεις μόνο, απλοποίηση γεωφρακτικών ζωνών)
 - 🖫 Να εισάγετε/εξάγετε συνεδρίες σε μορφή GPX (ένα αρχείο με μία καταγραφή ανά συσκευή ή ένα αρχείο ανά συσκευή)
 - 🗠 Να προβάλετε στατιστικά της συνεδρίας
-- 🔒 [Να δεσμεύσετε ένα όνομα συσκευής](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) για να βεβαιωθείτε ότι μόνο ένας εξουσιοδοτημένος χρήστης μπορεί να συνδεθεί με αυτό το όνομα
+- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
 - 🗓 Να ορίσετε ή όχι, την αυτόματη εξαγωγή και αυτόματη εκκαθάριση συνεδρίας (καθημερινά/εβδομαδιαία/μηνιαία)
 - ◔ Να επιλέξετε τι θα συμβαίνει όταν το μέγιστο όριο καταγραφής σημείων επιτυγχάνεται (αποκλεισμός καταγραφής ή διαγραφή παλαιότερου σημείου)
 
 Η δημόσια σελίδα και η δημόσια φιλτραρισμένη σελίδα λειτουργεί σαν κύρια σελίδα, με εξαίρεση αν υπάρχει μόνο μία εμφανιζόμενη συνεδρία, τα πάντα είναι μόνο για ανάγνωση και δεν υπάρχει ανάγκη σύνδεσης.
-
-Αυτή η εφαρμογή ελέγχθηκε στο Nextcloud 17 με το Firefox 57+ και το Chromium.
-
-Η εφαρμογή είναι συμβατή με θέματα χρωμάτων και προσβασιμότητας!
 
 Η εφαρμογή είναι υπό κατασκευή.
 
@@ -51,7 +47,7 @@ Setting the device name in logging app settings only works with Owntracks, Tracc
 
 ## Γνωστά προβλήματα
 
-- Το PhoneTrack λειτουργεί με ενεργοποιημένο τον περιορισμό ομάδων του Nextcloud. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- Το PhoneTrack λειτουργεί με ενεργοποιημένο τον περιορισμό ομάδων του Nextcloud. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Οποιοδήποτε σχόλιο για τη βελτίωση της εφαρμογής θα εκτιμηθεί.
 

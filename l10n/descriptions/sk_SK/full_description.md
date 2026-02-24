@@ -6,13 +6,13 @@
 
 🌍 Pomôžte nám preložiť túto aplikáciu na [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
-⚒ Pozrite si iné možnosti ako pomôcť na [contribution guidelines](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
+⚒ Pozrite si ďalšie spôsoby, ako pomôcť v [pokynoch pre prispievateľov].(https://gitlab.com/eneiluj/phonetrack-oc/blob/master/CONTRIBUTING.md).
 
 Ako používať PhoneTrack :
 
 - Vytvorte sledovaciu reláciu.
-- Zadajte sledovací odkaz\* do mobilných zariadení. Vyberte si preferovanú [metódu zaznamenávania](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods).
-- Sledujte polohu zariadení v relácii v reálnom čase (alebo aj nie) v PhoneTracku a zdieľajte ich na verejných stránkach.
+- Zadajte sledovací odkaz\* do mobilných zariadení. Vyberte [spôsob zaznamenávania](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods).
+- Sledujte polohu zariadení v reálnom čase (alebo nie) v aplikácii PhoneTrack alebo ju zdieľajte na verejných stránkach.
 
 (\*) Nezabudnite nastaviť názov zariadenia v odkaze (radšej ako v nastaveniach logovacej aplikácie). Nahraďte "vasnazov" zvoleným názvom zariadenia.
 Nastavenie názvu zariadenia v nastaveniach logovacej aplikácie funguje len s Owntracks, Traccar a OpenGTS.
@@ -29,15 +29,11 @@ Na hlavnej stránke PhoneTrack môžete počas sledovania záznamu:
 - 🔗 Generovať odkazy verejného zdieľania s voliteľnými obmedzeniami (filtre, názov zariadenia, len posledná pozícia, zjednodušený geofence)
 - 🖫 Importovať/exportovať záznamy v GPX formáte (jeden súbor s jedným záznamom alebo jeden súbor s jedným zariadením)
 - 🗠 Zobraziť štatistiky záznamu
-- 🔒 [Rezervovať názov zariadenia](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) pre uistenie sa, že len autorizovaný používateľ sa môže prihlásiť s týmto menom
+- 🔒 [Rezervujte si názov zariadenia](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation), aby sa uistili, že sa s týmto názvom môže prihlásiť len autorizovaný používateľ
 - 🗓 Zapínať automatické exportovanie záznamu a automatické mazanie (denne/týždenne/mesačne)
 - ◔ Vyberať, čo sa stane, keď je dosiahnutý limit počtu bodov (zablokovať záznam alebo vymazať najstarší bod)
 
 Verejná stránka a verejná filtrovaná stránka funguje ako hlavná stránka okrem situácie, keď je zobrazený len jeden záznam, všetko je len na čítanie a nie je potrebné prihlasovať sa.
-
-Táto aplikáca je testovaná na Nextcloud 17 s Firefox 57+ a Chromium.
-
-Táto aplikácia je kompatibilná s farbami šablón a šablónami dostupnosti!
 
 Táto aplikácia je ešte vo vývoji.
 
@@ -51,7 +47,7 @@ Pozrite si súbor [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master
 
 ## Známe problémy
 
-- PhoneTrack **teraz funguje** so zapnutými obmedzeniami pre Nextcloud skupiny. Viac informácií nájdete v [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **teraz funguje** so zapnutými obmedzeniami pre Nextcloud skupiny. Viac informácií nájdete v [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Ocením akúkoľvek spätnú väzbu.
 

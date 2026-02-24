@@ -11,7 +11,7 @@
 Com fer servir PhoneTrack :
 
 - Crear una sessió de seguiment.
-- Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Give the logging link\* to the mobile devices. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
 - Consulteu la ubicació dels dispositius de sessió en temps real (o no) a PhoneTrack o compartiu-la amb enllaços públics.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
@@ -29,15 +29,11 @@ A la pàgina principal de PhoneTrack, en veure una sessió, podeu:
 - 🔗 Generar enllaços públic per compartir amb restriccions opcionals (filtres, nom del dispositiu, només darreres posicions, simplificació de geolocalització)
 - 🖫 Importeu / exporteu una sessió en format GPX (un fitxer amb una pista per dispositiu o un fitxer per dispositiu)
 - 🗠 Veure estadístiques de sessió
-- 🔒 [Reserva un nom de dispositiu](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation)per assegurar-se que només l’usuari autoritzat pot iniciar la sessió amb aquest nom
+- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
 - 🗓 Activa l'exportació automàtica de sessions i la purga automàtica (diària / setmanal / mensual)
 - ◔ Trieu què passa quan s’arriba a la quota de número de punts (bloquejar el registre o eliminar el punt més antic)
 
 Les pàgines públiques i les pàgines públiques filtrades funcionen com la pàgina principal, excepte que només es mostra una sessió, tot és de només lectura i no cal connectar-se.
-
-Aquesta aplicació està provada a Nextcloud 17 amb Firefox 57+ i Chromium.
-
-Aquesta aplicació és compatible amb temes de color i temes d’accessibilitat !
 
 Aquesta aplicació està en desenvolupament.
 
@@ -51,7 +47,7 @@ Consulteu el fitxer [AUTORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/maste
 
 ## Problemes comuns
 
-- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Qualsevol feedback serà apreciat.
 

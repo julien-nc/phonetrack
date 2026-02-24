@@ -11,7 +11,7 @@ Vezi și alte moduri de a ajuta în [ghid de contribuții](https://gitlab.com/en
 Cum să utilizați PhoneTrack:
 
 - Creați o sesiune de urmărire.
-- Give the logging link\* to the mobile devices. Choose the [logging method](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods) you prefer.
+- Give the logging link\* to the mobile devices. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
 - Urmăriți locația dispozitivelor sesiunii în timp real (sau nu) în PhoneTrack sau partajați-o cu pagini publice.
 
 (\*) Don't forget to set the device name in the link (rather than in the logging app settings). Replace "yourname" with the desired device name.
@@ -29,15 +29,11 @@ Pe pagina principală PhoneTrack, în timp ce urmărești o sesiune, puteți să
 - 🔗 Generați link-uri de partajare publică cu restricții opționale (filtre, nume de dispozitiv, doar ultimele poziții, simplificare geofencing)
 - ⇋ Importați/exportați o sesiune în format GPX (un fișier cu o pistă per dispozitiv sau un fișier per dispozitiv)
 - 📈 Afișați statisticile sesiunilor
-- 🔒 [Rezervați un nume de dispozitiv](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) pentru a vă asigura că numai utilizatorul autorizat se poate conecta cu acest nume
+- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
 - 🗓 Comutați sesiunile de export automat și ștergere automată (zilnic/săptămânal/lunar)
 - ◔ Alegeți ce să faceți când se atinge pragul numeric (blochează logarea de puncte sau șterge cel mai vechi punct)
 
 Pagina publică și pagina publică filtrată funcționează la fel ca și pagina principală, exceptând faptul că o singură sesiune este afișată, că se permite doar citirea și că nu este necesar să fi autentificat.
-
-Această aplicație este testată pe Nextcloud 17 cu Firefox 57+ și Chromium.
-
-Această aplicație este compatibilă cu tematica culorilor și temelor de accesibilitate !
 
 Această aplicație este în curs de dezvoltare.
 
@@ -51,7 +47,7 @@ Verificați fișierul [AUTORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/mas
 
 ## Probleme cunoscute
 
-- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **now works** with Nextcloud group restriction activated. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Orice părere este apreciată.
 

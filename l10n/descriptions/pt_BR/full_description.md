@@ -11,7 +11,7 @@
 Como usar o Rastreamento de telefone:
 
 - Crie uma sessão de rastreamento.
-- Dê o link de registro\* para os dispositivos móveis. Escolha o método de registro de sua preferência. (https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#logging-methods).
+- Dê o link de registro\* para os dispositivos móveis. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
 - Veja a localização dos dispositivos da sessão em tempo real (ou não) no PhoneTrack ou compartilhe-o com páginas públicas.
 
 (\ \*) Não se esqueça de definir o nome do dispositivo no link (e não nas configurações do aplicativo de log.). Substitua "seunome" pelo nome do dispositivo desejado.
@@ -29,15 +29,11 @@ Na página principal do PhoneTrack, enquanto assiste a uma sessão, você pode:
 - 🔗 Gere links de compartilhamento públicos com restrições opcionais. (filtros, nome do dispositivo, apenas últimas posições, simplificação de raio geográfico)
 - 🖫 Importar / exportar uma sessão no formato GPX (um arquivo com uma faixa por dispositivo ou um arquivo por dispositivo)
 - 🗠 Exibir estatísticas de sessões
-- 🔒 [ Reserve um nome de dispositivo ](https://gitlab.com/eneiluj/phonetrack-oc/wikis/userdoc#device-name-reservation) para garantir que apenas usuários autorizados possam fazer logon com este nome
+- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
 - Ativar/desativar Exportação automática e limpeza automática da sessão (diária/semanal/mensal)
 - ◔ Cada usuário pode escolher o que acontece quando a cota é atingida: (bloqueie de registro ou exclusão de pontos mais antigos)
 
 A Página pública filtrada funcionam como a Página principal, exceto que apenas uma sessão é exibida, todo o conteúdo é somente leitura e não é necessário acessar.
-
-Este aplicativo foi testado no Nextcloud 17 com Firefox 57+ e Chromium.
-
-Este aplicativo é compatível com cores temáticas e temas de acessibilidade!
 
 Este aplicativo está em desenvolvimento.
 
@@ -51,7 +47,7 @@ Verifique o arquivo [ AUTHORS ](https://gitlab.com/eneiluj/phonetrack-oc/blob/ma
 
 ## Problemas conhecidos
 
-- O PhoneTrack \*\* agora funciona \*\* com a restrição de grupo Nextcloud ativada. Veja [admindoc](https://gitlab.com/eneiluj/phonetrack-oc/wikis/admindoc#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- O PhoneTrack \*\* agora funciona \*\* com a restrição de grupo Nextcloud ativada. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Todos os comentários serão apreciados.
 
