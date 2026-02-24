@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.0.1 – 2026-02-25
+
+### Changed
+
+- Show the owner of a session in the nav item
+
+### Fixed
+
+- Prevent updating devices and sessions that are not owned by the current user
+
 ## 1.0.0 – 2026-02-21
 
 ### Changed
