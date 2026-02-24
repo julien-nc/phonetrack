@@ -52,7 +52,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class PageControllerTest extends TestCase {
+class OldPageControllerTest extends TestCase {
 
 	private $request;
 
