@@ -11,7 +11,7 @@
 Comment utiliser PhoneTrack :
 
 - Créez une session de tracking.
-- Donnez le lien de logging\* aux appareils mobiles. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
+- Donnez le lien de logging\* aux appareils mobiles. Choisissez la [méthode de logging](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) que vous préférez.
 - Regardez l'emplacement des appareils de la session en temps réel (ou non) dans PhoneTrack ou partagez-le avec des liens publics.
 
 (\*) N'oubliez pas de définir le nom de l'appareil dans le lien (plutôt que dans les paramètres de l'application de logging). Remplacez 'yourname' par le nom d'appareil désiré.
@@ -29,7 +29,7 @@ Sur la page principale de PhoneTrack, quand vous regardez une session, vous pouv
 - 🔗 Générer des liens de partage public avec des restrictions optionnelles (filtres, nom d'appareil, dernières positions seulement, simplification de geofence)
 - 🖫 Importer/exporter une session au format GPX (un fichier avec une piste par périphérique ou un fichier par périphérique)
 - 🗠 Afficher les statistiques des sessions
-- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
+- 🔒 [Réserver un nom de périphérique](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) pour s'assurer que seul l'utilisateur autorisé peut loguer avec ce nom
 - 🗓 Activer l'export automatique de session et la purge automatique (quotidien/hebdomadaire/mensuel)
 - ◔ Choisir ce qui se passe lorsque le quota de nombre de point est atteint (bloquer le logging ou supprimer le point le plus ancien)
 
@@ -47,7 +47,7 @@ Lisez le fichier [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/master/
 
 ## Problèmes connus
 
-- PhoneTrack **fonctionne maintenant** avec une restriction de groupe Nextcloud activée. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **fonctionne maintenant** avec une restriction de groupe Nextcloud activée. Voir [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
 Tout retour sera apprécié.
 
