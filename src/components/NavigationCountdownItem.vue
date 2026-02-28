@@ -4,7 +4,7 @@
 		:title="t('phonetrack', 'Refresh now')"
 		:loading="false"
 		:editable="false"
-		:force-menu="true"
+		:inline-actions="1"
 		@click="onRefreshClick">
 		<template #icon>
 			<NcLoadingIcon v-if="loadingDevicePoints" />
@@ -17,6 +17,14 @@
 				@finish="onCountdownFinish" />
 		</template>
 		<template #actions>
+			<NcActionButton
+				@click="countdownPaused = !countdownPaused">
+				<template #icon>
+					<PauseIcon v-if="!countdownPaused" :size="20" />
+					<PlayOutlineIcon v-else :size="20" />
+				</template>
+				{{ countdownPaused ? t('phonetrack', 'Resume') : t('phonetrack', 'Pause') }}
+			</NcActionButton>
 			<NcActionInput
 				type="number"
 				:model-value="settings.refresh_duration ?? 125"
@@ -33,10 +41,13 @@
 
 <script>
 import UpdateIcon from 'vue-material-design-icons/Update.vue'
+import PauseIcon from 'vue-material-design-icons/Pause.vue'
+import PlayOutlineIcon from 'vue-material-design-icons/PlayOutline.vue'
 
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcActionInput from '@nextcloud/vue/components/NcActionInput'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 
 import DurationCountdown from './DurationCountdown.vue'
 
@@ -51,7 +62,10 @@ export default {
 		NcAppNavigationItem,
 		NcLoadingIcon,
 		NcActionInput,
+		NcActionButton,
 		UpdateIcon,
+		PauseIcon,
+		PlayOutlineIcon,
 	},
 
 	props: {
