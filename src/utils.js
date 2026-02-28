@@ -228,6 +228,20 @@ export function getSpeedUnitLabel(unit) {
 	return 'km/h'
 }
 
+export function mpsToSpeed(mps, unit = 'metric') {
+	if (mps === null) {
+		return t('phonetrack', 'No speed data')
+	}
+	const nmps = parseFloat(mps)
+	if (unit === 'metric') {
+		return (nmps * 3.6).toFixed(2) + ' km/h'
+	} else if (unit === 'english' || unit === 'imperial') {
+		return (nmps * 3.6 * 1000 * METERSTOMILES).toFixed(2) + ' mi/h'
+	} else if (unit === 'nautical') {
+		return (nmps * 3.6 * 1000 * METERSTONAUTICALMILES).toFixed(2) + ' kt'
+	}
+}
+
 export function kmphToSpeed(kmph, unit = 'metric') {
 	if (kmph === null) {
 		return t('phonetrack', 'No speed data')

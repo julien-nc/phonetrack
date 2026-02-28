@@ -23,7 +23,7 @@ import { LngLat } from 'maplibre-gl'
 
 import LineChartJs from './chart.js/LineChartJs.vue'
 import {
-	formatDuration, kmphToSpeed, metersToElevation,
+	formatDuration, metersToElevation, mpsToSpeed,
 	metersToDistance, delay, getFilteredPoints,
 } from '../utils.js'
 
@@ -281,7 +281,7 @@ export default {
 							// display: false,
 							// eslint-disable-next-line
 							callback: function(value, index, ticks) {
-								return kmphToSpeed(value, that.settings.distance_unit)
+								return mpsToSpeed(value, that.settings.distance_unit)
 							},
 						},
 					},
@@ -408,7 +408,7 @@ export default {
 			const formattedValue = context.dataset.id === 'elevation' || context.dataset.id === 'accuracy'
 				? metersToElevation(context.raw, this.settings.distance_unit)
 				: context.dataset.id === 'speed'
-					? kmphToSpeed(context.raw, this.settings.distance_unit)
+					? mpsToSpeed(context.raw, this.settings.distance_unit)
 					: context.dataset.id === 'batterylevel'
 						? context.raw + ' %'
 						: '??'
