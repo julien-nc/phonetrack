@@ -1121,7 +1121,9 @@ export default {
 			// first load: get the last points
 			const reqParams = {
 				params: {
-					maxPoints: device.lineEnabled ? 1000 : 1,
+					maxPoints: device.lineEnabled
+						? this.state.settings.nbpointsload ?? 1000
+						: 1,
 					combine: false,
 				},
 			}
@@ -1162,7 +1164,9 @@ export default {
 			const lastPoint = device.points[device.points.length - 1]
 			const reqParams = {
 				params: {
-					maxPoints: device.lineEnabled ? 1000 : 1,
+					maxPoints: device.lineEnabled
+						? this.state.settings.nbpointsload ?? 1000
+						: 1,
 					// we will always get the most recent points in priority
 					minTimestamp: lastPoint.timestamp,
 					maxTimestamp: firstPoint.timestamp,

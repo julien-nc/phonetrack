@@ -96,6 +96,31 @@
 						:step="10"
 						@update:model-value="debOnComponentInputChange(String($event), 'refresh_duration')" />
 					<NcInputField
+						:model-value="settings.nbpointsload ?? 1000"
+						type="number"
+						:label="t('phonetrack', 'Max number of points per device to load on refresh')"
+						min="10"
+						max="100000"
+						step="10"
+						:show-trailing-button="![1000, '1000'].includes(settings.nbpointsload)"
+						@update:model-value="onComponentInputChange(String($event), 'nbpointsload')"
+						@trailing-button-click="onComponentInputChange('1000', 'nbpointsload')">
+						<template #icon>
+							<DotsVerticalIcon :size="20" />
+						</template>
+						<template #trailing-button-icon>
+							<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+						</template>
+					</NcInputField>
+					<Slider :model-value="settings.nbpointsload ?? 1000"
+						class="slider"
+						:lazy="false"
+						show-tooltip="drag"
+						:min="10"
+						:max="100000"
+						:step="10"
+						@update:model-value="debOnComponentInputChange(String($event), 'nbpointsload')" />
+					<NcInputField
 						:model-value="settings.arrows_scale_factor ?? 1"
 						type="number"
 						:label="t('phonetrack', 'Arrows scale factor')"
@@ -415,6 +440,7 @@ import FileImportIcon from 'vue-material-design-icons/FileImport.vue'
 import KeyOutlineIcon from 'vue-material-design-icons/KeyOutline.vue'
 import MapLegendIcon from 'vue-material-design-icons/MapLegend.vue'
 import SortAscendingIcon from 'vue-material-design-icons/SortAscending.vue'
+import DotsVerticalIcon from 'vue-material-design-icons/DotsVertical.vue'
 
 import AdminIcon from './icons/AdminIcon.vue'
 
@@ -482,6 +508,7 @@ export default {
 		KeyOutlineIcon,
 		MapLegendIcon,
 		SortAscendingIcon,
+		DotsVerticalIcon,
 	},
 
 	inject: ['isPublicPage'],
