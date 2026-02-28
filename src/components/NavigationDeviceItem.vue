@@ -28,7 +28,7 @@
 						ref="colorDot"
 						:color="device.color || '#0693e3'"
 						:border="true"
-						:letter="device.name[0]"
+						:letter="device.alias ? device.alias[0] : device.name[0]"
 						:size="21" />
 				</template>
 			</NcColorPicker>

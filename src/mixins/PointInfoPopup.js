@@ -57,6 +57,14 @@ export default {
 		opacity() {
 			this.updateStyle()
 		},
+		'device.name'(newValue) {
+			this.removeLastPointMarker()
+			this.addLastPointMarker()
+		},
+		'device.alias'(newValue) {
+			this.removeLastPointMarker()
+			this.addLastPointMarker()
+		},
 		'device.lineEnabled'(newValue) {
 			this.clearPopups()
 			this.removeTemporaryMarker()
@@ -236,7 +244,7 @@ export default {
 			}
 			el.style.cursor = 'pointer'
 			if (isLastPointMarker) {
-				el.innerText = this.device.name[0] ?? '?'
+				el.innerText = (this.device.alias ? this.device.alias[0] : this.device.name[0]) ?? '?'
 				el.style.fontWeight = 'bold'
 				el.style.textAlign = 'center'
 				el.style.lineHeight = (markerDiameter * 0.78) + 'px'

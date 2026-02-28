@@ -1,7 +1,7 @@
 <template>
 	<NcListItem
-		:name="device.name"
-		:title="device.name"
+		:name="formattedName"
+		:title="formattedName"
 		:active="device.enabled"
 		:bold="device.enabled"
 		class="deviceItem"
@@ -16,7 +16,7 @@
 		@dragend="onDragEnd"
 		@click="onItemClick">
 		<template #name>
-			{{ device.name }}
+			{{ formattedName }}
 		</template>
 		<template #subname>
 			{{ subtitle }}
@@ -47,7 +47,7 @@
 						class="color-dot"
 						:color="device.color || '#0693e3'"
 						:border="true"
-						:letter="device.name[0]"
+						:letter="device.alias ? device.alias[0] : device.name[0]"
 						:size="24" />
 				</template>
 			</NcColorPicker>
@@ -235,6 +235,12 @@ export default {
 	},
 
 	computed: {
+		formattedName() {
+			if (this.device.alias) {
+				return this.device.alias + ` (${this.device.name})`
+			}
+			return this.device.name
+		},
 		subtitle() {
 			if (this.device.points.length === 0) {
 				return t('phonetrack', 'No points yet')
