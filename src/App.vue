@@ -331,6 +331,7 @@ export default {
 		subscribe('session-details-click', this.onSessionDetailsClicked)
 		subscribe('session-share-click', this.onSessionShareClicked)
 		subscribe('session-link-click', this.onSessionLinkClicked)
+		subscribe('session-toggle-all-device-lines', this.onSessionToggleAllDeviceLines)
 		subscribe('zoom-on-session', this.onZoomOnSession)
 		subscribe('update-device', this.onUpdateDevice)
 		subscribe('delete-device', this.onDeleteDevice)
@@ -387,6 +388,7 @@ export default {
 		unsubscribe('session-details-click', this.onSessionDetailsClicked)
 		unsubscribe('session-share-click', this.onSessionShareClicked)
 		unsubscribe('session-link-click', this.onSessionLinkClicked)
+		unsubscribe('session-toggle-all-device-lines', this.onSessionToggleAllDeviceLines)
 		unsubscribe('zoom-on-session', this.onZoomOnSession)
 		unsubscribe('update-device', this.onUpdateDevice)
 		unsubscribe('delete-device', this.onDeleteDevice)
@@ -496,6 +498,17 @@ export default {
 			this.showSidebar = true
 			this.activeSidebarTab = 'session-links'
 			console.debug('[phonetrack] links click', sessionId)
+		},
+		onSessionToggleAllDeviceLines({ sessionId }) {
+			const session = this.state.sessions[sessionId]
+			const allLinesEnabled = Object.values(session.devices).every(d => d.lineEnabled)
+			Object.values(session.devices).forEach(device => {
+				if (allLinesEnabled) {
+					this.onUpdateDevice({ sessionId, deviceId: device.id, values: { lineEnabled: false } })
+				} else {
+					this.onUpdateDevice({ sessionId, deviceId: device.id, values: { lineEnabled: true } })
+				}
+			})
 		},
 		onImportSession(path) {
 			const req = {

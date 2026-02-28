@@ -73,15 +73,14 @@
 					</template>
 					{{ t('phonetrack', 'Links for devices') }}
 				</NcActionButton>
-				<!--NcActionButton
+				<NcActionButton
 					:close-after-click="true"
-					@click="onToggleAllClick">
+					@click="onToggleAllLinesClick">
 					<template #icon>
-						<ToggleSwitchIcon v-if="allDevicesSelected" :size="20" />
-						<ToggleSwitchOffOutlineIcon v-else :size="20" />
+						<ChartTimelineVariantIcon :size="20" />
 					</template>
-					{{ t('phonetrack', 'Toggle all') }}
-				</NcActionButton-->
+					{{ t('phonetrack', 'Toggle lines for all devices') }}
+				</NcActionButton>
 				<NcActionButton
 					:close-after-click="true"
 					@click="onZoomToBounds">
@@ -143,6 +142,7 @@ import ShareVariantIcon from 'vue-material-design-icons/ShareVariant.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
+import ChartTimelineVariantIcon from 'vue-material-design-icons/ChartTimelineVariant.vue'
 
 import PhonetrackIcon from './icons/PhonetrackIcon.vue'
 
@@ -179,6 +179,7 @@ export default {
 		ToggleSwitchOffOutlineIcon,
 		InformationOutlineIcon,
 		LinkVariantIcon,
+		ChartTimelineVariantIcon,
 	},
 	inject: ['isPublicPage'],
 	props: {
@@ -270,8 +271,8 @@ export default {
 		onZoomToBounds() {
 			emit('zoom-on-session', { sessionId: this.session.id })
 		},
-		onToggleAllClick() {
-			emit('session-toggle-all-devices', { sessionId: this.session.id, allSelected: this.allDevicesSelected })
+		onToggleAllLinesClick() {
+			emit('session-toggle-all-device-lines', { sessionId: this.session.id })
 		},
 		onDetailsClick() {
 			emit('session-details-click', this.session.id)
