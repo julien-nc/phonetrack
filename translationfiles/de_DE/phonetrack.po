@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-17 00:39+0100\n"
-"PO-Revision-Date: 2026-02-21 23:46\n"
+"PO-Revision-Date: 2026-02-28 14:50\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -335,7 +335,7 @@ msgstr "Fehler beim Löschen der Annäherungsbenachrichtigung"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1273
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1275
 msgid "No selected session"
-msgstr ""
+msgstr "Keine Sitzung ausgewählt"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1328
 msgid "You can create an API key on {maptilerLink}"
@@ -377,14 +377,14 @@ msgstr "Der hier definierte API-Schlüssel wird von allen Benutzern verwendet. J
 #. TRANSLATORS src/components/AdminSettings.vue:44
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1448
 msgid "Maptiler API key"
-msgstr ""
+msgstr "Maptiler-API-Schlüssel"
 
 #. TRANSLATORS src/components/AdminSettings.vue:47
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:316
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1450
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4462
 msgid "my-api-key"
-msgstr ""
+msgstr "Mein-API-Schlüssel"
 
 #. TRANSLATORS src/components/AdminSettings.vue:60
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:1452
