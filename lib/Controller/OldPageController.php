@@ -3836,7 +3836,7 @@ class OldPageController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function APIgetPositionsUser(string $sessionid, int $limit = 1000, ?int $tsmin = null) {
+	public function APIgetPositionsUser(string $sessionid, int $limit = 1000, int $offset = 0, ?int $tsmin = null) {
 		$result = [];
 		// check if session exists
 		$dbtoken = null;
@@ -3903,7 +3903,7 @@ class OldPageController extends Controller {
 				$res->closeCursor();
 
 				$entries = [];
-				$sqlLimit = 'LIMIT ' . $limit;
+				$sqlLimit = 'LIMIT ' . $limit . ' OFFSET ' . $offset;
 				$tsminCondition = '';
 				if ($tsmin !== null) {
 					$tsminCondition = 'AND timestamp >= ' . $tsmin . ' ';
