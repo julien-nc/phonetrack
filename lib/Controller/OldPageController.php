@@ -3836,7 +3836,7 @@ class OldPageController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	public function APIgetPositionsUser($sessionid, $limit = null, $tsmin = null) {
+	public function APIgetPositionsUser(string $sessionid, int $limit = 1000, ?int $tsmin = null) {
 		$result = [];
 		// check if session exists
 		$dbtoken = null;
@@ -3903,13 +3903,10 @@ class OldPageController extends Controller {
 				$req->closeCursor();
 
 				$entries = [];
-				$sqlLimit = '';
-				if (is_numeric($limit)) {
-					$sqlLimit = 'LIMIT ' . intval($limit);
-				}
+				$sqlLimit = 'LIMIT ' . $limit;
 				$tsminCondition = '';
-				if (is_numeric($tsmin)) {
-					$tsminCondition = 'AND timestamp >= ' . $this->db_quote_escape_string($tsmin) . ' ';
+				if ($tsmin !== null) {
+					$tsminCondition = 'AND timestamp >= ' . $tsmin . ' ';
 				}
 				$sqlget = '
 					SELECT lat, lon, timestamp, batterylevel, useragent,
