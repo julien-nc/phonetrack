@@ -196,7 +196,7 @@ class SessionMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('phonetrack_devices')
 			->where(
-				$qb->expr()->eq('session_id', $qb->createNamedParameter($session->getToken(), IQueryBuilder::PARAM_STR))
+				$qb->expr()->eq('session_id', $qb->createNamedParameter($session->getId(), IQueryBuilder::PARAM_INT))
 			);
 		$qb->executeStatement();
 
