@@ -362,9 +362,13 @@ export default {
 		},
 		getPopupHtml(point, persist, traveledDistance) {
 			const containerClass = persist ? 'class="popup-content with-button"' : 'class="popup-content"'
+			const deviceName = this.device.alias
+				? this.device.alias + ` (${this.device.name})`
+				: this.device.name
 			const dataHtml = (point.timestamp === null && point.altitude === null)
 				? t('phonetrack', 'No data')
-				: getPointDataHtml(point, this.distanceUnit)
+				: '<strong>' + t('phonetrack', 'Device') + '</strong>: ' + deviceName + '<br>'
+				+ getPointDataHtml(point, this.distanceUnit)
 				+ (traveledDistance
 					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')
 					: '')
