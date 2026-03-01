@@ -434,13 +434,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if sharetoken exists
@@ -455,7 +455,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$dbShareId = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbShareId !== null) {
 				// set device name
@@ -464,8 +464,8 @@ class OldPageController extends Controller {
 					SET lastposonly=' . $this->db_quote_escape_string($lastposonly) . '
 					WHERE id=' . $this->db_quote_escape_string($dbShareId) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$done = 1;
 			} else {
@@ -497,13 +497,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 			AND name=' . $this->db_quote_escape_string($name) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname === null && $name !== '') {
 			// determine token
@@ -522,8 +522,8 @@ class OldPageController extends Controller {
 						  . $this->db_quote_escape_string($this->appManager->getAppVersion(Application::APP_ID)) . '
 				);';
 			$req = $this->dbConnection->prepare($sql);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$ok = 1;
 		} else {
@@ -547,13 +547,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// get all devices
@@ -568,7 +568,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$dids[] = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			foreach ($dids as $did) {
 				$this->deleteDevice($token, $did);
@@ -578,23 +578,23 @@ class OldPageController extends Controller {
 				DELETE FROM *PREFIX*phonetrack_shares
 				WHERE session_token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_pubshares
 				WHERE session_token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_sessions
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$ok = 1;
 		} else {
@@ -616,13 +616,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if device exists
@@ -633,11 +633,11 @@ class OldPageController extends Controller {
 				WHERE session_token=' . $this->db_quote_escape_string($token) . '
 					  AND id=' . $this->db_quote_escape_string($deviceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
-			$req->execute();
-			while ($row = $req->fetch()) {
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
 				$dbdid = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbdid !== null) {
 				if (count($pointids) > 0) {
@@ -650,8 +650,8 @@ class OldPageController extends Controller {
 						WHERE deviceid=' . $this->db_quote_escape_string($dbdid) . '
 							  AND (id=' . implode(' OR id=', $escapedPointIds) . ');';
 					$req = $this->dbConnection->prepare($sqldel);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$ok = 1;
 				} else {
@@ -679,13 +679,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				   AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if device exists
@@ -700,7 +700,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$dbdid = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbdid !== null) {
 				// check if point exists
@@ -710,13 +710,13 @@ class OldPageController extends Controller {
 					WHERE deviceid=' . $this->db_quote_escape_string($dbdid) . '
 						  AND id=' . $this->db_quote_escape_string($pointid) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
+				$res = $req->execute();
 				$dbpid = null;
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbpid = $row['id'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				if ($dbpid !== null) {
 					$sqlupd = '
@@ -735,8 +735,8 @@ class OldPageController extends Controller {
 						WHERE deviceid=' . $this->db_quote_escape_string($dbdid) . '
 							  AND id=' . $this->db_quote_escape_string($dbpid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlupd);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$ok = 1;
 				} else {
@@ -765,13 +765,13 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbname = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbname !== null) {
 				$sqlren = '
@@ -780,8 +780,8 @@ class OldPageController extends Controller {
 					WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 						  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 				$req = $this->dbConnection->prepare($sqlren);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$ok = 1;
 			} else {
@@ -849,13 +849,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			$sqlren = '
@@ -864,8 +864,8 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlren);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$ok = 1;
 		} else {
@@ -886,13 +886,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			$sqlren = '
@@ -901,8 +901,8 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlren);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$ok = 1;
 		} else {
@@ -924,13 +924,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($session) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if device exists
@@ -946,7 +946,7 @@ class OldPageController extends Controller {
 				$dbdevid = $row['id'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbdevid !== null) {
 				$sqlupd = '
@@ -955,8 +955,8 @@ class OldPageController extends Controller {
 					WHERE id=' . $this->db_quote_escape_string($device) . '
 						  AND session_token=' . $this->db_quote_escape_string($session) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 				$ok = 1;
 			} else {
 				$ok = 3;
@@ -986,7 +986,7 @@ class OldPageController extends Controller {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if device exists
@@ -1002,7 +1002,7 @@ class OldPageController extends Controller {
 				$dbdevid = $row['id'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbdevid !== null) {
 				$sqlupd = '
@@ -1011,8 +1011,8 @@ class OldPageController extends Controller {
 					WHERE id=' . $this->db_quote_escape_string($device) . '
 						  AND session_token=' . $this->db_quote_escape_string($session) . ' ;';
 				$req = $this->dbConnection->prepare($sqlupd);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 				$ok = 1;
 			} else {
 				$ok = 3;
@@ -1037,13 +1037,13 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbname = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbname !== null) {
 				$sqlren = '
@@ -1052,8 +1052,8 @@ class OldPageController extends Controller {
 					WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 						  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 				$req = $this->dbConnection->prepare($sqlren);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$ok = 1;
 			} else {
@@ -1085,7 +1085,7 @@ class OldPageController extends Controller {
 				$dbtoken = $row['token'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbtoken !== null) {
 				// check if device exists
@@ -1100,7 +1100,7 @@ class OldPageController extends Controller {
 				while ($row = $res->fetch()) {
 					$dbdeviceid = $row['id'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				if ($dbdeviceid !== null) {
 					$sqlren = '
@@ -1109,8 +1109,8 @@ class OldPageController extends Controller {
 						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 							  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlren);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$ok = 1;
 				} else {
@@ -1145,7 +1145,7 @@ class OldPageController extends Controller {
 				$dbtoken = $row['token'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbtoken !== null) {
 				// check if device exists
@@ -1160,7 +1160,7 @@ class OldPageController extends Controller {
 				while ($row = $res->fetch()) {
 					$dbdeviceid = $row['id'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				if ($dbdeviceid !== null) {
 					$sqlren = '
@@ -1169,8 +1169,8 @@ class OldPageController extends Controller {
 						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 							  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlren);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$ok = 1;
 				} else {
@@ -1204,7 +1204,7 @@ class OldPageController extends Controller {
 			$dbtoken = $row['token'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbtoken !== null) {
 			// check if destination session exists
@@ -1222,7 +1222,7 @@ class OldPageController extends Controller {
 				$dbDestId = (int)$row['id'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbdesttoken !== null) {
 				// check if device exists
@@ -1238,7 +1238,7 @@ class OldPageController extends Controller {
 					$dbdeviceid = $row['id'];
 					$dbdevicename = $row['name'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				if ($dbdeviceid !== null) {
 					// check if there is a device with same name in destination session
@@ -1253,7 +1253,7 @@ class OldPageController extends Controller {
 					while ($row = $res->fetch()) {
 						$dbdestname = $row['name'];
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 
 					if ($dbdestname === null) {
 						$sqlreaff = '
@@ -1263,8 +1263,8 @@ class OldPageController extends Controller {
 							WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 								  AND id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 						$req = $this->dbConnection->prepare($sqlreaff);
-						$req->execute();
-						$req->closeCursor();
+						$res = $req->execute();
+						$res->closeCursor();
 
 						$ok = 1;
 					} else {
@@ -1295,13 +1295,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if device exists
@@ -1316,37 +1316,37 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$dbdeviceid = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbdeviceid !== null) {
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_points
 					WHERE deviceid=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_geofences
 					WHERE deviceid=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_proxims
 					WHERE deviceid1=' . $this->db_quote_escape_string($dbdeviceid) . '
 						  OR deviceid2=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$sqldel = '
 					DELETE FROM *PREFIX*phonetrack_devices
 					WHERE id=' . $this->db_quote_escape_string($dbdeviceid) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 				$ok = 1;
 			} else {
 				$ok = 3;
@@ -1400,11 +1400,11 @@ class OldPageController extends Controller {
 						FROM *PREFIX*phonetrack_sessions
 						WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 					$req = $this->dbConnection->prepare($sqlget);
-					$req->execute();
-					while ($row = $req->fetch()) {
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
 						$dbtoken = $row['token'];
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 
 					// if not, check it is a shared session
 					if ($dbtoken === null) {
@@ -1418,7 +1418,7 @@ class OldPageController extends Controller {
 						while ($row = $res->fetch()) {
 							$dbtoken = $row['session_token'];
 						}
-						$req->closeCursor();
+						$res->closeCursor();
 					}
 
 					// session exists
@@ -1434,7 +1434,7 @@ class OldPageController extends Controller {
 						while ($row = $res->fetch()) {
 							$devices[] = intval($row['id']);
 						}
-						$req->closeCursor();
+						$res->closeCursor();
 
 						// get the coords for each device
 						$result[$token] = [];
@@ -1481,7 +1481,7 @@ class OldPageController extends Controller {
 									$name = $row['name'];
 									$alias = $row['alias'];
 								}
-								$req->closeCursor();
+								$res->closeCursor();
 								if (!array_key_exists($token, $shapes)) {
 									$shapes[$token] = [];
 								}
@@ -1530,8 +1530,8 @@ class OldPageController extends Controller {
 								$sqlget .= 'ORDER BY timestamp DESC';
 							}
 							$req = $this->dbConnection->prepare($sqlget);
-							$req->execute();
-							while ($row = $req->fetch()) {
+							$res = $req->execute();
+							while ($row = $res->fetch()) {
 								$entry = [
 									intval($row['id']),
 									floatval($row['lat']),
@@ -1547,7 +1547,7 @@ class OldPageController extends Controller {
 								];
 								array_unshift($resultDevArray, $entry);
 							}
-							$req->closeCursor();
+							$res->closeCursor();
 							if (count($resultDevArray) > 0) {
 								$result[$token][$devid] = $resultDevArray;
 							} else {
@@ -1585,12 +1585,12 @@ class OldPageController extends Controller {
 			FROM *PREFIX*phonetrack_sessions
 			WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$dbtoken = $row['token'];
 			$dbpublic = $row['public'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		return ($dbpublic === '1' || $dbpublic === 1);
 	}
@@ -1619,11 +1619,11 @@ class OldPageController extends Controller {
 					FROM *PREFIX*phonetrack_sessions
 					WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$dbtoken = $row['token'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				// session exists
 				if ($dbtoken !== null) {
@@ -1638,7 +1638,7 @@ class OldPageController extends Controller {
 					while ($row = $res->fetch()) {
 						$devices[] = intval($row['id']);
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 
 					// get the coords for each device
 					$result[$token] = [];
@@ -1685,7 +1685,7 @@ class OldPageController extends Controller {
 								$name = $row['name'];
 								$alias = $row['alias'];
 							}
-							$req->closeCursor();
+							$res->closeCursor();
 							if (!array_key_exists($dbtoken, $shapes)) {
 								$shapes[$dbtoken] = [];
 							}
@@ -1714,8 +1714,8 @@ class OldPageController extends Controller {
 							. $firstLastSQL . '
 							ORDER BY timestamp DESC LIMIT 1000 ;';
 						$req = $this->dbConnection->prepare($sqlget);
-						$req->execute();
-						while ($row = $req->fetch()) {
+						$res = $req->execute();
+						while ($row = $res->fetch()) {
 							$entry = [
 								intval($row['id']),
 								floatval($row['lat']),
@@ -1731,7 +1731,7 @@ class OldPageController extends Controller {
 							];
 							array_unshift($resultDevArray, $entry);
 						}
-						$req->closeCursor();
+						$res->closeCursor();
 						if (count($resultDevArray) > 0) {
 							$result[$token][$devid] = $resultDevArray;
 						} else {
@@ -1792,13 +1792,13 @@ class OldPageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE publicviewtoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
-			$req->execute();
-			while ($row = $req->fetch()) {
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
 				$dbpublicviewtoken = $row['publicviewtoken'];
 				$dbtoken = $row['token'];
 				$dbpublic = intval($row['public']);
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 			if ($dbpublic !== 1) {
 				$dbpublicviewtoken = null;
 			}
@@ -1823,7 +1823,7 @@ class OldPageController extends Controller {
 						$deviceNameRestriction = ' AND name=' . $this->db_quote_escape_string($row['devicename']) . ' ';
 					}
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 			}
 
 			// session exists and is public or shared by public share
@@ -1840,7 +1840,7 @@ class OldPageController extends Controller {
 				while ($row = $res->fetch()) {
 					$devices[] = intval($row['id']);
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				// get the coords for each device
 				$result[$dbpublicviewtoken] = [];
@@ -1887,7 +1887,7 @@ class OldPageController extends Controller {
 							$name = $row['name'];
 							$alias = $row['alias'];
 						}
-						$req->closeCursor();
+						$res->closeCursor();
 						if (!array_key_exists($dbpublicviewtoken, $shapes)) {
 							$shapes[$dbpublicviewtoken] = [];
 						}
@@ -1925,8 +1925,8 @@ class OldPageController extends Controller {
 						$sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
 					}
 					$req = $this->dbConnection->prepare($sqlget);
-					$req->execute();
-					while ($row = $req->fetch()) {
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
 						if ($filters === null || $this->filterPoint($row, $filters)) {
 							$entry = [
 								(int)$row['id'],
@@ -1944,7 +1944,7 @@ class OldPageController extends Controller {
 							array_unshift($resultDevArray, $entry);
 						}
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 					if (count($resultDevArray) > 0) {
 						$result[$dbpublicviewtoken][$devid] = $resultDevArray;
 					} else {
@@ -1980,8 +1980,8 @@ class OldPageController extends Controller {
 			FROM *PREFIX*phonetrack_geofences
 			WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' ;';
 		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$lat = (floatval($row['latmin']) + floatval($row['latmax'])) / 2.0;
 			$lon = (floatval($row['lonmin']) + floatval($row['lonmax'])) / 2.0;
 			$fences[$row['name']] = [
@@ -2053,15 +2053,15 @@ class OldPageController extends Controller {
 				FROM *PREFIX*phonetrack_sessions
 				WHERE publicviewtoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbtoken = null;
 			$dbpublic = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbtoken = $row['token'];
 				$dbpublic = intval($row['public']);
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbtoken !== null && $dbpublic === 1) {
 				// we give publicWebLog the real session id but then, the share token is used in the JS
@@ -2077,17 +2077,17 @@ class OldPageController extends Controller {
 					FROM *PREFIX*phonetrack_pubshares
 					WHERE sharetoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
+				$res = $req->execute();
 				$dbtoken = null;
 				$dbpublic = null;
 				$filters = '';
-				while ($row = $req->fetch()) {
+				while ($row = $res->fetch()) {
 					$dbtoken = $row['session_token'];
 					$lastposonly = $row['lastposonly'];
 					$filters = $row['filters'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				if ($dbtoken !== null) {
 					// we give publicWebLog the real session id but then, the share token is used in the JS
@@ -2541,17 +2541,17 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbname = null;
 			$dbtoken = null;
 			$dbSessionId = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				$dbtoken = $row['token'];
 				$dbSessionId = $row['id'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($token !== '' && $dbname !== null) {
 				// check if user share exists
@@ -2567,7 +2567,7 @@ class OldPageController extends Controller {
 					$dbusername = $row['username'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				if ($dbusername === null) {
 					// determine share token
@@ -2584,8 +2584,8 @@ class OldPageController extends Controller {
 							. $this->db_quote_escape_string($sharetoken)
 						. ') ;';
 					$req = $this->dbConnection->prepare($sql);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$ok = 1;
 
@@ -2663,7 +2663,7 @@ class OldPageController extends Controller {
 			$dbSessionId = $row['id'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			$filters = '{}';
@@ -2688,8 +2688,8 @@ class OldPageController extends Controller {
 					. $this->db_quote_escape_string($filters)
 				. ') ;';
 			$req = $this->dbConnection->prepare($sql);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$ok = 1;
 		} else {
@@ -2713,15 +2713,15 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
 		$dbtoken = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			$dbtoken = $row['token'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($token !== '' && $dbname !== null) {
 			// check if user share exists
@@ -2737,7 +2737,7 @@ class OldPageController extends Controller {
 				$dbuserId = $row['username'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbuserId !== null) {
 				// activity
@@ -2758,8 +2758,8 @@ class OldPageController extends Controller {
 					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND username=' . $this->db_quote_escape_string($userId) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$ok = 1;
 
@@ -2814,7 +2814,7 @@ class OldPageController extends Controller {
 			$dbtoken = $row['token'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			// check if public share exists
@@ -2830,7 +2830,7 @@ class OldPageController extends Controller {
 				$dbsharetoken = $row['sharetoken'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbsharetoken !== null) {
 				// delete
@@ -2839,8 +2839,8 @@ class OldPageController extends Controller {
 					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 						  AND sharetoken=' . $this->db_quote_escape_string($dbsharetoken) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$ok = 1;
 			} else {
@@ -2877,7 +2877,7 @@ class OldPageController extends Controller {
 				$dbSessionId = (int)$row['id'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbname !== null) {
 				// check if name reservation exists
@@ -2895,7 +2895,7 @@ class OldPageController extends Controller {
 					$dbdevicenametoken = $row['nametoken'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				// no entry in DB : we create it
 				if ($dbdevicename === null) {
@@ -2913,8 +2913,8 @@ class OldPageController extends Controller {
 						. $this->db_quote_escape_string($nametoken)
 						. ') ;';
 					$req = $this->dbConnection->prepare($sql);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$ok = 1;
 				} elseif ($dbdevicenametoken === '' || $dbdevicenametoken === null) {
@@ -2927,8 +2927,8 @@ class OldPageController extends Controller {
 						WHERE session_id=' . $this->db_quote_escape_string($dbSessionId) . '
 							  AND name=' . $this->db_quote_escape_string($dbdevicename) . ' ;';
 					$req = $this->dbConnection->prepare($sqlupd);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$ok = 1;
 				} else {
@@ -2959,15 +2959,15 @@ class OldPageController extends Controller {
 				WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 					  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbname = null;
 			$dbtoken = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbname = $row['name'];
 				$dbtoken = $row['token'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbname !== null) {
 				// check if name reservation exists
@@ -2985,7 +2985,7 @@ class OldPageController extends Controller {
 					$dbdevicenametoken = $row['nametoken'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				// there is no such device
 				if ($dbdevicename === null) {
@@ -2999,8 +2999,8 @@ class OldPageController extends Controller {
 						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
 							  AND name=' . $this->db_quote_escape_string($dbdevicename) . ' ;';
 					$req = $this->dbConnection->prepare($sqlupd);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$ok = 1;
 				} else {
@@ -3025,13 +3025,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($userid) . '
 				  AND token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		return ($dbname !== null);
 	}
@@ -3049,7 +3049,7 @@ class OldPageController extends Controller {
 			$dbname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		return ($dbname !== null);
 	}
@@ -3065,13 +3065,13 @@ class OldPageController extends Controller {
 			WHERE name=' . $this->db_quote_escape_string($name) . '
 				  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbbookname = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbbookname = $row['name'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbbookname === null) {
 			// insert
@@ -3084,8 +3084,8 @@ class OldPageController extends Controller {
 					 . $this->db_quote_escape_string($filters) . '
 				) ;';
 			$req = $this->dbConnection->prepare($sql);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$sqlchk = '
 				SELECT id
@@ -3093,12 +3093,12 @@ class OldPageController extends Controller {
 				WHERE name=' . $this->db_quote_escape_string($name) . '
 					  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
-			while ($row = $req->fetch()) {
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
 				$bookid = $row['id'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			$ok = 1;
 		} else {
@@ -3119,8 +3119,8 @@ class OldPageController extends Controller {
 			WHERE id=' . $this->db_quote_escape_string($bookid) . '
 				  AND username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqldel);
-		$req->execute();
-		$req->closeCursor();
+		$res = $req->execute();
+		$res->closeCursor();
 
 		$ok = 1;
 
@@ -3130,22 +3130,22 @@ class OldPageController extends Controller {
 	}
 
 	private function getFiltersBookmarks() {
-		$res = [];
+		$result = [];
 		$sql = '
 			SELECT id, username, name, filterjson
 			FROM *PREFIX*phonetrack_filtersb
 			WHERE username=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sql);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$bookid = $row['id'];
 			$name = $row['name'];
 			$filters = $row['filterjson'];
-			$res[$bookid] = [$name, $filters];
+			$result[$bookid] = [$name, $filters];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
-		return $res;
+		return $result;
 	}
 
 	#[NoAdminRequired]
@@ -3161,13 +3161,13 @@ class OldPageController extends Controller {
 				WHERE name=' . $this->db_quote_escape_string($fencename) . '
 					  AND deviceid=' . $this->db_quote_escape_string($device) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
+			$res = $req->execute();
 			$dbfencename = null;
-			while ($row = $req->fetch()) {
+			while ($row = $res->fetch()) {
 				$dbfencename = $row['name'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbfencename === null) {
 				// insert
@@ -3192,8 +3192,8 @@ class OldPageController extends Controller {
 						 . $this->db_quote_escape_string(intval($sendnotif)) . '
 					) ;';
 				$req = $this->dbConnection->prepare($sql);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$sqlchk = '
 					SELECT id
@@ -3201,12 +3201,12 @@ class OldPageController extends Controller {
 					WHERE name=' . $this->db_quote_escape_string($fencename) . '
 						  AND deviceid=' . $this->db_quote_escape_string($device) . ' ;';
 				$req = $this->dbConnection->prepare($sqlchk);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$fenceid = $row['id'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				$user = $this->userManager->get($this->userId);
 				$userEmail = $user->getEMailAddress();
@@ -3237,8 +3237,8 @@ class OldPageController extends Controller {
 				WHERE deviceid=' . $this->db_quote_escape_string($device) . '
 					  AND id=' . $this->db_quote_escape_string($fenceid) . ' ;';
 			$req = $this->dbConnection->prepare($sqldel);
-			$req->execute();
-			$req->closeCursor();
+			$res = $req->execute();
+			$res->closeCursor();
 
 			$ok = 1;
 		} else {
@@ -3274,7 +3274,7 @@ class OldPageController extends Controller {
 					$targetSessionToken = $row['session_token'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 			}
 
 			if ($targetSessionToken !== null) {
@@ -3290,7 +3290,7 @@ class OldPageController extends Controller {
 					$targetDeviceId = $row['id'];
 					break;
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				if ($targetDeviceId !== null) {
 					// insert
@@ -3312,8 +3312,8 @@ class OldPageController extends Controller {
 							. $this->db_quote_escape_string(intval($sendnotif))
 						. ') ;';
 					$req = $this->dbConnection->prepare($sql);
-					$req->execute();
-					$req->closeCursor();
+					$res = $req->execute();
+					$res->closeCursor();
 
 					$sqlchk = '
 						SELECT MAX(id) as maxid
@@ -3321,12 +3321,12 @@ class OldPageController extends Controller {
 						WHERE deviceid1=' . $this->db_quote_escape_string($device) . '
 							  AND deviceid2=' . $this->db_quote_escape_string($targetDeviceId) . ' ;';
 					$req = $this->dbConnection->prepare($sqlchk);
-					$req->execute();
-					while ($row = $req->fetch()) {
+					$res = $req->execute();
+					while ($row = $res->fetch()) {
 						$proximid = $row['maxid'];
 						break;
 					}
-					$req->closeCursor();
+					$res->closeCursor();
 
 					$user = $this->userManager->get($this->userId);
 					$userEmail = $user->getEMailAddress();
@@ -3363,12 +3363,12 @@ class OldPageController extends Controller {
 				WHERE id=' . $this->db_quote_escape_string($proximid) . '
 					  AND deviceid1=' . $this->db_quote_escape_string($device) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
-			$req->execute();
-			while ($row = $req->fetch()) {
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
 				$dbproximid = $row['id'];
 				break;
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbproximid !== null) {
 				$sqldel = '
@@ -3376,8 +3376,8 @@ class OldPageController extends Controller {
 					WHERE id=' . $this->db_quote_escape_string($dbproximid) . '
 						  AND deviceid1=' . $this->db_quote_escape_string($device) . ' ;';
 				$req = $this->dbConnection->prepare($sqldel);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				$ok = 1;
 			}
@@ -3413,7 +3413,7 @@ class OldPageController extends Controller {
 			$dbSessionId = (int)$row['id'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbname !== null) {
 			$dbdeviceid = null;
@@ -3428,7 +3428,7 @@ class OldPageController extends Controller {
 				$dbdeviceid = $row['id'];
 				$dbdevicename = $row['name'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			if ($dbdeviceid === null) {
 				// device does not exist and there is no reservation corresponding
@@ -3442,8 +3442,8 @@ class OldPageController extends Controller {
 						. $this->db_quote_escape_string($dbSessionId)
 					. ') ;';
 				$req = $this->dbConnection->prepare($sql);
-				$req->execute();
-				$req->closeCursor();
+				$res = $req->execute();
+				$res->closeCursor();
 
 				// get the newly created device id
 				$sqlgetdid = '
@@ -3626,12 +3626,12 @@ class OldPageController extends Controller {
 			WHERE publicviewtoken=' . $this->db_quote_escape_string($sessionid) . '
 				  AND public=1 ;';
 		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$dbtoken = $row['token'];
 			$dbpubtoken = $row['publicviewtoken'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		$dbFilters = null;
 		$dbDevicename = null;
@@ -3643,8 +3643,8 @@ class OldPageController extends Controller {
 			FROM *PREFIX*phonetrack_pubshares
 			WHERE sharetoken=' . $this->db_quote_escape_string($sessionid) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
-			$req->execute();
-			while ($row = $req->fetch()) {
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
 				$dbtoken = $row['session_token'];
 				$dbpubtoken = $row['sharetoken'];
 				$dbFilters = json_decode($row['filters'], true);
@@ -3652,7 +3652,7 @@ class OldPageController extends Controller {
 				$dbLastPosOnly = $row['lastposonly'];
 				$dbGeofencify = $row['geofencify'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 		}
 
 		// session exists
@@ -3674,7 +3674,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$devices[] = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			// get the coords for each device
 			$result[$dbpubtoken] = [];
@@ -3694,7 +3694,7 @@ class OldPageController extends Controller {
 					$name = $row['name'];
 					$color = $row['color'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				$entries = [];
 				$sqlLimit = '';
@@ -3710,8 +3710,8 @@ class OldPageController extends Controller {
 					WHERE deviceid=' . $this->db_quote_escape_string($devid) . '
 					ORDER BY timestamp DESC ' . $sqlLimit . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					if ($dbFilters === null || $this->filterPoint($row, $dbFilters)) {
 						$entry = [];
 						$entry['useragent'] = $row['useragent'];
@@ -3722,7 +3722,7 @@ class OldPageController extends Controller {
 						array_unshift($entries, $entry);
 					}
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 				if (count($entries) > 0) {
 					$result[$dbpubtoken][$name] = [
 						'color' => $color,
@@ -3749,11 +3749,11 @@ class OldPageController extends Controller {
 			WHERE token=' . $this->db_quote_escape_string($sessionid) . '
 				  AND ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$dbtoken = $row['token'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		// check if session is shared with current user
 		if ($dbtoken === null) {
@@ -3767,7 +3767,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$dbtoken = $row['session_token'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 		}
 
 		// session exists
@@ -3783,7 +3783,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$devices[] = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			// get the coords for each device
 			$result[$sessionid] = [];
@@ -3803,7 +3803,7 @@ class OldPageController extends Controller {
 					$name = $row['name'];
 					$color = $row['color'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				$entry = [];
 				$sqlget = '
@@ -3813,15 +3813,15 @@ class OldPageController extends Controller {
 					WHERE deviceid=' . $this->db_quote_escape_string($devid) . '
 					ORDER BY timestamp DESC LIMIT 1 ;';
 				$req = $this->dbConnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$entry['useragent'] = $row['useragent'];
 					unset($row['useragent']);
 					foreach ($row as $k => $v) {
 						$entry[$k] = is_numeric($v) ? floatval($v) : null;
 					}
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 				if (count($entry) > 0) {
 					$entry['color'] = $color;
 					$result[$sessionid][$name] = $entry;
@@ -3846,11 +3846,11 @@ class OldPageController extends Controller {
 			WHERE token=' . $this->db_quote_escape_string($sessionid) . '
 				  AND ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . ' ;';
 		$req = $this->dbConnection->prepare($sqlget);
-		$req->execute();
-		while ($row = $req->fetch()) {
+		$res = $req->execute();
+		while ($row = $res->fetch()) {
 			$dbtoken = $row['token'];
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		// check if session is shared with current user
 		if ($dbtoken === null) {
@@ -3864,7 +3864,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$dbtoken = $row['session_token'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 		}
 
 		// session exists
@@ -3880,7 +3880,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$devices[] = $row['id'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			// get the coords for each device
 			$result[$sessionid] = [];
@@ -3900,7 +3900,7 @@ class OldPageController extends Controller {
 					$name = $row['name'];
 					$color = $row['color'];
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 
 				$entries = [];
 				$sqlLimit = 'LIMIT ' . $limit;
@@ -3916,8 +3916,8 @@ class OldPageController extends Controller {
 					. $tsminCondition . '
 					ORDER BY timestamp DESC ' . $sqlLimit . ' ;';
 				$req = $this->dbConnection->prepare($sqlget);
-				$req->execute();
-				while ($row = $req->fetch()) {
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
 					$entry = [];
 					$entry['useragent'] = $row['useragent'];
 					unset($row['useragent']);
@@ -3926,7 +3926,7 @@ class OldPageController extends Controller {
 					}
 					array_unshift($entries, $entry);
 				}
-				$req->closeCursor();
+				$res->closeCursor();
 				if (count($entries) > 0) {
 					$result[$sessionid][$name] = [
 						'color' => $color,
@@ -3954,13 +3954,13 @@ class OldPageController extends Controller {
 			WHERE ' . $this->dbdblquotes . 'user' . $this->dbdblquotes . '=' . $this->db_quote_escape_string($this->userId) . '
 				  AND token=' . $this->db_quote_escape_string($sessionid) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
-		$req->execute();
+		$res = $req->execute();
 		$dbtoken = null;
-		while ($row = $req->fetch()) {
+		while ($row = $res->fetch()) {
 			$dbtoken = $row['token'];
 			break;
 		}
-		$req->closeCursor();
+		$res->closeCursor();
 
 		if ($dbtoken !== null) {
 			$dbsharetoken = null;
@@ -3974,7 +3974,7 @@ class OldPageController extends Controller {
 			while ($row = $res->fetch()) {
 				$dbsharetoken = $row['sharetoken'];
 			}
-			$req->closeCursor();
+			$res->closeCursor();
 
 			// public share exists
 			if ($dbsharetoken !== null) {
