@@ -306,16 +306,12 @@ class DeviceMapper extends QBMapper {
 	 */
 	public function getDevicesWithPointsInSession(int $sessionId): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('dev.*')
+		$qb->selectDistinct('dev.*')
 			->from($this->getTableName(), 'dev')
-			->from('phonetrack_points', 'po')
+			->innerJoin('dev', 'phonetrack_points', 'po', $qb->expr()->eq('dev.id', 'po.deviceid'))
 			->where(
 				$qb->expr()->eq('dev.session_id', $qb->createNamedParameter($sessionId, IQueryBuilder::PARAM_INT))
-			)
-			->andWhere(
-				$qb->expr()->eq('dev.id', 'po.deviceid')
-			)
-			->groupBy('dev.id');
+			);
 		return $this->findEntities($qb);
 	}
 }
