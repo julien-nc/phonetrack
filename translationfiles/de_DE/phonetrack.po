@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-17 00:39+0100\n"
-"PO-Revision-Date: 2026-03-01 14:53\n"
+"PO-Revision-Date: 2026-03-01 16:55\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1475,7 +1475,7 @@ msgstr "User-Agent"
 #. TRANSLATORS src/components/PointEditModal.vue:17
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4590
 msgid "my-tracker"
-msgstr ""
+msgstr "my-tracker"
 
 #. TRANSLATORS src/components/PointEditModal.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4592
@@ -2458,7 +2458,7 @@ msgstr "OpenGTS-Link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1615
 msgid "Overland link"
-msgstr "Überlandverbindung"
+msgstr "Overland-Link"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:1619
 msgid "Locus Map link"
