@@ -31,7 +31,7 @@ Auf der Hauptseite von PhoneTrack können Sie während einer Sitzung:
 - 🗠 Sitzungsstatistiken anzeigen
 - 🔒 [Reservieren Sie einen Gerätenamen](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation), um sicherzustellen, dass sich nur autorisierte Benutzer mit diesem Namen anmelden können
 - 🗓 Umschalten zwischen „Automatisch exportieren” und „Automatisch bereinigen” der Sitzung (täglich/wöchentlich/monatlich)
-- ◔ Jeder Benutzer kann wählen, was passieren soll, wenn die Menge der erlaubten Datenpunkte erreicht ist (Protokollierung unterbrechen oder ältesten Punkt löschen)
+- ◔ Jeder Benutzer kann wählen, was passieren soll, wenn die Menge der erlaubten Datenpunkte erreicht ist (Protokollierung unterbrechen oder ältesten Datenpunkt löschen)
 
 Öffentliche Seite und öffentlich gefilterte Seite funktionieren wie die Hauptseite, außer dass nur eine Sitzung angezeigt wird, alles schreibgeschützt ist und keine Anmeldung erforderlich ist.
 
