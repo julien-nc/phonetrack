@@ -223,10 +223,24 @@ class SessionService {
 		$phonetrackUserIds = $this->sessionMapper->getUserIds();
 
 		foreach ($phonetrackUserIds as $userId) {
-			$userFolder = $this->root->getUserFolder($userId);
-			$sessions = $this->sessionMapper->findByUser($userId);
+			$userSessions = $this->sessionMapper->findByUser($userId);
+			$candidateUserSessions = array_filter($userSessions, static function (Session $session) {
+				return $session->getAutoexport() !== 'no';
+			});
+			$candidateUserSessions = array_values($candidateUserSessions);
+			// if there is no session with autoexport enabled: skip this user
+			if (count($candidateUserSessions) === 0) {
+				continue;
+			}
 
-			foreach ($sessions as $session) {
+			// if the user does not exist: skip this this user
+			if (!$this->userManager->userExists($userId)) {
+				continue;
+			}
+
+			$userFolder = $this->root->getUserFolder($userId);
+
+			foreach ($candidateUserSessions as $session) {
 				$dbname = $session->getName();
 				$dbtoken = $session->getToken();
 				$dbexportType = $session->getAutoexport();
