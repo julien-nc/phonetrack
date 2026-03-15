@@ -1213,4 +1213,11 @@ class SessionService {
 		}
 		$this->sessionMapper->deleteSession($session->getUser(), $session->getId());
 	}
+
+	public function cleanupUser(string $userId): void {
+		$sessions = $this->sessionMapper->findByUser($userId);
+		foreach ($sessions as $session) {
+			$this->deleteSession($session);
+		}
+	}
 }
