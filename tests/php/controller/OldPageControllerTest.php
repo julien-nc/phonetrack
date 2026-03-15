@@ -755,7 +755,7 @@ class OldPageControllerTest extends TestCase {
 		$pointListBeforePurge = $respSession[$token][$deviceid];
 		$this->assertTrue(count($pointListBeforePurge) > 0);
 
-		$this->sessionService->cronAutoExport();
+		iterator_to_array($this->sessionService->cronAutoExport());
 
 		// check number of points
 		$sessions = [[$token, [$deviceid => 400], null]];
@@ -774,7 +774,7 @@ class OldPageControllerTest extends TestCase {
 		$search[0]->delete();
 		$resp = $this->pageController->setSessionAutoExport($token, 'weekly');
 		// do it again to test when export dir already exists and test weekly
-		$this->sessionService->cronAutoExport();
+		iterator_to_array($this->sessionService->cronAutoExport());
 		$search = $userFolder->get('/autoex')->search('.gpx');
 		$this->assertEquals(count($search), 1);
 
