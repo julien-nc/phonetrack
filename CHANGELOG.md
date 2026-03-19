@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.1.0 – 2026-03-19
+
+### Added
+
+- Add a setting to limit the number of points loaded per device on refresh
+- Add a pause action in the refresh countdown navigation item
+- Add a session action to toggle all device lines at once
+- Add device names in point popups
+- Start page controller tests
+
+### Changed
+
+- Add offset support and a default limit of 1000 to the user positions API
+- Remove deprecated `$req->execute()` calls in database queries
+- Improve device queries and export session typing robustness
+- Update German translations
+
+### Fixed
+
+- Ignore deleted or missing users during auto export, expose progress in the related `occ` command, and clean up sessions when a Nextcloud user is deleted [#140](https://github.com/julien-nc/phonetrack/pull/140) @julien-nc
+- Use device aliases in navigation/list items and as device letters
+- Show correct speed values in the chart
+- Fix reserved empty device initialization, sidebar cleanup after deleting displayed items, and duplicate reserved name errors
+
 ## 1.0.1 – 2026-02-25
 
 ### Changed
