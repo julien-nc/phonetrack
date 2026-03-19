@@ -560,6 +560,10 @@ export default {
 			const url = generateUrl('/apps/phonetrack/session/' + sessionId)
 			axios.delete(url).then((response) => {
 				if (this.state.sessions[sessionId]) {
+					if (this.showSidebar && this.sidebarSessionId === sessionId) {
+						this.showSidebar = false
+						this.sidebarSessionId = null
+					}
 					delete this.state.sessions[sessionId]
 				}
 			}).catch((error) => {
@@ -651,6 +655,11 @@ export default {
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}', { sessionId, deviceId })
 			axios.delete(url).then((response) => {
 				if (this.state.sessions[sessionId]?.devices[deviceId]) {
+					if (this.showSidebar && this.sidebarSessionId === sessionId && this.sidebarDeviceId === deviceId) {
+						this.showSidebar = false
+						this.sidebarSessionId = null
+						this.sidebarDeviceId = null
+					}
 					delete this.state.sessions[sessionId].devices[deviceId]
 				}
 			}).catch((error) => {
@@ -913,6 +922,7 @@ export default {
 			if (this.state.sessions[sessionId].devices[device.id]) {
 				this.state.sessions[sessionId].devices[device.id].nametoken = device.nametoken
 			} else {
+				device.points = []
 				this.state.sessions[sessionId].devices[device.id] = device
 			}
 		},
