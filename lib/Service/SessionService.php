@@ -141,7 +141,7 @@ class SessionService {
 	 *
 	 * export sessions
 	 */
-	public function cronAutoExport() {
+	public function cronAutoExport(): \Generator {
 		$dtz = ini_get('date.timezone');
 		if ($dtz === '') {
 			$dtz = 'UTC';
@@ -223,10 +223,24 @@ class SessionService {
 		$phonetrackUserIds = $this->sessionMapper->getUserIds();
 
 		foreach ($phonetrackUserIds as $userId) {
-			$userFolder = $this->root->getUserFolder($userId);
-			$sessions = $this->sessionMapper->findByUser($userId);
+			$userSessions = $this->sessionMapper->findByUser($userId);
+			$candidateUserSessions = array_filter($userSessions, static function (Session $session) {
+				return $session->getAutoexport() !== 'no';
+			});
+			$candidateUserSessions = array_values($candidateUserSessions);
+			// if there is no session with autoexport enabled: skip this user
+			if (count($candidateUserSessions) === 0) {
+				continue;
+			}
 
-			foreach ($sessions as $session) {
+			// if the user does not exist: skip this this user
+			if (!$this->userManager->userExists($userId)) {
+				continue;
+			}
+
+			$userFolder = $this->root->getUserFolder($userId);
+
+			foreach ($candidateUserSessions as $session) {
 				$dbname = $session->getName();
 				$dbtoken = $session->getToken();
 				$dbexportType = $session->getAutoexport();
@@ -248,7 +262,14 @@ class SessionService {
 					$rel_path = str_replace($userFolder->getPath(), '', $dir->getPath());
 					$exportPath = $rel_path . '/' . $exportName;
 					if (!$dir->nodeExists($exportName)) {
-						$this->exportSession($dbname, $dbtoken, $exportPath, $userId, $filters);
+						[$done, $warning] = $this->exportSession($dbname, $dbtoken, $exportPath, $userId, $filters);
+						if ($warning === 1) {
+							yield "Not exporting session $dbname of $userId in '$exportPath', no points";
+						} else {
+							yield "Exporting session $dbname of $userId in '$exportPath'";
+						}
+					} else {
+						yield "Cannot export session $dbname of $userId in '$exportPath', file already exists";
 					}
 				}
 			}
@@ -256,6 +277,7 @@ class SessionService {
 		// we run the auto purge method AFTER the auto export
 		// to avoid deleting data before it has been eventually exported
 		$this->cronAutoPurge();
+		return [];
 	}
 
 	/**
@@ -298,7 +320,7 @@ class SessionService {
 		$file->touch();
 	}
 
-	public function exportSession(string $name, string $token, string $target, string $username = '', ?array $filters = null) {
+	public function exportSession(string $name, string $token, string $target, string $username = '', ?array $filters = null): array {
 		date_default_timezone_set('UTC');
 		$done = false;
 		$warning = 0;
@@ -1190,5 +1212,12 @@ class SessionService {
 			$this->deviceMapper->delete($device);
 		}
 		$this->sessionMapper->deleteSession($session->getUser(), $session->getId());
+	}
+
+	public function cleanupUser(string $userId): void {
+		$sessions = $this->sessionMapper->findByUser($userId);
+		foreach ($sessions as $session) {
+			$this->deleteSession($session);
+		}
 	}
 }

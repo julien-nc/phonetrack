@@ -26,6 +26,6 @@ class AutoExport extends TimedJob {
 	}
 
 	protected function run($argument): void {
-		$this->sessionService->cronAutoExport();
+		iterator_to_array($this->sessionService->cronAutoExport());
 	}
 }

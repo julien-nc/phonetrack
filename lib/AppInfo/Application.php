@@ -12,12 +12,14 @@
 
 namespace OCA\PhoneTrack\AppInfo;
 
+use OCA\PhoneTrack\Listener\UserDeletedListener;
 use OCA\PhoneTrack\Notification\Notifier;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\User\Events\UserDeletedEvent;
 
 class Application extends App implements IBootstrap {
 
@@ -35,6 +37,7 @@ class Application extends App implements IBootstrap {
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerNotifierService(Notifier::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 	}
 
 	public function boot(IBootContext $context): void {

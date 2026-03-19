@@ -31,7 +31,9 @@ class AutoExport extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$this->sessionService->cronAutoExport();
+		foreach ($this->sessionService->cronAutoExport() as $message) {
+			$output->writeln($message);
+		}
 		return 0;
 	}
 }
