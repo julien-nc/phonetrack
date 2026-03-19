@@ -13,6 +13,7 @@
 namespace OCA\PhoneTrack\Service;
 
 use DateTime;
+use Exception as GlobalException;
 use OC\User\NoUserException;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\Device;
@@ -366,6 +367,9 @@ class SessionService {
 					}
 				}
 			}
+			if (!$dir instanceof Folder) {
+				throw new GlobalException('Export directory is not a directory');
+			}
 
 			if ($filePossible) {
 				// check if session exists
@@ -413,9 +417,13 @@ class SessionService {
 						if (!$oneFilePerDevice) {
 							$gpxHeader = $this->generateGpxHeader($name, count($devices));
 							if (!$dir->nodeExists($newFileName)) {
-								$dir->newFile($newFileName);
+								$file = $dir->newFile($newFileName);
+							} else {
+								$file = $dir->get($newFileName);
+								if (!$file instanceof File) {
+									throw new Exception('Export file is not a file');
+								}
 							}
-							$file = $dir->get($newFileName);
 							$fd = $file->fopen('w');
 							fwrite($fd, $gpxHeader);
 						}
@@ -432,9 +440,13 @@ class SessionService {
 									// generate file name for this device
 									$devFileName = str_replace(['.gpx', '.GPX'], '_' . $deviceName . '.gpx', $newFileName);
 									if (!$dir->nodeExists($devFileName)) {
-										$dir->newFile($devFileName);
+										$file = $dir->newFile($devFileName);
+									} else {
+										$file = $dir->get($devFileName);
+										if (!$file instanceof File) {
+											throw new Exception('Export file is not a file');
+										}
 									}
-									$file = $dir->get($devFileName);
 									$fd = $file->fopen('w');
 									fwrite($fd, $gpxHeader);
 								}
