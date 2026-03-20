@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-02-17 00:39+0100\n"
-"PO-Revision-Date: 2026-02-17 00:15\n"
+"PO-Revision-Date: 2026-03-20 17:34\n"
 "Last-Translator: \n"
 "Language-Team: Polish\n"
 "Language: pl_PL\n"
@@ -635,7 +635,7 @@ msgstr "Link pozycji QRcode do otwarcia za pomocą skanera QRcode"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2316
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2318
 msgid "Get driving direction to this device with {serviceName}"
-msgstr ""
+msgstr "Przekaż wskazówki dojazdu do tego urządzenia z {serviceName}"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:146
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2320
