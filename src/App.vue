@@ -1316,10 +1316,13 @@ export default {
 				return
 			}
 			// get enabled sessions
+			const enabledSessions = Object.values(this.state.sessions).filter(s => s.enabled)
+			if (enabledSessions.length === 0) {
+				console.debug('no enabled sessions, autozoom skipped')
+				return
+			}
 			// get devices with autozoom enabled
-			// get their bounds
-			const listOfDeviceBounds = Object.values(this.state.sessions)
-				.filter(s => s.enabled)
+			const listOfDeviceBounds = enabledSessions
 				.reduce((acc, session) => {
 					Object.values(session.devices)
 						.filter(d => d.enabled && d.autoZoom)
@@ -1329,6 +1332,7 @@ export default {
 					return acc
 				}, [])
 				.filter(bounds => bounds !== null)
+			// get their bounds
 			const autoZoomBounds = {
 				north: listOfDeviceBounds.map(b => b.north).reduce((acc, val) => Math.max(acc, val)),
 				south: listOfDeviceBounds.map(b => b.south).reduce((acc, val) => Math.min(acc, val)),
