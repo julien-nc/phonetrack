@@ -235,6 +235,12 @@ export default {
 				bearing: this.settings.bearing ?? 0,
 				maxPitch: 75,
 				maxZoom: restoredStyleObj.maxzoom ? (restoredStyleObj.maxzoom - 0.01) : DEFAULT_MAP_MAX_ZOOM,
+				transformRequest: (url, resourceType) => {
+					return {
+						url,
+						referrerPolicy: 'origin-when-cross-origin',
+					}
+				},
 			}
 			this.map = new Map(mapOptions)
 
