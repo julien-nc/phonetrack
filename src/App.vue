@@ -1332,6 +1332,10 @@ export default {
 					return acc
 				}, [])
 				.filter(bounds => bounds !== null)
+			if (listOfDeviceBounds.length === 0) {
+				console.debug('no autozoom bounds, autozoom skipped')
+				return
+			}
 			// get their bounds
 			const autoZoomBounds = {
 				north: listOfDeviceBounds.map(b => b.north).reduce((acc, val) => Math.max(acc, val)),
