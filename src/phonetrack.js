@@ -31,7 +31,7 @@ import 'leaflet-sidebar-v2/js/leaflet-sidebar.js'
 import 'leaflet-sidebar-v2/css/leaflet-sidebar.css'
 import 'leaflet-dialog/Leaflet.Dialog.js'
 import 'leaflet-dialog/Leaflet.Dialog.css'
-import 'leaflet-hotline/dist/leaflet.hotline.min.js'
+import hotlinePluginImport from 'leaflet-hotline'
 import Countdown from 'ds-countdown/lib/countdown.bundle.js'
 import moment from '@nextcloud/moment'
 import axios, { isCancel } from '@nextcloud/axios'
@@ -41,6 +41,11 @@ import { generateUrl, imagePath } from '@nextcloud/router'
 import { escapeHtml } from './utils.js'
 
 import '../css/phonetrack.scss'
+
+const hotlinePlugin = hotlinePluginImport?.default ?? hotlinePluginImport
+if (typeof hotlinePlugin === 'function') {
+	hotlinePlugin(L)
+}
 
 (function($, OC) {
 	/// ///////////// VAR DEFINITION /////////////////////
@@ -3260,7 +3265,7 @@ import '../css/phonetrack.scss'
 	function drawLine(s, d, linesCoords, linegradient, linewidth, linearrow) {
 		let line, i, j
 		for (i = 0; i < linesCoords.length; i++) {
-			if (linegradient) {
+			if (linegradient && typeof L.hotline === 'function') {
 				const coordsTmp = []
 				for (j = 0; j < linesCoords[i].length; j++) {
 					coordsTmp.push([linesCoords[i][j][0], linesCoords[i][j][1], j])
@@ -3274,6 +3279,9 @@ import '../css/phonetrack.scss'
 					max: linesCoords[i].length - 1,
 				})
 			} else {
+				if (linegradient) {
+					console.warn('[phonetrack] leaflet-hotline is unavailable, drawing a plain polyline instead')
+				}
 				line = L.polyline(linesCoords[i], { weight: linewidth, className: 'poly' + s + d })
 			}
 			line.session = s
