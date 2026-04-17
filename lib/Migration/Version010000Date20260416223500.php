@@ -10,7 +10,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\DB\Types;
 
-class Version010000Date20260417095600 extends SimpleMigrationStep {
+class Version010000Date20260416223500 extends SimpleMigrationStep {
 
 	public function __construct() {}
 
