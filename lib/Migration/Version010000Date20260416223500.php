@@ -62,15 +62,6 @@ class Version010000Date20260417095600 extends SimpleMigrationStep {
                 ]);
                 $schemaChanged = true;
             }
-
-            if (!$table->hasColumn('enabled')) {
-                $table->addColumn('enabled', Types::INTEGER, [
-                    'notnull' => true,
-                    'default' => 0,
-                    'unsigned' => true,
-                ]);
-                $schemaChanged = true;
-            }
 		}
 
         // add missing Session.php column
