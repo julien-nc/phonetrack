@@ -16,8 +16,10 @@ class Version010000Date20260417095600 extends SimpleMigrationStep {
 
 	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {}
 
+    /** Add the missing database columns for the Device and Session models
+     * that weren't added when upgrading from <1 to 1.0
+     */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 		$schemaChanged = false;
 
@@ -70,6 +72,20 @@ class Version010000Date20260417095600 extends SimpleMigrationStep {
                 $schemaChanged = true;
             }
 		}
+
+        // add missing Session.php column
+        if ($schema->hasTable('phonetrack_sessions')) {
+            $table = $schema->getTable('phonetrack_sessions');
+
+            if (!$table->hasColumn('enabled')) {
+                $table->addColumn('enabled', Types::INTEGER, [
+                    'notnull' => true,
+                    'default' => 0,
+                    'unsigned' => true,
+                ]);
+                $schemaChanged = true;
+            }
+        }
 
 		return $schemaChanged ? $schema : null;
 	}
