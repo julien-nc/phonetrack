@@ -1497,8 +1497,7 @@ class OldPageControllerTest extends TestCase {
 		// API
 		$resp = $this->pageController->APIgetLastPositionsPublic($sharetoken2);
 		$data = $resp->getData();
-
-		$this->assertEquals((count($data[$sharetoken2]) > 0), true);
+		$this->assertGreaterThan(0, count($data[$sharetoken2]));
 		$this->assertEquals($timestamp, $data[$sharetoken2]['renamedTestDev']['timestamp']);
 
 		// SET SESSION PRIVATE
@@ -1525,9 +1524,7 @@ class OldPageControllerTest extends TestCase {
 
 		// API
 		$resp = $this->pageController->APIgetLastPositionsPublic($sharetoken2);
-		$data = $resp->getData();
-
-		$this->assertEquals((count($data) === 0), true);
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $resp->getStatus());
 
 		// ADD PUBLIC SHARE
 		$resp = $this->pageController->addPublicShare($token2 . 'a');
