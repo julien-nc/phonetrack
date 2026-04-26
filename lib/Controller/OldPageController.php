@@ -2070,6 +2070,7 @@ class OldPageController extends Controller {
 		if ($publicViewToken === '') {
 			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
 			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+			$response->setStatus(Http::STATUS_FORBIDDEN);
 			$response->throttle(['reason' => 'wrong token']);
 			return $response;
 		}
@@ -2094,7 +2095,7 @@ class OldPageController extends Controller {
 		if ($dbtoken !== null && $dbpublic === 1) {
 			// we give publicWebLog the real session id but then, the share token is used in the JS
 			$response = $this->publicWebLog($dbtoken, '');
-			if (!is_string($response)) {
+			if ($response->getStatus() === Http::STATUS_OK && $response instanceof PublicTemplateResponse) {
 				$response->setHeaderDetails($this->trans->t('Watch session'));
 			}
 			return $response;
@@ -2120,13 +2121,14 @@ class OldPageController extends Controller {
 			if ($dbtoken !== null) {
 				// we give publicWebLog the real session id but then, the share token is used in the JS
 				$response = $this->publicWebLog($dbtoken, '', $lastposonly, $filters);
-				if (!is_string($response)) {
+				if ($response->getStatus() === Http::STATUS_OK && $response instanceof PublicTemplateResponse) {
 					$response->setHeaderDetails($this->trans->t('Watch session'));
 				}
 				return $response;
 			} else {
 				$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
 				$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+				$response->setStatus(Http::STATUS_FORBIDDEN);
 				$response->throttle(['reason' => 'wrong token']);
 				return $response;
 			}
@@ -2144,6 +2146,7 @@ class OldPageController extends Controller {
 		if ($token === '') {
 			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
 			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+			$response->setStatus(Http::STATUS_FORBIDDEN);
 			$response->throttle(['reason' => 'wrong token']);
 			return $response;
 		}
@@ -2167,6 +2170,7 @@ class OldPageController extends Controller {
 		if ($dbname === null || intval($dbPublic) !== 1) {
 			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
 			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+			$response->setStatus(Http::STATUS_FORBIDDEN);
 			$response->throttle(['reason' => 'wrong token']);
 			return $response;
 		}

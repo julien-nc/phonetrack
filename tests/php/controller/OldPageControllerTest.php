@@ -2040,9 +2040,9 @@ class OldPageControllerTest extends TestCase {
 		$publicviewtoken = $data['sessions'][0][2];
 
 		$resp = $this->pageController->publicSessionWatch('');
-		$this->assertEquals(is_string($resp), true);
+		$this->assertEquals(Http::STATUS_FORBIDDEN, $resp->getStatus());
 		$resp = $this->pageController->publicSessionWatch('blabla');
-		$this->assertEquals(is_string($resp), true);
+		$this->assertEquals(Http::STATUS_FORBIDDEN, $resp->getStatus());
 
 		$resp = $this->pageController->publicSessionWatch($publicviewtoken);
 
