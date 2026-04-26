@@ -240,6 +240,11 @@ class LogController extends Controller {
 				}
 			}
 			if ($proxim->getUrlclose() !== '' && str_starts_with($proxim->getUrlclose(), 'http')) {
+				set_error_handler(
+					function ($severity, $message, $file, $line) {
+						throw new Exception($message);
+					}
+				);
 				// GET
 				if ($proxim->getUrlclosepost() === 0) {
 					try {
@@ -268,6 +273,7 @@ class LogController extends Controller {
 						$this->logger->warning('Error during PhoneTrack proxim POST URL query', ['exception' => $e]);
 					}
 				}
+				restore_error_handler();
 			}
 		} elseif ($proxim->getHighlimit() !== 0 && $prevDist <= $proxim->getHighlimit() && $currDist > $proxim->getHighlimit()) {
 			// devices are now far !
@@ -371,6 +377,11 @@ class LogController extends Controller {
 				}
 			}
 			if ($proxim->getUrlfar() !== '' && str_starts_with($proxim->getUrlfar(), 'http')) {
+				set_error_handler(
+					function ($severity, $message, $file, $line) {
+						throw new Exception($message);
+					}
+				);
 				// GET
 				if ($proxim->getUrlfarpost() === 0) {
 					try {
@@ -399,6 +410,7 @@ class LogController extends Controller {
 						$this->logger->warning('Error during PhoneTrack proxim POST URL query', ['exception' => $e]);
 					}
 				}
+				restore_error_handler();
 			}
 		}
 	}
@@ -535,6 +547,11 @@ class LogController extends Controller {
 				if ($fence->getUrlenter() !== '' && str_starts_with($fence->getUrlenter(), 'http')) {
 					// GET
 					$urlenter = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $fence->getUrlenter());
+					set_error_handler(
+						function ($severity, $message, $file, $line) {
+							throw new Exception($message);
+						}
+					);
 					if ($fence->getUrlenterpost() === 0) {
 						try {
 							$xml = file_get_contents($urlenter);
@@ -562,6 +579,7 @@ class LogController extends Controller {
 							$this->logger->warning('Error during PhoneTrack geofence POST URL query', ['exception' => $e]);
 						}
 					}
+					restore_error_handler();
 				}
 			}
 		} // previous point in fence
@@ -655,6 +673,11 @@ class LogController extends Controller {
 					}
 				}
 				if ($fence->getUrlleave() !== '' && str_starts_with($fence->getUrlleave(), 'http')) {
+					set_error_handler(
+						function ($severity, $message, $file, $line) {
+							throw new Exception($message);
+						}
+					);
 					// GET
 					if ($fence->getUrlleavepost() === 0) {
 						$urlleave = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $fence->getUrlleave());
@@ -684,6 +707,7 @@ class LogController extends Controller {
 							$this->logger->warning('Error during PhoneTrack geofence POST URL query', ['exception' => $e]);
 						}
 					}
+					restore_error_handler();
 				}
 			}
 		}
