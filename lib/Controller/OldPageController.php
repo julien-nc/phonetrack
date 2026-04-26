@@ -2047,8 +2047,8 @@ class OldPageController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[BruteForceProtection(action: 'PhonetrackPublicSessionWatch')]
-	public function publicSessionWatch(string $publicviewtoken): TemplateResponse {
-		if ($publicviewtoken === '') {
+	public function publicSessionWatch(string $publicViewToken): TemplateResponse {
+		if ($publicViewToken === '') {
 			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
 			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
 			$response->throttle(['reason' => 'wrong token']);
@@ -2060,7 +2060,7 @@ class OldPageController extends Controller {
 		$sqlchk = '
 			SELECT token, public
 			FROM *PREFIX*phonetrack_sessions
-			WHERE publicviewtoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
+			WHERE publicviewtoken=' . $this->db_quote_escape_string($publicViewToken) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$res = $req->execute();
 		$dbtoken = null;
@@ -2084,7 +2084,7 @@ class OldPageController extends Controller {
 			$sqlchk = '
 				SELECT session_token, sharetoken, lastposonly, filters
 				FROM *PREFIX*phonetrack_pubshares
-				WHERE sharetoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
+				WHERE sharetoken=' . $this->db_quote_escape_string($publicViewToken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$res = $req->execute();
 			$dbtoken = null;
@@ -2120,30 +2120,36 @@ class OldPageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function publicWebLog($token, $devicename, $lastposonly = 0, $filters = '') {
-		if ($token !== '') {
-			// check if session exists
-			$sqlchk = '
-				SELECT name, public
-				FROM *PREFIX*phonetrack_sessions
-				WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
-			$req = $this->dbConnection->prepare($sqlchk);
-			$res = $req->execute();
-			$dbname = null;
-			$dbPublic = null;
-			while ($row = $res->fetch()) {
-				$dbname = $row['name'];
-				$dbPublic = $row['public'];
-				break;
-			}
-			$res->closeCursor();
+	#[BruteForceProtection(action: 'PhonetrackPublicWebLog')]
+	public function publicWebLog(string $token, string $devicename, int $lastposonly = 0, string $filters = ''): TemplateResponse {
+		if ($token === '') {
+			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
+			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+			$response->throttle(['reason' => 'wrong token']);
+			return $response;
+		}
 
-			if ($dbname !== null && intval($dbPublic) === 1) {
-			} else {
-				return 'Session does not exist or is not public';
-			}
-		} else {
-			return 'Session does not exist or is not public';
+		// check if session exists
+		$sqlchk = '
+			SELECT name, public
+			FROM *PREFIX*phonetrack_sessions
+			WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
+		$req = $this->dbConnection->prepare($sqlchk);
+		$res = $req->execute();
+		$dbname = null;
+		$dbPublic = null;
+		while ($row = $res->fetch()) {
+			$dbname = $row['name'];
+			$dbPublic = $row['public'];
+			break;
+		}
+		$res->closeCursor();
+
+		if ($dbname === null || intval($dbPublic) !== 1) {
+			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
+			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+			$response->throttle(['reason' => 'wrong token']);
+			return $response;
 		}
 
 		$params = [

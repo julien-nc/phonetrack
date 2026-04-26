@@ -44,7 +44,7 @@ return [
 
 		['name' => 'oldPage#index', 'url' => '/', 'verb' => 'GET'],
 		['name' => 'oldPage#publicWebLog', 'url' => '/publicWebLog/{token}/{devicename}', 'verb' => 'GET'],
-		['name' => 'oldPage#publicSessionWatch', 'url' => '/publicSessionWatch/{publicviewtoken}', 'verb' => 'GET'],
+		['name' => 'oldPage#publicSessionWatch', 'url' => '/publicSessionWatch/{publicViewToken}', 'verb' => 'GET'],
 		['name' => 'oldPage#createSession', 'url' => '/createSession', 'verb' => 'POST'],
 		['name' => 'oldPage#deleteSession', 'url' => '/deleteSession', 'verb' => 'POST'],
 		['name' => 'oldPage#deletePoints', 'url' => '/deletePoints', 'verb' => 'POST'],
