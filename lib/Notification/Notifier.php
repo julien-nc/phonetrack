@@ -51,7 +51,7 @@ class Notifier implements INotifier {
 
 				$notification->setParsedSubject($content)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'));
 				return $notification;
 			case 'leave_geofence':
 				$p = $notification->getSubjectParameters();
@@ -59,7 +59,7 @@ class Notifier implements INotifier {
 
 				$notification->setParsedSubject($content)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'));
 				return $notification;
 
 			case 'close_proxim':
@@ -68,7 +68,7 @@ class Notifier implements INotifier {
 
 				$notification->setParsedSubject($content)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'));
 				return $notification;
 			case 'far_proxim':
 				$p = $notification->getSubjectParameters();
@@ -76,7 +76,7 @@ class Notifier implements INotifier {
 
 				$notification->setParsedSubject($content)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'));
 				return $notification;
 
 			case 'quota_reached':
@@ -85,7 +85,7 @@ class Notifier implements INotifier {
 
 				$notification->setParsedSubject($content)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'));
 				return $notification;
 
 			case 'add_user_share':
@@ -94,7 +94,7 @@ class Notifier implements INotifier {
 
 				$notification->setParsedSubject($content)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'));
 				return $notification;
 
 			case 'delete_user_share':
@@ -103,7 +103,7 @@ class Notifier implements INotifier {
 
 				$notification->setParsedSubject($content)
 					->setIcon($this->url->getAbsoluteURL($this->url->imagePath(Application::APP_ID, 'app_black.svg')))
-					->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'));
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'));
 				return $notification;
 
 			default:

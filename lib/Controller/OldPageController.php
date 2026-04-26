@@ -41,6 +41,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
+use OCP\Notification\IAction;
 use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
 use XMLParser;
@@ -2606,11 +2607,11 @@ class OldPageController extends Controller {
 
 					$acceptAction = $notification->createAction();
 					$acceptAction->setLabel('accept')
-						->setLink('/apps/phonetrack', 'GET');
+						->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 					$declineAction = $notification->createAction();
 					$declineAction->setLabel('decline')
-						->setLink('/apps/phonetrack', 'GET');
+						->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 					$notification->setApp(Application::APP_ID)
 						->setUser($userId)
@@ -2768,11 +2769,11 @@ class OldPageController extends Controller {
 
 				$acceptAction = $notification->createAction();
 				$acceptAction->setLabel('accept')
-					->setLink('/apps/phonetrack', 'GET');
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 				$declineAction = $notification->createAction();
 				$declineAction->setLabel('decline')
-					->setLink('/apps/phonetrack', 'GET');
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 				$notification->setApp(Application::APP_ID)
 					->setUser($userId)

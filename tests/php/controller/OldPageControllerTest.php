@@ -179,6 +179,7 @@ class OldPageControllerTest extends TestCase {
 			Server::get(ShareMapper::class),
 			Server::get(IDBConnection::class),
 			Server::get(IMailer::class),
+			Server::get(IURLGenerator::class),
 			'test'
 		);
 
@@ -200,6 +201,7 @@ class OldPageControllerTest extends TestCase {
 			Server::get(ShareMapper::class),
 			Server::get(IDBConnection::class),
 			Server::get(IMailer::class),
+			Server::get(IURLGenerator::class),
 			'test2'
 		);
 
