@@ -10,7 +10,7 @@ use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\DB\Types;
 
-class Version010000Date20260416223500 extends SimpleMigrationStep {
+class Version010200Date20260416223500 extends SimpleMigrationStep {
 
     /**
      * Add the missing database columns for the Device and Session models
