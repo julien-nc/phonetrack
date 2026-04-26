@@ -1766,7 +1766,8 @@ class OldPageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function publicViewTrack($sessions) {
+	#[BruteForceProtection(action: 'PhonetrackPublicViewTrack')]
+	public function publicViewTrack(array $sessions): DataResponse {
 		$result = [];
 		$colors = [];
 		$shapes = [];
@@ -1828,142 +1829,150 @@ class OldPageController extends Controller {
 				$res->closeCursor();
 			}
 
-			// session exists and is public or shared by public share
-			if ($dbpublicviewtoken !== null) {
-				// get list of devices
-				$devices = [];
-				$sqldev = '
-					SELECT id
-					FROM *PREFIX*phonetrack_devices
-					WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' '
-					. $deviceNameRestriction . ' ;';
-				$req = $this->dbConnection->prepare($sqldev);
-				$res = $req->execute();
-				while ($row = $res->fetch()) {
-					$devices[] = intval($row['id']);
+			// session does not exist or is not a public share
+			if ($dbpublicviewtoken === null) {
+				continue;
+			}
+			// get list of devices
+			$devices = [];
+			$sqldev = '
+				SELECT id
+				FROM *PREFIX*phonetrack_devices
+				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' '
+				. $deviceNameRestriction . ' ;';
+			$req = $this->dbConnection->prepare($sqldev);
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$devices[] = intval($row['id']);
+			}
+			$res->closeCursor();
+
+			// get the coords for each device
+			$result[$dbpublicviewtoken] = [];
+
+			foreach ($devices as $devid) {
+				$resultDevArray = [];
+
+				$firstDeviceTimeSQL = '';
+				if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
+					$firstDeviceTime = $firstTime[$devid];
+					$firstDeviceTimeSQL = 'timestamp<' . $this->db_quote_escape_string($firstDeviceTime);
 				}
-				$res->closeCursor();
 
-				// get the coords for each device
-				$result[$dbpublicviewtoken] = [];
-
-				foreach ($devices as $devid) {
-					$resultDevArray = [];
-
-					$firstDeviceTimeSQL = '';
-					if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
-						$firstDeviceTime = $firstTime[$devid];
-						$firstDeviceTimeSQL = 'timestamp<' . $this->db_quote_escape_string($firstDeviceTime);
-					}
-
-					$lastDeviceTime = 0;
-					$lastDeviceTimeSQL = '';
-					if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
-						$lastDeviceTime = $lastTime[$devid];
-						$lastDeviceTimeSQL = 'timestamp>' . $this->db_quote_escape_string($lastDeviceTime);
-					}
-					// build SQL condition for first/last
-					$firstLastSQL = '';
-					if ($firstDeviceTimeSQL !== '') {
-						if ($lastDeviceTimeSQL !== '') {
-							$firstLastSQL = 'AND (' . $firstDeviceTimeSQL . ' OR ' . $lastDeviceTimeSQL . ') ';
-						} else {
-							$firstLastSQL = 'AND ' . $firstDeviceTimeSQL . ' ';
-						}
-					} elseif ($lastDeviceTimeSQL !== '') {
-						$firstLastSQL = 'AND ' . $lastDeviceTimeSQL . ' ';
-					}
-					// we give color (first point given)
-					else {
-						$sqlcolor = '
-							SELECT color, name, alias, shape
-							FROM *PREFIX*phonetrack_devices
-							WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
-								  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
-						$req = $this->dbConnection->prepare($sqlcolor);
-						$res = $req->execute();
-						$col = '';
-						while ($row = $res->fetch()) {
-							$col = $row['color'];
-							$shape = $row['shape'];
-							$name = $row['name'];
-							$alias = $row['alias'];
-						}
-						$res->closeCursor();
-						if (!array_key_exists($dbpublicviewtoken, $shapes)) {
-							$shapes[$dbpublicviewtoken] = [];
-						}
-						$shapes[$dbpublicviewtoken][$devid] = $shape;
-						if (!array_key_exists($dbpublicviewtoken, $colors)) {
-							$colors[$dbpublicviewtoken] = [];
-						}
-						$colors[$dbpublicviewtoken][$devid] = $col;
-						if (!array_key_exists($dbpublicviewtoken, $names)) {
-							$names[$dbpublicviewtoken] = [];
-						}
-						$names[$dbpublicviewtoken][$devid] = $name;
-						if (!array_key_exists($dbpublicviewtoken, $aliases)) {
-							$aliases[$dbpublicviewtoken] = [];
-						}
-						$aliases[$dbpublicviewtoken][$devid] = $alias;
-					}
-
-
-					$sqlget = '
-						SELECT id, deviceid, lat, lon,
-							   timestamp, accuracy, satellites,
-							   altitude, batterylevel, useragent,
-							   speed, bearing
-						FROM *PREFIX*phonetrack_points
-						WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' '
-						. $firstLastSQL . ' ';
-					if (intval($lastposonly) === 0) {
-						if (intval($nbPointsLoad) === 0) {
-							$sqlget .= 'ORDER BY timestamp DESC ;';
-						} else {
-							$sqlget .= 'ORDER BY timestamp DESC LIMIT ' . intval($nbPointsLoad) . ' ;';
-						}
+				$lastDeviceTime = 0;
+				$lastDeviceTimeSQL = '';
+				if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
+					$lastDeviceTime = $lastTime[$devid];
+					$lastDeviceTimeSQL = 'timestamp>' . $this->db_quote_escape_string($lastDeviceTime);
+				}
+				// build SQL condition for first/last
+				$firstLastSQL = '';
+				if ($firstDeviceTimeSQL !== '') {
+					if ($lastDeviceTimeSQL !== '') {
+						$firstLastSQL = 'AND (' . $firstDeviceTimeSQL . ' OR ' . $lastDeviceTimeSQL . ') ';
 					} else {
-						$sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
+						$firstLastSQL = 'AND ' . $firstDeviceTimeSQL . ' ';
 					}
-					$req = $this->dbConnection->prepare($sqlget);
+				} elseif ($lastDeviceTimeSQL !== '') {
+					$firstLastSQL = 'AND ' . $lastDeviceTimeSQL . ' ';
+				}
+				// we give color (first point given)
+				else {
+					$sqlcolor = '
+						SELECT color, name, alias, shape
+						FROM *PREFIX*phonetrack_devices
+						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
+								AND id=' . $this->db_quote_escape_string($devid) . ' ;';
+					$req = $this->dbConnection->prepare($sqlcolor);
 					$res = $req->execute();
+					$col = '';
 					while ($row = $res->fetch()) {
-						if ($filters === null || $this->filterPoint($row, $filters)) {
-							$entry = [
-								(int)$row['id'],
-								(float)$row['lat'],
-								(float)$row['lon'],
-								(int)$row['timestamp'],
-								is_numeric($row['accuracy']) ? (float)$row['accuracy'] : null,
-								is_numeric($row['satellites']) ? (int)$row['satellites'] : null,
-								is_numeric($row['altitude']) ? (float)$row['altitude'] : null,
-								is_numeric($row['batterylevel']) ? (float)$row['batterylevel'] : null,
-								$row['useragent'],
-								is_numeric($row['speed']) ? (float)$row['speed'] : null,
-								is_numeric($row['bearing']) ? (float)$row['bearing'] : null
-							];
-							array_unshift($resultDevArray, $entry);
-						}
+						$col = $row['color'];
+						$shape = $row['shape'];
+						$name = $row['name'];
+						$alias = $row['alias'];
 					}
 					$res->closeCursor();
-					if (count($resultDevArray) > 0) {
-						$result[$dbpublicviewtoken][$devid] = $resultDevArray;
+					if (!array_key_exists($dbpublicviewtoken, $shapes)) {
+						$shapes[$dbpublicviewtoken] = [];
+					}
+					$shapes[$dbpublicviewtoken][$devid] = $shape;
+					if (!array_key_exists($dbpublicviewtoken, $colors)) {
+						$colors[$dbpublicviewtoken] = [];
+					}
+					$colors[$dbpublicviewtoken][$devid] = $col;
+					if (!array_key_exists($dbpublicviewtoken, $names)) {
+						$names[$dbpublicviewtoken] = [];
+					}
+					$names[$dbpublicviewtoken][$devid] = $name;
+					if (!array_key_exists($dbpublicviewtoken, $aliases)) {
+						$aliases[$dbpublicviewtoken] = [];
+					}
+					$aliases[$dbpublicviewtoken][$devid] = $alias;
+				}
+
+
+				$sqlget = '
+					SELECT id, deviceid, lat, lon,
+							timestamp, accuracy, satellites,
+							altitude, batterylevel, useragent,
+							speed, bearing
+					FROM *PREFIX*phonetrack_points
+					WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' '
+					. $firstLastSQL . ' ';
+				if (intval($lastposonly) === 0) {
+					if (intval($nbPointsLoad) === 0) {
+						$sqlget .= 'ORDER BY timestamp DESC ;';
 					} else {
-						// if device has no new point and no last time
-						// it means it was probably reserved : we don't give its name
-						if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
-							unset($names[$dbpublicviewtoken][$devid]);
-							unset($aliases[$dbpublicviewtoken][$devid]);
-							unset($colors[$dbpublicviewtoken][$devid]);
-							unset($shapes[$dbpublicviewtoken][$devid]);
-						}
+						$sqlget .= 'ORDER BY timestamp DESC LIMIT ' . intval($nbPointsLoad) . ' ;';
+					}
+				} else {
+					$sqlget .= 'ORDER BY timestamp DESC LIMIT 1 ;';
+				}
+				$req = $this->dbConnection->prepare($sqlget);
+				$res = $req->execute();
+				while ($row = $res->fetch()) {
+					if ($filters === null || $this->filterPoint($row, $filters)) {
+						$entry = [
+							(int)$row['id'],
+							(float)$row['lat'],
+							(float)$row['lon'],
+							(int)$row['timestamp'],
+							is_numeric($row['accuracy']) ? (float)$row['accuracy'] : null,
+							is_numeric($row['satellites']) ? (int)$row['satellites'] : null,
+							is_numeric($row['altitude']) ? (float)$row['altitude'] : null,
+							is_numeric($row['batterylevel']) ? (float)$row['batterylevel'] : null,
+							$row['useragent'],
+							is_numeric($row['speed']) ? (float)$row['speed'] : null,
+							is_numeric($row['bearing']) ? (float)$row['bearing'] : null
+						];
+						array_unshift($resultDevArray, $entry);
 					}
 				}
-				if (intval($geofencify) !== 0) {
-					$result[$dbpublicviewtoken] = $this->geofencify($dbtoken, $dbpublicviewtoken, $result[$dbpublicviewtoken]);
+				$res->closeCursor();
+				if (count($resultDevArray) > 0) {
+					$result[$dbpublicviewtoken][$devid] = $resultDevArray;
+				} else {
+					// if device has no new point and no last time
+					// it means it was probably reserved : we don't give its name
+					if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
+						unset($names[$dbpublicviewtoken][$devid]);
+						unset($aliases[$dbpublicviewtoken][$devid]);
+						unset($colors[$dbpublicviewtoken][$devid]);
+						unset($shapes[$dbpublicviewtoken][$devid]);
+					}
 				}
 			}
+			if (intval($geofencify) !== 0) {
+				$result[$dbpublicviewtoken] = $this->geofencify($dbtoken, $dbpublicviewtoken, $result[$dbpublicviewtoken]);
+			}
+		}
+
+		if (count($result) === 0) {
+			$response = new DataResponse(['error' => 'No session found']);
+			$response->setStatus(Http::STATUS_NOT_FOUND);
+			$response->throttle(['reason' => 'no session found']);
+			return $response;
 		}
 
 		return new DataResponse([
@@ -2121,7 +2130,7 @@ class OldPageController extends Controller {
 	#[NoCSRFRequired]
 	#[PublicPage]
 	#[BruteForceProtection(action: 'PhonetrackPublicWebLog')]
-	public function publicWebLog(string $token, string $devicename, int $lastposonly = 0, string $filters = ''): TemplateResponse {
+	public function publicWebLog(string $token, string $deviceName, int $lastposonly = 0, string $filters = ''): TemplateResponse {
 		if ($token === '') {
 			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
 			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
