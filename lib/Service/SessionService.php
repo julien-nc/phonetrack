@@ -1171,7 +1171,7 @@ class SessionService {
 		$token = md5($userId . $name . rand());
 		$publicViewToken = md5($userId . $name . rand());
 
-		return $this->sessionMapper->createSession($userId, $name, $token, $publicViewToken, true);
+		return $this->sessionMapper->createSession($userId, $name, $token, $publicViewToken, false);
 	}
 
 	public function importSession(string $userId, string $path): Session {
