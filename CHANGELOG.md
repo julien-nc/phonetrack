@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.2.0 – 2026-04-26
+
+### Changed
+
+- Make new sessions private by default @julien-nc
+- Add brute force protection to public session pages and logging endpoints, and return clearer responses for invalid or private sessions @julien-nc
+- Add the referrer policy now required by OpenStreetMap tile requests @julien-nc
+
+### Fixed
+
+- Prevent autozoom crashes when no session is enabled or no device has usable bounds @julien-nc
+- Fix the legacy UI `leaflet-hotline` import and fall back to a plain polyline when the plugin is unavailable @julien-nc
+- Add missing device and session database columns for upgrades from pre-1.0 installs, align the related migration, and fix notification action links @TrafficLight42 @julien-nc [#145](https://github.com/julien-nc/phonetrack/pull/145)
+
 ## 1.1.0 – 2026-03-19
 
 ### Added
