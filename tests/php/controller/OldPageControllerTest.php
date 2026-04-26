@@ -1520,7 +1520,12 @@ class OldPageControllerTest extends TestCase {
 		// CHECK PUBLIC VIEW TRACK ON PRIVATE SESSION
 		$sessions = [[$sharetoken2, null, null]];
 		$resp = $this->pageController->publicViewTrack($sessions);
-		$this->assertEquals(Http::STATUS_NOT_FOUND, $resp->getStatus());
+		$data = $resp->getData();
+		$sessions = $data['sessions'];
+		$this->assertEquals(Http::STATUS_OK, $resp->getStatus());
+		$this->assertArrayHasKey($sharetoken2, $sessions);
+		$this->assertIsArray($sessions[$sharetoken2]);
+		$this->assertEquals(0, count($sessions[$sharetoken2]));
 
 		// API
 		$resp = $this->pageController->APIgetLastPositionsPublic($sharetoken2);

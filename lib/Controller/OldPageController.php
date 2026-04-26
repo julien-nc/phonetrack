@@ -1580,23 +1580,6 @@ class OldPageController extends Controller {
 		]);
 	}
 
-	private function isSessionPublic($token) {
-		$dbpublic = '';
-		$sqlget = '
-			SELECT token, public
-			FROM *PREFIX*phonetrack_sessions
-			WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
-		$req = $this->dbConnection->prepare($sqlget);
-		$res = $req->execute();
-		while ($row = $res->fetch()) {
-			$dbtoken = $row['token'];
-			$dbpublic = $row['public'];
-		}
-		$res->closeCursor();
-
-		return ($dbpublic === '1' || $dbpublic === 1);
-	}
-
 	/**
 	 * called by publicWebLog page
 	 */
@@ -1611,35 +1594,40 @@ class OldPageController extends Controller {
 		$aliases = [];
 		foreach ($sessions as $session) {
 			$token = $session[0];
-			if (!$this->isSessionPublic($token)) {
-				continue;
-			}
-			$lastTime = $session[1];
-			$firstTime = $session[2];
 
 			// check if session exists
-			$dbtoken = null;
+			$dbToken = null;
 			$sqlget = '
-				SELECT token
+				SELECT token, public
 				FROM *PREFIX*phonetrack_sessions
 				WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 			$req = $this->dbConnection->prepare($sqlget);
 			$res = $req->execute();
 			while ($row = $res->fetch()) {
-				$dbtoken = $row['token'];
+				$dbToken = $row['token'];
+				$dbIsPublic = ((int)$row['public']) === 1;
 			}
 			$res->closeCursor();
 
 			// session does not exist
-			if ($dbtoken === null) {
+			if ($dbToken === null) {
 				continue;
 			}
+			if (!$dbIsPublic) {
+				// we don't throttle in this case
+				$result[$token] = [];
+				continue;
+			}
+
+			$lastTime = $session[1];
+			$firstTime = $session[2];
+
 			// get list of devices
 			$devices = [];
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' ;';
+				WHERE session_token=' . $this->db_quote_escape_string($dbToken) . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$res = $req->execute();
 			while ($row = $res->fetch()) {
@@ -1681,7 +1669,7 @@ class OldPageController extends Controller {
 					$sqlcolor = '
 						SELECT color, name, alias, shape
 						FROM *PREFIX*phonetrack_devices
-						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
+						WHERE session_token=' . $this->db_quote_escape_string($dbToken) . '
 								AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlcolor);
 					$res = $req->execute();
@@ -1693,22 +1681,22 @@ class OldPageController extends Controller {
 						$alias = $row['alias'];
 					}
 					$res->closeCursor();
-					if (!array_key_exists($dbtoken, $shapes)) {
-						$shapes[$dbtoken] = [];
+					if (!array_key_exists($dbToken, $shapes)) {
+						$shapes[$dbToken] = [];
 					}
-					$shapes[$dbtoken][$devid] = $shape;
-					if (!array_key_exists($dbtoken, $colors)) {
-						$colors[$dbtoken] = [];
+					$shapes[$dbToken][$devid] = $shape;
+					if (!array_key_exists($dbToken, $colors)) {
+						$colors[$dbToken] = [];
 					}
-					$colors[$dbtoken][$devid] = $col;
-					if (!array_key_exists($dbtoken, $names)) {
-						$names[$dbtoken] = [];
+					$colors[$dbToken][$devid] = $col;
+					if (!array_key_exists($dbToken, $names)) {
+						$names[$dbToken] = [];
 					}
-					$names[$dbtoken][$devid] = $name;
-					if (!array_key_exists($dbtoken, $aliases)) {
-						$aliases[$dbtoken] = [];
+					$names[$dbToken][$devid] = $name;
+					if (!array_key_exists($dbToken, $aliases)) {
+						$aliases[$dbToken] = [];
 					}
-					$aliases[$dbtoken][$devid] = $alias;
+					$aliases[$dbToken][$devid] = $alias;
 				}
 
 				$sqlget = '
@@ -1745,10 +1733,10 @@ class OldPageController extends Controller {
 					// if device has no new point and no last time
 					// it means it was probably reserved : we don't give its name
 					if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
-						unset($names[$dbtoken][$devid]);
-						unset($aliases[$dbtoken][$devid]);
-						unset($colors[$dbtoken][$devid]);
-						unset($shapes[$dbtoken][$devid]);
+						unset($names[$dbToken][$devid]);
+						unset($aliases[$dbToken][$devid]);
+						unset($colors[$dbToken][$devid]);
+						unset($shapes[$dbToken][$devid]);
 					}
 				}
 			}
@@ -1795,9 +1783,9 @@ class OldPageController extends Controller {
 			$geofencify = 0;
 
 			// check if session exists
-			$dbtoken = null;
-			$dbpublicviewtoken = null;
-			$dbpublic = null;
+			$dbToken = null;
+			$dbPublicViewToken = null;
+			$dbIsPublic = null;
 			$filters = null;
 			$deviceNameRestriction = '';
 			$sqlget = '
@@ -1807,18 +1795,21 @@ class OldPageController extends Controller {
 			$req = $this->dbConnection->prepare($sqlget);
 			$res = $req->execute();
 			while ($row = $res->fetch()) {
-				$dbpublicviewtoken = $row['publicviewtoken'];
-				$dbtoken = $row['token'];
-				$dbpublic = intval($row['public']);
+				$dbPublicViewToken = $row['publicviewtoken'];
+				$dbToken = $row['token'];
+				$dbIsPublic = ((int)$row['public']) === 1;
 			}
 			$res->closeCursor();
-			if ($dbpublic !== 1) {
-				$dbpublicviewtoken = null;
+
+			if ($dbPublicViewToken !== null && !$dbIsPublic) {
+				// session exists but is not public
+				$result[$dbPublicViewToken] = [];
+				continue;
 			}
 
 			// there is no session with this publicviewtoken
 			// check if there is a public share with the sharetoken
-			if ($dbpublicviewtoken === null) {
+			if ($dbPublicViewToken === null) {
 				$sqlget = '
 					SELECT sharetoken, session_token, filters,
 						   devicename, lastposonly, geofencify
@@ -1827,8 +1818,8 @@ class OldPageController extends Controller {
 				$req = $this->dbConnection->prepare($sqlget);
 				$res = $req->execute();
 				while ($row = $res->fetch()) {
-					$dbpublicviewtoken = $row['sharetoken'];
-					$dbtoken = $row['session_token'];
+					$dbPublicViewToken = $row['sharetoken'];
+					$dbToken = $row['session_token'];
 					$filters = json_decode($row['filters'], true);
 					$lastposonly = $row['lastposonly'];
 					$geofencify = $row['geofencify'];
@@ -1839,8 +1830,8 @@ class OldPageController extends Controller {
 				$res->closeCursor();
 			}
 
-			// session does not exist or is not a public share
-			if ($dbpublicviewtoken === null) {
+			// session does not exist
+			if ($dbPublicViewToken === null) {
 				continue;
 			}
 			// get list of devices
@@ -1848,7 +1839,7 @@ class OldPageController extends Controller {
 			$sqldev = '
 				SELECT id
 				FROM *PREFIX*phonetrack_devices
-				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' '
+				WHERE session_token=' . $this->db_quote_escape_string($dbToken) . ' '
 				. $deviceNameRestriction . ' ;';
 			$req = $this->dbConnection->prepare($sqldev);
 			$res = $req->execute();
@@ -1858,7 +1849,7 @@ class OldPageController extends Controller {
 			$res->closeCursor();
 
 			// get the coords for each device
-			$result[$dbpublicviewtoken] = [];
+			$result[$dbPublicViewToken] = [];
 
 			foreach ($devices as $devid) {
 				$resultDevArray = [];
@@ -1891,7 +1882,7 @@ class OldPageController extends Controller {
 					$sqlcolor = '
 						SELECT color, name, alias, shape
 						FROM *PREFIX*phonetrack_devices
-						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
+						WHERE session_token=' . $this->db_quote_escape_string($dbToken) . '
 								AND id=' . $this->db_quote_escape_string($devid) . ' ;';
 					$req = $this->dbConnection->prepare($sqlcolor);
 					$res = $req->execute();
@@ -1903,22 +1894,22 @@ class OldPageController extends Controller {
 						$alias = $row['alias'];
 					}
 					$res->closeCursor();
-					if (!array_key_exists($dbpublicviewtoken, $shapes)) {
-						$shapes[$dbpublicviewtoken] = [];
+					if (!array_key_exists($dbPublicViewToken, $shapes)) {
+						$shapes[$dbPublicViewToken] = [];
 					}
-					$shapes[$dbpublicviewtoken][$devid] = $shape;
-					if (!array_key_exists($dbpublicviewtoken, $colors)) {
-						$colors[$dbpublicviewtoken] = [];
+					$shapes[$dbPublicViewToken][$devid] = $shape;
+					if (!array_key_exists($dbPublicViewToken, $colors)) {
+						$colors[$dbPublicViewToken] = [];
 					}
-					$colors[$dbpublicviewtoken][$devid] = $col;
-					if (!array_key_exists($dbpublicviewtoken, $names)) {
-						$names[$dbpublicviewtoken] = [];
+					$colors[$dbPublicViewToken][$devid] = $col;
+					if (!array_key_exists($dbPublicViewToken, $names)) {
+						$names[$dbPublicViewToken] = [];
 					}
-					$names[$dbpublicviewtoken][$devid] = $name;
-					if (!array_key_exists($dbpublicviewtoken, $aliases)) {
-						$aliases[$dbpublicviewtoken] = [];
+					$names[$dbPublicViewToken][$devid] = $name;
+					if (!array_key_exists($dbPublicViewToken, $aliases)) {
+						$aliases[$dbPublicViewToken] = [];
 					}
-					$aliases[$dbpublicviewtoken][$devid] = $alias;
+					$aliases[$dbPublicViewToken][$devid] = $alias;
 				}
 
 
@@ -1961,20 +1952,20 @@ class OldPageController extends Controller {
 				}
 				$res->closeCursor();
 				if (count($resultDevArray) > 0) {
-					$result[$dbpublicviewtoken][$devid] = $resultDevArray;
+					$result[$dbPublicViewToken][$devid] = $resultDevArray;
 				} else {
 					// if device has no new point and no last time
 					// it means it was probably reserved : we don't give its name
 					if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
-						unset($names[$dbpublicviewtoken][$devid]);
-						unset($aliases[$dbpublicviewtoken][$devid]);
-						unset($colors[$dbpublicviewtoken][$devid]);
-						unset($shapes[$dbpublicviewtoken][$devid]);
+						unset($names[$dbPublicViewToken][$devid]);
+						unset($aliases[$dbPublicViewToken][$devid]);
+						unset($colors[$dbPublicViewToken][$devid]);
+						unset($shapes[$dbPublicViewToken][$devid]);
 					}
 				}
 			}
 			if (intval($geofencify) !== 0) {
-				$result[$dbpublicviewtoken] = $this->geofencify($dbtoken, $dbpublicviewtoken, $result[$dbpublicviewtoken]);
+				$result[$dbPublicViewToken] = $this->geofencify($dbToken, $dbPublicViewToken, $result[$dbPublicViewToken]);
 			}
 		}
 
@@ -2083,56 +2074,64 @@ class OldPageController extends Controller {
 			WHERE publicviewtoken=' . $this->db_quote_escape_string($publicViewToken) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$res = $req->execute();
-		$dbtoken = null;
-		$dbpublic = null;
+		$dbToken = null;
+		$dbIsPublic = null;
 		while ($row = $res->fetch()) {
-			$dbtoken = $row['token'];
-			$dbpublic = intval($row['public']);
+			$dbToken = $row['token'];
+			$dbIsPublic = ((int)$row['public']) === 1;
 			break;
 		}
 		$res->closeCursor();
 
-		if ($dbtoken !== null && $dbpublic === 1) {
-			// we give publicWebLog the real session id but then, the share token is used in the JS
-			$response = $this->publicWebLog($dbtoken, '');
-			if ($response->getStatus() === Http::STATUS_OK && $response instanceof PublicTemplateResponse) {
-				$response->setHeaderDetails($this->trans->t('Watch session'));
-			}
-			return $response;
-		} else {
-			// check if a public session has this publicviewtoken
-			$sqlchk = '
-				SELECT session_token, sharetoken, lastposonly, filters
-				FROM *PREFIX*phonetrack_pubshares
-				WHERE sharetoken=' . $this->db_quote_escape_string($publicViewToken) . ' ;';
-			$req = $this->dbConnection->prepare($sqlchk);
-			$res = $req->execute();
-			$dbtoken = null;
-			$dbpublic = null;
-			$filters = '';
-			while ($row = $res->fetch()) {
-				$dbtoken = $row['session_token'];
-				$lastposonly = $row['lastposonly'];
-				$filters = $row['filters'];
-				break;
-			}
-			$res->closeCursor();
-
-			if ($dbtoken !== null) {
-				// we give publicWebLog the real session id but then, the share token is used in the JS
-				$response = $this->publicWebLog($dbtoken, '', $lastposonly, $filters);
+		// session exists
+		if ($dbToken !== null) {
+			if ($dbIsPublic) {
+				// we give publicWebLog the real session token but then, the share token is used in the JS
+				$response = $this->publicWebLog($dbToken, '');
 				if ($response->getStatus() === Http::STATUS_OK && $response instanceof PublicTemplateResponse) {
 					$response->setHeaderDetails($this->trans->t('Watch session'));
 				}
 				return $response;
 			} else {
-				$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
+				$templateParams = ['message' => $this->trans->t('This session does not exist or is not public')];
 				$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
 				$response->setStatus(Http::STATUS_FORBIDDEN);
-				$response->throttle(['reason' => 'wrong token']);
 				return $response;
 			}
 		}
+
+		// check if a public session has this publicviewtoken
+		$sqlchk = '
+			SELECT session_token, sharetoken, lastposonly, filters
+			FROM *PREFIX*phonetrack_pubshares
+			WHERE sharetoken=' . $this->db_quote_escape_string($publicViewToken) . ' ;';
+		$req = $this->dbConnection->prepare($sqlchk);
+		$res = $req->execute();
+		$dbToken = null;
+		$filters = '';
+		while ($row = $res->fetch()) {
+			$dbToken = $row['session_token'];
+			$lastposonly = $row['lastposonly'];
+			$filters = $row['filters'];
+			break;
+		}
+		$res->closeCursor();
+
+		if ($dbToken !== null) {
+			// we give publicWebLog the real session token but then, the share token is used in the JS
+			$response = $this->publicWebLog($dbToken, '', $lastposonly, $filters);
+			if ($response->getStatus() === Http::STATUS_OK && $response instanceof PublicTemplateResponse) {
+				$response->setHeaderDetails($this->trans->t('Watch session'));
+			}
+			return $response;
+		}
+
+		// here we know it does not exist
+		$templateParams = ['message' => $this->trans->t('The session does not exist or is not public')];
+		$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+		$response->setStatus(Http::STATUS_FORBIDDEN);
+		$response->throttle(['reason' => 'wrong token']);
+		return $response;
 	}
 
 	/**
@@ -2158,20 +2157,23 @@ class OldPageController extends Controller {
 			WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
 		$req = $this->dbConnection->prepare($sqlchk);
 		$res = $req->execute();
-		$dbname = null;
-		$dbPublic = null;
+		$dbName = null;
+		$dbIsPublic = null;
 		while ($row = $res->fetch()) {
-			$dbname = $row['name'];
-			$dbPublic = $row['public'];
+			$dbName = $row['name'];
+			$dbIsPublic = ((int)$row['public']) === 1;
 			break;
 		}
 		$res->closeCursor();
 
-		if ($dbname === null || intval($dbPublic) !== 1) {
-			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
+		if ($dbName === null || $dbIsPublic === false) {
+			$templateParams = ['message' => $this->trans->t('This session does not exist or is not public')];
 			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
 			$response->setStatus(Http::STATUS_FORBIDDEN);
-			$response->throttle(['reason' => 'wrong token']);
+			// only throttle when the session does not exist
+			if ($dbName === null) {
+				$response->throttle(['reason' => 'wrong token']);
+			}
 			return $response;
 		}
 
@@ -2183,7 +2185,7 @@ class OldPageController extends Controller {
 			'useroverlayservers' => [],
 			'usertileserverswms' => [],
 			'useroverlayserverswms' => [],
-			'publicsessionname' => $dbname,
+			'publicsessionname' => $dbName,
 			'lastposonly' => $lastposonly,
 			'sharefilters' => $filters,
 			'filtersBookmarks' => [],
@@ -2191,7 +2193,7 @@ class OldPageController extends Controller {
 		];
 		$response = new PublicTemplateResponse(Application::APP_ID, 'main', $params);
 		$response->setHeaderTitle($this->trans->t('PhoneTrack public access'));
-		$response->setHeaderDetails($this->trans->t('Log to session %s', [$dbname]));
+		$response->setHeaderDetails($this->trans->t('Log to session %s', [$dbName]));
 		$response->setFooterVisible(false);
 		// $response->setHeaders(['X-Frame-Options'=>'']);
 		$csp = new ContentSecurityPolicy();
