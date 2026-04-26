@@ -172,7 +172,7 @@ class ActivityManager {
 			->setAuthor($author ?? $this->userId ?? '')
 			->setObject($objectType, (int)$object->getId(), $objectName)
 			->setSubject($subject, array_merge($subjectParams, $additionalParams))
-			->setLink($this->url->linkToRouteAbsolute('phonetrack.page.index'))
+			->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'))
 			->setTimestamp(time());
 
 		return $event;

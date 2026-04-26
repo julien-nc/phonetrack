@@ -36,9 +36,11 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 
 use OCP\Mail\IMailer;
+use OCP\Notification\IAction;
 use OCP\Notification\IManager;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -66,6 +68,7 @@ class LogController extends Controller {
 		private ShareMapper $shareMapper,
 		private IDBConnection $db,
 		private IMailer $mailer,
+		private IURLGenerator $url,
 		private ?string $userId,
 	) {
 		parent::__construct($AppName, $request);
@@ -175,11 +178,11 @@ class LogController extends Controller {
 
 						$acceptAction = $notification->createAction();
 						$acceptAction->setLabel('accept')
-							->setLink('/apps/phonetrack', 'GET');
+							->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 						$declineAction = $notification->createAction();
 						$declineAction->setLabel('decline')
-							->setLink('/apps/phonetrack', 'GET');
+							->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 						$notification->setApp(Application::APP_ID)
 							->setUser($aUserId)
@@ -307,11 +310,11 @@ class LogController extends Controller {
 
 						$acceptAction = $notification->createAction();
 						$acceptAction->setLabel('accept')
-							->setLink('/apps/phonetrack', 'GET');
+							->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 						$declineAction = $notification->createAction();
 						$declineAction->setLabel('decline')
-							->setLink('/apps/phonetrack', 'GET');
+							->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 						$notification->setApp(Application::APP_ID)
 							->setUser($aUserId)
@@ -475,11 +478,11 @@ class LogController extends Controller {
 
 							$acceptAction = $notification->createAction();
 							$acceptAction->setLabel('accept')
-								->setLink('/apps/phonetrack', 'GET');
+								->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 							$declineAction = $notification->createAction();
 							$declineAction->setLabel('decline')
-								->setLink('/apps/phonetrack', 'GET');
+								->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 							$notification->setApp(Application::APP_ID)
 								->setUser($aUserId)
@@ -597,11 +600,11 @@ class LogController extends Controller {
 
 							$acceptAction = $notification->createAction();
 							$acceptAction->setLabel('accept')
-								->setLink('/apps/phonetrack', 'GET');
+								->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 							$declineAction = $notification->createAction();
 							$declineAction->setLabel('decline')
-								->setLink('/apps/phonetrack', 'GET');
+								->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 							$notification->setApp(Application::APP_ID)
 								->setUser($aUserId)
@@ -705,11 +708,11 @@ class LogController extends Controller {
 
 				$acceptAction = $notification->createAction();
 				$acceptAction->setLabel('accept')
-					->setLink('/apps/phonetrack', 'GET');
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 				$declineAction = $notification->createAction();
 				$declineAction->setLabel('decline')
-					->setLink('/apps/phonetrack', 'GET');
+					->setLink($this->url->linkToRouteAbsolute(Application::APP_ID . '.page.index'), IAction::TYPE_GET);
 
 				$notification->setApp(Application::APP_ID)
 					->setUser($userid)
