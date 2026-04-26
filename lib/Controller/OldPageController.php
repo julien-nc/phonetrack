@@ -1602,7 +1602,8 @@ class OldPageController extends Controller {
 	 */
 	#[NoAdminRequired]
 	#[PublicPage]
-	public function publicWebLogTrack($sessions) {
+	#[BruteForceProtection(action: 'PhonetrackPublicWebLogTrack')]
+	public function publicWebLogTrack(array $sessions): DataResponse {
 		$result = [];
 		$colors = [];
 		$shapes = [];
@@ -1610,145 +1611,154 @@ class OldPageController extends Controller {
 		$aliases = [];
 		foreach ($sessions as $session) {
 			$token = $session[0];
-			if ($this->isSessionPublic($token)) {
-				$lastTime = $session[1];
-				$firstTime = $session[2];
+			if (!$this->isSessionPublic($token)) {
+				continue;
+			}
+			$lastTime = $session[1];
+			$firstTime = $session[2];
 
-				// check if session exists
-				$dbtoken = null;
+			// check if session exists
+			$dbtoken = null;
+			$sqlget = '
+				SELECT token
+				FROM *PREFIX*phonetrack_sessions
+				WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
+			$req = $this->dbConnection->prepare($sqlget);
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$dbtoken = $row['token'];
+			}
+			$res->closeCursor();
+
+			// session does not exist
+			if ($dbtoken === null) {
+				continue;
+			}
+			// get list of devices
+			$devices = [];
+			$sqldev = '
+				SELECT id
+				FROM *PREFIX*phonetrack_devices
+				WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' ;';
+			$req = $this->dbConnection->prepare($sqldev);
+			$res = $req->execute();
+			while ($row = $res->fetch()) {
+				$devices[] = intval($row['id']);
+			}
+			$res->closeCursor();
+
+			// get the coords for each device
+			$result[$token] = [];
+
+			foreach ($devices as $devid) {
+				$resultDevArray = [];
+
+				$firstDeviceTimeSQL = '';
+				if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
+					$firstDeviceTime = $firstTime[$devid];
+					$firstDeviceTimeSQL = 'timestamp<' . $this->db_quote_escape_string($firstDeviceTime);
+				}
+
+				$lastDeviceTime = 0;
+				$lastDeviceTimeSQL = '';
+				if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
+					$lastDeviceTime = $lastTime[$devid];
+					$lastDeviceTimeSQL = 'timestamp>' . $this->db_quote_escape_string($lastDeviceTime);
+				}
+				// build SQL condition for first/last
+				$firstLastSQL = '';
+				if ($firstDeviceTimeSQL !== '') {
+					if ($lastDeviceTimeSQL !== '') {
+						$firstLastSQL = 'AND (' . $firstDeviceTimeSQL . ' OR ' . $lastDeviceTimeSQL . ') ';
+					} else {
+						$firstLastSQL = 'AND ' . $firstDeviceTimeSQL . ' ';
+					}
+				} elseif ($lastDeviceTimeSQL !== '') {
+					$firstLastSQL = 'AND ' . $lastDeviceTimeSQL . ' ';
+				}
+				// we give color (first point given)
+				else {
+					$sqlcolor = '
+						SELECT color, name, alias, shape
+						FROM *PREFIX*phonetrack_devices
+						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
+								AND id=' . $this->db_quote_escape_string($devid) . ' ;';
+					$req = $this->dbConnection->prepare($sqlcolor);
+					$res = $req->execute();
+					$col = '';
+					while ($row = $res->fetch()) {
+						$col = $row['color'];
+						$shape = $row['shape'];
+						$name = $row['name'];
+						$alias = $row['alias'];
+					}
+					$res->closeCursor();
+					if (!array_key_exists($dbtoken, $shapes)) {
+						$shapes[$dbtoken] = [];
+					}
+					$shapes[$dbtoken][$devid] = $shape;
+					if (!array_key_exists($dbtoken, $colors)) {
+						$colors[$dbtoken] = [];
+					}
+					$colors[$dbtoken][$devid] = $col;
+					if (!array_key_exists($dbtoken, $names)) {
+						$names[$dbtoken] = [];
+					}
+					$names[$dbtoken][$devid] = $name;
+					if (!array_key_exists($dbtoken, $aliases)) {
+						$aliases[$dbtoken] = [];
+					}
+					$aliases[$dbtoken][$devid] = $alias;
+				}
+
 				$sqlget = '
-					SELECT token
-					FROM *PREFIX*phonetrack_sessions
-					WHERE token=' . $this->db_quote_escape_string($token) . ' ;';
+					SELECT id, deviceid, lat, lon,
+							timestamp, accuracy, satellites,
+							altitude, batterylevel,
+							useragent, speed, bearing
+					FROM *PREFIX*phonetrack_points
+					WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' '
+					. $firstLastSQL . '
+					ORDER BY timestamp DESC LIMIT 1000 ;';
 				$req = $this->dbConnection->prepare($sqlget);
 				$res = $req->execute();
 				while ($row = $res->fetch()) {
-					$dbtoken = $row['token'];
+					$entry = [
+						intval($row['id']),
+						floatval($row['lat']),
+						floatval($row['lon']),
+						intval($row['timestamp']),
+						is_numeric($row['accuracy']) ? floatval($row['accuracy']) : null,
+						is_numeric($row['satellites']) ? intval($row['satellites']) : null,
+						is_numeric($row['altitude']) ? floatval($row['altitude']) : null,
+						is_numeric($row['batterylevel']) ? floatval($row['batterylevel']) : null,
+						$row['useragent'],
+						is_numeric($row['speed']) ? floatval($row['speed']) : null,
+						is_numeric($row['bearing']) ? floatval($row['bearing']) : null
+					];
+					array_unshift($resultDevArray, $entry);
 				}
 				$res->closeCursor();
-
-				// session exists
-				if ($dbtoken !== null) {
-					// get list of devices
-					$devices = [];
-					$sqldev = '
-						SELECT id
-						FROM *PREFIX*phonetrack_devices
-						WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . ' ;';
-					$req = $this->dbConnection->prepare($sqldev);
-					$res = $req->execute();
-					while ($row = $res->fetch()) {
-						$devices[] = intval($row['id']);
-					}
-					$res->closeCursor();
-
-					// get the coords for each device
-					$result[$token] = [];
-
-					foreach ($devices as $devid) {
-						$resultDevArray = [];
-
-						$firstDeviceTimeSQL = '';
-						if (is_array($firstTime) && array_key_exists($devid, $firstTime)) {
-							$firstDeviceTime = $firstTime[$devid];
-							$firstDeviceTimeSQL = 'timestamp<' . $this->db_quote_escape_string($firstDeviceTime);
-						}
-
-						$lastDeviceTime = 0;
-						$lastDeviceTimeSQL = '';
-						if (is_array($lastTime) && array_key_exists($devid, $lastTime)) {
-							$lastDeviceTime = $lastTime[$devid];
-							$lastDeviceTimeSQL = 'timestamp>' . $this->db_quote_escape_string($lastDeviceTime);
-						}
-						// build SQL condition for first/last
-						$firstLastSQL = '';
-						if ($firstDeviceTimeSQL !== '') {
-							if ($lastDeviceTimeSQL !== '') {
-								$firstLastSQL = 'AND (' . $firstDeviceTimeSQL . ' OR ' . $lastDeviceTimeSQL . ') ';
-							} else {
-								$firstLastSQL = 'AND ' . $firstDeviceTimeSQL . ' ';
-							}
-						} elseif ($lastDeviceTimeSQL !== '') {
-							$firstLastSQL = 'AND ' . $lastDeviceTimeSQL . ' ';
-						}
-						// we give color (first point given)
-						else {
-							$sqlcolor = '
-								SELECT color, name, alias, shape
-								FROM *PREFIX*phonetrack_devices
-								WHERE session_token=' . $this->db_quote_escape_string($dbtoken) . '
-									  AND id=' . $this->db_quote_escape_string($devid) . ' ;';
-							$req = $this->dbConnection->prepare($sqlcolor);
-							$res = $req->execute();
-							$col = '';
-							while ($row = $res->fetch()) {
-								$col = $row['color'];
-								$shape = $row['shape'];
-								$name = $row['name'];
-								$alias = $row['alias'];
-							}
-							$res->closeCursor();
-							if (!array_key_exists($dbtoken, $shapes)) {
-								$shapes[$dbtoken] = [];
-							}
-							$shapes[$dbtoken][$devid] = $shape;
-							if (!array_key_exists($dbtoken, $colors)) {
-								$colors[$dbtoken] = [];
-							}
-							$colors[$dbtoken][$devid] = $col;
-							if (!array_key_exists($dbtoken, $names)) {
-								$names[$dbtoken] = [];
-							}
-							$names[$dbtoken][$devid] = $name;
-							if (!array_key_exists($dbtoken, $aliases)) {
-								$aliases[$dbtoken] = [];
-							}
-							$aliases[$dbtoken][$devid] = $alias;
-						}
-
-						$sqlget = '
-							SELECT id, deviceid, lat, lon,
-								   timestamp, accuracy, satellites,
-								   altitude, batterylevel,
-								   useragent, speed, bearing
-							FROM *PREFIX*phonetrack_points
-							WHERE deviceid=' . $this->db_quote_escape_string($devid) . ' '
-							. $firstLastSQL . '
-							ORDER BY timestamp DESC LIMIT 1000 ;';
-						$req = $this->dbConnection->prepare($sqlget);
-						$res = $req->execute();
-						while ($row = $res->fetch()) {
-							$entry = [
-								intval($row['id']),
-								floatval($row['lat']),
-								floatval($row['lon']),
-								intval($row['timestamp']),
-								is_numeric($row['accuracy']) ? floatval($row['accuracy']) : null,
-								is_numeric($row['satellites']) ? intval($row['satellites']) : null,
-								is_numeric($row['altitude']) ? floatval($row['altitude']) : null,
-								is_numeric($row['batterylevel']) ? floatval($row['batterylevel']) : null,
-								$row['useragent'],
-								is_numeric($row['speed']) ? floatval($row['speed']) : null,
-								is_numeric($row['bearing']) ? floatval($row['bearing']) : null
-							];
-							array_unshift($resultDevArray, $entry);
-						}
-						$res->closeCursor();
-						if (count($resultDevArray) > 0) {
-							$result[$token][$devid] = $resultDevArray;
-						} else {
-							// if device has no new point and no last time
-							// it means it was probably reserved : we don't give its name
-							if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
-								unset($names[$dbtoken][$devid]);
-								unset($aliases[$dbtoken][$devid]);
-								unset($colors[$dbtoken][$devid]);
-								unset($shapes[$dbtoken][$devid]);
-							}
-						}
+				if (count($resultDevArray) > 0) {
+					$result[$token][$devid] = $resultDevArray;
+				} else {
+					// if device has no new point and no last time
+					// it means it was probably reserved : we don't give its name
+					if (!is_array($lastTime) || !array_key_exists($devid, $lastTime)) {
+						unset($names[$dbtoken][$devid]);
+						unset($aliases[$dbtoken][$devid]);
+						unset($colors[$dbtoken][$devid]);
+						unset($shapes[$dbtoken][$devid]);
 					}
 				}
 			}
+		}
+
+		if (count($result) === 0) {
+			$response = new DataResponse(['error' => 'No session found']);
+			$response->setStatus(Http::STATUS_NOT_FOUND);
+			$response->throttle(['reason' => 'no session found']);
+			return $response;
 		}
 
 		return new DataResponse([
