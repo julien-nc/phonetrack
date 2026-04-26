@@ -1521,12 +1521,7 @@ class OldPageControllerTest extends TestCase {
 		// CHECK PUBLIC VIEW TRACK ON PRIVATE SESSION
 		$sessions = [[$sharetoken2, null, null]];
 		$resp = $this->pageController->publicViewTrack($sessions);
-		$data = $resp->getData();
-		$respSession = $data['sessions'];
-		$respNames = $data['names'];
-		$respColors = $data['colors'];
-
-		$this->assertEquals(count($respSession), 0);
+		$this->assertEquals(Http::STATUS_NOT_FOUND, $resp->getStatus());
 
 		// API
 		$resp = $this->pageController->APIgetLastPositionsPublic($sharetoken2);
@@ -2108,7 +2103,7 @@ class OldPageControllerTest extends TestCase {
 
 		// PUBLIC WEB LOG with non existent session
 		$resp = $this->pageController->publicWebLog('', '');
-		$this->assertEquals(is_string($resp), true);
+		$this->assertEquals(Http::STATUS_FORBIDDEN, $resp->getStatus());
 
 		$resp = $this->utilsController->saveOptionValue([
 			'applyfilters' => 'false',
