@@ -5,25 +5,22 @@ declare(strict_types=1);
 namespace OCA\PhoneTrack\Migration;
 
 use Closure;
-use OCP\DB\ISchemaWrapper;
+use Doctrine\DBAL\Types\Type;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 use OCP\DB\Types;
 
 class Version010000Date20260416223500 extends SimpleMigrationStep {
 
-	public function __construct() {}
-
-	public function preSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {}
-
-    /** Add the missing database columns for the Device and Session models
+    /**
+     * Add the missing database columns for the Device and Session models
      * that weren't added when upgrading from <1 to 1.0
+     * If they are already there, make sure they have the right type and make them unsigned
      */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
 		$schema = $schemaClosure();
 		$schemaChanged = false;
 
-        // add missing columns for Device.php
 		if ($schema->hasTable('phonetrack_devices')) {
 			$table = $schema->getTable('phonetrack_devices');
 
@@ -34,6 +31,13 @@ class Version010000Date20260416223500 extends SimpleMigrationStep {
 					'unsigned' => true,
 				]);
                 $schemaChanged = true;
+            } else {
+                $column = $table->getColumn('line_enabled');
+                if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+                    $column->setType(Type::getType(Types::INTEGER));
+                    $column->setUnsigned(true);
+                    $schemaChanged = true;
+                }
             }
 
             if (!$table->hasColumn('auto_zoom')) {
@@ -43,6 +47,13 @@ class Version010000Date20260416223500 extends SimpleMigrationStep {
                     'unsigned' => true,
                 ]);
                 $schemaChanged = true;
+            } else {
+                $column = $table->getColumn('auto_zoom');
+                if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+                    $column->setType(Type::getType(Types::INTEGER));
+                    $column->setUnsigned(true);
+                    $schemaChanged = true;
+                }
             }
 
             if (!$table->hasColumn('color_criteria')) {
@@ -52,6 +63,13 @@ class Version010000Date20260416223500 extends SimpleMigrationStep {
                     'unsigned' => true,
                 ]);
                 $schemaChanged = true;
+            } else {
+                $column = $table->getColumn('color_criteria');
+                if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+                    $column->setType(Type::getType(Types::INTEGER));
+                    $column->setUnsigned(true);
+                    $schemaChanged = true;
+                }
             }
 
             if (!$table->hasColumn('enabled')) {
@@ -61,10 +79,16 @@ class Version010000Date20260416223500 extends SimpleMigrationStep {
                     'unsigned' => true,
                 ]);
                 $schemaChanged = true;
+            } else {
+                $column = $table->getColumn('enabled');
+                if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+                    $column->setType(Type::getType(Types::INTEGER));
+                    $column->setUnsigned(true);
+                    $schemaChanged = true;
+                }
             }
 		}
 
-        // add missing Session.php column
         if ($schema->hasTable('phonetrack_sessions')) {
             $table = $schema->getTable('phonetrack_sessions');
 
@@ -75,11 +99,16 @@ class Version010000Date20260416223500 extends SimpleMigrationStep {
                     'unsigned' => true,
                 ]);
                 $schemaChanged = true;
+            } else {
+                $column = $table->getColumn('enabled');
+                if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+                    $column->setType(Type::getType(Types::INTEGER));
+                    $column->setUnsigned(true);
+                    $schemaChanged = true;
+                }
             }
         }
 
 		return $schemaChanged ? $schema : null;
 	}
-
-	public function postSchemaChange(IOutput $output, Closure $schemaClosure, array $options) {}
 }
