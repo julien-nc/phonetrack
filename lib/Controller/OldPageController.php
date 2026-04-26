@@ -22,6 +22,7 @@ use OCA\PhoneTrack\Service\ToolsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
 
@@ -2045,64 +2046,71 @@ class OldPageController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
-	public function publicSessionWatch($publicviewtoken) {
-		if ($publicviewtoken !== '') {
-			$lastposonly = 0;
+	#[BruteForceProtection(action: 'PhonetrackPublicSessionWatch')]
+	public function publicSessionWatch(string $publicviewtoken): TemplateResponse {
+		if ($publicviewtoken === '') {
+			$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
+			$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+			$response->throttle(['reason' => 'wrong token']);
+			return $response;
+		}
+
+		$lastposonly = 0;
+		// check if a public session has this publicviewtoken
+		$sqlchk = '
+			SELECT token, public
+			FROM *PREFIX*phonetrack_sessions
+			WHERE publicviewtoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
+		$req = $this->dbConnection->prepare($sqlchk);
+		$res = $req->execute();
+		$dbtoken = null;
+		$dbpublic = null;
+		while ($row = $res->fetch()) {
+			$dbtoken = $row['token'];
+			$dbpublic = intval($row['public']);
+			break;
+		}
+		$res->closeCursor();
+
+		if ($dbtoken !== null && $dbpublic === 1) {
+			// we give publicWebLog the real session id but then, the share token is used in the JS
+			$response = $this->publicWebLog($dbtoken, '');
+			if (!is_string($response)) {
+				$response->setHeaderDetails($this->trans->t('Watch session'));
+			}
+			return $response;
+		} else {
 			// check if a public session has this publicviewtoken
 			$sqlchk = '
-				SELECT token, public
-				FROM *PREFIX*phonetrack_sessions
-				WHERE publicviewtoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
+				SELECT session_token, sharetoken, lastposonly, filters
+				FROM *PREFIX*phonetrack_pubshares
+				WHERE sharetoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
 			$req = $this->dbConnection->prepare($sqlchk);
 			$res = $req->execute();
 			$dbtoken = null;
 			$dbpublic = null;
+			$filters = '';
 			while ($row = $res->fetch()) {
-				$dbtoken = $row['token'];
-				$dbpublic = intval($row['public']);
+				$dbtoken = $row['session_token'];
+				$lastposonly = $row['lastposonly'];
+				$filters = $row['filters'];
 				break;
 			}
 			$res->closeCursor();
 
-			if ($dbtoken !== null && $dbpublic === 1) {
+			if ($dbtoken !== null) {
 				// we give publicWebLog the real session id but then, the share token is used in the JS
-				$response = $this->publicWebLog($dbtoken, '');
+				$response = $this->publicWebLog($dbtoken, '', $lastposonly, $filters);
 				if (!is_string($response)) {
 					$response->setHeaderDetails($this->trans->t('Watch session'));
 				}
 				return $response;
 			} else {
-				// check if a public session has this publicviewtoken
-				$sqlchk = '
-					SELECT session_token, sharetoken, lastposonly, filters
-					FROM *PREFIX*phonetrack_pubshares
-					WHERE sharetoken=' . $this->db_quote_escape_string($publicviewtoken) . ' ;';
-				$req = $this->dbConnection->prepare($sqlchk);
-				$res = $req->execute();
-				$dbtoken = null;
-				$dbpublic = null;
-				$filters = '';
-				while ($row = $res->fetch()) {
-					$dbtoken = $row['session_token'];
-					$lastposonly = $row['lastposonly'];
-					$filters = $row['filters'];
-					break;
-				}
-				$res->closeCursor();
-
-				if ($dbtoken !== null) {
-					// we give publicWebLog the real session id but then, the share token is used in the JS
-					$response = $this->publicWebLog($dbtoken, '', $lastposonly, $filters);
-					if (!is_string($response)) {
-						$response->setHeaderDetails($this->trans->t('Watch session'));
-					}
-					return $response;
-				} else {
-					return 'Session does not exist or is not public';
-				}
+				$templateParams = ['message' => $this->trans->t('Session does not exist or is not public')];
+				$response = new TemplateResponse('core', '403', $templateParams, TemplateResponse::RENDER_AS_ERROR);
+				$response->throttle(['reason' => 'wrong token']);
+				return $response;
 			}
-		} else {
-			return 'Session does not exist or is not public';
 		}
 	}
 
