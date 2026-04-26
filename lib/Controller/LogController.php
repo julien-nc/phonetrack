@@ -5,7 +5,6 @@ namespace OCA\PhoneTrack\Controller;
 use DateTime;
 use DateTimeZone;
 use Exception;
-
 use OCA\PhoneTrack\Activity\ActivityManager;
 use OCA\PhoneTrack\AppInfo\Application;
 use OCA\PhoneTrack\Db\Device;
@@ -1363,6 +1362,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogGet')]
 	public function logGet(
 		string $token, string $devicename, float $lat, float $lon, ?int $timestamp, ?float $bat = null,
 		?int $sat = null, ?float $acc = null, ?float $alt = null,
@@ -1379,6 +1379,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogLocusmapGet')]
 	public function logLocusmapGet(
 		string $token, string $devicename, float $lat, float $lon, ?int $time = null,
 		?float $battery = null, ?float $acc = null, ?float $alt = null,
@@ -1388,13 +1389,21 @@ class LogController extends Controller {
 		if ($battery !== null) {
 			$battery = (int)$battery;
 		}
-		$this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
-		return new JSONResponse([]);
+		$resp = $this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+		$response = new JSONResponse([]);
+		if ($resp->getStatus() !== Http::STATUS_OK) {
+			$response->setStatus($resp->getStatus());
+			if ($resp->isThrottled()) {
+				$response->throttle($resp->getThrottleMetadata());
+			}
+		}
+		return $response;
 	}
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogLocusmapPost')]
 	public function logLocusmapPost(
 		string $token, string $devicename, float $lat, float $lon, ?int $time = null,
 		?float $battery = null, ?float $acc = null, ?float $alt = null,
@@ -1404,13 +1413,21 @@ class LogController extends Controller {
 		if ($battery !== null) {
 			$battery = (int)$battery;
 		}
-		$this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
-		return new JSONResponse([]);
+		$resp = $this->logPost($token, $dName, $lat, $lon, $alt, $time, $acc, $battery, null, 'LocusMap', $speed, $bearing);
+		$response = new JSONResponse([]);
+		if ($resp->getStatus() !== Http::STATUS_OK) {
+			$response->setStatus($resp->getStatus());
+			if ($resp->isThrottled()) {
+				$response->throttle($resp->getThrottleMetadata());
+			}
+		}
+		return $response;
 	}
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogOsmand')]
 	public function logOsmand(
 		string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
 		?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
@@ -1420,13 +1437,21 @@ class LogController extends Controller {
 		if ($bat !== null) {
 			$bat = (int)$bat;
 		}
-		$this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
-		return new JSONResponse([]);
+		$resp = $this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'OsmAnd', $speed, $bearing);
+		$response = new JSONResponse([]);
+		if ($resp->getStatus() !== Http::STATUS_OK) {
+			$response->setStatus($resp->getStatus());
+			if ($resp->isThrottled()) {
+				$response->throttle($resp->getThrottleMetadata());
+			}
+		}
+		return $response;
 	}
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogGpsloggerGet')]
 	public function logGpsloggerGet(
 		string $token, string $devicename, float $lat, float $lon, ?int $timestamp = null,
 		?float $bat = null, ?int $sat = null, ?float $acc = null, ?float $alt = null,
@@ -1436,13 +1461,21 @@ class LogController extends Controller {
 		if ($bat !== null) {
 			$bat = (int)$bat;
 		}
-		$this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
-		return new JSONResponse([]);
+		$resp = $this->logPost($token, $dName, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger GET', $speed, $bearing);
+		$response = new JSONResponse([]);
+		if ($resp->getStatus() !== Http::STATUS_OK) {
+			$response->setStatus($resp->getStatus());
+			if ($resp->isThrottled()) {
+				$response->throttle($resp->getThrottleMetadata());
+			}
+		}
+		return $response;
 	}
 
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogGpsloggerPost')]
 	public function logGpsloggerPost(
 		string $token, string $devicename, float $lat, float $lon, ?float $alt = null,
 		?int $timestamp = null, ?float $acc = null, ?float $bat = null, $sat = null,
@@ -1452,8 +1485,15 @@ class LogController extends Controller {
 		if ($bat !== null) {
 			$bat = (int)$bat;
 		}
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
-		return new JSONResponse([]);
+		$resp = $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
+		$response = new JSONResponse([]);
+		if ($resp->getStatus() !== Http::STATUS_OK) {
+			$response->setStatus($resp->getStatus());
+			if ($resp->isThrottled()) {
+				$response->throttle($resp->getThrottleMetadata());
+			}
+		}
+		return $response;
 	}
 
 	/**
@@ -1473,6 +1513,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogOwntracks')]
 	public function logOwntracks(
 		string $token, ?float $lat, ?float $lon, ?string $devicename = null, ?string $tid = null,
 		?float $alt = null, ?int $tst = null, ?float $acc = null, ?float $batt = null,
@@ -1485,10 +1526,18 @@ class LogController extends Controller {
 		if ($batt !== null) {
 			$batt = (int)$batt;
 		}
-		$res = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
+		$resp = $this->logPost($token, $dname, $lat, $lon, $alt, $tst, $acc, $batt, null, self::LOG_OWNTRACKS);
+		if ($resp->getStatus() !== Http::STATUS_OK) {
+			$response = new JSONResponse([]);
+			$response->setStatus($resp->getStatus());
+			if ($resp->isThrottled()) {
+				$response->throttle($resp->getThrottleMetadata());
+			}
+			return $response;
+		}
 		/** @var array $resData */
-		$resData = $res->getData();
-		return new JSONResponse($resData['friends']);
+		$resData = $resp->getData();
+		return new JSONResponse($resData['friends'] ?? []);
 	}
 
 	/**
@@ -1497,6 +1546,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogOverland')]
 	public function logOverland(string $token, array $locations, ?string $devicename = null): JSONResponse {
 		foreach ($locations as $loc) {
 			if ($loc['type'] === 'Feature' && $loc['geometry']['type'] === 'Point') {
@@ -1511,7 +1561,15 @@ class LogController extends Controller {
 				$bearing = null;
 				$sat = null;
 				$alt = $loc['properties']['altitude'];
-				$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, (int)$bat, $sat, 'Overland', $speed, $bearing);
+				$resp = $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, (int)$bat, $sat, 'Overland', $speed, $bearing);
+				if ($resp->getStatus() !== Http::STATUS_OK) {
+					$response = new JSONResponse([]);
+					$response->setStatus($resp->getStatus());
+					if ($resp->isThrottled()) {
+						$response->throttle($resp->getThrottleMetadata());
+					}
+					return $response;
+				}
 			}
 		}
 		return new JSONResponse(['result' => 'ok']);
@@ -1523,6 +1581,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogUlogger')]
 	public function logUlogger(
 		string $token, ?float $lat = null, ?float $lon = null, ?int $time = null, ?string $devicename = null,
 		?float $accuracy = null, ?float $altitude = null,
@@ -1530,7 +1589,15 @@ class LogController extends Controller {
 	): JSONResponse {
 		if ($action === 'addpos' && $lat !== null && $lon !== null) {
 			$dname = $this->chooseDeviceName($devicename);
-			$this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null, 'Ulogger', $speed, $bearing);
+			$resp = $this->logPost($token, $dname, $lat, $lon, $altitude, $time, $accuracy, null, null, 'Ulogger', $speed, $bearing);
+			if ($resp->getStatus() !== Http::STATUS_OK) {
+				$response = new JSONResponse([]);
+				$response->setStatus($resp->getStatus());
+				if ($resp->isThrottled()) {
+					$response->throttle($resp->getThrottleMetadata());
+				}
+				return $response;
+			}
 		}
 		return new JSONResponse([
 			'error' => false,
@@ -1544,6 +1611,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogTraccar')]
 	public function logTraccar(
 		string $token, ?float $lat = null, ?float $lon = null, ?int $timestamp = null,
 		?string $deviceName = null, ?string $id = null, ?float $accuracy = null,
@@ -1573,7 +1641,15 @@ class LogController extends Controller {
 		if ($batt !== null) {
 			$batt = (int)$batt;
 		}
-		$this->logPost($token, $dName, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, null, 'Traccar', $speedMS, $bearing);
+		$resp = $this->logPost($token, $dName, $lat, $lon, $altitude, $timestamp, $accuracy, $batt, null, 'Traccar', $speedMS, $bearing);
+		if ($resp->getStatus() !== Http::STATUS_OK) {
+			$response = new JSONResponse([]);
+			$response->setStatus($resp->getStatus());
+			if ($resp->isThrottled()) {
+				$response->throttle($resp->getThrottleMetadata());
+			}
+			return $response;
+		}
 
 		return new JSONResponse(['status' => 'success']);
 	}
@@ -1584,6 +1660,7 @@ class LogController extends Controller {
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	#[PublicPage]
+	#[BruteForceProtection(action: 'PhonetrackLogOpengts')]
 	public function logOpengts(
 		string $token, string $gprmc,
 		?string $devicename = null, ?string $id = null, ?float $alt = null, ?float $batt = null,
@@ -1605,7 +1682,15 @@ class LogController extends Controller {
 		if ($batt !== null) {
 			$batt = (int)$batt;
 		}
-		$this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, null, $batt, null, 'OpenGTS client');
+		$resp = $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, null, $batt, null, 'OpenGTS client');
+		if ($resp->getStatus() !== Http::STATUS_OK) {
+			$response = new DataResponse([]);
+			$response->setStatus($resp->getStatus());
+			if ($resp->isThrottled()) {
+				$response->throttle($resp->getThrottleMetadata());
+			}
+			return $response;
+		}
 		return new DataResponse(true);
 	}
 
