@@ -90,7 +90,7 @@ class LogController extends Controller {
 		return $dname;
 	}
 
-	private function checkProxims(float $lat, float $lon, int $deviceId, string $userid, string $deviceName, string $sessionName, $sessionId): void {
+	private function checkProxims(float $lat, float $lon, int $deviceId, string $userid, string $deviceName, string $sessionName, string $sessionToken): void {
 		try {
 			$lastPoint = $this->pointMapper->getLastDevicePoint($deviceId);
 		} catch (DoesNotExistException) {
@@ -98,7 +98,7 @@ class LogController extends Controller {
 		}
 		$proxims = $this->proximMapper->findByDeviceId($deviceId);
 		foreach ($proxims as $proxim) {
-			$this->checkProxim($lat, $lon, $deviceId, $proxim, $userid, $lastPoint, $deviceName, $sessionId);
+			$this->checkProxim($lat, $lon, $deviceId, $proxim, $userid, $lastPoint, $deviceName, $sessionToken);
 		}
 	}
 
@@ -256,6 +256,7 @@ class LogController extends Controller {
 					// POST
 					try {
 						$parts = parse_url($proxim->getUrlclose());
+						/** @var array $data */
 						parse_str($parts['query'], $data);
 
 						$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
@@ -562,6 +563,7 @@ class LogController extends Controller {
 						// POST
 						try {
 							$parts = parse_url($fence->getUrlenter());
+							/** @var array $data */
 							parse_str($parts['query'], $data);
 
 							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
@@ -1577,7 +1579,7 @@ class LogController extends Controller {
 				$dname = $this->chooseDeviceName($loc['properties']['device_id'] ?? '', $devicename);
 				$lat = $loc['geometry']['coordinates'][1];
 				$lon = $loc['geometry']['coordinates'][0];
-				$datetime = new Datetime($loc['properties']['timestamp']);
+				$datetime = new DateTime($loc['properties']['timestamp']);
 				$timestamp = $datetime->getTimestamp();
 				$acc = $loc['properties']['horizontal_accuracy'];
 				$bat = ((float)$loc['properties']['battery_level']) * 100.0;
