@@ -11,7 +11,7 @@
 Как использовать PhoneTrack:
 
 - Создать сессию.
-- Указать ссылки на мобильные устройства. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
+- Указать ссылку\* на подключение мобильного устройства. Выберите удобный для вас [способ подключения](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods).
 - Просмотр положения устройств сессии в режиме реального времени (или нет) в PhoneTrack или показ их на публичных страницах.
 
 (\*) Не забудьте установить имя устройства в ссылке (а не в настройках приложения для входа). Замените "yourname" на нужное имя устройства.
