@@ -1546,7 +1546,7 @@ class LogController extends Controller {
 	): JSONResponse {
 		if (is_null($lat) || is_null($lon)) {
 			// empty message (control message?) - ignore
-			return new JSONResponse(['result' => 'ok']);
+			return new JSONResponse([]);
 		}
 		$dname = $this->chooseDeviceName($devicename, $tid);
 		if ($batt !== null) {
