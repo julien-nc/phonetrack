@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<NcContent app-name="phonetrack"
 		:class="{ 'app-phonetrack-embedded': isEmbedded }">
@@ -735,9 +739,6 @@ export default {
 			this.updatePoint({ sessionId, deviceId, pointId, values, oldValues })
 			this.editingPointPath = null
 		},
-		/**
-		 * enter in move mode on the map
-		 */
 		onMoveDevicePoint({ sessionId, deviceId, pointId }) {
 			this.cancelCustomClick()
 			this.movingPointToast = showUndo(

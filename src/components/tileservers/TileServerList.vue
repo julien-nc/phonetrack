@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="tile-server-list">
 		<h5 v-if="adminTileServers.length > 0" class="subsection-title">

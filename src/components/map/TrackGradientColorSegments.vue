@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <script>
 import WatchLineBorderColor from '../../mixins/WatchLineBorderColor.js'
 import PointInfoPopup from '../../mixins/PointInfoPopup.js'
@@ -7,12 +11,6 @@ import AddWaypoints from '../../mixins/AddWaypoints.js'
 import { COLOR_CRITERIAS, getColorHueInInterval } from '../../constants.js'
 import { LngLat } from 'maplibre-gl'
 
-/**
- * Generates one layer in which there is one segment per point pair
- * Each segment is colored according to the selected criteria (speed or pace at the moment)
- * For the elevation criteria, it's more realistic to assign colors to points and use a gradient
- * for each segment.
- */
 export default {
 	name: 'TrackGradientColorSegments',
 

@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import { DEVICE_SORT_ORDER } from './constants.js'
 
 import ElevationRiseIcon from 'vue-material-design-icons/ElevationRise.vue'

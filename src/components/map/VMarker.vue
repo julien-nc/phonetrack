@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <script>
 import Options from '../../mixins/Options.js'
 import { Marker } from 'maplibre-gl'

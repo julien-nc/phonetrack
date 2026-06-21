@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <script>
 import { LngLat } from 'maplibre-gl'
 
@@ -10,17 +14,6 @@ import { getFilteredPoints } from '../../utils.js'
 
 const gradientColors = getColorGradientColors(240, 0)
 
-/**
- * Assign a color to each point according to point-specific values
- * Problem: we can only color segments when drawing.
- * Part of the solution: gradients
- * Gradients are not easy to manipulate in maplibregl so we use a trick:
- * We divide the color space in 10 (11 actually) so we can assign one "color range" per point.
- * We create one layer per existing color pairs (2 consecutive points form a pair).
- * Each layer contains all related point pairs as LineStrings.
- * One layer defines the gradient corresponding to the 2 related colors.
- * This gradient will be used for each of its LineString.
- */
 export default {
 	name: 'DeviceGradientColorPoints',
 
