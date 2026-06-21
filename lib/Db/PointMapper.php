@@ -273,7 +273,6 @@ class PointMapper extends QBMapper {
 			$deletionStatement = $this->db->prepare($deletionQuery);
 			$res = $deletionStatement->execute([$deviceId]);
 			return $res->rowCount();
-
 			// I can't get this to work
 			/*
 			$qbSelectPointIds = $this->db->getQueryBuilder();

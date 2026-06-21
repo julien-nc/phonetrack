@@ -16,6 +16,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\PhoneTrack\Controller;
 
 use Exception;
@@ -39,10 +40,8 @@ use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
-
 use OCP\IL10N;
 use OCP\IRequest;
-
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;

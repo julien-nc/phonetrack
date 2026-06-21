@@ -32,13 +32,11 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
-
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
-
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;

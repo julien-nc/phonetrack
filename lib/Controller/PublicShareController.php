@@ -45,7 +45,6 @@ class PublicShareController extends Controller {
 		parent::__construct($appName, $request);
 	}
 
-
 	#[NoAdminRequired]
 	#[PublicPage]
 	#[NoCSRFRequired]

@@ -69,7 +69,6 @@ class ToolsService {
 			}
 		}
 
-
 		foreach (['altitude', 'accuracy', 'speed', 'bearing', 'batterylevel'] as $key) {
 			$minValue = $this->config->getUserValue($userId, Application::APP_ID, $key . 'min');
 			if ($minValue !== '') {

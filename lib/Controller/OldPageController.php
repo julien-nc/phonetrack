@@ -25,9 +25,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\BruteForceProtection;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\Attribute\NoCSRFRequired;
-
 use OCP\AppFramework\Http\Attribute\PublicPage;
-
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
@@ -38,7 +36,6 @@ use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
-
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -1911,7 +1908,6 @@ class OldPageController extends Controller {
 					}
 					$aliases[$dbPublicViewToken][$devid] = $alias;
 				}
-
 
 				$sqlget = '
 					SELECT id, deviceid, lat, lon,
