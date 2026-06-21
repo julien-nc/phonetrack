@@ -292,8 +292,11 @@ class PageController extends Controller {
 		} catch (DoesNotExistException $e) {
 			return new DataResponse(['error' => 'not_found'], Http::STATUS_NOT_FOUND);
 		}
-		$this->sessionService->exportDevice($device, $this->userId, $target);
-		return new DataResponse([]);
+		if (str_contains($target, '..')) {
+			return new DataResponse(['error' => 'invalid_path'], Http::STATUS_BAD_REQUEST);
+		}
+		$exportPath = $this->sessionService->exportDevice($device, $this->userId, $target);
+		return new DataResponse(['export_path' => $exportPath]);
 	}
 
 	/**

@@ -285,7 +285,7 @@ class SessionService {
 	 * @param Device $device
 	 * @param string $userId
 	 * @param string $target
-	 * @return void
+	 * @return string the actual export path
 	 * @throws Exception
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
@@ -293,7 +293,10 @@ class SessionService {
 	 * @throws LockedException
 	 * @throws NoUserException
 	 */
-	public function exportDevice(Device $device, string $userId, string $target): void {
+	public function exportDevice(Device $device, string $userId, string $target): string {
+		if (str_ends_with($target, '/')) {
+			$target .= $device->getName();
+		}
 		$userFolder = $this->root->getUserFolder($userId);
 		$gpxHeader = $this->generateGpxHeader($device->getName());
 		if (!str_ends_with($target, '.gpx')) {
@@ -319,6 +322,7 @@ class SessionService {
 		fwrite($fd, '</gpx>');
 		fclose($fd);
 		$file->touch();
+		return $target;
 	}
 
 	public function exportSession(string $name, string $token, string $target, string $username = '', ?array $filters = null): array {
@@ -337,7 +341,17 @@ class SessionService {
 		$oneFilePerDevice = ($ofpd === 'true');
 
 		$path = $target;
+		if (str_contains($path, '..')) {
+			throw new InvalidPathException('Invalid path');
+		}
+		$cleanPath = $path;
 		$cleanPath = str_replace(['../', '..\\'], '', $path);
+		if (str_ends_with($cleanPath, '/')) {
+			$cleanPath .= $name;
+		}
+		if (!str_ends_with($cleanPath, '.gpx') && !str_ends_with($cleanPath, '.GPX')) {
+			$cleanPath .= '.gpx';
+		}
 
 		if ($userFolder !== null) {
 			$file = null;

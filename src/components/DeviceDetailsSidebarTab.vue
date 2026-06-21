@@ -375,10 +375,15 @@ export default {
 				deviceId: this.device.id,
 			})
 			axios.post(url, req).then((response) => {
-				showSuccess(t('phonetrack', 'Device successfully exported in {targetFilePath}', { targetFilePath }))
+				const actualExportPath = response.data.export_path
+				showSuccess(t('phonetrack', 'Device successfully exported in {actualExportPath}', { actualExportPath }))
 			}).catch((error) => {
 				console.error(error)
-				showError(t('phonetrack', 'Failed to export the device'))
+				if (error.status === 400 && error.response.data.error === 'invalid_path') {
+					showError(t('phonetrack', 'Failed to export the device, invalid path'))
+				} else {
+					showError(t('phonetrack', 'Failed to export the device'))
+				}
 			})
 		},
 	},
