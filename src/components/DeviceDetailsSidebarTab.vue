@@ -42,6 +42,7 @@
 				@keyup.enter="onExportDevice" />
 			<NcButton :title="t('phonetrack', 'Export device')"
 				:disabled="!isDeviceOwnedByCurrentUser"
+				class="large"
 				@click="onExportDevice">
 				<template #icon>
 					<ContentSaveOutlineIcon :size="20" />
@@ -412,6 +413,9 @@ export default {
 		display: flex;
 		gap: 4px;
 		align-items: end;
+		.large {
+			min-width: 120px;
+		}
 	}
 
 	.links {

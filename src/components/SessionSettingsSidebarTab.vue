@@ -37,6 +37,7 @@
 				@keyup.enter="onExportSession" />
 			<NcButton :title="t('phonetrack', 'Export session')"
 				:disabled="!isSessionOwnedByCurrentUser"
+				class="large"
 				@click="onExportSession">
 				<template #icon>
 					<ContentSaveOutlineIcon :size="20" />
@@ -322,6 +323,9 @@ export default {
 		display: flex;
 		gap: 4px;
 		align-items: end;
+		.large {
+			min-width: 120px;
+		}
 	}
 
 	.checkbox-inner {
