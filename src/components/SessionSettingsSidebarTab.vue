@@ -109,7 +109,6 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import {
 	getFilePickerBuilder,
-	FilePickerType,
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
@@ -229,7 +228,6 @@ export default {
 			console.debug('[phonetrack] ExportSession', this.exportFileName)
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to export the session {name}', { name: this.session.name }))
 				.setMultiSelect(false)
-				.setType(FilePickerType.Choose)
 				.addMimeTypeFilter('httpd/unix-directory')
 				.allowDirectories()
 				.addButton({

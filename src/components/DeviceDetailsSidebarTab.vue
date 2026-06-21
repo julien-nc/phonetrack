@@ -188,7 +188,6 @@ import QRCode from './QRCode.vue'
 
 import {
 	getFilePickerBuilder,
-	FilePickerType,
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
@@ -346,7 +345,6 @@ export default {
 			console.debug('[phonetrack] ExportDevice', this.exportFileName)
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to export the device {name}', { name: this.device.name }))
 				.setMultiSelect(false)
-				.setType(FilePickerType.Choose)
 				.addMimeTypeFilter('httpd/unix-directory')
 				.allowDirectories()
 				.addButton({
@@ -377,7 +375,7 @@ export default {
 				deviceId: this.device.id,
 			})
 			axios.post(url, req).then((response) => {
-				showSuccess(t('phonetrack', 'Session successfully exported in {targetFilePath}', { targetFilePath }))
+				showSuccess(t('phonetrack', 'Device successfully exported in {targetFilePath}', { targetFilePath }))
 			}).catch((error) => {
 				console.error(error)
 				showError(t('phonetrack', 'Failed to export the device'))

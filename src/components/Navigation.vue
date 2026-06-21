@@ -109,7 +109,7 @@ import NewSessionModal from './NewSessionModal.vue'
 import NavigationCountdownItem from './NavigationCountdownItem.vue'
 import FiltersModal from './FiltersModal.vue'
 
-import { getFilePickerBuilder, FilePickerType } from '@nextcloud/dialogs'
+import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { dirname, basename } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
@@ -251,10 +251,15 @@ export default {
 		onImportSessionClick() {
 			const picker = getFilePickerBuilder(t('phonetrack', 'Import gpx/kml/json session file'))
 				.setMultiSelect(false)
-				.setType(FilePickerType.Choose)
 				.addMimeTypeFilter('application/gpx+xml')
-				// .allowDirectories()
 				.startAt(this.lastBrowsePath)
+				.addButton({
+					label: t('phonetrack', 'Import'),
+					variant: 'primary',
+					callback: (nodes) => {
+						// useless callback, pick's promise resolves on button click
+					},
+				})
 				.build()
 			picker.pick()
 				.then(async (path) => {
