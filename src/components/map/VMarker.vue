@@ -19,6 +19,7 @@ export default {
 			type: [Object, Array],
 			required: true,
 		},
+
 		map: {
 			type: Object,
 			required: true,
@@ -57,6 +58,7 @@ export default {
 			this.ready = true
 		},
 	},
+
 	render(h) {
 		return null
 	},

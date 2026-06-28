@@ -31,7 +31,7 @@
 			<DeviceDetailsSidebarTab
 				:device="device"
 				:session="session"
-				:adding-point="addingPoint" />
+				:addingPoint="addingPoint" />
 		</NcAppSidebarTab>
 		<!--NcAppSidebarTab
 			id="device-stats"
@@ -118,45 +118,60 @@ export default {
 		MapMarkerRadiusOutlineIcon,
 		CellphoneIcon,
 	},
+
 	inject: ['isPublicPage'],
 	props: {
 		show: {
 			type: Boolean,
 			required: true,
 		},
+
 		activeTab: {
 			type: String,
 			required: true,
 		},
+
 		device: {
 			type: Object,
 			default: null,
 		},
+
 		session: {
 			type: Object,
 			default: null,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
 		},
+
 		addingPoint: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 		}
 	},
+
+	emits: [
+		'update:active',
+		'close',
+	],
+
 	computed: {
 		pageIsPublic() {
 			return false
 		},
+
 		subtitle() {
 			return t('phonetrack', 'Device {deviceName} of session {sessionName}', { deviceName: this.device.name, sessionName: this.session.name })
 		},
 	},
+
 	methods: {
 	},
 }

@@ -2,9 +2,11 @@
  * SPDX-FileCopyrightText: 2017 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { LngLat, Popup, Marker } from 'maplibre-gl'
+import { LngLat, Marker, Popup } from 'maplibre-gl'
 import {
-	metersToDistance, isColorDark, getPointDataHtml,
+	getPointDataHtml,
+	isColorDark,
+	metersToDistance,
 } from '../utils.js'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import axios from '@nextcloud/axios'
@@ -39,10 +41,10 @@ export default {
 				this.listenToPointInfoEvents()
 			}
 		},
-		color(newVal) {
+		color() {
 			this.updateStyle()
 		},
-		borderColor(newVal) {
+		borderColor() {
 			this.updateStyle()
 		},
 		deviceGeojsonData() {
@@ -61,15 +63,15 @@ export default {
 		opacity() {
 			this.updateStyle()
 		},
-		'device.name'(newValue) {
+		'device.name': function() {
 			this.removeLastPointMarker()
 			this.addLastPointMarker()
 		},
-		'device.alias'(newValue) {
+		'device.alias': function() {
 			this.removeLastPointMarker()
 			this.addLastPointMarker()
 		},
-		'device.lineEnabled'(newValue) {
+		'device.lineEnabled': function() {
 			this.clearPopups()
 			this.removeTemporaryMarker()
 		},
@@ -309,7 +311,7 @@ export default {
 				this.removeTemporaryPopup()
 				console.debug('[phonetrack] marker clicked', e)
 				const popup = this.addPopup(point, pointIndex, traveledDistance, true)
-				popup.on('close', (e) => {
+				popup.on('close', () => {
 					console.debug('[phonetrack] --- close popup')
 					this.removePersistentPopup(point.id)
 				})
@@ -333,7 +335,7 @@ export default {
 				.addTo(this.map)
 			if (persist) {
 				const deleteButton = popup.getElement().querySelector('.deletePoint')
-				deleteButton.addEventListener('click', async (event) => {
+				deleteButton.addEventListener('click', async () => {
 					console.debug('[phonetrack] delete', point, this.device)
 					const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/point/{pointId}', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
 					axios.delete(url).then((response) => {
@@ -348,14 +350,14 @@ export default {
 					})
 				})
 				const moveButton = popup.getElement().querySelector('.movePoint')
-				moveButton.addEventListener('click', async (event) => {
+				moveButton.addEventListener('click', async () => {
 					console.debug('[phonetrack] move', point, this.device)
 					emit('device-point-move', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
 					this.removePersistentPopup(point.id)
 					this.removeTemporaryMarker()
 				})
 				const editButton = popup.getElement().querySelector('.editPoint')
-				editButton.addEventListener('click', async (event) => {
+				editButton.addEventListener('click', async () => {
 					console.debug('[phonetrack] edit', point, this.device)
 					emit('device-point-edit', { sessionId: this.device.session_id, deviceId: this.device.id, pointId: point.id })
 					this.removePersistentPopup(point.id)
@@ -372,15 +374,15 @@ export default {
 			const dataHtml = (point.timestamp === null && point.altitude === null)
 				? t('phonetrack', 'No data')
 				: '<strong>' + t('phonetrack', 'Device') + '</strong>: ' + deviceName + '<br>'
-				+ getPointDataHtml(point, this.distanceUnit)
-				+ (traveledDistance
-					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')
-					: '')
-				+ (persist
-					? '<button class="deletePoint" title="' + t('phonetrack', 'Delete this point') + '">' + t('phonetrack', 'Delete') + '</button>'
-					+ '<button class="editPoint" title="' + t('phonetrack', 'Edit this point') + '">' + t('phonetrack', 'Edit') + '</button>'
-					+ '<button class="movePoint" title="' + t('phonetrack', 'Move this point') + '">' + t('phonetrack', 'Move') + '</button>'
-					: '')
+					+ getPointDataHtml(point, this.distanceUnit)
+					+ (traveledDistance
+						? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')
+						: '')
+					+ (persist
+						? '<button class="deletePoint" title="' + t('phonetrack', 'Delete this point') + '">' + t('phonetrack', 'Delete') + '</button>'
+						+ '<button class="editPoint" title="' + t('phonetrack', 'Edit this point') + '">' + t('phonetrack', 'Edit') + '</button>'
+						+ '<button class="movePoint" title="' + t('phonetrack', 'Move this point') + '">' + t('phonetrack', 'Move') + '</button>'
+						: '')
 			return '<div ' + containerClass + ' style="border-color: ' + this.color + ';">'
 				+ dataHtml
 				+ '</div>'
@@ -452,10 +454,10 @@ export default {
 			this.map.getCanvas().style.cursor = 'pointer'
 			this.showPointMarker(e.lngLat)
 		},
-		onMouseLeavePointInfo(e) {
+		onMouseLeavePointInfo() {
 			this.map.getCanvas().style.cursor = ''
 		},
-		onMapClicked(lngLat) {
+		onMapClicked() {
 			this.removeTemporaryMarker()
 		},
 		onPointValuesUpdated(pointId) {

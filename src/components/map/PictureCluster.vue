@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script>
-import { Popup, Marker } from 'maplibre-gl'
+import { Marker, Popup } from 'maplibre-gl'
 import moment from '@nextcloud/moment'
 import { generateUrl } from '@nextcloud/router'
 import { escapeHtml } from '../../utils.js'
@@ -28,14 +28,18 @@ export default {
 			type: Array,
 			required: true,
 		},
+
 		map: {
 			type: Object,
 			required: true,
 		},
+
+		/*
 		circleBorderColor: {
 			type: String,
 			default: 'black',
 		},
+		*/
 	},
 
 	data() {
@@ -136,6 +140,7 @@ export default {
 			})
 			this.clickPopups = {}
 		},
+
 		bringToTop() {
 			Object.values(LAYER_SUFFIXES).forEach((s) => {
 				if (this.map.getLayer(this.stringId + s)) {
@@ -143,6 +148,7 @@ export default {
 				}
 			})
 		},
+
 		init() {
 			this.map.addSource(this.stringId, {
 				type: 'geojson',
@@ -171,11 +177,13 @@ export default {
 
 			this.ready = true
 		},
+
 		onMapRender(e) {
 			if (this.map.isSourceLoaded(this.stringId)) {
 				this.updateMarkers()
 			}
 		},
+
 		async updateMarkers() {
 			const newSingleMarkers = {}
 			const newClusterMarkers = {}
@@ -237,6 +245,7 @@ export default {
 			}
 			this.clusterMarkersOnScreen = newClusterMarkers
 		},
+
 		async getOnePictureOfCluster(clusterId, clusterSource) {
 			return new Promise((resolve, reject) => {
 				clusterSource.getClusterLeaves(clusterId, 1, 0, (error, features) => {
@@ -248,6 +257,7 @@ export default {
 				})
 			})
 		},
+
 		createSingleMarker(id, el, coords, picture, previewUrl) {
 			const marker = new Marker({
 				element: el,
@@ -272,6 +282,7 @@ export default {
 			markerElement.addEventListener('click', markerElement.clickListener)
 			return marker
 		},
+
 		createClusterMarker(id, el, coords, picture, previewUrl) {
 			const marker = new Marker({
 				element: el,
@@ -295,26 +306,25 @@ export default {
 			markerElement.addEventListener('click', markerElement.clickListener)
 			return marker
 		},
+
 		createMarkerElement(previewUrl, isCluster = false, count = 0) {
 			const mainDiv = document.createElement('div')
 			mainDiv.classList.add(isCluster ? 'picture-cluster-marker' : 'picture-marker')
 			const innerDiv = document.createElement('div')
 			mainDiv.appendChild(innerDiv)
 			innerDiv.classList.add(isCluster ? 'picture-cluster-marker--content' : 'picture-marker--content')
-			innerDiv.setAttribute('style',
-				'width: ' + PHOTO_MARKER_SIZE + 'px;'
-				+ 'height: ' + PHOTO_MARKER_SIZE + 'px;'
-				+ 'border: 2px solid var(--color-border);'
-				+ 'border-radius: var(--border-radius);')
+			innerDiv.setAttribute('style', 'width: ' + PHOTO_MARKER_SIZE + 'px;'
+			+ 'height: ' + PHOTO_MARKER_SIZE + 'px;'
+			+ 'border: 2px solid var(--color-border);'
+			+ 'border-radius: var(--border-radius);')
 			const imgDiv = document.createElement('div')
 			imgDiv.setAttribute('style', 'background-image: url(\'' + previewUrl + '\');'
-				+ 'width: 100%;'
-				+ 'height: 100%;'
-				+ 'background-size: cover;'
-				+ 'background-position: center center;'
-				+ 'background-repeat: no-repeat;'
-				+ 'background-color: white;',
-			)
+			+ 'width: 100%;'
+			+ 'height: 100%;'
+			+ 'background-size: cover;'
+			+ 'background-position: center center;'
+			+ 'background-repeat: no-repeat;'
+			+ 'background-color: white;')
 			innerDiv.appendChild(imgDiv)
 			if (isCluster) {
 				const countDiv = document.createElement('div')
@@ -324,6 +334,7 @@ export default {
 			}
 			return mainDiv
 		},
+
 		getPicturePopupHtml(picture, previewUrl, persistent = false) {
 			const formattedDate = moment.unix(picture.date_taken).format('LLL')
 			return '<div class="photo-tooltip-wrapper" style="border-color: var(--color-primary);">'
@@ -333,12 +344,13 @@ export default {
 				+ '<p class="tooltip-photo-name">' + escapeHtml(basename(picture.path)) + '</p>'
 				+ (picture.direction !== null && picture.direction !== undefined
 					? '<p><b>' + t('phonetrack', 'Direction') + ': </b><span class="photo-direction" style="display: inline-block; '
-						+ 'transform: rotate(' + picture.direction + 'deg);">⬆</span> ' + picture.direction + '°</p>'
+					+ 'transform: rotate(' + picture.direction + 'deg);">⬆</span> ' + picture.direction + '°</p>'
 					: '')
 				+ (persistent ? '<a href="' + generateUrl('/f/' + picture.file_id) + '" target="_blank">' + t('phonetrack', 'Open in Files') + '</a>' : '')
 				+ '</div>'
 				+ '</div>'
 		},
+
 		onUnclusteredPointClick(pictureCoords, picture, previewUrl) {
 			const coordinates = pictureCoords.slice()
 
@@ -369,6 +381,7 @@ export default {
 				this.clickPopups[picture.id] = popup
 			}
 		},
+
 		onUnclusteredPointMouseEnter(pictureCoords, picture, previewUrl) {
 			this.map.getCanvas().style.cursor = 'pointer'
 			this.bringToTop()
@@ -392,6 +405,7 @@ export default {
 
 			this.$emit('picture-hover-in', { pictureId: picture.id, dirId: picture.directory_id })
 		},
+
 		onUnclusteredPointMouseLeave(pictureCoords, picture) {
 			this.map.getCanvas().style.cursor = ''
 			this.hoverPopup?.remove()
@@ -399,6 +413,7 @@ export default {
 
 			this.$emit('picture-hover-out', { pictureId: picture.id, dirId: picture.directory_id })
 		},
+
 		onClusterClick(clusterId, clusterCoords) {
 			this.map.getSource(this.stringId).getClusterExpansionZoom(
 				clusterId,
@@ -414,12 +429,15 @@ export default {
 				},
 			)
 		},
+
 		onClusterMouseEnter(e) {
 			this.bringToTop()
 		},
+
 		onClusterMouseLeave(e) {
 		},
 	},
+
 	render(h) {
 		return null
 	},

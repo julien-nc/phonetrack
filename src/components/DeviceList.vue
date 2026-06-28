@@ -8,9 +8,9 @@
 			<NcTextField
 				v-model="filterQuery"
 				:label="filterPlaceholder"
-				:show-trailing-button="!!filterQuery"
+				:showTrailingButton="!!filterQuery"
 				class="headerItem"
-				@trailing-button-click="filterQuery = ''">
+				@trailingButtonClick="filterQuery = ''">
 				<template #icon>
 					<MagnifyIcon :size="20" />
 				</template>
@@ -82,10 +82,12 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
 		},
+
 		isMobile: {
 			type: Boolean,
 			default: false,
@@ -103,9 +105,11 @@ export default {
 		sessionName() {
 			return basename(this.session.name)
 		},
+
 		devices() {
 			return Object.values(this.session.devices)
 		},
+
 		sortedDevices() {
 			return sortDevices(
 				this.filteredDevices.slice(),
@@ -113,6 +117,7 @@ export default {
 				this.settings.deviceSortAscending === 'ascending',
 			)
 		},
+
 		filteredDevices() {
 			if (this.filterQuery === '') {
 				return this.devices

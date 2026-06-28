@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script>
-import { Popup, Marker } from 'maplibre-gl'
+import { Marker, Popup } from 'maplibre-gl'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 import { getPointDataHtml, metersToDistance } from '../../utils.js'
@@ -19,6 +19,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -68,6 +69,7 @@ export default {
 				this.addPopup(point, persist)
 			}
 		},
+
 		addPopup(point, persist) {
 			if (this.nonPersistentPopup) {
 				this.nonPersistentPopup.remove()
@@ -77,9 +79,9 @@ export default {
 			const dataHtml = (point.timestamp === null && point.altitude === null)
 				? t('phonetrack', 'No data')
 				: getPointDataHtml(point, this.settings.distance_unit)
-				+ (traveledDistance
-					? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')
-					: '')
+					+ (traveledDistance
+						? ('<strong>' + t('phonetrack', 'Traveled distance') + '</strong>: ' + metersToDistance(traveledDistance, this.distanceUnit) + '<br>')
+						: '')
 			const html = '<div ' + containerClass + ' style="border-color: ' + point.extraData.color + ';">'
 				+ dataHtml
 				+ '</div>'
@@ -99,6 +101,7 @@ export default {
 				this.nonPersistentPopup = popup
 			}
 		},
+
 		clearChartPopups({ keepPersistent }) {
 			if (this.nonPersistentMarker) {
 				this.nonPersistentMarker.remove()
@@ -113,6 +116,7 @@ export default {
 				this.persistentPopups = []
 			}
 		},
+
 		addMarker(point) {
 			if (this.nonPersistentMarker) {
 				this.nonPersistentMarker.remove()
@@ -121,6 +125,7 @@ export default {
 				.setLngLat([point.lon, point.lat])
 				.addTo(this.map)
 		},
+
 		onNavToggled() {
 			this.clearChartPopups({ keepPersistent: false })
 		},

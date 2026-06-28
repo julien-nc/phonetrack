@@ -130,7 +130,7 @@ export default {
 			this.bringWaypointsToTop()
 			this.showWaypointPopup(e, false)
 		},
-		onMouseLeaveWaypoint(e) {
+		onMouseLeaveWaypoint() {
 			this.map.getCanvas().style.cursor = ''
 			if (this.nonPersistentWaypointPopup) {
 				this.nonPersistentWaypointPopup.remove()

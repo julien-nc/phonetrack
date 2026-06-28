@@ -22,7 +22,7 @@ export default {
 	},
 
 	methods: {
-		onDeleteClick(e) {
+		onDeleteClick() {
 			// stop timer
 			if (this.timerOn) {
 				this.deleteCounter = 0

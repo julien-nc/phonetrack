@@ -44,7 +44,7 @@ import FormatVerticalAlignTopIcon from 'vue-material-design-icons/FormatVertical
 import FormatVerticalAlignBottomIcon from 'vue-material-design-icons/FormatVerticalAlignBottom.vue'
 import CarSpeedLimiterIcon from 'vue-material-design-icons/CarSpeedLimiter.vue'
 
-import { formatDuration, metersToElevation, metersToDistance, kmphToSpeed } from '../utils.js'
+import { formatDuration, kmphToSpeed, metersToDistance, metersToElevation } from '../utils.js'
 import moment from '@nextcloud/moment'
 
 export default {
@@ -58,6 +58,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -86,6 +87,7 @@ export default {
 			}
 			return null
 		},
+
 		stats() {
 			const result = {
 				distance: {
@@ -93,21 +95,25 @@ export default {
 					label: t('phonetrack', 'Total distance'),
 					value: metersToDistance(this.track.total_distance, this.settings.distance_unit),
 				},
+
 				duration: {
 					icon: ClockIcon,
 					label: t('phonetrack', 'Total duration'),
 					value: formatDuration(this.track.total_duration),
 				},
+
 				movingTime: {
 					icon: TimerPlayIcon,
 					label: t('phonetrack', 'Moving time'),
 					value: formatDuration(this.track.moving_time),
 				},
+
 				pauseTime: {
 					icon: TimerPauseIcon,
 					label: t('phonetrack', 'Pause time'),
 					value: formatDuration(this.track.stopped_time),
 				},
+
 				dateBegin: {
 					icon: CalendarWeekBeginIcon,
 					label: t('phonetrack', 'Begin'),
@@ -115,6 +121,7 @@ export default {
 						? t('phonetrack', 'No date')
 						: moment.unix(this.track.date_begin).format('YYYY-MM-DD HH:mm:ss (Z)'),
 				},
+
 				dateEnd: {
 					icon: CalendarWeekendIcon,
 					label: t('phonetrack', 'End'),
@@ -122,26 +129,31 @@ export default {
 						? t('phonetrack', 'No date')
 						: moment.unix(this.track.date_end).format('YYYY-MM-DD HH:mm:ss (Z)'),
 				},
+
 				elevationGain: {
 					icon: TrendingUpIcon,
 					label: t('phonetrack', 'Cumulative elevation gain'),
 					value: metersToElevation(this.track.positive_elevation_gain, this.settings.distance_unit),
 				},
+
 				elevationLoss: {
 					icon: TrendingDownIcon,
 					label: t('phonetrack', 'Cumulative elevation loss'),
 					value: metersToElevation(this.track.negative_elevation_gain, this.settings.distance_unit),
 				},
+
 				minElevation: {
 					icon: FormatVerticalAlignBottomIcon,
 					label: t('phonetrack', 'Minimum elevation'),
 					value: metersToElevation(this.track.min_elevation, this.settings.distance_unit),
 				},
+
 				maxElevation: {
 					icon: FormatVerticalAlignTopIcon,
 					label: t('phonetrack', 'Maximum elevation'),
 					value: metersToElevation(this.track.max_elevation, this.settings.distance_unit),
 				},
+
 				maxSpeed: {
 					icon: CarSpeedLimiterIcon,
 					label: t('phonetrack', 'Maximum speed'),

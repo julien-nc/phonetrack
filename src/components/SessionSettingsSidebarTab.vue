@@ -22,10 +22,10 @@
 				</template>
 			</NcButton>
 		</div>
-		<NcFormBoxSwitch :model-value="session.locked"
+		<NcFormBoxSwitch :modelValue="session.locked"
 			:title="t('phonetrack', 'Forbid devices to log to this session')"
 			:disabled="!isSessionOwnedByCurrentUser"
-			@update:model-value="onLockedChanged">
+			@update:modelValue="onLockedChanged">
 			<div class="checkbox-inner">
 				<LockIcon v-if="session.locked" :size="20" class="inline-icon" />
 				<LockOpenOutlineIcon v-else :size="20" class="inline-icon" />
@@ -50,25 +50,25 @@
 			</NcButton>
 		</div>
 		<NcSelect
-			:model-value="selectedAutoExport"
+			:modelValue="selectedAutoExport"
 			class="select"
-			:input-label="t('phonetrack', 'Automatic export')"
+			:inputLabel="t('phonetrack', 'Automatic export')"
 			:options="autoExportOptions"
-			:no-wrap="true"
+			:noWrap="true"
 			label="label"
 			:disabled="!isSessionOwnedByCurrentUser"
 			:clearable="false"
-			@update:model-value="onAutoExportSelected" />
+			@update:modelValue="onAutoExportSelected" />
 		<NcSelect
-			:model-value="selectedAutoPurge"
+			:modelValue="selectedAutoPurge"
 			class="select"
-			:input-label="t('phonetrack', 'Automatic purge')"
+			:inputLabel="t('phonetrack', 'Automatic purge')"
 			:options="autoPurgeOptions"
-			:no-wrap="true"
+			:noWrap="true"
 			label="label"
 			:disabled="!isSessionOwnedByCurrentUser"
 			:clearable="false"
-			@update:model-value="onAutoPurgeSelected" />
+			@update:modelValue="onAutoPurgeSelected" />
 		<h3>{{ t('phonetrack', 'Reserved device names') }}</h3>
 		<NcNoteCard type="info">
 			{{ t('phonetrack', 'Name reservation is optional.') }}
@@ -114,8 +114,8 @@ import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 
 import {
 	getFilePickerBuilder,
-	showSuccess,
 	showError,
+	showSuccess,
 } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
@@ -142,6 +142,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -171,6 +172,7 @@ export default {
 					label: t('phonetrack', 'Monthly'),
 				},
 			],
+
 			autoPurgeOptions: [
 				{
 					value: 'no',
@@ -196,18 +198,23 @@ export default {
 		isSessionOwnedByCurrentUser() {
 			return this.session.user === getCurrentUser()?.uid
 		},
+
 		hasDevices() {
 			return Object.keys(this.session.devices).length > 0
 		},
+
 		selectedAutoExport() {
 			return this.autoExportOptions.find(o => o.value === this.session.autoexport)
 		},
+
 		selectedAutoPurge() {
 			return this.autoPurgeOptions.find(o => o.value === this.session.autopurge)
 		},
+
 		reservedDevices() {
 			return Object.values(this.session.devices).filter(d => d.nametoken)
 		},
+
 		reservedNames() {
 			return this.reservedDevices.map(d => d.name)
 		},
@@ -226,9 +233,11 @@ export default {
 				values: { name: this.newSessionName },
 			})
 		},
+
 		onLockedChanged(locked) {
 			emit('update-session', { sessionId: this.session.id, values: { locked } })
 		},
+
 		onExportSession() {
 			console.debug('[phonetrack] ExportSession', this.exportFileName)
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to export the session {name}', { name: this.session.name }))
@@ -251,6 +260,7 @@ export default {
 				.build()
 			picker.pick()
 		},
+
 		exportSession(path) {
 			const targetFilePath = path
 				+ (path === '/' ? '' : '/')
@@ -268,10 +278,8 @@ export default {
 					} else if (response.data.warning === 1) {
 						showError(t('phonetrack', 'There is no point to export for this session'))
 					} else if (response.data.warning === 2) {
-						showSuccess(
-							t('phonetrack', 'Session successfully exported in {targetFilePath}', { targetFilePath })
-								+ ', ' + t('phonetrack', 'but there was no point to export for some devices'),
-						)
+						showSuccess(t('phonetrack', 'Session successfully exported in {targetFilePath}', { targetFilePath })
+							+ ', ' + t('phonetrack', 'but there was no point to export for some devices'))
 					}
 				} else {
 					showError(t('phonetrack', 'Failed to export the session'))
@@ -281,14 +289,17 @@ export default {
 				showError(t('phonetrack', 'Failed to export the session'))
 			})
 		},
+
 		onAutoExportSelected(option) {
 			console.debug('[phonetrack] Auto-export selected', option.value)
 			emit('update-session', { sessionId: this.session.id, values: { autoexport: option.value } })
 		},
+
 		onAutoPurgeSelected(option) {
 			console.debug('[phonetrack] Auto-purge selected', option.value)
 			emit('update-session', { sessionId: this.session.id, values: { autopurge: option.value } })
 		},
+
 		onNewDeviceReservation() {
 			const url = generateUrl('/apps/phonetrack/session/' + this.session.id + '/device-name/' + this.newNameReservation)
 			axios.post(url).then((response) => {
@@ -302,6 +313,7 @@ export default {
 				console.error(error.response)
 			})
 		},
+
 		onDeleteNameReservation(deviceId) {
 			emit('update-device', { deviceId, sessionId: this.session.id, values: { nametoken: '' } })
 		},

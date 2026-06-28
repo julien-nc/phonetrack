@@ -38,26 +38,31 @@ export default {
 		FilterOffOutlineIcon,
 		NcAppSidebar,
 	},
+
 	inject: ['isPublicPage'],
 	props: {
 		show: {
 			type: Boolean,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 		}
 	},
+
 	computed: {
 		filterEnabled() {
 			return this.settings.applyfilters === 'true'
 		},
 	},
+
 	methods: {
 	},
 }

@@ -23,14 +23,17 @@ export default {
 			type: String,
 			default: '',
 		},
+
 		size: {
 			type: Number,
 			default: 10,
 		},
+
 		border: {
 			type: Boolean,
 			default: false,
 		},
+
 		letter: {
 			type: String,
 			default: '',

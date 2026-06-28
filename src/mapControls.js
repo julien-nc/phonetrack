@@ -6,7 +6,6 @@ import { createApp, h, reactive } from 'vue'
 import TileServerControl from './components/tileservers/TileServerControl.vue'
 
 export class ImageControl {
-
 	constructor(options) {
 		this.options = options
 	}
@@ -34,11 +33,9 @@ export class ImageControl {
 	moveBefore(elem) {
 		elem.parentElement.insertBefore(this.container, elem)
 	}
-
 }
 
 export class MousePositionControl {
-
 	constructor(options) {
 		this.options = options
 	}
@@ -59,11 +56,9 @@ export class MousePositionControl {
 		this.map.off('mousemove', this.callback)
 		this.map = undefined
 	}
-
 }
 
 export class TileControl {
-
 	constructor(options) {
 		this.options = options
 		console.debug('control options', options)
@@ -145,7 +140,6 @@ export class TileControl {
 
 		this._events[name].forEach(fireCallbacks)
 	}
-
 }
 
 function transformStyle(previousStyle, nextStyle) {
@@ -168,7 +162,6 @@ function transformStyle(previousStyle, nextStyle) {
 }
 
 export class GlobeControl {
-
 	constructor(options = {}) {
 		this.options = options
 		this._events = {}
@@ -184,7 +177,7 @@ export class GlobeControl {
 		span.className = 'maplibregl-ctrl-icon'
 		span.setAttribute('aria-hidden', 'true')
 		this.globeButton.appendChild(span)
-		this.globeButton.addEventListener('click', (e) => {
+		this.globeButton.addEventListener('click', () => {
 			this.emit('toggleGlobe')
 		})
 		this.container.appendChild(this.globeButton)
@@ -238,11 +231,9 @@ export class GlobeControl {
 			this.globeButton.title = this.map._getUIString('GlobeControl.Enable')
 		}
 	}
-
 }
 
 export class TerrainControl {
-
 	constructor(options = {}) {
 		this.options = options
 		this._events = {}
@@ -258,7 +249,7 @@ export class TerrainControl {
 		span.className = 'maplibregl-ctrl-icon'
 		span.setAttribute('aria-hidden', 'true')
 		this.terrainButton.appendChild(span)
-		this.terrainButton.addEventListener('click', (e) => {
+		this.terrainButton.addEventListener('click', () => {
 			this.emit('toggleTerrain')
 		})
 		this.container.appendChild(this.terrainButton)
@@ -312,5 +303,4 @@ export class TerrainControl {
 			this.terrainButton.title = this.map._getUIString('TerrainControl.Enable')
 		}
 	}
-
 }

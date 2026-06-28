@@ -5,17 +5,17 @@
 <template>
 	<NcSelect
 		ref="search-select"
-		:model-value="modelValue"
-		:dropdown-should-open="() => true"
-		input-id="search-select-input"
+		:modelValue="modelValue"
+		:dropdownShouldOpen="() => true"
+		inputId="search-select-input"
 		class="tileServerMultiSelect"
 		:aria-label-combobox="t('phonetrack', 'Tile server select')"
 		label="title"
 		:disabled="disabled"
 		:options="sortedOptions"
-		:append-to-body="false"
+		:appendToBody="false"
 		:clearable="false"
-		@update:model-value="onOptionSelected"
+		@update:modelValue="onOptionSelected"
 		@search:blur="onSearchBlur">
 		<template #option="option">
 			<div class="tileServerSelectOption">
@@ -53,10 +53,12 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+
 		options: {
 			type: Array,
 			required: true,
 		},
+
 		modelValue: {
 			type: Object,
 			default: () => null,
@@ -94,9 +96,11 @@ export default {
 			this.$el.dispatchEvent(new CustomEvent('update:model-value', { detail: selected, bubbles: true }))
 			this.$emit('update:model-value', selected)
 		},
+
 		onSearchBlur() {
 			this.$emit('search:blur')
 		},
+
 		focus() {
 			setTimeout(() => {
 				this.$refs['search-select']?.$el?.querySelector('#search-select-input')?.focus()

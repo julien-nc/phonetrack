@@ -14,13 +14,13 @@
 				type="datetime"
 				confirm
 				:clearable="false"
-				@update:model-value="onUpdateDate" />
+				@update:modelValue="onUpdateDate" />
 			<NcTextField
 				v-model="myPoint.useragent"
 				:label="t('phonetrack', 'User-agent')"
 				:placeholder="t('phonetrack', 'my-tracker')"
-				:show-trailing-button="myPoint.useragent !== ''"
-				@trailing-button-click="myPoint.useragent = ''"
+				:showTrailingButton="myPoint.useragent !== ''"
+				@trailingButtonClick="myPoint.useragent = ''"
 				@keyup.enter="onSubmit">
 				<template #icon>
 					<CellphoneIcon :size="20" />
@@ -31,16 +31,16 @@
 			</NcTextField>
 			<NcInputField v-for="f in floatFields"
 				:key="f.key"
-				:model-value="myPoint[f.key] ?? ''"
+				:modelValue="myPoint[f.key] ?? ''"
 				type="number"
 				:label="f.label + (f.labelUnit ? ' (' + f.labelUnit(distanceUnit) + ')' : '')"
 				:min="f.min"
 				:step="f.step"
 				:max="f.max"
-				:show-trailing-button="myPoint[f.key] !== null"
-				@update:model-value="onUpdateFloat($event, f.key)"
+				:showTrailingButton="myPoint[f.key] !== null"
+				@update:modelValue="onUpdateFloat($event, f.key)"
 				@keyup.enter="onSubmit"
-				@trailing-button-click="myPoint[f.key] = null">
+				@trailingButtonClick="myPoint[f.key] = null">
 				<template #icon>
 					<component :is="f.iconComponent" :size="20" />
 				</template>
@@ -49,15 +49,15 @@
 				</template>
 			</NcInputField>
 			<NcInputField
-				:model-value="myPoint.satellites ?? ''"
+				:modelValue="myPoint.satellites ?? ''"
 				type="number"
 				:label="t('phonetrack', 'Satellites')"
 				min="0"
 				step="1"
-				:show-trailing-button="myPoint.satellites !== null"
-				@update:model-value="onUpdateInt($event, 'satellites')"
+				:showTrailingButton="myPoint.satellites !== null"
+				@update:modelValue="onUpdateInt($event, 'satellites')"
 				@keyup.enter="onSubmit"
-				@trailing-button-click="myPoint.satellites = null">
+				@trailingButtonClick="myPoint.satellites = null">
 				<template #icon>
 					<SatelliteVariantIcon :size="20" />
 				</template>
@@ -106,16 +106,19 @@ export default {
 		CellphoneIcon,
 		SatelliteVariantIcon,
 	},
+
 	props: {
 		point: {
 			type: Object,
 			required: true,
 		},
+
 		distanceUnit: {
 			type: String,
 			default: 'metric',
 		},
 	},
+
 	data() {
 		return {
 			myPoint: this.getValuesFromPoint(),
@@ -123,13 +126,17 @@ export default {
 			floatFields,
 		}
 	},
+
 	computed: {
 	},
+
 	beforeMount() {
 	},
+
 	mounted() {
 		console.debug('Edit modal', { ...this.myPoint })
 	},
+
 	methods: {
 		getValuesFromPoint() {
 			return {
@@ -144,6 +151,7 @@ export default {
 				}, {}),
 			}
 		},
+
 		getPointFromValues() {
 			return {
 				...this.myPoint,
@@ -155,20 +163,24 @@ export default {
 				}, {}),
 			}
 		},
+
 		onSubmit() {
 			emit('device-point-save', this.getPointFromValues())
 			this.$emit('close')
 		},
+
 		onUpdateDate() {
 			this.myPoint.timestamp = moment(this.myPointDate).unix()
 			console.debug('onUpdateDate', this.myPointDate, this.myPoint.timestamp)
 		},
+
 		onUpdateInt(val, key) {
 			this.myPoint[key] = isNaN(val) || val === ''
 				? null
 				: parseInt(val)
 			console.debug('onUpdateInt', key, val, { ...this.myPoint[key] })
 		},
+
 		onUpdateFloat(val, key) {
 			this.myPoint[key] = isNaN(val) || val === ''
 				? null
@@ -178,6 +190,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .point-edit-modal-content {
 	display: flex;

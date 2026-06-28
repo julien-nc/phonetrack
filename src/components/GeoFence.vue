@@ -12,17 +12,17 @@
 		<h4 v-else>
 			{{ geofence.name }}
 		</h4>
-		<NcCheckboxRadioSwitch :model-value="myEdition ? myGeofence.sendnotif : geofence.sendnotif"
+		<NcCheckboxRadioSwitch :modelValue="myEdition ? myGeofence.sendnotif : geofence.sendnotif"
 			:disabled="!myEdition"
-			@update:model-value="myGeofence.sendnotif = $event">
+			@update:modelValue="myGeofence.sendnotif = $event">
 			<div class="checkbox-inner">
 				<BellRingOutlineIcon :size="20" class="inline-icon" />
 				{{ t('phonetrack', 'Send a notification') }}
 			</div>
 		</NcCheckboxRadioSwitch>
-		<NcCheckboxRadioSwitch :model-value="myEdition ? myGeofence.sendemail : geofence.sendemail"
+		<NcCheckboxRadioSwitch :modelValue="myEdition ? myGeofence.sendemail : geofence.sendemail"
 			:disabled="!myEdition"
-			@update:model-value="myGeofence.sendemail = $event">
+			@update:modelValue="myGeofence.sendemail = $event">
 			<div class="checkbox-inner">
 				<EmailOutlineIcon :size="20" class="inline-icon" />
 				{{ t('phonetrack', 'Send an email') }}
@@ -47,9 +47,9 @@
 			{{ t('phonetrack', 'URL enter: {url}', { url: geofence.urlenter }) }}
 		</label>
 		<NcCheckboxRadioSwitch v-if="myEdition ? myGeofence.urlenter : geofence.urlenter"
-			:model-value="myEdition ? myGeofence.urlenterpost : geofence.urlenterpost"
+			:modelValue="myEdition ? myGeofence.urlenterpost : geofence.urlenterpost"
 			:disabled="!myEdition"
-			@update:model-value="myGeofence.urlenterpost = $event">
+			@update:modelValue="myGeofence.urlenterpost = $event">
 			{{ t('phonetrack', 'Use POST method for enter URL') }}
 		</NcCheckboxRadioSwitch>
 		<NcTextField v-if="myEdition"
@@ -61,9 +61,9 @@
 			{{ t('phonetrack', 'URL leave: {url}', { url: geofence.urlleave }) }}
 		</label>
 		<NcCheckboxRadioSwitch v-if="myEdition ? myGeofence.urlleave : geofence.urlleave"
-			:model-value="myEdition ? myGeofence.urlleavepost : geofence.urlleavepost"
+			:modelValue="myEdition ? myGeofence.urlleavepost : geofence.urlleavepost"
 			:disabled="!myEdition"
-			@update:model-value="myGeofence.urlleavepost = $event">
+			@update:modelValue="myGeofence.urlleavepost = $event">
 			{{ t('phonetrack', 'Use POST method for leave URL') }}
 		</NcCheckboxRadioSwitch>
 		<div class="footer">
@@ -142,7 +142,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import { emit } from '@nextcloud/event-bus'
 
 export default {
-	name: 'Geofence',
+	name: 'GeoFence',
 
 	components: {
 		CheckIcon,
@@ -164,10 +164,12 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		edition: {
 			type: Boolean,
 			default: false,
 		},
+
 		allowDeletion: {
 			type: Boolean,
 			default: true,
@@ -185,6 +187,7 @@ export default {
 			myGeofence: {
 				...this.geofence,
 			},
+
 			myEdition: this.edition,
 		}
 	},
@@ -193,6 +196,7 @@ export default {
 		valid() {
 			return this.myGeofence.name && this.hasCoordinates
 		},
+
 		hasCoordinates() {
 			return this.myGeofence.latmin !== null
 				&& this.myGeofence.latmax !== null
@@ -217,6 +221,7 @@ export default {
 			}
 			this.myEdition = true
 		},
+
 		onCancel() {
 			this.myGeofence = {
 				...this.geofence,
@@ -224,16 +229,20 @@ export default {
 			this.myEdition = false
 			this.$emit('cancel')
 		},
+
 		onSave() {
 			this.$emit('save', this.myGeofence)
 			this.myEdition = false
 		},
+
 		onDelete() {
 			this.$emit('delete', this.myGeofence)
 		},
+
 		onShow() {
 			emit('show-geofence', this.myGeofence)
 		},
+
 		onSetBounds() {
 			const bounds = {}
 			emit('get-map-bounds', bounds)

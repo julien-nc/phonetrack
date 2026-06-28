@@ -11,9 +11,9 @@
 		<TileServerItem v-for="ts in adminTileServers"
 			:key="ts.id"
 			class="tile-server-list-item"
-			:tile-server="ts"
-			:show-delete-button="!readOnly && isAdmin"
-			:show-edit-button="!readOnly && isAdmin"
+			:tileServer="ts"
+			:showDeleteButton="!readOnly && isAdmin"
+			:showEditButton="!readOnly && isAdmin"
 			@delete="onTileServerDelete(ts)"
 			@edit="onTileServerEdit(ts, true)" />
 		<h5 v-if="personalTileServers.length > 0" class="subsection-title">
@@ -23,9 +23,9 @@
 		<TileServerItem v-for="ts in personalTileServers"
 			:key="ts.id"
 			class="tile-server-list-item"
-			:tile-server="ts"
-			:show-delete-button="!readOnly"
-			:show-edit-button="!readOnly"
+			:tileServer="ts"
+			:showDeleteButton="!readOnly"
+			:showEditButton="!readOnly"
 			@delete="onTileServerDelete(ts)"
 			@edit="onTileServerEdit(ts, false)" />
 		<NcButton v-if="!readOnly"
@@ -40,8 +40,8 @@
 			@close="showAddModal = false">
 			<div class="modal-content">
 				<TileServerAddForm
-					:form-title="isAdmin ? t('phonetrack', 'Add a global tile server') : t('phonetrack', 'Add a personal tile server')"
-					:submit-label="t('phonetrack', 'Add')"
+					:formTitle="isAdmin ? t('phonetrack', 'Add a global tile server') : t('phonetrack', 'Add a personal tile server')"
+					:submitLabel="t('phonetrack', 'Add')"
 					@submit="onTileServerAdded" />
 			</div>
 		</NcModal>
@@ -50,9 +50,9 @@
 			@close="showEditModal = false">
 			<div class="modal-content">
 				<TileServerAddForm
-					:tile-server="tileServerToEdit"
-					:form-title="t('phonetrack', 'Edit a tile server')"
-					:submit-label="t('phonetrack', 'Update')"
+					:tileServer="tileServerToEdit"
+					:formTitle="t('phonetrack', 'Edit a tile server')"
+					:submitLabel="t('phonetrack', 'Update')"
 					@submit="onTileServerEdited" />
 			</div>
 		</NcModal>
@@ -91,10 +91,12 @@ export default {
 			type: Array,
 			required: true,
 		},
+
 		isAdmin: {
 			type: Boolean,
 			default: false,
 		},
+
 		readOnly: {
 			type: Boolean,
 			default: false,
@@ -114,6 +116,7 @@ export default {
 		personalTileServers() {
 			return this.tileServers.filter(ts => ts.user_id !== null)
 		},
+
 		adminTileServers() {
 			return this.tileServers.filter(ts => ts.user_id === null)
 		},
@@ -123,15 +126,18 @@ export default {
 		onTileServerDelete(ts) {
 			emit('tile-server-deleted', ts.id)
 		},
+
 		onTileServerAdded(ts) {
 			emit('tile-server-added', ts)
 			this.showAddModal = false
 		},
+
 		onTileServerEdit(ts, isAdminTileServer) {
 			this.tileServerToEdit = ts
 			this.tileServerToEditIsAdmin = isAdminTileServer
 			this.showEditModal = true
 		},
+
 		onTileServerEdited(ts) {
 			ts.id = this.tileServerToEdit.id
 			emit('tile-server-edited', { ts, isAdminTileServer: this.tileServerToEditIsAdmin })

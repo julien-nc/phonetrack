@@ -29,13 +29,13 @@ export function getRasterTileServers(apiKey, proxy = true) {
 					type: 'raster',
 					tiles: proxy
 						? [
-							generateUrl('/apps/phonetrack/tiles/osm/') + '{x}/{y}/{z}',
+								generateUrl('/apps/phonetrack/tiles/osm/') + '{x}/{y}/{z}',
 							// ...['a', 'b', 'c'].map(s => generateUrl('/apps/phonetrack/tiles/osm/') + `{x}/{y}/{z}?s=${s}`),
-						]
+							]
 						: [
-							'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+								'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
 							// ...['a', 'b', 'c'].map(s => `https://${s}.tile.openstreetmap.org/{z}/{x}/{y}.png`)
-						],
+							],
 					tileSize: 256,
 					attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
 				},
@@ -64,11 +64,11 @@ export function getRasterTileServers(apiKey, proxy = true) {
 					type: 'raster',
 					tiles: proxy
 						? [
-							generateUrl('/apps/phonetrack/tiles/osm-highres/') + '{x}/{y}/{z}',
-						]
+								generateUrl('/apps/phonetrack/tiles/osm-highres/') + '{x}/{y}/{z}',
+							]
 						: [
-							'https://tile.osmand.net/hd/{z}/{x}/{y}.png',
-						],
+								'https://tile.osmand.net/hd/{z}/{x}/{y}.png',
+							],
 					tileSize: 512,
 					attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
 				},
@@ -97,11 +97,11 @@ export function getRasterTileServers(apiKey, proxy = true) {
 					type: 'raster',
 					tiles: proxy
 						? [
-							...['a', 'b', 'c'].map(s => generateUrl('/apps/phonetrack/tiles/ocm/') + `{x}/{y}/{z}?s=${s}`),
-						]
+								...['a', 'b', 'c'].map(s => generateUrl('/apps/phonetrack/tiles/ocm/') + `{x}/{y}/{z}?s=${s}`),
+							]
 						: [
-							...['a', 'b', 'c'].map(s => `https://${s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png`),
-						],
+								...['a', 'b', 'c'].map(s => `https://${s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png`),
+							],
 					tileSize: 256,
 					attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
 				},
@@ -130,11 +130,11 @@ export function getRasterTileServers(apiKey, proxy = true) {
 					type: 'raster',
 					tiles: proxy
 						? [
-							...['a', 'b', 'c'].map(s => generateUrl('/apps/phonetrack/tiles/ocm-highres/') + `{x}/{y}/{z}?s=${s}`),
-						]
+								...['a', 'b', 'c'].map(s => generateUrl('/apps/phonetrack/tiles/ocm-highres/') + `{x}/{y}/{z}?s=${s}`),
+							]
 						: [
-							...['a', 'b', 'c'].map(s => `https://${s}.tile.thunderforest.com/cycle/{z}/{x}/{y}@2x.png`),
-						],
+								...['a', 'b', 'c'].map(s => `https://${s}.tile.thunderforest.com/cycle/{z}/{x}/{y}@2x.png`),
+							],
 					tileSize: 512,
 					attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
 				},
@@ -163,11 +163,11 @@ export function getRasterTileServers(apiKey, proxy = true) {
 					type: 'raster',
 					tiles: proxy
 						? [
-							generateUrl('/apps/phonetrack/tiles/esri-topo/') + '{x}/{y}/{z}',
-						]
+								generateUrl('/apps/phonetrack/tiles/esri-topo/') + '{x}/{y}/{z}',
+							]
 						: [
-							'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-						],
+								'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+							],
 					tileSize: 256,
 					attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, '
 						+ 'TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ord'
@@ -199,11 +199,11 @@ export function getRasterTileServers(apiKey, proxy = true) {
 					type: 'raster',
 					tiles: proxy
 						? [
-							generateUrl('/apps/phonetrack/tiles/stadia-sat/') + '{x}/{y}/{z}',
-						]
+								generateUrl('/apps/phonetrack/tiles/stadia-sat/') + '{x}/{y}/{z}',
+							]
 						: [
-							'https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg',
-						],
+								'https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}.jpg',
+							],
 					tileSize: 256,
 					attribution: '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) |'
 						+ ' &copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a>'
@@ -235,11 +235,11 @@ export function getRasterTileServers(apiKey, proxy = true) {
 					type: 'raster',
 					tiles: proxy
 						? [
-							generateUrl('/apps/phonetrack/tiles/watercolor/') + '{x}/{y}/{z}',
-						]
+								generateUrl('/apps/phonetrack/tiles/watercolor/') + '{x}/{y}/{z}',
+							]
 						: [
-							'https://tiles.stadiamaps.com/styles/stamen_watercolor/{z}/{x}/{y}.jpg',
-						],
+								'https://tiles.stadiamaps.com/styles/stamen_watercolor/{z}/{x}/{y}.jpg',
+							],
 					tileSize: 256,
 					attribution: 'Map tiles by <a href="https://stamen'
 						+ '.com">Stamen Design</a>, under <a href="https://creativecommons.org/license'
@@ -320,11 +320,11 @@ export function getExtraTileServers(tileServers, apiKey, proxy = true) {
 
 			const tiles = ts.url.match(/{s}/)
 				? ['a', 'b', 'c'].map(subdomain => {
-					return ts.url.replace(/{s}/, subdomain)
-				})
+						return ts.url.replace(/{s}/, subdomain)
+					})
 				: [
-					ts.url,
-				]
+						ts.url,
+					]
 
 			formattedServers[tileServerKey] = {
 				title: ts.name,

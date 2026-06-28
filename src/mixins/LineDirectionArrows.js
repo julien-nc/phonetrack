@@ -32,7 +32,7 @@ export default {
 				}
 			}
 		},
-		'device.lineEnabled'(newValue) {
+		'device.lineEnabled': function(newValue) {
 			if (newValue) {
 				if (this.arrows) {
 					this.drawArrows()

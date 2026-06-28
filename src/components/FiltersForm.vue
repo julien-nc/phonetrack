@@ -4,8 +4,8 @@
 -->
 <template>
 	<div class="filters-form">
-		<NcFormBoxSwitch :model-value="settings.applyfilters === 'true'"
-			@update:model-value="onCheckboxChanged($event, 'applyfilters')">
+		<NcFormBoxSwitch :modelValue="settings.applyfilters === 'true'"
+			@update:modelValue="onCheckboxChanged($event, 'applyfilters')">
 			<div class="checkbox-inner">
 				<FilterIcon :size="20" class="inline-icon" />
 				{{ t('phonetrack', 'Use filters') }}
@@ -22,7 +22,7 @@
 				confirm
 				clearable
 				:disabled="!filtersEnabled"
-				@update:model-value="onUpdateDate('min')" />
+				@update:modelValue="onUpdateDate('min')" />
 			<div class="line">
 				<NcButton
 					:disabled="!filtersEnabled"
@@ -61,7 +61,7 @@
 				confirm
 				clearable
 				:disabled="!filtersEnabled"
-				@update:model-value="onUpdateDate('max')" />
+				@update:modelValue="onUpdateDate('max')" />
 			<div class="line">
 				<NcButton
 					:disabled="!filtersEnabled"
@@ -131,9 +131,9 @@
 				:step="f.step"
 				:max="f.max"
 				:disabled="!filtersEnabled"
-				:show-trailing-button="!!filters[f.key + 'min']"
-				@update:model-value="onUpdateFloat($event, f, 'min')"
-				@trailing-button-click="filters[f.key + 'min'] = ''; onClearField(f.key, 'min')">
+				:showTrailingButton="!!filters[f.key + 'min']"
+				@update:modelValue="onUpdateFloat($event, f, 'min')"
+				@trailingButtonClick="filters[f.key + 'min'] = ''; onClearField(f.key, 'min')">
 				<template #icon>
 					<component :is="f.iconComponent" :size="20" />
 				</template>
@@ -149,9 +149,9 @@
 				:step="f.step"
 				:max="f.max"
 				:disabled="!filtersEnabled"
-				:show-trailing-button="!!filters[f.key + 'max']"
-				@update:model-value="onUpdateFloat($event, f, 'max')"
-				@trailing-button-click="filters[f.key + 'max'] = ''; onClearField(f.key, 'max')">
+				:showTrailingButton="!!filters[f.key + 'max']"
+				@update:modelValue="onUpdateFloat($event, f, 'max')"
+				@trailingButtonClick="filters[f.key + 'max'] = ''; onClearField(f.key, 'max')">
 				<template #icon>
 					<component :is="f.iconComponent" :size="20" />
 				</template>
@@ -167,9 +167,9 @@
 			min="0"
 			step="1"
 			:disabled="!filtersEnabled"
-			:show-trailing-button="!!filters.satellitesmin"
-			@update:model-value="saveInt('satellites', 'min')"
-			@trailing-button-click="filters.satellitesmin = ''; onClearField('satellites', 'min')">
+			:showTrailingButton="!!filters.satellitesmin"
+			@update:modelValue="saveInt('satellites', 'min')"
+			@trailingButtonClick="filters.satellitesmin = ''; onClearField('satellites', 'min')">
 			<template #icon>
 				<SatelliteVariantIcon :size="20" />
 			</template>
@@ -184,9 +184,9 @@
 			min="0"
 			step="1"
 			:disabled="!filtersEnabled"
-			:show-trailing-button="!!filters.satellitesmax"
-			@update:model-value="saveInt('satellites', 'max')"
-			@trailing-button-click="filters.satellitesmax = ''; onClearField('satellites', 'max')">
+			:showTrailingButton="!!filters.satellitesmax"
+			@update:modelValue="saveInt('satellites', 'max')"
+			@trailingButtonClick="filters.satellitesmax = ''; onClearField('satellites', 'max')">
 			<template #icon>
 				<SatelliteVariantIcon :size="20" />
 			</template>
@@ -233,12 +233,14 @@ export default {
 		CalendarMinusOutlineIcon,
 		CalendarPlusOutlineIcon,
 	},
+
 	props: {
 		settings: {
 			type: Object,
 			default: () => ({}),
 		},
 	},
+
 	data() {
 		return {
 			floatFields,
@@ -247,20 +249,25 @@ export default {
 			},
 		}
 	},
+
 	computed: {
 		distanceUnit() {
 			return this.settings.distance_unit ?? 'metric'
 		},
+
 		filtersEnabled() {
 			return this.settings.applyfilters === 'true'
 		},
 	},
+
 	beforeMount() {
 	},
+
 	mounted() {
 		console.debug('SETTINGS', { ...this.settings })
 		console.debug('FILTER', { ...this.filters })
 	},
+
 	methods: {
 		getFloatFiltersFromSettings() {
 			return {
@@ -275,6 +282,7 @@ export default {
 						: ''
 					return acc
 				}, {}),
+
 				...floatFields.reduce((acc, f) => {
 					acc[f.key + 'min'] = f.formatter && this.settings[f.key + 'min']
 						? parseFloat(f.formatter(this.settings[f.key + 'min'], this.settings.distance_unit ?? 'metric'))
@@ -290,6 +298,7 @@ export default {
 				}, {}),
 			}
 		},
+
 		onUpdateFloat(val, f, minMax) {
 			const rawVal = isNaN(val) || val === ''
 				? ''
@@ -302,22 +311,26 @@ export default {
 				[f.key + minMax]: convertedVal,
 			})
 		},
+
 		onClearField(key, minMax) {
 			emit('save-settings', {
 				[key + minMax]: '',
 			})
 		},
+
 		saveInt(key, minMax) {
 			emit('save-settings', {
 				[key + minMax]: this.filters[key + minMax],
 			})
 		},
+
 		onCheckboxChanged(value, key) {
 			emit('save-settings', { [key]: value ? 'true' : 'false' })
 			if (key === 'applyfilters') {
 				emit('filter-changed')
 			}
 		},
+
 		onUpdateDate(minMax) {
 			const key = 'timestamp' + minMax
 			const savedValue = this.filters[key]
@@ -326,6 +339,7 @@ export default {
 			emit('save-settings', { [key]: savedValue })
 			// emit('filter-changed')
 		},
+
 		onAddTimestamp(minMax, seconds) {
 			if (this.settings['timestamp' + minMax] === null || this.settings['timestamp' + minMax] === '') {
 				const now = moment().unix()
@@ -338,6 +352,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .filters-form {
 	display: flex;

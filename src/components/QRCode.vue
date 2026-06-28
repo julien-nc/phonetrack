@@ -14,11 +14,13 @@ export default {
 
 	components: {
 	},
+
 	props: {
 		link: {
 			type: String,
 			required: true,
 		},
+
 		render: {
 			type: String,
 			default: 'image',
@@ -26,14 +28,17 @@ export default {
 				return ['image', 'canvas', 'svg'].includes(value)
 			},
 		},
+
 		fgcolor: {
 			type: String,
 			default: 'black',
 		},
+
 		bgcolor: {
 			type: String,
 			default: 'white',
 		},
+
 		rounded: {
 			type: Number,
 			default: 0,
@@ -41,14 +46,17 @@ export default {
 				return (value >= 0 && value <= 100)
 			},
 		},
+
 		size: {
 			type: Number,
 			default: 200,
 		},
+
 		imageUrl: {
 			type: String,
 			default: null,
 		},
+
 		label: {
 			type: String,
 			default: null,
@@ -78,6 +86,7 @@ export default {
 				this.genPlainQRCode()
 			}
 		},
+
 		genPlainQRCode() {
 			const qr = kjua({
 				text: this.link,
@@ -99,6 +108,7 @@ export default {
 			this.$refs.qrcodediv.innerHTML = ''
 			this.$refs.qrcodediv.appendChild(qr)
 		},
+
 		genQRCodeWithImage() {
 			const img = new Image()
 			// wait for the image to be loaded to generate the QRcode

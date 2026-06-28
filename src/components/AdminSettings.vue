@@ -16,9 +16,9 @@
 					class="input"
 					type="number"
 					:label="t('phonetrack', 'Point number quota')"
-					:show-trailing-button="!!state.pointQuota"
-					@update:model-value="onQuotaUpdate()"
-					@trailing-button-click="state.pointQuota = '' ; onQuotaUpdate()">
+					:showTrailingButton="!!state.pointQuota"
+					@update:modelValue="onQuotaUpdate()"
+					@trailingButtonClick="state.pointQuota = '' ; onQuotaUpdate()">
 					<template #icon>
 						<TimerAlertOutlineIcon :size="20" />
 					</template>
@@ -49,16 +49,16 @@
 				type="password"
 				class="input"
 				:placeholder="t('phonetrack', 'my-api-key')"
-				:show-trailing-button="!!state.maptiler_api_key"
-				@update:model-value="onInput"
-				@trailing-button-click="state.maptiler_api_key = ''; onInput()">
+				:showTrailingButton="!!state.maptiler_api_key"
+				@update:modelValue="onInput"
+				@trailingButtonClick="state.maptiler_api_key = ''; onInput()">
 				<template #icon>
 					<KeyIcon :size="20" />
 				</template>
 			</NcTextField>
 			<NcFormBox>
-				<NcFormBoxSwitch :model-value="state.proxy_osm"
-					@update:model-value="onCheckboxChanged($event, 'proxy_osm')">
+				<NcFormBoxSwitch :modelValue="state.proxy_osm"
+					@update:modelValue="onCheckboxChanged($event, 'proxy_osm')">
 					<div class="checkbox-inner">
 						<ArrowDecisionOutlineIcon :size="20" class="inline-icon" />
 						{{ t('phonetrack', 'Proxy map tiles/vectors requests via Nextcloud') }}
@@ -67,8 +67,8 @@
 			</NcFormBox>
 			<TileServerList
 				class="admin-tile-server-list"
-				:tile-servers="state.extra_tile_servers"
-				:is-admin="true" />
+				:tileServers="state.extra_tile_servers"
+				:isAdmin="true" />
 		</div>
 	</div>
 </template>
@@ -95,10 +95,10 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { delay } from '../utils.js'
-import { TileServer } from '../types.ts'
+import type { TileServer } from '../types.ts'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { confirmPassword } from '@nextcloud/password-confirmation'
-import { showSuccess, showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import debounce from 'debounce'
 
 export default {
@@ -124,12 +124,16 @@ export default {
 
 	data() {
 		return {
-			state: loadState('phonetrack', 'admin-config', {}) as { maptiler_api_key: string, pointQuota: string, proxy_osm: boolean, extra_tile_servers: Array<TileServer>, [key: string]: any },
-			mainHintHtml: t('phonetrack', 'You can create an API key on {maptilerLink}',
+			state: loadState('phonetrack', 'admin-config', {}),
+			mainHintHtml: t(
+				'phonetrack',
+				'You can create an API key on {maptilerLink}',
 				{
 					maptilerLink: '<a href="https://cloud.maptiler.com/account/keys/" class="external" target="blank">https://cloud.maptiler.com/account/keys/</a>',
 				},
-				undefined, { escape: false, sanitize: false }),
+				undefined,
+				{ escape: false, sanitize: false },
+			),
 		}
 	},
 
@@ -137,16 +141,16 @@ export default {
 	},
 
 	mounted() {
-		subscribe('tile-server-deleted', this.onTileServerDeleted as any)
-		subscribe('tile-server-added', this.onTileServerAdded as any)
-		subscribe('tile-server-edited', this.onTileServerEdited as any)
+		subscribe('tile-server-deleted', this.onTileServerDeleted)
+		subscribe('tile-server-added', this.onTileServerAdded)
+		subscribe('tile-server-edited', this.onTileServerEdited)
 		console.debug('phonetrack state', this.state)
 	},
 
 	unmounted() {
-		unsubscribe('tile-server-deleted', this.onTileServerDeleted as any)
-		unsubscribe('tile-server-added', this.onTileServerAdded as any)
-		unsubscribe('tile-server-edited', this.onTileServerEdited as any)
+		unsubscribe('tile-server-deleted', this.onTileServerDeleted)
+		unsubscribe('tile-server-added', this.onTileServerAdded)
+		unsubscribe('tile-server-edited', this.onTileServerEdited)
 	},
 
 	methods: {
@@ -154,11 +158,13 @@ export default {
 			this.state[key] = newValue
 			this.saveOptions({ [key]: this.state[key] ? '1' : '0' }, false)
 		},
-		onQuotaUpdate: debounce(function(this: any) {
+
+		onQuotaUpdate: debounce(function(this) {
 			this.saveOptions({
 				pointQuota: parseInt(this.state.pointQuota) || 0,
 			}, false)
 		}, 2000),
+
 		onInput(): void {
 			delay(() => {
 				if (this.state.maptiler_api_key === 'dummyApiKey') {
@@ -169,7 +175,8 @@ export default {
 				}, true)
 			}, 2000)()
 		},
-		async saveOptions(values: Object, sensitive: boolean = true) {
+
+		async saveOptions(values: object, sensitive: boolean = true) {
 			if (sensitive) {
 				await confirmPassword()
 			}
@@ -187,6 +194,7 @@ export default {
 				console.debug(error)
 			})
 		},
+
 		onTileServerDeleted(id: number): void {
 			const url = generateUrl('/apps/phonetrack/admin/tileservers/{id}', { id })
 			axios.delete(url)
@@ -200,6 +208,7 @@ export default {
 					console.debug(error)
 				})
 		},
+
 		onTileServerAdded(ts: TileServer): void {
 			const req = {
 				...ts,
@@ -213,7 +222,8 @@ export default {
 					console.debug(error)
 				})
 		},
-		onTileServerEdited({ ts, isAdminTileServer }: { ts: TileServer; isAdminTileServer: boolean }): void {
+
+		onTileServerEdited({ ts, isAdminTileServer }: { ts: TileServer, isAdminTileServer: boolean }): void {
 			console.debug('tile server edited', isAdminTileServer, ts)
 			const { id: _, ...values } = ts
 			const req = {

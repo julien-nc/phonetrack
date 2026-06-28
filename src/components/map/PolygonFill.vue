@@ -17,22 +17,27 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		lngLatsList: {
 			type: Array,
 			required: true,
 		},
+
 		map: {
 			type: Object,
 			required: true,
 		},
+
 		fillOutlineColor: {
 			type: String,
 			default: 'blue',
 		},
+
 		fillColor: {
 			type: String,
 			default: 'lightblue',
 		},
+
 		fillOpacity: {
 			type: Number,
 			default: 0.5,
@@ -69,16 +74,19 @@ export default {
 				this.map.setPaintProperty(this.layerId, 'fill-color', newVal)
 			}
 		},
+
 		fillOpacity(newVal) {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.setPaintProperty(this.layerId, 'fill-opacity', newVal)
 			}
 		},
+
 		fillOutlineColor(newVal) {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.setPaintProperty(this.layerId, 'fill-outline-color', newVal)
 			}
 		},
+
 		polygonGeojsonData() {
 			console.debug('[phonetrack] polygonGeojsonData has changed')
 			this.remove()
@@ -105,6 +113,7 @@ export default {
 				this.map.moveLayer(this.layerId)
 			}
 		},
+
 		remove() {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.removeLayer(this.layerId)
@@ -113,6 +122,7 @@ export default {
 				this.map.removeSource(this.layerId)
 			}
 		},
+
 		init() {
 			this.map.addSource(this.layerId, {
 				type: 'geojson',
@@ -134,6 +144,7 @@ export default {
 			this.ready = true
 		},
 	},
+
 	render(h) {
 		return null
 	},

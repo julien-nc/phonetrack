@@ -4,13 +4,13 @@
  */
 import { DEVICE_SORT_ORDER } from './constants.js'
 
-import ElevationRiseIcon from 'vue-material-design-icons/ElevationRise.vue'
-import CircleDoubleIcon from 'vue-material-design-icons/CircleDouble.vue'
-import SpeedometerIcon from 'vue-material-design-icons/Speedometer.vue'
-import CompassOutlineIcon from 'vue-material-design-icons/CompassOutline.vue'
-import Battery50Icon from 'vue-material-design-icons/Battery50.vue'
-
 import moment from '@nextcloud/moment'
+
+import Battery50Icon from 'vue-material-design-icons/Battery50.vue'
+import CircleDoubleIcon from 'vue-material-design-icons/CircleDouble.vue'
+import CompassOutlineIcon from 'vue-material-design-icons/CompassOutline.vue'
+import ElevationRiseIcon from 'vue-material-design-icons/ElevationRise.vue'
+import SpeedometerIcon from 'vue-material-design-icons/Speedometer.vue'
 
 export const METERSTOMILES = 0.0006213711
 export const METERSTOFOOT = 3.28084
@@ -81,10 +81,10 @@ export function hexToRgb(hex) {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 	return result
 		? {
-			r: parseInt(result[1], 16),
-			g: parseInt(result[2], 16),
-			b: parseInt(result[3], 16),
-		}
+				r: parseInt(result[1], 16),
+				g: parseInt(result[2], 16),
+				b: parseInt(result[3], 16),
+			}
 		: null
 }
 
@@ -125,7 +125,6 @@ export function isColorDark(hex) {
 export function getComplementaryColor(hex) {
 	const rgb = hexToRgb(hex)
 	return rgbToHex(255 - rgb.r, 255 - rgb.g, 255 - rgb.b)
-
 }
 
 export function brify(str, linesize) {
@@ -306,10 +305,11 @@ export function minPerKmToPace(minPerKm, unit = 'metric') {
 	}
 }
 
-// eslint-disable-next-line
 Number.prototype.pad = function(size) {
 	let s = String(this)
-	while (s.length < (size || 2)) { s = '0' + s }
+	while (s.length < (size || 2)) {
+		s = '0' + s
+	}
 	return s
 }
 
@@ -328,7 +328,9 @@ export function escapeHtml(text) {
 		'"': '&quot;',
 		"'": '&#039;',
 	}
-	return text.replace(/[&<>"']/g, function(m) { return map[m] })
+	return text.replace(/[&<>"']/g, function(m) {
+		return map[m]
+	})
 }
 
 export function Timer(callback, mydelay) {
@@ -477,41 +479,41 @@ export function sortDevices(devices, sortOrder, sortAscending = true) {
 	if (sortOrder === DEVICE_SORT_ORDER.name.value) {
 		const sortFunction = sortAscending
 			? (da, db) => {
-				return strcmp(da.name, db.name)
-			}
+					return strcmp(da.name, db.name)
+				}
 			: (da, db) => {
-				return strcmp(db.name, da.name)
-			}
+					return strcmp(db.name, da.name)
+				}
 		return devices.sort(sortFunction)
 	}
 	if (sortOrder === DEVICE_SORT_ORDER.date.value) {
 		const sortFunction = sortAscending
 			? (da, db) => {
-				const tsA = da.points?.length > 0
-					? da.points[da.points.length - 1].timestamp
-					: 0
-				const tsB = db.points?.length > 0
-					? db.points[db.points.length - 1].timestamp
-					: 0
-				return tsA > tsB
-					? 1
-					: tsA < tsB
-						? -1
+					const tsA = da.points?.length > 0
+						? da.points[da.points.length - 1].timestamp
 						: 0
-			}
+					const tsB = db.points?.length > 0
+						? db.points[db.points.length - 1].timestamp
+						: 0
+					return tsA > tsB
+						? 1
+						: tsA < tsB
+							? -1
+							: 0
+				}
 			: (da, db) => {
-				const tsA = da.points?.length > 0
-					? da.points[da.points.length - 1].timestamp
-					: 0
-				const tsB = db.points?.length > 0
-					? db.points[db.points.length - 1].timestamp
-					: 0
-				return tsA < tsB
-					? 1
-					: tsA > tsB
-						? -1
+					const tsA = da.points?.length > 0
+						? da.points[da.points.length - 1].timestamp
 						: 0
-			}
+					const tsB = db.points?.length > 0
+						? db.points[db.points.length - 1].timestamp
+						: 0
+					return tsA < tsB
+						? 1
+						: tsA > tsB
+							? -1
+							: 0
+				}
 		return devices.sort(sortFunction)
 	}
 	return devices

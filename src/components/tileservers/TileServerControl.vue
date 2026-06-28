@@ -18,8 +18,8 @@
 		<TileServerMultiSelect v-else
 			ref="select"
 			:options="options"
-			:model-value="modelValue"
-			@update:model-value="open = false"
+			:modelValue="modelValue"
+			@update:modelValue="open = false"
 			@search:blur="open = false" />
 	</div>
 </template>
@@ -42,6 +42,7 @@ export default {
 			type: Array,
 			required: true,
 		},
+
 		modelValue: {
 			type: Object,
 			default: () => null,

@@ -25,19 +25,19 @@
 		<NcTextField
 			v-model="name"
 			:label="t('phonetrack', 'Name')"
-			:label-visible="true"
+			:labelVisible="true"
 			:placeholder="t('phonetrack', 'My tile server')"
-			:show-trailing-button="!!name"
+			:showTrailingButton="!!name"
 			@keydown.enter="onSubmit"
-			@trailing-button-click="name = ''" />
+			@trailingButtonClick="name = ''" />
 		<NcTextField
 			v-model="url"
 			:label="t('phonetrack', 'Server address')"
-			:label-visible="true"
+			:labelVisible="true"
 			placeholder="https://..."
-			:show-trailing-button="!!url"
+			:showTrailingButton="!!url"
 			@keydown.enter="onSubmit"
-			@trailing-button-click="url = ''" />
+			@trailingButtonClick="url = ''" />
 		<NcNoteCard v-if="type === TS_RASTER"
 			type="info">
 			{{ t('phonetrack', 'A raster tile server address must contain "{x}", "{y}" and "{z}" and can optionally contain "{s}". For example: {exampleRasterUrl} .', { exampleRasterUrl }) }}
@@ -61,11 +61,11 @@
 			max="24"
 			step="1"
 			:label="t('phonetrack', 'Min zoom')"
-			:label-visible="true"
+			:labelVisible="true"
 			placeholder="1..24"
-			:show-trailing-button="!!minZoom"
+			:showTrailingButton="!!minZoom"
 			@keydown.enter="onSubmit"
-			@trailing-button-click="minZoom = ''">
+			@trailingButtonClick="minZoom = ''">
 			<!-- at the moment, there is no default icon when type is number -->
 			<template #trailing-button-icon>
 				<CloseIcon :size="20" />
@@ -78,11 +78,11 @@
 			max="24"
 			step="1"
 			:label="t('phonetrack', 'Max zoom')"
-			:label-visible="true"
+			:labelVisible="true"
 			placeholder="1..24"
-			:show-trailing-button="!!maxZoom"
+			:showTrailingButton="!!maxZoom"
 			@keydown.enter="onSubmit"
-			@trailing-button-click="maxZoom = ''">
+			@trailingButtonClick="maxZoom = ''">
 			<template #trailing-button-icon>
 				<CloseIcon :size="20" />
 			</template>
@@ -90,11 +90,11 @@
 		<NcTextField v-if="type === TS_RASTER"
 			v-model="attribution"
 			:label="t('phonetrack', 'Attribution')"
-			:label-visible="true"
-			:placeholder="t('phonetrack', 'Map data from...')"
-			:show-trailing-button="!!attribution"
+			:labelVisible="true"
+			:placeholder="t('phonetrack', 'Map data from…')"
+			:showTrailingButton="!!attribution"
 			@keydown.enter="onSubmit"
-			@trailing-button-click="attribution = ''" />
+			@trailingButtonClick="attribution = ''" />
 		<div class="footer">
 			<NcButton
 				:disabled="!valid"
@@ -138,10 +138,12 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		submitLabel: {
 			type: String,
 			required: true,
 		},
+
 		tileServer: {
 			type: Object,
 			default: () => { return {} },
@@ -183,11 +185,11 @@ export default {
 			const ts = this.type === TS_VECTOR
 				? common
 				: {
-					...common,
-					min_zoom: parseInt(this.minZoom),
-					max_zoom: parseInt(this.maxZoom),
-					attribution: this.attribution,
-				}
+						...common,
+						min_zoom: parseInt(this.minZoom),
+						max_zoom: parseInt(this.maxZoom),
+						attribution: this.attribution,
+					}
 			this.$emit('submit', ts)
 		},
 	},

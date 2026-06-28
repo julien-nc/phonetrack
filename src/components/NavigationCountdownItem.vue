@@ -8,7 +8,7 @@
 		:title="t('phonetrack', 'Refresh now')"
 		:loading="false"
 		:editable="false"
-		:inline-actions="1"
+		:inlineActions="1"
 		@click="onRefreshClick">
 		<template #icon>
 			<NcLoadingIcon v-if="loadingDevicePoints" />
@@ -31,9 +31,9 @@
 			</NcActionButton>
 			<NcActionInput
 				type="number"
-				:model-value="settings.refresh_duration ?? 125"
+				:modelValue="settings.refresh_duration ?? 125"
 				:label="t('phonetrack', 'Refresh every N seconds')"
-				:show-trailing-button="false"
+				:showTrailingButton="false"
 				@submit="onUpdateDuration">
 				<template #icon>
 					<UpdateIcon :size="20" />
@@ -77,6 +77,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		loadingDevicePoints: {
 			type: Boolean,
 			default: false,
@@ -94,10 +95,11 @@ export default {
 	},
 
 	watch: {
-		'settings.refresh_duration'(newValue) {
+		'settings.refresh_duration': function(newValue) {
 			this.updateCountdownDuration(newValue)
 		},
-		'settings.applyfilters'(newValue) {
+
+		'settings.applyfilters': function(newValue) {
 			this.updateCountdownDuration(this.settings?.refresh_duration ?? DEFAULT_DURATION)
 		},
 	},
@@ -109,15 +111,18 @@ export default {
 				this.duration = newDuration
 			})
 		},
+
 		onRefreshClick(e) {
 			console.debug('Refresh click')
 			emit('refresh-clicked')
 			this.updateCountdownDuration(this.settings?.refresh_duration ?? DEFAULT_DURATION)
 		},
+
 		onCountdownFinish() {
 			console.debug('CountdownFinish')
 			emit('refresh-countdown-end')
 		},
+
 		onUpdateDuration(e) {
 			emit('save-settings', { refresh_duration: e.target[0].value })
 		},

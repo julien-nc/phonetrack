@@ -8,9 +8,9 @@
 			{{ t('phonetrack', 'Session sharing') }}
 		</h3>
 		<SharingSelect :session="session"
-			:model-value="selectedSharee"
+			:modelValue="selectedSharee"
 			:disabled="!isSessionOwnedByCurrentUser"
-			@update:model-value="onSelectSharee" />
+			@update:modelValue="onSelectSharee" />
 		<ul v-if="isSessionOwnedByCurrentUser"
 			id="publicShareList"
 			ref="publicShareList"
@@ -59,13 +59,13 @@
 				</NcActions>
 
 				<NcActions
-					:force-menu="true"
+					:forceMenu="true"
 					placement="bottom">
 					<NcActionInput
 						type="text"
-						:model-value="access.label ?? ''"
+						:modelValue="access.label ?? ''"
 						:label="t('phonetrack', 'Label')"
-						:show-trailing-button="false"
+						:showTrailingButton="false"
 						@submit="updatePublicShare(access.id, 'label', $event.target[0].value)">
 						<template #icon>
 							<TextBoxIcon :size="20" />
@@ -73,22 +73,22 @@
 					</NcActionInput>
 					<NcActionInput
 						type="text"
-						:model-value="access.devicename ?? ''"
+						:modelValue="access.devicename ?? ''"
 						:label="t('phonetrack', 'Show this device only')"
-						:show-trailing-button="false"
+						:showTrailingButton="false"
 						@submit="updatePublicShare(access.id, 'devicename', $event.target[0].value)">
 						<template #icon>
 							<CellphoneIcon :size="20" />
 						</template>
 					</NcActionInput>
 					<NcActionCheckbox
-						:model-value="access.lastposonly"
+						:modelValue="access.lastposonly"
 						@check="updatePublicShare(access.id, 'lastposonly', true)"
 						@uncheck="updatePublicShare(access.id, 'lastposonly', false)">
 						{{ t('phonetrack', 'Show last positions only') }}
 					</NcActionCheckbox>
 					<NcActionCheckbox
-						:model-value="access.geofencify"
+						:modelValue="access.geofencify"
 						@check="updatePublicShare(access.id, 'geofencify', true)"
 						@uncheck="updatePublicShare(access.id, 'geofencify', false)">
 						{{ t('phonetrack', 'Simplify positions to nearest geofencing zone center') }}
@@ -102,7 +102,7 @@
 						{{ t('phonetrack', 'Delete link') }}
 					</NcActionButton>
 					<NcActionButton
-						:close-after-click="true"
+						:closeAfterClick="true"
 						@click="createPublicShare">
 						<template #icon>
 							<PlusIcon :size="20" />
@@ -115,8 +115,8 @@
 				<NcAvatar
 					v-if="share.type === constants.SHARE_TYPE.USER"
 					:user="share.username"
-					:disable-menu="true"
-					:disable-tooltip="true" />
+					:disableMenu="true"
+					:disableTooltip="true" />
 				<!--div v-if="access.type === constants.SHARE_TYPE.GROUP"
 					 class="avatardiv link-icon">
 					<AccountGroupIcon :size="20" />
@@ -129,7 +129,7 @@
 					<span>{{ share.display_name ? (share.display_name + ' (' + share.username + ')') : share.username }}</span>
 				</span>
 
-				<NcActions :force-menu="true"
+				<NcActions :forceMenu="true"
 					placement="bottom">
 					<NcActionButton
 						@click="clickDeleteUgcShare(share)">
@@ -143,16 +143,16 @@
 		</ul>
 		<hr>
 		<NcFormBoxSwitch
-			:model-value="session.public"
+			:modelValue="session.public"
 			:disabled="!isSessionOwnedByCurrentUser"
-			@update:model-value="onSessionPublicChanged">
+			@update:modelValue="onSessionPublicChanged">
 			{{ t('phonetrack', 'Public session') }}
 		</NcFormBoxSwitch>
 		<div class="public-watch">
 			<div class="line">
 				<NcTextField
 					id="publicwatchlink-field"
-					:model-value="publicWatchLink"
+					:modelValue="publicWatchLink"
 					:label="t('phonetrack', 'Public watch link')"
 					:title="publicWatchLink"
 					:disabled="!session.public"
@@ -174,7 +174,7 @@
 			<div class="line">
 				<NcTextField
 					id="api-last-field"
-					:model-value="apiLastLink"
+					:modelValue="apiLastLink"
 					:label="t('phonetrack', 'API URL (JSON, last positions)')"
 					:title="apiLastLink"
 					:disabled="!session.public"
@@ -196,7 +196,7 @@
 			<div class="line">
 				<NcTextField
 					id="api-all-field"
-					:model-value="apiAllLink"
+					:modelValue="apiAllLink"
 					:label="t('phonetrack', 'API URL (JSON, all positions)')"
 					:title="apiAllLink"
 					:disabled="!session.public"
@@ -282,6 +282,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -304,15 +305,19 @@ export default {
 		isSessionOwnedByCurrentUser() {
 			return this.session.user === getCurrentUser()?.uid
 		},
+
 		publicShares() {
 			return this.session.public_shares
 		},
+
 		publicWatchLink() {
 			return HOST + generateUrl('/apps/phonetrack/publicSessionWatch/' + this.session.publicviewtoken)
 		},
+
 		apiLastLink() {
 			return HOST + generateUrl('/apps/phonetrack/api/getlastpositions/' + this.session.publicviewtoken)
 		},
+
 		apiAllLink() {
 			return HOST + generateUrl('/apps/phonetrack/api/getpositions/' + this.session.publicviewtoken)
 		},
@@ -335,6 +340,7 @@ export default {
 				console.error(error)
 			})
 		},
+
 		clickDeleteUgcShare(share) {
 			console.debug('clickDeleteUgcShare', share)
 			const url = generateUrl('/apps/phonetrack/session/' + this.session.id + '/share/' + share.id)
@@ -345,9 +351,11 @@ export default {
 				console.error(error)
 			})
 		},
+
 		generatePublicLink(access) {
 			return HOST + generateUrl('/apps/phonetrack/s/' + access.sharetoken)
 		},
+
 		async onCopyPublicWatchLink() {
 			try {
 				await navigator.clipboard.writeText(this.publicWatchLink)
@@ -360,6 +368,7 @@ export default {
 				showError(t('phonetrack', 'Link could not be copied to clipboard'))
 			}
 		},
+
 		async onCopyApiLastLink() {
 			try {
 				await navigator.clipboard.writeText(this.apiLastLink)
@@ -372,6 +381,7 @@ export default {
 				showError(t('phonetrack', 'Link could not be copied to clipboard'))
 			}
 		},
+
 		async onCopyApiAllLink() {
 			try {
 				await navigator.clipboard.writeText(this.apiAllLink)
@@ -384,6 +394,7 @@ export default {
 				showError(t('phonetrack', 'Link could not be copied to clipboard'))
 			}
 		},
+
 		async copyLink(access) {
 			const publicLink = this.generatePublicLink(access)
 			try {
@@ -397,6 +408,7 @@ export default {
 				showError(t('phonetrack', 'Link could not be copied to clipboard'))
 			}
 		},
+
 		updatePublicShare(publicShareId, key, value) {
 			console.debug('updatePublicShare', publicShareId, key, value)
 			const req = {
@@ -416,6 +428,7 @@ export default {
 				console.error(error)
 			})
 		},
+
 		createPublicShare() {
 			const url = generateUrl('/apps/phonetrack/session/' + this.session.id + '/pub-share')
 			axios.post(url).then((response) => {
@@ -425,6 +438,7 @@ export default {
 				console.error(error)
 			})
 		},
+
 		deletePublicShare(publicShareId) {
 			const url = generateUrl('/apps/phonetrack/session/' + this.session.id + '/pub-share/' + publicShareId)
 			axios.delete(url).then((response) => {
@@ -434,9 +448,11 @@ export default {
 				console.error(error)
 			})
 		},
+
 		onSessionPublicChanged(isPublic) {
 			emit('update-session', { sessionId: this.session.id, values: { public: isPublic } })
 		},
+
 		getFormattedFilters(access) {
 			const filtersObject = JSON.parse(access.filters)
 			return getFormattedFilters(filtersObject, this.settings.distance_unit ?? 'metric')

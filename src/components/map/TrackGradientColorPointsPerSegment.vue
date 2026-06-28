@@ -30,42 +30,53 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		map: {
 			type: Object,
 			required: true,
 		},
+
 		colorCriteria: {
 			type: Number,
 			default: COLOR_CRITERIAS.elevation.id,
 		},
+
 		colorExtensionCriteria: {
 			type: String,
 			default: null,
 		},
+
 		colorExtensionCriteriaType: {
 			type: String,
 			default: null,
 		},
+
 		lineWidth: {
 			type: Number,
 			default: 5,
 		},
+
 		borderColor: {
 			type: String,
 			default: 'black',
 		},
+
 		border: {
 			type: Boolean,
 			default: true,
 		},
+
+		// eslint-disable-next-line
 		arrows: {
 			type: Boolean,
 			default: true,
 		},
+
 		opacity: {
 			type: Number,
 			default: 1,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -82,18 +93,23 @@ export default {
 		layerId() {
 			return String(this.track.id)
 		},
+
 		borderLayerId() {
 			return this.layerId + '-border'
 		},
+
 		invisibleBorderLayerId() {
 			return this.layerId + '-invisible-border'
 		},
+
 		color() {
 			return this.track.color ?? '#0693e3'
 		},
+
 		onTop() {
 			return this.track.onTop
 		},
+
 		trackGeojsonData() {
 			console.debug('[phonetrack] compute track geojson', this.track.geojson)
 			// use short point list for hovered track when we don't have the data yet
@@ -114,6 +130,7 @@ export default {
 				return this.track.geojson
 			}
 		},
+
 		trackGeojsonSegments() {
 			const segmentCoords = []
 			this.track.geojson.features.forEach((feature) => {
@@ -142,13 +159,13 @@ export default {
 				const cleanValues = values.filter(v => v !== undefined && v !== null)
 				return cleanValues.length > 0
 					? {
-						min: cleanValues.reduce((acc, val) => Math.min(acc, val)),
-						max: cleanValues.reduce((acc, val) => Math.max(acc, val)),
-					}
+							min: cleanValues.reduce((acc, val) => Math.min(acc, val)),
+							max: cleanValues.reduce((acc, val) => Math.max(acc, val)),
+						}
 					: {
-						min: null,
-						max: null,
-					}
+							min: null,
+							max: null,
+						}
 			})
 			const segmentMins = segmentMinsMaxs.map(mm => mm.min)
 			const segmentMaxs = segmentMinsMaxs.map(mm => mm.max)
@@ -170,15 +187,16 @@ export default {
 			}
 			return segmentGeojsons
 		},
+
 		getPointValues() {
 			return this.colorExtensionCriteria
 				? (coords) => {
-					return coords.map(c => c[4]?.[this.colorExtensionCriteriaType]?.[this.colorExtensionCriteria] ?? null)
-				}
+						return coords.map(c => c[4]?.[this.colorExtensionCriteriaType]?.[this.colorExtensionCriteria] ?? null)
+					}
 				: this.colorCriteria === COLOR_CRITERIAS.elevation.id
 					? (coords) => {
-						return coords.map(c => c[2])
-					}
+							return coords.map(c => c[2])
+						}
 					: this.colorCriteria === COLOR_CRITERIAS.speed.id
 						? this.getSpeeds
 						: this.colorCriteria === COLOR_CRITERIAS.traveled_distance.id
@@ -193,20 +211,25 @@ export default {
 				this.bringToTop()
 			}
 		},
+
 		trackGeojsonData() {
 			console.debug('[phonetrack] trackGeojsonData has changed')
 			this.remove()
 			this.init()
 		},
+
 		colorCriteria() {
 			this.redraw()
 		},
+
 		colorExtensionCriteria() {
 			this.redraw()
 		},
-		'settings.global_track_colorization'() {
+
+		'settings.global_track_colorization': function() {
 			this.redraw()
 		},
+
 		border(newVal) {
 			if (newVal) {
 				this.drawBorder()
@@ -216,6 +239,7 @@ export default {
 				this.removeBorder()
 			}
 		},
+
 		opacity() {
 			this.trackGeojsonSegments.forEach((seg, i) => {
 				if (this.map.getLayer(this.layerId + '-seg-' + i)) {
@@ -226,6 +250,7 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-opacity', this.opacity)
 			}
 		},
+
 		lineWidth() {
 			this.setNormalLineWidth()
 		},
@@ -259,6 +284,7 @@ export default {
 				},
 			}
 		},
+
 		getColorSteps(coords, pointValues, min, max) {
 			console.debug('[phonetrack] simple gradient pointvalues', pointValues, 'min', min, 'max', max)
 			const result = []
@@ -287,6 +313,7 @@ export default {
 			})
 			return result
 		},
+
 		getSpeeds(coords) {
 			const speeds = [0]
 			let prevLL = new LngLat(coords[0][0], coords[0][1])
@@ -297,6 +324,7 @@ export default {
 			}
 			return speeds
 		},
+
 		getTraveledDistances(coords, lastSegmentLastValue) {
 			let prevDistance = lastSegmentLastValue ?? 0
 			const distances = [prevDistance]
@@ -311,16 +339,19 @@ export default {
 			}
 			return distances
 		},
+
 		getSpeed(ll1, ll2, coord1, coord2) {
 			const distance = ll1.distanceTo(ll2)
 			const time = coord2[3] - coord1[3]
 			return distance / time
 		},
+
 		getColor(min, max, value) {
 			const weight = (value - min) / (max - min)
 			const hue = getColorHueInInterval(240, 0, weight)
 			return 'hsl(' + hue + ', 100%, 50%)'
 		},
+
 		bringToTop() {
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.moveLayer(this.borderLayerId)
@@ -333,6 +364,7 @@ export default {
 			// cannot be done in the mixin as it will happen before so arrows will be behind the line
 			this.bringArrowsToTop()
 		},
+
 		onMouseEnter() {
 			this.trackGeojsonSegments.forEach((seg, i) => {
 				if (this.map.getLayer(this.layerId + '-seg-' + i)) {
@@ -344,9 +376,11 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-gap-width', this.lineWidth * 1.7)
 			}
 		},
+
 		onMouseLeave() {
 			this.setNormalLineWidth()
 		},
+
 		setNormalLineWidth() {
 			this.trackGeojsonSegments.forEach((seg, i) => {
 				if (this.map.getLayer(this.layerId + '-seg-' + i)) {
@@ -358,6 +392,7 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-gap-width', this.lineWidth)
 			}
 		},
+
 		redraw() {
 			// a bit special, we need to take care of the waypoints here because we can't watch colorCriteria
 			// in the AddWaypoints mixin
@@ -369,6 +404,7 @@ export default {
 			this.initWaypoints()
 			this.listenToWaypointEvents()
 		},
+
 		remove() {
 			if (this.map.getLayer(this.invisibleBorderLayerId)) {
 				this.map.removeLayer(this.invisibleBorderLayerId)
@@ -379,6 +415,7 @@ export default {
 				this.map.removeSource(this.layerId)
 			}
 		},
+
 		removeLine() {
 			this.trackGeojsonSegments.forEach((seg, i) => {
 				if (this.map.getLayer(this.layerId + '-seg-' + i)) {
@@ -389,11 +426,13 @@ export default {
 				}
 			})
 		},
+
 		removeBorder() {
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.removeLayer(this.borderLayerId)
 			}
 		},
+
 		drawBorder() {
 			this.map.addLayer({
 				type: 'line',
@@ -412,6 +451,7 @@ export default {
 				filter: ['!=', '$type', 'Point'],
 			})
 		},
+
 		drawLine() {
 			this.trackGeojsonSegments.forEach((seg, i) => {
 				this.map.addSource(this.layerId + '-seg-' + i, {
@@ -441,6 +481,7 @@ export default {
 				})
 			})
 		},
+
 		init() {
 			this.map.addSource(this.layerId, {
 				type: 'geojson',
@@ -468,6 +509,7 @@ export default {
 			this.ready = true
 		},
 	},
+
 	render(h) {
 		return null
 	},

@@ -11,25 +11,24 @@
 		}"
 		:editable="false"
 		:draggable="true"
-		:force-display-actions="true"
-		:force-menu="false"
-		:menu-open="menuOpen"
+		:forceDisplayActions="true"
+		:forceMenu="false"
+		:menuOpen="menuOpen"
 		@update:menuOpen="onUpdateMenuOpen"
-		@mouseenter.native="onHoverIn"
-		@mouseleave.native="onHoverOut"
-		@contextmenu.native.stop.prevent="menuOpen = true"
+		@mouseenter="onHoverIn"
+		@mouseleave="onHoverOut"
+		@contextmenu.stop.prevent="menuOpen = true"
 		@dragstart="onDragStart"
 		@dragend="onDragEnd"
 		@click="onClick">
 		<template v-if="device.enabled" #icon>
 			<NcColorPicker
 				class="app-navigation-entry-bullet-wrapper"
-				:model-value="device.color"
-				@update:model-value="updateColor">
+				:modelValue="device.color"
+				@update:modelValue="updateColor">
 				<template #default="{ attrs }">
 					<ColoredDot
 						v-bind="attrs"
-						ref="colorDot"
 						:color="device.color || '#0693e3'"
 						:border="true"
 						:letter="device.alias ? device.alias[0] : device.name[0]"
@@ -59,7 +58,7 @@
 		<template #actions>
 			<template v-if="timerOn">
 				<NcActionButton v-if="!isPublicPage"
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onDeleteClick">
 					<template #icon>
 						<UndoIcon :size="20" />
@@ -69,7 +68,7 @@
 			</template>
 			<template v-else-if="!criteriaActionsOpen">
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onDetailsClick">
 					<template #icon>
 						<InformationOutlineIcon :size="20" />
@@ -77,7 +76,7 @@
 					{{ t('phonetrack', 'Details') }}
 				</NcActionButton>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					:disabled="!device.enabled"
 					@click="onZoomClick">
 					<template #icon>
@@ -86,17 +85,17 @@
 					{{ t('phonetrack', 'Zoom to bounds') }}
 				</NcActionButton>
 				<NcActionCheckbox
-					:model-value="device.lineEnabled"
-					@update:model-value="onChangeLineEnabled">
+					:modelValue="device.lineEnabled"
+					@update:modelValue="onChangeLineEnabled">
 					{{ t('phonetrack', 'Show line') }}
 				</NcActionCheckbox>
 				<NcActionCheckbox
-					:model-value="device.autoZoom"
-					@update:model-value="onChangeAutoZoom">
+					:modelValue="device.autoZoom"
+					@update:modelValue="onChangeAutoZoom">
 					{{ t('phonetrack', 'Auto-zoom') }}
 				</NcActionCheckbox>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onMenuColorClick">
 					<template #icon>
 						<PaletteIcon :size="20" />
@@ -104,8 +103,8 @@
 					{{ t('phonetrack', 'Change color') }}
 				</NcActionButton>
 				<NcActionButton
-					:close-after-click="false"
-					:is-menu="true"
+					:closeAfterClick="false"
+					:isMenu="true"
 					@click="criteriaActionsOpen = true">
 					<template #icon>
 						<BrushIcon :size="20" />
@@ -113,7 +112,7 @@
 					{{ t('phonetrack', 'Change color criteria') }}
 				</NcActionButton>
 				<NcActionButton v-if="!isPublicPage"
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onDeleteClick">
 					<template #icon>
 						<TrashCanOutlineIcon :size="20" />
@@ -122,7 +121,7 @@
 				</NcActionButton>
 			</template>
 			<template v-else>
-				<NcActionButton :close-after-click="false"
+				<NcActionButton :closeAfterClick="false"
 					@click="criteriaActionsOpen = false">
 					<template #icon>
 						<ChevronLeftIcon :size="20" />
@@ -132,7 +131,7 @@
 				<NcActionRadio v-for="(c, ckey) in COLOR_CRITERIAS"
 					:key="ckey"
 					name="criteria"
-					:model-value="device.colorCriteria"
+					:modelValue="device.colorCriteria"
 					:value="c.id"
 					@change="onCriteriaChange(c.id)">
 					{{ c.label }}
@@ -198,6 +197,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		session: {
 			type: Object,
 			required: true,
@@ -228,11 +228,13 @@ export default {
 				emit('device-clicked', { deviceId: this.device.id, sessionId: this.session.id })
 			}
 		},
+
 		onDragStart(e) {
 			e.dataTransfer.setData('sessionId', this.session.id)
 			e.dataTransfer.setData('deviceId', this.device.id)
 			this.isDragged = true
 		},
+
 		onDragEnd(e) {
 			this.isDragged = false
 		},

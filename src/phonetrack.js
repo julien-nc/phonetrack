@@ -151,10 +151,10 @@ if (typeof hotlinePlugin === 'function') {
 		const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 		return result
 			? {
-				r: parseInt(result[1], 16),
-				g: parseInt(result[2], 16),
-				b: parseInt(result[3], 16),
-			}
+					r: parseInt(result[1], 16),
+					g: parseInt(result[2], 16),
+					b: parseInt(result[3], 16),
+				}
 			: null
 	}
 
@@ -170,9 +170,9 @@ if (typeof hotlinePlugin === 'function') {
 	function hexToDarkerHex(hex) {
 		const rgb = hexToRgb(hex)
 		while (getColorBrightness(rgb) > 100) {
-			if (rgb.r > 0) rgb.r--
-			if (rgb.g > 0) rgb.g--
-			if (rgb.b > 0) rgb.b--
+			if (rgb.r > 0) { rgb.r-- }
+			if (rgb.g > 0) { rgb.g-- }
+			if (rgb.b > 0) { rgb.b-- }
 		}
 		return rgbToHex(rgb.r, rgb.g, rgb.b)
 	}
@@ -293,7 +293,7 @@ if (typeof hotlinePlugin === 'function') {
 				sopacity = 1
 			}
 			const sattrib = $(this).attr('attribution') || ''
-			// eslint-disable-next-line
+
 			baseLayers[sname] = new L.tileLayer.wms(surl, { layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: sattrib })
 		})
 		// add custom layers
@@ -303,8 +303,7 @@ if (typeof hotlinePlugin === 'function') {
 			const sminzoom = $(this).attr('minzoom') || '1'
 			const smaxzoom = $(this).attr('maxzoom') || '20'
 			const sattrib = $(this).attr('attribution') || ''
-			baseLayers[sname] = new L.TileLayer(surl,
-				{ minZoom: sminzoom, maxZoom: smaxzoom, attribution: sattrib })
+			baseLayers[sname] = new L.TileLayer(surl, { minZoom: sminzoom, maxZoom: smaxzoom, attribution: sattrib })
 		})
 		$('#mapboxtileserverlist li').each(function() {
 			const sname = $(this).attr('servername')
@@ -328,9 +327,10 @@ if (typeof hotlinePlugin === 'function') {
 			const sversion = $(this).attr('version') || '1.1.1'
 			const sformat = $(this).attr('format') || 'image/png'
 			const sattrib = $(this).attr('attribution') || ''
-			// eslint-disable-next-line
-			baseLayers[sname] = new L.tileLayer.wms(surl,
-				{ format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: sattrib })
+			baseLayers[sname] = new L.tileLayer.wms(
+				surl,
+				{ format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: sattrib },
+			)
 		})
 		phonetrack.baseLayers = baseLayers
 
@@ -366,7 +366,7 @@ if (typeof hotlinePlugin === 'function') {
 			}
 			const sformat = $(this).attr('format') || 'image/png'
 			const sattrib = $(this).attr('attribution') || ''
-			// eslint-disable-next-line
+
 			baseOverlays[sname] = new L.tileLayer.wms(surl, { layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: sattrib })
 		})
 		// add custom overlays
@@ -383,8 +383,7 @@ if (typeof hotlinePlugin === 'function') {
 				sopacity = 0.4
 			}
 			const sattrib = $(this).attr('attribution') || ''
-			baseOverlays[sname] = new L.TileLayer(surl,
-				{ minZoom: sminzoom, maxZoom: smaxzoom, transparent: stransparent, opcacity: sopacity, attribution: sattrib })
+			baseOverlays[sname] = new L.TileLayer(surl, { minZoom: sminzoom, maxZoom: smaxzoom, transparent: stransparent, opcacity: sopacity, attribution: sattrib })
 		})
 		$('#overlaywmsserverlist li').each(function() {
 			const sname = $(this).attr('servername')
@@ -402,7 +401,7 @@ if (typeof hotlinePlugin === 'function') {
 				sopacity = 0.4
 			}
 			const sattrib = $(this).attr('attribution') || ''
-			// eslint-disable-next-line
+
 			baseOverlays[sname] = new L.tileLayer.wms(surl, { layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: sattrib, minZoom: sminzoom, maxZoom: smaxzoom })
 		})
 		phonetrack.overlayLayers = baseOverlays
@@ -835,21 +834,13 @@ if (typeof hotlinePlugin === 'function') {
 		const sversion = $('#' + type + 'version').val() || undefined
 		const slayers = $('#' + type + 'layers').val() || undefined
 		if (sname === '' || surl === '') {
-			OC.Notification.showTemporary(
-				t('phonetrack', 'Server name or server address should not be empty'),
-			)
-			OC.Notification.showTemporary(
-				t('phonetrack', 'Impossible to add tile server'),
-			)
+			OC.Notification.showTemporary(t('phonetrack', 'Server name or server address should not be empty'))
+			OC.Notification.showTemporary(t('phonetrack', 'Impossible to add tile server'))
 			return
 		}
 		if ($('#' + type + 'serverlist ul li[servername="' + sname + '"]').length > 0) {
-			OC.Notification.showTemporary(
-				t('phonetrack', 'A server with this name already exists'),
-			)
-			OC.Notification.showTemporary(
-				t('phonetrack', 'Impossible to add tile server'),
-			)
+			OC.Notification.showTemporary(t('phonetrack', 'A server with this name already exists'))
+			OC.Notification.showTemporary(t('phonetrack', 'Impossible to add tile server'))
 			return
 		}
 		$('#' + type + 'servername').val('')
@@ -873,21 +864,18 @@ if (typeof hotlinePlugin === 'function') {
 		const url = generateUrl('/apps/phonetrack/old/addTileServer')
 		axios.post(url, req).then((response) => {
 			if (response.data.done) {
-				$('#' + type + 'serverlist ul').prepend(
-					'<li style="display:none;" servername="' + escapeHtml(sname || '')
+				$('#' + type + 'serverlist ul').prepend('<li style="display:none;" servername="' + escapeHtml(sname || '')
 					+ '" title="' + escapeHtml(surl || '') + '">'
 					+ escapeHtml(sname || '') + ' <button>'
 					+ '<i class="fa fa-trash" aria-hidden="true" style="color:red;"></i> '
 					+ t('phonetrack', 'Delete')
-					+ '</button></li>',
-				)
+					+ '</button></li>')
 				$('#' + type + 'serverlist ul li[servername="' + sname + '"]').fadeIn()
 
 				let newlayer
 				if (type === 'tile') {
 					// add tile server in leaflet control
-					newlayer = new L.TileLayer(surl,
-						{ minZoom: sminzoom, maxZoom: smaxzoom, attribution: '' })
+					newlayer = new L.TileLayer(surl, { minZoom: sminzoom, maxZoom: smaxzoom, attribution: '' })
 					phonetrack.controlLayers.addBaseLayer(newlayer, sname)
 					phonetrack.baseLayers[sname] = newlayer
 				} else if (type === 'mapboxtile') {
@@ -902,23 +890,24 @@ if (typeof hotlinePlugin === 'function') {
 					phonetrack.baseLayers[sname] = newlayer
 				} else if (type === 'tilewms') {
 					// add tile server in leaflet control
-					// eslint-disable-next-line
-					newlayer = new L.tileLayer.wms(surl,
-						{ format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: '' })
+					newlayer = new L.tileLayer.wms(
+						surl,
+						{ format: sformat, version: sversion, layers: slayers, minZoom: sminzoom, maxZoom: smaxzoom, attribution: '' },
+					)
 					phonetrack.controlLayers.addBaseLayer(newlayer, sname)
 					phonetrack.overlayLayers[sname] = newlayer
 				}
 				if (type === 'overlay') {
 					// add tile server in leaflet control
-					newlayer = new L.TileLayer(surl,
-						{ minZoom: sminzoom, maxZoom: smaxzoom, transparent: stransparent, opcacity: sopacity, attribution: '' })
+					newlayer = new L.TileLayer(surl, { minZoom: sminzoom, maxZoom: smaxzoom, transparent: stransparent, opcacity: sopacity, attribution: '' })
 					phonetrack.controlLayers.addOverlay(newlayer, sname)
 					phonetrack.baseLayers[sname] = newlayer
 				} else if (type === 'overlaywms') {
 					// add tile server in leaflet control
-					// eslint-disable-next-line
-					newlayer = new L.tileLayer.wms(surl,
-						{ layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: '', minZoom: sminzoom, maxZoom: smaxzoom })
+					newlayer = new L.tileLayer.wms(
+						surl,
+						{ layers: slayers, version: sversion, transparent: stransparent, opacity: sopacity, format: sformat, attribution: '', minZoom: sminzoom, maxZoom: smaxzoom },
+					)
 					phonetrack.controlLayers.addOverlay(newlayer, sname)
 					phonetrack.overlayLayers[sname] = newlayer
 				}
@@ -1007,8 +996,7 @@ if (typeof hotlinePlugin === 'function') {
 						type = elem.attr('type')
 						if (type === 'date') {
 							if (optionsValues[k] !== null
-								&& optionsValues[k] !== ''
-							) {
+								&& optionsValues[k] !== '') {
 								if (String(optionsValues[k]).match(/\d\d\d\d-\d\d-\d\d/g) !== null) {
 									elem.val(optionsValues[k])
 								} else {
@@ -1016,6 +1004,7 @@ if (typeof hotlinePlugin === 'function') {
 										mom = moment.unix(parseInt(optionsValues[k]))
 										elem.val(mom.format('YYYY-MM-DD'))
 									} catch (err) {
+										console.error(err)
 										elem.val('')
 									}
 								}
@@ -1032,12 +1021,8 @@ if (typeof hotlinePlugin === 'function') {
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(
-				t('phonetrack', 'Failed to contact server to restore options values'),
-			)
-			OC.Notification.showTemporary(
-				t('phonetrack', 'Reload this page'),
-			)
+			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to restore options values'))
+			OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
 		})
 	}
 
@@ -1161,7 +1146,7 @@ if (typeof hotlinePlugin === 'function') {
 				options,
 			}
 			const url = generateUrl('/apps/phonetrack/saveOptionValue')
-			axios.post(url, req).then((response) => {
+			axios.post(url, req).then(() => {
 				if (refreshAfter === true) {
 					if (phonetrack.currentTimer !== null) {
 						phonetrack.currentTimer.pause()
@@ -1171,12 +1156,8 @@ if (typeof hotlinePlugin === 'function') {
 				}
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(
-					t('phonetrack', 'Failed to contact server to save options values'),
-				)
-				OC.Notification.showTemporary(
-					t('phonetrack', 'Reload this page'),
-				)
+				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to save options values'))
+				OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
 			})
 		}
 	}
@@ -1207,12 +1188,8 @@ if (typeof hotlinePlugin === 'function') {
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(
-				t('phonetrack', 'Failed to contact server to save filters bookmark'),
-			)
-			OC.Notification.showTemporary(
-				t('phonetrack', 'Reload this page'),
-			)
+			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to save filters bookmark'))
+			OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
 		})
 	}
 
@@ -1245,9 +1222,7 @@ if (typeof hotlinePlugin === 'function') {
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(
-				t('phonetrack', 'Failed to contact server to delete filters bookmark'),
-			)
+			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete filters bookmark'))
 		})
 	}
 
@@ -1314,9 +1289,22 @@ if (typeof hotlinePlugin === 'function') {
 		return phonetrack.deviceIds[sessionid][devicename]
 	}
 
-	function addSession(token, name, publicviewtoken, isPublic, devices = [], sharedWith = {},
-		selected = false, isFromShare = false, isSharedBy = '',
-		reservedNames = [], publicFilteredShares = [], autoexport = 'no', autopurge = 'no', locked = 0) {
+	function addSession(
+		token,
+		name,
+		publicviewtoken,
+		isPublic,
+		devices = [],
+		sharedWith = {},
+		selected = false,
+		isFromShare = false,
+		isSharedBy = '',
+		reservedNames = [],
+		publicFilteredShares = [],
+		autoexport = 'no',
+		autopurge = 'no',
+		locked = 0,
+	) {
 		let i
 		// init names/ids dict
 		phonetrack.deviceNames[token] = {}
@@ -1413,8 +1401,8 @@ if (typeof hotlinePlugin === 'function') {
 			watchicon = 'fa-toggle-on'
 		}
 		let divtxt = '<div class="session" token="' + token + '"'
-		   + ' publicviewtoken="' + publicviewtoken + '"'
-		   + ' shared="' + (isFromShare ? 1 : 0) + '"'
+			+ ' publicviewtoken="' + publicviewtoken + '"'
+			+ ' shared="' + (isFromShare ? 1 : 0) + '"'
 			+ '>'
 		phonetrack.isSessionShared[token] = isFromShare
 		divtxt = divtxt + '<div class="sessionBar">'
@@ -1700,7 +1688,12 @@ if (typeof hotlinePlugin === 'function') {
 				&& token in phonetrack.sessionsFromSavedOptions
 				&& devid in phonetrack.sessionsFromSavedOptions[token]) {
 				addDevice(
-					token, devid, name, devcolor, devname, devgeofences,
+					token,
+					devid,
+					name,
+					devcolor,
+					devname,
+					devgeofences,
 					phonetrack.sessionsFromSavedOptions[token][devid].zoom,
 					phonetrack.sessionsFromSavedOptions[token][devid].line,
 					devalias,
@@ -2005,8 +1998,7 @@ if (typeof hotlinePlugin === 'function') {
 				for (s in response.data.sessions) {
 					selected = false
 					if (phonetrack.sessionsFromSavedOptions
-						&& response.data.sessions[s][1] in phonetrack.sessionsFromSavedOptions
-					) {
+						&& response.data.sessions[s][1] in phonetrack.sessionsFromSavedOptions) {
 						selected = true
 					}
 					// session is shared by someone else
@@ -2179,7 +2171,7 @@ if (typeof hotlinePlugin === 'function') {
 			while (i < ll.length) {
 				// fill current segment while possible
 				while (i < ll.length
-						&& isPointInSegment(cutdistance, phonetrack.map.distance(ll[i - 1], ll[i]), cuttime, currentEntry.timestamp - lastEntry.timestamp)
+					&& isPointInSegment(cutdistance, phonetrack.map.distance(ll[i - 1], ll[i]), cuttime, currentEntry.timestamp - lastEntry.timestamp)
 				) {
 					currentSegment.push(ll[i])
 					i++
@@ -2243,20 +2235,20 @@ if (typeof hotlinePlugin === 'function') {
 		return (
 			!filtersEnabled
 			|| (
-				 (!timestampMin || parseInt(entry.timestamp) >= timestampMin)
-				 && (!timestampMax || parseInt(entry.timestamp) <= timestampMax)
-				 && (!elevationmax || entry.altitude >= elevationmax)
-				 && (!elevationmin || entry.altitude <= elevationmin)
-				 && (!batterymin || entry.batterylevel >= batterymin)
-				 && (!batterymax || entry.batterylevel <= batterymax)
-				 && (!satellitesmin || entry.satellites >= satellitesmin)
-				 && (!satellitesmax || entry.satellites <= satellitesmax)
-				 && (!accuracymin || entry.accuracy >= accuracymin)
-				 && (!accuracymax || entry.accuracy <= accuracymax)
-				 && (!bearingmin || entry.bearing >= bearingmin)
-				 && (!bearingmax || entry.bearing <= bearingmax)
-				 && (!speedmin || entry.speed >= speedmin)
-				 && (!speedmax || entry.speed <= speedmax)
+				(!timestampMin || parseInt(entry.timestamp) >= timestampMin)
+				&& (!timestampMax || parseInt(entry.timestamp) <= timestampMax)
+				&& (!elevationmax || entry.altitude >= elevationmax)
+				&& (!elevationmin || entry.altitude <= elevationmin)
+				&& (!batterymin || entry.batterylevel >= batterymin)
+				&& (!batterymax || entry.batterylevel <= batterymax)
+				&& (!satellitesmin || entry.satellites >= satellitesmin)
+				&& (!satellitesmax || entry.satellites <= satellitesmax)
+				&& (!accuracymin || entry.accuracy >= accuracymin)
+				&& (!accuracymax || entry.accuracy <= accuracymax)
+				&& (!bearingmin || entry.bearing >= bearingmin)
+				&& (!bearingmax || entry.bearing <= bearingmax)
+				&& (!speedmin || entry.speed >= speedmin)
+				&& (!speedmax || entry.speed <= speedmax)
 			)
 		)
 	}
@@ -2289,7 +2281,7 @@ if (typeof hotlinePlugin === 'function') {
 			// we avoid everything under the min
 			if (timestampMin) {
 				while (i < list.length
-					   && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) <= timestampMin)
+					&& (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) <= timestampMin)
 				) {
 					i++
 				}
@@ -2297,7 +2289,7 @@ if (typeof hotlinePlugin === 'function') {
 			// then we copy everything under the max
 			if (timestampMax) {
 				while (i < list.length
-					   && (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) <= timestampMax)
+					&& (parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][list[i][2]].timestamp) <= timestampMax)
 				) {
 					resDateList.push(list[i])
 					i++
@@ -2465,8 +2457,7 @@ if (typeof hotlinePlugin === 'function') {
 						if (!phonetrack.sessionPointsLayers[s][d].hasLayer(phonetrack.sessionPointsLayersById[s][d][id])) {
 							phonetrack.sessionPointsLayers[s][d].addLayer(phonetrack.sessionPointsLayersById[s][d][id])
 							if (!pageIsPublic() && !isSessionShared(s) && $('#dragcheck').is(':checked')
-								&& phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])
-							) {
+								&& phonetrack.map.hasLayer(phonetrack.sessionPointsLayers[s][d])) {
 								phonetrack.sessionPointsLayersById[s][d][id].dragging.enable()
 							}
 						}
@@ -2550,15 +2541,13 @@ if (typeof hotlinePlugin === 'function') {
 			if (oldlatlng === null
 				|| parseInt(oldlatlng.alt) !== parseInt(mid)
 				|| mla !== oldlatlng.lat
-				|| mln !== oldlatlng.lng
-			) {
+				|| mln !== oldlatlng.lng) {
 				// move
 				phonetrack.sessionMarkerLayers[s][d].setLatLng([mla, mln, mid])
 			}
 
 			if (phonetrack.sessionMarkerLayers[s][d].pid === null
-				|| parseInt(oldlatlng.alt) !== parseInt(mid)
-			) {
+				|| parseInt(oldlatlng.alt) !== parseInt(mid)) {
 				phonetrack.sessionMarkerLayers[s][d].pid = mid
 			}
 
@@ -2568,8 +2557,7 @@ if (typeof hotlinePlugin === 'function') {
 				phonetrack.sessionMarkerLayers[s][d].dragging.disable()
 				if (!pageIsPublic()
 					&& !isSessionShared(s)
-					&& $('#dragcheck').is(':checked')
-				) {
+					&& $('#dragcheck').is(':checked')) {
 					phonetrack.sessionMarkerLayers[s][d].dragging.enable()
 				}
 			}
@@ -2605,7 +2593,12 @@ if (typeof hotlinePlugin === 'function') {
 						&& s in phonetrack.sessionsFromSavedOptions
 						&& d in phonetrack.sessionsFromSavedOptions[s]) {
 						addDevice(
-							s, d, sessionname, devcol, names[s][d], devgeofences,
+							s,
+							d,
+							sessionname,
+							devcol,
+							names[s][d],
+							devgeofences,
 							phonetrack.sessionsFromSavedOptions[s][d].zoom,
 							phonetrack.sessionsFromSavedOptions[s][d].line,
 							aliases[s][d],
@@ -2790,35 +2783,28 @@ if (typeof hotlinePlugin === 'function') {
 		let renameInput = ''
 		let aliasInput = ''
 		let reaffectLink = ''
-		let geoLink = ''
-		let geoLinkQR = ''
-		let routingGraphLink = ''
-		let routingOsrmLink = ''
-		let routingOrsLink = ''
-		let reaffectSelect = ''
-		let dropdowndevicebutton = ''
-		let dropdowndevicecontent = ''
-		geoLink = ' <button class="geoLinkDevice" token="' + s + '" device="' + d + '">'
+		const geoLink = ' <button class="geoLinkDevice" token="' + s + '" device="' + d + '">'
 			+ '<i class="fa fa-map-marked-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Geo link to open position in other app/software') + '</button>'
-		geoLinkQR = ' <button class="geoLinkQRDevice" token="' + s + '" device="' + d + '">'
+		const geoLinkQR = ' <button class="geoLinkQRDevice" token="' + s + '" device="' + d + '">'
 			+ '<i class="fa fa-qrcode" aria-hidden="true"></i> <i class="fa fa-map-marked-alt" aria-hidden="true"></i> ' + t('phonetrack', 'Geo link QRcode to open position with a QRcode scanner') + '</button>'
-		routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">'
+		const routingGraphLink = ' <button class="routingGraphDevice" token="' + s + '" device="' + d + '">'
 			+ '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', { s: 'Graphhopper' }) + '</button>'
-		routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">'
+		const routingOsrmLink = ' <button class="routingOsrmDevice" token="' + s + '" device="' + d + '">'
 			+ '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', { s: 'Osrm' }) + '</button>'
-		routingOrsLink = ' <button class="routingOrsDevice" token="' + s + '" device="' + d + '">'
+		const routingOrsLink = ' <button class="routingOrsDevice" token="' + s + '" device="' + d + '">'
 			+ '<i class="fa fa-route" aria-hidden="true"></i> ' + t('phonetrack', 'Get driving direction to this device with {s}', { s: 'OpenRouteService' }) + '</button>'
-		dropdowndevicebutton = '<button class="dropdowndevicebutton" title="' + t('phonetrack', 'More actions') + '">'
+		let reaffectSelect = ''
+		const dropdowndevicebutton = '<button class="dropdowndevicebutton" title="' + t('phonetrack', 'More actions') + '">'
 			+ '<i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>'
 		if (!pageIsPublic() && !isSessionShared(s)) {
 			shapeDiv = '<div class="shapediv" title="">'
 				+ '<div><i class="fa fa-shapes" aria-hidden="true"></i> ' + t('phonetrack', 'Set device shape') + '</div>'
-			+ '<select role="shapeselect">'
-			+ '<option value="r">' + t('phonetrack', 'Round') + '</option>'
-			+ '<option value="s">' + t('phonetrack', 'Square') + '</option>'
-			+ '<option value="t">' + t('phonetrack', 'Triangle') + '</option>'
-			+ '</select>'
-			+ '</div>'
+				+ '<select role="shapeselect">'
+				+ '<option value="r">' + t('phonetrack', 'Round') + '</option>'
+				+ '<option value="s">' + t('phonetrack', 'Square') + '</option>'
+				+ '<option value="t">' + t('phonetrack', 'Triangle') + '</option>'
+				+ '</select>'
+				+ '</div>'
 			deleteLink = ' <button class="deleteDevice" token="' + s + '" device="' + d + '">'
 				+ '<i class="fa fa-trash" aria-hidden="true"></i> ' + t('phonetrack', 'Delete this device') + '</button>'
 			renameLink = ' <button class="renameDevice" token="' + s + '" device="' + d + '">'
@@ -2834,7 +2820,7 @@ if (typeof hotlinePlugin === 'function') {
 				+ t('phonetrack', 'Ok') + '</button>'
 				+ '</div>'
 		}
-		dropdowndevicecontent = '<div class="dropdown-content">'
+		const dropdowndevicecontent = '<div class="dropdown-content">'
 			+ shapeDiv
 			+ deleteLink
 			+ renameLink
@@ -2869,7 +2855,7 @@ if (typeof hotlinePlugin === 'function') {
 				+ '<span>(<label for="urlleavepost' + s + d + '">' + t('phonetrack', 'Use POST method') + ' </label>'
 				+ '<input type="checkbox" class="urlleavepost" id="urlleavepost' + s + d + '"/>)</span>'
 				+ '<input type="text" id="urlleave' + s + d + '" class="urlleave" maxlength="500" />'
-				+ '<label><b>' + t('phonetrack', 'Geofencing zone coordinates') + '</b> ' + '(' + t('phonetrack', 'leave blank to use current map bounds') + ')' + '</label><br/>'
+				+ '<label><b>' + t('phonetrack', 'Geofencing zone coordinates') + '</b> (' + t('phonetrack', 'leave blank to use current map bounds') + ')</label><br/>'
 				+ '<div class="addgeofenceleft">'
 				+ '<label for="north' + s + d + '"> ' + t('phonetrack', 'North') + ' </label>'
 				+ '<input id="north' + s + d + '" class="fencenorth" type="number" value="" min="-90" max="90" step="0.000001"/><br/>'
@@ -2962,27 +2948,27 @@ if (typeof hotlinePlugin === 'function') {
 			nameLabelTxt = name
 		}
 		const devHtml = '<li device="' + d + '" token="' + s + '">'
-				+ '<div class="devinteractline">'
-				+ '<div class="devicecolor ' + shape + 'devicecolor devicecolor' + s + d + '"></div> '
-				+ '<div class="deviceLabel" title="'
-				+ t('phonetrack', 'Center map on device') + '">' + escapeHtml(nameLabelTxt) + '</div> '
-				+ renameInput
-				+ aliasInput
-				+ ghostSpace
-				+ lineDeviceLink
-				+ autoZoomLink
-				+ '<button class="zoomdevicebutton" title="'
-				+ t('phonetrack', 'Center map on device') + ' \'' + escapeHtml(name) + '\'">'
-				+ '<i class="fa fa-search" aria-hidden="true"></i></button>'
-				+ geofencesLink
-				+ proximLink
-				+ reaffectSelect
-				+ dropdowndevicebutton
-				+ dropdowndevicecontent
-				+ '</div><div style="clear: both;"></div>'
-				+ geofencesDiv
-				+ proximDiv
-				+ '</li>'
+			+ '<div class="devinteractline">'
+			+ '<div class="devicecolor ' + shape + 'devicecolor devicecolor' + s + d + '"></div> '
+			+ '<div class="deviceLabel" title="'
+			+ t('phonetrack', 'Center map on device') + '">' + escapeHtml(nameLabelTxt) + '</div> '
+			+ renameInput
+			+ aliasInput
+			+ ghostSpace
+			+ lineDeviceLink
+			+ autoZoomLink
+			+ '<button class="zoomdevicebutton" title="'
+			+ t('phonetrack', 'Center map on device') + ' \'' + escapeHtml(name) + '\'">'
+			+ '<i class="fa fa-search" aria-hidden="true"></i></button>'
+			+ geofencesLink
+			+ proximLink
+			+ reaffectSelect
+			+ dropdowndevicebutton
+			+ dropdowndevicecontent
+			+ '</div><div style="clear: both;"></div>'
+			+ geofencesDiv
+			+ proximDiv
+			+ '</li>'
 
 		let beforeThis = null
 		const nameLower = name.toLowerCase()
@@ -3074,16 +3060,39 @@ if (typeof hotlinePlugin === 'function') {
 		for (i = 0; i < geofences.length; i++) {
 			f = geofences[i]
 			llb = L.latLngBounds(L.latLng(f.latmin, f.lonmin), L.latLng(f.latmax, f.lonmax))
-			addGeoFence(s, d, f.name, f.id, llb,
-				f.urlenter, f.urlleave,
-				f.urlenterpost, f.urlleavepost,
-				f.sendemail, f.emailaddr, f.sendnotif)
+			addGeoFence(
+				s,
+				d,
+				f.name,
+				f.id,
+				llb,
+				f.urlenter,
+				f.urlleave,
+				f.urlenterpost,
+				f.urlleavepost,
+				f.sendemail,
+				f.emailaddr,
+				f.sendnotif,
+			)
 		}
 		for (i = 0; i < proxims.length; i++) {
 			pr = proxims[i]
-			addProxim(s, d, pr.id, pr.sname2, pr.dname2,
-					  pr.highlimit, pr.lowlimit, pr.urlclose, pr.urlfar,
-					  pr.urlclosepost, pr.urlfarpost, pr.sendemail, pr.emailaddr, pr.sendnotif)
+			addProxim(
+				s,
+				d,
+				pr.id,
+				pr.sname2,
+				pr.dname2,
+				pr.highlimit,
+				pr.lowlimit,
+				pr.urlclose,
+				pr.urlfar,
+				pr.urlclosepost,
+				pr.urlfarpost,
+				pr.sendemail,
+				pr.emailaddr,
+				pr.sendnotif,
+			)
 		}
 	}
 
@@ -3175,9 +3184,7 @@ if (typeof hotlinePlugin === 'function') {
 
 				for (e = entries.length - 1; e < entries.length; e++) {
 					entry = entries[e]
-					m = L.marker([entry.lat, entry.lon, entry.id],
-						{ icon },
-					)
+					m = L.marker([entry.lat, entry.lon, entry.id], { icon })
 					m.session = s
 					m.device = d
 					m.pid = entry.id
@@ -3228,9 +3235,7 @@ if (typeof hotlinePlugin === 'function') {
 
 			for (e = 0; e < entries.length; e++) {
 				entry = entries[e]
-				m = L.marker([entry.lat, entry.lon, entry.id],
-					{ icon },
-				)
+				m = L.marker([entry.lat, entry.lon, entry.id], { icon })
 				m.session = s
 				m.device = d
 				m.pid = entry.id
@@ -3306,8 +3311,7 @@ if (typeof hotlinePlugin === 'function') {
 		const s = e.target.session
 		const d = e.target.device
 		if (!pageIsPublic()
-			&& !isSessionShared(s)
-		) {
+			&& !isSessionShared(s)) {
 			e.target.unbindPopup()
 			const pid = e.target.pid
 			const entry = phonetrack.sessionPointsEntriesById[s][d][pid]
@@ -3341,8 +3345,7 @@ if (typeof hotlinePlugin === 'function') {
 
 	function markerMouseout(e) {
 		if (phonetrack.currentPrecisionCircle !== null
-			&& phonetrack.map.hasLayer(phonetrack.currentPrecisionCircle)
-		) {
+			&& phonetrack.map.hasLayer(phonetrack.currentPrecisionCircle)) {
 			phonetrack.map.removeLayer(phonetrack.currentPrecisionCircle)
 			phonetrack.currentPrecisionCircle = null
 		}
@@ -3416,9 +3419,7 @@ if (typeof hotlinePlugin === 'function') {
 		if (move || dateChanged) {
 			phonetrack.sessionPointsLayersById[token][deviceid][pointid].setLatLng([lat, lon, pointid])
 			if (!filter) {
-				phonetrack.sessionPointsLayers[token][deviceid].removeLayer(
-					phonetrack.sessionPointsLayersById[token][deviceid][pointid],
-				)
+				phonetrack.sessionPointsLayers[token][deviceid].removeLayer(phonetrack.sessionPointsLayersById[token][deviceid][pointid])
 			}
 		}
 		// set new line latlngs if moved or date was modified
@@ -3430,9 +3431,9 @@ if (typeof hotlinePlugin === 'function') {
 			i = 0
 			// we copy until we get to the right place to insert moved point
 			while (i < latlngs.length
-					  && ((parseInt(pointid) === parseInt(latlngs[i][2]))
-						 || (timestamp > parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][latlngs[i][2]].timestamp))
-					  )
+				&& ((parseInt(pointid) === parseInt(latlngs[i][2]))
+					|| (timestamp > parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][latlngs[i][2]].timestamp))
+				)
 			) {
 				// we don't copy the edited point
 				if (parseInt(pointid) !== parseInt(latlngs[i][2])) {
@@ -3518,7 +3519,6 @@ if (typeof hotlinePlugin === 'function') {
 		// remove point in the line
 		const latlngs = phonetrack.sessionLatlngs[s][d]
 		const newlatlngs = []
-		i = 0
 		for (i = 0; i < latlngs.length; i++) {
 			if (pidlist.indexOf(latlngs[i][2]) === -1) {
 				newlatlngs.push([latlngs[i][0], latlngs[i][1], latlngs[i][2]])
@@ -3668,7 +3668,7 @@ if (typeof hotlinePlugin === 'function') {
 			let i = 0
 			// we copy until we get to the right place to insert new point
 			while (i < latlngs.length
-				   && timestamp > parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][latlngs[i][2]].timestamp)
+				&& timestamp > parseInt(phonetrack.sessionPointsEntriesById[token][deviceid][latlngs[i][2]].timestamp)
 			) {
 				// copy
 				newlatlngs.push([latlngs[i][0], latlngs[i][1], latlngs[i][2]])
@@ -3726,7 +3726,7 @@ if (typeof hotlinePlugin === 'function') {
 			speedKmph = speedKmph.toFixed(2)
 		}
 		let res = '<table class="editPoint" pid="' + entry.id + '"'
-		   + ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">'
+			+ ' token="' + s + '" deviceid="' + d + '" sessionname="' + sn + '">'
 		res = res + '<tr title="' + t('phonetrack', 'Date') + '">'
 		res = res + '<td><i class="fa fa-calendar-alt" style="font-size: 20px;"></i></td>'
 		res = res + '<td><input role="date" type="date" value="' + dateval + '"/></td>'
@@ -3906,7 +3906,6 @@ if (typeof hotlinePlugin === 'function') {
 					}
 				}
 			}
-
 		})
 
 		// ZOOM
@@ -3947,8 +3946,7 @@ if (typeof hotlinePlugin === 'function') {
 					// if no device is followed => all devices are taken
 					// if some devices are followed, just take them
 					if (nbDevicesToFollow === 0
-						|| (token in devicesToFollow && devicesToFollow[token].indexOf(d) !== -1)
-					) {
+						|| (token in devicesToFollow && devicesToFollow[token].indexOf(d) !== -1)) {
 						if (phonetrack.map.hasLayer(phonetrack.sessionMarkerLayers[token][d])) {
 							pointLatlngList.push(phonetrack.sessionMarkerLayers[token][d].getLatLng())
 						}
@@ -4027,25 +4025,17 @@ if (typeof hotlinePlugin === 'function') {
 				} else if (response.data.done === 2) {
 					OC.Notification.showTemporary(t('phonetrack', 'Failed to create imported session'))
 				} else if (response.data.done === 3) {
-					OC.Notification.showTemporary(
-						t('phonetrack', 'Failed to import session') + '. '
-						+ t('phonetrack', 'File is not readable'),
-					)
+					OC.Notification.showTemporary(t('phonetrack', 'Failed to import session') + '. '
+						+ t('phonetrack', 'File is not readable'))
 				} else if (response.data.done === 4) {
-					OC.Notification.showTemporary(
-						t('phonetrack', 'Failed to import session') + '. '
-						+ t('phonetrack', 'File does not exist'),
-					)
+					OC.Notification.showTemporary(t('phonetrack', 'Failed to import session') + '. '
+						+ t('phonetrack', 'File does not exist'))
 				} else if (response.data.done === 5) {
-					OC.Notification.showTemporary(
-						t('phonetrack', 'Failed to import session') + '. '
-						+ t('phonetrack', 'Malformed XML file'),
-					)
+					OC.Notification.showTemporary(t('phonetrack', 'Failed to import session') + '. '
+						+ t('phonetrack', 'Malformed XML file'))
 				} else if (response.data.done === 6) {
-					OC.Notification.showTemporary(
-						t('phonetrack', 'Failed to import session') + '. '
-						+ t('phonetrack', 'There is no device to import in submitted file'),
-					)
+					OC.Notification.showTemporary(t('phonetrack', 'Failed to import session') + '. '
+						+ t('phonetrack', 'There is no device to import in submitted file'))
 				}
 			}).catch((error) => {
 				console.error(error)
@@ -4103,7 +4093,7 @@ if (typeof hotlinePlugin === 'function') {
 				useragent: 'browser',
 			}
 			const url = generateUrl('/apps/phonetrack/logPost/' + phonetrack.token + '/' + deviceid)
-			axios.post(url, req).then((response) => {
+			axios.post(url, req).then(() => {
 				// console.log(response)
 			}).catch((error) => {
 				console.error(error)
@@ -4333,10 +4323,10 @@ if (typeof hotlinePlugin === 'function') {
 				})
 			} else if (response.data.done === 2) {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name')
-				+ '. ' + t('phonetrack', 'This device does not exist'))
+					+ '. ' + t('phonetrack', 'This device does not exist'))
 			} else if (response.data.done === 3) {
 				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name')
-				+ '. ' + t('phonetrack', 'This device name is not reserved, please reload this page'))
+					+ '. ' + t('phonetrack', 'This device name is not reserved, please reload this page'))
 			}
 		}).catch((error) => {
 			console.error(error)
@@ -4543,7 +4533,7 @@ if (typeof hotlinePlugin === 'function') {
 			+ '<li>' + t('phonetrack', 'Email notification') + ' : ' + sendemailTxt + '</li>'
 		if (parseInt(sendemail) !== 0) {
 			li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : '
-			+ escapeHtml(emailaddr || t('phonetrack', 'account mail address')) + '</li>'
+				+ escapeHtml(emailaddr || t('phonetrack', 'account mail address')) + '</li>'
 		}
 		li = li + '</ul></li>'
 		$('.session[token="' + token + '"] .devicelist li[device=' + device + '] .geofencesDiv .geofencelist').append(li)
@@ -4644,11 +4634,11 @@ if (typeof hotlinePlugin === 'function') {
 			+ '<ul class="proximTextValues">'
 		if (urlclose) {
 			li = li + '<li>' + t('phonetrack', 'URL to request when devices get close') + ' ' + closepostTxt + ' : ' + escapeHtml(urlclose || '')
-			+ '</li>'
+				+ '</li>'
 		}
 		if (urlfar) {
 			li = li + '<li>' + t('phonetrack', 'URL to request when devices get far') + ' ' + farpostTxt + ' : ' + escapeHtml(urlfar || '')
-			+ '</li>'
+				+ '</li>'
 		}
 		li = li + '<li>' + t('phonetrack', 'Nextcloud notification') + ' : ' + sendnotifTxt
 			+ '</li>'
@@ -4656,7 +4646,7 @@ if (typeof hotlinePlugin === 'function') {
 			+ '</li>'
 		if (parseInt(sendemail) !== 0) {
 			li = li + '<li>' + t('phonetrack', 'Email address(es)') + ' : ' + escapeHtml(emailaddr || t('phonetrack', 'account mail address'))
-			+ '</li>'
+				+ '</li>'
 		}
 		li = li + '<li>' + t('phonetrack', 'Low distance limit : {nbmeters}m', { nbmeters: lowlimit })
 			+ '</li>'
@@ -4780,7 +4770,7 @@ if (typeof hotlinePlugin === 'function') {
 		})
 	}
 
-	function addUserAutocompletion(input) {
+	function addUserAutocompletion() {
 		const req = {}
 		const url = generateUrl('/apps/phonetrack/getUserList')
 		axios.post(url, req).then((response) => {
@@ -4958,7 +4948,7 @@ if (typeof hotlinePlugin === 'function') {
 		if (logger === 'osmand') {
 			loggerName = 'OsmAnd'
 			content = t('phonetrack', 'In OsmAnd, go to \'Plugins\' in the main menu, then activate \'Trip recording\' plugin and go to its settings.')
-			+ ' ' + t('phonetrack', 'Copy the link below into the \'Online tracking web address\' field.')
+				+ ' ' + t('phonetrack', 'Copy the link below into the \'Online tracking web address\' field.')
 		} else if (logger === 'overland') {
 			loggerName = 'Overland IOS'
 			content = t('phonetrack', 'Go to \'settings\' in the app.')
@@ -4995,10 +4985,7 @@ if (typeof hotlinePlugin === 'function') {
 			const logLabel = t('phonetrack', 'Log my position in this session')
 			content = t('phonetrack', 'Visit this link with a web browser and check "{loglabel}".', { loglabel: logLabel })
 		}
-		const title = t('phonetrack',
-			'Configure {loggingApp} for logging to session \'{sessionName}\'',
-			{ sessionName, loggingApp: loggerName },
-		)
+		const title = t('phonetrack', 'Configure {loggingApp} for logging to session \'{sessionName}\'', { sessionName, loggingApp: loggerName })
 
 		const dialogContent = document.createElement('div')
 		dialogContent.style = 'padding: 10px; display: flex; flex-direction: column; align-items: center;'
@@ -5236,10 +5223,7 @@ if (typeof hotlinePlugin === 'function') {
 			const token = $(this).parent().parent().attr('token')
 			const sessionname = getSessionName(token)
 			OC.dialogs.confirm(
-				t('phonetrack',
-					'Are you sure you want to delete the session {session} ?',
-					{ session: sessionname },
-				),
+				t('phonetrack', 'Are you sure you want to delete the session {session} ?', { session: sessionname }),
 				t('phonetrack', 'Confirm session deletion'),
 				(result) => {
 					if (result) {
@@ -5300,7 +5284,9 @@ if (typeof hotlinePlugin === 'function') {
 					$('#autoexportpath').val(targetPath)
 					$('#autoexportpath').change()
 				},
-				false, 'httpd/unix-directory', true,
+				false,
+				'httpd/unix-directory',
+				true,
 			)
 		})
 
@@ -5475,7 +5461,9 @@ if (typeof hotlinePlugin === 'function') {
 				function(targetPath) {
 					saveAction(name, token, targetPath, filename)
 				},
-				false, 'httpd/unix-directory', true,
+				false,
+				'httpd/unix-directory',
+				true,
 			)
 		})
 
@@ -5596,8 +5584,7 @@ if (typeof hotlinePlugin === 'function') {
 			let reaffectSelect = ''
 			$('.session').each(function() {
 				if ($(this).attr('token') !== token
-					&& !isSessionShared($(this).attr('token'))
-				) {
+					&& !isSessionShared($(this).attr('token'))) {
 					reaffectSelect += '<option value="' + $(this).attr('token') + '">' + $(this).find('.sessionName').text() + '</option>'
 				}
 			})
@@ -5711,9 +5698,7 @@ if (typeof hotlinePlugin === 'function') {
 				const p = ll[ll.length - 1]
 				const lat = p[0]
 				const lon = p[1]
-				window.open(
-					'geo:' + lat + ',' + lon,
-				)
+				window.open('geo:' + lat + ',' + lon)
 			}
 		})
 
@@ -5812,10 +5797,7 @@ if (typeof hotlinePlugin === 'function') {
 			const deviceid = $(this).attr('device')
 			const devicename = getDeviceName(token, deviceid)
 			OC.dialogs.confirm(
-				t('phonetrack',
-					'Are you sure you want to delete the device {device}?',
-					{ device: devicename },
-				),
+				t('phonetrack', 'Are you sure you want to delete the device {device}?', { device: devicename }),
 				t('phonetrack', 'Confirm device deletion'),
 				(result) => {
 					if (result) {
@@ -5829,9 +5811,7 @@ if (typeof hotlinePlugin === 'function') {
 		$('body').on('click', '.editsessionbutton', function() {
 			$(this).parent().parent().find('.sessionName').hide()
 			$(this).parent().parent().find('.renameSessionInput').show()
-			$(this).parent().parent().find('.renameSessionInput').val(
-				$(this).parent().parent().find('.sessionName').text(),
-			)
+			$(this).parent().parent().find('.renameSessionInput').val($(this).parent().parent().find('.sessionName').text())
 			$(this).parent().parent().find('.renameSessionInput').select()
 		})
 
@@ -5859,7 +5839,7 @@ if (typeof hotlinePlugin === 'function') {
 				locked: dbNewLocked,
 			}
 			const url = generateUrl('/apps/phonetrack/setSessionLocked')
-			axios.post(url, req).then((response) => {
+			axios.post(url, req).then(() => {
 				icon.toggleClass('fa-lock').toggleClass('fa-lock-open')
 			}).catch((error) => {
 				console.error(error)
@@ -5970,10 +5950,8 @@ if (typeof hotlinePlugin === 'function') {
 				if (response.data.done === 1) {
 					// nothing
 				} else if (response.data.done === 2) {
-					OC.Notification.showTemporary(
-						t('phonetrack', 'Failed to set session auto export value')
-						+ '. ' + t('phonetrack', 'session does not exist'),
-					)
+					OC.Notification.showTemporary(t('phonetrack', 'Failed to set session auto export value')
+						+ '. ' + t('phonetrack', 'session does not exist'))
 				}
 			}).catch((error) => {
 				console.error(error)
@@ -5993,10 +5971,8 @@ if (typeof hotlinePlugin === 'function') {
 				if (response.data.done === 1) {
 					// nothing
 				} else if (response.data.done === 2) {
-					OC.Notification.showTemporary(
-						t('phonetrack', 'Failed to set session auto purge value')
-						+ '. ' + t('phonetrack', 'session does not exist'),
-					)
+					OC.Notification.showTemporary(t('phonetrack', 'Failed to set session auto purge value')
+						+ '. ' + t('phonetrack', 'session does not exist'))
 				}
 			}).catch((error) => {
 				console.error(error)
@@ -6118,8 +6094,7 @@ if (typeof hotlinePlugin === 'function') {
 				&& !event.target.matches('select[role=autopurge]')
 				&& !event.target.matches('select[role=autopurge] option')
 				&& !event.target.matches('.dropdowndevicebutton')
-				&& !event.target.matches('.dropdowndevicebutton i')
-			) {
+				&& !event.target.matches('.dropdowndevicebutton i')) {
 				hideAllDropDowns()
 			}
 		}
@@ -6473,8 +6448,7 @@ if (typeof hotlinePlugin === 'function') {
 			const radius = $(this).val()
 			$('#pointradiuslabel').text(radius + 'px')
 			const diam = 2 * radius
-			$('style[role=divmarker]').html(
-				'.rmarker, .smarker { '
+			$('style[role=divmarker]').html('.rmarker, .smarker { '
 				+ 'width: ' + diam + 'px !important;'
 				+ 'height: ' + diam + 'px !important;'
 				+ 'line-height: ' + (diam - 4) + 'px;'
@@ -6487,8 +6461,7 @@ if (typeof hotlinePlugin === 'function') {
 				+ 'border-bottom-width: ' + diam + 'px;'
 				+ 'border-bottom-style: solid;'
 				+ 'line-height: ' + (diam) + 'px;'
-				+ '}',
-			)
+				+ '}')
 			// change iconanchor
 			let s, d, pid, icon, iconMarker, shape, dname, dalias, letter
 			for (s in phonetrack.sessionMarkerLayers) {
@@ -6717,8 +6690,7 @@ if (typeof hotlinePlugin === 'function') {
 			}
 			if ('lastmins' in filtDict
 				|| 'lasthours' in filtDict
-				|| 'lastdays' in filtDict
-			) {
+				|| 'lastdays' in filtDict) {
 				$('#applyfilters').prop('checked', true)
 				changeApplyFilter()
 			}
@@ -6766,7 +6738,5 @@ if (typeof hotlinePlugin === 'function') {
 		}
 
 		refresh()
-
 	}
-
 })($, OC)

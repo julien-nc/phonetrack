@@ -4,23 +4,23 @@
 -->
 <template>
 	<NcSelect
-		:model-value="modelValue"
+		:modelValue="modelValue"
 		class="shareInput"
 		:aria-label-combobox="t('phonetrack', 'Share session with a user or group')"
 		:placeholder="t('phonetrack', 'Share session with a user or group')"
 		:options="formatedSharees"
 		:filterable="false"
-		:clear-search-on-blur="() => false"
-		:append-to-body="false"
+		:clearSearchOnBlur="() => false"
+		:appendToBody="false"
 		:disabled="disabled"
 		@search="asyncFind"
-		@update:model-value="onUpdateModelValue">
+		@update:modelValue="onUpdateModelValue">
 		<template #option="option">
 			<div class="shareSelectOption">
 				<NcAvatar v-if="option.type === constants.SHARE_TYPE.USER"
 					class="avatar-option"
 					:user="option.user"
-					:hide-status="true" />
+					:hideStatus="true" />
 				<!--NcAvatar v-else-if="[constants.SHARE_TYPE.GROUP, constants.SHARE_TYPE.CIRCLE].includes(option.type)"
 					class="avatar-option"
 					:display-name="option.name"
@@ -90,10 +90,12 @@ export default {
 			type: [Object, null],
 			required: true,
 		},
+
 		session: {
 			type: Object,
 			required: true,
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
@@ -122,6 +124,7 @@ export default {
 			console.debug('[phonetrack] formatedSharees', formatedSharees)
 			return formatedSharees
 		},
+
 		// those with which the session is not shared yet
 		unallocatedSharees() {
 			return this.sharees.filter(sharee => {
@@ -163,6 +166,7 @@ export default {
 		onUpdateModelValue(value) {
 			this.$emit('update:model-value', value)
 		},
+
 		asyncFind(query) {
 			// this.query = query
 			if (query === '') {

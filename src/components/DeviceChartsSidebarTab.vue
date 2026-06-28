@@ -10,8 +10,8 @@
 		</NcNoteCard>
 		<DeviceChart
 			:device="device"
-			:x-axis="settings.chart_x_axis ?? 'time'"
-			:chart-y-scale="chartYScale"
+			:xAxis="settings.chart_x_axis ?? 'time'"
+			:chartYScale="chartYScale"
 			:settings="settings" />
 		<NcButton @click="onResetZoom">
 			{{ t('phonetrack', 'Reset zoom') }}
@@ -67,13 +67,13 @@
 			</select>
 		</div>
 		<NcCheckboxRadioSwitch
-			:model-value="settings.follow_chart_hover === '1'"
-			@update:model-value="onCheckboxChanged($event, 'follow_chart_hover')">
+			:modelValue="settings.follow_chart_hover === '1'"
+			@update:modelValue="onCheckboxChanged($event, 'follow_chart_hover')">
 			{{ t('phonetrack', 'Center map on chart hovered point') }}
 		</NcCheckboxRadioSwitch>
 		<NcCheckboxRadioSwitch
-			:model-value="settings.chart_hover_show_detailed_popup === '1'"
-			@update:model-value="onCheckboxChanged($event, 'chart_hover_show_detailed_popup')">
+			:modelValue="settings.chart_hover_show_detailed_popup === '1'"
+			@update:modelValue="onCheckboxChanged($event, 'chart_hover_show_detailed_popup')">
 			{{ t('phonetrack', 'Show details of hovered point on the map') }}
 		</NcCheckboxRadioSwitch>
 	</div>
@@ -121,10 +121,12 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		active: {
 			type: Boolean,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -147,9 +149,11 @@ export default {
 		onXAxisChange(e) {
 			emit('save-settings', { chart_x_axis: e.target.value })
 		},
+
 		onCheckboxChanged(newValue, key) {
 			emit('save-settings', { [key]: newValue ? '1' : '0' })
 		},
+
 		onResetZoom() {
 			emit('chart-zoom-reset')
 		},

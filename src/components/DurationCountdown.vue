@@ -20,10 +20,12 @@ export default {
 			type: Number,
 			required: true,
 		},
+
 		loop: {
 			type: Boolean,
 			default: false,
 		},
+
 		paused: {
 			type: Boolean,
 			default: false,
@@ -53,6 +55,7 @@ export default {
 				this.tick()
 			}
 		},
+
 		duration(newValue) {
 			this.timer = newValue
 		},
@@ -80,6 +83,7 @@ export default {
 				}
 			}, 1000)
 		},
+
 		pad(n) {
 			return (n < 10) ? ('0' + n) : n
 		},

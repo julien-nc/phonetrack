@@ -29,26 +29,33 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		map: {
 			type: Object,
 			required: true,
 		},
+
 		colorCriteria: {
 			type: Number,
 			default: COLOR_CRITERIAS.speed.id,
 		},
+
 		lineWidth: {
 			type: Number,
 			default: 5,
 		},
+
 		borderColor: {
 			type: String,
 			default: 'black',
 		},
+
+		/*
 		settings: {
 			type: Object,
 			required: true,
 		},
+		*/
 	},
 
 	data() {
@@ -61,23 +68,29 @@ export default {
 		layerId() {
 			return String(this.track.id)
 		},
+
 		borderLayerId() {
 			return this.layerId + '-border'
 		},
+
 		invisibleBorderLayerId() {
 			return this.layerId + '-invisible-border'
 		},
+
 		color() {
 			return this.track.color ?? '#0693e3'
 		},
+
 		onTop() {
 			return this.track.onTop
 		},
+
 		getSegmentValue() {
 			return this.colorCriteria === COLOR_CRITERIAS.speed.id
 				? this.getSpeed
 				: () => 0
 		},
+
 		trackGeojsonData() {
 			// use short point list for hovered track when we don't have the data yet
 			if (!this.track.geojson) {
@@ -90,6 +103,7 @@ export default {
 								coordinates: this.track.short_point_list.map((p) => [p[1], p[0]]),
 								type: 'LineString',
 							},
+
 							properties: {
 								color: this.color,
 							},
@@ -143,6 +157,7 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-width', (this.lineWidth * 1.6) * 1.7)
 			}
 		},
+
 		onMouseLeave() {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.setPaintProperty(this.layerId, 'line-width', this.lineWidth)
@@ -151,6 +166,7 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-width', this.lineWidth * 1.6)
 			}
 		},
+
 		getFeaturesFromCoords(coords) {
 			if (coords.length < 2) {
 				return [this.buildFeature(coords, this.color)]
@@ -164,6 +180,7 @@ export default {
 				return features
 			}
 		},
+
 		getMinMaxAndValues(coords) {
 			const lngLats = coords.map((c) => new LngLat(c[0], c[1]))
 			const segmentValues = [this.getSegmentValue(lngLats[0], lngLats[1], coords[0], coords[1])]
@@ -173,22 +190,25 @@ export default {
 			for (let i = 1; i < coords.length - 1; i++) {
 				segmentValues.push(this.getSegmentValue(lngLats[i], lngLats[i + 1], coords[i], coords[i + 1]))
 				if (segmentValues[i]) {
-					if (segmentValues[i] > max) max = segmentValues[i]
-					if (segmentValues[i] < min) min = segmentValues[i]
+					if (segmentValues[i] > max) { max = segmentValues[i] }
+					if (segmentValues[i] < min) { min = segmentValues[i] }
 				}
 			}
 			return { min, max, segmentValues }
 		},
+
 		getSpeed(ll1, ll2, coord1, coord2) {
 			const distance = ll1.distanceTo(ll2)
 			const time = coord2[3] - coord1[3]
 			return distance / time
 		},
+
 		getColor(min, max, value) {
 			const weight = (value - min) / (max - min)
 			const hue = getColorHueInInterval(240, 0, weight)
 			return 'hsl(' + hue + ', 100%, 50%)'
 		},
+
 		buildFeature(coords, color) {
 			return {
 				type: 'Feature',
@@ -196,17 +216,20 @@ export default {
 					coordinates: coords,
 					type: 'LineString',
 				},
+
 				properties: {
 					color,
 				},
 			}
 		},
+
 		bringToTop() {
 			if (this.map.getLayer(this.layerId) && this.map.getLayer(this.borderLayerId)) {
 				this.map.moveLayer(this.borderLayerId)
 				this.map.moveLayer(this.layerId)
 			}
 		},
+
 		remove() {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.removeLayer(this.layerId)
@@ -217,6 +240,7 @@ export default {
 				this.map.removeSource(this.layerId)
 			}
 		},
+
 		init() {
 			this.map.addSource(this.layerId, {
 				type: 'geojson',
@@ -266,6 +290,7 @@ export default {
 			this.ready = true
 		},
 	},
+
 	render(h) {
 		if (this.ready && this.$slots.default) {
 			return h('div', { style: { display: 'none' } }, this.$slots.default)

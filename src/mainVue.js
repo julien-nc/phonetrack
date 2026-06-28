@@ -12,7 +12,7 @@ if (!OCA.Phonetrack) {
 	OCA.Phonetrack = {}
 }
 
-document.addEventListener('DOMContentLoaded', async (event) => {
+document.addEventListener('DOMContentLoaded', async () => {
 	if (OCA.Theming) {
 		const c = OCA.Theming.color
 		// invalid color

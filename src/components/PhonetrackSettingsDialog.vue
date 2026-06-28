@@ -6,8 +6,8 @@
 	<NcAppSettingsDialog
 		v-model:open="showSettings"
 		:name="t('phonetrack', 'PhoneTrack settings')"
-		:show-navigation="true"
-		:no-version="true"
+		:showNavigation="true"
+		:noVersion="true"
 		class="phonetrack-settings-dialog">
 		<NcAppSettingsSection
 			id="map"
@@ -16,71 +16,71 @@
 				<MapIcon :size="20" />
 			</template>
 			<NcFormBox>
-				<NcFormBoxSwitch :model-value="settings.nav_show_hovered_session_bounds === '1'"
-					@update:model-value="onCheckboxChanged($event, 'nav_show_hovered_session_bounds')">
+				<NcFormBoxSwitch :modelValue="settings.nav_show_hovered_session_bounds === '1'"
+					@update:modelValue="onCheckboxChanged($event, 'nav_show_hovered_session_bounds')">
 					<div class="checkbox-inner">
 						<TextureBoxIcon :size="20" class="inline-icon" />
 						{{ t('phonetrack', 'Show session bounds on hover') }}
 					</div>
 				</NcFormBoxSwitch>
-				<NcFormBoxSwitch :model-value="(settings.show_mouse_position_control ?? '1') === '1'"
-					@update:model-value="onCheckboxChanged($event, 'show_mouse_position_control')">
+				<NcFormBoxSwitch :modelValue="(settings.show_mouse_position_control ?? '1') === '1'"
+					@update:modelValue="onCheckboxChanged($event, 'show_mouse_position_control')">
 					<div class="checkbox-inner">
 						<CursorDefaultClickOutlineIcon :size="20" class="inline-icon" />
 						{{ t('phonetrack', 'Show mouse position coordinates in the bottom-left map corner') }}
 					</div>
 				</NcFormBoxSwitch>
-				<NcFormBoxSwitch :model-value="(settings.use_sky ?? '0') === '1'"
-					@update:model-value="onCheckboxChanged($event, 'use_sky')">
+				<NcFormBoxSwitch :modelValue="(settings.use_sky ?? '0') === '1'"
+					@update:modelValue="onCheckboxChanged($event, 'use_sky')">
 					<div class="checkbox-inner">
 						<WeatherFogIcon :size="20" class="inline-icon" />
 						{{ t('phonetrack', 'Display the sky in the map') }}
 					</div>
 				</NcFormBoxSwitch>
-				<NcFormBoxSwitch :model-value="(settings.compact_mode ?? '1') === '1'"
-					@update:model-value="onCheckboxChanged($event, 'compact_mode')">
+				<NcFormBoxSwitch :modelValue="(settings.compact_mode ?? '1') === '1'"
+					@update:modelValue="onCheckboxChanged($event, 'compact_mode')">
 					<div class="checkbox-inner">
 						<ViewCompactOutlineIcon :size="20" class="inline-icon" />
 						{{ t('phonetrack', 'Compact navigation view') }}
 					</div>
 				</NcFormBoxSwitch>
-				<NcFormBoxSwitch :model-value="(settings.line_border ?? '1') === '1'"
-					@update:model-value="onCheckboxChanged($event, 'line_border')">
+				<NcFormBoxSwitch :modelValue="(settings.line_border ?? '1') === '1'"
+					@update:modelValue="onCheckboxChanged($event, 'line_border')">
 					<div class="checkbox-inner">
 						<MathNormIcon :size="20" class="inline-icon" />
 						{{ t('phonetrack', 'Draw line borders') }}
 					</div>
 				</NcFormBoxSwitch>
-				<NcFormBoxSwitch :model-value="settings.direction_arrows === '1'"
-					@update:model-value="onCheckboxChanged($event, 'direction_arrows')">
+				<NcFormBoxSwitch :modelValue="settings.direction_arrows === '1'"
+					@update:modelValue="onCheckboxChanged($event, 'direction_arrows')">
 					<div class="checkbox-inner">
 						<ArrowRightIcon :size="20" class="inline-icon" />
 						{{ t('phonetrack', 'Draw line direction arrows') }}
 					</div>
 				</NcFormBoxSwitch>
-				<NcFormBoxSwitch :model-value="(settings.draggable_points ?? '1') === '1'"
-					@update:model-value="onCheckboxChanged($event, 'draggable_points')">
+				<NcFormBoxSwitch :modelValue="(settings.draggable_points ?? '1') === '1'"
+					@update:modelValue="onCheckboxChanged($event, 'draggable_points')">
 					<div class="checkbox-inner">
 						<CursorMoveIcon :size="20" class="inline-icon" />
 						{{ t('phonetrack', 'Drag points to move them') }}
 					</div>
 				</NcFormBoxSwitch>
-				<NcFormBoxSwitch :model-value="settings.autozoom === '1'"
-					@update:model-value="onCheckboxChanged($event, 'autozoom')">
+				<NcFormBoxSwitch :modelValue="settings.autozoom === '1'"
+					@update:modelValue="onCheckboxChanged($event, 'autozoom')">
 					<div class="checkbox-inner">
 						<MagnifyIcon :size="20" />
 						{{ t('phonetrack', 'Automatic zoom on refresh') }}
 					</div>
 				</NcFormBoxSwitch>
 				<NcInputField
-					:model-value="settings.refresh_duration ?? 125"
+					:modelValue="settings.refresh_duration ?? 125"
 					type="number"
 					:label="t('phonetrack', 'Refresh every N seconds')"
 					min="5"
 					step="10"
-					:show-trailing-button="![125, '125'].includes(settings.refresh_duration)"
-					@update:model-value="onComponentInputChange(String($event), 'refresh_duration')"
-					@trailing-button-click="onComponentInputChange('125', 'refresh_duration')">
+					:showTrailingButton="![125, '125'].includes(settings.refresh_duration)"
+					@update:modelValue="onComponentInputChange(String($event), 'refresh_duration')"
+					@trailingButtonClick="onComponentInputChange('125', 'refresh_duration')">
 					<template #icon>
 						<UpdateIcon :size="20" />
 					</template>
@@ -88,24 +88,24 @@
 						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 					</template>
 				</NcInputField>
-				<Slider :model-value="settings.refresh_duration ?? 125"
+				<Slider :modelValue="settings.refresh_duration ?? 125"
 					class="slider"
 					:lazy="false"
-					show-tooltip="drag"
+					showTooltip="drag"
 					:min="5"
 					:max="60 * 60"
 					:step="10"
-					@update:model-value="debOnComponentInputChange(String($event), 'refresh_duration')" />
+					@update:modelValue="debOnComponentInputChange(String($event), 'refresh_duration')" />
 				<NcInputField
-					:model-value="settings.nbpointsload ?? 1000"
+					:modelValue="settings.nbpointsload ?? 1000"
 					type="number"
 					:label="t('phonetrack', 'Max number of points per device to load on refresh')"
 					min="10"
 					max="100000"
 					step="10"
-					:show-trailing-button="![1000, '1000'].includes(settings.nbpointsload)"
-					@update:model-value="onComponentInputChange(String($event), 'nbpointsload')"
-					@trailing-button-click="onComponentInputChange('1000', 'nbpointsload')">
+					:showTrailingButton="![1000, '1000'].includes(settings.nbpointsload)"
+					@update:modelValue="onComponentInputChange(String($event), 'nbpointsload')"
+					@trailingButtonClick="onComponentInputChange('1000', 'nbpointsload')">
 					<template #icon>
 						<DotsVerticalIcon :size="20" />
 					</template>
@@ -113,24 +113,24 @@
 						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 					</template>
 				</NcInputField>
-				<Slider :model-value="settings.nbpointsload ?? 1000"
+				<Slider :modelValue="settings.nbpointsload ?? 1000"
 					class="slider"
 					:lazy="false"
-					show-tooltip="drag"
+					showTooltip="drag"
 					:min="10"
 					:max="100000"
 					:step="10"
-					@update:model-value="debOnComponentInputChange(String($event), 'nbpointsload')" />
+					@update:modelValue="debOnComponentInputChange(String($event), 'nbpointsload')" />
 				<NcInputField
-					:model-value="settings.arrows_scale_factor ?? 1"
+					:modelValue="settings.arrows_scale_factor ?? 1"
 					type="number"
 					:label="t('phonetrack', 'Arrows scale factor')"
 					min="0.1"
 					max="2"
 					step="0.1"
-					:show-trailing-button="![1, '1'].includes(settings.arrows_scale_factor)"
-					@update:model-value="onComponentInputChange(String($event), 'arrows_scale_factor')"
-					@trailing-button-click="onComponentInputChange('1', 'arrows_scale_factor')">
+					:showTrailingButton="![1, '1'].includes(settings.arrows_scale_factor)"
+					@update:modelValue="onComponentInputChange(String($event), 'arrows_scale_factor')"
+					@trailingButtonClick="onComponentInputChange('1', 'arrows_scale_factor')">
 					<template #icon>
 						<ArrowRightIcon :size="20" />
 					</template>
@@ -138,24 +138,24 @@
 						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 					</template>
 				</NcInputField>
-				<Slider :model-value="settings.arrows_scale_factor ?? 1"
+				<Slider :modelValue="settings.arrows_scale_factor ?? 1"
 					class="slider"
 					:lazy="false"
-					show-tooltip="drag"
+					showTooltip="drag"
 					:min="0.1"
 					:max="2"
 					:step="0.01"
-					@update:model-value="debOnComponentInputChange(String($event), 'arrows_scale_factor')" />
+					@update:modelValue="debOnComponentInputChange(String($event), 'arrows_scale_factor')" />
 				<NcInputField
-					:model-value="settings.arrows_spacing ?? 200"
+					:modelValue="settings.arrows_spacing ?? 200"
 					type="number"
 					:label="t('phonetrack', 'Arrows spacing')"
 					min="10"
 					max="400"
 					step="1"
-					:show-trailing-button="![200, '200'].includes(settings.arrows_spacing)"
-					@update:model-value="onComponentInputChange(String($event), 'arrows_spacing')"
-					@trailing-button-click="onComponentInputChange('200', 'arrows_spacing')">
+					:showTrailingButton="![200, '200'].includes(settings.arrows_spacing)"
+					@update:modelValue="onComponentInputChange(String($event), 'arrows_spacing')"
+					@trailingButtonClick="onComponentInputChange('200', 'arrows_spacing')">
 					<template #icon>
 						<ArrowRightIcon :size="20" />
 					</template>
@@ -163,23 +163,23 @@
 						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 					</template>
 				</NcInputField>
-				<Slider :model-value="settings.arrows_spacing ?? 200"
+				<Slider :modelValue="settings.arrows_spacing ?? 200"
 					class="slider"
 					:lazy="false"
-					show-tooltip="drag"
+					showTooltip="drag"
 					:min="10"
 					:max="400"
-					@update:model-value="debOnComponentInputChange(String($event), 'arrows_spacing')" />
+					@update:modelValue="debOnComponentInputChange(String($event), 'arrows_spacing')" />
 				<NcInputField
-					:model-value="settings.line_width ?? 6"
+					:modelValue="settings.line_width ?? 6"
 					type="number"
 					:label="t('phonetrack', 'Line width')"
 					min="1"
 					max="20"
 					step="0.5"
-					:show-trailing-button="![6, '6'].includes(settings.line_width)"
-					@update:model-value="onComponentInputChange(String($event), 'line_width')"
-					@trailing-button-click="onComponentInputChange('6', 'line_width')">
+					:showTrailingButton="![6, '6'].includes(settings.line_width)"
+					@update:modelValue="onComponentInputChange(String($event), 'line_width')"
+					@trailingButtonClick="onComponentInputChange('6', 'line_width')">
 					<template #icon>
 						<ArrowSplitVerticalIcon :size="20" />
 					</template>
@@ -187,24 +187,24 @@
 						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 					</template>
 				</NcInputField>
-				<Slider :model-value="settings.line_width ?? 6"
+				<Slider :modelValue="settings.line_width ?? 6"
 					class="slider"
 					:lazy="false"
-					show-tooltip="drag"
+					showTooltip="drag"
 					:min="1"
 					:max="20"
 					:step="0.1"
-					@update:model-value="debOnComponentInputChange(String($event), 'line_width')" />
+					@update:modelValue="debOnComponentInputChange(String($event), 'line_width')" />
 				<NcInputField
-					:model-value="settings.line_opacity ?? 1"
+					:modelValue="settings.line_opacity ?? 1"
 					type="number"
 					:label="t('phonetrack', 'Line opacity')"
 					min="0"
 					max="1"
 					step="0.1"
-					:show-trailing-button="![1, '1'].includes(settings.line_opacity)"
-					@update:model-value="onComponentInputChange(String($event), 'line_opacity')"
-					@trailing-button-click="onComponentInputChange('1', 'line_opacity')">
+					:showTrailingButton="![1, '1'].includes(settings.line_opacity)"
+					@update:modelValue="onComponentInputChange(String($event), 'line_opacity')"
+					@trailingButtonClick="onComponentInputChange('1', 'line_opacity')">
 					<template #icon>
 						<OpacityIcon :size="20" />
 					</template>
@@ -212,24 +212,24 @@
 						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 					</template>
 				</NcInputField>
-				<Slider :model-value="settings.line_opacity ?? 1"
+				<Slider :modelValue="settings.line_opacity ?? 1"
 					class="slider"
 					:lazy="false"
-					show-tooltip="drag"
+					showTooltip="drag"
 					:min="0"
 					:max="1"
 					:step="0.01"
-					@update:model-value="debOnComponentInputChange(String($event), 'line_opacity')" />
+					@update:modelValue="debOnComponentInputChange(String($event), 'line_opacity')" />
 				<NcInputField
-					:model-value="settings.terrainExaggeration ?? 1.5"
+					:modelValue="settings.terrainExaggeration ?? 1.5"
 					type="number"
 					:label="t('phonetrack', '3D elevation exaggeration')"
 					min="0.1"
 					max="10"
 					step="0.1"
-					:show-trailing-button="![1.5, '1.5'].includes(settings.terrainExaggeration)"
-					@update:model-value="onComponentInputChange(String($event), 'terrainExaggeration')"
-					@trailing-button-click="onComponentInputChange('1.5', 'terrainExaggeration')">
+					:showTrailingButton="![1.5, '1.5'].includes(settings.terrainExaggeration)"
+					@update:modelValue="onComponentInputChange(String($event), 'terrainExaggeration')"
+					@trailingButtonClick="onComponentInputChange('1.5', 'terrainExaggeration')">
 					<template #icon>
 						<ChartAreasplineVariantIcon :size="20" />
 					</template>
@@ -237,32 +237,32 @@
 						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
 					</template>
 				</NcInputField>
-				<Slider :model-value="settings.terrainExaggeration ?? 1.5"
+				<Slider :modelValue="settings.terrainExaggeration ?? 1.5"
 					class="slider"
 					:lazy="false"
-					show-tooltip="drag"
+					showTooltip="drag"
 					:min="0.1"
 					:max="10"
 					:step="0.1"
-					@update:model-value="debOnComponentInputChange(String($event), 'terrainExaggeration')" />
+					@update:modelValue="debOnComponentInputChange(String($event), 'terrainExaggeration')" />
 				<NcSelect
-					:model-value="selectedDistanceUnit"
+					:modelValue="selectedDistanceUnit"
 					class="select"
-					:input-label="t('phonetrack', 'Distance unit')"
+					:inputLabel="t('phonetrack', 'Distance unit')"
 					:options="Object.values(distanceUnitOptions)"
-					:no-wrap="true"
+					:noWrap="true"
 					label="label"
 					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'distance_unit')" />
+					@update:modelValue="onComponentInputChange($event.value, 'distance_unit')" />
 				<NcSelect
-					:model-value="selectedQuotaReached"
+					:modelValue="selectedQuotaReached"
 					class="select"
-					:input-label="t('phonetrack', 'When point quota is reached')"
+					:inputLabel="t('phonetrack', 'When point quota is reached')"
 					:options="Object.values(quotaReachedOptions)"
-					:no-wrap="true"
+					:noWrap="true"
 					label="label"
 					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'quotareached')" />
+					@update:modelValue="onComponentInputChange($event.value, 'quotareached')" />
 			</NcFormBox>
 		</NcAppSettingsSection>
 		<NcAppSettingsSection
@@ -273,33 +273,33 @@
 			</template>
 			<div class="infos">
 				<NcSelect
-					:model-value="selectedDeviceSortOrder"
-					:input-label="t('phonetrack', 'Sort devices by')"
+					:modelValue="selectedDeviceSortOrder"
+					:inputLabel="t('phonetrack', 'Sort devices by')"
 					:options="Object.values(DEVICE_SORT_ORDER)"
-					:no-wrap="true"
+					:noWrap="true"
 					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'deviceSortOrder')" />
+					@update:modelValue="onComponentInputChange($event.value, 'deviceSortOrder')" />
 				<NcSelect
-					:model-value="selectedDeviceSortAscending"
-					:input-label="t('phonetrack', 'Sort direction for devices')"
+					:modelValue="selectedDeviceSortAscending"
+					:inputLabel="t('phonetrack', 'Sort direction for devices')"
 					:options="Object.values(sortAscendingOptions)"
-					:no-wrap="true"
+					:noWrap="true"
 					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'deviceSortAscending')" />
+					@update:modelValue="onComponentInputChange($event.value, 'deviceSortAscending')" />
 				<NcSelect
-					:model-value="selectedSessionSortOrder"
-					:input-label="t('phonetrack', 'Sort sessions by')"
+					:modelValue="selectedSessionSortOrder"
+					:inputLabel="t('phonetrack', 'Sort sessions by')"
 					:options="Object.values(DEVICE_SORT_ORDER)"
-					:no-wrap="true"
+					:noWrap="true"
 					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'sessionSortOrder')" />
+					@update:modelValue="onComponentInputChange($event.value, 'sessionSortOrder')" />
 				<NcSelect
-					:model-value="selectedSessionSortAscending"
-					:input-label="t('phonetrack', 'Sort direction for sessions')"
+					:modelValue="selectedSessionSortAscending"
+					:inputLabel="t('phonetrack', 'Sort direction for sessions')"
 					:options="Object.values(sortAscendingOptions)"
-					:no-wrap="true"
+					:noWrap="true"
 					:clearable="false"
-					@update:model-value="onComponentInputChange($event.value, 'sessionSortAscending')" />
+					@update:modelValue="onComponentInputChange($event.value, 'sessionSortAscending')" />
 			</div>
 		</NcAppSettingsSection>
 		<NcAppSettingsSection v-if="!isPublicPage"
@@ -309,11 +309,11 @@
 				<FolderOutlineIcon :size="20" />
 			</template>
 			<NcTextField
-				:model-value="settings.autoexportpath"
+				:modelValue="settings.autoexportpath"
 				:label="t('phonetrack', 'Export directory')"
 				:readonly="true"
-				:show-trailing-button="!!settings.autoexportpath"
-				@trailing-button-click="resetOutputDir"
+				:showTrailingButton="!!settings.autoexportpath"
+				@trailingButtonClick="resetOutputDir"
 				@click="onExportDirClick">
 				<template #icon>
 					<FolderOutlineIcon :size="20" />
@@ -347,13 +347,13 @@
 				</NcNoteCard>
 			</div>
 			<NcTextField
-				:model-value="settings.maptiler_api_key"
+				:modelValue="settings.maptiler_api_key"
 				:label="t('phonetrack', 'API key to use Maptiler (for vector tile servers)')"
 				type="password"
 				:placeholder="t('phonetrack', 'my-api-key')"
-				:show-trailing-button="!!settings.maptiler_api_key"
-				@update:model-value="onMaptilerApiKeyChange(String($event))"
-				@trailing-button-click="saveApiKey('')">
+				:showTrailingButton="!!settings.maptiler_api_key"
+				@update:modelValue="onMaptilerApiKeyChange(String($event))"
+				@trailingButtonClick="saveApiKey('')">
 				<template #icon>
 					<KeyIcon :size="20" />
 				</template>
@@ -371,9 +371,9 @@
 				</NcNoteCard>
 			</div>
 			<TileServerList
-				:tile-servers="settings.extra_tile_servers"
-				:is-admin="false"
-				:read-only="isPublicPage" />
+				:tileServers="settings.extra_tile_servers"
+				:isAdmin="false"
+				:readOnly="isPublicPage" />
 		</NcAppSettingsSection>
 		<NcAppSettingsSection
 			id="about"
@@ -460,7 +460,7 @@ import Slider from '@vueform/slider'
 
 import { delay } from '../utils.js'
 import { DEVICE_SORT_ORDER } from '../constants.js'
-import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
 import {
@@ -528,39 +528,47 @@ export default {
 					label: t('phonetrack', 'Metric'),
 					value: 'metric',
 				},
+
 				imperial: {
 					label: t('phonetrack', 'Imperial (English)'),
 					value: 'imperial',
 				},
+
 				nautical: {
 					label: t('phonetrack', 'Nautical'),
 					value: 'nautical',
 				},
 			},
+
 			quotaReachedOptions: {
 				block: {
 					label: t('phonetrack', 'Block logging'),
 					value: 'block',
 				},
+
 				rotateglob: {
 					label: t('phonetrack', 'Delete user\'s oldest point each time a new one is logged'),
 					value: 'rotateglob',
 				},
+
 				rotatedev: {
 					label: t('phonetrack', 'Delete device\'s oldest point each time a new one is logged'),
 					value: 'rotatedev',
 				},
 			},
+
 			sortAscendingOptions: {
 				ascending: {
 					label: t('phonetrack', 'Ascending'),
 					value: 'ascending',
 				},
+
 				descending: {
 					label: t('phonetrack', 'Descending'),
 					value: 'descending',
 				},
 			},
+
 			DEVICE_SORT_ORDER,
 		}
 	},
@@ -569,28 +577,36 @@ export default {
 		isPublicPage(): boolean {
 			return this.isPublicPage ?? false
 		},
-		selectedDeviceSortOrder(): Object {
+
+		selectedDeviceSortOrder(): object {
 			return DEVICE_SORT_ORDER[this.settings.deviceSortOrder as keyof typeof DEVICE_SORT_ORDER] ?? DEVICE_SORT_ORDER.name
 		},
-		selectedDeviceSortAscending(): Object {
+
+		selectedDeviceSortAscending(): object {
 			return this.sortAscendingOptions[this.settings.deviceSortAscending as keyof typeof this.sortAscendingOptions] ?? this.sortAscendingOptions.ascending
 		},
-		selectedSessionSortOrder(): Object {
+
+		selectedSessionSortOrder(): object {
 			return DEVICE_SORT_ORDER[this.settings.sessionSortOrder as keyof typeof DEVICE_SORT_ORDER] ?? DEVICE_SORT_ORDER.name
 		},
-		selectedSessionSortAscending(): Object {
+
+		selectedSessionSortAscending(): object {
 			return this.sortAscendingOptions[this.settings.sessionSortAscending as keyof typeof this.sortAscendingOptions] ?? this.sortAscendingOptions.ascending
 		},
-		selectedDistanceUnit(): Object {
+
+		selectedDistanceUnit(): object {
 			return this.distanceUnitOptions[this.settings.distance_unit as keyof typeof this.distanceUnitOptions] ?? this.distanceUnitOptions.metric
 		},
-		selectedQuotaReached(): Object {
+
+		selectedQuotaReached(): object {
 			return this.quotaReachedOptions[this.settings.quotareached as keyof typeof this.quotaReachedOptions] ?? this.quotaReachedOptions.block
 		},
+
 		maptilerHint(): string {
 			const maptilerLink = '<a href="https://maptiler.com" class="external" target="blank">https://maptiler.com</a>'
 			return t('phonetrack', 'If your admin hasn\'t defined an API key, you can get one for free on {maptilerLink}. Create an account then go to "Account" -> "API keys" and create a key or use your default one.', { maptilerLink }, undefined, { escape: false, sanitize: false })
 		},
+
 		adminApiKeyHint(): string {
 			const adminLink = '<a href="' + this.adminSettingsUrl + '" class="external" target="blank">' + t('phonetrack', 'PhoneTrack admin settings') + '</a>'
 			return t('phonetrack', 'As you are an administrator, you can set global API keys in the {adminLink}', { adminLink }, undefined, { escape: false, sanitize: false })
@@ -609,20 +625,24 @@ export default {
 		handleShowSettings(): void {
 			this.showSettings = true
 		},
+
 		onMaptilerApiKeyChange(value: string): void {
 			delay(() => {
 				this.saveApiKey(value)
 			}, 2000)()
 		},
+
 		saveApiKey(value: string): void {
 			emit('save-settings', {
 				maptiler_api_key: value,
 			})
 			showSuccess(t('phonetrack', 'API key saved, effective after a page reload'))
 		},
+
 		resetOutputDir(): void {
 			emit('save-settings', { autoexportpath: '' })
 		},
+
 		onCheckboxChanged(newValue: boolean, key: string): void {
 			console.debug('onCheckboxChanged', typeof newValue, typeof key)
 			emit('save-settings', { [key]: newValue ? '1' : '0' })
@@ -630,12 +650,15 @@ export default {
 				emit('resize-map', {})
 			}
 		},
+
 		debOnComponentInputChange(value: string, key: string): void {
 			emit('save-settings-debounced', { [key]: value })
 		},
+
 		onComponentInputChange(value: string, key: string): void {
 			emit('save-settings', { [key]: value })
 		},
+
 		onExportDirClick(): void {
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to write auto export files'))
 				.setMultiSelect(false)
@@ -664,6 +687,7 @@ export default {
 </script>
 
 <style src="@vueform/slider/themes/default.css"></style>
+
 <style lang="scss" scoped>
 a.external {
 	display: flex;

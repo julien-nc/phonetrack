@@ -3,21 +3,21 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcContent app-name="phonetrack"
+	<NcContent appName="phonetrack"
 		:class="{ 'app-phonetrack-embedded': isEmbedded }">
-		<Navigation
+		<PhonetrackNavigation
 			:sessions="sessionList"
 			:compact="isCompactMode"
-			:selected-session-id="selectedSessionId"
-			:loading-device-points="loadingDevicePoints"
+			:selectedSessionId="selectedSessionId"
+			:loadingDevicePoints="loadingDevicePoints"
 			:settings="state?.settings" />
 		<NcAppContent
 			class="phonetrack-app-content"
 			:class="{ mapWithTopLeftButton }"
-			:list-max-width="50"
-			:list-min-width="20"
-			:list-size="20"
-			:show-details="showDetails"
+			:listMaxWidth="50"
+			:listMinWidth="20"
+			:listSize="20"
+			:showDetails="showDetails"
 			@resize:list="onResizeList"
 			@update:showDetails="onUpdateShowDetails">
 			<template v-if="!isCompactMode" #list>
@@ -32,59 +32,59 @@
 				<DeviceList v-else
 					:session="selectedSession"
 					:settings="state.settings"
-					:is-mobile="isMobile" />
+					:isMobile="isMobile" />
 			</template>
-			<MaplibreMap ref="map"
+			<MaplibreMap
 				:settings="state?.settings"
-				:use-terrain="state?.settings?.use_terrain === '1'"
-				:terrain-scale="parseFloat(state?.settings?.terrainExaggeration) || undefined"
-				:use-globe="state?.settings?.use_globe === '1'"
-				:use-sky="state?.settings?.use_sky === '1'"
-				:show-mouse-position-control="(state?.settings.show_mouse_position_control ?? '1') === '1'"
-				:tracks-to-draw="enabledDevices"
+				:useTerrain="state?.settings?.use_terrain === '1'"
+				:terrainScale="parseFloat(state?.settings?.terrainExaggeration) || undefined"
+				:useGlobe="state?.settings?.use_globe === '1'"
+				:useSky="state?.settings?.use_sky === '1'"
+				:showMousePositionControl="(state?.settings.show_mouse_position_control ?? '1') === '1'"
+				:tracksToDraw="enabledDevices"
 				:unit="distanceUnit"
-				:with-top-left-button="mapWithTopLeftButton"
+				:withTopLeftButton="mapWithTopLeftButton"
 				:cursor="mapCursor"
-				@map-clicked="onMapClicked"
-				@map-bounds-change="storeBounds"
-				@map-state-change="saveOptions">
+				@mapClicked="onMapClicked"
+				@mapBoundsChange="storeBounds"
+				@mapStateChange="saveOptions">
 				<template #default="{ map }">
 					<div v-for="d in enabledDevices"
 						:key="d.id">
 						<DeviceSingleColor v-if="d.colorCriteria === COLOR_CRITERIAS.none.id"
 							:device="d"
 							:map="map"
-							:layer-id="'device-' + d.id"
+							:layerId="'device-' + d.id"
 							:filters="filters"
-							:line-width="parseFloat(state.settings.line_width ?? 6)"
+							:lineWidth="parseFloat(state.settings.line_width ?? 6)"
 							:color="d.color ?? undefined"
-							:border-color="deviceBorderColor"
+							:borderColor="deviceBorderColor"
 							:border="(state.settings.line_border ?? '1') === '1'"
 							:arrows="state.settings.direction_arrows === '1'"
-							:arrows-spacing="parseFloat(state.settings.arrows_spacing ?? 200)"
-							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor ?? 1)"
-							:draggable-points="(state.settings.draggable_points ?? '1') === '1'"
+							:arrowsSpacing="parseFloat(state.settings.arrows_spacing ?? 200)"
+							:arrowsScaleFactor="parseFloat(state.settings.arrows_scale_factor ?? 1)"
+							:draggablePoints="(state.settings.draggable_points ?? '1') === '1'"
 							:opacity="parseFloat(state.settings.line_opacity ?? 1)"
-							:distance-unit="state.settings.distance_unit ?? 'metric'" />
+							:distanceUnit="state.settings.distance_unit ?? 'metric'" />
 						<DeviceGradientColorPoints v-else
 							:device="d"
 							:map="map"
-							:layer-id="'device-' + d.id"
-							:color-criteria="d.colorCriteria"
+							:layerId="'device-' + d.id"
+							:colorCriteria="d.colorCriteria"
 							:filters="filters"
-							:line-width="parseFloat(state.settings.line_width ?? 6)"
+							:lineWidth="parseFloat(state.settings.line_width ?? 6)"
 							:color="d.color ?? undefined"
-							:border-color="deviceBorderColor"
+							:borderColor="deviceBorderColor"
 							:border="(state.settings.line_border ?? '1') === '1'"
 							:arrows="state.settings.direction_arrows === '1'"
-							:arrows-spacing="parseFloat(state.settings.arrows_spacing ?? 200)"
-							:arrows-scale-factor="parseFloat(state.settings.arrows_scale_factor ?? 1)"
-							:draggable-points="(state.settings.draggable_points ?? '1') === '1'"
+							:arrowsSpacing="parseFloat(state.settings.arrows_spacing ?? 200)"
+							:arrowsScaleFactor="parseFloat(state.settings.arrows_scale_factor ?? 1)"
+							:draggablePoints="(state.settings.draggable_points ?? '1') === '1'"
 							:opacity="parseFloat(state.settings.line_opacity ?? 1)"
-							:distance-unit="state.settings.distance_unit ?? 'metric'" />
+							:distanceUnit="state.settings.distance_unit ?? 'metric'" />
 					</div>
 					<PolygonFill v-if="geofenceLngLats !== null"
-						:map="map" :lng-lats-list="geofenceLngLats" layer-id="geofence" />
+						:map="map" :lngLatsList="geofenceLngLats" layerId="geofence" />
 					<ChartPopups
 						:settings="state?.settings"
 						:map="map" />
@@ -93,18 +93,18 @@
 		</NcAppContent>
 		<SessionSidebar v-if="sidebarSessionId !== null && sidebarDeviceId === null"
 			:show="showSidebar"
-			:active-tab="activeSidebarTab"
+			:activeTab="activeSidebarTab"
 			:session="sidebarSession"
 			:settings="state.settings"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" />
 		<DeviceSidebar v-else-if="sidebarSessionId !== null && sidebarDeviceId !== null"
 			:show="showSidebar"
-			:active-tab="activeSidebarTab"
+			:activeTab="activeSidebarTab"
 			:device="sidebarDevice"
 			:session="sidebarSession"
 			:settings="state.settings"
-			:adding-point="addingPoint"
+			:addingPoint="addingPoint"
 			@update:active="onUpdateActiveTab"
 			@close="showSidebar = false" />
 		<FiltersSidebar v-else-if="showFiltersSidebar"
@@ -115,7 +115,7 @@
 			:settings="state.settings" />
 		<PointEditModal v-if="editingPoint"
 			:point="pointToEdit"
-			:distance-unit="distanceUnit"
+			:distanceUnit="distanceUnit"
 			@close="editingPoint = false" />
 	</NcContent>
 </template>
@@ -138,7 +138,7 @@ import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
-import Navigation from './components/Navigation.vue'
+import PhonetrackNavigation from './components/PhonetrackNavigation.vue'
 
 import { getFilteredPoints } from './utils.js'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -158,7 +158,7 @@ export default {
 		DeviceSidebar: defineAsyncComponent(() => import('./components/DeviceSidebar.vue')),
 		SessionSidebar: defineAsyncComponent(() => import('./components/SessionSidebar.vue')),
 		FiltersSidebar: defineAsyncComponent(() => import('./components/FiltersSidebar.vue')),
-		Navigation,
+		PhonetrackNavigation,
 		DeviceList: defineAsyncComponent(() => import('./components/DeviceList.vue')),
 		PhonetrackSettingsDialog: defineAsyncComponent(() => import('./components/PhonetrackSettingsDialog.vue')),
 		PointEditModal: defineAsyncComponent(() => import('./components/PointEditModal.vue')),
@@ -211,18 +211,23 @@ export default {
 		isPublicPage() {
 			return this.state.isPublicPage ?? false
 		},
+
 		mapWithTopLeftButton() {
 			return this.isCompactMode || this.isMobile
 		},
+
 		distanceUnit() {
 			return this.state?.settings?.distance_unit ?? 'metric'
 		},
+
 		isCompactMode() {
 			return (this.state?.settings?.compact_mode ?? '1') === '1'
 		},
+
 		sessionList() {
 			return Object.values(this.state.sessions)
 		},
+
 		selectedSessionId() {
 			if (this.state.settings.selected_session_id === '') {
 				return 0
@@ -230,21 +235,25 @@ export default {
 			const parsedValue = parseInt(this.state.settings.selected_session_id)
 			return isNaN(parsedValue) ? this.state.settings.selected_session_id : parsedValue
 		},
+
 		selectedSession() {
 			return this.state.sessions[this.selectedSessionId] ?? null
 		},
+
 		sidebarSession() {
 			if (this.sidebarSessionId === null) {
 				return null
 			}
 			return this.state.sessions[this.sidebarSessionId] ?? null
 		},
+
 		sidebarDevice() {
 			if (this.sidebarSessionId === null || this.sidebarDeviceId === null) {
 				return null
 			}
 			return this.state.sessions[this.sidebarSessionId]?.devices[this.sidebarDeviceId] ?? null
 		},
+
 		enabledDevices() {
 			const dd = Object.values(this.state.sessions)
 				.filter(session => session.enabled)
@@ -255,6 +264,7 @@ export default {
 			console.debug('enabledDevices', dd)
 			return dd
 		},
+
 		mapCursor() {
 			return this.addingPointRequestLoading || this.updatingPointRequestLoading
 				? 'progress'
@@ -262,18 +272,21 @@ export default {
 					? 'crosshair'
 					: undefined
 		},
+
 		pointToEdit() {
 			if (this.editingPoint && this.editingPointPath) {
-				 const { sessionId, deviceId, pointId } = this.editingPointPath
+				const { sessionId, deviceId, pointId } = this.editingPointPath
 				return this.state.sessions[sessionId].devices[deviceId].points.find(p => p.id === pointId)
 			}
 			return null
 		},
+
 		deviceBorderColor() {
 			return ['satellite', 'dark'].includes(this.state.settings.mapStyle)
 				? 'white'
 				: 'black'
 		},
+
 		filters() {
 			if (this.state.settings.applyfilters !== 'true') {
 				return null
@@ -298,7 +311,7 @@ export default {
 	},
 
 	watch: {
-		showSidebar(newValue) {
+		showSidebar() {
 			emit('sidebar-toggled')
 		},
 	},
@@ -306,7 +319,7 @@ export default {
 	beforeMount() {
 		// handle GET params
 		const paramString = window.location.search.slice(1)
-		// eslint-disable-next-line
+
 		const urlParams = new URLSearchParams(paramString)
 		this.isEmbedded = urlParams.get('embedded') === '1'
 
@@ -429,23 +442,28 @@ export default {
 		onResizeList() {
 			emit('resize-map')
 		},
+
 		storeBounds({ north, east, south, west }) {
 			this.mapNorth = north
 			this.mapEast = east
 			this.mapSouth = south
 			this.mapWest = west
 		},
+
 		saveOptionsDebounced(values) {
 			Object.assign(this.state.settings, values)
 			this.debouncedStoreOptions(values)
 		},
+
 		debouncedStoreOptions: debounce(function(values) {
 			this.storeSettings(values)
 		}, 1000),
+
 		saveOptions(values) {
 			Object.assign(this.state.settings, values)
 			this.storeSettings(values)
 		},
+
 		storeSettings(values) {
 			console.debug('[phonetrack] settings saved', this.state.settings)
 			if (this.isPublicPage) {
@@ -455,22 +473,25 @@ export default {
 				values,
 			}
 			const url = generateUrl('/apps/phonetrack/saveOptionValues')
-			axios.put(url, req).then((response) => {
+			axios.put(url, req).then(() => {
 			}).catch((error) => {
 				showError(t('phonetrack', 'Failed to save the settings'))
 				console.debug(error)
 			})
 		},
+
 		onShowFilters() {
 			this.sidebarDeviceId = null
 			this.sidebarSessionId = null
 			this.showSidebar = true
 			this.showFiltersSidebar = true
 		},
+
 		onUpdateActiveTab(tabId) {
 			console.debug('active tab change', tabId)
 			this.activeSidebarTab = tabId
 		},
+
 		onDeviceDetailsClicked({ deviceId, sessionId }) {
 			this.showFiltersSidebar = false
 			this.sidebarDeviceId = deviceId
@@ -479,6 +500,7 @@ export default {
 			this.activeSidebarTab = 'device-details'
 			console.debug('[phonetrack] device details click', sessionId, deviceId)
 		},
+
 		onSessionDetailsClicked(sessionId) {
 			this.showFiltersSidebar = false
 			this.sidebarDeviceId = null
@@ -487,6 +509,7 @@ export default {
 			this.activeSidebarTab = 'session-settings'
 			console.debug('[phonetrack] session details click', sessionId)
 		},
+
 		onSessionShareClicked(sessionId) {
 			this.showFiltersSidebar = false
 			this.sidebarDeviceId = null
@@ -495,6 +518,7 @@ export default {
 			this.activeSidebarTab = 'session-share'
 			console.debug('[phonetrack] share click', sessionId)
 		},
+
 		onSessionLinkClicked(sessionId) {
 			this.showFiltersSidebar = false
 			this.sidebarDeviceId = null
@@ -503,6 +527,7 @@ export default {
 			this.activeSidebarTab = 'session-links'
 			console.debug('[phonetrack] links click', sessionId)
 		},
+
 		onSessionToggleAllDeviceLines({ sessionId }) {
 			const session = this.state.sessions[sessionId]
 			const allLinesEnabled = Object.values(session.devices).every(d => d.lineEnabled)
@@ -514,6 +539,7 @@ export default {
 				}
 			})
 		},
+
 		onImportSession(path) {
 			const req = {
 				path,
@@ -527,6 +553,7 @@ export default {
 				showError(t('phonetrack', 'Failed to import the session'))
 			})
 		},
+
 		onCreateSession(name) {
 			if (!name) {
 				showError(t('phonetrack', 'Invalid session name'))
@@ -548,6 +575,7 @@ export default {
 				}
 			})
 		},
+
 		onDeleteSession({ sessionId, sessionName }) {
 			OC.dialogs.confirm(
 				t('phonetrack', 'Are you sure you want to delete the session {sessionName} ?', { sessionName }),
@@ -560,9 +588,10 @@ export default {
 				true,
 			)
 		},
+
 		deleteSession(sessionId) {
 			const url = generateUrl('/apps/phonetrack/session/' + sessionId)
-			axios.delete(url).then((response) => {
+			axios.delete(url).then(() => {
 				if (this.state.sessions[sessionId]) {
 					if (this.showSidebar && this.sidebarSessionId === sessionId) {
 						this.showSidebar = false
@@ -575,6 +604,7 @@ export default {
 				showError(t('phonetrack', 'Failed to delete the session'))
 			})
 		},
+
 		async updateSession(sessionId, values) {
 			// only update the session if it's owned by the current user
 			const session = this.state.sessions[sessionId]
@@ -594,6 +624,7 @@ export default {
 				throw error
 			}
 		},
+
 		onSessionClick(sessionId) {
 			const session = this.state.sessions[sessionId]
 			if (this.isCompactMode) {
@@ -619,6 +650,7 @@ export default {
 				}
 			}
 		},
+
 		onEnableSession(sessionId) {
 			this.loadSession(sessionId)
 			this.state.sessions[sessionId].enabled = true
@@ -626,18 +658,21 @@ export default {
 				this.updateSession(sessionId, { enabled: true })
 			}
 		},
+
 		onDisableSession(sessionId) {
 			this.state.sessions[sessionId].enabled = false
 			if (!this.isPublicPage) {
 				this.updateSession(sessionId, { enabled: false })
 			}
 		},
+
 		onUpdateSession(data) {
 			this.updateSession(data.sessionId, data.values).then(() => {
 				const session = this.state.sessions[data.sessionId]
 				Object.assign(session, data.values)
 			})
 		},
+
 		onUpdateDevice(data) {
 			this.updateDevice(data.sessionId, data.deviceId, data.values).then(() => {
 				const device = this.state.sessions[data.sessionId].devices[data.deviceId]
@@ -655,9 +690,10 @@ export default {
 				}
 			})
 		},
+
 		onDeleteDevice({ sessionId, deviceId }) {
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}', { sessionId, deviceId })
-			axios.delete(url).then((response) => {
+			axios.delete(url).then(() => {
 				if (this.state.sessions[sessionId]?.devices[deviceId]) {
 					if (this.showSidebar && this.sidebarSessionId === sessionId && this.sidebarDeviceId === deviceId) {
 						this.showSidebar = false
@@ -671,7 +707,12 @@ export default {
 				showError(t('phonetrack', 'Failed to delete the device'))
 			})
 		},
-		onDeviceClicked({ sessionId, deviceId, saveEnable = true }) {
+
+		onDeviceClicked({
+			sessionId,
+			deviceId,
+			// saveEnable = true,
+		}) {
 			const device = this.state.sessions[sessionId].devices[deviceId]
 			device.enabled = !device.enabled
 			if (device.enabled) {
@@ -679,6 +720,7 @@ export default {
 			}
 			this.updateDevice(sessionId, deviceId, { enabled: device.enabled })
 		},
+
 		onDevicePointDeleted({ sessionId, deviceId, pointId }) {
 			console.debug('onDevicePointDeleted', { sessionId, deviceId, pointId })
 			const device = this.state.sessions[sessionId].devices[deviceId]
@@ -697,12 +739,14 @@ export default {
 				{ timeout: 5 },
 			)
 		},
+
 		cancelCustomClick() {
 			this.addingPoint = false
 			this.addingPointToast?.hideToast()
 			this.movingPoint = null
 			this.movingPointToast?.hideToast()
 		},
+
 		onAddDevicePoint() {
 			this.cancelCustomClick()
 			this.addingPointToast = showUndo(
@@ -714,9 +758,11 @@ export default {
 			)
 			this.addingPoint = true
 		},
+
 		onStopAddDevicePoint(data) {
 			this.cancelCustomClick()
 		},
+
 		onMapClicked(lngLat) {
 			console.debug('onMapClicked', lngLat, this.addingPoint)
 			if (this.addingPoint) {
@@ -726,10 +772,12 @@ export default {
 			}
 			emit('map-clicked', lngLat)
 		},
+
 		onEditDevicePoint({ sessionId, deviceId, pointId }) {
 			this.editingPointPath = { sessionId, deviceId, pointId }
 			this.editingPoint = true
 		},
+
 		onSaveDevicePoint(newPoint) {
 			console.debug('onSaveDevicePoint', newPoint)
 			const { sessionId, deviceId, pointId } = this.editingPointPath
@@ -739,6 +787,7 @@ export default {
 			this.updatePoint({ sessionId, deviceId, pointId, values, oldValues })
 			this.editingPointPath = null
 		},
+
 		onMoveDevicePoint({ sessionId, deviceId, pointId }) {
 			this.cancelCustomClick()
 			this.movingPointToast = showUndo(
@@ -751,6 +800,7 @@ export default {
 			console.debug('moving toast', this.movingPointToast)
 			this.movingPoint = { sessionId, deviceId, pointId }
 		},
+
 		/**
 		 * the map was clicked in move mode, actually move the point
 		 */
@@ -764,6 +814,7 @@ export default {
 			console.debug('move point', lngLat, this.movingPoint)
 			this.movePoint({ lngLat, sessionId, deviceId, pointId })
 		},
+
 		movePoint({ lngLat, sessionId, deviceId, pointId }) {
 			const point = this.state.sessions[sessionId]?.devices[deviceId]?.points?.find(p => p.id === pointId)
 			const oldValues = {
@@ -776,6 +827,7 @@ export default {
 			}
 			this.updatePoint({ sessionId, deviceId, pointId, values, oldValues })
 		},
+
 		updatePoint({ sessionId, deviceId, pointId, values, oldValues }) {
 			this.updatingPointRequestLoading = true
 			// replace null values with empty strings so it's saved as null
@@ -850,6 +902,7 @@ export default {
 				this.updatingPointRequestLoading = false
 			})
 		},
+
 		addPointOnMapClick(lngLat) {
 			const sessionId = this.sidebarSessionId
 			const deviceId = this.sidebarDeviceId
@@ -869,6 +922,7 @@ export default {
 					}
 				})
 		},
+
 		addPoint(sessionId, deviceId, values, append = true) {
 			this.addingPointRequestLoading = true
 			const req = {
@@ -900,6 +954,7 @@ export default {
 				return point
 			})
 		},
+
 		async updateDevice(sessionId, deviceId, values) {
 			// only update the device if it's in a session owned by the current user
 			const session = this.state.sessions[sessionId]
@@ -919,6 +974,7 @@ export default {
 				throw error
 			}
 		},
+
 		onNewNameReservation({ sessionId, device }) {
 			if (this.state.sessions[sessionId].devices[device.id]) {
 				this.state.sessions[sessionId].devices[device.id].nametoken = device.nametoken
@@ -927,6 +983,7 @@ export default {
 				this.state.sessions[sessionId].devices[device.id] = device
 			}
 		},
+
 		onTileServerDeleted(id) {
 			const url = generateUrl('/apps/phonetrack/tileservers/{id}', { id })
 			axios.delete(url)
@@ -940,6 +997,7 @@ export default {
 					console.debug(error)
 				})
 		},
+
 		onTileServerAdded(ts) {
 			const req = {
 				...ts,
@@ -953,6 +1011,7 @@ export default {
 					console.debug(error)
 				})
 		},
+
 		onTileServerEdited({ ts, isAdminTileServer }) {
 			console.debug('tile server edited', isAdminTileServer, ts)
 			const { id: _, ...values } = ts
@@ -971,16 +1030,19 @@ export default {
 					console.debug(error)
 				})
 		},
+
 		onAddPublicShare({ sessionId, publicShare }) {
 			console.debug('onAddPublicShare', sessionId, publicShare)
 			this.state.sessions[sessionId].public_shares.push(publicShare)
 		},
+
 		onUpdatePublicShare({ sessionId, publicShareId, values }) {
 			const publicShare = this.state.sessions[sessionId].public_shares.find(pubShare => pubShare.id === publicShareId)
 			if (publicShare) {
 				Object.assign(publicShare, values)
 			}
 		},
+
 		onDeletePublicShare({ sessionId, publicShareId }) {
 			console.debug('onDeletePublicShare', sessionId, publicShareId)
 			const publicShareIndex = this.state.sessions[sessionId].public_shares.findIndex(pubShare => pubShare.id === publicShareId)
@@ -988,10 +1050,12 @@ export default {
 				this.state.sessions[sessionId].public_shares.splice(publicShareIndex, 1)
 			}
 		},
+
 		onAddShare({ sessionId, share }) {
 			console.debug('onAddShare', sessionId, share)
 			this.state.sessions[sessionId].shares.push(share)
 		},
+
 		onDeleteShare({ sessionId, shareId }) {
 			console.debug('onDeleteShare', sessionId, shareId)
 			const shareIndex = this.state.sessions[sessionId].shares.findIndex(share => share.id === shareId)
@@ -999,12 +1063,15 @@ export default {
 				this.state.sessions[sessionId].shares.splice(shareIndex, 1)
 			}
 		},
+
 		onUpdateShowDetails(val) {
 			this.showDetails = val
 		},
+
 		onDeviceListShowDetailsClicked() {
 			this.showDetails = true
 		},
+
 		onShowGeofence(geofence) {
 			console.debug('onShowGeofence', geofence.minlon, geofence.maxlat, geofence.maxlon, geofence.minlat)
 			console.debug('onShowGeofence', this.mapWest, this.mapNorth, this.mapEast, this.mapSouth)
@@ -1029,6 +1096,7 @@ export default {
 				this.geofenceLngLats = null
 			}, 5000)
 		},
+
 		onCreateGeofence(data) {
 			const req = {
 				...data.geofence,
@@ -1042,6 +1110,7 @@ export default {
 				console.debug(error)
 			})
 		},
+
 		onSaveGeofence(data) {
 			const req = {
 				...data.geofence,
@@ -1058,6 +1127,7 @@ export default {
 				console.debug(error)
 			})
 		},
+
 		onDeleteGeofence(data) {
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/geofence/{geofenceId}', {
 				sessionId: data.sessionId,
@@ -1072,6 +1142,7 @@ export default {
 				console.debug(error)
 			})
 		},
+
 		onCreateProxim(data) {
 			const req = {
 				...data.proxim,
@@ -1085,6 +1156,7 @@ export default {
 				console.debug(error)
 			})
 		},
+
 		onSaveProxim(data) {
 			console.debug('onSaveProxim', data)
 			const req = {
@@ -1102,6 +1174,7 @@ export default {
 				console.debug(error)
 			})
 		},
+
 		onDeleteProxim(data) {
 			const url = generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/proxim/{proximId}', {
 				sessionId: data.sessionId,
@@ -1116,6 +1189,7 @@ export default {
 				console.debug(error)
 			})
 		},
+
 		loadAllSessions() {
 			const loadSessionPromises = []
 			Object.values(this.state.sessions).forEach((session) => {
@@ -1125,6 +1199,7 @@ export default {
 			})
 			return Promise.all(loadSessionPromises)
 		},
+
 		loadSession(sessionId) {
 			// load all enabled devices
 			const session = this.state.sessions[sessionId]
@@ -1136,6 +1211,7 @@ export default {
 			})
 			return Promise.all(loadDevicePromises)
 		},
+
 		loadDevice(sessionId, deviceId) {
 			const device = this.state.sessions[sessionId].devices[deviceId]
 			// if we have points, just get more of'em
@@ -1148,6 +1224,7 @@ export default {
 					maxPoints: device.lineEnabled
 						? this.state.settings.nbpointsload ?? 1000
 						: 1,
+
 					combine: false,
 				},
 			}
@@ -1165,13 +1242,13 @@ export default {
 			}
 			const url = this.isPublicPage
 				? generateUrl('/apps/phonetrack/s/{sessionId}/device/{deviceId}/points', {
-					sessionId,
-					deviceId,
-				})
+						sessionId,
+						deviceId,
+					})
 				: generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
-					sessionId,
-					deviceId,
-				})
+						sessionId,
+						deviceId,
+					})
 
 			return axios.get(url, reqParams)
 				.then(response => {
@@ -1182,6 +1259,7 @@ export default {
 					console.error('Failed to get the device points', error)
 				})
 		},
+
 		getMoreDevicePoints(sessionId, deviceId) {
 			const device = this.state.sessions[sessionId].devices[deviceId]
 			const firstPoint = device.points[0]
@@ -1191,6 +1269,7 @@ export default {
 					maxPoints: device.lineEnabled
 						? this.state.settings.nbpointsload ?? 1000
 						: 1,
+
 					// we will always get the most recent points in priority
 					minTimestamp: lastPoint.timestamp,
 					maxTimestamp: firstPoint.timestamp,
@@ -1216,13 +1295,13 @@ export default {
 			}
 			const url = this.isPublicPage
 				? generateUrl('/apps/phonetrack/s/{sessionId}/device/{deviceId}/points', {
-					sessionId,
-					deviceId,
-				})
+						sessionId,
+						deviceId,
+					})
 				: generateUrl('/apps/phonetrack/session/{sessionId}/device/{deviceId}/points', {
-					sessionId,
-					deviceId,
-				})
+						sessionId,
+						deviceId,
+					})
 
 			return axios.get(url, reqParams)
 				.then(response => {
@@ -1238,12 +1317,14 @@ export default {
 					console.error('Failed to get the device points', error)
 				})
 		},
+
 		onRefreshClicked() {
 			this.refreshAllDevicePoints()
 				.then(() => {
 					this.autoZoom()
 				})
 		},
+
 		refreshAllDevicePoints() {
 			this.loadingDevicePoints = true
 			const loadingPromises = this.enabledDevices.map(device => this.loadDevice(device.session_id, device.id))
@@ -1275,6 +1356,7 @@ export default {
 					})
 				})
 		},
+
 		// get the sessions again
 		// add missing sessions
 		// add missing devices
@@ -1311,6 +1393,7 @@ export default {
 					return loadPromises
 				})
 		},
+
 		autoZoom() {
 			console.debug('[phonetrack] autozoom')
 			if (this.state.settings.autozoom !== '1') {
@@ -1346,6 +1429,7 @@ export default {
 			}
 			emit('zoom-on-bounds', { nsew: autoZoomBounds })
 		},
+
 		onZoomOnSession({ sessionId, animate = true }) {
 			const session = this.state.sessions[sessionId]
 			if (!session.enabled) {
@@ -1356,6 +1440,7 @@ export default {
 				animate,
 			})
 		},
+
 		getSessionBounds(sessionId) {
 			const session = this.state.sessions[sessionId]
 			const deviceBounds = Object.values(session.devices)
@@ -1369,6 +1454,7 @@ export default {
 				west: deviceBounds.map(b => b.west).reduce((acc, val) => Math.min(acc, val)),
 			}
 		},
+
 		onZoomOnDevice({ sessionId, deviceId }) {
 			const device = this.state.sessions[sessionId]?.devices[deviceId]
 			if (!device.enabled) {
@@ -1379,6 +1465,7 @@ export default {
 				emit('zoom-on-bounds', { nsew: bounds })
 			}
 		},
+
 		getDeviceBounds(sessionId, deviceId) {
 			const device = this.state.sessions[sessionId]?.devices[deviceId]
 			const points = this.filters === null

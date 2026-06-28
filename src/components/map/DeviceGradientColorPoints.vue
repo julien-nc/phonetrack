@@ -31,58 +31,72 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		layerId: {
 			type: String,
 			required: true,
 		},
+
 		map: {
 			type: Object,
 			required: true,
 		},
+
 		filters: {
 			type: [Object, null],
 			default: null,
 		},
+
 		colorCriteria: {
 			type: Number,
 			default: COLOR_CRITERIAS.elevation.id,
 		},
+
 		lineWidth: {
 			type: Number,
 			default: 5,
 		},
+
 		color: {
 			type: String,
 			default: '#0693e3',
 		},
+
 		borderColor: {
 			type: String,
 			default: 'black',
 		},
+
 		border: {
 			type: Boolean,
 			default: true,
 		},
+
 		arrows: {
 			type: Boolean,
 			default: true,
 		},
+
 		arrowsSpacing: {
 			type: Number,
 			default: 10,
 		},
+
 		arrowsScaleFactor: {
 			type: Number,
 			default: 1,
 		},
+
 		opacity: {
 			type: Number,
 			default: 1,
 		},
+
 		distanceUnit: {
 			type: String,
 			default: 'metric',
 		},
+
 		draggablePoints: {
 			type: Boolean,
 			default: true,
@@ -100,18 +114,22 @@ export default {
 		borderLayerId() {
 			return this.layerId + '-border'
 		},
+
 		invisibleBorderLayerId() {
 			return this.layerId + '-invisible-border'
 		},
+
 		onTop() {
 			return this.device.onTop
 		},
+
 		filteredPoints() {
 			if (this.filters === null) {
 				return this.device.points
 			}
 			return getFilteredPoints(this.device.points, this.filters)
 		},
+
 		deviceGeojsonData() {
 			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
 			return {
@@ -127,6 +145,7 @@ export default {
 				],
 			}
 		},
+
 		pointValues() {
 			return this.colorCriteria === COLOR_CRITERIAS.elevation.id
 				? this.filteredPoints.map(p => p.altitude)
@@ -140,6 +159,7 @@ export default {
 								? this.traveledDistances
 								: []
 		},
+
 		traveledDistances() {
 			const points = this.filteredPoints
 			const distances = [0]
@@ -164,13 +184,16 @@ export default {
 				this.bringToTop()
 			}
 		},
+
 		colorCriteria() {
 			this.onColorCriteriaChanged()
 		},
+
 		deviceGeojsonData() {
 			this.remove()
 			this.init()
 		},
+
 		pointValues() {
 			this.remove()
 			this.init()
@@ -201,6 +224,7 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-width', (this.lineWidth * 1.6) * 1.7)
 			}
 		},
+
 		onMouseLeave() {
 			const pairData = this.geojsonsPerColorPair
 			Object.keys(pairData).forEach((ci1) => {
@@ -215,10 +239,12 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-width', this.lineWidth * 1.6)
 			}
 		},
+
 		onColorCriteriaChanged() {
 			this.remove()
 			this.init()
 		},
+
 		// return an object indexed by color index, 2 levels, first color and second color
 		// first color index is always lower than second (or equal)
 		addFeaturesFromPoints() {
@@ -241,6 +267,7 @@ export default {
 			}
 			this.geojsonsPerColorPair = result
 		},
+
 		processPair(geojsons, min, max, firstColorIndex, point1, point2, secondPointValue) {
 			const secondColorIndex = this.getColorIndex(min, max, secondPointValue)
 			if (secondColorIndex > firstColorIndex) {
@@ -250,6 +277,7 @@ export default {
 			}
 			return secondColorIndex
 		},
+
 		buildFeature(geojsons, colorIndex1, colorIndex2, point1, point2) {
 			if (!geojsons[colorIndex1]) {
 				geojsons[colorIndex1] = {}
@@ -268,12 +296,14 @@ export default {
 				},
 			})
 		},
+
 		getColorIndex(min, max, value) {
 			if (value === null) {
 				return 0
 			}
 			return Math.floor((value - min) / (max - min) * 10)
 		},
+
 		bringToTop() {
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.moveLayer(this.borderLayerId)
@@ -289,6 +319,7 @@ export default {
 				})
 			})
 		},
+
 		remove() {
 			// remove border
 			if (this.map.getLayer(this.borderLayerId)) {
@@ -313,6 +344,7 @@ export default {
 				})
 			})
 		},
+
 		init() {
 			this.addFeaturesFromPoints()
 			// border
@@ -404,6 +436,7 @@ export default {
 			this.ready = true
 		},
 	},
+
 	render(h) {
 		return null
 	},

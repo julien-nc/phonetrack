@@ -84,39 +84,47 @@ export default {
 		LinkVariantIcon,
 		FolderIcon,
 	},
+
 	inject: ['isPublicPage'],
 	props: {
 		show: {
 			type: Boolean,
 			required: true,
 		},
+
 		activeTab: {
 			type: String,
 			required: true,
 		},
+
 		session: {
 			type: Object,
 			default: null,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 		}
 	},
+
 	computed: {
 		title() {
 			return t('phonetrack', 'Session {name}', { name: this.session.name })
 		},
+
 		subtitle() {
 			const nbDevices = Object.keys(this.session.devices).length
 			const deviceCount = n('phonetrack', '{n} device', '{n} devices', nbDevices, { n: nbDevices })
 			return t('phonetrack', 'Session {sessionName} ({deviceCount})', { sessionName: this.session.name, deviceCount })
 		},
 	},
+
 	methods: {
 	},
 }

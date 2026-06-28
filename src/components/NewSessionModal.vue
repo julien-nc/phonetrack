@@ -5,7 +5,7 @@
 <template>
 	<NcModal
 		:name="t('phonetrack', 'Create new session')"
-		:close-on-click-outside="true"
+		:closeOnClickOutside="true"
 		@close="$emit('close')">
 		<div class="creation-modal-content">
 			<h2>{{ t('phonetrack', 'Create new session') }}</h2>
@@ -43,20 +43,26 @@ export default {
 		NcTextField,
 		ArrowRightIcon,
 	},
+
 	props: {
 	},
+
 	data() {
 		return {
 			newSessionName: '',
 		}
 	},
+
 	computed: {
 	},
+
 	beforeMount() {
 	},
+
 	mounted() {
 		this.$refs.input.focus()
 	},
+
 	methods: {
 		createProject() {
 			emit('create-session', this.newSessionName)
@@ -66,6 +72,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .creation-modal-content {
 	display: flex;

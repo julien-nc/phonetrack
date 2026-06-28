@@ -8,8 +8,8 @@
 		<LineChartJs
 			:data="chartData"
 			:options="chartOptions"
-			@mouseenter.native="onChartMouseEnter"
-			@mouseout.native="onChartMouseOut" />
+			@mouseenter="onChartMouseEnter"
+			@mouseout="onChartMouseOut" />
 	</div>
 	<NcEmptyContent v-else
 		:name="t('phonetrack', 'No data to display')"
@@ -27,8 +27,12 @@ import { LngLat } from 'maplibre-gl'
 
 import LineChartJs from './chart.js/LineChartJs.vue'
 import {
-	formatDuration, metersToElevation, mpsToSpeed,
-	metersToDistance, delay, getFilteredPoints,
+	delay,
+	formatDuration,
+	getFilteredPoints,
+	metersToDistance,
+	metersToElevation,
+	mpsToSpeed,
 } from '../utils.js'
 
 import moment from '@nextcloud/moment'
@@ -66,6 +70,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		xAxis: {
 			type: String,
 			default: 'time',
@@ -73,10 +78,12 @@ export default {
 				return ['time', 'date', 'distance'].includes(value)
 			},
 		},
+
 		chartYScale: {
 			type: String,
 			default: null,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -96,9 +103,11 @@ export default {
 				traveledDistance: this.getLineDistanceLabels(this.filteredPoints, 0),
 			}
 		},
+
 		firstValidTimestamp() {
 			return this.dataLabels.timestamps.find(ts => { return !!ts })
 		},
+
 		filters() {
 			if (this.settings.applyfilters !== 'true') {
 				return null
@@ -120,42 +129,53 @@ export default {
 				satellitesmax: this.settings.satellitesmax,
 			}
 		},
+
 		filteredPoints() {
 			return this.filters === null
 				? this.device.points
 				: getFilteredPoints(this.device.points, this.filters)
 		},
+
 		elevationData() {
 			return this.filteredPoints.map(p => p.altitude ?? 0)
 		},
+
 		speedData() {
 			return this.filteredPoints.map(p => p.speed ?? 0)
 		},
+
 		batteryLevelData() {
 			return this.filteredPoints.map(p => p.batterylevel ?? 0)
 		},
+
 		accuracyData() {
 			return this.filteredPoints.map(p => p.accuracy ?? 0)
 		},
+
 		shouldDrawElevation() {
 			console.debug('shouldDrawElevation', this.elevationData)
 			return this.elevationData.filter(ele => ele !== null).length !== 0
 		},
+
 		shouldDrawSpeed() {
 			return this.speedData.filter(sp => sp !== 0 && sp !== null).length !== 0
 		},
+
 		shouldDrawAccuracy() {
 			return this.accuracyData.filter(v => v !== 0 && v !== null).length !== 0
 		},
+
 		shouldDrawBatteryLevel() {
 			return this.batteryLevelData.filter(v => v !== 0 && v !== null).length !== 0
 		},
+
 		shouldDrawChart() {
 			return this.shouldDrawSpeed
 				|| this.shouldDrawElevation
 				|| this.shouldDrawAccuracy
 				|| this.shouldDrawBatteryLevel
 		},
+
 		chartData() {
 			const commonDataSetValues = {
 				// lineTension: 0.2,
@@ -175,70 +195,70 @@ export default {
 			// don't draw elevation data if it only contains null values
 			const elevationDataSet = this.shouldDrawElevation
 				? {
-					...commonDataSetValues,
-					data: this.elevationData,
-					id: 'elevation',
-					label: t('phonetrack', 'Elevation'),
-					backgroundColor: ELEVATION_COLOR + '4D',
-					pointBackgroundColor: ELEVATION_COLOR,
-					borderColor: ELEVATION_COLOR,
-					pointHighlightStroke: ELEVATION_COLOR,
-					// // deselect the dataset from the beginning
-					// hidden: condition,
-					order: 0,
-					yAxisID: 'elevation',
-				}
+						...commonDataSetValues,
+						data: this.elevationData,
+						id: 'elevation',
+						label: t('phonetrack', 'Elevation'),
+						backgroundColor: ELEVATION_COLOR + '4D',
+						pointBackgroundColor: ELEVATION_COLOR,
+						borderColor: ELEVATION_COLOR,
+						pointHighlightStroke: ELEVATION_COLOR,
+						// // deselect the dataset from the beginning
+						// hidden: condition,
+						order: 0,
+						yAxisID: 'elevation',
+					}
 				: null
 
 			const speedDataSet = this.shouldDrawSpeed
 				? {
-					...commonDataSetValues,
-					data: this.speedData,
-					id: 'speed',
-					label: t('phonetrack', 'Speed'),
-					backgroundColor: SPEED_COLOR + '4D',
-					pointBackgroundColor: SPEED_COLOR,
-					borderColor: SPEED_COLOR,
-					pointHighlightStroke: SPEED_COLOR,
-					// // deselect the dataset from the beginning
-					// hidden: condition,
-					order: 1,
-					yAxisID: 'speed',
-				}
+						...commonDataSetValues,
+						data: this.speedData,
+						id: 'speed',
+						label: t('phonetrack', 'Speed'),
+						backgroundColor: SPEED_COLOR + '4D',
+						pointBackgroundColor: SPEED_COLOR,
+						borderColor: SPEED_COLOR,
+						pointHighlightStroke: SPEED_COLOR,
+						// // deselect the dataset from the beginning
+						// hidden: condition,
+						order: 1,
+						yAxisID: 'speed',
+					}
 				: null
 
 			const accuracyDataSet = this.shouldDrawAccuracy
 				? {
-					...commonDataSetValues,
-					data: this.accuracyData,
-					id: 'accuracy',
-					label: t('phonetrack', 'Accuracy'),
-					backgroundColor: ACCURACY_COLOR + '4D',
-					pointBackgroundColor: ACCURACY_COLOR,
-					borderColor: ACCURACY_COLOR,
-					pointHighlightStroke: ACCURACY_COLOR,
-					// // deselect the dataset from the beginning
-					// hidden: condition,
-					order: 1,
-					yAxisID: 'accuracy',
-				}
+						...commonDataSetValues,
+						data: this.accuracyData,
+						id: 'accuracy',
+						label: t('phonetrack', 'Accuracy'),
+						backgroundColor: ACCURACY_COLOR + '4D',
+						pointBackgroundColor: ACCURACY_COLOR,
+						borderColor: ACCURACY_COLOR,
+						pointHighlightStroke: ACCURACY_COLOR,
+						// // deselect the dataset from the beginning
+						// hidden: condition,
+						order: 1,
+						yAxisID: 'accuracy',
+					}
 				: null
 
 			const batteryLevelDataSet = this.shouldDrawBatteryLevel
 				? {
-					...commonDataSetValues,
-					data: this.batteryLevelData,
-					id: 'batterylevel',
-					label: t('phonetrack', 'Battery'),
-					backgroundColor: BATTERY_COLOR + '4D',
-					pointBackgroundColor: BATTERY_COLOR,
-					borderColor: BATTERY_COLOR,
-					pointHighlightStroke: BATTERY_COLOR,
-					// // deselect the dataset from the beginning
-					// hidden: condition,
-					order: 1,
-					yAxisID: 'batterylevel',
-				}
+						...commonDataSetValues,
+						data: this.batteryLevelData,
+						id: 'batterylevel',
+						label: t('phonetrack', 'Battery'),
+						backgroundColor: BATTERY_COLOR + '4D',
+						pointBackgroundColor: BATTERY_COLOR,
+						borderColor: BATTERY_COLOR,
+						pointHighlightStroke: BATTERY_COLOR,
+						// // deselect the dataset from the beginning
+						// hidden: condition,
+						order: 1,
+						yAxisID: 'batterylevel',
+					}
 				: null
 
 			return {
@@ -252,7 +272,9 @@ export default {
 				].filter(e => e !== null),
 			}
 		},
+
 		chartOptions() {
+			// eslint-disable-next-line
 			const that = this
 			const firstValidTimestamp = this.firstValidTimestamp
 			return {
@@ -266,18 +288,19 @@ export default {
 						cubicInterpolationMode: 'monotone',
 					},
 				},
+
 				scales: {
 					elevation: {
 						position: 'right',
 						display: this.chartYScale === 'elevation',
 						ticks: {
 							// display: false,
-							// eslint-disable-next-line
 							callback: function(value, index, ticks) {
 								return metersToElevation(value, that.settings.distance_unit)
 							},
 						},
 					},
+
 					speed: {
 						position: 'right',
 						display: this.chartYScale === 'speed',
@@ -289,6 +312,7 @@ export default {
 							},
 						},
 					},
+
 					accuracy: {
 						position: 'right',
 						display: this.chartYScale === 'accuracy',
@@ -300,6 +324,7 @@ export default {
 							},
 						},
 					},
+
 					batterylevel: {
 						position: 'right',
 						display: this.chartYScale === 'batterylevel',
@@ -311,6 +336,7 @@ export default {
 							},
 						},
 					},
+
 					x: {
 						ticks: {
 							// display: false,
@@ -328,17 +354,19 @@ export default {
 						},
 					},
 				},
+
 				plugins: {
 					legend: {
 						position: 'top',
 					},
+
 					tooltip: {
 						position: 'top',
 						yAlign: 'bottom',
 						intersect: false,
 						mode: 'index',
 						callbacks: {
-							// eslint-disable-next-line
+
 							title: function(context) {
 								const index = context[0]?.dataIndex
 								const labels = []
@@ -349,12 +377,13 @@ export default {
 								labels.push(t('phonetrack', 'Traveled distance') + ': ' + metersToDistance(that.dataLabels.traveledDistance[index], that.settings.distance_unit))
 								return labels.join('\n')
 							},
-							// eslint-disable-next-line
+
 							label: function(context) {
 								return that.getTooltipLabel(context)
 							},
 						},
 					},
+
 					title: {
 						display: true,
 						text: that.xAxis === 'time'
@@ -364,28 +393,34 @@ export default {
 								: that.xAxis === 'date'
 									? t('phonetrack', 'By date')
 									: '??',
+
 						font: {
 							weight: 'bold',
 							size: 18,
 						},
 					},
+
 					zoom: {
 						pan: {
 							enabled: true,
 							mode: 'x',
 						},
+
 						zoom: {
 							wheel: {
 								enabled: true,
 								modifierKey: 'shift',
 							},
+
 							pinch: {
 								enabled: true,
 							},
+
 							mode: 'x',
 						},
 					},
 				},
+
 				responsive: true,
 				maintainAspectRatio: false,
 				showAllTooltips: false,
@@ -393,6 +428,7 @@ export default {
 					intersect: false,
 					mode: 'index',
 				},
+
 				onHover: this.onChartMouseEvent,
 				onClick: this.onChartMouseEvent,
 			}
@@ -418,6 +454,7 @@ export default {
 						: '??'
 			return context.dataset.label + ': ' + formattedValue
 		},
+
 		getLineDistanceLabels(points, previousValue) {
 			const distances = [previousValue]
 			let previousLngLat = new LngLat(points[0].lon, points[0].lat)
@@ -430,6 +467,7 @@ export default {
 			}
 			return distances
 		},
+
 		onChartMouseEvent(event, data) {
 			if (data.length > 0 && data[0].index !== undefined) {
 				const index = data[0].index
@@ -451,13 +489,16 @@ export default {
 				}
 			}
 		},
+
 		onChartMouseOut(e) {
 			emit('chart-mouseout', { keepPersistent: true })
 		},
+
 		onChartMouseEnter(e) {
 			this.pointIndexToShow = null
 			emit('chart-mouseenter')
 		},
+
 		onTrackPointHover({ deviceId, pointIndex }) {
 			// TODO maybe try like https://jsfiddle.net/ucvvvnm4/5/ using ChartJS.instances in LineChartJs
 			// or like that https://stackoverflow.com/questions/52208899/how-can-i-trigger-the-hover-mode-from-outside-the-chart-with-charts-js-2

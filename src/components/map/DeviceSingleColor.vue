@@ -28,54 +28,67 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		layerId: {
 			type: String,
 			required: true,
 		},
+
 		map: {
 			type: Object,
 			required: true,
 		},
+
 		filters: {
 			type: [Object, null],
 			default: null,
 		},
+
 		lineWidth: {
 			type: Number,
 			default: 5,
 		},
+
 		color: {
 			type: String,
 			default: '#0693e3',
 		},
+
 		borderColor: {
 			type: String,
 			default: 'black',
 		},
+
 		border: {
 			type: Boolean,
 			default: true,
 		},
+
 		arrows: {
 			type: Boolean,
 			default: true,
 		},
+
 		arrowsSpacing: {
 			type: Number,
 			default: 10,
 		},
+
 		arrowsScaleFactor: {
 			type: Number,
 			default: 1,
 		},
+
 		opacity: {
 			type: Number,
 			default: 1,
 		},
+
 		distanceUnit: {
 			type: String,
 			default: 'metric',
 		},
+
 		draggablePoints: {
 			type: Boolean,
 			default: true,
@@ -92,12 +105,15 @@ export default {
 		borderLayerId() {
 			return this.layerId + '-border'
 		},
+
 		invisibleBorderLayerId() {
 			return this.layerId + '-invisible-border'
 		},
+
 		onTop() {
 			return this.device.onTop
 		},
+
 		deviceGeojsonData() {
 			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
 			return {
@@ -113,6 +129,7 @@ export default {
 				],
 			}
 		},
+
 		filteredPoints() {
 			if (this.filters === null) {
 				return this.device.points
@@ -127,15 +144,18 @@ export default {
 				this.map.setPaintProperty(this.layerId, 'line-color', newVal)
 			}
 		},
+
 		onTop(newVal) {
 			if (newVal) {
 				this.bringToTop()
 			}
 		},
+
 		deviceGeojsonData() {
 			console.debug('[phonetrack] deviceGeojsonData has changed')
 			this.map.getSource(this.layerId)?.setData(this.deviceGeojsonData)
 		},
+
 		border(newVal) {
 			if (newVal) {
 				this.drawBorder()
@@ -145,6 +165,7 @@ export default {
 				this.removeBorder()
 			}
 		},
+
 		opacity() {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.setPaintProperty(this.layerId, 'line-opacity', this.opacity)
@@ -153,10 +174,12 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-opacity', this.opacity)
 			}
 		},
+
 		lineWidth() {
 			this.setNormalLineWidth()
 		},
-		'device.lineEnabled'(newValue) {
+
+		'device.lineEnabled': function(newValue) {
 			if (newValue) {
 				this.drawLines()
 				if (this.arrows) {
@@ -193,6 +216,7 @@ export default {
 				this.bringArrowsToTop()
 			}
 		},
+
 		setNormalLineWidth() {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.setPaintProperty(this.layerId, 'line-width', this.lineWidth)
@@ -202,32 +226,38 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-gap-width', this.lineWidth)
 			}
 		},
+
 		remove() {
 			this.removeLines()
 			if (this.map.getSource(this.layerId)) {
 				this.map.removeSource(this.layerId)
 			}
 		},
+
 		removeLines() {
 			this.removeInvisibleBorder()
 			this.removeBorder()
 			this.removeLine()
 		},
+
 		removeLine() {
 			if (this.map.getLayer(this.layerId)) {
 				this.map.removeLayer(this.layerId)
 			}
 		},
+
 		removeInvisibleBorder() {
 			if (this.map.getLayer(this.invisibleBorderLayerId)) {
 				this.map.removeLayer(this.invisibleBorderLayerId)
 			}
 		},
+
 		removeBorder() {
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.removeLayer(this.borderLayerId)
 			}
 		},
+
 		drawInvisibleBorder() {
 			this.map.addLayer({
 				type: 'line',
@@ -243,6 +273,7 @@ export default {
 				},
 			})
 		},
+
 		drawBorder() {
 			this.map.addLayer({
 				type: 'line',
@@ -261,6 +292,7 @@ export default {
 				filter: ['!=', '$type', 'Point'],
 			})
 		},
+
 		drawMainLine() {
 			this.map.addLayer({
 				type: 'line',
@@ -279,6 +311,7 @@ export default {
 				filter: ['!=', '$type', 'Point'],
 			})
 		},
+
 		drawLines() {
 			this.drawInvisibleBorder()
 			if (this.border) {
@@ -286,6 +319,7 @@ export default {
 			}
 			this.drawMainLine()
 		},
+
 		init() {
 			this.map.addSource(this.layerId, {
 				type: 'geojson',
@@ -299,6 +333,7 @@ export default {
 			this.ready = true
 		},
 	},
+
 	render(h) {
 		return null
 	},

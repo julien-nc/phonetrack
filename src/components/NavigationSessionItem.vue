@@ -6,19 +6,18 @@
 	<NcAppNavigationItem
 		:name="session.name"
 		:title="sessionItemTitle"
-		:class="{
+		class="sessionItem" :class="{
 			openSession: session.enabled && compact,
-			sessionItem: true,
 			draggedOver: isDraggedOver,
 		}"
 		:active="selected"
 		:loading="session.loading"
-		:allow-collapse="compact"
+		:allowCollapse="compact"
 		:open="session.enabled"
-		:force-menu="true"
-		:force-display-actions="true"
-		:menu-open="menuOpen"
-		:edit-label="t('phonetrack', 'Rename session')"
+		:forceMenu="true"
+		:forceDisplayActions="true"
+		:menuOpen="menuOpen"
+		:editLabel="t('phonetrack', 'Rename session')"
 		@click="onItemClick"
 		@dragover.stop.prevent="onDragOver"
 		@dragenter.stop.prevent="onDragEnter"
@@ -26,10 +25,10 @@
 		@drop="onDrop"
 		@update:name="onRename"
 		@update:open="onUpdateOpen"
-		@contextmenu.native.stop.prevent="menuOpen = true"
+		@contextmenu.stop.prevent="menuOpen = true"
 		@update:menuOpen="onUpdateMenuOpen"
-		@mouseenter.native="onHoverIn"
-		@mouseleave.native="onHoverOut">
+		@mouseenter="onHoverIn"
+		@mouseleave="onHoverOut">
 		<template #icon>
 			<ToggleSwitchIcon v-if="session.enabled"
 				:size="20" />
@@ -43,9 +42,9 @@
 				<NcAvatar
 					:user="session.user"
 					:size="24"
-					:hide-status="true"
-					:disable-menu="true"
-					:disable-tooltip="true" />
+					:hideStatus="true"
+					:disableMenu="true"
+					:disableTooltip="true" />
 			</span>
 			<NcCounterBubble
 				:count="deviceCount"
@@ -54,7 +53,7 @@
 		<template #actions>
 			<template v-if="!isPublicPage">
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onDetailsClick">
 					<template #icon>
 						<InformationOutlineIcon :size="20" />
@@ -62,7 +61,7 @@
 					{{ t('phonetrack', 'Details') }}
 				</NcActionButton>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onShareClick">
 					<template #icon>
 						<ShareVariantIcon :size="20" />
@@ -70,7 +69,7 @@
 					{{ t('phonetrack', 'Share') }}
 				</NcActionButton>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onLinkClick">
 					<template #icon>
 						<LinkVariantIcon :size="20" />
@@ -78,7 +77,7 @@
 					{{ t('phonetrack', 'Links for devices') }}
 				</NcActionButton>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onToggleAllLinesClick">
 					<template #icon>
 						<ChartTimelineVariantIcon :size="20" />
@@ -86,7 +85,7 @@
 					{{ t('phonetrack', 'Toggle lines for all devices') }}
 				</NcActionButton>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onZoomToBounds">
 					<template #icon>
 						<MagnifyExpandIcon :size="20" />
@@ -94,7 +93,7 @@
 					{{ t('phonetrack', 'Zoom to bounds') }}
 				</NcActionButton>
 				<NcActionLink
-					:close-after-click="true"
+					:closeAfterClick="true"
 					:href="downloadLink"
 					target="_blank">
 					<template #icon>
@@ -103,7 +102,7 @@
 					{{ t('phonetrack', 'Download') }}
 				</NcActionLink>
 				<NcActionButton v-if="true"
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onDelete">
 					<template #icon>
 						<TrashCanOutlineIcon :size="20" />
@@ -113,7 +112,7 @@
 			</template>
 			<template v-else>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onZoomToBounds">
 					<template #icon>
 						<MagnifyExpandIcon :size="20" />
@@ -185,31 +184,37 @@ export default {
 		LinkVariantIcon,
 		ChartTimelineVariantIcon,
 	},
+
 	inject: ['isPublicPage'],
 	props: {
 		session: {
 			type: Object,
 			required: true,
 		},
+
 		compact: {
 			type: Boolean,
 			default: false,
 		},
+
 		selected: {
 			type: Boolean,
 			default: false,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			menuOpen: false,
 			isDraggedOver: false,
 		}
 	},
+
 	computed: {
 		sessionItemTitle() {
 			const devices = Object.values(this.session.devices)
@@ -222,18 +227,22 @@ export default {
 					? ''
 					: '\n' + t('phonetrack', 'Owned by {user}', { user: this.session.user }))
 		},
+
 		isSessionOwnedByCurrentUser() {
 			return this.session.user === getCurrentUser()?.uid
 		},
+
 		deviceCount() {
 			return Object.values(this.session.devices).length
 		},
+
 		downloadLink() {
 			return generateUrl(
 				'/apps/phonetrack/session/{sessionId}/download',
 				{ sessionId: this.session.id },
 			)
 		},
+
 		allDevicesSelected() {
 			let allSelected = true
 			Object.values(this.session.devices).every(d => {
@@ -245,6 +254,7 @@ export default {
 			})
 			return allSelected
 		},
+
 		sortedDevices() {
 			if (!this.compact) {
 				return []
@@ -256,12 +266,15 @@ export default {
 			)
 		},
 	},
+
 	beforeMount() {
 	},
+
 	methods: {
 		onItemClick() {
 			emit('session-click', this.session.id)
 		},
+
 		onUpdateOpen(newOpen) {
 			if (newOpen) {
 				emit('session-open', this.session.id)
@@ -269,36 +282,47 @@ export default {
 				emit('session-close', this.session.id)
 			}
 		},
+
 		onUpdateMenuOpen(isOpen) {
 			this.menuOpen = isOpen
 		},
+
 		onZoomToBounds() {
 			emit('zoom-on-session', { sessionId: this.session.id })
 		},
+
 		onToggleAllLinesClick() {
 			emit('session-toggle-all-device-lines', { sessionId: this.session.id })
 		},
+
 		onDetailsClick() {
 			emit('session-details-click', this.session.id)
 		},
+
 		onShareClick() {
 			emit('session-share-click', this.session.id)
 		},
+
 		onLinkClick() {
 			emit('session-link-click', this.session.id)
 		},
+
 		onHoverIn() {
 			emit('session-hover-in', this.session.id)
 		},
+
 		onHoverOut() {
 			emit('session-hover-out', this.session.id)
 		},
+
 		onDelete() {
 			emit('delete-session', { sessionId: this.session.id, sessionName: this.session.name })
 		},
+
 		onRename(newName) {
 			emit('update-session', { sessionId: this.session.id, values: { name: newName } })
 		},
+
 		onDragOver(e) {
 			const deviceId = e.dataTransfer.getData('deviceId')
 			const sessionId = e.dataTransfer.getData('sessionId')
@@ -306,6 +330,7 @@ export default {
 				this.isDraggedOver = true
 			}
 		},
+
 		onDragEnter(e) {
 			const deviceId = e.dataTransfer.getData('deviceId')
 			const sessionId = e.dataTransfer.getData('sessionId')
@@ -313,6 +338,7 @@ export default {
 				this.isDraggedOver = true
 			}
 		},
+
 		onDragLeave(e) {
 			const deviceId = e.dataTransfer.getData('deviceId')
 			const sessionId = e.dataTransfer.getData('sessionId')
@@ -320,6 +346,7 @@ export default {
 				this.isDraggedOver = false
 			}
 		},
+
 		onDrop(e) {
 			const deviceId = e.dataTransfer.getData('deviceId')
 			const sessionId = e.dataTransfer.getData('sessionId')

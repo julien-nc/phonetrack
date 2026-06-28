@@ -17,7 +17,7 @@
 							<FolderPlusIcon />
 						</template>
 						<NcActionButton
-							:close-after-click="true"
+							:closeAfterClick="true"
 							@click="showCreationModal = true">
 							<template #icon>
 								<PlusIcon :size="20" />
@@ -25,7 +25,7 @@
 							{{ t('phonetrack', 'Create a session') }}
 						</NcActionButton>
 						<NcActionButton
-							:close-after-click="true"
+							:closeAfterClick="true"
 							@click="onImportSessionClick">
 							<template #icon>
 								<PlusIcon :size="20" />
@@ -36,7 +36,7 @@
 				</template>
 			</NcAppNavigationSearch>
 			<NavigationCountdownItem
-				:loading-device-points="loadingDevicePoints"
+				:loadingDevicePoints="loadingDevicePoints"
 				:settings="settings" />
 		</template>
 		<template #list>
@@ -64,8 +64,8 @@
 					</NcAppNavigationItem>
 					<NcAppNavigationItem
 						:name="t('phonetrack', 'Filters')"
-						:menu-open="filterMenuOpen"
-						@contextmenu.native.stop.prevent="filterMenuOpen = true"
+						:menuOpen="filterMenuOpen"
+						@contextmenu.stop.prevent="filterMenuOpen = true"
 						@update:menuOpen="onUpdateFilterMenuOpen"
 						@click="onClickFiltersItem">
 						<template #icon>
@@ -74,8 +74,8 @@
 						</template>
 						<template #actions>
 							<NcActionCheckbox
-								:model-value="filterEnabled"
-								@update:model-value="onToggleFilter">
+								:modelValue="filterEnabled"
+								@update:modelValue="onToggleFilter">
 								{{ t('phonetrack', 'Use filters') }}
 							</NcActionCheckbox>
 						</template>
@@ -115,12 +115,12 @@ import FiltersModal from './FiltersModal.vue'
 
 import { getFilePickerBuilder } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
-import { dirname, basename } from '@nextcloud/paths'
+import { basename, dirname } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import { strcmp } from '../utils.js'
 
 export default {
-	name: 'Navigation',
+	name: 'PhonetrackNavigation',
 
 	components: {
 		FiltersModal,
@@ -148,18 +148,22 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		compact: {
 			type: Boolean,
 			default: false,
 		},
+
 		selectedSessionId: {
 			type: [String, Number],
 			default: 0,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
 		},
+
 		loadingDevicePoints: {
 			type: Boolean,
 			default: false,
@@ -182,11 +186,13 @@ export default {
 		sessionList() {
 			return Object.values(this.sessions)
 		},
+
 		filteredSessions() {
 			return this.sessionFilterQuery
 				? this.sessionList.filter(s => basename(s.name).toLowerCase().includes(this.sessionFilterQuery.toLowerCase()))
 				: this.sessionList
 		},
+
 		sortedSessions() {
 			const sortOrder = this.settings.sessionSortOrder ?? 'name'
 			const sortDirection = this.settings.sessionSortAscending ?? 'ascending'
@@ -210,24 +216,25 @@ export default {
 			}, {})
 			return sortDirection === 'ascending'
 				? sessions.sort((a, b) => {
-					const tsA = ts[a.id] ?? 0
-					const tsB = ts[b.id] ?? 0
-					return tsA > tsB
-						? 1
-						: tsA < tsB
-							? -1
-							: 0
-				})
+						const tsA = ts[a.id] ?? 0
+						const tsB = ts[b.id] ?? 0
+						return tsA > tsB
+							? 1
+							: tsA < tsB
+								? -1
+								: 0
+					})
 				: sessions.sort((a, b) => {
-					const tsA = ts[a.id] ?? 0
-					const tsB = ts[b.id] ?? 0
-					return tsA < tsB
-						? 1
-						: tsA > tsB
-							? -1
-							: 0
-				})
+						const tsA = ts[a.id] ?? 0
+						const tsB = ts[b.id] ?? 0
+						return tsA < tsB
+							? 1
+							: tsA > tsB
+								? -1
+								: 0
+					})
 		},
+
 		filterEnabled() {
 			return this.settings.applyfilters === 'true'
 		},
@@ -247,11 +254,13 @@ export default {
 		showSettings() {
 			emit('show-settings')
 		},
+
 		updateAddMenuOpen(open) {
 			if (!open) {
 				this.addMenuOpen = false
 			}
 		},
+
 		onImportSessionClick() {
 			const picker = getFilePickerBuilder(t('phonetrack', 'Import gpx/kml/json session file'))
 				.setMultiSelect(false)
@@ -271,17 +280,21 @@ export default {
 					this.lastBrowsePath = dirname(path)
 				})
 		},
+
 		onToggleFilter(value) {
 			emit('save-settings', { applyfilters: value ? 'true' : 'false' })
 			emit('filter-changed')
 		},
+
 		onClickFiltersItem() {
 			// this.showFilters = true
 			emit('show-filters')
 		},
+
 		onUpdateFilterMenuOpen(isOpen) {
 			this.filterMenuOpen = isOpen
 		},
+
 		onCloseFilterModal() {
 			this.showFilters = false
 			emit('filter-changed')

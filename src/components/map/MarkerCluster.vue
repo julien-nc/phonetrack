@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script>
-import { Popup, Marker } from 'maplibre-gl'
+import { Marker, Popup } from 'maplibre-gl'
 import moment from '@nextcloud/moment'
 import { metersToDistance } from '../../utils.js'
 
@@ -28,14 +28,17 @@ export default {
 			type: Array,
 			required: true,
 		},
+
 		map: {
 			type: Object,
 			required: true,
 		},
+
 		circleBorderColor: {
 			type: String,
 			default: 'black',
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -132,6 +135,7 @@ export default {
 			})
 			this.clickPopups = {}
 		},
+
 		bringToTop() {
 			Object.values(LAYER_SUFFIXES).forEach((s) => {
 				if (this.map.getLayer(this.stringId + s)) {
@@ -139,6 +143,7 @@ export default {
 				}
 			})
 		},
+
 		init() {
 			this.map.addSource(this.stringId, {
 				type: 'geojson',
@@ -181,11 +186,13 @@ export default {
 
 			this.ready = true
 		},
+
 		onMapRender(e) {
 			if (this.map.isSourceLoaded(this.stringId)) {
 				this.updateMarkers()
 			}
 		},
+
 		async updateMarkers() {
 			const newClusterMarkers = {}
 			const features = this.map.querySourceFeatures(this.stringId)
@@ -220,6 +227,7 @@ export default {
 			}
 			this.clusterMarkersOnScreen = newClusterMarkers
 		},
+
 		createClusterMarker(id, el, coords) {
 			const marker = new Marker({
 				element: el,
@@ -243,35 +251,34 @@ export default {
 			markerElement.addEventListener('click', markerElement.clickListener)
 			return marker
 		},
+
 		createMarkerElement(count = 0) {
 			const mainDiv = document.createElement('div')
 			mainDiv.classList.add('track-cluster-marker')
 			const c = this.getClusterColor(count)
 			const innerColor = `rgba(${c.r}, ${c.g}, ${c.b}, 0.7)`
 			const outerColor = `rgba(${c.r}, ${c.g}, ${c.b}, 0.3)`
-			mainDiv.setAttribute('style',
-				'width: ' + (CIRCLE_RADIUS * 2) + 'px;'
-				+ 'height: ' + (CIRCLE_RADIUS * 2) + 'px;'
-				+ `border: 5px solid ${outerColor};`
-				+ 'border-radius: 50%;',
-			)
+			mainDiv.setAttribute('style', 'width: ' + (CIRCLE_RADIUS * 2) + 'px;'
+			+ 'height: ' + (CIRCLE_RADIUS * 2) + 'px;'
+			+ `border: 5px solid ${outerColor};`
+			+ 'border-radius: 50%;')
 			const countContainerDiv = document.createElement('div')
 			countContainerDiv.setAttribute('style', `background-color: ${innerColor};`
-				+ 'width: 100%;'
-				+ 'height: 100%;'
-				+ 'border-radius: 50%;'
-				+ 'display: flex;'
-				+ 'align-items: center;'
-				+ 'justify-content: center;'
-				+ 'font-weight: bold;'
-				+ 'color: black;',
-			)
+			+ 'width: 100%;'
+			+ 'height: 100%;'
+			+ 'border-radius: 50%;'
+			+ 'display: flex;'
+			+ 'align-items: center;'
+			+ 'justify-content: center;'
+			+ 'font-weight: bold;'
+			+ 'color: black;')
 			mainDiv.appendChild(countContainerDiv)
 			const countDiv = document.createElement('div')
 			countDiv.textContent = count
 			countContainerDiv.appendChild(countDiv)
 			return mainDiv
 		},
+
 		getClusterColor(count) {
 			return count > 50
 				? { r: 240, g: 120, b: 12 }
@@ -279,6 +286,7 @@ export default {
 					? { r: 240, g: 194, b: 12 }
 					: { r: 110, g: 204, b: 57 }
 		},
+
 		getPopupContent(track) {
 			return '<div class="with-button" style="border-color: ' + (track.color ?? 'blue') + ';">'
 				+ '<strong>' + t('phonetrack', 'Name') + '</strong>: ' + track.name
@@ -288,6 +296,7 @@ export default {
 				+ '<strong>' + t('phonetrack', 'Total distance') + '</strong>: ' + metersToDistance(track.total_distance, this.settings.distance_unit)
 				+ '</div>'
 		},
+
 		onUnclusteredPointClick(e) {
 			const coordinates = e.features[0].geometry.coordinates.slice()
 			const track = e.features[0].properties
@@ -316,6 +325,7 @@ export default {
 				this.clickPopups[track.id] = popup
 			}
 		},
+
 		onUnclusteredPointMouseEnter(e) {
 			this.map.getCanvas().style.cursor = 'pointer'
 			this.bringToTop()
@@ -337,6 +347,7 @@ export default {
 			this.currentHoveredTrack = track
 			this.$emit('track-marker-hover-in', { trackId: track.id, dirId: track.directoryId })
 		},
+
 		onUnclusteredPointMouseLeave(e) {
 			this.map.getCanvas().style.cursor = ''
 			this.hoverPopup?.remove()
@@ -345,6 +356,7 @@ export default {
 			this.$emit('track-marker-hover-out', { trackId: this.currentHoveredTrack.id, dirId: this.currentHoveredTrack.directoryId })
 			this.currentHoveredTrack = null
 		},
+
 		onClusterClick(clusterId, clusterCoords) {
 			this.map.getSource(this.stringId).getClusterExpansionZoom(
 				clusterId,
@@ -360,12 +372,15 @@ export default {
 				},
 			)
 		},
+
 		onClusterMouseEnter(e) {
 			this.bringToTop()
 		},
+
 		onClusterMouseLeave(e) {
 		},
 	},
+
 	render(h) {
 		if (this.ready && this.$slots.default) {
 			return h('div', { style: { display: 'none' } }, this.$slots.default)

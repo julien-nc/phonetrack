@@ -16,16 +16,16 @@
 			{{ t('phonetrack', 'Create new geofence') }}
 		</NcButton>
 		<Transition name="fade">
-			<Geofence v-if="creatingGeofence"
+			<GeoFence v-if="creatingGeofence"
 				:geofence="blankGeofence"
 				:edition="true"
-				:allow-deletion="false"
+				:allowDeletion="false"
 				@save="onSaveNew"
 				@cancel="creatingGeofence = false" />
 		</Transition>
 		<hr>
 		<TransitionGroup tag="div" class="geofences" name="fade">
-			<Geofence v-for="(g, gid) in device.geofences"
+			<GeoFence v-for="(g, gid) in device.geofences"
 				:key="device.id + '-' + gid"
 				:geofence="g"
 				@delete="onDelete"
@@ -39,7 +39,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 
-import Geofence from './Geofence.vue'
+import GeoFence from './GeoFence.vue'
 
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -48,7 +48,7 @@ export default {
 	name: 'DeviceGeofencesSidebarTab',
 
 	components: {
-		Geofence,
+		GeoFence,
 		PlusIcon,
 		NcButton,
 	},
@@ -58,10 +58,12 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		session: {
 			type: Object,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -104,6 +106,7 @@ export default {
 		onCreate() {
 			this.creatingGeofence = true
 		},
+
 		onSaveNew(geofence) {
 			console.debug('create geofence', geofence)
 			emit('create-geofence', {
@@ -113,6 +116,7 @@ export default {
 			})
 			this.creatingGeofence = false
 		},
+
 		onSave(geofence) {
 			console.debug('save geofence', geofence)
 			emit('save-geofence', {
@@ -121,6 +125,7 @@ export default {
 				geofence,
 			})
 		},
+
 		onDelete(geofence) {
 			emit('delete-geofence', {
 				deviceId: this.device.id,

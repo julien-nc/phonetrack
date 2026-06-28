@@ -86,10 +86,12 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		showDeleteButton: {
 			type: Boolean,
 			default: false,
 		},
+
 		showEditButton: {
 			type: Boolean,
 			default: false,

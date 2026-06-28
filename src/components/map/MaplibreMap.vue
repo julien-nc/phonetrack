@@ -5,12 +5,12 @@
 <template>
 	<div class="map-wrapper"
 		:class="{ withTopLeftButton }">
-		<div id="phonetrack-map" ref="mapContainer" />
+		<div id="phonetrack-map" />
 		<div v-if="map"
 			class="map-content">
 			<VMarker v-if="positionMarkerEnabled && positionMarkerLngLat"
 				:map="map"
-				:lng-lat="positionMarkerLngLat" />
+				:lngLat="positionMarkerLngLat" />
 			<!-- some stuff go away when changing the style -->
 			<div v-if="mapLoaded">
 				<slot name="default" :map="map" />
@@ -21,23 +21,26 @@
 
 <script>
 import maplibregl, {
-	Map, FullscreenControl,
-	NavigationControl, ScaleControl, GeolocateControl,
+	FullscreenControl,
+	GeolocateControl,
+	Map,
+	NavigationControl,
+	ScaleControl,
 } from 'maplibre-gl'
 import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder'
 import '@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css'
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { imagePath, generateUrl } from '@nextcloud/router'
+import { generateUrl, imagePath } from '@nextcloud/router'
 import debounce from 'debounce'
 
 import {
+	getExtraTileServers,
 	getRasterTileServers,
 	getVectorStyles,
-	getExtraTileServers,
 } from '../../tileServers.js'
 import { mapImages, mapVectorImages } from '../../mapUtils.js'
-import { MousePositionControl, TileControl, TerrainControl, GlobeControl, ImageControl } from '../../mapControls.js'
+import { GlobeControl, ImageControl, MousePositionControl, TerrainControl, TileControl } from '../../mapControls.js'
 import { maplibreForwardGeocode } from '../../nominatimGeocoder.js'
 
 import VMarker from './VMarker.vue'
@@ -61,46 +64,61 @@ export default {
 			type: Object,
 			default: () => ({}),
 		},
+
 		useTerrain: {
 			type: Boolean,
 			default: false,
 		},
+
 		terrainScale: {
 			type: Number,
 			default: 1,
 		},
+
 		useGlobe: {
 			type: Boolean,
 			default: false,
 		},
+
 		useSky: {
 			type: Boolean,
 			default: false,
 		},
+
 		showMousePositionControl: {
 			type: Boolean,
 			default: false,
 		},
+
 		hoveredDirectoryBounds: {
 			type: Object,
 			default: null,
 		},
+
 		unit: {
 			type: String,
 			default: 'metric',
 		},
+
+		/*
 		comparisonGeojsons: {
 			type: Array,
 			default: () => [],
 		},
+		*/
+
+		/*
 		comparisonCriteria: {
 			type: String,
 			default: '',
 		},
+		*/
+
 		withTopLeftButton: {
 			type: Boolean,
 			default: false,
 		},
+
 		cursor: {
 			type: String,
 			default: null,
@@ -141,6 +159,7 @@ export default {
 				? 'white'
 				: 'black'
 		},
+
 		hoveredDirectoryLatLngs() {
 			if (this.hoveredDirectoryBounds === null) {
 				return null
@@ -160,9 +179,11 @@ export default {
 				this.map.removeControl(this.mousePositionControl)
 			}
 		},
+
 		unit(newValue) {
 			this.scaleControl?.setUnit(newValue)
 		},
+
 		useTerrain(newValue) {
 			// ignore if the internal state is already the same as the changing prop
 			if (this.myUseTerrain === newValue) {
@@ -170,12 +191,14 @@ export default {
 			}
 			this.toggleTerrain()
 		},
+
 		terrainScale(newValue) {
 			console.debug('phonetrack updating terrain scale', newValue)
 			if (this.myUseTerrain) {
 				this.enableTerrain()
 			}
 		},
+
 		useGlobe(newValue) {
 			// ignore if the internal state is already the same as the changing prop
 			if (this.myUseGlobe === newValue) {
@@ -183,8 +206,13 @@ export default {
 			}
 			this.toggleGlobe()
 		},
+
 		useSky(newValue) {
-			newValue ? this.setSky() : this.removeSky()
+			if (newValue) {
+				this.setSky()
+			} else {
+				this.removeSky()
+			}
 		},
 	},
 
@@ -209,6 +237,7 @@ export default {
 			e.south = bounds.getSouth()
 			e.west = bounds.getWest()
 		},
+
 		initMap() {
 			const apiKey = this.settings.maptiler_api_key
 			const isApiKeySet = apiKey && !apiKey.startsWith('get_your_own')
@@ -348,7 +377,6 @@ export default {
 			this.handleMapEvents()
 
 			this.map.once('load', () => {
-
 				this.loadImages()
 
 				this.terrainControl.updateTerrainIcon(this.myUseTerrain)
@@ -370,6 +398,7 @@ export default {
 			subscribe('zoom-on-bounds', this.onZoomOnBounds)
 			this.resizeMap()
 		},
+
 		loadImages() {
 			// this is needed when switching between vector and raster tile servers, the image is sometimes not removed
 			for (const imgKey in mapImages) {
@@ -399,12 +428,14 @@ export default {
 					})
 				})
 		},
+
 		loadImage(imgKey) {
 			return this.map.loadImage(imagePath('phonetrack', mapImages[imgKey]))
 				.then(response => {
 					this.map.addImage(imgKey, response.data)
 				})
 		},
+
 		loadVectorImage(imgKey) {
 			return new Promise((resolve, reject) => {
 				const svgIcon = new Image(41, 41)
@@ -418,6 +449,7 @@ export default {
 				svgIcon.src = imagePath('phonetrack', mapVectorImages[imgKey])
 			})
 		},
+
 		reRenderLayersAndTerrain() {
 			this.mapLoaded = false
 
@@ -426,13 +458,16 @@ export default {
 				this.enableTerrain()
 			}
 		},
+
 		onMapClick(e) {
 			console.debug('MAP::onMapClick', e)
 			this.$emit('map-clicked', e.lngLat)
 		},
+
 		removeSky() {
 			this.map.setSky(undefined)
 		},
+
 		setSky() {
 			// https://maplibre.org/maplibre-gl-js/docs/examples/sky-with-fog-and-terrain/
 			// https://maplibre.org/maplibre-style-spec/sky/
@@ -459,6 +494,7 @@ export default {
 				*/
 			})
 		},
+
 		toggleGlobe() {
 			this.myUseGlobe = !this.myUseGlobe
 			this.$emit('map-state-change', { use_globe: this.myUseGlobe ? '1' : '0' })
@@ -467,6 +503,7 @@ export default {
 			})
 			this.globeControl.updateGlobeIcon(this.myUseGlobe)
 		},
+
 		toggleTerrain() {
 			this.myUseTerrain = !this.myUseTerrain
 			this.$emit('map-state-change', { use_terrain: this.myUseTerrain })
@@ -477,6 +514,7 @@ export default {
 			}
 			this.terrainControl.updateTerrainIcon(this.myUseTerrain)
 		},
+
 		enableTerrain() {
 			this.addTerrainSource()
 			this.map.setTerrain({
@@ -484,9 +522,11 @@ export default {
 				exaggeration: this.terrainScale,
 			})
 		},
+
 		disableTerrain() {
 			this.map.setTerrain()
 		},
+
 		addTerrainSource() {
 			// only add terrain source if needed
 			if (this.map.getSource('terrain')) {
@@ -499,13 +539,16 @@ export default {
 				url: generateUrl('/apps/phonetrack/maptiler/tiles/terrain-rgb-v2/tiles.json?key=' + apiKey),
 			})
 		},
+
 		handleMapEvents() {
 			this.map.on('moveend', this.debouncedSaveMapState)
 			this.map.on('click', this.onMapClick)
 		},
+
 		debouncedSaveMapState: debounce(function() {
 			this.saveMapState()
 		}, 1000),
+
 		saveMapState() {
 			const { lng, lat } = this.map.getCenter()
 			this.$emit('map-state-change', {
@@ -523,6 +566,7 @@ export default {
 				west: bounds.getWest(),
 			})
 		},
+
 		// it might be a bug in maplibre: when navigation sidebar is toggled, the map fails to resize
 		// and an empty area appears on the right
 		// this fixes it
@@ -534,9 +578,11 @@ export default {
 				})
 			}, 300)
 		},
+
 		onNavToggled() {
 			this.resizeMap()
 		},
+
 		onZoomOnBounds({ nsew, animate = true }) {
 			if (this.map) {
 				this.map.fitBounds([[nsew.west, nsew.north], [nsew.east, nsew.south]], {

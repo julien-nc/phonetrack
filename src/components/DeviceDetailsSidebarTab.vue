@@ -80,7 +80,7 @@
 			<NcSelect
 				v-model="selectedTargetSession"
 				class="session-select"
-				:input-label="t('phonetrack', 'Move the device to another session')"
+				:inputLabel="t('phonetrack', 'Move the device to another session')"
 				:aria-label-combobox="t('phonetrack', 'Session selector')"
 				label="name"
 				:disabled="!isDeviceOwnedByCurrentUser"
@@ -151,7 +151,7 @@
 						<QRCode render="svg"
 							:link="geoLink"
 							:fgcolor="qrcodeColor"
-							:image-url="defaultQrcodeImageUrl"
+							:imageUrl="defaultQrcodeImageUrl"
 							:rounded="100" />
 					</div>
 					<hr>
@@ -160,7 +160,7 @@
 					</p>
 					<hr>
 					<NcTextField
-						:model-value="geoLink"
+						:modelValue="geoLink"
 						:label="t('phonetrack', 'QRCode content')"
 						:title="geoLink"
 						:readonly="true">
@@ -193,8 +193,8 @@ import QRCode from './QRCode.vue'
 
 import {
 	getFilePickerBuilder,
-	showSuccess,
 	showError,
+	showSuccess,
 } from '@nextcloud/dialogs'
 import axios from '@nextcloud/axios'
 import { emit } from '@nextcloud/event-bus'
@@ -230,14 +230,17 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		session: {
 			type: Object,
 			required: true,
 		},
+
 		settings: {
 			type: Object,
 			required: true,
 		},
+
 		addingPoint: {
 			type: Boolean,
 			default: false,
@@ -251,10 +254,9 @@ export default {
 			selectedTargetSession: null,
 			showQrcodeForLink: false,
 			qrcodeColor: OCA.Phonetrack.themeColorDark,
-			defaultQrcodeImageUrl: generateUrl(
-				'/apps/phonetrack/svg/phonetrack_square_bg?color='
-				+ hexToDarkerHex(getComplementaryColor(OCA.Phonetrack.themeColorDark)).replace('#', ''),
-			),
+			defaultQrcodeImageUrl: generateUrl('/apps/phonetrack/svg/phonetrack_square_bg?color='
+				+ hexToDarkerHex(getComplementaryColor(OCA.Phonetrack.themeColorDark)).replace('#', '')),
+
 			exportFileName: '',
 		}
 	},
@@ -263,14 +265,17 @@ export default {
 		isDeviceOwnedByCurrentUser() {
 			return this.session.user === getCurrentUser()?.uid
 		},
+
 		targetSessionOptions() {
 			return Object.values(this.sessions())
 				.filter(s => s.user === getCurrentUser()?.uid)
 				.filter(s => s.id !== this.session.id)
 		},
+
 		hasPoints() {
 			return this.device.points.length > 0
 		},
+
 		graphhopperRoutingLink() {
 			const lastPoint = this.device.points[this.device.points.length - 1]
 			const lat = lastPoint.lat
@@ -279,24 +284,28 @@ export default {
 				+ 'point=' + lat + '%2C' + lon + '&locale=fr&vehicle=car&'
 				+ 'weighting=fastest&elevation=true&use_miles=false&layer=Omniscale'
 		},
+
 		osrmRoutingLink() {
 			const lastPoint = this.device.points[this.device.points.length - 1]
 			const lat = lastPoint.lat
 			const lon = lastPoint.lon
 			return 'https://map.project-osrm.org/?z=12&center=' + lat + '%2C' + lon + '&loc=0.000000%2C0.000000&loc=' + lat + '%2C' + lon + '&hl=en&alt=0'
 		},
+
 		orsRoutingLink() {
 			const lastPoint = this.device.points[this.device.points.length - 1]
 			const lat = lastPoint.lat
 			const lon = lastPoint.lon
 			return 'https://maps.openrouteservice.org/directions?n1=' + lat + '&n2=' + lon + '&n3=12&a=null,null,' + lat + ',' + lon + '&b=0&c=0&k1=en-US&k2=km'
 		},
+
 		osmRoutingLink() {
 			const lastPoint = this.device.points[this.device.points.length - 1]
 			const lat = lastPoint.lat
 			const lon = lastPoint.lon
 			return 'https://www.openstreetmap.org/directions?route=0%2C0%3B' + lat + '%2C' + lon + '#map=15/' + lat + '/' + lon
 		},
+
 		geoLink() {
 			const lastPoint = this.device.points[this.device.points.length - 1]
 			const lat = lastPoint.lat
@@ -323,6 +332,7 @@ export default {
 				values: { name: this.newDeviceName },
 			})
 		},
+
 		onSetAlias() {
 			emit('update-device', {
 				deviceId: this.device.id,
@@ -330,15 +340,18 @@ export default {
 				values: { alias: this.newDeviceAlias },
 			})
 		},
+
 		onAddPointClick() {
 			emit('add-point-device', {
 				deviceId: this.device.id,
 				sessionId: this.session.id,
 			})
 		},
+
 		onStopAddPointClick() {
 			emit('stop-add-point-device')
 		},
+
 		onMove() {
 			emit('update-device', {
 				deviceId: this.device.id,
@@ -346,6 +359,7 @@ export default {
 				values: { session_id: this.selectedTargetSession.id },
 			})
 		},
+
 		onExportDevice() {
 			console.debug('[phonetrack] ExportDevice', this.exportFileName)
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to export the device {name}', { name: this.device.name }))
@@ -368,6 +382,7 @@ export default {
 				.build()
 			picker.pick()
 		},
+
 		exportDevice(path) {
 			const targetFilePath = path
 				+ (path === '/' ? '' : '/')

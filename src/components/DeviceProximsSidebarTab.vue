@@ -16,20 +16,20 @@
 			{{ t('phonetrack', 'Create new proximity alert') }}
 		</NcButton>
 		<Transition name="fade">
-			<Proxim v-if="creatingProxim"
+			<ProximityAlerts v-if="creatingProxim"
 				:proxim="blankProxim"
 				:edition="true"
-				:allow-deletion="false"
-				:device-id1="device.id"
+				:allowDeletion="false"
+				:deviceId1="device.id"
 				@save="onSaveNew"
 				@cancel="creatingProxim = false" />
 		</Transition>
 		<hr>
 		<TransitionGroup tag="div" class="proxims" name="fade">
-			<Proxim v-for="(p, pid) in device.proxims"
+			<ProximityAlerts v-for="(p, pid) in device.proxims"
 				:key="device.id + '-' + pid"
 				:proxim="p"
-				:device-id1="device.id"
+				:deviceId1="device.id"
 				@delete="onDelete"
 				@save="onSave" />
 		</TransitionGroup>
@@ -41,7 +41,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
 
-import Proxim from './Proxim.vue'
+import ProximityAlerts from './ProximityAlerts.vue'
 
 import { emit } from '@nextcloud/event-bus'
 import { getCurrentUser } from '@nextcloud/auth'
@@ -50,7 +50,7 @@ export default {
 	name: 'DeviceProximsSidebarTab',
 
 	components: {
-		Proxim,
+		ProximityAlerts,
 		PlusIcon,
 		NcButton,
 	},
@@ -60,14 +60,18 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		session: {
 			type: Object,
 			required: true,
 		},
+
+		/*
 		settings: {
 			type: Object,
 			required: true,
 		},
+		*/
 	},
 
 	data() {
@@ -104,6 +108,7 @@ export default {
 		onCreate() {
 			this.creatingProxim = true
 		},
+
 		onSaveNew(proxim) {
 			console.debug('create proxim', proxim)
 			emit('create-proxim', {
@@ -113,6 +118,7 @@ export default {
 			})
 			this.creatingProxim = false
 		},
+
 		onSave(proxim) {
 			console.debug('save proxim', proxim)
 			emit('save-proxim', {
@@ -121,6 +127,7 @@ export default {
 				proxim,
 			})
 		},
+
 		onDelete(proxim) {
 			emit('delete-proxim', {
 				deviceId: this.device.id,
