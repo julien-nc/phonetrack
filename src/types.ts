@@ -12,3 +12,10 @@ export interface TileServer {
 	max_zoom: number | null
 	attribution: string | null
 }
+
+export interface AdminConfig {
+	pointQuota: number | string
+	maptiler_api_key: string
+	proxy_osm: boolean
+	extra_tile_servers: TileServer[]
+}

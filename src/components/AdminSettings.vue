@@ -95,7 +95,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
 import { delay } from '../utils.js'
-import type { TileServer } from '../types.ts'
+import type { TileServer, AdminConfig } from '../types.ts'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { confirmPassword } from '@nextcloud/password-confirmation'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -124,7 +124,12 @@ export default {
 
 	data() {
 		return {
-			state: loadState('phonetrack', 'admin-config', {}),
+			state: loadState<AdminConfig>('phonetrack', 'admin-config', {
+				pointQuota: 0,
+				maptiler_api_key: '',
+				proxy_osm: false,
+				extra_tile_servers: [],
+			}),
 			mainHintHtml: t(
 				'phonetrack',
 				'You can create an API key on {maptilerLink}',
@@ -154,12 +159,12 @@ export default {
 	},
 
 	methods: {
-		onCheckboxChanged(newValue: boolean, key: string): void {
+		onCheckboxChanged(newValue: boolean, key: 'proxy_osm'): void {
 			this.state[key] = newValue
 			this.saveOptions({ [key]: this.state[key] ? '1' : '0' }, false)
 		},
 
-		onQuotaUpdate: debounce(function(this) {
+		onQuotaUpdate: debounce(function(this: any) {
 			this.saveOptions({
 				pointQuota: parseInt(this.state.pointQuota) || 0,
 			}, false)

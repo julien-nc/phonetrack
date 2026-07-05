@@ -32,4 +32,12 @@ declare module '@vue/runtime-core' {
 	}
 }
 
+declare module '@nextcloud/event-bus' {
+	interface NextcloudEvents {
+		'tile-server-deleted': number
+		'tile-server-added': import('./types').TileServer
+		'tile-server-edited': { ts: import('./types').TileServer; isAdminTileServer: boolean }
+	}
+}
+
 export {}
