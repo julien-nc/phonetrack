@@ -43,7 +43,7 @@
 							<i class="fa fa-plus-circle" aria-hidden="true"></i>
 							<?php p($l->t('Create session')); ?>
 						</button>
-						<a href="<?php p($_['vue_index_url']); ?>">
+						<a href="<?php p($_['vue_index_url'] ?? ''); ?>">
 							<button id="goToNewInterface_">
 								<!-- switch when the new interface is feature-complete and stable -->
 								<!--i class="fa fa-wand-magic-sparkles" aria-hidden="true"></i-->
