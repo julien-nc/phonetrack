@@ -6,6 +6,7 @@
 	<div>
 		<NcButton v-if="!open"
 			:title="buttonText"
+			:aria-label="buttonText"
 			:style="{
 				'--button-size': '40px',
 				'--border-radius-element': '4px',
@@ -58,7 +59,7 @@ export default {
 	computed: {
 		buttonText() {
 			if (this.modelValue === null) {
-				return ''
+				return t('phonetrack', 'Select tile server')
 			}
 			return this.modelValue.title
 		},
