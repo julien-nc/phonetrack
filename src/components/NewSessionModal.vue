@@ -47,6 +47,8 @@ export default {
 	props: {
 	},
 
+	emits: ['close'],
+
 	data() {
 		return {
 			newSessionName: '',

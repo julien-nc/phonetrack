@@ -119,6 +119,8 @@ export default {
 		},
 	},
 
+	emits: ['close'],
+
 	data() {
 		return {
 			myPoint: this.getValuesFromPoint(),

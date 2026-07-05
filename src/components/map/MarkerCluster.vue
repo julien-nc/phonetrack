@@ -45,6 +45,8 @@ export default {
 		},
 	},
 
+	emits: ['track-marker-hover-in', 'track-marker-hover-out'],
+
 	data() {
 		return {
 			ready: false,

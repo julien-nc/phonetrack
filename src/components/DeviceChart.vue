@@ -306,7 +306,6 @@ export default {
 						display: this.chartYScale === 'speed',
 						ticks: {
 							// display: false,
-							// eslint-disable-next-line
 							callback: function(value, index, ticks) {
 								return mpsToSpeed(value, that.settings.distance_unit)
 							},
@@ -318,7 +317,6 @@ export default {
 						display: this.chartYScale === 'accuracy',
 						ticks: {
 							// display: false,
-							// eslint-disable-next-line
 							callback: function(value, index, ticks) {
 								return metersToElevation(value, that.settings.distance_unit)
 							},
@@ -330,7 +328,6 @@ export default {
 						display: this.chartYScale === 'batterylevel',
 						ticks: {
 							// display: false,
-							// eslint-disable-next-line
 							callback: function(value, index, ticks) {
 								return value + ' %'
 							},
@@ -340,7 +337,6 @@ export default {
 					x: {
 						ticks: {
 							// display: false,
-							// eslint-disable-next-line
 							callback: function(value, index, ticks) {
 								if (that.xAxis === 'time' && firstValidTimestamp && that.dataLabels.timestamps[index]) {
 									return formatDuration(that.dataLabels.timestamps[index] - firstValidTimestamp)

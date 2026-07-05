@@ -28,6 +28,7 @@ import hotlinePluginImport from 'leaflet-hotline'
 import Countdown from 'ds-countdown/lib/countdown.bundle.js'
 import moment from '@nextcloud/moment'
 import axios, { isCancel } from '@nextcloud/axios'
+import { getDialogBuilder, getFilePickerBuilder } from '@nextcloud/dialogs'
 
 import { generateUrl, imagePath } from '@nextcloud/router'
 
@@ -5222,16 +5223,20 @@ if (typeof hotlinePlugin === 'function') {
 		$('body').on('click', '.removeSession', function() {
 			const token = $(this).parent().parent().attr('token')
 			const sessionname = getSessionName(token)
-			OC.dialogs.confirm(
-				t('phonetrack', 'Are you sure you want to delete the session {session} ?', { session: sessionname }),
-				t('phonetrack', 'Confirm session deletion'),
-				(result) => {
-					if (result) {
-						deleteSession(token)
-					}
-				},
-				true,
-			)
+			getDialogBuilder(t('phonetrack', 'Confirm session deletion'))
+				.setText(t('phonetrack', 'Are you sure you want to delete the session {session} ?', { session: sessionname }))
+				.setSeverity('warning')
+				.addButton({
+					label: t('phonetrack', 'Delete'),
+					variant: 'warning',
+					callback: () => deleteSession(token),
+				})
+				.addButton({
+					label: t('phonetrack', 'Cancel'),
+					callback: () => {},
+				})
+				.build()
+				.show()
 		})
 
 		$('body').on('click', '#refreshButton', function() {
@@ -5278,16 +5283,27 @@ if (typeof hotlinePlugin === 'function') {
 		})
 
 		$('#autoexportpath').focus(function() {
-			OC.dialogs.filepicker(
-				t('phonetrack', 'Choose auto export target path'),
-				function(targetPath) {
-					$('#autoexportpath').val(targetPath)
-					$('#autoexportpath').change()
-				},
-				false,
-				'httpd/unix-directory',
-				true,
-			)
+			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to write auto export files'))
+				.setMultiSelect(false)
+				.addMimeTypeFilter('httpd/unix-directory')
+				.allowDirectories()
+				// .startAt(this.outputDir)
+				.addButton({
+					label: t('phonetrack', 'Pick current directory'),
+					variant: 'primary',
+					callback: (nodes) => {
+						const node = nodes[0]
+						let path = node.path
+						if (path === '') {
+							path = '/'
+						}
+						path = path.replace(/^\/+/, '/')
+						$('#autoexportpath').val(path)
+						$('#autoexportpath').change()
+					},
+				})
+				.build()
+			picker.pick()
 		})
 
 		$('body').on('input', '#linewidth', function() {
@@ -5796,16 +5812,20 @@ if (typeof hotlinePlugin === 'function') {
 			const token = $(this).attr('token')
 			const deviceid = $(this).attr('device')
 			const devicename = getDeviceName(token, deviceid)
-			OC.dialogs.confirm(
-				t('phonetrack', 'Are you sure you want to delete the device {device}?', { device: devicename }),
-				t('phonetrack', 'Confirm device deletion'),
-				(result) => {
-					if (result) {
-						deleteDevice(token, deviceid)
-					}
-				},
-				true,
-			)
+			getDialogBuilder(t('phonetrack', 'Confirm device deletion'))
+				.setText(t('phonetrack', 'Are you sure you want to delete the device {device}?', { device: devicename }))
+				.setSeverity('warning')
+				.addButton({
+					label: t('phonetrack', 'Delete'),
+					variant: 'warning',
+					callback: () => deleteDevice(token, deviceid),
+				})
+				.addButton({
+					label: t('phonetrack', 'Cancel'),
+					callback: () => {},
+				})
+				.build()
+				.show()
 		})
 
 		$('body').on('click', '.editsessionbutton', function() {

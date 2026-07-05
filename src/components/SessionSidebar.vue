@@ -40,7 +40,6 @@
 				<CogOutlineIcon :size="20" />
 			</template>
 			<SessionSettingsSidebarTab
-				ref="sessionDetailsTab"
 				:session="session"
 				:settings="settings" />
 		</NcAppSidebarTab>
@@ -107,6 +106,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['update:active', 'close'],
 
 	data() {
 		return {

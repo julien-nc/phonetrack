@@ -42,6 +42,8 @@ export default {
 		*/
 	},
 
+	emits: ['picture-hover-in', 'picture-hover-out'],
+
 	data() {
 		return {
 			ready: false,

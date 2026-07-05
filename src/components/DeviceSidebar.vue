@@ -152,15 +152,15 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-		}
-	},
-
 	emits: [
 		'update:active',
 		'close',
 	],
+
+	data() {
+		return {
+		}
+	},
 
 	computed: {
 		pageIsPublic() {

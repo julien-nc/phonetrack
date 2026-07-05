@@ -13,7 +13,6 @@
 			@update:modelValue="onSelectSharee" />
 		<ul v-if="isSessionOwnedByCurrentUser"
 			id="publicShareList"
-			ref="publicShareList"
 			class="publicShareList">
 			<li v-if="publicShares.length === 0"
 				class="add-public-link-line">

@@ -150,6 +150,8 @@ export default {
 		},
 	},
 
+	emits: ['submit'],
+
 	data() {
 		return {
 			TS_VECTOR,

@@ -126,7 +126,7 @@ import PhonetrackIcon from './components/icons/PhonetrackIcon.vue'
 import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
-import { showError, showSuccess, showUndo, showWarning } from '@nextcloud/dialogs'
+import { showError, showSuccess, showUndo, showWarning, getDialogBuilder } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import moment from '@nextcloud/moment'
@@ -577,16 +577,20 @@ export default {
 		},
 
 		onDeleteSession({ sessionId, sessionName }) {
-			OC.dialogs.confirm(
-				t('phonetrack', 'Are you sure you want to delete the session {sessionName} ?', { sessionName }),
-				t('phonetrack', 'Confirm session deletion'),
-				(result) => {
-					if (result) {
-						this.deleteSession(sessionId)
-					}
-				},
-				true,
-			)
+			const dialog = getDialogBuilder(t('phonetrack', 'Confirm session deletion'))
+				.setText(t('phonetrack', 'Are you sure you want to delete the session {sessionName} ?', { sessionName }))
+				.setSeverity('warning')
+				.addButton({
+					label: t('phonetrack', 'Delete'),
+					variant: 'warning',
+					callback: () => this.deleteSession(sessionId),
+				})
+				.addButton({
+					label: t('phonetrack', 'Cancel'),
+					callback: () => {},
+				})
+				.build()
+				.show()
 		},
 
 		deleteSession(sessionId) {

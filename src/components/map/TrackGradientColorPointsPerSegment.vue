@@ -66,7 +66,6 @@ export default {
 			default: true,
 		},
 
-		// eslint-disable-next-line
 		arrows: {
 			type: Boolean,
 			default: true,

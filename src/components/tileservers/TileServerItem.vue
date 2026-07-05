@@ -98,6 +98,8 @@ export default {
 		},
 	},
 
+	emits: ['edit', 'delete'],
+
 	data() {
 		return {
 			TS_VECTOR,

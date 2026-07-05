@@ -102,6 +102,8 @@ export default {
 		},
 	},
 
+	emits: ['update:model-value'],
+
 	data() {
 		return {
 			constants,

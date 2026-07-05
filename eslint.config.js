@@ -26,6 +26,8 @@ export default [
 			'vue/no-boolean-default': 'off',
 			'@typescript-eslint/no-explicit-any': 'off',
 			'vue/new-line-between-multi-line-property': 'off',
+			'@stylistic/member-delimiter-style': 'off',
+			'vue/no-unused-properties': 'off',
 		},
 	},
 	{
