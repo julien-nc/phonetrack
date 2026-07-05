@@ -5282,7 +5282,7 @@ if (typeof hotlinePlugin === 'function') {
 			}
 		})
 
-		$('#autoexportpath').focus(function() {
+		$('#autoexportpath').click(function() {
 			const picker = getFilePickerBuilder(t('phonetrack', 'Choose where to write auto export files'))
 				.setMultiSelect(false)
 				.addMimeTypeFilter('httpd/unix-directory')
@@ -5472,15 +5472,25 @@ if (typeof hotlinePlugin === 'function') {
 			const name = $(this).parent().parent().parent().find('.sessionBar .sessionName').text()
 			const token = $(this).parent().parent().parent().attr('token')
 			const filename = $(this).parent().find('input[role=exportname]').val().replace('.gpx', '') + '.gpx'
-			OC.dialogs.filepicker(
-				t('phonetrack', 'Select storage location for \'{fname}\'', { fname: filename }),
-				function(targetPath) {
-					saveAction(name, token, targetPath, filename)
-				},
-				false,
-				'httpd/unix-directory',
-				true,
-			)
+			const picker = getFilePickerBuilder(t('phonetrack', 'Select storage location for \'{fname}\'', { fname: filename }))
+				.setMultiSelect(false)
+				.addMimeTypeFilter('httpd/unix-directory')
+				.allowDirectories()
+				.addButton({
+					label: t('phonetrack', 'Export in current directory'),
+					variant: 'primary',
+					callback: (nodes) => {
+						const node = nodes[0]
+						let path = node.path
+						if (path === '') {
+							path = '/'
+						}
+						path = path.replace(/^\/+/, '/')
+						saveAction(name, token, path, filename)
+					},
+				})
+				.build()
+			picker.pick()
 		})
 
 		$('body').on('click', 'button.zoomsession', function() {
@@ -6082,15 +6092,24 @@ if (typeof hotlinePlugin === 'function') {
 		})
 
 		$('#importsession').click(function() {
-			OC.dialogs.filepicker(
-				t('phonetrack', 'Import gpx/kml/json session file'),
-				function(targetPath) {
-					importSession(targetPath)
-				},
-				false,
-				['application/gpx+xml', 'application/json', 'application/vnd.google-earth.kml+xml'],
-				true,
-			)
+			const picker = getFilePickerBuilder(t('phonetrack', 'Import gpx/kml/json session file'))
+				.setMultiSelect(false)
+				.addMimeTypeFilter('application/gpx+xml')
+				.addMimeTypeFilter('application/json')
+				.addMimeTypeFilter('application/vnd.google-earth.kml+xml')
+				.addButton({
+					label: t('phonetrack', 'Import'),
+					variant: 'primary',
+					callback: (nodes) => {
+						// useless callback, pick's promise resolves on button click
+						console.debug('nodes', nodes)
+					},
+				})
+				.build()
+			picker.pick()
+				.then(async (path) => {
+					importSession(path)
+				})
 		})
 
 		$('#applyfilters').click(function() {
