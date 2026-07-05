@@ -28,7 +28,7 @@ import hotlinePluginImport from 'leaflet-hotline'
 import Countdown from 'ds-countdown/lib/countdown.bundle.js'
 import moment from '@nextcloud/moment'
 import axios, { isCancel } from '@nextcloud/axios'
-import { getDialogBuilder, getFilePickerBuilder } from '@nextcloud/dialogs'
+import { getDialogBuilder, getFilePickerBuilder, showMessage } from '@nextcloud/dialogs'
 
 import { generateUrl, imagePath } from '@nextcloud/router'
 
@@ -41,7 +41,7 @@ if (typeof hotlinePlugin === 'function') {
 	hotlinePlugin(L)
 }
 
-(function($, OC) {
+(function($) {
 	/// ///////////// VAR DEFINITION /////////////////////
 
 	const colorCodeBright = [
@@ -588,7 +588,7 @@ if (typeof hotlinePlugin === 'function') {
 	function enterMovePointMode() {
 		$('.leaflet-container').css('cursor', 'crosshair')
 		phonetrack.map.on('click', movePoint)
-		OC.Notification.showTemporary(t('phonetrack', 'Click on the map to move the point, press ESC to cancel'))
+		showMessage(t('phonetrack', 'Click on the map to move the point, press ESC to cancel'))
 	}
 
 	function leaveMovePointMode() {
@@ -835,13 +835,13 @@ if (typeof hotlinePlugin === 'function') {
 		const sversion = $('#' + type + 'version').val() || undefined
 		const slayers = $('#' + type + 'layers').val() || undefined
 		if (sname === '' || surl === '') {
-			OC.Notification.showTemporary(t('phonetrack', 'Server name or server address should not be empty'))
-			OC.Notification.showTemporary(t('phonetrack', 'Impossible to add tile server'))
+			showMessage(t('phonetrack', 'Server name or server address should not be empty'))
+			showMessage(t('phonetrack', 'Impossible to add tile server'))
 			return
 		}
 		if ($('#' + type + 'serverlist ul li[servername="' + sname + '"]').length > 0) {
-			OC.Notification.showTemporary(t('phonetrack', 'A server with this name already exists'))
-			OC.Notification.showTemporary(t('phonetrack', 'Impossible to add tile server'))
+			showMessage(t('phonetrack', 'A server with this name already exists'))
+			showMessage(t('phonetrack', 'Impossible to add tile server'))
 			return
 		}
 		$('#' + type + 'servername').val('')
@@ -912,13 +912,13 @@ if (typeof hotlinePlugin === 'function') {
 					phonetrack.controlLayers.addOverlay(newlayer, sname)
 					phonetrack.overlayLayers[sname] = newlayer
 				}
-				OC.Notification.showTemporary(t('phonetrack', 'Tile server "{ts}" has been added', { ts: sname }))
+				showMessage(t('phonetrack', 'Tile server "{ts}" has been added', { ts: sname }))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to add tile server "{ts}"', { ts: sname }))
+				showMessage(t('phonetrack', 'Failed to add tile server "{ts}"', { ts: sname }))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add tile server'))
+			showMessage(t('phonetrack', 'Failed to contact server to add tile server'))
 		})
 	}
 
@@ -946,13 +946,13 @@ if (typeof hotlinePlugin === 'function') {
 					phonetrack.controlLayers.removeLayer(phonetrack.overlayLayers[sname])
 					delete phonetrack.overlayLayers[sname]
 				}
-				OC.Notification.showTemporary(t('phonetrack', 'Tile server "{ts}" has been deleted', { ts: sname }))
+				showMessage(t('phonetrack', 'Tile server "{ts}" has been deleted', { ts: sname }))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete tile server "{ts}"', { ts: sname }))
+				showMessage(t('phonetrack', 'Failed to delete tile server "{ts}"', { ts: sname }))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete tile server'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete tile server'))
 		})
 	}
 
@@ -1022,8 +1022,8 @@ if (typeof hotlinePlugin === 'function') {
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to restore options values'))
-			OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
+			showMessage(t('phonetrack', 'Failed to contact server to restore options values'))
+			showMessage(t('phonetrack', 'Reload this page'))
 		})
 	}
 
@@ -1157,8 +1157,8 @@ if (typeof hotlinePlugin === 'function') {
 				}
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to save options values'))
-				OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
+				showMessage(t('phonetrack', 'Failed to contact server to save options values'))
+				showMessage(t('phonetrack', 'Reload this page'))
 			})
 		}
 	}
@@ -1189,8 +1189,8 @@ if (typeof hotlinePlugin === 'function') {
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to save filters bookmark'))
-			OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
+			showMessage(t('phonetrack', 'Failed to contact server to save filters bookmark'))
+			showMessage(t('phonetrack', 'Reload this page'))
 		})
 	}
 
@@ -1223,7 +1223,7 @@ if (typeof hotlinePlugin === 'function') {
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete filters bookmark'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete filters bookmark'))
 		})
 	}
 
@@ -1255,7 +1255,7 @@ if (typeof hotlinePlugin === 'function') {
 		const sessionName = $('#sessionnameinput').val()
 		$('#sessionnameinput').val('')
 		if (!sessionName) {
-			OC.Notification.showTemporary(t('phonetrack', 'Session name should not be empty'))
+			showMessage(t('phonetrack', 'Session name should not be empty'))
 			return
 		}
 		const req = {
@@ -1266,11 +1266,11 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				addSession(response.data.token, sessionName, response.data.publicviewtoken, 1, [])
 			} else if (response.data.done === 2) {
-				OC.Notification.showTemporary(t('phonetrack', 'Session name already used'))
+				showMessage(t('phonetrack', 'Session name already used'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to create session'))
+			showMessage(t('phonetrack', 'Failed to contact server to create session'))
 		})
 	}
 
@@ -1720,13 +1720,13 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				removeSession(div)
 			} else if (response.data.done === 2) {
-				OC.Notification.showTemporary(t('phonetrack', 'The session you want to delete does not exist'))
+				showMessage(t('phonetrack', 'The session you want to delete does not exist'))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete session'))
+				showMessage(t('phonetrack', 'Failed to delete session'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete session'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete session'))
 		})
 	}
 
@@ -1741,13 +1741,13 @@ if (typeof hotlinePlugin === 'function') {
 			const devicename = getDeviceName(token, deviceid)
 			if (response.data.done === 1) {
 				removeDevice(token, deviceid)
-				OC.Notification.showTemporary(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', { d: devicename, s: sessionName }))
+				showMessage(t('phonetrack', 'Device \'{d}\' of session \'{s}\' has been deleted', { d: devicename, s: sessionName }))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', { d: devicename, s: sessionName }))
+				showMessage(t('phonetrack', 'Failed to delete device \'{d}\' of session \'{s}\'', { d: devicename, s: sessionName }))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete device'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete device'))
 		})
 	}
 
@@ -1798,11 +1798,11 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				renameSessionSuccess(token, oldname, newname)
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Impossible to rename session') + ' ' + oldname)
+				showMessage(t('phonetrack', 'Impossible to rename session') + ' ' + oldname)
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to rename session'))
+			showMessage(t('phonetrack', 'Failed to contact server to rename session'))
 		})
 	}
 
@@ -1843,11 +1843,11 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				renameDeviceSuccess(token, deviceid, oldname, newname)
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Impossible to rename device') + ' ' + escapeHtml(oldname))
+				showMessage(t('phonetrack', 'Impossible to rename device') + ' ' + escapeHtml(oldname))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to rename device'))
+			showMessage(t('phonetrack', 'Failed to contact server to rename device'))
 		})
 	}
 
@@ -1909,11 +1909,11 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				setDeviceAliasSuccess(token, deviceid, newalias)
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Impossible to set device alias for {n}'), { n: getDeviceName(token, deviceid) })
+				showMessage(t('phonetrack', 'Impossible to set device alias for {n}'), { n: getDeviceName(token, deviceid) })
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set device alias'))
+			showMessage(t('phonetrack', 'Failed to contact server to set device alias'))
 		})
 	}
 
@@ -1973,13 +1973,13 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				reaffectDeviceSessionSuccess(token, deviceid)
 			} else if (response.data.done === 3) {
-				OC.Notification.showTemporary(t('phonetrack', 'Device already exists in target session'))
+				showMessage(t('phonetrack', 'Device already exists in target session'))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Impossible to move device to another session'))
+				showMessage(t('phonetrack', 'Impossible to move device to another session'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to move device'))
+			showMessage(t('phonetrack', 'Failed to contact server to move device'))
 		})
 	}
 
@@ -2042,7 +2042,7 @@ if (typeof hotlinePlugin === 'function') {
 			refresh(false)
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get sessions'))
+			showMessage(t('phonetrack', 'Failed to contact server to get sessions'))
 		})
 	}
 
@@ -2100,7 +2100,7 @@ if (typeof hotlinePlugin === 'function') {
 					console.error(error)
 				}
 				// TODO check how to make it work when called from an ajax "done"
-				// OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to refresh sessions'))
+				// showMessage(t('phonetrack', 'Failed to contact server to refresh sessions'))
 			}).then(() => {
 				hideLoadingAnimation()
 			})
@@ -2719,13 +2719,13 @@ if (typeof hotlinePlugin === 'function') {
 			const url = generateUrl('/apps/phonetrack/setDeviceColor')
 			axios.post(url, req).then((response) => {
 				if (response.data.done === 1) {
-					OC.Notification.showTemporary(t('phonetrack', 'Device\'s color successfully changed'))
+					showMessage(t('phonetrack', 'Device\'s color successfully changed'))
 				} else {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to save device\'s color'))
+					showMessage(t('phonetrack', 'Failed to save device\'s color'))
 				}
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to change device\'s color'))
+				showMessage(t('phonetrack', 'Failed to contact server to change device\'s color'))
 			})
 		}
 	}
@@ -3383,11 +3383,11 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				updatePointMap(token, deviceid, pointid, lat, lon, alt, acc, sat, bat, timestamp, useragent, speed, bearing)
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'The point you want to edit does not exist or you\'re not allowed to edit it'))
+				showMessage(t('phonetrack', 'The point you want to edit does not exist or you\'re not allowed to edit it'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to edit point'))
+			showMessage(t('phonetrack', 'Failed to contact server to edit point'))
 		})
 	}
 
@@ -3492,11 +3492,11 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				deletePointsMap(s, d, pidlist)
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'The point you want to delete does not exist or you\'re not allowed to delete it'))
+				showMessage(t('phonetrack', 'The point you want to delete does not exist or you\'re not allowed to delete it'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete point'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete point'))
 		})
 	}
 
@@ -3590,13 +3590,13 @@ if (typeof hotlinePlugin === 'function') {
 					addPointMap(response.data.pointid, lat, lon, alt, acc, sat, bat, speed, bearing, timestamp, response.data.deviceid)
 				}
 			} else if (response.data.done === 2) {
-				OC.Notification.showTemporary(t('phonetrack', 'Impossible to add this point'))
+				showMessage(t('phonetrack', 'Impossible to add this point'))
 			} else if (response.data.done === 5) {
-				OC.Notification.showTemporary(t('phonetrack', 'User quota was reached'))
+				showMessage(t('phonetrack', 'User quota was reached'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add point'))
+			showMessage(t('phonetrack', 'Failed to contact server to add point'))
 		})
 	}
 
@@ -3978,7 +3978,7 @@ if (typeof hotlinePlugin === 'function') {
 				paddingBottomRight: [50, 50],
 			})
 		} else {
-			OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is no point to zoom on for this session'))
+			showMessage(t('phonetrack', 'Impossible to zoom, there is no point to zoom on for this session'))
 		}
 	}
 
@@ -4012,7 +4012,7 @@ if (typeof hotlinePlugin === 'function') {
 
 	function importSession(path) {
 		if (!endsWith(path, '.gpx') && !endsWith(path, '.kml') && !endsWith(path, '.json')) {
-			OC.Notification.showTemporary(t('phonetrack', 'File extension must be \'.gpx\', \'.kml\' or \'.json\' to be imported'))
+			showMessage(t('phonetrack', 'File extension must be \'.gpx\', \'.kml\' or \'.json\' to be imported'))
 		} else {
 			showLoadingAnimation()
 			const req = {
@@ -4024,23 +4024,23 @@ if (typeof hotlinePlugin === 'function') {
 					// TODO fix that
 					addSession(response.data.token, response.data.sessionName, response.data.publicviewtoken, 1, response.data.devices)
 				} else if (response.data.done === 2) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to create imported session'))
+					showMessage(t('phonetrack', 'Failed to create imported session'))
 				} else if (response.data.done === 3) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to import session') + '. '
+					showMessage(t('phonetrack', 'Failed to import session') + '. '
 						+ t('phonetrack', 'File is not readable'))
 				} else if (response.data.done === 4) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to import session') + '. '
+					showMessage(t('phonetrack', 'Failed to import session') + '. '
 						+ t('phonetrack', 'File does not exist'))
 				} else if (response.data.done === 5) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to import session') + '. '
+					showMessage(t('phonetrack', 'Failed to import session') + '. '
 						+ t('phonetrack', 'Malformed XML file'))
 				} else if (response.data.done === 6) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to import session') + '. '
+					showMessage(t('phonetrack', 'Failed to import session') + '. '
 						+ t('phonetrack', 'There is no device to import in submitted file'))
 				}
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to import session'))
+				showMessage(t('phonetrack', 'Failed to contact server to import session'))
 			}).then(() => {
 				hideLoadingAnimation()
 			})
@@ -4058,20 +4058,20 @@ if (typeof hotlinePlugin === 'function') {
 		axios.post(url, req).then((response) => {
 			if (response.data.done) {
 				if (response.data.warning === 0) {
-					OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in')
+					showMessage(t('phonetrack', 'Session successfully exported in')
 						+ ' ' + targetPath + '/' + filename)
 				} else if (response.data.warning === 1) {
-					OC.Notification.showTemporary(t('phonetrack', 'There is no point to export for this session'))
+					showMessage(t('phonetrack', 'There is no point to export for this session'))
 				} else if (response.data.warning === 2) {
-					OC.Notification.showTemporary(t('phonetrack', 'Session successfully exported in')
+					showMessage(t('phonetrack', 'Session successfully exported in')
 						+ ' ' + targetPath + '/' + filename + ', ' + t('phonetrack', 'but there was no point to export for some devices'))
 				}
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to export session'))
+				showMessage(t('phonetrack', 'Failed to export session'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to export session'))
+			showMessage(t('phonetrack', 'Failed to contact server to export session'))
 		}).then(() => {
 			hideLoadingAnimation()
 		})
@@ -4098,7 +4098,7 @@ if (typeof hotlinePlugin === 'function') {
 				// console.log(response)
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to log position'))
+				showMessage(t('phonetrack', 'Failed to contact server to log position'))
 			})
 		}
 	}
@@ -4181,7 +4181,7 @@ if (typeof hotlinePlugin === 'function') {
 
 			showDeviceElevation(s, d)
 		} else {
-			OC.Notification.showTemporary(t('phonetrack', 'Impossible to zoom, there is no point to zoom on for this device'))
+			showMessage(t('phonetrack', 'Impossible to zoom, there is no point to zoom on for this device'))
 		}
 	}
 
@@ -4292,13 +4292,13 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				addNameReservation(token, devicename, response.data.nametoken)
 			} else if (response.data.done === 2) {
-				OC.Notification.showTemporary(t('phonetrack', '\'{n}\' is already reserved', { n: devicename }))
+				showMessage(t('phonetrack', '\'{n}\' is already reserved', { n: devicename }))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to reserve \'{n}\'', { n: devicename }))
+				showMessage(t('phonetrack', 'Failed to reserve \'{n}\'', { n: devicename }))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to reserve device name'))
+			showMessage(t('phonetrack', 'Failed to contact server to reserve device name'))
 		})
 	}
 
@@ -4323,15 +4323,15 @@ if (typeof hotlinePlugin === 'function') {
 					li.remove()
 				})
 			} else if (response.data.done === 2) {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name')
+				showMessage(t('phonetrack', 'Failed to delete reserved name')
 					+ '. ' + t('phonetrack', 'This device does not exist'))
 			} else if (response.data.done === 3) {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete reserved name')
+				showMessage(t('phonetrack', 'Failed to delete reserved name')
 					+ '. ' + t('phonetrack', 'This device name is not reserved, please reload this page'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete reserved name'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete reserved name'))
 		})
 	}
 
@@ -4345,13 +4345,13 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				addUserShare(token, userId, userName)
 			} else if (response.data.done === 4) {
-				OC.Notification.showTemporary(t('phonetrack', 'User does not exist'))
+				showMessage(t('phonetrack', 'User does not exist'))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to add user share'))
+				showMessage(t('phonetrack', 'Failed to add user share'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add user share'))
+			showMessage(t('phonetrack', 'Failed to contact server to add user share'))
 		})
 	}
 
@@ -4380,11 +4380,11 @@ if (typeof hotlinePlugin === 'function') {
 					li.remove()
 				})
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete user share'))
+				showMessage(t('phonetrack', 'Failed to delete user share'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete user share'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete user share'))
 		})
 	}
 
@@ -4397,13 +4397,13 @@ if (typeof hotlinePlugin === 'function') {
 		const url = generateUrl('/apps/phonetrack/setPublicShareGeofencify')
 		axios.post(url, req).then((response) => {
 			if (response.data.done === 1) {
-				OC.Notification.showTemporary(t('phonetrack', 'Public share has been successfully modified'))
+				showMessage(t('phonetrack', 'Public share has been successfully modified'))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to modify public share'))
+				showMessage(t('phonetrack', 'Failed to modify public share'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to modify public share'))
+			showMessage(t('phonetrack', 'Failed to contact server to modify public share'))
 		})
 	}
 
@@ -4416,13 +4416,13 @@ if (typeof hotlinePlugin === 'function') {
 		const url = generateUrl('/apps/phonetrack/setPublicShareLastOnly')
 		axios.post(url, req).then((response) => {
 			if (response.data.done === 1) {
-				OC.Notification.showTemporary(t('phonetrack', 'Public share has been successfully modified'))
+				showMessage(t('phonetrack', 'Public share has been successfully modified'))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to modify public share'))
+				showMessage(t('phonetrack', 'Failed to modify public share'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to modify public share'))
+			showMessage(t('phonetrack', 'Failed to contact server to modify public share'))
 		})
 	}
 
@@ -4435,13 +4435,13 @@ if (typeof hotlinePlugin === 'function') {
 		const url = generateUrl('/apps/phonetrack/setPublicShareDevice')
 		axios.post(url, req).then((response) => {
 			if (response.data.done === 1) {
-				OC.Notification.showTemporary(t('phonetrack', 'Device name restriction has been successfully set'))
+				showMessage(t('phonetrack', 'Device name restriction has been successfully set'))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to set public share device name restriction'))
+				showMessage(t('phonetrack', 'Failed to set public share device name restriction'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set public share device name restriction'))
+			showMessage(t('phonetrack', 'Failed to contact server to set public share device name restriction'))
 		})
 	}
 
@@ -4471,14 +4471,14 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1 || response.data.done === 4) {
 				addGeoFence(token, device, fencename, response.data.fenceid, mapbounds, urlenter, urlleave, urlenterpost, urlleavepost, sendemail, emailaddr, sendnotif)
 				if (response.data.done === 4) {
-					OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofencing alerts.'))
+					showMessage(t('phonetrack', 'Warning : User email and server admin email must be set to receive geofencing alerts.'))
 				}
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to add geofencing zone'))
+				showMessage(t('phonetrack', 'Failed to add geofencing zone'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add geofencing zone'))
+			showMessage(t('phonetrack', 'Failed to contact server to add geofencing zone'))
 		})
 	}
 
@@ -4554,11 +4554,11 @@ if (typeof hotlinePlugin === 'function') {
 					li.remove()
 				})
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete geofencing zone'))
+				showMessage(t('phonetrack', 'Failed to delete geofencing zone'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete geofencing zone'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete geofencing zone'))
 		})
 	}
 
@@ -4583,17 +4583,17 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1 || response.data.done === 4) {
 				addProxim(token, device, response.data.proximid, sname, dname, highlimit, lowlimit, urlclose, urlfar, urlclosepost, urlfarpost, sendemail, emailaddr, sendnotif)
 				if (response.data.done === 4) {
-					OC.Notification.showTemporary(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'))
+					showMessage(t('phonetrack', 'Warning : User email and server admin email must be set to receive proximity alerts.'))
 				}
 			} else if (response.data.done === 3 || response.data.done === 5) {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to add proximity alert'))
-				OC.Notification.showTemporary(t('phonetrack', 'Device or session does not exist'))
+				showMessage(t('phonetrack', 'Failed to add proximity alert'))
+				showMessage(t('phonetrack', 'Device or session does not exist'))
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to add proximity alert'))
+				showMessage(t('phonetrack', 'Failed to add proximity alert'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add proximity alert'))
+			showMessage(t('phonetrack', 'Failed to contact server to add proximity alert'))
 		})
 	}
 
@@ -4671,11 +4671,11 @@ if (typeof hotlinePlugin === 'function') {
 					li.remove()
 				})
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete proximity alert'))
+				showMessage(t('phonetrack', 'Failed to delete proximity alert'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete proximity alert'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete proximity alert'))
 		})
 	}
 
@@ -4688,11 +4688,11 @@ if (typeof hotlinePlugin === 'function') {
 			if (response.data.done === 1) {
 				addPublicSessionShare(token, response.data.sharetoken, response.data.filters)
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to add public share'))
+				showMessage(t('phonetrack', 'Failed to add public share'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to add public share'))
+			showMessage(t('phonetrack', 'Failed to contact server to add public share'))
 		})
 	}
 
@@ -4763,11 +4763,11 @@ if (typeof hotlinePlugin === 'function') {
 					li.remove()
 				})
 			} else {
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to delete public share'))
+				showMessage(t('phonetrack', 'Failed to delete public share'))
 			}
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to delete public share'))
+			showMessage(t('phonetrack', 'Failed to contact server to delete public share'))
 		})
 	}
 
@@ -4805,7 +4805,7 @@ if (typeof hotlinePlugin === 'function') {
 			*/
 		}).catch((error) => {
 			console.error(error)
-			OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to get user list'))
+			showMessage(t('phonetrack', 'Failed to contact server to get user list'))
 		})
 	}
 
@@ -5873,8 +5873,8 @@ if (typeof hotlinePlugin === 'function') {
 				icon.toggleClass('fa-lock').toggleClass('fa-lock-open')
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to change session lock status'))
-				OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
+				showMessage(t('phonetrack', 'Failed to change session lock status'))
+				showMessage(t('phonetrack', 'Reload this page'))
 			})
 		})
 
@@ -5895,12 +5895,12 @@ if (typeof hotlinePlugin === 'function') {
 				if (response.data.done === 1) {
 					// nothing
 				} else if (response.data.done === 2) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to toggle session public status, session does not exist'))
+					showMessage(t('phonetrack', 'Failed to toggle session public status, session does not exist'))
 				}
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to toggle session public status'))
-				OC.Notification.showTemporary(t('phonetrack', 'Reload this page'))
+				showMessage(t('phonetrack', 'Failed to contact server to toggle session public status'))
+				showMessage(t('phonetrack', 'Reload this page'))
 			})
 			if (pub) {
 				icon.addClass('fa-toggle-on').removeClass('fa-toggle-off')
@@ -5960,11 +5960,11 @@ if (typeof hotlinePlugin === 'function') {
 					setDeviceCss(s, d, phonetrack.sessionColors[s + d], opacity, shape)
 					$('.session[token=' + s + '] ul.devicelist li[device=' + d + '] .devicecolor').removeClass('rdevicecolor').removeClass('sdevicecolor').removeClass('tdevicecolor').addClass(shape + 'devicecolor')
 				} else if (response.data.done === 2) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to set device shape'))
+					showMessage(t('phonetrack', 'Failed to set device shape'))
 				}
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set device shape'))
+				showMessage(t('phonetrack', 'Failed to contact server to set device shape'))
 			})
 		})
 
@@ -5980,12 +5980,12 @@ if (typeof hotlinePlugin === 'function') {
 				if (response.data.done === 1) {
 					// nothing
 				} else if (response.data.done === 2) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to set session auto export value')
+					showMessage(t('phonetrack', 'Failed to set session auto export value')
 						+ '. ' + t('phonetrack', 'session does not exist'))
 				}
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set session auto export value'))
+				showMessage(t('phonetrack', 'Failed to contact server to set session auto export value'))
 			})
 		})
 
@@ -6001,12 +6001,12 @@ if (typeof hotlinePlugin === 'function') {
 				if (response.data.done === 1) {
 					// nothing
 				} else if (response.data.done === 2) {
-					OC.Notification.showTemporary(t('phonetrack', 'Failed to set session auto purge value')
+					showMessage(t('phonetrack', 'Failed to set session auto purge value')
 						+ '. ' + t('phonetrack', 'session does not exist'))
 				}
 			}).catch((error) => {
 				console.error(error)
-				OC.Notification.showTemporary(t('phonetrack', 'Failed to contact server to set session auto purge value'))
+				showMessage(t('phonetrack', 'Failed to contact server to set session auto purge value'))
 			})
 		})
 
