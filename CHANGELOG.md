@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.0 – 2026-07-25
+
+### Changed
+
+- Migrate to maplibre-gl 6 @julien-nc
+- Migrate to REUSE for licensing compliance @julien-nc
+- Upgrade ESLint, fix the related errors and warnings, fix type checks, and install `@types/node` as a dev dependency @julien-nc
+- Drop PHP 5.2 from psalm tests and bump PHP to 8.3 in the php-cs CI action @julien-nc
+- Update npm and composer packages @julien-nc
+- Polish the device and session export, uninstall unused packages, and remove the deprecated `FilePickerType` from `@nextcloud/dialogs` @julien-nc
+
+### Fixed
+
+- Fix toast messages in the old interface @julien-nc
+- Hide the activity settings when PhoneTrack is disabled for the current user (limit app to groups) @julien-nc
+- Fix a small style issue in the device/session details sidebar @julien-nc
+- Fix the warning about a missing `vue_index_url` in the Nextcloud logs by falling back to an empty string @andreassommer [#157](https://github.com/julien-nc/phonetrack/pull/157)
+- Fix the inconsistent and potentially confusing button title display in `TileServerControl`, and add an `aria-label` for better screen reader support @tomaioo [#154](https://github.com/julien-nc/phonetrack/pull/154)
+
 ## 1.2.0 – 2026-04-26
 
 ### Changed
