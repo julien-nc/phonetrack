@@ -31,6 +31,13 @@ export default createAppConfig({
         build: {
 			cssCodeSplit: true,
 		},
+		worker: {
+			rollupOptions: {
+				output: {
+					entryFileNames: 'js/[name]-[hash].js',
+				},
+			},
+		},
 	},
 	inlineCSS: { relativeCSSInjection: true },
 	minify: isProduction,

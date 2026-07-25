@@ -75,7 +75,7 @@
 		"lodash": "^4.17.21",
 		"mapbox-gl": "2.4.1",
 		"mapbox-gl-leaflet": "^0.0.15",
-		"maplibre-gl": "^5.6.0",
+		"maplibre-gl": "^6.0.0",
 		"vue": "^3.5.17",
 		"vue-chartjs": "^5.3.2",
 		"vue-material-design-icons": "^5.3.1"

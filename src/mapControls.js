@@ -96,9 +96,9 @@ export class TileControl {
 			const styleKey = data.detail.key
 			const style = this.options.styles[styleKey]
 			if (style.uri) {
-				this.map.setStyle(style.uri, { transformStyle })
+				this.map.setStyle(style.uri, { diff: false, transformStyle })
 			} else {
-				this.map.setStyle(style, { transformStyle })
+				this.map.setStyle(style, { diff: false, transformStyle })
 			}
 			this.emit('changeStyle', styleKey)
 		})

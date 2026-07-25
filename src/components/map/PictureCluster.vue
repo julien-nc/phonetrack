@@ -181,7 +181,7 @@ export default {
 		},
 
 		onMapRender(e) {
-			if (this.map.isSourceLoaded(this.stringId)) {
+			if (this.map.getSource(this.stringId) && this.map.isSourceLoaded(this.stringId)) {
 				this.updateMarkers()
 			}
 		},
@@ -416,20 +416,16 @@ export default {
 			this.$emit('picture-hover-out', { pictureId: picture.id, dirId: picture.directory_id })
 		},
 
-		onClusterClick(clusterId, clusterCoords) {
-			this.map.getSource(this.stringId).getClusterExpansionZoom(
-				clusterId,
-				(err, zoom) => {
-					if (err) {
-						return
-					}
-
-					this.map.easeTo({
-						center: clusterCoords,
-						zoom,
-					})
-				},
-			)
+		async onClusterClick(clusterId, clusterCoords) {
+			try {
+				const zoom = await this.map.getSource(this.stringId).getClusterExpansionZoom(clusterId)
+				this.map.easeTo({
+					center: clusterCoords,
+					zoom,
+				})
+			} catch (err) {
+				console.error(err)
+			}
 		},
 
 		onClusterMouseEnter(e) {

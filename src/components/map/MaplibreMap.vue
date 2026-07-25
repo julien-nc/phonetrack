@@ -20,19 +20,23 @@
 </template>
 
 <script>
-import maplibregl, {
+import * as maplibregl from 'maplibre-gl'
+import {
 	FullscreenControl,
 	GeolocateControl,
 	Map,
 	NavigationControl,
 	ScaleControl,
+	setWorkerUrl,
 } from 'maplibre-gl'
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder'
 import '@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css'
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { generateUrl, imagePath } from '@nextcloud/router'
 import debounce from 'debounce'
+import { markRaw } from 'vue'
 
 import {
 	getExtraTileServers,
@@ -275,7 +279,8 @@ export default {
 					}
 				},
 			}
-			this.map = new Map(mapOptions)
+			setWorkerUrl(workerUrl)
+			this.map = markRaw(new Map(mapOptions))
 
 			// this is set when loading public pages
 			if (this.settings.initialBounds) {
