@@ -233,6 +233,32 @@ class PageControllerTest extends TestCase {
 		$this->assertEquals('import-ok', $session->getName());
 	}
 
+	public function testImportGpxSessionWithoutUseragent(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::USER_1);
+		// minimal GPX with no <extensions>/<useragent> on the trkpts
+		// the useragent column is NOT NULL in the schema, so the import
+		// must substitute a non-null default rather than writing NULL
+		$txt = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1">
+ <trk>
+  <name>no useragent</name>
+  <trkseg>
+   <trkpt lat="47.5" lon="-2.9">
+    <time>2018-09-13T10:29:41Z</time>
+   </trkpt>
+  </trkseg>
+ </trk>
+</gpx>';
+		$userFolder->newFile('import-no-ua.gpx')->putContent($txt);
+
+		$response = $this->pageController->importSession('/import-no-ua.gpx');
+
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
+		$data = $response->getData();
+		$this->assertArrayHasKey('id', $data);
+		$this->assertEquals('import-no-ua', $data['name']);
+	}
+
 	public function testImportGpxSessionRollsBackOnFailure(): void {
 		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::USER_1);
 		// GPX with no <trk> element triggers "no_device_to_import" inside importGpx
