@@ -23,6 +23,7 @@ use OCA\PhoneTrack\Service\ToolsService;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -201,6 +202,73 @@ class PageControllerTest extends TestCase {
 
 		$data = $deleteResponse->getData();
 		$this->assertEquals('session_not_found', $data['error']);
+	}
+
+	public function testImportGpxSession(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::USER_1);
+		$txt = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1">
+ <trk>
+  <name>test track</name>
+  <trkseg>
+   <trkpt lat="47.5" lon="-2.9">
+    <time>2018-09-13T10:29:41Z</time>
+   </trkpt>
+   <trkpt lat="50.0" lon="11.9">
+    <time>2018-09-13T10:29:45Z</time>
+   </trkpt>
+  </trkseg>
+ </trk>
+</gpx>';
+		$userFolder->newFile('import-ok.gpx')->putContent($txt);
+
+		$response = $this->pageController->importSession('/import-ok.gpx');
+
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
+		$data = $response->getData();
+		$this->assertArrayHasKey('id', $data);
+		$this->assertEquals('import-ok', $data['name']);
+
+		$session = $this->sessionMapper->getUserSessionById(self::USER_1, $data['id']);
+		$this->assertEquals('import-ok', $session->getName());
+	}
+
+	public function testImportGpxSessionRollsBackOnFailure(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::USER_1);
+		// GPX with no <trk> element triggers "no_device_to_import" inside importGpx
+		$txt = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1">
+ <metadata>
+  <name>no tracks</name>
+ </metadata>
+</gpx>';
+		$userFolder->newFile('import-fail.gpx')->putContent($txt);
+
+		$response = $this->pageController->importSession('/import-fail.gpx');
+
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->assertEquals('no_device_to_import', $response->getData()['error']);
+
+		// session creation must have been rolled back, no orphan session
+		$sessions = $this->sessionMapper->findByUser(self::USER_1);
+		$this->assertCount(0, $sessions);
+	}
+
+	public function testImportGpxSessionReturnsFileNotFoundForMissingFile(): void {
+		$response = $this->pageController->importSession('/does-not-exist.gpx');
+
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->assertEquals('file_not_found', $response->getData()['error']);
+	}
+
+	public function testImportGpxSessionReturnsInvalidFormatForNonGpxFile(): void {
+		$userFolder = Server::get(IRootFolder::class)->getUserFolder(self::USER_1);
+		$userFolder->newFile('not-a-gpx.txt')->putContent('hello');
+
+		$response = $this->pageController->importSession('/not-a-gpx.txt');
+
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
+		$this->assertEquals('invalid_format', $response->getData()['error']);
 	}
 
 	private function deleteSessionsForUser(string $userId): void {

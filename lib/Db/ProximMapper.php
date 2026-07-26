@@ -79,12 +79,13 @@ class ProximMapper extends QBMapper {
 	public function deleteByDeviceId(int $deviceId): int {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->delete($this->getTableName());
-
-		$or = $qb->expr()->orx();
-		$or->add($qb->expr()->eq('deviceid1', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT)));
-		$or->add($qb->expr()->eq('deviceid2', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT)));
-		$qb->where($or);
+		$qb->delete($this->getTableName())
+			->where(
+				$qb->expr()->orX(
+					$qb->expr()->eq('deviceid1', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT)),
+					$qb->expr()->eq('deviceid2', $qb->createNamedParameter($deviceId, IQueryBuilder::PARAM_INT))
+				)
+			);
 
 		$nbDeleted = $qb->executeStatement();
 		return $nbDeleted;
