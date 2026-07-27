@@ -401,7 +401,7 @@ class PointMapper extends QBMapper {
 				$point[6] ? $this->db->quote($point[6]) : 'NULL',
 				$point[4] ? $this->db->quote($point[4]) : 'NULL',
 				$point[9] ? $this->db->quote($point[9]) : 'NULL',
-				$point[8] ? $this->db->quote($point[8]) : 'NULL',
+				$point[8] ? $this->db->quote($point[8]) : $this->db->quote(''),
 				$point[5] ? $this->db->quote($point[5]) : 'NULL',
 				$point[7] ? $this->db->quote($point[7]) : 'NULL',
 			]) . ')';

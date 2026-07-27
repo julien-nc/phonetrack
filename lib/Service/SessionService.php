@@ -1195,11 +1195,13 @@ class SessionService {
 		}
 		if (str_ends_with($file->getName(), '.gpx') || str_ends_with($file->getName(), '.GPX')) {
 			$sessionName = str_replace(['.gpx', '.GPX'], '', $file->getName());
-			$session = $this->createSession($userId, $sessionName);
+			$this->db->beginTransaction();
 			try {
+				$session = $this->createSession($userId, $sessionName);
 				$this->importGpxService->importGpx($file, $session->getId(), $session->getToken());
+				$this->db->commit();
 			} catch (\Exception|\Throwable $e) {
-				$this->deleteSession($session);
+				$this->db->rollBack();
 				throw $e;
 			}
 		} else {
