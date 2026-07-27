@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.2-nightly – 2026-07-27
+
+### Fixed
+
+- Fix GPX session import: wrap the import in a transaction so the rollback cleans up the created session and prevents dirty table reads, fix the deprecated empty `orX` call, and allow missing user agents in imported GPX files @julien-nc [#163](https://github.com/julien-nc/phonetrack/pull/163)
+
 ## 1.3.1 – 2026-07-25
 
 ### Changed
