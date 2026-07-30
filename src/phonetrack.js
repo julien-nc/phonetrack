@@ -11,7 +11,7 @@ import 'mapbox-gl/dist/mapbox-gl.js'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import 'mapbox-gl-leaflet/leaflet-mapbox-gl.js'
 import kjua from 'kjua/dist/kjua.min.js'
-import 'leaflet.locatecontrol/dist/L.Control.Locate.min.js'
+import { LocateControl } from 'leaflet.locatecontrol'
 import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 import '@raruto/leaflet-elevation/dist/leaflet-elevation.js'
 import '@raruto/leaflet-elevation/dist/leaflet-elevation.css'
@@ -428,7 +428,7 @@ if (typeof hotlinePlugin === 'function') {
 			.addTo(phonetrack.map)
 
 		L.control.mousePosition().addTo(phonetrack.map)
-		phonetrack.locateControl = L.control.locate({ setView: false, locateOptions: { enableHighAccuracy: true } })
+		phonetrack.locateControl = new LocateControl({ setView: false, locateOptions: { enableHighAccuracy: true } })
 		phonetrack.locateControl.addTo(phonetrack.map)
 		phonetrack.map.on('locationfound', locationFound)
 		if (OCA.Theming) {
