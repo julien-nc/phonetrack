@@ -6,7 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## 1.3.2-nightly – 2026-07-27
+## 1.3.2 – 2026-07-30
+
+### Changed
+
+- Update npm packages and migrate to TypeScript 6 @julien-nc
+- Update jQuery and replace the removed `$.parseJSON()` with `JSON.parse()` in the legacy UI @julien-nc
+- Update leaflet.locatecontrol @julien-nc
 
 ### Fixed
 
