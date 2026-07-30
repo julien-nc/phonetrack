@@ -59,7 +59,7 @@
 		"chartjs-plugin-zoom": "^2.2.0",
 		"debounce": "^3.0.0",
 		"ds-countdown": "^1.1.1",
-		"jquery": "^3.5.1",
+		"jquery": "^4.0.0",
 		"kjua": "^0.10.0",
 		"kjua-svg": "^1.13.1",
 		"leaflet": "^1.9.4",

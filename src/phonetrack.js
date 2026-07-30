@@ -983,7 +983,7 @@ if (typeof hotlinePlugin === 'function') {
 					} else if (k === 'tilelayer') {
 						phonetrack.restoredTileLayer = optionsValues[k]
 					} else if (k === 'activeSessions') {
-						phonetrack.sessionsFromSavedOptions = $.parseJSON(optionsValues[k])
+						phonetrack.sessionsFromSavedOptions = JSON.parse(optionsValues[k])
 					} else if (k === 'showsidebar') {
 						if (optionsValues[k] !== 'true') {
 							$('#sidebar').addClass('collapsed')
@@ -1237,7 +1237,7 @@ if (typeof hotlinePlugin === 'function') {
 
 		// apply
 		const filterstxt = elem.parent().find('.filterstxt').text()
-		const f = $.parseJSON(filterstxt)
+		const f = JSON.parse(filterstxt)
 		for (const id in f) {
 			$('#' + id).val(f[id])
 		}
@@ -4734,7 +4734,7 @@ if (typeof hotlinePlugin === 'function') {
 	}
 
 	function filtersToTxt(fstr) {
-		const fjson = $.parseJSON(fstr)
+		const fjson = JSON.parse(fstr)
 		let res = ''
 		let k
 		for (k in fjson) {
@@ -6713,7 +6713,7 @@ if (typeof hotlinePlugin === 'function') {
 			phonetrack.sharefilters = $('#sharefilters').text()
 			let filtDict = {}
 			if (phonetrack.sharefilters !== '') {
-				filtDict = $.parseJSON(phonetrack.sharefilters)
+				filtDict = JSON.parse(phonetrack.sharefilters)
 				if (filtDict === null || typeof filtDict === 'undefined') {
 					filtDict = {}
 				}
