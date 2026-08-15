@@ -55,6 +55,7 @@ class MapService {
 			// nominatim (not needed, we proxy requests through the server)
 			//->addAllowedConnectDomain('https://nominatim.openstreetmap.org')
 			// maplibre-gl
+			->addAllowedWorkerSrcDomain("'self'")
 			->addAllowedWorkerSrcDomain('blob:');
 
 		foreach ($extraTileServers as $ts) {
