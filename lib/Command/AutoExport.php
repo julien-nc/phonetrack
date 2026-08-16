@@ -26,7 +26,7 @@ class AutoExport extends Base {
 			->setDescription('Manually trigger the automatic export routine');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		foreach ($this->sessionService->cronAutoExport() as $message) {
 			$output->writeln($message);
 		}
