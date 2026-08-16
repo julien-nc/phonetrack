@@ -39,7 +39,7 @@ class Version010200Date20260416223500 extends SimpleMigrationStep {
 				$schemaChanged = true;
 			} else {
 				$column = $table->getColumn('line_enabled');
-				if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+				if ($column->getType() !== Type::getType(Types::INTEGER) || !$column->getUnsigned()) {
 					$column->setType(Type::getType(Types::INTEGER));
 					$column->setUnsigned(true);
 					$schemaChanged = true;
@@ -55,7 +55,7 @@ class Version010200Date20260416223500 extends SimpleMigrationStep {
 				$schemaChanged = true;
 			} else {
 				$column = $table->getColumn('auto_zoom');
-				if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+				if ($column->getType() !== Type::getType(Types::INTEGER) || !$column->getUnsigned()) {
 					$column->setType(Type::getType(Types::INTEGER));
 					$column->setUnsigned(true);
 					$schemaChanged = true;
@@ -71,7 +71,7 @@ class Version010200Date20260416223500 extends SimpleMigrationStep {
 				$schemaChanged = true;
 			} else {
 				$column = $table->getColumn('color_criteria');
-				if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+				if ($column->getType() !== Type::getType(Types::INTEGER) || !$column->getUnsigned()) {
 					$column->setType(Type::getType(Types::INTEGER));
 					$column->setUnsigned(true);
 					$schemaChanged = true;
@@ -87,7 +87,7 @@ class Version010200Date20260416223500 extends SimpleMigrationStep {
 				$schemaChanged = true;
 			} else {
 				$column = $table->getColumn('enabled');
-				if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+				if ($column->getType() !== Type::getType(Types::INTEGER) || !$column->getUnsigned()) {
 					$column->setType(Type::getType(Types::INTEGER));
 					$column->setUnsigned(true);
 					$schemaChanged = true;
@@ -107,7 +107,7 @@ class Version010200Date20260416223500 extends SimpleMigrationStep {
 				$schemaChanged = true;
 			} else {
 				$column = $table->getColumn('enabled');
-				if ($column->getType() !== Types::INTEGER || !$column->getUnsigned()) {
+				if ($column->getType() !== Type::getType(Types::INTEGER) || !$column->getUnsigned()) {
 					$column->setType(Type::getType(Types::INTEGER));
 					$column->setUnsigned(true);
 					$schemaChanged = true;
