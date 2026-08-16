@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.3 – 2026-08-16
+
+### Changed
+
+- Update composer dependencies and fix the psalm issue @julien-nc
+
+### Fixed
+
+- Fix the CSP for the Maplibre worker: add `'self'` to the `worker-src` allowlist so the map worker script can load, restoring track lines and points in `MaplibreMap.vue` views @christian98 [#168](https://github.com/julien-nc/phonetrack/pull/168)
+- Adjust the `AutoExport` command's `execute` method signature @julien-nc
+
 ## 1.3.2 – 2026-07-30
 
 ### Changed
