@@ -1514,6 +1514,9 @@ class LogController extends Controller {
 		if ($bat !== null) {
 			$bat = (int)$bat;
 		}
+		if ($sat !== null) {
+			$sat = (int)$sat;
+		}
 		$resp = $this->logPost($token, $dname, $lat, $lon, $alt, $timestamp, $acc, $bat, $sat, 'GpsLogger POST', $speed, $bearing);
 		$response = new JSONResponse([]);
 		if ($resp->getStatus() !== Http::STATUS_OK) {
