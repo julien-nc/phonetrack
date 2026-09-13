@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.3.4 – 2026-09-13
+
+### Changed
+
+- Update npm packages @julien-nc
+
+### Fixed
+
+- Fix GPSLogger POST endpoint `TypeError` when the `sat` parameter is passed as a string by casting it to `?int` before calling `logPost()` @t-loX @julien-nc [#172](https://github.com/julien-nc/phonetrack/issues/172)
+
 ## 1.3.3 – 2026-08-16
 
 ### Changed
