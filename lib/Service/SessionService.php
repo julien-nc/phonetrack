@@ -347,142 +347,140 @@ class SessionService {
 			$cleanPath .= '.gpx';
 		}
 
-		if ($userFolder !== null) {
-			$file = null;
-			$filePossible = false;
-			$dirPath = dirname($cleanPath);
-			$newFileName = basename($cleanPath);
-			if ($oneFilePerDevice) {
+		$file = null;
+		$filePossible = false;
+		$dirPath = dirname($cleanPath);
+		$newFileName = basename($cleanPath);
+		if ($oneFilePerDevice) {
+			if ($userFolder->nodeExists($dirPath)) {
+				$dir = $userFolder->get($dirPath);
+				if ($dir instanceof Folder && $dir->isCreatable()) {
+					$filePossible = true;
+				}
+			}
+		} else {
+			if ($userFolder->nodeExists($cleanPath)) {
+				$dir = $userFolder->get($dirPath);
+				$file = $userFolder->get($cleanPath);
+				if ($file instanceof File && $file->isUpdateable()) {
+					$filePossible = true;
+				}
+			} else {
 				if ($userFolder->nodeExists($dirPath)) {
 					$dir = $userFolder->get($dirPath);
 					if ($dir instanceof Folder && $dir->isCreatable()) {
 						$filePossible = true;
 					}
 				}
-			} else {
-				if ($userFolder->nodeExists($cleanPath)) {
-					$dir = $userFolder->get($dirPath);
-					$file = $userFolder->get($cleanPath);
-					if ($file instanceof File && $file->isUpdateable()) {
-						$filePossible = true;
+			}
+		}
+		if (!$dir instanceof Folder) {
+			throw new GlobalException('Export directory is not a directory');
+		}
+
+		if ($filePossible) {
+			// check if session exists
+			$sessionToken = null;
+			$sessionId = null;
+			try {
+				$dbSession = $this->sessionMapper->findByToken($token);
+				$sessionToken = $token;
+				$sessionId = $dbSession->getId();
+			} catch (DoesNotExistException $e) {
+			}
+
+			// if not, check it is a shared session
+			if ($sessionToken === null) {
+				$isShared = $this->sessionMapper->isSharedWith($token, $userId);
+				if ($isShared) {
+					$sessionToken = $isShared['session_token'];
+					$sessionId = $isShared['session_id'];
+				}
+			}
+
+			// session exists
+			if ($sessionToken !== null) {
+				// indexed by track name
+				$coords = [];
+				// get list of all devices which have points in this session (without filters)
+				$devices = $this->deviceMapper->getDevicesWithPointsInSession($sessionId);
+
+				// get the coords for each device
+				$result[$name] = [];
+
+				// get filters
+				if ($filters === null) {
+					$filters = $this->getCurrentFilters2($userId);
+				}
+
+				// check if there are points in this session (with filters)
+				$sessionPointNumber = $this->sessionMapper->countPointsPerSession($sessionId, $filters);
+				if ($sessionPointNumber > 0) {
+					// check if all devices of this session (not filtered) have points
+					if ($this->deviceMapper->countDevicesPerSession($sessionId) > count($devices)) {
+						$warning = 2;
 					}
-				} else {
-					if ($userFolder->nodeExists($dirPath)) {
-						$dir = $userFolder->get($dirPath);
-						if ($dir instanceof Folder && $dir->isCreatable()) {
-							$filePossible = true;
+					// one file for the whole session
+					if (!$oneFilePerDevice) {
+						$gpxHeader = $this->generateGpxHeader($name, count($devices));
+						if (!$dir->nodeExists($newFileName)) {
+							$file = $dir->newFile($newFileName);
+						} else {
+							$file = $dir->get($newFileName);
+							if (!$file instanceof File) {
+								throw new Exception('Export file is not a file');
+							}
 						}
+						$fd = $file->fopen('w');
+						fwrite($fd, $gpxHeader);
 					}
-				}
-			}
-			if (!$dir instanceof Folder) {
-				throw new GlobalException('Export directory is not a directory');
-			}
+					foreach ($devices as $device) {
+						$deviceId = $device->getId();
+						$deviceName = $device->getName();
 
-			if ($filePossible) {
-				// check if session exists
-				$sessionToken = null;
-				$sessionId = null;
-				try {
-					$dbSession = $this->sessionMapper->findByToken($token);
-					$sessionToken = $token;
-					$sessionId = $dbSession->getId();
-				} catch (DoesNotExistException $e) {
-				}
+						// check if there are coords for this device (with filters)
+						$nbPoints = $this->deviceMapper->countPointsPerDevice($deviceId, $filters);
+						if ($nbPoints > 0) {
+							// generate a file for this device if needed
+							if ($oneFilePerDevice) {
+								$gpxHeader = $this->generateGpxHeader($name);
+								// generate file name for this device
+								$devFileName = str_replace(['.gpx', '.GPX'], '_' . $deviceName . '.gpx', $newFileName);
+								if (!$dir->nodeExists($devFileName)) {
+									$file = $dir->newFile($devFileName);
+								} else {
+									$file = $dir->get($devFileName);
+									if (!$file instanceof File) {
+										throw new Exception('Export file is not a file');
+									}
+								}
+								$fd = $file->fopen('w');
+								fwrite($fd, $gpxHeader);
+							}
 
-				// if not, check it is a shared session
-				if ($sessionToken === null) {
-					$isShared = $this->sessionMapper->isSharedWith($token, $userId);
-					if ($isShared) {
-						$sessionToken = $isShared['session_token'];
-						$sessionId = $isShared['session_id'];
-					}
-				}
+							$chunks = $this->getDeviceAsGpxTrk($deviceId, $deviceName, $filters, $nbPoints);
+							foreach ($chunks as $chunk) {
+								fwrite($fd, $chunk);
+							}
 
-				// session exists
-				if ($sessionToken !== null) {
-					// indexed by track name
-					$coords = [];
-					// get list of all devices which have points in this session (without filters)
-					$devices = $this->deviceMapper->getDevicesWithPointsInSession($sessionId);
-
-					// get the coords for each device
-					$result[$name] = [];
-
-					// get filters
-					if ($filters === null) {
-						$filters = $this->getCurrentFilters2($userId);
-					}
-
-					// check if there are points in this session (with filters)
-					$sessionPointNumber = $this->sessionMapper->countPointsPerSession($sessionId, $filters);
-					if ($sessionPointNumber > 0) {
-						// check if all devices of this session (not filtered) have points
-						if ($this->deviceMapper->countDevicesPerSession($sessionId) > count($devices)) {
+							if ($oneFilePerDevice) {
+								fwrite($fd, '</gpx>');
+								fclose($fd);
+								$file->touch();
+							}
+						} else {
 							$warning = 2;
 						}
-						// one file for the whole session
-						if (!$oneFilePerDevice) {
-							$gpxHeader = $this->generateGpxHeader($name, count($devices));
-							if (!$dir->nodeExists($newFileName)) {
-								$file = $dir->newFile($newFileName);
-							} else {
-								$file = $dir->get($newFileName);
-								if (!$file instanceof File) {
-									throw new Exception('Export file is not a file');
-								}
-							}
-							$fd = $file->fopen('w');
-							fwrite($fd, $gpxHeader);
-						}
-						foreach ($devices as $device) {
-							$deviceId = $device->getId();
-							$deviceName = $device->getName();
-
-							// check if there are coords for this device (with filters)
-							$nbPoints = $this->deviceMapper->countPointsPerDevice($deviceId, $filters);
-							if ($nbPoints > 0) {
-								// generate a file for this device if needed
-								if ($oneFilePerDevice) {
-									$gpxHeader = $this->generateGpxHeader($name);
-									// generate file name for this device
-									$devFileName = str_replace(['.gpx', '.GPX'], '_' . $deviceName . '.gpx', $newFileName);
-									if (!$dir->nodeExists($devFileName)) {
-										$file = $dir->newFile($devFileName);
-									} else {
-										$file = $dir->get($devFileName);
-										if (!$file instanceof File) {
-											throw new Exception('Export file is not a file');
-										}
-									}
-									$fd = $file->fopen('w');
-									fwrite($fd, $gpxHeader);
-								}
-
-								$chunks = $this->getDeviceAsGpxTrk($deviceId, $deviceName, $filters, $nbPoints);
-								foreach ($chunks as $chunk) {
-									fwrite($fd, $chunk);
-								}
-
-								if ($oneFilePerDevice) {
-									fwrite($fd, '</gpx>');
-									fclose($fd);
-									$file->touch();
-								}
-							} else {
-								$warning = 2;
-							}
-						}
-						if (!$oneFilePerDevice) {
-							fwrite($fd, '</gpx>');
-							fclose($fd);
-							$file->touch();
-						}
-					} else {
-						$warning = 1;
 					}
-					$done = true;
+					if (!$oneFilePerDevice) {
+						fwrite($fd, '</gpx>');
+						fclose($fd);
+						$file->touch();
+					}
+				} else {
+					$warning = 1;
 				}
+				$done = true;
 			}
 		}
 
