@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.4.0 – 2026-10-20
+
+### Changed
+
+- Update npm packages @julien-nc
+- Update composer dependencies @julien-nc
+
+### Fixed
+
+- Fix proxied MapTiler tile requests after a URL pattern change on MapTiler's side: some tileset `tiles.json` templates (e.g. `terrain-rgb-v2`) no longer include a file extension, so requests like `/maptiler/tiles/terrain-rgb-v2/{z}/{x}/{y}` matched no route and returned 404. Add a route and controller action matching tile URLs without an extension, and only append `.$ext` to the upstream URL when set @julien-nc
+
 ## 1.3.5 – 2026-09-13
 
 ### Changed
