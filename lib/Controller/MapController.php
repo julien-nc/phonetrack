@@ -173,6 +173,20 @@ class MapController extends Controller {
 		}
 	}
 
+	/**
+	 * @param string $version
+	 * @param int $z
+	 * @param int $x
+	 * @param int $y
+	 * @param string|null $key
+	 * @return Response
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function getMapTilerTileNoExt(string $version, int $z, int $x, int $y, ?string $key = null): Response {
+		return $this->getMapTilerTile($version, $z, $x, $y, '', $key);
+	}
+
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
 	public function getMapTilerSpriteNoSize(string $version, string $ext): Response {
