@@ -29,8 +29,8 @@
 - 🔗 Генерировать публичные ссылки с необязательными ограничениями (фильтры, имя устройства, только последние позиции, ограничения зоны навигации)
 - 🖫 Импорт/экспорт сессии в формате GPX (один файл с одним треком на устройство или один файл на устройство)
 - 🗠 Отображать статистику сессий
-- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
-- 🗓 Переключить автоэкспорт и автоочистку сессии (ежедневно/еженедельно/ежемесячно)
+- 🔒 [Зарезервировать имя устройства](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) чтобы только авторизованный пользователь мог войти с таким именем
+- 🗓 Автоматический экспорт и/или удаление сессий (ежедневно/еженедельно/ежемесячно)
 - ◔ Выбрать, что делать, когда установлен лимит количества точек (блокировка записи или удаление самой старой точки)
 
 Опубликованная страница и отфильтрованнная опубликованнная страница, работает как главаня страница, с отображением только одной сессии, не требует авторизации.
@@ -47,7 +47,7 @@
 
 ## Известные проблемы
 
-- PhoneTrack **теперь работает** с активированным ограничением группы Nextcloud. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- PhoneTrack **теперь работает** с активированным ограничением группы Nextcloud. См. [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Любая обратная связь будет оценена.
+Будем признательны за любую обратную связь.
 
