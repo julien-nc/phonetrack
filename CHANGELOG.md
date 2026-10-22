@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.4.1 – 2026-10-22
+
+### Fixed
+
+- Fix geofence and proximity management which failed with a HTTP 500 (`TypeError` in `deviceExists()`): the device id received from the request is a string but the typed helper parameter expected an int, so casting it restores adding and deleting geofences and proximity zones @julien-nc [#174](https://github.com/julien-nc/phonetrack/issues/174)
+
 ## 1.4.0 – 2026-10-20
 
 ### Changed
