@@ -984,7 +984,8 @@ class OldPageControllerTest extends TestCase {
 		$this->assertEquals($done, 1);
 
 		// GEOFENCE
-		$resp = $this->pageController->addGeofence($token, $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, '', 1);
+		// device ids are received as strings in HTTP requests so they are passed as strings in the test
+		$resp = $this->pageController->addGeofence($token, '' . $deviceid, 'testfence', 20.2, 21.1, 4.3, 5.2, '', '', 0, 0, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$fenceid = $data['fenceid'];
@@ -1026,14 +1027,14 @@ class OldPageControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 2);
 
-		$resp = $this->pageController->deleteGeofence($token, $deviceid, $fenceid);
+		$resp = $this->pageController->deleteGeofence($token, '' . $deviceid, $fenceid);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 1);
 
 		// PROXIM
 		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 0, 0, 1, '', 1);
-		$resp = $this->pageController->addProxim($token, $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 1, 1, 0, '', 1);
+		$resp = $this->pageController->addProxim($token, '' . $deviceid, $token, 'testDevProx', 400000, 1000000, 'https://dumdumdum.net/dumdum?plop=1', 'https://dumdumdum.net  /dumdum2?plop=2', 1, 1, 0, '', 1);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$proxid = $data['proximid'];
@@ -1080,7 +1081,7 @@ class OldPageControllerTest extends TestCase {
 		$done = $data['done'];
 		$this->assertEquals($done, 0);
 
-		$resp = $this->pageController->deleteProxim($token, $deviceid, $proxid);
+		$resp = $this->pageController->deleteProxim($token, '' . $deviceid, $proxid);
 		$data = $resp->getData();
 		$done = $data['done'];
 		$this->assertEquals($done, 1);

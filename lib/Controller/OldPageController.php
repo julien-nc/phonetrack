@@ -3185,7 +3185,7 @@ class OldPageController extends Controller {
 		$urlenter, $urlleave, $urlenterpost, $urlleavepost, $sendemail, $emailaddr, $sendnotif) {
 		$ok = 0;
 		$fenceid = null;
-		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
+		if ($this->sessionExists($token, $this->userId) && $this->deviceExists((int)$device, $token)) {
 			// check there is no fence with this name already
 			$sqlchk = '
 				SELECT name
@@ -3263,7 +3263,7 @@ class OldPageController extends Controller {
 	#[NoAdminRequired]
 	public function deleteGeofence($token, $device, $fenceid) {
 		$ok = 0;
-		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
+		if ($this->sessionExists($token, $this->userId) && $this->deviceExists((int)$device, $token)) {
 			$sqldel = '
 				DELETE FROM *PREFIX*phonetrack_geofences
 				WHERE deviceid=' . $this->db_quote_escape_string($device) . '
@@ -3288,7 +3288,7 @@ class OldPageController extends Controller {
 		$ok = 0;
 		$proximid = null;
 		$targetDeviceId = null;
-		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
+		if ($this->sessionExists($token, $this->userId) && $this->deviceExists((int)$device, $token)) {
 			// check if target session id is owned by current user or if it's shared with him/her
 			$targetSessionToken = null;
 			$ownsTargetSession = $this->sessionExists($sid, $this->userId);
@@ -3387,7 +3387,7 @@ class OldPageController extends Controller {
 	#[NoAdminRequired]
 	public function deleteProxim($token, $device, $proximid) {
 		$ok = 0;
-		if ($this->sessionExists($token, $this->userId) && $this->deviceExists($device, $token)) {
+		if ($this->sessionExists($token, $this->userId) && $this->deviceExists((int)$device, $token)) {
 			$dbproximid = null;
 			$sqlchk = '
 				SELECT id, deviceid1
