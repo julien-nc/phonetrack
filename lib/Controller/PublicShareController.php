@@ -13,6 +13,7 @@ use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\PointMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\MapService;
 use OCA\PhoneTrack\Service\SessionService;
 use OCP\AppFramework\Controller;
@@ -46,6 +47,7 @@ class PublicShareController extends Controller {
 		private DeviceMapper $deviceMapper,
 		private PointMapper $pointMapper,
 		private PublicShareMapper $publicShareMapper,
+		private TileServerMapper $tileServerMapper,
 		private IInitialState $initialStateService,
 	) {
 		parent::__construct($appName, $request);
@@ -80,11 +82,16 @@ class PublicShareController extends Controller {
 		}
 
 		$adminMaptilerApiKey = $this->appConfig->getValueString(Application::APP_ID, 'maptiler_api_key', lazy: true);
+		$extraTileServers = array_merge(
+			$this->tileServerMapper->getTileServersOfUser($session->getUser()),
+			$this->tileServerMapper->getTileServersOfUser(null),
+		);
 		$settings = [
 			'maptiler_api_key' => $adminMaptilerApiKey,
 			'proxy_osm' => false,
 			'app_version' => $this->appConfig->getValueString(Application::APP_ID, 'installed_version'),
 			'refresh_duration' => 125,
+			'extra_tile_servers' => $extraTileServers,
 		];
 
 		$serializedSession = $this->sessionService->serializeSession($session, true);
@@ -107,7 +114,7 @@ class PublicShareController extends Controller {
 
 		$csp = new ContentSecurityPolicy();
 		$csp->addAllowedFrameAncestorDomain('*');
-		$this->mapService->addPageCsp($csp);
+		$this->mapService->addPageCsp($csp, $extraTileServers);
 		$response->setContentSecurityPolicy($csp);
 		return $response;
 	}
