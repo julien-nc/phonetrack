@@ -2379,8 +2379,6 @@ class OldPageController extends Controller {
 			}
 		}
 		fclose($fp);
-		xml_parser_free($xml_parser);
-		unset($xml_parser);
 		if ($this->trackIndex === 1) {
 			return 6;
 		}
@@ -2470,7 +2468,6 @@ class OldPageController extends Controller {
 			}
 		}
 		fclose($fp);
-		xml_parser_free($xml_parser);
 		if ($this->trackIndex === 1) {
 			return 6;
 		}
