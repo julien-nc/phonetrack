@@ -31,18 +31,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.4', '8.5']
-        server-versions: ['stable30', 'stable31', 'stable32', 'stable33', 'stable34', 'stable35', 'master']
-        exclude:
-          - php-versions: 8.4
-            server-versions: stable30
-          - php-versions: 8.5
-            server-versions: stable30
-          - php-versions: 8.5
-            server-versions: stable31
-          - php-versions: 8.5
-            server-versions: stable32
-
+        php-versions: ['8.4', '8.5']
+        server-versions: ['stable34', 'stable35', 'master']
     name: php${{ matrix.php-versions }}-mysql-${{ matrix.server-versions }}
 
     services:
