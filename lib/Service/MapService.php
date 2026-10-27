@@ -63,9 +63,13 @@ class MapService {
 			$url = $ts->getUrl();
 			$domain = parse_url($url, PHP_URL_HOST);
 			$scheme = parse_url($url, PHP_URL_SCHEME);
+			if ($domain === null || $domain === false || $scheme === null || $scheme === false) {
+				$this->logger->warning('Skipping extra tile server with a URL that has no host or scheme: ' . $url, ['app' => Application::APP_ID]);
+				continue;
+			}
+			$domain = str_replace('{s}', '*', $domain);
 			// extra raster tile servers
 			if ($type === Application::TILE_SERVER_RASTER) {
-				$domain = str_replace('{s}', '*', $domain);
 				if ($scheme === 'http') {
 					$csp->addAllowedConnectDomain('http://' . $domain);
 				} else {
@@ -79,7 +83,7 @@ class MapService {
 					$csp->addAllowedConnectDomain('https://' . $domain);
 				}
 			}
-		};
+		}
 	}
 
 	/**

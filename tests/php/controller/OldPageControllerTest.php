@@ -36,10 +36,12 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
 use OCP\Server;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
+#[AllowMockObjectsWithoutExpectations]
 class OldPageControllerTest extends TestCase {
 
 	private $request;

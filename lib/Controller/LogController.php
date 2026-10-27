@@ -242,7 +242,8 @@ class LogController extends Controller {
 					}
 				}
 			}
-			if ($proxim->getUrlclose() !== '' && str_starts_with($proxim->getUrlclose(), 'http')) {
+			$urlclose = $proxim->getUrlclose() ?? '';
+			if (str_starts_with($urlclose, 'http')) {
 				set_error_handler(
 					function ($severity, $message, $file, $line) {
 						throw new Exception($message);
@@ -251,18 +252,18 @@ class LogController extends Controller {
 				// GET
 				if ($proxim->getUrlclosepost() === 0) {
 					try {
-						$xml = file_get_contents($proxim->getUrlclose());
+						$xml = file_get_contents($urlclose);
 					} catch (Exception $e) {
 						$this->logger->warning('Error during PhoneTrack proxim URL query', ['exception' => $e]);
 					}
 				} else {
 					// POST
 					try {
-						$parts = parse_url($proxim->getUrlclose());
+						$parts = parse_url($urlclose);
 						/** @var array $data */
-						parse_str($parts['query'], $data);
+						parse_str($parts['query'] ?? '', $data);
 
-						$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+						$url = ($parts['scheme'] ?? '') . '://' . ($parts['host'] ?? '') . ($parts['path'] ?? '');
 
 						$options = [
 							'http' => [
@@ -380,7 +381,8 @@ class LogController extends Controller {
 					}
 				}
 			}
-			if ($proxim->getUrlfar() !== '' && str_starts_with($proxim->getUrlfar(), 'http')) {
+			$urlfar = $proxim->getUrlfar() ?? '';
+			if (str_starts_with($urlfar, 'http')) {
 				set_error_handler(
 					function ($severity, $message, $file, $line) {
 						throw new Exception($message);
@@ -389,17 +391,17 @@ class LogController extends Controller {
 				// GET
 				if ($proxim->getUrlfarpost() === 0) {
 					try {
-						$xml = file_get_contents($proxim->getUrlfar());
+						$xml = file_get_contents($urlfar);
 					} catch (Exception $e) {
 						$this->logger->warning('Error during PhoneTrack proxim URL query', ['exception' => $e]);
 					}
 				} else {
 					// POST
 					try {
-						$parts = parse_url($proxim->getUrlfar());
-						parse_str($parts['query'], $data);
+						$parts = parse_url($urlfar);
+						parse_str($parts['query'] ?? '', $data);
 
-						$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+						$url = ($parts['scheme'] ?? '') . '://' . ($parts['host'] ?? '') . ($parts['path'] ?? '');
 
 						$options = [
 							'http' => [
@@ -569,9 +571,9 @@ class LogController extends Controller {
 						try {
 							$parts = parse_url($urlenter);
 							/** @var array $data */
-							parse_str($parts['query'], $data);
+							parse_str($parts['query'] ?? '', $data);
 
-							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+							$url = ($parts['scheme'] ?? '') . '://' . ($parts['host'] ?? '') . ($parts['path'] ?? '');
 
 							$options = [
 								'http' => [
@@ -699,9 +701,9 @@ class LogController extends Controller {
 						// POST
 						try {
 							$parts = parse_url($urlleave);
-							parse_str($parts['query'], $data);
+							parse_str($parts['query'] ?? '', $data);
 
-							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
+							$url = ($parts['scheme'] ?? '') . '://' . ($parts['host'] ?? '') . ($parts['path'] ?? '');
 
 							$options = [
 								'http' => [

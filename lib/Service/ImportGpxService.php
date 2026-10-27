@@ -64,8 +64,6 @@ class ImportGpxService {
 			}
 		}
 		fclose($fileDescriptor);
-		xml_parser_free($xmlParser);
-		unset($xmlParser);
 		if ($this->trackIndex === 1) {
 			throw new \Exception('no_device_to_import');
 		}
