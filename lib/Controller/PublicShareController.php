@@ -136,6 +136,12 @@ class PublicShareController extends Controller {
 			try {
 				$share = $this->publicShareMapper->findByShareToken($shareToken);
 				$filters = json_decode($share->getFilters(), true);
+				if (!is_array($filters)) {
+					$filters = [];
+				}
+				// keep only numeric filter values and normalize them to int,
+				// anything else is invalid and can break point queries (filter target params are ?int)
+				$filters = array_map(intval(...), array_filter($filters, 'is_numeric'));
 				$session = $this->sessionMapper->find($share->getSessionId());
 			} catch (DoesNotExistException $e) {
 				return new DataResponse(['error' => 'session_not_found'], Http::STATUS_NOT_FOUND);

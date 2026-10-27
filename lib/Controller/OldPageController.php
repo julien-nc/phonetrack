@@ -163,14 +163,17 @@ class OldPageController extends Controller {
 	private function addCspForTiles(ContentSecurityPolicy $csp, array $tsUrls): void {
 		foreach ($tsUrls as $url) {
 			$domain = parse_url($url, PHP_URL_HOST);
-			$domain = str_replace('{s}', '*', $domain);
 			$scheme = parse_url($url, PHP_URL_SCHEME);
+			if ($domain === null || $domain === false || $scheme === null || $scheme === false) {
+				continue;
+			}
+			$domain = str_replace('{s}', '*', $domain);
 			if ($scheme === 'http') {
 				$csp->addAllowedImageDomain('http://' . $domain);
 			} else {
 				$csp->addAllowedImageDomain('https://' . $domain);
 			}
-		};
+		}
 	}
 
 	/**
