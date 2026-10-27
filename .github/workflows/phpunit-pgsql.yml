@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main, test ]
     paths:
-      - .github/workflows/phpunit.yml
+      - .github/workflows/phpunit-pgsql.yml
       - appinfo/**
       - composer.*
       - lib/**
@@ -13,7 +13,7 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - .github/workflows/phpunit.yml
+      - .github/workflows/phpunit-pgsql.yml
       - appinfo/**
       - composer.*
       - lib/**
@@ -31,11 +31,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.3', '8.4']
-        server-versions: ['stable30', 'stable31', 'stable32', 'master']
+        php-versions: ['8.3', '8.4', '8.5']
+        server-versions: ['stable30', 'stable31', 'stable32', 'stable33', 'stable34', 'stable35', 'master']
         exclude:
           - php-versions: 8.4
             server-versions: stable30
+          - php-versions: 8.5
+            server-versions: stable30
+          - php-versions: 8.5
+            server-versions: stable31
+          - php-versions: 8.5
+            server-versions: stable32
 
     name: php${{ matrix.php-versions }}-pgsql-${{ matrix.server-versions }}
 
