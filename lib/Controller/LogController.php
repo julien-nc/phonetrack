@@ -548,9 +548,11 @@ class LogController extends Controller {
 						}
 					}
 				}
-				if ($fence->getUrlenter() !== '' && str_starts_with($fence->getUrlenter(), 'http')) {
+				// Handle fence enter webhook (if defined)
+				$urlenter = $fence->getUrlenter() ?? '';
+				if (str_starts_with($urlenter, 'http')) {
 					// GET
-					$urlenter = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $fence->getUrlenter());
+					$urlenter = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $urlenter);
 					set_error_handler(
 						function ($severity, $message, $file, $line) {
 							throw new Exception($message);
@@ -565,7 +567,7 @@ class LogController extends Controller {
 					} else {
 						// POST
 						try {
-							$parts = parse_url($fence->getUrlenter());
+							$parts = parse_url($urlenter);
 							/** @var array $data */
 							parse_str($parts['query'], $data);
 
@@ -677,7 +679,9 @@ class LogController extends Controller {
 						}
 					}
 				}
-				if ($fence->getUrlleave() !== '' && str_starts_with($fence->getUrlleave(), 'http')) {
+				// Handle fence leave/exit webhook (if defined)
+				$urlleave = $fence->getUrlleave() ?? '';
+				if (str_starts_with($urlleave, 'http')) {
 					set_error_handler(
 						function ($severity, $message, $file, $line) {
 							throw new Exception($message);
@@ -685,7 +689,7 @@ class LogController extends Controller {
 					);
 					// GET
 					if ($fence->getUrlleavepost() === 0) {
-						$urlleave = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $fence->getUrlleave());
+						$urlleave = str_replace(['%loc'], sprintf('%f:%f', $lat, $lon), $urlleave);
 						try {
 							$xml = file_get_contents($urlleave);
 						} catch (Exception $e) {
@@ -694,7 +698,7 @@ class LogController extends Controller {
 					} else {
 						// POST
 						try {
-							$parts = parse_url($fence->getUrlleave());
+							$parts = parse_url($urlleave);
 							parse_str($parts['query'], $data);
 
 							$url = $parts['scheme'] . '://' . $parts['host'] . $parts['path'];
