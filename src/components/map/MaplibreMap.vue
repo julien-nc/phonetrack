@@ -252,7 +252,7 @@ export default {
 			// tile servers and styles
 			this.styles = {
 				// always available, no API key required
-				...getOpenFreeMapStyles(),
+				...getOpenFreeMapStyles(!this.isPublicPage && this.settings.proxy_osm),
 				// skip the other vector servers if no API key is set
 				...(isApiKeySet && getVectorStyles(apiKey, !this.isPublicPage && this.settings.proxy_osm)),
 				...getRasterTileServers(apiKey, !this.isPublicPage && this.settings.proxy_osm),

@@ -130,5 +130,9 @@ return [
 		['name' => 'map#getMapTilerSpriteNoSize', 'url' => '/maptiler/maps/{version}/sprite.{ext}', 'verb' => 'GET'],
 		['name' => 'map#getMapTilerSprite', 'url' => '/maptiler/maps/{version}/sprite{size}.{ext}', 'verb' => 'GET'],
 		['name' => 'map#getMapTilerResource', 'url' => '/maptiler/resources/{name}', 'verb' => 'GET'],
+
+		['name' => 'map#getOpenFreeMapStyle', 'url' => '/openfreemap/styles/{style}', 'verb' => 'GET'],
+		['name' => 'map#getOpenFreeMapResource', 'url' => '/openfreemap/{path}', 'verb' => 'GET',
+			'requirements' => ['path' => '.+']],
 	]
 ];

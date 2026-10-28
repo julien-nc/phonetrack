@@ -245,6 +245,45 @@ class MapController extends Controller {
 	}
 
 	/**
+	 * @param string $style
+	 * @return Response
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function getOpenFreeMapStyle(string $style): Response {
+		try {
+			$response = new JSONResponse($this->mapService->getOpenFreeMapStyle($style));
+			$response->cacheFor(60 * 60 * 24);
+			return $response;
+		} catch (Exception|Throwable $e) {
+			$this->logger->debug('OpenFreeMap style not found', ['exception' => $e]);
+			return new JSONResponse(['exception' => $e->getMessage()], Http::STATUS_NOT_FOUND);
+		}
+	}
+
+	/**
+	 * Proxy fonts, sprites, tiles.json and tiles of OpenFreeMap
+	 *
+	 * @param string $path
+	 * @return Response
+	 */
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	public function getOpenFreeMapResource(string $path): Response {
+		try {
+			$resource = $this->mapService->getOpenFreeMapResource($path);
+			$response = new DataDisplayResponse($resource['body'], headers: [
+				'Content-Type' => $resource['content-type'],
+			]);
+			$response->cacheFor(60 * 60 * 24);
+			return $response;
+		} catch (Exception|Throwable $e) {
+			$this->logger->debug('OpenFreeMap resource not found', ['exception' => $e]);
+			return new DataDisplayResponse($e->getMessage(), Http::STATUS_NOT_FOUND);
+		}
+	}
+
+	/**
 	 * @param string $q
 	 * @param string $rformat
 	 * @param int|null $polygon_geojson
