@@ -40,6 +40,7 @@ import { markRaw } from 'vue'
 
 import {
 	getExtraTileServers,
+	getOpenFreeMapStyles,
 	getRasterTileServers,
 	getVectorStyles,
 } from '../../tileServers.js'
@@ -140,6 +141,7 @@ export default {
 			map: null,
 			styles: {},
 			mapLoaded: false,
+			defaultStyleKey: 'openfreemapLiberty',
 			COLOR_CRITERIAS,
 			mousePositionControl: null,
 			scaleControl: null,
@@ -245,18 +247,20 @@ export default {
 		initMap() {
 			const apiKey = this.settings.maptiler_api_key
 			const isApiKeySet = apiKey && !apiKey.startsWith('get_your_own')
+			// default vector style, available without any API key
+			this.defaultStyleKey = isApiKeySet ? 'streets' : 'openfreemapLiberty'
 			// tile servers and styles
 			this.styles = {
-				// skip the vector servers if no API key is set
+				// always available, no API key required
+				...getOpenFreeMapStyles(),
+				// skip the other vector servers if no API key is set
 				...(isApiKeySet && getVectorStyles(apiKey, !this.isPublicPage && this.settings.proxy_osm)),
 				...getRasterTileServers(apiKey, !this.isPublicPage && this.settings.proxy_osm),
 				...getExtraTileServers(this.settings.extra_tile_servers ?? [], apiKey, !this.isPublicPage && this.settings.proxy_osm),
 			}
 			const restoredStyleKey = Object.keys(this.styles).includes(this.settings.mapStyle)
 				? this.settings.mapStyle
-				: isApiKeySet
-					? 'streets'
-					: 'osmRaster'
+				: this.defaultStyleKey
 			const restoredStyleObj = this.styles[restoredStyleKey]
 
 			// values that are saved in private page
@@ -362,7 +366,7 @@ export default {
 			this.map.on('style.load', () => {
 				console.debug('style.load', this.settings.mapStyle)
 				// max zoom
-				const styleKey = Object.keys(this.styles).includes(this.settings.mapStyle) ? this.settings.mapStyle : 'streets'
+				const styleKey = Object.keys(this.styles).includes(this.settings.mapStyle) ? this.settings.mapStyle : this.defaultStyleKey
 				const mapStyleObj = this.styles[styleKey]
 				const maxZoom = mapStyleObj.maxzoom ? (mapStyleObj.maxzoom - 0.01) : DEFAULT_MAP_MAX_ZOOM
 				console.debug('apply max ZOOM', maxZoom, mapStyleObj)

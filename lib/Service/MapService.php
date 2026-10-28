@@ -50,6 +50,7 @@ class MapService {
 			->addAllowedConnectDomain('https://tile.osmand.net')
 			// vector tiles
 			->addAllowedConnectDomain('https://api.maptiler.com')
+			->addAllowedConnectDomain('https://tiles.openfreemap.org')
 			// for https://api.maptiler.com/resources/logo.svg
 			->addAllowedImageDomain('https://api.maptiler.com')
 			// nominatim (not needed, we proxy requests through the server)

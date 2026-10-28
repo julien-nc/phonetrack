@@ -262,6 +262,21 @@ export function getRasterTileServers(apiKey, proxy = true) {
 	}
 }
 
+/**
+ * OpenFreeMap provides free vector styles without any API key,
+ * these are available whether or not the MapTiler API key is set.
+ */
+export function getOpenFreeMapStyles() {
+	return {
+		openfreemapLiberty: {
+			title: t('phonetrack', 'OpenFreeMap Liberty'),
+			iconComponent: VectorLineIcon,
+			order: 0,
+			uri: 'https://tiles.openfreemap.org/styles/liberty',
+		},
+	}
+}
+
 export function getVectorStyles(apiKey, proxy = true) {
 	return {
 		streets: {
