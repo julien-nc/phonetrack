@@ -93,6 +93,22 @@ class LogController extends Controller {
 		return $dname;
 	}
 
+	/**
+	 * OwnTracks identifies the friends of an HTTP response by their topic and displays their tracker ID (tid).
+	 * We don't store the tid sent by the devices, so both are derived from the device name.
+	 * The tid used to be the last 2 chars of the name token, which is null for most devices: every friend got
+	 * the same tid and no topic, so OwnTracks merged them into one contact or did not show them at all.
+	 *
+	 * @return array{0: string, 1: string} [tid, topic]
+	 */
+	private static function getOwntracksFriendIds(string $deviceName, ?string $nameToken): array {
+		$alnum = preg_replace('/[^A-Za-z0-9]/', '', $deviceName) ?? '';
+		$tid = $alnum !== '' ? strtoupper(substr($alnum, 0, 2)) : substr($nameToken ?? 'ab', -2);
+		// '/', '+' and '#' have a meaning in (MQTT) topics
+		$topicName = preg_replace('/[\/+#\s]/', '_', $deviceName) ?? '';
+		return [$tid, 'owntracks/phonetrack/' . ($topicName !== '' ? $topicName : $tid)];
+	}
+
 	private function checkProxims(float $lat, float $lon, int $deviceId, string $userid, string $deviceName, string $sessionName, string $sessionToken): void {
 		try {
 			$lastPoint = $this->pointMapper->getLastDevicePoint($deviceId);
@@ -1085,15 +1101,19 @@ class LogController extends Controller {
 							WHERE `session_token` = ?
 						';
 			$friendRequest = $this->db->prepare($friendSQL);
-			$res = $friendRequest->execute([$token]);
+			// $token can be a share token, the devices are stored with the session token
+			$res = $friendRequest->execute([$session->getToken()]);
 			$friends = [];
 			while ($row = $res->fetch()) {
-				// we don't store the tid, so we fall back to the last
-				// two chars of the nametoken
-				// TODO feels far from unique, currently 32 ids max
-				$tid = substr($row['nametoken'] ?? 'ab', -2);
+				if ((int)$row['deviceid'] === $device->getId()) {
+					// the sending device is not its own friend
+					continue;
+				}
+				[$tid, $topic] = self::getOwntracksFriendIds((string)$row['name'], $row['nametoken']);
 				$location = [
 					'_type' => 'location',
+					// identifies the friend (iOS,Android/string), see getOwntracksFriendIds()
+					'topic' => $topic,
 					// Tracker ID used to display the initials of a user (iOS,Android/string/optional) required for http mode
 					'tid' => $tid,
 					// latitude (iOS,Android/float/meters/required)
@@ -1123,6 +1143,7 @@ class LogController extends Controller {
 				$friends[] = $location;
 				$friends[] = [
 					'_type' => 'card',
+					'topic' => $topic,
 					'tid' => $tid,
 					//'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
 					'name' => $row['name'],
@@ -1349,12 +1370,15 @@ class LogController extends Controller {
 			$res = $friendReq->execute([$session->getToken()]);
 			$friends = [];
 			while ($row = $res->fetch()) {
-				// we don't store the tid, so we fall back to the last
-				// two chars of the nametoken
-				// TODO feels far from unique, currently 32 ids max
-				$tid = substr($row['nametoken'], -2);
+				if ((int)$row['deviceid'] === $device->getId()) {
+					// the sending device is not its own friend
+					continue;
+				}
+				[$tid, $topic] = self::getOwntracksFriendIds((string)$row['name'], $row['nametoken']);
 				$location = [
 					'_type' => 'location',
+					// identifies the friend (iOS,Android/string), see getOwntracksFriendIds()
+					'topic' => $topic,
 					// Tracker ID used to display the initials of a user (iOS,Android/string/optional) required for http mode
 					'tid' => $tid,
 					// latitude (iOS,Android/float/meters/required)
@@ -1384,6 +1408,7 @@ class LogController extends Controller {
 				$friends[] = $location;
 				$friends[] = [
 					'_type' => 'card',
+					'topic' => $topic,
 					'tid' => $tid,
 					//'face'=>'/9j/4AAQSkZJR...', // TODO lookup avatar?
 					'name' => $row['name'],
@@ -1558,7 +1583,10 @@ class LogController extends Controller {
 	): JSONResponse {
 		if (is_null($lat) || is_null($lon)) {
 			// empty message (control message?) - ignore
-			return new JSONResponse(['result' => 'ok']);
+			// OwnTracks expects a JSON array of messages in the HTTP response. OwnTracks Android up to 2.5.x
+			// considers the delivery failed if the body is a JSON object and re-sends the same message forever,
+			// which blocks every location queued behind it.
+			return new JSONResponse([]);
 		}
 		$dname = $this->chooseDeviceName($devicename, $tid);
 		if ($batt !== null) {
