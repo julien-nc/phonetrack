@@ -1085,7 +1085,8 @@ class LogController extends Controller {
 							WHERE `session_token` = ?
 						';
 			$friendRequest = $this->db->prepare($friendSQL);
-			$res = $friendRequest->execute([$token]);
+			// $token can be a share token, the devices are stored with the session token
+			$res = $friendRequest->execute([$session->getToken()]);
 			$friends = [];
 			while ($row = $res->fetch()) {
 				// we don't store the tid, so we fall back to the last
