@@ -1558,7 +1558,10 @@ class LogController extends Controller {
 	): JSONResponse {
 		if (is_null($lat) || is_null($lon)) {
 			// empty message (control message?) - ignore
-			return new JSONResponse(['result' => 'ok']);
+			// OwnTracks expects a JSON array of messages in the HTTP response. OwnTracks Android up to 2.5.x
+			// considers the delivery failed if the body is a JSON object and re-sends the same message forever,
+			// which blocks every location queued behind it.
+			return new JSONResponse([]);
 		}
 		$dname = $this->chooseDeviceName($devicename, $tid);
 		if ($batt !== null) {
