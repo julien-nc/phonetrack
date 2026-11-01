@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-11-01 15:12+0100\n"
-"PO-Revision-Date: 2026-11-01 14:18\n"
+"PO-Revision-Date: 2026-11-01 14:28\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -128,7 +128,7 @@ msgstr "Dans la session PhoneTrack \"%s\", l'appareil \"%s\" est sorti de la zon
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2057
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2141
 msgid "Session does not exist or is not public"
-msgstr ""
+msgstr "La session n'existe pas ou n'est pas publique"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2087
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2119
@@ -138,11 +138,11 @@ msgstr "Voir la session"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2091
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2165
 msgid "This session does not exist or is not public"
-msgstr ""
+msgstr "Cette session n'existe pas ou n'est pas publique"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2125
 msgid "The session does not exist or is not public"
-msgstr ""
+msgstr "La session n'existe pas ou n'est pas publique"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2190
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PublicShareController.php:111
@@ -571,15 +571,15 @@ msgstr "Exporter dans le répertoire courant"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2452
 msgid "Device successfully exported in {actualExportPath}"
-msgstr ""
+msgstr "Périphérique exporté avec succès dans {actualExportPath}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2456
 msgid "Failed to export the device, invalid path"
-msgstr ""
+msgstr "Impossible d'exporter l'appareil, chemin invalide"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2458
 msgid "Failed to export the device"
-msgstr ""
+msgstr "Impossible d'exporter l'appareil"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:8
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2466
@@ -1134,11 +1134,11 @@ msgstr "Rafraichir maintenant"
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:30
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3866
 msgid "Resume"
-msgstr ""
+msgstr "Reprendre"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3866
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:35
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:78
@@ -1160,7 +1160,7 @@ msgstr[1] "{n} appareils"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4081
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4221
 msgid "Owned by {user}"
-msgstr ""
+msgstr "Possédé par {user}"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:20
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:17
@@ -1183,7 +1183,7 @@ msgstr "Liens pour les appareils"
 #. TRANSLATORS src/components/NavigationSessionItem.vue:85
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4229
 msgid "Toggle lines for all devices"
-msgstr ""
+msgstr "Activer/désactiver les lignes pour tous les appareils"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:102
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4233
@@ -1221,7 +1221,7 @@ msgstr "Importer un fichier gpx/kml/json de session"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4474
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6101
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 #. TRANSLATORS src/components/PhonetrackNavigation.vue:13
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4510
@@ -1830,7 +1830,7 @@ msgstr "Échec de l'exportation de la session"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5786
 msgid "Failed to add the name reservation, a device already has this reserved name"
-msgstr ""
+msgstr "Impossible d'ajouter la réservation de nom, un appareil a déjà ce nom réservé"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5788
 msgid "Failed to add the name reservation"
@@ -2152,11 +2152,11 @@ msgstr "Attribution"
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:94
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9910
 msgid "Map data from…"
-msgstr ""
+msgstr "Données de la carte de…"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9945
 msgid "Select tile server"
-msgstr ""
+msgstr "Sélectionner le serveur de tuiles"
 
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:10022
@@ -3291,7 +3291,7 @@ msgstr "Aquarelle"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:272
 msgid "OpenFreeMap Liberty"
-msgstr ""
+msgstr "OpenFreeMap Liberty"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:285
 msgid "Streets"
