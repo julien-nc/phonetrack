@@ -11,4 +11,4 @@ OC.L10N.register(
     "GpsLogger GET and POST link" : "Get",
     "Failed to contact server to log position" : "Server"
 },
-"nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;");
+"nplurals=3; plural=(n==1 ? 0 : n==2 ? 1 : 2);");
