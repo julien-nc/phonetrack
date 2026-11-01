@@ -250,7 +250,6 @@
 					class="select"
 					:inputLabel="t('phonetrack', 'Distance unit')"
 					:options="Object.values(distanceUnitOptions)"
-					:noWrap="true"
 					label="label"
 					:clearable="false"
 					@update:modelValue="onComponentInputChange($event.value, 'distance_unit')" />
@@ -259,7 +258,6 @@
 					class="select"
 					:inputLabel="t('phonetrack', 'When point quota is reached')"
 					:options="Object.values(quotaReachedOptions)"
-					:noWrap="true"
 					label="label"
 					:clearable="false"
 					@update:modelValue="onComponentInputChange($event.value, 'quotareached')" />
@@ -276,28 +274,24 @@
 					:modelValue="selectedDeviceSortOrder"
 					:inputLabel="t('phonetrack', 'Sort devices by')"
 					:options="Object.values(DEVICE_SORT_ORDER)"
-					:noWrap="true"
 					:clearable="false"
 					@update:modelValue="onComponentInputChange($event.value, 'deviceSortOrder')" />
 				<NcSelect
 					:modelValue="selectedDeviceSortAscending"
 					:inputLabel="t('phonetrack', 'Sort direction for devices')"
 					:options="Object.values(sortAscendingOptions)"
-					:noWrap="true"
 					:clearable="false"
 					@update:modelValue="onComponentInputChange($event.value, 'deviceSortAscending')" />
 				<NcSelect
 					:modelValue="selectedSessionSortOrder"
 					:inputLabel="t('phonetrack', 'Sort sessions by')"
 					:options="Object.values(DEVICE_SORT_ORDER)"
-					:noWrap="true"
 					:clearable="false"
 					@update:modelValue="onComponentInputChange($event.value, 'sessionSortOrder')" />
 				<NcSelect
 					:modelValue="selectedSessionSortAscending"
 					:inputLabel="t('phonetrack', 'Sort direction for sessions')"
 					:options="Object.values(sortAscendingOptions)"
-					:noWrap="true"
 					:clearable="false"
 					@update:modelValue="onComponentInputChange($event.value, 'sessionSortAscending')" />
 			</div>
