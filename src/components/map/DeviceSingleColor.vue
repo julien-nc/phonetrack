@@ -8,7 +8,7 @@ import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 import BringTrackToTop from '../../mixins/BringTrackToTop.js'
 import LineDirectionArrows from '../../mixins/LineDirectionArrows.js'
 
-import { getFilteredPoints } from '../../utils.js'
+import { getCutPointSegments, getFilteredPoints } from '../../utils.js'
 
 export default {
 	name: 'DeviceSingleColor',
@@ -89,6 +89,16 @@ export default {
 			default: 'metric',
 		},
 
+		cutDistance: {
+			type: Number,
+			default: null,
+		},
+
+		cutTime: {
+			type: Number,
+			default: null,
+		},
+
 		draggablePoints: {
 			type: Boolean,
 			default: true,
@@ -114,19 +124,21 @@ export default {
 			return this.device.onTop
 		},
 
+		lineSegments() {
+			return getCutPointSegments(this.filteredPoints, this.cutDistance, this.cutTime)
+		},
+
 		deviceGeojsonData() {
 			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
 			return {
 				type: 'FeatureCollection',
-				features: [
-					{
-						type: 'Feature',
-						geometry: {
-							coordinates: this.filteredPoints.map(p => [p.lon, p.lat]),
-							type: 'LineString',
-						},
+				features: this.lineSegments.map(segment => ({
+					type: 'Feature',
+					geometry: {
+						coordinates: segment.map(p => [p.lon, p.lat]),
+						type: 'LineString',
 					},
-				],
+				})),
 			}
 		},
 

@@ -306,7 +306,7 @@ You can restrict the public share to only display one device.
 
 ## Minimum distance to cut between two points
 
-If this option is set to 1000m (for example), lines between two points which distance from each other is more than 1000m won't be displayed. The statistic table is also impacted.
+If this option is set to 1000m (for example), lines between two points which distance from each other is more than 1000m won't be displayed. This only affects the map view. This option is in the map section of the settings dialog.
 
 ## Minimum time to cut between two points
 

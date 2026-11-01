@@ -196,6 +196,42 @@
 					:step="0.1"
 					@update:modelValue="debOnComponentInputChange(String($event), 'line_width')" />
 				<NcInputField
+					:modelValue="settings.cutdistance ?? ''"
+					type="number"
+					:label="t('phonetrack', 'Minimum distance to cut between two points')"
+					:helperText="t('phonetrack', 'meters')"
+					min="1"
+					max="40000000"
+					step="1"
+					:showTrailingButton="!!settings.cutdistance"
+					@update:modelValue="onComponentInputChange(String($event), 'cutdistance')"
+					@trailingButtonClick="onComponentInputChange('', 'cutdistance')">
+					<template #icon>
+						<ContentCutIcon :size="20" />
+					</template>
+					<template #trailing-button-icon>
+						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+					</template>
+				</NcInputField>
+				<NcInputField
+					:modelValue="settings.cuttime ?? ''"
+					type="number"
+					:label="t('phonetrack', 'Minimum time to cut between two points')"
+					:helperText="t('phonetrack', 'seconds')"
+					min="1"
+					max="100000000"
+					step="1"
+					:showTrailingButton="!!settings.cuttime"
+					@update:modelValue="onComponentInputChange(String($event), 'cuttime')"
+					@trailingButtonClick="onComponentInputChange('', 'cuttime')">
+					<template #icon>
+						<ContentCutIcon :size="20" />
+					</template>
+					<template #trailing-button-icon>
+						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+					</template>
+				</NcInputField>
+				<NcInputField
 					:modelValue="settings.line_opacity ?? 1"
 					type="number"
 					:label="t('phonetrack', 'Line opacity')"
@@ -425,6 +461,7 @@ import WeatherFogIcon from 'vue-material-design-icons/WeatherFog.vue'
 import KeyIcon from 'vue-material-design-icons/Key.vue'
 import UpdateIcon from 'vue-material-design-icons/Update.vue'
 import UndoIcon from 'vue-material-design-icons/Undo.vue'
+import ContentCutIcon from 'vue-material-design-icons/ContentCut.vue'
 import MagnifyIcon from 'vue-material-design-icons/Magnify.vue'
 import MapIcon from 'vue-material-design-icons/Map.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
@@ -492,6 +529,7 @@ export default {
 		ArrowSplitVerticalIcon,
 		UpdateIcon,
 		UndoIcon,
+		ContentCutIcon,
 		MagnifyIcon,
 		MapIcon,
 		InformationOutlineIcon,

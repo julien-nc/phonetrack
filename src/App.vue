@@ -65,6 +65,8 @@
 							:arrowsScaleFactor="parseFloat(state.settings.arrows_scale_factor ?? 1)"
 							:draggablePoints="(state.settings.draggable_points ?? '1') === '1'"
 							:opacity="parseFloat(state.settings.line_opacity ?? 1)"
+							:cutDistance="parseFloat(state.settings.cutdistance) || null"
+							:cutTime="parseFloat(state.settings.cuttime) || null"
 							:distanceUnit="state.settings.distance_unit ?? 'metric'" />
 						<DeviceGradientColorPoints v-else
 							:device="d"
@@ -81,6 +83,8 @@
 							:arrowsScaleFactor="parseFloat(state.settings.arrows_scale_factor ?? 1)"
 							:draggablePoints="(state.settings.draggable_points ?? '1') === '1'"
 							:opacity="parseFloat(state.settings.line_opacity ?? 1)"
+							:cutDistance="parseFloat(state.settings.cutdistance) || null"
+							:cutTime="parseFloat(state.settings.cuttime) || null"
 							:distanceUnit="state.settings.distance_unit ?? 'metric'" />
 					</div>
 					<PolygonFill v-if="geofenceLngLats !== null"

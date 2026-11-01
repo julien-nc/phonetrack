@@ -10,7 +10,7 @@ import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 import BringTrackToTop from '../../mixins/BringTrackToTop.js'
 
 import { COLOR_CRITERIAS, getColorGradientColors } from '../../constants.js'
-import { getFilteredPoints } from '../../utils.js'
+import { getCutPointSegments, getFilteredPoints, isCutBetweenTwoPoints } from '../../utils.js'
 
 const gradientColors = getColorGradientColors(240, 0)
 
@@ -97,6 +97,16 @@ export default {
 			default: 'metric',
 		},
 
+		cutDistance: {
+			type: Number,
+			default: null,
+		},
+
+		cutTime: {
+			type: Number,
+			default: null,
+		},
+
 		draggablePoints: {
 			type: Boolean,
 			default: true,
@@ -130,19 +140,21 @@ export default {
 			return getFilteredPoints(this.device.points, this.filters)
 		},
 
+		lineSegments() {
+			return getCutPointSegments(this.filteredPoints, this.cutDistance, this.cutTime)
+		},
+
 		deviceGeojsonData() {
 			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
 			return {
 				type: 'FeatureCollection',
-				features: [
-					{
-						type: 'Feature',
-						geometry: {
-							coordinates: this.filteredPoints.map(p => [p.lon, p.lat]),
-							type: 'LineString',
-						},
+				features: this.lineSegments.map(segment => ({
+					type: 'Feature',
+					geometry: {
+						coordinates: segment.map(p => [p.lon, p.lat]),
+						type: 'LineString',
 					},
-				],
+				})),
 			}
 		},
 
@@ -258,11 +270,13 @@ export default {
 			const min = cleanValues.reduce((acc, val) => Math.min(acc, val))
 			const max = cleanValues.reduce((acc, val) => Math.max(acc, val))
 			console.debug('[phonetrack] pointvalues', this.pointValues, 'min', min, 'max', max)
-			// process the first pair outside the loop, we need 2 color indexes to form a pair :-)
 			let colorIndex = this.getColorIndex(min, max, this.pointValues[0])
-			colorIndex = this.processPair(result, min, max, colorIndex, points[0], points[1], this.pointValues[1])
-			// loop starts with the 2nd pair
-			for (let fi = 1; fi < points.length - 1; fi++) {
+			for (let fi = 0; fi < points.length - 1; fi++) {
+				// no line across a cut, the next pair starts with the color of its own first point
+				if (isCutBetweenTwoPoints(points[fi], points[fi + 1], this.cutDistance, this.cutTime)) {
+					colorIndex = this.getColorIndex(min, max, this.pointValues[fi + 1])
+					continue
+				}
 				colorIndex = this.processPair(result, min, max, colorIndex, points[fi], points[fi + 1], this.pointValues[fi + 1])
 			}
 			this.geojsonsPerColorPair = result

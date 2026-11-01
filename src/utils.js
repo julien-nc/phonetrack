@@ -5,6 +5,7 @@
 import { DEVICE_SORT_ORDER } from './constants.js'
 
 import moment from '@nextcloud/moment'
+import { LngLat } from 'maplibre-gl'
 
 import Battery50Icon from 'vue-material-design-icons/Battery50.vue'
 import CircleDoubleIcon from 'vue-material-design-icons/CircleDouble.vue'
@@ -530,6 +531,36 @@ export function getFilteredPoints(points, filters) {
 		}
 	})
 	return filteredPoints
+}
+
+export function isCutBetweenTwoPoints(point1, point2, cutDistance, cutTime) {
+	if (cutTime !== null && point2.timestamp - point1.timestamp >= cutTime) {
+		return true
+	}
+	if (cutDistance !== null
+		&& (new LngLat(point1.lon, point1.lat)).distanceTo(new LngLat(point2.lon, point2.lat)) >= cutDistance) {
+		return true
+	}
+	return false
+}
+
+// split an ordered point list into segments at every point pair where the
+// time gap or the distance exceeds the given thresholds (null means no cut on that dimension)
+export function getCutPointSegments(points, cutDistance, cutTime) {
+	if (!points?.length || (cutTime === null && cutDistance === null)) {
+		return [points]
+	}
+	const segments = []
+	let currentSegment = [points[0]]
+	for (let i = 1; i < points.length; i++) {
+		if (isCutBetweenTwoPoints(points[i - 1], points[i], cutDistance, cutTime)) {
+			segments.push(currentSegment)
+			currentSegment = []
+		}
+		currentSegment.push(points[i])
+	}
+	segments.push(currentSegment)
+	return segments
 }
 
 export function getPointDataHtml(point, distanceUnit = 'metric') {
