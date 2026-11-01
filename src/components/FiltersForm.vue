@@ -13,6 +13,37 @@
 		</NcFormBoxSwitch>
 		<div class="field-group date">
 			<label>
+				{{ t('phonetrack', 'Last day:hour:min') }}
+			</label>
+			<div class="line">
+				<NcInputField
+					v-model="filters.lastdays"
+					type="number"
+					min="0"
+					step="1"
+					:label="t('phonetrack', 'Days')"
+					:disabled="!filtersEnabled"
+					@update:modelValue="onUpdateLastDuration()" />
+				<NcInputField
+					v-model="filters.lasthours"
+					type="number"
+					min="0"
+					step="1"
+					:label="t('phonetrack', 'Hours')"
+					:disabled="!filtersEnabled"
+					@update:modelValue="onUpdateLastDuration()" />
+				<NcInputField
+					v-model="filters.lastmins"
+					type="number"
+					min="0"
+					step="1"
+					:label="t('phonetrack', 'Minutes')"
+					:disabled="!filtersEnabled"
+					@update:modelValue="onUpdateLastDuration()" />
+			</div>
+		</div>
+		<div class="field-group date">
+			<label>
 				{{ t('phonetrack', 'Minimum date') }}
 			</label>
 			<NcDateTimePicker
@@ -273,6 +304,9 @@ export default {
 			return {
 				timestampmin: this.settings.timestampmin ? moment.unix(this.settings.timestampmin).toDate() : null,
 				timestampmax: this.settings.timestampmax ? moment.unix(this.settings.timestampmax).toDate() : null,
+				lastdays: this.settings.lastdays ?? '',
+				lasthours: this.settings.lasthours ?? '',
+				lastmins: this.settings.lastmins ?? '',
 				...['satellites'].reduce((acc, key) => {
 					acc[key + 'min'] = this.settings[key + 'min']
 						? parseInt(this.settings[key + 'min'])
@@ -348,6 +382,21 @@ export default {
 				this.filters['timestamp' + minMax] = moment.unix(this.settings['timestamp' + minMax] + seconds).toDate()
 			}
 			this.onUpdateDate(minMax)
+		},
+
+		// save the last day/hour/min values, they are not dates nor fixed durations,
+		// the corresponding timestamp is computed from a fresh "now" each time the filters are applied
+		onUpdateLastDuration() {
+			const parse = (v) => {
+				const val = parseInt(v)
+				return isNaN(val) || val < 0 ? '' : val
+			}
+			emit('save-settings', {
+				lastdays: parse(this.filters.lastdays),
+				lasthours: parse(this.filters.lasthours),
+				lastmins: parse(this.filters.lastmins),
+			})
+			emit('filter-changed')
 		},
 	},
 }

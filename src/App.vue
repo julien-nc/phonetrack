@@ -204,6 +204,9 @@ export default {
 			loadingDevicePoints: false,
 			editingPoint: null,
 			editingPointPath: null,
+			// updated each time the points are refreshed so a rolling
+			// timestamp filter moves with the refresh time
+			nowTs: moment().unix(),
 		}
 	},
 
@@ -291,7 +294,7 @@ export default {
 			if (this.state.settings.applyfilters !== 'true') {
 				return null
 			}
-			return {
+			const filters = {
 				timestampmin: this.state.settings.timestampmin,
 				timestampmax: this.state.settings.timestampmax,
 				altitudemin: this.state.settings.altitudemin,
@@ -307,6 +310,22 @@ export default {
 				satellitesmin: this.state.settings.satellitesmin,
 				satellitesmax: this.state.settings.satellitesmax,
 			}
+			// the last day:hour:min filter defines a rolling min timestamp,
+			// recomputed from now each time the filters are applied
+			const lastdays = parseInt(this.state.settings.lastdays)
+			const lasthours = parseInt(this.state.settings.lasthours)
+			const lastmins = parseInt(this.state.settings.lastmins)
+			if (!isNaN(lastdays) || !isNaN(lasthours) || !isNaN(lastmins)) {
+				const rollingTsmin = moment.unix(this.nowTs)
+					.subtract(isNaN(lastdays) ? 0 : lastdays, 'days')
+					.subtract(isNaN(lasthours) ? 0 : lasthours, 'hours')
+					.subtract(isNaN(lastmins) ? 0 : lastmins, 'minutes')
+					.unix()
+				if (!filters.timestampmin || rollingTsmin > parseInt(filters.timestampmin)) {
+					filters.timestampmin = rollingTsmin
+				}
+			}
+			return filters
 		},
 	},
 
@@ -1234,14 +1253,14 @@ export default {
 			}
 			// take filters into account
 			// on first load it's easy, we wanna get everything between min and max filter timestamps
-			if (this.state.settings.applyfilters === 'true') {
-				if (this.state.settings.timestampmax) {
+			if (this.filters) {
+				if (this.filters.timestampmax) {
 					console.debug('[phonetrack] first device refresh, use max ts filter')
-					reqParams.params.maxTimestamp = parseInt(this.state.settings.timestampmax)
+					reqParams.params.maxTimestamp = parseInt(this.filters.timestampmax)
 				}
-				if (this.state.settings.timestampmin) {
+				if (this.filters.timestampmin) {
 					console.debug('[phonetrack] first device refresh, use min ts filter')
-					reqParams.params.minTimestamp = parseInt(this.state.settings.timestampmin)
+					reqParams.params.minTimestamp = parseInt(this.filters.timestampmin)
 				}
 			}
 			const url = this.isPublicPage
@@ -1283,16 +1302,16 @@ export default {
 			// take filters into account
 			// if the filter max ts is lower, use it
 			// if the filter min ts is higher, use it
-			if (this.state.settings.applyfilters === 'true') {
-				if (this.state.settings.timestampmax && parseInt(this.state.settings.timestampmax) < firstPoint.timestamp) {
+			if (this.filters) {
+				if (this.filters.timestampmax && parseInt(this.filters.timestampmax) < firstPoint.timestamp) {
 					console.debug('[phonetrack] refresh: using filter max ts filter because it\'s lower than the first point one')
-					reqParams.params.maxTimestamp = parseInt(this.state.settings.timestampmax)
+					reqParams.params.maxTimestamp = parseInt(this.filters.timestampmax)
 					// reset point list to avoid having holes in the point history
 					device.points = []
 				}
-				if (this.state.settings.timestampmin && parseInt(this.state.settings.timestampmin) > lastPoint.timestamp) {
+				if (this.filters.timestampmin && parseInt(this.filters.timestampmin) > lastPoint.timestamp) {
 					console.debug('[phonetrack] refresh: using filter min ts filter because it\'s higher than the last point one')
-					reqParams.params.minTimestamp = parseInt(this.state.settings.timestampmin)
+					reqParams.params.minTimestamp = parseInt(this.filters.timestampmin)
 					// reset point list to avoid having holes in the point history
 					device.points = []
 				}
@@ -1330,6 +1349,7 @@ export default {
 		},
 
 		refreshAllDevicePoints() {
+			this.nowTs = moment().unix()
 			this.loadingDevicePoints = true
 			const loadingPromises = this.enabledDevices.map(device => this.loadDevice(device.session_id, device.id))
 			return Promise.all(loadingPromises)
