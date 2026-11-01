@@ -6,6 +6,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.5.0 – 2026-11-01
+
+### Added
+
+- Add OpenFreeMap as the default vector tile server and support proxying tile requests for it @julien-nc
+- Show the extra tile servers in the public share pages map menu @gso-gso [#173](https://github.com/julien-nc/phonetrack/pull/173)
+
+### Changed
+
+- Speed up map hover popups by using ghost points instead of scanning exhaustively through all device points @julien-nc
+- Make proxims URL parsing safer and harden the tile server domain checks @julien-nc
+- Use PHPUnit 13 and drop support for Nextcloud < 34 @julien-nc
+- Remove the deprecated `xml_parser_free()` usage @julien-nc
+- Update npm and composer packages @julien-nc
+- Update and write translations @julien-nc
+
+### Fixed
+
+- Fix OwnTracks HTTP mode: look up friends with the session token, give each friend its own `tid` and topic, skip the sending device, and answer control messages with an empty JSON array @johannes-777 [#176](https://github.com/julien-nc/phonetrack/pull/176)
+- Handle null geofence `urlleave` and `urlenter` values in the logging endpoint @mrtumnus [#165](https://github.com/julien-nc/phonetrack/pull/165)
+- Bring back the ability to cut device lines when points are too far apart in the new UI @julien-nc [#149](https://github.com/julien-nc/phonetrack/issues/149)
+- Bring back the `last day:hour:min` filters in the new UI @julien-nc [#159](https://github.com/julien-nc/phonetrack/issues/159)
+- Show the missing battery level in point tooltips @julien-nc
+- Fix the `NcSelect` styles: remove `nowrap` which cut the input label @julien-nc
+
 ## 1.4.1 – 2026-10-22
 
 ### Fixed
