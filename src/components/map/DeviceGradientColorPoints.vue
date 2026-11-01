@@ -192,7 +192,7 @@ export default {
 		},
 
 		lineWidth() {
-			this.setGhostRadius()
+			this.setNormalLineWidth()
 		},
 	},
 
@@ -206,22 +206,7 @@ export default {
 	},
 
 	methods: {
-		onMouseEnter() {
-			const pairData = this.geojsonsPerColorPair
-			Object.keys(pairData).forEach((ci1) => {
-				Object.keys(pairData[ci1]).forEach((ci2) => {
-					const pairId = this.layerId + '-cpoint-' + ci1 + '-' + ci2
-					if (this.map.getLayer(pairId)) {
-						this.map.setPaintProperty(pairId, 'line-width', this.lineWidth * 1.7)
-					}
-				})
-			})
-			if (this.map.getLayer(this.borderLayerId)) {
-				this.map.setPaintProperty(this.borderLayerId, 'line-width', (this.lineWidth * 1.6) * 1.7)
-			}
-		},
-
-		onMouseLeave() {
+		setNormalLineWidth() {
 			const pairData = this.geojsonsPerColorPair
 			Object.keys(pairData).forEach((ci1) => {
 				Object.keys(pairData[ci1]).forEach((ci2) => {
@@ -234,6 +219,7 @@ export default {
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.setPaintProperty(this.borderLayerId, 'line-width', this.lineWidth * 1.6)
 			}
+			this.setGhostRadius()
 		},
 
 		onColorCriteriaChanged() {
