@@ -548,6 +548,9 @@ export function getPointDataHtml(point, distanceUnit = 'metric') {
 	+ (point.satellites !== null
 		? ('<strong>' + t('phonetrack', 'Satellites') + '</strong>: ' + point.satellites + '<br>')
 		: '')
+	+ (point.batterylevel !== null
+		? ('<strong>' + t('phonetrack', 'Battery level') + '</strong>: ' + point.batterylevel + ' %<br>')
+		: '')
 	+ (point.useragent
 		? ('<strong>' + t('phonetrack', 'User-agent') + '</strong>: ' + escapeHtml(point.useragent) + '<br>')
 		: '')
