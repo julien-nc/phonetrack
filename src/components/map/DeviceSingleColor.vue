@@ -8,7 +8,7 @@ import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 import BringTrackToTop from '../../mixins/BringTrackToTop.js'
 import LineDirectionArrows from '../../mixins/LineDirectionArrows.js'
 
-import { getCutPointSegments, getFilteredPoints } from '../../utils.js'
+import { getCutPointSegments, getFilteredPoints, getGhostPointFeatures } from '../../utils.js'
 
 export default {
 	name: 'DeviceSingleColor',
@@ -116,10 +116,6 @@ export default {
 			return this.layerId + '-border'
 		},
 
-		invisibleBorderLayerId() {
-			return this.layerId + '-invisible-border'
-		},
-
 		onTop() {
 			return this.device.onTop
 		},
@@ -132,13 +128,16 @@ export default {
 			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
 			return {
 				type: 'FeatureCollection',
-				features: this.lineSegments.map(segment => ({
-					type: 'Feature',
-					geometry: {
-						coordinates: segment.map(p => [p.lon, p.lat]),
-						type: 'LineString',
-					},
-				})),
+				features: [
+					...this.lineSegments.map(segment => ({
+						type: 'Feature',
+						geometry: {
+							coordinates: segment.map(p => [p.lon, p.lat]),
+							type: 'LineString',
+						},
+					})),
+					...getGhostPointFeatures(this.filteredPoints),
+				],
 			}
 		},
 
@@ -237,6 +236,7 @@ export default {
 				this.map.setPaintProperty(this.borderLayerId, 'line-width', this.lineWidth * 0.3)
 				this.map.setPaintProperty(this.borderLayerId, 'line-gap-width', this.lineWidth)
 			}
+			this.setGhostRadius()
 		},
 
 		remove() {
@@ -247,7 +247,7 @@ export default {
 		},
 
 		removeLines() {
-			this.removeInvisibleBorder()
+			this.removeGhostPoints()
 			this.removeBorder()
 			this.removeLine()
 		},
@@ -258,9 +258,9 @@ export default {
 			}
 		},
 
-		removeInvisibleBorder() {
-			if (this.map.getLayer(this.invisibleBorderLayerId)) {
-				this.map.removeLayer(this.invisibleBorderLayerId)
+		removeGhostPoints() {
+			if (this.map.getLayer(this.ghostPointsLayerId)) {
+				this.map.removeLayer(this.ghostPointsLayerId)
 			}
 		},
 
@@ -270,18 +270,15 @@ export default {
 			}
 		},
 
-		drawInvisibleBorder() {
+		drawGhostPoints() {
 			this.map.addLayer({
-				type: 'line',
+				type: 'circle',
 				source: this.layerId,
-				id: this.invisibleBorderLayerId,
+				id: this.ghostPointsLayerId,
+				filter: ['==', '$type', 'Point'],
 				paint: {
-					'line-opacity': 0,
-					'line-width': Math.max(this.lineWidth, 30),
-				},
-				layout: {
-					'line-cap': 'round',
-					'line-join': 'round',
+					'circle-opacity': 0,
+					'circle-radius': this.getGhostRadius(),
 				},
 			})
 		},
@@ -325,7 +322,7 @@ export default {
 		},
 
 		drawLines() {
-			this.drawInvisibleBorder()
+			this.drawGhostPoints()
 			if (this.border) {
 				this.drawBorder()
 			}

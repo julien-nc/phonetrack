@@ -3,14 +3,12 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script>
-import { LngLat } from 'maplibre-gl'
-
 import WatchLineBorderColor from '../../mixins/WatchLineBorderColor.js'
 import PointInfoPopup from '../../mixins/PointInfoPopup.js'
 import BringTrackToTop from '../../mixins/BringTrackToTop.js'
 
 import { COLOR_CRITERIAS, getColorGradientColors } from '../../constants.js'
-import { getCutPointSegments, getFilteredPoints, isCutBetweenTwoPoints } from '../../utils.js'
+import { getCutPointSegments, getFilteredPoints, getGhostPointFeatures, isCutBetweenTwoPoints } from '../../utils.js'
 
 const gradientColors = getColorGradientColors(240, 0)
 
@@ -125,10 +123,6 @@ export default {
 			return this.layerId + '-border'
 		},
 
-		invisibleBorderLayerId() {
-			return this.layerId + '-invisible-border'
-		},
-
 		onTop() {
 			return this.device.onTop
 		},
@@ -148,13 +142,16 @@ export default {
 			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
 			return {
 				type: 'FeatureCollection',
-				features: this.lineSegments.map(segment => ({
-					type: 'Feature',
-					geometry: {
-						coordinates: segment.map(p => [p.lon, p.lat]),
-						type: 'LineString',
-					},
-				})),
+				features: [
+					...this.lineSegments.map(segment => ({
+						type: 'Feature',
+						geometry: {
+							coordinates: segment.map(p => [p.lon, p.lat]),
+							type: 'LineString',
+						},
+					})),
+					...getGhostPointFeatures(this.filteredPoints),
+				],
 			}
 		},
 
@@ -170,23 +167,6 @@ export default {
 							: this.colorCriteria === COLOR_CRITERIAS.traveled_distance.id
 								? this.traveledDistances
 								: []
-		},
-
-		traveledDistances() {
-			const points = this.filteredPoints
-			const distances = [0]
-			if (points.length === 0) {
-				return distances
-			}
-			let previousLngLat = new LngLat(points[0].lon, points[0].lat)
-			for (let i = 1; i < points.length; i++) {
-				const lngLat = new LngLat(points[i].lon, points[i].lat)
-				const previousDistance = distances[distances.length - 1]
-				distances.push(previousDistance + previousLngLat.distanceTo(lngLat))
-				// distances.push(previousLngLat.distanceTo(lngLat))
-				previousLngLat = lngLat
-			}
-			return distances
 		},
 	},
 
@@ -209,6 +189,10 @@ export default {
 		pointValues() {
 			this.remove()
 			this.init()
+		},
+
+		lineWidth() {
+			this.setGhostRadius()
 		},
 	},
 
@@ -335,10 +319,12 @@ export default {
 		},
 
 		remove() {
-			// remove border
+			// remove border and ghost points
 			if (this.map.getLayer(this.borderLayerId)) {
 				this.map.removeLayer(this.borderLayerId)
-				this.map.removeLayer(this.invisibleBorderLayerId)
+			}
+			if (this.map.getLayer(this.ghostPointsLayerId)) {
+				this.map.removeLayer(this.ghostPointsLayerId)
 			}
 			if (this.map.getSource(this.layerId)) {
 				this.map.removeSource(this.layerId)
@@ -368,16 +354,13 @@ export default {
 				data: this.deviceGeojsonData,
 			})
 			this.map.addLayer({
-				type: 'line',
+				type: 'circle',
 				source: this.layerId,
-				id: this.invisibleBorderLayerId,
+				id: this.ghostPointsLayerId,
+				filter: ['==', '$type', 'Point'],
 				paint: {
-					'line-opacity': 0,
-					'line-width': Math.max(this.lineWidth, 30),
-				},
-				layout: {
-					'line-cap': 'round',
-					'line-join': 'round',
+					'circle-opacity': 0,
+					'circle-radius': this.getGhostRadius(),
 				},
 			})
 			this.map.addLayer({

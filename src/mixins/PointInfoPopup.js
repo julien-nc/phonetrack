@@ -33,6 +33,33 @@ export default {
 		accuracyLayerId() {
 			return this.layerId + '-accuracy-circle'
 		},
+
+		/**
+		 * Invisible but hoverable circle layer set above each filtered point,
+		 * letting us know the hovered point directly from the map mouse events.
+		 */
+		ghostPointsLayerId() {
+			return this.layerId + '-ghost-points'
+		},
+
+		/**
+		 * Cumulative traveled distance (meters) of each filtered point,
+		 * index-aligned with filteredPoints ([0] when empty).
+		 */
+		traveledDistances() {
+			const points = this.filteredPoints ?? []
+			const distances = [0]
+			if (points.length === 0) {
+				return distances
+			}
+			let previousLngLat = new LngLat(points[0].lon, points[0].lat)
+			for (let i = 1; i < points.length; i++) {
+				const lngLat = new LngLat(points[i].lon, points[i].lat)
+				distances.push(distances[distances.length - 1] + previousLngLat.distanceTo(lngLat))
+				previousLngLat = lngLat
+			}
+			return distances
+		},
 	},
 
 	watch: {
@@ -165,33 +192,38 @@ export default {
 				this.map.removeLayer(this.accuracyLayerId + '-border')
 			}
 		},
-		findPoint(lngLat) {
-			if (!this.filteredPoints?.length) {
-				return null
+		// ghost points hover target: update the invisible circle radius when the line width changes
+		setGhostRadius() {
+			if (this.map.getLayer(this.ghostPointsLayerId)) {
+				this.map.setPaintProperty(this.ghostPointsLayerId, 'circle-radius', this.getGhostRadius())
 			}
-			let minDist = 40000000
-			let minDistPoint = null
-			let minDistPointIndex = null
-			let tmpDist
-			this.filteredPoints.forEach((point, i) => {
-				tmpDist = lngLat.distanceTo(new LngLat(point.lon, point.lat))
-				if (tmpDist < minDist) {
-					minDist = tmpDist
-					minDistPoint = point
-					minDistPointIndex = i
+		},
+
+		getGhostRadius() {
+			return Math.max(this.lineWidth, 30)
+		},
+
+		// among the hovered ghost point features, use the one closest to the cursor
+		getHoveredPoint(e) {
+			let bestPoint = null
+			let bestPointIndex = null
+			let minDist = Infinity
+			e.features?.forEach(feature => {
+				const pointIndex = feature.properties.pointIndex
+				const point = this.filteredPoints?.[pointIndex]
+				if (point === undefined) {
+					return
+				}
+				const dist = e.lngLat.distanceTo(new LngLat(point.lon, point.lat))
+				if (dist < minDist) {
+					minDist = dist
+					bestPoint = point
+					bestPointIndex = pointIndex
 				}
 			})
-			// compute traveled distance
-			let traveledDistance = 0
-			let prevLngLat = new LngLat(this.filteredPoints[0].lon, this.filteredPoints[0].lat)
-			for (let i = 1; i <= minDistPointIndex; i++) {
-				const curLngLat = new LngLat(this.filteredPoints[i].lon, this.filteredPoints[i].lat)
-				traveledDistance += prevLngLat.distanceTo(curLngLat)
-				prevLngLat = curLngLat
-			}
-
-			// console.debug('found', minDistPoint, 'traveled', traveledDistance)
-			return { minDistPoint, minDistPointIndex, traveledDistance }
+			return bestPoint === null
+				? null
+				: { point: bestPoint, pointIndex: bestPointIndex }
 		},
 		onClickLine(e) {
 			if (!this.filteredPoints?.length) {
@@ -201,10 +233,11 @@ export default {
 			if (this.hoveringAMarker) {
 				return
 			}
-			const { minDistPoint, minDistPointIndex, traveledDistance } = this.findPoint(e.lngLat)
-			if (minDistPoint !== null) {
-				const popup = this.addPopup(minDistPoint, minDistPointIndex, traveledDistance, true)
-				this.storePersistentPopup(minDistPoint, popup)
+			const hovered = this.getHoveredPoint(e)
+			if (hovered !== null) {
+				const traveledDistance = this.traveledDistances[hovered.pointIndex] ?? 0
+				const popup = this.addPopup(hovered.point, hovered.pointIndex, traveledDistance, true)
+				this.storePersistentPopup(hovered.point, popup)
 				e.originalEvent.preventDefault()
 				e.originalEvent.stopPropagation()
 			}
@@ -213,23 +246,23 @@ export default {
 			if (!this.filteredPoints?.length) {
 				return
 			}
-			const lastPoint = this.filteredPoints[this.filteredPoints.length - 1]
-			const lngLat = new LngLat(lastPoint.lon, lastPoint.lat)
-			this.showPointMarker(lngLat, true)
+			const pointIndex = this.filteredPoints.length - 1
+			const point = this.filteredPoints[pointIndex]
+			this.addMarker(point, pointIndex, this.traveledDistances[pointIndex] ?? 0, true)
 		},
-		showPointMarker(lngLat, isLastPointMarker = false) {
-			if (!this.filteredPoints?.length) {
+		showHoverMarker(hovered) {
+			if (!hovered || !this.filteredPoints?.length) {
 				return
 			}
 			// do not add a marker if we are hovering one
-			if (!isLastPointMarker && this.hoveringAMarker) {
+			if (this.hoveringAMarker) {
 				return
 			}
-			const { minDistPoint, minDistPointIndex, traveledDistance } = this.findPoint(lngLat)
 			// don't add a line hover marker on the last point
-			if (minDistPoint !== null && (isLastPointMarker || minDistPointIndex !== this.filteredPoints.length - 1)) {
-				this.addMarker(minDistPoint, minDistPointIndex, traveledDistance, isLastPointMarker)
+			if (hovered.pointIndex === this.filteredPoints.length - 1) {
+				return
 			}
+			this.addMarker(hovered.point, hovered.pointIndex, this.traveledDistances[hovered.pointIndex] ?? 0, false)
 		},
 		addMarker(point, pointIndex, traveledDistance, isLastPointMarker = false) {
 			if (isLastPointMarker) {
@@ -452,7 +485,7 @@ export default {
 		},
 		onMouseEnterPointInfo(e) {
 			this.map.getCanvas().style.cursor = 'pointer'
-			this.showPointMarker(e.lngLat)
+			this.showHoverMarker(this.getHoveredPoint(e))
 		},
 		onMouseLeavePointInfo() {
 			this.map.getCanvas().style.cursor = ''
@@ -468,15 +501,20 @@ export default {
 			// remove potential persistent popup
 			this.removePersistentPopup(pointId)
 		},
+		// listen to the hovered point feature layer (device components) and, for the
+		// track components, to their invisible border line (popups are impossible there,
+		// but the pointer cursor doesn't hurt)
 		listenToPointInfoEvents() {
-			this.map.on('click', this.invisibleBorderLayerId, this.onClickLine)
-			this.map.on('mousemove', this.invisibleBorderLayerId, this.onMouseEnterPointInfo)
-			this.map.on('mouseleave', this.invisibleBorderLayerId, this.onMouseLeavePointInfo)
+			const layerIds = [this.ghostPointsLayerId, this.invisibleBorderLayerId].filter(Boolean)
+			this.map.on('click', layerIds, this.onClickLine)
+			this.map.on('mousemove', layerIds, this.onMouseEnterPointInfo)
+			this.map.on('mouseleave', layerIds, this.onMouseLeavePointInfo)
 		},
 		releasePointInfoEvents() {
-			this.map.off('click', this.invisibleBorderLayerId, this.onClickLine)
-			this.map.off('mousemove', this.invisibleBorderLayerId, this.onMouseEnterPointInfo)
-			this.map.off('mouseleave', this.invisibleBorderLayerId, this.onMouseLeavePointInfo)
+			const layerIds = [this.ghostPointsLayerId, this.invisibleBorderLayerId].filter(Boolean)
+			this.map.off('click', layerIds, this.onClickLine)
+			this.map.off('mousemove', layerIds, this.onMouseEnterPointInfo)
+			this.map.off('mouseleave', layerIds, this.onMouseLeavePointInfo)
 		},
 	},
 }

@@ -563,6 +563,24 @@ export function getCutPointSegments(points, cutDistance, cutTime) {
 	return segments
 }
 
+/**
+ * Build the ghost point features of a point list: invisible but hoverable Point
+ * features carrying their index in the list, letting the point info popups
+ * read the hovered point directly from the map mouse events.
+ */
+export function getGhostPointFeatures(points) {
+	return points.map((point, i) => ({
+		type: 'Feature',
+		geometry: {
+			coordinates: [point.lon, point.lat],
+			type: 'Point',
+		},
+		properties: {
+			pointIndex: i,
+		},
+	}))
+}
+
 export function getPointDataHtml(point, distanceUnit = 'metric') {
 	return (point.timestamp !== null
 		? ('<strong>' + t('phonetrack', 'Date') + '</strong>: ' + moment.unix(point.timestamp).format('YYYY-MM-DD HH:mm:ss (Z)') + '<br>')
