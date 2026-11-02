@@ -16,7 +16,7 @@ import {
 	showError,
 	// showInfo,
 } from '@nextcloud/dialogs'
-import { circle } from '@turf/turf'
+import circle from '@turf/circle'
 
 export default {
 	data() {
