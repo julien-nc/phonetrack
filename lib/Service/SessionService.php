@@ -34,6 +34,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Lock\LockedException;
 use Psr\Log\LoggerInterface;
 use stdClass;
@@ -52,6 +53,7 @@ class SessionService {
 		private PointMapper $pointMapper,
 		private ImportGpxService $importGpxService,
 		private IUserManager $userManager,
+		private IUserSession $userSession,
 		private IDBConnection $db,
 		private IRootFolder $root,
 		private IConfig $config,
@@ -228,45 +230,54 @@ class SessionService {
 				continue;
 			}
 
-			// if the user does not exist: skip this this user
-			if (!$this->userManager->userExists($userId)) {
+			$user = $this->userManager->get($userId);
+			// if the user does not exist: skip this user
+			if ($user === null) {
 				continue;
 			}
 
 			$userFolder = $this->root->getUserFolder($userId);
 
-			foreach ($candidateUserSessions as $session) {
-				$dbname = $session->getName();
-				$dbtoken = $session->getToken();
-				$dbexportType = $session->getAutoexport();
-				// export if autoexport is set
-				if ($dbexportType !== 'no') {
-					$suffix = $dailySuffix;
-					$filters = $dayFilters;
-					if ($dbexportType === 'weekly') {
-						$suffix = $weeklySuffix;
-						$filters = $weekFilters;
-					} elseif ($dbexportType === 'monthly') {
-						$suffix = $monthlySuffix;
-						$filters = $monthFilters;
-					}
-					$dir = $this->getOrCreateExportDir($userId);
-					// check if file already exists
-					$exportName = $dbname . $suffix . '.gpx';
-
-					$rel_path = str_replace($userFolder->getPath(), '', $dir->getPath());
-					$exportPath = $rel_path . '/' . $exportName;
-					if (!$dir->nodeExists($exportName)) {
-						[$done, $warning] = $this->exportSession($dbname, $dbtoken, $exportPath, $userId, $filters);
-						if ($warning === 1) {
-							yield "Not exporting session $dbname of $userId in '$exportPath', no points";
-						} else {
-							yield "Exporting session $dbname of $userId in '$exportPath'";
+			// impersonate the user so the files activity hooks
+			// consider them the file creator instead of falling
+			// back to a "remote account"
+			$this->userSession->setUser($user);
+			try {
+				foreach ($candidateUserSessions as $session) {
+					$dbname = $session->getName();
+					$dbtoken = $session->getToken();
+					$dbexportType = $session->getAutoexport();
+					// export if autoexport is set
+					if ($dbexportType !== 'no') {
+						$suffix = $dailySuffix;
+						$filters = $dayFilters;
+						if ($dbexportType === 'weekly') {
+							$suffix = $weeklySuffix;
+							$filters = $weekFilters;
+						} elseif ($dbexportType === 'monthly') {
+							$suffix = $monthlySuffix;
+							$filters = $monthFilters;
 						}
-					} else {
-						yield "Cannot export session $dbname of $userId in '$exportPath', file already exists";
+						$dir = $this->getOrCreateExportDir($userId);
+						// check if file already exists
+						$exportName = $dbname . $suffix . '.gpx';
+
+						$rel_path = str_replace($userFolder->getPath(), '', $dir->getPath());
+						$exportPath = $rel_path . '/' . $exportName;
+						if (!$dir->nodeExists($exportName)) {
+							[$done, $warning] = $this->exportSession($dbname, $dbtoken, $exportPath, $userId, $filters);
+							if ($warning === 1) {
+								yield "Not exporting session $dbname of $userId in '$exportPath', no points";
+							} else {
+								yield "Exporting session $dbname of $userId in '$exportPath'";
+							}
+						} else {
+							yield "Cannot export session $dbname of $userId in '$exportPath', file already exists";
+						}
 					}
 				}
+			} finally {
+				$this->userSession->setUser(null);
 			}
 		}
 		// we run the auto purge method AFTER the auto export

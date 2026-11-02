@@ -32,7 +32,9 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
 use OCP\Server;
@@ -40,6 +42,53 @@ use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Throwable;
+
+/**
+ * Simple IUserSession implementation that records setUser() calls without
+ * touching the process-wide server session.
+ */
+class RecordingUserSession implements IUserSession {
+	/**
+	 * @var list<string|null>
+	 */
+	public array $recordedUsers = [];
+
+	public function setUser($user) {
+		$this->recordedUsers[] = $user === null ? null : $user->getUID();
+	}
+
+	public function getUser() {
+		return null;
+	}
+
+	public function isLoggedIn() {
+		return false;
+	}
+
+	public function login($uid, $password) {
+		return false;
+	}
+
+	public function logout() {
+	}
+
+	public function setVolatileActiveUser(?IUser $user): void {
+	}
+
+	public function getImpersonatingUserID(): ?string {
+		return null;
+	}
+
+	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
+	}
+
+	public function isIncognitoMode(): bool {
+		return false;
+	}
+
+	public function setIncognitoMode(bool $mode): void {
+	}
+}
 
 #[AllowMockObjectsWithoutExpectations]
 class OldPageControllerTest extends TestCase {
@@ -97,6 +146,7 @@ class OldPageControllerTest extends TestCase {
 			Server::get(PointMapper::class),
 			Server::get(ImportGpxService::class),
 			Server::get(IUserManager::class),
+			Server::get(IUserSession::class),
 			Server::get(IDBConnection::class),
 			Server::get(IRootFolder::class),
 			Server::get(IConfig::class),
@@ -769,6 +819,33 @@ class OldPageControllerTest extends TestCase {
 		iterator_to_array($this->sessionService->cronAutoExport());
 		$search = $userFolder->get('/autoex')->search('.gpx');
 		$this->assertEquals(count($search), 1);
+
+		// check the auto export impersonates the user while exporting
+		// and restores the session afterwards
+		$recordingUserSession = new RecordingUserSession();
+		$recordingSessionService = new SessionService(
+			Server::get(SessionMapper::class),
+			Server::get(DeviceMapper::class),
+			Server::get(PublicShareMapper::class),
+			Server::get(GeofenceMapper::class),
+			Server::get(ProximMapper::class),
+			Server::get(ShareMapper::class),
+			Server::get(PointMapper::class),
+			Server::get(ImportGpxService::class),
+			Server::get(IUserManager::class),
+			$recordingUserSession,
+			Server::get(IDBConnection::class),
+			Server::get(IRootFolder::class),
+			Server::get(IConfig::class),
+			Server::get(IAppConfig::class),
+			Server::get(LoggerInterface::class),
+		);
+		iterator_to_array($recordingSessionService->cronAutoExport());
+		$this->assertContains('test', $recordingUserSession->recordedUsers);
+		$this->assertNull($recordingUserSession->recordedUsers[count($recordingUserSession->recordedUsers) - 1]);
+
+		// the user session must still not be set
+		$this->assertNull(Server::get(IUserSession::class)->getUser());
 
 		$this->pageController->deleteDevice($token, $deviceid);
 
