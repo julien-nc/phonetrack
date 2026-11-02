@@ -2130,7 +2130,7 @@ if (typeof hotlinePlugin === 'function') {
 				phonetrack.countdown.targetTime = null
 			}
 			const targetMom = moment()
-			targetMom.add('seconds', updateinterval / 1000)
+			targetMom.add(updateinterval / 1000, 'seconds')
 			// launch countdown
 			phonetrack.countdown = new Countdown({
 				id: 'countdown',
