@@ -229,9 +229,6 @@ export default {
 	unmounted() {
 		this.map.remove()
 		unsubscribe('get-map-bounds', this.onGetMapBounds)
-		unsubscribe('resize-map', this.resizeMap)
-		unsubscribe('nav-toggled', this.onNavToggled)
-		unsubscribe('sidebar-toggled', this.onNavToggled)
 		unsubscribe('zoom-on-bounds', this.onZoomOnBounds)
 	},
 
@@ -401,11 +398,7 @@ export default {
 			})
 
 			subscribe('get-map-bounds', this.onGetMapBounds)
-			subscribe('resize-map', this.resizeMap)
-			subscribe('nav-toggled', this.onNavToggled)
-			subscribe('sidebar-toggled', this.onNavToggled)
 			subscribe('zoom-on-bounds', this.onZoomOnBounds)
-			this.resizeMap()
 		},
 
 		loadImages() {
@@ -574,22 +567,6 @@ export default {
 				south: bounds.getSouth(),
 				west: bounds.getWest(),
 			})
-		},
-
-		// it might be a bug in maplibre: when navigation sidebar is toggled, the map fails to resize
-		// and an empty area appears on the right
-		// this fixes it
-		resizeMap() {
-			setTimeout(() => {
-				this.$nextTick(() => {
-					this.map.resize()
-					window.dispatchEvent(new Event('resize'))
-				})
-			}, 300)
-		},
-
-		onNavToggled() {
-			this.resizeMap()
 		},
 
 		onZoomOnBounds({ nsew, animate = true }) {

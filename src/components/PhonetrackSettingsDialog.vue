@@ -678,9 +678,6 @@ export default {
 		onCheckboxChanged(newValue: boolean, key: string): void {
 			console.debug('onCheckboxChanged', typeof newValue, typeof key)
 			emit('save-settings', { [key]: newValue ? '1' : '0' })
-			if (key === 'compact_mode') {
-				emit('resize-map', {})
-			}
 		},
 
 		debOnComponentInputChange(value: string, key: string): void {

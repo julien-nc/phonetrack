@@ -18,7 +18,6 @@
 			:listMinWidth="20"
 			:listSize="20"
 			:showDetails="showDetails"
-			@resize:list="onResizeList"
 			@update:showDetails="onUpdateShowDetails">
 			<template v-if="!isCompactMode" #list>
 				<NcEmptyContent v-if="selectedSession === null"
@@ -462,10 +461,6 @@ export default {
 	},
 
 	methods: {
-		onResizeList() {
-			emit('resize-map')
-		},
-
 		storeBounds({ north, east, south, west }) {
 			this.mapNorth = north
 			this.mapEast = east
