@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-11-01 15:12+0100\n"
-"PO-Revision-Date: 2026-11-01 14:18\n"
+"PO-Revision-Date: 2026-11-05 15:55\n"
 "Last-Translator: \n"
 "Language-Team: Slovak\n"
 "Language: sk_SK\n"
@@ -128,7 +128,7 @@ msgstr "V relácii PhoneTrack \"%s\", zariadenie \"%s\" vystúpilo zo zóny geop
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2057
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2141
 msgid "Session does not exist or is not public"
-msgstr ""
+msgstr "Relácia neexistuje alebo nie je verejná"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2087
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2119
@@ -138,11 +138,11 @@ msgstr "Sledovať záznam"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2091
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2165
 msgid "This session does not exist or is not public"
-msgstr ""
+msgstr "Táto relácia neexistuje alebo nie je verejná"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2125
 msgid "The session does not exist or is not public"
-msgstr ""
+msgstr "Relácia neexistuje alebo nie je verejná"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/OldPageController.php:2190
 #: /home/julien/html/dev/server/apps-extra/phonetrack/lib/Controller/PublicShareController.php:111
@@ -571,15 +571,15 @@ msgstr "Exportovať do aktuálneho priečinka"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2452
 msgid "Device successfully exported in {actualExportPath}"
-msgstr ""
+msgstr "Zariadenie bolo úspešene exportované do {actualExportPath}"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2456
 msgid "Failed to export the device, invalid path"
-msgstr ""
+msgstr "Export zariadenia sa nepodaril, neplatná cesta"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2458
 msgid "Failed to export the device"
-msgstr ""
+msgstr "Exportovanie zaradenia zlyhalo"
 
 #. TRANSLATORS src/components/DeviceDetailsSidebarTab.vue:8
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:2466
@@ -1134,11 +1134,11 @@ msgstr "Obnoviť teraz"
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:30
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3866
 msgid "Resume"
-msgstr ""
+msgstr "Pokračovať"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:3866
 msgid "Pause"
-msgstr ""
+msgstr "Pozastaviť"
 
 #. TRANSLATORS src/components/NavigationCountdownItem.vue:35
 #. TRANSLATORS src/components/PhonetrackSettingsDialog.vue:78
@@ -1162,7 +1162,7 @@ msgstr[3] "{n} zariadení"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4081
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4221
 msgid "Owned by {user}"
-msgstr ""
+msgstr "Vlastník {user}"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:20
 #. TRANSLATORS src/components/SessionSettingsSidebarTab.vue:17
@@ -1185,7 +1185,7 @@ msgstr "Odkazy na zariadenia"
 #. TRANSLATORS src/components/NavigationSessionItem.vue:85
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4229
 msgid "Toggle lines for all devices"
-msgstr ""
+msgstr "Zobraziť/skryť riadky pre všetky zariadenia"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:102
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4233
@@ -1223,7 +1223,7 @@ msgstr "Importovať súbor gpx/kml/json"
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4474
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/phonetrack.js:6101
 msgid "Import"
-msgstr ""
+msgstr "Importovať"
 
 #. TRANSLATORS src/components/PhonetrackNavigation.vue:13
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4510
@@ -1832,7 +1832,7 @@ msgstr "Exportovanie relácie zlyhalo"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5786
 msgid "Failed to add the name reservation, a device already has this reserved name"
-msgstr ""
+msgstr "Nepodarilo sa pridať rezerváciu názvu, zariadenie už má tento názov rezervované"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:5788
 msgid "Failed to add the name reservation"
@@ -2154,11 +2154,11 @@ msgstr "Príspevok"
 #. TRANSLATORS src/components/tileservers/TileServerAddForm.vue:94
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9910
 msgid "Map data from…"
-msgstr ""
+msgstr "Mapové údaje z…"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:9945
 msgid "Select tile server"
-msgstr ""
+msgstr "Vybrať mapový server"
 
 #. TRANSLATORS src/components/tileservers/TileServerItem.vue:50
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:10022
@@ -3293,7 +3293,7 @@ msgstr "WaterColor"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:272
 msgid "OpenFreeMap Liberty"
-msgstr ""
+msgstr "OpenFreeMap Liberty"
 
 #: /home/julien/html/dev/server/apps-extra/phonetrack/src/tileServers.js:285
 msgid "Streets"
