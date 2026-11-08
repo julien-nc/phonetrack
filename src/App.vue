@@ -144,7 +144,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
 import PhonetrackNavigation from './components/PhonetrackNavigation.vue'
 
-import { getFilteredPoints } from './utils.js'
+import { getFiltersFromSettings, getFilteredPoints } from './utils.js'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { defineAsyncComponent } from 'vue'
@@ -298,41 +298,7 @@ export default {
 		},
 
 		filters() {
-			if (this.state.settings.applyfilters !== 'true') {
-				return null
-			}
-			const filters = {
-				timestampmin: this.state.settings.timestampmin,
-				timestampmax: this.state.settings.timestampmax,
-				altitudemin: this.state.settings.altitudemin,
-				altitudemax: this.state.settings.altitudemax,
-				accuracymin: this.state.settings.accuracymin,
-				accuracymax: this.state.settings.accuracymax,
-				speedmin: this.state.settings.speedmin,
-				speedmax: this.state.settings.speedmax,
-				bearingmin: this.state.settings.bearingmin,
-				bearingmax: this.state.settings.bearingmax,
-				batterylevelmin: this.state.settings.batterylevelmin,
-				batterylevelmax: this.state.settings.batterylevelmax,
-				satellitesmin: this.state.settings.satellitesmin,
-				satellitesmax: this.state.settings.satellitesmax,
-			}
-			// the last day:hour:min filter defines a rolling min timestamp,
-			// recomputed from now each time the filters are applied
-			const lastdays = parseInt(this.state.settings.lastdays)
-			const lasthours = parseInt(this.state.settings.lasthours)
-			const lastmins = parseInt(this.state.settings.lastmins)
-			if (!isNaN(lastdays) || !isNaN(lasthours) || !isNaN(lastmins)) {
-				const rollingTsmin = moment.unix(this.nowTs)
-					.subtract(isNaN(lastdays) ? 0 : lastdays, 'days')
-					.subtract(isNaN(lasthours) ? 0 : lasthours, 'hours')
-					.subtract(isNaN(lastmins) ? 0 : lastmins, 'minutes')
-					.unix()
-				if (!filters.timestampmin || rollingTsmin > parseInt(filters.timestampmin)) {
-					filters.timestampmin = rollingTsmin
-				}
-			}
-			return filters
+			return getFiltersFromSettings(this.state.settings, this.nowTs)
 		},
 	},
 

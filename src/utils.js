@@ -520,6 +520,51 @@ export function sortDevices(devices, sortOrder, sortAscending = true) {
 	return devices
 }
 
+/**
+ * Build the point filters of the current settings.
+ * The last day/hour/min settings define a rolling min timestamp,
+ * computed from the given "now" unix timestamp.
+ *
+ * @param {object} settings the app settings
+ * @param {number|null} nowTs the current unix timestamp
+ * @return {object|null} the point filters or null if filters are not applied
+ */
+export function getFiltersFromSettings(settings, nowTs) {
+	if (settings.applyfilters !== 'true') {
+		return null
+	}
+	const filters = {
+		timestampmin: settings.timestampmin,
+		timestampmax: settings.timestampmax,
+		altitudemin: settings.altitudemin,
+		altitudemax: settings.altitudemax,
+		accuracymin: settings.accuracymin,
+		accuracymax: settings.accuracymax,
+		speedmin: settings.speedmin,
+		speedmax: settings.speedmax,
+		bearingmin: settings.bearingmin,
+		bearingmax: settings.bearingmax,
+		batterylevelmin: settings.batterylevelmin,
+		batterylevelmax: settings.batterylevelmax,
+		satellitesmin: settings.satellitesmin,
+		satellitesmax: settings.satellitesmax,
+	}
+	const lastdays = parseInt(settings.lastdays)
+	const lasthours = parseInt(settings.lasthours)
+	const lastmins = parseInt(settings.lastmins)
+	if (!isNaN(lastdays) || !isNaN(lasthours) || !isNaN(lastmins)) {
+		const rollingTsmin = moment.unix(nowTs)
+			.subtract(isNaN(lastdays) ? 0 : lastdays, 'days')
+			.subtract(isNaN(lasthours) ? 0 : lasthours, 'hours')
+			.subtract(isNaN(lastmins) ? 0 : lastmins, 'minutes')
+			.unix()
+		if (!filters.timestampmin || rollingTsmin > parseInt(filters.timestampmin)) {
+			filters.timestampmin = rollingTsmin
+		}
+	}
+	return filters
+}
+
 export function getFilteredPoints(points, filters) {
 	let filteredPoints = points;
 	['timestamp', 'altitude', 'accuracy', 'speed', 'bearing', 'batterylevel', 'satellites'].forEach(fieldKey => {
