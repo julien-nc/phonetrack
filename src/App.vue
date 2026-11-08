@@ -67,7 +67,7 @@
 							:cutDistance="parseFloat(state.settings.cutdistance) || null"
 							:cutTime="parseFloat(state.settings.cuttime) || null"
 							:distanceUnit="state.settings.distance_unit ?? 'metric'" />
-						<DeviceGradientColorPoints v-else
+						<DeviceGradientColorSegments v-else
 							:device="d"
 							:map="map"
 							:layerId="'device-' + d.id"
@@ -154,7 +154,7 @@ export default {
 	components: {
 		PhonetrackIcon,
 		ChartPopups: defineAsyncComponent(() => import('./components/map/ChartPopups.vue')),
-		DeviceGradientColorPoints: defineAsyncComponent(() => import('./components/map/DeviceGradientColorPoints.vue')),
+		DeviceGradientColorSegments: defineAsyncComponent(() => import('./components/map/DeviceGradientColorSegments.vue')),
 		PolygonFill: defineAsyncComponent(() => import('./components/map/PolygonFill.vue')),
 		DeviceSingleColor: defineAsyncComponent(() => import('./components/map/DeviceSingleColor.vue')),
 		MaplibreMap: defineAsyncComponent(() => import('./components/map/MaplibreMap.vue')),
