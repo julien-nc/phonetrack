@@ -125,7 +125,6 @@ export default {
 		},
 
 		deviceGeojsonData() {
-			console.debug('[phonetrack] compute device geojson', this.device, this.device.points)
 			return {
 				type: 'FeatureCollection',
 				features: [

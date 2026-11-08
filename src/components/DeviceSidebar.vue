@@ -28,7 +28,9 @@
 			<template #icon>
 				<InformationOutlineIcon :size="20" />
 			</template>
+			<!-- NcAppSidebarTab keeps every tab mounted, only apply the heavy ones when they are active -->
 			<DeviceDetailsSidebarTab
+				v-if="activeTab === 'device-details'"
 				:device="device"
 				:session="session"
 				:addingPoint="addingPoint" />
@@ -53,6 +55,7 @@
 				<ChartLineIcon :size="20" />
 			</template>
 			<DeviceChartsSidebarTab
+				v-if="activeTab === 'device-charts'"
 				:device="device"
 				:session="session"
 				:settings="settings" />
@@ -65,6 +68,7 @@
 				<MapMarkerRadiusOutlineIcon :size="20" />
 			</template>
 			<DeviceGeofencesSidebarTab
+				v-if="activeTab === 'device-geofences'"
 				:device="device"
 				:session="session"
 				:settings="settings" />
@@ -77,6 +81,7 @@
 				<MapMarkerDistanceIcon :size="20" />
 			</template>
 			<DeviceProximsSidebarTab
+				v-if="activeTab === 'device-proxims'"
 				:device="device"
 				:session="session"
 				:settings="settings" />

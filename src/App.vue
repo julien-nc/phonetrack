@@ -207,6 +207,9 @@ export default {
 			loadingDevicePoints: false,
 			editingPoint: null,
 			editingPointPath: null,
+			// timestamp filter bounds of the last points fetch, so that
+			// 'filter-changed' only refetches when the fetch window changes
+			lastRefetchTimeBounds: null,
 			// updated each time the points are refreshed so a rolling
 			// timestamp filter moves with the refresh time
 			nowTs: moment().unix(),
@@ -267,7 +270,7 @@ export default {
 					acc.push(...Object.values(session.devices).filter(device => device.enabled))
 					return acc
 				}, [])
-			console.debug('enabledDevices', dd)
+			console.debug('enabledDevices')
 			return dd
 		},
 
@@ -399,7 +402,9 @@ export default {
 		subscribe('delete-proxim', this.onDeleteProxim)
 		subscribe('refresh-clicked', this.onRefreshClicked)
 		subscribe('refresh-countdown-end', this.onRefreshClicked)
-		subscribe('filter-changed', this.refreshAllDevicePoints)
+		subscribe('filter-changed', this.onFilterChanged)
+		// the points were initially fetched within the current timestamp filter bounds
+		this.lastRefetchTimeBounds = this.getRefetchTimeBounds()
 		subscribe('show-filters', this.onShowFilters)
 		subscribe('device-list-show-map', this.onDeviceListShowDetailsClicked)
 		emit('nav-toggled')
@@ -455,7 +460,7 @@ export default {
 		unsubscribe('delete-proxim', this.onDeleteProxim)
 		unsubscribe('refresh-clicked', this.onRefreshClicked)
 		unsubscribe('refresh-countdown-end', this.onRefreshClicked)
-		unsubscribe('filter-changed', this.refreshAllDevicePoints)
+		unsubscribe('filter-changed', this.onFilterChanged)
 		unsubscribe('show-filters', this.onShowFilters)
 		unsubscribe('device-list-show-map', this.onDeviceListShowDetailsClicked)
 	},
@@ -1347,13 +1352,33 @@ export default {
 				})
 		},
 
+		// the server fetch window of the points only depends on the timestamp filters:
+		// the other filters are applied client-side on the loaded points
+		getRefetchTimeBounds() {
+			return this.filters === null
+				? ''
+				: (this.filters.timestampmin ?? '') + '@' + (this.filters.timestampmax ?? '')
+		},
+
+		onFilterChanged() {
+			const bounds = this.getRefetchTimeBounds()
+			if (bounds === this.lastRefetchTimeBounds) {
+				return
+			}
+			this.lastRefetchTimeBounds = bounds
+			this.debouncedRefreshAllDevicePoints()
+		},
+
+		debouncedRefreshAllDevicePoints: debounce(function() {
+			this.refreshAllDevicePoints()
+		}, 500),
+
 		refreshAllDevicePoints() {
 			this.nowTs = moment().unix()
 			this.loadingDevicePoints = true
 			const loadingPromises = this.enabledDevices.map(device => this.loadDevice(device.session_id, device.id))
 			return Promise.all(loadingPromises)
 				.then(results => {
-					console.debug('promise.all results', results)
 					if (results.some(result => result?.code === 'ERR_CANCELED')) {
 						console.debug('At least one request has been canceled, do nothing')
 					}
