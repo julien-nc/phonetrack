@@ -59,6 +59,7 @@
 			<DeviceChartsSidebarTab
 				v-if="activeTab === 'device-charts'"
 				:device="device"
+				:filters="filters"
 				:session="session"
 				:settings="settings" />
 		</NcAppSidebarTab>

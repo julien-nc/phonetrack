@@ -71,6 +71,11 @@ export default {
 			required: true,
 		},
 
+		filters: {
+			type: Object,
+			default: null,
+		},
+
 		xAxis: {
 			type: String,
 			default: 'time',
@@ -106,28 +111,6 @@ export default {
 
 		firstValidTimestamp() {
 			return this.dataLabels.timestamps.find(ts => { return !!ts })
-		},
-
-		filters() {
-			if (this.settings.applyfilters !== 'true') {
-				return null
-			}
-			return {
-				timestampmin: this.settings.timestampmin,
-				timestampmax: this.settings.timestampmax,
-				altitudemin: this.settings.altitudemin,
-				altitudemax: this.settings.altitudemax,
-				accuracymin: this.settings.accuracymin,
-				accuracymax: this.settings.accuracymax,
-				speedmin: this.settings.speedmin,
-				speedmax: this.settings.speedmax,
-				bearingmin: this.settings.bearingmin,
-				bearingmax: this.settings.bearingmax,
-				batterylevelmin: this.settings.batterylevelmin,
-				batterylevelmax: this.settings.batterylevelmax,
-				satellitesmin: this.settings.satellitesmin,
-				satellitesmax: this.settings.satellitesmax,
-			}
 		},
 
 		filteredPoints() {

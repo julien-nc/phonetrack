@@ -10,6 +10,7 @@
 		</NcNoteCard>
 		<DeviceChart
 			:device="device"
+			:filters="filters"
 			:xAxis="settings.chart_x_axis ?? 'time'"
 			:chartYScale="chartYScale"
 			:settings="settings" />
@@ -120,6 +121,11 @@ export default {
 		device: {
 			type: Object,
 			required: true,
+		},
+
+		filters: {
+			type: Object,
+			default: null,
 		},
 
 		active: {
