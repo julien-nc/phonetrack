@@ -105,6 +105,7 @@
 			:show="showSidebar"
 			:activeTab="activeSidebarTab"
 			:device="sidebarDevice"
+			:filters="filters"
 			:session="sidebarSession"
 			:settings="state.settings"
 			:addingPoint="addingPoint"

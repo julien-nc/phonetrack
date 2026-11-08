@@ -3,12 +3,12 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="details-container">
+	<div v-if="device.enabled && device.points?.length > 0"
+		class="details-container">
 		<h3>
 			{{ t('phonetrack', 'Device statistics') }}
 		</h3>
-		stats
-		<!--table>
+		<table v-if="displayedPoints.length > 0">
 			<tbody>
 				<tr v-for="(stat, key) in stats"
 					:key="key"
@@ -26,7 +26,23 @@
 					</td>
 				</tr>
 			</tbody>
-		</table-->
+		</table>
+		<NcEmptyContent v-else
+			:name="t('phonetrack', 'No points to display')"
+			:title="t('phonetrack', 'No points to display')">
+			<template #icon>
+				<TableLargeIcon />
+			</template>
+		</NcEmptyContent>
+	</div>
+	<div v-else>
+		<NcEmptyContent
+			:name="t('phonetrack', 'No data to display')"
+			:title="t('phonetrack', 'No data to display')">
+			<template #icon>
+				<DatabaseOffOutlineIcon />
+			</template>
+		</NcEmptyContent>
 	</div>
 </template>
 
@@ -34,23 +50,53 @@
 import DotsHorizontalIcon from 'vue-material-design-icons/DotsHorizontal.vue'
 import ClockIcon from 'vue-material-design-icons/Clock.vue'
 import ArrowLeftRightIcon from 'vue-material-design-icons/ArrowLeftRight.vue'
-import TimerPauseIcon from 'vue-material-design-icons/TimerPause.vue'
-import TimerPlayIcon from 'vue-material-design-icons/TimerPlay.vue'
 import CalendarWeekBeginIcon from 'vue-material-design-icons/CalendarWeekBegin.vue'
 import CalendarWeekendIcon from 'vue-material-design-icons/CalendarWeekend.vue'
-import TrendingUpIcon from 'vue-material-design-icons/TrendingUp.vue'
-import TrendingDownIcon from 'vue-material-design-icons/TrendingDown.vue'
 import FormatVerticalAlignTopIcon from 'vue-material-design-icons/FormatVerticalAlignTop.vue'
 import FormatVerticalAlignBottomIcon from 'vue-material-design-icons/FormatVerticalAlignBottom.vue'
 import CarSpeedLimiterIcon from 'vue-material-design-icons/CarSpeedLimiter.vue'
+import SpeedometerIcon from 'vue-material-design-icons/Speedometer.vue'
+import TimerOutlineIcon from 'vue-material-design-icons/TimerOutline.vue'
+import CrosshairsGpsIcon from 'vue-material-design-icons/CrosshairsGps.vue'
+import CrosshairsQuestionIcon from 'vue-material-design-icons/CrosshairsQuestion.vue'
+import BatteryMinusVariantIcon from 'vue-material-design-icons/BatteryMinusVariant.vue'
+import TableLargeIcon from 'vue-material-design-icons/TableLarge.vue'
+import DatabaseOffOutlineIcon from 'vue-material-design-icons/DatabaseOffOutline.vue'
 
-import { formatDuration, kmphToSpeed, metersToDistance, metersToElevation } from '../utils.js'
+import { LngLat } from 'maplibre-gl'
 import moment from '@nextcloud/moment'
+
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+
+import {
+	formatDuration,
+	getFilteredPoints,
+	isCutBetweenTwoPoints,
+	metersToDistance,
+	metersToElevation,
+	mpsToSpeed,
+} from '../utils.js'
 
 export default {
 	name: 'DeviceStatsSidebarTab',
 
 	components: {
+		DotsHorizontalIcon,
+		ClockIcon,
+		ArrowLeftRightIcon,
+		CalendarWeekBeginIcon,
+		CalendarWeekendIcon,
+		FormatVerticalAlignTopIcon,
+		FormatVerticalAlignBottomIcon,
+		CarSpeedLimiterIcon,
+		SpeedometerIcon,
+		TimerOutlineIcon,
+		CrosshairsGpsIcon,
+		CrosshairsQuestionIcon,
+		BatteryMinusVariantIcon,
+		TableLargeIcon,
+		DatabaseOffOutlineIcon,
+		NcEmptyContent,
 	},
 
 	props: {
@@ -59,122 +105,178 @@ export default {
 			required: true,
 		},
 
+		filters: {
+			type: Object,
+			default: null,
+		},
+
 		settings: {
 			type: Object,
 			required: true,
 		},
 	},
 
-	data() {
-		return {
-		}
-	},
-
 	computed: {
-		pointsCount() {
-			if (this.track.geojson) {
-				let count = 0
-				this.track.geojson.features.forEach((feature) => {
-					if (feature.geometry.type === 'LineString') {
-						count += feature.geometry.coordinates.length
-					} else if (feature.geometry.type === 'MultiLineString') {
-						feature.geometry.coordinates.forEach((coords) => {
-							count += coords.length
-						})
-					}
-				})
-				return count
+		displayedPoints() {
+			return this.filters === null
+				? this.device.points
+				: getFilteredPoints(this.device.points, this.filters)
+		},
+
+		statsData() {
+			const points = this.displayedPoints
+			if (!points.length) {
+				return null
 			}
-			return null
+			const cutDistance = parseFloat(this.settings.cutdistance) || null
+			const cutTime = parseFloat(this.settings.cuttime) || null
+
+			let totalDistance = 0
+			let maxSpeed = null
+			let minAltitude = null
+			let maxAltitude = null
+			let accuracySum = 0
+			let accuracyCount = 0
+			let worstAccuracy = null
+			let batteryUsed = 0
+			let previousBattery = null
+			for (let i = 0; i < points.length; i++) {
+				const point = points[i]
+				if (point.speed !== null && (maxSpeed === null || point.speed > maxSpeed)) {
+					maxSpeed = point.speed
+				}
+				if (point.altitude !== null
+					&& (minAltitude === null || point.altitude < minAltitude)) {
+					minAltitude = point.altitude
+				}
+				if (point.altitude !== null
+					&& (maxAltitude === null || point.altitude > maxAltitude)) {
+					maxAltitude = point.altitude
+				}
+				if (point.accuracy !== null) {
+					accuracySum += point.accuracy
+					accuracyCount++
+					if (worstAccuracy === null || point.accuracy > worstAccuracy) {
+						worstAccuracy = point.accuracy
+					}
+				}
+				if (point.batterylevel !== null) {
+					if (previousBattery !== null && previousBattery > point.batterylevel) {
+						batteryUsed += previousBattery - point.batterylevel
+					}
+					previousBattery = point.batterylevel
+				}
+				if (i > 0
+					&& !isCutBetweenTwoPoints(points[i - 1], point, cutDistance, cutTime)) {
+					totalDistance += (new LngLat(points[i - 1].lon, points[i - 1].lat))
+						.distanceTo(new LngLat(point.lon, point.lat))
+				}
+			}
+
+			const timestampBegin = points[0].timestamp
+			const timestampEnd = points[points.length - 1].timestamp
+			const duration = timestampBegin !== null && timestampEnd !== null
+				? timestampEnd - timestampBegin
+				: null
+			return {
+				nbPoints: points.length,
+				timestampBegin,
+				timestampEnd,
+				duration,
+				totalDistance,
+				averageSpeed: duration > 0 ? totalDistance / duration : null,
+				maxSpeed,
+				minAltitude,
+				maxAltitude,
+				averageAccuracy: accuracyCount > 0 ? accuracySum / accuracyCount : null,
+				worstAccuracy,
+				batteryUsed,
+			}
 		},
 
 		stats() {
+			const d = this.statsData
+			if (d === null) {
+				return {}
+			}
+			const unit = this.settings.distance_unit ?? 'metric'
 			const result = {
-				distance: {
-					icon: ArrowLeftRightIcon,
-					label: t('phonetrack', 'Total distance'),
-					value: metersToDistance(this.track.total_distance, this.settings.distance_unit),
+				nbPoints: {
+					icon: DotsHorizontalIcon,
+					label: t('phonetrack', 'Number of points'),
+					value: d.nbPoints,
 				},
-
-				duration: {
-					icon: ClockIcon,
-					label: t('phonetrack', 'Total duration'),
-					value: formatDuration(this.track.total_duration),
-				},
-
-				movingTime: {
-					icon: TimerPlayIcon,
-					label: t('phonetrack', 'Moving time'),
-					value: formatDuration(this.track.moving_time),
-				},
-
-				pauseTime: {
-					icon: TimerPauseIcon,
-					label: t('phonetrack', 'Pause time'),
-					value: formatDuration(this.track.stopped_time),
-				},
-
 				dateBegin: {
 					icon: CalendarWeekBeginIcon,
 					label: t('phonetrack', 'Begin'),
-					value: this.track.date_begin === null
+					value: d.timestampBegin === null
 						? t('phonetrack', 'No date')
-						: moment.unix(this.track.date_begin).format('YYYY-MM-DD HH:mm:ss (Z)'),
+						: moment.unix(d.timestampBegin).format('YYYY-MM-DD HH:mm:ss (Z)'),
 				},
-
 				dateEnd: {
 					icon: CalendarWeekendIcon,
 					label: t('phonetrack', 'End'),
-					value: this.track.date_end === null
+					value: d.timestampEnd === null
 						? t('phonetrack', 'No date')
-						: moment.unix(this.track.date_end).format('YYYY-MM-DD HH:mm:ss (Z)'),
+						: moment.unix(d.timestampEnd).format('YYYY-MM-DD HH:mm:ss (Z)'),
 				},
-
-				elevationGain: {
-					icon: TrendingUpIcon,
-					label: t('phonetrack', 'Cumulative elevation gain'),
-					value: metersToElevation(this.track.positive_elevation_gain, this.settings.distance_unit),
+				duration: {
+					icon: ClockIcon,
+					label: t('phonetrack', 'Total duration'),
+					value: formatDuration(d.duration),
 				},
-
-				elevationLoss: {
-					icon: TrendingDownIcon,
-					label: t('phonetrack', 'Cumulative elevation loss'),
-					value: metersToElevation(this.track.negative_elevation_gain, this.settings.distance_unit),
+				distance: {
+					icon: ArrowLeftRightIcon,
+					label: t('phonetrack', 'Total distance'),
+					value: metersToDistance(d.totalDistance, unit),
 				},
-
-				minElevation: {
-					icon: FormatVerticalAlignBottomIcon,
-					label: t('phonetrack', 'Minimum elevation'),
-					value: metersToElevation(this.track.min_elevation, this.settings.distance_unit),
+				averageSpeed: {
+					icon: SpeedometerIcon,
+					label: t('phonetrack', 'Average speed'),
+					value: mpsToSpeed(d.averageSpeed, unit),
 				},
-
-				maxElevation: {
-					icon: FormatVerticalAlignTopIcon,
-					label: t('phonetrack', 'Maximum elevation'),
-					value: metersToElevation(this.track.max_elevation, this.settings.distance_unit),
-				},
-
 				maxSpeed: {
 					icon: CarSpeedLimiterIcon,
 					label: t('phonetrack', 'Maximum speed'),
-					value: kmphToSpeed(this.track.max_speed, this.settings.distance_unit),
+					value: mpsToSpeed(d.maxSpeed, unit),
+				},
+				minElevation: {
+					icon: FormatVerticalAlignBottomIcon,
+					label: t('phonetrack', 'Minimum elevation'),
+					value: metersToElevation(d.minAltitude, unit),
+				},
+				maxElevation: {
+					icon: FormatVerticalAlignTopIcon,
+					label: t('phonetrack', 'Maximum elevation'),
+					value: metersToElevation(d.maxAltitude, unit),
 				},
 			}
-			if (this.pointsCount !== null) {
-				result.nbPoints = {
-					icon: DotsHorizontalIcon,
-					label: t('phonetrack', 'Number of points'),
-					value: this.pointsCount,
+			if (d.averageAccuracy !== null) {
+				result.averageAccuracy = {
+					icon: CrosshairsGpsIcon,
+					label: t('phonetrack', 'Average accuracy'),
+					value: metersToElevation(d.averageAccuracy, unit),
 				}
+				result.worstAccuracy = {
+					icon: CrosshairsQuestionIcon,
+					label: t('phonetrack', 'Worst accuracy'),
+					value: metersToElevation(d.worstAccuracy, unit),
+				}
+			}
+			result.batteryUsed = {
+				icon: BatteryMinusVariantIcon,
+				label: t('phonetrack', 'Cumulative battery used'),
+				value: d.batteryUsed.toFixed(2) + ' %',
+			}
+			result.averagePointInterval = {
+				icon: TimerOutlineIcon,
+				label: t('phonetrack', 'Average time between points'),
+				value: formatDuration(d.nbPoints > 1 && d.duration > 0
+					? d.duration / (d.nbPoints - 1)
+					: null),
 			}
 			return result
 		},
-	},
-
-	watch: {
-	},
-
-	methods: {
 	},
 }
 </script>
@@ -187,6 +289,7 @@ export default {
 	h3 {
 		font-weight: bold;
 		text-align: center;
+		margin-top: 0;
 	}
 
 	td {
