@@ -86,7 +86,7 @@ export default {
 				+ dataHtml
 				+ '</div>'
 			const popup = new Popup({
-				className: persist ? undefined : 'transparent',
+				className: persist ? 'transparent less-transparent' : 'transparent',
 				anchor: persist ? 'bottom' : 'right',
 				closeButton: persist,
 				closeOnClick: !persist,

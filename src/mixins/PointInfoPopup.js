@@ -356,7 +356,7 @@ export default {
 		addPopup(point, pointIndex, traveledDistance, persist = false) {
 			const html = this.getPopupHtml(point, persist, traveledDistance)
 			const popup = new Popup({
-				className: persist ? undefined : 'transparent',
+				className: persist ? 'transparent less-transparent' : 'transparent',
 				anchor: persist ? 'bottom' : 'right',
 				offset: persist ? undefined : 10,
 				closeButton: persist,
