@@ -6,6 +6,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.6.0 – 2026-11-10
+
+### Added
+
+- Add a device statistics sidebar tab showing the number of points, begin and end dates, total duration, total distance, average and maximum speed, elevation extremes, accuracy and cumulative battery used @julien-nc
+
+### Changed
+
+- Refetch device points on filter change only when the timestamp bounds change, debounce the refetch, only render the content of the active sidebar tab and remove debug logging and dead track gradient components @julien-nc
+- Rebuild the gradient line component on a single map source, which fixes the arrows, the opacity and an unnecessary double rebuild @julien-nc
+- Use Vite 8 with the faster Rolldown bundler @julien-nc
+- Import `circle` from `@turf/circle` instead of the full `@turf/turf` package @julien-nc
+- Extract the point filters building out of the settings @julien-nc
+- Make persistent tooltips transparent like the temporary ones @julien-nc [#177](https://github.com/julien-nc/phonetrack/issues/177)
+- Remove the `resize-map` event which became useless with recent maplibre versions @julien-nc
+- Remove the unused `css/admin.css` @julien-nc
+- Update npm packages @julien-nc
+
+### Fixed
+
+- Make the device chart respect all applied filters: it was built from the raw settings and ignored the rolling `last X days/hours/mins` timestamp filter, so it could show points that were not displayed on the map @julien-nc
+- Fix line width management for gradient lines @julien-nc
+- Create auto export files as the owner of the session @julien-nc
+
 ## 1.5.0 – 2026-11-01
 
 ### Added

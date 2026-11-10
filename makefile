@@ -109,10 +109,14 @@ build_release: clean
 	--exclude=/.idea \
 	--exclude=/.github \
 	--exclude=/.eslintrc.js \
-	--exclude=/stylelint.config.js \
+	--exclude=/stylelint.config.* \
+	--exclude=/eslint.config.* \
+	--exclude=/tsconfig.* \
+	--exclude=/doc \
 	--exclude=ci \
 	--exclude=vendor/bin \
 	--exclude=vendor/ \
+	--exclude=/vendor-bin \
 	--exclude=.l10nignore \
 	--exclude=psalm.xml \
 	--exclude=.php* \
