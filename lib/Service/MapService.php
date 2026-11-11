@@ -259,13 +259,14 @@ class MapService {
 	}
 
 	/**
-	 * @param string $version
+	 * @param string $name
 	 * @param string $size
+	 * @param bool $isNamedSprite
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getMapTilerSpriteJson(string $version, string $size): array {
-		$url = 'https://api.maptiler.com/maps/' . $version . '/sprite' . $size . '.json';
+	public function getMapTilerSpriteJson(string $name, string $size, bool $isNamedSprite = false): array {
+		$url = $this->getMapTilerSpriteUrl($name, $size, 'json', $isNamedSprite);
 		$body = $this->client->get($url, $this->getVectorProxyRequestOptions())->getBody();
 		if (is_resource($body)) {
 			$content = stream_get_contents($body);
@@ -278,14 +279,15 @@ class MapService {
 	}
 
 	/**
-	 * @param string $version
+	 * @param string $name
 	 * @param string $size
 	 * @param string $ext
+	 * @param bool $isNamedSprite
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getMapTilerSpriteImage(string $version, string $size, string $ext): array {
-		$url = 'https://api.maptiler.com/maps/' . $version . '/sprite' . $size . '.' . $ext;
+	public function getMapTilerSpriteImage(string $name, string $size, string $ext, bool $isNamedSprite = false): array {
+		$url = $this->getMapTilerSpriteUrl($name, $size, $ext, $isNamedSprite);
 		$response = $this->client->get($url, $this->getVectorProxyRequestOptions());
 		$body = $response->getBody();
 		$headers = $response->getHeaders();
@@ -293,6 +295,24 @@ class MapService {
 			'body' => $body,
 			'headers' => $headers,
 		];
+	}
+
+	/**
+	 * Sprites are referenced either by map id (https://api.maptiler.com/maps/{mapId}/sprite.json)
+	 * or by sprite uuid (https://api.maptiler.com/sprites/{uuid}/sprite.json)
+	 * depending on the MapTiler style.
+	 *
+	 * @param string $name Map id or sprite uuid
+	 * @param string $size
+	 * @param string $ext
+	 * @param bool $isNamedSprite True when the sprite is referenced by uuid
+	 * @return string
+	 */
+	private function getMapTilerSpriteUrl(string $name, string $size, string $ext, bool $isNamedSprite): string {
+		$base = $isNamedSprite
+			? 'https://api.maptiler.com/sprites/' . $name . '/sprite'
+			: 'https://api.maptiler.com/maps/' . $name . '/sprite';
+		return $base . $size . '.' . $ext;
 	}
 
 	/**
