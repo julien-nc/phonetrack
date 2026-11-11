@@ -310,7 +310,7 @@ export default {
 		},
 
 		publicWatchLink() {
-			return HOST + generateUrl('/apps/phonetrack/publicSessionWatch/' + this.session.publicviewtoken)
+			return HOST + generateUrl('/apps/phonetrack/s/' + this.session.publicviewtoken)
 		},
 
 		apiLastLink() {
