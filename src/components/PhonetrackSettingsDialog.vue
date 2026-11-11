@@ -257,6 +257,31 @@
 					:step="0.01"
 					@update:modelValue="debOnComponentInputChange(String($event), 'line_opacity')" />
 				<NcInputField
+					:modelValue="settings.tooltip_opacity ?? 0.6"
+					type="number"
+					:label="t('phonetrack', 'Track tooltip opacity')"
+					min="0"
+					max="1"
+					step="0.05"
+					:showTrailingButton="![0.6, '0.6'].includes(settings.tooltip_opacity)"
+					@update:modelValue="onComponentInputChange(String($event), 'tooltip_opacity')"
+					@trailingButtonClick="onComponentInputChange('0.6', 'tooltip_opacity')">
+					<template #icon>
+						<OpacityIcon :size="20" />
+					</template>
+					<template #trailing-button-icon>
+						<UndoIcon :title="t('phonetrack', 'Reset to default value')" :size="20" />
+					</template>
+				</NcInputField>
+				<Slider :modelValue="settings.tooltip_opacity ?? 0.6"
+					class="slider"
+					:lazy="false"
+					showTooltip="drag"
+					:min="0"
+					:max="1"
+					:step="0.01"
+					@update:modelValue="debOnComponentInputChange(String($event), 'tooltip_opacity')" />
+				<NcInputField
 					:modelValue="settings.terrainExaggeration ?? 1.5"
 					type="number"
 					:label="t('phonetrack', '3D elevation exaggeration')"

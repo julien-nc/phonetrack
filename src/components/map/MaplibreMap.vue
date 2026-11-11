@@ -4,7 +4,8 @@
 -->
 <template>
 	<div class="map-wrapper"
-		:class="{ withTopLeftButton }">
+		:class="{ withTopLeftButton }"
+		:style="{ '--tooltip-opacity': tooltipOpacity }">
 		<div id="phonetrack-map" />
 		<div v-if="map"
 			class="map-content">
@@ -158,6 +159,10 @@ export default {
 	},
 
 	computed: {
+		tooltipOpacity() {
+			const parsed = parseFloat(this.settings?.tooltip_opacity)
+			return isNaN(parsed) ? 0.6 : parsed
+		},
 		lineBorderColor() {
 			// for testing reactivity in <Tracks*> because layers are actually re-rendered when the map style changes
 			// return this.showMousePositionControl

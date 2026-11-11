@@ -112,10 +112,10 @@
 	}
 }
 .maplibregl-popup.transparent {
-	opacity: 0.6;
+	opacity: var(--tooltip-opacity, 0.6);
 	font-weight: bold;
 	&.less-transparent {
-		opacity: 0.7;
+		opacity: calc(var(--tooltip-opacity, 0.6) + 0.1);
 	}
 }
 
