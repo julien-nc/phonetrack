@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: phonetrack\n"
 "Report-Msgid-Bugs-To: translations\\@example.com\n"
 "POT-Creation-Date: 2026-11-01 15:12+0100\n"
-"PO-Revision-Date: 2026-11-02 14:50\n"
+"PO-Revision-Date: 2026-11-13 03:11\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -1183,7 +1183,7 @@ msgstr "Links für Geräte"
 #. TRANSLATORS src/components/NavigationSessionItem.vue:85
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4229
 msgid "Toggle lines for all devices"
-msgstr ""
+msgstr "Zeilen für alle Geräte Ein/Aus"
 
 #. TRANSLATORS src/components/NavigationSessionItem.vue:102
 #: /home/julien/html/dev/server/apps-extra/phonetrack/specialVueFakeDummyForL10nScript.js:4233
