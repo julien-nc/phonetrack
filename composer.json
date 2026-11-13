@@ -17,7 +17,7 @@
 		"openapi": "generate-spec --verbose --allow-missing-docs --continue-on-error"
 	},
 	"require": {
-		"php": "^8.3 || ^8.4 || ^8.5",
+		"php": "^8.2 || ^8.3 || ^8.4 || ^8.5",
 		"ext-xml": "*",
 		"bamarni/composer-bin-plugin": "^1.8"
 	},
