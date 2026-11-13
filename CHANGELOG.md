@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 1.6.1 – 2026-11-13
+
+### Added
+
+- Add a tooltip opacity setting @julien-nc
+
+### Fixed
+
+- Proxy Maptiler sprites referenced by UUID: Maptiler styles now reference sprites with `sprites/{uuid}/sprite.json` instead of `maps/{mapId}/sprite.json` and those sprite requests were 404ing @julien-nc
+- Point the public watch link to the new public page instead of the old Leaflet one, so shared sessions get the custom tile servers @julien-nc [#178](https://github.com/julien-nc/phonetrack/pull/178)
+- Bring back PHP 8.2 support @julien-nc
+
 ## 1.6.0 – 2026-11-10
 
 ### Added
