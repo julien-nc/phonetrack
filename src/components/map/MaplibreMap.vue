@@ -7,6 +7,17 @@
 		:class="{ withTopLeftButton }"
 		:style="{ '--tooltip-opacity': tooltipOpacity }">
 		<div id="phonetrack-map" />
+		<NcEmptyContent v-if="!webglSupported"
+			class="webgl-fallback"
+			:name="t('phonetrack', 'WebGL is not available')">
+			<template #icon>
+				<WebOffIcon />
+			</template>
+			<template #description>
+				<p>{{ t('phonetrack', 'The map needs WebGL to be rendered but it is disabled in your browser or not supported by your hardware.') }}</p>
+				<p>{{ t('phonetrack', 'Enable WebGL (hardware acceleration) or allow it for this website to display the map.') }}</p>
+			</template>
+		</NcEmptyContent>
 		<div v-if="map"
 			class="map-content">
 			<VMarker v-if="positionMarkerEnabled && positionMarkerLngLat"
@@ -33,6 +44,8 @@ import {
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder'
 import '@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import WebOffIcon from 'vue-material-design-icons/WebOff.vue'
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { generateUrl, imagePath } from '@nextcloud/router'
@@ -45,7 +58,7 @@ import {
 	getRasterTileServers,
 	getVectorStyles,
 } from '../../tileServers.js'
-import { mapImages, mapVectorImages } from '../../mapUtils.js'
+import { mapImages, mapVectorImages, webglSupported } from '../../mapUtils.js'
 import { GlobeControl, ImageControl, MousePositionControl, TerrainControl, TileControl } from '../../mapControls.js'
 import { maplibreForwardGeocode } from '../../nominatimGeocoder.js'
 
@@ -61,6 +74,8 @@ export default {
 
 	components: {
 		VMarker,
+		NcEmptyContent,
+		WebOffIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -139,6 +154,7 @@ export default {
 
 	data() {
 		return {
+			webglSupported: true,
 			map: null,
 			styles: {},
 			mapLoaded: false,
@@ -184,6 +200,9 @@ export default {
 
 	watch: {
 		showMousePositionControl(newValue) {
+			if (!this.map) {
+				return
+			}
 			if (newValue) {
 				this.map.addControl(this.mousePositionControl, 'bottom-left')
 			} else {
@@ -196,6 +215,9 @@ export default {
 		},
 
 		useTerrain(newValue) {
+			if (!this.map) {
+				return
+			}
 			// ignore if the internal state is already the same as the changing prop
 			if (this.myUseTerrain === newValue) {
 				return
@@ -205,12 +227,15 @@ export default {
 
 		terrainScale(newValue) {
 			console.debug('phonetrack updating terrain scale', newValue)
-			if (this.myUseTerrain) {
+			if (this.map && this.myUseTerrain) {
 				this.enableTerrain()
 			}
 		},
 
 		useGlobe(newValue) {
+			if (!this.map) {
+				return
+			}
 			// ignore if the internal state is already the same as the changing prop
 			if (this.myUseGlobe === newValue) {
 				return
@@ -219,6 +244,9 @@ export default {
 		},
 
 		useSky(newValue) {
+			if (!this.map) {
+				return
+			}
 			if (newValue) {
 				this.setSky()
 			} else {
@@ -228,11 +256,15 @@ export default {
 	},
 
 	mounted() {
+		if (!webglSupported()) {
+			this.webglSupported = false
+			return
+		}
 		this.initMap()
 	},
 
 	unmounted() {
-		this.map.remove()
+		this.map?.remove()
 		unsubscribe('get-map-bounds', this.onGetMapBounds)
 		unsubscribe('zoom-on-bounds', this.onZoomOnBounds)
 	},
@@ -603,6 +635,14 @@ export default {
 	//height: calc(100vh - 77px); /* calculate height of the screen minus the heading */
 
 	#phonetrack-map {
+		width: 100%;
+		height: 100%;
+	}
+
+	.webgl-fallback {
+		position: absolute;
+		top: 0;
+		left: 0;
 		width: 100%;
 		height: 100%;
 	}
