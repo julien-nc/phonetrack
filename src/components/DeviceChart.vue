@@ -23,13 +23,12 @@
 <script>
 import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
 
-import { LngLat } from 'maplibre-gl'
-
 import LineChartJs from './chart.js/LineChartJs.vue'
 import {
 	delay,
 	formatDuration,
 	getFilteredPoints,
+	getTraveledDistances,
 	metersToDistance,
 	metersToElevation,
 	mpsToSpeed,
@@ -105,7 +104,11 @@ export default {
 		dataLabels() {
 			return {
 				timestamps: this.filteredPoints.map(p => p.timestamp),
-				traveledDistance: this.getLineDistanceLabels(this.filteredPoints, 0),
+				traveledDistance: getTraveledDistances(
+					this.filteredPoints,
+					parseFloat(this.settings.cutdistance) || null,
+					parseFloat(this.settings.cuttime) || null,
+				),
 			}
 		},
 
@@ -432,19 +435,6 @@ export default {
 						? context.raw + ' %'
 						: '??'
 			return context.dataset.label + ': ' + formattedValue
-		},
-
-		getLineDistanceLabels(points, previousValue) {
-			const distances = [previousValue]
-			let previousLngLat = new LngLat(points[0].lon, points[0].lat)
-			for (let i = 1; i < points.length; i++) {
-				const lngLat = new LngLat(points[i].lon, points[i].lat)
-				const previousDistance = distances[distances.length - 1]
-				distances.push(previousDistance + previousLngLat.distanceTo(lngLat))
-				// distances.push(previousLngLat.distanceTo(lngLat))
-				previousLngLat = lngLat
-			}
-			return distances
 		},
 
 		onChartMouseEvent(event, data) {

@@ -5,6 +5,7 @@
 import { LngLat, Marker, Popup } from 'maplibre-gl'
 import {
 	getPointDataHtml,
+	getTraveledDistances,
 	isColorDark,
 	metersToDistance,
 } from '../utils.js'
@@ -43,22 +44,11 @@ export default {
 		},
 
 		/**
-		 * Cumulative traveled distance (meters) of each filtered point,
-		 * index-aligned with filteredPoints ([0] when empty).
+		 * Traveled distance (meters) of each filtered point, relative to the
+		 * current cut segment, index-aligned with filteredPoints ([0] when empty).
 		 */
 		traveledDistances() {
-			const points = this.filteredPoints ?? []
-			const distances = [0]
-			if (points.length === 0) {
-				return distances
-			}
-			let previousLngLat = new LngLat(points[0].lon, points[0].lat)
-			for (let i = 1; i < points.length; i++) {
-				const lngLat = new LngLat(points[i].lon, points[i].lat)
-				distances.push(distances[distances.length - 1] + previousLngLat.distanceTo(lngLat))
-				previousLngLat = lngLat
-			}
-			return distances
+			return getTraveledDistances(this.filteredPoints ?? [], this.cutDistance, this.cutTime)
 		},
 	},
 

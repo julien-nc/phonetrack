@@ -609,6 +609,27 @@ export function getCutPointSegments(points, cutDistance, cutTime) {
 }
 
 /**
+ * Cumulative traveled distance (meters) of each point, index-aligned with the
+ * point list. The distance is reset at every cut so it stays relative to the
+ * current cut segment, like the drawn line segments.
+ */
+export function getTraveledDistances(points, cutDistance, cutTime) {
+	const distances = [0]
+	if (!points?.length) {
+		return distances
+	}
+	let previousLngLat = new LngLat(points[0].lon, points[0].lat)
+	for (let i = 1; i < points.length; i++) {
+		const lngLat = new LngLat(points[i].lon, points[i].lat)
+		distances.push(isCutBetweenTwoPoints(points[i - 1], points[i], cutDistance, cutTime)
+			? 0
+			: distances[distances.length - 1] + previousLngLat.distanceTo(lngLat))
+		previousLngLat = lngLat
+	}
+	return distances
+}
+
+/**
  * Build the ghost point features of a point list: invisible but hoverable Point
  * features carrying their index in the list, letting the point info popups
  * read the hovered point directly from the map mouse events.
