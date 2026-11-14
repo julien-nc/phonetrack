@@ -9,7 +9,7 @@ import BringTrackToTop from '../../mixins/BringTrackToTop.js'
 import LineDirectionArrows from '../../mixins/LineDirectionArrows.js'
 
 import { COLOR_CRITERIAS, getColorGradientColors } from '../../constants.js'
-import { getFilteredPoints, getGhostPointFeatures, isCutBetweenTwoPoints } from '../../utils.js'
+import { getCutPointSegments, getFilteredPoints, getGhostPointFeatures, isCutBetweenTwoPoints } from '../../utils.js'
 
 const gradientColors = getColorGradientColors(240, 0)
 
@@ -153,42 +153,37 @@ export default {
 		},
 
 		valueRange() {
-			const values = this.pointValues.filter(v => v !== undefined && v !== null)
-			if (values.length === 0) {
-				// no measurable values: every point is colored like the lowest one,
-				// with the fallback range floor, as in the per-pair component
-				return { min: 0, max: 0 }
-			}
-			return {
-				min: values.reduce((acc, val) => Math.min(acc, val)),
-				max: values.reduce((acc, val) => Math.max(acc, val)),
-			}
+			return this.getRange(this.pointValues)
 		},
 
 		lineFeatures() {
 			const points = this.filteredPoints
-			const range = this.valueRange
 			if (points.length < 2) {
 				return []
 			}
 			const features = []
-			for (let i = 1; i < points.length; i++) {
-				// no line across a cut
-				if (isCutBetweenTwoPoints(points[i - 1], points[i], this.cutDistance, this.cutTime)) {
-					continue
+			if (this.colorCriteria === COLOR_CRITERIAS.traveled_distance.id) {
+				// the traveled distance is relative to each cut segment, so the
+				// color range is computed per segment and each one uses the full
+				// color ramp
+				const segments = getCutPointSegments(points, this.cutDistance, this.cutTime)
+				let offset = 0
+				for (const segment of segments) {
+					const range = this.getRange(this.pointValues.slice(offset, offset + segment.length))
+					for (let i = offset + 1; i < offset + segment.length; i++) {
+						this.addLineFeature(features, points, i, range)
+					}
+					offset += segment.length
 				}
-				const ci1 = this.getBucket(this.getNorm(this.pointValues[i - 1], range))
-				const ci2 = this.getBucket(this.getNorm(this.pointValues[i], range))
-				features.push({
-					type: 'Feature',
-					geometry: {
-						type: 'LineString',
-						coordinates: [[points[i - 1].lon, points[i - 1].lat], [points[i].lon, points[i].lat]],
-					},
-					properties: {
-						c: ci1 + '-' + ci2,
-					},
-				})
+			} else {
+				const range = this.valueRange
+				for (let i = 1; i < points.length; i++) {
+					// no line across a cut
+					if (isCutBetweenTwoPoints(points[i - 1], points[i], this.cutDistance, this.cutTime)) {
+						continue
+					}
+					this.addLineFeature(features, points, i, range)
+				}
 			}
 			return features
 		},
@@ -451,6 +446,36 @@ export default {
 		// color ramp bucket of a value, matching the per-pair component color indexes
 		getBucket(norm) {
 			return Math.floor(norm * (gradientColors.length - 1))
+		},
+
+		// [min, max] of a value list, {min: 0, max: 0} when there is no
+		// measurable value: every point is then colored like the lowest one,
+		// with the fallback range floor, as in the per-pair component
+		getRange(values) {
+			const filteredValues = values.filter(v => v !== undefined && v !== null)
+			if (filteredValues.length === 0) {
+				return { min: 0, max: 0 }
+			}
+			return {
+				min: filteredValues.reduce((acc, val) => Math.min(acc, val)),
+				max: filteredValues.reduce((acc, val) => Math.max(acc, val)),
+			}
+		},
+
+		// color ramp line feature of the point pair [i - 1, i]
+		addLineFeature(features, points, i, range) {
+			const ci1 = this.getBucket(this.getNorm(this.pointValues[i - 1], range))
+			const ci2 = this.getBucket(this.getNorm(this.pointValues[i], range))
+			features.push({
+				type: 'Feature',
+				geometry: {
+					type: 'LineString',
+					coordinates: [[points[i - 1].lon, points[i - 1].lat], [points[i].lon, points[i].lat]],
+				},
+				properties: {
+					c: ci1 + '-' + ci2,
+				},
+			})
 		},
 
 		// position of a point value on the [min, max] color ramp, [0, 1]
