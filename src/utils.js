@@ -633,18 +633,31 @@ export function getTraveledDistances(points, cutDistance, cutTime) {
  * Build the ghost point features of a point list: invisible but hoverable Point
  * features carrying their index in the list, letting the point info popups
  * read the hovered point directly from the map mouse events.
+ * Points isolated by a cut are not part of any drawn line, so they get no
+ * ghost feature. The last point always gets one because of its marker.
  */
-export function getGhostPointFeatures(points) {
-	return points.map((point, i) => ({
-		type: 'Feature',
-		geometry: {
-			coordinates: [point.lon, point.lat],
-			type: 'Point',
-		},
-		properties: {
-			pointIndex: i,
-		},
-	}))
+export function getGhostPointFeatures(points, cutDistance = null, cutTime = null) {
+	const segments = getCutPointSegments(points, cutDistance, cutTime)
+	const features = []
+	let offset = 0
+	for (const segment of segments) {
+		for (let i = offset; i < offset + segment.length; i++) {
+			if (segment.length > 1 || i === points.length - 1) {
+				features.push({
+					type: 'Feature',
+					geometry: {
+						coordinates: [points[i].lon, points[i].lat],
+						type: 'Point',
+					},
+					properties: {
+						pointIndex: i,
+					},
+				})
+			}
+		}
+		offset += segment.length
+	}
+	return features
 }
 
 export function getPointDataHtml(point, distanceUnit = 'metric') {

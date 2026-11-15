@@ -197,7 +197,7 @@ export default {
 				type: 'FeatureCollection',
 				features: [
 					...this.lineFeatures,
-					...getGhostPointFeatures(this.filteredPoints),
+					...getGhostPointFeatures(this.filteredPoints, this.cutDistance, this.cutTime),
 				],
 			}
 		},

@@ -135,7 +135,7 @@ export default {
 							type: 'LineString',
 						},
 					})),
-					...getGhostPointFeatures(this.filteredPoints),
+					...getGhostPointFeatures(this.filteredPoints, this.cutDistance, this.cutTime),
 				],
 			}
 		},
