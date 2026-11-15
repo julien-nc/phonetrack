@@ -44,11 +44,15 @@
 
 .maplibregl-ctrl-attrib {
 	background-color: var(--color-main-background) !important;
-	&-inner {
+	// NC forces border-box on everything inside #content, which shrinks the
+	// collapsed pill below the size of its toggle button
+	box-sizing: content-box !important;
+	&-inner > * {
 		color: var(--color-main-text) !important;
-		> * {
-			color: var(--color-main-text) !important;
-		}
+	}
+	summary {
+		filter: var(--background-invert-if-dark);
+		background-color: unset !important;
 	}
 }
 
