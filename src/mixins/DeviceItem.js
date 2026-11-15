@@ -53,6 +53,9 @@ export default {
 		onDetailsClick() {
 			emit('device-details-click', { deviceId: this.device.id, sessionId: this.device.session_id })
 		},
+		onDisplayChartClick() {
+			emit('device-display-chart-click', { deviceId: this.device.id, sessionId: this.device.session_id })
+		},
 		onHoverIn() {
 			emit('device-hover-in', { deviceId: this.device.id, sessionId: this.device.session_id })
 		},

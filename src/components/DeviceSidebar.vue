@@ -61,6 +61,7 @@
 				:device="device"
 				:filters="filters"
 				:session="session"
+				:displayedDatasets="displayedDatasets"
 				:settings="settings" />
 		</NcAppSidebarTab>
 		<NcAppSidebarTab
@@ -147,6 +148,11 @@ export default {
 
 		filters: {
 			type: Object,
+			default: null,
+		},
+
+		displayedDatasets: {
+			type: Array,
 			default: null,
 		},
 

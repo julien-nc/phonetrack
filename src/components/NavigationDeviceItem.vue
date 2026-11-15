@@ -95,6 +95,15 @@
 					{{ t('phonetrack', 'Auto-zoom') }}
 				</NcActionCheckbox>
 				<NcActionButton
+					v-if="device.lineEnabled && device.points?.length > 0"
+					:closeAfterClick="true"
+					@click="onDisplayChartClick">
+					<template #icon>
+						<ChartLineIcon :size="20" />
+					</template>
+					{{ t('phonetrack', 'Display chart below the map') }}
+				</NcActionButton>
+				<NcActionButton
 					:closeAfterClick="true"
 					@click="onMenuColorClick">
 					<template #icon>
@@ -146,6 +155,7 @@ import ChartTimelineVariantIcon from 'vue-material-design-icons/ChartTimelineVar
 import CrosshairsIcon from 'vue-material-design-icons/Crosshairs.vue'
 import MagnifyExpandIcon from 'vue-material-design-icons/MagnifyExpand.vue'
 import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue'
+import ChartLineIcon from 'vue-material-design-icons/ChartLine.vue'
 import PaletteIcon from 'vue-material-design-icons/Palette.vue'
 import BrushIcon from 'vue-material-design-icons/Brush.vue'
 import TrashCanOutlineIcon from 'vue-material-design-icons/TrashCanOutline.vue'
@@ -177,6 +187,7 @@ export default {
 		PaletteIcon,
 		TrashCanOutlineIcon,
 		InformationOutlineIcon,
+		ChartLineIcon,
 		ChevronLeftIcon,
 		BrushIcon,
 		MagnifyExpandIcon,

@@ -4,9 +4,31 @@
 -->
 <template>
 	<div class="map-wrapper"
-		:class="{ withTopLeftButton }"
-		:style="{ '--tooltip-opacity': tooltipOpacity }">
+		:class="{ withTopLeftButton, withBottomChart: showBottomChart }"
+		:style="{ '--tooltip-opacity': tooltipOpacity, '--bottom-chart-height': bottomChartHeight + 'px' }">
 		<div id="phonetrack-map" />
+		<div v-if="showBottomChart"
+			class="map-bottom-chart">
+			<NcButton
+				class="map-bottom-chart-close"
+				variant="tertiary"
+				:aria-label="t('phonetrack', 'Hide chart')"
+				:title="t('phonetrack', 'Hide chart')"
+				@click="$emit('chart-dismissed')">
+				<template #icon>
+					<CloseIcon :size="20" />
+				</template>
+			</NcButton>
+			<DeviceChart
+				:device="chartDevice"
+				:filters="chartFilters"
+				:xAxis="settings.chart_x_axis ?? 'time'"
+				:chartYScale="settings.chart_y_scale ?? 'none'"
+				:displayedDatasets="chartDisplayedDatasets"
+				:height="bottomChartHeight"
+				:compact="true"
+				:settings="settings" />
+		</div>
 		<NcEmptyContent v-if="!webglSupported"
 			class="webgl-fallback"
 			:name="t('phonetrack', 'WebGL is not available')">
@@ -45,7 +67,9 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import MaplibreGeocoder from '@maplibre/maplibre-gl-geocoder'
 import '@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import WebOffIcon from 'vue-material-design-icons/WebOff.vue'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
 
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { generateUrl, imagePath } from '@nextcloud/router'
@@ -63,10 +87,12 @@ import { GlobeControl, ImageControl, MousePositionControl, TerrainControl, TileC
 import { maplibreForwardGeocode } from '../../nominatimGeocoder.js'
 
 import VMarker from './VMarker.vue'
+import DeviceChart from '../DeviceChart.vue'
 
 import { COLOR_CRITERIAS } from '../../constants.js'
 
 const DEFAULT_MAP_MAX_ZOOM = 22
+const BOTTOM_CHART_HEIGHT = 200
 const maptilerVectorStyles = ['streets', 'satellite', 'outdoor', 'osm', 'dark']
 
 export default {
@@ -74,8 +100,11 @@ export default {
 
 	components: {
 		VMarker,
+		DeviceChart,
 		NcEmptyContent,
+		NcButton,
 		WebOffIcon,
+		CloseIcon,
 	},
 
 	inject: ['isPublicPage'],
@@ -144,17 +173,37 @@ export default {
 			type: String,
 			default: null,
 		},
+
+		// device whose chart is displayed below the map: the one explicitly
+		// requested with the "Display chart below the map" action
+		chartDevice: {
+			type: Object,
+			default: null,
+		},
+
+		chartFilters: {
+			type: Object,
+			default: null,
+		},
+
+		// ids of the chart datasets to display, null means all
+		chartDisplayedDatasets: {
+			type: Array,
+			default: null,
+		},
 	},
 
 	emits: [
 		'map-clicked',
 		'map-state-change',
 		'map-bounds-change',
+		'chart-dismissed',
 	],
 
 	data() {
 		return {
 			webglSupported: true,
+			bottomChartHeight: BOTTOM_CHART_HEIGHT,
 			map: null,
 			styles: {},
 			mapLoaded: false,
@@ -179,6 +228,10 @@ export default {
 			const parsed = parseFloat(this.settings?.tooltip_opacity)
 			return isNaN(parsed) ? 0.6 : parsed
 		},
+
+		showBottomChart() {
+			return this.chartDevice !== null
+		},
 		lineBorderColor() {
 			// for testing reactivity in <Tracks*> because layers are actually re-rendered when the map style changes
 			// return this.showMousePositionControl
@@ -199,6 +252,14 @@ export default {
 	},
 
 	watch: {
+		// keep the map viewport above the bottom chart so centered hovered points stay visible
+		showBottomChart(enabled) {
+			if (!this.map) {
+				return
+			}
+			this.map.setPadding({ bottom: enabled ? BOTTOM_CHART_HEIGHT : 0 })
+		},
+
 		showMousePositionControl(newValue) {
 			if (!this.map) {
 				return
@@ -625,6 +686,14 @@ export default {
 .maplibregl-canvas {
 	cursor: v-bind(cursor);
 }
+
+// when the bottom chart is displayed, move the map controls above it
+.map-wrapper.withBottomChart {
+	.maplibregl-ctrl-bottom-right,
+	.maplibregl-ctrl-bottom-left {
+		bottom: var(--bottom-chart-height, 200px);
+	}
+}
 </style>
 
 <style scoped lang="scss">
@@ -645,6 +714,26 @@ export default {
 		left: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	.map-bottom-chart {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 5;
+		height: var(--bottom-chart-height, 200px);
+		// slightly translucent so the map shows through a bit
+		background-color: rgba(var(--color-main-background-rgb), 0.8);
+		box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+
+		.map-bottom-chart-close {
+			position: absolute;
+			bottom: 2px;
+			right: 2px;
+			z-index: 6;
+			background-color: rgba(var(--color-main-background-rgb), 0.7);
+		}
 	}
 }
 </style>

@@ -12,7 +12,8 @@
 			:device="device"
 			:filters="filters"
 			:xAxis="settings.chart_x_axis ?? 'time'"
-			:chartYScale="chartYScale"
+			:chartYScale="settings.chart_y_scale ?? 'none'"
+			:displayedDatasets="displayedDatasets"
 			:settings="settings" />
 		<NcButton @click="onResetZoom">
 			{{ t('phonetrack', 'Reset zoom') }}
@@ -49,7 +50,8 @@
 			</label>
 			<select
 				id="chartYScale"
-				v-model="chartYScale">
+				:value="settings.chart_y_scale ?? 'none'"
+				@change="onYScaleChange($event.target.value)">
 				<option value="none">
 					{{ t('phonetrack', 'None') }}
 				</option>
@@ -128,6 +130,11 @@ export default {
 			default: null,
 		},
 
+		displayedDatasets: {
+			type: Array,
+			default: null,
+		},
+
 		active: {
 			type: Boolean,
 			required: true,
@@ -141,7 +148,6 @@ export default {
 
 	data() {
 		return {
-			chartYScale: 'none',
 		}
 	},
 
@@ -154,6 +160,10 @@ export default {
 	methods: {
 		onXAxisChange(e) {
 			emit('save-settings', { chart_x_axis: e.target.value })
+		},
+
+		onYScaleChange(value) {
+			emit('save-settings', { chart_y_scale: value })
 		},
 
 		onCheckboxChanged(newValue, key) {

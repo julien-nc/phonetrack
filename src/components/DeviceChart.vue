@@ -4,8 +4,10 @@
 -->
 <template>
 	<div v-if="shouldDrawChart"
-		class="line-chart-container">
+		class="line-chart-container"
+		:style="{ height: height + 'px' }">
 		<LineChartJs
+			ref="lineChart"
 			:data="chartData"
 			:options="chartOptions"
 			@mouseenter="onChartMouseEnter"
@@ -88,6 +90,25 @@ export default {
 			default: null,
 		},
 
+		// ids of the datasets to display (elevation, speed, accuracy, batterylevel).
+		// null means all datasets that have data
+		displayedDatasets: {
+			type: Array,
+			default: null,
+		},
+
+		// container height in pixels
+		height: {
+			type: Number,
+			default: 400,
+		},
+
+		// compact mode: hide the chart title and legend to save vertical space
+		compact: {
+			type: Boolean,
+			default: false,
+		},
+
 		settings: {
 			type: Object,
 			required: true,
@@ -162,6 +183,12 @@ export default {
 				|| this.shouldDrawBatteryLevel
 		},
 
+		isDatasetDisplayed() {
+			return (datasetId) => {
+				return !this.displayedDatasets || this.displayedDatasets.includes(datasetId)
+			}
+		},
+
 		chartData() {
 			const commonDataSetValues = {
 				// lineTension: 0.2,
@@ -182,6 +209,7 @@ export default {
 			const elevationDataSet = this.shouldDrawElevation
 				? {
 						...commonDataSetValues,
+						hidden: !this.isDatasetDisplayed('elevation'),
 						data: this.elevationData,
 						id: 'elevation',
 						label: t('phonetrack', 'Elevation'),
@@ -199,6 +227,7 @@ export default {
 			const speedDataSet = this.shouldDrawSpeed
 				? {
 						...commonDataSetValues,
+						hidden: !this.isDatasetDisplayed('speed'),
 						data: this.speedData,
 						id: 'speed',
 						label: t('phonetrack', 'Speed'),
@@ -216,6 +245,7 @@ export default {
 			const accuracyDataSet = this.shouldDrawAccuracy
 				? {
 						...commonDataSetValues,
+						hidden: !this.isDatasetDisplayed('accuracy'),
 						data: this.accuracyData,
 						id: 'accuracy',
 						label: t('phonetrack', 'Accuracy'),
@@ -233,6 +263,7 @@ export default {
 			const batteryLevelDataSet = this.shouldDrawBatteryLevel
 				? {
 						...commonDataSetValues,
+						hidden: !this.isDatasetDisplayed('batterylevel'),
 						data: this.batteryLevelData,
 						id: 'batterylevel',
 						label: t('phonetrack', 'Battery'),
@@ -340,6 +371,8 @@ export default {
 				plugins: {
 					legend: {
 						position: 'top',
+						display: !this.compact,
+						onClick: this.onLegendClick,
 					},
 
 					tooltip: {
@@ -367,7 +400,7 @@ export default {
 					},
 
 					title: {
-						display: true,
+						display: !that.compact,
 						text: that.xAxis === 'time'
 							? t('phonetrack', 'By elapsed time')
 							: that.xAxis === 'distance'
@@ -417,6 +450,14 @@ export default {
 		},
 	},
 
+	watch: {
+		// keep this chart in sync with the other one when a dataset
+		// visibility is toggled in the other chart's legend
+		displayedDatasets() {
+			this.syncDatasetVisibility()
+		},
+	},
+
 	beforeMount() {
 		subscribe('device-point-hover', this.onTrackPointHover)
 	},
@@ -426,6 +467,33 @@ export default {
 	},
 
 	methods: {
+		onLegendClick(event, legendItem, legend) {
+			// same as chart.js default legend click for line charts
+			const index = legendItem.datasetIndex
+			const chart = legend.chart
+			if (chart.isDatasetVisible(index)) {
+				chart.hide(index)
+			} else {
+				chart.show(index)
+			}
+			const datasets = chart.data.datasets
+			const visibleIds = datasets.filter((ds, i) => chart.isDatasetVisible(i)).map(ds => ds.id)
+			// empty value means "all datasets"
+			const value = visibleIds.length === datasets.length ? '' : visibleIds.join(',')
+			emit('save-settings', { chart_datasets: value })
+		},
+
+		syncDatasetVisibility() {
+			const chartComponent = this.$refs.lineChart
+			if (!chartComponent) {
+				return
+			}
+			const datasetIds = ['elevation', 'speed', 'accuracy', 'batterylevel']
+			datasetIds.forEach((id) => {
+				chartComponent.setDatasetVisibleById(id, this.isDatasetDisplayed(id))
+			})
+		},
+
 		getTooltipLabel(context) {
 			const formattedValue = context.dataset.id === 'elevation' || context.dataset.id === 'accuracy'
 				? metersToElevation(context.raw, this.settings.distance_unit)

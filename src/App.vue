@@ -44,6 +44,10 @@
 				:unit="distanceUnit"
 				:withTopLeftButton="mapWithTopLeftButton"
 				:cursor="mapCursor"
+				:chartDevice="chartDevice"
+				:chartFilters="filters"
+				:chartDisplayedDatasets="chartDisplayedDatasets"
+				@chartDismissed="mapChartDevice = null"
 				@mapClicked="onMapClicked"
 				@mapBoundsChange="storeBounds"
 				@mapStateChange="saveOptions">
@@ -106,6 +110,7 @@
 			:activeTab="activeSidebarTab"
 			:device="sidebarDevice"
 			:filters="filters"
+			:displayedDatasets="chartDisplayedDatasets"
 			:session="sidebarSession"
 			:settings="state.settings"
 			:addingPoint="addingPoint"
@@ -144,7 +149,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
 import PhonetrackNavigation from './components/PhonetrackNavigation.vue'
 
-import { getFiltersFromSettings, getFilteredPoints } from './utils.js'
+import { getFiltersFromSettings, getDisplayedChartDatasets, getFilteredPoints } from './utils.js'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { defineAsyncComponent } from 'vue'
@@ -194,6 +199,9 @@ export default {
 			activeSidebarTab: '',
 			sidebarSessionId: null,
 			sidebarDeviceId: null,
+			// device explicitly displayed below the map with the
+			// "Display chart below the map" device action
+			mapChartDevice: null,
 			showFiltersSidebar: false,
 			isEmbedded: false,
 			showDetails: true,
@@ -264,6 +272,22 @@ export default {
 			return this.state.sessions[this.sidebarSessionId]?.devices[this.sidebarDeviceId] ?? null
 		},
 
+		chartDisplayedDatasets() {
+			return getDisplayedChartDatasets(this.state?.settings)
+		},
+
+		// device whose chart is displayed below the map: the device explicitly
+		// requested with the "Display chart below the map" action, which the
+		// chart follows while it is still selected in the sidebar, has points
+		// and is enabled on the map
+		chartDevice() {
+			return (this.mapChartDevice !== null
+				&& this.sidebarDevice?.lineEnabled
+				&& this.sidebarDevice?.points?.length > 0)
+				? this.sidebarDevice
+				: null
+		},
+
 		enabledDevices() {
 			const dd = Object.values(this.state.sessions)
 				.filter(session => session.enabled)
@@ -306,6 +330,14 @@ export default {
 		showSidebar() {
 			emit('sidebar-toggled')
 		},
+
+		sidebarDevice(device) {
+			// the map chart goes away (like a manual dismissal) when
+			// something else than a device is selected in the sidebar
+			if (this.mapChartDevice !== null && device === null) {
+				this.mapChartDevice = null
+			}
+		},
 	},
 
 	beforeMount() {
@@ -347,6 +379,7 @@ export default {
 		subscribe('new-name-reservation', this.onNewNameReservation)
 		subscribe('device-clicked', this.onDeviceClicked)
 		subscribe('device-details-click', this.onDeviceDetailsClicked)
+		subscribe('device-display-chart-click', this.onDeviceDisplayChartClicked)
 		subscribe('add-point-device', this.onAddDevicePoint)
 		subscribe('device-point-deleted', this.onDevicePointDeleted)
 		subscribe('device-point-move', this.onMoveDevicePoint)
@@ -405,6 +438,7 @@ export default {
 		unsubscribe('delete-device', this.onDeleteDevice)
 		unsubscribe('new-name-reservation', this.onNewNameReservation)
 		unsubscribe('device-clicked', this.onDeviceClicked)
+		unsubscribe('device-display-chart-click', this.onDeviceDisplayChartClicked)
 		unsubscribe('add-point-device', this.onAddDevicePoint)
 		unsubscribe('device-point-deleted', this.onDevicePointDeleted)
 		unsubscribe('device-point-move', this.onMoveDevicePoint)
@@ -489,6 +523,15 @@ export default {
 			this.showSidebar = true
 			this.activeSidebarTab = 'device-details'
 			console.debug('[phonetrack] device details click', sessionId, deviceId)
+		},
+
+		onDeviceDisplayChartClicked({ deviceId, sessionId }) {
+			this.mapChartDevice = { sessionId, deviceId }
+			// select the device for the sidebar without opening it
+			this.showFiltersSidebar = false
+			this.sidebarDeviceId = deviceId
+			this.sidebarSessionId = sessionId
+			console.debug('[phonetrack] display chart click', sessionId, deviceId)
 		},
 
 		onSessionDetailsClicked(sessionId) {
@@ -693,6 +736,9 @@ export default {
 						this.showSidebar = false
 						this.sidebarSessionId = null
 						this.sidebarDeviceId = null
+					}
+					if (this.mapChartDevice?.sessionId === sessionId && this.mapChartDevice?.deviceId === deviceId) {
+						this.mapChartDevice = null
 					}
 					delete this.state.sessions[sessionId].devices[deviceId]
 				}

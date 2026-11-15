@@ -48,6 +48,16 @@ export default {
 		onResetZoom() {
 			this.$refs.chartComponent.chart.resetZoom()
 		},
+
+		setDatasetVisibleById(datasetId, visible) {
+			const chart = this.$refs.chartComponent.chart
+			const index = chart.data.datasets.findIndex(ds => ds.id === datasetId)
+			if (index === -1 || chart.isDatasetVisible(index) === visible) {
+				return
+			}
+			chart.setDatasetVisibility(index, visible)
+			chart.update()
+		},
 	},
 }
 </script>
