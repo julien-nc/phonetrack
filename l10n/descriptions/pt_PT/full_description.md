@@ -1,8 +1,8 @@
 # Aplicação PhoneTrack Nextcloud
 
-📱 PhoneTrack é uma aplicação Nextcloud para rastreamento e armazenamento de localizações de dispositivos móveis.
+📱 PhoneTrack é uma aplicação Nextcloud para rastreamento e armazenamento das localizações dos dispositivos móveis.
 
-🗺 Recebe informações de aplicações de registo de telemóveis e apresenta-as dinamicamente num mapa.
+🗺 Recebe informações de aplicações de registo dos telemóveis e apresenta-as dinamicamente num mapa.
 
 🌍 Ajude-nos a traduzir esta aplicação no [PhoneTrack Crowdin project](https://crowdin.com/project/phonetrack).
 
@@ -11,11 +11,11 @@ Veja outras formas de ajudar no [guia para contribuições](https://gitlab.com/e
 Como usar o PhoneTrack :
 
 - Criar uma sessão de rastreamento.
-- Forneca o link\* de registo ao dispositivo móvel. Choose the [logging method](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) you prefer.
-- Observe a sessão de localização do dispositivo em tempo real (ou não) no PhoneTrack ou partilhe através das páginas públicas.
+- Forneca o link\* de registo ao dispositivo móvel. Escolha o [método de registo](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#logging-methods) que prefere usar.
+- Veja a sessão de localização do dispositivo em tempo real (ou não) no PhoneTrack ou então pode partilhar através das páginas públicas.
 
-(\*) Não se esqueça de definir o nome do dispositivo no link (ao invés de nas definições da aplicação de registo). Substitua "o seu nome" pelo nome de dispositivo desejado.
-Definir o nome de dispositivo nas definições da aplicação de registo apenas funcionam com o Owntracks, Traccar e OpenGTS.
+(\*) Não se esqueça de definir o nome do dispositivo no link (ao invés de ser nas definições da aplicação de registo). Substitua "o seu nome" pelo nome de dispositivo desejado.
+Definir o nome do dispositivo nas definições da aplicação de registo apenas funcionam com o Owntracks, Traccar e OpenGTS.
 
 Na página principal do PhoneTrack, durante uma sessão, é possível:
 
@@ -29,7 +29,7 @@ Na página principal do PhoneTrack, durante uma sessão, é possível:
 - 🔗 Gerar links de partilha públicos com restrições opcionais (filtros, nome do dispositivo, apenas última localização, simplificação de delimitação geográfica)
 - 🖫 Importar/exportar uma sessão no formato GPX (um ficheiro com um rastreamento por dispositivo ou um ficheiro por dispositivo)
 - 🗠 Visualizar estatísticas da sessão
-- 🔒 [Reserve a device name](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) to make sure only authorized user can log with this name
+- 🔒 [Reservar um nome para o dispositivo](https://github.com/julien-nc/phonetrack/blob/main/doc/user.md#device-name-reservation) para garantir que apenas os utilizadores autorizados podem utilizar este nome
 - 🗓 Alterar exportação e limpeza automática de sessão (diária/semanal/mensal)
 - ◔ Escolher o que fazer quando o limite da quota do número de pontos é atingida (bloquear registo ou eliminar os pontos mais antigos)
 
@@ -47,7 +47,7 @@ Consulte o ficheiro [AUTHORS](https://gitlab.com/eneiluj/phonetrack-oc/blob/mast
 
 ## Problemas conhecidos
 
-- O PhoneTrack **já funciona** com as restrições de grupo do Nextcloud ativas. See [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
+- O PhoneTrack **já funciona** com as restrições de grupo do Nextcloud ativas. Pode ver em: [admindoc](https://github.com/julien-nc/phonetrack/blob/main/doc/admin.md#issue-with-phonetrack-restricted-to-some-groups-in-nextcloud).
 
-Qualquer comentário será apreciado.
+Qualquer comentário é bem-vindo.
 
