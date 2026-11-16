@@ -173,7 +173,7 @@ class MapService {
 		$replacementUrl = $this->urlGenerator->linkToRouteAbsolute(Application::APP_ID . '.oldPage.index') . 'maptiler';
 		$style = json_decode(preg_replace('/https:\/\/api\.maptiler\.com/', $replacementUrl, $content), true);
 		foreach ($style['layers'] as $i => $layer) {
-			if (is_array($layer['layout']) && empty($layer['layout'])) {
+			if (isset($layer['layout']) && is_array($layer['layout']) && empty($layer['layout'])) {
 				$style['layers'][$i]['layout'] = (object)[];
 			}
 		}
@@ -369,7 +369,7 @@ class MapService {
 		$replacementUrl = $this->getOpenFreeMapProxyBase();
 		$styleJson = json_decode(str_replace(self::OPENFREEMAP_HOST, $replacementUrl, $content), true);
 		foreach ($styleJson['layers'] as $i => $layer) {
-			if (is_array($layer['layout']) && empty($layer['layout'])) {
+			if (isset($layer['layout']) && is_array($layer['layout']) && empty($layer['layout'])) {
 				$styleJson['layers'][$i]['layout'] = (object)[];
 			}
 		}
