@@ -13,6 +13,7 @@ use OCA\PhoneTrack\Db\DeviceMapper;
 use OCA\PhoneTrack\Db\PointMapper;
 use OCA\PhoneTrack\Db\PublicShareMapper;
 use OCA\PhoneTrack\Db\SessionMapper;
+use OCA\PhoneTrack\Db\TileServer;
 use OCA\PhoneTrack\Db\TileServerMapper;
 use OCA\PhoneTrack\Service\MapService;
 use OCA\PhoneTrack\Service\SessionService;
@@ -86,12 +87,18 @@ class PublicShareController extends Controller {
 			$this->tileServerMapper->getTileServersOfUser($session->getUser()),
 			$this->tileServerMapper->getTileServersOfUser(null),
 		);
+		// the public page only needs what is required to display the tile servers, not who owns them
+		$publicTileServers = array_map(static function (TileServer $tileServer): array {
+			$json = $tileServer->jsonSerialize();
+			unset($json['user_id']);
+			return $json;
+		}, $extraTileServers);
 		$settings = [
 			'maptiler_api_key' => $adminMaptilerApiKey,
 			'proxy_osm' => false,
 			'app_version' => $this->appConfig->getValueString(Application::APP_ID, 'installed_version'),
 			'refresh_duration' => 125,
-			'extra_tile_servers' => $extraTileServers,
+			'extra_tile_servers' => $publicTileServers,
 		];
 
 		$serializedSession = $this->sessionService->serializeSession($session, true);
