@@ -23,6 +23,8 @@ use Throwable;
 
 class MapService {
 
+	private const THUNDERFOREST_SUBDOMAINS = ['a', 'b', 'c'];
+
 	private IClient $client;
 
 	public function __construct(
@@ -105,6 +107,8 @@ class MapService {
 		} elseif ($service === 'ocm') {
 			if ($s === null) {
 				$s = 'abc'[mt_rand(0, 2)];
+			} elseif (!in_array($s, self::THUNDERFOREST_SUBDOMAINS, true)) {
+				throw new Exception('Invalid tile server subdomain');
 			}
 			// https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png
 			$url = 'https://' . $s . '.tile.thunderforest.com/cycle/' . $z . '/' . $x . '/' . $y . '.png';
@@ -113,6 +117,8 @@ class MapService {
 		} elseif ($service === 'ocm-highres') {
 			if ($s === null) {
 				$s = 'abc'[mt_rand(0, 2)];
+			} elseif (!in_array($s, self::THUNDERFOREST_SUBDOMAINS, true)) {
+				throw new Exception('Invalid tile server subdomain');
 			}
 			$url = 'https://' . $s . '.tile.thunderforest.com/cycle/' . $z . '/' . $x . '/' . $y . '@2x.png';
 		} elseif ($service === 'esri-topo') {
