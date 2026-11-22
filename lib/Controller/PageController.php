@@ -543,7 +543,7 @@ class PageController extends Controller {
 			if ($device->getNametoken() !== null && $device->getNametoken() !== '') {
 				return new DataResponse(['error' => 'already_reserved'], Http::STATUS_CONFLICT);
 			}
-			$nameToken = md5('nametoken' . $this->userId . rand());
+			$nameToken = bin2hex(random_bytes(16));
 			$device->setNametoken($nameToken);
 			$device = $this->deviceMapper->update($device);
 			return new DataResponse($device);
@@ -552,7 +552,7 @@ class PageController extends Controller {
 			$device = new Device();
 			$device->setSessionId($session->getId());
 			$device->setSessionToken($session->getToken());
-			$nameToken = md5('nametoken' . $this->userId . rand());
+			$nameToken = bin2hex(random_bytes(16));
 			$device->setNametoken($nameToken);
 			$device->setName($deviceName);
 			$device->setEnabled(0);
@@ -580,7 +580,7 @@ class PageController extends Controller {
 		}
 
 		// determine token
-		$shareToken = md5('share' . $this->userId . $session->getName() . rand());
+		$shareToken = bin2hex(random_bytes(16));
 
 		$filters = $this->toolsService->getUserFilter($this->userId);
 
@@ -678,7 +678,7 @@ class PageController extends Controller {
 		} catch (DoesNotExistException) {
 		}
 
-		$shareToken = md5('share' . $this->userId . $session->getName() . rand());
+		$shareToken = bin2hex(random_bytes(16));
 
 		$newShare = new Share();
 		$newShare->setSessionId($session->getId());

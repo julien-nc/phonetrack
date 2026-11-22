@@ -1185,8 +1185,8 @@ class SessionService {
 		}
 
 		// determine token
-		$token = md5($userId . $name . rand());
-		$publicViewToken = md5($userId . $name . rand());
+		$token = bin2hex(random_bytes(16));
+		$publicViewToken = bin2hex(random_bytes(16));
 
 		return $this->sessionMapper->createSession($userId, $name, $token, $publicViewToken, false);
 	}

@@ -505,8 +505,8 @@ class OldPageController extends Controller {
 
 		if ($dbname === null && $name !== '') {
 			// determine token
-			$token = md5($this->userId . $name . rand());
-			$publicviewtoken = md5($this->userId . $name . rand());
+			$token = bin2hex(random_bytes(16));
+			$publicviewtoken = bin2hex(random_bytes(16));
 
 			// insert
 			$sql = '
@@ -2603,7 +2603,7 @@ class OldPageController extends Controller {
 
 				if ($dbusername === null) {
 					// determine share token
-					$sharetoken = md5('share' . $this->userId . $dbname . rand());
+					$sharetoken = bin2hex(random_bytes(16));
 
 					// insert
 					$sql = '
@@ -2707,7 +2707,7 @@ class OldPageController extends Controller {
 			}
 
 			// determine share token
-			$sharetoken = md5('share' . $this->userId . $dbname . rand());
+			$sharetoken = bin2hex(random_bytes(16));
 
 			// insert
 			$sql = '
@@ -2932,7 +2932,7 @@ class OldPageController extends Controller {
 				// no entry in DB : we create it
 				if ($dbdevicename === null) {
 					// determine name token
-					$nametoken = md5('nametoken' . $this->userId . $dbdevicename . rand());
+					$nametoken = bin2hex(random_bytes(16));
 
 					// insert
 					$sql = '
@@ -2952,7 +2952,7 @@ class OldPageController extends Controller {
 				} elseif ($dbdevicenametoken === '' || $dbdevicenametoken === null) {
 					// if there is an entry but no token, name is free to be reserved
 					// so we update the entry
-					$nametoken = md5('nametoken' . $this->userId . $dbdevicename . rand());
+					$nametoken = bin2hex(random_bytes(16));
 					$sqlupd = '
 						UPDATE *PREFIX*phonetrack_devices
 						SET nametoken=' . $this->db_quote_escape_string($nametoken) . '
