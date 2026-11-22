@@ -299,6 +299,56 @@ class PageControllerTest extends TestCase {
 		$this->assertEquals('invalid_format', $response->getData()['error']);
 	}
 
+	public function testSessionTokensDoNotDependOnMtRandState(): void {
+		$sessionName = 'token-randomness-test';
+
+		mt_srand(42);
+		$first = $this->pageController->createSession($sessionName)->getData();
+		$this->pageController->deleteSession($first['id']);
+
+		mt_srand(42);
+		$second = $this->pageController->createSession($sessionName)->getData();
+		mt_srand();
+
+		foreach ([$first, $second] as $data) {
+			$this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $data['token']);
+			$this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $data['publicviewtoken']);
+			$this->assertNotSame($data['token'], $data['publicviewtoken']);
+		}
+		$this->assertNotSame($first['token'], $second['token']);
+		$this->assertNotSame($first['publicviewtoken'], $second['publicviewtoken']);
+	}
+
+	public function testPublicShareTokensDoNotDependOnMtRandState(): void {
+		$session = $this->pageController->createSession('share-token-randomness-test')->getData();
+
+		mt_srand(42);
+		$first = $this->pageController->createPublicShare($session['id'])->getData();
+		mt_srand(42);
+		$second = $this->pageController->createPublicShare($session['id'])->getData();
+		mt_srand();
+
+		$this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $first['sharetoken']);
+		$this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $second['sharetoken']);
+		$this->assertNotSame($first['sharetoken'], $second['sharetoken']);
+	}
+
+	public function testDeviceNameTokensDoNotDependOnMtRandState(): void {
+		$session = $this->pageController->createSession('nametoken-randomness-test')->getData();
+
+		mt_srand(42);
+		$first = $this->pageController->addDeviceReservation($session['id'], 'device-one')->getData();
+		mt_srand(42);
+		$second = $this->pageController->addDeviceReservation($session['id'], 'device-two')->getData();
+		mt_srand();
+
+		$firstToken = $first->jsonSerialize()['nametoken'];
+		$secondToken = $second->jsonSerialize()['nametoken'];
+		$this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $firstToken);
+		$this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $secondToken);
+		$this->assertNotSame($firstToken, $secondToken);
+	}
+
 	private function deleteSessionsForUser(string $userId): void {
 		$sessions = $this->sessionMapper->findByUser($userId);
 		foreach ($sessions as $session) {
