@@ -1817,8 +1817,8 @@ if (typeof hotlinePlugin === 'function') {
 			// line tooltip
 			to = phonetrack.sessionLineLayers[token][d].getTooltip()._content
 			to = to.replace(
-				oldname + ' | ',
-				newname + ' | ',
+				escapeHtml(oldname + ' | '),
+				escapeHtml(newname + ' | '),
 			)
 			phonetrack.sessionLineLayers[token][d].unbindTooltip()
 			phonetrack.sessionLineLayers[token][d].bindTooltip(
@@ -1871,7 +1871,7 @@ if (typeof hotlinePlugin === 'function') {
 		// line tooltip
 		phonetrack.sessionLineLayers[token][d].unbindTooltip()
 		phonetrack.sessionLineLayers[token][d].bindTooltip(
-			sessionName + ' | ' + nameLabelTxt,
+			escapeHtml(sessionName + ' | ' + nameLabelTxt),
 			{
 				permanent: false,
 				sticky: true,
@@ -1935,7 +1935,7 @@ if (typeof hotlinePlugin === 'function') {
 		// line tooltip
 		phonetrack.sessionLineLayers[token][d].unbindTooltip()
 		phonetrack.sessionLineLayers[token][d].bindTooltip(
-			sessionName + ' | ' + nameLabelTxt,
+			escapeHtml(sessionName + ' | ' + nameLabelTxt),
 			{
 				permanent: false,
 				sticky: true,
@@ -3785,7 +3785,7 @@ if (typeof hotlinePlugin === 'function') {
 		} else {
 			nameLabelTxt = name
 		}
-		let pointtooltip = sn + ' | ' + nameLabelTxt
+		let pointtooltip = escapeHtml(sn + ' | ' + nameLabelTxt)
 		if (entry.timestamp) {
 			mom = moment.unix(parseInt(entry.timestamp))
 			pointtooltip = pointtooltip + '<br/>'
