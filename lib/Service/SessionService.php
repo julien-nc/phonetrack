@@ -738,6 +738,15 @@ class SessionService {
 	}
 
 	/**
+	 * Make a string safe to use as GPX (XML 1.0) element content
+	 */
+	private static function escapeGpxText(string $text): string {
+		// control characters are not allowed in XML 1.0, even escaped
+		$text = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $text) ?? '';
+		return htmlspecialchars($text, ENT_XML1 | ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+	}
+
+	/**
 	 * @param string $name
 	 * @param int $nbdev
 	 * @return string
@@ -763,7 +772,7 @@ class SessionService {
 			. ' http://www.garmin.com/xmlschemas/TrackPointExtension/v1'
 			. ' http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">' . "\n";
 		$gpxText .= '<metadata>' . "\n" . ' <time>' . $date . '</time>' . "\n";
-		$gpxText .= ' <name>' . $name . '</name>' . "\n";
+		$gpxText .= ' <name>' . self::escapeGpxText($name) . '</name>' . "\n";
 		if ($nbdev > 0) {
 			$gpxText .= ' <desc>' . $nbdev . ' device' . ($nbdev > 1 ? 's' : '') . '</desc>' . "\n";
 		}
@@ -780,7 +789,7 @@ class SessionService {
 	 * @throws Exception
 	 */
 	private function getDeviceAsGpxTrk(int $deviceId, string $deviceName, ?array $filters, int $nbPoints): \Generator {
-		$gpxText = '<trk>' . "\n" . ' <name>' . $deviceName . '</name>' . "\n";
+		$gpxText = '<trk>' . "\n" . ' <name>' . self::escapeGpxText($deviceName) . '</name>' . "\n";
 		$gpxText .= ' <trkseg>' . "\n";
 		yield $gpxText;
 
@@ -832,7 +841,7 @@ class SessionService {
 					$gpxExtension .= '     <batterylevel>' . sprintf('%.2f', floatval($bat)) . '</batterylevel>' . "\n";
 				}
 				if ($ua !== '') {
-					$gpxExtension .= '     <useragent>' . $ua . '</useragent>' . "\n";
+					$gpxExtension .= '     <useragent>' . self::escapeGpxText((string)$ua) . '</useragent>' . "\n";
 				}
 				if ($gpxExtension !== '') {
 					$gpxText .= '   <extensions>' . "\n" . $gpxExtension;
